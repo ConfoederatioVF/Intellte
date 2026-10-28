@@ -210,6 +210,24 @@ get_project_root <- function (arg0_start_dir = NULL) {
     }
   }
 
+  #Fallback: if invoked from parent Intellte repository or core/, check child repositories
+  for (i in seq_along(candidates)) {
+    local_curr <- tryCatch(normalizePath(candidates[i], winslash = "/", mustWork = FALSE), error = function (e) candidates[i])
+    for (x in 1:4) {
+      if (dir.exists(local_curr)) {
+        child_dirs <- list.dirs(local_curr, full.names = TRUE, recursive = FALSE)
+        for (y in seq_along(child_dirs)) {
+          if (file.exists(file.path(child_dirs[y], marker_rel))) {
+            return(normalizePath(child_dirs[y], winslash = "/", mustWork = TRUE))
+          }
+        }
+      }
+      local_parent <- dirname(local_curr)
+      if (identical(local_parent, local_curr)) break
+      local_curr <- local_parent
+    }
+  }
+
   #Return statement
   return(normalizePath(getwd(), winslash = "/", mustWork = FALSE))
 }

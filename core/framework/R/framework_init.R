@@ -16,13 +16,18 @@ local({
     }
   }
   if (is.null(init_dir)) {
-    #Fallback search from working directory
-    cand1 <- file.path(getwd(), "core", "framework", "R")
-    cand2 <- file.path(getwd(), "..", "..", "core", "framework", "R")
-    if (dir.exists(cand1)) {
-      init_dir <- normalizePath(cand1, winslash = "/")
-    } else if (dir.exists(cand2)) {
-      init_dir <- normalizePath(cand2, winslash = "/")
+    #Fallback search from working directory up to parent Intellte root
+    fallback_cands <- c(
+      file.path(getwd(), "core", "framework", "R"),
+      file.path(getwd(), "..", "core", "framework", "R"),
+      file.path(getwd(), "..", "..", "core", "framework", "R"),
+      file.path(getwd(), "..", "..", "..", "core", "framework", "R")
+    )
+    for (cand in fallback_cands) {
+      if (dir.exists(cand)) {
+        init_dir <- normalizePath(cand, winslash = "/")
+        break
+      }
     }
   }
 

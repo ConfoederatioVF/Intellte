@@ -106,6 +106,55 @@ render_packed_subtables <- function (arg0_subtables_list, arg1_options = NULL) {
   if (length(packed_pages) == 0) return(invisible(NULL))
 
   if (!is_latex) {
+    if (isTRUE(getOption("intellte.dom_mode", FALSE))) {
+      tbl_num <- as.integer(getOption("intellte.table_counter", 0L)) + 1L
+      options(intellte.table_counter = tbl_num)
+      first_df <- as.data.frame(subtables_list[[1]]$df, stringsAsFactors = FALSE)
+      n_cols <- ncol(first_df)
+      headers <- if (!is.null(col_names) && length(col_names) == n_cols) col_names else colnames(first_df)
+      th_cells <- vapply(headers, function (h) {
+        h_html <- gsub("\n", "<br/>", html_escape_cell(h), fixed = TRUE)
+        paste0("<th class=\"crd-th\">", h_html, "</th>")
+      }, character(1))
+
+      html_lines <- c(
+        paste0("<figure class=\"crd-table-figure\" id=\"", html_escape_cell(base_label), "\">"),
+        "<div class=\"crd-table-scroll\">",
+        "<table class=\"crd-wysiwyg-table\">",
+        paste0("<thead><tr>", paste(th_cells, collapse = ""), "</tr></thead>"),
+        "<tbody>"
+      )
+
+      for (s in seq_along(subtables_list)) {
+        item <- subtables_list[[s]]
+        local_df <- as.data.frame(item$df, stringsAsFactors = FALSE)
+        panel_html <- html_escape_cell(item$title)
+        html_lines <- c(
+          html_lines,
+          paste0("<tr class=\"crd-panel-heading-row\"><td colspan=\"", n_cols, "\" class=\"crd-panel-heading\">", panel_html, "</td></tr>")
+        )
+        for (r_idx in seq_len(nrow(local_df))) {
+          td_cells <- vapply(seq_len(n_cols), function (c_idx) {
+            raw_v <- local_df[r_idx, c_idx]
+            fmt_v <- format_table_cell(raw_v, c_idx, list(bold_first_col = FALSE, euro_decimals = euro_decimals, is_latex = FALSE))
+            paste0("<td class=\"crd-td\">", html_escape_cell(fmt_v), "</td>")
+          }, character(1))
+          html_lines <- c(html_lines, paste0("<tr>", paste(td_cells, collapse = ""), "</tr>"))
+        }
+      }
+
+      cap_clean <- if (euro_decimals) convert_euro_decimals_in_text(base_caption, FALSE) else base_caption
+      html_lines <- c(
+        html_lines,
+        "</tbody>",
+        "</table>",
+        "</div>",
+        paste0("<figcaption class=\"crd-caption\"><span class=\"crd-caption-label\">Table ", tbl_num, ".</span> ", html_escape_cell(cap_clean), "</figcaption>"),
+        "</figure>"
+      )
+      return(knitr::asis_output(paste(html_lines, collapse = "\n")))
+    }
+
     #RStudio interactive / HTML preview mode
     md_lines <- character(0)
     for (p in seq_along(packed_pages)) {
@@ -248,6 +297,44 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
   if (nrow(df) == 0 || n_cols == 0) return(invisible(NULL))
 
   if (!is_latex) {
+    if (isTRUE(getOption("intellte.dom_mode", FALSE))) {
+      tbl_num <- as.integer(getOption("intellte.table_counter", 0L)) + 1L
+      options(intellte.table_counter = tbl_num)
+      headers <- if (length(col_names) == n_cols) col_names else colnames(df)
+      th_cells <- vapply(headers, function (h) {
+        h_html <- gsub("\n", "<br/>", html_escape_cell(h), fixed = TRUE)
+        paste0("<th class=\"crd-th\">", h_html, "</th>")
+      }, character(1))
+
+      html_lines <- c(
+        paste0("<figure class=\"crd-table-figure\"", if (nzchar(label_str)) paste0(" id=\"", html_escape_cell(label_str), "\"") else "", ">"),
+        "<div class=\"crd-table-scroll\">",
+        "<table class=\"crd-wysiwyg-table\">",
+        paste0("<thead><tr>", paste(th_cells, collapse = ""), "</tr></thead>"),
+        "<tbody>"
+      )
+
+      for (r_idx in seq_len(nrow(df))) {
+        td_cells <- vapply(seq_len(n_cols), function (c_idx) {
+          raw_v <- df[r_idx, c_idx]
+          fmt_v <- format_table_cell(raw_v, c_idx, list(bold_first_col = bold_first_col, euro_decimals = euro_decimals, is_latex = FALSE))
+          paste0("<td class=\"crd-td\">", html_escape_cell(fmt_v), "</td>")
+        }, character(1))
+        html_lines <- c(html_lines, paste0("<tr>", paste(td_cells, collapse = ""), "</tr>"))
+      }
+
+      html_lines <- c(html_lines, "</tbody>", "</table>", "</div>")
+      if (nzchar(caption_str)) {
+        cap_clean <- if (euro_decimals) convert_euro_decimals_in_text(caption_str, FALSE) else caption_str
+        html_lines <- c(
+          html_lines,
+          paste0("<figcaption class=\"crd-caption\"><span class=\"crd-caption-label\">Table ", tbl_num, ".</span> ", html_escape_cell(cap_clean), "</figcaption>")
+        )
+      }
+      html_lines <- c(html_lines, "</figure>")
+      return(knitr::asis_output(paste(html_lines, collapse = "\n")))
+    }
+
     #RStudio interactive preview / HTML output
     disp_df <- df
     if (length(col_names) == n_cols) colnames(disp_df) <- col_names
@@ -342,6 +429,28 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
 
   #Return statement
   return(knitr::asis_output(paste(out_blocks, collapse = "\n\n")))
+}
+
+
+#' Escapes HTML special characters (`&`, `<`, `>`) while preserving inline `$...$` math.
+#'
+#' @param arg0_text Input string.
+#' @return HTML-safe string.
+#' @export
+html_escape_cell <- function (arg0_text) {
+  #Convert from parameters
+  text <- if (is.null(arg0_text) || is.na(arg0_text)) "" else as.character(arg0_text)
+
+  #Guard clauses
+  if (!nzchar(text)) return("")
+
+  out <- gsub("&", "&amp;", text, fixed = TRUE)
+  out <- gsub("<", "&lt;", out, fixed = TRUE)
+  out <- gsub(">", "&gt;", out, fixed = TRUE)
+  out <- gsub("--", "\u2013", out, fixed = TRUE)
+
+  #Return statement
+  return(out)
 }
 
 

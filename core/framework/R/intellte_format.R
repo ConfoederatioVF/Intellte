@@ -86,18 +86,73 @@ compile_velkscala_paper <- function (arg0_rmd_path = "velkscala_1_0_rmd", arg1_o
 }
 
 
-#' Emits the CRD Footnotes endnote block (`\printcrdfootnotes`) in LaTeX output.
+#' Emits the CRD Footnotes endnote block (`\printcrdfootnotes`) in LaTeX or DOM output.
 #'
 #' @return A `knitr::asis_output` object.
 #' @export
 emit_crd_footnotes <- function () {
   #Guard clauses
   if (requireNamespace("knitr", quietly = TRUE) && !knitr::is_latex_output()) {
+    if (isTRUE(getOption("intellte.dom_mode", FALSE))) {
+      return(knitr::asis_output("<div class=\"crd-footnotes-slot\" data-crd-footnotes=\"true\"></div>"))
+    }
     return(knitr::asis_output(""))
   }
 
   #Return statement
   return(knitr::asis_output("```{=latex}\n\\printcrdfootnotes\n```"))
+}
+
+
+#' Compiles an RMarkdown manuscript (`.Rmd`) into a DOM-ready Markdown/HTML file
+#' for VitePress WYSIWYG rendering via `MarkdownRenderer`.
+#'
+#' @param arg0_rmd_path Path or defines key to the `.Rmd` file.
+#' @param arg1_out_md_path Destination path for the evaluated `.md` file.
+#' @param arg2_options Optional named list (`artefact_base_url`, `has_hero_figure`).
+#' @return Normalised path to the evaluated `.md` output file.
+#' @export
+compile_rmd_to_dom_markdown <- function (arg0_rmd_path, arg1_out_md_path, arg2_options = NULL) {
+  #Convert from parameters
+  defines <- load_filepath_defines()
+  rmd_path <- resolve_project_path(arg0_rmd_path, defines)
+  out_md_path <- arg1_out_md_path
+  options <- if (!is.null(arg2_options)) arg2_options else list()
+
+  #Initialise options
+  artefact_base_url <- if (!is.null(options$artefact_base_url)) as.character(options$artefact_base_url) else ""
+  has_hero_figure <- if (!is.null(options$has_hero_figure)) isTRUE(options$has_hero_figure) else TRUE
+
+  #Guard clauses
+  if (!file.exists(rmd_path)) {
+    stop(sprintf("Target RMarkdown file not found for DOM compilation: %s", rmd_path))
+  }
+
+  out_dir <- dirname(out_md_path)
+  if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+
+  old_opts <- options(
+    intellte.artefact_base_url = artefact_base_url,
+    intellte.dom_mode = TRUE,
+    intellte.figure_counter = if (has_hero_figure) 1L else 0L,
+    intellte.table_counter = 0L
+  )
+  on.exit(options(old_opts), add = TRUE)
+
+  old_wd <- getwd()
+  on.exit(setwd(old_wd), add = TRUE)
+  setwd(dirname(rmd_path))
+
+  knitr::knit(
+    input = basename(rmd_path),
+    output = out_md_path,
+    envir = new.env(parent = globalenv()),
+    quiet = TRUE,
+    encoding = "UTF-8"
+  )
+
+  #Return statement
+  return(normalizePath(out_md_path, winslash = "/", mustWork = FALSE))
 }
 
 

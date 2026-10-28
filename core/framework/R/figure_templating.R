@@ -133,6 +133,22 @@ render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
   }
 
   if (!is_latex) {
+    if (isTRUE(getOption("intellte.dom_mode", FALSE))) {
+      fig_num <- as.integer(getOption("intellte.figure_counter", 0L)) + 1L
+      options(intellte.figure_counter = fig_num)
+      base_url <- as.character(getOption("intellte.artefact_base_url", ""))
+      img_src <- if (nzchar(base_url)) paste0(sub("/+$", "", base_url), "/", basename(chosen_path)) else chosen_path
+      cap_clean <- convert_euro_decimals_in_text(caption_str, FALSE)
+      html_lines <- c(
+        paste0("<figure class=\"crd-figure-block\"", if (nzchar(label_str)) paste0(" id=\"", html_escape_cell(label_str), "\"") else "", ">"),
+        paste0("<img class=\"crd-figure-img\" src=\"", img_src, "\" alt=\"", html_escape_cell(label_str), "\" loading=\"lazy\" />"),
+        if (nzchar(cap_clean)) {
+          paste0("<figcaption class=\"crd-caption\"><span class=\"crd-caption-label\">Figure ", fig_num, ".</span> ", html_escape_cell(cap_clean), "</figcaption>")
+        } else NULL,
+        "</figure>"
+      )
+      return(knitr::asis_output(paste(html_lines, collapse = "\n")))
+    }
     return(knitr::include_graphics(chosen_path))
   }
 
