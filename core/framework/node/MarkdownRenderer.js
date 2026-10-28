@@ -686,14 +686,14 @@ class MarkdownRenderer {
     html_parts.push(`    </div>`);
     html_parts.push(`  </div>`);
     if (title_str) {
-      html_parts.push(`  <h1 class="crd-paper-title">${this.escapeHtml(title_str.toUpperCase())}</h1>`);
+      html_parts.push(`  <div class="crd-paper-title">${this.escapeHtml(title_str.toUpperCase())}</div>`);
     }
     if (subtitle_str) {
-      html_parts.push(`  <p class="crd-paper-subtitle">${this.escapeHtml(subtitle_str)}</p>`);
+      html_parts.push(`  <div class="crd-paper-subtitle">${this.escapeHtml(subtitle_str)}</div>`);
     }
     if (date_str || authors_line) {
       let meta_prefix = [date_str, authors_line].filter(Boolean).join(" - ");
-      html_parts.push(`  <p class="crd-paper-byline">${this.escapeHtml(meta_prefix)}${emails_html}</p>`);
+      html_parts.push(`  <div class="crd-paper-byline">${this.escapeHtml(meta_prefix)}${emails_html}</div>`);
     }
     if (hero_html) {
       html_parts.push(hero_html);
