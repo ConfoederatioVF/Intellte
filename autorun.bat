@@ -3,7 +3,7 @@ setlocal
 cd /d "%~dp0"
 
 echo ============================================================================
-echo   Intellte — CRD Working Papers Static Site Generation Pipeline
+echo   Intellte - CRD Working Papers Static Site Generation Pipeline
 echo ============================================================================
 
 if not exist "node_modules\vitepress\bin\vitepress.js" (
