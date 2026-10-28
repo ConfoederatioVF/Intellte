@@ -90,6 +90,7 @@ let IntellteRmdCompiler = {
     let raw_abs = (abs_match) ? abs_match[1] : "";
 
     raw_abs = raw_abs
+      .replace(/<i>R<\/i><sup>2<\/sup>/gi, "R²")
       .replace(/<[^>]+>/g, "")
       .replace(/\\text\{([^}]+)\}/g, "$1")
       .replace(/\$R\^2\$/g, "R²")

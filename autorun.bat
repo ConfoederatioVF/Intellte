@@ -28,6 +28,7 @@ if %ERRORLEVEL% neq 0 (
 
 if "%~1"=="--build" (
   echo [Intellte] Building static VitePress site into docs/.vitepress/dist ...
+  if exist "docs\.vitepress\dist" rmdir /s /q "docs\.vitepress\dist" 2>nul
   node "node_modules\vitepress\bin\vitepress.js" build docs
   if %ERRORLEVEL% neq 0 (
     echo.

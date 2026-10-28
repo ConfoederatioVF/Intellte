@@ -6,7 +6,8 @@ let path = require("path");
 /**
  * Native R Markdown (.Rmd) and Mixed Markdown/HTML DOM Renderer for Intellte.
  * Evaluates R chunks via core/framework/R/, renders CRD Working Paper headers,
- * resolves BibTeX citations, endnotes, LaTeX cross-references, and <pdf src> tags.
+ * resolves BibTeX citations into numerical MLA format, endnotes, LaTeX cross-references,
+ * and <pdf src> tags matching core/rticles/intellte specifications.
  */
 class MarkdownRenderer {
   /**
@@ -28,6 +29,56 @@ class MarkdownRenderer {
     this.rscript_path = (options.rscript_path)
       ? options.rscript_path
       : "C:/Program Files/R/R-4.6.1/bin/Rscript.exe";
+  }
+
+
+  /**
+   * Cleans and converts inline LaTeX math fragments in prose markdown text into
+   * semantic HTML entities while preserving code blocks and pre tags.
+   *
+   * @param {string} arg0_text - Input markdown text.
+   * @return {string} Markdown with rendered inline math and typography.
+   */
+  cleanDocumentInlineMath (arg0_text) {
+    //Convert from parameters
+    let text = String(arg0_text || "");
+
+    //Declare local instance variables
+    let code_blocks = [];
+    let placeholder_prefix = "___CRD_CODE_BLOCK_";
+    let processed_text = text;
+    let self = this;
+
+    //Guard clauses
+    if (!text) return "";
+
+    //Protect fenced code blocks
+    processed_text = processed_text.replace(/(```[\s\S]*?```)/g, (arg0_match) => {
+      let idx = code_blocks.length;
+      code_blocks.push(arg0_match);
+      return `${placeholder_prefix}${idx}___`;
+    });
+
+    //Protect inline code spans
+    processed_text = processed_text.replace(/(`[^`]+`)/g, (arg0_match) => {
+      let idx = code_blocks.length;
+      code_blocks.push(arg0_match);
+      return `${placeholder_prefix}${idx}___`;
+    });
+
+    //Clean inline math and ranges in prose
+    processed_text = self.formatInlineMathString(processed_text);
+
+    //Clean math inside HTML blocks (figcaption, th, panel-heading)
+    processed_text = self.cleanHtmlInlineMath(processed_text);
+
+    //Restore code blocks
+    for (let i = 0; i < code_blocks.length; i++) {
+      processed_text = processed_text.replace(`${placeholder_prefix}${i}___`, code_blocks[i]);
+    }
+
+    //Return statement
+    return processed_text;
   }
 
 
@@ -117,13 +168,13 @@ class MarkdownRenderer {
     parsed_doc = this.parseFrontmatter(evaluated_md);
     body_md = parsed_doc.body;
 
-    //Process LaTeX cross-references, citations, footnotes, and <pdf src> tags
+    //Process LaTeX cross-references, citations, footnotes, <pdf src> tags, and inline math
     body_md = this.stripLatexPaginationBlocks(body_md);
     body_md = this.resolveCrossReferences(body_md, Boolean(frontmatter.hero_figure));
     body_md = this.resolveCitationsAndBibliography(body_md, bib_entries);
     body_md = this.resolveFootnotes(body_md);
     body_md = this.transformPdfTags(body_md, { artefact_base_url: artefact_base_url });
-    body_md = this.cleanHtmlInlineMath(body_md);
+    body_md = this.cleanDocumentInlineMath(body_md);
 
     header_html = this.renderCrdHeaderHtml(frontmatter, {
       artefact_base_url: artefact_base_url
@@ -174,6 +225,25 @@ class MarkdownRenderer {
 
 
   /**
+   * Escapes HTML special characters for safe attribute/element interpolation.
+   *
+   * @param {string} arg0_str - Raw string.
+   * @return {string} Escaped string.
+   */
+  escapeHtml (arg0_str) {
+    //Convert from parameters
+    let str = String(arg0_str || "");
+
+    //Return statement
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+
+  /**
    * Evaluates an .Rmd file via Rscript and knitr into DOM Markdown, using SHA-256 caching.
    *
    * @param {string} arg0_rmd_path - Absolute path to the .Rmd file.
@@ -204,7 +274,7 @@ class MarkdownRenderer {
 
     cache_hash = crypto
       .createHash("sha256")
-      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v3`)
+      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v5`)
       .digest("hex")
       .slice(0, 16);
     cache_file = path.join(this.cache_dir, `${path.basename(rmd_path, ".Rmd")}_${cache_hash}.md`).replace(/\\/g, "/");
@@ -234,25 +304,6 @@ class MarkdownRenderer {
 
 
   /**
-   * Escapes HTML special characters for safe attribute/element interpolation.
-   *
-   * @param {string} arg0_str - Raw string.
-   * @return {string} Escaped string.
-   */
-  escapeHtml (arg0_str) {
-    //Convert from parameters
-    let str = String(arg0_str || "");
-
-    //Return statement
-    return str
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
-  }
-
-
-  /**
    * Formats raw LaTeX inline math fragments into clean semantic HTML (e.g. $R^2$ to <i>R</i><sup>2</sup>).
    *
    * @param {string} arg0_str - Text containing math delimiters.
@@ -266,21 +317,192 @@ class MarkdownRenderer {
     let clean = str;
 
     clean = clean
-      .replace(/--/g, "–")
+      .replace(/\\%/g, "%")
+      .replace(/\$?p\(5[^)]*19\)\/p\(5\+\)\$?/g, "<i>p</i>(5–19)/<i>p</i>(5+)")
+      .replace(/\$?p\(0[^)]*4\)\$?/g, "<i>p</i>(0–4)")
+      .replace(/\\pm\s*([0-9]+)\s*\\sigma/g, "±$1σ")
+      .replace(/\\pm/g, "±")
       .replace(/\$?T_\{?(?:\\text\{)?onset\}?\}?\$?/g, "<i>T</i><sub>onset</sub>")
       .replace(/\\Delta\s*([A-Za-z]+)\^([0-9]+)/g, "Δ<i>$1</i><sup>$2</sup>")
       .replace(/\\Delta\s*([A-Za-z]+)/g, "Δ<i>$1</i>")
       .replace(/\\Delta/g, "Δ")
       .replace(/\\text\{([^}]+)\}/g, "$1")
-      .replace(/\$R\^2\$/g, "<i>R</i><sup>2</sup>")
+      .replace(/\(\$R(?:\^2|\\text\{\^2\}|\^\{2\})\$\)/g, "(<i>R</i><sup>2</sup>)")
+      .replace(/\$R(?:\^2|\\text\{\^2\}|\^\{2\})\$/g, "<i>R</i><sup>2</sup>")
       .replace(/\$([A-Za-z]+)\^([0-9A-Za-z]+)\$/g, "<i>$1</i><sup>$2</sup>")
-      .replace(/\$p\(5\s*(?:\\text\{--\}|–|-)\s*19\)\/p\(5\+\)\$/g, "<i>p</i>(5–19)/<i>p</i>(5+)")
-      .replace(/\$p\(0\s*(?:\\text\{--\}|–|-)\s*4\)\$/g, "<i>p</i>(0–4)")
+      .replace(/\$([A-Za-z])\s*=\s*([^$]+)\$/g, "<i>$1</i> = $2")
+      .replace(/\$([0-9]+)\$/g, "$1")
       .replace(/\$([A-Za-z])\$/g, "<i>$1</i>")
+      .replace(/([0-9A-Za-z)\]])\s*--\s*([0-9A-Za-z(\[])/g, "$1–$2")
       .replace(/\$([^$]+)\$/g, "$1");
 
     //Return statement
     return clean;
+  }
+
+
+  /**
+   * Formats a raw BibTeX author string according to MLA numeric guidelines (et-al-min="3" et-al-use-first="1").
+   *
+   * @param {string} arg0_raw_author - Raw author string from BibTeX.
+   * @param {boolean} [arg1_is_corporate] - Whether the author is a corporate/institutional entity.
+   * @return {string} Formatted MLA author string with terminal period.
+   */
+  formatMlaAuthor (arg0_raw_author, arg1_is_corporate) {
+    //Convert from parameters
+    let raw_author = String(arg0_raw_author || "").trim();
+    let is_corporate = Boolean(arg1_is_corporate);
+
+    //Declare local instance variables
+    let author_tokens = [];
+    let clean_author = raw_author.replace(/[{}]/g, "").trim();
+
+    //Guard clauses
+    if (!clean_author) return "";
+
+    if (is_corporate || (raw_author.startsWith("{") && raw_author.endsWith("}"))) {
+      return (clean_author.endsWith(".")) ? clean_author : `${clean_author}.`;
+    }
+
+    author_tokens = clean_author.split(/\s+and\s+/i);
+
+    if (author_tokens.length >= 3) {
+      let first_auth = author_tokens[0].trim();
+      return `${first_auth}, et al.`;
+    } else if (author_tokens.length === 2) {
+      let first_auth = author_tokens[0].trim();
+      let second_auth = author_tokens[1].trim();
+      if (second_auth.includes(",")) {
+        let parts = second_auth.split(",");
+        second_auth = `${parts[1].trim()} ${parts[0].trim()}`;
+      }
+      return `${first_auth}, and ${second_auth}.`;
+    } else {
+      return (clean_author.endsWith(".")) ? clean_author : `${clean_author}.`;
+    }
+  }
+
+
+  /**
+   * Formats a single BibTeX entry into an MLA-compliant citation body matching crd-mla-numeric.csl.
+   *
+   * @param {Object} arg0_entry - Parsed BibTeX entry object.
+   * @return {string} Formatted MLA bibliography entry HTML string.
+   */
+  formatMlaBibliographyEntry (arg0_entry) {
+    //Convert from parameters
+    let entry = arg0_entry;
+
+    //Declare local instance variables
+    let author_part = "";
+    let container_group = [];
+    let is_book_or_report = false;
+    let title_part = "";
+    let type = (entry && entry.type) ? entry.type.toLowerCase() : "";
+
+    //Guard clauses
+    if (!entry) return "";
+
+    is_book_or_report = ["book", "dataset", "misc", "report", "techreport", "thesis"].includes(type);
+
+    if (entry.author) {
+      author_part = this.formatMlaAuthor(entry.author, entry.is_corporate_author);
+    }
+
+    if (entry.title) {
+      let clean_title = entry.title.replace(/--/g, "–").trim();
+      if (is_book_or_report) {
+        title_part = `<em>${this.escapeHtml(clean_title)}</em>.`;
+      } else {
+        clean_title = clean_title.replace(/\.$/, "");
+        title_part = `"${this.escapeHtml(clean_title)}."`;
+      }
+    }
+
+    if (entry.journal) {
+      container_group.push(`<em>${this.escapeHtml(entry.journal)}</em>`);
+    } else if (entry.booktitle) {
+      let b_str = `<em>${this.escapeHtml(entry.booktitle)}</em>`;
+      if (entry.editor) {
+        b_str += `, edited by ${this.escapeHtml(this.formatMlaEditors(entry.editor))}`;
+      }
+      container_group.push(b_str);
+    }
+
+    if (entry.volume) {
+      container_group.push(`vol. ${this.escapeHtml(entry.volume)}`);
+    }
+    if (entry.number) {
+      container_group.push(`no. ${this.escapeHtml(entry.number)}`);
+    }
+
+    if (entry.publisher && !entry.journal) {
+      container_group.push(this.escapeHtml(entry.publisher));
+    } else if (entry.institution && !entry.journal) {
+      container_group.push(this.escapeHtml(entry.institution));
+    }
+
+    if (entry.year) {
+      container_group.push(this.escapeHtml(entry.year));
+    }
+
+    if (entry.pages) {
+      let clean_pages = entry.pages.replace(/--/g, "–");
+      let page_label = clean_pages.includes("–") || clean_pages.includes("-") ? "pp." : "p.";
+      container_group.push(`${page_label} ${this.escapeHtml(clean_pages)}`);
+    }
+
+    if (entry.doi) {
+      let clean_doi = entry.doi.replace(/^https?:\/\/doi\.org\//i, "");
+      container_group.push(`<a class="crd-bib-url" href="https://doi.org/${this.escapeHtml(clean_doi)}" target="_blank" rel="noopener">https://doi.org/${this.escapeHtml(clean_doi)}</a>`);
+    } else if (entry.url) {
+      container_group.push(`<a class="crd-bib-url" href="${this.escapeHtml(entry.url)}" target="_blank" rel="noopener">${this.escapeHtml(entry.url)}</a>`);
+    }
+
+    let out_parts = [author_part, title_part].filter(Boolean);
+    if (container_group.length > 0) {
+      out_parts.push(`${container_group.join(", ")}.`);
+    }
+
+    //Return statement
+    return out_parts.join(" ");
+  }
+
+
+  /**
+   * Formats a raw BibTeX editor string into MLA editor syntax.
+   *
+   * @param {string} arg0_raw_editor - Raw editor string from BibTeX.
+   * @return {string} Formatted editor string.
+   */
+  formatMlaEditors (arg0_raw_editor) {
+    //Convert from parameters
+    let raw_editor = String(arg0_raw_editor || "").trim();
+
+    //Declare local instance variables
+    let clean_editor = raw_editor.replace(/[{}]/g, "").trim();
+    let ed_tokens = [];
+
+    //Guard clauses
+    if (!clean_editor) return "";
+
+    ed_tokens = clean_editor.split(/\s+and\s+/i);
+    let formatted_eds = ed_tokens.map((ed) => {
+      let trimmed = ed.trim();
+      if (trimmed.includes(",")) {
+        let parts = trimmed.split(",");
+        return `${parts[1].trim()} ${parts[0].trim()}`;
+      }
+      return trimmed;
+    });
+
+    if (formatted_eds.length === 1) {
+      return formatted_eds[0];
+    } else if (formatted_eds.length === 2) {
+      return `${formatted_eds[0]} and ${formatted_eds[1]}`;
+    } else {
+      return `${formatted_eds[0]}, et al.`;
+    }
   }
 
 
@@ -313,19 +535,31 @@ class MarkdownRenderer {
       let field_regex = /(\w+)\s*=\s*\{([\s\S]*?)\}\s*(?:,|$)/g;
       let f_match = null;
 
+      let is_corporate = false;
+
       while ((f_match = field_regex.exec(local_body)) !== null) {
         let f_name = f_match[1].toLowerCase().trim();
-        let f_val = f_match[2].replace(/\s+/g, " ").replace(/[{}]/g, "").trim();
+        let raw_val = f_match[2].trim();
+        if (f_name === "author" && raw_val.startsWith("{") && raw_val.endsWith("}")) {
+          is_corporate = true;
+        }
+        let f_val = raw_val.replace(/\s+/g, " ").replace(/[{}]/g, "").trim();
         local_fields[f_name] = f_val;
       }
 
       entries_obj[local_key] = {
         author: local_fields.author || "",
-        journal: local_fields.journal || local_fields.booktitle || local_fields.institution || local_fields.publisher || "",
+        booktitle: local_fields.booktitle || "",
+        doi: (local_fields.doi || "").replace(/^https?:\/\/doi\.org\//i, ""),
+        editor: local_fields.editor || "",
+        institution: local_fields.institution || "",
+        is_corporate_author: is_corporate,
+        journal: local_fields.journal || "",
         key: local_key,
         note: local_fields.note || "",
         number: local_fields.number || "",
         pages: (local_fields.pages || "").replace(/--/g, "–"),
+        publisher: local_fields.publisher || "",
         title: local_fields.title || "",
         type: local_type,
         url: local_fields.url || "",
@@ -510,31 +744,14 @@ class MarkdownRenderer {
         let local_key = cited_keys[i];
         let local_num = i + 1;
         let entry = bib_entries[local_key];
-        if (entry) {
-          let author_str = entry.author ? `${this.escapeHtml(entry.author)}. ` : "";
-          let title_str = entry.title ? `"${this.escapeHtml(entry.title)}." ` : "";
-          let journal_str = entry.journal ? `<em>${this.escapeHtml(entry.journal)}</em>` : "";
-          let vol_str = entry.volume ? `, vol. ${this.escapeHtml(entry.volume)}` : "";
-          let no_str = entry.number ? `, no. ${this.escapeHtml(entry.number)}` : "";
-          let yr_str = entry.year ? `, ${this.escapeHtml(entry.year)}` : "";
-          let pg_str = entry.pages ? `, pp. ${this.escapeHtml(entry.pages)}` : "";
-          let url_str = entry.url
-            ? ` <a class="crd-bib-url" href="${this.escapeHtml(entry.url)}" target="_blank" rel="noopener">${this.escapeHtml(entry.url)}</a>.`
-            : ".";
-          bib_lines.push(
-            `<div class="crd-bib-entry" id="ref-${this.escapeHtml(local_key)}">` +
-            `<span class="crd-bib-num">[${local_num}]</span>` +
-            `<span class="crd-bib-body">${author_str}${title_str}${journal_str}${vol_str}${no_str}${yr_str}${pg_str}${url_str}</span>` +
-            `</div>`
-          );
-        } else {
-          bib_lines.push(
-            `<div class="crd-bib-entry" id="ref-${this.escapeHtml(local_key)}">` +
-            `<span class="crd-bib-num">[${local_num}]</span>` +
-            `<span class="crd-bib-body">${this.escapeHtml(local_key)}</span>` +
-            `</div>`
-          );
-        }
+        let body_html = (entry) ? this.formatMlaBibliographyEntry(entry) : this.escapeHtml(local_key);
+
+        bib_lines.push(
+          `<div class="crd-bib-entry" id="ref-${this.escapeHtml(local_key)}">` +
+          `<span class="crd-bib-num">${local_num}.</span>` +
+          `<span class="crd-bib-body">${body_html}</span>` +
+          `</div>`
+        );
       }
       bib_lines.push(`</div>`);
       updated_text = updated_text.replace(/:::\s*\{#refs\}\s*:::/g, bib_lines.join("\n"));
@@ -658,10 +875,11 @@ class MarkdownRenderer {
       ];
       for (let y = 0; y < footnotes_array.length; y++) {
         let fn_num = y + 1;
+        let fn_clean = this.formatInlineMathString(footnotes_array[y]);
         fn_lines.push(
           `    <div class="crd-footnote-item" id="crdfn-${fn_num}">` +
           `<a class="crd-footnote-backref" href="#crdfn-ref-${fn_num}"><sup>${fn_num}</sup></a> ` +
-          `<span class="crd-footnote-text">${footnotes_array[y]}</span>` +
+          `<span class="crd-footnote-text">${fn_clean}</span>` +
           `</div>`
         );
       }
@@ -746,4 +964,3 @@ class MarkdownRenderer {
 }
 
 module.exports = { MarkdownRenderer };
-
