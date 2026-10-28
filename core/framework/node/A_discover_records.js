@@ -69,12 +69,13 @@ let IntellteDiscovery = {
           rmd_abs: rmd_abs,
           rmd_filename: path.basename(rmd_abs),
           rmd_url: `${artefact_base_url}/${path.basename(rmd_abs)}`,
-          route_url: `/records/${local_rec.concept_id}/${local_ver.version}`,
+          route_url: (local_ver.version === local_rec.latest_version) ? `/records/${local_rec.concept_id}/` : `/records/${local_rec.concept_id}/${local_ver.version}/`,
           status: local_ver.status || "Published",
           subtitle: fm.subtitle || "",
           supplementary_markdown: Array.isArray(local_ver.supplementary_markdown) ? local_ver.supplementary_markdown : [],
           title: fm.title || local_rec.project_name || local_rec.concept_id,
-          version: local_ver.version
+          version: local_ver.version,
+          version_route_url: `/records/${local_rec.concept_id}/${local_ver.version}/`
         });
       }
 

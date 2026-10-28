@@ -9,6 +9,19 @@ import TagBadge from "../../../core/ui/components/TagBadge.vue";
 
 export default {
   extends: DefaultTheme,
+  setup () {
+    if (typeof window !== "undefined") {
+      try {
+        let saved = localStorage.getItem("vitepress-theme-appearance");
+        if (!saved || saved === "auto") {
+          localStorage.setItem("vitepress-theme-appearance", "light");
+        }
+        if (saved !== "dark") {
+          document.documentElement.classList.remove("dark");
+        }
+      } catch (e) {}
+    }
+  },
   enhanceApp ({ app }) {
     app.component("PdfEmbed", PdfEmbed);
     app.component("pdf", PdfEmbed);

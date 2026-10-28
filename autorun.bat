@@ -41,21 +41,21 @@ if "%~1"=="--build" (
 )
 
 if "%~1"=="--preview" (
-  echo [Intellte] Starting local static preview server...
-  node "node_modules\vitepress\bin\vitepress.js" preview docs --port 4173
+  echo [Intellte] Starting local static preview server on port 16000...
+  node "node_modules\vitepress\bin\vitepress.js" preview docs --port 16000
   if %ERRORLEVEL% neq 0 pause
   exit /b %ERRORLEVEL%
 )
 
 if "%~1"=="--serve" (
-  echo [Intellte] Starting local static preview server...
-  node "node_modules\vitepress\bin\vitepress.js" preview docs --port 4173
+  echo [Intellte] Starting local static preview server on port 16000...
+  node "node_modules\vitepress\bin\vitepress.js" preview docs --port 16000
   if %ERRORLEVEL% neq 0 pause
   exit /b %ERRORLEVEL%
 )
 
-echo [Intellte] Starting VitePress development server...
-node "node_modules\vitepress\bin\vitepress.js" dev docs
+echo [Intellte] Starting VitePress development server on port 16000...
+node "node_modules\vitepress\bin\vitepress.js" dev docs --port 16000
 if %ERRORLEVEL% neq 0 (
   echo.
   echo [ERROR] VitePress development server stopped with exit code %ERRORLEVEL%.

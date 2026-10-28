@@ -32,6 +32,40 @@ class MarkdownRenderer {
 
 
   /**
+   * Cleans and formats LaTeX/inline math within HTML blocks (<figcaption>, <th>, etc.).
+   *
+   * @param {string} arg0_text - Input markdown/HTML text.
+   * @return {string} Text with converted inline math HTML entities.
+   */
+  cleanHtmlInlineMath (arg0_text) {
+    //Convert from parameters
+    let text = String(arg0_text || "");
+
+    //Declare local instance variables
+    let out_text = text;
+    let self = this;
+
+    //Convert inline math in figcaption
+    out_text = out_text.replace(/<figcaption class="crd-caption">([\s\S]*?)<\/figcaption>/g, function (arg0_m, arg1_cap) {
+      return `<figcaption class="crd-caption">${self.formatInlineMathString(arg1_cap)}</figcaption>`;
+    });
+
+    //Convert inline math in th headers
+    out_text = out_text.replace(/<th class="crd-th">([\s\S]*?)<\/th>/g, function (arg0_m, arg1_cell) {
+      return `<th class="crd-th">${self.formatInlineMathString(arg1_cell)}</th>`;
+    });
+
+    //Convert inline math in panel headings
+    out_text = out_text.replace(/<div class="crd-panel-heading">([\s\S]*?)<\/div>/g, function (arg0_m, arg1_head) {
+      return `<div class="crd-panel-heading">${self.formatInlineMathString(arg1_head)}</div>`;
+    });
+
+    //Return statement
+    return out_text;
+  }
+
+
+  /**
    * Compiles an R Markdown (.Rmd) file into WYSIWYG DOM Markdown/HTML.
    *
    * @param {string} arg0_rmd_path - Absolute path to the source .Rmd file.
@@ -89,6 +123,7 @@ class MarkdownRenderer {
     body_md = this.resolveCitationsAndBibliography(body_md, bib_entries);
     body_md = this.resolveFootnotes(body_md);
     body_md = this.transformPdfTags(body_md, { artefact_base_url: artefact_base_url });
+    body_md = this.cleanHtmlInlineMath(body_md);
 
     header_html = this.renderCrdHeaderHtml(frontmatter, {
       artefact_base_url: artefact_base_url
@@ -214,6 +249,38 @@ class MarkdownRenderer {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
+  }
+
+
+  /**
+   * Formats raw LaTeX inline math fragments into clean semantic HTML (e.g. $R^2$ to <i>R</i><sup>2</sup>).
+   *
+   * @param {string} arg0_str - Text containing math delimiters.
+   * @return {string} Semantic HTML with italic variables and superscripts.
+   */
+  formatInlineMathString (arg0_str) {
+    //Convert from parameters
+    let str = String(arg0_str || "");
+
+    //Declare local instance variables
+    let clean = str;
+
+    clean = clean
+      .replace(/--/g, "–")
+      .replace(/\$?T_\{?(?:\\text\{)?onset\}?\}?\$?/g, "<i>T</i><sub>onset</sub>")
+      .replace(/\\Delta\s*([A-Za-z]+)\^([0-9]+)/g, "Δ<i>$1</i><sup>$2</sup>")
+      .replace(/\\Delta\s*([A-Za-z]+)/g, "Δ<i>$1</i>")
+      .replace(/\\Delta/g, "Δ")
+      .replace(/\\text\{([^}]+)\}/g, "$1")
+      .replace(/\$R\^2\$/g, "<i>R</i><sup>2</sup>")
+      .replace(/\$([A-Za-z]+)\^([0-9A-Za-z]+)\$/g, "<i>$1</i><sup>$2</sup>")
+      .replace(/\$p\(5\s*(?:\\text\{--\}|–|-)\s*19\)\/p\(5\+\)\$/g, "<i>p</i>(5–19)/<i>p</i>(5+)")
+      .replace(/\$p\(0\s*(?:\\text\{--\}|–|-)\s*4\)\$/g, "<i>p</i>(0–4)")
+      .replace(/\$([A-Za-z])\$/g, "<i>$1</i>")
+      .replace(/\$([^$]+)\$/g, "$1");
+
+    //Return statement
+    return clean;
   }
 
 
@@ -366,7 +433,7 @@ class MarkdownRenderer {
     if (hero_figure) {
       let hero_filename = path.basename(hero_figure);
       let hero_src = (artefact_base_url) ? `${artefact_base_url}/${hero_filename}` : hero_figure;
-      let clean_cap = hero_caption.replace(/--/g, "–");
+      let clean_cap = this.formatInlineMathString(hero_caption);
       hero_html = [
         `<figure class="crd-hero-figure" id="${this.escapeHtml(hero_label)}">`,
         `  <img class="crd-hero-img" src="${this.escapeHtml(hero_src)}" alt="${this.escapeHtml(title_str)}" />`,

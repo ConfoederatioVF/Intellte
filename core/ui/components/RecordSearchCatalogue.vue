@@ -1,14 +1,14 @@
 <template>
-  <!-- Intellte CRD Working Papers Portal: InvenioRDM-Lite Search, Tag Filtering & Version Catalogue -->
+  <!-- Intellte CRD Working Papers Catalogue: Clean Academic Search & Filters -->
   <div class="crd-catalogue-shell">
-    <!-- 1. CRD Top Banner & Language Switcher -->
+    <!-- 1. Top Banner & Locale Switcher -->
     <header class="crd-portal-hero">
       <div class="crd-portal-hero-top">
         <div class="crd-banner-row">
           <img class="crd-banner-logo" :src="resolveUrl('/artefacts/crd_logo.png')" alt="CRD Emblem" />
           <div class="crd-banner-text">
-            <div class="crd-banner-line">{{ t("portal_title") }}</div>
-            <div class="crd-banner-subline">{{ t("portal_subtitle") }}</div>
+            <h1 class="crd-banner-line">{{ t("portal_title") }}</h1>
+            <p class="crd-banner-subline">{{ t("portal_subtitle") }}</p>
           </div>
         </div>
 
@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <!-- 2. Search & Sort Bar -->
+      <!-- 2. Search & Sort Controls -->
       <div class="crd-search-controls-row">
         <div class="crd-search-input-wrap">
           <input
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <!-- 3. Tag Filter Bar -->
+      <!-- 3. Tag Filters -->
       <div v-if="all_tags_with_counts.length > 0" class="crd-tag-filter-bar">
         <span class="crd-tag-filter-label">{{ t("filter_by_tags") }}:</span>
         <div class="crd-tag-filter-list">
@@ -68,12 +68,12 @@
       </div>
     </header>
 
-    <!-- 4. Results Summary Bar -->
+    <!-- 4. Results Count Meta -->
     <div class="crd-results-meta-bar">
       <span>{{ formatLocaleString(t("showing_records"), [filtered_records.length, records_list.length]) }}</span>
     </div>
 
-    <!-- 5. Record Cards List -->
+    <!-- 5. Working Paper Cards List -->
     <div v-if="filtered_records.length > 0" class="crd-records-list">
       <article
         v-for="rec in filtered_records"
@@ -83,11 +83,13 @@
         <div class="crd-record-card-top">
           <div class="crd-record-badges">
             <span class="crd-badge-type">{{ rec.record_type }}</span>
+            <span class="crd-badge-sep">·</span>
             <span class="crd-badge-project">Project {{ rec.project_id }}</span>
-            <span class="crd-badge-version">
-              {{ rec.is_latest ? formatLocaleString(t("latest_version_badge"), [rec.version]) : formatLocaleString(t("version_badge"), [rec.version]) }}
-            </span>
-            <span class="crd-badge-date">{{ formatLocaleString(t("published_gmt_label"), [rec.published_date]) }}</span>
+            <span class="crd-badge-sep">·</span>
+            <span class="crd-badge-version">v{{ rec.version }}</span>
+            <span v-if="rec.is_latest" class="crd-latest-badge-sm">Latest</span>
+            <span class="crd-badge-sep">·</span>
+            <span class="crd-badge-date">{{ rec.published_date }}</span>
           </div>
         </div>
 
@@ -112,53 +114,27 @@
           />
         </div>
 
-        <!-- Action Buttons & Inline Collapsible PDF Trigger -->
+        <!-- Clean Action Buttons -->
         <div class="crd-record-card-actions">
           <a :href="resolveUrl(rec.route_url)" class="crd-btn-sm crd-btn-primary">
-            {{ t("read_paper") }} (WYSIWYG .Rmd)
+            {{ t("read_paper") }}
           </a>
-          <button
-            v-if="rec.pdf_url"
-            type="button"
-            class="crd-btn-sm"
-            @click="toggleCardPdf(rec.record_id)"
-          >
-            {{ expanded_pdfs[rec.record_id] ? t("pdf_minimise") : formatLocaleString(t("pdf_companion_title"), [rec.pdf_size_euro]) }}
-          </button>
           <a
             v-if="rec.pdf_url"
             :href="resolveUrl(rec.pdf_url)"
             download
             class="crd-btn-sm"
           >
-            {{ formatLocaleString(t("pdf_download"), [rec.pdf_size_euro]) }}
+            Download PDF ({{ rec.pdf_size_euro }})
           </a>
           <a
             v-if="rec.rmd_url"
             :href="resolveUrl(rec.rmd_url)"
             download
-            class="crd-btn-sm"
-          >
-            Download .Rmd
-          </a>
-          <a
-            v-for="supp in rec.supplementary_links"
-            :key="supp.key"
-            :href="resolveUrl(supp.route_url)"
             class="crd-btn-sm crd-btn-subtle"
           >
-            {{ supp.title }}
+            Source (.Rmd)
           </a>
-        </div>
-
-        <!-- Inline Expandable PDF Viewer inside the Catalogue Card -->
-        <div v-if="expanded_pdfs[rec.record_id] && rec.pdf_url" class="crd-card-inline-pdf">
-          <PdfEmbed
-            :src="rec.pdf_url"
-            :title="`${rec.title} (v${rec.version})`"
-            :size="rec.pdf_size_euro"
-            height="620px"
-          />
         </div>
       </article>
     </div>
@@ -170,16 +146,14 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { withBase } from "vitepress";
-import PdfEmbed from "./PdfEmbed.vue";
 import TagBadge from "./TagBadge.vue";
 
 import search_index_data from "../../../docs/public/search_index.json";
 import localisation_data from "../../../docs/public/localisation.json";
 
 let active_locale = ref("en-gb");
-let expanded_pdfs = reactive({});
 let records_list = ref(
   (search_index_data && Array.isArray(search_index_data.records))
     ? search_index_data.records
@@ -277,14 +251,9 @@ let clearFilters = function () {
   selected_tags.value = [];
 };
 
-let toggleCardPdf = function (arg0_record_id) {
-  expanded_pdfs[arg0_record_id] = !expanded_pdfs[arg0_record_id];
-};
-
 let resolveUrl = function (arg0_url) {
   let u = String(arg0_url || "");
   if (u.startsWith("http://") || u.startsWith("https://")) return u;
   return withBase(u.startsWith("/") ? u : `/${u}`);
 };
 </script>
-

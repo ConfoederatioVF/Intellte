@@ -20,9 +20,9 @@ if [ "${1:-}" = "--build" ]; then
   echo ""
   echo "[OK] Static site docs generated in docs/ and built to docs/.vitepress/dist."
 elif [ "${1:-}" = "--preview" ] || [ "${1:-}" = "--serve" ]; then
-  echo "[Intellte] Starting local static preview server..."
-  node "node_modules/vitepress/bin/vitepress.js" preview docs --port 4173
+  echo "[Intellte] Starting local static preview server on port 16000..."
+  node "node_modules/vitepress/bin/vitepress.js" preview docs --port 16000
 else
-  echo "[Intellte] Starting VitePress development server..."
-  node "node_modules/vitepress/bin/vitepress.js" dev docs
+  echo "[Intellte] Starting VitePress development server on port 16000..."
+  node "node_modules/vitepress/bin/vitepress.js" dev docs --port 16000
 fi

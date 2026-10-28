@@ -91,6 +91,10 @@ let IntellteRmdCompiler = {
 
     raw_abs = raw_abs
       .replace(/<[^>]+>/g, "")
+      .replace(/\\text\{([^}]+)\}/g, "$1")
+      .replace(/\$R\^2\$/g, "R²")
+      .replace(/\$([^$]+)\$/g, "$1")
+      .replace(/--/g, "–")
       .replace(/\s+/g, " ")
       .trim();
 

@@ -1,46 +1,34 @@
 <template>
-  <!-- InvenioRDM-Lite Right Sidebar: PDF Trigger, Versions, Tags, Artefacts & Citation -->
+  <!-- Metadata, Versions, Downloads & Citation Sidebar -->
   <aside class="crd-record-sidebar">
-    <!-- 1. Attached PDF Companion Control Card -->
-    <div v-if="record.pdf_url" class="crd-sidebar-card crd-pdf-control-card">
+    <!-- 1. Attached PDF Card -->
+    <div v-if="record.pdf_url" class="crd-sidebar-card crd-pdf-card">
       <div class="crd-sidebar-card-header">
-        <span class="crd-sidebar-heading">Attached PDF</span>
+        <span class="crd-sidebar-heading">PDF Manuscript</span>
         <span v-if="record.pdf_size_euro" class="crd-meta-pill">{{ record.pdf_size_euro }}</span>
       </div>
-      <div class="crd-pdf-mode-buttons">
+      <div class="crd-pdf-sidebar-actions">
+        <a
+          :href="resolveUrl(record.pdf_url)"
+          download
+          class="crd-btn-block crd-btn-primary"
+        >
+          Download PDF ({{ record.pdf_size_euro }})
+        </a>
         <button
           type="button"
-          class="crd-btn-block"
-          :class="{ 'is-active': pdfMode === 'beside' }"
-          @click="$emit('set-pdf-mode', pdfMode === 'beside' ? 'minimised' : 'beside')"
+          class="crd-btn-block crd-btn-secondary"
+          @click="$emit('preview-pdf')"
         >
-          {{ pdfMode === "beside" ? "Minimise Side-by-Side PDF" : "Expand PDF Beside Text" }}
+          View at Bottom
         </button>
-        <div class="crd-btn-row">
-          <button
-            type="button"
-            class="crd-btn-sm"
-            :class="{ 'is-active': pdfMode === 'inline-top' }"
-            @click="$emit('set-pdf-mode', pdfMode === 'inline-top' ? 'minimised' : 'inline-top')"
-          >
-            {{ pdfMode === "inline-top" ? "Hide Top PDF" : "Embed Above Text" }}
-          </button>
-          <a
-            :href="resolveUrl(record.pdf_url)"
-            download
-            class="crd-btn-sm crd-btn-primary"
-          >
-            Download PDF
-          </a>
-        </div>
       </div>
     </div>
 
-    <!-- 2. Versions Box (InvenioRDM style) -->
-    <div class="crd-sidebar-card">
+    <!-- 2. Versions Box -->
+    <div v-if="record.versions && record.versions.length > 0" class="crd-sidebar-card">
       <div class="crd-sidebar-card-header">
         <span class="crd-sidebar-heading">Versions</span>
-        <span class="crd-meta-pill">GMT+0</span>
       </div>
       <ul class="crd-version-list">
         <li
@@ -51,7 +39,7 @@
         >
           <a :href="resolveUrl(ver.route_url)" class="crd-version-link">
             <span class="crd-version-label">
-              Version {{ ver.version }}
+              v{{ ver.version }}
               <span v-if="ver.is_latest" class="crd-latest-tag">Latest</span>
             </span>
             <span class="crd-version-date">{{ ver.date }}</span>
@@ -75,29 +63,14 @@
       </div>
     </div>
 
-    <!-- 4. Supplementary Validation Reports -->
-    <div v-if="record.supplementary_links && record.supplementary_links.length > 0" class="crd-sidebar-card">
-      <div class="crd-sidebar-card-header">
-        <span class="crd-sidebar-heading">Validation Suites</span>
-      </div>
-      <ul class="crd-artefact-list">
-        <li v-for="supp in record.supplementary_links" :key="supp.key" class="crd-artefact-item">
-          <a :href="resolveUrl(supp.route_url)" class="crd-artefact-link">
-            <span class="crd-artefact-name">{{ supp.title }}</span>
-            <span class="crd-artefact-cat">Markdown Report</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- 5. Artefacts & Downloads -->
+    <!-- 4. Artefacts & Downloads (Validation reports listed here if present) -->
     <div v-if="record.staged_files && record.staged_files.length > 0" class="crd-sidebar-card">
       <div class="crd-sidebar-card-header">
         <span class="crd-sidebar-heading">Artefacts &amp; Downloads</span>
       </div>
       <ul class="crd-artefact-list">
         <li v-for="file in record.staged_files" :key="file.filename" class="crd-artefact-item">
-          <a :href="resolveUrl(file.url)" download class="crd-artefact-link">
+          <a :href="resolveUrl(file.url)" download class="crd-artefact-link" :title="file.filename">
             <div class="crd-artefact-info">
               <span class="crd-artefact-name">{{ file.filename }}</span>
               <span class="crd-artefact-cat">{{ file.category }}</span>
@@ -108,12 +81,12 @@
       </ul>
     </div>
 
-    <!-- 6. MLA Citation Box -->
+    <!-- 5. MLA Citation Box -->
     <div v-if="record.citation_mla" class="crd-sidebar-card">
       <div class="crd-sidebar-card-header">
-        <span class="crd-sidebar-heading">Citation (MLA)</span>
+        <span class="crd-sidebar-heading">Citation</span>
         <button type="button" class="crd-btn-xs" @click="copyCitation">
-          {{ copied ? "Copied" : "Copy" }}
+          {{ copied ? "Copied" : "Copy MLA" }}
         </button>
       </div>
       <p class="crd-citation-box">{{ record.citation_mla }}</p>
@@ -127,40 +100,39 @@ import { withBase } from "vitepress";
 import TagBadge from "./TagBadge.vue";
 
 let props = defineProps({
-  pdfMode: {
-    default: "beside",
-    type: String
-  },
   record: {
     required: true,
     type: Object
   }
 });
 
-defineEmits(["set-pdf-mode"]);
+defineEmits(["preview-pdf"]);
 
 let copied = ref(false);
+
+let copyCitation = async function () {
+  let text = props.record.citation_mla || "";
+  if (!text) return;
+  try {
+    await navigator.clipboard.writeText(text);
+    copied.value = true;
+    setTimeout(() => {
+      copied.value = false;
+    }, 2000);
+  } catch (e) {
+    console.error("Failed to copy citation:", e);
+  }
+};
+
+let navigateToTag = function (arg0_tag) {
+  if (typeof window !== "undefined") {
+    window.location.href = withBase(`/?tag=${encodeURIComponent(arg0_tag)}`);
+  }
+};
 
 let resolveUrl = function (arg0_url) {
   let u = String(arg0_url || "");
   if (u.startsWith("http://") || u.startsWith("https://")) return u;
   return withBase(u.startsWith("/") ? u : `/${u}`);
 };
-
-let navigateToTag = function (arg0_tag) {
-  if (typeof window !== "undefined") {
-    window.location.href = `${withBase("/")}?tag=${encodeURIComponent(arg0_tag)}`;
-  }
-};
-
-let copyCitation = function () {
-  if (typeof navigator !== "undefined" && navigator.clipboard && props.record.citation_mla) {
-    navigator.clipboard.writeText(props.record.citation_mla);
-    copied.value = true;
-    setTimeout(() => {
-      copied.value = false;
-    }, 1800);
-  }
-};
 </script>
-

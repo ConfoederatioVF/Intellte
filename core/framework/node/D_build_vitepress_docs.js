@@ -39,7 +39,7 @@ let IntellteVitePressBuilder = {
         is_latest: arg0_v.is_latest,
         pdf_size_euro: arg0_v.pdf_size_euro,
         pdf_url: arg0_v.pdf_url,
-        route_url: arg0_v.route_url,
+        route_url: arg0_v.version_route_url || arg0_v.route_url,
         status: arg0_v.status,
         version: arg0_v.version
       }));
@@ -47,6 +47,15 @@ let IntellteVitePressBuilder = {
       for (let x = 0; x < local_rec.versions.length; x++) {
         let local_ver = local_rec.versions[x];
         let page_md = IntellteVitePressBuilder.buildVersionPageMarkdown(local_rec, local_ver, version_summaries);
+
+        // 1. Version directory index (for route /records/<concept_id>/<version>/)
+        let ver_dir = path.join(rec_dir, local_ver.version);
+        fs.mkdirSync(ver_dir, { recursive: true });
+        let ver_index_path = path.join(ver_dir, "index.md");
+        fs.writeFileSync(ver_index_path, page_md, "utf8");
+        generated_files.push(ver_index_path);
+
+        // 2. Version flat markdown file (for route /records/<concept_id>/<version>)
         let ver_md_path = path.join(rec_dir, `${local_ver.version}.md`);
         fs.writeFileSync(ver_md_path, page_md, "utf8");
         generated_files.push(ver_md_path);
@@ -57,10 +66,17 @@ let IntellteVitePressBuilder = {
           generated_files.push(index_md_path);
         }
 
-        //Emit supplementary validation report pages
+        // Emit supplementary validation report pages
         for (let y = 0; y < local_ver.compiled_supplementary.length; y++) {
           let supp = local_ver.compiled_supplementary[y];
           let supp_page_md = IntellteVitePressBuilder.buildSupplementaryPageMarkdown(local_rec, local_ver, supp);
+
+          let supp_dir = path.join(rec_dir, `${local_ver.version}-${supp.key}`);
+          fs.mkdirSync(supp_dir, { recursive: true });
+          let supp_index_path = path.join(supp_dir, "index.md");
+          fs.writeFileSync(supp_index_path, supp_page_md, "utf8");
+          generated_files.push(supp_index_path);
+
           let supp_md_path = path.join(rec_dir, `${local_ver.version}-${supp.key}.md`);
           fs.writeFileSync(supp_md_path, supp_page_md, "utf8");
           generated_files.push(supp_md_path);
@@ -206,7 +222,7 @@ let IntellteVitePressBuilder = {
       citation_mla: IntellteVitePressBuilder.formatMlaCitation(rec, ver),
       concept_id: rec.concept_id,
       is_latest: ver.is_latest,
-      latest_route_url: `/records/${rec.concept_id}/${rec.latest_version}`,
+      latest_route_url: `/records/${rec.concept_id}/`,
       latest_version: rec.latest_version,
       pdf_size_euro: ver.pdf_size_euro,
       pdf_url: ver.pdf_url,
