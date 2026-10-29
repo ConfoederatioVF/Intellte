@@ -215,10 +215,13 @@ get_project_root <- function (arg0_start_dir = NULL) {
     local_curr <- tryCatch(normalizePath(candidates[i], winslash = "/", mustWork = FALSE), error = function (e) candidates[i])
     for (x in 1:4) {
       if (dir.exists(local_curr)) {
-        child_dirs <- list.dirs(local_curr, full.names = TRUE, recursive = FALSE)
-        for (y in seq_along(child_dirs)) {
-          if (file.exists(file.path(child_dirs[y], marker_rel))) {
-            return(normalizePath(child_dirs[y], winslash = "/", mustWork = TRUE))
+        cand_dirs <- list.dirs(local_curr, full.names = TRUE, recursive = FALSE)
+        if (dir.exists(file.path(local_curr, "papers"))) {
+          cand_dirs <- c(cand_dirs, list.dirs(file.path(local_curr, "papers"), full.names = TRUE, recursive = FALSE))
+        }
+        for (y in seq_along(cand_dirs)) {
+          if (file.exists(file.path(cand_dirs[y], marker_rel))) {
+            return(normalizePath(cand_dirs[y], winslash = "/", mustWork = TRUE))
           }
         }
       }

@@ -4,7 +4,7 @@
 
 ## Overview
 
-Intellte aggregates working papers (`.Rmd` and `.pdf`), validation suites (`.md`), bibliographies (`.bib`), and high-resolution figures (`.png`) across child research repositories (such as `Project 0717 - Velkscala`) into a VitePress portal featuring:
+Intellte aggregates working papers (`.Rmd` and `.pdf`), validation suites (`.md`), bibliographies (`.bib`), and high-resolution figures (`.png`) across child research repositories (such as `velkscala`) into a VitePress portal featuring:
 
 - **Native R Markdown (`.Rmd`) WYSIWYG DOM Rendering**: `core/framework/node/MarkdownRenderer.js` evaluates R chunks via `core/framework/R/` and renders CRD working papers directly into the DOM with **Jost\*** headers, **Karla** badges and table headers, and **Source Serif 4** (`10pt`/`15pt`) body prose.
 - **Inline & Side-by-Side Collapsible PDF Viewing**: Attached record PDFs can be minimised or expanded beside the body text (`PdfSplitWorkspace.vue`), or embedded inline in any Markdown/HTML/Rmd document via `<pdf src="..." />` (`PdfEmbed.vue`).
