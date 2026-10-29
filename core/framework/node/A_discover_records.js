@@ -37,43 +37,49 @@ let IntellteDiscovery = {
 
       for (let x = 0; x < raw_versions.length; x++) {
         let local_ver = raw_versions[x];
-        let rmd_abs = path.join(child_repo_abs, local_ver.rmd_path || "");
-        let pdf_abs = path.join(child_repo_abs, local_ver.pdf_path || "");
-        let bib_abs = path.join(child_repo_abs, local_ver.bib_path || "");
+        let rmd_abs = (local_ver.rmd_path) ? path.join(child_repo_abs, local_ver.rmd_path) : "";
+        let pdf_abs = (local_ver.pdf_path) ? path.join(child_repo_abs, local_ver.pdf_path) : "";
+        let bib_abs = (local_ver.bib_path) ? path.join(child_repo_abs, local_ver.bib_path) : "";
         let fm = {};
 
-        if (fs.existsSync(rmd_abs)) {
+        let has_pdf = Boolean(pdf_abs && fs.existsSync(pdf_abs));
+        let has_rmd = Boolean(rmd_abs && fs.existsSync(rmd_abs));
+
+        if (has_rmd) {
           let parsed = renderer.parseFrontmatter(fs.readFileSync(rmd_abs, "utf8"));
           fm = parsed.frontmatter;
         }
 
         let artefact_base_url = `/artefacts/${local_rec.concept_id}/${local_ver.version}`;
         enriched_versions.push({
+          abstract_excerpt: local_ver.abstract_excerpt || "",
           artefact_base_url: artefact_base_url,
-          authors_line: fm.authors_line || "Confoederatio, Research Division",
+          authors_line: local_ver.authors_line || fm.authors_line || "Confoederatio, Research Division",
           bib_abs: bib_abs,
-          bib_filename: path.basename(bib_abs),
-          date: fm.date || local_ver.published_date || "",
+          bib_filename: (bib_abs) ? path.basename(bib_abs) : "",
+          date: local_ver.published_date || fm.date || "",
           emails: Array.isArray(fm.emails) ? fm.emails : [],
           figures: Array.isArray(local_ver.figures) ? local_ver.figures : [],
           frontmatter: fm,
+          has_pdf: has_pdf,
+          has_rmd: has_rmd,
           hero_caption: fm.hero_caption || "",
           hero_figure_rel: local_ver.hero_figure || fm.hero_figure || "",
           is_latest: (local_ver.version === local_rec.latest_version),
           pdf_abs: pdf_abs,
-          pdf_filename: path.basename(pdf_abs),
-          pdf_url: `${artefact_base_url}/${path.basename(pdf_abs)}`,
+          pdf_filename: (has_pdf) ? path.basename(pdf_abs) : "",
+          pdf_url: (has_pdf) ? `${artefact_base_url}/${encodeURI(path.basename(pdf_abs))}` : null,
           published_date: local_ver.published_date || fm.date || "",
           published_iso_gmt: local_ver.published_iso_gmt || "2026-10-28T00:00:00Z",
           record_id: local_ver.record_id || `${local_rec.concept_id}-${local_ver.version}`,
           rmd_abs: rmd_abs,
-          rmd_filename: path.basename(rmd_abs),
-          rmd_url: `${artefact_base_url}/${path.basename(rmd_abs)}`,
+          rmd_filename: (has_rmd) ? path.basename(rmd_abs) : "",
+          rmd_url: (has_rmd) ? `${artefact_base_url}/${encodeURI(path.basename(rmd_abs))}` : null,
           route_url: (local_ver.version === local_rec.latest_version) ? `/records/${local_rec.concept_id}/` : `/records/${local_rec.concept_id}/${local_ver.version}/`,
           status: local_ver.status || "Published",
-          subtitle: fm.subtitle || "",
+          subtitle: local_ver.subtitle || fm.subtitle || "",
           supplementary_markdown: Array.isArray(local_ver.supplementary_markdown) ? local_ver.supplementary_markdown : [],
-          title: fm.title || local_rec.project_name || local_rec.concept_id,
+          title: local_ver.title || fm.title || local_rec.project_name || local_rec.concept_id,
           version: local_ver.version,
           version_route_url: `/records/${local_rec.concept_id}/${local_ver.version}/`
         });

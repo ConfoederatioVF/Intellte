@@ -82,7 +82,7 @@ export default defineConfig({
             let stripped = (base_url !== "/" && pathname.startsWith(base_url))
               ? pathname.slice(base_url.length - 1)
               : pathname;
-            if (/^\/records\/[^\/]+\/\d+\.\d+$/.test(stripped)) {
+            if (/^\/records\/[^\/]+\/[\w\.\-]+$/.test(stripped)) {
               let query = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
               res.writeHead(302, { Location: pathname + "/" + query });
               res.end();
@@ -100,7 +100,9 @@ export default defineConfig({
     siteTitle: "Intellte",
     nav: [
       { text: "Catalogue", link: "/" },
-      { text: "Velkscala 1.0", link: "/records/velkscala/" }
+      { text: "Velkscala", link: "/records/velkscala/" },
+      { text: "Eoscala", link: "/records/eoscala/" },
+      { text: "Stadestér", link: "/records/stadester/" }
     ],
     search: {
       provider: "local"

@@ -74,8 +74,9 @@ let IntellteVitePressBuilder = {
         }
 
         // Emit supplementary validation report pages
-        for (let y = 0; y < local_ver.compiled_supplementary.length; y++) {
-          let supp = local_ver.compiled_supplementary[y];
+        let supp_reports = Array.isArray(local_ver.compiled_supplementary) ? local_ver.compiled_supplementary : [];
+        for (let y = 0; y < supp_reports.length; y++) {
+          let supp = supp_reports[y];
           let supp_page_md = IntellteVitePressBuilder.buildSupplementaryPageMarkdown(local_rec, local_ver, supp);
 
           let supp_dir = path.join(rec_dir, `${local_ver.version}-${supp.key}`);
@@ -95,7 +96,7 @@ let IntellteVitePressBuilder = {
           authors_line: local_ver.authors_line,
           citation_mla: IntellteVitePressBuilder.formatMlaCitation(local_rec, local_ver),
           concept_id: local_rec.concept_id,
-          hero_img_url: `${local_ver.artefact_base_url}/${path.basename(local_ver.hero_figure_rel || "cdt_proxy_vs_empirical.png")}`,
+          hero_img_url: (local_ver.hero_figure_rel) ? `${local_ver.artefact_base_url}/${path.basename(local_ver.hero_figure_rel)}` : null,
           is_latest: local_ver.is_latest,
           latest_version: local_rec.latest_version,
           pdf_size_euro: local_ver.pdf_size_euro,
@@ -110,7 +111,7 @@ let IntellteVitePressBuilder = {
           route_url: local_ver.route_url,
           staged_files: local_ver.staged_files,
           subtitle: local_ver.subtitle,
-          supplementary_links: local_ver.compiled_supplementary.map((s) => ({
+          supplementary_links: supp_reports.map((s) => ({
             key: s.key,
             route_url: s.route_url,
             title: s.title
@@ -229,10 +230,15 @@ let IntellteVitePressBuilder = {
     let version_summaries = arg2_version_summaries;
 
     //Declare local instance variables
+    let content_lines = [];
+    let has_dom = Boolean(ver.compiled_dom && (ver.compiled_dom.full_dom_md || ver.compiled_dom.body_md));
+    let supp_links = Array.isArray(ver.compiled_supplementary) ? ver.compiled_supplementary : [];
+
     let meta_payload = {
       authors_line: ver.authors_line,
       citation_mla: IntellteVitePressBuilder.formatMlaCitation(rec, ver),
       concept_id: rec.concept_id,
+      has_dom: has_dom,
       is_latest: ver.is_latest,
       latest_route_url: `/records/${rec.concept_id}/`,
       latest_version: rec.latest_version,
@@ -245,7 +251,7 @@ let IntellteVitePressBuilder = {
       record_type: rec.record_type,
       rmd_url: ver.rmd_url,
       staged_files: ver.staged_files,
-      supplementary_links: ver.compiled_supplementary.map((s) => ({
+      supplementary_links: supp_links.map((s) => ({
         key: s.key,
         route_url: s.route_url,
         title: s.title
@@ -257,6 +263,42 @@ let IntellteVitePressBuilder = {
     };
     let meta_json_b64 = Buffer.from(JSON.stringify(meta_payload), "utf8").toString("base64");
 
+    if (has_dom) {
+      content_lines.push(
+        `<div class="crd-wysiwyg-paper">`,
+        "",
+        ver.compiled_dom.full_dom_md,
+        "",
+        `</div>`
+      );
+    } else {
+      let abstract_html = (ver.abstract_excerpt)
+        ? `    <div class="crd-abstract-box"><p class="crd-abstract-heading">ABSTRACT</p><p class="crd-abstract-text">${ver.abstract_excerpt}</p></div>`
+        : "";
+      let subtitle_html = (ver.subtitle)
+        ? `    <p class="crd-paper-subtitle">${ver.subtitle}</p>`
+        : "";
+
+      content_lines.push(
+        `<div class="crd-wysiwyg-paper crd-pdf-only-view">`,
+        `  <header class="crd-paper-header crd-pdf-only-header">`,
+        `    <div class="crd-eyebrow">CRD WORKING PAPER ${rec.project_id} · VERSION ${ver.version}</div>`,
+        `    <h1 class="crd-paper-title">${ver.title}</h1>`,
+        subtitle_html,
+        `    <div class="crd-authors-block">`,
+        `      <div class="crd-author-name">${ver.authors_line}</div>`,
+        `      <div class="crd-author-affil">Confoederatio, Research Division</div>`,
+        `    </div>`,
+        abstract_html,
+        `  </header>`,
+        "",
+        (ver.pdf_url)
+          ? `  <pdf src="${ver.pdf_url}" title="${ver.title.replace(/"/g, '&quot;')}" height="850px" default-open="true" size="${ver.pdf_size_euro || ''}" />`
+          : "",
+        `</div>`
+      );
+    }
+
     let lines = [
       "---",
       `title: "${ver.title.replace(/"/g, '\\"')} (v${ver.version})"`,
@@ -267,11 +309,7 @@ let IntellteVitePressBuilder = {
       "",
       `<PdfSplitWorkspace record-b64="${meta_json_b64}">`,
       "",
-      `<div class="crd-wysiwyg-paper">`,
-      "",
-      ver.compiled_dom.full_dom_md,
-      "",
-      `</div>`,
+      ...content_lines.filter((arg0_l) => arg0_l !== ""),
       "",
       `</PdfSplitWorkspace>`,
       ""

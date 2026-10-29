@@ -14,6 +14,7 @@
 
       <div v-if="record_obj.pdf_url" class="crd-topbar-pdf-controls">
         <button
+          v-if="record_obj.has_dom !== false"
           type="button"
           class="crd-btn-sm"
           @click="toggleBottomPdf"
@@ -45,7 +46,7 @@
         </div>
 
         <!-- 2. Minimised Bottom PDF Section (Collapsible) -->
-        <section v-if="record_obj.pdf_url" id="crd-bottom-pdf" class="crd-bottom-pdf-section">
+        <section v-if="record_obj.pdf_url && record_obj.has_dom !== false" id="crd-bottom-pdf" class="crd-bottom-pdf-section">
           <div class="crd-bottom-pdf-header" @click="toggleBottomPdf">
             <div class="crd-bottom-pdf-title">
               <span class="crd-pdf-badge">PDF</span>

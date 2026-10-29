@@ -56,7 +56,7 @@ let IntellteArtefactStager = {
         fs.mkdirSync(stage_dir, { recursive: true });
 
         //1. Compiled PDF
-        if (fs.existsSync(local_ver.pdf_abs)) {
+        if (local_ver.pdf_abs && fs.existsSync(local_ver.pdf_abs)) {
           let dst_pdf = path.join(stage_dir, local_ver.pdf_filename);
           fs.copyFileSync(local_ver.pdf_abs, dst_pdf);
           staged_files.push({
@@ -64,12 +64,12 @@ let IntellteArtefactStager = {
             filename: local_ver.pdf_filename,
             size_bytes: fs.statSync(dst_pdf).size,
             size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_pdf).size),
-            url: `${local_ver.artefact_base_url}/${local_ver.pdf_filename}`
+            url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.pdf_filename)}`
           });
         }
 
         //2. Executable R Markdown (.Rmd)
-        if (fs.existsSync(local_ver.rmd_abs)) {
+        if (local_ver.rmd_abs && fs.existsSync(local_ver.rmd_abs)) {
           let dst_rmd = path.join(stage_dir, local_ver.rmd_filename);
           fs.copyFileSync(local_ver.rmd_abs, dst_rmd);
           staged_files.push({
@@ -77,12 +77,12 @@ let IntellteArtefactStager = {
             filename: local_ver.rmd_filename,
             size_bytes: fs.statSync(dst_rmd).size,
             size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_rmd).size),
-            url: `${local_ver.artefact_base_url}/${local_ver.rmd_filename}`
+            url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.rmd_filename)}`
           });
         }
 
         //3. BibTeX Bibliography (.bib)
-        if (fs.existsSync(local_ver.bib_abs)) {
+        if (local_ver.bib_abs && fs.existsSync(local_ver.bib_abs)) {
           let dst_bib = path.join(stage_dir, local_ver.bib_filename);
           fs.copyFileSync(local_ver.bib_abs, dst_bib);
           staged_files.push({
@@ -90,7 +90,7 @@ let IntellteArtefactStager = {
             filename: local_ver.bib_filename,
             size_bytes: fs.statSync(dst_bib).size,
             size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_bib).size),
-            url: `${local_ver.artefact_base_url}/${local_ver.bib_filename}`
+            url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.bib_filename)}`
           });
         }
 
@@ -131,9 +131,8 @@ let IntellteArtefactStager = {
         }
 
         local_ver.staged_files = staged_files;
-        local_ver.pdf_size_euro = (staged_files.length > 0 && staged_files[0].category === "PDF Manuscript")
-          ? staged_files[0].size_euro
-          : "";
+        let pdf_staged = staged_files.find((arg0_f) => arg0_f.category === "PDF Manuscript");
+        local_ver.pdf_size_euro = (pdf_staged) ? pdf_staged.size_euro : "";
       }
     }
 

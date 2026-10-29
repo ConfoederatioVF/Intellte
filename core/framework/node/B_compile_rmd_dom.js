@@ -32,20 +32,27 @@ let IntellteRmdCompiler = {
 
       for (let x = 0; x < versions.length; x++) {
         let local_ver = versions[x];
-        let compiled_dom = renderer.compileRmdToDom(local_ver.rmd_abs, {
-          artefact_base_url: local_ver.artefact_base_url,
-          bib_path: local_ver.bib_abs,
-          force_eval: force_eval,
-          pdf_url: local_ver.pdf_url
-        });
+        let compiled_dom = { body_md: "", frontmatter: {}, full_dom_md: "", header_html: "" };
+
+        if (local_ver.has_rmd && local_ver.rmd_abs && fs.existsSync(local_ver.rmd_abs)) {
+          compiled_dom = renderer.compileRmdToDom(local_ver.rmd_abs, {
+            artefact_base_url: local_ver.artefact_base_url,
+            bib_path: local_ver.bib_abs,
+            force_eval: force_eval,
+            pdf_url: local_ver.pdf_url
+          });
+        }
 
         local_ver.compiled_dom = compiled_dom;
-        local_ver.abstract_excerpt = IntellteRmdCompiler.extractAbstractExcerpt(compiled_dom.body_md);
+        if (compiled_dom.body_md) {
+          local_ver.abstract_excerpt = IntellteRmdCompiler.extractAbstractExcerpt(compiled_dom.body_md);
+        }
 
         //Compile supplementary Markdown reports (e.g. cdt.md, ndt.md) with <pdf src> & image resolution
         let compiled_supp = [];
-        for (let y = 0; y < local_ver.supplementary_markdown.length; y++) {
-          let supp_item = local_ver.supplementary_markdown[y];
+        let supp_markdown = Array.isArray(local_ver.supplementary_markdown) ? local_ver.supplementary_markdown : [];
+        for (let y = 0; y < supp_markdown.length; y++) {
+          let supp_item = supp_markdown[y];
           let supp_abs = path.join(local_rec.child_repo_abs, supp_item.path);
           if (fs.existsSync(supp_abs)) {
             let raw_supp = fs.readFileSync(supp_abs, "utf8");
