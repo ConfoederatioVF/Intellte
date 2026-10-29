@@ -5,7 +5,19 @@ let require = createRequire(import.meta.url);
 let { MarkdownRenderer } = require("../../core/framework/node/MarkdownRenderer.js");
 let md_renderer = new MarkdownRenderer();
 
+let base_url = process.env.VITEPRESS_BASE;
+if (!base_url && process.env.GITHUB_ACTIONS) {
+  base_url = "/Intellte/";
+}
+if (!base_url) {
+  base_url = "/";
+}
+if (!base_url.endsWith("/")) {
+  base_url = `${base_url}/`;
+}
+
 export default defineConfig({
+  base: base_url,
   title: "Intellte — CRD",
   description: "Confoederatio, Research Division (CRD) Working Papers",
   appearance: {
@@ -15,7 +27,7 @@ export default defineConfig({
   ignoreDeadLinks: true,
 
   head: [
-    ["link", { rel: "icon", type: "image/png", href: "/artefacts/crd_logo.png" }],
+    ["link", { rel: "icon", type: "image/png", href: `${base_url}artefacts/crd_logo.png` }],
     [
       "script",
       {},
@@ -52,11 +64,25 @@ export default defineConfig({
     },
     plugins: [
       {
+        name: "crd-css-base-fonts",
+        transform (code, id) {
+          if (id.endsWith(".css") && base_url !== "/") {
+            return {
+              code: code.replace(/url\(["']?\/fonts\//g, `url("${base_url}fonts/`),
+              map: null
+            };
+          }
+        }
+      },
+      {
         name: "crd-version-redirect",
         configureServer (server) {
           server.middlewares.use((req, res, next) => {
             let pathname = (req.url || "").split("?")[0].split("#")[0];
-            if (/^\/records\/[^\/]+\/\d+\.\d+$/.test(pathname)) {
+            let stripped = (base_url !== "/" && pathname.startsWith(base_url))
+              ? pathname.slice(base_url.length - 1)
+              : pathname;
+            if (/^\/records\/[^\/]+\/\d+\.\d+$/.test(stripped)) {
               let query = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
               res.writeHead(302, { Location: pathname + "/" + query });
               res.end();

@@ -150,8 +150,8 @@ import { computed, onMounted, ref } from "vue";
 import { withBase } from "vitepress";
 import TagBadge from "./TagBadge.vue";
 
-import search_index_data from "../../../docs/public/search_index.json";
-import localisation_data from "../../../docs/public/localisation.json";
+import search_index_data from "../../../docs/data/search_index.json";
+import localisation_data from "../../../docs/data/localisation.json";
 
 let active_locale = ref("en-gb");
 let records_list = ref(

@@ -27,6 +27,12 @@ let IntellteArtefactStager = {
       fs.copyFileSync(logo_src, logo_dst);
     }
 
+    //Stage .nojekyll for GitHub Pages
+    let nojekyll_path = path.join(docs_public, ".nojekyll");
+    if (!fs.existsSync(nojekyll_path)) {
+      fs.writeFileSync(nojekyll_path, "", "utf8");
+    }
+
     //Stage web fonts (Jost*, Karla, Source Serif 4) for WYSIWYG DOM typography
     fs.mkdirSync(fonts_dst, { recursive: true });
     if (fs.existsSync(fonts_src)) {

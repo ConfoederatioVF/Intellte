@@ -4,7 +4,7 @@ let path = require("path");
 let IntellteVitePressBuilder = {
   /**
    * Step D: Emits VitePress Markdown pages (`docs/index.md`, `docs/records/<concept_id>/<version>.md`,
-   * supplementary report pages, and `docs/public/search_index.json`).
+   * supplementary report pages, `docs/data/search_index.json`, and `docs/public/search_index.json`).
    *
    * @param {Object} arg0_manifest - Manifest returned by C_stageArtefacts.
    * @return {Object} Summary of generated VitePress pages.
@@ -14,6 +14,7 @@ let IntellteVitePressBuilder = {
     let manifest = arg0_manifest;
 
     //Declare local instance variables
+    let docs_data = path.join(manifest.root_dir, "docs/data");
     let docs_dir = path.join(manifest.root_dir, "docs");
     let docs_public = path.join(docs_dir, "public");
     let docs_records = path.join(docs_dir, "records");
@@ -21,12 +22,18 @@ let IntellteVitePressBuilder = {
     let records = (manifest && Array.isArray(manifest.records)) ? manifest.records : [];
     let search_records = [];
 
+    fs.mkdirSync(docs_data, { recursive: true });
     fs.mkdirSync(docs_public, { recursive: true });
     fs.mkdirSync(docs_records, { recursive: true });
 
     //Write localisation dictionary for client components
+    let loc_data_json_path = path.join(docs_data, "localisation.json");
     let loc_json_path = path.join(docs_public, "localisation.json");
-    fs.writeFileSync(loc_json_path, JSON.stringify(manifest.localisation, null, 2), "utf8");
+    let loc_string = JSON.stringify(manifest.localisation, null, 2);
+
+    fs.writeFileSync(loc_data_json_path, loc_string, "utf8");
+    fs.writeFileSync(loc_json_path, loc_string, "utf8");
+    generated_files.push(loc_data_json_path);
     generated_files.push(loc_json_path);
 
     for (let i = 0; i < records.length; i++) {
@@ -117,8 +124,13 @@ let IntellteVitePressBuilder = {
     }
 
     //Write search_index.json
+    let search_data_json_path = path.join(docs_data, "search_index.json");
     let search_json_path = path.join(docs_public, "search_index.json");
-    fs.writeFileSync(search_json_path, JSON.stringify({ records: search_records }, null, 2), "utf8");
+    let search_string = JSON.stringify({ records: search_records }, null, 2);
+
+    fs.writeFileSync(search_data_json_path, search_string, "utf8");
+    fs.writeFileSync(search_json_path, search_string, "utf8");
+    generated_files.push(search_data_json_path);
     generated_files.push(search_json_path);
 
     //Write top-level docs/index.md portal page
