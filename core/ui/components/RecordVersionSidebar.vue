@@ -16,12 +16,22 @@
           Download PDF ({{ record.pdf_size_euro }})
         </a>
         <button
+          v-if="record.has_dom !== false"
           type="button"
           class="crd-btn-block crd-btn-secondary"
           @click="$emit('preview-pdf')"
         >
           View at Bottom
         </button>
+        <a
+          v-else
+          :href="resolveUrl(record.pdf_url)"
+          target="_blank"
+          rel="noopener"
+          class="crd-btn-block crd-btn-secondary"
+        >
+          Open PDF
+        </a>
       </div>
     </div>
 

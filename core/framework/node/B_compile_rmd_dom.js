@@ -67,7 +67,7 @@ let IntellteRmdCompiler = {
               content_md: clean_supp,
               filename: path.basename(supp_abs),
               key: supp_item.key,
-              route_url: `/records/${local_rec.concept_id}/${local_ver.version}-${supp_item.key}`,
+              route_url: `/records/${local_rec.concept_id}/${local_ver.version}-${supp_item.key}/`,
               source_abs: supp_abs,
               title: supp_item.title
             });

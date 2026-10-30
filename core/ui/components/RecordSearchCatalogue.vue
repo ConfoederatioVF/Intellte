@@ -36,11 +36,25 @@
             :placeholder="t('search_placeholder')"
           />
         </div>
-        <div class="crd-sort-wrap">
-          <select v-model="sort_by" class="crd-sort-select">
-            <option value="newest">{{ t("sort_newest") }}</option>
-            <option value="title">{{ t("sort_title") }}</option>
-          </select>
+        <div class="crd-controls-group">
+          <button
+            type="button"
+            class="crd-version-toggle-btn"
+            :class="{ 'is-active': show_all_versions }"
+            :aria-pressed="show_all_versions"
+            @click="toggleShowAllVersions"
+          >
+            <span class="crd-toggle-track" aria-hidden="true">
+              <span class="crd-toggle-thumb"></span>
+            </span>
+            <span class="crd-toggle-label">{{ t("show_all_versions") }}</span>
+          </button>
+          <div class="crd-sort-wrap">
+            <select v-model="sort_by" class="crd-sort-select">
+              <option value="newest">{{ t("sort_newest") }}</option>
+              <option value="title">{{ t("sort_title") }}</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -70,7 +84,7 @@
 
     <!-- 4. Results Count Meta -->
     <div class="crd-results-meta-bar">
-      <span>{{ formatLocaleString(t("showing_records"), [filtered_records.length, records_list.length]) }}</span>
+      <span>{{ formatLocaleString(t("showing_records"), [filtered_records.length, base_records.length]) }}</span>
     </div>
 
     <!-- 5. Working Paper Cards List -->
@@ -161,12 +175,17 @@ let records_list = ref(
 );
 let search_query = ref("");
 let selected_tags = ref([]);
+let show_all_versions = ref(false);
 let sort_by = ref("newest");
 
 onMounted(() => {
   if (typeof window !== "undefined") {
     let params = new URLSearchParams(window.location.search);
+    let url_all_versions = params.get("all_versions");
     let url_tag = params.get("tag");
+    if (url_all_versions === "1" || url_all_versions === "true") {
+      show_all_versions.value = true;
+    }
     if (url_tag && !selected_tags.value.includes(url_tag)) {
       selected_tags.value.push(url_tag);
     }
@@ -189,10 +208,15 @@ let formatLocaleString = function (arg0_template, arg1_values) {
   return out;
 };
 
+let base_records = computed(() => {
+  if (show_all_versions.value) return records_list.value;
+  return records_list.value.filter((arg0_rec) => Boolean(arg0_rec.is_latest));
+});
+
 let all_tags_with_counts = computed(() => {
   let counts = {};
-  for (let i = 0; i < records_list.value.length; i++) {
-    let tags = records_list.value[i].tags || [];
+  for (let i = 0; i < base_records.value.length; i++) {
+    let tags = base_records.value[i].tags || [];
     for (let x = 0; x < tags.length; x++) {
       let tg = tags[x];
       counts[tg] = (counts[tg] || 0) + 1;
@@ -200,14 +224,15 @@ let all_tags_with_counts = computed(() => {
   }
   return Object.keys(counts)
     .sort()
-    .map((tg) => ({ count: counts[tg], tag: tg }));
+    .map((arg0_tg) => ({ count: counts[arg0_tg], tag: arg0_tg }));
 });
 
 let filtered_records = computed(() => {
-  let q = search_query.value.trim().toLowerCase();
   let active_t = selected_tags.value;
+  let q = search_query.value.trim().toLowerCase();
 
-  let filtered = records_list.value.filter((rec) => {
+  let filtered = base_records.value.filter((arg0_rec) => {
+    let rec = arg0_rec;
     if (active_t.length > 0) {
       let rec_tags = rec.tags || [];
       for (let i = 0; i < active_t.length; i++) {
@@ -229,22 +254,13 @@ let filtered_records = computed(() => {
     return haystack.includes(q);
   });
 
-  return filtered.slice().sort((a, b) => {
+  return filtered.slice().sort((arg0_a, arg1_b) => {
     if (sort_by.value === "title") {
-      return String(a.title).localeCompare(String(b.title));
+      return String(arg0_a.title).localeCompare(String(arg1_b.title));
     }
-    return String(b.published_iso_gmt).localeCompare(String(a.published_iso_gmt));
+    return String(arg1_b.published_iso_gmt).localeCompare(String(arg0_a.published_iso_gmt));
   });
 });
-
-let toggleTag = function (arg0_tag) {
-  let idx = selected_tags.value.indexOf(arg0_tag);
-  if (idx >= 0) {
-    selected_tags.value.splice(idx, 1);
-  } else {
-    selected_tags.value.push(arg0_tag);
-  }
-};
 
 let clearFilters = function () {
   search_query.value = "";
@@ -255,5 +271,18 @@ let resolveUrl = function (arg0_url) {
   let u = String(arg0_url || "");
   if (u.startsWith("http://") || u.startsWith("https://")) return u;
   return withBase(u.startsWith("/") ? u : `/${u}`);
+};
+
+let toggleShowAllVersions = function () {
+  show_all_versions.value = !show_all_versions.value;
+};
+
+let toggleTag = function (arg0_tag) {
+  let idx = selected_tags.value.indexOf(arg0_tag);
+  if (idx >= 0) {
+    selected_tags.value.splice(idx, 1);
+  } else {
+    selected_tags.value.push(arg0_tag);
+  }
 };
 </script>

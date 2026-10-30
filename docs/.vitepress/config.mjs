@@ -1,6 +1,10 @@
-import { defineConfig } from "vitepress";
+import fs from "fs";
+import path from "path";
 import { createRequire } from "module";
+import { fileURLToPath } from "url";
+import { defineConfig } from "vitepress";
 
+let docs_dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 let require = createRequire(import.meta.url);
 let { MarkdownRenderer } = require("../../core/framework/node/MarkdownRenderer.js");
 let md_renderer = new MarkdownRenderer();
@@ -15,6 +19,70 @@ if (!base_url) {
 if (!base_url.endsWith("/")) {
   base_url = `${base_url}/`;
 }
+
+
+let IntellteVitePressMiddleware = {
+  /**
+   * Creates Connect/Vite middleware redirecting clean `/records/...` directory URLs lacking a trailing slash to `<pathname>/` whilst leaving `.md` module imports and static assets untouched.
+   *
+   * @param {string} arg0_docs_dir - Absolute path to the `docs/` source/output directory.
+   * @param {string} arg1_base_url - Normalised VitePress `base` URL.
+   * @return {Function} Connect middleware handler.
+   */
+  createRecordDirectoryRedirect: function (arg0_docs_dir, arg1_base_url) {
+    //Convert from parameters
+    let root_docs_dir = arg0_docs_dir;
+    let site_base_url = arg1_base_url;
+
+    //Declare local instance variables
+    let asset_ext_regex = /\.(?:bib|cjs|css|gif|htm|html|ico|jpe?g|js|json|map|md|mjs|otf|pdf|png|rmd|svg|ts|ttf|txt|vue|webp|woff2?|xml)$/i;
+
+    //Return statement
+    return function (arg0_req, arg1_res, arg2_next) {
+      //Convert from parameters
+      let req = arg0_req;
+      let res = arg1_res;
+      let next = arg2_next;
+
+      //Declare local instance variables
+      let candidate_html = "";
+      let candidate_md = "";
+      let pathname = String(req?.url ?? "").split("?")[0].split("#")[0];
+      let query = "";
+      let raw_url = String(req?.url ?? "");
+      let rel_record_path = "";
+      let stripped = pathname;
+
+      //Guard clauses
+      if (req?.headers?.["sec-fetch-dest"] === "script") return next();
+      if (asset_ext_regex.test(pathname)) return next();
+
+      if (site_base_url !== "/" && pathname.startsWith(site_base_url)) {
+        stripped = pathname.slice(site_base_url.length - 1);
+      }
+
+      if (stripped.startsWith("/records/") && !stripped.endsWith("/")) {
+        rel_record_path = stripped.replace(/^\/+/, "");
+        candidate_md = path.join(root_docs_dir, rel_record_path, "index.md");
+        candidate_html = path.join(root_docs_dir, rel_record_path, "index.html");
+
+        if (
+          (candidate_md.startsWith(root_docs_dir) && fs.existsSync(candidate_md)) ||
+          (candidate_html.startsWith(root_docs_dir) && fs.existsSync(candidate_html))
+        ) {
+          if (raw_url.includes("?")) {
+            query = raw_url.slice(raw_url.indexOf("?"));
+          }
+          res.writeHead(302, { Location: `${pathname}/${query}` });
+          res.end();
+          return;
+        }
+      }
+
+      next();
+    };
+  }
+};
 
 export default defineConfig({
   base: base_url,
@@ -56,7 +124,10 @@ export default defineConfig({
   vite: {
     server: {
       port: 16000,
-      strictPort: true
+      strictPort: true,
+      watch: {
+        ignored: ["**/.vitepress/cache/**", "**/.vitepress/dist/**"]
+      }
     },
     preview: {
       port: 16000,
@@ -65,8 +136,13 @@ export default defineConfig({
     plugins: [
       {
         name: "crd-css-base-fonts",
-        transform (code, id) {
+        transform (arg0_code, arg1_id) {
+          //Convert from parameters
+          let code = arg0_code;
+          let id = arg1_id;
+
           if (id.endsWith(".css") && base_url !== "/") {
+            //Return statement
             return {
               code: code.replace(/url\(["']?\/fonts\//g, `url("${base_url}fonts/`),
               map: null
@@ -76,20 +152,20 @@ export default defineConfig({
       },
       {
         name: "crd-version-redirect",
-        configureServer (server) {
-          server.middlewares.use((req, res, next) => {
-            let pathname = (req.url || "").split("?")[0].split("#")[0];
-            let stripped = (base_url !== "/" && pathname.startsWith(base_url))
-              ? pathname.slice(base_url.length - 1)
-              : pathname;
-            if (/^\/records\/[^\/]+\/[\w\.\-]+$/.test(stripped)) {
-              let query = req.url.includes("?") ? req.url.slice(req.url.indexOf("?")) : "";
-              res.writeHead(302, { Location: pathname + "/" + query });
-              res.end();
-              return;
-            }
-            next();
-          });
+        configurePreviewServer (arg0_server) {
+          //Convert from parameters
+          let server = arg0_server;
+
+          //Declare local instance variables
+          let dist_dir = path.join(docs_dir, ".vitepress/dist");
+
+          server.middlewares.use(IntellteVitePressMiddleware.createRecordDirectoryRedirect(dist_dir, base_url));
+        },
+        configureServer (arg0_server) {
+          //Convert from parameters
+          let server = arg0_server;
+
+          server.middlewares.use(IntellteVitePressMiddleware.createRecordDirectoryRedirect(docs_dir, base_url));
         }
       }
     ]

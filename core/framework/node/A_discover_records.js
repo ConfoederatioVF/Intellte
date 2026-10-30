@@ -159,7 +159,9 @@ let IntellteDiscovery = {
       return {};
     }
 
-    raw_lines = fs.readFileSync(file_path, "utf8").split(/\r?\n/);
+    raw_lines = fs.readFileSync(file_path, "utf8")
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .split(/\r?\n/);
     for (let i = 0; i < raw_lines.length; i++) {
       let local_line = raw_lines[i];
       local_line = local_line.replace(/^\s*\/\/.*$/, "");
@@ -170,7 +172,6 @@ let IntellteDiscovery = {
     }
 
     json_text = clean_lines.join("\n");
-    json_text = json_text.replace(/\/\*[\s\S]*?\*\//g, "");
     json_text = json_text.replace(/([\{,\n]\s*)([A-Za-z0-9_-]+)\s*:/g, '$1"$2":');
     json_text = json_text.replace(/,(\s*[\}\]])/g, "$1");
 

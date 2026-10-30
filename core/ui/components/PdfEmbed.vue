@@ -52,7 +52,6 @@
         :src="resolved_src"
         class="crd-pdf-iframe"
         :title="display_title"
-        loading="lazy"
       ></iframe>
     </div>
   </div>
