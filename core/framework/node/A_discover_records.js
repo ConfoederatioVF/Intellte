@@ -124,6 +124,44 @@ let IntellteDiscovery = {
 
 
   /**
+   * Recursively collects all `.json5` and `.json` file paths inside a directory in deterministic sorted order.
+   *
+   * @param {string} arg0_dir_path - Absolute directory path to scan.
+   * @return {string[]} Sorted array of absolute `.json5` / `.json` file paths.
+   */
+  collectJsonFilesRecursively: function (arg0_dir_path) {
+    //Convert from parameters
+    let dir_path = arg0_dir_path;
+
+    //Declare local instance variables
+    let entries_array = [];
+    let file_paths_array = [];
+
+    //Guard clauses
+    if (!dir_path || !fs.existsSync(dir_path)) return file_paths_array;
+
+    entries_array = fs.readdirSync(dir_path, { withFileTypes: true })
+      .sort((arg0_a, arg1_b) => arg0_a.name.localeCompare(arg1_b.name));
+
+    for (let i = 0; i < entries_array.length; i++) {
+      let local_entry = entries_array[i];
+      let full_path = path.join(dir_path, local_entry.name);
+
+      if (local_entry.isDirectory()) {
+        let nested_files = IntellteDiscovery.collectJsonFilesRecursively(full_path);
+        for (let x = 0; x < nested_files.length; x++)
+          file_paths_array.push(nested_files[x]);
+      } else if (local_entry.isFile() && /\.json5?$/i.test(local_entry.name)) {
+        file_paths_array.push(full_path);
+      }
+    }
+
+    //Return statement
+    return file_paths_array;
+  },
+
+
+  /**
    * Compares two dot/hyphen-separated version strings numerically per segment.
    *
    * @param {string} arg0_ver_a - First version identifier.
@@ -191,7 +229,7 @@ let IntellteDiscovery = {
 
 
   /**
-   * Scans `common/metadata/` and merges all per-project `.json5` / `.json` dictionaries into a single keyed object.
+   * Recursively scans `common/metadata/` and merges all per-project `.json5` / `.json` dictionaries into a single keyed object.
    *
    * @param {string} arg0_metadata_dir - Absolute path to the metadata directory.
    * @return {Object} Dictionary mapping `<concept_id>` to its project metadata object.
@@ -201,7 +239,7 @@ let IntellteDiscovery = {
     let metadata_dir = arg0_metadata_dir;
 
     //Declare local instance variables
-    let all_files = [];
+    let all_file_paths = [];
     let merged_registry_obj = {};
 
     //Guard clauses
@@ -210,12 +248,10 @@ let IntellteDiscovery = {
       return merged_registry_obj;
     }
 
-    all_files = fs.readdirSync(metadata_dir)
-      .filter((arg0_f) => /\.json5?$/i.test(arg0_f))
-      .sort();
+    all_file_paths = IntellteDiscovery.collectJsonFilesRecursively(metadata_dir);
 
-    for (let i = 0; i < all_files.length; i++) {
-      let file_path = path.join(metadata_dir, all_files[i]);
+    for (let i = 0; i < all_file_paths.length; i++) {
+      let file_path = all_file_paths[i];
       let parsed_obj = IntellteDiscovery.parseJson5File(file_path);
       let all_keys = Object.keys(parsed_obj || {});
 
