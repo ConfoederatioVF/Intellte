@@ -102,7 +102,7 @@ let IntellteRmdCompiler = {
       .replace(/\\text\{([^}]+)\}/g, "$1")
       .replace(/\$R\^2\$/g, "R²")
       .replace(/\$([^$]+)\$/g, "$1")
-      .replace(/--/g, "–")
+      .replace(/--/g, "-")
       .replace(/\s+/g, " ")
       .trim();
 

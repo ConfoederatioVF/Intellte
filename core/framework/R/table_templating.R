@@ -448,7 +448,7 @@ html_escape_cell <- function (arg0_text) {
   out <- gsub("<", "&lt;", out, fixed = TRUE)
   out <- gsub(">", "&gt;", out, fixed = TRUE)
   out <- gsub("---", "\u2014", out, fixed = TRUE)
-  out <- gsub("--", "\u2013", out, fixed = TRUE)
+  out <- gsub("--", "-", out, fixed = TRUE)
 
   #Return statement
   return(out)
@@ -482,7 +482,7 @@ sanitize_latex_text <- function (arg0_text) {
       p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
       p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
       p <- gsub("\u00b2", "^2", p, fixed = TRUE)
-      p <- gsub("\u2013", "--", p, fixed = TRUE)
+      p <- gsub("\u2013", "\\text{-}", p, fixed = TRUE)
       p <- gsub("\u2014", "---", p, fixed = TRUE)
       p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
       out_parts[i] <- p
@@ -494,7 +494,7 @@ sanitize_latex_text <- function (arg0_text) {
       p <- gsub("m\u00b2", "$\\text{m}^2$", p, fixed = TRUE)
       p <- gsub("R\u00b2", "$R^2$", p, fixed = TRUE)
       p <- gsub("\u00b2", "$^2$", p, fixed = TRUE)
-      p <- gsub("\u2013", "--", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
       p <- gsub("\u2014", "---", p, fixed = TRUE)
       p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
       p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)

@@ -274,7 +274,7 @@ class MarkdownRenderer {
 
     cache_hash = crypto
       .createHash("sha256")
-      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v6`)
+      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v7`)
       .digest("hex")
       .slice(0, 16);
     cache_file = path.join(this.cache_dir, `${path.basename(rmd_path, ".Rmd")}_${cache_hash}.md`).replace(/\\/g, "/");
@@ -323,8 +323,8 @@ class MarkdownRenderer {
       .replace(/\s*\\(?:rightarrow|to)\s*/g, " → ")
       .replace(/\\times(?![A-Za-z])/g, "×")
       .replace(/\\sim\s*/g, "~")
-      .replace(/\$?p\(5[^)]*19\)\/p\(5\+\)\$?/g, "<i>p</i>(5–19)/<i>p</i>(5+)")
-      .replace(/\$?p\(0[^)]*4\)\$?/g, "<i>p</i>(0–4)")
+      .replace(/\$?p\(5[^)]*19\)\/p\(5\+\)\$?/g, "<i>p</i>(5-19)/<i>p</i>(5+)")
+      .replace(/\$?p\(0[^)]*4\)\$?/g, "<i>p</i>(0-4)")
       .replace(/\\pm\s*([0-9]+)\s*\\sigma/g, "±$1σ")
       .replace(/\\pm/g, "±")
       .replace(/\$?T_\{?(?:\\text\{)?onset\}?\}?\$?/g, "<i>T</i><sub>onset</sub>")
@@ -338,7 +338,7 @@ class MarkdownRenderer {
       .replace(/\$([A-Za-z])\s*=\s*([^$]+)\$/g, "<i>$1</i> = $2")
       .replace(/\$([0-9]+)\$/g, "$1")
       .replace(/\$([A-Za-z])\$/g, "<i>$1</i>")
-      .replace(/([0-9A-Za-z)\]])\s*--\s*([0-9A-Za-z(\[])/g, "$1–$2")
+      .replace(/([0-9A-Za-z)\]])\s*--\s*([0-9A-Za-z(\[])/g, "$1-$2")
       .replace(/\$([^$]+)\$/g, "$1");
 
     //Return statement
@@ -415,7 +415,7 @@ class MarkdownRenderer {
     }
 
     if (entry.title) {
-      let clean_title = entry.title.replace(/--/g, "–").trim();
+      let clean_title = entry.title.replace(/--|\u2013/g, "-").trim();
       if (is_book_or_report) {
         title_part = `<em>${this.escapeHtml(clean_title)}</em>.`;
       } else {
@@ -452,8 +452,8 @@ class MarkdownRenderer {
     }
 
     if (entry.pages) {
-      let clean_pages = entry.pages.replace(/--/g, "–");
-      let page_label = clean_pages.includes("–") || clean_pages.includes("-") ? "pp." : "p.";
+      let clean_pages = entry.pages.replace(/--|\u2013/g, "-");
+      let page_label = clean_pages.includes("-") ? "pp." : "p.";
       container_group.push(`${page_label} ${this.escapeHtml(clean_pages)}`);
     }
 
@@ -568,7 +568,7 @@ class MarkdownRenderer {
         key: local_key,
         note: local_fields.note || "",
         number: local_fields.number || "",
-        pages: (local_fields.pages || "").replace(/--/g, "–"),
+        pages: (local_fields.pages || "").replace(/--|\u2013/g, "-"),
         publisher: local_fields.publisher || "",
         title: local_fields.title || "",
         type: local_type,

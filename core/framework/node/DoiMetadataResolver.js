@@ -56,9 +56,8 @@ class DoiMetadataResolver {
     clean_str = clean_str
       .replace(/<\/?[A-Za-z][A-Za-z0-9:_-]*(?:\s[^>]*)?>/g, "")
       .replace(/[\u00A0\u2009\u202F]/g, " ")
-      .replace(/[\u2010\u2011\u2212]/g, "-")
-      .replace(/\u2014/g, "---")
-      .replace(/\u2013/g, "--")
+      .replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, "-")
+      .replace(/--+/g, "-")
       .replace(/[\u2018\u2019]/g, "'")
       .replace(/[\u201C\u201D]/g, "\"")
       .replace(/\s+/g, " ")
@@ -335,8 +334,8 @@ class DoiMetadataResolver {
       let is_last = (i === raw_tokens.length - 1);
       let local_tok = raw_tokens[i];
 
-      if (local_tok === "--" || local_tok === "---") {
-        out_tokens.push(local_tok);
+      if (local_tok === "-" || local_tok === "--" || local_tok === "---") {
+        out_tokens.push("-");
         force_next_cap = true;
       } else {
         let lead_match = local_tok.match(/^([("'\[{]*)(.*?)([)"'\]}.,;:!?]*)$/);
@@ -558,7 +557,7 @@ class DoiMetadataResolver {
     year_match = String(date_raw).match(/\b(1[5-9]\d{2}|20\d{2})\b/);
 
     if (first_page && last_page) {
-      pages_val = `${first_page}--${last_page}`;
+      pages_val = `${first_page}-${last_page}`;
     } else if (first_page) {
       pages_val = first_page;
     }
@@ -614,10 +613,10 @@ class DoiMetadataResolver {
 
 
   /**
-   * Normalises page numbers and ranges into standard BibTeX double-hyphen `--` notation.
+   * Normalises page numbers and ranges into single-hyphen `-` notation.
    *
    * @param {string} arg0_pages_str - Raw page string.
-   * @return {string} BibTeX-normalised page range (`"641--647"`).
+   * @return {string} Normalised page range (`"641-647"`).
    */
   normalisePages (arg0_pages_str) {
     //Convert from parameters
@@ -629,7 +628,7 @@ class DoiMetadataResolver {
     //Return statement
     return pages_str
       .replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g, "-")
-      .replace(/\s*-+\s*/g, "--");
+      .replace(/\s*-+\s*/g, "-");
   }
 
 

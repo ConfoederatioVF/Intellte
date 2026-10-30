@@ -357,7 +357,7 @@ render_markdown_prose <- function (arg0_md_source, arg1_options = NULL) {
           clean_txt <- gsub("km\u00b2", "$\\text{km}^2$", clean_txt, fixed = TRUE)
           clean_txt <- gsub("m\u00b2", "$\\text{m}^2$", clean_txt, fixed = TRUE)
           clean_txt <- gsub("R\u00b2", "$R^2$", clean_txt, fixed = TRUE)
-          clean_txt <- gsub("\u2013", "--", clean_txt, fixed = TRUE)
+          clean_txt <- gsub("\u2013", "-", clean_txt, fixed = TRUE)
           clean_txt <- gsub("\u2014", "---", clean_txt, fixed = TRUE)
         }
         out_pieces <- c(out_pieces, clean_txt)
@@ -410,7 +410,7 @@ sanitize_prose_unicode_for_latex <- function (arg0_line) {
       p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
       p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
       p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
-      p <- gsub("\u2013", "--", p, fixed = TRUE)
+      p <- gsub("\u2013", "\\text{-}", p, fixed = TRUE)
       p <- gsub("\u2014", "---", p, fixed = TRUE)
       parts[i] <- p
     } else {
@@ -421,7 +421,7 @@ sanitize_prose_unicode_for_latex <- function (arg0_line) {
       p <- gsub("km\u00b2", "$\\text{km}^2$", p, fixed = TRUE)
       p <- gsub("m\u00b2", "$\\text{m}^2$", p, fixed = TRUE)
       p <- gsub("R\u00b2", "$R^2$", p, fixed = TRUE)
-      p <- gsub("\u2013", "--", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
       p <- gsub("\u2014", "---", p, fixed = TRUE)
       parts[i] <- p
     }
