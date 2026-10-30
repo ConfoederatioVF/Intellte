@@ -101,10 +101,9 @@ let IntellteVitePressBuilder = {
           latest_version: local_rec.latest_version,
           pdf_size_euro: local_ver.pdf_size_euro,
           pdf_url: local_ver.pdf_url,
-          project_id: local_rec.project_id,
           project_name: local_rec.project_name,
           published_date: local_ver.published_date,
-          published_iso_gmt: local_ver.published_iso_gmt,
+          published_timestamp: local_ver.published_timestamp,
           record_id: local_ver.record_id,
           record_type: local_rec.record_type,
           rmd_url: local_ver.rmd_url,
@@ -244,7 +243,6 @@ let IntellteVitePressBuilder = {
       latest_version: rec.latest_version,
       pdf_size_euro: ver.pdf_size_euro,
       pdf_url: ver.pdf_url,
-      project_id: rec.project_id,
       project_name: rec.project_name,
       published_date: ver.published_date,
       record_id: ver.record_id,
@@ -282,7 +280,7 @@ let IntellteVitePressBuilder = {
       content_lines.push(
         `<div class="crd-wysiwyg-paper crd-pdf-only-view">`,
         `  <header class="crd-paper-header crd-pdf-only-header">`,
-        `    <div class="crd-eyebrow">CRD WORKING PAPER ${rec.project_id} · VERSION ${ver.version}</div>`,
+        `    <div class="crd-eyebrow">CRD WORKING PAPER · VERSION ${ver.version}</div>`,
         `    <h1 class="crd-paper-title">${ver.title}</h1>`,
         subtitle_html,
         `    <div class="crd-authors-block">`,
@@ -329,7 +327,6 @@ let IntellteVitePressBuilder = {
    */
   formatMlaCitation: function (arg0_rec, arg1_ver) {
     //Convert from parameters
-    let rec = arg0_rec;
     let ver = arg1_ver;
 
     //Declare local instance variables
@@ -338,7 +335,7 @@ let IntellteVitePressBuilder = {
     let full_title = (clean_sub) ? `${clean_title}: ${clean_sub}` : clean_title;
 
     //Return statement
-    return `${ver.authors_line}. "${full_title}." Confoederatio, Research Division (CRD), Working Paper ${rec.project_id} (v${ver.version}), ${ver.published_date}.`;
+    return `${ver.authors_line}. "${full_title}." Confoederatio, Research Division (CRD), Working Paper (v${ver.version}), ${ver.published_date}.`;
   }
 };
 

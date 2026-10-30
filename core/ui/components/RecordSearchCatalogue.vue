@@ -98,8 +98,6 @@
           <div class="crd-record-badges">
             <span class="crd-badge-type">{{ rec.record_type }}</span>
             <span class="crd-badge-sep">·</span>
-            <span class="crd-badge-project">Project {{ rec.project_id }}</span>
-            <span class="crd-badge-sep">·</span>
             <span class="crd-badge-version">v{{ rec.version }}</span>
             <span v-if="rec.is_latest" class="crd-latest-badge-sm">Latest</span>
             <span class="crd-badge-sep">·</span>
@@ -246,7 +244,6 @@ let filtered_records = computed(() => {
       rec.authors_line,
       rec.abstract_excerpt,
       rec.project_name,
-      rec.project_id,
       ...(rec.tags || [])
     ]
       .join(" ")
@@ -258,7 +255,7 @@ let filtered_records = computed(() => {
     if (sort_by.value === "title") {
       return String(arg0_a.title).localeCompare(String(arg1_b.title));
     }
-    return String(arg1_b.published_iso_gmt).localeCompare(String(arg0_a.published_iso_gmt));
+    return (Number(arg1_b.published_timestamp) || 0) - (Number(arg0_a.published_timestamp) || 0);
   });
 });
 

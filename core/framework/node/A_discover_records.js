@@ -4,10 +4,10 @@ let { MarkdownRenderer } = require("./MarkdownRenderer.js");
 
 let IntellteDiscovery = {
   /**
-   * Step A: Discovers all working paper records, versions, tags, and child repository paths.
+   * Step A: Discovers all working paper records, versions, tags and child repository paths across `common/metadata/*.json5`.
    *
    * @param {Object} [arg0_options] - Options (`root_dir`).
-   * @return {Object} Manifest containing `defines`, `localisation`, and enriched `records`.
+   * @return {Object} Manifest containing `defines`, `localisation` and enriched `records`.
    */
   A_discoverRecords: function (arg0_options) {
     //Convert from parameters
@@ -17,30 +17,35 @@ let IntellteDiscovery = {
     let root_dir = (options.root_dir) ? options.root_dir : path.resolve(__dirname, "../../..");
 
     //Declare local instance variables
+    let all_concept_ids = [];
     let defines_path = path.join(root_dir, "common/defines/intellte_defines.json5");
     let defines_obj = IntellteDiscovery.parseJson5File(defines_path);
     let enriched_records = [];
     let localisation_obj = IntellteDiscovery.loadLocalisationMap(root_dir);
-    let registry_path = path.join(root_dir, "common/metadata/records_registry.json5");
-    let registry_obj = IntellteDiscovery.parseJson5File(registry_path);
+    let metadata_dir = path.join(root_dir, defines_obj?.directories?.common_metadata ?? "common/metadata");
+    let registry_obj = IntellteDiscovery.loadMetadataRegistry(metadata_dir);
     let renderer = new MarkdownRenderer({
       root_dir: root_dir,
       rscript_path: defines_obj.rscript_path
     });
-    let raw_records = (registry_obj && Array.isArray(registry_obj.records)) ? registry_obj.records : [];
 
-    for (let i = 0; i < raw_records.length; i++) {
-      let local_rec = raw_records[i];
-      let child_repo_abs = path.join(root_dir, local_rec.child_repo_path || "");
+    all_concept_ids = Object.keys(registry_obj);
+    for (let i = 0; i < all_concept_ids.length; i++) {
+      let local_key = all_concept_ids[i];
+      let local_rec = registry_obj[local_key];
+      let concept_id = local_rec.concept_id || local_key;
+      let child_repo_rel = local_rec.child_repo_path || `papers/${concept_id}`;
+      let child_repo_abs = path.join(root_dir, child_repo_rel);
       let enriched_versions = [];
       let raw_versions = Array.isArray(local_rec.versions) ? local_rec.versions : [];
+      let resolved_latest_version = "";
 
       for (let x = 0; x < raw_versions.length; x++) {
         let local_ver = raw_versions[x];
-        let rmd_abs = (local_ver.rmd_path) ? path.join(child_repo_abs, local_ver.rmd_path) : "";
-        let pdf_abs = (local_ver.pdf_path) ? path.join(child_repo_abs, local_ver.pdf_path) : "";
         let bib_abs = (local_ver.bib_path) ? path.join(child_repo_abs, local_ver.bib_path) : "";
         let fm = {};
+        let pdf_abs = (local_ver.pdf_path) ? path.join(child_repo_abs, local_ver.pdf_path) : "";
+        let rmd_abs = (local_ver.rmd_path) ? path.join(child_repo_abs, local_ver.rmd_path) : "";
 
         let has_pdf = Boolean(pdf_abs && fs.existsSync(pdf_abs));
         let has_rmd = Boolean(rmd_abs && fs.existsSync(rmd_abs));
@@ -50,14 +55,17 @@ let IntellteDiscovery = {
           fm = parsed.frontmatter;
         }
 
-        let artefact_base_url = `/artefacts/${local_rec.concept_id}/${local_ver.version}`;
+        let artefact_base_url = `/artefacts/${concept_id}/${local_ver.version}`;
+        let local_published_date = local_ver.published_date || fm.date || "";
+        let version_route_url = `/records/${concept_id}/${local_ver.version}/`;
+
         enriched_versions.push({
           abstract_excerpt: local_ver.abstract_excerpt || "",
           artefact_base_url: artefact_base_url,
           authors_line: local_ver.authors_line || fm.authors_line || "Confoederatio, Research Division",
           bib_abs: bib_abs,
           bib_filename: (bib_abs) ? path.basename(bib_abs) : "",
-          date: local_ver.published_date || fm.date || "",
+          date: local_published_date,
           emails: Array.isArray(fm.emails) ? fm.emails : [],
           figures: Array.isArray(local_ver.figures) ? local_ver.figures : [],
           frontmatter: fm,
@@ -65,33 +73,40 @@ let IntellteDiscovery = {
           has_rmd: has_rmd,
           hero_caption: fm.hero_caption || "",
           hero_figure_rel: local_ver.hero_figure || fm.hero_figure || "",
-          is_latest: (local_ver.version === local_rec.latest_version),
+          is_latest: false,
           pdf_abs: pdf_abs,
           pdf_filename: (has_pdf) ? path.basename(pdf_abs) : "",
           pdf_url: (has_pdf) ? `${artefact_base_url}/${encodeURI(path.basename(pdf_abs))}` : null,
-          published_date: local_ver.published_date || fm.date || "",
-          published_iso_gmt: local_ver.published_iso_gmt || "2026-10-28T00:00:00Z",
-          record_id: local_ver.record_id || `${local_rec.concept_id}-${local_ver.version}`,
+          published_date: local_published_date,
+          published_timestamp: IntellteDiscovery.parsePublishedTimestamp(local_published_date),
+          record_id: local_ver.record_id || `${concept_id}-${local_ver.version}`,
           rmd_abs: rmd_abs,
           rmd_filename: (has_rmd) ? path.basename(rmd_abs) : "",
           rmd_url: (has_rmd) ? `${artefact_base_url}/${encodeURI(path.basename(rmd_abs))}` : null,
-          route_url: (local_ver.version === local_rec.latest_version) ? `/records/${local_rec.concept_id}/` : `/records/${local_rec.concept_id}/${local_ver.version}/`,
+          route_url: version_route_url,
           status: local_ver.status || "Published",
           subtitle: local_ver.subtitle || fm.subtitle || "",
           supplementary_markdown: Array.isArray(local_ver.supplementary_markdown) ? local_ver.supplementary_markdown : [],
-          title: local_ver.title || fm.title || local_rec.project_name || local_rec.concept_id,
+          title: local_ver.title || fm.title || local_rec.project_name || concept_id,
           version: local_ver.version,
-          version_route_url: `/records/${local_rec.concept_id}/${local_ver.version}/`
+          version_route_url: version_route_url
         });
+      }
+
+      resolved_latest_version = IntellteDiscovery.resolveLatestVersion(enriched_versions);
+      for (let x = 0; x < enriched_versions.length; x++) {
+        enriched_versions[x].is_latest = (enriched_versions[x].version === resolved_latest_version);
+        if (enriched_versions[x].is_latest) {
+          enriched_versions[x].route_url = `/records/${concept_id}/`;
+        }
       }
 
       enriched_records.push({
         child_repo_abs: child_repo_abs,
-        child_repo_path: local_rec.child_repo_path,
-        concept_id: local_rec.concept_id,
-        latest_version: local_rec.latest_version,
-        project_id: local_rec.project_id,
-        project_name: local_rec.project_name,
+        child_repo_path: child_repo_rel,
+        concept_id: concept_id,
+        latest_version: resolved_latest_version,
+        project_name: local_rec.project_name || concept_id,
         record_type: local_rec.record_type || "Working Paper",
         tags: Array.isArray(local_rec.tags) ? local_rec.tags : [],
         versions: enriched_versions
@@ -109,7 +124,44 @@ let IntellteDiscovery = {
 
 
   /**
-   * Loads EN-GB, FR, and DE localisation files from `/localisation/`.
+   * Compares two dot/hyphen-separated version strings numerically per segment.
+   *
+   * @param {string} arg0_ver_a - First version identifier.
+   * @param {string} arg1_ver_b - Second version identifier.
+   * @return {number} Positive if `arg0_ver_a > arg1_ver_b`, negative if smaller, `0` if equal.
+   */
+  compareVersionStrings: function (arg0_ver_a, arg1_ver_b) {
+    //Convert from parameters
+    let ver_a = String(arg0_ver_a || "");
+    let ver_b = String(arg1_ver_b || "");
+
+    //Declare local instance variables
+    let max_len = 0;
+    let parts_a = ver_a.split(/[.\-_]/);
+    let parts_b = ver_b.split(/[.\-_]/);
+
+    max_len = Math.max(parts_a.length, parts_b.length);
+    for (let i = 0; i < max_len; i++) {
+      let seg_a = parts_a[i] ?? "0";
+      let seg_b = parts_b[i] ?? "0";
+      let num_a = Number(seg_a);
+      let num_b = Number(seg_b);
+
+      if (Number.isFinite(num_a) && Number.isFinite(num_b)) {
+        if (num_a !== num_b) return num_a - num_b;
+      } else {
+        let lex_cmp = String(seg_a).localeCompare(String(seg_b));
+        if (lex_cmp !== 0) return lex_cmp;
+      }
+    }
+
+    //Return statement
+    return 0;
+  },
+
+
+  /**
+   * Loads EN-GB, FR and DE localisation files from `/localisation/`.
    *
    * @param {string} arg0_root_dir - Intellte root directory.
    * @return {Object} Map of locale code to localisation strings.
@@ -135,6 +187,49 @@ let IntellteDiscovery = {
 
     //Return statement
     return loc_map;
+  },
+
+
+  /**
+   * Scans `common/metadata/` and merges all per-project `.json5` / `.json` dictionaries into a single keyed object.
+   *
+   * @param {string} arg0_metadata_dir - Absolute path to the metadata directory.
+   * @return {Object} Dictionary mapping `<concept_id>` to its project metadata object.
+   */
+  loadMetadataRegistry: function (arg0_metadata_dir) {
+    //Convert from parameters
+    let metadata_dir = arg0_metadata_dir;
+
+    //Declare local instance variables
+    let all_files = [];
+    let merged_registry_obj = {};
+
+    //Guard clauses
+    if (!metadata_dir || !fs.existsSync(metadata_dir)) {
+      console.error(`[IntellteDiscovery] Metadata directory not found: ${metadata_dir}`);
+      return merged_registry_obj;
+    }
+
+    all_files = fs.readdirSync(metadata_dir)
+      .filter((arg0_f) => /\.json5?$/i.test(arg0_f))
+      .sort();
+
+    for (let i = 0; i < all_files.length; i++) {
+      let file_path = path.join(metadata_dir, all_files[i]);
+      let parsed_obj = IntellteDiscovery.parseJson5File(file_path);
+      let all_keys = Object.keys(parsed_obj || {});
+
+      for (let x = 0; x < all_keys.length; x++) {
+        let local_key = all_keys[x];
+        let local_val = parsed_obj[local_key];
+        if (local_val && typeof local_val === "object" && !Array.isArray(local_val)) {
+          merged_registry_obj[local_key] = local_val;
+        }
+      }
+    }
+
+    //Return statement
+    return merged_registry_obj;
   },
 
 
@@ -177,8 +272,98 @@ let IntellteDiscovery = {
 
     //Return statement
     return JSON.parse(json_text);
+  },
+
+
+  /**
+   * Parses an EN-GB or ISO publication date string into a GMT+0 epoch timestamp in milliseconds.
+   *
+   * @param {string} arg0_date_str - Human-readable EN-GB date (e.g. `"28 October 2026"`) or ISO date.
+   * @return {number} Epoch milliseconds in GMT+0, or `0` if unparseable.
+   */
+  parsePublishedTimestamp: function (arg0_date_str) {
+    //Convert from parameters
+    let date_str = String(arg0_date_str || "").trim();
+
+    //Declare local instance variables
+    let dmy_match = null;
+    let fallback_ms = 0;
+    let iso_match = null;
+    let month_map = {
+      apr: 3, april: 3,
+      aug: 7, august: 7,
+      dec: 11, december: 11,
+      feb: 1, february: 1,
+      jan: 0, january: 0,
+      jul: 6, july: 6,
+      jun: 5, june: 5,
+      mar: 2, march: 2,
+      may: 4,
+      nov: 10, november: 10,
+      oct: 9, october: 9,
+      sep: 8, sept: 8, september: 8
+    };
+
+    //Guard clauses
+    if (!date_str) return 0;
+
+    dmy_match = date_str.match(/^(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})$/);
+    if (dmy_match) {
+      let day_num = Number(dmy_match[1]);
+      let month_idx = month_map[dmy_match[2].toLowerCase()];
+      let year_num = Number(dmy_match[3]);
+      if (month_idx !== undefined) {
+        return Date.UTC(year_num, month_idx, day_num);
+      }
+    }
+
+    iso_match = date_str.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (iso_match) {
+      return Date.UTC(Number(iso_match[1]), Number(iso_match[2]) - 1, Number(iso_match[3]));
+    }
+
+    fallback_ms = Date.parse(date_str);
+
+    //Return statement
+    if (Number.isFinite(fallback_ms)) {
+      return fallback_ms;
+    } else {
+      return 0;
+    }
+  },
+
+
+  /**
+   * Resolves the canonical latest version identifier from an enriched `versions` array.
+   *
+   * @param {Object[]} arg0_versions - Array of version metadata objects.
+   * @return {string} Highest semantic/chronological version string, or `""` if empty.
+   */
+  resolveLatestVersion: function (arg0_versions) {
+    //Convert from parameters
+    let versions = Array.isArray(arg0_versions) ? arg0_versions : [];
+
+    //Declare local instance variables
+    let best_ver = null;
+
+    //Guard clauses
+    if (versions.length === 0) return "";
+
+    best_ver = versions[0];
+    for (let i = 1; i < versions.length; i++) {
+      let local_ver = versions[i];
+      let ver_cmp = IntellteDiscovery.compareVersionStrings(local_ver.version, best_ver.version);
+      if (
+        ver_cmp > 0 ||
+        (ver_cmp === 0 && (local_ver.published_timestamp || 0) > (best_ver.published_timestamp || 0))
+      ) {
+        best_ver = local_ver;
+      }
+    }
+
+    //Return statement
+    return String(best_ver.version || "");
   }
 };
 
 module.exports = { IntellteDiscovery };
-
