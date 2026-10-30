@@ -264,9 +264,9 @@
   \normalfont\rmfamily\mdseries\ignorespaces
 }{\par\vspace{4pt}}
 
-%% Section, subsection, and subsubsection headings in Jost*
+%% Section, subsection, and subsubsection headings in Jost* (unnumbered by default)
 \RequirePackage[explicit]{titlesec}
-\setcounter{secnumdepth}{3}
+\setcounter{secnumdepth}{-2}
 
 \titleformat{\section}
   {\normalfont\sffamily\bfseries\fontsize{14pt}{18pt}\selectfont}

@@ -1,5 +1,6 @@
 import DefaultTheme from "vitepress/theme";
 import "./custom.css";
+import "./manuscript_typography.css";
 
 import PdfEmbed from "../../../core/ui/components/PdfEmbed.vue";
 import PdfSplitWorkspace from "../../../core/ui/components/PdfSplitWorkspace.vue";

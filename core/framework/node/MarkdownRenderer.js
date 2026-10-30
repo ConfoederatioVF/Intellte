@@ -274,7 +274,7 @@ class MarkdownRenderer {
 
     cache_hash = crypto
       .createHash("sha256")
-      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v7`)
+      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v8`)
       .digest("hex")
       .slice(0, 16);
     cache_file = path.join(this.cache_dir, `${path.basename(rmd_path, ".Rmd")}_${cache_hash}.md`).replace(/\\/g, "/");
@@ -825,8 +825,8 @@ class MarkdownRenderer {
       return `<a class="crd-xref" href="#${lbl}">${lbl}</a>`;
     });
 
-    //Strip Pandoc {.unnumbered} heading attributes
-    out_text = out_text.replace(/\s*\{\.unnumbered\}/g, "");
+    //Strip optional Pandoc unnumbered heading attributes ({.unnumbered}, {unnumbered}, {-})
+    out_text = out_text.replace(/^(#{1,6}\s+.+?)\s*\{(?:\.?unnumbered|-)\}\s*$/gm, "$1");
 
     //Return statement
     return out_text;

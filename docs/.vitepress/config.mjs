@@ -6,7 +6,10 @@ import { defineConfig } from "vitepress";
 
 let docs_dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 let require = createRequire(import.meta.url);
+let { IntellteJson5Parser } = require("../../core/framework/node/json5_parser.js");
 let { MarkdownRenderer } = require("../../core/framework/node/MarkdownRenderer.js");
+let en_locale_obj = IntellteJson5Parser.parseFile(path.resolve(docs_dir, "../localisation/en_gb.json5")) || {};
+let en_strings = (en_locale_obj.strings) ? en_locale_obj.strings : {};
 let md_renderer = new MarkdownRenderer();
 
 let base_url = process.env.VITEPRESS_BASE;
@@ -126,7 +129,7 @@ export default defineConfig({
       port: 16000,
       strictPort: true,
       watch: {
-        ignored: ["**/.vitepress/cache/**", "**/.vitepress/dist/**"]
+        ignored: ["**/.vitepress/.temp/**", "**/.vitepress/cache/**", "**/.vitepress/dist/**"]
       }
     },
     preview: {
@@ -175,13 +178,18 @@ export default defineConfig({
     logo: "/artefacts/crd_logo.png",
     siteTitle: "Intellte",
     nav: [
-      { text: "Catalogue", link: "/" },
-      { text: "Velkscala", link: "/records/velkscala/" },
-      { text: "Eoscala", link: "/records/eoscala/" },
-      { text: "Stadestér", link: "/records/stadester/" }
+      { text: en_strings.nav_catalogue || "Catalogue", link: "/" }
     ],
     search: {
-      provider: "local"
+      provider: "local",
+      options: {
+        translations: {
+          button: {
+            buttonAriaLabel: en_strings.nav_search_placeholder || "Search Intellte",
+            buttonText: en_strings.nav_search_placeholder || "Search Intellte"
+          }
+        }
+      }
     },
     footer: {
       message: "Confoederatio, Research Division (CRD)",

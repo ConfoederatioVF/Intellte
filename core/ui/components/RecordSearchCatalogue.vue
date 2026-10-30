@@ -158,7 +158,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { withBase } from "vitepress";
 import TagBadge from "./TagBadge.vue";
 
@@ -176,6 +176,31 @@ let selected_tags = ref([]);
 let show_all_versions = ref(false);
 let sort_by = ref("newest");
 
+let syncNavbarLocale = function () {
+  //Declare local instance variables
+  let all_menu_spans = [];
+  let all_search_btns = [];
+  let nav_label = "";
+  let search_label = "";
+
+  //Guard clauses
+  if (typeof document === "undefined") return;
+
+  nav_label = t("nav_catalogue");
+  search_label = t("nav_search_placeholder");
+  all_menu_spans = document.querySelectorAll(".VPNavMenuLink > span");
+  all_search_btns = document.querySelectorAll(".VPNavBarSearchButton");
+
+  for (let i = 0; i < all_menu_spans.length; i++) {
+    all_menu_spans[i].textContent = nav_label;
+  }
+  for (let i = 0; i < all_search_btns.length; i++) {
+    let local_text_el = all_search_btns[i].querySelector(".text");
+    all_search_btns[i].setAttribute("aria-label", search_label);
+    if (local_text_el) local_text_el.textContent = search_label;
+  }
+};
+
 onMounted(() => {
   if (typeof window !== "undefined") {
     let params = new URLSearchParams(window.location.search);
@@ -187,7 +212,12 @@ onMounted(() => {
     if (url_tag && !selected_tags.value.includes(url_tag)) {
       selected_tags.value.push(url_tag);
     }
+    syncNavbarLocale();
   }
+});
+
+watch(active_locale, () => {
+  syncNavbarLocale();
 });
 
 let t = function (arg0_key) {
