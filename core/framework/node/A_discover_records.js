@@ -1,5 +1,7 @@
 let fs = require("fs");
 let path = require("path");
+let { BibCompiler } = require("./BibCompiler.js");
+let { IntellteJson5Parser } = require("./json5_parser.js");
 let { MarkdownRenderer } = require("./MarkdownRenderer.js");
 
 let IntellteDiscovery = {
@@ -18,6 +20,7 @@ let IntellteDiscovery = {
 
     //Declare local instance variables
     let all_concept_ids = [];
+    let bib_compiler = null;
     let defines_path = path.join(root_dir, "common/defines/intellte_defines.json5");
     let defines_obj = IntellteDiscovery.parseJson5File(defines_path);
     let enriched_records = [];
@@ -27,6 +30,11 @@ let IntellteDiscovery = {
     let renderer = new MarkdownRenderer({
       root_dir: root_dir,
       rscript_path: defines_obj.rscript_path
+    });
+
+    bib_compiler = new BibCompiler({
+      cache_path: path.join(root_dir, defines_obj?.directories?.docs_bib_cache ?? "docs/.vitepress/cache/doi_bib_cache.json"),
+      root_dir: root_dir
     });
 
     all_concept_ids = Object.keys(registry_obj);
@@ -42,7 +50,6 @@ let IntellteDiscovery = {
 
       for (let x = 0; x < raw_versions.length; x++) {
         let local_ver = raw_versions[x];
-        let bib_abs = (local_ver.bib_path) ? path.join(child_repo_abs, local_ver.bib_path) : "";
         let fm = {};
         let pdf_abs = (local_ver.pdf_path) ? path.join(child_repo_abs, local_ver.pdf_path) : "";
         let rmd_abs = (local_ver.rmd_path) ? path.join(child_repo_abs, local_ver.rmd_path) : "";
@@ -57,6 +64,14 @@ let IntellteDiscovery = {
 
         let artefact_base_url = `/artefacts/${concept_id}/${local_ver.version}`;
         let local_author_meta = IntellteDiscovery.normaliseVersionAuthors(local_ver, fm, defines_obj);
+        let local_bib_meta = IntellteDiscovery.resolveAndCompileVersionBib(
+          local_ver,
+          child_repo_abs,
+          rmd_abs,
+          fm,
+          bib_compiler
+        );
+        let bib_abs = local_bib_meta.bib_abs;
         let local_published_date = local_ver.published_date || fm.date || "";
         let version_route_url = `/records/${concept_id}/${local_ver.version}/`;
 
@@ -87,6 +102,8 @@ let IntellteDiscovery = {
           rmd_filename: (has_rmd) ? path.basename(rmd_abs) : "",
           rmd_url: (has_rmd) ? `${artefact_base_url}/${encodeURI(path.basename(rmd_abs))}` : null,
           route_url: version_route_url,
+          sources_abs: local_bib_meta.sources_abs,
+          sources_filename: local_bib_meta.sources_filename,
           status: local_ver.status || "Published",
           subtitle: local_ver.subtitle || fm.subtitle || "",
           supplementary_markdown: Array.isArray(local_ver.supplementary_markdown) ? local_ver.supplementary_markdown : [],
@@ -190,8 +207,15 @@ let IntellteDiscovery = {
 
       if (Number.isFinite(num_a) && Number.isFinite(num_b)) {
         if (num_a !== num_b) return num_a - num_b;
+      } else if (Number.isFinite(num_a)) {
+        return 1;
+      } else if (Number.isFinite(num_b)) {
+        return -1;
       } else {
-        let lex_cmp = String(seg_a).localeCompare(String(seg_b));
+        let lex_cmp = String(seg_a).localeCompare(String(seg_b), undefined, {
+          numeric: true,
+          sensitivity: "base"
+        });
         if (lex_cmp !== 0) return lex_cmp;
       }
     }
@@ -402,44 +426,17 @@ let IntellteDiscovery = {
 
 
   /**
-   * Parses a JSON5 file into a JavaScript object.
+   * Parses a JSON5 file into a JavaScript object or array via `IntellteJson5Parser`.
    *
    * @param {string} arg0_file_path - Path to the .json5 file.
-   * @return {Object} Parsed object.
+   * @return {*} Parsed object or array.
    */
   parseJson5File: function (arg0_file_path) {
     //Convert from parameters
     let file_path = arg0_file_path;
 
-    //Declare local instance variables
-    let clean_lines = [];
-    let json_text = "";
-    let raw_lines = [];
-
-    //Guard clauses
-    if (!file_path || !fs.existsSync(file_path)) {
-      console.error(`[IntellteDiscovery] JSON5 file not found: ${file_path}`);
-      return {};
-    }
-
-    raw_lines = fs.readFileSync(file_path, "utf8")
-      .replace(/\/\*[\s\S]*?\*\//g, "")
-      .split(/\r?\n/);
-    for (let i = 0; i < raw_lines.length; i++) {
-      let local_line = raw_lines[i];
-      local_line = local_line.replace(/^\s*\/\/.*$/, "");
-      local_line = local_line.replace(/(?<![:\\])\/\/.*$/, "");
-      if (local_line.trim().length > 0) {
-        clean_lines.push(local_line);
-      }
-    }
-
-    json_text = clean_lines.join("\n");
-    json_text = json_text.replace(/([\{,\n]\s*)([A-Za-z0-9_-]+)\s*:/g, '$1"$2":');
-    json_text = json_text.replace(/,(\s*[\}\]])/g, "$1");
-
     //Return statement
-    return JSON.parse(json_text);
+    return IntellteJson5Parser.parseFile(file_path);
   },
 
 
@@ -498,6 +495,67 @@ let IntellteDiscovery = {
     } else {
       return 0;
     }
+  },
+
+
+  /**
+   * Resolves `.json5` bibliography sources and automatically compiles them into the version's `.bib` file.
+   *
+   * @param {Object} arg0_ver_obj - Raw version metadata object from `common/metadata/*.json5`.
+   * @param {string} arg1_child_repo_abs - Absolute path to the child repository root.
+   * @param {string} arg2_rmd_abs - Absolute path to the version's `.Rmd` manuscript (if any).
+   * @param {Object} arg3_fm_obj - Parsed `.Rmd` YAML frontmatter object.
+   * @param {BibCompiler} arg4_bib_compiler - Shared `BibCompiler` instance.
+   * @return {Object} `{ bib_abs, sources_abs, sources_filename }`.
+   */
+  resolveAndCompileVersionBib: function (arg0_ver_obj, arg1_child_repo_abs, arg2_rmd_abs, arg3_fm_obj, arg4_bib_compiler) {
+    //Convert from parameters
+    let ver_obj = (arg0_ver_obj) ? arg0_ver_obj : {};
+    let child_repo_abs = arg1_child_repo_abs;
+    let rmd_abs = arg2_rmd_abs || "";
+    let fm_obj = (arg3_fm_obj) ? arg3_fm_obj : {};
+    let bib_compiler = arg4_bib_compiler;
+
+    //Declare local instance variables
+    let bib_abs = "";
+    let paper_dir = (rmd_abs) ? path.dirname(rmd_abs) : "";
+    let raw_bib_rel = String(ver_obj.bib_path || "").trim();
+    let raw_sources_rel = String(ver_obj.sources_path || "").trim();
+    let sources_abs = "";
+
+    if (raw_sources_rel) {
+      sources_abs = path.join(child_repo_abs, raw_sources_rel);
+    } else if (/\.json5?$/i.test(raw_bib_rel)) {
+      sources_abs = path.join(child_repo_abs, raw_bib_rel);
+    } else if (paper_dir) {
+      let default_sources_cand = path.join(paper_dir, "sources.json5");
+      if (fs.existsSync(default_sources_cand)) {
+        sources_abs = default_sources_cand;
+      } else if (raw_bib_rel) {
+        let stem_cand = path.join(child_repo_abs, raw_bib_rel).replace(/\.bib$/i, ".json5");
+        if (fs.existsSync(stem_cand)) sources_abs = stem_cand;
+      }
+    }
+
+    if (raw_bib_rel && !/\.json5?$/i.test(raw_bib_rel)) {
+      bib_abs = path.join(child_repo_abs, raw_bib_rel);
+    } else if (fm_obj.bibliography && paper_dir) {
+      bib_abs = path.join(paper_dir, String(fm_obj.bibliography).trim());
+    } else if (sources_abs) {
+      bib_abs = sources_abs.replace(/\.json5?$/i, ".bib");
+    }
+
+    if (sources_abs && fs.existsSync(sources_abs) && bib_compiler) {
+      let compiled_path = bib_compiler.compileSourcesToBibSync(sources_abs, bib_abs);
+      if (compiled_path) bib_abs = compiled_path;
+    }
+
+    //Return statement
+    return {
+      bib_abs: bib_abs,
+      sources_abs: sources_abs,
+      sources_filename: (sources_abs) ? path.basename(sources_abs) : ""
+    };
   },
 
 
@@ -567,12 +625,16 @@ let IntellteDiscovery = {
 
     best_ver = versions[0];
     for (let i = 1; i < versions.length; i++) {
+      let best_ts = Number(best_ver.published_timestamp) || 0;
       let local_ver = versions[i];
+      let local_ts = Number(local_ver.published_timestamp) || 0;
       let ver_cmp = IntellteDiscovery.compareVersionStrings(local_ver.version, best_ver.version);
-      if (
-        ver_cmp > 0 ||
-        (ver_cmp === 0 && (local_ver.published_timestamp || 0) > (best_ver.published_timestamp || 0))
-      ) {
+
+      if (local_ts > 0 && best_ts > 0 && local_ts !== best_ts) {
+        if (local_ts > best_ts) {
+          best_ver = local_ver;
+        }
+      } else if (ver_cmp > 0 || (ver_cmp === 0 && local_ts > best_ts)) {
         best_ver = local_ver;
       }
     }

@@ -447,6 +447,7 @@ html_escape_cell <- function (arg0_text) {
   out <- gsub("&", "&amp;", text, fixed = TRUE)
   out <- gsub("<", "&lt;", out, fixed = TRUE)
   out <- gsub(">", "&gt;", out, fixed = TRUE)
+  out <- gsub("---", "\u2014", out, fixed = TRUE)
   out <- gsub("--", "\u2013", out, fixed = TRUE)
 
   #Return statement

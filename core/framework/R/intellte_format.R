@@ -7,6 +7,87 @@
 # ==============================================================================
 
 
+#' Automatically compiles a `.json5` bibliography array (e.g. `sources.json5`) in the paper directory
+#' into the target `.bib` file consumed by Pandoc Citeproc and VitePress.
+#'
+#' @param arg0_target_dir Directory containing the `.Rmd` paper and `.json5` bibliography sources.
+#' @param arg1_rmd_path Optional `.Rmd` path used to inspect YAML frontmatter `bibliography:`.
+#' @param arg2_defines Optional loaded defines list from `load_filepath_defines()`.
+#' @return Normalised path to the compiled `.bib` file, or `""` if no `.json5` bibliography source exists.
+#' @export
+compile_bib_sources <- function (arg0_target_dir, arg1_rmd_path = NULL, arg2_defines = NULL) {
+  #Convert from parameters
+  target_dir <- arg0_target_dir
+  rmd_path <- arg1_rmd_path
+  defines <- if (!is.null(arg2_defines)) arg2_defines else load_filepath_defines()
+
+  #Declare local instance variables
+  bib_compiler_js <- normalizePath(
+    file.path(defines$directories$r_framework, "..", "node", "BibCompiler.js"),
+    winslash = "/",
+    mustWork = FALSE
+  )
+  bib_rel_name <- ""
+  candidates <- character(0)
+  node_bin <- Sys.which("node")
+  out_bib_path <- ""
+  sources_path <- ""
+
+  #Guard clauses
+  if (is.null(target_dir) || !nzchar(target_dir) || !dir.exists(target_dir)) return("")
+
+  if (!is.null(rmd_path) && nzchar(rmd_path) && file.exists(rmd_path)) {
+    head_lines <- readLines(rmd_path, n = 60L, warn = FALSE, encoding = "UTF-8")
+    bib_matches <- grep("^\\s*bibliography\\s*:\\s*", head_lines, value = TRUE)
+    if (length(bib_matches) > 0) {
+      bib_rel_name <- sub("^\\s*bibliography\\s*:\\s*[\"']?([^\"']+)[\"']?\\s*$", "\\1", bib_matches[1])
+      bib_rel_name <- trimws(bib_rel_name)
+    }
+  }
+
+  candidates <- c(file.path(target_dir, "sources.json5"))
+  if (nzchar(bib_rel_name)) {
+    bib_stem <- tools::file_path_sans_ext(basename(bib_rel_name))
+    candidates <- unique(c(
+      candidates,
+      file.path(target_dir, paste0(bib_stem, ".json5")),
+      file.path(target_dir, paste0(bib_stem, "_sources.json5"))
+    ))
+  }
+
+  for (cand in candidates) {
+    if (file.exists(cand)) {
+      sources_path <- normalizePath(cand, winslash = "/", mustWork = TRUE)
+      break
+    }
+  }
+
+  if (!nzchar(sources_path)) return("")
+
+  if (nzchar(bib_rel_name)) {
+    out_bib_path <- normalizePath(file.path(target_dir, bib_rel_name), winslash = "/", mustWork = FALSE)
+  } else {
+    out_bib_path <- sub("\\.json5?$", ".bib", sources_path, ignore.case = TRUE)
+  }
+
+  if (nzchar(node_bin) && file.exists(bib_compiler_js)) {
+    res <- suppressWarnings(system2(
+      node_bin,
+      args = c(shQuote(bib_compiler_js), shQuote(sources_path), shQuote(out_bib_path)),
+      stdout = TRUE,
+      stderr = TRUE
+    ))
+    status_code <- attr(res, "status")
+    if (!is.null(status_code) && status_code != 0L) {
+      warning(sprintf("[Intellte] BibCompiler exited with status %s: %s", status_code, paste(res, collapse = "\n")))
+    }
+  }
+
+  #Return statement
+  return(out_bib_path)
+}
+
+
 #' Compiles an RMarkdown paper (e.g. `papers/velkscala_1.0/main.Rmd`) into PDF,
 #' optionally executing visualisation scripts beforehand so all figures are fresh.
 #'
@@ -47,6 +128,7 @@ compile_velkscala_paper <- function (arg0_rmd_path = "velkscala_1_0_rmd", arg1_o
     }
   }
 
+  compile_bib_sources(paper_dir, rmd_path, defines)
   staged_files <- stage_intellte_resources(paper_dir, defines)
   if (clean_staged_cls) {
     on.exit({
@@ -140,7 +222,19 @@ compile_rmd_to_dom_markdown <- function (arg0_rmd_path, arg1_out_md_path, arg2_o
   on.exit(options(old_opts), add = TRUE)
 
   old_wd <- getwd()
-  on.exit(setwd(old_wd), add = TRUE)
+  on.exit({
+    transient_assets <- c(
+      "intellte.cls",
+      "crd-mla-numeric.csl",
+      "crd_logo.png",
+      "intellte-sample.bib"
+    )
+    for (fname in transient_assets) {
+      f_path <- file.path(dirname(rmd_path), fname)
+      if (file.exists(f_path)) unlink(f_path)
+    }
+    setwd(old_wd)
+  }, add = TRUE)
   setwd(dirname(rmd_path))
 
   knitr::knit(
@@ -206,6 +300,7 @@ stage_intellte_resources <- function (arg0_target_dir = NULL, arg1_defines = NUL
     knit_in <- tryCatch(knitr::current_input(dir = TRUE), error = function (e) NULL)
     if (!is.null(knit_in) && nzchar(knit_in)) {
       target_dir <- dirname(knit_in)
+      compile_bib_sources(target_dir, knit_in, defines)
     }
   }
 

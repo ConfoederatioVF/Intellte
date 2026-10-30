@@ -57,10 +57,25 @@ stage_intellte_resources(NULL, velkscala_defines)
 if (requireNamespace("knitr", quietly = TRUE)) {
   knitr::opts_chunk$set(
     echo = FALSE,
-     eval = TRUE,
+    eval = TRUE,
     fig.align = "center",
     message = FALSE,
     warning = FALSE
   )
+
+  local({
+    prev_doc_hook <- knitr::knit_hooks$get("document")
+    if (!isTRUE(attr(prev_doc_hook, "intellte_prose_hook"))) {
+      wrapped_doc_hook <- function (arg0_x) {
+        formatted_x <- format_knitted_document(arg0_x)
+        if (is.function(prev_doc_hook)) {
+          return(prev_doc_hook(formatted_x))
+        }
+        return(formatted_x)
+      }
+      attr(wrapped_doc_hook, "intellte_prose_hook") <- TRUE
+      knitr::knit_hooks$set(document = wrapped_doc_hook)
+    }
+  })
 }
 

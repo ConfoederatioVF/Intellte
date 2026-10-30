@@ -98,7 +98,7 @@
           <div class="crd-record-badges">
             <span class="crd-badge-type">{{ rec.record_type }}</span>
             <span class="crd-badge-sep">·</span>
-            <span class="crd-badge-version">v{{ rec.version }}</span>
+            <span class="crd-badge-version">{{ rec.version }}</span>
             <span v-if="rec.is_latest" class="crd-latest-badge-sm">Latest</span>
             <span class="crd-badge-sep">·</span>
             <span class="crd-badge-date">{{ rec.published_date }}</span>

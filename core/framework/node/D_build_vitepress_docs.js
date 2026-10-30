@@ -38,6 +38,7 @@ let IntellteVitePressBuilder = {
     generated_files.push(loc_json_path);
 
     for (let i = 0; i < records.length; i++) {
+      let local_expected_entries_obj = {};
       let local_rec = records[i];
       let rec_dir = path.join(docs_records, local_rec.concept_id);
       fs.mkdirSync(rec_dir, { recursive: true });
@@ -62,16 +63,19 @@ let IntellteVitePressBuilder = {
         let ver_index_path = path.join(ver_dir, "index.md");
         fs.writeFileSync(ver_index_path, page_md, "utf8");
         generated_files.push(ver_index_path);
+        local_expected_entries_obj[String(local_ver.version)] = true;
 
         // 2. Version flat markdown file (for route /records/<concept_id>/<version>)
         let ver_md_path = path.join(rec_dir, `${local_ver.version}.md`);
         fs.writeFileSync(ver_md_path, page_md, "utf8");
         generated_files.push(ver_md_path);
+        local_expected_entries_obj[`${local_ver.version}.md`] = true;
 
         if (local_ver.is_latest) {
           let index_md_path = path.join(rec_dir, "index.md");
           fs.writeFileSync(index_md_path, page_md, "utf8");
           generated_files.push(index_md_path);
+          local_expected_entries_obj["index.md"] = true;
         }
 
         // Emit supplementary validation report pages
@@ -85,10 +89,12 @@ let IntellteVitePressBuilder = {
           let supp_index_path = path.join(supp_dir, "index.md");
           fs.writeFileSync(supp_index_path, supp_page_md, "utf8");
           generated_files.push(supp_index_path);
+          local_expected_entries_obj[`${local_ver.version}-${supp.key}`] = true;
 
           let supp_md_path = path.join(rec_dir, `${local_ver.version}-${supp.key}.md`);
           fs.writeFileSync(supp_md_path, supp_page_md, "utf8");
           generated_files.push(supp_md_path);
+          local_expected_entries_obj[`${local_ver.version}-${supp.key}.md`] = true;
         }
 
         //Add to client search index
@@ -123,6 +129,20 @@ let IntellteVitePressBuilder = {
           version: local_ver.version,
           versions: version_summaries
         });
+      }
+
+      if (fs.existsSync(rec_dir)) {
+        let existing_rec_entries = fs.readdirSync(rec_dir);
+        for (let x = 0; x < existing_rec_entries.length; x++) {
+          let local_entry_name = existing_rec_entries[x];
+          if (!local_expected_entries_obj[local_entry_name]) {
+            try {
+              fs.rmSync(path.join(rec_dir, local_entry_name), { force: true, recursive: true });
+            } catch (e) {
+              console.error(`[IntellteVitePressBuilder] Could not remove stale record entry: ${local_entry_name}`);
+            }
+          }
+        }
       }
     }
 
@@ -234,7 +254,7 @@ let IntellteVitePressBuilder = {
       `<div class="crd-supp-page-shell">`,
       `  <div class="crd-supp-breadcrumb">`,
       `    <a href="/">Intellte Catalogue</a> <span>/</span> `,
-      `    <a href="${ver.route_url}">${rec.project_name} (v${ver.version})</a> <span>/</span> `,
+      `    <a href="${ver.route_url}">${rec.project_name} (${ver.version})</a> <span>/</span> `,
       `    <strong>${supp.title}</strong>`,
       `  </div>`,
       `  <div class="crd-wysiwyg-paper crd-supp-paper">`,
@@ -343,7 +363,7 @@ let IntellteVitePressBuilder = {
 
     let lines = [
       "---",
-      `title: "${ver.title.replace(/"/g, '\\"')} (v${ver.version})"`,
+      `title: "${ver.title.replace(/"/g, '\\"')} (${ver.version})"`,
       "layout: page",
       "sidebar: false",
       "aside: false",
@@ -457,7 +477,7 @@ let IntellteVitePressBuilder = {
     }
 
     //Return statement
-    return `${ver.authors_line}. "${full_title}." ${publisher_str}, ${record_type_str} (v${ver.version}), ${ver.published_date}.`;
+    return `${ver.authors_line}. "${full_title}." ${publisher_str}, ${record_type_str} (${ver.version}), ${ver.published_date}.`;
   }
 };
 

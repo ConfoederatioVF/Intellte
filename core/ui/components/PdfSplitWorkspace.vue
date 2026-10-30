@@ -8,7 +8,7 @@
         <span class="crd-breadcrumb-sep">/</span>
         <span class="crd-breadcrumb-proj">{{ record_obj.project_name }}</span>
         <span class="crd-breadcrumb-sep">/</span>
-        <span class="crd-version-pill">v{{ record_obj.version }}</span>
+        <span class="crd-version-pill">{{ record_obj.version }}</span>
         <span v-if="record_obj.is_latest" class="crd-latest-badge">Latest</span>
       </div>
 

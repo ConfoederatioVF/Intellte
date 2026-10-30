@@ -274,7 +274,7 @@ class MarkdownRenderer {
 
     cache_hash = crypto
       .createHash("sha256")
-      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v5`)
+      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v6`)
       .digest("hex")
       .slice(0, 16);
     cache_file = path.join(this.cache_dir, `${path.basename(rmd_path, ".Rmd")}_${cache_hash}.md`).replace(/\\/g, "/");
@@ -317,7 +317,12 @@ class MarkdownRenderer {
     let clean = str;
 
     clean = clean
+      .replace(/\{,\}/g, ",")
       .replace(/\\%/g, "%")
+      .replace(/\s*\\approx\s*/g, " ≈ ")
+      .replace(/\s*\\(?:rightarrow|to)\s*/g, " → ")
+      .replace(/\\times(?![A-Za-z])/g, "×")
+      .replace(/\\sim\s*/g, "~")
       .replace(/\$?p\(5[^)]*19\)\/p\(5\+\)\$?/g, "<i>p</i>(5–19)/<i>p</i>(5+)")
       .replace(/\$?p\(0[^)]*4\)\$?/g, "<i>p</i>(0–4)")
       .replace(/\\pm\s*([0-9]+)\s*\\sigma/g, "±$1σ")
@@ -532,7 +537,7 @@ class MarkdownRenderer {
       let local_fields = {};
       let local_key = match[2].trim();
       let local_type = match[1].toLowerCase();
-      let field_regex = /(\w+)\s*=\s*\{([\s\S]*?)\}\s*(?:,|$)/g;
+      let field_regex = /^\s*(\w+)\s*=\s*\{(.*)\}\s*,?\s*$/gm;
       let f_match = null;
 
       let is_corporate = false;
@@ -543,7 +548,12 @@ class MarkdownRenderer {
         if (f_name === "author" && raw_val.startsWith("{") && raw_val.endsWith("}")) {
           is_corporate = true;
         }
-        let f_val = raw_val.replace(/\s+/g, " ").replace(/[{}]/g, "").trim();
+        let f_val = raw_val
+          .replace(/\\&/g, "&")
+          .replace(/\\%/g, "%")
+          .replace(/\s+/g, " ")
+          .replace(/[{}]/g, "")
+          .trim();
         local_fields[f_name] = f_val;
       }
 

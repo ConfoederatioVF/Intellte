@@ -47,12 +47,16 @@ let IntellteArtefactStager = {
 
     //Stage per-record, per-version artefacts
     for (let i = 0; i < records.length; i++) {
+      let local_active_versions_obj = {};
+      let local_concept_stage_dir = path.join(docs_public, "artefacts", records[i].concept_id);
       let local_rec = records[i];
+
       for (let x = 0; x < local_rec.versions.length; x++) {
         let local_ver = local_rec.versions[x];
         let stage_dir = path.join(docs_public, "artefacts", local_rec.concept_id, local_ver.version);
         let staged_files = [];
 
+        local_active_versions_obj[String(local_ver.version)] = true;
         fs.mkdirSync(stage_dir, { recursive: true });
 
         //1. Compiled PDF
@@ -133,6 +137,20 @@ let IntellteArtefactStager = {
         local_ver.staged_files = staged_files;
         let pdf_staged = staged_files.find((arg0_f) => arg0_f.category === "PDF Manuscript");
         local_ver.pdf_size_euro = (pdf_staged) ? pdf_staged.size_euro : "";
+      }
+
+      if (fs.existsSync(local_concept_stage_dir)) {
+        let existing_dirs = fs.readdirSync(local_concept_stage_dir);
+        for (let x = 0; x < existing_dirs.length; x++) {
+          let local_entry_name = existing_dirs[x];
+          if (!local_active_versions_obj[local_entry_name]) {
+            try {
+              fs.rmSync(path.join(local_concept_stage_dir, local_entry_name), { force: true, recursive: true });
+            } catch (e) {
+              console.error(`[IntellteArtefactStager] Could not remove stale artefact directory: ${local_entry_name}`);
+            }
+          }
+        }
       }
     }
 

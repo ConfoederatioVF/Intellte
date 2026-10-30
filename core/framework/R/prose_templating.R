@@ -1,10 +1,110 @@
 # ==============================================================================
 # Markdown Prose Templating Framework (core/framework/R/prose_templating.R)
 # ==============================================================================
-# Provides prose variable interpolation (£1£ / £key£), Markdown AST segmentation
-# (separating prose from pipe tables so tables never trigger Pandoc longtable
-# errors in two-column layouts), and deadspace-aware prose rendering.
+# Supports native R Markdown (.Rmd) prose authoring via a knitr `document` hook
+# (`format_knitted_document`) that automatically applies European decimal commas,
+# LaTeX math-comma `{,}` spacing protection, and Unicode-to-LaTeX normalisation
+# without requiring `paste()` wrappers in `.Rmd` manuscripts. Also retains
+# external `.md` file / pipe-table ingestion helpers (`render_markdown_prose`).
 # ==============================================================================
+
+
+#' Formats native Markdown prose lines in a knitted `.Rmd` document, applying
+#' European decimal formatting (including `{,}` inside LaTeX `$...$` math) and
+#' Unicode-to-LaTeX symbol conversion while skipping frontmatter, code blocks,
+#' LaTeX float environments, and raw HTML blocks.
+#'
+#' @param arg0_doc_vec Character vector passed to `knitr::knit_hooks$get("document")`.
+#' @param arg1_options Optional named list (`euro_decimals`, `is_latex`).
+#' @return Formatted character string of the knitted document.
+#' @export
+format_knitted_document <- function (arg0_doc_vec, arg1_options = NULL) {
+  #Convert from parameters
+  doc_vec <- arg0_doc_vec
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+
+  #Initialise options
+  euro_decimals <- if (!is.null(options$euro_decimals)) isTRUE(options$euro_decimals) else TRUE
+  is_latex <- if (!is.null(options$is_latex)) {
+    isTRUE(options$is_latex)
+  } else if (requireNamespace("knitr", quietly = TRUE)) {
+    knitr::is_latex_output()
+  } else {
+    FALSE
+  }
+
+  #Guard clauses
+  if (is.null(doc_vec) || length(doc_vec) == 0) return(doc_vec)
+
+  #Declare local instance variables
+  full_text <- paste(as.character(doc_vec), collapse = "\n")
+  in_fenced_block <- FALSE
+  in_frontmatter <- FALSE
+  in_html_block <- FALSE
+  in_latex_float <- FALSE
+  lines_vec <- strsplit(full_text, "\n", fixed = TRUE)[[1]]
+  n_lines <- length(lines_vec)
+
+  for (i in seq_len(n_lines)) {
+    local_line <- lines_vec[i]
+    local_trim <- trimws(local_line)
+
+    if (i == 1L && identical(local_trim, "---")) {
+      in_frontmatter <- TRUE
+      next
+    }
+    if (in_frontmatter) {
+      if (identical(local_trim, "---") || identical(local_trim, "...")) {
+        in_frontmatter <- FALSE
+      }
+      next
+    }
+
+    if (grepl("^```", local_trim)) {
+      in_fenced_block <- !in_fenced_block
+      next
+    }
+    if (in_fenced_block) next
+
+    if (grepl("^\\\\begin\\{(?:table|figure|tabular)", local_trim, perl = TRUE)) {
+      in_latex_float <- TRUE
+    }
+    if (in_latex_float) {
+      if (grepl("^\\\\end\\{(?:table|figure|tabular)", local_trim, perl = TRUE)) {
+        in_latex_float <- FALSE
+      }
+      next
+    }
+
+    if (grepl("^<(?:figure|table|div|header)\\b", local_trim, perl = TRUE)) {
+      if (!grepl("</(?:figure|table|div|header)>\\s*$", local_trim, perl = TRUE)) {
+        in_html_block <- TRUE
+      }
+      next
+    }
+    if (in_html_block) {
+      if (grepl("</(?:figure|table|div|header)>\\s*$", local_trim, perl = TRUE)) {
+        in_html_block <- FALSE
+      }
+      next
+    }
+
+    if (!nzchar(local_trim)) next
+
+    if (euro_decimals) {
+      local_line <- convert_euro_decimals_in_text(local_line, is_latex)
+    }
+
+    if (is_latex) {
+      local_line <- sanitize_prose_unicode_for_latex(local_line)
+    }
+
+    lines_vec[i] <- local_line
+  }
+
+  #Return statement
+  return(paste(lines_vec, collapse = "\n"))
+}
 
 
 #' Interpolates variables into a prose template using £1£, £2£ or £key£ delimiters.
@@ -283,5 +383,51 @@ render_markdown_prose <- function (arg0_md_source, arg1_options = NULL) {
 
   #Return statement
   return(knitr::asis_output(paste(out_pieces, collapse = "\n\n")))
+}
+
+
+#' Converts Unicode mathematical/typographic symbols in a Markdown prose line into
+#' LaTeX-compatible equivalents while respecting `$...$` math boundaries.
+#'
+#' @param arg0_line Single Markdown prose line.
+#' @return Line with LaTeX-compatible symbol commands.
+#' @export
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  #Convert from parameters
+  line_str <- as.character(arg0_line)
+
+  #Guard clauses
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "--", p, fixed = TRUE)
+      p <- gsub("\u2014", "---", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub("\u2192", "$\\rightarrow$", p, fixed = TRUE)
+      p <- gsub("\u00d7", "$\\times$", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "$\\approx$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "$\\text{km}^2$", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "$\\text{m}^2$", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "$R^2$", p, fixed = TRUE)
+      p <- gsub("\u2013", "--", p, fixed = TRUE)
+      p <- gsub("\u2014", "---", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+
+  #Return statement
+  return(paste(parts, collapse = ""))
 }
 

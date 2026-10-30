@@ -49,7 +49,7 @@
         >
           <a :href="resolveUrl(ver.route_url)" class="crd-version-link">
             <span class="crd-version-label">
-              v{{ ver.version }}
+              {{ ver.version }}
               <span v-if="ver.is_latest" class="crd-latest-tag">Latest</span>
             </span>
             <span class="crd-version-date">{{ ver.date }}</span>

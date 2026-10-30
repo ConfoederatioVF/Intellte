@@ -25,10 +25,27 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
   out_vec <- as.character(text)
   for (idx in seq_along(out_vec)) {
     s <- out_vec[idx]
-    #Protect version strings (Velkscala 1.0, HYDE 3.2, HYDE 3.3)
-    s <- gsub("Velkscala 1\\.0", "Velkscala_VER_1_0", s)
-    s <- gsub("HYDE 3\\.2", "HYDE_VER_3_2", s)
-    s <- gsub("HYDE 3\\.3", "HYDE_VER_3_3", s)
+    #Protect URLs, inline code spans, citations, LaTeX cross-references, and dataset version numbers
+    protected_tokens <- character(0)
+    protect_pattern <- function (arg0_str, arg1_regex) {
+      m <- gregexpr(arg1_regex, arg0_str, perl = TRUE)
+      reg_list <- regmatches(arg0_str, m)[[1]]
+      if (length(reg_list) == 0) return(arg0_str)
+      placeholders <- character(length(reg_list))
+      for (k in seq_along(reg_list)) {
+        tok_id <- length(protected_tokens) + 1L
+        protected_tokens[tok_id] <<- reg_list[k]
+        placeholders[k] <- paste0("___INT_PROT_", tok_id, "___")
+      }
+      regmatches(arg0_str, m) <- list(placeholders)
+      return(arg0_str)
+    }
+
+    s <- protect_pattern(s, "`[^`]+`")
+    s <- protect_pattern(s, "https?://\\S+")
+    s <- protect_pattern(s, "\\[@[^\\]]+\\]")
+    s <- protect_pattern(s, "\\\\(?:ref|label|cite|includegraphics)(?:\\[[^\\]]*\\])?\\{[^}]*\\}")
+    s <- protect_pattern(s, "(?:Velkscala|Stadest\u00e9r|Stadester|Eoscala|HYDE|Version)\\s+[0-9]+\\.[0-9]+")
 
     if (in_latex_math && grepl("\\$", s)) {
       parts <- strsplit(s, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
@@ -48,9 +65,11 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
       s <- gsub("([0-9])\\.([0-9])", "\\1,\\2", s, perl = TRUE)
     }
 
-    s <- gsub("Velkscala_VER_1_0", "Velkscala 1.0", s, fixed = TRUE)
-    s <- gsub("HYDE_VER_3_2", "HYDE 3.2", s, fixed = TRUE)
-    s <- gsub("HYDE_VER_3_3", "HYDE 3.3", s, fixed = TRUE)
+    if (length(protected_tokens) > 0) {
+      for (k in seq_along(protected_tokens)) {
+        s <- gsub(paste0("___INT_PROT_", k, "___"), protected_tokens[k], s, fixed = TRUE)
+      }
+    }
     out_vec[idx] <- s
   }
 
