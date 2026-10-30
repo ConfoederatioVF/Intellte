@@ -238,12 +238,16 @@ let filtered_records = computed(() => {
       }
     }
     if (!q) return true;
+    let local_div_tokens = (rec.divisions || []).map(
+      (arg0_d) => `${arg0_d.acronym || ""} ${arg0_d.affiliation || ""}`
+    );
     let haystack = [
       rec.title,
       rec.subtitle,
       rec.authors_line,
       rec.abstract_excerpt,
       rec.project_name,
+      ...local_div_tokens,
       ...(rec.tags || [])
     ]
       .join(" ")

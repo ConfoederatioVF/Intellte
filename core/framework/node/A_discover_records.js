@@ -56,16 +56,19 @@ let IntellteDiscovery = {
         }
 
         let artefact_base_url = `/artefacts/${concept_id}/${local_ver.version}`;
+        let local_author_meta = IntellteDiscovery.normaliseVersionAuthors(local_ver, fm, defines_obj);
         let local_published_date = local_ver.published_date || fm.date || "";
         let version_route_url = `/records/${concept_id}/${local_ver.version}/`;
 
         enriched_versions.push({
           abstract_excerpt: local_ver.abstract_excerpt || "",
           artefact_base_url: artefact_base_url,
-          authors_line: local_ver.authors_line || fm.authors_line || "Confoederatio, Research Division",
+          authors: local_author_meta.authors,
+          authors_line: local_author_meta.authors_line,
           bib_abs: bib_abs,
           bib_filename: (bib_abs) ? path.basename(bib_abs) : "",
           date: local_published_date,
+          divisions: local_author_meta.divisions,
           emails: Array.isArray(fm.emails) ? fm.emails : [],
           figures: Array.isArray(local_ver.figures) ? local_ver.figures : [],
           frontmatter: fm,
@@ -199,6 +202,34 @@ let IntellteDiscovery = {
 
 
   /**
+   * Formats an array of strings as a natural-language list in non-Oxford British English (`A, B and C`).
+   *
+   * @param {string[]} arg0_items_array - Input display strings.
+   * @return {string} Formatted natural-language list.
+   */
+  formatNaturalList: function (arg0_items_array) {
+    //Convert from parameters
+    let items_array = Array.isArray(arg0_items_array) ? arg0_items_array : [];
+
+    //Declare local instance variables
+    let clean_array = [];
+
+    for (let i = 0; i < items_array.length; i++) {
+      let local_item = String(items_array[i] || "").trim();
+      if (local_item) clean_array.push(local_item);
+    }
+
+    //Guard clauses
+    if (clean_array.length === 0) return "";
+    if (clean_array.length === 1) return clean_array[0];
+    if (clean_array.length === 2) return `${clean_array[0]} and ${clean_array[1]}`;
+
+    //Return statement
+    return `${clean_array.slice(0, -1).join(", ")} and ${clean_array[clean_array.length - 1]}`;
+  },
+
+
+  /**
    * Loads EN-GB, FR and DE localisation files from `/localisation/`.
    *
    * @param {string} arg0_root_dir - Intellte root directory.
@@ -266,6 +297,107 @@ let IntellteDiscovery = {
 
     //Return statement
     return merged_registry_obj;
+  },
+
+
+  /**
+   * Normalises per-version author objects, division affiliations and display `authors_line`.
+   *
+   * @param {Object} arg0_ver_obj - Raw version metadata entry from `common/metadata/*.json5`.
+   * @param {Object} arg1_frontmatter_obj - Parsed `.Rmd` YAML frontmatter object.
+   * @param {Object} arg2_defines_obj - Repository defines object containing `divisions`.
+   * @return {Object} Normalised `{ authors, authors_line, divisions }` payload.
+   */
+  normaliseVersionAuthors: function (arg0_ver_obj, arg1_frontmatter_obj, arg2_defines_obj) {
+    //Convert from parameters
+    let ver_obj = (arg0_ver_obj) ? arg0_ver_obj : {};
+    let frontmatter_obj = (arg1_frontmatter_obj) ? arg1_frontmatter_obj : {};
+    let defines_obj = (arg2_defines_obj) ? arg2_defines_obj : {};
+
+    //Declare local instance variables
+    let authors_array = [];
+    let authors_line = "";
+    let default_div_obj = IntellteDiscovery.resolveDivisionEntry("", defines_obj);
+    let divisions_array = [];
+    let fallback_line = "";
+    let has_explicit_authors = Array.isArray(ver_obj.authors) && ver_obj.authors.length > 0;
+    let seen_divisions_obj = {};
+
+    if (has_explicit_authors) {
+      for (let i = 0; i < ver_obj.authors.length; i++) {
+        let local_entry = ver_obj.authors[i];
+        let local_div_key = "";
+        let local_name = "";
+
+        if (typeof local_entry === "string") {
+          local_name = local_entry.trim();
+        } else if (local_entry && typeof local_entry === "object") {
+          local_div_key = String(local_entry.division || local_entry.affiliation || "").trim();
+          local_name = String(local_entry.name || "").trim();
+        }
+
+        if (local_name) {
+          let local_resolved = IntellteDiscovery.resolveDivisionEntry(local_div_key, defines_obj);
+          authors_array.push({
+            acronym: local_resolved.acronym,
+            affiliation: local_resolved.affiliation,
+            name: local_name
+          });
+        }
+      }
+    } else {
+      fallback_line = String(ver_obj.authors_line || frontmatter_obj.authors_line || "").trim();
+      if (fallback_line && fallback_line !== default_div_obj.affiliation) {
+        let local_parts = fallback_line.split(/\s*;\s*|\s+and\s+/i);
+        for (let i = 0; i < local_parts.length; i++) {
+          let local_name = local_parts[i].trim();
+          if (local_name) {
+            authors_array.push({
+              acronym: default_div_obj.acronym,
+              affiliation: default_div_obj.affiliation,
+              name: local_name
+            });
+          }
+        }
+      }
+    }
+
+    if (authors_array.length === 0) {
+      authors_array.push({
+        acronym: default_div_obj.acronym,
+        affiliation: default_div_obj.affiliation,
+        name: default_div_obj.affiliation
+      });
+    }
+
+    if (ver_obj.authors_line) {
+      authors_line = String(ver_obj.authors_line).trim();
+    } else if (!has_explicit_authors && frontmatter_obj.authors_line) {
+      authors_line = String(frontmatter_obj.authors_line).trim();
+    } else {
+      authors_line = IntellteDiscovery.formatNaturalList(
+        authors_array.map((arg0_author) => arg0_author.name)
+      );
+    }
+
+    for (let i = 0; i < authors_array.length; i++) {
+      let local_author = authors_array[i];
+      let local_div_id = local_author.acronym || local_author.affiliation;
+      if (local_div_id && !seen_divisions_obj[local_div_id]) {
+        seen_divisions_obj[local_div_id] = true;
+        divisions_array.push({
+          acronym: local_author.acronym,
+          affiliation: local_author.affiliation
+        });
+      }
+    }
+
+    //Return statement
+    return {
+      authors: authors_array,
+      authors_line: authors_line,
+      divisions: divisions_array
+    };
   },
 
 
@@ -366,6 +498,54 @@ let IntellteDiscovery = {
     } else {
       return 0;
     }
+  },
+
+
+  /**
+   * Resolves a division acronym or affiliation string against `defines.divisions` in `common/defines/intellte_defines.json5`.
+   *
+   * @param {string} arg0_division_value - Division acronym (e.g. `"CRD"`, `"CTD"`) or custom affiliation string.
+   * @param {Object} arg1_defines_obj - Parsed `intellte_defines.json5` object.
+   * @return {Object} Resolved `{ acronym, affiliation }` entry.
+   */
+  resolveDivisionEntry: function (arg0_division_value, arg1_defines_obj) {
+    //Convert from parameters
+    let division_value = String(arg0_division_value || "").trim();
+    let defines_obj = (arg1_defines_obj) ? arg1_defines_obj : {};
+
+    //Declare local instance variables
+    let all_div_keys = [];
+    let default_key = (defines_obj.default_division) ? String(defines_obj.default_division) : "CRD";
+    let divisions_obj = (defines_obj.divisions && typeof defines_obj.divisions === "object") ? defines_obj.divisions : {};
+    let lookup_value = (division_value) ? division_value : default_key;
+
+    if (divisions_obj[lookup_value]) {
+      return {
+        acronym: lookup_value,
+        affiliation: String(divisions_obj[lookup_value])
+      };
+    }
+
+    all_div_keys = Object.keys(divisions_obj);
+    for (let i = 0; i < all_div_keys.length; i++) {
+      let local_key = all_div_keys[i];
+      let local_affil = String(divisions_obj[local_key] || "");
+      if (
+        local_key.toLowerCase() === lookup_value.toLowerCase() ||
+        local_affil.toLowerCase() === lookup_value.toLowerCase()
+      ) {
+        return {
+          acronym: local_key,
+          affiliation: local_affil
+        };
+      }
+    }
+
+    //Return statement
+    return {
+      acronym: "",
+      affiliation: lookup_value
+    };
   },
 
 

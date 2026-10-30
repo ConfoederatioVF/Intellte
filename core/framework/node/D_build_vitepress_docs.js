@@ -1,5 +1,6 @@
 let fs = require("fs");
 let path = require("path");
+let { IntellteDiscovery } = require("./A_discover_records.js");
 
 let IntellteVitePressBuilder = {
   /**
@@ -93,9 +94,11 @@ let IntellteVitePressBuilder = {
         //Add to client search index
         search_records.push({
           abstract_excerpt: local_ver.abstract_excerpt,
+          authors: local_ver.authors,
           authors_line: local_ver.authors_line,
           citation_mla: IntellteVitePressBuilder.formatMlaCitation(local_rec, local_ver),
           concept_id: local_rec.concept_id,
+          divisions: local_ver.divisions,
           hero_img_url: (local_ver.hero_figure_rel) ? `${local_ver.artefact_base_url}/${path.basename(local_ver.hero_figure_rel)}` : null,
           is_latest: local_ver.is_latest,
           latest_version: local_rec.latest_version,
@@ -143,6 +146,41 @@ let IntellteVitePressBuilder = {
       generated_files: generated_files,
       record_count: search_records.length
     };
+  },
+
+
+  /**
+   * Builds the multi-column HTML author and division affiliation block for PDF-only record headers.
+   *
+   * @param {Object} arg0_ver - Enriched version metadata object.
+   * @return {string} Indented HTML string for `.crd-authors-block`.
+   */
+  buildAuthorsBlockHtml: function (arg0_ver) {
+    //Convert from parameters
+    let ver = (arg0_ver) ? arg0_ver : {};
+
+    //Declare local instance variables
+    let authors_array = Array.isArray(ver.authors) ? ver.authors : [];
+    let html_lines = [];
+
+    //Format html_lines
+    html_lines.push(`    <div class="crd-authors-block">`);
+    for (let i = 0; i < authors_array.length; i++) {
+      let local_author = authors_array[i];
+      let local_affil = String(local_author.affiliation || "").trim();
+      let local_name = String(local_author.name || "").trim();
+
+      html_lines.push(`      <div class="crd-author-item">`);
+      html_lines.push(`        <div class="crd-author-name">${IntellteVitePressBuilder.escapeHtml(local_name)}</div>`);
+      if (local_affil && local_affil !== local_name) {
+        html_lines.push(`        <div class="crd-author-affil">${IntellteVitePressBuilder.escapeHtml(local_affil)}</div>`);
+      }
+      html_lines.push(`      </div>`);
+    }
+    html_lines.push(`    </div>`);
+
+    //Return statement
+    return html_lines.join("\n");
   },
 
 
@@ -234,9 +272,11 @@ let IntellteVitePressBuilder = {
     let supp_links = Array.isArray(ver.compiled_supplementary) ? ver.compiled_supplementary : [];
 
     let meta_payload = {
+      authors: ver.authors,
       authors_line: ver.authors_line,
       citation_mla: IntellteVitePressBuilder.formatMlaCitation(rec, ver),
       concept_id: rec.concept_id,
+      divisions: ver.divisions,
       has_dom: has_dom,
       is_latest: ver.is_latest,
       latest_route_url: `/records/${rec.concept_id}/`,
@@ -249,10 +289,10 @@ let IntellteVitePressBuilder = {
       record_type: rec.record_type,
       rmd_url: ver.rmd_url,
       staged_files: ver.staged_files,
-      supplementary_links: supp_links.map((s) => ({
-        key: s.key,
-        route_url: s.route_url,
-        title: s.title
+      supplementary_links: supp_links.map((arg0_s) => ({
+        key: arg0_s.key,
+        route_url: arg0_s.route_url,
+        title: arg0_s.title
       })),
       tags: rec.tags,
       title: ver.title,
@@ -270,29 +310,33 @@ let IntellteVitePressBuilder = {
         `</div>`
       );
     } else {
-      let abstract_html = (ver.abstract_excerpt)
-        ? `    <div class="crd-abstract-box"><p class="crd-abstract-heading">ABSTRACT</p><p class="crd-abstract-text">${ver.abstract_excerpt}</p></div>`
-        : "";
-      let subtitle_html = (ver.subtitle)
-        ? `    <p class="crd-paper-subtitle">${ver.subtitle}</p>`
-        : "";
+      let local_abstract_html = "";
+      let local_authors_html = IntellteVitePressBuilder.buildAuthorsBlockHtml(ver);
+      let local_eyebrow = IntellteVitePressBuilder.formatDivisionEyebrow(rec, ver);
+      let local_pdf_html = "";
+      let local_subtitle_html = "";
+
+      if (ver.abstract_excerpt) {
+        local_abstract_html = `    <div class="crd-abstract-box"><p class="crd-abstract-heading">ABSTRACT</p><p class="crd-abstract-text">${IntellteVitePressBuilder.escapeHtml(ver.abstract_excerpt)}</p></div>`;
+      }
+      if (ver.pdf_url) {
+        local_pdf_html = `  <pdf src="${ver.pdf_url}" title="${ver.title.replace(/"/g, '&quot;')}" height="850px" default-open="true" size="${ver.pdf_size_euro || ''}" />`;
+      }
+      if (ver.subtitle) {
+        local_subtitle_html = `    <p class="crd-paper-subtitle">${IntellteVitePressBuilder.escapeHtml(ver.subtitle)}</p>`;
+      }
 
       content_lines.push(
         `<div class="crd-wysiwyg-paper crd-pdf-only-view">`,
         `  <header class="crd-paper-header crd-pdf-only-header">`,
-        `    <div class="crd-eyebrow">CRD WORKING PAPER · VERSION ${ver.version}</div>`,
-        `    <h1 class="crd-paper-title">${ver.title}</h1>`,
-        subtitle_html,
-        `    <div class="crd-authors-block">`,
-        `      <div class="crd-author-name">${ver.authors_line}</div>`,
-        `      <div class="crd-author-affil">Confoederatio, Research Division</div>`,
-        `    </div>`,
-        abstract_html,
+        `    <div class="crd-eyebrow">${IntellteVitePressBuilder.escapeHtml(local_eyebrow)}</div>`,
+        `    <h1 class="crd-paper-title">${IntellteVitePressBuilder.escapeHtml(ver.title)}</h1>`,
+        local_subtitle_html,
+        local_authors_html,
+        local_abstract_html,
         `  </header>`,
         "",
-        (ver.pdf_url)
-          ? `  <pdf src="${ver.pdf_url}" title="${ver.title.replace(/"/g, '&quot;')}" height="850px" default-open="true" size="${ver.pdf_size_euro || ''}" />`
-          : "",
+        local_pdf_html,
         `</div>`
       );
     }
@@ -319,6 +363,57 @@ let IntellteVitePressBuilder = {
 
 
   /**
+   * Escapes special HTML characters in text content.
+   *
+   * @param {string} arg0_text - Raw string to escape.
+   * @return {string} HTML-escaped string.
+   */
+  escapeHtml: function (arg0_text) {
+    //Convert from parameters
+    let text = String(arg0_text || "");
+
+    //Return statement
+    return text
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  },
+
+
+  /**
+   * Formats the uppercase division eyebrow label for PDF-only working paper headers.
+   *
+   * @param {Object} arg0_rec - Parent record metadata.
+   * @param {Object} arg1_ver - Enriched version metadata.
+   * @return {string} Formatted eyebrow string (e.g. `"CRD / CTD WORKING PAPER · VERSION 1.0"`).
+   */
+  formatDivisionEyebrow: function (arg0_rec, arg1_ver) {
+    //Convert from parameters
+    let rec = (arg0_rec) ? arg0_rec : {};
+    let ver = (arg1_ver) ? arg1_ver : {};
+
+    //Declare local instance variables
+    let acronyms_array = [];
+    let divisions_array = Array.isArray(ver.divisions) ? ver.divisions : [];
+    let division_prefix = "";
+    let record_type_upper = String(rec.record_type || "Working Paper").toUpperCase();
+
+    for (let i = 0; i < divisions_array.length; i++) {
+      let local_acronym = String(divisions_array[i].acronym || "").trim();
+      if (local_acronym && !acronyms_array.includes(local_acronym)) {
+        acronyms_array.push(local_acronym);
+      }
+    }
+
+    division_prefix = (acronyms_array.length > 0) ? acronyms_array.join(" / ") : "CRD";
+
+    //Return statement
+    return `${division_prefix} ${record_type_upper} · VERSION ${ver.version}`;
+  },
+
+
+  /**
    * Formats an MLA-style citation string for a working paper version.
    *
    * @param {Object} arg0_rec - Record object.
@@ -327,15 +422,42 @@ let IntellteVitePressBuilder = {
    */
   formatMlaCitation: function (arg0_rec, arg1_ver) {
     //Convert from parameters
-    let ver = arg1_ver;
+    let rec = (arg0_rec) ? arg0_rec : {};
+    let ver = (arg1_ver) ? arg1_ver : {};
 
     //Declare local instance variables
-    let clean_title = String(ver.title || "").replace(/\.$/, "");
     let clean_sub = String(ver.subtitle || "").replace(/\.$/, "");
-    let full_title = (clean_sub) ? `${clean_title}: ${clean_sub}` : clean_title;
+    let clean_title = String(ver.title || "").replace(/\.$/, "");
+    let divisions_array = Array.isArray(ver.divisions) ? ver.divisions : [];
+    let full_title = clean_title;
+    let publisher_labels_array = [];
+    let publisher_str = "";
+    let record_type_str = String(rec.record_type || "Working Paper");
+
+    if (clean_sub && !clean_title.toLowerCase().includes(clean_sub.toLowerCase())) {
+      full_title = `${clean_title}: ${clean_sub}`;
+    }
+
+    for (let i = 0; i < divisions_array.length; i++) {
+      let local_acronym = String(divisions_array[i].acronym || "").trim();
+      let local_affil = String(divisions_array[i].affiliation || "").trim();
+      if (local_affil) {
+        if (local_acronym && !local_affil.includes(`(${local_acronym})`)) {
+          publisher_labels_array.push(`${local_affil} (${local_acronym})`);
+        } else {
+          publisher_labels_array.push(local_affil);
+        }
+      }
+    }
+
+    if (publisher_labels_array.length > 0) {
+      publisher_str = IntellteDiscovery.formatNaturalList(publisher_labels_array);
+    } else {
+      publisher_str = "Confoederatio, Research Division (CRD)";
+    }
 
     //Return statement
-    return `${ver.authors_line}. "${full_title}." Confoederatio, Research Division (CRD), Working Paper (v${ver.version}), ${ver.published_date}.`;
+    return `${ver.authors_line}. "${full_title}." ${publisher_str}, ${record_type_str} (v${ver.version}), ${ver.published_date}.`;
   }
 };
 
