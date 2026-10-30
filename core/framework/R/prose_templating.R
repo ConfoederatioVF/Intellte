@@ -414,6 +414,12 @@ sanitize_prose_unicode_for_latex <- function (arg0_line) {
       p <- gsub("\u2014", "---", p, fixed = TRUE)
       parts[i] <- p
     } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
       p <- gsub("\u2192", "$\\rightarrow$", p, fixed = TRUE)
       p <- gsub("\u00d7", "$\\times$", p, fixed = TRUE)
       p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)

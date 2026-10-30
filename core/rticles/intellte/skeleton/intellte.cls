@@ -181,6 +181,14 @@
   citecolor=crdlinkblue,
   urlcolor=crdlinkblue
 ]{hyperref}
+\def\figureautorefname{Figure}
+\def\tableautorefname{Table}
+\def\crdimageautorefname{Image}
+\def\crddefinitionautorefname{Definition}
+\def\sectionautorefname{Section}
+\def\subsectionautorefname{Section}
+\def\subsubsectionautorefname{Section}
+\newcommand{\crdxref}[2]{\hyperref[#2]{#1~\ref*{#2}}}
 \renewcommand\UrlFont{\normalfont\rmfamily\mdseries\color{crdlinkblue}}
 \AtBeginDocument{%
   \setlength{\ULdepth}{1.5pt}%
@@ -193,6 +201,7 @@
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 1pt minus 1pt}
 \setlist[itemize]{itemsep=2pt, parsep=2pt, topsep=3pt}
+\setlist[enumerate]{itemsep=2pt, parsep=2pt, topsep=3pt}
 \AtBeginDocument{%
   \thispagestyle{empty}%
   \pagestyle{empty}%

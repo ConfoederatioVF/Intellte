@@ -2,6 +2,7 @@ let child_process = require("child_process");
 let crypto = require("crypto");
 let fs = require("fs");
 let path = require("path");
+let { MlaBibliographyFormatter } = require("./MlaBibliographyFormatter.js");
 
 /**
  * Native R Markdown (.Rmd) and Mixed Markdown/HTML DOM Renderer for Intellte.
@@ -20,6 +21,7 @@ class MarkdownRenderer {
     let options = (arg0_options) ? arg0_options : {};
 
     //Initialise options
+    this.bib_formatter = new MlaBibliographyFormatter();
     this.cache_dir = (options.cache_dir)
       ? options.cache_dir
       : path.resolve(__dirname, "../../../docs/.vitepress/cache/rmd_dom");
@@ -274,7 +276,7 @@ class MarkdownRenderer {
 
     cache_hash = crypto
       .createHash("sha256")
-      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v8`)
+      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v9`)
       .digest("hex")
       .slice(0, 16);
     cache_file = path.join(this.cache_dir, `${path.basename(rmd_path, ".Rmd")}_${cache_hash}.md`).replace(/\\/g, "/");
@@ -347,49 +349,7 @@ class MarkdownRenderer {
 
 
   /**
-   * Formats a raw BibTeX author string according to MLA numeric guidelines (et-al-min="3" et-al-use-first="1").
-   *
-   * @param {string} arg0_raw_author - Raw author string from BibTeX.
-   * @param {boolean} [arg1_is_corporate] - Whether the author is a corporate/institutional entity.
-   * @return {string} Formatted MLA author string with terminal period.
-   */
-  formatMlaAuthor (arg0_raw_author, arg1_is_corporate) {
-    //Convert from parameters
-    let raw_author = String(arg0_raw_author || "").trim();
-    let is_corporate = Boolean(arg1_is_corporate);
-
-    //Declare local instance variables
-    let author_tokens = [];
-    let clean_author = raw_author.replace(/[{}]/g, "").trim();
-
-    //Guard clauses
-    if (!clean_author) return "";
-
-    if (is_corporate || (raw_author.startsWith("{") && raw_author.endsWith("}"))) {
-      return (clean_author.endsWith(".")) ? clean_author : `${clean_author}.`;
-    }
-
-    author_tokens = clean_author.split(/\s+and\s+/i);
-
-    if (author_tokens.length >= 3) {
-      let first_auth = author_tokens[0].trim();
-      return `${first_auth}, et al.`;
-    } else if (author_tokens.length === 2) {
-      let first_auth = author_tokens[0].trim();
-      let second_auth = author_tokens[1].trim();
-      if (second_auth.includes(",")) {
-        let parts = second_auth.split(",");
-        second_auth = `${parts[1].trim()} ${parts[0].trim()}`;
-      }
-      return `${first_auth}, and ${second_auth}.`;
-    } else {
-      return (clean_author.endsWith(".")) ? clean_author : `${clean_author}.`;
-    }
-  }
-
-
-  /**
-   * Formats a single BibTeX entry into an MLA-compliant citation body matching crd-mla-numeric.csl.
+   * Formats a single BibTeX entry into an MLA-compliant citation body matching `crd-mla-numeric.csl`.
    *
    * @param {Object} arg0_entry - Parsed BibTeX entry object.
    * @return {string} Formatted MLA bibliography entry HTML string.
@@ -398,188 +358,23 @@ class MarkdownRenderer {
     //Convert from parameters
     let entry = arg0_entry;
 
-    //Declare local instance variables
-    let author_part = "";
-    let container_group = [];
-    let is_book_or_report = false;
-    let title_part = "";
-    let type = (entry && entry.type) ? entry.type.toLowerCase() : "";
-
-    //Guard clauses
-    if (!entry) return "";
-
-    is_book_or_report = ["book", "dataset", "misc", "report", "techreport", "thesis"].includes(type);
-
-    if (entry.author) {
-      author_part = this.formatMlaAuthor(entry.author, entry.is_corporate_author);
-    }
-
-    if (entry.title) {
-      let clean_title = entry.title.replace(/--|\u2013/g, "-").trim();
-      if (is_book_or_report) {
-        title_part = `<em>${this.escapeHtml(clean_title)}</em>.`;
-      } else {
-        clean_title = clean_title.replace(/\.$/, "");
-        title_part = `"${this.escapeHtml(clean_title)}."`;
-      }
-    }
-
-    if (entry.journal) {
-      container_group.push(`<em>${this.escapeHtml(entry.journal)}</em>`);
-    } else if (entry.booktitle) {
-      let b_str = `<em>${this.escapeHtml(entry.booktitle)}</em>`;
-      if (entry.editor) {
-        b_str += `, edited by ${this.escapeHtml(this.formatMlaEditors(entry.editor))}`;
-      }
-      container_group.push(b_str);
-    }
-
-    if (entry.volume) {
-      container_group.push(`vol. ${this.escapeHtml(entry.volume)}`);
-    }
-    if (entry.number) {
-      container_group.push(`no. ${this.escapeHtml(entry.number)}`);
-    }
-
-    if (entry.publisher && !entry.journal) {
-      container_group.push(this.escapeHtml(entry.publisher));
-    } else if (entry.institution && !entry.journal) {
-      container_group.push(this.escapeHtml(entry.institution));
-    }
-
-    if (entry.year) {
-      container_group.push(this.escapeHtml(entry.year));
-    }
-
-    if (entry.pages) {
-      let clean_pages = entry.pages.replace(/--|\u2013/g, "-");
-      let page_label = clean_pages.includes("-") ? "pp." : "p.";
-      container_group.push(`${page_label} ${this.escapeHtml(clean_pages)}`);
-    }
-
-    if (entry.doi) {
-      let clean_doi = entry.doi.replace(/^https?:\/\/doi\.org\//i, "");
-      container_group.push(`<a class="crd-bib-url" href="https://doi.org/${this.escapeHtml(clean_doi)}" target="_blank" rel="noopener">https://doi.org/${this.escapeHtml(clean_doi)}</a>`);
-    } else if (entry.url) {
-      container_group.push(`<a class="crd-bib-url" href="${this.escapeHtml(entry.url)}" target="_blank" rel="noopener">${this.escapeHtml(entry.url)}</a>`);
-    }
-
-    let out_parts = [author_part, title_part].filter(Boolean);
-    if (container_group.length > 0) {
-      out_parts.push(`${container_group.join(", ")}.`);
-    }
-
     //Return statement
-    return out_parts.join(" ");
+    return this.bib_formatter.formatMlaBibliographyEntry(entry);
   }
 
 
   /**
-   * Formats a raw BibTeX editor string into MLA editor syntax.
+   * Parses a BibTeX (`.bib`) file into a map of citation keys to structured metadata.
    *
-   * @param {string} arg0_raw_editor - Raw editor string from BibTeX.
-   * @return {string} Formatted editor string.
-   */
-  formatMlaEditors (arg0_raw_editor) {
-    //Convert from parameters
-    let raw_editor = String(arg0_raw_editor || "").trim();
-
-    //Declare local instance variables
-    let clean_editor = raw_editor.replace(/[{}]/g, "").trim();
-    let ed_tokens = [];
-
-    //Guard clauses
-    if (!clean_editor) return "";
-
-    ed_tokens = clean_editor.split(/\s+and\s+/i);
-    let formatted_eds = ed_tokens.map((ed) => {
-      let trimmed = ed.trim();
-      if (trimmed.includes(",")) {
-        let parts = trimmed.split(",");
-        return `${parts[1].trim()} ${parts[0].trim()}`;
-      }
-      return trimmed;
-    });
-
-    if (formatted_eds.length === 1) {
-      return formatted_eds[0];
-    } else if (formatted_eds.length === 2) {
-      return `${formatted_eds[0]} and ${formatted_eds[1]}`;
-    } else {
-      return `${formatted_eds[0]}, et al.`;
-    }
-  }
-
-
-  /**
-   * Parses a BibTeX (.bib) file into a map of citation keys to structured metadata.
-   *
-   * @param {string} arg0_bib_path - Path to the .bib file.
+   * @param {string} arg0_bib_path - Path to the `.bib` file.
    * @return {Object} Dictionary keyed by BibTeX citation key.
    */
   parseBibFile (arg0_bib_path) {
     //Convert from parameters
     let bib_path = arg0_bib_path;
 
-    //Declare local instance variables
-    let entries_obj = {};
-    let entry_regex = /@(\w+)\s*\{\s*([^,\s]+)\s*,([\s\S]*?)\n\}/g;
-    let match = null;
-    let raw_bib = "";
-
-    //Guard clauses
-    if (!bib_path || !fs.existsSync(bib_path)) return entries_obj;
-
-    raw_bib = fs.readFileSync(bib_path, "utf8");
-
-    while ((match = entry_regex.exec(raw_bib)) !== null) {
-      let local_body = match[3];
-      let local_fields = {};
-      let local_key = match[2].trim();
-      let local_type = match[1].toLowerCase();
-      let field_regex = /^\s*(\w+)\s*=\s*\{(.*)\}\s*,?\s*$/gm;
-      let f_match = null;
-
-      let is_corporate = false;
-
-      while ((f_match = field_regex.exec(local_body)) !== null) {
-        let f_name = f_match[1].toLowerCase().trim();
-        let raw_val = f_match[2].trim();
-        if (f_name === "author" && raw_val.startsWith("{") && raw_val.endsWith("}")) {
-          is_corporate = true;
-        }
-        let f_val = raw_val
-          .replace(/\\&/g, "&")
-          .replace(/\\%/g, "%")
-          .replace(/\s+/g, " ")
-          .replace(/[{}]/g, "")
-          .trim();
-        local_fields[f_name] = f_val;
-      }
-
-      entries_obj[local_key] = {
-        author: local_fields.author || "",
-        booktitle: local_fields.booktitle || "",
-        doi: (local_fields.doi || "").replace(/^https?:\/\/doi\.org\//i, ""),
-        editor: local_fields.editor || "",
-        institution: local_fields.institution || "",
-        is_corporate_author: is_corporate,
-        journal: local_fields.journal || "",
-        key: local_key,
-        note: local_fields.note || "",
-        number: local_fields.number || "",
-        pages: (local_fields.pages || "").replace(/--|\u2013/g, "-"),
-        publisher: local_fields.publisher || "",
-        title: local_fields.title || "",
-        type: local_type,
-        url: local_fields.url || "",
-        volume: local_fields.volume || "",
-        year: local_fields.year || ""
-      };
-    }
-
     //Return statement
-    return entries_obj;
+    return this.bib_formatter.parseBibFile(bib_path);
   }
 
 
@@ -717,7 +512,7 @@ class MarkdownRenderer {
 
   /**
    * Resolves Pandoc/RMarkdown inline citations (`[@key]` or `[@k1; @k2]`) into
-   * numerical MLA hyperlinks (`[1]`, `[2, 3]`) and populates `::: {#refs}`.
+   * inline non-superscripted Wikipedia-style numerical hyperlinks (`[1]`, `[7][8]`) and populates `::: {#refs}`.
    *
    * @param {string} arg0_md_text - Markdown body text.
    * @param {Object} arg1_bib_entries - Parsed BibTeX entries dictionary.
@@ -734,18 +529,26 @@ class MarkdownRenderer {
     let updated_text = "";
 
     updated_text = md_text.replace(/\[(@[A-Za-z0-9_:-]+(?:\s*;\s*@[A-Za-z0-9_:-]+)*)\]/g, (arg0_full, arg1_inner) => {
-      let raw_tokens = arg1_inner.split(";");
       let link_parts = [];
+      let raw_tokens = arg1_inner.split(";");
+      let resolved_items = [];
+
       for (let i = 0; i < raw_tokens.length; i++) {
         let local_key = raw_tokens[i].replace(/^[\s@]+|[\s]+$/g, "");
         if (!key_to_num[local_key]) {
           cited_keys.push(local_key);
           key_to_num[local_key] = cited_keys.length;
         }
-        let local_num = key_to_num[local_key];
-        link_parts.push(`<a class="crd-cite-link" href="#ref-${local_key}">${local_num}</a>`);
+        resolved_items.push({ key: local_key, num: key_to_num[local_key] });
       }
-      return `<span class="crd-cite-bracket">[${link_parts.join(", ")}]</span>`;
+
+      resolved_items.sort((arg0_a, arg1_b) => arg0_a.num - arg1_b.num);
+      for (let i = 0; i < resolved_items.length; i++) {
+        let local_item = resolved_items[i];
+        link_parts.push(`<a class="crd-cite-link" href="#ref-${local_item.key}">[${local_item.num}]</a>`);
+      }
+
+      return `<span class="crd-cite-bracket">${link_parts.join("")}</span>`;
     });
 
     if (cited_keys.length > 0) {
@@ -773,11 +576,12 @@ class MarkdownRenderer {
 
 
   /**
-   * Resolves LaTeX `\ref{fig:...}` and `\ref{tab:...}` into clickable DOM anchor links.
+   * Resolves LaTeX cross-references (`Figure \ref{...}`, `Table \ref{...}`, `\autoref{...}`, `\crdxref{...}{...}`)
+   * so the entire reference label and number (`Figure 2`, `Table 3`) is a single hyperlink.
    *
    * @param {string} arg0_md_text - Markdown body text.
    * @param {boolean} [arg1_has_hero_figure] - Whether Figure 1 is the hero figure.
-   * @return {string} Markdown text with resolved figure and table numbers.
+   * @return {string} Markdown text with resolved figure and table anchor links.
    */
   resolveCrossReferences (arg0_md_text, arg1_has_hero_figure) {
     //Convert from parameters
@@ -786,43 +590,73 @@ class MarkdownRenderer {
 
     //Declare local instance variables
     let fig_map = {};
-    let fig_regex = /<figure\s+class="crd-figure-block"\s+id="([^"]+)"/g;
-    let f_match = null;
+    let fig_matches = Array.from(md_text.matchAll(/<figure\s+class="crd-figure-block"\s+id="([^"]+)"/g));
     let next_fig = (has_hero_figure) ? 2 : 1;
     let next_tab = 1;
+    let out_text = "";
+    let resolve_num = null;
     let tab_map = {};
-    let tab_regex = /<figure\s+class="crd-table-figure"\s+id="([^"]+)"/g;
-    let t_match = null;
+    let tab_matches = Array.from(md_text.matchAll(/<figure\s+class="crd-table-figure"\s+id="([^"]+)"/g));
 
     if (has_hero_figure) {
       fig_map["fig:cdt-dashboard"] = 1;
       fig_map["fig:hero"] = 1;
     }
 
-    while ((f_match = fig_regex.exec(md_text)) !== null) {
-      let fid = f_match[1];
-      if (!fig_map[fid]) {
-        fig_map[fid] = next_fig;
+    for (let i = 0; i < fig_matches.length; i++) {
+      let local_fid = fig_matches[i][1];
+      if (!fig_map[local_fid]) {
+        fig_map[local_fid] = next_fig;
         next_fig++;
       }
     }
 
-    while ((t_match = tab_regex.exec(md_text)) !== null) {
-      let tid = t_match[1];
-      if (!tab_map[tid]) {
-        tab_map[tid] = next_tab;
+    for (let i = 0; i < tab_matches.length; i++) {
+      let local_tid = tab_matches[i][1];
+      if (!tab_map[local_tid]) {
+        tab_map[local_tid] = next_tab;
         next_tab++;
       }
     }
 
-    let out_text = md_text.replace(/\\ref\{([^}]+)\}/g, (arg0_full, arg1_label) => {
+    resolve_num = (arg0_lbl) => {
+      let lbl = arg0_lbl.trim();
+      if (fig_map[lbl]) return String(fig_map[lbl]);
+      if (tab_map[lbl]) return String(tab_map[lbl]);
+      return lbl;
+    };
+
+    out_text = md_text.replace(/\\crdxref\{([^}]+)\}\{([^}]+)\}/g, (arg0_full, arg1_prefix, arg2_label) => {
+      let lbl = arg2_label.trim();
+      return `<a class="crd-xref" href="#${lbl}">${arg1_prefix.trim()} ${resolve_num(lbl)}</a>`;
+    });
+
+    out_text = out_text.replace(/\\autoref\{([^}]+)\}/g, (arg0_full, arg1_label) => {
       let lbl = arg1_label.trim();
-      if (fig_map[lbl]) {
-        return `<a class="crd-xref" href="#${lbl}">${fig_map[lbl]}</a>`;
-      } else if (tab_map[lbl]) {
-        return `<a class="crd-xref" href="#${lbl}">${tab_map[lbl]}</a>`;
+      let prefix = "Section";
+      if (fig_map[lbl] || lbl.startsWith("fig:")) {
+        prefix = "Figure";
+      } else if (tab_map[lbl] || lbl.startsWith("tab:")) {
+        prefix = "Table";
+      } else if (lbl.startsWith("img:")) {
+        prefix = "Image";
+      } else if (lbl.startsWith("def:")) {
+        prefix = "Definition";
       }
-      return `<a class="crd-xref" href="#${lbl}">${lbl}</a>`;
+      return `<a class="crd-xref" href="#${lbl}">${prefix} ${resolve_num(lbl)}</a>`;
+    });
+
+    out_text = out_text.replace(
+      /\b(Figures?|Figs?\.|Tables?|Tabs?\.|Images?|Definitions?|Sections?|Appendix)(?:\s+|~)\\ref\{([^}]+)\}/g,
+      (arg0_full, arg1_prefix, arg2_label) => {
+        let lbl = arg2_label.trim();
+        return `<a class="crd-xref" href="#${lbl}">${arg1_prefix} ${resolve_num(lbl)}</a>`;
+      }
+    );
+
+    out_text = out_text.replace(/\\ref\{([^}]+)\}/g, (arg0_full, arg1_label) => {
+      let lbl = arg1_label.trim();
+      return `<a class="crd-xref" href="#${lbl}">${resolve_num(lbl)}</a>`;
     });
 
     //Strip optional Pandoc unnumbered heading attributes ({.unnumbered}, {unnumbered}, {-})
