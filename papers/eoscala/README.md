@@ -14,13 +14,15 @@
 
 ## Abstract.
 
+**Eoscala** is part of the **Naissance World Model**, a digital model of human society from 10000BC-2025AD.
 - E-mail: [vf@confoederatio.org](mailto:vf@confoederatio.org)
-- Dataview: https://dataview.confoederatio.org/
+- Collation: [Github](https://github.com/ConfoederatioVF/Collation) | [Projects](https://projects.confoederatio.org/c/Collation)
+- Dataview: https://dataview.confoederatio.org
 - <ins>Download:</ins>
-- - Stadestér (Cities, part of Velkscala) | [Projects (1.1)](https://projects.confoederatio.org/c/Stadester)
-- - Velkscala (Demographics) | [Datavault (1.0)](https://datavault.confoederatio.org/s/44Pfgt7ya8wE77b)
-- - **Eoscala (Economics)** | [Datavault (1.5)](https://datavault.confoederatio.org/s/2Kytdej7ABpw4rr)
-- - Atlas (Polities) | [Datavault (0.7)](https://datavault.confoederatio.org/s/rPntqXwCxzXg4Bk)
+- - Stadestér (Cities, part of Velkscala) | [Github](https://github.com/ConfoederatioVF/Stadester) | [Projects (1.1)](https://projects.confoederatio.org/c/Stadester)
+- - Velkscala (Demographics) | [Github](https://github.com/ConfoederatioVF/Velkscala) | [Datavault (1.0)](https://datavault.confoederatio.org/s/44Pfgt7ya8wE77b)
+- - **Eoscala (Economics)** | [Github](https://github.com/ConfoederatioVF/Eoscala) | [Datavault (1.5)](https://datavault.confoederatio.org/s/2Kytdej7ABpw4rr)
+- - Atlas (Polities) | [Github](https://github.com/ConfoederatioVF/Atlas) | [Datavault (0.7)](https://datavault.confoederatio.org/s/rPntqXwCxzXg4Bk)
 
 > [!WARNING]
 > Professions currently use original estimates further back. If you would prefer, CAD-Preservés has geospatialised employment datasets from [BR Mitchell's _International Historical Statistics_](https://github.com/CAD-Preserves/br-mitchell) from 1750-2000, and the [Global Collaboratory on the History of Labour Relations](https://github.com/CAD-Preserves/global-collaboratory) for 1500-2000.
