@@ -91,7 +91,7 @@ let IntellteDiscovery = {
           has_rmd: has_rmd,
           hero_caption: fm.hero_caption || "",
           hero_figure_rel: local_ver.hero_figure || fm.hero_figure || "",
-          is_latest: false,
+          is_latest: Boolean(local_ver.is_latest),
           pdf_abs: pdf_abs,
           pdf_filename: (has_pdf) ? path.basename(pdf_abs) : "",
           pdf_url: (has_pdf) ? `${artefact_base_url}/${encodeURI(path.basename(pdf_abs))}` : null,
@@ -609,9 +609,11 @@ let IntellteDiscovery = {
 
   /**
    * Resolves the canonical latest version identifier from an enriched `versions` array.
+   * Explicitly honours an optional `is_latest: true` boolean if specified; otherwise falls back
+   * to highest semantic/chronological resolution.
    *
    * @param {Object[]} arg0_versions - Array of version metadata objects.
-   * @return {string} Highest semantic/chronological version string, or `""` if empty.
+   * @return {string} Canonical latest version identifier, or `""` if empty.
    */
   resolveLatestVersion: function (arg0_versions) {
     //Convert from parameters
@@ -619,9 +621,16 @@ let IntellteDiscovery = {
 
     //Declare local instance variables
     let best_ver = null;
+    let explicit_latest_versions = [];
 
     //Guard clauses
     if (versions.length === 0) return "";
+
+    for (let i = 0; i < versions.length; i++)
+      if (versions[i].is_latest) explicit_latest_versions.push(versions[i]);
+
+    if (explicit_latest_versions.length > 0)
+      return String(explicit_latest_versions[0].version || "");
 
     best_ver = versions[0];
     for (let i = 1; i < versions.length; i++) {
