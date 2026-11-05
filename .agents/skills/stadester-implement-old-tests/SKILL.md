@@ -4,7 +4,7 @@ description: Implements old Stadestér 1.0 tests for standardised benchmarking.
 disable-model-invocation: true
 ---
 
-# Step 1. Implement Old Stadestér Tests (Workflow)
+## Step 1. Implement Old Stadestér Tests (Workflow)
 
 The goal of this workflow is to implement a standard benchmark in /papers/stadester/benchmarks/ which may be referenced by future versions of Stadestér (current version: 1.1). The preceding version of Stadestér is known as Stadestér 1.0. The following file locations contain source files and tests:
 

@@ -25,18 +25,19 @@ stad_ghsl_df <- as.data.frame(pop_json$stadester_ghsl_series) %>%
 hyde_df <- as.data.frame(pop_json$hyde_un_series) %>%
   filter(urban_population > 0)
 
-# Base city count up to 1975 splice + GHSL 5-year benchmark epochs (1975-2025)
+# Base city count up to 1975 splice + full annual GHSL series (1975-2025)
 base_cnt_df <- as.data.frame(pop_json$stadester_base_series) %>%
   filter(year <= 1975, sample_size > 0)
-ghsl_cnt_df <- as.data.frame(pop_json$ghsl_series) %>%
-  filter(year >= 1975, year %% 5 == 0, sample_size > 0)
+ghsl_cnt_pts_df <- as.data.frame(pop_json$ghsl_series) %>%
+  filter(year >= 1975, sample_size > 0)
 
-# Ensure continuous hand-off at 1975 on the secondary city-count curve
+# Ensure continuous hand-off at 1975 on the secondary city-count line while keeping GHSL dots on GHSL data points
+ghsl_cnt_line_df <- ghsl_cnt_pts_df
 base_1975_row <- base_cnt_df %>% filter(year == 1975)
 if (nrow(base_1975_row) > 0) {
-  ghsl_cnt_df <- bind_rows(
+  ghsl_cnt_line_df <- bind_rows(
     data.frame(year = 1975, sample_size = base_1975_row$sample_size[1], urban_population = base_1975_row$urban_population[1]),
-    ghsl_cnt_df
+    ghsl_cnt_pts_df
   )
 }
 
@@ -56,7 +57,7 @@ log_minors <- as.vector(outer(2:9, 10^(4:9), `*`))
 log_p_min <- 4.30
 log_p_max <- 9.88
 cnt_min_lin <- -1700
-max_cnt_lin <- max(c(base_cnt_df$sample_size, ghsl_cnt_df$sample_size), na.rm = TRUE) * 1.07
+max_cnt_lin <- max(c(base_cnt_df$sample_size, ghsl_cnt_pts_df$sample_size), na.rm = TRUE) * 1.07
 
 lin_to_logp <- function(cnt) {
   log_p_min + ((cnt - cnt_min_lin) / (max_cnt_lin - cnt_min_lin)) * (log_p_max - log_p_min)
@@ -72,14 +73,14 @@ callouts_26a <- callouts_df %>%
       year == 2025 ~ 0.02,
       year == 2000 ~ -0.06,
       year == 1900 ~ 0.12,
-      year >= 0 & year <= 1800 & (year %% 200 == 0) ~ 0.21,
-      year >= 0 & year <= 1800 ~ -0.22,
-      TRUE ~ 0.16
+      year >= 0 & year <= 1800 & (year %% 200 == 0) ~ 0.24,
+      year >= 0 & year <= 1800 ~ -0.25,
+      TRUE ~ 0.19
     ),
     x_nudge = case_when(
-      year == 1900 ~ -125,
-      year == 2000 ~ 115,
-      year == 2025 ~ 105,
+      year == 1900 ~ -135,
+      year == 2000 ~ 120,
+      year == 2025 ~ 110,
       TRUE ~ 0
     )
   )
@@ -123,10 +124,20 @@ p26a <- ggplot() +
     aes(x = year, y = 10^lin_to_logp(sample_size), colour = legend_levels[3], linetype = legend_levels[3]),
     linewidth = 0.80
   ) +
+  geom_point(
+    data = base_cnt_df,
+    aes(x = year, y = 10^lin_to_logp(sample_size), colour = legend_levels[3], shape = legend_levels[3]),
+    size = 2.0
+  ) +
   geom_line(
-    data = ghsl_cnt_df,
+    data = ghsl_cnt_line_df,
     aes(x = year, y = 10^lin_to_logp(sample_size), colour = legend_levels[4], linetype = legend_levels[4]),
     linewidth = 0.90
+  ) +
+  geom_point(
+    data = ghsl_cnt_pts_df,
+    aes(x = year, y = 10^lin_to_logp(sample_size), colour = legend_levels[4], shape = legend_levels[4]),
+    size = 2.0
   ) +
   geom_text(
     data = callouts_26a,
@@ -181,12 +192,13 @@ p26a <- ggplot() +
   scale_shape_manual(
     name = NULL,
     breaks = legend_levels,
-    values = c(16, 16, NA, NA)
+    values = c(16, 16, 16, 16)
   ) +
   guides(
     colour = guide_legend(override.aes = list(
       linetype = c("solid", "dashed", "solid", "solid"),
-      shape = c(16, 16, NA, NA),
+      shape = c(16, 16, 16, 16),
+      size = c(2.2, 2.2, 2.2, 2.2),
       linewidth = c(0.9, 0.9, 0.9, 1.0)
     )),
     linetype = "none",
@@ -244,20 +256,20 @@ callouts_26b <- callouts_df %>%
       year == 2025 ~ 0.02,
       year == 2000 ~ 0.22,
       year == 1900 ~ 0.15,
-      year == 700 ~ -0.26,
-      year == 600 ~ 0.25,
-      year >= 700 & year <= 1800 & (year %% 200 == 0) ~ 0.21,
-      year >= 700 & year <= 1800 ~ -0.22,
-      year >= 0 & year <= 600 & (year %% 200 == 0) ~ 0.24,
-      year >= 0 & year <= 600 ~ -0.28,
-      TRUE ~ 0.18
+      year == 700 ~ -0.28,
+      year == 600 ~ 0.27,
+      year >= 700 & year <= 1800 & (year %% 200 == 0) ~ 0.24,
+      year >= 700 & year <= 1800 ~ -0.25,
+      year >= 0 & year <= 600 & (year %% 200 == 0) ~ 0.26,
+      year >= 0 & year <= 600 ~ -0.30,
+      TRUE ~ 0.20
     ),
     x_nudge = case_when(
       year == 600 ~ -35,
       year == 700 ~ 60,
-      year == 1900 ~ -140,
-      year == 2000 ~ -85,
-      year == 2025 ~ 105,
+      year == 1900 ~ -145,
+      year == 2000 ~ -90,
+      year == 2025 ~ 110,
       TRUE ~ 0
     )
   )
@@ -310,10 +322,20 @@ p26b <- ggplot() +
     aes(x = year, y = 10^logc_to_logp(sample_size), colour = legend_levels[3], linetype = legend_levels[3]),
     linewidth = 0.80
   ) +
+  geom_point(
+    data = base_cnt_df,
+    aes(x = year, y = 10^logc_to_logp(sample_size), colour = legend_levels[3], shape = legend_levels[3]),
+    size = 2.0
+  ) +
   geom_line(
-    data = ghsl_cnt_df,
+    data = ghsl_cnt_line_df,
     aes(x = year, y = 10^logc_to_logp(sample_size), colour = legend_levels[4], linetype = legend_levels[4]),
     linewidth = 0.90
+  ) +
+  geom_point(
+    data = ghsl_cnt_pts_df,
+    aes(x = year, y = 10^logc_to_logp(sample_size), colour = legend_levels[4], shape = legend_levels[4]),
+    size = 2.0
   ) +
   geom_text(
     data = callouts_26b,
@@ -368,12 +390,13 @@ p26b <- ggplot() +
   scale_shape_manual(
     name = NULL,
     breaks = legend_levels,
-    values = c(16, 16, NA, NA)
+    values = c(16, 16, 16, 16)
   ) +
   guides(
     colour = guide_legend(override.aes = list(
       linetype = c("solid", "dashed", "solid", "solid"),
-      shape = c(16, 16, NA, NA),
+      shape = c(16, 16, 16, 16),
+      size = c(2.2, 2.2, 2.2, 2.2),
       linewidth = c(0.9, 0.9, 0.9, 1.0)
     )),
     linetype = "none",
@@ -413,15 +436,28 @@ save_benchmark_png(
 # ==============================================================================
 # 3. Figure 27: Percentage Deviation between Stadestér-GHSL and HYDE/UN
 # ==============================================================================
-dev_df <- as.data.frame(dev_json$series)
+dev_df <- as.data.frame(dev_json$series) %>%
+  arrange(year)
+dev_end_row <- dev_df %>% filter(year == max(year, na.rm = TRUE)) %>% slice(1)
 
 p27 <- ggplot(dev_df, aes(x = year, y = pct_deviation_spliced)) +
-  geom_line(colour = "#1f77b4", linewidth = 1.05) +
-  geom_point(colour = "#1f77b4", size = 2.65) +
+  geom_line(colour = "#1f77b4", linewidth = 0.85) +
+  geom_point(colour = "#1f77b4", size = 1.90) +
+  geom_label(
+    data = dev_end_row,
+    aes(x = year, y = pct_deviation_spliced - 6.8, label = as.character(year)),
+    size = 3.05,
+    hjust = 0.52,
+    fill = alpha("white", 0.92),
+    linewidth = 0,
+    label.padding = unit(1.4, "pt"),
+    colour = "#1f2937",
+    family = "Karla"
+  ) +
   scale_x_continuous(
     name = "Year",
     breaks = seq(-3000, 2000, by = 1000),
-    limits = c(-3250, 2250),
+    limits = c(-3140, 2115),
     expand = c(0, 0)
   ) +
   scale_y_continuous(
@@ -429,7 +465,7 @@ p27 <- ggplot(dev_df, aes(x = year, y = pct_deviation_spliced)) +
     breaks = seq(-100, 140, by = 20)
   ) +
   labs(
-    title = "Percentage Deviation between Stadestér-GHSL and HYDE/UN"
+    title = "Percentage Deviation between Stadestér-GHSL and HYDE/UN (3000BC-2025AD)"
   ) +
   theme_bw(base_size = 13, base_family = "Karla") +
   theme(

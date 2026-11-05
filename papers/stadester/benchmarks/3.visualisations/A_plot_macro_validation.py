@@ -102,18 +102,27 @@ def build_fig25_centres_of_population(paths_ctx):
     hoverinfo="skip"
   ))
 
-  # Collision-free benchmark year labels using exact geometric centres ("middle center")
+  # Collision-free benchmark year labels rendered with crisp white pill backgrounds
+  lon_min, lon_max = 6.5, 73.5
+  lat_min, lat_max = 8.0, 49.5
+  fig_w, fig_h = 809, 500
+  px_per_deg = fig_h / (lat_max - lat_min)
+  x_offset = 0.5 * (fig_w - (lon_max - lon_min) * px_per_deg)
+
+  def geo_to_px(lon_v, lat_v):
+    return x_offset + (lon_v - lon_min) * px_per_deg, (lat_max - lat_v) * px_per_deg
+
   label_specs = []
   base_offsets = {
-    -3000: (-2.25, 0.55),
-    0: (-1.35, -1.05),
-    1000: (-1.65, 0.30),
-    1500: (-2.30, -0.65),
-    1800: (0.15, 1.35),
-    1900: (0.0, 1.35),
-    1950: (-1.95, -0.55),
-    1975: (-0.25, -1.45),
-    2025: (2.15, -0.35)
+    -3000: (-2.55, 0.70),
+    0: (-1.35, -1.10),
+    1000: (1.45, 0.85),
+    1500: (-2.55, -0.75),
+    1800: (0.15, 1.40),
+    1900: (0.0, 1.40),
+    1950: (-2.05, -0.55),
+    1975: (-0.25, -1.50),
+    2025: (2.35, -0.45)
   }
   for pt in base_bench_pts:
     yr = pt["year"]
@@ -122,12 +131,12 @@ def build_fig25_centres_of_population(paths_ctx):
     label_specs.append((pt["lon"] + dx, pt["lat"] + dy, disp))
 
   reba_offsets = {
-    -3700: (0.35, -1.35),
-    1: (1.35, -0.85),
-    1500: (1.95, 0.25),
-    1800: (0.35, 1.35),
-    1900: (1.95, -0.95),
-    2000: (-2.15, 0.35)
+    -3700: (0.55, -1.40),
+    1: (1.40, -0.95),
+    1500: (2.15, 0.25),
+    1800: (0.35, 1.40),
+    1900: (2.05, -0.95),
+    2000: (-2.25, 0.35)
   }
   for pt in reba_pts:
     yr = pt["year"]
@@ -137,9 +146,9 @@ def build_fig25_centres_of_population(paths_ctx):
     label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr)))
 
   mc_offsets = {
-    1950: (0.25, 1.25),
-    1975: (0.85, 1.20),
-    2010: (-0.35, -1.35)
+    1950: (0.25, 1.30),
+    1975: (0.85, 1.25),
+    2010: (-2.15, -0.45)
   }
   for pt in mc_pts:
     yr = pt["year"]
@@ -147,31 +156,27 @@ def build_fig25_centres_of_population(paths_ctx):
     label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr)))
 
   ghsl_offsets = {
-    1975: (2.15, 0.15),
-    2025: (-0.15, -1.45)
+    1975: (2.25, 0.15),
+    2025: (-0.15, -1.50)
   }
   for pt in ghsl_bench_pts:
     yr = pt["year"]
     dx, dy = ghsl_offsets.get(yr, (1.5, -0.5))
     label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr)))
 
-  fig.add_trace(go.Scattergeo(
-    lon=[it[0] for it in label_specs],
-    lat=[it[1] for it in label_specs],
-    text=[it[2] for it in label_specs],
-    textposition="middle center",
-    mode="text",
-    textfont=dict(family="Karla, sans-serif", size=11.5, color="#0f172a"),
-    showlegend=False,
-    hoverinfo="skip"
-  ))
+  year_pill_divs = []
+  for lon_v, lat_v, disp_txt in label_specs:
+    lx_px, ly_px = geo_to_px(lon_v, lat_v)
+    year_pill_divs.append(
+      f'<div style="position:absolute; left:{lx_px:.2f}px; top:{ly_px:.2f}px; transform:translate(-50%,-50%); background:rgba(255,255,255,0.95); padding:1px 3.8px; border-radius:2.5px; font-family:\'Karla\',sans-serif; font-size:11.5px; font-weight:500; color:#0f172a; line-height:1.05; white-space:nowrap; pointer-events:none;">{disp_txt}</div>'
+    )
 
   # Exact 1.0 geographic window framing Italy to Western India (809x500 aspect)
   fig.update_geos(
     projection_type="equirectangular",
     resolution=50,
-    lonaxis=dict(range=[6.5, 73.5]),
-    lataxis=dict(range=[8.0, 49.5]),
+    lonaxis=dict(range=[lon_min, lon_max]),
+    lataxis=dict(range=[lat_min, lat_max]),
     showland=True,
     landcolor="#e5ecf6",
     showocean=True,
@@ -193,8 +198,9 @@ def build_fig25_centres_of_population(paths_ctx):
     plot_bgcolor="#ffffff"
   )
 
-  # Authentic 1.0 top-left title strips and bottom-right legend card scaled to 809x500 logical viewport
-  overlay_html = """
+  # Authentic 1.0 top-left title strips, white-backed year pills, and bottom-right legend card
+  overlay_html = f"""
+  {''.join(year_pill_divs)}
   <div style="position:absolute; top:14px; left:0; display:flex; flex-direction:column; align-items:flex-start; pointer-events:none;">
     <div style="background:#ffffff; padding:4px 16px 2px 22px; font-family:'Jost',sans-serif; font-size:27px; font-weight:400; color:#111111; line-height:1.15; letter-spacing:0.01em;">
       Centres of Population by Dataset

@@ -315,12 +315,12 @@ def build_fig28_regional_cogs(paths_ctx):
     traj_pts_px = densify_px(b_lons, b_lats) + densify_px(g_lons, g_lats)
 
     cands = [
-      {"text": "Base", "ax": bmx, "ay": bmy, "w": 33, "h": 14, "pref_dx": 0, "pref_dy": -16},
-      {"text": "GHSL", "ax": gmx, "ay": gmy, "w": 35, "h": 14, "pref_dx": 0, "pref_dy": 16},
-      {"text": "1975", "ax": b0x, "ay": b0y, "w": 31, "h": 13, "pref_dx": 24, "pref_dy": -9},
-      {"text": "2000", "ax": b1x, "ay": b1y, "w": 33, "h": 13, "pref_dx": -26, "pref_dy": -9},
-      {"text": "1975", "ax": g0x, "ay": g0y, "w": 31, "h": 13, "pref_dx": 24, "pref_dy": 11},
-      {"text": "2000", "ax": g1x, "ay": g1y, "w": 33, "h": 13, "pref_dx": -26, "pref_dy": 11}
+      {"text": "Base", "ax": bmx, "ay": bmy, "w": 39, "h": 17, "pref_dx": 0, "pref_dy": -17},
+      {"text": "GHSL", "ax": gmx, "ay": gmy, "w": 41, "h": 17, "pref_dx": 0, "pref_dy": 17},
+      {"text": "1975", "ax": b0x, "ay": b0y, "w": 37, "h": 16, "pref_dx": 26, "pref_dy": -10},
+      {"text": "2000", "ax": b1x, "ay": b1y, "w": 39, "h": 16, "pref_dx": -28, "pref_dy": -10},
+      {"text": "1975", "ax": g0x, "ay": g0y, "w": 37, "h": 16, "pref_dx": 26, "pref_dy": 12},
+      {"text": "2000", "ax": g1x, "ay": g1y, "w": 39, "h": 16, "pref_dx": -28, "pref_dy": 12}
     ]
     placed_lbls = place_non_overlapping_labels(
       cands,
@@ -333,7 +333,7 @@ def build_fig28_regional_cogs(paths_ctx):
     lbl_divs = []
     for lb in placed_lbls:
       lbl_divs.append(
-        f'<div style="position:absolute; left:{lb["x"]:.1f}px; top:{lb["y"]:.1f}px; transform:translate(-50%,-50%); font-family:\'Karla\',sans-serif; font-size:12.2px; font-weight:500; color:#111111; text-shadow:0 0 3px rgba(215,220,225,0.95); white-space:nowrap;">{lb["text"]}</div>'
+        f'<div style="position:absolute; left:{lb["x"]:.1f}px; top:{lb["y"]:.1f}px; transform:translate(-50%,-50%); background:rgba(255,255,255,0.93); padding:1px 3.8px; border-radius:2.5px; font-family:\'Karla\',sans-serif; font-size:12.0px; font-weight:500; color:#111111; line-height:1.05; white-space:nowrap;">{lb["text"]}</div>'
       )
 
     disp_name = reg["name"].replace("&", "and")
@@ -344,7 +344,7 @@ def build_fig28_regional_cogs(paths_ctx):
     <div style="position:absolute; left:{px0}px; top:{py0}px; width:{panel_w}px; height:{panel_h}px; border:1px solid #666666; box-sizing:border-box; pointer-events:none;">
       {''.join(lbl_divs)}
       <div style="position:absolute; left:8px; bottom:6px; display:flex; flex-direction:column; align-items:flex-start;">
-        <span style="font-family:'Karla',sans-serif; font-size:11.8px; font-weight:500; color:#111111; margin-bottom:2px; text-shadow:0 0 3.5px rgba(225,230,235,0.95);">200km</span>
+        <span style="background:rgba(255,255,255,0.90); padding:0.5px 3px; border-radius:2px; font-family:'Karla',sans-serif; font-size:11.8px; font-weight:500; color:#111111; line-height:1.05; margin-bottom:2px;">200km</span>
         <div style="width:{sb_px:.1f}px; height:2.1px; background:#111111;"></div>
       </div>
       <div style="position:absolute; right:-1px; bottom:-1px; width:{ins_w}px; height:{ins_h}px; border:1.25px solid #111111; box-sizing:border-box;"></div>
@@ -532,9 +532,9 @@ def build_fig33_top_120(paths_ctx):
       "City Centre Density by Rank (>=1975, GHSL)",
       "City Population by Rank"
     ),
-    row_heights=[0.48, 0.52],
-    vertical_spacing=0.075,
-    horizontal_spacing=0.048
+    row_heights=[0.46, 0.54],
+    vertical_spacing=0.135,
+    horizontal_spacing=0.062
   )
 
   metrics = [
@@ -544,7 +544,6 @@ def build_fig33_top_120(paths_ctx):
     ("population", "Population")
   ]
 
-  legend_added = set()
   for col_idx, (m_key, y_title) in enumerate(metrics, start=1):
     items = t120_data["rankings"][m_key]
     vals = [max(0.0, float(it["value"])) for it in items]
@@ -555,10 +554,7 @@ def build_fig33_top_120(paths_ctx):
       reg_items = [it for it in items if it["region"] == reg_name]
       if not reg_items:
         continue
-      sizes = [9.5 + ((float(it["value"]) - v_min) / denom) * 34.0 for it in reg_items]
-      show_leg = reg_name not in legend_added
-      if show_leg:
-        legend_added.add(reg_name)
+      sizes = [9.0 + ((float(it["value"]) - v_min) / denom) * 33.0 for it in reg_items]
 
       fig.add_trace(
         go.Scattergeo(
@@ -567,12 +563,12 @@ def build_fig33_top_120(paths_ctx):
           mode="markers",
           name=reg_name,
           legendgroup=reg_name,
-          showlegend=show_leg,
+          showlegend=False,
           marker=dict(
             size=sizes,
             color=region_colors.get(reg_name, "#888888"),
             opacity=0.82,
-            line=dict(width=0.95, color="#1f2937")
+            line=dict(width=0.70, color="#1f2937")
           ),
           hoverinfo="skip"
         ),
@@ -601,6 +597,7 @@ def build_fig33_top_120(paths_ctx):
       range=[0.5, 120.5],
       showgrid=False,
       title_font=dict(size=13.5),
+      title_standoff=10,
       tickfont=dict(size=11.8),
       row=2,
       col=col_idx
@@ -612,6 +609,7 @@ def build_fig33_top_120(paths_ctx):
       zeroline=True,
       zerolinecolor="#ffffff",
       title_font=dict(size=13.5),
+      title_standoff=8,
       tickfont=dict(size=11.8),
       row=2,
       col=col_idx
@@ -639,38 +637,51 @@ def build_fig33_top_120(paths_ctx):
 
   for ann in fig.layout.annotations:
     ann.font = dict(family="Karla, sans-serif", size=14.5, color="#1f2937")
+    ann.y = float(ann.y) + 0.008
 
   fig.update_layout(
     title=dict(
       text="Top 120 cities by maximum area/density/population (no outliers removed, proxy model)",
-      x=0.015,
+      x=0.045,
+      y=0.955,
       xanchor="left",
+      yanchor="top",
       font=dict(family="Jost, sans-serif", size=23, color="#111827")
     ),
     font=dict(family="Karla, sans-serif", size=12.5, color="#1f2937"),
     paper_bgcolor="#ffffff",
     plot_bgcolor="#e5ecf6",
     bargap=0.0,
-    margin=dict(l=66, r=210, t=76, b=52),
-    legend=dict(
-      title=dict(text="Region", font=dict(size=14.5)),
-      itemsizing="constant",
-      x=1.008,
-      y=0.98,
-      xanchor="left",
-      yanchor="top",
-      font=dict(size=13)
-    )
+    margin=dict(l=112, r=258, t=118, b=92),
+    showlegend=False
   )
+
+  legend_rows_html = []
+  for reg_name in region_order:
+    reg_hex = region_colors.get(reg_name, "#888888")
+    legend_rows_html.append(
+      f'<div style="display:flex; align-items:center; gap:9px; margin-bottom:7.5px;">'
+      f'<span style="width:11px; height:11px; border-radius:50%; background:{reg_hex}; opacity:0.86; border:0.65px solid #374151; box-sizing:border-box; flex-shrink:0;"></span>'
+      f'<span style="font-size:13px; color:#1f2937; line-height:1.18; white-space:nowrap;">{reg_name}</span>'
+      f'</div>'
+    )
+
+  legend_overlay_html = f"""
+  <div style="position:absolute; right:36px; top:120px; margin-bottom:44px; padding-bottom:18px; font-family:'Karla',sans-serif; pointer-events:none;">
+    <div style="font-size:14.5px; font-weight:500; color:#1f2937; margin-bottom:12px;">Region</div>
+    {''.join(legend_rows_html)}
+  </div>
+  """
 
   out_png = os.path.join(paths_ctx["meso_dir"], "fig33_top_120_area_density_population.png")
   render_plotly_figure_to_png(
     fig=fig,
     out_png_path=out_png,
-    width_px=1920,
-    height_px=760,
+    width_px=2120,
+    height_px=880,
     paths_ctx=paths_ctx,
     scale=2,
+    extra_html=legend_overlay_html,
     wait_ms=5000
   )
 

@@ -113,6 +113,12 @@ def render_spatiotemporal_dual_grid(
   )
   font_css = build_font_face_css(fonts_dir)
 
+  g30_vis_cfg = paths_ctx["config"].get("visualisations", {}).get("global_30", {})
+  circle_scale = float(g30_vis_cfg.get("circle_scale", 0.0086))
+  max_circle_pop = float(g30_vis_cfg.get("max_circle_population", 1000000.0))
+  max_circle_rad = float(g30_vis_cfg.get("max_circle_radius_px", 8.6))
+  min_circle_rad = float(g30_vis_cfg.get("min_circle_radius_px", 1.25))
+
   tile_s = 165
   col_step = 214
   row_step = 210
@@ -207,7 +213,7 @@ def render_spatiotemporal_dual_grid(
       px_list = sorted(city.get(pixel_key, []), key=lambda item: item.get("first_year", 2000))
 
       if render_mode == "dual_expansion":
-        # Layer 1: Faint proportional 2000AD circles underneath spatial expansion grid
+        # Layer 1: Faint proportional 2000AD circles underneath spatial expansion grid (clamped to 1.0 max radius)
         for p_item in px_list:
           last_pop = p_item.get("last_population", 0)
           if last_pop <= 0:
@@ -215,7 +221,8 @@ def render_spatiotemporal_dual_grid(
           fy = p_item.get("first_year", 1800)
           col_hex = viridis_hex((fy - 1800.0) / 200.0)
           cx, cy = to_xy(p_item["lon"], p_item["lat"])
-          rad = max(1.25, math.sqrt(float(last_pop)) * 0.0086)
+          clamped_pop = min(float(last_pop), max_circle_pop)
+          rad = min(max_circle_rad, max(min_circle_rad, math.sqrt(clamped_pop) * circle_scale))
           inner.append(
             f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="{rad:.2f}" fill="{col_hex}" fill-opacity="0.26"/>'
           )
@@ -228,7 +235,7 @@ def render_spatiotemporal_dual_grid(
             f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="2.05" fill="{col_hex}" fill-opacity="0.88"/>'
           )
       else:
-        # Figure 31: 1pt = 1ihb proportional circles coloured by first_year
+        # Figure 31: 1pt = 1ihb proportional circles coloured by first_year (clamped to 1.0 max radius)
         for p_item in px_list:
           pop_val = p_item.get("last_population", 0)
           if pop_val <= 0:
@@ -236,7 +243,8 @@ def render_spatiotemporal_dual_grid(
           fy = p_item.get("first_year", 1800)
           col_hex = viridis_hex((fy - 1800.0) / 200.0)
           cx, cy = to_xy(p_item["lon"], p_item["lat"])
-          rad = max(1.25, math.sqrt(max(1.0, float(pop_val))) * 0.0086)
+          clamped_pop = min(max(1.0, float(pop_val)), max_circle_pop)
+          rad = min(max_circle_rad, max(min_circle_rad, math.sqrt(clamped_pop) * circle_scale))
           inner.append(
             f'<circle cx="{cx:.2f}" cy="{cy:.2f}" r="{rad:.2f}" fill="{col_hex}" fill-opacity="0.74"/>'
           )
