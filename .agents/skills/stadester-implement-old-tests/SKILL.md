@@ -1,6 +1,7 @@
 ---
 name: stadester-implement-old-tests
 description: Implements old Stadestér 1.0 tests for standardised benchmarking.
+disable-model-invocation: true
 ---
 
 # Step 1. Implement Old Stadestér Tests (Workflow)

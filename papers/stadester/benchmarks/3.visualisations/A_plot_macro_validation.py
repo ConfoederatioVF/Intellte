@@ -19,7 +19,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 def build_fig25_centres_of_population(paths_ctx):
   """
   Renders Figure 25 (1.macro_validation/fig25_centres_of_population.png) matching the
-  original Stadestér 1.0 Centres of Population cartographic design.
+  exact 809x500 optical proportions, map framing, and typography of Stadestér 1.0 Figure 25.
 
   @param paths_ctx Project paths and config dictionary.
   """
@@ -49,7 +49,7 @@ def build_fig25_centres_of_population(paths_ctx):
     lon=[pt["lon"] for pt in base_pts],
     lat=[pt["lat"] for pt in base_pts],
     mode="lines",
-    line=dict(color="#0018f9", width=2.4),
+    line=dict(color="#0018f9", width=2.2),
     showlegend=False,
     hoverinfo="skip"
   ))
@@ -57,7 +57,7 @@ def build_fig25_centres_of_population(paths_ctx):
     lon=[pt["lon"] for pt in base_bench_pts],
     lat=[pt["lat"] for pt in base_bench_pts],
     mode="markers",
-    marker=dict(color="#0018f9", size=7.5),
+    marker=dict(color="#0018f9", size=7.2),
     showlegend=False,
     hoverinfo="skip"
   ))
@@ -67,8 +67,8 @@ def build_fig25_centres_of_population(paths_ctx):
     lon=[pt["lon"] for pt in reba_pts],
     lat=[pt["lat"] for pt in reba_pts],
     mode="lines+markers",
-    line=dict(color="#32d74b", width=2.4),
-    marker=dict(color="#32d74b", size=7.5),
+    line=dict(color="#32d74b", width=2.2),
+    marker=dict(color="#32d74b", size=7.2),
     showlegend=False,
     hoverinfo="skip"
   ))
@@ -78,8 +78,8 @@ def build_fig25_centres_of_population(paths_ctx):
     lon=[pt["lon"] for pt in mc_pts],
     lat=[pt["lat"] for pt in mc_pts],
     mode="lines+markers",
-    line=dict(color="#9c6b78", width=2.4),
-    marker=dict(color="#9c6b78", size=7.5),
+    line=dict(color="#9c6b78", width=2.2),
+    marker=dict(color="#9c6b78", size=7.2),
     showlegend=False,
     hoverinfo="skip"
   ))
@@ -89,7 +89,7 @@ def build_fig25_centres_of_population(paths_ctx):
     lon=ghsl_line_lons,
     lat=ghsl_line_lats,
     mode="lines",
-    line=dict(color="#f90b0b", width=2.5),
+    line=dict(color="#f90b0b", width=2.3),
     showlegend=False,
     hoverinfo="skip"
   ))
@@ -97,81 +97,81 @@ def build_fig25_centres_of_population(paths_ctx):
     lon=[pt["lon"] for pt in ghsl_bench_pts],
     lat=[pt["lat"] for pt in ghsl_bench_pts],
     mode="markers",
-    marker=dict(color="#f90b0b", size=7.5),
+    marker=dict(color="#f90b0b", size=7.2),
     showlegend=False,
     hoverinfo="skip"
   ))
 
-  # Crisp collision-free benchmark year labels positioned directly in geo coordinates
+  # Collision-free benchmark year labels using exact geometric centres ("middle center")
   label_specs = []
   base_offsets = {
-    -3000: (0.2, -1.05, "middle center"),
-    0: (-1.15, -0.75, "middle right"),
-    1000: (0.0, 0.95, "middle center"),
-    1500: (-1.15, -0.15, "middle right"),
-    1800: (-1.05, 0.85, "middle right"),
-    1900: (0.0, -1.05, "middle center"),
-    1950: (0.95, -0.75, "middle left"),
-    1975: (-0.85, -1.05, "middle right"),
-    2025: (-0.55, 1.05, "middle center")
+    -3000: (-2.25, 0.55),
+    0: (-1.35, -1.05),
+    1000: (-1.65, 0.30),
+    1500: (-2.30, -0.65),
+    1800: (0.15, 1.35),
+    1900: (0.0, 1.35),
+    1950: (-1.95, -0.55),
+    1975: (-0.25, -1.45),
+    2025: (2.15, -0.35)
   }
   for pt in base_bench_pts:
     yr = pt["year"]
     disp = "1" if yr == 0 else str(yr)
-    dx, dy, pos = base_offsets.get(yr, (0.0, 0.9, "middle center"))
-    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, disp, pos))
+    dx, dy = base_offsets.get(yr, (0.0, 1.2))
+    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, disp))
 
   reba_offsets = {
-    -3700: (1.55, -0.55, "middle left"),
-    1: (0.55, -0.95, "middle left"),
-    1000: (-0.9, 0.85, "middle right"),
-    1500: (1.15, 0.45, "middle left"),
-    1800: (0.0, 0.95, "middle center"),
-    1900: (0.2, 1.0, "middle center"),
-    2000: (1.15, 0.15, "middle left")
+    -3700: (0.35, -1.35),
+    1: (1.35, -0.85),
+    1500: (1.95, 0.25),
+    1800: (0.35, 1.35),
+    1900: (1.95, -0.95),
+    2000: (-2.15, 0.35)
   }
   for pt in reba_pts:
     yr = pt["year"]
     if yr == 1000:
       continue
-    dx, dy, pos = reba_offsets.get(yr, (0.8, 0.5, "middle left"))
-    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr), pos))
+    dx, dy = reba_offsets.get(yr, (1.2, 0.5))
+    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr)))
 
   mc_offsets = {
-    1950: (1.15, 0.45, "middle left"),
-    1975: (1.15, 0.55, "middle left"),
-    2010: (1.05, -0.15, "middle left")
+    1950: (0.25, 1.25),
+    1975: (0.85, 1.20),
+    2010: (-0.35, -1.35)
   }
   for pt in mc_pts:
     yr = pt["year"]
-    dx, dy, pos = mc_offsets.get(yr, (0.9, 0.3, "middle left"))
-    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr), pos))
+    dx, dy = mc_offsets.get(yr, (1.0, 0.5))
+    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr)))
 
   ghsl_offsets = {
-    1975: (1.15, -0.45, "middle left"),
-    2025: (-0.2, -1.1, "middle center")
+    1975: (2.15, 0.15),
+    2025: (-0.15, -1.45)
   }
   for pt in ghsl_bench_pts:
     yr = pt["year"]
-    dx, dy, pos = ghsl_offsets.get(yr, (0.9, -0.5, "middle left"))
-    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr), pos))
+    dx, dy = ghsl_offsets.get(yr, (1.5, -0.5))
+    label_specs.append((pt["lon"] + dx, pt["lat"] + dy, str(yr)))
 
   fig.add_trace(go.Scattergeo(
     lon=[it[0] for it in label_specs],
     lat=[it[1] for it in label_specs],
     text=[it[2] for it in label_specs],
-    textposition=[it[3] for it in label_specs],
+    textposition="middle center",
     mode="text",
-    textfont=dict(family="Karla, sans-serif", size=12, color="#111827"),
+    textfont=dict(family="Karla, sans-serif", size=11.5, color="#0f172a"),
     showlegend=False,
     hoverinfo="skip"
   ))
 
+  # Exact 1.0 geographic window framing Italy to Western India (809x500 aspect)
   fig.update_geos(
     projection_type="equirectangular",
     resolution=50,
-    lonaxis=dict(range=[-4.5, 76.5]),
-    lataxis=dict(range=[8.5, 54.2]),
+    lonaxis=dict(range=[6.5, 73.5]),
+    lataxis=dict(range=[8.0, 49.5]),
     showland=True,
     landcolor="#e5ecf6",
     showocean=True,
@@ -179,11 +179,11 @@ def build_fig25_centres_of_population(paths_ctx):
     showlakes=True,
     lakecolor="#ffffff",
     showcountries=True,
-    countrycolor="#64748b",
-    countrywidth=0.75,
+    countrycolor="#526071",
+    countrywidth=0.7,
     showcoastlines=True,
-    coastlinecolor="#64748b",
-    coastlinewidth=0.75,
+    coastlinecolor="#526071",
+    coastlinewidth=0.7,
     showframe=False
   )
 
@@ -193,49 +193,49 @@ def build_fig25_centres_of_population(paths_ctx):
     plot_bgcolor="#ffffff"
   )
 
-  # Authentic 1.0 top-left title strips and bottom-right legend card in Jost/Karla
+  # Authentic 1.0 top-left title strips and bottom-right legend card scaled to 809x500 logical viewport
   overlay_html = """
-  <div style="position:absolute; top:22px; left:0; display:flex; flex-direction:column; align-items:flex-start; pointer-events:none;">
-    <div style="background:#ffffff; padding:6px 18px 4px 28px; font-family:'Jost',sans-serif; font-size:30px; font-weight:400; color:#111111; line-height:1.15; letter-spacing:0.01em;">
+  <div style="position:absolute; top:14px; left:0; display:flex; flex-direction:column; align-items:flex-start; pointer-events:none;">
+    <div style="background:#ffffff; padding:4px 16px 2px 22px; font-family:'Jost',sans-serif; font-size:27px; font-weight:400; color:#111111; line-height:1.15; letter-spacing:0.01em;">
       Centres of Population by Dataset
     </div>
-    <div style="background:#ffffff; padding:2px 20px 8px 28px; font-family:'Jost',sans-serif; font-size:30px; font-weight:400; color:#111111; line-height:1.15; letter-spacing:0.01em;">
+    <div style="background:#ffffff; padding:1px 18px 6px 22px; font-family:'Jost',sans-serif; font-size:27px; font-weight:400; color:#111111; line-height:1.15; letter-spacing:0.01em;">
       (3700BC - 2025AD)
     </div>
   </div>
 
-  <div style="position:absolute; right:0; bottom:0; width:280px; background:#ffffff; padding:16px 22px 18px 22px; box-sizing:border-box; font-family:'Karla',sans-serif; color:#111111;">
-    <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
-      <span style="width:34px; text-align:center; font-size:12px; color:#374151;">1900</span>
-      <span style="font-size:17px; font-weight:500;">Benchmark Year</span>
+  <div style="position:absolute; right:0; bottom:0; width:212px; background:#ffffff; padding:12px 14px 14px 16px; box-sizing:border-box; font-family:'Karla',sans-serif; color:#111111;">
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:11px;">
+      <span style="width:28px; text-align:center; font-size:10.5px; color:#1f2937;">1900</span>
+      <span style="font-size:15.5px; font-weight:400;">Benchmark Year</span>
     </div>
-    <div style="display:flex; align-items:flex-start; gap:14px; margin-bottom:10px;">
-      <div style="width:34px; height:22px; position:relative; flex-shrink:0;">
-        <div style="position:absolute; top:10px; left:2px; right:2px; height:2.5px; background:#9c6b78;"></div>
-        <div style="position:absolute; top:6px; left:12px; width:10px; height:10px; border-radius:50%; background:#9c6b78;"></div>
+    <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:8px;">
+      <div style="width:28px; height:20px; position:relative; flex-shrink:0;">
+        <div style="position:absolute; top:9px; left:1px; right:1px; height:2.2px; background:#9c6b78;"></div>
+        <div style="position:absolute; top:5.5px; left:9.5px; width:9px; height:9px; border-radius:50%; background:#9c6b78;"></div>
       </div>
-      <div style="font-size:17px; line-height:1.25;">Mulligan &amp;<br/>Crampton</div>
+      <div style="font-size:15.5px; line-height:1.22;">Mulligan &amp;<br/>Crampton</div>
     </div>
-    <div style="display:flex; align-items:center; gap:14px; margin-bottom:10px;">
-      <div style="width:34px; height:20px; position:relative; flex-shrink:0;">
-        <div style="position:absolute; top:9px; left:2px; right:2px; height:2.5px; background:#0018f9;"></div>
-        <div style="position:absolute; top:5px; left:12px; width:10px; height:10px; border-radius:50%; background:#0018f9;"></div>
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+      <div style="width:28px; height:18px; position:relative; flex-shrink:0;">
+        <div style="position:absolute; top:8px; left:1px; right:1px; height:2.2px; background:#0018f9;"></div>
+        <div style="position:absolute; top:4.5px; left:9.5px; width:9px; height:9px; border-radius:50%; background:#0018f9;"></div>
       </div>
-      <div style="font-size:17px;">Stadestér Base</div>
+      <div style="font-size:15.5px;">Stadestér Base</div>
     </div>
-    <div style="display:flex; align-items:center; gap:14px; margin-bottom:10px;">
-      <div style="width:34px; height:20px; position:relative; flex-shrink:0;">
-        <div style="position:absolute; top:9px; left:2px; right:2px; height:2.5px; background:#f90b0b;"></div>
-        <div style="position:absolute; top:5px; left:12px; width:10px; height:10px; border-radius:50%; background:#f90b0b;"></div>
+    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+      <div style="width:28px; height:18px; position:relative; flex-shrink:0;">
+        <div style="position:absolute; top:8px; left:1px; right:1px; height:2.2px; background:#f90b0b;"></div>
+        <div style="position:absolute; top:4.5px; left:9.5px; width:9px; height:9px; border-radius:50%; background:#f90b0b;"></div>
       </div>
-      <div style="font-size:17px;">Stadestér-GHSL</div>
+      <div style="font-size:15.5px;">Stadestér-GHSL</div>
     </div>
-    <div style="display:flex; align-items:center; gap:14px;">
-      <div style="width:34px; height:20px; position:relative; flex-shrink:0;">
-        <div style="position:absolute; top:9px; left:2px; right:2px; height:2.5px; background:#32d74b;"></div>
-        <div style="position:absolute; top:5px; left:12px; width:10px; height:10px; border-radius:50%; background:#32d74b;"></div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:28px; height:18px; position:relative; flex-shrink:0;">
+        <div style="position:absolute; top:8px; left:1px; right:1px; height:2.2px; background:#32d74b;"></div>
+        <div style="position:absolute; top:4.5px; left:9.5px; width:9px; height:9px; border-radius:50%; background:#32d74b;"></div>
       </div>
-      <div style="font-size:17px;">Reba et al.</div>
+      <div style="font-size:15.5px;">Reba et al.</div>
     </div>
   </div>
   """
@@ -244,10 +244,10 @@ def build_fig25_centres_of_population(paths_ctx):
   render_plotly_figure_to_png(
     fig=fig,
     out_png_path=out_png,
-    width_px=1400,
-    height_px=790,
+    width_px=809,
+    height_px=500,
     paths_ctx=paths_ctx,
-    scale=2,
+    scale=3,
     extra_html=overlay_html,
     wait_ms=4000
   )

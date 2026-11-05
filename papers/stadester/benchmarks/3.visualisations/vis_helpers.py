@@ -473,6 +473,7 @@ def compile_xelatex_to_png(tex_body, out_png_path, paths_ctx, paper_width_in=7.5
 \\newcommand{{\\karlaregular}}{{\\karlafont\\mdseries}}
 \\newcommand{{\\karlabold}}{{\\karlafont\\bfseries}}
 \\definecolor{{metrogray}}{{HTML}}{{EAEAEA}}
+\\definecolor{{metroswatch}}{{HTML}}{{C2C2C2}}
 \\definecolor{{crdmeta}}{{RGB}}{{45,45,45}}
 \\setlength{{\\parindent}}{{0pt}}
 \\renewcommand{{\\normalsize}}{{\\fontsize{{10pt}}{{14.5pt}}\\selectfont}}

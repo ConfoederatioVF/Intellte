@@ -169,9 +169,16 @@ global.CityDatasetCompiler = {
     let density_ghsl_candidates_array = [];
     let pop_candidates_array = [];
 
+    let min_pop_threshold = (config_obj.min_inhabitant_threshold !== undefined) ?
+      Number(config_obj.min_inhabitant_threshold) : 1;
     let region_name_to_meta = {};
+    let snapshot_cities_obj = {};
+    let snapshot_years_array = config_obj.time_domains.snapshot_years;
+
     for (let i = 0; i < config_obj.regions.length; i++)
       region_name_to_meta[config_obj.regions[i].name] = config_obj.regions[i];
+    for (let i = 0; i < snapshot_years_array.length; i++)
+      snapshot_cities_obj[String(snapshot_years_array[i])] = [];
 
     for (let i = 0; i < all_stad_ghsl_keys.length; i++) {
       let local_full_key = all_stad_ghsl_keys[i];
@@ -184,6 +191,23 @@ global.CityDatasetCompiler = {
       let local_lat = Number(local_city.coords[0]);
       let local_lon = Number(local_city.coords[1]);
       if (!Number.isFinite(local_lat) || !Number.isFinite(local_lon)) continue;
+
+      if (local_city.population && typeof local_city.population === "object") {
+        for (let x = 0; x < snapshot_years_array.length; x++) {
+          let local_snap_yr = snapshot_years_array[x];
+          let local_valid_src = (local_snap_yr < splice_year) ? local_is_stad : local_is_ghsl;
+          if (local_valid_src) {
+            let local_snap_val = Number(local_city.population[String(local_snap_yr)]);
+            if (Number.isFinite(local_snap_val) && local_snap_val >= min_pop_threshold) {
+              snapshot_cities_obj[String(local_snap_yr)].push([
+                Number(local_lon.toFixed(4)),
+                Number(local_lat.toFixed(4)),
+                Math.round(local_snap_val)
+              ]);
+            }
+          }
+        }
+      }
 
       let local_reg_meta = (local_city.region && region_name_to_meta[local_city.region]) ?
         region_name_to_meta[local_city.region] :
@@ -290,9 +314,16 @@ global.CityDatasetCompiler = {
       version_label: config_obj.version_label
     };
 
+    for (let i = 0; i < snapshot_years_array.length; i++) {
+      let local_ys = String(snapshot_years_array[i]);
+      snapshot_cities_obj[local_ys].sort((a, b) => a[2] - b[2]);
+    }
+
     let out_file = path.join(compiled_dir, "city_datasets_compiled.json");
+    let out_snap_cities_file = path.join(compiled_dir, "urban_city_snapshots.json");
     BenchmarkIO.saveJSON(out_file, output_obj);
-    console.log(`[1.compiler/A] Saved ${out_file} (${output_obj.summary.total_stadester_ghsl_cities} combined cities, ${output_obj.summary.total_population_records} pop records).`);
+    BenchmarkIO.saveJSON(out_snap_cities_file, snapshot_cities_obj, { compact: true });
+    console.log(`[1.compiler/A] Saved ${out_file} and ${out_snap_cities_file} (${output_obj.summary.total_stadester_ghsl_cities} combined cities, ${output_obj.summary.total_population_records} pop records).`);
 
     //Return statement
     return output_obj;

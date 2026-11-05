@@ -297,7 +297,7 @@ def render_fig38_metro_vs_non_metro_table(paths_ctx):
 
   lines = [
     "\\begin{center}",
-    "{\\fontsize{10pt}{14pt}\\selectfont [{\\textcolor{metrogray}{\\rule{0.62em}{0.62em}}}] Metro-adjusted / [\\phantom{\\rule{0.62em}{0.62em}}] Non-metro adjusted. Figures are given in thousands.\\par}",
+    "{\\fontsize{10pt}{14pt}\\selectfont [{\\textcolor{metroswatch}{\\rule{0.62em}{0.62em}}}] Metro-adjusted / [\\phantom{\\rule{0.62em}{0.62em}}] Non-metro adjusted. Figures are given in thousands.\\par}",
     "\\end{center}",
     "\\vspace{4pt}",
     "\\fontsize{8.8pt}{12.2pt}\\selectfont",

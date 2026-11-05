@@ -107,12 +107,15 @@ global.RasterSummaryCompiler = {
     let config_obj = arg0_config;
 
     //Declare local instance variables.
+    let align_to_rural = Boolean(config_obj.time_domains.align_macro_series_to_rural_hyde_years);
     let base_dir = BenchmarkIO.resolveProjectPath(config_obj.paths.stadester_base_rasters_dir);
     let box_half = config_obj.time_domains.spatiotemporal_box_half_px;
     let compiled_dir = path.resolve(__dirname, "compiled");
     let ghsl_dir = BenchmarkIO.resolveProjectPath(config_obj.paths.ghsl_urban_rasters_dir);
     let height = config_obj.raster_dimensions.height;
     let max_year = config_obj.time_domains.max_year;
+    let min_pop_threshold = (config_obj.min_inhabitant_threshold !== undefined) ?
+      Number(config_obj.min_inhabitant_threshold) : 1;
     let min_year = config_obj.time_domains.min_year;
     let region_grid = RasterSummaryCompiler.buildDilatedRegionGrid(config_obj);
     let regions_array = config_obj.regions;
@@ -141,6 +144,17 @@ global.RasterSummaryCompiler = {
       min_year,
       max_year
     );
+
+    if (align_to_rural && rural_years_array.length > 0) {
+      let local_rural_set = new Set(rural_years_array);
+      let local_filtered_base = [];
+      for (let i = 0; i < base_years_array.length; i++) {
+        let local_yr = base_years_array[i];
+        if (local_rural_set.has(local_yr) || (local_yr >= st_min_yr && local_yr <= st_max_yr))
+          local_filtered_base.push(local_yr);
+      }
+      base_years_array = local_filtered_base;
+    }
 
     console.log(`[1.compiler/B] Found ${base_years_array.length} Base rasters, ${ghsl_years_array.length} GHSL rasters, ${rural_years_array.length} Rural rasters.`);
 
@@ -199,7 +213,8 @@ global.RasterSummaryCompiler = {
         width,
         height,
         region_grid,
-        regions_array.length
+        regions_array.length,
+        min_pop_threshold
       );
 
       base_global_cog_obj[String(local_yr)] = local_stats.global;
@@ -216,7 +231,8 @@ global.RasterSummaryCompiler = {
           width,
           local_yr,
           city_boxes_array,
-          g30_base_pixels_obj
+          g30_base_pixels_obj,
+          min_pop_threshold
         );
         if (local_yr < splice_year) {
           RasterSummaryCompiler.updateGlobal30Boxes(
@@ -224,7 +240,8 @@ global.RasterSummaryCompiler = {
             width,
             local_yr,
             city_boxes_array,
-            g30_spliced_pixels_obj
+            g30_spliced_pixels_obj,
+            min_pop_threshold
           );
         }
       }
@@ -233,7 +250,8 @@ global.RasterSummaryCompiler = {
         snapshots_obj[String(local_yr)] = RasterSummaryCompiler.extractNonZeroGridcells(
           local_raster.values,
           width,
-          height
+          height,
+          min_pop_threshold
         );
       }
     }
@@ -251,7 +269,8 @@ global.RasterSummaryCompiler = {
         width,
         height,
         region_grid,
-        regions_array.length
+        regions_array.length,
+        min_pop_threshold
       );
 
       ghsl_global_cog_obj[String(local_yr)] = local_stats.global;
@@ -268,7 +287,8 @@ global.RasterSummaryCompiler = {
           width,
           local_yr,
           city_boxes_array,
-          g30_spliced_pixels_obj
+          g30_spliced_pixels_obj,
+          min_pop_threshold
         );
       }
 
@@ -276,7 +296,8 @@ global.RasterSummaryCompiler = {
         snapshots_obj[String(local_yr)] = RasterSummaryCompiler.extractNonZeroGridcells(
           local_raster.values,
           width,
-          height
+          height,
+          min_pop_threshold
         );
       }
     }
@@ -408,21 +429,23 @@ global.RasterSummaryCompiler = {
    * @param {Float64Array} arg0_values
    * @param {number} arg1_width
    * @param {number} arg2_height
+   * @param {number} [arg3_min_threshold=1]
    *
    * @returns {Array<number[]>}
    */
-  extractNonZeroGridcells: function (arg0_values, arg1_width, arg2_height) {
+  extractNonZeroGridcells: function (arg0_values, arg1_width, arg2_height, arg3_min_threshold) {
     //Convert from parameters
     let values_array = arg0_values;
     let width = arg1_width;
     let height = arg2_height;
+    let min_threshold = (arg3_min_threshold !== undefined) ? Number(arg3_min_threshold) : 1;
 
     //Declare local instance variables.
     let cells_array = [];
 
     for (let i = 0; i < values_array.length; i++) {
       let local_v = values_array[i];
-      if (local_v > 0) {
+      if (local_v >= min_threshold) {
         let local_px = i%width;
         let local_py = Math.floor(i/width);
         let local_lon = ((local_px + 0.5)/width)*360.0 - 180.0;
@@ -496,16 +519,18 @@ global.RasterSummaryCompiler = {
    * @param {number} arg2_height
    * @param {Int8Array} arg3_region_grid
    * @param {number} arg4_region_count
+   * @param {number} [arg5_min_threshold=1]
    *
    * @returns {Object}
    */
-  summariseUrbanRaster: function (arg0_values, arg1_width, arg2_height, arg3_region_grid, arg4_region_count) {
+  summariseUrbanRaster: function (arg0_values, arg1_width, arg2_height, arg3_region_grid, arg4_region_count, arg5_min_threshold) {
     //Convert from parameters
     let values_array = arg0_values;
     let width = arg1_width;
     let height = arg2_height;
     let region_grid = arg3_region_grid;
     let region_count = arg4_region_count;
+    let min_threshold = (arg5_min_threshold !== undefined) ? Number(arg5_min_threshold) : 1;
 
     //Declare local instance variables.
     let global_pop = 0;
@@ -519,7 +544,7 @@ global.RasterSummaryCompiler = {
 
     for (let i = 0; i < values_array.length; i++) {
       let local_v = values_array[i];
-      if (local_v > 0) {
+      if (local_v >= min_threshold) {
         let local_px = i%width;
         let local_py = Math.floor(i/width);
 
@@ -607,14 +632,16 @@ global.RasterSummaryCompiler = {
    * @param {number} arg2_year
    * @param {Array<Object>} arg3_city_boxes
    * @param {Object} arg4_accumulator_obj
+   * @param {number} [arg5_min_threshold=1]
    */
-  updateGlobal30Boxes: function (arg0_values, arg1_width, arg2_year, arg3_city_boxes, arg4_accumulator_obj) {
+  updateGlobal30Boxes: function (arg0_values, arg1_width, arg2_year, arg3_city_boxes, arg4_accumulator_obj, arg5_min_threshold) {
     //Convert from parameters
     let values_array = arg0_values;
     let width = arg1_width;
     let year = arg2_year;
     let city_boxes_array = arg3_city_boxes;
     let accumulator_obj = arg4_accumulator_obj;
+    let min_threshold = (arg5_min_threshold !== undefined) ? Number(arg5_min_threshold) : 1;
 
     for (let i = 0; i < city_boxes_array.length; i++) {
       let local_box = city_boxes_array[i];
@@ -623,7 +650,7 @@ global.RasterSummaryCompiler = {
       for (let x = local_box.x0; x < local_box.x1; x++) {
         for (let y = local_box.y0; y < local_box.y1; y++) {
           let local_v = values_array[y*width + x];
-          if (local_v > 0) {
+          if (local_v >= min_threshold) {
             let local_key = `${x},${y}`;
             let local_existing = local_city_acc[local_key];
 
