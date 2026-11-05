@@ -1,0 +1,435 @@
+# Step A (R Charts): Renders Figures 26a, 26b, and 27 matching the scientific dual-axis
+# and deviation line plot design of Stadestér 1.0 (Stadestér Sample Size Cells 0, 2, 3).
+
+args <- commandArgs(trailingOnly = TRUE)
+vis_dir <- if (length(args) >= 1) args[1] else getwd()
+source(file.path(vis_dir, "plot_helpers.R"))
+
+bench_dir <- normalizePath(file.path(vis_dir, ".."), winslash = "/")
+project_root <- normalizePath(file.path(bench_dir, "..", "..", ".."), winslash = "/")
+register_crd_fonts(project_root)
+
+results_dir <- file.path(bench_dir, "2.results")
+out_dir <- file.path(vis_dir, "1.macro_validation")
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
+
+pop_json <- fromJSON(file.path(results_dir, "macro_urban_population_and_sample.json"))
+dev_json <- fromJSON(file.path(results_dir, "macro_hyde_un_deviation.json"))
+
+n_cities_str <- fmt_eu(pop_json$dataset_counts$total_stadester_ghsl_cities, 0)
+n_records_str <- fmt_eu(pop_json$dataset_counts$total_population_records, 0)
+
+stad_ghsl_df <- as.data.frame(pop_json$stadester_ghsl_series) %>%
+  filter(urban_population > 0)
+hyde_df <- as.data.frame(pop_json$hyde_un_series) %>%
+  filter(urban_population > 0)
+
+# Base city count up to 1975 splice + GHSL 5-year benchmark epochs (1975-2025)
+base_cnt_df <- as.data.frame(pop_json$stadester_base_series) %>%
+  filter(year <= 1975, sample_size > 0)
+ghsl_cnt_df <- as.data.frame(pop_json$ghsl_series) %>%
+  filter(year >= 1975, year %% 5 == 0, sample_size > 0)
+
+# Ensure continuous hand-off at 1975 on the secondary city-count curve
+callouts_df <- as.data.frame(pop_json$callout_points) %>%
+  mutate(
+    disp_year = ifelse(year == 0, "0", as.character(year)),
+    lbl = paste0(disp_year, "\n(", sample_size, ")")
+  )
+
+# Logarithmic horizontal gridline positions (10^4 to 10^10, sub-multiples 2..9)
+log_majors <- 10^(4:10)
+log_minors <- as.vector(outer(2:9, 10^(4:9), `*`))
+
+# ==============================================================================
+# 1. Figure 26a: Urban Population (Log10) & Number of Cities (Linear)
+# ==============================================================================
+log_p_min <- 4.35
+log_p_max <- 9.75
+max_cnt_lin <- max(c(base_cnt_df$sample_size, ghsl_cnt_df$sample_size), na.rm = TRUE) * 1.06
+
+lin_to_logp <- function(cnt) {
+  log_p_min + (cnt / max_cnt_lin) * (log_p_max - log_p_min)
+}
+logp_to_lin <- function(lp) {
+  ((lp - log_p_min) / (log_p_max - log_p_min)) * max_cnt_lin
+}
+
+callouts_26a <- callouts_df %>%
+  mutate(
+    y_lp = lin_to_logp(sample_size),
+    y_nudge = case_when(
+      year == 2025 ~ 0.14,
+      year == 2000 ~ 0.10,
+      year == 1900 ~ 0.12,
+      year >= 700 & year <= 1800 & (year %% 200 == 0) ~ 0.15,
+      year >= 700 & year <= 1800 ~ 0.08,
+      TRUE ~ 0.10
+    ),
+    x_nudge = case_when(
+      year == 1900 ~ -55,
+      year == 2000 ~ -35,
+      TRUE ~ 0
+    )
+  )
+
+legend_levels <- c(
+  "Urban Population (Stadestér + GHSL)",
+  "Global Urban Pop. Estimates (HYDE/UN)",
+  "Number of Cities (Stadestér), 3000BC-2025AD",
+  "Number of Cities (GHSL), 1975AD-2025AD"
+)
+
+p26a <- ggplot() +
+  geom_hline(yintercept = log_minors[log_minors >= 10^log_p_min & log_minors <= 10^log_p_max],
+             linetype = "dashed", linewidth = 0.22, colour = "#e0e0e0") +
+  geom_hline(yintercept = log_majors[log_majors >= 10^log_p_min & log_majors <= 10^log_p_max],
+             linetype = "solid", linewidth = 0.35, colour = "#cccccc") +
+  geom_vline(xintercept = seq(-3000, 2000, by = 1000),
+             linetype = "solid", linewidth = 0.35, colour = "#cccccc") +
+  geom_line(
+    data = stad_ghsl_df,
+    aes(x = year, y = urban_population, colour = legend_levels[1], linetype = legend_levels[1]),
+    linewidth = 0.65
+  ) +
+  geom_point(
+    data = stad_ghsl_df,
+    aes(x = year, y = urban_population, colour = legend_levels[1], shape = legend_levels[1]),
+    size = 1.65
+  ) +
+  geom_line(
+    data = hyde_df,
+    aes(x = year, y = urban_population, colour = legend_levels[2], linetype = legend_levels[2]),
+    linewidth = 0.65
+  ) +
+  geom_point(
+    data = hyde_df,
+    aes(x = year, y = urban_population, colour = legend_levels[2], shape = legend_levels[2]),
+    size = 1.65
+  ) +
+  geom_line(
+    data = base_cnt_df,
+    aes(x = year, y = 10^lin_to_logp(sample_size), colour = legend_levels[3], linetype = legend_levels[3]),
+    linewidth = 0.65
+  ) +
+  geom_line(
+    data = ghsl_cnt_df,
+    aes(x = year, y = 10^lin_to_logp(sample_size), colour = legend_levels[4], linetype = legend_levels[4]),
+    linewidth = 0.75
+  ) +
+  geom_text(
+    data = callouts_26a,
+    aes(x = year + x_nudge, y = 10^(y_lp + y_nudge), label = lbl),
+    size = 2.05,
+    lineheight = 0.86,
+    colour = "#222222",
+    family = "Karla"
+  ) +
+  annotation_logticks(
+    sides = "l",
+    short = unit(1.1, "mm"),
+    mid = unit(1.8, "mm"),
+    long = unit(2.5, "mm"),
+    linewidth = 0.35,
+    colour = "#222222"
+  ) +
+  scale_x_continuous(
+    name = "Year",
+    breaks = seq(-3000, 2000, by = 1000),
+    limits = c(-3220, 2220),
+    expand = c(0, 0)
+  ) +
+  scale_y_log10(
+    name = "Urban Population",
+    breaks = c(1e5, 1e6, 1e7, 1e8, 1e9),
+    labels = c("100k", "1M", "10M", "100M", "1B"),
+    limits = c(10^log_p_min, 10^log_p_max),
+    expand = c(0, 0),
+    sec.axis = sec_axis(
+      transform = ~ logp_to_lin(log10(.)),
+      name = "Number of Cities",
+      breaks = seq(0, 20000, by = 2500),
+      labels = function(x) fmt_eu(x, 0)
+    )
+  ) +
+  scale_colour_manual(
+    name = NULL,
+    breaks = legend_levels,
+    values = c(
+      rgb(128, 128, 255, maxColorValue = 255, alpha = 115),
+      rgb(110, 170, 110, maxColorValue = 255, alpha = 155),
+      rgb(255, 120, 120, maxColorValue = 255, alpha = 185),
+      "#fa8072"
+    )
+  ) +
+  scale_linetype_manual(
+    name = NULL,
+    breaks = legend_levels,
+    values = c("solid", "dashed", "solid", "solid")
+  ) +
+  scale_shape_manual(
+    name = NULL,
+    breaks = legend_levels,
+    values = c(16, 16, NA, NA)
+  ) +
+  guides(
+    colour = guide_legend(override.aes = list(
+      linetype = c("solid", "dashed", "solid", "solid"),
+      shape = c(16, 16, NA, NA),
+      linewidth = c(0.75, 0.75, 0.75, 0.85)
+    )),
+    linetype = "none",
+    shape = "none"
+  ) +
+  labs(
+    title = sprintf("Stadestér (Base + GHSL) Linear/Logarithmic, n=%s cities, %s records (pop.)", n_cities_str, n_records_str)
+  ) +
+  theme_bw(base_size = 11, base_family = "Karla") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12, face = "plain", colour = "#111111", margin = margin(b = 6)),
+    panel.grid = element_blank(),
+    panel.border = element_rect(colour = "#111111", fill = NA, linewidth = 0.65),
+    axis.ticks = element_line(colour = "#111111", linewidth = 0.45),
+    axis.ticks.length = unit(3.2, "pt"),
+    axis.title = element_text(size = 10.5, colour = "#111111"),
+    axis.text = element_text(size = 9, colour = "#111111"),
+    legend.position = c(0.012, 0.982),
+    legend.justification = c(0, 1),
+    legend.background = element_rect(fill = alpha("white", 0.92), colour = "#cccccc", linewidth = 0.4),
+    legend.key.width = unit(20, "pt"),
+    legend.key.height = unit(12, "pt"),
+    legend.text = element_text(size = 8.8, colour = "#111111"),
+    legend.margin = margin(4, 8, 4, 6),
+    plot.margin = margin(10, 12, 10, 12)
+  )
+
+save_benchmark_png(
+  p26a,
+  file.path(out_dir, "fig26a_urban_pop_sample_size_linear_log.png"),
+  width_in = 15.5,
+  height_in = 7.6,
+  dpi = 300
+)
+
+# ==============================================================================
+# 2. Figure 26b: Urban Population (Log10) & Number of Cities (Log10)
+# ==============================================================================
+log_c_min <- 0.20
+log_c_max <- 4.45
+
+logc_to_logp <- function(cnt) {
+  lc <- log10(pmax(cnt, 1))
+  log_p_min + ((lc - log_c_min) / (log_c_max - log_c_min)) * (log_p_max - log_p_min)
+}
+logp_to_logc <- function(lp) {
+  log_c_min + ((lp - log_p_min) / (log_p_max - log_p_min)) * (log_c_max - log_c_min)
+}
+
+callouts_26b <- callouts_df %>%
+  mutate(
+    y_lp = logc_to_logp(sample_size),
+    y_nudge = case_when(
+      year == 2025 ~ 0.14,
+      year == 2000 ~ 0.10,
+      year == 1900 ~ 0.12,
+      year >= 700 & year <= 1800 & (year %% 200 == 0) ~ 0.15,
+      year >= 700 & year <= 1800 ~ 0.08,
+      year >= 0 & year <= 600 & (year %% 200 == 0) ~ 0.13,
+      year >= 0 & year <= 600 ~ -0.14,
+      TRUE ~ 0.12
+    ),
+    x_nudge = case_when(
+      year == 1900 ~ -55,
+      year == 2000 ~ -35,
+      TRUE ~ 0
+    )
+  )
+
+# Right-spine minor logarithmic tick positions mapped into primary Y log space
+right_minor_logc <- log10(as.vector(outer(2:9, 10^(0:4), `*`)))
+right_minor_logc <- right_minor_logc[right_minor_logc >= log_c_min & right_minor_logc <= log_c_max]
+right_minor_y <- 10^(log_p_min + ((right_minor_logc - log_c_min) / (log_c_max - log_c_min)) * (log_p_max - log_p_min))
+right_ticks_df <- data.frame(
+  x0 = 2175,
+  x1 = 2220,
+  y = right_minor_y
+)
+
+p26b <- ggplot() +
+  geom_hline(yintercept = log_minors[log_minors >= 10^log_p_min & log_minors <= 10^log_p_max],
+             linetype = "dashed", linewidth = 0.22, colour = "#e0e0e0") +
+  geom_hline(yintercept = log_majors[log_majors >= 10^log_p_min & log_majors <= 10^log_p_max],
+             linetype = "solid", linewidth = 0.35, colour = "#cccccc") +
+  geom_vline(xintercept = seq(-3000, 2000, by = 1000),
+             linetype = "solid", linewidth = 0.35, colour = "#cccccc") +
+  geom_segment(
+    data = right_ticks_df,
+    aes(x = x0, xend = x1, y = y, yend = y),
+    linewidth = 0.32,
+    colour = "#222222"
+  ) +
+  geom_line(
+    data = stad_ghsl_df,
+    aes(x = year, y = urban_population, colour = legend_levels[1], linetype = legend_levels[1]),
+    linewidth = 0.65
+  ) +
+  geom_point(
+    data = stad_ghsl_df,
+    aes(x = year, y = urban_population, colour = legend_levels[1], shape = legend_levels[1]),
+    size = 1.65
+  ) +
+  geom_line(
+    data = hyde_df,
+    aes(x = year, y = urban_population, colour = legend_levels[2], linetype = legend_levels[2]),
+    linewidth = 0.65
+  ) +
+  geom_point(
+    data = hyde_df,
+    aes(x = year, y = urban_population, colour = legend_levels[2], shape = legend_levels[2]),
+    size = 1.65
+  ) +
+  geom_line(
+    data = base_cnt_df,
+    aes(x = year, y = 10^logc_to_logp(sample_size), colour = legend_levels[3], linetype = legend_levels[3]),
+    linewidth = 0.65
+  ) +
+  geom_line(
+    data = ghsl_cnt_df,
+    aes(x = year, y = 10^logc_to_logp(sample_size), colour = legend_levels[4], linetype = legend_levels[4]),
+    linewidth = 0.75
+  ) +
+  geom_text(
+    data = callouts_26b,
+    aes(x = year + x_nudge, y = 10^(y_lp + y_nudge), label = lbl),
+    size = 2.05,
+    lineheight = 0.86,
+    colour = "#222222",
+    family = "Karla"
+  ) +
+  annotation_logticks(
+    sides = "l",
+    short = unit(1.1, "mm"),
+    mid = unit(1.8, "mm"),
+    long = unit(2.5, "mm"),
+    linewidth = 0.35,
+    colour = "#222222"
+  ) +
+  scale_x_continuous(
+    name = "Year",
+    breaks = seq(-3000, 2000, by = 1000),
+    limits = c(-3220, 2220),
+    expand = c(0, 0)
+  ) +
+  scale_y_log10(
+    name = "Urban Population",
+    breaks = c(1e5, 1e6, 1e7, 1e8, 1e9),
+    labels = c("100k", "1M", "10M", "100M", "1B"),
+    limits = c(10^log_p_min, 10^log_p_max),
+    expand = c(0, 0),
+    sec.axis = sec_axis(
+      transform = ~ 10^logp_to_logc(log10(.)),
+      name = "Number of Cities",
+      breaks = c(10, 100, 1000, 10000),
+      labels = expression(10^1, 10^2, 10^3, 10^4)
+    )
+  ) +
+  scale_colour_manual(
+    name = NULL,
+    breaks = legend_levels,
+    values = c(
+      rgb(128, 128, 255, maxColorValue = 255, alpha = 115),
+      rgb(110, 170, 110, maxColorValue = 255, alpha = 155),
+      rgb(255, 120, 120, maxColorValue = 255, alpha = 185),
+      "#fa8072"
+    )
+  ) +
+  scale_linetype_manual(
+    name = NULL,
+    breaks = legend_levels,
+    values = c("solid", "dashed", "solid", "solid")
+  ) +
+  scale_shape_manual(
+    name = NULL,
+    breaks = legend_levels,
+    values = c(16, 16, NA, NA)
+  ) +
+  guides(
+    colour = guide_legend(override.aes = list(
+      linetype = c("solid", "dashed", "solid", "solid"),
+      shape = c(16, 16, NA, NA),
+      linewidth = c(0.75, 0.75, 0.75, 0.85)
+    )),
+    linetype = "none",
+    shape = "none"
+  ) +
+  labs(
+    title = sprintf("Stadestér (Base + GHSL) Logarithmic, n=%s cities, %s records (pop.)", n_cities_str, n_records_str)
+  ) +
+  theme_bw(base_size = 11, base_family = "Karla") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12, face = "plain", colour = "#111111", margin = margin(b = 6)),
+    panel.grid = element_blank(),
+    panel.border = element_rect(colour = "#111111", fill = NA, linewidth = 0.65),
+    axis.ticks = element_line(colour = "#111111", linewidth = 0.45),
+    axis.ticks.length = unit(3.2, "pt"),
+    axis.title = element_text(size = 10.5, colour = "#111111"),
+    axis.text = element_text(size = 9, colour = "#111111"),
+    legend.position = c(0.012, 0.982),
+    legend.justification = c(0, 1),
+    legend.background = element_rect(fill = alpha("white", 0.92), colour = "#cccccc", linewidth = 0.4),
+    legend.key.width = unit(20, "pt"),
+    legend.key.height = unit(12, "pt"),
+    legend.text = element_text(size = 8.8, colour = "#111111"),
+    legend.margin = margin(4, 8, 4, 6),
+    plot.margin = margin(10, 12, 10, 12)
+  )
+
+save_benchmark_png(
+  p26b,
+  file.path(out_dir, "fig26b_urban_pop_sample_size_log_log.png"),
+  width_in = 15.5,
+  height_in = 7.6,
+  dpi = 300
+)
+
+# ==============================================================================
+# 3. Figure 27: Percentage Deviation between Stadestér-GHSL and HYDE/UN
+# ==============================================================================
+dev_df <- as.data.frame(dev_json$series)
+
+p27 <- ggplot(dev_df, aes(x = year, y = pct_deviation_spliced)) +
+  geom_line(colour = "#1f77b4", linewidth = 0.85) +
+  geom_point(colour = "#1f77b4", size = 2.0) +
+  scale_x_continuous(
+    name = "Year",
+    breaks = seq(-3000, 2000, by = 1000),
+    limits = c(-3250, 2250),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(
+    name = "Percentage Deviation (%)",
+    breaks = seq(-100, 140, by = 20)
+  ) +
+  labs(
+    title = "Percentage Deviation between Stadestér-GHSL and HYDE/UN"
+  ) +
+  theme_bw(base_size = 11, base_family = "Karla") +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 12, face = "plain", colour = "#111111", margin = margin(b = 6)),
+    panel.grid.major = element_line(colour = "#cccccc", linewidth = 0.42),
+    panel.grid.minor = element_blank(),
+    panel.border = element_rect(colour = "#111111", fill = NA, linewidth = 0.65),
+    axis.ticks = element_line(colour = "#111111", linewidth = 0.45),
+    axis.ticks.length = unit(3.2, "pt"),
+    axis.title = element_text(size = 10.5, colour = "#111111"),
+    axis.text = element_text(size = 9.2, colour = "#111111"),
+    plot.margin = margin(10, 14, 10, 12)
+  )
+
+save_benchmark_png(
+  p27,
+  file.path(out_dir, "fig27_percentage_deviation_hyde_un.png"),
+  width_in = 12.0,
+  height_in = 6.0,
+  dpi = 300
+)

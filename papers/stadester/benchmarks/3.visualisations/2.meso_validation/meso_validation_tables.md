@@ -59,7 +59,7 @@
 | **17** | Osaka (2.246) | Trujillo (1.159) | Pingchang County (49,0k) | New York (16,82M) |
 | **18** | Buenos Aires (2.186) | Qom (1.154) | Nimule (47,5k) | Bengaluru (15,18M) |
 | **19** | Beijing (2.179) | Karlovac (1.152) | Ar Rawnah (47,3k) | Osaka (15,07M) |
-| **20** | Los Angeles (2.167) | Santo Amaro (1.149) | Шелепино (45,7k) | Ho Chi Minh City (14,56M) |
+| **20** | Los Angeles (2.167) | Santo Amaro (1.149) | Shelepino (45,7k) | Ho Chi Minh City (14,56M) |
 | **21** | New Delhi (2.139) | Ngazargamu (1.149) | Longshui (45,4k) | Moscow (14,38M) |
 | **22** | Mexico City (2.134) | 'Ammân (1.137) | Aliganj (45,2k) | Lahore (14,31M) |
 | **23** | São Paulo (2.111) | Agra (1.136) | Toraghundi (44,5k) | Istanbul (14,26M) |
@@ -80,7 +80,7 @@
 | **38** | Moscow (1.545) | Chittagong (1.085) | Jalpaiguri (39,2k) | Shantou (10,58M) |
 | **39** | Rio de Janeiro (1.493) | Kollam (1.079) | Bugama (39,0k) | Bogota (10,42M) |
 | **40** | Ho Chi Minh City (1.487) | San Pedro Carchá (1.073) | Jingbian (38,5k) | London (10,41M) |
-| **41** | Paris (1.421) | Stene (1.061) | ??????? ????? (38,4k) | Shanghai (10,11M) |
+| **41** | Paris (1.421) | Stene (1.061) | N/A (38,4k) | Shanghai (10,11M) |
 | **42** | Qâhirah, Al- (1.418) | Santo Ângelo (1.059) | Sikandra Rao (38,0k) | Rio de Janeiro (9,85M) |
 | **43** | Shanghai (1.411) | Amstelveen (1.056) | Hudur (37,9k) | Hajipur (9,76M) |
 | **44** | Sydney (1.378) | Rajshâhî (1.055) | Tulak (37,6k) | Taipei (9,69M) |

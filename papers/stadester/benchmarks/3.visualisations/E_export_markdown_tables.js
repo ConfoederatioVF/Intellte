@@ -31,7 +31,13 @@ global.MarkdownTableExporter = {
 
     lines_array.push(`| ${headers_array.join(" | ")} |`);
     for (let i = 0; i < headers_array.length; i++) {
-      let local_al = (options.alignments && options.alignments[i]) ? options.alignments[i] : ((i === 0) ? "left" : "right");
+      let local_al = "right";
+      if (options.alignments && options.alignments[i]) {
+        local_al = options.alignments[i];
+      } else if (i === 0) {
+        local_al = "left";
+      }
+
       if (local_al === "left") {
         align_row_array.push(":---");
       } else if (local_al === "center") {
@@ -62,7 +68,35 @@ global.MarkdownTableExporter = {
 
 
   /**
-   * Step D: Exports formatted Markdown benchmark tables into 1.macro_validation, 2.meso_validation, and 3.micro_validation.
+   * Sanitises a Top-120 city display name, replacing corrupted GHSL question-mark labels with N/A.
+   *
+   * @param {Object} arg0_item
+   *
+   * @returns {string}
+   */
+  cleanCityDisplayName: function (arg0_item) {
+    //Convert from parameters
+    let item_obj = arg0_item;
+
+    //Declare local instance variables.
+    let raw_name = "";
+
+    if (!item_obj || !item_obj.name)
+      return "N/A";
+
+    raw_name = String(item_obj.name).trim();
+    if (raw_name.indexOf("?") !== -1 || raw_name.indexOf("\ufffd") !== -1)
+      return "N/A";
+    if (raw_name === "Шелепино")
+      raw_name = "Shelepino";
+
+    //Return statement
+    return raw_name;
+  },
+
+
+  /**
+   * Step E: Exports formatted Markdown benchmark tables into 1.macro_validation, 2.meso_validation, and 3.micro_validation.
    *
    * @param {Object} arg0_config
    *
@@ -74,7 +108,7 @@ global.MarkdownTableExporter = {
 
     //Declare local instance variables.
     let fmt = BenchmarkIO.formatEuropeanNumber;
-    let fmtSem = BenchmarkIO.formatSemanticNumber;
+    let fmt_sem = BenchmarkIO.formatSemanticNumber;
     let macro_dir = BenchmarkIO.ensureDirectory(path.resolve(__dirname, "1.macro_validation"));
     let meso_dir = BenchmarkIO.ensureDirectory(path.resolve(__dirname, "2.meso_validation"));
     let micro_dir = BenchmarkIO.ensureDirectory(path.resolve(__dirname, "3.micro_validation"));
@@ -216,12 +250,17 @@ global.MarkdownTableExporter = {
       let local_dg = meso_top.rankings.density_ghsl[i];
       let local_p = meso_top.rankings.population[i];
 
+      let local_a_nm = MarkdownTableExporter.cleanCityDisplayName(local_a);
+      let local_db_nm = MarkdownTableExporter.cleanCityDisplayName(local_db);
+      let local_dg_nm = MarkdownTableExporter.cleanCityDisplayName(local_dg);
+      let local_p_nm = MarkdownTableExporter.cleanCityDisplayName(local_p);
+
       top_rank_rows.push([
         String(i + 1),
-        (local_a) ? `${local_a.name} (${fmt(local_a.value, 0)})` : "-",
-        (local_db) ? `${local_db.name} (${fmt(local_db.value, 0)})` : "-",
-        (local_dg) ? `${local_dg.name} (${fmtSem(local_dg.value, 1)})` : "-",
-        (local_p) ? `${local_p.name} (${fmtSem(local_p.value, 2)})` : "-"
+        (local_a) ? `${local_a_nm} (${fmt(local_a.value, 0)})` : "-",
+        (local_db) ? `${local_db_nm} (${fmt(local_db.value, 0)})` : "-",
+        (local_dg) ? `${local_dg_nm} (${fmt_sem(local_dg.value, 1)})` : "-",
+        (local_p) ? `${local_p_nm} (${fmt_sem(local_p.value, 2)})` : "-"
       ]);
     }
 
@@ -253,9 +292,19 @@ global.MarkdownTableExporter = {
     ].join("\n");
     fs.writeFileSync(path.join(meso_dir, "meso_validation_tables.md"), meso_md, "utf8");
 
-    //3. Micro-Validation Markdown Tables (Regional Benchmarks, Metro vs Non-Metro, All 30 GT Tables + Summary + Margins of Error)
+    //3. Micro-Validation Markdown Tables
     let reg_yrs = micro_urb.benchmark_years;
-    let reg_yr_hdrs = reg_yrs.map((yr) => (yr < 0) ? `${Math.abs(yr)}BC` : ((yr === 0) ? "1AD" : `${yr}AD`));
+    let reg_yr_hdrs = [];
+    for (let i = 0; i < reg_yrs.length; i++) {
+      let local_yr = reg_yrs[i];
+      if (local_yr < 0) {
+        reg_yr_hdrs.push(`${Math.abs(local_yr)}BC`);
+      } else if (local_yr === 0) {
+        reg_yr_hdrs.push("1AD");
+      } else {
+        reg_yr_hdrs.push(`${local_yr}AD`);
+      }
+    }
 
     let buildRegMillionsRows = function (arg0_tbl_rows) {
       //Convert from parameters
@@ -277,8 +326,12 @@ global.MarkdownTableExporter = {
     };
 
     let m_yrs = micro_metro.table_years;
-    let m_hdrs = ["City (Series)"].concat(m_yrs.map((yr) => (yr === 0) ? "1AD" : `${yr}AD`), ["Mean |Diff| <1975"]);
+    let m_yr_labels = [];
+    for (let i = 0; i < m_yrs.length; i++)
+      m_yr_labels.push((m_yrs[i] === 0) ? "1AD" : `${m_yrs[i]}AD`);
+    let m_hdrs = ["City (Series)"].concat(m_yr_labels, ["Mean |Diff| <1975"]);
     let metro_rows = [];
+
     for (let i = 0; i < micro_metro.cities.length; i++) {
       let local_c = micro_metro.cities[i];
       let local_ma_line = [`${local_c.name} (MA)`];
@@ -288,8 +341,8 @@ global.MarkdownTableExporter = {
         let local_ys = String(m_yrs[x]);
         let local_mv = local_c.ma_population[local_ys];
         let local_nv = local_c.nma_population[local_ys];
-        local_ma_line.push((local_mv !== null && local_mv !== undefined) ? fmt(Math.round(local_mv/1000), 0) : "-");
-        local_nma_line.push((local_nv !== null && local_nv !== undefined) ? fmt(Math.round(local_nv/1000), 0) : "-");
+        local_ma_line.push((local_mv !== null && local_mv !== undefined) ? fmt(Math.round(local_mv/1000), 0) : "0");
+        local_nma_line.push((local_nv !== null && local_nv !== undefined) ? fmt(Math.round(local_nv/1000), 0) : "0");
       }
       local_ma_line.push(`${fmt(local_c.mean_abs_pct_diff_pre_1975, 2)}%`);
       local_nma_line.push("-");
@@ -430,7 +483,7 @@ global.MarkdownTableExporter = {
     ].concat(gt_individual_sections).join("\n");
 
     fs.writeFileSync(path.join(micro_dir, "micro_validation_tables.md"), micro_md, "utf8");
-    console.log("[3.visualisations/D] Exported Markdown tables across macro, meso, and micro directories.");
+    console.log("[3.visualisations/E] Exported Markdown tables across macro, meso, and micro directories.");
 
     //Return statement
     return {
@@ -447,3 +500,4 @@ if (require.main === module) {
 }
 
 module.exports = global.MarkdownTableExporter;
+

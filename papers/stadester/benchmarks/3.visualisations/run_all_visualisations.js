@@ -3,35 +3,36 @@ let child_process = require("child_process");
 let fs = require("fs");
 let path = require("path");
 let BenchmarkIO = require("../1.compiler/io_helpers.js");
-let MarkdownTableExporter = require("./D_export_markdown_tables.js");
+let MarkdownTableExporter = require("./E_export_markdown_tables.js");
 
 //Initialise namespace
 global.BenchmarkVisualisationsRunner = {
   /**
-   * Executes a single R visualisation script via Rscript.exe.
+   * Executes a single Python visualisation pipeline step synchronously.
    *
-   * @param {string} arg0_rscript_bin
+   * @param {string} arg0_python_bin
    * @param {string} arg1_script_name
+   * @param {string[]} arg2_argv
    *
    * @returns {boolean}
    */
-  executeRScript: function (arg0_rscript_bin, arg1_script_name) {
+  executePythonScript: function (arg0_python_bin, arg1_script_name, arg2_argv) {
     //Convert from parameters
-    let rscript_bin = arg0_rscript_bin;
+    let python_bin = arg0_python_bin;
     let script_name = arg1_script_name;
+    let argv_array = (arg2_argv) ? arg2_argv : [];
 
     //Declare local instance variables.
     let script_path = path.resolve(__dirname, script_name);
-    let vis_dir = path.resolve(__dirname).replace(/\\/g, "/");
 
     if (!fs.existsSync(script_path)) {
-      console.error(`BenchmarkVisualisationsRunner.executeRScript: Missing script ${script_path}`);
+      console.error(`BenchmarkVisualisationsRunner.executePythonScript: Missing script ${script_path}`);
       return false;
     }
 
 
     console.log(`[3.visualisations] Executing ${script_name}...`);
-    child_process.execFileSync(rscript_bin, [script_path, vis_dir], {
+    child_process.execFileSync(python_bin, [script_path].concat(argv_array), {
       cwd: __dirname,
       stdio: "inherit"
     });
@@ -42,7 +43,7 @@ global.BenchmarkVisualisationsRunner = {
 
 
   /**
-   * Runs all Macro, Meso, and Micro R visualisation scripts plus Markdown table exports (A -> B -> C -> D).
+   * Runs all Macro, Meso, Micro, XeLaTeX Publication Table, and Markdown Table steps (A -> B -> C -> D -> E).
    *
    * @param {string[]} [arg0_argv]
    *
@@ -54,18 +55,21 @@ global.BenchmarkVisualisationsRunner = {
 
     //Declare local instance variables.
     let config_obj = BenchmarkIO.loadConfig(argv_array);
-    let rscript_bin = (config_obj.paths && config_obj.paths.rscript_bin && fs.existsSync(config_obj.paths.rscript_bin)) ?
-      config_obj.paths.rscript_bin :
-      "Rscript";
+    let elapsed_sec = "0.00";
+    let md_paths = {};
+    let python_bin = (config_obj.paths && config_obj.paths.python_bin) ?
+      config_obj.paths.python_bin :
+      "python";
     let start_ms = Date.now();
 
     console.log(`=== Stadestér Benchmark Visualisations (${config_obj.version_label}) ===`);
-    BenchmarkVisualisationsRunner.executeRScript(rscript_bin, "A_plot_macro_validation.R");
-    BenchmarkVisualisationsRunner.executeRScript(rscript_bin, "B_plot_meso_validation.R");
-    BenchmarkVisualisationsRunner.executeRScript(rscript_bin, "C_plot_micro_validation.R");
-    let md_paths = MarkdownTableExporter.exportAllMarkdownTables(config_obj);
+    BenchmarkVisualisationsRunner.executePythonScript(python_bin, "A_plot_macro_validation.py", argv_array);
+    BenchmarkVisualisationsRunner.executePythonScript(python_bin, "B_plot_meso_validation.py", argv_array);
+    BenchmarkVisualisationsRunner.executePythonScript(python_bin, "C_plot_micro_validation.py", argv_array);
+    BenchmarkVisualisationsRunner.executePythonScript(python_bin, "D_render_publication_tables.py", argv_array);
+    md_paths = MarkdownTableExporter.exportAllMarkdownTables(config_obj);
 
-    let elapsed_sec = ((Date.now() - start_ms)/1000.0).toFixed(2);
+    elapsed_sec = ((Date.now() - start_ms)/1000.0).toFixed(2);
     console.log(`=== Benchmark Visualisations finished in ${elapsed_sec}s ===`);
 
     //Return statement
@@ -77,4 +81,3 @@ if (require.main === module)
   BenchmarkVisualisationsRunner.runAllVisualisations();
 
 module.exports = global.BenchmarkVisualisationsRunner;
-

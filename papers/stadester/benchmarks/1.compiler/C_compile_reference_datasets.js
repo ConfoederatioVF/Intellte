@@ -18,6 +18,9 @@ global.ReferenceDatasetCompiler = {
 
     //Declare local instance variables.
     let angel_atlas_path = BenchmarkIO.resolveProjectPath(config_obj.paths.angel_global_30_atlas_png);
+    let coast_10m_path = (config_obj.paths.global_30_coastlines_10m_json) ?
+      BenchmarkIO.resolveProjectPath(config_obj.paths.global_30_coastlines_10m_json) :
+      null;
     let compiled_dir = path.resolve(__dirname, "compiled");
     let cshapes_path = BenchmarkIO.resolveProjectPath(config_obj.paths.cshapes_geojson);
     let gt_path = BenchmarkIO.resolveProjectPath(config_obj.paths.global_30_ground_truth_json5);
@@ -77,9 +80,13 @@ global.ReferenceDatasetCompiler = {
       }
     }
 
-    //2. Extract modern basemap polygons from CShapes-2.0.geojson + high-res Global 30 land masks from regional_subdivisions.png
+    //2. Extract modern basemap polygons from CShapes-2.0.geojson + high-res Global 30 vector coastlines
     console.log("[1.compiler/C] Compiling world & city basemap geometries...");
     let basemap_obj = ReferenceDatasetCompiler.extractWorldBasemap(cshapes_path, reg_png_path, config_obj);
+    if (coast_10m_path && fs.existsSync(coast_10m_path)) {
+      let coast_10m_obj = JSON.parse(fs.readFileSync(coast_10m_path, "utf8"));
+      basemap_obj.global_30_coastlines_10m = coast_10m_obj.global_30_coastlines;
+    }
 
     let reference_out = {
       angel_atlas_panels: gt_obj.angel_atlas_panels,
