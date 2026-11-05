@@ -23,6 +23,8 @@ Reusable benchmarks should have the following data structure in /papers/stadeste
 - /2.results/ - Contains benchmark results in JSON.
 - /3.visualisations/ - Contains end visualisations and results, sorted by section.
 
+You should ensure that end visualisations look visually identical to the ones in the paper when laid out as .png artefacts.
+
 ## Step 3. Executing Benchmarks.
 
 Once you have finished compiling all test scripts, you should execute them in order (compiler [compile data] > results > visualisations). Inspect end results and visualisations once execution is complete.
