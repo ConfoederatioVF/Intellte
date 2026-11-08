@@ -173,6 +173,7 @@ class MarkdownRenderer {
     //Process LaTeX cross-references, citations, footnotes, <pdf src> tags, and inline math
     body_md = this.stripLatexPaginationBlocks(body_md);
     body_md = this.resolveCrossReferences(body_md, Boolean(frontmatter.hero_figure));
+    body_md = this.resolveTableAndCaptionMarkdown(body_md);
     body_md = this.resolveCitationsAndBibliography(body_md, bib_entries);
     body_md = this.resolveFootnotes(body_md);
     body_md = this.transformPdfTags(body_md, { artefact_base_url: artefact_base_url });
@@ -737,6 +738,35 @@ class MarkdownRenderer {
         updated_text = `${updated_text}\n\n${fn_block}`;
       }
     }
+
+    //Return statement
+    return updated_text;
+  }
+
+
+  /**
+   * Parses inline Markdown (`**bold**`, `*italic*`, `` `code` ``) inside raw HTML table cells (`<td>`, `<th>`) and `<figcaption>` blocks where `markdown-it` skips inline tokenisation.
+   *
+   * @param {string} arg0_md_text - Markdown body text containing HTML `<figure>` / `<table>` blocks.
+   * @return {string} Markdown text with table cell and caption inline Markdown converted to HTML tags.
+   */
+  resolveTableAndCaptionMarkdown (arg0_md_text) {
+    //Convert from parameters
+    let md_text = String(arg0_md_text || "");
+
+    //Declare local instance variables
+    let updated_text = md_text;
+
+    updated_text = updated_text.replace(
+      /<(td|th|figcaption)(\b[^>]*)>([\s\S]*?)<\/\1>/gi,
+      (arg0_m, arg1_tag, arg2_attrs, arg3_inner) => {
+        let local_inner = String(arg3_inner || "")
+          .replace(/\*\*([^*<\r\n]+)\*\*/g, "<strong>$1</strong>")
+          .replace(/\*([^*<\r\n]+)\*/g, "<em>$1</em>")
+          .replace(/`([^`<\r\n]+)`/g, "<code>$1</code>");
+        return `<${arg1_tag}${arg2_attrs}>${local_inner}</${arg1_tag}>`;
+      }
+    );
 
     //Return statement
     return updated_text;

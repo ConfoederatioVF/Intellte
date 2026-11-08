@@ -75,7 +75,11 @@ let IntellteDiscovery = {
         if (local_is_synthetic && !local_tags.includes("synthetic")) {
           local_tags.push("synthetic");
         }
-        local_tags.sort();
+        local_tags.sort((arg0_a, arg1_b) => {
+          if (arg0_a === "synthetic") return -1;
+          if (arg1_b === "synthetic") return 1;
+          return arg0_a.localeCompare(arg1_b);
+        });
 
         if (has_rmd) {
           let parsed = renderer.parseFrontmatter(fs.readFileSync(rmd_abs, "utf8"));
@@ -99,6 +103,10 @@ let IntellteDiscovery = {
           bib_abs,
           renderer.bib_formatter
         );
+        let raw_subtitle = String(local_ver.subtitle || fm.subtitle || "")
+          .replace(/\u2014/g, " - ")
+          .replace(/\u2013/g, "-");
+        let raw_title = local_ver.title || fm.title || local_rec.project_name || concept_id;
         let version_route_url = `/records/${concept_id}/${local_ver.version}/`;
 
         enriched_versions.push({
@@ -115,6 +123,9 @@ let IntellteDiscovery = {
           divisions: local_author_meta.divisions,
           emails: Array.isArray(fm.emails) ? fm.emails : [],
           figures: Array.isArray(local_ver.figures) ? local_ver.figures : [],
+          folder_key: local_ver.folder_key || "",
+          folder_label: local_ver.folder_label || "",
+          folder_route_url: "",
           frontmatter: fm,
           has_dataset: has_dataset,
           has_pdf: has_pdf,
@@ -124,6 +135,7 @@ let IntellteDiscovery = {
           is_latest: Boolean(local_ver.is_latest),
           is_synthetic: local_is_synthetic,
           label: local_ver.label || local_ver.version,
+          parent_version: local_ver.parent_version || "",
           pdf_abs: pdf_abs,
           pdf_filename: (has_pdf) ? path.basename(pdf_abs) : "",
           pdf_url: (has_pdf) ? `${artefact_base_url}/${encodeURI(path.basename(pdf_abs))}` : null,
@@ -138,21 +150,32 @@ let IntellteDiscovery = {
           sources_abs: local_bib_meta.sources_abs,
           sources_filename: local_bib_meta.sources_filename,
           status: local_ver.status || "Published",
-          subtitle: local_ver.subtitle || fm.subtitle || "",
+          subtitle: raw_subtitle,
           supplementary_files: Array.isArray(local_ver.supplementary_files) ? local_ver.supplementary_files : [],
           supplementary_markdown: Array.isArray(local_ver.supplementary_markdown) ? local_ver.supplementary_markdown : [],
           tags: local_tags,
-          title: local_ver.title || fm.title || local_rec.project_name || concept_id,
+          title: IntellteDiscovery.normalisePaperTitle(raw_title),
           version: local_ver.version,
           version_route_url: version_route_url
         });
       }
 
       resolved_latest_version = IntellteDiscovery.resolveLatestVersion(enriched_versions);
+      let folder_routes_obj = {};
       for (let x = 0; x < enriched_versions.length; x++) {
         enriched_versions[x].is_latest = (enriched_versions[x].version === resolved_latest_version);
         if (enriched_versions[x].is_latest) {
           enriched_versions[x].route_url = `/records/${concept_id}/`;
+        }
+        let local_fkey = enriched_versions[x].folder_key;
+        if (local_fkey && !folder_routes_obj[local_fkey]) {
+          folder_routes_obj[local_fkey] = enriched_versions[x].route_url;
+        }
+      }
+      for (let x = 0; x < enriched_versions.length; x++) {
+        let local_fkey = enriched_versions[x].folder_key;
+        if (local_fkey && folder_routes_obj[local_fkey]) {
+          enriched_versions[x].folder_route_url = folder_routes_obj[local_fkey];
         }
       }
 
@@ -446,6 +469,76 @@ let IntellteDiscovery = {
 
     //Return statement
     return merged_registry_obj;
+  },
+
+
+  /**
+   * Normalises a working paper title, converting ALL-CAPS `.Rmd` titles into British English Title Case and removing em/en dashes and terminal periods.
+   *
+   * @param {string} arg0_raw_title - Raw title string.
+   * @return {string} Clean Title-Cased string.
+   */
+  normalisePaperTitle: function (arg0_raw_title) {
+    //Convert from parameters
+    let raw_title = String(arg0_raw_title || "").trim();
+
+    //Declare local instance variables
+    let acronyms_set = {
+      AD: true, BC: true, CAD: true, CDT: true, CRD: true, CTD: true,
+      GDP: true, GHSL: true, HYDE: true, II: true, III: true, IV: true,
+      MNI: true, NDT: true, PPP: true, RAS: true, SPD: true
+    };
+    let clean_title = raw_title
+      .replace(/\u2014/g, " - ")
+      .replace(/\u2013/g, "-")
+      .replace(/\.$/, "")
+      .trim();
+    let letters_only = clean_title.replace(/[^A-Za-z\u00C0-\u017F]/g, "");
+    let minor_words_set = {
+      a: true, across: true, an: true, and: true, as: true, at: true,
+      by: true, for: true, from: true, in: true, into: true, of: true,
+      on: true, or: true, the: true, to: true, with: true
+    };
+
+    //Guard clauses
+    if (!clean_title) return "";
+    if (!letters_only || letters_only !== letters_only.toUpperCase()) {
+      return clean_title;
+    }
+
+    let words = clean_title.split(/\s+/);
+    let converted = [];
+
+    for (let i = 0; i < words.length; i++) {
+      let local_w = words[i];
+      let prev_ends_colon = (i > 0 && /[:\-]$/.test(words[i - 1]));
+      let sub_parts = local_w.split("-");
+
+      let cased_parts = sub_parts.map((arg0_part, arg1_idx) => {
+        let local_match = arg0_part.match(/^([^A-Za-z0-9\u00C0-\u017F]*)([A-Za-z0-9\u00C0-\u017F]+)([^A-Za-z0-9\u00C0-\u017F]*)$/);
+        if (!local_match) return arg0_part;
+        let prefix = local_match[1];
+        let core = local_match[2];
+        let suffix = local_match[3];
+        let upper_core = core.toUpperCase();
+
+        if (acronyms_set[upper_core] || /^[0-9]+(?:BC|AD)$/.test(upper_core)) {
+          return `${prefix}${upper_core}${suffix}`;
+        }
+
+        let lower_core = core.toLowerCase();
+        if (i > 0 && !prev_ends_colon && arg1_idx === 0 && minor_words_set[lower_core]) {
+          return `${prefix}${lower_core}${suffix}`;
+        }
+
+        return `${prefix}${lower_core.charAt(0).toUpperCase()}${lower_core.slice(1)}${suffix}`;
+      });
+
+      converted.push(cased_parts.join("-"));
+    }
+
+    //Return statement
+    return converted.join(" ");
   },
 
 

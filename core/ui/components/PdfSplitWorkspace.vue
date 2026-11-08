@@ -6,7 +6,17 @@
       <div class="crd-breadcrumb">
         <a :href="resolveUrl('/')" class="crd-breadcrumb-link">Catalogue</a>
         <span class="crd-breadcrumb-sep">/</span>
-        <span class="crd-breadcrumb-proj">{{ record_obj.project_name }}</span>
+        <a
+          :href="resolveUrl(record_obj.latest_route_url || `/records/${record_obj.concept_id}/`)"
+          class="crd-breadcrumb-link crd-breadcrumb-proj"
+        >{{ record_obj.project_name }}</a>
+        <template v-if="record_obj.folder_label">
+          <span class="crd-breadcrumb-sep">/</span>
+          <a
+            :href="resolveUrl(record_obj.folder_route_url || record_obj.latest_route_url || `/records/${record_obj.concept_id}/`)"
+            class="crd-breadcrumb-link crd-breadcrumb-folder"
+          >{{ record_obj.folder_label }}</a>
+        </template>
         <span class="crd-breadcrumb-sep">/</span>
         <span class="crd-version-pill">{{ record_obj.label || record_obj.version }}</span>
         <span v-if="record_obj.is_latest" class="crd-latest-badge">Latest</span>

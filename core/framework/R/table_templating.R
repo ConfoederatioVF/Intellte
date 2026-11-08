@@ -491,8 +491,11 @@ html_escape_cell <- function (arg0_text) {
   out <- gsub("&", "&amp;", text, fixed = TRUE)
   out <- gsub("<", "&lt;", out, fixed = TRUE)
   out <- gsub(">", "&gt;", out, fixed = TRUE)
-  out <- gsub("---", "\u2014", out, fixed = TRUE)
+  out <- gsub("---", " - ", out, fixed = TRUE)
   out <- gsub("--", "-", out, fixed = TRUE)
+  out <- gsub("\\*\\*([^*]+)\\*\\*", "<strong>\\1</strong>", out, perl = TRUE)
+  out <- gsub("\\*([^*]+)\\*", "<em>\\1</em>", out, perl = TRUE)
+  out <- gsub("`([^`]+)`", "<code>\\1</code>", out, perl = TRUE)
 
   #Return statement
   return(out)

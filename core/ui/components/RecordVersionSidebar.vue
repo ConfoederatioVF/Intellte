@@ -35,42 +35,119 @@
       </div>
     </div>
 
-    <!-- 2. Versions Box -->
+    <!-- 2. Versions Box (Hierarchical Project & Folder Tree) -->
     <div v-if="record.versions && record.versions.length > 0" class="crd-sidebar-card">
       <div class="crd-sidebar-card-header">
         <span class="crd-sidebar-heading">Versions</span>
       </div>
-      <ul class="crd-version-list">
-        <li
-          v-for="ver in record.versions"
-          :key="ver.version"
-          class="crd-version-item"
-          :class="{ 'is-current': ver.version === record.version }"
+
+      <div class="crd-version-tree">
+        <a
+          v-if="record.project_name"
+          :href="resolveUrl(record.latest_route_url || `/records/${record.concept_id}/`)"
+          class="crd-tree-project-root"
         >
-          <a :href="resolveUrl(ver.route_url)" class="crd-version-link">
-            <span class="crd-version-label">
-              {{ ver.label || ver.version }}
-              <span v-if="ver.is_latest" class="crd-latest-tag">Latest</span>
-              <span v-if="ver.is_synthetic" class="crd-synthetic-tag">Synthetic</span>
-            </span>
-            <span class="crd-version-date">{{ ver.date }}</span>
-          </a>
-        </li>
-      </ul>
+          <svg class="crd-tree-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
+            <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+          </svg>
+          <span class="crd-tree-project-name">{{ record.project_name }}</span>
+        </a>
+
+        <!-- Folder-Grouped Tree (e.g. Project Polaris) -->
+        <ul v-if="has_folder_tree" class="crd-tree-folder-list">
+          <li
+            v-for="folder in version_tree_folders"
+            :key="folder.key"
+            class="crd-tree-folder-node"
+          >
+            <a
+              :href="resolveUrl(folder.route_url)"
+              class="crd-tree-folder-link"
+              :class="{ 'is-active-folder': folder.key === record.folder_key }"
+            >
+              <svg class="crd-tree-folder-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true">
+                <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
+              </svg>
+              <span>{{ folder.label }}</span>
+            </a>
+
+            <ul class="crd-tree-branch">
+              <li
+                v-for="ver in folder.items"
+                :key="ver.version"
+                class="crd-tree-leaf-group"
+              >
+                <div
+                  class="crd-version-item crd-tree-item"
+                  :class="{ 'is-current': ver.version === record.version }"
+                >
+                  <a :href="resolveUrl(ver.route_url)" class="crd-version-link">
+                    <span class="crd-version-label">
+                      {{ ver.label || ver.version }}
+                      <span v-if="ver.is_latest" class="crd-latest-tag">Latest</span>
+                    </span>
+                    <span class="crd-version-date">{{ ver.date }}</span>
+                  </a>
+                </div>
+
+                <ul v-if="ver.children && ver.children.length > 0" class="crd-tree-subbranch">
+                  <li
+                    v-for="child in ver.children"
+                    :key="child.version"
+                    class="crd-version-item crd-tree-subitem"
+                    :class="{ 'is-current': child.version === record.version }"
+                  >
+                    <a :href="resolveUrl(child.route_url)" class="crd-version-link">
+                      <span class="crd-version-label">
+                        {{ child.label || child.version }}
+                        <span v-if="child.is_latest" class="crd-latest-tag">Latest</span>
+                      </span>
+                      <span class="crd-version-date">{{ child.date }}</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <!-- Standard Version List under Project Root -->
+        <ul v-else class="crd-version-list crd-tree-branch">
+          <li
+            v-for="ver in record.versions"
+            :key="ver.version"
+            class="crd-version-item crd-tree-item"
+            :class="{ 'is-current': ver.version === record.version }"
+          >
+            <a :href="resolveUrl(ver.route_url)" class="crd-version-link">
+              <span class="crd-version-label">
+                {{ ver.label || ver.version }}
+                <span v-if="ver.is_latest" class="crd-latest-tag">Latest</span>
+              </span>
+              <span class="crd-version-date">{{ ver.date }}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
     <!-- 3. Tags Box -->
-    <div v-if="record.tags && record.tags.length > 0" class="crd-sidebar-card">
+    <div v-if="sorted_tags.length > 0" class="crd-sidebar-card">
       <div class="crd-sidebar-card-header">
         <span class="crd-sidebar-heading">Tags</span>
       </div>
       <div class="crd-sidebar-tags">
-        <TagBadge
-          v-for="t in record.tags"
-          :key="t"
-          :tag="t"
-          @select="navigateToTag"
-        />
+        <template v-for="(t, idx) in sorted_tags" :key="t">
+          <TagBadge
+            :tag="t"
+            @select="navigateToTag"
+          />
+          <span
+            v-if="t === 'synthetic' && idx < sorted_tags.length - 1"
+            class="crd-tag-pipe"
+            aria-hidden="true"
+          >|</span>
+        </template>
       </div>
     </div>
 
@@ -158,6 +235,64 @@ defineEmits(["preview-pdf", "request-source-paper"]);
 
 let copied = ref(false);
 let source_filter_query = ref("");
+
+let has_folder_tree = computed(() => {
+  let vers = Array.isArray(props.record.versions) ? props.record.versions : [];
+  return vers.some((arg0_v) => Boolean(arg0_v.folder_key));
+});
+
+let sorted_tags = computed(() => {
+  let list = Array.isArray(props.record.tags) ? props.record.tags.slice() : [];
+  return list.sort((arg0_a, arg1_b) => {
+    if (arg0_a === "synthetic" && arg1_b !== "synthetic") return -1;
+    if (arg1_b === "synthetic" && arg0_a !== "synthetic") return 1;
+    return String(arg0_a).localeCompare(String(arg1_b));
+  });
+});
+
+let version_tree_folders = computed(() => {
+  let folder_map = new Map();
+  let folders = [];
+  let vers = Array.isArray(props.record.versions) ? props.record.versions : [];
+
+  for (let i = 0; i < vers.length; i++) {
+    let ver = vers[i];
+    let f_key = ver.folder_key || "general";
+    let f_label = ver.folder_label || "General";
+    if (!folder_map.has(f_key)) {
+      let folder_obj = {
+        all_versions: [],
+        items: [],
+        key: f_key,
+        label: f_label,
+        route_url: ver.folder_route_url || ver.route_url
+      };
+      folder_map.set(f_key, folder_obj);
+      folders.push(folder_obj);
+    }
+    folder_map.get(f_key).all_versions.push(ver);
+  }
+
+  for (let i = 0; i < folders.length; i++) {
+    let folder_obj = folders[i];
+    let by_ver = new Map();
+    for (let x = 0; x < folder_obj.all_versions.length; x++) {
+      let v = folder_obj.all_versions[x];
+      by_ver.set(v.version, { ...v, children: [] });
+    }
+    for (let x = 0; x < folder_obj.all_versions.length; x++) {
+      let v = folder_obj.all_versions[x];
+      let node = by_ver.get(v.version);
+      if (v.parent_version && by_ver.has(v.parent_version)) {
+        by_ver.get(v.parent_version).children.push(node);
+      } else {
+        folder_obj.items.push(node);
+      }
+    }
+  }
+
+  return folders;
+});
 
 let filtered_source_papers = computed(() => {
   let list = Array.isArray(props.record.source_papers) ? props.record.source_papers : [];

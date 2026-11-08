@@ -65,17 +65,22 @@
           <span class="crd-tag-filter-hint">{{ t("tag_filter_hint") }}</span>:
         </span>
         <div class="crd-tag-filter-list">
-          <TagBadge
-            v-for="item in all_tags_with_counts"
-            :key="item.tag"
-            :tag="item.tag"
-            :count="item.count"
-            :active="selected_tags.includes(item.tag)"
-            :excluded="excluded_tags.includes(item.tag)"
-            :tooltip="t('tag_tooltip')"
-            @select="toggleTag"
-            @exclude="excludeTag"
-          />
+          <template v-for="(item, idx) in all_tags_with_counts" :key="item.tag">
+            <TagBadge
+              :tag="item.tag"
+              :count="item.count"
+              :active="selected_tags.includes(item.tag)"
+              :excluded="excluded_tags.includes(item.tag)"
+              :tooltip="t('tag_tooltip')"
+              @select="toggleTag"
+              @exclude="excludeTag"
+            />
+            <span
+              v-if="item.tag === 'synthetic' && idx < all_tags_with_counts.length - 1"
+              class="crd-tag-pipe"
+              aria-hidden="true"
+            >|</span>
+          </template>
           <button
             v-if="selected_tags.length > 0 || excluded_tags.length > 0 || search_query"
             type="button"
@@ -103,6 +108,14 @@
         <div class="crd-record-card-top">
           <div class="crd-record-badges">
             <span class="crd-badge-type">{{ rec.record_type }}</span>
+            <template v-if="rec.project_name">
+              <span class="crd-badge-sep">·</span>
+              <a :href="resolveUrl(rec.latest_route_url || rec.route_url)" class="crd-badge-project-link">{{ rec.project_name }}</a>
+            </template>
+            <template v-if="rec.folder_label">
+              <span class="crd-badge-sep">/</span>
+              <a :href="resolveUrl(rec.folder_route_url || rec.route_url)" class="crd-badge-folder-link">{{ rec.folder_label }}</a>
+            </template>
             <span class="crd-badge-sep">·</span>
             <span class="crd-badge-version">{{ rec.label || rec.version }}</span>
             <span v-if="rec.is_latest" class="crd-latest-badge-sm">Latest</span>
@@ -126,16 +139,21 @@
 
         <!-- Tags on Card -->
         <div v-if="rec.tags && rec.tags.length > 0" class="crd-record-card-tags">
-          <TagBadge
-            v-for="tag in rec.tags"
-            :key="tag"
-            :tag="tag"
-            :active="selected_tags.includes(tag)"
-            :excluded="excluded_tags.includes(tag)"
-            :tooltip="t('tag_tooltip')"
-            @select="toggleTag"
-            @exclude="excludeTag"
-          />
+          <template v-for="(tag, idx) in sortedCardTags(rec.tags)" :key="tag">
+            <TagBadge
+              :tag="tag"
+              :active="selected_tags.includes(tag)"
+              :excluded="excluded_tags.includes(tag)"
+              :tooltip="t('tag_tooltip')"
+              @select="toggleTag"
+              @exclude="excludeTag"
+            />
+            <span
+              v-if="tag === 'synthetic' && idx < sortedCardTags(rec.tags).length - 1"
+              class="crd-tag-pipe"
+              aria-hidden="true"
+            >|</span>
+          </template>
         </div>
 
         <!-- Clean Action Buttons -->
@@ -283,9 +301,22 @@ let all_tags_with_counts = computed(() => {
     }
   }
   return Object.keys(counts)
-    .sort()
+    .sort((arg0_a, arg1_b) => {
+      if (arg0_a === "synthetic" && arg1_b !== "synthetic") return -1;
+      if (arg1_b === "synthetic" && arg0_a !== "synthetic") return 1;
+      return String(arg0_a).localeCompare(String(arg1_b));
+    })
     .map((arg0_tg) => ({ count: counts[arg0_tg], tag: arg0_tg }));
 });
+
+let sortedCardTags = function (arg0_tags) {
+  let list = Array.isArray(arg0_tags) ? arg0_tags.slice() : [];
+  return list.sort((arg0_a, arg1_b) => {
+    if (arg0_a === "synthetic" && arg1_b !== "synthetic") return -1;
+    if (arg1_b === "synthetic" && arg0_a !== "synthetic") return 1;
+    return String(arg0_a).localeCompare(String(arg1_b));
+  });
+};
 
 let filtered_records = computed(() => {
   let active_t = selected_tags.value;
