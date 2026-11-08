@@ -35,11 +35,11 @@ class MarkdownRenderer {
 
 
   /**
-   * Cleans and converts inline LaTeX math fragments in prose markdown text into
-   * semantic HTML entities while preserving code blocks and pre tags.
+   * Cleans inline math inside raw HTML blocks (`<figcaption>`, `<th>`, `<td>`, `<div class="crd-panel-heading">`)
+   * whilst protecting Markdown prose `$ ... $` and `$$ ... $$` expressions so VitePress MathJax renders them natively.
    *
    * @param {string} arg0_text - Input markdown text.
-   * @return {string} Markdown with rendered inline math and typography.
+   * @return {string} Markdown with cleaned HTML captions/headers and preserved TeX math.
    */
   cleanDocumentInlineMath (arg0_text) {
     //Convert from parameters
@@ -53,6 +53,9 @@ class MarkdownRenderer {
 
     //Guard clauses
     if (!text) return "";
+
+    //Clean math inside raw HTML blocks (figcaption, th, td, panel-heading) where markdown-it does not parse math
+    processed_text = self.cleanHtmlInlineMath(processed_text);
 
     //Protect fenced code blocks
     processed_text = processed_text.replace(/(```[\s\S]*?```)/g, (arg0_match) => {
@@ -68,15 +71,28 @@ class MarkdownRenderer {
       return `${placeholder_prefix}${idx}___`;
     });
 
-    //Clean inline math and ranges in prose
-    processed_text = self.formatInlineMathString(processed_text);
+    //Protect display math blocks ($$ ... $$) so VitePress MathJax renders them natively
+    processed_text = processed_text.replace(/(\$\$[\s\S]*?\$\$)/g, (arg0_match) => {
+      let clean_math = arg0_match.replace(/\\text\{(?:--|\u2013|\u2014)\}/g, "\\text{-}");
+      let idx = code_blocks.length;
+      code_blocks.push(clean_math);
+      return `${placeholder_prefix}${idx}___`;
+    });
 
-    //Clean math inside HTML blocks (figcaption, th, panel-heading)
-    processed_text = self.cleanHtmlInlineMath(processed_text);
+    //Protect inline math spans ($ ... $) so VitePress MathJax renders them natively
+    processed_text = processed_text.replace(/(\$[^$\r\n]+\$)/g, (arg0_match) => {
+      let clean_math = arg0_match.replace(/\\text\{(?:--|\u2013|\u2014)\}/g, "\\text{-}");
+      let idx = code_blocks.length;
+      code_blocks.push(clean_math);
+      return `${placeholder_prefix}${idx}___`;
+    });
 
-    //Restore code blocks
+    //Clean double-hyphen ranges in non-math prose
+    processed_text = processed_text.replace(/([0-9A-Za-z)\]])\s*--\s*([0-9A-Za-z(\[])/g, "$1-$2");
+
+    //Restore code and math blocks using function replacement so $$ is never collapsed by String.prototype.replace
     for (let i = 0; i < code_blocks.length; i++) {
-      processed_text = processed_text.replace(`${placeholder_prefix}${i}___`, code_blocks[i]);
+      processed_text = processed_text.replace(`${placeholder_prefix}${i}___`, () => code_blocks[i]);
     }
 
     //Return statement
@@ -85,7 +101,7 @@ class MarkdownRenderer {
 
 
   /**
-   * Cleans and formats LaTeX/inline math within HTML blocks (<figcaption>, <th>, etc.).
+   * Cleans and formats LaTeX/inline math within HTML blocks (<figcaption>, <th>, <td>, etc.).
    *
    * @param {string} arg0_text - Input markdown/HTML text.
    * @return {string} Text with converted inline math HTML entities.
@@ -106,6 +122,11 @@ class MarkdownRenderer {
     //Convert inline math in th headers
     out_text = out_text.replace(/<th class="crd-th">([\s\S]*?)<\/th>/g, function (arg0_m, arg1_cell) {
       return `<th class="crd-th">${self.formatInlineMathString(arg1_cell)}</th>`;
+    });
+
+    //Convert inline math in td cells
+    out_text = out_text.replace(/<td class="crd-td">([\s\S]*?)<\/td>/g, function (arg0_m, arg1_cell) {
+      return `<td class="crd-td">${self.formatInlineMathString(arg1_cell)}</td>`;
     });
 
     //Convert inline math in panel headings
@@ -350,11 +371,13 @@ class MarkdownRenderer {
     let clean = str;
 
     clean = clean
+      .replace(/\$\$([\s\S]*?)\$\$/g, "$1")
       .replace(/\{,\}/g, ",")
       .replace(/\\%/g, "%")
       .replace(/\s*\\approx\s*/g, " ≈ ")
       .replace(/\s*\\(?:rightarrow|to)\s*/g, " → ")
       .replace(/\\times(?![A-Za-z])/g, "×")
+      .replace(/\\cdot(?![A-Za-z])/g, "·")
       .replace(/\\sim\s*/g, "~")
       .replace(/\$?p\(5[^)]*19\)\/p\(5\+\)\$?/g, "<i>p</i>(5-19)/<i>p</i>(5+)")
       .replace(/\$?p\(0[^)]*4\)\$?/g, "<i>p</i>(0-4)")
@@ -365,11 +388,14 @@ class MarkdownRenderer {
       .replace(/\\Delta\s*([A-Za-z]+)/g, "Δ<i>$1</i>")
       .replace(/\\Delta/g, "Δ")
       .replace(/\\text\{([^}]+)\}/g, "$1")
-      .replace(/\(\$R(?:\^2|\\text\{\^2\}|\^\{2\})\$\)/g, "(<i>R</i><sup>2</sup>)")
-      .replace(/\$R(?:\^2|\\text\{\^2\}|\^\{2\})\$/g, "<i>R</i><sup>2</sup>")
+      .replace(/([0-9A-Za-z]+)\^\{([^}]+)\}/g, "$1<sup>$2</sup>")
+      .replace(/([0-9A-Za-z]+)\^2\b/g, "$1<sup>2</sup>")
+      .replace(/([0-9A-Za-z]+)_\{([^}]+)\}/g, "$1<sub>$2</sub>")
+      .replace(/\(\$R(?:\^2|\\text\{\^2\}|\^\{2\}|<sup>2<\/sup>)\$\)/g, "(<i>R</i><sup>2</sup>)")
+      .replace(/\$R(?:\^2|\\text\{\^2\}|\^\{2\}|<sup>2<\/sup>)\$/g, "<i>R</i><sup>2</sup>")
       .replace(/\$([A-Za-z]+)\^([0-9A-Za-z]+)\$/g, "<i>$1</i><sup>$2</sup>")
       .replace(/\$([A-Za-z])\s*=\s*([^$]+)\$/g, "<i>$1</i> = $2")
-      .replace(/\$([0-9]+)\$/g, "$1")
+      .replace(/\$([0-9][0-9,.\sA-Za-z<>\/+\-]*)\$/g, "$1")
       .replace(/\$([A-Za-z])\$/g, "<i>$1</i>")
       .replace(/([0-9A-Za-z)\]])\s*--\s*([0-9A-Za-z(\[])/g, "$1-$2")
       .replace(/\$([^$]+)\$/g, "$1");

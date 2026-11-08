@@ -17,9 +17,11 @@
             class="crd-breadcrumb-link crd-breadcrumb-folder"
           >{{ record_obj.folder_label }}</a>
         </template>
-        <span class="crd-breadcrumb-sep">/</span>
-        <span class="crd-version-pill">{{ record_obj.label || record_obj.version }}</span>
-        <span v-if="record_obj.is_latest" class="crd-latest-badge">Latest</span>
+        <template v-if="!record_obj.is_project_stub && !record_obj.is_folder_stub">
+          <span class="crd-breadcrumb-sep">/</span>
+          <span class="crd-version-pill">{{ record_obj.label || record_obj.version }}</span>
+        </template>
+        <span v-if="record_obj.is_latest && !record_obj.is_project_stub && !record_obj.is_folder_stub" class="crd-latest-badge">Latest</span>
         <span v-if="record_obj.is_synthetic" class="crd-synthetic-badge">Synthetic</span>
       </div>
 

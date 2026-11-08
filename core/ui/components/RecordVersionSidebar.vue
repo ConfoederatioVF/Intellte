@@ -46,6 +46,7 @@
           v-if="record.project_name"
           :href="resolveUrl(record.latest_route_url || `/records/${record.concept_id}/`)"
           class="crd-tree-project-root"
+          :class="{ 'is-active-project': record.is_project_stub }"
         >
           <svg class="crd-tree-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true">
             <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z" />
@@ -79,7 +80,7 @@
               >
                 <div
                   class="crd-version-item crd-tree-item"
-                  :class="{ 'is-current': ver.version === record.version }"
+                  :class="{ 'is-current': !record.is_project_stub && !record.is_folder_stub && ver.version === record.version }"
                 >
                   <a :href="resolveUrl(ver.route_url)" class="crd-version-link">
                     <span class="crd-version-label">
@@ -95,7 +96,7 @@
                     v-for="child in ver.children"
                     :key="child.version"
                     class="crd-version-item crd-tree-subitem"
-                    :class="{ 'is-current': child.version === record.version }"
+                    :class="{ 'is-current': !record.is_project_stub && !record.is_folder_stub && child.version === record.version }"
                   >
                     <a :href="resolveUrl(child.route_url)" class="crd-version-link">
                       <span class="crd-version-label">

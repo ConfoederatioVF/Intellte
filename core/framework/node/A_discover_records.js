@@ -161,21 +161,15 @@ let IntellteDiscovery = {
       }
 
       resolved_latest_version = IntellteDiscovery.resolveLatestVersion(enriched_versions);
-      let folder_routes_obj = {};
+      let has_folder_tree = enriched_versions.some((arg0_v) => Boolean(arg0_v.folder_key));
       for (let x = 0; x < enriched_versions.length; x++) {
         enriched_versions[x].is_latest = (enriched_versions[x].version === resolved_latest_version);
-        if (enriched_versions[x].is_latest) {
+        if (enriched_versions[x].is_latest && !has_folder_tree) {
           enriched_versions[x].route_url = `/records/${concept_id}/`;
         }
         let local_fkey = enriched_versions[x].folder_key;
-        if (local_fkey && !folder_routes_obj[local_fkey]) {
-          folder_routes_obj[local_fkey] = enriched_versions[x].route_url;
-        }
-      }
-      for (let x = 0; x < enriched_versions.length; x++) {
-        let local_fkey = enriched_versions[x].folder_key;
-        if (local_fkey && folder_routes_obj[local_fkey]) {
-          enriched_versions[x].folder_route_url = folder_routes_obj[local_fkey];
+        if (local_fkey) {
+          enriched_versions[x].folder_route_url = `/records/${concept_id}/${local_fkey}/`;
         }
       }
 
@@ -183,6 +177,7 @@ let IntellteDiscovery = {
         child_repo_abs: child_repo_abs,
         child_repo_path: child_repo_rel,
         concept_id: concept_id,
+        has_folder_tree: has_folder_tree,
         is_synthetic: Boolean(local_rec.is_synthetic),
         latest_version: resolved_latest_version,
         project_name: local_rec.project_name || concept_id,
