@@ -25,9 +25,6 @@ if (fs.existsSync(path.join(docs_dir, "records"))) {
 }
 
 let base_url = process.env.VITEPRESS_BASE;
-if (!base_url && process.env.GITHUB_ACTIONS) {
-  base_url = "/Intellte/";
-}
 if (!base_url) {
   base_url = "/";
 }

@@ -267,7 +267,9 @@ class MarkdownRenderer {
     let cache_file = "";
     let cache_hash = "";
     let fw_init_path = path.resolve(this.root_dir, "core/framework/R/framework_init.R").replace(/\\/g, "/");
+    let norm_rmd = "";
     let raw_rmd = fs.readFileSync(rmd_path, "utf8");
+    let rmd_base = path.basename(rmd_path, ".Rmd");
     let rmd_norm = rmd_path.replace(/\\/g, "/");
     let rscript_bin = (fs.existsSync(this.rscript_path)) ? this.rscript_path : "Rscript";
 
@@ -275,15 +277,28 @@ class MarkdownRenderer {
       fs.mkdirSync(this.cache_dir, { recursive: true });
     }
 
+    norm_rmd = raw_rmd.replace(/\r\n/g, "\n");
     cache_hash = crypto
+      .createHash("sha256")
+      .update(`${norm_rmd}|${artefact_base_url}|${has_hero_figure}|v9`)
+      .digest("hex")
+      .slice(0, 16);
+    cache_file = path.join(this.cache_dir, `${rmd_base}_${cache_hash}.md`).replace(/\\/g, "/");
+
+    let crlf_hash = crypto
       .createHash("sha256")
       .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v9`)
       .digest("hex")
       .slice(0, 16);
-    cache_file = path.join(this.cache_dir, `${path.basename(rmd_path, ".Rmd")}_${cache_hash}.md`).replace(/\\/g, "/");
+    let crlf_cache_file = path.join(this.cache_dir, `${rmd_base}_${crlf_hash}.md`).replace(/\\/g, "/");
 
-    if (!force_eval && fs.existsSync(cache_file)) {
-      return fs.readFileSync(cache_file, "utf8");
+    if (!force_eval) {
+      if (fs.existsSync(cache_file)) {
+        return fs.readFileSync(cache_file, "utf8");
+      }
+      if (fs.existsSync(crlf_cache_file)) {
+        return fs.readFileSync(crlf_cache_file, "utf8");
+      }
     }
 
     let r_expr = [
@@ -297,6 +312,21 @@ class MarkdownRenderer {
     });
 
     if (proc_res.status !== 0 || !fs.existsSync(cache_file)) {
+      if (fs.existsSync(crlf_cache_file)) {
+        return fs.readFileSync(crlf_cache_file, "utf8");
+      }
+
+      let all_cached = fs.readdirSync(this.cache_dir)
+        .filter((arg0_f) => arg0_f.startsWith(`${rmd_base}_`) && arg0_f.endsWith(".md"))
+        .map((arg0_f) => ({
+          full_path: path.join(this.cache_dir, arg0_f),
+          mtime: fs.statSync(path.join(this.cache_dir, arg0_f)).mtimeMs
+        }))
+        .sort((arg0_a, arg1_b) => arg1_b.mtime - arg0_a.mtime);
+      if (all_cached.length > 0) {
+        return fs.readFileSync(all_cached[0].full_path, "utf8");
+      }
+
       console.error(`[MarkdownRenderer] Rscript evaluation error for ${rmd_path}:`, proc_res.stderr);
       return raw_rmd;
     }
