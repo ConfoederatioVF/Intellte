@@ -296,6 +296,24 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
   #Guard clauses
   if (nrow(df) == 0 || n_cols == 0) return(invisible(NULL))
 
+  if (length(col_names) != n_cols) {
+    col_names <- colnames(df)
+  }
+  col_names <- gsub("`", "", col_names, fixed = TRUE)
+  col_names <- gsub("\n", " ", col_names, fixed = TRUE)
+  col_names <- gsub("([0-9])\\s+(BC|AD)\\b", "\\1\\2", col_names, perl = TRUE)
+  col_names <- gsub("\u2014", " - ", col_names, fixed = TRUE)
+  col_names <- gsub("\u2013", "-", col_names, fixed = TRUE)
+  for (c_i in seq_len(n_cols)) {
+    df[[c_i]] <- gsub("`", "", as.character(df[[c_i]]), fixed = TRUE)
+    df[[c_i]] <- gsub("\\*\\*", "", as.character(df[[c_i]]))
+    df[[c_i]] <- gsub("\u2014", " - ", as.character(df[[c_i]]), fixed = TRUE)
+    df[[c_i]] <- gsub("\u2013", "-", as.character(df[[c_i]]), fixed = TRUE)
+    df[[c_i]] <- gsub("---", " - ", as.character(df[[c_i]]), fixed = TRUE)
+    df[[c_i]] <- gsub("--", "-", as.character(df[[c_i]]), fixed = TRUE)
+    df[[c_i]] <- gsub("([0-9])\\s+(BC|AD)\\b", "\\1\\2", as.character(df[[c_i]]), perl = TRUE)
+  }
+
   if (!is_latex) {
     if (isTRUE(getOption("intellte.dom_mode", FALSE))) {
       tbl_num <- as.integer(getOption("intellte.table_counter", 0L)) + 1L
@@ -349,86 +367,112 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
     return(knitr::asis_output(paste(as.character(kb), collapse = "\n")))
   }
 
-  #CRD tables use left-aligned columns matching body text
-  align_str <- paste(rep("l", n_cols), collapse = "")
+  #Calculate safe usable fraction of \textwidth accounting for (n_cols - 1) inter-column gaps
+  n_rows <- nrow(df)
+  usable_frac <- max(0.78, 0.962 - 0.0132*(n_cols - 1L))
+  min_frac <- numeric(n_cols)
+  col_weights <- numeric(n_cols)
+
+  for (c_idx in seq_len(n_cols)) {
+    hdr_str <- col_names[c_idx]
+    hdr_words <- unlist(strsplit(hdr_str, "[\\s/\\-]+", perl = TRUE))
+    hdr_max_w <- min(11L, max(nchar(hdr_words), 3L))
+
+    cell_vec <- as.character(df[[c_idx]])
+    cell_vec_joined <- gsub("([0-9]) ([0-9]{3}\\b)", "\\1_\\2", cell_vec, perl = TRUE)
+    cell_vec_joined <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", cell_vec_joined, perl = TRUE)
+    cell_words <- unlist(strsplit(paste(cell_vec_joined, collapse = " "), "[\\s/]+", perl = TRUE))
+    cell_max_w <- min(11L, max(nchar(cell_words), 3L))
+
+    req_pts <- max(hdr_max_w*5.1 + 4.0, cell_max_w*4.7 + 4.0, 30.0)
+    min_frac[c_idx] <- req_pts/468.0
+
+    cell_lens <- nchar(cell_vec)
+    cell_q85 <- as.numeric(stats::quantile(cell_lens, probs = 0.85, na.rm = TRUE))
+    cell_max <- max(cell_lens, nchar(hdr_str), na.rm = TRUE)
+    eff_len <- max(nchar(hdr_str)*0.42, min(cell_max, max(cell_q85, 6.0)))
+    col_weights[c_idx] <- max(3.5, eff_len^0.65)
+  }
+
+  if (sum(min_frac) > usable_frac*0.94) {
+    min_frac <- min_frac*((usable_frac*0.94)/sum(min_frac))
+  }
+  rem_frac <- max(0.0, usable_frac - sum(min_frac))
+  col_fracs <- min_frac + rem_frac*(col_weights/sum(col_weights))
+
+  col_specs <- vapply(
+    col_fracs,
+    function (fr) sprintf(">{\\raggedright\\arraybackslash\\hyphenpenalty=50\\exhyphenpenalty=50}p{%.4f\\textwidth}", fr),
+    character(1)
+  )
+  align_str <- paste(col_specs, collapse = "")
 
   header_cells <- vapply(
     seq_len(n_cols),
-    function (c_idx) format_table_cell(col_names[c_idx], c_idx, list(is_header = TRUE, is_latex = TRUE)),
+    function (c_idx) {
+      clean_h <- sanitize_latex_text(col_names[c_idx], TRUE)
+      paste0("{\\karlabold\\lefthyphenmin=5\\righthyphenmin=5 ", clean_h, "}")
+    },
     character(1)
   )
-  header_line <- paste0(paste(header_cells, collapse = " & "), " \\\\[5pt]")
-  env_name <- "table"
-  target_width <- "\\textwidth"
+  header_line <- paste0(paste(header_cells, collapse = " & "), " \\\\*[4pt]")
 
-  for (ch_idx in seq_along(chunks)) {
-    chunk_obj <- chunks[[ch_idx]]
-    chunk_df <- chunk_obj$df
-    is_cont <- chunk_obj$is_continued
+  cap_tex <- sanitize_latex_text(caption_str, FALSE)
+  lbl_tex <- if (nzchar(label_str)) paste0("\\label{", label_str, "}") else ""
+  row_pt <- if (n_rows >= 14L) "1pt" else "2pt"
+  arr_str <- if (n_rows >= 14L) "1.0" else "1.08"
 
-    cap_tex <- sanitize_latex_text(caption_str)
-    if (is_cont && nzchar(cap_tex)) {
-      cap_tex <- paste0("(Continued) ", cap_tex)
-    }
+  block_lines <- c(
+    paste0(strrep("\x60", 3), "{=latex}"),
+    "\\par\\vspace{4pt}",
+    "\\begingroup\\fontsize{10pt}{14pt}\\selectfont\\normalfont\\rmfamily\\mdseries",
+    "\\setlength{\\tabcolsep}{3pt}",
+    paste0("\\renewcommand{\\arraystretch}{", arr_str, "}"),
+    "\\setlength{\\LTpre}{4pt}",
+    "\\setlength{\\LTpost}{4pt}",
+    "\\setlength{\\LTcapwidth}{\\textwidth}",
+    paste0("\\begin{longtable}[l]{@{}", align_str, "@{}}"),
+    header_line,
+    "\\endfirsthead",
+    paste0("\\multicolumn{", n_cols, "}{@{}l@{}}{\\normalfont\\karlalight\\fontsize{9pt}{12pt}\\selectfont (Continued from previous page)} \\\\*[3pt]"),
+    header_line,
+    "\\endhead"
+  )
 
-    block_lines <- c(
-      paste0("\\begin{", env_name, "}[", placement, "]"),
-      if (is_cont) "\\addtocounter{table}{-1}" else NULL,
-      "\\centering",
-      "\\fontsize{10pt}{15pt}\\selectfont\\normalfont\\rmfamily\\mdseries",
-      "\\setlength{\\tabcolsep}{2.5pt}",
-      "\\renewcommand{\\arraystretch}{1.0}"
+  for (r_idx in seq_len(n_rows)) {
+    row_cells <- vapply(
+      seq_len(n_cols),
+      function (c_idx) {
+        raw_v <- df[r_idx, c_idx]
+        val_str <- if (is.null(raw_v) || is.na(raw_v)) "-" else as.character(raw_v)
+        val_str <- trimws(gsub("\\*\\*", "", val_str))
+        if (euro_decimals) {
+          val_str <- convert_euro_decimals_in_text(val_str)
+        }
+        clean_v <- sanitize_latex_text(val_str, TRUE)
+        paste0("{\\normalfont\\rmfamily\\mdseries\\lefthyphenmin=4\\righthyphenmin=4\\hspace{0pt} ", clean_v, "}")
+      },
+      character(1)
     )
-
-    if (scale_to_fit) {
-      block_lines <- c(
-        block_lines,
-        paste0("\\resizebox{", target_width, "}{!}{\\begin{tabular}{@{}", align_str, "@{}}")
-      )
-    } else {
-      block_lines <- c(
-        block_lines,
-        paste0("\\begin{tabular*}{", target_width, "}{@{\\extracolsep{\\fill}}", align_str, "@{}}")
-      )
+    row_end <- paste0("\\\\[", row_pt, "]")
+    if (r_idx == n_rows && (nzchar(cap_tex) || nzchar(lbl_tex))) {
+      row_end <- "\\\\*[5pt]"
     }
-
-    block_lines <- c(block_lines, header_line)
-
-    for (r_idx in seq_len(nrow(chunk_df))) {
-      row_cells <- vapply(
-        seq_len(n_cols),
-        function (c_idx) {
-          format_table_cell(
-            chunk_df[r_idx, c_idx],
-            c_idx,
-            list(bold_first_col = bold_first_col, euro_decimals = euro_decimals, is_latex = TRUE)
-          )
-        },
-        character(1)
-      )
-      block_lines <- c(block_lines, paste0(paste(row_cells, collapse = " & "), " \\\\"))
-    }
-
-    if (scale_to_fit) {
-      block_lines <- c(block_lines, "\\end{tabular}}")
-    } else {
-      block_lines <- c(block_lines, "\\end{tabular*}")
-    }
-
-    #Caption always underneath the table and centred
-    if (nzchar(cap_tex)) {
-      block_lines <- c(block_lines, paste0("\\caption{", cap_tex, "}"))
-    }
-    if (!is_cont && nzchar(label_str)) {
-      block_lines <- c(block_lines, paste0("\\label{", label_str, "}"))
-    }
-
-    block_lines <- c(block_lines, paste0("\\end{", env_name, "}"))
-    out_blocks <- c(out_blocks, paste(block_lines, collapse = "\n"))
+    block_lines <- c(block_lines, paste0(paste(row_cells, collapse = " & "), " ", row_end))
   }
 
+  if (nzchar(cap_tex) || nzchar(lbl_tex)) {
+    block_lines <- c(block_lines, paste0("\\caption{", cap_tex, "}", lbl_tex, "\\\\"))
+  }
+  block_lines <- c(
+    block_lines,
+    "\\end{longtable}\\endgroup",
+    "\\vspace{4pt}\\par",
+    strrep("\x60", 3)
+  )
+
   #Return statement
-  return(knitr::asis_output(paste(out_blocks, collapse = "\n\n")))
+  return(knitr::asis_output(paste(block_lines, collapse = "\n")))
 }
 
 
@@ -458,16 +502,18 @@ html_escape_cell <- function (arg0_text) {
 #' Sanitises a string containing mixed plain text and `$...$` math segments for safe LaTeX compilation.
 #'
 #' @param arg0_text Input string.
+#' @param arg1_in_table Optional logical indicating if the string is inside a LaTeX table cell.
 #' @return LaTeX-safe character string.
 #' @export
-sanitize_latex_text <- function (arg0_text) {
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
   #Convert from parameters
   text <- as.character(arg0_text)
+  in_table <- isTRUE(arg1_in_table)
 
   #Guard clauses
   if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
 
-  #Split on $...$ math segments so we only escape %, &, _ outside math mode
+  text <- gsub("`", "", text, fixed = TRUE)
   parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
   in_math <- FALSE
   out_parts <- character(length(parts))
@@ -482,23 +528,35 @@ sanitize_latex_text <- function (arg0_text) {
       p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
       p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
       p <- gsub("\u00b2", "^2", p, fixed = TRUE)
-      p <- gsub("\u2013", "\\text{-}", p, fixed = TRUE)
-      p <- gsub("\u2014", "---", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
       p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
       out_parts[i] <- p
     } else {
-      p <- gsub("\u2192", "$\\rightarrow$", p, fixed = TRUE)
-      p <- gsub("\u00d7", "$\\times$", p, fixed = TRUE)
+      p <- gsub("\u2192", "->", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
       p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
-      p <- gsub("km\u00b2", "$\\text{km}^2$", p, fixed = TRUE)
-      p <- gsub("m\u00b2", "$\\text{m}^2$", p, fixed = TRUE)
-      p <- gsub("R\u00b2", "$R^2$", p, fixed = TRUE)
-      p <- gsub("\u00b2", "$^2$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
       p <- gsub("\u2013", "-", p, fixed = TRUE)
-      p <- gsub("\u2014", "---", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
       p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
       p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
       p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (in_table) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("([0-9]) ([0-9]{3}\\b)", "\\1~\\2", p, perl = TRUE)
+        p <- gsub("([0-9]) ([0-9]{3}\\b)", "\\1~\\2", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
       out_parts[i] <- p
     }
   }

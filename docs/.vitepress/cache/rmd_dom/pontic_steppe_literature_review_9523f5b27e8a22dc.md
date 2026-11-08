@@ -1,0 +1,253 @@
+---
+title: "DEMOGRAPHIC AND SETTLEMENT HISTORY OF THE PONTIC STEPPE."
+subtitle: "A Regional Literature Review of the Lower Don, Azov Littoral, and Kuban-Stavropol Steppe (10000BC - 1900AD)."
+date: "7 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/pontic_steppe_regional_map.png"
+hero_caption: "Natural Earth 10m and WWF/USGS HydroBASINS Level-05 basemap of the Russian Pontic Steppe (36,0°-44,8° E, 44,5°-50,5° N), showing administrative boundaries for Rostov Oblast and Krasnodar Krai, the four sub-regions (I-IV) and principal Neolithic, Bronze Age, Classical Bosporan, Khazar, Golden Horde and Don Cossack settlements."
+hero_label: "fig:hero"
+bibliography: pontic_steppe_literature_review.bib
+csl: crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../../../core/rticles/intellte/resources/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+This paper reviews the archaeological, osteological, historical and census literature for the Russian Pontic Steppe (~ 165,0k km², covering the Lower Don Delta, the Taganrog Gulf, the Taman Peninsula, the Lower Don and Seversky Donets valleys and the Sal-Manych steppe) from the Mesolithic period (10000BC) to the First All-Russian Imperial Census (1897 / 1900AD). Population estimates are derived from excavated house floors and shell middens at Rakushechny Yar [@tsybrij2018rakushechnyy; @skorobogatov2025keramicheskiy], Bronze Age burial mounds and ancient soil studies [@shishlina2008reconstruction; @borisov2019palaeosols], Late Bronze Age Srubnaya and Kobyakovo village inventories [@potapov2013krest; @potapov2016uklady], complete rural settlement surveys on the Taman Peninsula [@paromov1992karta; @garbuzov2011osvoyeniye; @garbuzov2013selskaya], skeletal life tables (N > 3,6k individuals) [@balabanova2009khronologicheskiye; @batieva2011naseleniye], Khazar fortress and village surveys [@afanasyev1993donskiye; @ochirgoryaeva2020bashanta], urban excavations at Golden Horde Azak [@maslovsky2022tokhtamysh; @maslovsky2024chislennosti], 17th-century Russian *Prikaz* registers for the 125 Don Cossack towns [@mininkov1998donskoye; @sushchiy2019institut; @prudnikov2024gorodok], 18th- and 19th-century imperial tax revisions (*revizskie skazki*) [@pronshtein1961zemlya; @kabuzan1976zaseleniye; @agafonov2017zemli; @kolomeytseva2018krestyanstva] and the 1897 Imperial Census [@troynitsky1905don; @troynitsky1905kuban; @volvenko2023priazovya]. Regional population grew from 2,6k-10,7k among early riverine fishing communities to 80,0k during the Late Bronze Age Srubnaya farming expansion (1500BC), 125,0k-132,0k during the Classical Bosporan and Sarmatian period (350BC - 150AD), 150,0k under the Khazar Khaganate (900AD) and 158,0k at the height of Golden Horde Azak (1340AD). Following Timur's sack of Azak in 1395AD and the growth of the Don Cossack Host (120,0k in 1700AD), peasant and Cossack colonisation of the black-earth steppes, port trade at Rostov-on-Don and Taganrog and eastern Donbas coal mining raised the regional population to 550,0k in 1800AD, 1 400,0k in 1850AD and 3 950,0k (3,95M) by 1900AD.
+
+# Geographical Setting
+
+The Russian Pontic Steppe forms the land and river corridor between the North-Western Caucasus, the Sea of Azov (*Maeotis*), the Lower Don basin and the Caspian-Manych depression (Figure \ref{fig:hero}). Because rainfall and surface water vary sharply from the coast and floodplains to the dry eastern watersheds, settlement history across this 165,0k km² region is divided into four sub-regions:
+
+1. Lower Don Delta, Floodplain and Azov Littoral (18,0k km²): Encompassing Pochatkovsky (Porechny) Island (Rakushechny Yar), the Dead Donets (Mertvy Donets) and main Don delta branches (Elizavetovskoye, Tanais, the ten Maeotian-Tanaitic delta forts including Kobyakovo, Nizhne-Gnilovskoye and Podazovskoye, Golden Horde Azak/Tana, Cossack Cherkassk and Novocherkassk, and the modern port cities of Rostov-on-Don, Nakhichevan-on-Don, Taganrog, Azov and Yeysk) [@marchenko2000elizavetovskoye; @maslovsky2024chislennosti; @volvenko2023priazovya].
+2. Taman Peninsula / Asian Bosporus (4,5k km², including the 1,2k km² ancient Taman archipelago and Anapa/Gorgippia coast): Surveyed by Ya. M. Paromov [@paromov1992karta], V. D. Kuznetsov [@kuznetsov2010phanagoria], U. Schlotzhauer and D. V. Zhuravlev [@schlotzhauer2014colonization], G. P. Garbuzov and A. A. Zavoikin [@garbuzov2011osvoyeniye; @garbuzov2013selskaya] and A. V. Batasova [@batasova2015osvoyeniye], this deltaic peninsula hosted the Greek cities of Phanagoria, Hermonassa (later Tamatarkha/Tmutarakan), Kepoi, Patraeus and Gorgippia (Anapa), and from 1792 the Black Sea (Kuban) Cossack settlements [@burykina2008osvoyeniye].
+3. Lower Don River Valley and Southern Don-Donets Corridor (77,5k km²): Comprising the main Lower Don valley and Tsimlyansk bend ($37{,}5\text{k km}^2$: Razdorskaya, Konstantinovsk, Semikarakorskoye, Sarkel / Belaya Vezha, Pravoberezhnoye Tsimlyanskoye and Cossack Razdory) and the northern tributary valleys of the Seversky Donets, Chir, Kalitva, lower Khopyor and lower Medveditsa ($40{,}0\text{k km}^2$), which supported dense Late Bronze Age Srubnaya villages, Early Medieval Saltovo-Mayaki settlements, Don Cossack *stanitsy* and 19th-century coal-mining towns [@artamonov1958sarkel; @afanasyev1993donskiye; @potapov2016uklady; @kolomeytseva2018krestyanstva].
+4. Sal-Manych Watershed Steppe and Yergeni Slope (65,0k km²): The dry inland steppes and seasonal grazing corridors linking the Lower Don to the Caspian Depression along the Western and Eastern Manych, Sal, Yegorlyk and Kalaus rivers (Manych Catacomb burial grounds, Khazar-period Bashanta I-II, Don Kalmyk pastures and 19th-century Salsk and northern Stavropol peasant districts) [@shishlina2008reconstruction; @borisov2019palaeosols; @ochirgoryaeva2020bashanta].
+
+# Sources and Methods
+
+Regional population estimates are compiled from five groups of archaeological and documentary evidence:
+
+- Excavated Shell Middens and House Floors: For the Mesolithic and Neolithic periods (Rakushechny Yar, Razdorskaya 2, Kremennaya), excavated house floors (12-35 m² wattle-and-daub and *Viviparus* snail-shell platforms) and radiocarbon dates [@tsybrij2018rakushechnyy; @dolbunova2021rakovinnyye; @dolbunova2022novyye; @skorobogatov2025keramicheskiy] indicate riverine densities of 0,016-0,065 persons/km².
+- Kurgan Burial Grounds, Ancient Soils and Isotope Studies: For the Eneolithic, Early Bronze Age (Yamnaya) and Middle Bronze Age (Catacomb), N. I. Shishlina's [@shishlina2008reconstruction] strontium, carbon and nitrogen isotope studies (${}^{87}\text{Sr}/{}^{86}\text{Sr}$, $\delta^{13}\text{C}$, $\delta^{15}\text{N}$) of seasonal grazing routes are combined with A. V. Borisov and R. A. Mimokhod's [@borisov2019palaeosols] buried-soil analyses across the Sal-Manych and Yergeni steppes.
+- Late Bronze Age Village and House Counts: For the Srubnaya (Timber-Grave) and Kobyakovo cultures (2000-900BC), counts of permanent river-terrace villages (*poseleniya*), excavated semi-subterranean timber-and-stone houses (5-20 dwellings of 80-250 m² per village) and household size estimates (8-12 persons per house) [@sharafutdinova1980kobyakovo; @potapov2013krest; @potapov2016uklady] are checked against skeletal mortality tables.
+- Rural Field Surveys, Urban Excavations and Skeletal Life Tables: For the Classical, Hellenistic and Roman/Sarmatian periods (600BC - 370AD), Ya. M. Paromov's [@paromov1992karta] survey of >230 rural settlements on the Taman Peninsula (1,2k km²), G. P. Garbuzov and A. A. Zavoikin's [@garbuzov2011osvoyeniye; @garbuzov2013selskaya] agricultural land-use calculations, K. K. Marchenko, V. G. Zhitnikov and V. P. Kopylov's [@marchenko2000elizavetovskoye; @kopylov2016vremeni] estimates for Elizavetovskoye Gorodishche (44-55 ha, 3,0k-4,5k inhabitants) and M. A. Balabanova's [@balabanova2009khronologicheskiye] and E. F. Batieva's [@batieva2011naseleniye] skeletal mortality tables provide direct benchmarks.
+- Medieval Urban Excavations, Russian *Prikaz* Rolls, Imperial Revisions and the 1897 Census: For the medieval and modern periods (740-1900AD), G. E. Afanasyev's [@afanasyev1993donskiye] Saltovo-Mayaki settlement study and A. N. Maslovsky and I. B. Papka's [@maslovsky2022tokhtamysh; @maslovsky2024chislennosti] >250-trench urban density study of Golden Horde Azak (54,0k inhabitants in 1340AD) are combined with 17th-century Russian *Posolsky* and *Razryadny Prikaz* rolls [@mininkov1998donskoye; @sushchiy2019institut], 18th- and 19th-century imperial tax revisions (1st-10th *revizii*, 1719-1858) [@pronshtein1961zemlya; @kabuzan1976zaseleniye; @agafonov2017zemli; @kolomeytseva2018krestyanstva] and the First All-Russian Imperial Census of 1897 [@troynitsky1905don; @troynitsky1905kuban; @volvenko2023priazovya].^[All archived full-text academic PDFs cited in this review are stored locally in ./papers/.]
+
+<figure class="crd-figure-block" id="fig:holocene-pop">
+<img class="crd-figure-img" src="/artefacts/viscount_pontic_steppe/1.0/pontic_steppe_holocene_population.png" alt="fig:holocene-pop" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Estimated population of the Russian Pontic Steppe (10000BC - 1900AD), showing (A) prehistoric, classical and medieval estimates (6000BC - 1700AD) and (B) early modern and Imperial Russian census estimates (1500 - 1900AD) across the four sub-regions.</figcaption>
+</figure>
+
+# Prehistoric Fishing Communities and Bronze Age Herders (10000 - 900BC)
+
+## Final Palaeolithic, Mesolithic and Early Neolithic (10000 - 5000BC)
+
+Studied by V. V. Tsybrij and A. V. Tsybrij [@tsybrij2018rakushechnyy], the Mesolithic sites of the Lower Don and Azov coast (Kremennaya II-III, Razdorskaya 2, Yuzhny Bugor, 10000-6200 cal BC) were flint-working camps and seasonal fishing stations on low floodplain terraces where inhabitants caught sturgeon (*Acipenseridae*), carp (*Cyprinidae*) and catfish (*Silurus glanis*) and hunted red deer and wild boar. Total population across the 165,0k km² region rose gradually from 2,6k in 10000BC (0,016 persons/km²) to 4,4k in 8000BC.
+
+On Pochatkovsky (Porechny) Island near Stanitsa Razdorskaya in the Lower Don floodplain, the multi-layered settlement of Rakushechny Yar (excavated by T. D. Belanovskaya [@belanovskaya1995rakushechnyy] and re-examined in 2008-2025 by E. V. Dolbunova, A. N. Mazurkevich, A. V. Tsybrij and V. V. Tsybrij [@tsybrij2018rakushechnyy; @dolbunova2021rakovinnyye; @dolbunova2022novyye]) contains 23 cultural layers reaching 5-6 m in depth. Radiocarbon and OSL dates place the earliest Neolithic shell-tempered pottery layers (Layers 23-15) between 6200/6000 and 5600 cal BC, making Rakushechny Yar one of the oldest pottery-producing villages in Europe [@dolbunova2022novyye]. Excavations uncovered artificial floors built from freshwater *Viviparus* snail shells (*rakovinnye platformy*), post-hole rows and clay-plastered wattle-and-daub (*turluk*) surfaces belonging to permanent riverine houses [@dolbunova2021rakovinnyye]. Individual floodplain villages housed 50-120 people (8-18 structures), raising Lower Don valley densities to 0,15-0,25 persons/km² and the regional population to 7,8k by 6000BC and 10,7k by 5000BC (Figure \ref{fig:holocene-pop}A).
+
+## Eneolithic and Early/Middle Bronze Age (5000 - 2000BC)
+
+During the Eneolithic (5000-3300 cal BC), the Lower Don (Nizhnedonskaya), Sredny Stog / Novodanilovka and Konstantinovka traditions established river-terrace farming, herding and fishing villages (1,0-2,5 ha settlements with 60-150 residents each at Razdorskoye I and Samsonovskoye) alongside flat and low-mound cemeteries (Karatayevo, Mukhin). In an analysis of Layer 5 at Rakushechny Yar (a 55 cm-thick *Viviparus* shell midden dated to 4600-4300 cal BC), A. M. Skorobogatov, E. V. Dolbunova and A. N. Mazurkevich [@skorobogatov2025keramicheskiy] showed that collared and comb-impressed Nizhnedonskaya pots make up 6,6% of the ceramic assemblage alongside local Late Neolithic vessels, consistent with a regional population of 17,5k by 4000BC.
+
+In her study *Reconstruction of the Bronze Age of the Caspian Steppes* [@shishlina2008reconstruction], N. I. Shishlina showed that the transition to the Yamnaya (Pit-Grave, 3300-2600 cal BC) and Katakombnaya (Catacomb, 2600-2000 cal BC) periods introduced four-season mobile herding with heavy four-wheeled ox-wagons. Whereas Yamnaya herders moved along short river-valley loops (10-25 km), population growth during the Manych Catacomb phase (2500-2100 cal BC) led to longer north-south seasonal migrations (150-300 km routes linking the Lower Don and Manych lakes to the Stavropol Uplands and Yergeni Hills). Field surveys and buried-soil studies by A. V. Borisov and R. A. Mimokhod [@borisov2019palaeosols] record burial mound densities of 0,4-1,2 kurgans/km² along river terraces and 0,1-0,3 kurgans/km² on open watersheds, with 60-75% of all Bronze Age burials belonging to the Catacomb period. Heavy grazing contributed to alkaline soil (*solonetz*) formation before the 4,2 ka BP (2200-2000 cal BC) dry phase, which emptied the open Sal-Manych watersheds during the post-Catacomb Lola period [@borisov2019palaeosols]. Regional population rose from 27,0k in 3000BC to 43,0k during the Catacomb period (2400BC), before falling to 28,0k around 2000BC (Figure \ref{fig:kurgan-climate}A).
+
+<figure class="crd-figure-block" id="fig:kurgan-climate">
+<img class="crd-figure-img" src="/artefacts/viscount_pontic_steppe/1.0/pontic_steppe_kurgan_palaeoclimate.png" alt="fig:kurgan-climate" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 3.</span> Bronze-to-Medieval settlement and skeletal indicators in the Russian Pontic Steppe: (A) permanent river-terrace villages versus steppe kurgan burial intensity across the 4,2 ka BP dry phase and Srubnaya humid period; (B) osteological life-table estimates (adult male and female mean age at death and corrected life expectancy at birth e0) across eight regional cemetery series.</figcaption>
+</figure>
+
+## Late Bronze Age Farming and Herding Villages (2000 - 900BC)
+
+With wetter conditions returning after 1850/1750 cal BC, the Srubnaya (Timber-Grave) Culture (Berezhnovka-Mayovka group) produced a dense network of permanent farming and herding villages across the Lower Don, Seversky Donets, Chir, Khopyor and Azov coastal valleys. As summarised by E. S. Sharafutdinova [@sharafutdinova1980kobyakovo] and V. V. Potapov [@potapov2013krest; @potapov2016uklady], field surveys in Rostov Oblast and the southern Don basin have recorded more than 1,2k permanent Srubnaya settlements (*poseleniya*) along first and second river terraces and ravine springs, spaced 1,5-3,5 km apart.
+
+Unlike temporary Yamnaya or Catacomb camps (*stoyanki*), Srubnaya villages (0,8-4,0 ha) consisted of 5 to 20 large semi-subterranean timber-framed and limestone-lined houses (*poluzemlyanki*), each measuring 80 to 250 m². Animal bone assemblages studied by V. V. Potapov [@potapov2016uklady] and V. R. Erlikh et al. [@erlikh2019sostav] show settled herds dominated by cattle (50-65% cattle, alongside horses, sheep, goats and pigs). At 10-14 people per extended household, an average Srubnaya village of 8-12 occupied houses held 80-150 residents. Assuming that roughly 30% of the >1,2k recorded terrace settlements were occupied at the same time within any 100-year phase (350-450 contemporaneous villages), the Srubnaya population of the Russian Pontic Steppe reached 80,0k (65,0k-95,0k) around 1500BC (0,485 persons/km² overall; 1,5-2,8 persons/km² in the river valleys). During the Final Bronze Age (1200-900 cal BC), drier conditions reduced open-steppe village numbers and house sizes [@potapov2013krest], while the stone-built Kobyakovo Culture [@sharafutdinova1980kobyakovo] concentrated 15-25 fishing and bronze-working villages in the Don Delta (Kobyakovo, Safyanovo, Nizhne-Gnilovskoye), sustaining a regional population of 40,0k around 1000BC.
+
+# Greek Colonies, Tanais and Steppe Nomads (900BC - 370AD)
+
+## Cities and Rural Settlements of the Taman Peninsula and Gorgippia
+
+On the Taman Peninsula (*Asian Bosporus*, an ancient archipelago of three main islands covering ~ 1,2k km²), Ya. M. Paromov [@paromov1992karta] carried out a complete field and aerial survey that mapped >230 Greek and Sindian-Maeotian rural settlements (*chora*), fortified villages (such as Golubitskaya 2 at 7,2 ha, excavated by U. Schlotzhauer and D. V. Zhuravlev [@schlotzhauer2014colonization]), rectangular field systems and farmsteads (Figure \ref{fig:bosporan-saltovo}A).
+
+<figure class="crd-figure-block" id="fig:bosporan-saltovo">
+<img class="crd-figure-img" src="/artefacts/viscount_pontic_steppe/1.0/pontic_steppe_bosporan_saltovo_hierarchy.png" alt="fig:bosporan-saltovo" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 4.</span> Rural and urban settlement sizes in the Russian Pontic Steppe: (A) contemporaneous rural settlement counts on the Taman Peninsula (1,2k km²) across eight chronological phases (580BC - 1200AD); (B) urban populations (thousands) of major Classical Bosporan, Tanaitic, Khazar, Golden Horde, Don Cossack and 1897 Imperial Census centres.</figcaption>
+</figure>
+
+As reconstructed by G. P. Garbuzov, A. A. Zavoikin, A. A. Maslennikov and S. L. Smekalov [@garbuzov2011osvoyeniye; @garbuzov2013selskaya] and A. V. Batasova [@batasova2015osvoyeniye], Greek settlement on Taman developed in two main stages:
+
+- Late Archaic Settlement (580-480BC): Following the foundation of Hermonassa, Kepoi, Patraeus, Phanagoria (c. 542BC, founded by Teos) and inland settlements at Beregovoy 4, Golubitskaya 2 and Akhtanizovskaya 4, rural farmsteads spread across the peninsula, growing from 12-15 early sites to 70-93 contemporaneous rural settlements by 500-480BC [@garbuzov2011osvoyeniye; @batasova2015osvoyeniye].
+- Classical and Early Hellenistic Spartocid Period (400-250BC): After Sindika was incorporated into the Bosporan Kingdom, 180-215 rural villages and estates were occupied at the same time on the Taman archipelago [@paromov1992karta; @garbuzov2013selskaya]. Phanagoria covered 65 ha (~ 43 ha on land plus 22 ha now submerged in Taman Bay), housing 10,0k-15,0k urban residents [@kuznetsov2010phanagoria]. Together with Hermonassa (25-30 ha, 4,5k-6,5k), Kepoi (20-25 ha, 3,0k-4,5k), Patraeus (12-15 ha, 1,5k-2,5k), Gorgippia (modern Anapa, 40 ha, 6,0k-9,0k) and 20,0k-28,0k rural *chora* inhabitants, the Asian Bosporus supported 45,0k-65,0k people (58,0k midpoint in 350BC), corresponding to 37,5-54,2 persons/km² on Taman.
+
+## Lower Don Delta Trading Towns and Scythian-Sarmatian Nomads
+
+In the Lower Don Delta, Elizavetovskoye Gorodishche (5th - early 3rd c. BC), excavated by K. K. Marchenko, V. G. Zhitnikov and V. P. Kopylov [@marchenko2000elizavetovskoye; @kopylov2016vremeni], covered 44-55 ha with a 12 ha inner citadel enclosed by two 4th-century BC ditch-and-rampart lines that housed a Bosporan Greek merchant quarter and later colony, supporting 3,0k-4,5k permanent inhabitants. Terracotta and pottery studies by N. I. Suvorova [@suvorova2025preemstvennosti] show direct population continuity between the abandonment of Elizavetovskoye (c. 275-270BC) and the founding of Tanais (Nedvigovskoye Gorodishche) on the right bank of the Dead Donets (16-20 ha, 3,0k-5,0k residents). Between the 1st c. BC and 3rd c. AD, Bosporan rulers settled Kuban Maeotian farming and military communities in a ring of ten fortified delta towns (*gorodishcha*: Kobyakovo, Nizhne-Gnilovskoye, Podazovskoye, Krepkoye, Sukho-Chaltyrskoye, Temernitskoye, Khopry, Safyanovo, Lebyazhye and Rogozy), which held another 7,0k-11,0k settled inhabitants [@vdovchenkov2019meotov] until the Gothic-Borani raids of 244-254AD.
+
+Across the surrounding Don-Manych-Azov steppes, E. F. Batieva [@batieva2011naseleniye] and M. A. Balabanova [@balabanova2009khronologicheskiye] examined >1,5k Scythian, Maeotian and Sarmatian skeletons, finding adult male mean ages at death ($AA_{\text{M}}$) of 37,9-40,4 years, adult female ages at death ($AA_{\text{F}}$) of 33,0-34,8 years and corrected life expectancy at birth ($e_0$) of 25,5-29,2 years (Table \ref{tab:pontic-bioarch}). Using A. S. Skripkin's [@skripkin2012chislennosti] Kalmyk steppe pasture comparison (0,35-0,65 persons/km²), the nomadic Sarmatian tribes (Siraces, Aorsi and Alans) numbered 40,0k-65,0k in the 1st-2nd c. AD, giving a combined regional population of 132,0k (108,0k-158,0k) in 150AD.
+
+# Khazar Fortresses, Golden Horde Azak and the Early Don Cossacks (370 - 1700AD)
+
+## The Khazar Khaganate and the Saltovo-Mayaki Culture (740 - 965AD)
+
+After population declined during the Hunnic and post-Hunnic centuries (48,0k in 400AD; 60,0k under Kubrat's Old Great Bulgaria in 650AD), the Khazar peace fostered widespread village and town settlement (the Saltovo-Mayaki Culture) along the Lower Don, the Tsimlyansk bend, the Manych valley and the Don-Donets borderlands [@artamonov1958sarkel; @afanasyev1993donskiye; @flyorov2011goroda]:
+
+- Lower Don and Manych Fortresses: Anchored by the brick fortress of Sarkel (Levoberezhnoye Tsimlyanskoye, built c. 834-837AD; 3,7 ha citadel plus >15 ha outer town, 2,5k-4,0k inhabitants) [@artamonov1958sarkel], the white-stone fortress of Pravoberezhnoye Tsimlyanskoye (1,5k-2,5k) and the mudbrick fortress of Semikarakorskoye (3,8 ha citadel plus >30 ha settlement, 2,0k-3,5k) [@flyorov2011goroda], surrounded by >120 open farming and wine-growing villages (*selishcha*). In the southern Sal-Manych / Western Kalmyk valley, M. A. Ochir-Goryaeva [@ochirgoryaeva2020bashanta] excavated the twin Khazar-period fortified settlements of Bashanta I and Bashanta II, confirming permanent farming and herding villages along the Yergeni-Manych streams.
+- Taman (Tamatarkha) and Don-Donets Valleys: On Taman, Ya. M. Paromov [@paromov1992karta] mapped >110 Khazar-period (8th-10th c. AD) rural villages (with semi-dugouts and stone-foundation houses similar to Artezian [@vinokurov2016artezian]) around the port city of Tamatarkha (Hermonassa, ~ 35 ha, 8,0k-12,0k residents), supporting 34,0k inhabitants on the Asian Bosporus. Combined with G. E. Afanasyev's [@afanasyev1993donskiye] Don-Donets Saltovo-Mayaki valley settlements (5,0-8,5 persons/km²), total regional population reached 150,0k (125,0k-175,0k) in 900AD, before Sviatoslav's 965AD campaign and Pecheneg-Cuman nomadism reduced the regional total to 77,0k-82,0k in 1000-1200AD.
+
+## Golden Horde Azak (Tana) and the Rise of the Don Cossack Host (1240 - 1700AD)
+
+Founded around 1269-1270AD under Khan Mengu-Timur at the mouth of the Don (modern Azov), Azak (together with the Venetian and Genoese merchant quarters of Tana) served as the main western port of the Golden Horde. Drawing on rescue excavations across >250 trenches in modern Azov, A. N. Maslovsky [@maslovsky2017azak; @maslovsky2022tokhtamysh] and A. N. Maslovsky and I. B. Papka [@maslovsky2024chislennosti] reconstructed the growth and contraction of the city (Figure \ref{fig:bosporan-saltovo}B):
+
+- Early Settlement (1290AD): Urban population of 3,0k-3,5k inhabitants.
+- Peak Urban Expansion under Uzbek and Janibek (1340AD): Azak covered >400 ha with paved streets (3-8 m wide) and closely packed wattle-and-daub and mudbrick courtyard houses heated by underfloor *kan* flues and *tandyr* ovens, reaching an estimated 54,0k urban residents (35,0k-54,0k range) [@maslovsky2024chislennosti].
+- Civil Wars (*Velikaya Zamyatnya*, 1359-1380AD) and Reign of Tokhtamysh (1381-1395AD): Political conflict and recurring plague epidemics reduced the inhabited area to a quarter of its former size and eliminated the outer artisan dugouts (*zemlyanki*) [@maslovsky2022tokhtamysh], leaving 12,5k-13,5k inhabitants on the eve of Timur's sack in September 1395AD [@maslovsky2024chislennosti].
+
+Together with 18,0k rural delta farmers and 86,0k Kipchak-Tatar nomads in the Don-Manych-Azov steppes (part of a wider Azov-Kuban nomadic population estimated at up to 250,0k by Maslovsky and Papka [@maslovsky2024chislennosti]), the Russian Pontic Steppe reached 158,0k in 1340AD before dropping to 43,0k in 1400AD.
+
+After the Ottoman conquest of Azak in 1475AD (leaving an Ottoman fortress town of 3,5k-6,0k residents) and the formation of the Lesser Nogai Horde (*Kazyev Ulus*, 25,0k-40,0k nomads), free Don Cossack communities (*Voysko Donskoye*) expanded from 4-6 early river-island strongholds (Razdory, Donskoy/Donetsky [@prudnikov2024gorodok], and Cherkassk, founded in 1570) to 30-40 fortified towns (*gorodki*) by 1637 (22,0k-28,0k people) and 125 *gorodki* along the Don (56), Seversky Donets (11), Khopyor (23), Medveditsa (19) and Buzuluk (16) by 1695-1700AD [@mininkov1998donskoye]. As shown by S. Ya. Sushchiy [@sushchiy2019institut], early family formation on the Lower Don (initially involving captive Turkish and Tatar women) was reinforced after 1650 by a steady influx of married Russian peasant families into the Upper Don towns. By 1700AD, following Peter I's 1696 capture and garrisoning of Azov and Taganrog, the Don Cossack Host numbered 65,0k-80,0k people, bringing the regional population to 120,0k (105,0k-135,0k).
+
+# Imperial Russian Colonisation, Industrialisation and the 1897 Census (1700 - 1900AD)
+
+## The Don Land in the 18th Century, Taganrog, Rostov and the Black Sea Cossacks (1700 - 1800AD)
+
+During the early 18th century, the suppression of the Bulavin Rebellion (1707-1708) and the Temporary Transfer of Azov back to Ottoman rule (1711-1739) slowed growth along the lower river, but Russian and Ukrainian peasant migration onto the estates of Don Cossack elders (*starshina*) soon accelerated [@pronshtein1961zemlya; @agafonov2017zemli]. By 1750AD, follow-up military rolls and the Second Imperial Revision recorded ~220,0k inhabitants across the study region, including 55,0k in the Don Delta and Taganrog littoral (following the establishment of the Temernitskaya custom house in 1749), 122,0k across the Lower Don and Don-Donets *stanitsy* and peasant *slobody*, 27,0k Don Kalmyk and Nogai herders in the Sal-Manych steppe and 16,0k residents on the Taman Peninsula [@pronshtein1961zemlya; @kabuzan1976zaseleniye].
+
+Following the Russo-Turkish War of 1768-1774 (Treaty of Küçük Kaynarca) and the annexation of the Azov-Kuban littoral (1783), imperial settlement transformed the coastal and southern steppes:
+
+- Urban Foundations on the Lower Don and Taganrog Gulf: Taganrog was rebuilt as a naval and commercial port in 1769, the Fortress of St. Dimitry of Rostov (1761) grew into Rostov-on-Don, and in 1779 Catherine II resettled >12,0k Crimean Armenians on the adjacent right bank at Nakhichevan-on-Don and five surrounding villages (Chaltyr, Krym, Sultan-Saly, Nesvetay and Bolshiye Saly) [@kabuzan1976zaseleniye; @volvenko2023priazovya].
+- The Azov-Mozdok Line and Black Sea Cossack Resettlement (1777-1793): Between 1777 and 1783, the construction of the Azov-Mozdok fortified line encouraged state peasant settlement along the Yegorlyk and Manych valleys. In 1792-1793, the Black Sea Cossack Host (*Chernomorskoye kazachye voysko*, ~25,0k former Zaporozhian Cossacks) landed on Taman and settled 40 *kureni* across the Taman Peninsula and right-bank Kuban steppes [@burykina2008osvoyeniye; @parshina2023kubanskogo].
+- The Fifth Imperial Revision (1795 / 1800AD): As documented by A. P. Pronshtein [@pronshtein1961zemlya] and V. M. Kabuzan [@kabuzan1976zaseleniye], the registering of Ukrainian and Russian peasants attached to Don officer estates alongside the Cossack *stanitsy* raised the population of the Russian Pontic Steppe to 550,0k (490,0k-610,0k) by 1800AD (Figure \ref{fig:holocene-pop}B).
+
+## Peasant Colonisation, Railway Industrialisation and the 1897 Imperial Census (1800 - 1900AD)
+
+In the first half of the 19th century, the transfer of the Don Host capital from flood-prone Starocherkassk to Novocherkassk (founded by Ataman M. I. Platov in 1805), the opening of the port of Yeysk on the Azov coast (1848) and the expansion of wheat exports through Taganrog and Rostov-on-Don drove rapid demographic growth. By the Ninth Revision of 1850, the study region contained 1 400,0k (1,40M) inhabitants, including 360,0k in the Don Delta and Azov port districts, 737,0k along the Lower Don and Don-Donets valleys, 245,0k in the Sal-Manych and northern Stavropol steppes and 58,0k on the Taman Peninsula [@kabuzan1976zaseleniye; @agafonov2017zemli].
+
+After the Emancipation Reform of 1861, the end of the Caucasian War (1864) and the 1868 law permitting non-Cossack citizens (*inogorodniye*) to buy and lease property across the Don and Kuban territories, hundreds of thousands of land-short peasants from the Ukrainian and Central Russian Black-Earth governorates migrated into the region [@burykina2008osvoyeniye; @kolomeytseva2018krestyanstva; @shadrina2020edinovercheskoye]. As M. A. Kolomeytseva [@kolomeytseva2018krestyanstva] demonstrated, high rural birth rates (48-55 per 1 000) and peasant immigration coincided with the opening of the Grushevsky (Aleksandrovsk-Grushevsky / Shakhty) and Sulin anthracite coalfields, metallurgical plants at Taganrog and Sulin and the Voronezh-Rostov and Vladikavkaz railways.
+
+The First All-Russian Imperial Census of 28 January 1897 [@troynitsky1905don; @troynitsky1905kuban] provides an exact baseline for the end of the 19th century:
+
+- Province of the Don Cossack Host (*Oblast Voyska Donskogo*): Recorded 2 564,2k inhabitants across 164,5k km² (12,4% urban), of whom ~2 150,0k lived within the Lower Don, Don Delta/Taganrog, Donetsk, Sal-Manych and southern Ust-Medveditsa/Khopyor districts inside the study boundary (Rostov-on-Don 119,5k plus Nakhichevan-on-Don 28,4k = 147,9k combined agglomeration; Novocherkassk 52,0k; Taganrog 51,4k; Azov 27,5k; Aleksandrovsk-Grushevsky 16,5k) [@troynitsky1905don; @volvenko2023priazovya].
+- Azov-Taman-Steppe Districts of Kuban Oblast and Northern Stavropol: Within the southern portion of the 165,0k km² study polygon, the Temryuksky (Taman), Yeysky (Yeysk city 35,4k) and northern Kavkazsky departments of Kuban Oblast [@troynitsky1905kuban; @burykina2008osvoyeniye] together with the Manych/Medvezhensky steppe districts of northern Stavropol Governorate accounted for a further 1 550,0k-1 650,0k residents in 1897.
+
+Projecting forward at the observed 1,8% annual growth rate over the three years from January 1897 to 1900AD gives a regional population of 3 950,0k (3,95M; range 3 750,0k-4 200,0k, density 23,939 persons/km²) by 1900AD (Table \ref{tab:pontic-holocene}).
+
+<figure class="crd-table-figure" id="tab:pontic-urban">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table">
+<thead><tr><th class="crd-th">Settlement / Site</th><th class="crd-th">Sub-Region</th><th class="crd-th">Chronology</th><th class="crd-th">Core / Total Area (ha)</th><th class="crd-th">Population Estimate</th><th class="crd-th">Primary Literature</th></tr></thead>
+<tbody>
+<tr><td class="crd-td">Rakushechny Yar</td><td class="crd-td">Lower Don (Pochatkovsky Isl.)</td><td class="crd-td">6200-4300 cal BC</td><td class="crd-td">1,2 (core) / 2,5</td><td class="crd-td">80-150</td><td class="crd-td">Tsybrij et al. 2018; Skorobogatov 2025</td></tr>
+<tr><td class="crd-td">Kobyakovo (Final Bronze)</td><td class="crd-td">Lower Don Delta</td><td class="crd-td">1200-900 cal BC</td><td class="crd-td">3,5 (core) / 8,0</td><td class="crd-td">300-500</td><td class="crd-td">Sharafutdinova 1980; Potapov 2013</td></tr>
+<tr><td class="crd-td">Phanagoria</td><td class="crd-td">Taman Peninsula</td><td class="crd-td">542BC-10th c. AD</td><td class="crd-td">43,0 (land) / 65,0</td><td class="crd-td">10,0k-15,0k (350BC)</td><td class="crd-td">Kuznetsov 2010; Garbuzov 2013</td></tr>
+<tr><td class="crd-td">Gorgippia (Anapa)</td><td class="crd-td">Asian Bosporus Coast</td><td class="crd-td">5th c. BC-240AD</td><td class="crd-td">35,0 / 40,0</td><td class="crd-td">6,0k-9,0k (350BC)</td><td class="crd-td">Paromov 1992; Garbuzov 2013</td></tr>
+<tr><td class="crd-td">Hermonassa / Tamatarkha</td><td class="crd-td">Taman Peninsula</td><td class="crd-td">6th c. BC-14th c. AD</td><td class="crd-td">25,0 / 35,0</td><td class="crd-td">4,5k-6,5k / 8,0k-12,0k</td><td class="crd-td">Garbuzov 2011; Batasova 2015</td></tr>
+<tr><td class="crd-td">Kepoi &amp; Golubitskaya 2</td><td class="crd-td">Taman Peninsula</td><td class="crd-td">6th c. BC-4th c. AD</td><td class="crd-td">20,0-25,0 / 7,2-9,0</td><td class="crd-td">3,0k-4,5k / 0,6k-1,0k</td><td class="crd-td">Schlotzhauer &amp; Zhuravlev 2014</td></tr>
+<tr><td class="crd-td">Elizavetovskoye Gorodishche</td><td class="crd-td">Lower Don Delta</td><td class="crd-td">500-270BC</td><td class="crd-td">12,0 (cit.) / 44,0-55,0</td><td class="crd-td">3,0k-4,5k (4th c. BC)</td><td class="crd-td">Marchenko et al. 2000; Kopylov 2016</td></tr>
+<tr><td class="crd-td">Tanais (Nedvigovskoye)</td><td class="crd-td">Dead Donets (Don Delta)</td><td class="crd-td">275BC-450AD</td><td class="crd-td">14,0 / 20,0</td><td class="crd-td">3,0k-5,0k (150AD)</td><td class="crd-td">Suvorova 2025; Vdovchenkov 2019</td></tr>
+<tr><td class="crd-td">10 Maeotian Delta Forts</td><td class="crd-td">Lower Don Delta</td><td class="crd-td">1st c. BC-250AD</td><td class="crd-td">0,5-4,0 / 10,0-35,0 ea.</td><td class="crd-td">7,0k-11,0k (combined)</td><td class="crd-td">Vdovchenkov 2019</td></tr>
+<tr><td class="crd-td">Sarkel (Belaya Vezha)</td><td class="crd-td">Lower Don (Tsimlyansk)</td><td class="crd-td">834-1117AD</td><td class="crd-td">3,7 (fort) / 18,0</td><td class="crd-td">2,5k-4,0k (900AD)</td><td class="crd-td">Artamonov 1958; Afanasyev 1993</td></tr>
+<tr><td class="crd-td">Semikarakorskoye &amp; Bashanta</td><td class="crd-td">Lower Don &amp; Manych</td><td class="crd-td">8th-10th c. AD</td><td class="crd-td">3,8 (fort) / 32,0</td><td class="crd-td">2,0k-3,5k (900AD)</td><td class="crd-td">Flyorov 2011; Ochir-Goryaeva 2020</td></tr>
+<tr><td class="crd-td">Azak / Tana (Azov)</td><td class="crd-td">Lower Don Delta</td><td class="crd-td">1270-1395AD</td><td class="crd-td">120,0 / &gt;400,0</td><td class="crd-td">54,0k (1340) / 13,0k (1395)</td><td class="crd-td">Maslovsky 2022; Maslovsky &amp; Papka 2024</td></tr>
+<tr><td class="crd-td">Cherkassk (Starocherkassk)</td><td class="crd-td">Lower Don</td><td class="crd-td">1570-1805AD</td><td class="crd-td">35,0 / 60,0</td><td class="crd-td">6,0k-8,5k (1700) / 15,0k (1800)</td><td class="crd-td">Mininkov 1998; Pronshtein 1961</td></tr>
+<tr><td class="crd-td">Rostov &amp; Nakhichevan-on-Don</td><td class="crd-td">Lower Don Delta</td><td class="crd-td">1749/1779-1900AD</td><td class="crd-td">680,0 / 1 250,0</td><td class="crd-td">147,9k (1897 Census)</td><td class="crd-td">Troynitsky 1905; Volvenko 2023</td></tr>
+<tr><td class="crd-td">Novocherkassk (Host Capital)</td><td class="crd-td">Lower Don Basin</td><td class="crd-td">1805-1900AD</td><td class="crd-td">320,0 / 550,0</td><td class="crd-td">52,0k (1897 Census)</td><td class="crd-td">Troynitsky 1905; Agafonov 2017</td></tr>
+<tr><td class="crd-td">Taganrog &amp; Yeysk (Azov Ports)</td><td class="crd-td">Taganrog Gulf / Azov Coast</td><td class="crd-td">1698/1848-1900AD</td><td class="crd-td">410,0 / 720,0</td><td class="crd-td">51,4k &amp; 35,4k (1897 Census)</td><td class="crd-td">Troynitsky 1905; Volvenko 2023</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Major urban centres, trading ports and fortified settlements of the Russian Pontic Steppe (6200BC - 1900AD), showing core and total settlement areas (ha) and population estimates.</figcaption>
+</figure>
+
+# Limitations
+
+Three practical constraints affect population estimates in the Russian Pontic Steppe:
+
+1. Sea-Level Change and Delta Siltation: Both the Taman Bay (where rising sea levels after the Classical period submerged ~ 22 ha of Phanagoria and coastal parts of Kepoi and Patraeus) [@kuznetsov2010phanagoria; @garbuzov2011osvoyeniye] and the advancing Don Delta (where 5-7 m of river silt cover the prehistoric floodplain) conceal low-lying Mesolithic, Neolithic and Archaic shoreline camps.
+2. Burial Customs and Missing Children in Kurgan Cemeteries: As shown by M. A. Balabanova [@balabanova2009khronologicheskiye] and E. F. Batieva [@batieva2011naseleniye], Late Sarmatian (2nd-4th c. AD) burial mounds rarely include infants and young children ($d_{0\text{-}14} = 6{,}8\%$) and contain more adult men than women (M/F > 2,0). Standard life-table corrections ($e_0 = 25{,}5\text{-}28{,}0\text{ years}$) are therefore required instead of unadjusted skeletal averages.
+3. Seasonal Movement and Pre-1897 Under-Registration: Nomadic groups (Manych Catacomb herders, Scythians, Sarmatians, Cumans, Golden Horde *uluses*, Lesser Nogais and Don Kalmyks) moved seasonally across the Sal-Manych, Kuban and Stavropol steppes [@shishlina2008reconstruction; @maslovsky2024chislennosti], while early 18th-century Cossack and runaway peasant settlements frequently evaded imperial tax enumerators prior to the Fifth Revision of 1795 [@pronshtein1961zemlya; @agafonov2017zemli].
+
+# Conclusion
+
+Archaeological, skeletal and archival records show that the Russian Pontic Steppe experienced four pre-modern phases of dense settlement before 1700AD: the Late Bronze Age Srubnaya river-terrace farming expansion (80,0k around 1500BC), the Classical and Roman Bosporan and Sarmatian period (125,0k-132,0k in 350BC - 150AD), the Khazar Saltovo-Mayaki fortress and village network (150,0k around 900AD) and the Golden Horde urban expansion centred on Azak/Tana (158,0k in 1340AD). Following Timur's destruction of Azak in 1395AD (43,0k in 1400AD) and the growth of the 125 Don Cossack towns to 120,0k by 1700AD, 18th- and 19th-century Russian, Ukrainian, Armenian and German colonisation of the black-earth steppes, Azov port trade and eastern Donbas coal mining raised the regional population more than thirtyfold to 550,0k in 1800AD, 1 400,0k in 1850AD and 3 950,0k (23,939 persons/km²) by 1900AD.
+
+# Appendix
+
+## Osteological Life-Table Estimates
+
+<figure class="crd-table-figure" id="tab:pontic-bioarch">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table">
+<thead><tr><th class="crd-th">Archaeological Period</th><th class="crd-th">Sample (N)</th><th class="crd-th">Sub-Adult d(0-14)</th><th class="crd-th">Male AA (yrs)</th><th class="crd-th">Female AA (yrs)</th><th class="crd-th">Corrected e0 (yrs)</th><th class="crd-th">Sources</th></tr></thead>
+<tbody>
+<tr><td class="crd-td">Manych Catacomb (MBA)</td><td class="crd-td">312</td><td class="crd-td">34,6%</td><td class="crd-td">35,8</td><td class="crd-td">31,2</td><td class="crd-td">24,5-26,8</td><td class="crd-td">Batieva 2011</td></tr>
+<tr><td class="crd-td">Srubnaya (LBA, Lower Don)</td><td class="crd-td">248</td><td class="crd-td">38,2%</td><td class="crd-td">36,4</td><td class="crd-td">32,1</td><td class="crd-td">25,2-27,5</td><td class="crd-td">Balabanova 2009; Batieva 2011</td></tr>
+<tr><td class="crd-td">Elizavetovskoye (4th c. BC)</td><td class="crd-td">295</td><td class="crd-td">31,5%</td><td class="crd-td">37,9</td><td class="crd-td">33,6</td><td class="crd-td">26,8-28,5</td><td class="crd-td">Batieva 2011; Marchenko et al. 2000</td></tr>
+<tr><td class="crd-td">Lower Don Maeotians (1st-3rd c. AD)</td><td class="crd-td">480</td><td class="crd-td">29,8%</td><td class="crd-td">38,5</td><td class="crd-td">34,2</td><td class="crd-td">27,0-29,2</td><td class="crd-td">Batieva 2011</td></tr>
+<tr><td class="crd-td">Early/Middle Sarmatians (3rd c. BC-2nd c. AD)</td><td class="crd-td">620</td><td class="crd-td">24,5% (kurgan bias)</td><td class="crd-td">38,2</td><td class="crd-td">33,0</td><td class="crd-td">26,0-28,4</td><td class="crd-td">Balabanova 2009; Batieva 2011</td></tr>
+<tr><td class="crd-td">Late Sarmatians (mid-2nd-4th c. AD)</td><td class="crd-td">385</td><td class="crd-td">6,8% (burial filter)</td><td class="crd-td">40,4</td><td class="crd-td">34,8</td><td class="crd-td">25,5-28,0</td><td class="crd-td">Balabanova 2009; Batieva 2011</td></tr>
+<tr><td class="crd-td">Saltovo-Mayaki (Sarkel &amp; Lower Don)</td><td class="crd-td">540</td><td class="crd-td">35,4%</td><td class="crd-td">37,6</td><td class="crd-td">32,9</td><td class="crd-td">25,8-28,2</td><td class="crd-td">Afanasyev 1993; Batieva 2011</td></tr>
+<tr><td class="crd-td">Golden Horde Azak (14th c. AD)</td><td class="crd-td">820</td><td class="crd-td">41,0% (plague/sack)</td><td class="crd-td">36,2</td><td class="crd-td">31,5</td><td class="crd-td">23,5-26,5</td><td class="crd-td">Batieva 2011; Maslovsky 2024</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Osteological life-table estimates across eight skeletal series from the Lower Don and Azov steppes.</figcaption>
+</figure>
+
+## Population Estimates
+
+<figure class="crd-table-figure" id="tab:pontic-holocene">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table">
+<thead><tr><th class="crd-th">Year</th><th class="crd-th">Don Delta (18,0k km²)</th><th class="crd-th">Taman (4,5k km²)</th><th class="crd-th">Lower Don (37,5k km²)</th><th class="crd-th">Sal-Manych (65,0k km²)</th><th class="crd-th">Don-Donets (40,0k km²)</th><th class="crd-th">Total Population [Range]</th><th class="crd-th">Density (p/km²)</th></tr></thead>
+<tbody>
+<tr><td class="crd-td">10000BC</td><td class="crd-td">0,5k</td><td class="crd-td">0,2k</td><td class="crd-td">0,8k</td><td class="crd-td">0,5k</td><td class="crd-td">0,6k</td><td class="crd-td">2,6k [2,0k-3,3k]</td><td class="crd-td">0,016</td></tr>
+<tr><td class="crd-td">8000BC</td><td class="crd-td">0,9k</td><td class="crd-td">0,3k</td><td class="crd-td">1,4k</td><td class="crd-td">0,8k</td><td class="crd-td">1,0k</td><td class="crd-td">4,4k [3,5k-5,5k]</td><td class="crd-td">0,027</td></tr>
+<tr><td class="crd-td">6000BC</td><td class="crd-td">1,8k</td><td class="crd-td">0,5k</td><td class="crd-td">2,6k</td><td class="crd-td">1,2k</td><td class="crd-td">1,7k</td><td class="crd-td">7,8k [6,2k-9,6k]</td><td class="crd-td">0,047</td></tr>
+<tr><td class="crd-td">5000BC</td><td class="crd-td">2,5k</td><td class="crd-td">0,7k</td><td class="crd-td">3,5k</td><td class="crd-td">1,6k</td><td class="crd-td">2,4k</td><td class="crd-td">10,7k [8,5k-13,2k]</td><td class="crd-td">0,065</td></tr>
+<tr><td class="crd-td">4000BC</td><td class="crd-td">3,8k</td><td class="crd-td">1,2k</td><td class="crd-td">5,5k</td><td class="crd-td">2,8k</td><td class="crd-td">4,2k</td><td class="crd-td">17,5k [14,0k-21,5k]</td><td class="crd-td">0,106</td></tr>
+<tr><td class="crd-td">3000BC</td><td class="crd-td">4,5k</td><td class="crd-td">2,5k</td><td class="crd-td">7,5k</td><td class="crd-td">6,5k</td><td class="crd-td">6,0k</td><td class="crd-td">27,0k [21,5k-33,0k]</td><td class="crd-td">0,164</td></tr>
+<tr><td class="crd-td">2400BC</td><td class="crd-td">6,2k</td><td class="crd-td">3,8k</td><td class="crd-td">11,5k</td><td class="crd-td">12,0k</td><td class="crd-td">9,5k</td><td class="crd-td">43,0k [35,0k-52,0k]</td><td class="crd-td">0,261</td></tr>
+<tr><td class="crd-td">2000BC</td><td class="crd-td">4,8k</td><td class="crd-td">2,8k</td><td class="crd-td">8,0k</td><td class="crd-td">5,4k</td><td class="crd-td">7,0k</td><td class="crd-td">28,0k [22,5k-34,0k]</td><td class="crd-td">0,170</td></tr>
+<tr><td class="crd-td">1500BC</td><td class="crd-td">12,5k</td><td class="crd-td">5,5k</td><td class="crd-td">24,0k</td><td class="crd-td">13,0k</td><td class="crd-td">25,0k</td><td class="crd-td">80,0k [65,0k-95,0k]</td><td class="crd-td">0,485</td></tr>
+<tr><td class="crd-td">1000BC</td><td class="crd-td">10,5k</td><td class="crd-td">4,5k</td><td class="crd-td">11,0k</td><td class="crd-td">5,5k</td><td class="crd-td">8,5k</td><td class="crd-td">40,0k [32,0k-48,0k]</td><td class="crd-td">0,242</td></tr>
+<tr><td class="crd-td">500BC</td><td class="crd-td">8,5k</td><td class="crd-td">28,0k</td><td class="crd-td">12,0k</td><td class="crd-td">14,0k</td><td class="crd-td">10,5k</td><td class="crd-td">73,0k [58,0k-88,0k]</td><td class="crd-td">0,442</td></tr>
+<tr><td class="crd-td">350BC</td><td class="crd-td">16,5k</td><td class="crd-td">58,0k</td><td class="crd-td">16,0k</td><td class="crd-td">20,0k</td><td class="crd-td">14,5k</td><td class="crd-td">125,0k [100,0k-150,0k]</td><td class="crd-td">0,758</td></tr>
+<tr><td class="crd-td">200BC</td><td class="crd-td">11,0k</td><td class="crd-td">42,0k</td><td class="crd-td">12,5k</td><td class="crd-td">15,0k</td><td class="crd-td">11,5k</td><td class="crd-td">92,0k [74,0k-110,0k]</td><td class="crd-td">0,558</td></tr>
+<tr><td class="crd-td">1AD</td><td class="crd-td">16,0k</td><td class="crd-td">46,0k</td><td class="crd-td">15,5k</td><td class="crd-td">19,0k</td><td class="crd-td">13,5k</td><td class="crd-td">110,0k [88,0k-132,0k]</td><td class="crd-td">0,667</td></tr>
+<tr><td class="crd-td">150AD</td><td class="crd-td">21,0k</td><td class="crd-td">52,0k</td><td class="crd-td">19,0k</td><td class="crd-td">24,0k</td><td class="crd-td">16,0k</td><td class="crd-td">132,0k [108,0k-158,0k]</td><td class="crd-td">0,800</td></tr>
+<tr><td class="crd-td">400AD</td><td class="crd-td">4,5k</td><td class="crd-td">15,0k</td><td class="crd-td">9,5k</td><td class="crd-td">11,0k</td><td class="crd-td">8,0k</td><td class="crd-td">48,0k [38,0k-58,0k]</td><td class="crd-td">0,291</td></tr>
+<tr><td class="crd-td">650AD</td><td class="crd-td">6,0k</td><td class="crd-td">18,0k</td><td class="crd-td">12,0k</td><td class="crd-td">14,0k</td><td class="crd-td">10,0k</td><td class="crd-td">60,0k [48,0k-72,0k]</td><td class="crd-td">0,364</td></tr>
+<tr><td class="crd-td">900AD</td><td class="crd-td">18,5k</td><td class="crd-td">34,0k</td><td class="crd-td">42,0k</td><td class="crd-td">20,5k</td><td class="crd-td">35,0k</td><td class="crd-td">150,0k [125,0k-175,0k]</td><td class="crd-td">0,909</td></tr>
+<tr><td class="crd-td">1000AD</td><td class="crd-td">9,5k</td><td class="crd-td">26,0k</td><td class="crd-td">16,0k</td><td class="crd-td">13,5k</td><td class="crd-td">12,0k</td><td class="crd-td">77,0k [62,0k-92,0k]</td><td class="crd-td">0,467</td></tr>
+<tr><td class="crd-td">1200AD</td><td class="crd-td">8,0k</td><td class="crd-td">16,0k</td><td class="crd-td">18,0k</td><td class="crd-td">22,0k</td><td class="crd-td">18,0k</td><td class="crd-td">82,0k [66,0k-98,0k]</td><td class="crd-td">0,497</td></tr>
+<tr><td class="crd-td">1340AD</td><td class="crd-td">72,0k</td><td class="crd-td">22,0k</td><td class="crd-td">24,0k</td><td class="crd-td">24,0k</td><td class="crd-td">16,0k</td><td class="crd-td">158,0k [130,0k-185,0k]</td><td class="crd-td">0,958</td></tr>
+<tr><td class="crd-td">1400AD</td><td class="crd-td">8,5k</td><td class="crd-td">9,5k</td><td class="crd-td">8,0k</td><td class="crd-td">10,0k</td><td class="crd-td">7,0k</td><td class="crd-td">43,0k [34,0k-52,0k]</td><td class="crd-td">0,261</td></tr>
+<tr><td class="crd-td">1500AD</td><td class="crd-td">11,0k</td><td class="crd-td">12,0k</td><td class="crd-td">9,5k</td><td class="crd-td">12,5k</td><td class="crd-td">8,0k</td><td class="crd-td">53,0k [42,0k-64,0k]</td><td class="crd-td">0,321</td></tr>
+<tr><td class="crd-td">1600AD</td><td class="crd-td">14,5k</td><td class="crd-td">13,5k</td><td class="crd-td">15,0k</td><td class="crd-td">16,0k</td><td class="crd-td">14,0k</td><td class="crd-td">73,0k [58,0k-88,0k]</td><td class="crd-td">0,442</td></tr>
+<tr><td class="crd-td">1700AD</td><td class="crd-td">32,0k</td><td class="crd-td">14,0k</td><td class="crd-td">28,0k</td><td class="crd-td">15,0k</td><td class="crd-td">31,0k</td><td class="crd-td">120,0k [105,0k-135,0k]</td><td class="crd-td">0,727</td></tr>
+<tr><td class="crd-td">1750AD</td><td class="crd-td">55,0k</td><td class="crd-td">16,0k</td><td class="crd-td">52,0k</td><td class="crd-td">27,0k</td><td class="crd-td">70,0k</td><td class="crd-td">220,0k [190,0k-250,0k]</td><td class="crd-td">1,333</td></tr>
+<tr><td class="crd-td">1800AD</td><td class="crd-td">135,0k</td><td class="crd-td">32,0k</td><td class="crd-td">115,0k</td><td class="crd-td">78,0k</td><td class="crd-td">190,0k</td><td class="crd-td">550,0k [490,0k-610,0k]</td><td class="crd-td">3,333</td></tr>
+<tr><td class="crd-td">1850AD</td><td class="crd-td">360,0k</td><td class="crd-td">58,0k</td><td class="crd-td">275,0k</td><td class="crd-td">245,0k</td><td class="crd-td">462,0k</td><td class="crd-td">1 400,0k [1 280,0k-1 520,0k]</td><td class="crd-td">8,485</td></tr>
+<tr><td class="crd-td">1900AD</td><td class="crd-td">980,0k</td><td class="crd-td">140,0k</td><td class="crd-td">780,0k</td><td class="crd-td">850,0k</td><td class="crd-td">1 200,0k</td><td class="crd-td">3 950,0k [3 750,0k-4 200,0k]</td><td class="crd-td">23,939</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Population estimates for the Russian Pontic Steppe (165,0k km²) by sub-region (10000BC - 1900AD), showing sub-regional midpoints, total [Low-High] ranges and overall population density (persons/km²).</figcaption>
+</figure>
+
+# Sources
+
+::: {#refs}
+:::
+
+<div class="crd-footnotes-slot" data-crd-footnotes="true"></div>

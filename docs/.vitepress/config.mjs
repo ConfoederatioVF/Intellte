@@ -89,7 +89,7 @@ let IntellteVitePressMiddleware = {
 
 export default defineConfig({
   base: base_url,
-  title: "Intellte — CRD",
+  title: "Intellte (CRD)",
   description: "Confoederatio, Research Division (CRD) Working Papers",
   appearance: {
     initialValue: "light"

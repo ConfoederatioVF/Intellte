@@ -140,7 +140,26 @@ class MlaBibliographyFormatter {
       let clean_doi = entry.doi.replace(/^https?:\/\/doi\.org\//i, "");
       container_group.push(`<a class="crd-bib-url" href="https://doi.org/${this.escapeHtml(clean_doi)}" target="_blank" rel="noopener">https://doi.org/${this.escapeHtml(clean_doi)}</a>`);
     } else if (entry.url) {
-      container_group.push(`<a class="crd-bib-url" href="${this.escapeHtml(entry.url)}" target="_blank" rel="noopener">${this.escapeHtml(entry.url)}</a>`);
+      if (/^(?:\.\.\/|papers\/).*\.pdf$/i.test(entry.url.trim())) {
+        let local_pdf_file = entry.url.trim().split("/").pop();
+        let local_clean_title = (entry.title || "").replace(/--|\u2013/g, "-").trim();
+        container_group.push(
+          `<a class="crd-bib-url crd-bib-source-paper" href="#source-paper-request" data-source-paper="${this.escapeHtml(local_pdf_file)}" data-source-title="${this.escapeHtml(local_clean_title)}">Archived PDF (${this.escapeHtml(local_pdf_file)})</a>`
+        );
+      } else {
+        container_group.push(`<a class="crd-bib-url" href="${this.escapeHtml(entry.url)}" target="_blank" rel="noopener">${this.escapeHtml(entry.url)}</a>`);
+      }
+    }
+
+    if (entry.note) {
+      let archived_match = entry.note.match(/Archived PDF:\s*([^\s,}]+)/i);
+      if (archived_match) {
+        let local_pdf_file = archived_match[1].trim().split("/").pop();
+        let local_clean_title = (entry.title || "").replace(/--|\u2013/g, "-").trim();
+        container_group.push(
+          `<a class="crd-bib-url crd-bib-source-paper" href="#source-paper-request" data-source-paper="${this.escapeHtml(local_pdf_file)}" data-source-title="${this.escapeHtml(local_clean_title)}">Archived PDF (${this.escapeHtml(local_pdf_file)})</a>`
+        );
+      }
     }
 
     out_parts = [author_part, title_part].filter(Boolean);

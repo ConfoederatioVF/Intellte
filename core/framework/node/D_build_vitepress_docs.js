@@ -46,6 +46,7 @@ let IntellteVitePressBuilder = {
       let version_summaries = local_rec.versions.map((arg0_v) => ({
         date: arg0_v.published_date,
         is_latest: arg0_v.is_latest,
+        is_synthetic: Boolean(arg0_v.is_synthetic),
         pdf_size_euro: arg0_v.pdf_size_euro,
         pdf_url: arg0_v.pdf_url,
         route_url: arg0_v.version_route_url || arg0_v.route_url,
@@ -107,6 +108,7 @@ let IntellteVitePressBuilder = {
           divisions: local_ver.divisions,
           hero_img_url: (local_ver.hero_figure_rel) ? `${local_ver.artefact_base_url}/${path.basename(local_ver.hero_figure_rel)}` : null,
           is_latest: local_ver.is_latest,
+          is_synthetic: Boolean(local_ver.is_synthetic),
           latest_version: local_rec.latest_version,
           pdf_size_euro: local_ver.pdf_size_euro,
           pdf_url: local_ver.pdf_url,
@@ -117,6 +119,7 @@ let IntellteVitePressBuilder = {
           record_type: local_rec.record_type,
           rmd_url: local_ver.rmd_url,
           route_url: local_ver.route_url,
+          source_papers: local_ver.source_papers || [],
           staged_files: local_ver.staged_files,
           subtitle: local_ver.subtitle,
           supplementary_links: supp_reports.map((s) => ({
@@ -124,7 +127,7 @@ let IntellteVitePressBuilder = {
             route_url: s.route_url,
             title: s.title
           })),
-          tags: local_rec.tags,
+          tags: local_ver.tags || local_rec.tags,
           title: local_ver.title,
           version: local_ver.version,
           versions: version_summaries
@@ -299,6 +302,7 @@ let IntellteVitePressBuilder = {
       divisions: ver.divisions,
       has_dom: has_dom,
       is_latest: ver.is_latest,
+      is_synthetic: Boolean(ver.is_synthetic),
       latest_route_url: `/records/${rec.concept_id}/`,
       latest_version: rec.latest_version,
       pdf_size_euro: ver.pdf_size_euro,
@@ -308,13 +312,14 @@ let IntellteVitePressBuilder = {
       record_id: ver.record_id,
       record_type: rec.record_type,
       rmd_url: ver.rmd_url,
+      source_papers: ver.source_papers || [],
       staged_files: ver.staged_files,
       supplementary_links: supp_links.map((arg0_s) => ({
         key: arg0_s.key,
         route_url: arg0_s.route_url,
         title: arg0_s.title
       })),
-      tags: rec.tags,
+      tags: ver.tags || rec.tags,
       title: ver.title,
       version: ver.version,
       versions: version_summaries

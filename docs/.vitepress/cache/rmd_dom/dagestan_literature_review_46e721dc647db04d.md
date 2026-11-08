@@ -1,0 +1,239 @@
+---
+title: "DEMOGRAPHIC AND SETTLEMENT HISTORY OF DAGESTAN."
+subtitle: "A Regional Literature Review of Population and Settlement (10000BC - 1900AD)."
+date: "7 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/dagestan_map_zones_settlements.png"
+hero_caption: "Elevation zones, river basins, and principal archaeological and historical settlements of Dagestan (10000BC - 1900AD)."
+hero_label: "fig:hero"
+bibliography: dagestan_literature_review.bib
+csl: crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../../../core/rticles/intellte/resources/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+This paper reviews the archaeological, bioarchaeological, agricultural, epigraphic, and archival literature to reconstruct the population and settlement history of Dagestan (50,3k km²) from 10000BC to 1900AD. Rather than relying on raw site counts that reflect uneven excavation coverage, our synthesis traces long-term demographic change across four distinct ecological and agricultural eras: (1) the early Holocene domestication of free-threshing wheat, hulled barley, and sheep and goats on the Inner Limestone Plateaus at Chokh by 6000BC (~4,5k inhabitants) [@amirkhanov1987chokh; @amirkhanov2022chokh; @davudov2009]; (2) the Eneolithic and Early Bronze Age expansion of the Northeastern Caucasian variant of the Kura-Araxes culture across highland stone-walled villages (Ginchi, Chinna) and coastal tell settlements at Velikent (~45,0k by 3000BC) [@gadzhiev1991early; @gadzhiev1997velikent; @magomedov2000kura; @magomedov2005]; (3) the Middle-to-Late Bronze and Early Iron Age construction of mountain agricultural terraces covering 48,3% of Mid-Mountain Dagestan (~100k-150k ha of cultivated slope steps), supporting ~95,0k inhabitants by 1000BC [@borisov2013terraces; @korobov2020terraces; @shaev2024terraces; @aglarov1986terraces]; and (4) the Classical, Sassanian, Khazar, and Islamic urban fortification of the Caspian coastal corridor (Derbent, Urtseki, Tarki, Balanjar, Andreyaulem) alongside dense highland clan (*tukhum*) and rural community (*jamaat*) federations [@abakarov1993atlas; @kudryavtsev1982derbent; @gadjiev2017derbent; @gmyrya1995huns]. Following a pre-Mongol high point of 310,0k (270,0k-350,0k) around 1200AD and a ~26% contraction during the 1220-1240 Mongol and 1395-1396 Timurid invasions (230,0k in 1400AD) [@ikhilov1960narody; @aliev2017tabasaran; @gasanov2024], population recovered across lowland principalities and highland *jamaat* unions to 460,0k (420,0k-500,0k) by 1700AD [@aliev1975feudal; @umakhanov1973mutual; @aglarov1988jamaat]. Despite severe wartime losses during Nadir Shah's 1741-1743 campaigns (445,0k in 1750AD) and the Caucasian War of 1829-1859 (485,0k in 1850AD), administrative integration into Dagestan Oblast (1860), the 1886 family lists (*posemeynye spiski*), and the 1897 First All-Russian Imperial Census document a rise to 690,0k (650,0k-730,0k) within the boundaries of modern Dagestan by 1900AD [@kabuzan1996; @kozubsky1901; @troynitskiy1905dagestan; @nagieva2005].
+
+# Background
+
+Situated along the northeastern flank of the Greater Caucasus between the Caspian Sea (-28 m) and Mount Bazardüzü (4 466 m), the Republic of Dagestan (50,3k km²) comprises two contrasting geographical environments:
+
+1. The Maritime Caspian Corridor (The "Derbent Gate"): A narrow coastal plain (3-35 km wide) between the eastern spurs of the Greater Caucasus and the Caspian shoreline (Zone 1, 6,8k km²), together with the semi-arid Terek-Sulak and Kumyk lowland steppes (Zone 4, 13,5k km²). Serving as the principal land route linking the Eurasian steppe with Transcaucasia and the Iranian plateau, this corridor hosted Early Bronze Age tell settlements (Velikent, Kabaz-Kutan), Sassanian imperial fortifications and garrisons (Derbent / *Bab al-Abwab*, Palasa-Syrt), early Khazar urban centres (Balanjar / Verkhniy Chir-Yurt, Samandar / Tarki, Varachan / Urtseki, Andreyaulem), and early modern Kumyk and Kaitag principalities [@gadzhiev1997velikent; @kudryavtsev1982derbent; @gadjiev2008palasa; @magomedov1983khazar; @fedchenko2023].
+2. The Foothill Piedmont, Inner Limestone Plateaus, and Alpine Samur Gorges (Zones 2-3, 30,0k km²): Dissected by the four branches of the Koysu (Andi, Avar, Kara, Kazikumukh - converging into the Sulak) and the Samur river basin, Inner and High-Mountain Dagestan formed one of Eurasia's earliest centres of mountain cereal domestication (Chokh, 6000BC) and slope terracing (2000-1000BC) [@amirkhanov1987chokh; @borisov2013terraces; @idrisov2018]. Sheltered behind natural limestone defiles (Gunib, Khunzakh, Kumukh, Akusha, Kubachi), highland communities maintained demographic continuity during the Mongol and Timurid invasions that repeatedly depopulated the Caspian lowlands [@abakarov1993atlas; @aglarov1988jamaat].
+
+# Methodology
+
+## Regional Subdivisions
+
+Following the archaeological survey of Abakarov and Davudov (2 128 mapped sites across 38 administrative districts) [@abakarov1993atlas; @budaychiev2014] and the geographical classification of Gadzhiev [@gadzhiev1991early], we divide Dagestan (50,3k km²) into four elevation and drainage zones (Table 1):
+
+<figure class="crd-table-figure" id="tab:dagestan_zones">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table">
+<thead><tr><th class="crd-th">Sub-Regional Zone</th><th class="crd-th">Elevation</th><th class="crd-th">Area (km2)</th><th class="crd-th">River Basins</th><th class="crd-th">Key Archaeological and Historical Centres</th></tr></thead>
+<tbody>
+<tr><td class="crd-td">1. Maritime Caspian Corridor</td><td class="crd-td">-28 to 200 m</td><td class="crd-td">6,8k</td><td class="crd-td">Coastal streams (Ulluchay, Rubas, Darvagchay) and lower Samur delta</td><td class="crd-td">Velikent, Derbent, Palasa-Syrt, Urtseki, Tarki, Petrovsk</td></tr>
+<tr><td class="crd-td">2. Foothill Piedmont (Predgorye)</td><td class="crd-td">200 to 800 m</td><td class="crd-td">8,5k</td><td class="crd-td">Buynaksk, Kaitag, Tabasaran, Sergokala and lower Sulak foothills</td><td class="crd-td">Balanjar (V. Chir-Yurt), Andreyaulem, Kala-Koreysh, Khuchni, Temir-Khan-Shura</td></tr>
+<tr><td class="crd-td">3. Inner Limestone Plateaus and Alpine Samur</td><td class="crd-td">800 to 4 466 m</td><td class="crd-td">21,5k</td><td class="crd-td">Four Koysu basins (Andi, Avar, Kara, Kazikumukh), Gunib-Chokh, Akusha and upper Samur</td><td class="crd-td">Chokh, Ginchi, Khunzakh, Kumukh, Akusha, Kubachi, Akhty</td></tr>
+<tr><td class="crd-td">4. Terek-Sulak and Kumyk Lowland Steppe</td><td class="crd-td">-28 to 100 m</td><td class="crd-td">13,5k</td><td class="crd-td">Lower Terek-Sulak delta, Agrakhan peninsula and Nogai-Kumyk plain</td><td class="crd-td">Terek-Sulak kurgans, Terki (Terskiy Gorod), Kizlyar, Khasavyurt</td></tr>
+<tr><td class="crd-td">Total Dagestan</td><td class="crd-td">-28 to 4 466 m</td><td class="crd-td">50,3k</td><td class="crd-td">All Caspian-draining watersheds of eastern North Caucasus</td><td class="crd-td">2 128 catalogued prehistoric and medieval monuments</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Elevation zones, river basins, and representative archaeological and historical centres of Dagestan.</figcaption>
+</figure>
+
+## Estimation Methods
+
+To avoid distortion from uneven archaeological survey coverage, regional population totals $P(t)$ are derived from five empirical estimation methods across successive historical periods:
+
+1. Prehistoric Dwelling Area and Collective Catacomb Estimates (6000-1000BC): For stone-walled Neolithic and Eneolithic settlements (Chokh, Ginchi, Chinna, Mekegi) and Early Bronze Age tell clusters (Velikent), household counts are estimated from excavated circular and rectangular stone dwellings (12-38 m² floor area; one nuclear family of 4,5-5,5 persons per hearth) and cross-checked against the minimum number of individuals (MNI) and life-table mortality in collective catacomb tombs (100-350+ burials per vault over 150-250 years) [@gadzhiev1997velikent; @mednikova2020velikent; @kohl2007making; @davudov2014].
+2. Agricultural Terrace Land-Use Capacity (1500BC-1200AD): Using remote-sensing and soil-chronological surveys of Mid-Mountain Dagestan (48,3% of land surface terraced; ~100k-150k ha of slope terraces) [@borisov2013terraces; @korobov2020terraces; @shaev2024terraces; @idrisov2018], sustainable highland population capacity $K_{\text{terrace}}$ is bounded by:
+   $$K_{\text{terrace}}(t) = \frac{A_{\text{terrace}}(t) \cdot \theta_{\text{active}}(t) \cdot Y_{\text{grain}}}{C_{\text{cap}}}$$
+ where $A_{\text{terrace}}(t)$ is cumulative terraced area, $\theta_{\text{active}}(t) \in [0{,}45,\,0{,}65]$ is the non-fallow cultivated fraction, $Y_{\text{grain}} \approx 850\text{-}1\,100\text{ kg/ha}$ is manured mountain barley and wheat yield [@aglarov1986terraces], and $C_{\text{cap}} \approx 250\text{ kg/person/yr}$ is annual cereal consumption supplemented by transhumant sheep husbandry (65-75% of faunal assemblages).
+3. Fortified Urban Area and Cemetery Estimates (400BC-1220AD): For Sassanian, Khazar, and early Islamic walled cities (Derbent, Urtseki, Tarki, Balanjar, Andreyaulem), urban population is calculated by dividing enclosed intramural area into residential quarters (100-140 persons/ha in the 30-35 ha *shahristan* of Derbent), craft suburbs (40-60 persons/ha), and garrison enclosures (10-20 persons/ha) [@kudryavtsev1982derbent; @gadjiev2017derbent; @gadjiev2013]. Border settlements on the Rubas river are cross-checked against the ~1 500-2 000+ catacomb kurgans of the Palasa-Syrt necropolis (4th-5th centuries AD) [@gadjiev2008palasa; @gmyrya2012; @saipudi2020palasa].
+4. Early Modern Household (*Dvor* / *Dym*) and Militia (*Sablya*) Registers (1500-1800AD): For the 16th to 18th centuries, Russian *Posolskiy Prikaz* diplomatic dispatches, Terki and Kizlyar fortress registers, and local Arabic *tarikh* and *adat* codices (*Tarikh Dagestan*, *Darband-nama*, *Codex of Rustam Khan*, 1635 decrees of Maisum Ali-Bek) record household (*dvor* / *dym*) and armed militia (*konnyye i peshiye lyudi*) totals across Dagestani principalities and free *jamaats* [@aliev1975feudal; @umakhanov1973mutual; @aliev2017tabasaran; @dadaev2014]. Applying a multiplier of 5,0-5,5 persons per nuclear highland *dvor* and a 1 : 4,5 ratio of mobilisable militia to total population yields a 1700AD benchmark of 460,0k (420,0k-500,0k) and an 1800AD benchmark of 525,0k (475,0k-575,0k) [@kabuzan1996].
+5. Imperial Family Lists and the 1897 Census (1860-1900AD): For the late 19th century, population totals are anchored directly to the 1866-1867 military-statistical surveys of Dagestan Oblast, the 1886 family lists (*posemeynye spiski*), and the First General Census of the Russian Empire (28 January 1897), combining the nine districts (*okrugs*) of Dagestan Oblast with the Khasavyurt and Kizlyar lowland districts of Terek Oblast that lie within modern Dagestan [@kabuzan1996; @kozubsky1895; @kozubsky1901; @troynitskiy1905dagestan; @nagieva2005].
+
+# Historical Overview
+
+<figure class="crd-figure-block" id="fig:dagestan_curve">
+<img class="crd-figure-img" src="/artefacts/viscount_dagestan/1.0/dagestan_holocene_population_curve.png" alt="fig:dagestan_curve" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Estimated population of Dagestan (10000BC - 1900AD) with [Low, High] uncertainty ranges: (A) Prehistoric growth from the Chokh Neolithic to the Early Iron Age; (B) Classical, medieval, and modern population change from 500BC to the 1897 Imperial Census.</figcaption>
+</figure>
+
+## Mesolithic and Neolithic Foundations: Chokh and the Inner Plateaus (10000 - 5000BC)
+
+During the Terminal Pleistocene and Early Holocene (10000-6000BC), human settlement in Dagestan was concentrated in two complementary environments: the karst rock-shelters of the Inner Limestone Plateaus (1 100-1 800 m) and the marine terraces of the Caspian coast (Tarki, Manas, Ulluchay). Excavations directed by V. G. Kotovich (1955-1957) and Hizri Amirkhanov (1980-1985, resumed 2020-2022) at the Chokh settlement (Чохское поселение) in the Gunib district (1 675 m elevation) revealed a six-layer stratigraphic sequence (Layers F-A) spanning the Mesolithic-to-Neolithic transition in the northeastern Caucasus [@amirkhanov1987chokh; @amirkhanov2022chokh; @kotovich1964stone; @davudov2009]:
+
+- Mesolithic Horizon (Layers E-C, c. 9000-6500BC): Characterised by geometric microliths (asymmetric triangles, trapezes, backed bladelets) and hunting of East Caucasian tur (*Capra cylindricornis*), bezoar goat (*Capra aegagrus*), mouflon (*Ovis orientalis*), and red deer. Seasonal base camps in the Chokh and Rugudja canyons (Rugudja, Kozma-Noho, Mekegi) supported bands of 25-50 individuals (~1,0k-1,8k across Dagestan between 10000 and 8000BC).
+- Neolithic Domestication Horizon (Layers B-A, c. 6000-5000BC): Around 6000BC, Chokh preserves the earliest palaeobotanical and archaeozoological evidence for an indigenous transition to agriculture and stockbreeding in the North Caucasus [@amirkhanov1987chokh; @davudov2014]. Palaeobotanical impressions identified by N. R. Yanushevich and G. N. Lisitsyna demonstrate the cultivation of six-row naked and hulled barley (*Hordeum vulgare* var. *coeleste* and *pallidum*) alongside free-threshing hexaploid wheat (*Triticum aestivum*, *T. compactum*) and emmer (*T. dicoccum*). At the same time, domesticated sheep (*Ovis aries*) and goats (*Capra hircus*) rose to over 60% of the ungulate bone assemblage, accompanied by permanent dry-stone dwellings with clay-plastered floors and stone-lined hearths [@amirkhanov1987chokh; @amirkhanov2022chokh]. This early farming economy raised regional population from 4,5k (3,0k-6,5k) in 6000BC to 7,5k (5,0k-10,5k) by 5000BC, with over 60% residing on the Inner Limestone Plateaus (Zone 3).
+
+## Eneolithic and Early Bronze Age: Ginchi, Velikent, and the Kura-Araxes Culture (5000 - 2000BC)
+
+During the 5th millennium BC (Eneolithic, 5000-3600BC), permanent stone-walled farming villages spread across the intermontane basins of Inner Dagestan. Excavations by M. G. Gadzhiev at Ginchi (Гинчи) (Gidatl valley, Shamilsky district, ~1 650 m) and Chinna (Чинна) uncovered closely spaced circular stone dwellings (4,0-5,5 m diameter), defensive perimeter walls, obsidian blades imported from Transcaucasia, and early arsenical copper awls [@gadzhiev1991early; @gadzhiev1995metallurgy]. Each fortified village housed 15-30 families (75-150 inhabitants), bringing regional population to 16,0k (12,0k-22,0k) by 4000BC.
+
+Between 3600 and 2000BC, settlement expanded substantially under the Northeastern Caucasian Variant of the Kura-Araxes Culture [@magomedov2000kura; @magomedov2005; @gadzhiev1991early]:
+
+- Coastal Plain Tell Cluster (Velikent, Kabaz-Kutan, Torpakh-Kala, Dzhemikentskiy): Joint Daghestan-American excavations (1994-1998) directed by M. G. Gadzhiev, Philip L. Kohl, and Rabadan G. Magomedov at Velikent (Великент) (25 km northwest of Derbent on the ancient Ulluchay river fan) established that five natural clay-terrace mounds (Mounds I-V) spanning a 280-hectare archaeological complex were occupied continuously from c. 3600 to 1900BC [@gadzhiev1997velikent; @gadzhiev2000; @kohl2007making]. Multi-room mudbrick and pisé buildings, wheel-thrown storage vessels (Mound II), and over 1 500 bronze weapons, ornaments, and casting moulds point to a coastal craft and farming centre of 1,2k-2,5k inhabitants [@gadzhiev1995metallurgy; @gadzhiev1997velikent].
+- Velikent Collective Catacomb Tombs and Bioarchaeology (Mounds III-V): Excavations of 13 subterranean collective catacomb tombs at Velikent yielded 100 to over 350 skeletons per tomb (Tomb 1 on Mound III alone contained ~300 individuals alongside >1 500 bronze and carnelian-agate grave goods) [@gadzhiev1997velikent]. Craniological, dental, and palaeopathological studies by M. B. Mednikova and V. Y. Bakholdina confirm a southern Caucasoid farming population practising surgical cranial trepanation with high post-operative survival, moderate dental caries from cereal gruels, and lineage-based collective burial over 150-250 years [@mednikova2020velikent; @bakholdina2008velikent; @davudov2006]. Across all four elevation zones, Kura-Araxes settlement expansion raised Dagestan's population to 45,0k (35,0k-55,0k) by 3000BC and 62,0k (50,0k-75,0k) by 2000BC.
+
+## Middle and Late Bronze and Early Iron Ages: Kayakent-Khorochoi and Highland Terracing (2000 - 400BC)
+
+During the Middle Bronze Age (Gemetyube I-II, Velikent MBA, Irganay) and the Late Bronze and Early Iron Age Kayakent-Khorochoi Culture (Каякентско-хорочоевская культура, 1300-600BC), settlement density increased across both the foothill valleys (Kayakent, Tarki, Karabudakhkent, Zandak-Dagestan) and the Inner Limestone Plateaus (Khorochoi, Gagatli, Kuli, Chirkei) [@kruglov1958ne; @kotovich1982problems; @abakarov1993atlas]. Stone-cist cemeteries (каменные ящики) containing 50 to 400+ graves accompany fortified ridge villages (2-8 ha) built in tiered stone masonry.
+
+Interdisciplinary geoarchaeological, radiocarbon, and soil-micromorphological studies led by A. V. Borisov, D. S. Korobov, and I. A. Idrisov (2012-2024) resolved the chronological debate initiated by M. A. Aglarov [@aglarov1986terraces] concerning the age of Dagestan's mountain agricultural terraces [@borisov2013terraces; @korobov2020terraces; @shaev2024terraces; @idrisov2018; @peters2014]:
+
+- Chronology of Terrace Construction: Radiocarbon dating of buried humic soils beneath lynchet and stone-retaining terrace walls in the Gunib, Lak, and Akusha basins demonstrates that systematic slope terracing began during the transition from the Middle to Late Bronze Age (c. 1700-1300BC) and reached full valley coverage during the Early Iron Age and Classical Albanian periods [@borisov2013terraces; @korobov2020terraces].
+- Extent of Terraced Land (48,3% of Mid-Mountain Dagestan): Satellite mapping by Shaev, Borisov, Idrisov, and Korobov (2024) shows that man-made terraces cover 48,3% of the total land area of Mid-Mountain Dagestan (ranging from 29,4% to 64,8% across individual basins) - far exceeding any other part of the Greater Caucasus (16,1% in the Kislovodsk basin, 9,4% in North Ossetia, 5,9% in Ingushetia; see Figure 2) [@shaev2024terraces]. This ~100k-150k ha network of terraced fields raised regional population to 78,0k (62,0k-95,0k) by 1500BC and 95,0k (75,0k-115,0k) by 1000BC.
+
+<figure class="crd-figure-block" id="fig:dagestan_zones_bar">
+<img class="crd-figure-img" src="/artefacts/viscount_dagestan/1.0/dagestan_altitudinal_zone_shares.png" alt="fig:dagestan_zones_bar" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 3.</span> Proportional distribution of Dagestan's population across its four elevation zones from the Chokh Neolithic (6000BC) to the 1897 Imperial Census (1900AD), showing the long-term demographic weight of Zone 3 (Inner Plateaus and Alpine Samur) during periods of lowland warfare.</figcaption>
+</figure>
+
+## Caucasian Albania, Sassanian *Bab al-Abwab*, and the Palasa-Syrt Necropolis (400BC - 650AD)
+
+Between the 4th century BC and the 4th century AD (Albanian-Sarmatian Period), the Caspian coastal corridor and foothill valleys formed the northern marches of Caucasian Albania and the Sarmatian-Maskut confederations [@kotovich1982problems; @gadjiev2008palasa; @gadjiev2002]. Dozens of mudbrick and cobble-walled fortified towns (*gorodishcha*, 5-25 ha) arose along the coastal plain (Tarki, Urtseki, Karabudakhkent, Torpakh-Kala, Derbent hill), lifting regional population from 115,0k (90,0k-140,0k) in 500BC to 150,0k (120,0k-180,0k) at 1AD and 175,0k (140,0k-210,0k) in 400AD.
+
+During the 5th and 6th centuries AD, the Sassanian shahs Yazdegerd II (438-457), Peroz (459-484), and Khosrow I Anushirvan (531-579) transformed the Derbent defile into the monumental stone fortification system of Derbent (Дербент / *Bab al-Abwab*) [@kudryavtsev1982derbent; @gadjiev2008; @gadjiev2013; @gadjiev2017derbent; @gadjiev2016dagbary]:
+
+- Derbent Double Walls and *Dag-Bary* Mountain Barrier: Replacing Yazdegerd II's 440s AD mudbrick wall (*Gil-Bary*), Khosrow I constructed (c. 567-569AD, documented in 29 Middle Persian building inscriptions studied by M. S. Gadjiev) the twin parallel stone walls (3,6 km long, 350-450 m apart, enclosing ~145 ha between the 15-ha *Naryn-Kala* citadel and the Caspian sea moles) together with the 42-km *Dag-Bary* mountain wall (31 stone forts and towers ascending into Tabasaran) [@kudryavtsev1982derbent; @gadjiev2016dagbary; @gadjiev2017derbent]. Based on Kudryavtsev's study of the 30-35 ha residential *shahristan* and garrison quarters, Sassanian and early Islamic Derbent housed 15,0k-25,0k inhabitants (20,0k midpoint in 600AD, rising to 35,0k-50,0k during its 10th-century height under the Hashimid emirs when al-Istakhri described it as larger than Ardabil) [@kudryavtsev1982derbent; @kudryavtsev1993].
+- The Palasa-Syrt Catacomb Necropolis (Паласа-Сырт): Located 25 km south of Derbent on the Rubas river ridge, the Palasa-Syrt kurgan cemetery (4,5 km long; excavated by V. G. Kotovich, L. B. Gmyrya, and M. S. Gadjiev) comprises 1 500 to 2 000+ earthen kurgans covering T-shaped and longitudinal catacomb graves dated to the late 4th-5th centuries AD [@gadjiev2008palasa; @gmyrya2012; @saipudi2020palasa; @gmyrya1995huns]. Craniological and funerary evidence (artificial cranial deformation, polychrome fibulae, Sassanian seals, and weapons) identifies a multi-ethnic Alanic-Maskut-Hunnic border garrison guarding the Derbent pass of 3,5k-5,0k living inhabitants over 4-5 generations [@gadjiev2008palasa; @gmyrya1995huns].
+
+## Early and High Middle Ages: Khazar Cities, *Sarir*, Islamisation, and the Mongol and Timurid Invasions (650 - 1500AD)
+
+Between 650 and 965AD, northern and coastal Dagestan served as the early urban core of the Khazar Khaganate and the Kingdom of the Huns (*Savirs*), while the Inner Limestone Plateaus were consolidated under the Christian and syncretic Avar kingdom of Sarir (Сарир, capital at Khunzakh) and the early principalities of Lakz (South Dagestan), Tabasaran, Zirikhgeran (Kubachi), Kaitag, and Gumik (Kumukh) [@magomedov1983khazar; @gadzhiev1971varachan; @minorsky1958bab; @fedchenko2023]. Archaeological excavations across the northern foothills and coastal corridor document four major fortified towns (Figure 3B):
+
+1. Balanjar (Verkhniy Chir-Yurt on the Sulak exit): Enclosing ~110 ha behind stone and mudbrick ramparts (2,5 km wall perimeter), accompanied by three large catacomb and kurgan cemeteries (>2 000 burials) and two early Christian churches; estimated population 12,0k-18,0k prior to its capture by the Arab general al-Jarrah ibn Abdallah in 722/723AD [@magomedov1983khazar; @fedchenko2023].
+2. Samandar (Tarki / Makhachkala-Karaman plain): Enclosing >50 ha of stone terraces and vineyard gardens (40 000 vineyards reported by al-Mas'udi and Ibn Hawqal prior to Svyatoslav's 965-969 campaign); estimated population 10,0k-15,0k [@magomedov1983khazar; @abakarov1993atlas].
+3. Varachan (Urtseki fortified city): Capital of the Caspian Huns (*Savirs*), comprising a 38-40 ha three-tiered stone citadel and agricultural suburb (6,0k-10,0k inhabitants) [@gadzhiev1971varachan; @gmyrya1995huns].
+4. Andreyaulem (Endirey on the Aktash river): A 65-ha fortified town controlling the Terek-Sulak piedmont crossroads (8,0k-12,0k inhabitants) [@magomedov1983khazar; @abakarov1993atlas; @khapizov2019].
+
+During the High Middle Ages (1000-1220AD), the spread of Sunni (Shafi'i) Islam (Kala-Koreysh, Kumukh, Richa, Tsakhur, where a madrasa was founded in 1075AD) and the growth of highland craft specialisation (Kubachi armourers, Sulevkent potters, Khunzakh and Kumukh market towns) raised Dagestan's total population to 310,0k (270,0k-350,0k) around 1200AD [@abakarov1993atlas; @minorsky1958bab; @aliev2017tabasaran].
+
+This medieval high point was interrupted by two destructive foreign invasions [@gasanov2024; @dadaev2014]:
+
+- The Mongol Campaigns (1220-1222 and 1239-1240): Subutai and Jebe bypassed Derbent in 1221, and Bukdai sacked Derbent, Richa (where a 1239 Arabic inscription records the slaughter), Kumukh (1240), and the coastal plain [@minorsky1958bab; @aliev2017tabasaran]. Lowland cities shrank considerably (Guillaume de Rubruck noted Derbent's reduced perimeter in 1254), pulling total regional population down to 265,0k (225,0k-300,0k) by 1300AD.
+- Timur's Campaigns (1395-1396): Following his victory over Tokhtamysh on the Terek (April 1395), Timur ravaged the Kumyk plain, Kaitag, Akusha/Ushkudzha, Nerges, and the foothill fortresses (the *Zafar-nama* of Nizam al-Din Shami and Sharaf al-Din Yazdi records the killing of Kaitag and Kumyk defenders and the destruction of piedmont strongholds) [@aliev1975feudal; @aliev2017tabasaran; @gasanov2024]. Regional population fell to a late-medieval low of 230,0k (195,0k-265,0k) in 1400AD, with 65% of the surviving population concentrated on the fortified Inner Plateaus and Samur gorges (Zone 3).
+
+## Early Modern Principalities and Free *Jamaat* Unions (1500 - 1700AD)
+
+Between 1450 and 1700AD, Dagestan experienced steady demographic and political recovery (285,0k in 1500AD -> 365,0k in 1600AD -> 460,0k [420,0k-500,0k] in 1700AD). Drawing on the archival studies of B. G. Aliev and M.-S. K. Umakhanov alongside M. A. Aglarov's ethnographic work on the mountain *jamaat* [@aliev1975feudal; @umakhanov1973mutual; @aliev2019unions; @aliev2019jamaat; @aglarov1988jamaat; @guseynova2008; @isaev2011], 17th-century Dagestan was divided between feudal principalities and autonomous rural unions (Figure 3A and Table 2):
+
+1. Major Feudal Principalities (~45% of Regional Population):
+ - Shamkhalate of Tarki (Тарковское шамхальство) and Endirey / Zasulak Kumyk Domains: Centred at Tarki (~1,5k-2,0k households; 8,0k-10,0k inhabitants visited by Adam Olearius in 1638, Evliya Çelebi in 1666, and Jan Struys in 1670), Kafir-Kumukh, Buynak, and the autonomous Sultanate of Endirey (Andreyaulem, ~1,5k households). Russian *Posolskiy Prikaz* records (1614-1650) credit the Shamkhal and the Endirey rulers (Sultan-Mahmud) with 12 000-15 000 mounted and foot militia, corresponding to 12,0k-16,0k households (65,0k-85,0k inhabitants) [@umakhanov1973mutual; @aliev1975feudal].
+ - Kaitag Utsmiate (Кайтагское уцмийство): Spanning Lower Kaitag (Madzhalis, Bashly with ~1,5k households) and Upper Kaitag/Dargwa (Urkarakh, Kubachi), governed under the early-17th-century *Codex of Rustam Khan*. Capable of fielding 15 000-20 000 warriors (15,0k-19,0k households; 80,0k-100,0k inhabitants) [@aliev1975feudal; @umakhanov1973mutual].
+ - Kazikumukh Khanate (Казикумухское ханство): Centred at Kumukh (~1,2k-1,5k stone multi-storey houses) across the Lak basin; 7,0k-8,5k households (38,0k-46,0k inhabitants) [@umakhanov1973mutual].
+ - Avar Nutsalate (Аварское нуцальство): Centred on the Khunzakh plateau (~700-1 000 households in Khunzakh and Tobot villages), numbering 6,0k-7,5k core households (32,0k-42,0k inhabitants) [@aliev1975feudal; @aglarov1988jamaat; @saidov1980].
+ - Principality of Tabasaran (Maisumate and Qadiate of North Tabasaran): Documented in the 1635 decrees of Maisum Ali-Bek [@dadaev2014], numbering 6,5k-8,0k households (35,0k-45,0k inhabitants) [@aliev2017tabasaran].
+ - Safavid Governorate of Derbent (Derbent City and Ulus): Following Shah Abbas I's 1606 reconquest and resettlement of Bayat and Qurchi garrisons, Derbent city (~2,0k-2,5k houses; 10,0k-14,0k urban residents) and its coastal *ulus* villages numbered 4,0k-5,5k households (20,0k-30,0k inhabitants) [@ikhilov1960narody; @kudryavtsev1982derbent].
+2. Self-Governing Free *Jamaat* Unions (Вольные общества, ~55% of Regional Population):
+ - Over 60 autonomous federations (*soyuzy sel'skikh obshchin*) governed by elected elders (*chankas*, *qadis*, *kartas*) and customary *adat* law occupied the Dargwa plateaus and the Avar-Andi-Dido and Samur alpine gorges [@aliev2019unions; @aliev2019jamaat; @aglarov1988jamaat; @guseynova2008; @isaev2011].
+ - The Akusha-Dargo Upper Dargwa Confederation (Akusha, Tsudakhar, Usisha, Mugi, Mekegi) comprised 9,0k-11,0k households (48,0k-60,0k inhabitants).
+ - The Avar, Andi, and Tsez/Dido Free Unions (Gidatl, Andalal around Chokh-Sogratl, Karata, Bagulal, Chamalyal, Tindi, Dido, Antsukh, Dzhurmut, Koysubulu, Antl-Ratl) totalled 16,0k-20,0k households (85,0k-110,0k inhabitants) [@aglarov1988jamaat; @aliev2019unions; @guseynova2008].
+ - The Samur Valley Free Unions and Elisu Sultanate (Akhty-para, Dokuz-para, Altı-para, Rutul Magal, Tsakhur / Elisu) numbered 11,0k-13,5k households (60,0k-75,0k inhabitants) [@ikhilov1960narody; @aliev2019unions].
+
+<figure class="crd-figure-block" id="fig:dagestan_hierarchy">
+<img class="crd-figure-img" src="/artefacts/viscount_dagestan/1.0/dagestan_urban_rural_hierarchy.png" alt="fig:dagestan_hierarchy" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 4.</span> Early modern and medieval settlement sizes in Dagestan: (A) Estimated population and household (dvor) counts across 17th-century principalities and free jamaat unions (c. 1650-1700AD); (B) Fortified intramural areas (ha) of major ancient and medieval urban centres.</figcaption>
+</figure>
+
+<figure class="crd-table-figure" id="tab:dagestan_17c">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table">
+<thead><tr><th class="crd-th">Polity / Free Jamaat Union</th><th class="crd-th">Primary Centres</th><th class="crd-th">Households (Dvors)</th><th class="crd-th">Militia (Sabres)</th><th class="crd-th">Estimated Population</th></tr></thead>
+<tbody>
+<tr><td class="crd-td">Avar, Andi and Dido Free Unions (Andalal, Gidatl, Antsukh, Dido, Andi)</td><td class="crd-td">Chokh, Sogratl, Khidi, Andi, Botlikh, Bezhta</td><td class="crd-td">16,0k - 20,0k</td><td class="crd-td">18,0k - 22,0k</td><td class="crd-td">85,0k - 110,0k</td></tr>
+<tr><td class="crd-td">Kaitag Utsmiate (Lower Kaitag and Upper Kaitag/Dargwa)</td><td class="crd-td">Madzhalis, Bashly, Urkarakh, Kubachi</td><td class="crd-td">15,0k - 19,0k</td><td class="crd-td">15,0k - 20,0k</td><td class="crd-td">80,0k - 100,0k</td></tr>
+<tr><td class="crd-td">Shamkhalate of Tarki and Endirey / Zasulak Kumyk Domains</td><td class="crd-td">Tarki, Endirey, Kafir-Kumukh, Buynak</td><td class="crd-td">12,0k - 16,0k</td><td class="crd-td">12,0k - 15,0k</td><td class="crd-td">65,0k - 85,0k</td></tr>
+<tr><td class="crd-td">Samur Free Unions (Akhty-para, Dokuz-para, Rutul) and Tsakhur/Elisu</td><td class="crd-td">Akhty, Mikrakh, Rutul, Tsakhur</td><td class="crd-td">11,0k - 13,5k</td><td class="crd-td">10,0k - 13,0k</td><td class="crd-td">60,0k - 75,0k</td></tr>
+<tr><td class="crd-td">Akusha-Dargo Upper Dargwa Federation (Akusha, Tsudakhar, Usisha, Mekegi)</td><td class="crd-td">Akusha, Tsudakhar, Usisha, Mugi</td><td class="crd-td">9,0k - 11,0k</td><td class="crd-td">10,0k - 12,0k</td><td class="crd-td">48,0k - 60,0k</td></tr>
+<tr><td class="crd-td">Kazikumukh Khanate (Kumukh and Lak Basin)</td><td class="crd-td">Kumukh, Tovuz, Khosrekh</td><td class="crd-td">7,0k - 8,5k</td><td class="crd-td">7,0k - 9,0k</td><td class="crd-td">38,0k - 46,0k</td></tr>
+<tr><td class="crd-td">Principality of Tabasaran (Maisumate and Qadiate of Tabasaran)</td><td class="crd-td">Khuchni, Dzhalgan, Rukel</td><td class="crd-td">6,5k - 8,0k</td><td class="crd-td">6,0k - 8,0k</td><td class="crd-td">35,0k - 45,0k</td></tr>
+<tr><td class="crd-td">Avar Nutsalate (Khunzakh Plateau Core)</td><td class="crd-td">Khunzakh, Arani, Untsukul</td><td class="crd-td">6,0k - 7,5k</td><td class="crd-td">6,0k - 8,0k</td><td class="crd-td">32,0k - 42,0k</td></tr>
+<tr><td class="crd-td">Safavid Governorate of Derbent (Derbent City and Coastal Ulus)</td><td class="crd-td">Derbent (Naryn-Kala and Shahristan)</td><td class="crd-td">4,0k - 5,5k</td><td class="crd-td">3,5k - 5,0k</td><td class="crd-td">20,0k - 30,0k</td></tr>
+<tr><td class="crd-td">Unadjusted Sum of Sub-Regional Polities</td><td class="crd-td">All 9 polity/confederation groupings</td><td class="crd-td">86,5k - 109,0k</td><td class="crd-td">87,5k - 112,0k</td><td class="crd-td">463,0k - 593,0k</td></tr>
+<tr><td class="crd-td">Adopted Regional Benchmark (Adjusted for Shared Tributary Margins)</td><td class="crd-td">Republic of Dagestan (50,3k km2)</td><td class="crd-td">82,0k - 95,0k</td><td class="crd-td">80,0k - 95,0k</td><td class="crd-td">460,0k (420,0k - 500,0k)</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Population and household estimates for Dagestan's principalities and free jamaat unions c. 1650-1700AD based on Posolskiy Prikaz registers and local tarikh and adat sources.</figcaption>
+</figure>
+
+## The Eighteenth and Nineteenth Centuries (1700 - 1900AD)
+
+During the 18th and 19th centuries, Dagestan's population experienced two sharp wartime contractions followed by sustained post-1860 demographic growth under Russian imperial administration [@kabuzan1996; @aliev1999; @aliev2001; @nagieva2005]:
+
+1. The Caspian Campaign and Nadir Shah's Invasions (1700-1800AD): During the 1720s, anti-Safavid uprisings in Southern Dagestan and Peter I's Persian Campaign (1722-1723, which established the fortress of Svyatoy Krest on the Sulak and Russian garrisons at Derbent and Tarki before Kizlyar was founded on the Terek in 1735) disrupted coastal agriculture. Even greater devastation accompanied the three Dagestani campaigns of the Iranian ruler Nadir Shah Afshar in 1734, 1735, and especially 1741-1743 [@aliev1999; @aliev2001]. Before his defeat by the combined Avar, Lak, and Dargwa militia at Andalal (Sogratl-Chokh) and Aymaki in September 1741, Nadir Shah burned dozens of villages across Kaitag, Tabasaran, Mehtuli, and Kazikumukh, reducing Dagestan's population slightly from 460,0k (1700AD) to 445,0k (400,0k-490,0k) in 1750AD. A half-century of relative internal recovery and expanding trade through Kizlyar, Derbent, and Tarki subsequently lifted regional population to 525,0k (475,0k-575,0k) by 1800AD [@kabuzan1996; @aliev1999].
+2. The Caucasian War and the Caucasian Imamate (1801-1859): Russian annexation of the Derbent, Baku, and Quba khanates (confirmed by the 1813 Treaty of Gulistan) and General A. P. Yermolov's punitive expeditions (1818-1826, establishing the fortresses of Vnezapnaya at Endirey in 1819 and Burnaya above Tarki in 1821) provoked the rise of the Caucasian Imamate under the three Imams Ghazi Muhammad (1829-1832), Hamzat Bek (1832-1834), and Shamil (1834-1859) [@kabuzan1996; @magomeddadaev2006]. Three decades of siege warfare (Gimry 1832, Akhulgo 1839, Dargo 1845, Gergebil and Salta 1847, Chokh 1849, and Gunib 1859), cholera outbreaks, crop destruction, and post-1859 *muhajir* emigration of ~15,0k-20,0k Dagestani mountaineers to the Ottoman Empire reduced total population to 485,0k (440,0k-530,0k) around 1850AD [@kabuzan1996; @nagieva2005; @magomeddadaev2006].
+3. Formation of Dagestan Oblast (1860), the 1886 Family Lists, and the 1897 Imperial Census: Following Shamil's capture at Gunib (25 August 1859), imperial authorities organised **Dagestan Oblast** (1860, administrative capital at Temir-Khan-Shura [modern Buynaksk], divided into nine *okrugs*: Avar, Andi, Gunib, Dargwa, Kazikumukh, Kaitag-Tabasaran, Kyurin, Samur, and Temir-Khan-Shura) while the northern Kumyk and Nogai plains north of the Sulak (the **Khasavyurt** and **Kizlyar** *okrugs*) were placed under **Terek Oblast** [@kozubsky1895; @adzhiev2018kumyks; @khapizov2015andotsez]. Early military-statistical enumerations in the 1860s recorded ~450,0k-480,0k inhabitants in Dagestan Oblast proper, rising in the **1886 family lists (*posemeynye spiski*)** to **592,8k** in Dagestan Oblast [@kozubsky1895; @kabuzan1996; @nagieva2005]. In the **First General Census of the Russian Empire (28 January 1897)** edited by N. A. Troynitskiy and E. I. Kozubskiy [@troynitskiy1905dagestan; @kozubsky1901], Dagestan Oblast recorded **571 154** *de facto* present inhabitants (slightly below the *de jure* permanent population because ~50,0k-80,0k highland male seasonal labourers [*otkhodniki*] were working in winter in Baku oilfields, Tiflis, and Terek towns), broken down by linguistic group as 158,6k Avars-Ando-Tsez (27,8%), 121,4k Dargwas and Kubachis (21,3%), 94,6k Kyurins/Lezgins (16,6%), 76,4k Kazi-Kumukhs/Laks (13,4%), 32,6k Kumyks in Temir-Khan-Shura and Kaitag (5,7%), 32,1k Tatars/Azerbaijanis and Tats around Derbent (5,6%), and 22,0k Tabasarans, Aguls, Rutuls, and Tsakhurs [@troynitskiy1905dagestan; @kozubsky1901; @khapizov2015andotsez]. Adding the **Khasavyurt Okrug** (70 800 inhabitants in 1897, including 26,6k Kumyks, 18,1k Chechens/Aukh, and Russian/Jewish settlers) and the Dagestani sector of the **Kizlyar Okrug** (Kizlyar town, Terek Cossack *stanitsas*, and Karanogai steppe camps, ~45,0k-50,0k) yields a well-documented total population within the modern borders of the Republic of Dagestan of **690,0k** (650,0k-730,0k, or 13,72 persons/km²) by **1900AD** [@kabuzan1996; @adzhiev2018kumyks; @nagieva2005]. The completion of the Vladikavkaz Railway through Petrovsk-Port (Makhachkala, 9 753 inhabitants in 1897) to Derbent (14 649 inhabitants) and Baku in 1893-1900 initiated rapid urban growth along the Caspian littoral (Zone 1: 124,0k; Zone 4: 83,0k in 1900AD) [@nagieva2005].
+
+# Limitations
+
+Three main constraints affect historical population estimates for Dagestan:
+
+1. Caspian Sea-Level Changes: Fluctuations of the Caspian Sea between -34 m (Derbent Regression, 6th-10th centuries AD) and -22 m (Late Medieval Transgression, 14th-17th centuries AD) submerged the seaward moles of Derbent and several coastal Bronze Age sites while shifting the lower Terek-Sulak delta channels [@kudryavtsev1982derbent; @gadzhiev1997velikent].
+2. Simultaneous Cultivation of Highland Terraces: Although 48,3% of Mid-Mountain Dagestan preserves man-made agricultural terraces [@shaev2024terraces], fallow rotation and post-Timurid village consolidation mean that only 45-65% of total terraced land was cultivated at any single benchmark date [@borisov2013terraces; @korobov2020terraces].
+3. Overlapping Tributary Claims and Seasonal *Otkhodnichestvo*: In the 17th century, the Shamkhal of Tarki, the Utsmi of Kaitag, and the Khan of Kazikumukh frequently claimed authority over the same border *jamaats* when negotiating with Russian envoys, requiring a ~10-15% deduction from raw militia sums [@aliev1975feudal; @umakhanov1973mutual]. Conversely, in the January 1897 census, winter seasonal migration (*otkhodnichestvo*) of 50,0k-80,0k highland men to Baku and Terek Oblast depressed the *de facto* count of mountain *okrugs* relative to the 1886 *de jure* family lists [@kozubsky1901; @nagieva2005].
+
+# Conclusion
+
+From 10000BC to 1900AD, Dagestan developed from an early mountain centre of wheat, barley, and sheep-goat domestication at Chokh (4,5k in 6000BC) into the most densely terraced and urbanised region of the Eastern Caucasus (690,0k or 13,72 persons/km² by 1900AD). The combination of the irrigated urban corridor along the Caspian coast (Velikent, Derbent, Urtseki, Tarki, Balanjar, Petrovsk-Port) and the terraced stone villages of the Inner Limestone Plateaus (Chokh, Khunzakh, Kumukh, Akusha, Kubachi) enabled Dagestan to withstand the 13th-century Mongol and 1395 Timurid invasions, Nadir Shah's 1741-1743 campaigns, and the Caucasian War (1829-1859) with much smaller long-term population losses than the open steppes and piedmont plains of Central and Northwestern Ciscaucasia.
+
+# Appendix
+
+## Population Estimates
+
+<figure class="crd-table-figure" id="tab:dagestan_holocene_full">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table">
+<thead><tr><th class="crd-th">Benchmark</th><th class="crd-th">Zone 1: Littoral (6,8k km2)</th><th class="crd-th">Zone 2: Piedmont (8,5k km2)</th><th class="crd-th">Zone 3: Highlands (21,5k km2)</th><th class="crd-th">Zone 4: Steppe (13,5k km2)</th><th class="crd-th">Total Midpoint</th><th class="crd-th">Uncertainty Range [Low - High]</th><th class="crd-th">Density (p/km2)</th></tr></thead>
+<tbody>
+<tr><td class="crd-td">10000BC</td><td class="crd-td">0,15k</td><td class="crd-td">0,20k</td><td class="crd-td">0,55k</td><td class="crd-td">0,10k</td><td class="crd-td">1,0k</td><td class="crd-td">0,6k - 1,5k</td><td class="crd-td">0,02</td></tr>
+<tr><td class="crd-td">8000BC</td><td class="crd-td">0,25k</td><td class="crd-td">0,35k</td><td class="crd-td">1,05k</td><td class="crd-td">0,15k</td><td class="crd-td">1,8k</td><td class="crd-td">1,2k - 2,5k</td><td class="crd-td">0,04</td></tr>
+<tr><td class="crd-td">6000BC</td><td class="crd-td">0,65k</td><td class="crd-td">0,70k</td><td class="crd-td">2,80k</td><td class="crd-td">0,35k</td><td class="crd-td">4,5k</td><td class="crd-td">3,0k - 6,5k</td><td class="crd-td">0,09</td></tr>
+<tr><td class="crd-td">5000BC</td><td class="crd-td">1,1k</td><td class="crd-td">1,2k</td><td class="crd-td">4,6k</td><td class="crd-td">0,6k</td><td class="crd-td">7,5k</td><td class="crd-td">5,0k - 10,5k</td><td class="crd-td">0,15</td></tr>
+<tr><td class="crd-td">4000BC</td><td class="crd-td">3,2k</td><td class="crd-td">3,2k</td><td class="crd-td">8,3k</td><td class="crd-td">1,3k</td><td class="crd-td">16,0k</td><td class="crd-td">12,0k - 22,0k</td><td class="crd-td">0,32</td></tr>
+<tr><td class="crd-td">3000BC</td><td class="crd-td">13,5k</td><td class="crd-td">9,9k</td><td class="crd-td">18,0k</td><td class="crd-td">3,6k</td><td class="crd-td">45,0k</td><td class="crd-td">35,0k - 55,0k</td><td class="crd-td">0,89</td></tr>
+<tr><td class="crd-td">2000BC</td><td class="crd-td">14,5k</td><td class="crd-td">13,5k</td><td class="crd-td">29,0k</td><td class="crd-td">5,0k</td><td class="crd-td">62,0k</td><td class="crd-td">50,0k - 75,0k</td><td class="crd-td">1,23</td></tr>
+<tr><td class="crd-td">1500BC</td><td class="crd-td">15,5k</td><td class="crd-td">17,0k</td><td class="crd-td">39,5k</td><td class="crd-td">6,0k</td><td class="crd-td">78,0k</td><td class="crd-td">62,0k - 95,0k</td><td class="crd-td">1,55</td></tr>
+<tr><td class="crd-td">1000BC</td><td class="crd-td">17,0k</td><td class="crd-td">21,0k</td><td class="crd-td">49,5k</td><td class="crd-td">7,5k</td><td class="crd-td">95,0k</td><td class="crd-td">75,0k - 115,0k</td><td class="crd-td">1,89</td></tr>
+<tr><td class="crd-td">500BC</td><td class="crd-td">23,0k</td><td class="crd-td">27,5k</td><td class="crd-td">53,5k</td><td class="crd-td">11,0k</td><td class="crd-td">115,0k</td><td class="crd-td">90,0k - 140,0k</td><td class="crd-td">2,29</td></tr>
+<tr><td class="crd-td">1AD</td><td class="crd-td">33,0k</td><td class="crd-td">39,0k</td><td class="crd-td">63,0k</td><td class="crd-td">15,0k</td><td class="crd-td">150,0k</td><td class="crd-td">120,0k - 180,0k</td><td class="crd-td">2,98</td></tr>
+<tr><td class="crd-td">400AD</td><td class="crd-td">42,0k</td><td class="crd-td">45,5k</td><td class="crd-td">73,5k</td><td class="crd-td">14,0k</td><td class="crd-td">175,0k</td><td class="crd-td">140,0k - 210,0k</td><td class="crd-td">3,48</td></tr>
+<tr><td class="crd-td">600AD</td><td class="crd-td">54,5k</td><td class="crd-td">54,5k</td><td class="crd-td">84,0k</td><td class="crd-td">17,0k</td><td class="crd-td">210,0k</td><td class="crd-td">175,0k - 250,0k</td><td class="crd-td">4,17</td></tr>
+<tr><td class="crd-td">800AD</td><td class="crd-td">57,5k</td><td class="crd-td">62,5k</td><td class="crd-td">101,0k</td><td class="crd-td">19,0k</td><td class="crd-td">240,0k</td><td class="crd-td">200,0k - 280,0k</td><td class="crd-td">4,77</td></tr>
+<tr><td class="crd-td">1000AD</td><td class="crd-td">55,0k</td><td class="crd-td">60,5k</td><td class="crd-td">140,0k</td><td class="crd-td">19,5k</td><td class="crd-td">275,0k</td><td class="crd-td">230,0k - 320,0k</td><td class="crd-td">5,47</td></tr>
+<tr><td class="crd-td">1200AD</td><td class="crd-td">59,0k</td><td class="crd-td">65,0k</td><td class="crd-td">164,0k</td><td class="crd-td">22,0k</td><td class="crd-td">310,0k</td><td class="crd-td">270,0k - 350,0k</td><td class="crd-td">6,16</td></tr>
+<tr><td class="crd-td">1300AD</td><td class="crd-td">42,0k</td><td class="crd-td">48,0k</td><td class="crd-td">159,0k</td><td class="crd-td">16,0k</td><td class="crd-td">265,0k</td><td class="crd-td">225,0k - 300,0k</td><td class="crd-td">5,27</td></tr>
+<tr><td class="crd-td">1400AD</td><td class="crd-td">32,0k</td><td class="crd-td">37,0k</td><td class="crd-td">149,5k</td><td class="crd-td">11,5k</td><td class="crd-td">230,0k</td><td class="crd-td">195,0k - 265,0k</td><td class="crd-td">4,57</td></tr>
+<tr><td class="crd-td">1500AD</td><td class="crd-td">43,0k</td><td class="crd-td">51,0k</td><td class="crd-td">174,0k</td><td class="crd-td">17,0k</td><td class="crd-td">285,0k</td><td class="crd-td">250,0k - 325,0k</td><td class="crd-td">5,67</td></tr>
+<tr><td class="crd-td">1600AD</td><td class="crd-td">58,0k</td><td class="crd-td">73,0k</td><td class="crd-td">208,0k</td><td class="crd-td">26,0k</td><td class="crd-td">365,0k</td><td class="crd-td">320,0k - 410,0k</td><td class="crd-td">7,26</td></tr>
+<tr><td class="crd-td">1700AD</td><td class="crd-td">73,5k</td><td class="crd-td">96,5k</td><td class="crd-td">253,0k</td><td class="crd-td">37,0k</td><td class="crd-td">460,0k</td><td class="crd-td">420,0k - 500,0k</td><td class="crd-td">9,15</td></tr>
+<tr><td class="crd-td">1750AD</td><td class="crd-td">68,0k</td><td class="crd-td">92,0k</td><td class="crd-td">250,0k</td><td class="crd-td">35,0k</td><td class="crd-td">445,0k</td><td class="crd-td">400,0k - 490,0k</td><td class="crd-td">8,85</td></tr>
+<tr><td class="crd-td">1800AD</td><td class="crd-td">84,0k</td><td class="crd-td">110,0k</td><td class="crd-td">289,0k</td><td class="crd-td">42,0k</td><td class="crd-td">525,0k</td><td class="crd-td">475,0k - 575,0k</td><td class="crd-td">10,44</td></tr>
+<tr><td class="crd-td">1850AD</td><td class="crd-td">78,0k</td><td class="crd-td">102,0k</td><td class="crd-td">262,0k</td><td class="crd-td">43,0k</td><td class="crd-td">485,0k</td><td class="crd-td">440,0k - 530,0k</td><td class="crd-td">9,64</td></tr>
+<tr><td class="crd-td">1900AD</td><td class="crd-td">124,0k</td><td class="crd-td">152,0k</td><td class="crd-td">331,0k</td><td class="crd-td">83,0k</td><td class="crd-td">690,0k</td><td class="crd-td">650,0k - 730,0k</td><td class="crd-td">13,72</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Estimated population of Dagestan across its four elevation zones (10000BC - 1900AD; total area 50,3k km2).</figcaption>
+</figure>
+
+# Sources
+
+::: {#refs}
+:::
+
+<div class="crd-footnotes-slot" data-crd-footnotes="true"></div>

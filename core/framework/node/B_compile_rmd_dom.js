@@ -96,6 +96,17 @@ let IntellteRmdCompiler = {
     let abs_match = body_md.match(/^#\s+Abstract\s*\r?\n+([\s\S]*?)(?=\r?\n+#\s+)/m);
     let raw_abs = (abs_match) ? abs_match[1] : "";
 
+    if (!raw_abs) {
+      let stripped_body = body_md
+        .trimStart()
+        .replace(/^#\s+[^\r\n]+\s*/, "")
+        .replace(/^##\s+[^\r\n]+\s*/, "");
+      let fallback_match = stripped_body.match(/^([\s\S]*?)(?=\r?\n+(?:#{1,2}\s+|<figure\b|1\.\s+))/);
+      if (fallback_match) {
+        raw_abs = fallback_match[1];
+      }
+    }
+
     raw_abs = raw_abs
       .replace(/<i>R<\/i><sup>2<\/sup>/gi, "R²")
       .replace(/<[^>]+>/g, "")

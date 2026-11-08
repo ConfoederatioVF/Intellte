@@ -98,6 +98,19 @@ let IntellteArtefactStager = {
           });
         }
 
+        //3b. Structured Dataset (.json)
+        if (local_ver.dataset_abs && fs.existsSync(local_ver.dataset_abs)) {
+          let dst_dataset = path.join(stage_dir, local_ver.dataset_filename);
+          fs.copyFileSync(local_ver.dataset_abs, dst_dataset);
+          staged_files.push({
+            category: "Dataset (JSON)",
+            filename: local_ver.dataset_filename,
+            size_bytes: fs.statSync(dst_dataset).size,
+            size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_dataset).size),
+            url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.dataset_filename)}`
+          });
+        }
+
         //4. High-DPI Figures (.png)
         for (let y = 0; y < local_ver.figures.length; y++) {
           let fig_obj = local_ver.figures[y];

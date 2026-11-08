@@ -1,6 +1,21 @@
 \documentclass[10pt,onecolumn]{intellte}
 
-\usepackage{booktabs,array,multirow,graphicx}
+\usepackage{longtable,booktabs,array,multirow,graphicx,calc,etoolbox,xurl}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+
+% Relax float placement parameters to prevent isolated float pages
+\renewcommand{\topfraction}{0.92}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.06}
+\renewcommand{\floatpagefraction}{0.85}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+
 $if(highlighting-macros)$
 % Pandoc syntax highlighting
 $highlighting-macros$
@@ -11,24 +26,11 @@ $endif$
   \setlength{\itemsep}{2pt}\setlength{\parskip}{0pt}}
 
 $if(tables)$
-% From pandoc table feature
-\usepackage{longtable,booktabs,array}
 $if(pandoc3821)$\newcounter{none} % for unnumbered tables
 $endif$
-$if(multirow)$
-\usepackage{multirow}
-$endif$
-\usepackage{calc}
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
 $endif$
 
 $if(graphics)$$if(pandoc321)$
-\usepackage{graphicx}
 \makeatletter
 \newsavebox\pandoc@box
 \newcommand*\pandocbounded[1]{%
@@ -44,15 +46,9 @@ $if(graphics)$$if(pandoc321)$
 $endif$$endif$
 
 $if(csl-refs)$
-% Pandoc citation processing (Numerical MLA inline [1][2][3] hyperlinked to MLA bibliography)
+% Pandoc citation processing (Numerical MLA inline [1][2][3] hyperlinked directly without \cite{?} fallback)
 \NewDocumentCommand\citeproctext{}{}
-\NewDocumentCommand\citeproc{mm}{%
-  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
-\makeatletter
- \let\@cite@ofmt\@firstofone
- \def\@biblabel#1{}
- \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
-\makeatother
+\NewDocumentCommand\citeproc{mm}{\hyperlink{#1}{#2}}
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.8em}
 \newlength{\csllabelwidth}
@@ -61,6 +57,8 @@ $if(csl-refs)$
  {\par\vspace{2pt}%
   \begin{list}{}{%
   \normalfont\rmfamily\mdseries\fontsize{10pt}{15pt}\selectfont\raggedright
+  \hyphenpenalty=50\exhyphenpenalty=50\emergencystretch=3em%
+  \renewcommand{\bibitem}[2][]{\item\hypertarget{##2}{}}%
   \setlength{\lineskiplimit}{-6pt}%
   \setlength{\leftmargin}{\csllabelwidth}%
   \setlength{\itemindent}{-\csllabelwidth}%
@@ -69,9 +67,8 @@ $if(csl-refs)$
   \setlength{\parsep}{0pt}%
   \setlength{\topsep}{0pt}%
   \setlength{\partopsep}{0pt}%
-  \setlength{\itemsep}{0pt}}}
+  \setlength{\itemsep}{2pt}}}
  {\end{list}}
-\usepackage{calc}
 \newcommand{\CSLBlock}[1]{#1\hfill\break}
 \newcommand{\CSLLeftMargin}[1]{\makebox[\csllabelwidth][l]{\normalfont\rmfamily\mdseries\fontsize{10pt}{15pt}\selectfont #1}}
 \newcommand{\CSLRightInline}[1]{\normalfont\rmfamily\mdseries\fontsize{10pt}{15pt}\selectfont #1}
@@ -117,7 +114,44 @@ $abstract$
 \end{abstract}
 $endif$
 
+\providecommand{\crdxref}[2]{\hyperref[#2]{#1~\ref*{#2}}}
+\makeatletter
+\newcommand{\crdneedspace}[1]{%
+  \par\penalty-100\begingroup
+  \ifdim\pagetotal>\z@
+    \dimen@=\pagegoal
+    \advance\dimen@-\pagetotal
+    \ifdim\dimen@<#1\relax
+      \newpage
+    \fi
+  \fi
+  \endgroup
+}
+\pretocmd{\section}{\crdneedspace{135pt}}{}{}
+\pretocmd{\subsection}{\crdneedspace{110pt}}{}{}
+\pretocmd{\subsubsection}{\crdneedspace{90pt}}{}{}
+\renewcommand{\printcrdfootnotes}{%
+  \ifnum\value{crdfootnote}>0\relax
+    \section*{Footnotes}%
+    \par\setlength{\parskip}{0pt}\vspace{-2pt}%
+    \noindent{\color{crdmeta}\rule{0.32\textwidth}{0.5pt}}\par
+    {\normalfont\rmfamily\mdseries\fontsize{10pt}{15pt}\selectfont\raggedright
+     \setlength{\parskip}{0pt}%
+     \crd@fnlist
+     \par}%
+  \fi
+}
+\makeatother
+
 \begin{document}
+\makeatletter
+% Allow URLs and long link text to break across lines without ulem \hbox lock
+\ifdefined\crd@orig@hyper@linkurl
+  \let\hyper@linkurl\crd@orig@hyper@linkurl
+\fi
+\makeatother
+\exhyphenpenalty=50
+\emergencystretch=1.5em
 
 $for(include-before)$
 $include-before$

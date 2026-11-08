@@ -51,6 +51,7 @@
             <span class="crd-version-label">
               {{ ver.version }}
               <span v-if="ver.is_latest" class="crd-latest-tag">Latest</span>
+              <span v-if="ver.is_synthetic" class="crd-synthetic-tag">Synthetic</span>
             </span>
             <span class="crd-version-date">{{ ver.date }}</span>
           </a>
@@ -91,6 +92,43 @@
       </ul>
     </div>
 
+    <!-- 4b. Source Papers (Researcher Request Gated) -->
+    <div v-if="record.source_papers && record.source_papers.length > 0" class="crd-sidebar-card">
+      <div class="crd-sidebar-card-header">
+        <span class="crd-sidebar-heading">Source Papers</span>
+        <span class="crd-meta-pill">{{ record.source_papers.length }}</span>
+      </div>
+      <input
+        v-if="record.source_papers.length > 5"
+        v-model="source_filter_query"
+        type="search"
+        class="crd-sidebar-search"
+        placeholder="Filter source papers..."
+      />
+      <ul class="crd-source-papers-list">
+        <li
+          v-for="sp in filtered_source_papers"
+          :key="sp.filename"
+          class="crd-source-paper-item"
+        >
+          <button
+            type="button"
+            class="crd-source-paper-btn"
+            :title="sp.title || sp.filename"
+            @click="$emit('request-source-paper', sp)"
+          >
+            <span class="crd-source-paper-title">{{ sp.title || sp.filename }}</span>
+            <span class="crd-source-paper-meta">
+              <template v-if="sp.author || sp.year">
+                {{ [sp.author, sp.year].filter(Boolean).join(" · ") }} ·
+              </template>
+              {{ sp.filename }}
+            </span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
     <!-- 5. MLA Citation Box -->
     <div v-if="record.citation_mla" class="crd-sidebar-card">
       <div class="crd-sidebar-card-header">
@@ -105,7 +143,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { withBase } from "vitepress";
 import TagBadge from "./TagBadge.vue";
 
@@ -116,9 +154,23 @@ let props = defineProps({
   }
 });
 
-defineEmits(["preview-pdf"]);
+defineEmits(["preview-pdf", "request-source-paper"]);
 
 let copied = ref(false);
+let source_filter_query = ref("");
+
+let filtered_source_papers = computed(() => {
+  let list = Array.isArray(props.record.source_papers) ? props.record.source_papers : [];
+  let q = source_filter_query.value.trim().toLowerCase();
+  if (!q) return list;
+  return list.filter((arg0_sp) => {
+    let hay = [arg0_sp.title, arg0_sp.author, arg0_sp.year, arg0_sp.filename]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    return hay.includes(q);
+  });
+});
 
 let copyCitation = async function () {
   let text = props.record.citation_mla || "";

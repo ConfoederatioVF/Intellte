@@ -50,12 +50,32 @@ let IntellteDiscovery = {
 
       for (let x = 0; x < raw_versions.length; x++) {
         let local_ver = raw_versions[x];
+        let dataset_abs = (local_ver.dataset_path) ? path.join(child_repo_abs, local_ver.dataset_path) : "";
         let fm = {};
+        let local_is_synthetic = (local_ver.is_synthetic !== undefined)
+          ? Boolean(local_ver.is_synthetic)
+          : Boolean(local_rec.is_synthetic);
+        let local_raw_tags = Array.isArray(local_ver.tags)
+          ? local_ver.tags.slice()
+          : (Array.isArray(local_rec.tags) ? local_rec.tags.slice() : []);
+        let local_tags = [];
         let pdf_abs = (local_ver.pdf_path) ? path.join(child_repo_abs, local_ver.pdf_path) : "";
         let rmd_abs = (local_ver.rmd_path) ? path.join(child_repo_abs, local_ver.rmd_path) : "";
 
+        let has_dataset = Boolean(dataset_abs && fs.existsSync(dataset_abs));
         let has_pdf = Boolean(pdf_abs && fs.existsSync(pdf_abs));
         let has_rmd = Boolean(rmd_abs && fs.existsSync(rmd_abs));
+
+        for (let y = 0; y < local_raw_tags.length; y++) {
+          let local_tg = String(local_raw_tags[y] || "").trim().toLowerCase();
+          if (!local_tg) continue;
+          if (!local_is_synthetic && local_tg === "synthetic") continue;
+          if (!local_tags.includes(local_tg)) local_tags.push(local_tg);
+        }
+        if (local_is_synthetic && !local_tags.includes("synthetic")) {
+          local_tags.push("synthetic");
+        }
+        local_tags.sort();
 
         if (has_rmd) {
           let parsed = renderer.parseFrontmatter(fs.readFileSync(rmd_abs, "utf8"));
@@ -73,6 +93,12 @@ let IntellteDiscovery = {
         );
         let bib_abs = local_bib_meta.bib_abs;
         let local_published_date = local_ver.published_date || fm.date || "";
+        let local_source_papers = IntellteDiscovery.collectVersionSourcePapers(
+          local_ver,
+          child_repo_abs,
+          bib_abs,
+          renderer.bib_formatter
+        );
         let version_route_url = `/records/${concept_id}/${local_ver.version}/`;
 
         enriched_versions.push({
@@ -82,16 +108,21 @@ let IntellteDiscovery = {
           authors_line: local_author_meta.authors_line,
           bib_abs: bib_abs,
           bib_filename: (bib_abs) ? path.basename(bib_abs) : "",
+          dataset_abs: dataset_abs,
+          dataset_filename: (has_dataset) ? path.basename(dataset_abs) : "",
+          dataset_url: (has_dataset) ? `${artefact_base_url}/${encodeURI(path.basename(dataset_abs))}` : null,
           date: local_published_date,
           divisions: local_author_meta.divisions,
           emails: Array.isArray(fm.emails) ? fm.emails : [],
           figures: Array.isArray(local_ver.figures) ? local_ver.figures : [],
           frontmatter: fm,
+          has_dataset: has_dataset,
           has_pdf: has_pdf,
           has_rmd: has_rmd,
           hero_caption: fm.hero_caption || "",
           hero_figure_rel: local_ver.hero_figure || fm.hero_figure || "",
           is_latest: Boolean(local_ver.is_latest),
+          is_synthetic: local_is_synthetic,
           pdf_abs: pdf_abs,
           pdf_filename: (has_pdf) ? path.basename(pdf_abs) : "",
           pdf_url: (has_pdf) ? `${artefact_base_url}/${encodeURI(path.basename(pdf_abs))}` : null,
@@ -102,11 +133,13 @@ let IntellteDiscovery = {
           rmd_filename: (has_rmd) ? path.basename(rmd_abs) : "",
           rmd_url: (has_rmd) ? `${artefact_base_url}/${encodeURI(path.basename(rmd_abs))}` : null,
           route_url: version_route_url,
+          source_papers: local_source_papers,
           sources_abs: local_bib_meta.sources_abs,
           sources_filename: local_bib_meta.sources_filename,
           status: local_ver.status || "Published",
           subtitle: local_ver.subtitle || fm.subtitle || "",
           supplementary_markdown: Array.isArray(local_ver.supplementary_markdown) ? local_ver.supplementary_markdown : [],
+          tags: local_tags,
           title: local_ver.title || fm.title || local_rec.project_name || concept_id,
           version: local_ver.version,
           version_route_url: version_route_url
@@ -125,6 +158,7 @@ let IntellteDiscovery = {
         child_repo_abs: child_repo_abs,
         child_repo_path: child_repo_rel,
         concept_id: concept_id,
+        is_synthetic: Boolean(local_rec.is_synthetic),
         latest_version: resolved_latest_version,
         project_name: local_rec.project_name || concept_id,
         record_type: local_rec.record_type || "Working Paper",
@@ -178,6 +212,95 @@ let IntellteDiscovery = {
 
     //Return statement
     return file_paths_array;
+  },
+
+
+  /**
+   * Collects source/reference PDFs associated with a working paper version from its `.bib` file (`Archived PDF:` notes) and optional `source_papers_dir`.
+   *
+   * @param {Object} arg0_ver - Raw version configuration object.
+   * @param {string} arg1_child_repo_abs - Absolute path to the child repository root.
+   * @param {string} arg2_bib_abs - Absolute path to the compiled `.bib` file.
+   * @param {Object} arg3_bib_formatter - `MlaBibliographyFormatter` instance.
+   * @return {Object[]} Sorted array of source paper metadata objects (`{ author, filename, key, path, title, year }`).
+   */
+  collectVersionSourcePapers: function (arg0_ver, arg1_child_repo_abs, arg2_bib_abs, arg3_bib_formatter) {
+    //Convert from parameters
+    let ver = (arg0_ver) ? arg0_ver : {};
+    let child_repo_abs = arg1_child_repo_abs;
+    let bib_abs = arg2_bib_abs;
+    let bib_formatter = arg3_bib_formatter;
+
+    //Declare local instance variables
+    let bib_entries_obj = {};
+    let bib_keys = [];
+    let seen_filenames_obj = {};
+    let source_papers_array = [];
+    let source_papers_dir_abs = (ver.source_papers_dir)
+      ? path.join(child_repo_abs, ver.source_papers_dir)
+      : "";
+
+    if (bib_abs && fs.existsSync(bib_abs) && bib_formatter) {
+      bib_entries_obj = bib_formatter.parseBibFile(bib_abs);
+      bib_keys = Object.keys(bib_entries_obj);
+
+      for (let i = 0; i < bib_keys.length; i++) {
+        let local_entry = bib_entries_obj[bib_keys[i]];
+        let local_note = String(local_entry.note || "");
+        let local_rel_path = "";
+        let local_url = String(local_entry.url || "");
+        let note_match = local_note.match(/Archived PDF:\s*([^\s,}]+)/i);
+
+        if (note_match) {
+          local_rel_path = note_match[1].trim();
+        } else if (/^(?:\.\.\/|papers\/).*\.pdf$/i.test(local_url)) {
+          local_rel_path = local_url.trim();
+        }
+
+        if (local_rel_path) {
+          let local_filename = local_rel_path.split("/").pop();
+          if (local_filename && !seen_filenames_obj[local_filename]) {
+            seen_filenames_obj[local_filename] = true;
+            source_papers_array.push({
+              author: local_entry.author || "",
+              filename: local_filename,
+              key: local_entry.key || local_filename.replace(/\.pdf$/i, ""),
+              path: local_rel_path,
+              title: local_entry.title || local_filename.replace(/\.pdf$/i, "").replace(/_/g, " "),
+              year: local_entry.year || ""
+            });
+          }
+        }
+      }
+    }
+
+    if (source_papers_dir_abs && fs.existsSync(source_papers_dir_abs)) {
+      let dir_files = fs.readdirSync(source_papers_dir_abs)
+        .filter((arg0_f) => /\.pdf$/i.test(arg0_f))
+        .sort();
+
+      for (let i = 0; i < dir_files.length; i++) {
+        let local_filename = dir_files[i];
+        if (!seen_filenames_obj[local_filename]) {
+          seen_filenames_obj[local_filename] = true;
+          source_papers_array.push({
+            author: "",
+            filename: local_filename,
+            key: local_filename.replace(/\.pdf$/i, ""),
+            path: `papers/${local_filename}`,
+            title: local_filename.replace(/\.pdf$/i, "").replace(/_/g, " "),
+            year: ""
+          });
+        }
+      }
+    }
+
+    source_papers_array.sort((arg0_a, arg1_b) =>
+      String(arg0_a.filename).localeCompare(String(arg1_b.filename))
+    );
+
+    //Return statement
+    return source_papers_array;
   },
 
 

@@ -102,8 +102,8 @@ render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
   caption_str <- if (!is.null(options$caption)) as.character(options$caption) else ""
   is_latex <- if (requireNamespace("knitr", quietly = TRUE)) knitr::is_latex_output() else FALSE
   label_str <- if (!is.null(options$label)) as.character(options$label) else ""
-  max_height <- if (!is.null(options$max_height)) as.character(options$max_height) else "none"
-  placement <- if (!is.null(options$placement)) as.character(options$placement) else "!t"
+  max_height <- if (!is.null(options$max_height) && !identical(options$max_height, "none")) as.character(options$max_height) else "0.42\\textheight"
+  placement <- if (!is.null(options$placement)) as.character(options$placement) else "!htbp"
   prefer_pdf <- if (!is.null(options$prefer_pdf)) isTRUE(options$prefer_pdf) else FALSE
   span_columns <- if (!is.null(options$span_columns)) isTRUE(options$span_columns) else TRUE
   width_str <- if (!is.null(options$width)) {

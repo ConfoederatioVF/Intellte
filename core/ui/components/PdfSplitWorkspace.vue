@@ -10,6 +10,7 @@
         <span class="crd-breadcrumb-sep">/</span>
         <span class="crd-version-pill">{{ record_obj.version }}</span>
         <span v-if="record_obj.is_latest" class="crd-latest-badge">Latest</span>
+        <span v-if="record_obj.is_synthetic" class="crd-synthetic-badge">Synthetic</span>
       </div>
 
       <div v-if="record_obj.pdf_url" class="crd-topbar-pdf-controls">
@@ -40,7 +41,7 @@
     <!-- Main Workspace Grid: Manuscript Column + Metadata Sidebar -->
     <div class="crd-workspace-grid">
       <!-- 1. Academic R Markdown Manuscript Column -->
-      <main class="crd-manuscript-column">
+      <main class="crd-manuscript-column" @click="handleManuscriptClick">
         <div class="crd-manuscript-paper">
           <slot />
         </div>
@@ -93,13 +94,75 @@
       <RecordVersionSidebar
         :record="record_obj"
         @preview-pdf="scrollToBottomPdf"
+        @request-source-paper="openSourcePaperModal"
       />
+    </div>
+
+    <!-- 4. Source Paper Researcher Request Modal -->
+    <div
+      v-if="active_source_paper"
+      class="crd-modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="crd-source-paper-modal-title"
+      @click.self="closeSourcePaperModal"
+    >
+      <div class="crd-modal-card">
+        <div class="crd-modal-header">
+          <h3 id="crd-source-paper-modal-title" class="crd-modal-title">
+            Available upon researcher request
+          </h3>
+          <button
+            type="button"
+            class="crd-modal-close-btn"
+            aria-label="Close"
+            @click="closeSourcePaperModal"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="crd-modal-body">
+          <div v-if="active_source_paper.title || active_source_paper.filename" class="crd-modal-paper-info">
+            <div v-if="active_source_paper.title" class="crd-modal-paper-title">
+              {{ active_source_paper.title }}
+            </div>
+            <div v-if="active_source_paper.author || active_source_paper.year" class="crd-modal-paper-meta">
+              {{ [active_source_paper.author, active_source_paper.year].filter(Boolean).join(" · ") }}
+            </div>
+            <div v-if="active_source_paper.filename" class="crd-modal-paper-file">
+              {{ active_source_paper.filename }}
+            </div>
+          </div>
+
+          <p class="crd-modal-text">
+            Source and reference papers are archived internally to respect copyright and repository storage limits. For research inquiries or access to the archived PDF, please contact
+            <a href="mailto:vf@confoederatio.org" class="crd-email-link">vf@confoederatio.org</a> (e-mail).
+          </p>
+        </div>
+
+        <div class="crd-modal-actions">
+          <a
+            :href="source_paper_mailto"
+            class="crd-btn-sm crd-btn-primary"
+          >
+            Contact vf@confoederatio.org
+          </a>
+          <button
+            type="button"
+            class="crd-btn-sm"
+            @click="closeSourcePaperModal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 import { withBase } from "vitepress";
 import RecordVersionSidebar from "./RecordVersionSidebar.vue";
 
@@ -110,7 +173,72 @@ let props = defineProps({
   }
 });
 
+let active_source_paper = ref(null);
 let is_pdf_expanded = ref(false);
+
+let closeSourcePaperModal = function () {
+  active_source_paper.value = null;
+};
+
+let handleKeydown = function (arg0_e) {
+  if (arg0_e && arg0_e.key === "Escape" && active_source_paper.value) {
+    closeSourcePaperModal();
+  }
+};
+
+let handleManuscriptClick = function (arg0_e) {
+  if (!arg0_e || !arg0_e.target || typeof arg0_e.target.closest !== "function") return;
+  let link_el = arg0_e.target.closest(".crd-bib-source-paper");
+  if (!link_el) return;
+  arg0_e.preventDefault();
+  let filename = link_el.getAttribute("data-source-paper") || "";
+  let title = link_el.getAttribute("data-source-title") || "";
+  let matched = (record_obj.value.source_papers || []).find(
+    (arg0_sp) => arg0_sp.filename === filename
+  );
+  if (matched) {
+    openSourcePaperModal(matched);
+  } else {
+    openSourcePaperModal({
+      author: "",
+      filename: filename,
+      title: title || filename,
+      year: ""
+    });
+  }
+};
+
+let openSourcePaperModal = function (arg0_paper) {
+  active_source_paper.value = arg0_paper || {
+    author: "",
+    filename: "",
+    title: "Source Paper",
+    year: ""
+  };
+};
+
+let source_paper_mailto = computed(() => {
+  let sp = active_source_paper.value;
+  if (!sp) return "mailto:vf@confoederatio.org";
+  let label = sp.filename || sp.title || "Source Paper";
+  let subject = encodeURIComponent(`Source Paper Request: ${label}`);
+  let body = encodeURIComponent(
+    `Hello,\n\nI would like to request researcher access to the archived source paper:\n- Title: ${sp.title || label}\n- File: ${sp.filename || "N/A"}\n- Referenced in: ${record_obj.value.title || "Intellte Working Paper"}\n\nThank you.`
+  );
+  return `mailto:vf@confoederatio.org?subject=${subject}&body=${body}`;
+});
+
+onMounted(() => {
+  if (typeof window !== "undefined") {
+    window.addEventListener("keydown", handleKeydown);
+  }
+});
+
+onBeforeUnmount(() => {
+  if (typeof window !== "undefined") {
+    window.removeEventListener("keydown", handleKeydown);
+  }
+});
 
 let decodeBase64Utf8 = function (arg0_b64) {
   let b64 = String(arg0_b64 || "");

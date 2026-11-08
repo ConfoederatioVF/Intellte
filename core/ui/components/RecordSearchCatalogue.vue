@@ -100,6 +100,7 @@
             <span class="crd-badge-sep">·</span>
             <span class="crd-badge-version">{{ rec.version }}</span>
             <span v-if="rec.is_latest" class="crd-latest-badge-sm">Latest</span>
+            <span v-if="rec.is_synthetic" class="crd-synthetic-badge-sm">{{ t("synthetic_label") }}</span>
             <span class="crd-badge-sep">·</span>
             <span class="crd-badge-date">{{ rec.published_date }}</span>
           </div>
@@ -209,8 +210,11 @@ onMounted(() => {
     if (url_all_versions === "1" || url_all_versions === "true") {
       show_all_versions.value = true;
     }
-    if (url_tag && !selected_tags.value.includes(url_tag)) {
-      selected_tags.value.push(url_tag);
+    if (url_tag) {
+      let normalised_tag = url_tag.trim().toLowerCase();
+      if (!selected_tags.value.includes(normalised_tag)) {
+        selected_tags.value.push(normalised_tag);
+      }
     }
     syncNavbarLocale();
   }

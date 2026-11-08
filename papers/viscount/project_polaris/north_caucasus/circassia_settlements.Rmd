@@ -1,0 +1,210 @@
+---
+title: "SETTLEMENT GAZETTEER OF CIRCASSIA AND CENTRAL CISCAUCASIA."
+subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (10000BC - 1900AD)."
+date: "7 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/circassia_map_subregions_sites.png"
+hero_caption: "Sub-regional zones, river basins, and settlements of Circassia and Central Ciscaucasia included in the settlement gazetteer (10000BC - 1900AD)."
+hero_label: "fig:hero"
+bibliography: circassia_literature_review.bib
+csl: crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../../../core/rticles/intellte/resources/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../../../core/framework/R/framework_init.R")
+```
+
+```{r load-gazetteer, include=FALSE}
+gaz <- jsonlite::fromJSON("circassia_settlements.json", simplifyVector = FALSE)
+
+fmt_pop <- function(v) {
+  if (is.null(v) || is.na(v)) return("-")
+  val <- as.numeric(v)
+  if (val >= 1000) {
+    paste0(gsub("\\.", ",", sprintf("%.1f", val / 1000)), "k")
+  } else {
+    as.character(round(val))
+  }
+}
+
+fmt_yr <- function(y) {
+  yi <- as.integer(y)
+  if (yi < 0) paste0(abs(yi), "BC") else paste0(yi, "AD")
+}
+
+get_span <- function(s) {
+  yrs <- as.integer(names(s$population))
+  if (length(yrs) == 0) return("-")
+  if (min(yrs) == max(yrs)) return(fmt_yr(min(yrs)))
+  paste0(fmt_yr(min(yrs)), " - ", fmt_yr(max(yrs)))
+}
+
+get_pop_yr <- function(s, yr) {
+  k <- as.character(as.integer(yr))
+  if (!is.null(s$population[[k]])) return(fmt_pop(s$population[[k]]))
+  return("-")
+}
+
+get_pop_window <- function(s, yr_vec) {
+  for (y in yr_vec) {
+    k <- as.character(as.integer(y))
+    if (!is.null(s$population[[k]])) return(fmt_pop(s$population[[k]]))
+  }
+  return("-")
+}
+
+get_peak_str <- function(s) {
+  vals <- as.numeric(unlist(s$population))
+  yrs <- as.integer(names(s$population))
+  idx <- which.max(vals)
+  paste0(fmt_pop(vals[idx]), " (", fmt_yr(yrs[idx]), ")")
+}
+```
+
+# Introduction
+
+This supplementary report presents the settlement population gazetteer (`circassia_settlements.json`) accompanying the regional literature review of Circassia and Central Ciscaucasia (10000BC - 1900AD). The JSON file follows the `population_Stadester` format, indexing `r length(gaz)` settlements across Krasnodar Krai, the Republic of Adygea, Karachay-Cherkessia, Kabardino-Balkaria, North Ossetia-Alania, and the Caucasian Mineral Waters district by `<Name>-Russia` with alternate and Cyrillic names (`other_names`), decimal coordinates (`coords`), and chronological population estimates (`population`) for inhabited benchmark years.
+
+Prehistoric, Bronze Age, Classical Bosporan, Maeotian, and Alanic estimates are derived from excavated settlement areas and cemetery studies [@formozov1965stone; @korenevskiy2004; @markovin1978dolmens; @reinhold2017; @belinskiy2018; @kuznetsov2017phanagoria; @alekseeva1997anapa; @kuznetsov1992; @kuznetsov1993; @korobov2017]. Early modern and 19th-century figures draw on Genoese and Ottoman port records, Russian diplomatic registers, and accounts of the 1859-1864 expulsion [@kusheva1963; @gardanov1967social; @volkova1974; @khotko2001; @khotko2015zichia; @berger1860expulsion; @kumykov1994], while 1897 and 1900 figures come from the First All-Russian Imperial Census [@kabuzan1996; @troynitskiy1905kuban; @bgeu2007demography; @golovlev2017census].
+
+# Master Settlement Directory
+
+```{r tab-master, echo=FALSE, results='asis'}
+df_master <- data.frame(
+  Settlement = vapply(gaz, function(s) s$name, character(1)),
+  Other_Names = vapply(gaz, function(s) paste(s$other_names, collapse = ", "), character(1)),
+  Coords = vapply(gaz, function(s) {
+    paste0(gsub("\\.", ",", sprintf("%.2f", s$coords[[1]])), "N, ", gsub("\\.", ",", sprintf("%.2f", s$coords[[2]])), "E")
+  }, character(1)),
+  Span = vapply(gaz, get_span, character(1)),
+  Peak = vapply(gaz, get_peak_str, character(1)),
+  AD1897 = vapply(gaz, function(s) get_pop_yr(s, 1897), character(1)),
+  AD1900 = vapply(gaz, function(s) get_pop_yr(s, 1900), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_master,
+  list(
+    caption = "Master directory of all settlements in circassia_settlements.json (10000BC - 1900AD).",
+    label = "tab:circassia-master-gazetteer",
+    col_names = c("Settlement", "Historical / Native Names", "Coords", "Documented Span", "Peak Population", "1897AD", "1900AD"),
+    alignment = c("l", "l", "l", "l", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+# Prehistoric, Bronze Age, Bosporan, and Maeotian Settlements (10000BC - 400AD)
+
+```{r tab-prehistoric, echo=FALSE, results='asis'}
+pre_s <- Filter(function(s) any(as.integer(names(s$population)) <= 400), gaz)
+
+df_pre <- data.frame(
+  Settlement = vapply(pre_s, function(s) s$name, character(1)),
+  Coords = vapply(pre_s, function(s) {
+    paste0(gsub("\\.", ",", sprintf("%.2f", s$coords[[1]])), "N, ", gsub("\\.", ",", sprintf("%.2f", s$coords[[2]])), "E")
+  }, character(1)),
+  BC_Eneol = vapply(pre_s, function(s) get_pop_window(s, c(-8000, -4000, -3500, -3000)), character(1)),
+  BC_Dolmen_Koban = vapply(pre_s, function(s) get_pop_window(s, c(-2500, -2000, -1500, -1000)), character(1)),
+  BC500 = vapply(pre_s, function(s) get_pop_yr(s, -500), character(1)),
+  BC300 = vapply(pre_s, function(s) get_pop_yr(s, -300), character(1)),
+  AD1 = vapply(pre_s, function(s) get_pop_yr(s, 1), character(1)),
+  AD300_400 = vapply(pre_s, function(s) get_pop_window(s, c(200, 300, 400)), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_pre,
+  list(
+    caption = "Prehistoric, Bronze Age, Bosporan, and Maeotian settlement populations in Circassia and Central Ciscaucasia (8000BC - 400AD).",
+    label = "tab:circassia-prehistoric-classical",
+    col_names = c("Settlement", "Coords", "8000-3000BC", "2500-1000BC", "500BC", "300BC", "1AD", "200-400AD"),
+    alignment = c("l", "l", "r", "r", "r", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+# Medieval and Early Modern Settlements (600 - 1700AD)
+
+```{r tab-medieval, echo=FALSE, results='asis'}
+med_s <- Filter(function(s) {
+  yrs <- as.integer(names(s$population))
+  any(yrs >= 600 & yrs <= 1700)
+}, gaz)
+
+df_med <- data.frame(
+  Settlement = vapply(med_s, function(s) s$name, character(1)),
+  Coords = vapply(med_s, function(s) {
+    paste0(gsub("\\.", ",", sprintf("%.2f", s$coords[[1]])), "N, ", gsub("\\.", ",", sprintf("%.2f", s$coords[[2]])), "E")
+  }, character(1)),
+  AD600_800 = vapply(med_s, function(s) get_pop_window(s, c(600, 800)), character(1)),
+  AD1000 = vapply(med_s, function(s) get_pop_yr(s, 1000), character(1)),
+  AD1200 = vapply(med_s, function(s) get_pop_yr(s, 1200), character(1)),
+  AD1400 = vapply(med_s, function(s) get_pop_window(s, c(1350, 1400)), character(1)),
+  AD1600 = vapply(med_s, function(s) get_pop_yr(s, 1600), character(1)),
+  AD1700 = vapply(med_s, function(s) get_pop_yr(s, 1700), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_med,
+  list(
+    caption = "Medieval Alanic, Golden Horde, Genoese-Zichian, and early modern settlement populations (600 - 1700AD).",
+    label = "tab:circassia-medieval-settlements",
+    col_names = c("Settlement", "Coords", "600/800AD", "1000AD", "1200AD", "1350/1400AD", "1600AD", "1700AD"),
+    alignment = c("l", "l", "r", "r", "r", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+# Eighteenth and Nineteenth-Century Settlements (1700 - 1900AD)
+
+```{r tab-modern, echo=FALSE, results='asis'}
+mod_s <- Filter(function(s) any(as.integer(names(s$population)) >= 1700), gaz)
+
+df_mod <- data.frame(
+  Settlement = vapply(mod_s, function(s) s$name, character(1)),
+  Other_Names = vapply(mod_s, function(s) paste(s$other_names, collapse = ", "), character(1)),
+  AD1700 = vapply(mod_s, function(s) get_pop_yr(s, 1700), character(1)),
+  AD1800 = vapply(mod_s, function(s) get_pop_window(s, c(1750, 1775, 1780, 1785, 1800, 1803, 1825)), character(1)),
+  AD1850 = vapply(mod_s, function(s) get_pop_window(s, c(1850, 1852, 1855, 1859, 1860, 1862, 1863, 1864, 1868)), character(1)),
+  AD1897 = vapply(mod_s, function(s) get_pop_yr(s, 1897), character(1)),
+  AD1900 = vapply(mod_s, function(s) get_pop_yr(s, 1900), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_mod,
+  list(
+    caption = "Eighteenth and nineteenth-century settlement populations in Circassia and Central Ciscaucasia (1700 - 1900AD).",
+    label = "tab:circassia-modern-settlements",
+    col_names = c("Settlement", "Historical / Native Names", "1700AD", "1800AD", "1850/1860s", "1897AD", "1900AD"),
+    alignment = c("l", "l", "r", "r", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+```{r crd_footnotes, echo=FALSE, results='asis'}
+emit_crd_footnotes()
+```

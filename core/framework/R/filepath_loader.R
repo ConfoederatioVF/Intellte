@@ -45,7 +45,7 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
     s <- protect_pattern(s, "https?://\\S+")
     s <- protect_pattern(s, "\\[@[^\\]]+\\]")
     s <- protect_pattern(s, "\\\\(?:ref|label|cite|includegraphics)(?:\\[[^\\]]*\\])?\\{[^}]*\\}")
-    s <- protect_pattern(s, "(?:Velkscala|Stadest\u00e9r|Stadester|Eoscala|HYDE|Version)\\s+[0-9]+\\.[0-9]+")
+    s <- protect_pattern(s, "(?:Velkscala|Stadest\u00e9r|Stadester|Eoscala|Viscount|HYDE|Version)\\s+[0-9]+\\.[0-9]+")
 
     if (in_latex_math && grepl("\\$", s)) {
       parts <- strsplit(s, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
@@ -232,7 +232,7 @@ get_project_root <- function (arg0_start_dir = NULL) {
   #Fallback: if invoked from parent Intellte repository or core/, check child repositories
   for (i in seq_along(candidates)) {
     local_curr <- tryCatch(normalizePath(candidates[i], winslash = "/", mustWork = FALSE), error = function (e) candidates[i])
-    for (x in 1:4) {
+    for (x in 1:8) {
       if (dir.exists(local_curr)) {
         cand_dirs <- list.dirs(local_curr, full.names = TRUE, recursive = FALSE)
         if (dir.exists(file.path(local_curr, "papers"))) {
