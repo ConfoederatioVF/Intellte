@@ -46,10 +46,14 @@ let IntellteArtefactStager = {
     }
 
     //Stage per-record, per-version artefacts
+    let active_concepts_obj = {};
+    let artefacts_root_dir = path.join(docs_public, "artefacts");
+
     for (let i = 0; i < records.length; i++) {
       let local_active_versions_obj = {};
       let local_concept_stage_dir = path.join(docs_public, "artefacts", records[i].concept_id);
       let local_rec = records[i];
+      active_concepts_obj[String(local_rec.concept_id)] = true;
 
       for (let x = 0; x < local_rec.versions.length; x++) {
         let local_ver = local_rec.versions[x];
@@ -98,17 +102,38 @@ let IntellteArtefactStager = {
           });
         }
 
-        //3b. Structured Dataset (.json)
+        //3b. Supplementary Dataset (.json) & Additional Supplementary Files
         if (local_ver.dataset_abs && fs.existsSync(local_ver.dataset_abs)) {
           let dst_dataset = path.join(stage_dir, local_ver.dataset_filename);
           fs.copyFileSync(local_ver.dataset_abs, dst_dataset);
           staged_files.push({
-            category: "Dataset (JSON)",
+            category: "Supplementary Material (JSON)",
             filename: local_ver.dataset_filename,
             size_bytes: fs.statSync(dst_dataset).size,
             size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_dataset).size),
             url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.dataset_filename)}`
           });
+        }
+
+        let supp_files_array = Array.isArray(local_ver.supplementary_files) ? local_ver.supplementary_files : [];
+        for (let a = 0; a < supp_files_array.length; a++) {
+          let local_supp_file = supp_files_array[a];
+          let local_src_supp = (local_supp_file && local_supp_file.path)
+            ? path.join(local_rec.child_repo_abs, local_supp_file.path)
+            : "";
+          if (local_src_supp && fs.existsSync(local_src_supp)) {
+            let local_supp_name = path.basename(local_src_supp);
+            let local_dst_supp = path.join(stage_dir, local_supp_name);
+            fs.copyFileSync(local_src_supp, local_dst_supp);
+            staged_files.push({
+              category: local_supp_file.category || "Supplementary Material (JSON)",
+              filename: local_supp_name,
+              size_bytes: fs.statSync(local_dst_supp).size,
+              size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(local_dst_supp).size),
+              title: local_supp_file.title || local_supp_name,
+              url: `${local_ver.artefact_base_url}/${encodeURI(local_supp_name)}`
+            });
+          }
         }
 
         //4. High-DPI Figures (.png)
@@ -163,6 +188,18 @@ let IntellteArtefactStager = {
               console.error(`[IntellteArtefactStager] Could not remove stale artefact directory: ${local_entry_name}`);
             }
           }
+        }
+      }
+    }
+
+    if (fs.existsSync(artefacts_root_dir)) {
+      let existing_concepts = fs.readdirSync(artefacts_root_dir, { withFileTypes: true });
+      for (let i = 0; i < existing_concepts.length; i++) {
+        let local_entry = existing_concepts[i];
+        if (local_entry.isDirectory() && !active_concepts_obj[local_entry.name]) {
+          try {
+            fs.rmSync(path.join(artefacts_root_dir, local_entry.name), { force: true, recursive: true });
+          } catch (e) {}
         }
       }
     }

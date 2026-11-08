@@ -60,7 +60,10 @@
 
       <!-- 3. Tag Filters -->
       <div v-if="all_tags_with_counts.length > 0" class="crd-tag-filter-bar">
-        <span class="crd-tag-filter-label">{{ t("filter_by_tags") }}:</span>
+        <span class="crd-tag-filter-label">
+          {{ t("filter_by_tags") }}
+          <span class="crd-tag-filter-hint">{{ t("tag_filter_hint") }}</span>:
+        </span>
         <div class="crd-tag-filter-list">
           <TagBadge
             v-for="item in all_tags_with_counts"
@@ -68,10 +71,13 @@
             :tag="item.tag"
             :count="item.count"
             :active="selected_tags.includes(item.tag)"
+            :excluded="excluded_tags.includes(item.tag)"
+            :tooltip="t('tag_tooltip')"
             @select="toggleTag"
+            @exclude="excludeTag"
           />
           <button
-            v-if="selected_tags.length > 0 || search_query"
+            v-if="selected_tags.length > 0 || excluded_tags.length > 0 || search_query"
             type="button"
             class="crd-clear-filters-btn"
             @click="clearFilters"
@@ -98,7 +104,7 @@
           <div class="crd-record-badges">
             <span class="crd-badge-type">{{ rec.record_type }}</span>
             <span class="crd-badge-sep">·</span>
-            <span class="crd-badge-version">{{ rec.version }}</span>
+            <span class="crd-badge-version">{{ rec.label || rec.version }}</span>
             <span v-if="rec.is_latest" class="crd-latest-badge-sm">Latest</span>
             <span v-if="rec.is_synthetic" class="crd-synthetic-badge-sm">{{ t("synthetic_label") }}</span>
             <span class="crd-badge-sep">·</span>
@@ -112,9 +118,11 @@
         <p v-if="rec.subtitle" class="crd-record-card-subtitle">{{ rec.subtitle }}</p>
         <p class="crd-record-card-authors">{{ rec.authors_line }}</p>
 
-        <p v-if="rec.abstract_excerpt" class="crd-record-card-abstract">
-          {{ rec.abstract_excerpt }}
-        </p>
+        <p
+          v-if="rec.abstract_html || rec.abstract_excerpt"
+          class="crd-record-card-abstract"
+          v-html="rec.abstract_html || renderInlineMarkdown(rec.abstract_excerpt)"
+        ></p>
 
         <!-- Tags on Card -->
         <div v-if="rec.tags && rec.tags.length > 0" class="crd-record-card-tags">
@@ -123,7 +131,10 @@
             :key="tag"
             :tag="tag"
             :active="selected_tags.includes(tag)"
+            :excluded="excluded_tags.includes(tag)"
+            :tooltip="t('tag_tooltip')"
             @select="toggleTag"
+            @exclude="excludeTag"
           />
         </div>
 
@@ -139,6 +150,15 @@
             class="crd-btn-sm"
           >
             Download PDF ({{ rec.pdf_size_euro }})
+          </a>
+          <a
+            v-if="rec.dataset_url"
+            :href="resolveUrl(rec.dataset_url)"
+            download
+            class="crd-btn-sm crd-btn-subtle"
+            :title="rec.dataset_filename"
+          >
+            {{ t("download_supplementary_json") }}
           </a>
           <a
             v-if="rec.rmd_url"
@@ -167,6 +187,7 @@ import search_index_data from "../../../docs/data/search_index.json";
 import localisation_data from "../../../docs/data/localisation.json";
 
 let active_locale = ref("en-gb");
+let excluded_tags = ref([]);
 let records_list = ref(
   (search_index_data && Array.isArray(search_index_data.records))
     ? search_index_data.records
@@ -206,6 +227,7 @@ onMounted(() => {
   if (typeof window !== "undefined") {
     let params = new URLSearchParams(window.location.search);
     let url_all_versions = params.get("all_versions");
+    let url_exclude_tag = params.get("exclude_tag") || params.get("not_tag");
     let url_tag = params.get("tag");
     if (url_all_versions === "1" || url_all_versions === "true") {
       show_all_versions.value = true;
@@ -214,6 +236,12 @@ onMounted(() => {
       let normalised_tag = url_tag.trim().toLowerCase();
       if (!selected_tags.value.includes(normalised_tag)) {
         selected_tags.value.push(normalised_tag);
+      }
+    }
+    if (url_exclude_tag) {
+      let normalised_excl = url_exclude_tag.trim().toLowerCase();
+      if (!excluded_tags.value.includes(normalised_excl)) {
+        excluded_tags.value.push(normalised_excl);
       }
     }
     syncNavbarLocale();
@@ -261,12 +289,18 @@ let all_tags_with_counts = computed(() => {
 
 let filtered_records = computed(() => {
   let active_t = selected_tags.value;
+  let excluded_t = excluded_tags.value;
   let q = search_query.value.trim().toLowerCase();
 
   let filtered = base_records.value.filter((arg0_rec) => {
     let rec = arg0_rec;
+    let rec_tags = rec.tags || [];
+    if (excluded_t.length > 0) {
+      for (let i = 0; i < excluded_t.length; i++) {
+        if (rec_tags.includes(excluded_t[i])) return false;
+      }
+    }
     if (active_t.length > 0) {
-      let rec_tags = rec.tags || [];
       for (let i = 0; i < active_t.length; i++) {
         if (!rec_tags.includes(active_t[i])) return false;
       }
@@ -298,8 +332,34 @@ let filtered_records = computed(() => {
 });
 
 let clearFilters = function () {
+  excluded_tags.value = [];
   search_query.value = "";
   selected_tags.value = [];
+};
+
+let excludeTag = function (arg0_tag) {
+  let inc_idx = selected_tags.value.indexOf(arg0_tag);
+  let exc_idx = excluded_tags.value.indexOf(arg0_tag);
+  if (inc_idx >= 0) {
+    selected_tags.value.splice(inc_idx, 1);
+  }
+  if (exc_idx >= 0) {
+    excluded_tags.value.splice(exc_idx, 1);
+  } else {
+    excluded_tags.value.push(arg0_tag);
+  }
+};
+
+let renderInlineMarkdown = function (arg0_text) {
+  let raw = String(arg0_text || "");
+  if (!raw) return "";
+  return raw
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*\r\n]+)\*/g, "<em>$1</em>")
+    .replace(/`([^`\r\n]+)`/g, "<code>$1</code>");
 };
 
 let resolveUrl = function (arg0_url) {
@@ -313,10 +373,19 @@ let toggleShowAllVersions = function () {
 };
 
 let toggleTag = function (arg0_tag) {
-  let idx = selected_tags.value.indexOf(arg0_tag);
-  if (idx >= 0) {
-    selected_tags.value.splice(idx, 1);
+  let inc_idx = selected_tags.value.indexOf(arg0_tag);
+  let exc_idx = excluded_tags.value.indexOf(arg0_tag);
+  if (inc_idx >= 0) {
+    // Cycle from Included -> Excluded
+    selected_tags.value.splice(inc_idx, 1);
+    if (exc_idx < 0) {
+      excluded_tags.value.push(arg0_tag);
+    }
+  } else if (exc_idx >= 0) {
+    // Cycle from Excluded -> Neutral
+    excluded_tags.value.splice(exc_idx, 1);
   } else {
+    // Cycle from Neutral -> Included
     selected_tags.value.push(arg0_tag);
   }
 };

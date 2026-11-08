@@ -1,5 +1,6 @@
 ---
-title: "Intellte — CRD Working Papers Repository"
+title: "Intellte (CRD)"
+titleTemplate: false
 layout: page
 sidebar: false
 aside: false

@@ -46,6 +46,11 @@ let IntellteRmdCompiler = {
         local_ver.compiled_dom = compiled_dom;
         if (compiled_dom.body_md) {
           local_ver.abstract_excerpt = IntellteRmdCompiler.extractAbstractExcerpt(compiled_dom.body_md);
+          local_ver.abstract_html = IntellteRmdCompiler.formatAbstractHtml(compiled_dom.body_md);
+        } else if (local_ver.abstract_excerpt) {
+          local_ver.abstract_html = IntellteRmdCompiler.renderInlineMarkdownToHtml(local_ver.abstract_excerpt);
+        } else {
+          local_ver.abstract_html = "";
         }
 
         //Compile supplementary Markdown reports (e.g. cdt.md, ndt.md) with <pdf src> & image resolution
@@ -113,12 +118,79 @@ let IntellteRmdCompiler = {
       .replace(/\\text\{([^}]+)\}/g, "$1")
       .replace(/\$R\^2\$/g, "R²")
       .replace(/\$([^$]+)\$/g, "$1")
+      .replace(/\*\*([^*]+)\*\*/g, "$1")
+      .replace(/\*([^*]+)\*/g, "$1")
+      .replace(/`([^`]+)`/g, "$1")
       .replace(/--/g, "-")
       .replace(/\s+/g, " ")
       .trim();
 
     //Return statement
     return raw_abs;
+  },
+
+
+  /**
+   * Extracts and formats the Abstract paragraph from the compiled DOM Markdown as semantic inline HTML for catalogue cards.
+   *
+   * @param {string} arg0_body_md - Evaluated Markdown body.
+   * @return {string} Semantic inline HTML summary.
+   */
+  formatAbstractHtml: function (arg0_body_md) {
+    //Convert from parameters
+    let body_md = String(arg0_body_md || "");
+
+    //Declare local instance variables
+    let abs_match = body_md.match(/^#\s+Abstract\s*\r?\n+([\s\S]*?)(?=\r?\n+#\s+)/m);
+    let raw_abs = (abs_match) ? abs_match[1] : "";
+
+    if (!raw_abs) {
+      let stripped_body = body_md
+        .trimStart()
+        .replace(/^#\s+[^\r\n]+\s*/, "")
+        .replace(/^##\s+[^\r\n]+\s*/, "");
+      let fallback_match = stripped_body.match(/^([\s\S]*?)(?=\r?\n+(?:#{1,2}\s+|<figure\b|1\.\s+))/);
+      if (fallback_match) {
+        raw_abs = fallback_match[1];
+      }
+    }
+
+    //Return statement
+    return IntellteRmdCompiler.renderInlineMarkdownToHtml(raw_abs);
+  },
+
+
+  /**
+   * Converts inline Markdown (`**bold**`, `*italic*`, `` `code` ``) and inline LaTeX/citation spans into clean semantic HTML for catalogue summaries.
+   *
+   * @param {string} arg0_raw_text - Raw Markdown/HTML excerpt.
+   * @return {string} Cleaned inline HTML string.
+   */
+  renderInlineMarkdownToHtml: function (arg0_raw_text) {
+    //Convert from parameters
+    let raw_text = String(arg0_raw_text || "");
+
+    //Declare local instance variables
+    let html_out = "";
+
+    //Guard clauses
+    if (!raw_text) return "";
+
+    html_out = raw_text
+      .replace(/<a\b[^>]*>([\s\S]*?)<\/a>/gi, "$1")
+      .replace(/<sup\b[^>]*class="crd-footnote-ref"[^>]*>[\s\S]*?<\/sup>/gi, "")
+      .replace(/\\text\{([^}]+)\}/g, "$1")
+      .replace(/\$R\^2\$/g, "<i>R</i><sup>2</sup>")
+      .replace(/\$([^$]+)\$/g, "<em>$1</em>")
+      .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*([^*\r\n]+)\*/g, "<em>$1</em>")
+      .replace(/`([^`\r\n]+)`/g, "<code>$1</code>")
+      .replace(/--/g, "-")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    //Return statement
+    return html_out;
   }
 };
 

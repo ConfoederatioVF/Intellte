@@ -37,16 +37,20 @@ let IntellteVitePressBuilder = {
     generated_files.push(loc_data_json_path);
     generated_files.push(loc_json_path);
 
+    let active_concepts_obj = {};
+
     for (let i = 0; i < records.length; i++) {
       let local_expected_entries_obj = {};
       let local_rec = records[i];
       let rec_dir = path.join(docs_records, local_rec.concept_id);
+      active_concepts_obj[String(local_rec.concept_id)] = true;
       fs.mkdirSync(rec_dir, { recursive: true });
 
       let version_summaries = local_rec.versions.map((arg0_v) => ({
         date: arg0_v.published_date,
         is_latest: arg0_v.is_latest,
         is_synthetic: Boolean(arg0_v.is_synthetic),
+        label: arg0_v.label || arg0_v.version,
         pdf_size_euro: arg0_v.pdf_size_euro,
         pdf_url: arg0_v.pdf_url,
         route_url: arg0_v.version_route_url || arg0_v.route_url,
@@ -101,14 +105,18 @@ let IntellteVitePressBuilder = {
         //Add to client search index
         search_records.push({
           abstract_excerpt: local_ver.abstract_excerpt,
+          abstract_html: local_ver.abstract_html || "",
           authors: local_ver.authors,
           authors_line: local_ver.authors_line,
           citation_mla: IntellteVitePressBuilder.formatMlaCitation(local_rec, local_ver),
           concept_id: local_rec.concept_id,
+          dataset_filename: local_ver.dataset_filename || "",
+          dataset_url: local_ver.dataset_url || null,
           divisions: local_ver.divisions,
           hero_img_url: (local_ver.hero_figure_rel) ? `${local_ver.artefact_base_url}/${path.basename(local_ver.hero_figure_rel)}` : null,
           is_latest: local_ver.is_latest,
           is_synthetic: Boolean(local_ver.is_synthetic),
+          label: local_ver.label || local_ver.version,
           latest_version: local_rec.latest_version,
           pdf_size_euro: local_ver.pdf_size_euro,
           pdf_url: local_ver.pdf_url,
@@ -145,6 +153,18 @@ let IntellteVitePressBuilder = {
               console.error(`[IntellteVitePressBuilder] Could not remove stale record entry: ${local_entry_name}`);
             }
           }
+        }
+      }
+    }
+
+    if (fs.existsSync(docs_records)) {
+      let existing_concepts = fs.readdirSync(docs_records, { withFileTypes: true });
+      for (let i = 0; i < existing_concepts.length; i++) {
+        let local_entry = existing_concepts[i];
+        if (local_entry.isDirectory() && !active_concepts_obj[local_entry.name]) {
+          try {
+            fs.rmSync(path.join(docs_records, local_entry.name), { force: true, recursive: true });
+          } catch (e) {}
         }
       }
     }
@@ -216,7 +236,8 @@ let IntellteVitePressBuilder = {
     //Declare local instance variables
     let lines = [
       "---",
-      "title: \"Intellte — CRD Working Papers Repository\"",
+      "title: \"Intellte (CRD)\"",
+      "titleTemplate: false",
       "layout: page",
       "sidebar: false",
       "aside: false",
@@ -299,10 +320,13 @@ let IntellteVitePressBuilder = {
       authors_line: ver.authors_line,
       citation_mla: IntellteVitePressBuilder.formatMlaCitation(rec, ver),
       concept_id: rec.concept_id,
+      dataset_filename: ver.dataset_filename || "",
+      dataset_url: ver.dataset_url || null,
       divisions: ver.divisions,
       has_dom: has_dom,
       is_latest: ver.is_latest,
       is_synthetic: Boolean(ver.is_synthetic),
+      label: ver.label || ver.version,
       latest_route_url: `/records/${rec.concept_id}/`,
       latest_version: rec.latest_version,
       pdf_size_euro: ver.pdf_size_euro,
@@ -314,6 +338,7 @@ let IntellteVitePressBuilder = {
       rmd_url: ver.rmd_url,
       source_papers: ver.source_papers || [],
       staged_files: ver.staged_files,
+      status: ver.status || "Published",
       supplementary_links: supp_links.map((arg0_s) => ({
         key: arg0_s.key,
         route_url: arg0_s.route_url,

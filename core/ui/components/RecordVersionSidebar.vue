@@ -49,7 +49,7 @@
         >
           <a :href="resolveUrl(ver.route_url)" class="crd-version-link">
             <span class="crd-version-label">
-              {{ ver.version }}
+              {{ ver.label || ver.version }}
               <span v-if="ver.is_latest" class="crd-latest-tag">Latest</span>
               <span v-if="ver.is_synthetic" class="crd-synthetic-tag">Synthetic</span>
             </span>

@@ -6,11 +6,23 @@ import { defineConfig } from "vitepress";
 
 let docs_dir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 let require = createRequire(import.meta.url);
+let { IntellteDiscovery } = require("../../core/framework/node/A_discover_records.js");
 let { IntellteJson5Parser } = require("../../core/framework/node/json5_parser.js");
 let { MarkdownRenderer } = require("../../core/framework/node/MarkdownRenderer.js");
 let en_locale_obj = IntellteJson5Parser.parseFile(path.resolve(docs_dir, "../localisation/en_gb.json5")) || {};
 let en_strings = (en_locale_obj.strings) ? en_locale_obj.strings : {};
 let md_renderer = new MarkdownRenderer();
+let metadata_registry = IntellteDiscovery.loadMetadataRegistry(path.resolve(docs_dir, "../common/metadata"));
+let active_concept_ids = Object.keys(metadata_registry).map((arg0_k) => metadata_registry[arg0_k].concept_id || arg0_k);
+let stale_record_globs = [];
+if (fs.existsSync(path.join(docs_dir, "records"))) {
+  let rec_dirs = fs.readdirSync(path.join(docs_dir, "records"), { withFileTypes: true });
+  for (let i = 0; i < rec_dirs.length; i++) {
+    if (rec_dirs[i].isDirectory() && !active_concept_ids.includes(rec_dirs[i].name)) {
+      stale_record_globs.push(`records/${rec_dirs[i].name}/**`);
+    }
+  }
+}
 
 let base_url = process.env.VITEPRESS_BASE;
 if (!base_url && process.env.GITHUB_ACTIONS) {
@@ -91,6 +103,7 @@ export default defineConfig({
   base: base_url,
   title: "Intellte (CRD)",
   description: "Confoederatio, Research Division (CRD) Working Papers",
+  srcExclude: stale_record_globs,
   appearance: {
     initialValue: "light"
   },

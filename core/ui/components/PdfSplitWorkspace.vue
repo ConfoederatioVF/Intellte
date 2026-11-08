@@ -8,7 +8,7 @@
         <span class="crd-breadcrumb-sep">/</span>
         <span class="crd-breadcrumb-proj">{{ record_obj.project_name }}</span>
         <span class="crd-breadcrumb-sep">/</span>
-        <span class="crd-version-pill">{{ record_obj.version }}</span>
+        <span class="crd-version-pill">{{ record_obj.label || record_obj.version }}</span>
         <span v-if="record_obj.is_latest" class="crd-latest-badge">Latest</span>
         <span v-if="record_obj.is_synthetic" class="crd-synthetic-badge">Synthetic</span>
       </div>
@@ -33,7 +33,7 @@
     </div>
 
     <!-- Older Version Notice -->
-    <div v-if="record_obj.version && !record_obj.is_latest" class="crd-older-version-alert">
+    <div v-if="record_obj.version && !record_obj.is_latest && record_obj.status === 'Archived'" class="crd-older-version-alert">
       You are viewing <strong>Version {{ record_obj.version }}</strong> of this working paper.
       A newer release (<a :href="resolveUrl(record_obj.latest_route_url)">Version {{ record_obj.latest_version }}</a>) is available.
     </div>
