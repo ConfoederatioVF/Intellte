@@ -585,13 +585,15 @@ class MarkdownRenderer {
     let key_to_num = {};
     let updated_text = "";
 
-    updated_text = md_text.replace(/\[(@[A-Za-z0-9_:-]+(?:\s*;\s*@[A-Za-z0-9_:-]+)*)\]/g, (arg0_full, arg1_inner) => {
+    updated_text = md_text.replace(/\[(@[A-Za-z0-9_:-]+(?:\s*,\s*[^;\]]+)?(?:\s*;\s*@[A-Za-z0-9_:-]+(?:\s*,\s*[^;\]]+)?)*)\]/g, (arg0_full, arg1_inner) => {
       let link_parts = [];
       let raw_tokens = arg1_inner.split(";");
       let resolved_items = [];
 
       for (let i = 0; i < raw_tokens.length; i++) {
-        let local_key = raw_tokens[i].replace(/^[\s@]+|[\s]+$/g, "");
+        let key_match = raw_tokens[i].match(/@([A-Za-z0-9_:-]+)/);
+        if (!key_match) continue;
+        let local_key = key_match[1];
         if (!key_to_num[local_key]) {
           cited_keys.push(local_key);
           key_to_num[local_key] = cited_keys.length;
@@ -624,7 +626,14 @@ class MarkdownRenderer {
         );
       }
       bib_lines.push(`</div>`);
-      updated_text = updated_text.replace(/:::\s*\{#refs\}\s*:::/g, bib_lines.join("\n"));
+      let bib_html = bib_lines.join("\n");
+      if (/:::\s*\{#refs\}\s*:::/g.test(updated_text)) {
+        updated_text = updated_text.replace(/:::\s*\{#refs\}\s*:::/g, bib_html);
+      } else if (/(^|\r?\n)(#{1,2}\s+(?:References|Sources)\b[^\r\n]*)\s*$/i.test(updated_text)) {
+        updated_text = updated_text.replace(/(^|\r?\n)(#{1,2}\s+(?:References|Sources)\b[^\r\n]*)\s*$/i, `$1$2\n\n${bib_html}\n`);
+      } else {
+        updated_text = `${updated_text.trimEnd()}\n\n# Sources\n\n${bib_html}\n`;
+      }
     }
 
     //Return statement
