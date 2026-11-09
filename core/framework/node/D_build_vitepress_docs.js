@@ -615,7 +615,8 @@ let IntellteVitePressBuilder = {
           html_lines.push(`                <a href="${v.pdf_url}" download class="crd-fs-action-link">PDF (${IntellteVitePressBuilder.escapeHtml(v.pdf_size_euro || "")})</a>`);
         }
         if (v.dataset_url) {
-          html_lines.push(`                <a href="${v.dataset_url}" download class="crd-fs-action-link">${IntellteVitePressBuilder.escapeHtml(v.dataset_filename || "JSON")}</a>`);
+          let v_dataset_label = IntellteVitePressBuilder.escapeHtml(v.dataset_filename || "JSON");
+          html_lines.push(`                <a href="${v.dataset_url}" download class="crd-fs-action-link" title="${v_dataset_label}">${v_dataset_label}</a>`);
         }
         html_lines.push(`              </div>`);
         html_lines.push(`            </div>`);
@@ -636,7 +637,8 @@ let IntellteVitePressBuilder = {
               html_lines.push(`                    <a href="${cv.pdf_url}" download class="crd-fs-action-link">PDF (${IntellteVitePressBuilder.escapeHtml(cv.pdf_size_euro || "")})</a>`);
             }
             if (cv.dataset_url) {
-              html_lines.push(`                    <a href="${cv.dataset_url}" download class="crd-fs-action-link">${IntellteVitePressBuilder.escapeHtml(cv.dataset_filename || "JSON")}</a>`);
+              let cv_dataset_label = IntellteVitePressBuilder.escapeHtml(cv.dataset_filename || "JSON");
+              html_lines.push(`                    <a href="${cv.dataset_url}" download class="crd-fs-action-link" title="${cv_dataset_label}">${cv_dataset_label}</a>`);
             }
             html_lines.push(`                  </div>`);
             html_lines.push(`                </div>`);
