@@ -1,0 +1,159 @@
+---
+title: "THE CRIMEAN PENINSULA: SUPPLEMENTARY SETTLEMENT GAZETTEER"
+subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (10000BC - 1400AD)."
+date: "10 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/crimea_regional_map.png"
+hero_caption: "Cartographic basemap of Crimea showing the four physiographic sub-regions, hydrological network, and principal settlements (10000BC - 1400AD)."
+hero_label: "fig:crimea-settlements-hero"
+bibliography: crimea_literature_review.bib
+csl: crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../../../../core/rticles/intellte/resources/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+source("../../../../../core/framework/R/framework_init.R")
+```
+
+```{r load-stadester-json, include=FALSE}
+GAZETTEER_JSON_FILE <- "crimea_settlements.json"
+gaz_map <- jsonlite::fromJSON(GAZETTEER_JSON_FILE, simplifyVector = FALSE)
+settlements_list <- unname(gaz_map)
+
+first_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(99999)
+  return(min(yrs))
+}
+last_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(-99999)
+  return(max(yrs))
+}
+
+ord_idx <- order(
+  vapply(settlements_list, first_year_num, numeric(1)),
+  vapply(settlements_list, function (s) as.character(s$name), character(1))
+)
+settlements_list <- settlements_list[ord_idx]
+
+fmt_other_names <- function (arg0_s) {
+  onames <- unlist(arg0_s$other_names)
+  if (length(onames) == 0) return("-")
+  clean_vec <- unique(as.character(onames))
+  clean_vec <- clean_vec[nzchar(clean_vec) & tolower(clean_vec) != tolower(arg0_s$name)]
+  if (length(clean_vec) == 0) clean_vec <- unique(as.character(onames))
+  return(paste(head(clean_vec, 2L), collapse = "; "))
+}
+
+fmt_year_lbl <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_span <- function (arg0_s) {
+  y1 <- first_year_num(arg0_s)
+  y2 <- last_year_num(arg0_s)
+  if (y1 == y2) return(fmt_year_lbl(y1))
+  if (y1 < 0 && y2 < 0) return(paste0(abs(y1), "-", abs(y2), "BC"))
+  if (y1 > 0 && y2 > 0) return(paste0(y1, "-", y2, "AD"))
+  return(paste0(fmt_year_lbl(y1), " - ", fmt_year_lbl(y2)))
+}
+
+fmt_num_eu <- function (arg0_val) {
+  if (is.null(arg0_val) || is.na(arg0_val)) return("-")
+  v <- as.numeric(arg0_val)
+  if (v >= 1000) {
+    s <- sprintf("%.1fk", v / 1000.0)
+    s <- gsub("\\.", ",", s)
+    return(s)
+  }
+  return(as.character(round(v)))
+}
+
+fmt_coord_pair <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lat))), if (lat >= 0) "°N" else "°S")
+  lon_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lon))), if (lon >= 0) "°E" else "°W")
+  return(paste0(lat_s, ", ", lon_s))
+}
+
+fmt_pop_series <- function (arg0_s, arg1_ymin = -99999, arg2_ymax = 99999) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  keep <- which(yrs >= arg1_ymin & yrs <= arg2_ymax)
+  if (length(keep) == 0) return("-")
+  if (length(keep) > 6L) {
+    sel_idx <- unique(round(seq(1, length(keep), length.out = 6L)))
+    keep <- keep[sel_idx]
+  }
+  parts <- vapply(keep, function (idx) {
+    paste0(fmt_year_lbl(yrs[idx]), ": ", fmt_num_eu(vals[idx]))
+  }, character(1))
+  return(paste(parts, collapse = "; "))
+}
+```
+
+# Gazetteer Methodology and Structure
+
+This settlement gazetteer accompanies the regional demographic literature review of Crimea (~26 945 km²) and documents all `r length(settlements_list)` individual settlements and archaeological sites across the time domain from 10000BC to 1400AD. Every entry records its canonical settlement name, historical and alternative designations, geographical coordinates, occupied date span, and positive-integer population benchmarks.
+
+Population series are calibrated from rock-shelter and open-camp planimetry for the Palaeolithic, Mesolithic, Neolithic, and Bronze Age (10000BC - 1000BC) [@cherkasov2018; @shchepinsky1966; @kris1981]; walled urban area and rural *chora* cadastres for Classical Chersonesus Taurica, the European Bosporan Kingdom, and the Late Scythian Kingdom (500BC - 400AD) [@maslennikov1998; @carter2000; @popova2011]; and fortress enclosures, cave-town plateaus, and commercial quarter reconstructions for Byzantine Cherson, Crimean Gothia, the Khazar Tudunate, Kievan Rus Korsun and Korchev, the Principality of Theodoro, Golden Horde Solkhat, and Genoese Gazaria (500AD - 1400AD) [@aibabin1999; @baranov1990; @bocharov2017; @myts2024; @ozturk2019; @inalcik1996; @vodarsky2003].
+
+# Prehistoric, Classical and Scythian Sites (10000BC - 400AD)
+
+```{r table-prehistoric-classical, echo=FALSE, results='asis'}
+sub_ancient <- Filter(function (s) first_year_num(s) <= 400, settlements_list)
+df_ancient <- data.frame(
+  col_1 = vapply(sub_ancient, function (s) as.character(s$name), character(1)),
+  col_2 = vapply(sub_ancient, fmt_other_names, character(1)),
+  col_3 = vapply(sub_ancient, function (s) fmt_coord_pair(s$coords), character(1)),
+  col_4 = vapply(sub_ancient, fmt_span, character(1)),
+  col_5 = vapply(sub_ancient, function (s) fmt_pop_series(s, -10000, 1400), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_ancient,
+  list(
+    caption = "Prehistoric, Classical Greek, Bosporan, and Late Scythian settlements and archaeological sites in Crimea first attested between 10000BC and 400AD.",
+    label = "tab:crimea-gaz-ancient",
+    col_names = c("Settlement / Site", "Historical / Alternative Names", "Coordinates", "Attested Span", "Selected Benchmark Populations")
+  )
+)
+```
+
+# Medieval Byzantine, Gothic, Saltovo-Mayaki, Genoese and Golden Horde Settlements (500AD - 1400AD)
+
+```{r table-medieval-modern, echo=FALSE, results='asis'}
+sub_med_mod <- Filter(function (s) first_year_num(s) >= 500, settlements_list)
+df_med_mod <- data.frame(
+  col_1 = vapply(sub_med_mod, function (s) as.character(s$name), character(1)),
+  col_2 = vapply(sub_med_mod, fmt_other_names, character(1)),
+  col_3 = vapply(sub_med_mod, function (s) fmt_coord_pair(s$coords), character(1)),
+  col_4 = vapply(sub_med_mod, fmt_span, character(1)),
+  col_5 = vapply(sub_med_mod, function (s) fmt_pop_series(s, 500, 1400), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_med_mod,
+  list(
+    caption = "Medieval Byzantine, Gothic, Saltovo-Mayaki, Kievan Rus, Theodorite, Genoese, and Golden Horde settlements in Crimea (500 - 1400AD).",
+    label = "tab:crimea-gaz-med-mod",
+    col_names = c("Settlement / Site", "Historical / Alternative Names", "Coordinates", "Attested Span", "Selected Benchmark Populations")
+  )
+)
+```
+
+# Sources

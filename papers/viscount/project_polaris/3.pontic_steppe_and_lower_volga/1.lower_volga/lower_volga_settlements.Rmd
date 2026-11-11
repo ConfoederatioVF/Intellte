@@ -1,0 +1,269 @@
+---
+title: "SETTLEMENT GAZETTEER OF THE LOWER VOLGA."
+subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (10000BC - 1900AD)."
+date: "8 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/lower_volga_regional_map.png"
+hero_caption: "Administrative boundaries, river basins, and settlements of the Lower Volga included in the settlement gazetteer (10000BC - 1900AD)."
+hero_label: "fig:hero"
+bibliography: lower_volga_literature_review.bib
+csl: crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../../../../core/rticles/intellte/resources/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../../../../core/framework/R/framework_init.R")
+```
+
+```{r set-json-path, include=FALSE}
+GAZETTEER_JSON_FILE <- "lower_volga_settlements.json"
+```
+
+```{r load-stadester-json, include=FALSE}
+gaz_map <- jsonlite::fromJSON(GAZETTEER_JSON_FILE, simplifyVector = FALSE)
+settlements_list <- unname(gaz_map)
+
+# Sort chronologically by first occupied year, then alphabetically by name
+first_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(99999)
+  return(min(yrs))
+}
+last_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(-99999)
+  return(max(yrs))
+}
+
+ord_idx <- order(
+  vapply(settlements_list, first_year_num, numeric(1)),
+  vapply(settlements_list, function (s) as.character(s$name), character(1))
+)
+settlements_list <- settlements_list[ord_idx]
+
+translit_cyr <- function (arg0_str) {
+  s <- as.character(arg0_str)
+  if (!nzchar(s)) return("")
+  # Map Cyrillic characters to Latin so Karla 10pt renders every character cleanly in XeLaTeX
+  cyr <- c(
+    "А","Б","В","Г","Д","Е","Ё","Ж","З","И","Й","К","Л","М","Н","О","П","Р","С","Т","У","Ф","Х","Ц","Ч","Ш","Щ","Ъ","Ы","Ь","Э","Ю","Я",
+    "а","б","в","г","д","е","ё","ж","з","и","й","к","л","м","н","о","п","р","с","т","у","ф","х","ц","ч","ш","щ","ъ","ы","ь","э","ю","я",
+    "Φ","α","ν","γ","ό","ρ","ε","ι","Κ","ῆ","π","ο","Πα","τ","ύ","ς","Τ","ά","ϊ","μ","β","η","К"
+  )
+  lat <- c(
+    "A","B","V","G","D","E","Yo","Zh","Z","I","Y","K","L","M","N","O","P","R","S","T","U","F","Kh","Ts","Ch","Sh","Shch","","Y","","E","Yu","Ya",
+    "a","b","v","g","d","e","yo","zh","z","i","y","k","l","m","n","o","p","r","s","t","u","f","kh","ts","ch","sh","shch","","y","","e","yu","ya",
+    "Ph","a","n","g","o","r","e","i","K","e","p","o","Pa","t","y","s","T","a","i","m","b","e","K"
+  )
+  for (i in seq_along(cyr)) {
+    s <- gsub(cyr[i], lat[i], s, fixed = TRUE)
+  }
+  return(s)
+}
+
+fmt_other_names <- function (arg0_s) {
+  onames <- unlist(arg0_s$other_names)
+  if (length(onames) == 0) return("-")
+  clean_vec <- unique(vapply(onames, translit_cyr, character(1)))
+  clean_vec <- clean_vec[nzchar(clean_vec) & tolower(clean_vec) != tolower(arg0_s$name)]
+  if (length(clean_vec) == 0) {
+    clean_vec <- unique(vapply(onames, translit_cyr, character(1)))
+  }
+  return(paste(head(clean_vec, 2L), collapse = "; "))
+}
+
+fmt_year_lbl <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_span <- function (arg0_s) {
+  y1 <- first_year_num(arg0_s)
+  y2 <- last_year_num(arg0_s)
+  if (y1 == y2) return(fmt_year_lbl(y1))
+  if (y1 < 0 && y2 < 0) return(paste0(abs(y1), "-", abs(y2), "BC"))
+  if (y1 > 0 && y2 > 0) return(paste0(y1, "-", y2, "AD"))
+  return(paste0(fmt_year_lbl(y1), " - ", fmt_year_lbl(y2)))
+}
+
+fmt_num_eu <- function (arg0_val) {
+  if (is.null(arg0_val) || is.na(arg0_val)) return("-")
+  v <- as.numeric(arg0_val)
+  if (v >= 1000) {
+    s <- sprintf("%.1fk", v / 1000.0)
+    s <- gsub("\\.", ",", s)
+    return(s)
+  }
+  return(as.character(round(v)))
+}
+
+fmt_coord_pair <- function (arg0_coords) {
+  lat <- gsub("\\.", ",", sprintf("%.2f", as.numeric(arg0_coords[[1]])))
+  lon <- gsub("\\.", ",", sprintf("%.2f", as.numeric(arg0_coords[[2]])))
+  return(paste0(lat, "°N, ", lon, "°E"))
+}
+
+fmt_pop_series <- function (arg0_s, arg1_ymin = -99999, arg2_ymax = 99999) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  keep <- which(yrs >= arg1_ymin & yrs <= arg2_ymax)
+  if (length(keep) == 0) return("-")
+  parts <- vapply(keep, function (idx) {
+    paste0(fmt_year_lbl(yrs[idx]), ": ", fmt_num_eu(vals[idx]))
+  }, character(1))
+  return(paste(parts, collapse = "; "))
+}
+
+get_pop_window_val <- function (arg0_s, arg1_ymin, arg2_ymax) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  keep <- which(yrs >= arg1_ymin & yrs <= arg2_ymax)
+  if (length(keep) == 0) return("-")
+  # Take the latest year in the window
+  idx <- keep[which.max(yrs[keep])]
+  return(fmt_num_eu(vals[idx]))
+}
+```
+
+# Overview
+
+This supplementary report presents the tabular settlement gazetteer accompanying the regional demographic review of the Lower Volga (10000BC - 1900AD). The dataset contains 146 individual settlements across the Volga Delta, Volga-Akhtuba Floodplain, Saratov-Volgograd river corridor, Kalmyk Steppe, and Astrakhan-Volgograd Trans-Volga from 10000BC to 1900AD, indexing each settlement with alternate and historical names, decimal coordinates, and chronological population estimates for inhabited benchmark years.
+
+Population figures are derived from excavated pit-house floor areas and cemetery cohorts for Mesolithic, Neolithic, Eneolithic, Bronze Age Srubnaya and Sarmatian sites [@koltsov2005mezolit; @smagin2018mikrolitov; @yudin2004varfolomeyevka; @baratskov2015itogi; @vybornov2022khronologiya; @agapov1990khvalynskiy; @tsibin2019maksimovka; @malov2008nizhneye; @lopatin2014nachalo; @skripkin2012chislennosti; @balabanova2009khronologicheskiye], urban and rural settlement excavations for Khazar Itil, Pre-Mongol Saksin and Golden Horde cities [@solovyev2022semibugry; @vasilyev2015saksin; @vasilyev2020samosdelka; @zilivinskaya2014ocherki; @yegorov1985geografiya; @fyodorovdavydov1994goroda; @nedashkovsky2000ukek; @nedashkovsky2010goroda; @nedashkovsky2022predmety; @shigapov2022selishch; @zeleneev2018selitrennom; @pigarev2021topografii] and Russian garrison rolls, Imperial tax revisions (*revizii*), Volga German colony censuses, Kalmyk and Inner (Bukey) Kazakh Horde records and the 1897 Census [@zaitsev2006astrakhanskoye; @syzranov2014astrakhani; @trepavlov2016nogayskoy; @moiseev2015stepnyye; @kabuzan1963narodonaseleniye; @solovyov2013saratovskoy; @brylyov2018volgogradskoy; @pleve1998nemetskiye; @doenninghaus2011nemetskikh; @ochirov2008tyurkoyazychnyye; @okonova2012migratsii; @kyshpanakov2026kalmyki; @belousov2019bukeyevskoy; @pirova2020tatarakh; @troynitsky1904saratov; @troynitsky1904astrakhan].
+
+# Prehistoric, Bronze Age, and Sarmatian Settlements (10000BC - 400AD)
+
+```{r tab-volga-ancient, results='asis'}
+v_ancient_list <- Filter(function (s) first_year_num(s) <= 400, settlements_list)
+
+df_v_ancient <- do.call(rbind, lapply(v_ancient_list, function (s) {
+  data.frame(
+    Settlement = s$name,
+    Other_Names = fmt_other_names(s),
+    Coords = fmt_coord_pair(s$coords),
+    Span = fmt_span(s),
+    Pop_History = fmt_pop_series(s, -10000, 400),
+    stringsAsFactors = FALSE
+  )
+}))
+
+render_table_template(
+  df_v_ancient,
+  list(
+    caption = "Prehistoric, Eneolithic, Bronze Age Srubnaya, and Sarmatian settlement populations of the Lower Volga (10000BC - 400AD).",
+    label = "tab:volga-ancient",
+    col_names = c("Settlement", "Historical / Alternative Names", "Coords", "Occupied Span", "Population Estimates by Date"),
+    scale_to_fit = FALSE
+  )
+)
+```
+
+# Medieval Khazar, Pre-Mongol Saksin, and Golden Horde Settlements (750 - 1550AD)
+
+```{r tab-volga-medieval, results='asis'}
+v_med_list <- Filter(function (s) {
+  yrs <- as.numeric(names(s$population))
+  any(yrs >= 700 & yrs <= 1555)
+}, settlements_list)
+
+df_v_med <- do.call(rbind, lapply(v_med_list, function (s) {
+  data.frame(
+    Settlement = s$name,
+    Other_Names = fmt_other_names(s),
+    Coords = fmt_coord_pair(s$coords),
+    P_800_900 = get_pop_window_val(s, 750, 920),
+    P_1200 = get_pop_window_val(s, 1100, 1220),
+    P_1300 = get_pop_window_val(s, 1250, 1320),
+    P_1340 = get_pop_window_val(s, 1330, 1365),
+    P_1380_1550 = get_pop_window_val(s, 1370, 1555),
+    stringsAsFactors = FALSE
+  )
+}))
+
+render_table_template(
+  df_v_med,
+  list(
+    caption = "Medieval Khazar, Saksin, Golden Horde, and Astrakhan Khanate settlement populations of the Lower Volga (750 - 1550AD).",
+    label = "tab:volga-medieval",
+    col_names = c("Settlement", "Historical Names", "Coords", "800-900AD", "1150-1200AD", "1260-1320AD", "1340AD", "1380-1550AD"),
+    scale_to_fit = FALSE
+  )
+)
+```
+
+# Early Modern and Imperial Settlements, Volga German Colonies, and Steppe Centres (1558 - 1900AD)
+
+```{r tab-volga-modern, results='asis'}
+v_mod_list <- Filter(function (s) {
+  yrs <- as.numeric(names(s$population))
+  any(yrs >= 1558)
+}, settlements_list)
+
+df_v_mod <- do.call(rbind, lapply(v_mod_list, function (s) {
+  data.frame(
+    Settlement = s$name,
+    Other_Names = fmt_other_names(s),
+    Coords = fmt_coord_pair(s$coords),
+    P_1700 = get_pop_window_val(s, 1600, 1745),
+    P_1767 = get_pop_window_val(s, 1747, 1795),
+    P_1800 = get_pop_window_val(s, 1798, 1830),
+    P_1850 = get_pop_window_val(s, 1845, 1885),
+    P_1897 = get_pop_window_val(s, 1895, 1898),
+    P_1900 = get_pop_window_val(s, 1899, 1905),
+    stringsAsFactors = FALSE
+  )
+}))
+
+render_table_template(
+  df_v_mod,
+  list(
+    caption = "Russian fortress cities, uyezd towns, Volga German colonies, and steppe centres of the Lower Volga (1558 - 1900AD).",
+    label = "tab:volga-modern",
+    col_names = c("Settlement", "Alternative Names", "Coords", "1700-1740AD", "1750-1790AD", "1800-1826AD", "1850-1880AD", "1897AD", "1900AD"),
+    scale_to_fit = FALSE
+  )
+)
+```
+
+# Complete Settlement Gazetteer
+
+```{r tab-volga-all, results='asis'}
+df_v_all <- do.call(rbind, lapply(settlements_list, function (s) {
+  data.frame(
+    Key = s$key,
+    Coords = fmt_coord_pair(s$coords),
+    Span = fmt_span(s),
+    Pop_Series = fmt_pop_series(s),
+    stringsAsFactors = FALSE
+  )
+}))
+
+render_table_template(
+  df_v_all,
+  list(
+    caption = "Complete directory of all 146 indexed settlements and population series in the Lower Volga gazetteer (10000BC - 1900AD).",
+    label = "tab:volga-all",
+    col_names = c("Stadester Key", "Coords", "Occupied Span", "Complete Population Series (Year: Population)"),
+    scale_to_fit = FALSE
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+```{r footnotes, results='asis'}
+emit_crd_footnotes()
+```

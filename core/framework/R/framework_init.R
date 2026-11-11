@@ -21,7 +21,9 @@ local({
       file.path(getwd(), "core", "framework", "R"),
       file.path(getwd(), "..", "core", "framework", "R"),
       file.path(getwd(), "..", "..", "core", "framework", "R"),
-      file.path(getwd(), "..", "..", "..", "core", "framework", "R")
+      file.path(getwd(), "..", "..", "..", "core", "framework", "R"),
+      file.path(getwd(), "..", "..", "..", "..", "core", "framework", "R"),
+      file.path(getwd(), "..", "..", "..", "..", "..", "core", "framework", "R")
     )
     for (cand in fallback_cands) {
       if (dir.exists(cand)) {

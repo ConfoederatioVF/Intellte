@@ -1,0 +1,591 @@
+---
+title: "SETTLEMENT GAZETTEER OF THE POST-STALIN SOVIET UNION."
+subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (1953AD - 1991AD)."
+date: "11 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/soviet_post_stalin_regional_map.png"
+hero_caption: "Administrative regions and catalogued urban, industrial, scientific, and frontier settlements across the post-Stalin Soviet Union (1953AD - 1991AD)."
+hero_label: "fig:hero-gazetteer"
+bibliography: soviet_post_stalin_literature_review.bib
+csl: crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../../../../core/rticles/intellte/resources/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../../../../core/framework/R/framework_init.R")
+```
+
+```{r load-stadester-json, include=FALSE}
+GAZETTEER_JSON_FILE <- "soviet_post_stalin_settlements.json"
+gaz_map <- jsonlite::fromJSON(GAZETTEER_JSON_FILE, simplifyVector = FALSE)
+settlements_list <- unname(gaz_map)
+
+first_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(99999)
+  return(min(yrs))
+}
+last_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(-99999)
+  return(max(yrs))
+}
+
+ord_idx <- order(
+  vapply(settlements_list, first_year_num, numeric(1)),
+  vapply(settlements_list, function (s) as.character(s$name), character(1))
+)
+settlements_list <- settlements_list[ord_idx]
+
+fmt_other_names <- function (arg0_s) {
+  onames <- unlist(arg0_s$other_names)
+  if (length(onames) == 0) return("-")
+  clean_vec <- unique(as.character(onames))
+  clean_vec <- clean_vec[nzchar(clean_vec) & tolower(clean_vec) != tolower(arg0_s$name)]
+  if (length(clean_vec) == 0) clean_vec <- unique(as.character(onames))
+  return(paste(head(clean_vec, 2L), collapse = "; "))
+}
+
+fmt_year_lbl <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_span <- function (arg0_s) {
+  y1 <- first_year_num(arg0_s)
+  y2 <- last_year_num(arg0_s)
+  if (y1 == y2) return(fmt_year_lbl(y1))
+  if (y1 < 0 && y2 < 0) return(paste0(abs(y1), "-", abs(y2), "BC"))
+  if (y1 > 0 && y2 > 0) return(paste0(y1, "-", y2, "AD"))
+  return(paste0(fmt_year_lbl(y1), " - ", fmt_year_lbl(y2)))
+}
+
+fmt_num_eu <- function (arg0_val) {
+  if (is.null(arg0_val) || is.na(arg0_val)) return("-")
+  v <- as.numeric(arg0_val)
+  if (v >= 1000) {
+    s <- sprintf("%.1fk", v / 1000.0)
+    s <- gsub("\\.", ",", s)
+    return(s)
+  }
+  return(as.character(round(v)))
+}
+
+fmt_coord_pair <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lat))), if (lat >= 0) "°N" else "°S")
+  lon_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lon))), if (lon >= 0) "°E" else "°W")
+  return(paste0(lat_s, ", ", lon_s))
+}
+
+fmt_pop_series <- function (arg0_s, arg1_ymin = -99999, arg2_ymax = 99999) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  keep <- which(yrs >= arg1_ymin & yrs <= arg2_ymax)
+  if (length(keep) == 0) return("-")
+  parts <- vapply(keep, function (idx) {
+    paste0(fmt_year_lbl(yrs[idx]), ": ", fmt_num_eu(vals[idx]))
+  }, character(1))
+  return(paste(parts, collapse = "; "))
+}
+
+get_pop_window_val <- function (arg0_s, arg1_ymin, arg2_ymax) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  keep <- which(yrs >= arg1_ymin & yrs <= arg2_ymax)
+  if (length(keep) == 0) return("-")
+  idx <- keep[which.max(yrs[keep])]
+  return(fmt_num_eu(vals[idx]))
+}
+```
+```{r load-region-labels, include=FALSE}
+sum_json <- jsonlite::fromJSON("../../_shared/_gis_cache/soviet_post_stalin_summary.json", simplifyVector = FALSE)
+reg_map_41 <- c(
+  "Abakan-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Alchevsk-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Almetyevsk-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Alytus-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Anadyr-Russia" = "extreme_northeast_magadan_chukotka_kamchatka_arctic",
+  "Angarsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Apatity-Russia" = "karelian_assr_1956_and_murmansk_arctic",
+  "Arkhangelsk-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Armavir-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Astrakhan-Russia" = "lower_volga_saratov_volgograd_astrakhan_kalmyk_assr",
+  "Balakovo-Russia" = "lower_volga_saratov_volgograd_astrakhan_kalmyk_assr",
+  "Balti-Moldova" = "moldavian_ssr_post_stalin",
+  "Baltiysk-Russia" = "kaliningrad_oblast_baltic_fleet",
+  "Baranovichi-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Barnaul-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Belgorod-Russia" = "central_black_earth_voronezh_kursk_belgorod_lipetsk_tambov",
+  "Bender-Moldova" = "moldavian_ssr_post_stalin",
+  "Berdiansk-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Berdychiv-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Berezniki-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Bila Tserkva-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Birobidzhan-Russia" = "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "Biysk-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Blagoveshchensk-Russia" = "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "Bobruisk-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Borisov-Belarus" = "bssr_minsk_metropolitan_industrial_core",
+  "Bratsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Brest-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Bryansk-Russia" = "central_nechernozemye_depopulation_ring",
+  "Cahul-Moldova" = "moldavian_ssr_post_stalin",
+  "Cheboksary-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Chelyabinsk-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Cherepovets-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Cherkasy-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Cherkessk-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Chernihiv-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Chernivtsi-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Chernobyl-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Chernyakhovsk-Russia" = "kaliningrad_oblast_baltic_fleet",
+  "Chisinau-Moldova" = "moldavian_ssr_post_stalin",
+  "Chita-Russia" = "buryat_assr_chita_and_bam_mainline_corridor",
+  "Comrat-Moldova" = "moldavian_ssr_post_stalin",
+  "Daugavpils-Latvia" = "latvian_ssr_post_stalin",
+  "Derbent-Russia" = "dagestan_assr_lowland_kutan_boom",
+  "Divnogorsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Dniprodzerzhynsk-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Dnipropetrovsk-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Donetsk-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Drogobych-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Dubasari-Moldova" = "moldavian_ssr_post_stalin",
+  "Dubna-Russia" = "moscow_capital_and_naukograd_ring",
+  "Dudinka-Russia" = "norilsk_taymyr_and_evenkia_polar_north",
+  "Dzerzhinsk-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Elista-Russia" = "lower_volga_saratov_volgograd_astrakhan_kalmyk_assr",
+  "Enerhodar-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Engels-Russia" = "lower_volga_saratov_volgograd_astrakhan_kalmyk_assr",
+  "Gatchina-Russia" = "leningrad_novgorod_and_pskov",
+  "Gomel-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Gorno-Altaysk-Russia" = "altai_sayan_gorno_altai_khakassia_and_tuva_assr",
+  "Grodno-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Grozny-Russia" = "chechen_ingush_assr_1957_restoration",
+  "Gudermes-Russia" = "chechen_ingush_assr_1957_restoration",
+  "Gusev-Russia" = "kaliningrad_oblast_baltic_fleet",
+  "Horlivka-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Inta-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Irkutsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Ivano-Frankivsk-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Ivanovo-Russia" = "central_nechernozemye_depopulation_ring",
+  "Izhevsk-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Jekabpils-Latvia" = "latvian_ssr_post_stalin",
+  "Jelgava-Latvia" = "latvian_ssr_post_stalin",
+  "Jonava-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Jurmala-Latvia" = "latvian_ssr_post_stalin",
+  "Kaliningrad-Russia" = "kaliningrad_oblast_baltic_fleet",
+  "Kaluga-Russia" = "central_nechernozemye_depopulation_ring",
+  "Kamianets-Podilskyi-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Kaspiysk-Russia" = "dagestan_assr_lowland_kutan_boom",
+  "Kaunas-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Kazan-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Kemerovo-Russia" = "kuzbass_kemerovo_coal_steel_conurbation",
+  "Kerch-Ukraine" = "ukssr_crimean_oblast_1954_transfer",
+  "Khabarovsk-Russia" = "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "Khanty-Mansiysk-Russia" = "khanty_mansi_middle_ob_oil_frontier",
+  "Kharkiv-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Khasavyurt-Russia" = "dagestan_assr_lowland_kutan_boom",
+  "Kherson-Ukraine" = "ukssr_black_sea_odesa_mykolaiv_kherson",
+  "Khmelnytskyi-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Kirov-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Kirovohrad-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Klaipeda-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Klintsy-Russia" = "central_nechernozemye_depopulation_ring",
+  "Kogalym-Russia" = "khanty_mansi_middle_ob_oil_frontier",
+  "Kohtla-Jarve-Estonia" = "estonian_ssr_post_stalin",
+  "Komsomolsk-on-Amur-Russia" = "buryat_assr_chita_and_bam_mainline_corridor",
+  "Konotop-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Korolev-Russia" = "moscow_capital_and_naukograd_ring",
+  "Korosten-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Kostomuksha-Russia" = "karelian_assr_1956_and_murmansk_arctic",
+  "Kostroma-Russia" = "central_nechernozemye_depopulation_ring",
+  "Kramatorsk-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Krasnodar-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Krasnoyarsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Kremenchuk-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Kryvyi Rih-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Kurgan-Russia" = "bashkir_assr_orenburg_and_kurgan_tselina",
+  "Kursk-Russia" = "central_black_earth_voronezh_kursk_belgorod_lipetsk_tambov",
+  "Kyiv-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Kyzyl-Russia" = "altai_sayan_gorno_altai_khakassia_and_tuva_assr",
+  "Leningrad-Russia" = "leningrad_novgorod_and_pskov",
+  "Lida-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Liepaja-Latvia" = "latvian_ssr_post_stalin",
+  "Lipetsk-Russia" = "central_black_earth_voronezh_kursk_belgorod_lipetsk_tambov",
+  "Luhansk-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Lutsk-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Lviv-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Magadan-Russia" = "extreme_northeast_magadan_chukotka_kamchatka_arctic",
+  "Magnitogorsk-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Makhachkala-Russia" = "dagestan_assr_lowland_kutan_boom",
+  "Makiivka-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Marijampole-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Mariupol-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Maykop-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Mazeikiai-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Melitopol-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Minsk-Belarus" = "bssr_minsk_metropolitan_industrial_core",
+  "Mirny-Russia" = "yakut_assr_mirny_diamonds_and_lena_north",
+  "Mogilev-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Molodechno-Belarus" = "bssr_minsk_metropolitan_industrial_core",
+  "Moscow-Russia" = "moscow_capital_and_naukograd_ring",
+  "Mozyr-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Mukachevo-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Murmansk-Russia" = "karelian_assr_1956_and_murmansk_arctic",
+  "Mykolaiv-Ukraine" = "ukssr_black_sea_odesa_mykolaiv_kherson",
+  "Naberezhnye Chelny-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Nadym-Russia" = "yamalo_nenets_polar_gas_frontier",
+  "Nakhodka-Russia" = "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "Nalchik-Russia" = "kabardino_balkar_and_north_ossetian_assrs",
+  "Narva-Estonia" = "estonian_ssr_post_stalin",
+  "Nazran-Russia" = "chechen_ingush_assr_1957_restoration",
+  "Nefteyugansk-Russia" = "khanty_mansi_middle_ob_oil_frontier",
+  "Neryungri-Russia" = "yakut_assr_mirny_diamonds_and_lena_north",
+  "Nikopol-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Nizhnekamsk-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Nizhnevartovsk-Russia" = "khanty_mansi_middle_ob_oil_frontier",
+  "Nizhny Novgorod-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Nizhny Tagil-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Nizhyn-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Norilsk-Russia" = "norilsk_taymyr_and_evenkia_polar_north",
+  "Nova Kakhovka-Ukraine" = "ukssr_black_sea_odesa_mykolaiv_kherson",
+  "Novocheboksarsk-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Novocherkassk-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Novokuznetsk-Russia" = "kuzbass_kemerovo_coal_steel_conurbation",
+  "Novopolotsk-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Novorossiysk-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Novosibirsk-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Novouralsk-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Novozybkov-Russia" = "central_nechernozemye_depopulation_ring",
+  "Novy Urengoy-Russia" = "yamalo_nenets_polar_gas_frontier",
+  "Noyabrsk-Russia" = "yamalo_nenets_polar_gas_frontier",
+  "Nyagan-Russia" = "khanty_mansi_middle_ob_oil_frontier",
+  "Obninsk-Russia" = "central_nechernozemye_depopulation_ring",
+  "Odesa-Ukraine" = "ukssr_black_sea_odesa_mykolaiv_kherson",
+  "Ogre-Latvia" = "latvian_ssr_post_stalin",
+  "Omsk-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Orenburg-Russia" = "bashkir_assr_orenburg_and_kurgan_tselina",
+  "Orhei-Moldova" = "moldavian_ssr_post_stalin",
+  "Orsha-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Orsk-Russia" = "bashkir_assr_orenburg_and_kurgan_tselina",
+  "Oryol-Russia" = "central_nechernozemye_depopulation_ring",
+  "Ozersk-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Panevezys-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Parnu-Estonia" = "estonian_ssr_post_stalin",
+  "Pavlohrad-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Penza-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Perm-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Petropavlovsk-Kamchatsky-Russia" = "extreme_northeast_magadan_chukotka_kamchatka_arctic",
+  "Petrozavodsk-Russia" = "karelian_assr_1956_and_murmansk_arctic",
+  "Pevek-Russia" = "extreme_northeast_magadan_chukotka_kamchatka_arctic",
+  "Pinsk-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Podolsk-Russia" = "moscow_capital_and_naukograd_ring",
+  "Poliske-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Polotsk-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Poltava-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Pripyat-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Prokopyevsk-Russia" = "kuzbass_kemerovo_coal_steel_conurbation",
+  "Pryluky-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Pskov-Russia" = "leningrad_novgorod_and_pskov",
+  "Pyatigorsk-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Rakvere-Estonia" = "estonian_ssr_post_stalin",
+  "Rechitsa-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Rezekne-Latvia" = "latvian_ssr_post_stalin",
+  "Ribnita-Moldova" = "moldavian_ssr_post_stalin",
+  "Riga-Latvia" = "latvian_ssr_post_stalin",
+  "Rivne-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Rostov-on-Don-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Rubtsovsk-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Ryazan-Russia" = "central_nechernozemye_depopulation_ring",
+  "Rybinsk-Russia" = "central_nechernozemye_depopulation_ring",
+  "Salavat-Russia" = "bashkir_assr_orenburg_and_kurgan_tselina",
+  "Salekhard-Russia" = "yamalo_nenets_polar_gas_frontier",
+  "Samara-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Saransk-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Saratov-Russia" = "lower_volga_saratov_volgograd_astrakhan_kalmyk_assr",
+  "Sarov-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Sayanogorsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Sevastopol-Ukraine" = "ukssr_crimean_oblast_1954_transfer",
+  "Severobaikalsk-Russia" = "buryat_assr_chita_and_bam_mainline_corridor",
+  "Severodonetsk-Ukraine" = "ukssr_donbas_donetsk_voroshilovgrad",
+  "Severodvinsk-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Seversk-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Shakhty-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Shostka-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Siauliai-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Sillamae-Estonia" = "estonian_ssr_post_stalin",
+  "Simferopol-Ukraine" = "ukssr_crimean_oblast_1954_transfer",
+  "Slavutych-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Slutsk-Belarus" = "bssr_minsk_metropolitan_industrial_core",
+  "Smolensk-Russia" = "central_nechernozemye_depopulation_ring",
+  "Snezhinsk-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Sochi-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Soligorsk-Belarus" = "bssr_minsk_metropolitan_industrial_core",
+  "Soroca-Moldova" = "moldavian_ssr_post_stalin",
+  "Sovetsk-Russia" = "kaliningrad_oblast_baltic_fleet",
+  "Stary Oskol-Russia" = "central_black_earth_voronezh_kursk_belgorod_lipetsk_tambov",
+  "Stavropol-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Sterlitamak-Russia" = "bashkir_assr_orenburg_and_kurgan_tselina",
+  "Sumy-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Surgut-Russia" = "khanty_mansi_middle_ob_oil_frontier",
+  "Svetlogorsk-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Syktyvkar-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Taganrog-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Tallinn-Estonia" = "estonian_ssr_post_stalin",
+  "Tambov-Russia" = "central_black_earth_voronezh_kursk_belgorod_lipetsk_tambov",
+  "Tartu-Estonia" = "estonian_ssr_post_stalin",
+  "Ternopil-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Tiraspol-Moldova" = "moldavian_ssr_post_stalin",
+  "Tobolsk-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Tolyatti-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Tomsk-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Tula-Russia" = "central_nechernozemye_depopulation_ring",
+  "Tver-Russia" = "central_nechernozemye_depopulation_ring",
+  "Tynda-Russia" = "buryat_assr_chita_and_bam_mainline_corridor",
+  "Tyumen-Russia" = "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "Udachny-Russia" = "yakut_assr_mirny_diamonds_and_lena_north",
+  "Ufa-Russia" = "bashkir_assr_orenburg_and_kurgan_tselina",
+  "Ukhta-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Ulan-Ude-Russia" = "buryat_assr_chita_and_bam_mainline_corridor",
+  "Ulyanovsk-Russia" = "tatar_assr_kuibyshev_ulyanovsk_penza_auto_hydro",
+  "Uman-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Ungheni-Moldova" = "moldavian_ssr_post_stalin",
+  "Ussuriysk-Russia" = "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "Ust-Ilimsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Ust-Kut-Russia" = "buryat_assr_chita_and_bam_mainline_corridor",
+  "Utena-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Uzhhorod-Ukraine" = "ukssr_western_galicia_volhynia_carpathians",
+  "Valga-Estonia" = "estonian_ssr_post_stalin",
+  "Valmiera-Latvia" = "latvian_ssr_post_stalin",
+  "Velikie Luki-Russia" = "leningrad_novgorod_and_pskov",
+  "Veliky Novgorod-Russia" = "leningrad_novgorod_and_pskov",
+  "Ventspils-Latvia" = "latvian_ssr_post_stalin",
+  "Vetka-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Viljandi-Estonia" = "estonian_ssr_post_stalin",
+  "Vilnius-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Vinnytsia-Ukraine" = "ukssr_central_podolia_cherkasy_poltava_sumy",
+  "Visaginas-Lithuania" = "lithuanian_ssr_post_stalin",
+  "Vitebsk-Belarus" = "bssr_west_brest_grodno_and_vitebsk",
+  "Vladikavkaz-Russia" = "kabardino_balkar_and_north_ossetian_assrs",
+  "Vladimir-Russia" = "central_nechernozemye_depopulation_ring",
+  "Vladivostok-Russia" = "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "Volgodonsk-Russia" = "rostov_krasnodar_stavropol_adygei_karachay_cherkess",
+  "Volgograd-Russia" = "lower_volga_saratov_volgograd_astrakhan_kalmyk_assr",
+  "Vologda-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Volzhsky-Russia" = "lower_volga_saratov_volgograd_astrakhan_kalmyk_assr",
+  "Vorkuta-Russia" = "northern_arkhangelsk_vologda_and_komi_assr",
+  "Voronezh-Russia" = "central_black_earth_voronezh_kursk_belgorod_lipetsk_tambov",
+  "Voru-Estonia" = "estonian_ssr_post_stalin",
+  "Vyborg-Russia" = "leningrad_novgorod_and_pskov",
+  "Yakutsk-Russia" = "yakut_assr_mirny_diamonds_and_lena_north",
+  "Yalta-Ukraine" = "ukssr_crimean_oblast_1954_transfer",
+  "Yaroslavl-Russia" = "central_nechernozemye_depopulation_ring",
+  "Yekaterinburg-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm",
+  "Yevpatoria-Ukraine" = "ukssr_crimean_oblast_1954_transfer",
+  "Yoshkar-Ola-Russia" = "volga_vyatka_gorky_kirov_and_finno_ugric_assrs",
+  "Yuzhno-Sakhalinsk-Russia" = "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "Zaporizhzhia-Ukraine" = "ukssr_kharkiv_and_dnieper_industrial_bend",
+  "Zelenograd-Russia" = "moscow_capital_and_naukograd_ring",
+  "Zheleznogorsk-Russia" = "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "Zhlobin-Belarus" = "bssr_gomel_mogilev_and_chernobyl_fallout",
+  "Zhodino-Belarus" = "bssr_minsk_metropolitan_industrial_core",
+  "Zhukovsky-Russia" = "moscow_capital_and_naukograd_ring",
+  "Zhytomyr-Ukraine" = "ukssr_kyiv_metropolis_and_pripyat_chernobyl",
+  "Zlatoust-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm"
+)
+reg_lbl_map <- setNames(
+  vapply(sum_json$regions, function (r) strsplit(as.character(r$name), " (", fixed = TRUE)[[1]][1], character(1)),
+  vapply(sum_json$regions, function (r) as.character(r$id), character(1))
+)
+get_rid <- function (arg0_s) {
+  k <- as.character(arg0_s$key)
+  if (k %in% names(reg_map_41)) {
+    return(unname(reg_map_41[[k]]))
+  }
+  return("")
+}
+fmt_reg_short <- function (arg0_s) {
+  rid <- get_rid(arg0_s)
+  if (nzchar(rid) && rid %in% names(reg_lbl_map)) {
+    return(reg_lbl_map[[rid]])
+  }
+  return(as.character(arg0_s$country))
+}
+```
+
+# Settlement Gazetteer Overview (1953AD - 1991AD)
+
+This supplementary settlement gazetteer accompanies the regional demographic literature review for the post-Stalin Soviet Union (1953AD - 1991AD) and compiles 292 individual urban, industrial, scientific, naval, resource-frontier, and evacuated settlements across all forty-one Late-Soviet regions of the Estonian SSR (Region 1), Latvian SSR (Region 2), Lithuanian SSR (Region 3), Moldavian SSR (Region 4), Kaliningrad Oblast RSFSR exclave (Region 5), Byelorussian SSR (Regions 6-8), Ukrainian SSR (Regions 9-15), and mainland RSFSR (Regions 16-41) [@tssu_1962_perepis_1959; @tssu_1972_perepis_1970; @tssu_1984_perepis_1979; @goskomstat_1991_perepis_1989; @goskomstat_1992_demograficheskiy_ezhegodnik_1991]. Every entry records verified geographic coordinates, historical Soviet or pre-Soviet toponyms and functional designations, modern republic attribution (Estonia, Latvia, Lithuania, Moldova, Belarus, Ukraine, or Russia), and positive integer population series across the six post-Stalin benchmark years (1953AD, 1959AD, 1970AD, 1979AD, 1989AD, and 1991AD, plus 1986AD pre-evacuation benchmarks for settlements inside the Chernobyl Exclusion Zone) [@lappo_1997_geografiya_gorodov; @rowland_1996_russia_secret_cities_zato; @iaea_2006_chernobyl_environmental_consequences].
+
+To facilitate regional cross-referencing across all forty-one Late-Soviet regions, Section 2 tabulates the 47 enumerated settlements of the Baltic SSRs (Estonia, Latvia, Lithuania), the Moldavian SSR, and the Kaliningrad Oblast Baltic Fleet exclave (Regions 1-5, including Snieckus/Visaginas, Sillamae, Tiraspol, Ribnita, Comrat, and Baltiysk), Section 3 tabulates the 82 settlements of the Byelorussian SSR (Regions 6-8) and Ukrainian SSR (Regions 9-15, including the 1954AD Crimean transfer and the 1986AD Chernobyl Exclusion Zone), Section 4 tabulates 107 settlements across European Russia, Leningrad-Novgorod-Pskov (Region 17), the Karelian and Komi ASSRs, the *Nechernozemye* depopulation ring, the Volga-Kama and Ural ASSRs, the 1957AD restored North Caucasus and Kalmyk ASSRs, and declassified *ZATO* nuclear cities (Regions 16-30), Section 5 tabulates 56 settlements across the Yamalo-Nenets and Khanty-Mansi hydrocarbon okrugs, Western Siberia, the Angara-Yenisei hydro cascades, the Tuva, Buryat, and Yakut ASSRs, the Baikal-Amur Mainline (BAM), and the Russian Far East (Regions 31-41), and Section 6 provides the complete unified alphabetical directory across all forty-one regions.
+
+# Baltic SSRs, Moldavian SSR, and Kaliningrad Exclave Directory (Regions 1 - 5)
+
+```{r tab-western-ssrs-kaliningrad, echo=FALSE, results='asis'}
+west_ids <- c(
+  "estonian_ssr_post_stalin",
+  "latvian_ssr_post_stalin",
+  "lithuanian_ssr_post_stalin",
+  "moldavian_ssr_post_stalin",
+  "kaliningrad_oblast_baltic_fleet"
+)
+sub_w <- Filter(function (s) get_rid(s) %in% west_ids, settlements_list)
+sub_w <- sub_w[order(match(vapply(sub_w, get_rid, character(1)), west_ids), vapply(sub_w, function (s) as.character(s$name), character(1)))]
+
+df_w <- data.frame(
+  Settlement = vapply(sub_w, function (s) as.character(s$name), character(1)),
+  Region = vapply(sub_w, fmt_reg_short, character(1)),
+  Coords = vapply(sub_w, function (s) fmt_coord_pair(s$coords), character(1)),
+  Y1953 = vapply(sub_w, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
+  Y1959 = vapply(sub_w, function (s) get_pop_window_val(s, 1959, 1959), character(1)),
+  Y1970 = vapply(sub_w, function (s) get_pop_window_val(s, 1970, 1970), character(1)),
+  Y1979 = vapply(sub_w, function (s) get_pop_window_val(s, 1979, 1979), character(1)),
+  Y1989 = vapply(sub_w, function (s) get_pop_window_val(s, 1989, 1989), character(1)),
+  Y1991 = vapply(sub_w, function (s) get_pop_window_val(s, 1991, 1991), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_w,
+  list(
+    caption = "Settlement population histories across the Estonian, Latvian, Lithuanian, and Moldavian SSRs and the Kaliningrad Oblast exclave (Regions 1 to 5, 1953AD - 1991AD).",
+    col_names = c("Settlement", "Late-Soviet Region (1-5)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1989AD", "1991AD"),
+    label = "tab:western-ssrs-kaliningrad"
+  )
+)
+```
+
+# Belarus and Ukraine Settlement Directory (Regions 6 - 15)
+
+```{r tab-belarus-ukraine, echo=FALSE, results='asis'}
+sub_bu <- Filter(function (s) s$country %in% c("Belarus", "Ukraine"), settlements_list)
+sub_bu <- sub_bu[order(vapply(sub_bu, function (s) paste0(sprintf("%02d", as.integer(sub("\\..*$", "", fmt_reg_short(s)))), "_", s$name), character(1)))]
+
+df_bu <- data.frame(
+  Settlement = vapply(sub_bu, function (s) as.character(s$name), character(1)),
+  Region = vapply(sub_bu, fmt_reg_short, character(1)),
+  Coords = vapply(sub_bu, function (s) fmt_coord_pair(s$coords), character(1)),
+  Y1953 = vapply(sub_bu, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
+  Y1959 = vapply(sub_bu, function (s) get_pop_window_val(s, 1959, 1959), character(1)),
+  Y1970 = vapply(sub_bu, function (s) get_pop_window_val(s, 1970, 1970), character(1)),
+  Y1979 = vapply(sub_bu, function (s) get_pop_window_val(s, 1979, 1979), character(1)),
+  Y1989 = vapply(sub_bu, function (s) get_pop_window_val(s, 1986, 1989), character(1)),
+  Y1991 = vapply(sub_bu, function (s) get_pop_window_val(s, 1991, 1991), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_bu,
+  list(
+    caption = "Settlement population histories across the Byelorussian SSR and Ukrainian SSR, including 1986AD Chernobyl benchmarks (Regions 6 to 15, 1953AD - 1991AD).",
+    col_names = c("Settlement", "Late-Soviet Region (6-15)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1986/89AD", "1991AD"),
+    label = "tab:belarus-ukraine"
+  )
+)
+```
+
+# European Russia, Volga-Urals, and North Caucasus Directory (Regions 16 - 30)
+
+```{r tab-european-russia, echo=FALSE, results='asis'}
+sib_ids <- c(
+  "yamalo_nenets_polar_gas_frontier",
+  "khanty_mansi_middle_ob_oil_frontier",
+  "west_siberia_transsiberian_tyumen_omsk_novosibirsk_altai_tselina",
+  "kuzbass_kemerovo_coal_steel_conurbation",
+  "altai_sayan_gorno_altai_khakassia_and_tuva_assr",
+  "angara_yenisei_hydro_cascade_krasnoyarsk_irkutsk",
+  "norilsk_taymyr_and_evenkia_polar_north",
+  "buryat_assr_chita_and_bam_mainline_corridor",
+  "yakut_assr_mirny_diamonds_and_lena_north",
+  "far_east_southern_pacific_primorye_khabarovsk_amur_sakhalin",
+  "extreme_northeast_magadan_chukotka_kamchatka_arctic"
+)
+sub_eu <- Filter(function (s) s$country == "Russia" && !(get_rid(s) %in% c(sib_ids, "kaliningrad_oblast_baltic_fleet")), settlements_list)
+sub_eu <- sub_eu[order(vapply(sub_eu, function (s) as.character(s$name), character(1)))]
+
+df_eu <- data.frame(
+  Settlement = vapply(sub_eu, function (s) as.character(s$name), character(1)),
+  Region = vapply(sub_eu, fmt_reg_short, character(1)),
+  Coords = vapply(sub_eu, function (s) fmt_coord_pair(s$coords), character(1)),
+  Y1953 = vapply(sub_eu, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
+  Y1959 = vapply(sub_eu, function (s) get_pop_window_val(s, 1959, 1959), character(1)),
+  Y1970 = vapply(sub_eu, function (s) get_pop_window_val(s, 1970, 1970), character(1)),
+  Y1979 = vapply(sub_eu, function (s) get_pop_window_val(s, 1979, 1979), character(1)),
+  Y1989 = vapply(sub_eu, function (s) get_pop_window_val(s, 1989, 1989), character(1)),
+  Y1991 = vapply(sub_eu, function (s) get_pop_window_val(s, 1991, 1991), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_eu,
+  list(
+    caption = "Settlement population histories across European Russia, the Volga-Ural republics, and the restored North Caucasus autonomies (Regions 16 to 30, 1953AD - 1991AD).",
+    col_names = c("Settlement", "Late-Soviet Region (16-30)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1989AD", "1991AD"),
+    label = "tab:european-russia"
+  )
+)
+```
+
+# Siberia, Yakutia, and the Russian Far East Directory (Regions 31 - 41)
+
+```{r tab-siberia-fareast, echo=FALSE, results='asis'}
+sub_sib <- Filter(function (s) s$country == "Russia" && (get_rid(s) %in% sib_ids), settlements_list)
+sub_sib <- sub_sib[order(vapply(sub_sib, function (s) as.character(s$name), character(1)))]
+
+df_sib <- data.frame(
+  Settlement = vapply(sub_sib, function (s) as.character(s$name), character(1)),
+  Region = vapply(sub_sib, fmt_reg_short, character(1)),
+  Coords = vapply(sub_sib, function (s) fmt_coord_pair(s$coords), character(1)),
+  Y1953 = vapply(sub_sib, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
+  Y1959 = vapply(sub_sib, function (s) get_pop_window_val(s, 1959, 1959), character(1)),
+  Y1970 = vapply(sub_sib, function (s) get_pop_window_val(s, 1970, 1970), character(1)),
+  Y1979 = vapply(sub_sib, function (s) get_pop_window_val(s, 1979, 1979), character(1)),
+  Y1989 = vapply(sub_sib, function (s) get_pop_window_val(s, 1989, 1989), character(1)),
+  Y1991 = vapply(sub_sib, function (s) get_pop_window_val(s, 1991, 1991), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_sib,
+  list(
+    caption = "Settlement population histories across the West Siberian oil and gas okrugs, Eastern Siberia, Yakutia, and the Far East (Regions 31 to 41, 1953AD - 1991AD).",
+    col_names = c("Settlement", "Late-Soviet Region (31-41)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1989AD", "1991AD"),
+    label = "tab:siberia-fareast"
+  )
+)
+```
+
+# Complete Alphabetical Settlement Directory (292 Settlements)
+
+```{r tab-complete-directory, echo=FALSE, results='asis'}
+all_sorted <- settlements_list[order(vapply(settlements_list, function (s) as.character(s$key), character(1)))]
+
+df_all <- data.frame(
+  Key = vapply(all_sorted, function (s) as.character(s$key), character(1)),
+  Region = vapply(all_sorted, fmt_reg_short, character(1)),
+  Coords = vapply(all_sorted, function (s) fmt_coord_pair(s$coords), character(1)),
+  Series = vapply(all_sorted, function (s) fmt_pop_series(s, 1953, 1991), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_all,
+  list(
+    caption = "Complete alphabetical settlement directory across all forty-one Late-Soviet regions of the western SSRs and the RSFSR (292 settlements, 1953AD - 1991AD).",
+    col_names = c("Stadester Key", "Late-Soviet Region (1-41)", "Coordinates", "Benchmark Population Series (1953AD - 1991AD)"),
+    label = "tab:complete-directory"
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

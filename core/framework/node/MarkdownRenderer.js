@@ -629,8 +629,8 @@ class MarkdownRenderer {
       let bib_html = bib_lines.join("\n");
       if (/:::\s*\{#refs\}\s*:::/g.test(updated_text)) {
         updated_text = updated_text.replace(/:::\s*\{#refs\}\s*:::/g, bib_html);
-      } else if (/(^|\r?\n)(#{1,2}\s+(?:References|Sources)\b[^\r\n]*)\s*$/i.test(updated_text)) {
-        updated_text = updated_text.replace(/(^|\r?\n)(#{1,2}\s+(?:References|Sources)\b[^\r\n]*)\s*$/i, `$1$2\n\n${bib_html}\n`);
+      } else if (/(^|\r?\n)(#{1,2}\s+(?:References|Sources|Bibliography)\b[^\r\n]*)\s*$/i.test(updated_text)) {
+        updated_text = updated_text.replace(/(^|\r?\n)(#{1,2}\s+(?:References|Sources|Bibliography)\b[^\r\n]*)\s*$/i, `$1$2\n\n${bib_html}\n`);
       } else {
         updated_text = `${updated_text.trimEnd()}\n\n# Sources\n\n${bib_html}\n`;
       }
