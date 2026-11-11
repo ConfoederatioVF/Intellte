@@ -193,7 +193,7 @@ class MarkdownRenderer {
 
     //Process LaTeX cross-references, citations, footnotes, <pdf src> tags, and inline math
     body_md = this.stripLatexPaginationBlocks(body_md);
-    body_md = this.resolveCrossReferences(body_md, Boolean(frontmatter.hero_figure));
+    body_md = this.resolveCrossReferences(body_md, Boolean(frontmatter.hero_figure), frontmatter.hero_label);
     body_md = this.resolveTableAndCaptionMarkdown(body_md);
     body_md = this.resolveCitationsAndBibliography(body_md, bib_entries);
     body_md = this.resolveFootnotes(body_md);
@@ -647,12 +647,14 @@ class MarkdownRenderer {
    *
    * @param {string} arg0_md_text - Markdown body text.
    * @param {boolean} [arg1_has_hero_figure] - Whether Figure 1 is the hero figure.
+   * @param {string} [arg2_hero_label] - Custom hero figure label from frontmatter.
    * @return {string} Markdown text with resolved figure and table anchor links.
    */
-  resolveCrossReferences (arg0_md_text, arg1_has_hero_figure) {
+  resolveCrossReferences (arg0_md_text, arg1_has_hero_figure, arg2_hero_label) {
     //Convert from parameters
     let md_text = String(arg0_md_text || "");
     let has_hero_figure = Boolean(arg1_has_hero_figure);
+    let hero_label = (arg2_hero_label) ? String(arg2_hero_label).trim() : "";
 
     //Declare local instance variables
     let fig_map = {};
@@ -667,6 +669,11 @@ class MarkdownRenderer {
     if (has_hero_figure) {
       fig_map["fig:cdt-dashboard"] = 1;
       fig_map["fig:hero"] = 1;
+      fig_map["fig:hero-map"] = 1;
+      fig_map["fig:principalities_map"] = 1;
+      if (hero_label) {
+        fig_map[hero_label] = 1;
+      }
     }
 
     for (let i = 0; i < fig_matches.length; i++) {
