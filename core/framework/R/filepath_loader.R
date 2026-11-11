@@ -60,10 +60,14 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
           parts[p_i] <- gsub("([0-9]),([0-9])", "\\1{,}\\2", parts[p_i], perl = TRUE)
           parts[p_i] <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
           parts[p_i] <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub("(\\{,\\}[0-9]*?[1-9])0+(?![0-9])", "\\1", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub("\\{,\\}0+(?![0-9])", "", parts[p_i], perl = TRUE)
         } else {
           parts[p_i] <- gsub("([0-9])\\.([0-9])", "\\1,\\2", parts[p_i], perl = TRUE)
           parts[p_i] <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
           parts[p_i] <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub("(,[0-9]*?[1-9])0+(?![0-9])", "\\1", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub(",0+(?![0-9])", "", parts[p_i], perl = TRUE)
         }
       }
       s <- paste(parts, collapse = "")
@@ -71,6 +75,8 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
       s <- gsub("([0-9])\\.([0-9])", "\\1,\\2", s, perl = TRUE)
       s <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}(?![0-9]))", ".", s, perl = TRUE)
       s <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}(?![0-9]))", ".", s, perl = TRUE)
+      s <- gsub("(,[0-9]*?[1-9])0+(?![0-9])", "\\1", s, perl = TRUE)
+      s <- gsub(",0+(?![0-9])", "", s, perl = TRUE)
     }
 
     if (length(protected_tokens) > 0) {
@@ -78,6 +84,9 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
         s <- gsub(paste0("___INT_PROT_", k, "___"), protected_tokens[k], s, fixed = TRUE)
       }
     }
+    # Strip trailing decimal zeroes on restored European thousands-formatted decimals (e.g. 1.015,0k -> 1.015k)
+    s <- gsub("(\\b[1-9][0-9]{0,2}(?:\\.[0-9]{3})+)(,[0-9]*?[1-9])0+(?![0-9])", "\\1\\2", s, perl = TRUE)
+    s <- gsub("(\\b[1-9][0-9]{0,2}(?:\\.[0-9]{3})+),0+(?![0-9])", "\\1", s, perl = TRUE)
     out_vec[idx] <- s
   }
 
@@ -124,6 +133,8 @@ format_euro_number <- function (arg0_x, arg1_options = NULL) {
         big.mark = big_mark,
         decimal.mark = ","
       )
+      local_fmt <- sub("(,[0-9]*?[1-9])0+$", "\\1", local_fmt, perl = TRUE)
+      local_fmt <- sub(",0+$", "", local_fmt, perl = TRUE)
       out_vec[i] <- paste0(local_sign, local_fmt, suffix)
     }
   }
@@ -163,19 +174,29 @@ format_semantic_number <- function (arg0_x, arg1_options = NULL) {
       local_abs <- abs(local_val)
       local_sign <- if (local_val < 0) "-" else ""
       if (local_abs >= 1e12) {
-        scaled_str <- formatC(local_abs/1e12, format = "f", digits = digits, decimal.mark = ",")
+        scaled_str <- formatC(local_abs/1e12, format = "f", digits = digits, big.mark = ".", decimal.mark = ",")
+        scaled_str <- sub("(,[0-9]*?[1-9])0+$", "\\1", scaled_str, perl = TRUE)
+        scaled_str <- sub(",0+$", "", scaled_str, perl = TRUE)
         out_vec[i] <- paste0(local_sign, scaled_str, "T", unit_str)
       } else if (local_abs >= 1e9) {
-        scaled_str <- formatC(local_abs/1e9, format = "f", digits = digits, decimal.mark = ",")
+        scaled_str <- formatC(local_abs/1e9, format = "f", digits = digits, big.mark = ".", decimal.mark = ",")
+        scaled_str <- sub("(,[0-9]*?[1-9])0+$", "\\1", scaled_str, perl = TRUE)
+        scaled_str <- sub(",0+$", "", scaled_str, perl = TRUE)
         out_vec[i] <- paste0(local_sign, scaled_str, "B", unit_str)
       } else if (local_abs >= 1e6) {
-        scaled_str <- formatC(local_abs/1e6, format = "f", digits = digits, decimal.mark = ",")
+        scaled_str <- formatC(local_abs/1e6, format = "f", digits = digits, big.mark = ".", decimal.mark = ",")
+        scaled_str <- sub("(,[0-9]*?[1-9])0+$", "\\1", scaled_str, perl = TRUE)
+        scaled_str <- sub(",0+$", "", scaled_str, perl = TRUE)
         out_vec[i] <- paste0(local_sign, scaled_str, "M", unit_str)
       } else if (local_abs >= 1e3) {
-        scaled_str <- formatC(local_abs/1e3, format = "f", digits = digits, decimal.mark = ",")
+        scaled_str <- formatC(local_abs/1e3, format = "f", digits = digits, big.mark = ".", decimal.mark = ",")
+        scaled_str <- sub("(,[0-9]*?[1-9])0+$", "\\1", scaled_str, perl = TRUE)
+        scaled_str <- sub(",0+$", "", scaled_str, perl = TRUE)
         out_vec[i] <- paste0(local_sign, scaled_str, "k", unit_str)
       } else {
-        scaled_str <- formatC(local_abs, format = "f", digits = if (local_abs == round(local_abs)) 0L else digits, decimal.mark = ",")
+        scaled_str <- formatC(local_abs, format = "f", digits = if (local_abs == round(local_abs)) 0L else digits, big.mark = ".", decimal.mark = ",")
+        scaled_str <- sub("(,[0-9]*?[1-9])0+$", "\\1", scaled_str, perl = TRUE)
+        scaled_str <- sub(",0+$", "", scaled_str, perl = TRUE)
         out_vec[i] <- paste0(local_sign, scaled_str, unit_str)
       }
     }
