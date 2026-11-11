@@ -1,25 +1,137 @@
 ---
-title: "GAZETTEER OF SETTLEMENTS AND POPULATION HISTORIES OF WESTERN SIBERIA."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (6000BC - 1900AD)."
+title: "Settlements and Towns of the Ob-Irtysh Basin, Yugra and the Altai"
+subtitle: "From Prehistoric Pit-House Forts and Yugra and Tatar Gorodki to the Russian Towns of Western Siberia"
 date: "7 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/fig1_ob_irtysh_yugra_basins_map.png"
-hero_caption: "River basins, administrative boundaries, and principal archaeological and historical settlements of Western Siberia (6000BC - 1900AD)."
+hero_caption: "The three regions of the Ob-Irtysh basin (2,4M km²), showing the distribution of prehistoric fortified villages, medieval Ob-Ugrian and Tatar gorodki and Imperial Russian towns across the Altai, the forest-steppe and Yugra."
 hero_label: "fig:hero"
 bibliography: siberia_ob_irtysh_steppe_and_yugra_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 
 orig_sanitize_latex_text <- sanitize_latex_text
 sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
@@ -80,13 +192,16 @@ get_alt_name <- function (arg0_item) {
   others <- unlist(arg0_item$other_names)
   if (length(others) == 0) return("-")
   non_cyr <- others[!grepl("[\u0400-\u04FF]", others, perl = TRUE)]
-  if (length(non_cyr) > 0) {
-    return(non_cyr[1])
+  res <- if (length(non_cyr) > 0) {
+    non_cyr[1]
+  } else if (length(others) >= 2L) {
+    translit_cyrillic(others[2])
+  } else {
+    translit_cyrillic(others[1])
   }
-  if (length(others) >= 2L) {
-    return(translit_cyrillic(others[2]))
-  }
-  return(translit_cyrillic(others[1]))
+  res <- gsub("Archeological", "Archaeological", res, fixed = TRUE)
+  res <- gsub("archeological", "archaeological", res, fixed = TRUE)
+  return(res)
 }
 
 fmt_coords <- function (arg0_item) {
@@ -121,9 +236,17 @@ get_founded_str <- function (arg0_item) {
 fmt_pop_val <- function (arg0_val) {
   if (is.null(arg0_val) || is.na(arg0_val)) return("-")
   v <- as.numeric(arg0_val)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
   if (v >= 1000) {
-    s <- sprintf("%.1fk", v / 1000.0)
-    return(gsub("\\.", ",", s))
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
   }
   return(as.character(round(v)))
 }
@@ -161,15 +284,21 @@ build_group_df <- function (arg0_keys, arg1_ranges, arg2_use_founded = FALSE) {
 }
 ```
 
-# Introduction
+# Abstract
 
-This gazetteer compiles the geographical coordinates, historical and indigenous names, occupation spans, and benchmark population histories of 193 individual settlements across Western Siberia (the Ob-Irtysh river basin, ~2,40M km²) from 6000BC to 1900AD [@Chernykh2022]. Reading directly from the regional settlement dataset in the standard Stadester format, the compilation covers prehistoric, Bronze Age, and Iron Age settlements across the Altai region, the South-West Siberian Steppe and Forest-Steppe, and the North-West Siberian Taiga, Tundra, and Yugra, followed by medieval Ob-Ugrian, Selkup, Turkic, and Siberian Tatar fortified centres (*gorodki* and *gorodishcha*), and early modern to Imperial Russian towns, *ostrogi*, factory settlements (*zavody*), and *slobody*.
+Across the 2,4M km² of the Ob-Irtysh river basin, settlement evolved from northern taiga pit-house forts at Early Neolithic Amnya I (60 residents in 6000BC) and Kayukovo 2 (42 residents) [@Piezonka2023; @Kardash2020] to Copper Age horse-hunting villages at Botai (650 residents in 3500BC) [@Outram2009], Middle Bronze Age copper-smelting forts at Arkaim (800 residents in 2000BC) and Kamennyi Ambar (580) [@Krause2019] and the Late Bronze Age fortified town of Chicha-1 in Baraba (1,05k residents in 800BC) [@Molodin2009]. During the Early Iron Age and Middle Ages, the Sargat confederacy built large forest-steppe towns led by Rafailovskoye (1,45k residents in 300BC) [@Matveeva2000; @Chikunova2005], while ten hereditary Ob-Ugrian principalities in Yugra occupied fortified log towns (*gorodki*) at Koda/Sherkaly-1 (280 residents), Emder (170), Ust-Voikary (135) and Nadym Gorodok (58) alongside the Siberian Khanate capitals of Chimgi-Tura and Isker (650 permanent residents in 1580AD) [@Dolgikh1960; @Kardash2009; @Vizgalov2008; @Tataurov2016]. Following the founding of Tyumen (1586), Tobolsk (1587), Tomsk (1604), Tara (1594), Omsk (1716) and the Altai silver-mining works at Barnaul (1739) and Zmeinogorsk, Russian administrative, mining and railway towns expanded rapidly across Western Siberia, led at the close of the 19th century by Tomsk (52,2k in 1897), Omsk (37,4k), Tyumen (29,6k), Barnaul (21,1k), Tobolsk (20,4k), Petropavlovsk (19,7k) and Biysk (17,2k) [@Kabuzan1990; @Kolesnikov1973; @Patkanov1911; @Bryukhanova2021].
 
-Prehistoric, Bronze Age, and Iron Age settlement populations are estimated from excavated house counts, dwelling floor areas ($4,5\text{ m}^2$ per person with a contemporaneity factor of $0,65$ to $0,80$), and geomagnetic settlement plans [@Piezonka2023; @Dubovtseva2020; @Borzunov2012; @Ryabogina2010; @Outram2009; @Epimakhov2009; @Krause2019; @Molodin2009; @Matveeva1999; @Losey2018; @Grushin2011; @Dashkovskiy2024]. Medieval Yugra and Siberian Khanate populations combine excavated *gorodishche* house counts with 17th-century Russian fur-tribute (*yasak*) registers using B. O. Dolgikh's household multipliers ($4,0$ per adult male payer for Ob-Ugrian and Selkup communities and $4,5$ to $5,0$ for Siberian Tatar *yurts*) [@Dolgikh1960; @Bakhrushin1935; @Kardash2009; @Vizgalov2008; @Vizgalov2011; @Solodkin2015; @Tataurov2016; @Maslyuzhenko2018; @Matveev2011; @Vodyasov2016; @Vodyasov2017; @Gorbunov2018]. Early modern and 18th- to 19th-century urban and *sloboda* populations are drawn from 17th-century garrison and household rosters (*dozornye* and *perepisnye knigi*), the ten Imperial Poll-Tax Revisions (1719-1858) [@Kabuzan1990; @Kolesnikov1973; @Rezun1989; @Korusenko2011], and the First All-Russian Imperial Census of 1897 [@Patkanov1911; @Tychinskikh2019; @Bryukhanova2021].
+# Methodology
 
-# Prehistoric, Bronze Age, and Iron Age Settlements (6000BC - 500AD)
+This gazetteer presents the coordinates, historical and native names, dates of occupation and population estimates for 193 settlements across Western Siberia (the Ob-Irtysh river basin, ~2,4M km²) from 6000BC to 1900AD [@Chernykh2022]. It covers prehistoric, Bronze Age and Iron Age villages and forts across the Altai region, the South-West Siberian steppe and forest-steppe and the northern taiga, tundra and Yugra, followed by medieval Ob-Ugrian, Selkup, Turkic and Siberian Tatar fortified towns (*gorodki* and *gorodishcha*) and early modern and Imperial Russian towns, forts (*ostrogi*), mining works (*zavody*) and peasant villages (*slobody*).
 
-Table \ref{tab:neolithic_bronze_sites} lists the 45 Neolithic, Eneolithic, and Bronze Age settlements (6000-700BC), and Table \ref{tab:early_iron_sites} lists the 24 Early Iron Age settlements (600BC - 500AD) compiled in the regional settlement dataset.
+Prehistoric, Bronze Age and Iron Age settlement populations are estimated from excavated house counts, floor areas ($4,5\text{ m}^2$ per person with an occupancy factor of $0,65$ to $0,8$) and magnetometry plans [@Piezonka2023; @Dubovtseva2020; @Borzunov2012; @Ryabogina2010; @Outram2009; @Epimakhov2009; @Krause2019; @Molodin2009; @Matveeva1999; @Losey2018; @Grushin2011; @Dashkovskiy2024]. Medieval Yugra and Siberian Khanate populations combine excavated *gorodishche* house counts with 17th-century Russian fur-tribute (*yasak*) registers using B. O. Dolgikh's household multipliers ($4$ per adult male payer for Ob-Ugrian and Selkup communities and $4,5$ to $5$ for Siberian Tatar *yurts*) [@Dolgikh1960; @Bakhrushin1935; @Kardash2009; @Vizgalov2008; @Vizgalov2011; @Solodkin2015; @Tataurov2016; @Maslyuzhenko2018; @Matveev2011; @Vodyasov2016; @Vodyasov2017; @Gorbunov2018]. Early modern and 18th- to 19th-century town and village populations are drawn from 17th-century garrison and household rolls (*dozornye* and *perepisnye knigi*), the ten Poll-Tax Revisions (1719-1858) [@Kabuzan1990; @Kolesnikov1973; @Rezun1989; @Korusenko2011] and the First All-Russian Census of 1897 [@Patkanov1911; @Tychinskikh2019; @Bryukhanova2021].
+
+# Results
+
+## Early Villages, Bronze Age Forts and Iron Age Settlements
+
+Table \ref{tab:neolithic_bronze_sites} lists the 45 Neolithic, Copper Age and Bronze Age settlements (6000-700BC), and Table \ref{tab:early_iron_sites} lists the 24 Early Iron Age settlements (600BC - 500AD).
 
 ```{r table_neolithic_bronze, echo=FALSE, results='asis'}
 neo_bronze_keys <- c(
@@ -198,9 +327,9 @@ df_neo_bronze <- build_group_df(
 render_table_template(
   df_neo_bronze,
   list(
-    caption = "Coordinates, occupation spans, and population estimates for Neolithic to Bronze Age settlements of Western Siberia (6000 - 700BC).",
+    caption = "Estimated populations across four prehistoric benchmark windows for 45 Neolithic pit-house forts, Botai horse-hunting villages, Sintashta-Arkaim copper-smelting towns and Late Bronze Age Irmen and Chicha-1 settlements.",
     label = "tab:neolithic_bronze_sites",
-    col_names = c("Settlement", "Alternative Name", "Coordinates", "Occupied Span", "6000-3000", "2500-1850", "1800-1200", "1100-700"),
+    col_names = c("Settlement", "Alternative Name", "Coords", "Occupied Span", "6000-3000", "2500-1850", "1800-1200", "1100-700"),
     euro_decimals = TRUE
   )
 )
@@ -229,17 +358,17 @@ df_iron <- build_group_df(
 render_table_template(
   df_iron,
   list(
-    caption = "Coordinates, occupation spans, and population estimates for Early Iron Age settlements of Western Siberia (800BC - 800AD).",
+    caption = "Estimated populations across four Iron Age benchmark windows for 24 Sargat forest-steppe fortified towns, Kulai and Ust-Polui taiga centres and Altai Pazyryk and Bulan-Koba valley settlements.",
     label = "tab:early_iron_sites",
-    col_names = c("Settlement", "Alternative Name", "Coordinates", "Occupied Span", "800-300BC", "250-100BC", "1-250AD", "300-800AD"),
+    col_names = c("Settlement", "Alternative Name", "Coords", "Occupied Span", "800-300BC", "250-100BC", "1-250AD", "300-800AD"),
     euro_decimals = TRUE
   )
 )
 ```
 
-# Medieval Yugra Principalities and Siberian Khanate Centres (500 - 1650AD)
+## Yugra Principalities and Siberian Khanate Centres
 
-Table \ref{tab:medieval_settlements} presents the 46 medieval Ob-Ugrian, Samoyedic, Selkup, Altai Turkic, and Siberian Tatar fortified settlements and principalities compiled in the regional settlement dataset.
+Table \ref{tab:medieval_settlements} presents the 46 medieval Ob-Ugrian, Samoyedic, Selkup, Altai Turkic and Siberian Tatar fortified settlements and principalities.
 
 ```{r table_medieval, echo=FALSE, results='asis'}
 med_keys <- c(
@@ -270,17 +399,17 @@ df_med <- build_group_df(
 render_table_template(
   df_med,
   list(
-    caption = "Coordinates, occupation spans, and population estimates for medieval Yugra and Siberian Khanate settlements (600 - 1900AD).",
+    caption = "Population estimates across six benchmark windows from early medieval Srostki and Lower Ob sites through the ten Yugra principalities and the Siberian Khanate to the 1897 Census.",
     label = "tab:medieval_settlements",
-    col_names = c("Settlement", "Historical / Native Name", "Coordinates", "Occupied Span", "600-1100", "1200-1400", "1450-1550", "1580-1615", "1625-1700", "1897-1900"),
+    col_names = c("Settlement", "Historical / Native Name", "Coords", "Occupied Span", "600-1100", "1200-1400", "1450-1550", "1580-1615", "1625-1700", "1897-1900"),
     euro_decimals = TRUE
   )
 )
 ```
 
-# Early Modern and Imperial Towns, Ostrogs, and Slobodas (1586 - 1900AD)
+## Russian Towns, Ostrogs and Peasant Villages
 
-Tables \ref{tab:tobolsk_yugra_towns}, \ref{tab:irtysh_steppe_towns}, and \ref{tab:tomsk_altai_towns} present the 78 Russian administrative towns, fortified *ostrogi*, agricultural *slobody*, and mining settlements (*zavody*) across Tobolsk Governorate, the Irtysh defensive line, Tomsk Governorate, and the Altai region up to the First All-Russian Imperial Census of 1897 and 1900AD.
+Tables \ref{tab:tobolsk_yugra_towns}, \ref{tab:irtysh_steppe_towns} and \ref{tab:tomsk_altai_towns} present the 78 Russian towns, fortified *ostrogi*, farming *slobody* and mining settlements (*zavody*) across Tobolsk Governorate, the Irtysh defensive line, Tomsk Governorate and the Altai region up to the First All-Russian Census of 1897 and 1900AD.
 
 ```{r table_tobolsk_yugra, echo=FALSE, results='asis'}
 tobolsk_keys <- c(
@@ -309,9 +438,9 @@ df_tobolsk <- build_group_df(
 render_table_template(
   df_tobolsk,
   list(
-    caption = "Coordinates, foundation dates, and population estimates for Tobolsk Governorate and northern Yugra towns (1586 - 1900AD).",
+    caption = "Foundation dates and benchmark populations from 17th-century garrison rolls, the ten Poll-Tax Revisions and the 1897 Census for 34 Russian administrative cities, northern ostrog outposts and farming slobodas in Tobolsk Governorate.",
     label = "tab:tobolsk_yugra_towns",
-    col_names = c("Settlement", "Historical Name", "Coordinates", "1st Rec.", "1586-1650", "1700", "1750", "1800", "1850", "1897", "1900"),
+    col_names = c("Settlement", "Historical Name", "Coords", "1st Rec.", "1586-1650", "1700", "1750", "1800", "1850", "1897", "1900"),
     euro_decimals = TRUE
   )
 )
@@ -339,9 +468,9 @@ df_irtysh <- build_group_df(
 render_table_template(
   df_irtysh,
   list(
-    caption = "Coordinates, foundation dates, and population estimates for Irtysh Fortified Line and steppe towns (1716 - 1900AD).",
+    caption = "Foundation dates and benchmark populations from military revision lists and the 1897 Census for 14 fortresses, Cossack line stanitsas and railway towns along the Irtysh and Novo-Ishimskaya lines.",
     label = "tab:irtysh_steppe_towns",
-    col_names = c("Settlement", "Historical Name", "Coordinates", "1st Rec.", "1716-1752", "1800", "1850", "1897", "1900"),
+    col_names = c("Settlement", "Historical Name", "Coords", "1st Rec.", "1716-1752", "1800", "1850", "1897", "1900"),
     euro_decimals = TRUE
   )
 )
@@ -372,9 +501,9 @@ df_tomsk_altai <- build_group_df(
 render_table_template(
   df_tomsk_altai,
   list(
-    caption = "Coordinates, foundation dates, and population estimates for Tomsk Governorate, Upper Ob, and Altai towns (1604 - 1900AD).",
+    caption = "Foundation dates and benchmark populations from Cabinet mining registers, Poll-Tax Revisions and the 1897 Census for 30 towns, silver-smelting works (zavody) and agricultural settlements in Tomsk Governorate and the Altai.",
     label = "tab:tomsk_altai_towns",
-    col_names = c("Settlement", "Historical Name", "Coordinates", "1st Rec.", "1604-1725", "1750", "1800", "1850", "1897", "1900"),
+    col_names = c("Settlement", "Historical Name", "Coords", "1st Rec.", "1604-1725", "1750", "1800", "1850", "1897", "1900"),
     euro_decimals = TRUE
   )
 )

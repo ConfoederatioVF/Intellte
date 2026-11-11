@@ -1,45 +1,160 @@
 ---
-title: "DEMOGRAPHIC AND SETTLEMENT HISTORY OF CHECHNYA AND INGUSHETIA."
-subtitle: "A Regional Literature Review of Population and Settlement (10000BC - 1900AD)."
+title: "Plains Towns and Mountain Towers in Chechnya and Ingushetia"
+subtitle: "Koban Hillforts, Alanic Cities, Vainakh Gorge Refuges and the Terek-Sunzha Frontier"
 date: "7 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/chechnya_ingushetia_map_basins.png"
-hero_caption: "Elevation zones, river basins, and principal archaeological and historical settlements of Chechnya and Ingushetia (10000BC - 1900AD)."
+hero_caption: "The 20,8k km² territory of Chechnya (17,2k km²) and Ingushetia (3,6k km²) divides into the fertile Sunzha-Assa-Argun piedmont plain (8,6k km²), where Eastern Koban hillforts (Serzhen-Yurt and Lugovoye) and Alanic walled towns (Alkhan-Kala and the Magas cluster) stood, the limestone tower gorges of Dzheirakh, Targim and the upper Argun (6,7k km²), and the semi-arid Trans-Terek steppe (5,5k km²)."
 hero_label: "fig:hero"
 bibliography: chechnya_ingushetia_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
+  md_document:
+    variant: gfm
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 # Abstract
 
-This paper reviews the archaeological, bioarchaeological, architectural, and archival literature to reconstruct the population and settlement history of Chechnya and Ingushetia (20,8k km² combined: 17,2k km² Chechen Republic and 3,6k km² Republic of Ingushetia) from 10000BC to 1900AD. Rather than extrapolating from raw site counts, our synthesis examines long-term settlement change across three main elevation zones: (1) Early Holocene canyon foragers and Early Bronze Age Kura-Araxes-Maykop contact settlements (Lugovoye / Muzhichi, Bamut, Serzhen-Yurt I), reaching ~18,0k by 3000BC [@munchaev1961lugovoye; @munchaev1975caucasus; @bagaev2008ancient]; (2) the Late Bronze and Early Iron Age Eastern Variant of the Koban Culture (1200-400BC, represented by Serzhen-Yurt, Zandak, and Nesterovskiy), when fortified hillforts and bronze metallurgy supported 56,0k (1000BC) to 78,0k (500BC) inhabitants [@kozenkova1977koban; @kozenkova1992serzhen; @kozenkova2013koban; @burkov2015]; (3) the Early and High Medieval Alanic urban period (400-1238AD), when fortified town (*gorodishche*) networks along the Sunzha, Assa, Argun, and Terek (Alkhan-Kala [60 ha], the Nazran-Ekazhevo / Magas cluster of >30 fortified settlements, and Germenchuk) raised regional population to 172,0k (145,0k-200,0k) around 1200AD, with 75% living on the fertile piedmont plains [@vinogradov1972central; @chakhkiev2006magas; @dolgieva2013ingushetia; @malashev2016alania; @mamaev2009]; and (4) the upland displacement (1238-1400AD) caused by the 1239-1240 Mongol siege of Magas and Timur's 1395 destruction of *Simsir*, which halved regional population to 88,0k (75,0k-105,0k) and concentrated 77% of survivors in the fortified stone tower and collective crypt villages of the Armkhi, Assa, and Argun gorges (Egikal, Erzi, Targim, Vovnushki, Tsoy-Pede, Khoy) [@markovin1965monuments; @shavkhelishvili1963history; @akhmadov2002chechnya; @frizen2020], before the 16th-18th-century Vainakh return to the Sunzha-Argun plains lifted population to 128,0k by 1700AD and 220,0k by 1800AD [@kusheva1963peoples; @volkova1973ethnonyms; @akhmadov2019chechnya; @kabuzan1996]. Following severe wartime mortality during the Caucasian War (1818-1859; 195,0k in 1850AD) and the 1865 *muhajir* deportation of ~22,0k Chechens and Orstkhoy (Karabulaks) to the Ottoman Empire, natural growth, Cossack settlement, the 1893 Grozny oil boom, and the 1897 First All-Russian Imperial Census document a rise to 350,0k (330,0k-370,0k) by 1900AD [@kabuzan1996; @ibragimova2006; @troynitskiy1905terek; @golovlev2017census].
+Chechnya and Ingushetia occupy 20,8k km² on the northern flank of the Greater Caucasus (17,2k km² in the Chechen Republic and 3,6k km² in the Republic of Ingushetia). Across the last twelve millennia, settlement in the region has shifted repeatedly between the fertile piedmont plains of the Sunzha, Assa and Argun rivers and the defensive limestone gorges of the high mountains. Early Holocene canyon camps and Early Bronze Age villages at Lugovoye, Bamut and Serzhen-Yurt I, where the Kura-Araxes and Maykop traditions met, raised the regional population to around 18k by 3000BC [@munchaev1961lugovoye; @munchaev1975caucasus; @bagaev2008ancient]. During the Late Bronze and Early Iron Ages (1200-400BC), fortified hillforts and bronze-working centres of the Eastern Koban culture at Serzhen-Yurt, Zandak and Nesterovskiy supported 56k inhabitants by 1000BC and 78k by 500BC [@kozenkova1977koban; @kozenkova1992serzhen; @kozenkova2013koban; @burkov2015]. Population reached a medieval peak of 172k (145k-200k) around 1200AD under the Alanic kingdom, when three-quarters of the inhabitants lived on the piedmont plain around the walled urban centres of Alkhan-Kala (60 ha), Germenchuk and the Magas settlement cluster around Nazran and Ekazhevo [@vinogradov1972central; @chakhkiev2006magas; @dolgieva2013ingushetia; @malashev2016alania; @mamaev2009]. The Mongol siege of Magas in 1239-1240 and Timur's campaign against Simsir in 1395 destroyed the lowland towns, halving the regional population to 88k (75k-105k) by 1400AD and driving 77% of the survivors into the fortified stone tower villages of the Armkhi, Assa and Argun gorges, including Egikal, Erzi, Targim, Vovnushki, Tsoy-Pede and Khoy [@markovin1965monuments; @shavkhelishvili1963history; @akhmadov2002chechnya; @frizen2020]. From the 16th to the 18th century, Vainakh communities descended once more onto the Sunzha-Argun plains, lifting numbers to 128k by 1700AD and 220k by 1800AD [@kusheva1963peoples; @volkova1973ethnonyms; @akhmadov2019chechnya; @kabuzan1996]. Although the Caucasian War (1818-1859) reduced the population to 195k in 1850AD and was followed in 1865 by the *muhajir* emigration of some 22k Chechens and Orstkhoy to the Ottoman Empire, agrarian recovery, Cossack colonisation and the Grozny oil boom of the 1890s carried the population to 350k (330k-370k) by 1900AD [@kabuzan1996; @ibragimova2006; @troynitskiy1905terek; @golovlev2017census].
 
 # Background
 
- Occupying the north-central and northeastern slopes of the Greater Caucasus between the upper Terek-Assa watershed and the Andi ridge, the historical Vainakh territory (20,8k km²) is divided into three parallel east-west belts (Figure 1 and Table 1).
+Occupying the north-central and north-eastern slopes of the Greater Caucasus between the upper Terek-Assa watershed and the Andi ridge, the historical Vainakh territory (20,8k km²) divides naturally into three parallel east-west belts (Figure 1 and Table 1).
 
-The first belt comprises the Sunzha-Assa-Argun piedmont plain and foothill valleys (Zone 1, 8,6k km², 100-500 m). Watered by the Sunzha (Сунжа) and its right-bank tributaries (Assa, Fortanga, Gehi, Martan, Argun, Dzhalka, Gums, Aksay), this fertile piedmont belt served as the main agricultural zone of the central-eastern Caucasus during the Early Bronze Age (Lugovoye, Serzhen-Yurt I), the Eastern Koban era (Serzhen-Yurt, Alkhaste, Bamut), the Alanic kingdom (Alkhan-Kala, Nazran-Ekazhevo / Magas), and the 16th-19th-century Vainakh resettlement of the plains (Chechen-Aul, Aldy, Shali, Germenchuk, Gekhi, Urus-Martan, Nazran, Grozny) [@munchaev1961lugovoye; @kozenkova1992serzhen; @chakhkiev2006magas; @akhmadov2002chechnya].
-The second belt encompasses the highland limestone and slate tower gorges (Zone 2, 6,7k km², 500-4 493 m). Rising to Mount Tebulosmta (4 493 m) and Mount Shan (4 451 m), the deep canyons of the Armkhi (Dzheirakh), upper Assa (Targim basin), Fortanga (Orstkhoy / Akki), upper Argun (Malkhista, Maysta, Terloy, Chanti, Shubuty, Mulkoi), Sharo-Argun (Sharoy, Cheberloy), and wooded Ichkeria (Nokhch-Mokhk) formed natural mountain refuges [@markovin1965monuments; @chakhkiev2007weapons; @nalgiev2026]. Following the 13th-14th-century Mongol and Timurid campaigns across the Sunzha plain, these gorges saw extensive construction of mortar-bound residential stone towers (*gala*), pyramidal combat towers (*vov*), and above-ground collective vaulted crypts (*maigash* / *kash*) [@markovin1965monuments; @dolgieva2013ingushetia; @karieva2024].
+At the foot of the mountains lies the Sunzha-Assa-Argun piedmont plain and its adjoining foothill valleys (Zone 1, 8,6k km², 100-500 m). Watered by the Sunzha and its right-bank tributaries - the Assa, Fortanga, Gehi, Martan, Argun, Dzhalka, Gums and Aksay - this fertile belt served as the primary agricultural heartland of the region during the Early Bronze Age (Lugovoye, Serzhen-Yurt I), the Eastern Koban period (Serzhen-Yurt, Alkhaste, Bamut), the Alanic kingdom (Alkhan-Kala, Nazran-Ekazhevo/Magas) and the 16th-19th-century Vainakh resettlement of the plains (Chechen-Aul, Aldy, Shali, Germenchuk, Gekhi, Urus-Martan, Nazran and Grozny) [@munchaev1961lugovoye; @kozenkova1992serzhen; @chakhkiev2006magas; @akhmadov2002chechnya].
 
-The third belt consists of the Trans-Terek lowland steppe (Zone 3, 5,5k km², -10 to 150 m). North of the Terek river (Naurskaya, Shelkovskaya, Kargalinskaya steppes), mobile pastoralists (Scythians, Sarmatians, Savirs/Khazars, Kipchaks, Golden Horde Tatars, and Nogais) alternated with fortified river settlements along the Terek bluff and, from the 16th to 19th centuries, the Greben and Terek Cossack *stanitsas* [@vinogradov1972central; @kusheva1963peoples; @kabuzan1996].
+South of the piedmont rise the limestone and slate tower gorges of the high mountains (Zone 2, 6,7k km², 500-4.493 m). Culminating in Mount Tebulosmta (4.493 m) and Mount Shan (4.451 m), the deep canyons of the Armkhi (Dzheirakh), upper Assa (Targim basin), Fortanga (Orstkhoy/Akki), upper Argun (Malkhista, Maysta, Terloy, Chanti, Shubuty and Mulkoi), Sharo-Argun (Sharoy and Cheberloy) and wooded Ichkeria (Nokhch-Mokhk) formed natural mountain refuges [@markovin1965monuments; @chakhkiev2007weapons; @nalgiev2026]. Following the 13th- and 14th-century Mongol and Timurid campaigns across the Sunzha plain, these gorges saw extensive construction of mortar-bound residential stone towers (*gala*), pyramidal combat towers (*vov*) and above-ground collective vaulted crypts (*maigash* or *kash*) [@markovin1965monuments; @dolgieva2013ingushetia; @karieva2024].
+
+North of the Terek river extends the Trans-Terek lowland steppe (Zone 3, 5,5k km², -10 to 150 m). Across the Naurskaya, Shelkovskaya and Kargalinskaya steppes, mobile pastoralists - Scythians, Sarmatians, Savirs, Khazars, Kipchaks, Golden Horde Tatars and Nogais - alternated with fortified river settlements along the Terek bluff and, from the 16th to the 19th century, the Greben and Terek Cossack *stanitsas* [@vinogradov1972central; @kusheva1963peoples; @kabuzan1996].
 
 # Methodology
 
 ## Regional Subdivisions
 
-To track population movements between the fertile Sunzha-Assa-Argun piedmont and the mountain tower gorges, we divide Chechnya and Ingushetia (20,8k km²) into three elevation zones (Table 1).
+To track population movements between the fertile Sunzha-Assa-Argun piedmont and the mountain gorges, we divide Chechnya and Ingushetia (20,8k km²) into three elevation zones (Table 1).
 
 ```{r tab-chech-zones, echo=FALSE, results='asis'}
 df_czones <- data.frame(
@@ -49,7 +164,7 @@ df_czones <- data.frame(
     "Trans-Terek Lowland Steppe",
     "Total Chechnya and Ingushetia"
   ),
-  Elevation = c("100 to 500 m", "500 to 4 493 m", "-10 to 150 m", "-10 to 4 493 m"),
+  Elevation = c("100 to 500 m", "500 to 4.493 m", "-10 to 150 m", "-10 to 4.493 m"),
   Area_km2 = c("8,6k", "6,7k", "5,5k", "20,8k"),
   Watersheds = c(
     "Sunzha, lower Assa, Fortanga, Martan, lower Argun, Aksay and Terek valley",
@@ -61,7 +176,7 @@ df_czones <- data.frame(
     "Lugovoye, Serzhen-Yurt, Alkhan-Kala, Magas (Nazran-Ekazhevo), Shali, Grozny",
     "Egikal, Erzi, Targim, Vovnushki, Tsoy-Pede, Khoy, Nikaroy, Sharoy, Vedeno",
     "Trans-Terek kurgans, Golden Horde river crossings, Greben/Terek Cossack stanitsas",
-    "Major prehistoric, Alanic, and Vainakh tower complexes"
+    "Major prehistoric, Alanic and Vainakh tower complexes"
   ),
   stringsAsFactors = FALSE
 )
@@ -69,9 +184,9 @@ df_czones <- data.frame(
 render_table_template(
   df_czones,
   list(
-    caption = "Elevation zones, river basins, and principal archaeological and historical complexes of Chechnya and Ingushetia.",
+    caption = "The three elevation zones of Chechnya and Ingushetia, showing land area, river drainage and the principal settlements of each belt.",
     label = "tab:chechnya_zones",
-    col_names = c("Sub-Regional Zone", "Elevation", "Area (km2)", "River Basins", "Key Archaeological and Historical Centres"),
+    col_names = c("Zone", "Elevation", "Area (km²)", "River Basins", "Key Centres"),
     alignment = c("l", "l", "r", "l", "l"),
     scale_to_fit = FALSE,
     placement = "!htbp"
@@ -81,21 +196,23 @@ render_table_template(
 
 ## Estimation Methods
 
-Regional population estimates $P(t)$ are derived from five independent archaeological and documentary methods.
+Our population estimates combine archaeological settlement and cemetery surveys for the prehistoric and medieval eras with Russian diplomatic, military and census records from the 16th century onwards.
 
-For the Eastern Koban hillfort and cemetery period (1200-400BC), excavations by V. I. Kozenkova at Serzhen-Yurt I-II (~8-10 ha craft settlement with cobbled streets, >60 timber-and-wattle dwellings, and bronze-foundry workshops) and its adjacent cemetery (>120 excavated flat graves) alongside Zandak, Bamut, Nesterovskiy, and Lugovoye establish a density of 40-65 persons/ha for Eastern Koban hillforts (400-650 residents per major settlement) [@kozenkova1977koban; @kozenkova1992serzhen; @kozenkova2013koban; @burkov2015].
-For the Early and High Medieval Alanic fortification network (400-1238AD) mapped by V. B. Vinogradov, Kh. M. Mamaev, D. Yu. Chakhkiev, and V. Yu. Malashev [@burkov2007; @mamaev2009], population is estimated from intramural citadel area (80-120 persons/ha) plus open agricultural *posad* settlements (25-40 persons/ha) across the Alkhan-Kala urban centre (60 ha fortified core + >150 ha suburbs; 8,0k-15,0k inhabitants) and the Nazran-Ekazhevo / Ali-Yurt (Magas) settlement cluster (>30 fortified towns spanning ~100 km²; 15,0k-25,0k inhabitants) [@chakhkiev2006magas; @dolgieva2013ingushetia; @malashev2016alania; @mamaev2022early].
-For the late medieval highland refuge period (1300-1700AD) in Zone 2, over 300 fortified stone tower villages (*aul-kreposti*) containing >2 000 residential towers (*gala*, 2-3 storeys, one nuclear or stem family of 5,5-6,5 persons per tower) and >250 pyramidal combat towers (*vov*, 4-6 storeys, 22-31 m high) are cross-checked against skeletal MNI counts inside multi-tiered collective stone crypts (Tsoy-Pede [42 crypts], Egikal, Erzi, Khoy, Vaserkel, where each lineage crypt accumulated 60-150 burials across 6-8 generations) [@markovin1965monuments; @chakhkiev2007weapons; @dolgieva2013ingushetia; @frizen2020; @nalgiev2026].
-For the early modern period (1550-1800AD), Russian *Posolskiye* and fortress registers compiled by E. N. Kusheva [@kusheva1963peoples], N. G. Volkova [@volkova1973ethnonyms; @volkova1974ethnic], and Ya. Z. and Sh. B. Akhmadov [@akhmadov2004; @akhmadov2016; @tovsultanov2017] record village counts (*kabaki* / *auly*), household totals (*dvory*), and military levies across *Okotskaya zemlya* (Aukh), *Michkizskaya zemlya* (Ichkeria), *Shubutskaya zemlya* (Shatoy / Argun), *Kalkanskaya* / *Erokanskaya zemlya* (Ingush gorges), and the resettled Sunzha-Argun plains [@akhmadov2002chechnya; @akhmadov2019chechnya; @akhmadov2020taip].
-Finally, late 19th-century estimates (1860-1900AD) are anchored to A. P. Berger's (1859) village enumerations [@berger1859chechnya], the 1867-1890 statistical tables of Terek Oblast analysed by Z. Kh. Ibragimova [@ibragimova2006] and V. M. Kabuzan [@kabuzan1996], the 1886 family lists (*posemeynye spiski*), and Volume 68 (*Terskaya Oblast'*) of the 1897 First All-Russian Imperial Census across Grozny, Vedeno, Nazran/Sunzha, and left-bank Terek Cossack districts [@troynitskiy1905terek; @golovlev2017census].
+For the Eastern Koban period (1200-400BC), V. I. Kozenkova's excavations at Serzhen-Yurt I-II - an 8-10 ha craft settlement with cobbled streets, more than 60 timber-and-wattle dwellings and bronze-foundry workshops, paired with an adjacent cemetery of over 120 flat graves - together with surveys at Zandak, Bamut, Nesterovskiy and Lugovoye indicate densities of 40-65 persons per hectare, or 400-650 residents per major hillfort [@kozenkova1977koban; @kozenkova1992serzhen; @kozenkova2013koban; @burkov2015].
 
-# Historical Overview
+For the Alanic period (400-1238AD), mapped by V. B. Vinogradov, Kh. M. Mamaev, D. Yu. Chakhkiev and V. Yu. Malashev [@burkov2007; @mamaev2009], urban and rural populations are derived from walled fort areas (80-120 persons/ha) and open farming suburbs (*posady*, 25-40 persons/ha). The largest concentrations stood at Alkhan-Kala, where a 60 ha fortified core and over 150 ha of suburbs housed 8k-15k inhabitants, and in the Nazran-Ekazhevo and Ali-Yurt (Magas) cluster, where more than 30 fortified towns across 100 km² supported 15k-25k inhabitants [@chakhkiev2006magas; @dolgieva2013ingushetia; @malashev2016alania; @mamaev2022early].
+
+During the late medieval highland refuge phase (1300-1700AD) in Zone 2, over 300 fortified stone tower villages (*aul-kreposti*) containing more than 2k residential towers (*gala*, two to three storeys housing a family of 5,5-6,5 persons) and over 250 pyramidal combat towers (*vov*, four to six storeys, 22-31 m high) provide a direct house count. These figures are checked against skeleton counts inside multi-tiered collective stone crypts at Tsoy-Pede (42 crypts), Egikal, Erzi, Khoy and Vaserkel, where each family crypt accumulated 60-150 burials across six to eight generations [@markovin1965monuments; @chakhkiev2007weapons; @dolgieva2013ingushetia; @frizen2020; @nalgiev2026].
+
+From 1550 to 1800AD, Russian ambassadorial (*Posolskiy Prikaz*) and fortress registers compiled by E. N. Kusheva [@kusheva1963peoples], N. G. Volkova [@volkova1973ethnonyms; @volkova1974ethnic] and Ya. Z. and Sh. B. Akhmadov [@akhmadov2004; @akhmadov2016; @tovsultanov2017] record village counts (*kabaki* or *auly*), household totals (*dvory*) and military levies across *Okotskaya zemlya* (Aukh), *Michkizskaya zemlya* (Ichkeria), *Shubutskaya zemlya* (Shatoy/Argun), *Kalkanskaya* and *Erokanskaya zemlya* (the Ingush gorges) and the resettled Sunzha-Argun plains [@akhmadov2002chechnya; @akhmadov2019chechnya; @akhmadov2020taip]. Late 19th-century figures (1860-1900AD) are anchored to A. P. Berger's 1859 village enumerations [@berger1859chechnya], the 1867-1890 statistical tables of Terek Oblast analysed by Z. Kh. Ibragimova [@ibragimova2006] and V. M. Kabuzan [@kabuzan1996], the 1886 family lists (*posemeynye spiski*) and the 1897 imperial census returns for the Grozny, Vedeno, Nazran/Sunzha and left-bank Terek Cossack districts [@troynitskiy1905terek; @golovlev2017census].
+
+# Results
 
 ```{r fig-chech-pop, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/chechnya_ingushetia_holocene_population.png",
   list(
-    caption = "Estimated population of Chechnya and Ingushetia with uncertainty ranges from Mesolithic canyon camps to the 1897 Terek Census (10000BC - 1900AD).",
+    caption = "Prehistoric numbers rose from Early Bronze Age villages at Lugovoye and Bamut (18k in 3000BC) to 78k under the Eastern Koban hillforts in 500BC (Panel A). In the historical era (Panel B), the Alanic urban peak of 172k around 1200AD was halved by the Mongol and Timurid invasions (88k in 1400AD), before lowland resettlement, Cossack colonisation and the Grozny oil boom lifted the total to 350k in 1900AD.",
     label = "fig:chechnya_curve",
     width = "0.98\\textwidth",
     placement = "!htbp"
@@ -103,35 +220,35 @@ render_figure_template(
 )
 ```
 
-## Mesolithic to Early and Middle Bronze Ages: Kezenoy-Am, Lugovoye, and Bamut (10000 - 1200BC)
+## Mesolithic to Early and Middle Bronze Ages: Kezenoy-Am, Lugovoye and Bamut
 
-During the Early Holocene (10000-5000BC), Mesolithic and Neolithic hunter-gatherers occupied high-mountain lake basins (Kezenoy-Am, 1 870 m) and limestone cave overhangs in the Argun, Sharoy, and Assa gorges, increasing gradually from 0,5k (10000BC) to 3,8k (5000BC) [@munchaev1975caucasus; @bagaev2008ancient]. During the 4th and 3rd millennia BC (Eneolithic and Early Bronze Age, 4000-2000BC), the Sunzha-Assa-Argun piedmont became an active contact zone where the Northeastern Caucasian Kura-Araxes culture met the Maykop-Novosvobodnaya kurgan tradition [@munchaev1961lugovoye; @munchaev1975caucasus].
+During the Early Holocene (10000-5000BC), Mesolithic and Neolithic hunter-gatherers occupied high-mountain lake basins such as Kezenoy-Am (1.870 m) and limestone cave overhangs in the Argun, Sharoy and Assa gorges, with numbers rising gradually from 0,5k in 10000BC to 3,8k in 5000BC [@munchaev1975caucasus; @bagaev2008ancient]. In the 4th and 3rd millennia BC (4000-2000BC), the Sunzha-Assa-Argun piedmont became an active contact zone between the North-Eastern Caucasian Kura-Araxes culture and the Maykop-Novosvobodnaya kurgan tradition [@munchaev1961lugovoye; @munchaev1975caucasus].
 
-At Lugovoye (Muzhichi, Assa Valley) and Serzhen-Yurt I, excavations by R. M. Munchaev (1952-1957) in the Assa gorge of Ingushetia (157 excavated burials) and the lower layer of Serzhen-Yurt I (Shali district, Chechnya) revealed wattle-and-daub houses with sunken circular hearths, horn-lugged Kura-Araxes burnished pottery, stone shaft-hole axes, and arsenical bronze daggers and spiral temple rings [@munchaev1961lugovoye; @munchaev1975caucasus].
-In the Bamut kurgan field (Бамутские курганы) on the Fortanga-Assa piedmont exit, Munchaev excavated over 50 Early and Middle Bronze Age kurgans combining Maykop-Novosvobodnaya metalwork with Kura-Araxes domestic pottery [@munchaev1975caucasus]. By 3000BC, piedmont farming villages and transhumant herders numbered 18,0k (14,0k-24,0k), rising during the Middle Bronze Age North Caucasian (Ginchi and Pre-Koban) cultures (Galaity, Achkhoy-Martan, Harachoy) to 26,0k (2000BC) and 36,0k (1500BC) [@bagaev2008ancient].
+Excavations by R. M. Munchaev (1952-1957) at Lugovoye (Muzhichi) in the Assa gorge of Ingushetia, which included 157 burials, and in the lower layer of Serzhen-Yurt I in the Shali district of Chechnya uncovered wattle-and-daub houses with sunken circular hearths, horn-lugged Kura-Araxes burnished pottery, stone shaft-hole axes and arsenical bronze daggers and spiral temple rings [@munchaev1961lugovoye; @munchaev1975caucasus]. On the Fortanga-Assa piedmont exit at Bamut, Munchaev excavated over 50 Early and Middle Bronze Age kurgans combining Maykop-Novosvobodnaya metalwork with Kura-Araxes domestic pottery [@munchaev1975caucasus]. By 3000BC, piedmont farming villages and transhumant herders numbered 18k (14k-24k), growing under the Middle Bronze Age North Caucasian (Ginchi and Pre-Koban) cultures at Galaity, Achkhoy-Martan and Harachoy to 26k in 2000BC and 36k in 1500BC [@bagaev2008ancient].
 
-## Late Bronze and Early Iron Ages: The Eastern Koban Hillforts (1200 - 400BC)
+## Late Bronze and Early Iron Ages: The Eastern Koban Hillforts
 
-Between the 12th and 5th centuries BC, Chechnya and Ingushetia formed the core territory of the Eastern Variant of the Koban Culture (Восточный вариант кобанской культуры), studied in detail by V. I. Kozenkova and M. Kh. Bagaev [@kozenkova1977koban; @kozenkova1992serzhen; @kozenkova2013koban; @bagaev2008ancient; @burkov2015; @spasskaya2024].
+Between the 12th and 5th centuries BC, Chechnya and Ingushetia formed the core territory of the Eastern Koban culture, investigated in detail by V. I. Kozenkova and M. Kh. Bagaev [@kozenkova1977koban; @kozenkova1992serzhen; @kozenkova2013koban; @bagaev2008ancient; @burkov2015; @spasskaya2024].
 
-Situated on two naturally defended river terraces above the Bass river (Shali district), the Serzhen-Yurt I-II settlement functioned from the 11th to the 6th century BC as a large craft and farming centre (~8-10 ha). Excavations uncovered cobble-paved main streets (4 m wide), rows of timber-framed clay dwellings (20-45 m²), bronze-smelting furnaces with clay tuyères and stone casting moulds for Koban shaft-hole axes, zoomorphic terracotta figurines, and grain storage pits [@kozenkova1992serzhen; @kozenkova2001; @kozenkova2013koban].
-Over 80 Eastern Koban settlements and cemeteries line the Sunzha-Assa-Argun foothills and mountain gorges, including the Zandak stone-cist cemetery in Nozhay-Yurt containing >60 graves, as well as Nesterovskiy, Alkhaste, Lugovoye, and Sharoy yielding bimetallic iron-and-bronze daggers and early Scythian *akinakes* weapons from the 7th-5th centuries BC [@kozenkova1977koban; @bagaev2008ancient]. Supported by mixed millet-barley cultivation and mountain sheep-cattle husbandry (with 5,9% terraced land in mountainous Ingushetia [@shaev2024terraces]), total regional population rose from 56,0k (45,0k-70,0k) in 1000BC to 78,0k (65,0k-95,0k) in 500BC.
+Situated on two naturally defended river terraces above the Bass river in the Shali district, Serzhen-Yurt I-II functioned from the 11th to the 6th century BC as a major craft and farming centre of 8-10 ha. Excavations revealed cobble-paved streets 4 m wide, rows of timber-framed clay dwellings (20-45 m²), bronze-smelting furnaces with clay tuyères and stone casting moulds for Koban shaft-hole axes, zoomorphic terracotta figurines and grain storage pits [@kozenkova1992serzhen; @kozenkova2001; @kozenkova2013koban].
 
-## Sarmatian and Alanic Towns: *Magas* and *Alkhan-Kala* (400BC - 1238AD)
+More than 80 Eastern Koban settlements and cemeteries line the Sunzha-Assa-Argun foothills and mountain gorges, including the Zandak stone-cist cemetery in Nozhay-Yurt (over 60 graves) as well as Nesterovskiy, Alkhaste, Lugovoye and Sharoy, which yielded bimetallic iron-and-bronze daggers and early Scythian *akinakes* weapons from the 7th to 5th centuries BC [@kozenkova1977koban; @bagaev2008ancient]. Supported by mixed millet and barley cultivation and mountain sheep and cattle husbandry, with terraced fields covering 5,9% of mountainous Ingushetia [@shaev2024terraces], the regional population rose from 56k (45k-70k) in 1000BC to 78k (65k-95k) in 500BC.
 
-During the Sarmatian period (300BC - 300AD, 95,0k at 1AD) and the Early Alanic period (400-800AD, 110,0k in 400AD -> 140,0k in 800AD), a dense network of earthen-rampart and moated fortified towns (*gorodishcha*) developed along the Sunzha, Assa, Argun, and Terek rivers [@vinogradov1970; @vinogradov1972central; @malashev2016; @malashev2016alania; @mamaev2009; @burkov2007].
+## Sarmatian and Alanic Towns: *Magas* and *Alkhan-Kala*
 
-Protected by triple concentric horseshoe ramparts and deep moats backing onto a steep Sunzha river cliff 18 km west of Grozny, Alkhan-Kala (Алхан-Калинское городище) enclosed a 60-hectare urban core surrounded by >150 ha of craft suburbs and a large catacomb cemetery (>2 500 kurgan and flat catacombs spanning the 2nd to 12th centuries AD) [@vinogradov1970; @vinogradov1972central; @malashev2016; @mamaev2009]. Serving as the main administrative and trading centre of the central Sunzha basin, Alkhan-Kala housed 8,0k-15,0k inhabitants prior to its destruction in 1238-1240.
+During the Sarmatian period (300BC - 300AD, reaching 95k at 1AD) and the Early Alanic period (400-800AD, rising from 110k in 400AD to 140k in 800AD), a dense network of earthen-rampart and moated fortified towns (*gorodishcha*) grew up along the Sunzha, Assa, Argun and Terek rivers [@vinogradov1970; @vinogradov1972central; @malashev2016; @malashev2016alania; @mamaev2009; @burkov2007].
 
-In the upper Sunzha-Assa-Kambileyevka interfluve of lowland Ingushetia, surveys by D. Yu. Chakhkiev, N. D. Kodzoev, and U. B. Gadiev documented the Nazran-Ekazhevo-Yandare (Magas / Магас) cluster of over 30 fortified *gorodishcha* and >60 satellite villages spaced 0,5-2,0 km apart within a ~100 km² core (Hatrig-Yurt, Ekazhevo I-IV, Nazran, Ali-Yurt, Surkhakhi, Yandare, Gazi-Yurt) [@chakhkiev2003; @chakhkiev2006magas; @kodzoev2002; @gadiev2015; @dolgieva2013ingushetia]. Identified by regional archaeologists with the Alanic capital Magas (*Ma'as*, described by al-Mas'udi in 943AD and besieged by the Mongol princes Möngke, Güyük, Kadan, and Büri from winter 1239 to early 1240 according to Juwayni and Rashid al-Din), this urban cluster housed 15,0k-25,0k inhabitants [@chakhkiev2006magas; @dolgieva2013ingushetia].
+Protected by triple concentric horseshoe ramparts and deep moats backing onto a steep cliff above the Sunzha 18 km west of Grozny, Alkhan-Kala enclosed a 60 ha urban core surrounded by more than 150 ha of craft suburbs and a vast catacomb cemetery of over 2,5k kurgan and flat burials spanning the 2nd to 12th centuries AD [@vinogradov1970; @vinogradov1972central; @malashev2016; @mamaev2009]. As the main administrative and trading centre of the central Sunzha basin, Alkhan-Kala housed 8k-15k inhabitants before its destruction in 1238-1240.
 
-Further east along the Sunzha and Argun, fortified towns at Germenchuk, Shali, Aldy, and Goryacheistochnenskoye (15-45 ha each) controlled the Argun-Sunzha confluence and Terek crossings [@mamaev1979; @mamaev2009]. At its pre-Mongol high point around 1200AD, Chechnya and Ingushetia supported 172,0k (145,0k-200,0k) inhabitants (8,27 persons/km²), with 75% (129,0k) living on the Sunzha-Assa-Argun piedmont plain (Zone 1).
+In the upper Sunzha, Assa and Kambileyevka plains of lowland Ingushetia, surveys by D. Yu. Chakhkiev, N. D. Kodzoev and U. B. Gadiev mapped the Nazran-Ekazhevo-Yandare cluster of over 30 fortified *gorodishcha* and more than 60 satellite villages spaced 0,5-2 km apart within a 100 km² core, including Hatrig-Yurt, Ekazhevo I-IV, Nazran, Ali-Yurt, Surkhakhi, Yandare and Gazi-Yurt [@chakhkiev2003; @chakhkiev2006magas; @kodzoev2002; @gadiev2015; @dolgieva2013ingushetia]. Identified by regional archaeologists with the Alanic capital Magas (*Ma'as*, described by al-Mas'udi in 943AD and besieged by the Mongol princes Möngke, Güyük, Kadan and Büri from winter 1239 to early 1240 according to Juwayni and Rashid al-Din), this urban cluster housed 15k-25k inhabitants [@chakhkiev2006magas; @dolgieva2013ingushetia].
+
+Further east along the Sunzha and Argun, fortified towns at Germenchuk, Shali, Aldy and Goryacheistochnenskoye (15-45 ha each) controlled the Argun-Sunzha confluence and the Terek crossings [@mamaev1979; @mamaev2009]. At its pre-Mongol peak around 1200AD, Chechnya and Ingushetia supported 172k (145k-200k) inhabitants (8,27 persons/km²), with 75% (129k) living on the Sunzha-Assa-Argun piedmont plain (Zone 1).
 
 ```{r fig-chech-shift, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/chechnya_ingushetia_lowland_highland_shift.png",
   list(
-    caption = "Proportional population distribution across the piedmont plain, highland gorges, and Trans-Terek steppe of Chechnya and Ingushetia (800 - 1900AD).",
+    caption = "Before the Mongol siege of Magas in 1239-1240AD, three-quarters of the population lived on the fertile Sunzha-Assa-Argun piedmont plain; after Timur's 1395AD campaign, 77% of the survivors were concentrated in the mountain gorges until the 17th- and 18th-century return to the lowlands.",
     label = "fig:chechnya_shift",
     width = "0.94\\textwidth",
     placement = "!htbp"
@@ -139,36 +256,35 @@ render_figure_template(
 )
 ```
 
-## Mongol and Timurid Invasions and the Highland Stone Tower Villages (1238 - 1500AD)
+## Mongol and Timurid Invasions and the Highland Stone Tower Villages
 
-Between 1238 and 1395AD, the lowland settlement network of Chechnya and Ingushetia was destroyed by two waves of invasion (Figure 2B and Figure 3).
+Between 1238 and 1395AD, two waves of invasion destroyed the lowland towns and villages of Chechnya and Ingushetia (Figure 2B and Figure 3).
 
-Following the storming and levelling of Magas (1239-1240), Alkhan-Kala, and Dedyakov (1277-1278 joint Mongol-Rus' siege recorded in the Russian chronicles), the fertile Sunzha and Terek plains were turned into winter pastures (*kochev'ya*) of the Golden Horde khans (Batu, Berke, Uzbek), where Ibn Battuta visited Uzbek Khan's camp at *Bish-Dag* in 1334 [@dolgieva2013ingushetia; @akhmadov2002chechnya]. Total regional population fell by nearly 40% to 105,0k (85,0k-125,0k) by 1300AD.
+Following the storming of Magas (1239-1240), Alkhan-Kala and Dedyakov (besieged by a joint Mongol and Rus' force in 1277-1278), the fertile Sunzha and Terek plains were turned into winter pastures (*kochev'ya*) of the Golden Horde khans Batu, Berke and Uzbek; Ibn Battuta visited Uzbek Khan's camp at *Bish-Dag* in 1334 [@dolgieva2013ingushetia; @akhmadov2002chechnya]. Total regional population fell by nearly 40% to 105k (85k-125k) by 1300AD.
 
-After defeating Tokhtamysh on the Terek river in April 1395, Timur invaded the Vainakh principality of Simsir (Симсир) (ruled by Gayur Khan across Ichkeria and the Sunzha-Argun foothills) and marched into the highland gorges (*Aukhar*, *Buri-Burd*, *Kuli*, *Taus*). As recorded by Sharaf al-Din Yazdi and Nizam al-Din Shami, Timur's troops demolished stone fortresses, burned terraced fields, and killed defenders across the mountains [@shavkhelishvili1963history; @akhmadov2002chechnya]. By 1400AD, regional population dropped to a late-medieval low of 88,0k (75,0k-105,0k), and its geographical distribution shifted sharply upward: 77% (67,8k) of all inhabitants were now concentrated in the mountain gorges of Zone 2, while the Sunzha plain (Zone 1) held only 18% (15,8k).
+After defeating Tokhtamysh on the Terek in April 1395, Timur invaded the Vainakh principality of Simsir, ruled by Gayur Khan across Ichkeria and the Sunzha-Argun foothills, and marched into the highland gorges (*Aukhar*, *Buri-Burd*, *Kuli* and *Taus*). As recorded by Sharaf al-Din Yazdi and Nizam al-Din Shami, Timur's troops demolished stone fortresses, burned terraced fields and slaughtered defenders across the mountains [@shavkhelishvili1963history; @akhmadov2002chechnya]. By 1400AD, the regional population dropped to a late medieval low of 88k (75k-105k) and shifted sharply into the uplands: 77% (67,8k) of all inhabitants were now concentrated in the mountain gorges of Zone 2, leaving only 18% (15,8k) on the Sunzha plain (Zone 1).
 
-Refugee movement into the limestone canyons of the Armkhi (Dzheirakh), upper Assa (Targim basin), Fortanga, and upper Argun (Malkhista, Maysta, Terloy, Chanti, Cheberloy) spurred the construction of Vainakh stone tower complexes across the 14th to 17th centuries, documented by V. I. Markovin and D. Yu. Chakhkiev (Figure 4B) [@markovin1965monuments; @chakhkiev2007weapons; @dolgieva2013ingushetia; @nalgiev2026].
+Refugee movement into the limestone canyons of the Armkhi (Dzheirakh), upper Assa (Targim basin), Fortanga and upper Argun (Malkhista, Maysta, Terloy, Chanti and Cheberloy) spurred the construction of Vainakh stone tower complexes from the 14th to the 17th century, documented by V. I. Markovin and D. Yu. Chakhkiev (Figure 4B) [@markovin1965monuments; @chakhkiev2007weapons; @dolgieva2013ingushetia; @nalgiev2026].
 
-In the Ingush gorges of the Targim basin and Armkhi valley (Egikal, Erzi, Targim, Khamkhi, Vovnushki, Puy), Egikal (Эгикал) alone contained over 50 mortar-bound residential stone towers (*gala*), 5 intact pyramidal combat towers (*vov*, up to 27 m high with machicolations and slate-slab roofs), 6 subterranean and 106 above-ground collective stone crypts (*kash*), and 3 sanctuary shrines (Tkhaba-Yerdy, Albi-Yerdy) [@markovin1965monuments; @dolgieva2013ingushetia; @karieva2024].
-At the confluence of the Chanty-Argun and Meshi-Khi rivers in Malkhista, the Chechen cemetery of Tsoy-Pede (Цой-Педе) preserved 42 gabled stone collective crypts guarded by two defensive barrier walls and combat towers (>3 000 cumulative burials across the 14th-17th centuries) [@markovin1965monuments; @frizen2020]. In Cheberloy (Kezenoy-Am basin), the cliff settlement of Khoy (Хой) and the 7-tower complex of Sharoy (Шарой) anchored dense terraced mountain communities alongside Nikaroy, Vaserkel, and Pakoch [@chakhkiev2007weapons; @ilyasov2004].
+Among the Ingush gorges of the Targim basin and Armkhi valley (Egikal, Erzi, Targim, Khamkhi, Vovnushki and Puy), Egikal alone contained over 50 mortar-bound residential stone towers (*gala*), five intact pyramidal combat towers (*vov*, up to 27 m high with machicolations and slate-slab roofs), six subterranean and 106 above-ground collective stone crypts (*kash*) and three sanctuary shrines, including Tkhaba-Yerdy and Albi-Yerdy [@markovin1965monuments; @dolgieva2013ingushetia; @karieva2024]. At the confluence of the Chanty-Argun and Meshi-Khi rivers in Malkhista, the Chechen necropolis of Tsoy-Pede preserved 42 gabled stone collective crypts guarded by two defensive barrier walls and combat towers, accumulating more than 3k burials between the 14th and 17th centuries [@markovin1965monuments; @frizen2020]. In Cheberloy (Kezenoy-Am basin), the cliff settlement of Khoy and the seven-tower complex of Sharoy anchored dense terraced mountain communities alongside Nikaroy, Vaserkel and Pakoch [@chakhkiev2007weapons; @ilyasov2004].
 
-## Return to the Plains: Sixteenth and Seventeenth-Century Vainakh Societies (1500 - 1700AD)
+## Return to the Plains: Sixteenth- and Seventeenth-Century Vainakh Societies
 
-Following the breakup of the Golden Horde and the founding of the Russian fortress of Terki (Терский город, 1567 / 1588) on the lower Terek, land scarcity on the mountain terraces of Zone 2 prompted a gradual Vainakh return to the forested foothills (*Chernye gory*) and the Sunzha-Argun-Aksay plains (1550-1700AD) [@kusheva1963peoples; @volkova1973ethnonyms; @akhmadov2019chechnya; @akhmadov2020taip; @albogachiev2025].
+Following the breakup of the Golden Horde and the founding of the Russian fortress of Terki (1567/1588) on the lower Terek, land scarcity on the mountain terraces of Zone 2 prompted a gradual Vainakh return to the forested foothills (*Chernye gory*) and the Sunzha-Argun-Aksay plains between 1550 and 1700AD [@kusheva1963peoples; @volkova1973ethnonyms; @akhmadov2019chechnya; @akhmadov2020taip; @albogachiev2025].
 
-Drawing on Russian *Posolskiy Prikaz* ambassadorial journals (Semen Zvenigorodskiy 1589, Fedor Takmakov 1604, Khodotetskiy 1638, Terki Voivode Books 1614-1690) analysed by E. N. Kusheva [@kusheva1963peoples], N. G. Volkova [@volkova1973ethnonyms; @volkova1974ethnic], and Ya. Z. Akhmadov [@akhmadov2002chechnya; @akhmadov2019chechnya; @akhmadov2020taip; @tovsultanov2017], total population across Chechnya and Ingushetia grew from 98,0k (1500AD) to 112,0k (1600AD) and 128,0k (110,0k-145,0k) by 1700AD (Figure 4A and Table 2).
+Russian *Posolskiy Prikaz* ambassadorial journals (Semen Zvenigorodskiy in 1589, Fedor Takmakov in 1604, Khodotetskiy in 1638 and the Terki Voivode Books of 1614-1690) analysed by E. N. Kusheva [@kusheva1963peoples], N. G. Volkova [@volkova1973ethnonyms; @volkova1974ethnic] and Ya. Z. Akhmadov [@akhmadov2002chechnya; @akhmadov2019chechnya; @akhmadov2020taip; @tovsultanov2017] indicate that the total population of Chechnya and Ingushetia grew from 98k in 1500AD to 112k in 1600AD and 128k (110k-145k) by 1700AD (Figure 4A and Table 2).
 
-In the eastern foothills, Okotskaya Zemlya (Окоцкая земля / Aukh) along the Aksay, Yamansu, and Aktash rivers (Staryy Okokh, Shovkhal-Berd) was ruled by the mirzas Shikh-Murza (killed 1596) and Batay-Murza, who fielded 500-1 000 horsemen and footmen in Russian service (~850 households; 5,5k inhabitants, plus the *Okotskaya Sloboda* at Terki) [@kusheva1963peoples; @akhmadov2019chechnya; @albogachiev2025]. Michkizskaya Zemlya (Мичкизская земля / Wooded Ichkeria - Nokhch-Mokhk) comprised 36 large villages along the Michik, Gums, Hulhulau, and Aksay rivers (Benoy, Tsontaroy, Gordali, Alleroy, Zandak, Vedeno), where *Posolskiy Prikaz* reports (1619-1647) credit the *Michkizy* with 3 000-5 000 fighting men (3,8k-4,6k households; 24,0k-30,0k inhabitants) [@kusheva1963peoples; @akhmadov2019chechnya].
+In the eastern foothills, *Okotskaya zemlya* (Aukh) along the Aksay, Yamansu and Aktash rivers (Staryy Okokh and Shovkhal-Berd) was ruled by the mirzas Shikh-Murza (killed in 1596) and Batay-Murza, who fielded 500-1k horsemen and footmen in Russian service, corresponding to roughly 850 households or 5,5k inhabitants alongside the *Okotskaya sloboda* at Terki [@kusheva1963peoples; @akhmadov2019chechnya; @albogachiev2025]. *Michkizskaya zemlya* (wooded Ichkeria or Nokhch-Mokhk) comprised 36 large villages along the Michik, Gums, Hulhulau and Aksay rivers (Benoy, Tsontaroy, Gordali, Alleroy, Zandak and Vedeno), where *Posolskiy Prikaz* reports of 1619-1647 credit the *Michkizy* with 3k-5k fighting men, or 3,8k-4,6k households and 24k-30k inhabitants [@kusheva1963peoples; @akhmadov2019chechnya].
 
-In the upper and middle Argun societies (Shubuty / Shatoy, Chanti, Mulkoi, Terloy, Malkhista, Maysta, Peshkhoy) controlling the gorge route to Tusheti and Khevsureti, population reached 3,6k-4,4k households (21,0k-26,0k inhabitants) [@akhmadov2019chechnya; @akhmadov2020taip; @akhmadov2004], while Cheberloy and Sharoy (Sharo-Argun and Kezenoy-Am) supported 2,0k-2,5k households (12,0k-15,0k inhabitants) [@akhmadov2019chechnya].
+In the upper and middle Argun societies (Shubuty/Shatoy, Chanti, Mulkoi, Terloy, Malkhista, Maysta and Peshkhoy) controlling the gorge route to Tusheti and Khevsureti, the population reached 3,6k-4,4k households (21k-26k inhabitants) [@akhmadov2019chechnya; @akhmadov2020taip; @akhmadov2004], while Cheberloy and Sharoy supported 2k-2,5k households (12k-15k inhabitants) [@akhmadov2019chechnya].
 
-To the west, the Ingush mountain societies (Kalkanskaya / Galgai, Erokanskaya / Dzheirakh, Khamkhi, Fyappiy / Metskhal) and early plains settlements in the Angusht / Tarskaya valley numbered 2,2k-2,8k households (13,0k-17,0k inhabitants) [@dolgieva2013ingushetia; @volkova1974ethnic], while the Karabulaki (Orstkhoy on the Fortanga-Assa) and Akki (Akkintsy / Galashki) numbered 1,6k-2,1k households (9,5k-13,0k inhabitants) [@volkova1974ethnic; @akhmadov2019chechnya; @albogachiev2025]. Simultaneously, new flatland Chechen *auls* on the Sunzha and lower Argun (Chechen-Aul, Staraya Sunzha, Shali, Germenchuk, Aldy, Gekhi, Atterki) expanded rapidly during the second half of the 17th century (3,8k-4,6k households; 22,0k-29,0k inhabitants), lifting the lowland piedmont share (Zone 1) back to 45% by 1700AD [@akhmadov2002chechnya; @akhmadov2020taip].
+To the west, the Ingush mountain societies (Kalkanskaya/Galgai, Erokanskaya/Dzheirakh, Khamkhi and Fyappiy/Metskhal) and early plains settlements in the Angusht and Tarskaya valley numbered 2,2k-2,8k households (13k-17k inhabitants) [@dolgieva2013ingushetia; @volkova1974ethnic], while the Karabulaki (Orstkhoy on the Fortanga-Assa) and Akki (Akkintsy/Galashki) numbered 1,6k-2,1k households (9,5k-13k inhabitants) [@volkova1974ethnic; @akhmadov2019chechnya; @albogachiev2025]. Over the second half of the 17th century, new flatland Chechen *auls* on the Sunzha and lower Argun (Chechen-Aul, Staraya Sunzha, Shali, Germenchuk, Aldy, Gekhi and Atterki) expanded rapidly to 3,8k-4,6k households (22k-29k inhabitants), lifting the piedmont share (Zone 1) back to 45% by 1700AD [@akhmadov2002chechnya; @akhmadov2020taip].
 
 ```{r fig-chech-typology, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/chechnya_ingushetia_settlement_typology.png",
   list(
-    caption = "Seventeenth-century population and household estimates across Vainakh societies and tower counts at six highland complexes (1650 - 1700AD).",
+    caption = "Panel A compares the estimated populations and household counts of the main Vainakh societies and Terek Cossack settlements around 1650-1700AD, led by Michkizskaya zemlya (Ichkeria) and the new Sunzha-Argun flatland villages. Panel B shows the number of residential towers and crypts alongside pyramidal combat towers recorded at six major highland stone complexes.",
     label = "fig:chechnya_typology",
     width = "0.98\\textwidth",
     placement = "!htbp"
@@ -187,7 +303,7 @@ df_c17 <- data.frame(
     "Karabulaki (Orstkhoy on Fortanga-Assa) and Highland Akki (Lam-Akki)",
     "Greben and Terek Cossack Gorodki + Trans-Terek Nogai Winter Camps",
     "Okotskaya zemlya (Aukh Foothills: Aktash, Yamansu, Yaryksu)",
-    "Total Chechnya and Ingushetia (20,8k km2)"
+    "Total Chechnya and Ingushetia (20,8k km²)"
   ),
   Zone = c(
     "Zone 2 / Zone 1 margin",
@@ -202,18 +318,18 @@ df_c17 <- data.frame(
   ),
   Households = c(
     "3,8k - 4,6k", "3,8k - 4,6k", "3,6k - 4,4k", "2,2k - 2,8k",
-    "2,0k - 2,5k", "1,6k - 2,1k", "1,0k - 1,4k", "0,75k - 0,95k",
+    "2k - 2,5k", "1,6k - 2,1k", "1k - 1,4k", "0,75k - 0,95k",
     "18,75k - 23,35k"
   ),
   Militia = c(
-    "3,5k - 5,0k", "3,5k - 4,8k", "3,2k - 4,2k", "2,0k - 2,8k",
-    "1,8k - 2,5k", "1,5k - 2,0k", "1,0k - 1,5k", "0,6k - 1,0k",
+    "3,5k - 5k", "3,5k - 4,8k", "3,2k - 4,2k", "2k - 2,8k",
+    "1,8k - 2,5k", "1,5k - 2k", "1k - 1,5k", "0,6k - 1k",
     "17,1k - 23,8k"
   ),
   Population = c(
-    "24,0k - 30,0k", "22,0k - 29,0k", "21,0k - 26,0k", "13,0k - 17,0k",
-    "12,0k - 15,0k", "9,5k - 13,0k", "5,5k - 8,0k", "4,5k - 6,5k",
-    "128,0k (110,0k - 145,0k)"
+    "24k - 30k", "22k - 29k", "21k - 26k", "13k - 17k",
+    "12k - 15k", "9,5k - 13k", "5,5k - 8k", "4,5k - 6,5k",
+    "128k (110k - 145k)"
   ),
   stringsAsFactors = FALSE
 )
@@ -221,9 +337,9 @@ df_c17 <- data.frame(
 render_table_template(
   df_c17,
   list(
-    caption = "Population and household estimates for Chechnya and Ingushetia c. 1650-1700AD across Vainakh territorial societies (zemlitsy) and Terek borderlands.",
+    caption = "Household, militia and population estimates across the eight territorial societies of Chechnya and Ingushetia in the late 17th century, derived from Russian ambassadorial and Terki fortress registers.",
     label = "tab:chechnya_17c",
-    col_names = c("Territorial Society (Zemlitsa) / Sub-Region", "Elevation Zone", "Households (Dvors)", "Militia (Fighting Men)", "Estimated Population"),
+    col_names = c("Territorial Society (Zemlitsa)", "Elevation Zone", "Households (Dvors)", "Militia (Fighting Men)", "Estimated Population"),
     alignment = c("l", "l", "r", "r", "r"),
     scale_to_fit = FALSE,
     placement = "!htbp"
@@ -231,23 +347,23 @@ render_table_template(
 )
 ```
 
-## The Eighteenth and Nineteenth Centuries (1700 - 1900AD)
+## The Eighteenth and Nineteenth Centuries
 
-The 18th and 19th centuries brought the completion of Vainakh lowland settlement across the Sunzha-Grozny plains, the construction of the Russian Terek-Sunzha fortified line, severe population losses during the Caucasian War (1818-1859), and rapid post-1865 demographic recovery [@akhmadov2002history19c; @kabuzan1996; @ibragimova2006; @dolgieva2013ingushetia].
+The 18th and 19th centuries brought the completion of Vainakh lowland settlement across the Sunzha-Grozny plains, the construction of the Russian Terek-Sunzha fortified line, heavy wartime losses during the Caucasian War (1818-1859) and rapid demographic growth after 1865 [@akhmadov2002history19c; @kabuzan1996; @ibragimova2006; @dolgieva2013ingushetia].
 
-Throughout the 18th century, Chechen and Ingush settlers founded large agricultural villages (1,0k-3,5k inhabitants each) across Greater and Lesser Chechnya (*Bol'shaya i Malaya Chechnya*: Shali, Germenchuk, Urus-Martan, Goyty, Gekhi, Achkhoy, Gudermes, Avtury, Mayrtup) and the Nazran-Kambileyevka plain (Angusht, Sholkhi, Nazran, where Ingush elders took a formal oath of allegiance to Russia in 1770 and 1810) [@akhmadov2002history19c; @akhmadov2016; @dolgieva2013ingushetia; @zhurtova2014]. Simultaneously, the Russian Empire established the Terek-Mozdok Cordon Line along the left bank of the Terek (Kizlyar 1735, Mozdok 1763, Vladikavkaz 1784), resettling Greben, Terek-Semeynye, and Volga Cossacks across the Naurskaya and Shelkovskaya steppes (Zone 3) [@kabuzan1996]. Combined Vainakh and Cossack population rose from 128,0k in 1700AD to 165,0k (145,0k-185,0k) in 1750AD and 220,0k (190,0k-250,0k) in 1800AD, with 62% (136,5k) residing on the Sunzha-Argun piedmont plains [@kabuzan1996; @akhmadov2002history19c].
+Throughout the 18th century, Chechen and Ingush settlers founded large agricultural villages of 1k-3,5k inhabitants across Greater and Lesser Chechnya (Shali, Germenchuk, Urus-Martan, Goyty, Gekhi, Achkhoy, Gudermes, Avtury and Mayrtup) and the Nazran-Kambileyevka plain (Angusht, Sholkhi and Nazran, where Ingush elders swore allegiance to Russia in 1770 and 1810) [@akhmadov2002history19c; @akhmadov2016; @dolgieva2013ingushetia; @zhurtova2014]. Over the same period, the Russian Empire built the Terek-Mozdok Cordon Line along the left bank of the Terek (Kizlyar in 1735, Mozdok in 1763 and Vladikavkaz in 1784), settling Greben, Terek-Semeynye and Volga Cossacks across the Naurskaya and Shelkovskaya steppes (Zone 3) [@kabuzan1996]. The combined Vainakh and Cossack population rose from 128k in 1700AD to 165k (145k-185k) in 1750AD and 220k (190k-250k) in 1800AD, with 62% (136,5k) living on the Sunzha-Argun piedmont plains [@kabuzan1996; @akhmadov2002history19c].
 
-General A. P. Yermolov's construction of the Sunzha Fortified Line - anchored by the fortress of Groznaya (founded 1818) - and the forced eviction of Chechen villages between the Terek and Sunzha rivers sparked the 1818-1859 war, during which Chechnya formed the principal agricultural and military base of Imam Shamil's Caucasian Imamate (capital at Dargo 1840-1845 and Vedeno 1845-1859) [@kabuzan1996; @ibragimova2006]. Repeated military campaigns, forest-clearing (*proseki*), winter blockades of lowland pastures, and the replacement of Orstkhoy (Karabulak) and western Chechen foothill villages with the Sunzha Cossack Line (*stanitsas* of Слепцовская / Sleptsovskaya, Troitskaya, Karabulakskaya, Assinskaya, Samashkinskaya, Mikhailovskaya in 1845-1860) caused severe demographic losses: Russian military-statistical estimates summarised by A. P. Berger (1859) [@berger1859chechnya], V. M. Kabuzan (1996) [@kabuzan1996], and Z. Kh. Ibragimova (2006) [@ibragimova2006] indicate that ethnic Chechen numbers dropped from ~250,0k-300,0k in the 1830s to ~130,0k-150,0k by 1859-1860 (yielding a regional midpoint of 195,0k [170,0k-220,0k] across Chechnya-Ingushetia including Cossack settlements in 1850AD). In the summer of 1865, imperial authorities organised the *muhajir* emigration of ~22,0k-23,0k Chechens and nearly the entire Orstkhoy (Karabulak) population (~5,0k families) into the Ottoman Empire [@ibragimova2006; @kabuzan1996; @dolgieva2013ingushetia].
+General A. P. Yermolov's construction of the Sunzha Fortified Line, anchored by the fortress of Groznaya (founded in 1818), and the eviction of Chechen villages between the Terek and Sunzha rivers ignited the 1818-1859 war, during which Chechnya served as the main agricultural and military base of Imam Shamil's Caucasian Imamate (with capitals at Dargo in 1840-1845 and Vedeno in 1845-1859) [@kabuzan1996; @ibragimova2006]. Repeated military campaigns, forest-clearing (*proseki*), winter blockades of lowland pastures and the replacement of Orstkhoy (Karabulak) and western Chechen foothill villages with the Sunzha Cossack Line (the *stanitsas* of Sleptsovskaya, Troitskaya, Karabulakskaya, Assinskaya, Samashkinskaya and Mikhailovskaya in 1845-1860) inflicted severe population losses. Russian military-statistical estimates summarised by A. P. Berger [@berger1859chechnya], V. M. Kabuzan [@kabuzan1996] and Z. Kh. Ibragimova [@ibragimova2006] indicate that ethnic Chechen numbers dropped from 250k-300k in the 1830s to 130k-150k by 1859-1860, giving a regional midpoint of 195k (170k-220k) across Chechnya and Ingushetia including Cossack settlements in 1850AD. In the summer of 1865, imperial authorities organised the *muhajir* emigration of 22k-23k Chechens and nearly the entire Orstkhoy population (around 5k families) to the Ottoman Empire [@ibragimova2006; @kabuzan1996; @dolgieva2013ingushetia].
 
-Between 1866 and 1900, peaceful agrarian recovery on the Sunzha-Argun maize-and-wheat plains, the 1886 family lists (*posemeynye spiski*) (which recorded ~195,0k ethnic Chechens and ~38,0k Ingush), and the discovery of the Grozny oilfield (1893) combined with the Vladikavkaz Railway to produce rapid population growth [@ibragimova2006; @kabuzan1996]. In the First General Census of the Russian Empire (28 January 1897) for Terek Oblast (Vol. 68) [@troynitskiy1905terek; @golovlev2017census], the total number of native Vainakh speakers in Terek Oblast reached 273 962 (226 496 Chechens and 47 466 Ingush). Within the administrative districts corresponding to modern Chechnya and Ingushetia - specifically the Grozny Okrug (226 035 total inhabitants, including Grozny city with 15 564 residents), the Sunzha (Nazran) Otdel (~47,4k Ingush plus ~36,0k Sunzha Cossacks), the Chechen sector of the Khasavyurt Okrug (~18,1k Aukh Chechens), and the left-bank Kizlyar / Mozdok Terek Cossack *stanitsas* (Naurskaya, Shelkovskaya, Chervlennaya, Kalinovskaya; ~40,0k inhabitants) - total population reached 350,0k (330,0k-370,0k, or 16,83 persons/km²) by 1900AD, with 68% (238,0k) concentrated on the Sunzha-Assa-Argun plains and Grozny urban district (Zone 1), 18% (63,0k) in the mountain gorges (Zone 2), and 14% (49,0k) across the Trans-Terek Cossack steppe (Zone 3) [@troynitskiy1905terek; @ibragimova2006; @kabuzan1996].
+Between 1866 and 1900, agrarian recovery on the Sunzha-Argun maize and wheat plains, the 1886 family lists (recording roughly 195k ethnic Chechens and 38k Ingush) and the discovery of the Grozny oilfield in 1893 alongside the Vladikavkaz Railway drove rapid expansion [@ibragimova2006; @kabuzan1996]. In the First General Census of the Russian Empire (28 January 1897) for Terek Oblast [@troynitskiy1905terek; @golovlev2017census], native Vainakh speakers across the oblast numbered 274k (226,5k Chechens and 47,5k Ingush). Within the districts corresponding to modern Chechnya and Ingushetia - the Grozny Okrug (226k inhabitants, including 15,6k in Grozny city), the Sunzha (Nazran) Otdel (around 47,4k Ingush and 36k Sunzha Cossacks), the Chechen sector of the Khasavyurt Okrug (around 18,1k Aukh Chechens) and the left-bank Kizlyar and Mozdok Terek Cossack *stanitsas* (Naurskaya, Shelkovskaya, Chervlennaya and Kalinovskaya, totalling around 40k inhabitants) - the population reached 350k (330k-370k, or 16,83 persons/km²) by 1900AD. Of these inhabitants, 68% (238k) lived on the Sunzha-Assa-Argun plains and in the Grozny urban district (Zone 1), 18% (63k) in the mountain gorges (Zone 2) and 14% (49k) across the Trans-Terek Cossack steppe (Zone 3) [@troynitskiy1905terek; @ibragimova2006; @kabuzan1996].
 
 # Limitations
 
-Two primary methodological constraints affect historical population estimates for Chechnya and Ingushetia. First, because highland lineage crypts (*kash* / *maigash*) at Tsoy-Pede, Egikal, and Erzi remained in continuous use from the 14th to the 18th century (until Islamisation replaced crypt burial with subterranean *keschnash* cemeteries), skeletal MNI totals must be divided by 6-8 generations (180-240 years) to estimate the living population of any single century [@markovin1965monuments; @dolgieva2013ingushetia; @frizen2020]. Second, during the Caucasian War and the subsequent reorganisation of Terek Oblast (merging and splitting the Grozny, Vedeno, Ichkeria, Argun, and Sunzha/Nazran districts between 1860 and 1905), military estimates of unpacified highland communities carried wider margins of error (~15-20%) prior to the 1886 family lists and the 1897 census [@ibragimova2006; @kabuzan1996].
+Two main problems affect historical population estimates for Chechnya and Ingushetia. First, because family crypts (*kash* or *maigash*) at Tsoy-Pede, Egikal and Erzi stayed in continuous use from the 14th to the 18th century, until Islamisation replaced crypt burial with underground *keschnash* cemeteries, skeleton counts have to be divided by six to eight generations (180-240 years) to estimate the living population in any single century [@markovin1965monuments; @dolgieva2013ingushetia; @frizen2020]. Second, during the Caucasian War and the repeated boundary changes in Terek Oblast between 1860 and 1905 (which merged and split the Grozny, Vedeno, Ichkeria, Argun and Sunzha/Nazran districts), military estimates of unpacified mountain villages carried wider margins of error (15-20%) prior to the 1886 family lists and the 1897 census [@ibragimova2006; @kabuzan1996].
 
 # Conclusion
 
-The population history of Chechnya and Ingushetia (10000BC - 1900AD) reflects a recurring shift between the fertile Sunzha-Argun piedmont plains and the defensive stone gorges of the Greater Caucasus. After reaching two major early lowland peaks during the Eastern Koban hillfort era (56,0k-78,0k in 1000-500BC) and the Alanic urban period around Magas and Alkhan-Kala (172,0k in 1200AD), the region experienced a dramatic shift into the mountain gorges following the Mongol and Timurid invasions (77% highland concentration in 1400AD at 88,0k). Subsequent Vainakh resettlement of the plains lifted population to 128,0k by 1700AD and 220,0k by 1800AD, and despite the heavy toll of the Caucasian War and the 1865 *muhajir* deportations (195,0k in 1850AD), demographic recovery and the Grozny industrial expansion carried the regional population to 350,0k (16,83 persons/km²) by 1900AD.
+The population history of Chechnya and Ingushetia from 10000BC to 1900AD was shaped by a recurring movement between the fertile Sunzha-Argun plains and the stone gorges of the Greater Caucasus. After reaching two early lowland peaks during the Eastern Koban period (78k in 500BC) and the Alanic urban era around Magas and Alkhan-Kala (172k in 1200AD), the population retreated into the mountain gorges following the Mongol and Timurid invasions, which reduced regional numbers to 88k in 1400AD and concentrated 77% of the survivors in the uplands. Subsequent Vainakh resettlement of the plains lifted the population to 128k by 1700AD and 220k by 1800AD. Despite heavy losses during the Caucasian War and the 1865 *muhajir* deportations, agrarian recovery, Cossack settlement and the Grozny oil boom carried the regional population to 350k (16,83 persons/km²) by 1900AD.
 
 # Appendix
 
@@ -262,36 +378,36 @@ df_chol <- data.frame(
     "1750AD", "1800AD", "1850AD", "1900AD"
   ),
   Z1_Piedmont = c(
-    "0,20k", "0,40k", "1,00k", "1,8k", "4,0k", "10,8k", "15,5k",
-    "21,5k", "34,0k", "48,0k", "62,0k", "77,0k", "90,0k", "103,5k",
-    "120,0k", "129,0k", "33,6k", "15,8k", "21,6k", "35,8k", "57,6k",
-    "92,0k", "136,5k", "105,0k", "238,0k"
+    "0,2k", "0,4k", "1k", "1,8k", "4k", "10,8k", "15,5k",
+    "21,5k", "34k", "48k", "62k", "77k", "90k", "103,5k",
+    "120k", "129k", "33,6k", "15,8k", "21,6k", "35,8k", "57,6k",
+    "92k", "136,5k", "105k", "238k"
   ),
   Z2_Gorges = c(
-    "0,25k", "0,40k", "1,00k", "1,6k", "2,8k", "5,4k", "8,0k",
-    "11,5k", "17,5k", "23,0k", "24,0k", "24,0k", "26,0k", "28,0k",
-    "32,0k", "34,4k", "65,1k", "67,8k", "72,5k", "70,6k", "64,0k",
-    "61,0k", "61,5k", "62,0k", "63,0k"
+    "0,25k", "0,4k", "1k", "1,6k", "2,8k", "5,4k", "8k",
+    "11,5k", "17,5k", "23k", "24k", "24k", "26k", "28k",
+    "32k", "34,4k", "65,1k", "67,8k", "72,5k", "70,6k", "64k",
+    "61k", "61,5k", "62k", "63k"
   ),
   Z3_Steppe = c(
-    "0,05k", "0,10k", "0,20k", "0,4k", "0,7k", "1,8k", "2,5k",
-    "3,0k", "4,5k", "7,0k", "9,0k", "9,0k", "9,0k", "8,5k",
-    "8,0k", "8,6k", "6,3k", "4,4k", "3,9k", "5,6k", "6,4k",
-    "12,0k", "22,0k", "28,0k", "49,0k"
+    "0,05k", "0,1k", "0,2k", "0,4k", "0,7k", "1,8k", "2,5k",
+    "3k", "4,5k", "7k", "9k", "9k", "9k", "8,5k",
+    "8k", "8,6k", "6,3k", "4,4k", "3,9k", "5,6k", "6,4k",
+    "12k", "22k", "28k", "49k"
   ),
   Total_Mid = c(
-    "0,5k", "0,9k", "2,2k", "3,8k", "7,5k", "18,0k", "26,0k",
-    "36,0k", "56,0k", "78,0k", "95,0k", "110,0k", "125,0k", "140,0k",
-    "160,0k", "172,0k", "105,0k", "88,0k", "98,0k", "112,0k", "128,0k",
-    "165,0k", "220,0k", "195,0k", "350,0k"
+    "0,5k", "0,9k", "2,2k", "3,8k", "7,5k", "18k", "26k",
+    "36k", "56k", "78k", "95k", "110k", "125k", "140k",
+    "160k", "172k", "105k", "88k", "98k", "112k", "128k",
+    "165k", "220k", "195k", "350k"
   ),
   Range_Low_High = c(
-    "0,3k - 0,8k", "0,6k - 1,3k", "1,5k - 3,0k", "2,5k - 5,2k", "5,5k - 10,5k",
-    "14,0k - 24,0k", "20,0k - 34,0k", "28,0k - 45,0k", "45,0k - 70,0k", "65,0k - 95,0k",
-    "78,0k - 115,0k", "90,0k - 130,0k", "105,0k - 150,0k", "115,0k - 165,0k",
-    "135,0k - 185,0k", "145,0k - 200,0k", "85,0k - 125,0k", "75,0k - 105,0k",
-    "82,0k - 115,0k", "95,0k - 130,0k", "110,0k - 145,0k",
-    "145,0k - 185,0k", "190,0k - 250,0k", "170,0k - 220,0k", "330,0k - 370,0k"
+    "0,3k - 0,8k", "0,6k - 1,3k", "1,5k - 3k", "2,5k - 5,2k", "5,5k - 10,5k",
+    "14k - 24k", "20k - 34k", "28k - 45k", "45k - 70k", "65k - 95k",
+    "78k - 115k", "90k - 130k", "105k - 150k", "115k - 165k",
+    "135k - 185k", "145k - 200k", "85k - 125k", "75k - 105k",
+    "82k - 115k", "95k - 130k", "110k - 145k",
+    "145k - 185k", "190k - 250k", "170k - 220k", "330k - 370k"
   ),
   Density = c(
     "0,02", "0,04", "0,11", "0,18", "0,36", "0,87", "1,25",
@@ -305,9 +421,9 @@ df_chol <- data.frame(
 render_table_template(
   df_chol,
   list(
-    caption = "Estimated population of Chechnya and Ingushetia across its three elevation zones (10000BC - 1900AD; total area 20,8k km2).",
+    caption = "Population estimates for Chechnya and Ingushetia across 25 benchmark dates from 10000BC to 1900AD, broken down by elevation zone alongside total midpoint, uncertainty range and overall density.",
     label = "tab:chechnya_holocene_full",
-    col_names = c("Benchmark", "Zone 1: Piedmont Plain (8,6k km2)", "Zone 2: Highland Gorges (6,7k km2)", "Zone 3: Trans-Terek Steppe (5,5k km2)", "Total Midpoint", "Uncertainty Range [Low - High]", "Density (p/km2)"),
+    col_names = c("Benchmark", "Zone 1: Piedmont Plain (8,6k km²)", "Zone 2: Highland Gorges (6,7k km²)", "Zone 3: Trans-Terek Steppe (5,5k km²)", "Total", "Range", "Density (p/km²)"),
     alignment = c("l", "r", "r", "r", "r", "r", "r"),
     scale_to_fit = FALSE,
     placement = "!htbp"

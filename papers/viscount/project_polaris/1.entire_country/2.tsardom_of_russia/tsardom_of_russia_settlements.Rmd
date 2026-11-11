@@ -1,25 +1,137 @@
 ---
-title: "SETTLEMENT GAZETTEER OF THE TSARDOM OF RUSSIA, BALTIC PROVINCES, LITHUANIAN-POLISH RUS, AND SIBERIAN COLONISATION."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (1400AD - 1721AD)."
+title: "Towns, Fortresses and Siberian Ostrogi in the Age of Muscovy"
+subtitle: "Town and Fortress Populations from the Rise of Muscovy to the Treaty of Nystad"
 date: "11 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/tsardom_of_russia_regional_map.png"
-hero_caption: "Historical regions and major urban centres across the Baltic provinces, Lithuania, Ukraine, the Tsardom of Russia, and Siberia (1400AD - 1721AD)."
+hero_caption: "The 38 historical regions and 205 catalogued towns, fortresses and Siberian river outposts across Eastern Europe and Northern Asia from 1400AD to 1721AD."
 hero_label: "fig:hero"
 bibliography: tsardom_of_russia_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 ```{r load-stadester-json, include=FALSE}
@@ -44,13 +156,23 @@ ord_idx <- order(
 )
 settlements_list <- settlements_list[ord_idx]
 
+hyphenate_tsardom_words <- function (arg0_str) {
+  s <- as.character(arg0_str)
+  s <- gsub("Mikhaylovskiy", "Mikhaylov-skiy", s, fixed = TRUE)
+  s <- gsub("Starocherkasskaya", "Starocher-kasskaya", s, fixed = TRUE)
+  s <- gsub("Starocherkassk", "Starocher-kassk", s, fixed = TRUE)
+  s <- gsub("Verkhnevilyuyskiy", "Verkhne-vilyuyskiy", s, fixed = TRUE)
+  s <- gsub("Nizhnekamchatsk", "Nizhne-kamchatsk", s, fixed = TRUE)
+  s
+}
+
 fmt_other_names <- function (arg0_s) {
   onames <- unlist(arg0_s$other_names)
   if (length(onames) == 0) return("-")
   clean_vec <- unique(as.character(onames))
   clean_vec <- clean_vec[nzchar(clean_vec) & tolower(clean_vec) != tolower(arg0_s$name)]
   if (length(clean_vec) == 0) clean_vec <- unique(as.character(onames))
-  return(paste(head(clean_vec, 2L), collapse = "; "))
+  return(hyphenate_tsardom_words(paste(head(clean_vec, 2L), collapse = "; ")))
 }
 
 fmt_year_lbl <- function (arg0_y) {
@@ -71,10 +193,17 @@ fmt_span <- function (arg0_s) {
 fmt_num_eu <- function (arg0_val) {
   if (is.null(arg0_val) || is.na(arg0_val)) return("-")
   v <- as.numeric(arg0_val)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
   if (v >= 1000) {
-    s <- sprintf("%.1fk", v / 1000.0)
-    s <- gsub("\\.", ",", s)
-    return(s)
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
   }
   return(as.character(round(v)))
 }
@@ -111,11 +240,15 @@ get_pop_window_val <- function (arg0_s, arg1_ymin, arg2_ymax) {
 ```
 
 
-# Gazetteer Structure and 38-Region Coverage (1400AD - 1721AD)
+# Abstract
 
-This settlement gazetteer accompanies the demographic literature review for the Tsardom of Russia, Baltic Provinces, Lithuanian-Polish Rus, and Siberian Colonisation (1400AD - 1721AD) and compiles `r length(settlements_list)` individual georeferenced settlements across all 38 period-authentic regions spanning Russia and Siberia (109 settlements across Regions 18-38), Ukraine and Crimea (47 settlements across Regions 9-17), Estland-Livland, Courland-Inflanty, Core Lithuania, and Old Finland (27 settlements across Regions 1-4), and Belarus (22 settlements across Regions 5-8) [@Vodarsky1973; @Vodarsky1977; @Kabuzan1963; @Palli1996; @Dunsdorfs1962; @Kiaupa2000; @KarpachevKozlovsky1972; @Yakovenko2006; @Dolgikh1960]. Every Hanseatic port, Magdeburg-law town (*miasteczko*), ducal residence, Swedish border fortress, Cossack regimental capital, southern abatis-line stronghold, Ural salt or ironworks settlement, and Siberian *ostrog* is recorded as an independent entry with decimal-degree coordinates (`[lat, lon]`) and positive integer population benchmarks across its documented period of occupation between 1400AD and 1720AD [@Tikhomirov1962; @Bernotas2013; @Sharukho2010; @Rezun1989; @Zhigalov2024].
+This gazetteer compiles the population histories of `r length(settlements_list)` towns, fortresses and frontier outposts across the 38 historical regions of Eastern Europe and Siberia from 1400AD to the Treaty of Nystad in 1721AD. Spanning Hanseatic ports on the Baltic, Magdeburg-law market towns in Lithuania, Belarus and Ukraine, Muscovite stone citadels, timber forts along the Oka, Belgorod and Simbirsk defence lines, Ural salt and ironworks towns and Siberian river *ostrogi*, the tables trace how war and frontier settlement reshaped urban life over three centuries. While mid-seventeenth-century wars and early eighteenth-century plague cut back the older towns of Lithuania, Belarus, Right-Bank Ukraine and the Baltic coast, new garrison and trading towns grew rapidly across Left-Bank and Sloboda Ukraine, the southern Russian black earth, the Middle Volga, the Urals and Siberia, culminating in the rise of Saint Petersburg after 1703AD.
 
-Population series are derived from Baltic *Hakenrevisionen* and municipal burger rolls, the 1528AD Lithuanian *Popis* and *Voloka* / *podymne* hearth registers, Muscovite land cadastres (*pistsovye knigi*), the 1646AD and 1678AD Household Censuses (*perepisnye knigi*), the First Poll-Tax Revision (1719-1721AD, *revizskie skazki*), Left-Bank Ukrainian *perepysni knyhy* (1666AD) and regimental *komputy*, Ottoman *tahrir defterleri* for Crimea and Kefe, and Siberian *yasak* and *dozornye* books [@Shapiro1974; @Morzy1965; @Vasiliauskas2012; @Saloheimo1976; @Irtenina2022; @Ozturk2019; @Pokrovsky1984]. Zero-population placeholders are omitted so that each settlement's benchmark keys reflect its active historical span within the 1400AD - 1721AD domain.
+# Methodology
+
+This gazetteer traces the population history of `r length(settlements_list)` towns, fortresses and frontier outposts across the 38 historical regions of Eastern Europe and Siberia between 1400AD and 1721AD: 109 in Russia and Siberia (Regions 18-38), 47 in Ukraine and Crimea (Regions 9-17), 27 across the Baltic provinces, Lithuania and Old Finland (Regions 1-4) and 22 in Belarus (Regions 5-8) [@Vodarsky1973; @Vodarsky1977; @Kabuzan1963; @Palli1996; @Dunsdorfs1962; @Kiaupa2000; @KarpachevKozlovsky1972; @Yakovenko2006; @Dolgikh1960]. These settlements span Hanseatic ports on the Baltic, Magdeburg-law market towns (*miasteczka*) in Lithuania, Belarus and Ukraine, Swedish border castles in Karelia, Cossack regimental capitals, timber and stone strongholds along the Oka, Belgorod and Simbirsk defence lines, Ural salt and ironworks towns and Siberian river *ostrogi* [@Tikhomirov1962; @Bernotas2013; @Sharukho2010; @Rezun1989; @Zhigalov2024].
+
+Town populations across the benchmark dates are drawn from Baltic ploughland audits (*Hakenrevisionen*) and burgher rolls, the 1528AD Lithuanian muster (*Popis*) and hearth-tax (*podymne*) registers, Muscovite land books (*pistsovye knigi*), the 1646AD and 1678AD household censuses (*perepisnye knigi*), Peter the Great's First Soul Revision (1719-1721AD, *revizskie skazki*), Left-Bank Ukrainian census books (1666AD) and Cossack regimental rolls, Ottoman tax registers (*tahrir defterleri*) for Crimea and Kefe and Siberian fur-tribute (*yasak*) and inspection (*dozornye*) books [@Shapiro1974; @Morzy1965; @Vasiliauskas2012; @Saloheimo1976; @Irtenina2022; @Ozturk2019; @Pokrovsky1984]. Dates before a town was founded or after it was abandoned are marked with a hyphen (-).
 
 ```{r tab-region-summary, echo=FALSE}
 reg_ids <- c("livonia_estland_narva_dorpat", "courland_semigallia_and_inflanty", "gdl_vilnius_trakai_and_samogitia", "vyborg_kexholm_old_finland", "gdl_polotsk_vitebsk_dvina", "gdl_vilna_grodno_novogrudok", "gdl_minsk_orsha_mogilev", "gdl_brest_pinsk_turov_polesia", "crown_galicia_belz_carpathian_rus", "crown_volhynia_voivodeship", "crown_podolia_and_bratslav", "hetmanate_right_bank_kyiv_regiments", "hetmanate_left_bank_north_chernihiv", "hetmanate_left_bank_south_poltava", "sloboda_ukraine_regiments", "zaporozhian_sich_and_wild_fields", "crimean_khanate_and_ottoman_kefe", "muscovy_zamoskovny_moscow_core", "muscovy_novgorod_pskov_pyatiny", "muscovy_karelia_ingria_st_petersburg", "muscovy_smolensk_and_seversk", "muscovy_pomorye_dvina_pechora", "muscovy_oka_ryazan_tula_abatis", "muscovy_belgorod_voronezh_razryads", "muscovy_kazan_middle_volga_cherta", "muscovy_vyatka_perm_stroganov_urals", "muscovy_bashkir_darugas_and_yaik", "steppe_lower_volga_astrakhan_kalmyks", "steppe_don_cossack_host_and_azov", "caucasus_circassia_kabarda_vainakh_dagestan", "siberia_pomor_mangazeya_arctic_route", "siberia_tobolsk_irtysh_ob_water_highway", "siberia_southern_tara_tomsk_kuznetsk_line", "siberia_nomadic_baraba_altai_sayan_steppe", "siberia_yeniseysk_angara_ilimsk_portage", "siberia_transbaikal_dauria_nerchinsk", "siberia_lena_yakutsk_alaas_core", "siberia_arctic_kolyma_okhotsk_kamchatka")
@@ -136,7 +269,6 @@ sum_rows <- lapply(seq_along(reg_ids), function (i) {
   }
   data.frame(
     Region = reg_labels[i],
-    RegionID = rid,
     Count = as.character(n_s),
     Pop1400 = fmt_num_eu(sum_yr("1400")),
     Pop1550 = fmt_num_eu(sum_yr("1550")),
@@ -155,7 +287,6 @@ df_sum <- rbind(
   df_sum,
   data.frame(
     Region = "Total Gazetteer (All 38 Regions)",
-    RegionID = "all_38_regions",
     Count = as.character(length(settlements_list)),
     Pop1400 = fmt_num_eu(tot_yr("1400")),
     Pop1550 = fmt_num_eu(tot_yr("1550")),
@@ -168,22 +299,22 @@ df_sum <- rbind(
 render_table_template(
   df_sum,
   list(
-    caption = "Regional summary of catalogued settlements and combined urban and garrison populations across five benchmark dates (1400AD - 1720AD).",
-    col_names = c("Period-Authentic Region", "Region ID", "Count", "1400AD", "1550AD", "1648AD", "1678AD", "1720AD"),
+    caption = "Number of catalogued towns and their combined urban population across each of the 38 historical regions at five benchmark dates from 1400AD to 1720AD.",
+    col_names = c("Historical Region", "Count", "1400AD", "1550AD", "1648AD", "1678AD", "1720AD"),
     label = "tab:gazetteer-summary"
   )
 )
 ```
 
-# Benchmark Matrix of Principal Settlements (1400AD - 1720AD)
+# Results
 
 ```{r tab-benchmark-matrix, echo=FALSE}
 build_matrix_df <- function (arg0_list) {
   rows <- lapply(arg0_list, function (s) {
     rid <- as.character(settlement_reg_lookup[[as.character(s$key)]])
-    rshort <- if (rid %in% names(reg_num_map)) paste0(reg_num_map[[rid]], " (", rid, ")") else rid
+    rshort <- if (rid %in% names(reg_map)) sub("\\s*\\(.*", "", reg_map[[rid]]) else rid
     data.frame(
-      Name = as.character(s$name),
+      Name = hyphenate_tsardom_words(as.character(s$name)),
       RegionID = rshort,
       Coords = fmt_coord_pair(s$coords),
       Y1400 = get_pop_window_val(s, 1400, 1450),
@@ -203,22 +334,25 @@ df_mat <- build_matrix_df(settlements_list)
 render_table_template(
   df_mat,
   list(
-    caption = "Benchmark population series for all 205 catalogued settlements by historical region across seven dates (1400AD - 1720AD).",
-    col_names = c("Settlement", "Period Region", "Coordinates", "1400-1450AD", "1500AD", "1550-1580AD", "1600-1615AD", "1648-1667AD", "1678AD", "1700-1720AD"),
+    caption = "Population estimates for all 205 catalogued towns, fortresses and Siberian outposts across seven benchmark windows from 1400AD to 1720AD, with hyphens marking dates prior to foundation.",
+    col_names = c("Settlement", "Region", "Coords", "1400-1450AD", "1500AD", "1550-1580AD", "1600-1615AD", "1648-1667AD", "1678AD", "1700-1720AD"),
     label = "tab:benchmark-matrix"
   )
 )
 ```
 
-# Complete Georeferenced Settlement Directory (1400AD - 1721AD)
+# Appendix
+
+## Settlement Directory
 
 ```{r tab-full-directory, echo=FALSE}
 dir_rows <- lapply(settlements_list, function (s) {
   rid <- as.character(settlement_reg_lookup[[as.character(s$key)]])
+  rclean <- if (rid %in% names(reg_map)) sub("\\s*\\(.*", "", reg_map[[rid]]) else rid
   data.frame(
-    Name = as.character(s$name),
+    Name = hyphenate_tsardom_words(as.character(s$name)),
     AltNames = fmt_other_names(s),
-    RegionID = rid,
+    Region = rclean,
     Coords = fmt_coord_pair(s$coords),
     Span = fmt_span(s),
     Series = fmt_pop_series(s, 1400, 1721),
@@ -229,8 +363,8 @@ df_dir <- do.call(rbind, dir_rows)
 render_table_template(
   df_dir,
   list(
-    caption = "Directory of all 205 catalogued settlements with historical names, regions, coordinates, occupation spans, and benchmark populations (1400AD - 1720AD).",
-    col_names = c("Settlement", "Historical & Alternative Names", "Region ID", "Coordinates", "Active Span", "Population Series (Year: Population)"),
+    caption = "Complete directory of all 205 catalogued settlements from 1400AD to 1720AD, listing historical and local names, regional assignments, geographic coordinates and dated population estimates.",
+    col_names = c("Settlement", "Historical & Alternative Names", "Region", "Coords", "Active Span", "Population Series (Year: Population)"),
     label = "tab:full-directory"
   )
 )

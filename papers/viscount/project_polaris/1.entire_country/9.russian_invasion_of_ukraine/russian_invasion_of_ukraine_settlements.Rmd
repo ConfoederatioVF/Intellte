@@ -1,50 +1,119 @@
 ---
-title: "SETTLEMENT GAZETTEER OF THE RUSSIAN INVASION OF UKRAINE."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (2022AD - 2026AD)."
+title: "Settlement Gazetteer of the Russian Invasion of Ukraine"
+subtitle: "Urban and Frontline Population Trajectories across Ukraine, Belarus and the Russian Federation"
 date: "10 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/russian_invasion_of_ukraine_regional_map.png"
-hero_caption: "Spatial distribution of all 123 oblast, occupation-history, and federal-subject divisions and 245 tracked urban settlements from 2021AD to 2026AD."
+hero_caption: "Administrative and occupation-history boundaries for the 123 regional divisions of Ukraine, Belarus and the Russian Federation containing the 245 cities, frontline towns and garrison seats catalogued in this gazetteer."
 hero_label: "fig:hero"
 bibliography: russian_invasion_of_ukraine_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 nocite: '@*'
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
-# Overview & Oblast-Keyed Gazetteer Methodology
+# Abstract
 
-This settlement gazetteer documents annual resident population trajectories from 2021AD to 2026AD for 245 cities, frontline towns, regional administrative seats, military garrisons, hydrocarbon boomtowns, and defence-industrial centres across the 123 administrative and occupation-history divisions of the war theatre (Table \ref{tab:gaz-summary}). Coverage spans all 33 Ukrainian oblast and occupation-history divisions across Ukraine's 27 constitutional oblasts, special-status cities, and Autonomous Republic of Crimea, alongside all 7 administrative divisions of Belarus and all 83 federal subjects of the Russian Federation [@libanova2024demographic; @iom2025returns; @belstat2024chislennost; @rosstat2024demografiya; @mediazona2025casualties].
+This gazetteer traces the population histories of 245 cities, frontline towns, regional capitals, military garrisons and industrial centres across Ukraine, Belarus and the Russian Federation between 2021 and 2026 (Figure \ref{fig:hero} and Table \ref{tab:gaz-summary}). Organised across the 123 administrative and occupation-history divisions of the war theatre - 33 divisions spanning Ukraine's 27 constitutional oblasts and special-status cities, 7 administrative divisions in Belarus and 83 federal subjects in the Russian Federation - the tables record the urban demographic consequences of full-scale warfare, siege destruction, internal displacement and regional mobilisation.
 
-Each entry records verified geographic coordinates, historical and alternative toponyms, sovereign country attribution, and annual headcounts across every benchmark year (2021AD, 2022AD, 2024AD, and 2026AD in the summary tables below), cross-checked against ACLED raion conflict intensity, DeepState frontline polygons, Copernicus Sentinel-1 radar and UNOSAT optical damage assessments, and municipal internal displacement registers [@acled2025ukraine; @deepstate2025map; @scher2023sar; @unosat2023mariupol]. Every one of the 123 analytical divisions is represented by at least its administrative seat alongside major frontline or industrial centres.
+Across Ukraine, frontline towns in Donetsk, Luhansk, Kharkiv, Zaporizhzhia and Kherson Oblasts suffered near-total depopulation under artillery and aerial bombardment, while Kyiv, Dnipro, Lviv and western regional centres expanded or stabilised as reception hubs for millions of internally displaced citizens. In Belarus and the Russian Federation, urban populations reflected the contrast between demographic stability in Moscow, Saint Petersburg, hydrocarbon boomtowns and major defence-industrial hubs, evacuation losses in shelled border towns such as Shebekino and Sudzha and steady contraction across peripheral garrison and mono-industrial towns.
+
+# Methodology
+
+With Ukraine's planned 2023 census suspended under martial law and granular municipal series curtailed in Russian statistical releases after 2022, urban population estimates for 2021 to 2026 are reconstructed from municipal administrative registers, displacement surveys and satellite damage assessments [@libanova2024demographic; @iom2025returns; @belstat2024chislennost; @rosstat2024demografiya; @mediazona2025casualties]. Every one of the 123 regional divisions is represented by its administrative seat alongside principal frontline, garrison or industrial towns.
+
+For Ukrainian settlements, pre-invasion 2021 baselines from the State Statistics Service of Ukraine are updated through 2022, 2024 and 2026 using Oblast Military Administration evacuation logs, IOM municipal displacement and returnee series, Copernicus Sentinel-1 radar and UNOSAT optical building-damage surveys and VIIRS night-time light series [@ukrstat2022chiselnist; @acled2025ukraine; @deepstate2025map; @scher2023sar; @unosat2023mariupol]. For Belarusian and Russian cities, municipal baselines from Belstat and the 2021 All-Russian Census are adjusted for wartime emigration, border evacuations in Belgorod and Kursk Oblasts, defence-industrial labour inflows and garrison casualty attrition.
 
 ```{r gazetteer-load, include=FALSE}
 map_df <- jsonlite::fromJSON((if (file.exists("invasion_settlement_oblast_map.json")) "invasion_settlement_oblast_map.json" else "../../_shared/_gis_cache/invasion_settlement_oblast_map.json"))
 
-fmt_int <- function (v) formatC(as.integer(round(as.numeric(v))), format = "d", big.mark = " ")
+clean_tbl_str <- function (x) {
+  x <- gsub("([0-9]{4})AD\\b", "\\1", as.character(x), perl = TRUE)
+  x <- gsub("([0-9]+,[1-9]+)0+(?![0-9])", "\\1", gsub("([0-9]+),0+(?![0-9])", "\\1", x, perl = TRUE), perl = TRUE)
+  x <- gsub("Sievierodonetsk", "Sievierodo-netsk", x, fixed = TRUE)
+  x <- gsub("Syevyerodonetskyi", "Syevyerodo-netskyi", x, fixed = TRUE)
+  x <- gsub("Kostiantynivka", "Kostianty-nivka", x, fixed = TRUE)
+  x <- gsub("Dnipropetrovsk", "Dnipro-petrovsk", x, fixed = TRUE)
+  x <- gsub("Nizhnevartovsk", "Nizhnevar-tovsk", x, fixed = TRUE)
+  x <- gsub("Severobaykalsk", "Severobay-kalsk", x, fixed = TRUE)
+  x <- gsub("Blagoveshchensk", "Blagovesh-chensk", x, fixed = TRUE)
+  x <- gsub("Krasnohorivka", "Krasno-horivka", x, fixed = TRUE)
+  x <- gsub("Kakhovka", "Kakhov-ka", x, fixed = TRUE)
+  x <- gsub("Kropyvnytskyi", "Kropyvnyt-skyi", x, fixed = TRUE)
+  x <- gsub("Khmelnytskyi", "Khmelnyt-skyi", x, fixed = TRUE)
+  x <- gsub("Zakarpattia", "Zakar-pattia", x, fixed = TRUE)
+  x <- gsub("Novorossiysk", "Novoros-siysk", x, fixed = TRUE)
+  x <- gsub("Nefteyugansk", "Nefte-yugansk", x, fixed = TRUE)
+  x <- gsub("Petropavlovsk-Kamchatsky", "Petropav-lovsk-Kamchatsky", x, fixed = TRUE)
+  x <- gsub("Yekaterinburg", "Yekaterin-burg", x, fixed = TRUE)
+  x <- gsub("Magnitogorsk", "Magnito-gorsk", x, fixed = TRUE)
+  x <- gsub("Novokuznetsk", "Novokuz-netsk", x, fixed = TRUE)
+  return(x)
+}
+
+fmt_int <- function (v) {
+  x <- as.numeric(v)
+  if (is.na(x)) return("-")
+  if (abs(x) >= 1e6) {
+    s <- sprintf("%.2f", x / 1e6)
+    s <- sub("\\.?0+$", "", s)
+    return(paste0(gsub(".", ",", s, fixed = TRUE), "M"))
+  } else if (abs(x) >= 1e3) {
+    s <- sprintf("%.1f", x / 1e3)
+    if (abs(x) < 1e4 && round(x) %% 100 != 0) {
+      s <- sprintf("%.2f", x / 1e3)
+    }
+    s <- sub("\\.?0+$", "", s)
+    return(paste0(gsub(".", ",", s, fixed = TRUE), "k"))
+  } else {
+    return(as.character(as.integer(round(x))))
+  }
+}
+
 fmt_pct <- function (p21, p26) {
   ch <- (as.numeric(p26) - as.numeric(p21)) / as.numeric(p21) * 100
-  gsub(".", ",", sprintf("%+.1f%%", ch), fixed = TRUE)
+  s <- gsub(".", ",", sprintf("%+.1f%%", ch), fixed = TRUE)
+  sub(",0%$", "%", s)
+}
+
+fmt_coords <- function (lat, lon) {
+  s <- gsub("\\.", ",", sprintf("%.2fN, %.2fE", lat, lon))
+  s <- gsub("([0-9]+,[1-9]+)0+([NE])", "\\1\\2", s, perl = TRUE)
+  s <- gsub("([0-9]+),0+([NE])", "\\1\\2", s, perl = TRUE)
+  return(s)
 }
 
 build_country_gaz_df <- function (cn) {
   sub_m <- map_df[map_df$country == cn, , drop = FALSE]
   sub_m <- sub_m[order(sub_m$obl_idx, -sub_m$p2021), , drop = FALSE]
+  obl_col <- gsub(" Oblast", " Obl.", clean_tbl_str(paste0(sub_m$oblast_name, " (", sub_m$iso, ")")), fixed = TRUE)
   data.frame(
-    Settlement = sub_m$name,
-    Oblast = paste0(sub_m$oblast_name, " (", sub_m$iso, ")"),
-    Coords = gsub("\\.", ",", sprintf("%.2fN, %.2fE", sub_m$lat, sub_m$lon)),
+    Settlement = clean_tbl_str(sub_m$name),
+    Oblast = obl_col,
+    Coords = mapply(fmt_coords, sub_m$lat, sub_m$lon),
     P2021 = vapply(sub_m$p2021, fmt_int, character(1)),
     P2022 = vapply(sub_m$p2022, fmt_int, character(1)),
     P2024 = vapply(sub_m$p2024, fmt_int, character(1)),
@@ -80,47 +149,58 @@ df_sum <- rbind(do.call(rbind, sum_rows), data.frame(
 render_table_template(
   df_sum,
   list(
-    caption = "Summary of the 245 tracked urban and frontline settlements across all 123 oblast, occupation-history, and federal-subject divisions (2021AD - 2026AD).",
-    col_names = c("Country", "Divisions", "Settlements", "2021AD Sum", "2026AD Sum", "2021-2026AD"),
+    caption = "Regional distribution and combined population of the 245 catalogued urban settlements across Ukraine, Belarus and the Russian Federation.",
+    col_names = c("Country", "Divisions", "Settlements", "2021", "2026", "Change"),
     label = "tab:gaz-summary"
   )
 )
 ```
 
-# Ukraine: Settlements by Modern Oblast & Occupation Zone (33 Divisions Across 27 Oblasts)
+# Results
+
+## Ukrainian Oblasts and Occupation Zones
+
+In Ukraine, urban trajectories between 2021 and 2026 diverged sharply along the line of contact (Table \ref{tab:gaz-ua}). Frontline cities and towns subjected to siege and protracted artillery battles - including Bakhmut, Avdiivka, Popasna, Vuhledar, Marinka, Vovchansk and Kupiansk - lost over 85% to 99% of their pre-war inhabitants, while Mariupol, Sievierodonetsk, Lysychansk and Kherson City contracted to a fraction of their 2021 populations. Conversely, central and western regional capitals such as Kyiv, Dnipro, Poltava, Vinnytsia, Lviv, Ivano-Frankivsk, Chernivtsi and Uzhhorod absorbed large inflows of internally displaced residents.
 
 ```{r tab-gaz-ua, echo=FALSE}
+df_gaz_ua <- build_country_gaz_df("Ukraine")
 render_table_template(
-  build_country_gaz_df("Ukraine"),
+  df_gaz_ua,
   list(
-    caption = "Georeferenced settlement directory and resident population trajectories across all thirty-three Ukrainian oblast and occupation divisions (2021AD - 2026AD).",
-    col_names = c("Settlement", "Ukrainian Oblast & Occupation Zone (ISO)", "Coords", "2021AD", "2022AD", "2024AD", "2026AD", "Change"),
+    caption = sprintf("Coordinates and resident population trajectories for %d Ukrainian cities and frontline towns across 33 oblast and occupation-history divisions, 2021-2026.", nrow(df_gaz_ua)),
+    col_names = c("Settlement", "Oblast / Occupation Zone (ISO)", "Coords", "2021", "2022", "2024", "2026", "Change"),
     label = "tab:gaz-ua"
   )
 )
 ```
 
-# Belarus: Settlements by Modern Oblast (7 Admin-1 Units)
+## Belarusian Oblasts and Minsk City
+
+Across the six oblasts of Belarus and Minsk City, urban populations experienced gradual contraction or stagnation between 2021 and 2026 (Table \ref{tab:gaz-by}). Natural decrease and skilled emigration to Poland and Lithuania weighed on Minsk, Gomel, Mogilev, Vitebsk and Bobruisk, while southern staging towns in Brest and Gomel Oblasts saw modest outflows following the 2022 northern offensive.
 
 ```{r tab-gaz-by, echo=FALSE}
+df_gaz_by <- build_country_gaz_df("Belarus")
 render_table_template(
-  build_country_gaz_df("Belarus"),
+  df_gaz_by,
   list(
-    caption = "Georeferenced settlement directory and resident population trajectories across all seven Belarusian oblasts and Minsk City (2021AD - 2026AD, headcounts).",
-    col_names = c("Settlement", "Modern Oblast / Capital (ISO)", "Coords", "2021AD", "2022AD", "2024AD", "2026AD", "Change"),
+    caption = sprintf("Coordinates and resident population trajectories for %d Belarusian regional capitals and industrial centres across all 7 administrative divisions, 2021-2026.", nrow(df_gaz_by)),
+    col_names = c("Settlement", "Oblast / Capital (ISO)", "Coords", "2021", "2022", "2024", "2026", "Change"),
     label = "tab:gaz-by"
   )
 )
 ```
 
-# Russian Federation: Settlements by Federal Subject (83 Units)
+## Russian Federal Subjects
+
+Across the 83 federal subjects of the Russian Federation, urban population changes between 2021 and 2026 reflected border bombardment, defence-industrial mobilisation and regional demographic differentials (Table \ref{tab:gaz-ru}). Shelled frontier towns in Belgorod and Kursk Oblasts (Shebekino and Sudzha) lost substantial shares of their civilian residents, whereas Kursk City absorbed displaced border villagers, hydrocarbon centres in Khanty-Mansi and Yamalo-Nenets Autonomous Okrugs (Surgut, Nizhnevartovsk and Novy Urengoy) and North Caucasian capitals (Makhachkala, Grozny and Nazran) recorded steady growth and northern garrison and mining towns continued to contract.
 
 ```{r tab-gaz-ru, echo=FALSE}
+df_gaz_ru <- build_country_gaz_df("Russia")
 render_table_template(
-  build_country_gaz_df("Russia"),
+  df_gaz_ru,
   list(
-    caption = "Georeferenced settlement directory and resident population trajectories across all eighty-three Russian federal subjects (2021AD - 2026AD, headcounts).",
-    col_names = c("Settlement", "Modern Federal Subject (ISO)", "Coords", "2021AD", "2022AD", "2024AD", "2026AD", "Change"),
+    caption = sprintf("Coordinates and resident population trajectories for %d Russian regional capitals, garrison towns and industrial centres across all 83 federal subjects, 2021-2026.", nrow(df_gaz_ru)),
+    col_names = c("Settlement", "Federal Subject (ISO)", "Coords", "2021", "2022", "2024", "2026", "Change"),
     label = "tab:gaz-ru"
   )
 )

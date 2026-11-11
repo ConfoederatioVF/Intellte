@@ -1,25 +1,137 @@
 ---
-title: "SETTLEMENT GAZETTEER OF THE PONTIC STEPPE."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (10000BC - 1900AD)."
+title: "Ports, Forts and Cossack Towns of the Pontic Steppe"
+subtitle: "From Bosporan Greek Colonies and Khazar Fortresses to Golden Horde Azak and the Don and Kuban Towns"
 date: "8 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/pontic_steppe_regional_map.png"
-hero_caption: "Administrative boundaries, river basins, and settlements of the Russian Pontic Steppe included in the gazetteer (10000BC - 1900AD)."
+hero_caption: "The four regions of the Russian Pontic Steppe (165k km²), showing the coastal ports of the Taman Peninsula and Don Delta alongside the Lower Don, Don-Donets and Sal-Manych inland corridors."
 hero_label: "fig:hero"
 bibliography: pontic_steppe_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 ```{r set-json-path, include=FALSE}
@@ -97,10 +209,17 @@ fmt_span <- function (arg0_s) {
 fmt_num_eu <- function (arg0_val) {
   if (is.null(arg0_val) || is.na(arg0_val)) return("-")
   v <- as.numeric(arg0_val)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
   if (v >= 1000) {
-    s <- sprintf("%.1fk", v / 1000.0)
-    s <- gsub("\\.", ",", s)
-    return(s)
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
   }
   return(as.character(round(v)))
 }
@@ -135,13 +254,19 @@ get_pop_window_val <- function (arg0_s, arg1_ymin, arg2_ymax) {
 }
 ```
 
-# Overview
+# Abstract
 
-This supplementary report presents the tabular settlement gazetteer accompanying the regional demographic review of the Russian Pontic Steppe (10000BC - 1900AD). The dataset contains 176 individual settlements across the Lower Don, Azov Littoral, Taman Peninsula, and Kuban-Stavropol Steppe from 10000BC to 1900AD, indexing each settlement with alternate and historical names, decimal coordinates, and chronological population estimates for inhabited benchmark years.
+Across the 165k km² of the Russian Pontic Steppe, towns and villages clustered along the Lower Don, the Azov coast and the Taman Peninsula while the inland Sal-Manych and Don-Donets watersheds shifted from nomadic grazing lands to Cossack and peasant farming districts after 1700AD. Early riverine fishing villages at Rakushechny Yar (50-120 residents in 6000-5000BC) [@belanovskaya1995rakushechnyy; @tsybrij2018rakushechnyy] and Late Bronze Age Srubnaya and Kobyakovo settlements [@sharafutdinova1980kobyakovo; @potapov2013krest] were followed in the Classical and Roman eras by the Bosporan Greek cities of Phanagoria (12,5k in 350BC), Gorgippia (7,5k), Hermonassa (5,5k) and Kepoi (3,8k) on Taman [@paromov1992karta; @kuznetsov2010phanagoria; @garbuzov2013selskaya] and the delta emporia of Elizavetovskoye (3,8k) and Tanais (4k in 150AD) with its ten Maeotian forts [@marchenko2000elizavetovskoye; @vdovchenkov2019meotov]. In the Middle Ages, the Khazar fortresses of Sarkel (3,2k in 900AD), Semikarakorskoye (2,8k) and Tamatarkha (10k) anchored the Saltovo-Mayaki village network [@artamonov1958sarkel; @afanasyev1993donskiye], and under the Golden Horde the port of Azak/Tana reached 54k inhabitants in 1340AD before falling to 13k on the eve of Timur's 1395 sack [@maslovsky2024chislennosti]. From the 16th century, Don Cossack island *gorodki* at Razdory and Cherkassk (7,5k in 1700AD) and 18th- and 19th-century port, railway and coal towns transformed the region, led in 1897 by Rostov-on-Don and Nakhichevan-on-Don (147,9k combined), Novocherkassk (52k), Taganrog (51,4k), Yeysk (35,4k) and Azov (27,5k) [@mininkov1998donskoye; @troynitsky1905don; @troynitsky1905kuban; @volvenko2023priazovya].
+
+# Methodology
+
+This gazetteer compiles 176 settlements across the Russian Pontic Steppe from 10000BC to 1900AD, recording historical and alternative names, geographic coordinates and benchmark population estimates.
 
 Population figures are derived from excavated dwelling floor areas and settlement plans for prehistoric and Bronze Age sites [@belanovskaya1995rakushechnyy; @tsybrij2018rakushechnyy; @dolbunova2021rakovinnyye; @skorobogatov2025keramicheskiy; @potapov2013krest; @sharafutdinova1980kobyakovo], walled urban areas and rural surveys for Classical Bosporan, Maeotian and Sarmatian settlements [@paromov1992karta; @kuznetsov2010phanagoria; @garbuzov2011osvoyeniye; @garbuzov2013selskaya; @marchenko2000elizavetovskoye; @kopylov2016vremeni; @batieva2011naseleniye; @vdovchenkov2019meotov], fortress and urban excavations for Khazar Saltovo-Mayaki and Golden Horde cities [@artamonov1958sarkel; @afanasyev1993donskiye; @flyorov2011goroda; @maslovsky2017azak; @maslovsky2022tokhtamysh; @maslovsky2024chislennosti] and Russian *Posolsky Prikaz* rolls, Imperial tax revisions (*revizii*) and the 1897 Census for Don and Kuban Cossack *stanitsas*, peasant *slobodas* and cities [@mininkov1998donskoye; @sushchiy2019institut; @prudnikov2024gorodok; @pronshtein1961zemlya; @kabuzan1976zaseleniye; @agafonov2017zemli; @kolomeytseva2018krestyanstva; @burykina2008osvoyeniye; @parshina2023kubanskogo; @volvenko2023priazovya; @troynitsky1905don; @troynitsky1905kuban].
 
-# Prehistoric, Bronze Age, and Classical Settlements (10000BC - 500AD)
+# Results
+
+## Early Camps, Bronze Age Villages and Classical Cities
 
 ```{r tab-pontic-ancient, results='asis'}
 ancient_list <- Filter(function (s) first_year_num(s) <= 500, settlements_list)
@@ -160,7 +285,7 @@ df_ancient <- do.call(rbind, lapply(ancient_list, function (s) {
 render_table_template(
   df_ancient,
   list(
-    caption = "Prehistoric, Bronze Age, Classical Bosporan, Maeotian, and Sarmatian settlements of the Russian Pontic Steppe (10000BC - 500AD).",
+    caption = "Coordinates, dates of occupation and benchmark populations derived from house-floor areas, walled urban footprints and rural surveys for prehistoric camps, Srubnaya terrace villages, Bosporan Greek colonies and Maeotian-Sarmatian forts.",
     label = "tab:pontic-ancient",
     col_names = c("Settlement", "Historical / Alternative Names", "Coords", "Occupied Span", "Population Estimates by Date"),
     scale_to_fit = FALSE
@@ -168,7 +293,7 @@ render_table_template(
 )
 ```
 
-# Medieval Khazar, Rus, and Golden Horde Settlements (650 - 1550AD)
+## Khazar, Rus and Golden Horde Settlements
 
 ```{r tab-pontic-medieval, results='asis'}
 med_list <- Filter(function (s) {
@@ -193,7 +318,7 @@ df_med <- do.call(rbind, lapply(med_list, function (s) {
 render_table_template(
   df_med,
   list(
-    caption = "Medieval Khazar, Saltovo-Mayaki, Rus, and Golden Horde settlements of the Russian Pontic Steppe (650 - 1550AD).",
+    caption = "Estimated populations across five medieval benchmark windows for Khazar stone and brick fortresses, Saltovo-Mayaki farming villages, Tmutarakan and Golden Horde Azak (Tana) with its delta hinterland.",
     label = "tab:pontic-medieval",
     col_names = c("Settlement", "Historical Names", "Coords", "750-850AD", "900AD", "1000-1200AD", "1340AD", "1380-1500AD"),
     scale_to_fit = FALSE
@@ -201,7 +326,7 @@ render_table_template(
 )
 ```
 
-# Early Modern and Imperial Settlements (1550 - 1900AD)
+## Cossack Towns, Peasant Villages and Ports
 
 ```{r tab-pontic-modern, results='asis'}
 mod_list <- Filter(function (s) {
@@ -227,7 +352,7 @@ df_mod <- do.call(rbind, lapply(mod_list, function (s) {
 render_table_template(
   df_mod,
   list(
-    caption = "Cossack gorodki and stanitsas, peasant slobodas, ports, and industrial cities of the Russian Pontic Steppe (1550 - 1900AD).",
+    caption = "Population counts from 17th-century military rolls, the ten Imperial tax revisions and the 1897 Census for Don and Black Sea Cossack stanitsas, Armenian and peasant slobodas, Azov grain ports and eastern Donbas coal towns.",
     label = "tab:pontic-modern",
     col_names = c("Settlement", "Alternative Names", "Coords", "1600AD", "1700AD", "1800AD", "1850AD", "1897AD", "1900AD"),
     scale_to_fit = FALSE
@@ -235,12 +360,12 @@ render_table_template(
 )
 ```
 
-# Complete Settlement Gazetteer
+## Complete Settlement Gazetteer
 
 ```{r tab-pontic-all, results='asis'}
 df_all <- do.call(rbind, lapply(settlements_list, function (s) {
   data.frame(
-    Key = s$key,
+    Key = s$name,
     Coords = fmt_coord_pair(s$coords),
     Span = fmt_span(s),
     Pop_Series = fmt_pop_series(s),
@@ -251,9 +376,9 @@ df_all <- do.call(rbind, lapply(settlements_list, function (s) {
 render_table_template(
   df_all,
   list(
-    caption = "Complete directory of all 176 indexed settlements and population series in the Russian Pontic Steppe (10000BC - 1900AD).",
+    caption = "Chronological listing of all 176 settlements across the Lower Don, Taman Peninsula and Azov steppes from Neolithic Rakushechny Yar to 1900AD, with geographic coordinates, occupied spans and benchmark population estimates.",
     label = "tab:pontic-all",
-    col_names = c("Stadester Key", "Coords", "Occupied Span", "Complete Population Series (Year: Population)"),
+    col_names = c("Settlement", "Coords", "Occupied Span", "Population Estimates by Date"),
     scale_to_fit = FALSE
   )
 )

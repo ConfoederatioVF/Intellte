@@ -1,40 +1,152 @@
 ---
-title: "MIGRATION PERIOD DEMOGRAPHY AND SETTLEMENT ACROSS BELARUS, UKRAINE, AND RUSSIA."
-subtitle: "A Regional Literature Review of Population and Settlement (1000BC - 1000AD)."
+title: "Slavs, Finns, Balts and Steppe Nomads across Eastern Europe and Siberia"
+subtitle: "Population and Settlement from the Late Iron Age to the Early Rus'"
 date: "7 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 
 bibliography: migration_period_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 
 hero_figure: "figures/fig1_migration_period_cultures_map.png"
-hero_caption: "Migration Period archaeological cultures, river basins, population movements, and excavated settlements across Belarus, Ukraine, and Russia (250AD - 750AD)."
+hero_caption: "Six ecological zones and twenty archaeological cultures from the Dnieper-Desna forest-steppe to the Minusinsk and Baikal basins, showing the shift from open steppe pastures to fortified woodland and mountain valleys between 250AD and 750AD."
 hero_label: "fig:hero-map"
 
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 # Abstract
 
-This working paper reviews external Russian and international archaeological, osteological, palynological, and historical-demographic scholarship to estimate regional populations and settlement patterns across Belarus, Ukraine, and Russia during the Migration Period (*Epokha Velikogo pereseleniya narodov*, c. 250-750AD), placed within a long-run comparative series extending from 100AD to the First All-Russian Imperial Census of 1897 (1900AD). Drawing on excavated house-floor areas, hillfort and open village dimensions, cremation and inhumation cemetery burial counts, and river-basin survey inventories across six major geographical regions, we reconstruct consistent regional population series. Across Belarus, Ukraine, and Russia (excluding the Baltic provinces), total population rose from 2,05 M (1,60-2,54 M) in 100AD to a Late Roman peak of 2,56 M (2,00-3,17 M) around 350AD, declined to 2,28 M (1,78-2,83 M) by 450AD following the Hunnic invasion and the collapse of the eastern Chernyakhov and Late Sarmatian settlement networks, and recovered after the 536-542AD climatic downturn (2,49 M in 550AD) to reach 3,13 M (2,44-3,88 M) by 700AD and 4,50 M (3,51-5,58 M) by 900AD. Notably, the Migration Period did not bring uniform depopulation across the region, but rather a major geographical shift: populations in the open Pontic-Caspian steppe and exposed southern forest-steppe fell by 28-44% between 350AD and 450AD, whereas Pripyat Polesia and Volhynia (*Prague-Korchak*), the Middle Volga (*Imenkovo*), the Belarusian, Volga-Oka, and northwestern forest zone (*Tushemlya-Bantserovshchina*, *Late Dyakovo*, *Moshchiny*, *Ryazan-Oka*, *Pskov Long Barrows*), the Kama-Cis-Ural basin (*Bakhmutino*, *Turaevo*, *Lomovatovo*, *Polom*), and the North Caucasian terraced mountain valleys (*Alanian Kislovodsk* and *Derbent-Palasa-Syrt*) experienced steady settlement expansion and agricultural growth [@oblomskiy2002dneprovskoe; @vyazov2019middle; @korobov2013terraced; @krenke2019moskvorechye]. Over the subsequent millennium, agricultural colonisation, urban growth, and early modern agrarian settlement carried the population across the study region to 6,60 M in 1200AD, 9,10 M in 1500AD, 13,80 M in 1700AD, 28,10 M in 1800AD, and 67,50 M by 1900AD [@vodarsky1973naselenie; @kabuzan1990narody; @rashin1956naselenie; @troinitsky1905perepis].
+This paper estimates the population of Belarus, Ukraine and Russia during the Migration Period (*Epokha Velikogo pereseleniya narodov*, c. 250-750AD) and sets those figures in a longer series running from 100AD to the 1897 Russian census (1900AD). Using house floor areas, village sizes, cemetery grave counts and river-valley surveys across six regions, we trace how population shifted between the open steppe and the northern forests. Across the whole territory (excluding the Baltic provinces), total numbers rose from 2,05M (1,6-2,54M) in 100AD to a Late Roman peak of 2,56M (2-3,17M) around 350AD. When the Huns swept across the steppe in the 370s and broke up the eastern Chernyakhov and Late Sarmatian settlements, the total fell to 2,28M (1,78-2,83M) by 450AD, before recovering after the cold spell of the 530s to reach 3,13M (2,44-3,88M) in 700AD and 4,5M (3,51-5,58M) in 900AD. The Migration Period did not empty the land; it moved people north and into the hills. While population on the open Pontic-Caspian steppe and the southern forest-steppe fell by a third between 350AD and 450AD, sheltered woodland and mountain valleys - Pripyat Polesia and Volhynia (*Prague-Korchak*), the Middle Volga (*Imenkovo*), the Belarusian, Volga-Oka and northwestern forests (*Tushemlya-Bantserovshchina*, *Late Dyakovo*, *Moshchiny*, *Ryazan-Oka* and *Pskov Long Barrows*), the Kama basin (*Bakhmutino*, *Turaevo*, *Lomovatovo* and *Polom*) and the North Caucasus (*Alanian Kislovodsk* and *Derbent-Palasa-Syrt*) - grew steadily [@oblomskiy2002dneprovskoe; @vyazov2019middle; @korobov2013terraced; @krenke2019moskvorechye]. Over the next thousand years, forest clearing and the later ploughing of the southern steppe carried the population of these lands to 6,6M in 1200AD, 13,8M in 1700AD and 67,5M by 1900AD [@vodarsky1973naselenie; @kabuzan1990narody; @rashin1956naselenie; @troinitsky1905perepis].
 
 ```{r fig1-md-only, results='asis'}
-if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE))) {
+if (!knitr::is_latex_output()) {
   render_figure_template(
     "figures/fig1_migration_period_cultures_map.png",
     list(
-      caption = "Migration Period archaeological cultures, river basins, population movements, and excavated settlements across Belarus, Ukraine, and Russia (250AD - 750AD).",
+      caption = "Six ecological zones and twenty archaeological cultures from the Dnieper-Desna forest-steppe to the Minusinsk and Baikal basins, showing the shift from open steppe pastures to fortified woodland and mountain valleys between 250AD and 750AD.",
       label = "fig:hero-map",
       span_columns = TRUE
     )
@@ -44,121 +156,123 @@ if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE)))
 
 # Background
 
-Estimating the population of Northern Eurasia during the Migration Period (c. 250-750AD) presents distinct empirical challenges [@shchukin2005gotskiy; @kazanski2010middle; @oblomskiy2016kolochinskaya]. Unlike the Roman provinces of the Mediterranean or early medieval Western Europe, where tax registers and written charters survive, demographic estimates across the East European Plain, the North Caucasus, the Urals, and Western and Southern Siberia must be built from four archaeological sources: (1) the layout and floor area of excavated houses inside fortified hillforts (*gorodishcha*) and unfortified villages (*selishcha*), (2) mortality life tables calculated from cremation and inhumation cemeteries, (3) pollen cores measuring forest clearance and cereal cultivation (*Cerealia*, *Secale*, *Plantago lanceolata*, and *Rumex*), and (4) systematic river-valley field surveys [@krenke2011dyakovo; @vyazov2019middle; @korobov2013terraced; @goldina1999drevnyaya].
+Estimating the population of Eastern Europe and Siberia during the Migration Period (c. 250-750AD) is harder than for the Roman Mediterranean or early medieval Western Europe, where tax lists and charters survive [@shchukin2005gotskiy; @kazanski2010middle; @oblomskiy2016kolochinskaya]. Across the East European Plain, the North Caucasus, the Urals and Siberia, numbers have to be worked out from the ground up: the size and count of houses inside fortified hillforts (*gorodishcha*) and open villages (*selishcha*), age-at-death figures from cemeteries, pollen cores showing forest clearing and grain growing (*Cerealia*, *Secale*, *Plantago lanceolata* and *Rumex*) and systematic river-valley walks [@krenke2011dyakovo; @vyazov2019middle; @korobov2013terraced; @goldina1999drevnyaya].
 
-In older archaeological literature, changes in the raw number of known sites between the third and seventh centuries AD were sometimes interpreted as sharp half-century swings in total population. Modern regional fieldwork shows that raw site counts often reflect shifts in village size and settlement mobility rather than actual population loss or gain [@oblomskiy2002dneprovskoe; @vyazov2019middle; @matveeva2024migratsii]. For instance, in the Desna, Seim, and Upper Donets forest-steppe, the replacement of large Chernyakhov farming villages (4,0-12,0 ha) in the mid-fourth century AD by smaller, dispersed Kolochin and early Penkovka river-terrace hamlets (0,8-2,2 ha) in the fifth and sixth centuries increased the number of small ceramic scatters per river bend while reducing the average population per village from 145 inhabitants to 45 inhabitants [@terpylovsky2000kievskaya; @oblomskiy2016kolochinskaya; @goryunova1999velikie]. Conversely, in the Moskva-Oka basin and the Kislovodsk mountain basin, the concentration of rural households into fortified promontory hillforts or stone cliff fortresses reduced the number of separate sites while increasing local agricultural output through iron ploughshares and manured terrace fields [@krenke2019moskvorechye; @korobov2013terraced; @korobov2023alany].^[Throughout this review, all regional population figures are derived from excavated house counts, settlement areas, and cemetery burial totals rather than unadjusted site counts.]
+Older studies often treated rises and falls in the raw number of known sites between the third and seventh centuries AD as dramatic swings in total population. Newer fieldwork shows that site counts usually reflect changes in village size and how often farmers moved rather than real gains or losses of people [@oblomskiy2002dneprovskoe; @vyazov2019middle; @matveeva2024migratsii]. In the Desna, Seim and Upper Donets forest-steppe, for example, large Chernyakhov farming villages (4-12 ha) broke up in the late fourth century AD into smaller, scattered Kolochin and early Penkovka hamlets (0,8-2,2 ha) along the river terraces. That shift multiplied the number of small pottery scatters on each river bend while cutting the average village from 145 to 45 inhabitants [@terpylovsky2000kievskaya; @oblomskiy2016kolochinskaya; @goryunova1999velikie]. In the Moskva-Oka basin and the Kislovodsk mountain valley, the opposite happened: families gathered into fortified hillforts or stone cliff forts, reducing the number of separate sites even as iron ploughshares and manured hillside terraces fed more mouths [@krenke2019moskvorechye; @korobov2013terraced; @korobov2023alany].^[Throughout this paper, regional population estimates are based on excavated house counts, village areas and cemetery burial totals rather than raw site counts.]
 
-Two major historical turning points reshaped settlement patterns across Belarus, Ukraine, and Russia during the Migration Period. First, during the Hunnic invasion of 370-378AD and subsequent post-Hunnic settlement shifts (454-500AD), the crossing of the Volga and Don by Hunnic nomadic forces broke up the Late Sarmatian pastoral network and led to the abandonment of the eastern Chernyakhov frontier in the Kursk-Belgorod forest-steppe [@shchukin2005gotskiy; @medvedev2018postsarmat; @novikova2026istoriografiya]. Rather than disappearing, many post-Chernyakhov and post-Zarubintsy farming communities moved north and north-east into the sheltered forest-steppe and southern forest valleys of the Upper Oka (*Moshchiny*), the Middle Oka (*Ryazan-Oka*), and the Samara-Sviyaga-Lower Kama confluence (*Imenkovo*) [@vorontsov2021fibuly; @vyazov2019middle; @zhikh2019rannie].
+Two events reshaped settlement across Belarus, Ukraine and Russia during these centuries. First, when the Huns crossed the Volga and Don in 370-378AD, they shattered the Late Sarmatian grazing network and drove farmers from the exposed eastern Chernyakhov frontier in the Kursk-Belgorod forest-steppe [@shchukin2005gotskiy; @medvedev2018postsarmat; @novikova2026istoriografiya]. Rather than vanishing, many of these farming communities moved north and north-east into the safer river valleys of the Upper Oka (*Moshchiny*), the Middle Oka (*Ryazan-Oka*) and the Samara-Sviyaga-Lower Kama confluence (*Imenkovo*) [@vorontsov2021fibuly; @vyazov2019middle; @zhikh2019rannie].
 
-Second, during the 536-542AD climatic cooling and the early medieval agricultural expansion that followed, tree-ring and pollen records from the Upper Volga, Novgorod-Pskov, and the Middle Volga record a sharp temperature downturn in the mid-sixth century AD [@vyazov2019middle; @krenke2019moskvorechye]. Across the Middle Volga and forest-steppe zones, this cooler climate encouraged the wider adoption of hardy winter rye (*Secale cereale*) and iron-shod ploughs, supporting the steady growth of Early Slavic (*Prague-Korchak*, *Kolochin*, *Penkovka*) and Finno-Permic (*Lomovatovo*, *Polom*, *Nevolino*) farming populations from the late sixth through eighth centuries AD [@kazanski2010middle; @goldina2012nevolino; @nazarov2025lomovatovo].
+Second, tree-ring and pollen records from the Upper Volga, Novgorod-Pskov and the Middle Volga show a sharp cold snap in 536-542AD [@vyazov2019middle; @krenke2019moskvorechye]. Across the Middle Volga and the forest-steppe, cooler weather sped up the switch to hardy winter rye (*Secale cereale*) and iron-shod ploughs, allowing Early Slavic (*Prague-Korchak*, *Kolochin* and *Penkovka*) and Finno-Permic (*Lomovatovo*, *Polom* and *Nevolino*) farming villages to grow steadily from the late sixth to the eighth centuries AD [@kazanski2010middle; @goldina2012nevolino; @nazarov2025lomovatovo].
 
 # Methodology
 
 ## Settlement and Household Estimates
 
-To calculate comparable population figures across different archaeological cultures, we combine excavated house sizes, the number of simultaneous dwellings per village, and regional river-valley survey counts [@oblomskiy2002dneprovskoe; @krenke2011dyakovo; @goldina1999drevnyaya; @matveeva2000sargat]. For an archaeological culture $c$ in region $z$ at date $t$, the regional population $P_{c,z}(t)$ is estimated as:
+To compare populations across different archaeological cultures, we combine excavated house sizes, the number of houses occupied at the same time in each village and river-valley survey counts [@oblomskiy2002dneprovskoe; @krenke2011dyakovo; @goldina1999drevnyaya; @matveeva2000sargat]. For an archaeological culture c in region z at date t, the regional population is estimated as:
 
 $$P_{c,z}(t) = N_{\text{clusters}}(t) \times \bar{S}_{\text{contemp}} \times \bar{H}_{\text{active}} \times \mu_{\text{house}}(c)$$
 
-where $N_{\text{clusters}}(t)$ is the estimated number of active settlement clusters across the surveyed river valleys (adjusted for regional survey coverage $\kappa_z \in [0{,}30,\, 0{,}65]$), $\bar{S}_{\text{contemp}}$ is the mean number of simultaneously inhabited villages per cluster after adjusting for average village occupation span ($\tau_{\text{site}} / \Delta T_{\text{phase}}$), $\bar{H}_{\text{active}}$ is the average number of contemporaneously occupied houses per village, and $\mu_{\text{house}}(c)$ is the average household size for that house type.
+where $N_{\text{clusters}}(t)$ is the estimated number of active village groups across the surveyed river valleys (adjusted for survey coverage $\kappa_z \in [0{,}3,\, 0{,}65]$), $\bar{S}_{\text{contemp}}$ is the mean number of villages inhabited at the same time per group after adjusting for how long each village stood ($\tau_{\text{site}} / \Delta T_{\text{phase}}$), $\bar{H}_{\text{active}}$ is the average number of houses in use at one time per village and $\mu_{\text{house}}(c)$ is the average household size for that house type.
 
-Broad-area settlement excavations across Belarus, Ukraine, and Russia identify three main domestic building traditions during the Migration Period. Square sunken-featured dwellings (*poluzemlyanki*) were typical of the Kiev, Kolochin, Penkovka, Prague-Korchak, and Imenkovo cultures [@oblomskiy2002dneprovskoe; @oblomskiy2016kolochinskaya; @vyazov2008zemledelie; @goryunova1999velikie]; their floor areas average $A_d \in [12{,}0,\, 22{,}5]\text{ m}^2$ with a single corner stone or clay oven, housing a nuclear family of $\mu_{\text{house}} = 4{,}5\text{-}5{,}5$ persons ($P_{\text{house}} \approx 0{,}28 \cdot A_d^{0{,}92}$). Surface timber-frame and post-built houses (*nazemnye postroyki*) characterised the Late Dyakovo, Moshchiny, Tushemlya, and Ryazan-Oka forest-zone cultures as well as the eastern Chernyakhov surface longhouses [@krenke2011dyakovo; @islanova2012ozero; @lopatin2007severnye; @shchukin2005gotskiy], with floor areas spanning $A_d \in [20{,}0,\, 36{,}0]\text{ m}^2$ and housing nuclear or extended households of $\mu_{\text{house}} = 5{,}5\text{-}7{,}5$ persons. Multi-hearth log longhouses and timber chambers prevailed among the Kama-Vyatka-Belaya Permic and Ugrian cultures (*Azeevo*, *Mazunino*, *Bakhmutino*, *Lomovatovo*, *Polom*) and West Siberian sub-taiga groups (*Karym*, *Potchevash*) [@goldina1999drevnyaya; @chizhevskiy2020oboronitelnye; @matveeva2000sargat]; measuring $A_d \in [34{,}0,\, 72{,}0]\text{ m}^2$ with two to four central hearths, these longhouses accommodated extended families of $\mu_{\text{house}} = 10{,}0\text{-}16{,}0$ persons.
+Excavations across Belarus, Ukraine and Russia show three main house types during the Migration Period. Square sunken-floored huts (*poluzemlyanki*) were standard in the Kiev, Kolochin, Penkovka, Prague-Korchak and Imenkovo cultures [@oblomskiy2002dneprovskoe; @oblomskiy2016kolochinskaya; @vyazov2008zemledelie; @goryunova1999velikie]; their floors average 12-22,5 m² with a single stone or clay oven in the corner, holding a nuclear family of 4,5-5,5 people ($P_{\text{house}} \approx 0{,}28 \cdot A_d^{0{,}92}$). Surface timber-frame and log houses (*nazemnye postroyki*) were typical of the Late Dyakovo, Moshchiny, Tushemlya and Ryazan-Oka forest cultures as well as the eastern Chernyakhov longhouses [@krenke2011dyakovo; @islanova2012ozero; @lopatin2007severnye; @shchukin2005gotskiy], covering 20-36 m² and housing families of 5,5-7,5 people. Large multi-hearth log longhouses were built by the Kama-Vyatka-Belaya Permic and Ugrian peoples (*Azeevo*, *Mazunino*, *Bakhmutino*, *Lomovatovo* and *Polom*) and West Siberian forest-fringe groups (*Karym* and *Potchevash*) [@goldina1999drevnyaya; @chizhevskiy2020oboronitelnye; @matveeva2000sargat]; measuring 34-72 m² with two to four central hearths, these longhouses held extended families of 10-16 people.
 
 ## Cemetery Mortality Estimates
 
-In regions where seasonal camps or timber surface houses leave faint traces - particularly among steppe pastoralists, North Caucasian catacomb communities, and Middle Oka or Kama-Ural burial groups - village population is cross-checked using the standard Acsádi-Nemeskéri life-table formula [@veselovskaya2021ryazan; @zelenkov2025potchevash; @vodyasov2023tashtyk]:
+Where seasonal camps or surface timber houses leave faint traces in the soil - especially among steppe herders, North Caucasian catacomb communities and Middle Oka or Kama-Ural burial groups - village populations are checked against cemetery grave counts using the Acsádi-Nemeskéri formula [@veselovskaya2021ryazan; @zelenkov2025potchevash; @vodyasov2023tashtyk]:
 
 $$P_{\text{community}} = \frac{\text{MNI}_{\text{total}} \times e_0}{\Delta t_{\text{use}} \times \eta_{\text{recovery}}}$$
 
-where $\text{MNI}_{\text{total}}$ is the minimum number of individuals excavated or projected across the cemetery, $e_0$ is life expectancy at birth (ranging between 21,5 and 25,5 years in Migration Period skeletal series, with mean adult age at death $e_{20} + 20 \approx 36{,}5\text{-}41{,}0\text{ years}$ and child mortality $d_{0\text{-}14} \approx 42\text{-}50\%$), $\Delta t_{\text{use}}$ is the duration of cemetery use in years, and $\eta_{\text{recovery}} \in [0{,}55,\, 0{,}85]$ accounts for infant bone loss and unexcavated cemetery edges [@veselovskaya2021ryazan; @seregin2021altai; @vodyasov2023tashtyk].
+where $\text{MNI}_{\text{total}}$ is the minimum number of individuals excavated or projected across the cemetery, e0 is life expectancy at birth (ranging between 21,5 and 25,5 years in Migration Period burials, with mean adult age at death e20 + 20 ~ 36,5-41 years and child mortality d0-14 ~ 42-50%), $\Delta t_{\text{use}}$ is the number of years the cemetery was in use and $\eta_{\text{recovery}} \in [0{,}55,\, 0{,}85]$ allows for lost infant bones and undug cemetery edges [@veselovskaya2021ryazan; @seregin2021altai; @vodyasov2023tashtyk].
 
-# Pontic-Caspian Steppe and Forest-Steppe Frontier
+# Results
 
-## The Kiev and Eastern Chernyakhov Cultures (c. 250-400AD)
+## Pontic-Caspian Steppe and Forest-Steppe Frontier
 
-Across the Right-Bank and Left-Bank Dnieper, Volhynia, Podolia, Southern Pripyat, Desna, Seim, Psyol, Vorskla, and Upper Donets river basins of Ukraine, southern Belarus, and the Russian Central Black-Earth borderlands, the Late Roman Period was shaped by the coexistence of the forest-steppe Kiev culture (*Kievskaya kul'tura*, c. 200-420AD) and the provincial-Roman Chernyakhov culture (*Chernyakhovskaya kul'tura*, c. 260-400AD) [@oblomskiy2002dneprovskoe; @terpylovsky2000kievskaya; @shchukin2005gotskiy; @novikova2026istoriografiya].
+### The Kiev and Eastern Chernyakhov Cultures
 
-Field surveys compiled by Oblomskiy and Terpylovsky show that Kiev culture settlements stood on low first flood-plain terraces in linear groups of 3-10 unfortified *selishcha* spaced 0,5-2,0 km apart [@oblomskiy2002dneprovskoe; @terpylovsky2000kievskaya]. Individual villages covered 0,5-2,5 ha (mean 1,8 ha) and contained 5-12 simultaneously occupied square sunken-featured *poluzemlyanki* (12-20 m², mean 16,5 m², dug 0,4-0,8 m into the ground with a central or side post and open hearth), giving an average village population of 30-70 inhabitants (midpoint 48) and a river-valley density of 1,2-2,5 persons/km² [@oblomskiy2002dneprovskoe].
+Across the Dnieper, Volhynia, Podolia, Southern Pripyat, Desna, Seim, Psyol, Vorskla and Upper Donets valleys of Ukraine, southern Belarus and the Russian Central Black-Earth borderlands, the Late Roman period saw two neighbours living side by side: the forest-steppe Kiev culture (*Kievskaya kul'tura*, c. 200-420AD) and the provincial-Roman Chernyakhov culture (*Chernyakhovskaya kul'tura*, c. 260-400AD) [@oblomskiy2002dneprovskoe; @terpylovsky2000kievskaya; @shchukin2005gotskiy; @novikova2026istoriografiya].
 
-By contrast, the eastern Chernyakhov frontier in the Seim, Oskol, and Upper Donets valleys (*Gochevo*, *Komsomolskoye*, *Khokhlovo*) introduced heavy iron-shared plough agriculture, rotary querns, wheel-thrown grey-ware kilns, and large unfortified valley-slope villages spanning 4,0-15,0 ha (mean 6,5 ha) [@shchukin2005gotskiy; @novikova2026istoriografiya]. Excavations uncover rows of 15-35 surface wattle-and-daub longhouses (*Wohnstallhäuser*, 24-45 m²) alongside sunken craft workshops and biritual cemeteries (*MNI* 80-250 graves), supporting 95-210 inhabitants per village (midpoint 145) and local valley densities of 3,5-6,5 persons/km² [@terpylovsky2000kievskaya; @shchukin2005gotskiy]. Together with Chernyakhov and Prague-Korchak agricultural clusters in Volhynia, Podolia, and the Right-Bank Dnieper (*Lepesovka*, *Korchak*, *Pastyrskoye*) and Late Sarmatian settlements on the Middle Don [@medvedev2018postsarmat; @zemtsov2013migratsii], the forest-steppe zone reached a Late Roman peak of 690k (550-830k) around 350AD.
+Surveys compiled by Oblomskiy and Terpylovsky show that Kiev villages sat on low flood-plain terraces in strings of 3-10 unfortified *selishcha* spaced 0,5-2 km apart [@oblomskiy2002dneprovskoe; @terpylovsky2000kievskaya]. Each village covered 0,5-2,5 ha (mean 1,8 ha) and had 5-12 square sunken huts (*poluzemlyanki*, 12-20 m², mean 16,5 m², dug 0,4-0,8 m into the ground with a central or side post and open hearth) in use at one time, giving 30-70 inhabitants per village (midpoint 48) and a river-valley density of 1,2-2,5 persons/km² [@oblomskiy2002dneprovskoe].
 
-## The Hunnic Invasion, Kolochin, Penkovka, and Nomadic Groups (c. 375-750AD)
+Further south in the Seim, Oskol and Upper Donets valleys (*Gochevo*, *Komsomolskoye* and *Khokhlovo*), the eastern Chernyakhov frontier brought heavy iron ploughs, rotary querns, wheel-thrown grey-ware kilns and much larger unfortified valley-slope villages of 4-15 ha (mean 6,5 ha) [@shchukin2005gotskiy; @novikova2026istoriografiya]. Excavations reveal rows of 15-35 surface wattle-and-daub longhouses (*Wohnstallhäuser*, 24-45 m²) beside craft workshops and mixed cremation-inhumation cemeteries (80-250 graves), supporting 95-210 people per village (midpoint 145) and valley densities of 3,5-6,5 persons/km² [@terpylovsky2000kievskaya; @shchukin2005gotskiy]. Together with Chernyakhov and Prague-Korchak villages in Volhynia, Podolia and the Right-Bank Dnieper (*Lepesovka*, *Korchak* and *Pastyrskoye*) and Late Sarmatian settlements on the Middle Don [@medvedev2018postsarmat; @zemtsov2013migratsii], the forest-steppe reached a Late Roman peak of 690k (550-830k) around 350AD.
 
-The Hunnic crossing of the Volga-Don interfluve in 370-378AD and the breakup of the Gothic-Chernyakhov realm caused a sharp settlement retreat along the exposed southern forest-steppe border [@shchukin2005gotskiy; @kazanski2020steppe; @oblomskiy2022torgovyy]. Between 375AD and 450AD, regional population across the Dnieper-Desna-Don forest-steppe declined from 690k to 460k (-33,3%), while the open Pontic-Caspian and Crimean steppe fell from 225k to 140k (-37,8%) [@medvedev2018postsarmat; @botalov2009gunny].
+### The Hunnic Invasion, Kolochin, Penkovka and Nomadic Groups
 
-From the blending of surviving Kiev communities and northern forest-zone settlers arose the Kolochin culture (*Kolochinskaya kul'tura*, c. 400/420-680AD) across the Desna, Seim, Upper Psyol, and Kursk-Bryansk basins, alongside the Penkovka culture (*Pen'kovskaya kul'tura*, 5th-7th centuries AD) further south and Early Slavic settlements on the Upper Don (*Zemtsov*, *Chertovitskoye-Zamyatino*) [@oblomskiy2016kolochinskaya; @goryunova1999velikie; @sereda1999kolochinskiy; @zemtsov2013migratsii]. As excavated at *Velikie Budki (Khutor)*, *Kolochin I*, and *Kartamyshevo*, Kolochin communities lived in small flood-plain *selishcha* (0,8-2,5 ha) paired with refuge hillforts (*gorodishcha*, 0,4-1,0 ha, 18% of sites fortified), each containing 5-10 square *poluzemlyanki* (12-18 m² with stone or clay ovens) and flat urn or pit cremation cemeteries (*Kartamyshevo*, *Knippovo*, *Lebedka*, 20-65 cremations per cemetery), corresponding to 28-68 inhabitants per village (mean 45) [@oblomskiy2016kolochinskaya; @goryunova1999velikie; @sereda1999kolochinskiy]. During the late sixth and seventh centuries AD - marked by the burial of "Antian" silver and bronze hoards (*Sudzha*, *Gaponovo*, *Kolocha*) - Slavic settlement expanded across the Desna-Don forest-steppe, restoring regional population to 550k by 600AD and 690k by 700AD ahead of the Borshevo and Romny tribal settlements [@kazanski2010middle; @sedov1999drevnerusskaya; @gavritukhin2005chronology].
+When the Huns crossed the Volga-Don steppe in 370-378AD and broke up the Gothic-Chernyakhov realm, farmers pulled back from the exposed southern forest-steppe edge [@shchukin2005gotskiy; @kazanski2020steppe; @oblomskiy2022torgovyy]. Between 375AD and 450AD, population across the Dnieper-Desna-Don forest-steppe fell from 690k to 460k (-33,3%), while the open Pontic-Caspian and Crimean steppe dropped from 225k to 140k (-37,8%) [@medvedev2018postsarmat; @botalov2009gunny].
 
-# Mixed and Boreal Forest Zone of Belarus and European Russia
+Out of the remaining Kiev villagers and newcomers from the northern woods grew the Kolochin culture (*Kolochinskaya kul'tura*, c. 400/420-680AD) in the Desna, Seim, Upper Psyol and Kursk-Bryansk valleys, the Penkovka culture (*Pen'kovskaya kul'tura*, fifth to seventh centuries AD) further south and Early Slavic settlements on the Upper Don (*Zemtsov* and *Chertovitskoye-Zamyatino*) [@oblomskiy2016kolochinskaya; @goryunova1999velikie; @sereda1999kolochinskiy; @zemtsov2013migratsii]. At excavated sites such as *Velikie Budki (Khutor)*, *Kolochin I* and *Kartamyshevo*, Kolochin families lived in small flood-plain *selishcha* (0,8-2,5 ha) paired with refuge hillforts (*gorodishcha*, 0,4-1 ha, 18% of sites fortified), each holding 5-10 square *poluzemlyanki* (12-18 m² with stone or clay ovens) and flat cremation cemeteries (*Kartamyshevo*, *Knippovo* and *Lebedka*, 20-65 burials per cemetery), or 28-68 people per village (mean 45) [@oblomskiy2016kolochinskaya; @goryunova1999velikie; @sereda1999kolochinskiy]. During the late sixth and seventh centuries AD - the era of the "Antian" silver and bronze hoards (*Sudzha*, *Gaponovo* and *Kolocha*) - Slavic villages multiplied across the Desna-Don forest-steppe, bringing regional population back to 550k by 600AD and 690k by 700AD ahead of the later Borshevo and Romny tribal towns [@kazanski2010middle; @sedov1999drevnerusskaya; @gavritukhin2005chronology].
 
-## Late Dyakovo, Moshchiny, and Ryazan-Oka Finnic Cultures (c. 250-750AD)
+## Mixed and Boreal Forest Zone of Belarus and European Russia
 
-In contrast to the exposed steppe borderlands, the mixed broadleaf-coniferous forest zone of the Moskva, Upper Volga, and Oka basins served as a stable settlement core and refuge zone throughout the Migration Period [@krenke2011dyakovo; @krenke2019moskvorechye; @vorontsov2021fibuly; @akhmedov2018ryazan]. Within the Late Dyakovo culture (*Pozdned'yakovskaya kul'tura*, c. 250-550/600AD), Krenke's radiocarbon and stratigraphic excavations at *Dyakovo*, *Troitskoye*, *Lukovskoye*, and *Kuntsevo* in the Moskva River basin show that 62% of settlements were fortified promontory *gorodishcha* (0,3-1,2 ha, enclosed by double or triple timber-and-earth ramparts) paired with outer open villages [@krenke2011dyakovo; @krenke2019moskvorechye; @veksler2017dyakovo]. Houses shifted from early round structures to rectangular surface post-built and log dwellings (18-32 m², mean 24,0 m²), with 8-15 houses per hillfort supporting 40-95 inhabitants (mean 65) and river-valley densities of 1,0-2,2 persons/km² [@krenke2011dyakovo].
+### Late Dyakovo, Moshchiny and Ryazan-Oka Finnic Cultures
 
-Further south, in the Upper Oka, Ugra, and Protva basins (Kaluga, Tula, and western Oryol oblasts), Baltic-speaking communities of the Moshchiny culture (*Moshchinskaya kul'tura*, 4th-7th centuries AD) absorbed post-Chernyakhov and Middle Dnieper settlers after 375AD, as shown by *Kartavtsevo-Serensk* brooches, champlevé red enamels, and wheel-thrown pottery imitations [@vorontsov2021fibuly; @mayorov2016moschiny; @sevostyanov2022keramika]. Centred on fortified hillforts (*Moshchiny*, *Serensk*, *Supruty*, 0,5-1,5 ha) and surrounding open villages (1,0-2,5 ha) with cremation barrows (*kurgany*), the Upper Oka population grew steadily from 95k in 250AD to 145k by 600AD [@vorontsov2021fibuly; @mayorov2016moschiny].
+While the southern steppe frontier was battered by nomadic raids, the mixed forests of the Moskva, Upper Volga and Oka basins offered a safe haven throughout the Migration Period [@krenke2011dyakovo; @krenke2019moskvorechye; @vorontsov2021fibuly; @akhmedov2018ryazan]. In the Late Dyakovo culture (*Pozdned'yakovskaya kul'tura*, c. 250-550/600AD), Krenke's excavations at *Dyakovo*, *Troitskoye*, *Lukovskoye* and *Kuntsevo* along the Moskva River show that 62% of sites were fortified promontory hillforts (*gorodishcha*, 0,3-1,2 ha, ringed by double or triple timber-and-earth ramparts) with open villages outside the walls [@krenke2011dyakovo; @krenke2019moskvorechye; @veksler2017dyakovo]. Round huts gave way to rectangular surface post-built and log houses (18-32 m², mean 24 m²), with 8-15 houses per hillfort holding 40-95 people (mean 65) and river-valley densities of 1-2,2 persons/km² [@krenke2011dyakovo].
 
-Along the Middle Oka bend from Kolomna to Kasimov (*Nikitino*, *Borki*, *Kuzminskoye*, *Shatrishche*, *Undrikh*, *Korablino*), Finnic farming and fur-trading communities of the Ryazan-Oka cemetery culture (*Kul'tura ryazano-okskikh mogil'nikov*, 3rd-7th centuries AD) maintained one of the densest settlement networks in Forest-Zone Russia [@akhmedov2018ryazan; @veselovskaya2021ryazan; @semenov2022ryazan]. Promontory hillforts and large terrace villages (1,5-3,5 ha) were paired with large flat inhumation cemeteries containing 100-600+ graves furnished with cross-shaped brooches, Roman and Sassanian silver vessels, and horse-riding weapons [@akhmedov2018ryazan; @veselovskaya2021ryazan; @vikhlyaev2011erzya; @mokshina2012peterburgskiy]. Skeletal and burial-count studies indicate village populations of 55-125 inhabitants (mean 85) and a regional Middle Oka-Mordvin population rising from 135k in 250AD to 215k by 700AD.
+Further south, in the Upper Oka, Ugra and Protva valleys (Kaluga, Tula and western Oryol oblasts), Baltic-speaking villagers of the Moshchiny culture (*Moshchinskaya kul'tura*, fourth to seventh centuries AD) took in refugees from the Chernyakhov and Middle Dnieper lands after 375AD, bringing *Kartavtsevo-Serensk* brooches, red champlevé enamels and wheel-thrown pottery copies [@vorontsov2021fibuly; @mayorov2016moschiny; @sevostyanov2022keramika]. Grouped around fortified hillforts (*Moshchiny*, *Serensk* and *Supruty*, 0,5-1,5 ha) and open villages (1-2,5 ha) with cremation barrows (*kurgany*), the Upper Oka population rose from 95k in 250AD to 145k by 600AD [@vorontsov2021fibuly; @mayorov2016moschiny].
 
-## Northwestern Forest Zone: Tushemlya and Pskov Long Barrows (c. 300-750AD)
+Along the Middle Oka bend from Kolomna to Kasimov (*Nikitino*, *Borki*, *Kuzminskoye*, *Shatrishche*, *Undrikh* and *Korablino*), Finnic farmers and fur traders of the Ryazan-Oka cemetery culture (*Kul'tura ryazano-okskikh mogil'nikov*, third to seventh centuries AD) formed one of the thickest clusters of villages in woodland Russia [@akhmedov2018ryazan; @veselovskaya2021ryazan; @semenov2022ryazan]. Promontory hillforts and large terrace villages (1,5-3,5 ha) stood beside flat cemeteries of 100-600+ graves rich in cross-shaped brooches, Roman and Sassanian silver bowls and riding weapons [@akhmedov2018ryazan; @veselovskaya2021ryazan; @vikhlyaev2011erzya; @mokshina2012peterburgskiy]. Grave counts and skeletons point to villages of 55-125 people (mean 85) and a Middle Oka-Mordvin total rising from 135k in 250AD to 215k by 700AD.
 
-Across the Belarusian Upper Dnieper, Berezina, Pripyat, and Western Dvina basins and the Russian Smolensk, Velikaya, and Ilmen-Msta watersheds (excluding the Baltic provinces of Estonia, Latvia, and Lithuania), Lopatin, Furasiev, Mikhailova, and Islanova document the steady settlement of sandy pine river terraces [@lopatin2007severnye; @mikhailova2014poseleniya; @mikhailova2014snaryazhenie; @markov2024pskov; @islanova2012ozero]. While the Belarusian and Smolensk Tushemlya-Bantserovshchina group (4th-7th centuries AD) combined small open *selishcha* (0,5-1,8 ha) with oval timber-walled refuge enclosures (*Bantserovshchina* near Minsk, *Tushemlya*, *Gorodok*, *Kovsharovo*), the Culture of Pskov Long Barrows (*Kul'tura pskovskikh dlinnykh kurganov*, 5th-9th centuries AD) spread across the Velikaya, Lovat, Msta, and Upper Volga watersheds [@mikhailova2014poseleniya; @markov2024pskov; @islanova2012ozero]. Each long barrow cemetery (3-25 elongated or oval mounds, each holding 2-12 cremations) served a local group of 2-4 unfortified lakeshore hamlets (25-50 inhabitants per hamlet), supporting a combined northwestern forest population that grew from 115k in 250AD to 165k in 550AD and 230k by 700AD [@mikhailova2014poseleniya; @islanova2012ozero].
+### Northwestern Forest Zone: Tushemlya and Pskov Long Barrows
 
-# Middle Volga, Kama-Vyatka, and Cis-Urals
+Across the Belarusian Upper Dnieper, Berezina, Pripyat and Western Dvina valleys and the Russian Smolensk, Velikaya and Ilmen-Msta watersheds (excluding Estonia, Latvia and Lithuania), Lopatin, Furasiev, Mikhailova and Islanova trace the steady settlement of sandy pine river terraces [@lopatin2007severnye; @mikhailova2014poseleniya; @mikhailova2014snaryazhenie; @markov2024pskov; @islanova2012ozero]. While the Belarusian and Smolensk Tushemlya-Bantserovshchina group (fourth to seventh centuries AD) paired small open *selishcha* (0,5-1,8 ha) with oval timber-walled refuge forts (*Bantserovshchina* near Minsk, *Tushemlya*, *Gorodok* and *Kovsharovo*), the Culture of Pskov Long Barrows (*Kul'tura pskovskikh dlinnykh kurganov*, fifth to ninth centuries AD) spread across the Velikaya, Lovat, Msta and Upper Volga watersheds [@mikhailova2014poseleniya; @markov2024pskov; @islanova2012ozero]. Each long barrow cemetery (3-25 long or oval mounds, each holding 2-12 cremations) served 2-4 unfortified lakeshore hamlets (25-50 inhabitants apiece), carrying the northwestern forest population from 115k in 250AD to 165k in 550AD and 230k by 700AD [@mikhailova2014poseleniya; @islanova2012ozero].
 
-## The Imenkovo Agricultural Expansion on the Middle Volga (c. 400-700AD)
+## Middle Volga, Kama-Vyatka and Cis-Urals
 
-One of the most important demographic developments of Migration Period Russia was the rapid agricultural settlement of the Middle Volga, Samara Bend (*Samarskaya Luka*), Sviyaga, Cheremshan, and Lower Kama valleys by the Imenkovo culture (*Imenkovskaya kul'tura*, c. 400-650/700AD) [@vyazov2019middle; @vyazov2008zemledelie; @vyazov2020kompleks; @zhikh2019rannie]. Combining over 600 mapped settlements (*Staraya Maina*, *Imenkovo*, *Maklasheevo*, *Osh-Pando-Ner'*, *Scherbet'*) with pollen cores and radiocarbon dates, Vyazov et al. show that cultivated land and settlement density on the Middle Volga quadrupled between 400AD and 600AD [@vyazov2019middle; @vyazov2008zemledelie].
+### The Imenkovo Agricultural Expansion on the Middle Volga
 
-Formed by post-Zarubintsy and post-Chernyakhov settlers from the Dnieper-Desna forest-steppe mingling with local Finno-Volgaic communities, Imenkovo settlements formed tight local clusters consisting of a central fortified *gorodishche* (1,0-3,0 ha) surrounded by 4-12 large unfortified *selishcha* (2,0-8,0 ha, with *Staraya Maina* exceeding 6 ha) [@vyazov2019middle; @zhikh2019rannie]. Using heavy iron ploughshares (*ral'niki*), sickles, cylindrical grain storage pits (*khlebnye yamy* holding 300-800 kg of millet, wheat, and winter rye), and iron smelting furnaces, individual Imenkovo villages contained 12-30 simultaneously occupied *poluzemlyanki* (16-26 m²), supporting 70-160 inhabitants per village (mean 110) and a Middle Volga population that rose from 145k in 350AD to 240k by 550-600AD [@vyazov2019middle; @vyazov2008zemledelie]. In the late seventh century AD, the arrival of Early Bulgar nomadic groups (*Novinkovka* burial mounds on the Samara Bend and *Shilovka*) led part of the Imenkovo population to move west toward the Middle Dnieper (*Volyntsevo* culture), while the remaining farming villages were absorbed into early Volga Bulgaria [@vyazov2020kompleks; @skarbovenko2012kochevniki; @lifanov2020alekseevskoe; @zhikh2019rannie].
+One of the biggest shifts of Migration Period Russia was the rapid settlement of the Middle Volga, Samara Bend (*Samarskaya Luka*), Sviyaga, Cheremshan and Lower Kama valleys by plough farmers of the Imenkovo culture (*Imenkovskaya kul'tura*, c. 400-650/700AD) [@vyazov2019middle; @vyazov2008zemledelie; @vyazov2020kompleks; @zhikh2019rannie]. Combining over 600 mapped sites (*Staraya Maina*, *Imenkovo*, *Maklasheevo*, *Osh-Pando-Ner'* and *Scherbet'*) with pollen cores and radiocarbon dates, Vyazov et al. show that cleared farmland and village numbers on the Middle Volga quadrupled between 400AD and 600AD [@vyazov2019middle; @vyazov2008zemledelie].
 
-## Permic and Cis-Ural Groups: Mazunino, Bakhmutino, Turaevo, Lomovatovo, and Polom (c. 250-750AD)
+Founded by post-Zarubintsy and post-Chernyakhov farmers from the Dnieper-Desna forest-steppe who mingled with local Finno-Volgaic villagers, Imenkovo settlements were laid out in tight clusters: a central fortified *gorodishche* (1-3 ha) ringed by 4-12 large open *selishcha* (2-8 ha, with *Staraya Maina* topping 6 ha) [@vyazov2019middle; @zhikh2019rannie]. Using heavy iron ploughshares (*ral'niki*), sickles, bell-shaped grain pits (*khlebnye yamy* holding 300-800 kg of millet, wheat and winter rye) and iron furnaces, Imenkovo villages had 12-30 sunken huts (*poluzemlyanki*, 16-26 m²) in use at once, supporting 70-160 people per village (mean 110) and lifting the Middle Volga population from 145k in 350AD to 240k by 550-600AD [@vyazov2019middle; @vyazov2008zemledelie]. In the late seventh century AD, when Early Bulgar horsemen arrived (*Novinkovka* barrows on the Samara Bend and *Shilovka*), part of the Imenkovo population trekked west toward the Middle Dnieper (*Volyntsevo* culture), while the rest were absorbed into early Volga Bulgaria [@vyazov2020kompleks; @skarbovenko2012kochevniki; @lifanov2020alekseevskoe; @zhikh2019rannie].
 
-In the Kama, Vyatka, Belaya, and Sylva river basins of the Cis-Urals (Udmurtia, Perm Krai, Bashkortostan, and eastern Tatarstan), large-scale excavations synthesised by Goldina, Gening, Chizhevskiy, Bakhshiev, and Shmuratko document steady Permic and Ugrian population growth [@goldina1999drevnyaya; @goldina2012nevolino; @gening1988turaevo; @bakhshiev2017bakhmutino; @shmuratko2011prikamye; @chizhevskiy2020oboronitelnye; @belitskaya2026slitki]. Following the breakup of the Late Pyanobor union in the third to sixth centuries AD, the Mazunino culture (Middle Kama and Lower Belaya) and Bakhmutino culture (Belaya-Ufa basin, including the large *Ufa II* fortified town and *Birsk* cemetery with over 1 000 burials) built dense networks of timber-rampart hillforts (0,8-2,5 ha) and open villages [@goldina1999drevnyaya; @bakhshiev2017bakhmutino; @chizhevskiy2020oboronitelnye]. In the fifth century AD, the arrival of armed steppe-forest groups created the Turaevo kurgan group (*Turaevo*, *Bartym*) on the Middle Kama [@gening1988turaevo; @shmuratko2011prikamye].
+### Permic and Cis-Ural Groups: Mazunino, Bakhmutino, Turaevo, Lomovatovo and Polom
 
-Between the fifth and eighth centuries AD, across the Upper Kama (*Lomovatovo*), Cheptsa (*Polom*), and Sylva (*Nevolino*, e.g. *Brody*, *Verkh-Saya*) basins, Permic communities lived in multi-hearth surface log longhouses (35-65 m², mean 42,0 m², housing 10-15 family members) and buried their dead in large flat cemeteries containing hundreds of graves with Sassanian and Byzantine silver vessels (*Bartym*, *Kudymkar*) exchanged for northern sable and squirrel furs [@goldina1999drevnyaya; @goldina2012nevolino; @nazarov2025lomovatovo; @ivanov2021ugrian]. Total population across the Kama-Vyatka-Belaya Cis-Urals grew from 265k in 250AD to 335k in 550AD and 395k by 700AD.
+In the Kama, Vyatka, Belaya and Sylva basins west of the Urals (Udmurtia, Perm Krai, Bashkortostan and eastern Tatarstan), excavations compiled by Goldina, Gening, Chizhevskiy, Bakhshiev and Shmuratko show steady growth among Permic and Ugrian peoples [@goldina1999drevnyaya; @goldina2012nevolino; @gening1988turaevo; @bakhshiev2017bakhmutino; @shmuratko2011prikamye; @chizhevskiy2020oboronitelnye; @belitskaya2026slitki]. After the Late Pyanobor union broke up between the third and sixth centuries AD, the Mazunino culture (Middle Kama and Lower Belaya) and Bakhmutino culture (Belaya-Ufa basin, including the large *Ufa II* fortified town and *Birsk* cemetery with over 1k graves) built thick networks of timber-walled hillforts (0,8-2,5 ha) and open villages [@goldina1999drevnyaya; @bakhshiev2017bakhmutino; @chizhevskiy2020oboronitelnye]. In the fifth century AD, armed newcomers from the steppe fringe established the Turaevo barrow group (*Turaevo* and *Bartym*) on the Middle Kama [@gening1988turaevo; @shmuratko2011prikamye].
 
-# North Caucasus and Caspian Corridor
+Between the fifth and eighth centuries AD, across the Upper Kama (*Lomovatovo*), Cheptsa (*Polom*) and Sylva (*Nevolino*, e.g. *Brody* and *Verkh-Saya*) valleys, Permic families lived in multi-hearth log longhouses (35-65 m², mean 42 m², holding 10-15 people) and buried their dead in flat cemeteries of several hundred graves furnished with Sassanian and Byzantine silver bowls (*Bartym* and *Kudymkar*) bought with northern sable and squirrel pelts [@goldina1999drevnyaya; @goldina2012nevolino; @nazarov2025lomovatovo; @ivanov2021ugrian]. Total population across the Kama-Vyatka-Belaya basin rose from 265k in 250AD to 335k in 550AD and 395k by 700AD.
 
-The North Caucasus and the narrow Caspian coastal plain of Dagestan formed the strategic gateway between the Eurasian steppe and the Sassanian and Byzantine empires [@korobov2013terraced; @korobov2023alany; @gadzhiev2002derbent; @gmyrya2022palasa]. Using GIS mapping, soil phosphate testing, and systematic surveys of 268 Early Alanian fortified settlements and catacomb cemeteries (*Klin-Yar III-IV*, *Mokraya Balka*, *Gornoe Ekho*), Korobov and Borisov showed that after the Hunnic invasion of the open Ciscaucasian steppe in 375AD, Alanian communities settled densely inside the sheltered Kislovodsk mountain basin (800-1 400 m elevation) [@korobov2013terraced; @korobov2023alany; @fomenko2018alany]. To support this concentrated population, Alanian farmers built thousands of hectares of artificial agricultural terraces fertilised with household manure [@korobov2013terraced]. Each stone-walled cliff fortress (0,8-2,5 ha, spaced 1,0-2,5 km apart) and paired catacomb cemetery (*Klin-Yar* and *Mokraya Balka* containing 400-1 000+ family catacombs) supported 80-175 inhabitants (mean 120), producing mountain-valley densities of 12-22 persons/km² and a central Alanian piedmont population of 195-260k between the fifth and eighth centuries AD [@korobov2013terraced; @korobov2023alany].
+## North Caucasus and Caspian Corridor
 
-On the Lower Kuban and Taman-Abkhazian coast (*Dyurso*, *Pashkovskiy*, *Borisovskiy*), Mastykova's study of burial dress documents mixed Alanian, Adyghe-Zikh, and East Germanic (*Tetraxite Goth*) farming and port communities [95-130k] [@mastykova2009kuban; @mastykova2009ierarkhiya]. Along the Caspian coast in Dagestan, the Sassanian construction of the stone fortress and walls of Derbent under Kavad I and Khosrow I Anushirvan (6th century AD) protected a dense urban-garrison and irrigated farming zone alongside the large Palasa-Syrt kurgan-catacomb cemetery (1 500+ mounds dating to the 4th-6th centuries AD, excavated by Gmyrya, Gadzhiev, and Malashev) [@gadzhiev2002derbent; @gmyrya2022palasa; @malashev2011palasa]. Total population across the North Caucasus and Dagestan rose from 435k in 250AD to 480k in 550AD and 570k by 700AD.
+The North Caucasus and the narrow Caspian coastal strip of Dagestan guarded the main passes between the Eurasian steppe and Persia and Byzantium [@korobov2013terraced; @korobov2023alany; @gadzhiev2002derbent; @gmyrya2022palasa]. Mapping 268 Early Alanian forts and catacomb cemeteries (*Klin-Yar III-IV*, *Mokraya Balka* and *Gornoe Ekho*), Korobov and Borisov showed that after the Huns overran the open Ciscaucasian plain in 375AD, Alanian communities crowded into the sheltered Kislovodsk mountain basin (800-1,4k m elevation) [@korobov2013terraced; @korobov2023alany; @fomenko2018alany]. To feed these numbers, Alanian farmers carved thousands of hectares of manured terraces into the mountain slopes [@korobov2013terraced]. Each stone cliff fort (0,8-2,5 ha, spaced 1-2,5 km apart) and catacomb cemetery (*Klin-Yar* and *Mokraya Balka*, with 400-1k+ family vaults) held 80-175 people (mean 120), giving valley densities of 12-22 persons/km² and a central Alanian foothill population of 195-260k between the fifth and eighth centuries AD [@korobov2013terraced; @korobov2023alany].
 
-# Western and Southern Siberia
+On the Lower Kuban and Taman-Abkhazian coast (*Dyurso*, *Pashkovskiy* and *Borisovskiy*), Mastykova's study of grave goods traces mixed Alanian, Adyghe-Zikh and East Germanic (*Tetraxite Goth*) farming and port towns [95-130k] [@mastykova2009kuban; @mastykova2009ierarkhiya]. Along the Caspian coast in Dagestan, the Sassanian shahs Kavad I and Khosrow I Anushirvan built the stone fortress and long walls of Derbent in the sixth century AD, shielding an urban garrison and irrigated farming belt beside the huge Palasa-Syrt kurgan-catacomb cemetery (1,5k+ mounds of the fourth to sixth centuries AD, dug by Gmyrya, Gadzhiev and Malashev) [@gadzhiev2002derbent; @gmyrya2022palasa; @malashev2011palasa]. Total population across the North Caucasus and Dagestan climbed from 435k in 250AD to 480k in 550AD and 570k by 700AD.
 
-## Tobol-Ishim-Irtysh-Ob Forest-Steppe and Southern Taiga (c. 250-750AD)
+## Western and Southern Siberia
 
-In Western Siberia, Matveeva, Zelenkov, and Sleptsova have traced the post-Sargat settlement reorganisation across the Tobol, Ishim, Irtysh, and Middle Ob basins [@matveeva2000sargat; @matveeva2024migratsii; @zelenkov2025potchevash]. During the third and fourth centuries AD, the Sargat kurgan union (*Tsarev Kurgan*, *Isakovka*, estimated by Matveeva at 110-145k across the Tobol-Irtysh forest-steppe with 50-100 inhabitants per fortified settlement group) broke apart under the combined effects of steppe drying, Hunnic-Xianbei movements, and the southward expansion of taiga Karym and Kozlov hunting, fishing, and iron-working groups [@matveeva2000sargat; @matveeva2024migratsii].
+### Tobol-Ishim-Irtysh-Ob Forest-Steppe and Southern Taiga
 
-Out of this mixing between the fifth and eighth centuries AD emerged the Bakalskaya culture in the Tobol-Ishim forest-steppe and the Potchevash culture (*Potchevash*, *Vikulovo*, *Okunevo*, *Likhachevo*) along the Irtysh and Middle Ob [@matveeva2024migratsii; @zelenkov2025potchevash]. Living in promontory hillforts (0,6-1,5 ha) and multi-family semi-subterranean log houses (28-42 m²) while practising horse breeding, floodplain farming, and fur trapping, West Siberian populations stood at 145-165k in 450-550AD and grew to 185k by 700AD [@matveeva2024migratsii; @zelenkov2025potchevash].
+In Western Siberia, Matveeva, Zelenkov and Sleptsova have traced how settlement changed across the Tobol, Ishim, Irtysh and Middle Ob basins after the Sargat culture broke up [@matveeva2000sargat; @matveeva2024migratsii; @zelenkov2025potchevash]. In the third and fourth centuries AD, the Sargat barrow union (*Tsarev Kurgan* and *Isakovka*, put by Matveeva at 110-145k across the Tobol-Irtysh forest-steppe with 50-100 people per fortified settlement group) gave way under a drier steppe climate, Hunnic-Xianbei movements and the southward push of taiga Karym and Kozlov hunters, fishers and iron-workers [@matveeva2000sargat; @matveeva2024migratsii].
 
-## Minusinsk Basin, Altai, Tuva, and Cis-Baikal (c. 250-750AD)
+From this mix arose the Bakalskaya culture in the Tobol-Ishim forest-steppe and the Potchevash culture (*Potchevash*, *Vikulovo*, *Okunevo* and *Likhachevo*) along the Irtysh and Middle Ob between the fifth and eighth centuries AD [@matveeva2024migratsii; @zelenkov2025potchevash]. Living in promontory hillforts (0,6-1,5 ha) and multi-family half-sunken log houses (28-42 m²) while raising horses, sowing floodplain plots and trapping furs, West Siberian populations stood at 145-165k in 450-550AD and reached 185k by 700AD [@matveeva2024migratsii; @zelenkov2025potchevash].
 
-Across the mountain-steppe basins of Southern Siberia, three main regional traditions developed during the Migration Period. In the Yenisei-Abakan Minusinsk Basin (*Oglakhty*, *Tepsen*, *Bateni*, *Izzykhtash*), Azbelev and Vodyasov and Zaitseva trace the Tashtyk culture (1st-6th centuries AD) through the shift from individual inhumation and cremation pit graves to large collective timber-lined subterranean vaults (*sklepy*, up to 60-80 m²) holding 20-150+ cremated and mummified burials with painted gypsum funerary masks [@azbelev2007oglakhty; @vodyasov2023tashtyk]. Supported by irrigated millet farming and valley pastoralism, the Minusinsk Basin sustained 55-75k inhabitants before the rise of the Yenisei Kyrgyz (*Chaatas* period, 6th-9th centuries AD) [@vodyasov2023tashtyk].
+### Minusinsk Basin, Altai, Tuva and Cis-Baikal
 
-Further south and east across Tuva, the Altai, and Lake Baikal, regional cemetery excavations document resilient pastoral and metallurgical populations. In Tuva, the post-Xiongnu Kokel culture (*Kokel*, *Eerbek*, *Khemchik*, 2nd-5th centuries AD) excavated by Wainstein, Teterin, and Mit'ko left large cemeteries of 100-400+ timber-coffin burials [30-45k] [@teterin2013kokel]. In the Russian Altai, Seregin and Matrenin's studies of the Bulan-Koba (Xianbei-Rouran period, 2nd-5th centuries AD, e.g. *Choburak-I*, *Stepushka*, *Ust'-Steklyannoe*) and Early Turkic (*Kudyrge*, *Katanda*, *Tuekta*, *Berel*, 6th-8th centuries AD) burials document high child mortality (40-48%) alongside growing iron-smelting and pastoral communities [35-55k] under the First Turkic Khaganate after 552AD [@seregin2021altai; @seregin2022xianbei; @matrenin2015pryazhki; @tishin2018turks]. West of Lake Baikal and along the Angara-Lena watershed, Kharinsky traces the transition from the Elga graves (3rd century BC - 4th century AD) to the iron-smelting and irrigation-farming Kurumchin (*Kurykan*) culture (6th-10th centuries AD) [20-35k] [@kharinsky2005baikal; @kharinsky2014elga].
+Across the mountain-steppe basins of Southern Siberia, three local traditions flourished. In the Yenisei-Abakan Minusinsk Basin (*Oglakhty*, *Tepsen*, *Bateni* and *Izzykhtash*), Azbelev, Vodyasov and Zaitseva follow the Tashtyk culture (first to sixth centuries AD) as single pit graves gave way to great timber-lined underground vaults (*sklepy*, up to 60-80 m²) holding 20-150+ cremated and mummified bodies with painted plaster masks [@azbelev2007oglakhty; @vodyasov2023tashtyk]. Fed by irrigated millet fields and valley herds, the Minusinsk Basin supported 55-75k people before the rise of the Yenisei Kyrgyz (*Chaatas* period, sixth to ninth centuries AD) [@vodyasov2023tashtyk].
 
-# Population and Settlement Estimates
+Further south and east across Tuva, the Altai and Lake Baikal, cemetery digs show hardy herding and iron-smelting communities. In Tuva, the post-Xiongnu Kokel culture (*Kokel*, *Eerbek* and *Khemchik*, second to fifth centuries AD) dug by Wainstein, Teterin and Mit'ko left large graveyards of 100-400+ plank coffins [30-45k] [@teterin2013kokel]. In the Russian Altai, Seregin and Matrenin's work on the Bulan-Koba (Xianbei-Rouran period, second to fifth centuries AD, e.g. *Choburak-I*, *Stepushka* and *Ust'-Steklyannoe*) and Early Turkic (*Kudyrge*, *Katanda*, *Tuekta* and *Berel*, sixth to eighth centuries AD) graves shows high child mortality (40-48%) alongside growing iron-working and herding camps [35-55k] under the First Turkic Khaganate after 552AD [@seregin2021altai; @seregin2022xianbei; @matrenin2015pryazhki; @tishin2018turks]. West of Lake Baikal and along the Angara-Lena divide, Kharinsky traces the shift from the Elga graves (third century BC to fourth century AD) to the iron-smelting and irrigation-farming Kurumchin (*Kurykan*) culture (sixth to tenth centuries AD) [20-35k] [@kharinsky2005baikal; @kharinsky2014elga].
 
-## Population Estimates (100 - 900AD)
+## Population and Settlement Estimates
 
-Combining the regional archaeological evidence across the six macro-regions of Belarus, Ukraine, and Russia produces a consistent demographic series from 100AD to 1900AD (Table \ref{tab:zonal-trajectories} and Figure \ref{fig:trajectories}). During the Late Roman Warm Period (100-350AD), under mild climatic conditions and active trade with the Roman Black Sea provinces and Sarmatian steppe, total population across the study region rose from 2,05 M (1,60-2,54 M) in 100AD to 2,45 M in 250AD and 2,56 M (2,00-3,17 M) in 350AD (an annual growth rate of roughly +0,09%/yr), led by the eastern Chernyakhov and Kiev farming villages in the forest-steppe (690k) and steady settlement growth across the Late Dyakovo, Ryazan-Oka, and Mazunino forest and Kama regions [@oblomskiy2002dneprovskoe; @shchukin2005gotskiy; @krenke2011dyakovo].
+### Population Estimates
 
-During the Hunnic invasion and the northward and upland settlement shift (375-550AD), the campaigns of 370-378AD and fifth-century steppe warfare reduced the total population of the study region by 10,9% to 2,28 M (1,78-2,83 M) around 450AD. However, as Figure \ref{fig:redistribution} shows, this drop was confined to the open Pontic-Caspian steppe (-37,8%) and the exposed southern forest-steppe border (-33,3%). Over the same period (350-550AD), population grew substantially in the Middle Volga *Imenkovo* region and Kama Cis-Urals (+23,9%, from 440k to 545k), the Volga-Oka and northwestern forest zone (+19,4%, from 465k to 555k), and the terraced mountain valleys of the North Caucasus (+4,3%, from 460k to 480k) [@vyazov2019middle; @korobov2013terraced; @vorontsov2021fibuly]. As a result, the combined share of the forest zone, Middle Volga-Kama, and North Caucasian valleys rose from 52,5% of the regional total in 250AD to 62,9% in 450AD and 63,4% in 550AD.
+Putting these six regional series together gives a continuous picture of population across Belarus, Ukraine and Russia from 100AD to 1900AD (Table \ref{tab:zonal-trajectories} and Figure \ref{fig:trajectories}). During the mild Late Roman centuries (100-350AD), trade with the Black Sea ports helped lift total population from 2,05M (1,6-2,54M) in 100AD to 2,45M in 250AD and 2,56M (2-3,17M) in 350AD, led by the Chernyakhov and Kiev farming villages of the forest-steppe (690k) and steady growth in the Late Dyakovo, Ryazan-Oka and Mazunino woodland and Kama valleys [@oblomskiy2002dneprovskoe; @shchukin2005gotskiy; @krenke2011dyakovo].
 
-During the subsequent phase of early medieval agricultural growth (560-900AD), following the 536-542AD cooling episode and the spread of winter rye, heavy iron ploughshares, and river trade along the Volga, Don, and Dnieper under the Khazar and First Turkic khaganates, total population across Belarus, Ukraine, and Russia grew from 2,49 M in 550AD to 2,68 M in 600AD, 3,13 M in 700AD, 3,83 M in 800AD, and 4,50 M (3,51-5,58 M) by 900AD (+0,17%/yr) [@kazanski2010middle; @vyazov2019middle; @goldina1999drevnyaya; @korobov2023alany].
+The Hunnic onslaught of 370-378AD and fifth-century steppe warfare cut the overall total by a tenth to 2,28M (1,78-2,83M) around 450AD. As Figure \ref{fig:redistribution} shows, however, that loss fell entirely on the open Pontic-Caspian steppe (-37,8%) and the exposed southern forest-steppe border (-33,3%). Over the same two centuries (350-550AD), numbers grew briskly in the Middle Volga *Imenkovo* valleys and Kama basin (+23,9%, from 440k to 545k), the Volga-Oka and northwestern forests (+19,4%, from 465k to 555k) and the terraced valleys of the North Caucasus (+4,3%, from 460k to 480k) [@vyazov2019middle; @korobov2013terraced; @vorontsov2021fibuly]. As a result, the share of all inhabitants living in the northern woods, the Middle Volga-Kama and the North Caucasian valleys rose from just over half (52,5%) in 250AD to nearly two thirds (63,4%) by 550AD.
 
-## Post-Migration Period Growth to the 1897 Census (900 - 1900AD)
+From the late sixth century onward (560-900AD), winter rye, iron ploughshares and river trade along the Volga, Don and Dnieper under the Khazar and First Turkic khaganates carried the total from 2,49M in 550AD to 3,13M in 700AD and 4,5M (3,51-5,58M) by 900AD [@kazanski2010middle; @vyazov2019middle; @goldina1999drevnyaya; @korobov2023alany].
 
-To place the Migration Period estimates into a long-run context extending to modern statistical records, Table \ref{tab:zonal-trajectories} and Figure \ref{fig:trajectories} extend the regional population series from 900AD to the First All-Russian Imperial Census of 1897 (1900AD) [@vodarsky1973naselenie; @kabuzan1990narody; @rashin1956naselenie; @troinitsky1905perepis]. Between 900AD and 1200AD, during the pre-Mongol expansion of Kievan Rus' and Volga Bulgaria, the clearing of mixed forest watersheds across Novgorod-Pskov, Vladimir-Suzdal, Smolensk, Murom-Ryazan, and urban Volga Bulgaria raised the population within the boundaries of modern Russia from 4,50 M to 6,60 M (5,28-7,92 M), with the mixed and boreal forest zone reaching 1,95 M and the Middle Volga-Kama region 1,30 M [@krenke2019moskvorechye; @vyazov2019middle].
+### Growth to the 1897 Census
 
-Despite the demographic losses of the Mongol campaigns (1237-1240AD) and fourteenth-century plague outbreaks, northeastward rural settlement into the Moscow-Upper Volga basin enabled total population across Russia to reach 9,10 M (7,46-10,74 M) by 1500AD, as recorded in early Muscovite land cadastres (*pistsovye knigi*) [@vodarsky1973naselenie]. Construction of the southern defensive lines (*zasechnye cherty*) in the sixteenth and seventeenth centuries reopened the black-earth forest-steppe of Kursk, Voronezh, Tambov, and Penza to plough cultivation; by the 1678 household census (*perepisnye knigi*) and Peter I's First Poll-Tax Revision of 1719 (c. 1700AD benchmark), total population within the Russian territories stood at 13,80 M (12,14-15,46 M), including 5,20 M in the forest zone, 3,40 M in the forest-steppe, and 2,65 M in the Middle Volga-Kama-Ural provinces [@vodarsky1973naselenie; @kabuzan1990narody].
+Table \ref{tab:zonal-trajectories} and Figure \ref{fig:trajectories} carry these regional figures forward from 900AD to the First All-Russian Census of 1897 (1900AD) [@vodarsky1973naselenie; @kabuzan1990narody; @rashin1956naselenie; @troinitsky1905perepis]. Between 900AD and 1200AD, under Kievan Rus' and Volga Bulgaria, the clearing of woodland across Novgorod-Pskov, Vladimir-Suzdal, Smolensk, Murom-Ryazan and the Middle Volga raised the total from 4,5M to 6,6M (5,28-7,92M), with the forest zone reaching 1,95M and the Middle Volga-Kama basin 1,3M [@krenke2019moskvorechye; @vyazov2019middle].
 
-Across the eighteenth and nineteenth centuries, the agricultural settlement of the Lower Volga-Don steppe, the mining and industrial growth of the Urals, and peasant migration into Western and Southern Siberia raised the population of the Russian territories from 28,10 M in 1800AD (Fifth and Sixth Poll-Tax Revisions) to 67,50 M (65,48-69,53 M) in the 1897 Imperial Census (adjusted to the *gubernii* and provinces within modern Russia), comprising 19,80 M in the forest zone, 18,90 M in the Central Black-Earth forest-steppe, 13,60 M in the Middle Volga and Urals, 5,75 M in Siberia, 5,40 M in the North Caucasus, and 4,05 M in the Lower Don-Volga steppe [@kabuzan1990narody; @rashin1956naselenie; @troinitsky1905perepis; @fedoseev2021povolzhe].
+Despite the Mongol sack of 1237-1240AD and fourteenth-century plagues, steady peasant clearing in the Moscow-Upper Volga basin carried the population to 9,1M (7,46-10,74M) by 1500AD, as recorded in early Muscovite land books (*pistsovye knigi*) [@vodarsky1973naselenie]. In the sixteenth and seventeenth centuries, the building of the southern timber and earth defence lines (*zasechnye cherty*) let farmers return to the rich black earth of Kursk, Voronezh, Tambov and Penza; by the 1678 household count (*perepisnye knigi*) and Peter the Great's First Soul Revision of 1719 (c. 1700AD), total population stood at 13,8M (12,14-15,46M), led by the forest zone (5,2M), the forest-steppe (3,4M) and the Middle Volga-Ural provinces (2,65M) [@vodarsky1973naselenie; @kabuzan1990narody].
+
+In the eighteenth and nineteenth centuries, the ploughing up of the Lower Volga-Don steppe, the ironworks of the Urals and peasant migration into Siberia more than doubled the population from 13,8M in 1700AD to 28,1M in 1800AD, and then more than doubled it again to 67,5M (65,48-69,53M) at the 1897 census [@kabuzan1990narody; @rashin1956naselenie; @troinitsky1905perepis; @fedoseev2021povolzhe].
 
 ```{r fig2-trajectories, results='asis'}
 render_figure_template(
   "figures/fig2_migration_period_demographic_trajectories.png",
   list(
-    caption = "Regional population trajectories across the six macro-regions of Belarus, Ukraine, and Russia (100AD - 1900AD).",
+    caption = "Panel A tracks Migration Period totals from the Late Roman peak (2,56M in 350AD) through the Hunnic dip (2,28M in 450AD) to the Early Rus' recovery (4,5M in 900AD), while Panel B carries the six ecological zones forward to 67,5M at the 1897 census.",
     label = "fig:trajectories",
     span_columns = TRUE
   )
@@ -182,27 +296,27 @@ df_macro <- data.frame(
     "1800AD",
     "1900AD"
   ),
-  Forest_Steppe = c("490", "640", "690", "460", "500", "690", "890", "1 080", "1 550", "1 850", "3 400", "7 800", "18 900"),
-  Forest_Zone = c("390", "440", "465", "500", "555", "720", "920", "1 140", "1 950", "3 500", "5 200", "9 400", "19 800"),
-  Volga_Urals = c("340", "410", "440", "485", "545", "630", "740", "850", "1 300", "1 650", "2 650", "5 800", "13 600"),
-  North_Caucasus = c("360", "435", "460", "450", "480", "570", "660", "730", "950", "1 050", "1 250", "1 950", "5 400"),
-  Siberia = c("240", "275", "280", "245", "255", "300", "335", "365", "450", "550", "700", "1 350", "5 750"),
-  Steppe = c("230", "250", "225", "140", "155", "220", "285", "335", "400", "500", "600", "1 800", "4 050"),
-  Total_k = c("2 050", "2 450", "2 560", "2 280", "2 490", "3 130", "3 830", "4 500", "6 600", "9 100", "13 800", "28 100", "67 500"),
+  Forest_Steppe = c("490k", "640k", "690k", "460k", "500k", "690k", "890k", "1,08M", "1,55M", "1,85M", "3,4M", "7,8M", "18,9M"),
+  Forest_Zone = c("390k", "440k", "465k", "500k", "555k", "720k", "920k", "1,14M", "1,95M", "3,5M", "5,2M", "9,4M", "19,8M"),
+  Volga_Urals = c("340k", "410k", "440k", "485k", "545k", "630k", "740k", "850k", "1,3M", "1,65M", "2,65M", "5,8M", "13,6M"),
+  North_Caucasus = c("360k", "435k", "460k", "450k", "480k", "570k", "660k", "730k", "950k", "1,05M", "1,25M", "1,95M", "5,4M"),
+  Siberia = c("240k", "275k", "280k", "245k", "255k", "300k", "335k", "365k", "450k", "550k", "700k", "1,35M", "5,75M"),
+  Steppe = c("230k", "250k", "225k", "140k", "155k", "220k", "285k", "335k", "400k", "500k", "600k", "1,8M", "4,05M"),
+  Total_k = c("2,05M", "2,45M", "2,56M", "2,28M", "2,49M", "3,13M", "3,83M", "4,5M", "6,6M", "9,1M", "13,8M", "28,1M", "67,5M"),
   Range_M = c(
-    "1,60-2,54 M",
-    "1,91-3,04 M",
-    "2,00-3,17 M",
-    "1,78-2,83 M",
-    "1,94-3,09 M",
-    "2,44-3,88 M",
-    "2,99-4,75 M",
-    "3,51-5,58 M",
-    "5,28-7,92 M",
-    "7,46-10,74 M",
-    "12,14-15,46 M",
-    "25,85-30,35 M",
-    "65,48-69,53 M"
+    "1,6-2,54M",
+    "1,91-3,04M",
+    "2-3,17M",
+    "1,78-2,83M",
+    "1,94-3,09M",
+    "2,44-3,88M",
+    "2,99-4,75M",
+    "3,51-5,58M",
+    "5,28-7,92M",
+    "7,46-10,74M",
+    "12,14-15,46M",
+    "25,85-30,35M",
+    "65,48-69,53M"
   ),
   stringsAsFactors = FALSE
 )
@@ -210,9 +324,9 @@ df_macro <- data.frame(
 render_table_template(
   df_macro,
   list(
-    caption = "Regional population estimates and uncertainty ranges across the six macro-regions of Belarus, Ukraine, and Russia (100AD - 1900AD).",
+    caption = "Estimated population across the six ecological zones from 100AD to 1900AD, with combined totals and upper and lower uncertainty bounds.",
     label = "tab:zonal-trajectories",
-    col_names = c("Year", "Forest-Steppe", "Forest Zone", "Volga & Urals", "North Caucasus", "Siberia", "Steppe", "Total (k)", "Range (M)"),
+    col_names = c("Year", "Forest-Steppe", "Forest Zone", "Volga & Urals", "North Caucasus", "Siberia", "Steppe", "Total", "Range"),
     font_size = "footnotesize",
     scale_to_fit = FALSE,
     span_columns = TRUE,
@@ -225,22 +339,22 @@ render_table_template(
 render_figure_template(
   "figures/fig3_zonal_population_redistribution.png",
   list(
-    caption = "Regional population totals and percentage shares across the six macro-regions of Belarus, Ukraine, and Russia (250AD - 750AD).",
+    caption = "As Hunnic and post-Hunnic warfare reduced the open steppe and southern forest-steppe populations by a third after 375AD, the combined share of the northern forests, the Middle Volga-Kama basin and the North Caucasus rose from 52,5% in 250AD to 63,4% by 550AD.",
     label = "fig:redistribution",
     span_columns = TRUE
   )
 )
 ```
 
-## Settlement Estimates
+### Settlement Estimates
 
-Figure \ref{fig:settlement-metrics} and Table \ref{tab:culture-metrics} summarise the village sizes, fortification shares, and house floor areas compiled across twenty major Migration Period archaeological cultures in Belarus, Ukraine, and Russia. A clear contrast separates the unfortified river-terrace farming hamlets of the Desna-Seim forest-steppe (*Kiev* and *Kolochin*, where only 8-18% of sites are fortified and square *poluzemlyanki* average 15,0-16,5 m²) from the fortified promontory hillfort networks of the Moskva-Oka forest zone (*Late Dyakovo*, 62% fortified) and the stone cliff fortresses of the North Caucasian *Kislovodsk Alans* (48% fortified) [@oblomskiy2002dneprovskoe; @oblomskiy2016kolochinskaya; @krenke2011dyakovo; @korobov2013terraced]. Meanwhile, the largest individual village populations occur in the plough-farming *Chernyakhov* (145 inhabitants/site) and *Imenkovo* (110 inhabitants/site) agricultural clusters, the terraced Alanian mountain valleys (120 inhabitants/site), and the multi-hearth log longhouse communities of the Kama-Ural *Lomovatovo-Polom* cultures (95 inhabitants/site, mean house floor area 42,0 m²) [@shchukin2005gotskiy; @vyazov2019middle; @goldina1999drevnyaya].
+Figure \ref{fig:settlement-metrics} and Table \ref{tab:culture-metrics} summarise village areas, fortification shares and house floor areas across 20 Migration Period archaeological cultures in Belarus, Ukraine and Russia. A sharp contrast separates the unfortified river-terrace hamlets of the Desna-Seim forest-steppe (*Kiev* and *Kolochin*, where only 8-18% of sites are fortified and square *poluzemlyanki* average 15-16,5 m²) from the fortified promontory hillforts of the Moskva-Oka forest zone (*Late Dyakovo*, 62% fortified) and the stone cliff fortresses of the North Caucasian *Kislovodsk Alans* (48% fortified) [@oblomskiy2002dneprovskoe; @oblomskiy2016kolochinskaya; @krenke2011dyakovo; @korobov2013terraced]. The largest village populations occur in the plough-farming *Chernyakhov* (145 inhabitants per site) and *Imenkovo* (110 inhabitants per site) clusters, the terraced Alanian mountain valleys (120 inhabitants per site) and the multi-hearth log longhouse communities of the Kama-Ural *Lomovatovo-Polom* cultures (95 inhabitants per site, mean house floor area 42 m²) [@shchukin2005gotskiy; @vyazov2019middle; @goldina1999drevnyaya].
 
 ```{r fig4-settlement-metrics, results='asis'}
 render_figure_template(
   "figures/fig4_settlement_fortification_metrics.png",
   list(
-    caption = "Settlement areas, fortification shares, house floor areas, and estimated village populations across ten Migration Period archaeological cultures.",
+    caption = "Comparison of ten excavated traditions showing how unfortified Kiev and Kolochin sunken-hut hamlets (45-48 people per site) differed from heavily fortified Late Dyakovo hillforts (62% fortified), Kislovodsk Alan cliff forts (120 per site) and multi-family Lomovatovo log longhouses (42 m² mean floor area).",
     label = "fig:settlement-metrics",
     span_columns = TRUE
   )
@@ -360,26 +474,26 @@ df_cultures <- data.frame(
     "30-80 (50)"
   ),
   Pop_k = c(
-    "140-210 k",
-    "180-260 k",
-    "150-230 k",
-    "90-145 k",
-    "60-110 k",
-    "110-165 k",
-    "95-145 k",
-    "135-215 k",
-    "65-105 k",
-    "75-135 k",
-    "145-240 k",
-    "45-85 k",
-    "85-130 k",
-    "110-165 k",
-    "120-195 k",
-    "180-260 k",
-    "130-200 k",
-    "85-130 k",
-    "130-185 k",
-    "115-165 k"
+    "140-210k",
+    "180-260k",
+    "150-230k",
+    "90-145k",
+    "60-110k",
+    "110-165k",
+    "95-145k",
+    "135-215k",
+    "65-105k",
+    "75-135k",
+    "145-240k",
+    "45-85k",
+    "85-130k",
+    "110-165k",
+    "120-195k",
+    "180-260k",
+    "130-200k",
+    "85-130k",
+    "130-185k",
+    "115-165k"
   ),
   stringsAsFactors = FALSE
 )
@@ -387,7 +501,7 @@ df_cultures <- data.frame(
 render_table_template(
   df_cultures,
   list(
-    caption = "Chronology, core river basins, house floor areas, and estimated village and regional populations across twenty Migration Period cultures (250AD - 750AD).",
+    caption = "Chronology, river basins, house floor areas and estimated village and regional populations across 20 Migration Period cultures, 250AD - 750AD.",
     label = "tab:culture-metrics",
     col_names = c("Archaeological Culture", "Dates", "Core River Basins", "House Type & Area", "Site Pop. (Mean)", "Regional Pop."),
     font_size = "scriptsize",
@@ -401,21 +515,21 @@ render_table_template(
 
 # Limitations
 
-Three main source limitations account for the uncertainty ranges (+/- 18-24%) in our Migration Period estimates. First, across the forest and forest-steppe regions (*Kiev*, *Kolochin*, *Moshchiny*, *Tushemlya*, *Pskov Long Barrows*, and *Imenkovo*), surface or shallow-pit cremation rites destroy fragile infant and child bones [@oblomskiy2016kolochinskaya; @mikhailova2014poseleniya; @vyazov2019middle]. For cremation cultures, population estimates must therefore rely primarily on excavated house counts (*poluzemlyanki* and surface timber dwellings) rather than raw cremation urn totals.
+Three practical difficulties account for the uncertainty margins (+/- 18-24%) in our Migration Period estimates. First, across the forest and forest-steppe zones (*Kiev*, *Kolochin*, *Moshchiny*, *Tushemlya*, *Pskov Long Barrows* and *Imenkovo*), cremation on open pyres or in shallow pits destroys fragile infant and child bones [@oblomskiy2016kolochinskaya; @mikhailova2014poseleniya; @vyazov2019middle]. For cremation cultures, population estimates must therefore rest on excavated house counts (*poluzemlyanki* and surface timber dwellings) rather than burial urn totals.
 
-Second, unfortified forest-steppe and forest *selishcha* frequently relocated along river terraces every 25-50 years as local arable plots or timber supplies were exhausted [@oblomskiy2002dneprovskoe; @islanova2012ozero]. Without radiocarbon dating of individual settlement layers (such as the series from *Dyakovo* analysed by Krenke and from the *Samara-Middle Volga* basin by Vyazov et al.), adding together all ceramic scatters dated to a two-century period would overstate the number of simultaneously inhabited villages by two to three times [@krenke2019moskvorechye; @vyazov2019middle]. Our regional calculations apply an occupation-span adjustment ($\tau_{\text{site}} / \Delta T_{\text{phase}} \in [0{,}28,\, 0{,}50]$) so that only simultaneously occupied villages are counted.
+Second, unfortified forest-steppe and woodland villages (*selishcha*) shifted along the river terraces every 25-50 years as nearby fields or firewood gave out [@oblomskiy2002dneprovskoe; @islanova2012ozero]. Without radiocarbon dates for individual building layers (such as Krenke's series from *Dyakovo* and Vyazov's from the *Samara-Middle Volga* basin), adding up every pottery scatter from a two-century period would count the same moving village two or three times over [@krenke2019moskvorechye; @vyazov2019middle]. Our calculations apply an occupation-span adjustment ($\tau_{\text{site}} / \Delta T_{\text{phase}} \in [0{,}28,\, 0{,}5]$) so that only villages inhabited at the same time are counted.
 
-Third, in the open Pontic-Caspian, Lower Volga-Don, and South Siberian steppes, winter pastoral camps (*zimovki*) often lie submerged beneath modern reservoirs (Tsimlyansk, Volgograd, Saratov, and Krasnoyarsk reservoirs) or eroded riverbanks, leaving burial mounds (*Tanais*, *Palasa-Syrt*, *Novinkovka*, *Kudyrge*) as the main archaeological record [@medvedev2018postsarmat; @skarbovenko2012kochevniki; @seregin2021altai]. Steppe pastoral densities (0,15-0,45 persons/km²) consequently carry wider relative uncertainty ranges than settled farming valleys.
+Third, on the open Pontic-Caspian, Lower Volga-Don and South Siberian steppes, winter herding camps (*zimovki*) now lie drowned beneath twentieth-century reservoirs (Tsimlyansk, Volgograd, Saratov and Krasnoyarsk) or washed away by riverbanks, leaving burial mounds (*Tanais*, *Palasa-Syrt*, *Novinkovka* and *Kudyrge*) as the main record [@medvedev2018postsarmat; @skarbovenko2012kochevniki; @seregin2021altai]. Steppe population densities (0,15-0,45 persons/km²) therefore carry wider margins of error than settled river valleys.
 
 # Conclusion
 
-Reviewing external Russian and international archaeological scholarship across the Migration Period (c. 250-750AD) shows that the demographic history of Belarus, Ukraine, and Russia was defined by regional redistribution rather than general collapse. While the Hunnic invasion of 370-378AD and the breakup of the eastern Chernyakhov and Late Sarmatian networks reduced population across the open steppe and exposed southern forest-steppe border from 915k in 350AD to 600k in 450AD, concurrent movement into the forest zone and mountain valleys supported steady agricultural and settlement growth across the Middle Volga (*Imenkovo*), the Volga-Oka and northwestern forest zone (*Late Dyakovo*, *Moshchiny*, *Ryazan-Oka*, *Pskov Long Barrows*), the Kama-Cis-Ural Permic groups (*Bakhmutino*, *Lomovatovo*, *Polom*), and the terraced valleys of the North Caucasus (*Kislovodsk Alans* and *Derbent*). Across the study region of Belarus, Ukraine, and Russia as a whole, population stood at 2,45 M in 250AD and 2,56 M in 350AD, dipped to 2,28 M in 450AD, and expanded with the spread of winter rye and iron ploughshares to 3,13 M in 700AD and 4,50 M by 900AD, laying the demographic foundations for subsequent growth to 6,60 M in 1200AD, 9,10 M in 1500AD, 13,80 M in 1700AD, and 67,50 M by the 1897 Imperial Census (1900AD).
+The archaeological evidence for the Migration Period (c. 250-750AD) shows that the population of Belarus, Ukraine and Russia did not collapse; it moved. While the Hunnic invasion of the 370s and the breakup of the eastern Chernyakhov and Late Sarmatian settlements cut population on the open steppe and the southern forest-steppe border from 915k in 350AD to 600k in 450AD, steady migration into the woods and hills fed growth along the Middle Volga (*Imenkovo*), in the Volga-Oka and northwestern forests (*Late Dyakovo*, *Moshchiny*, *Ryazan-Oka* and *Pskov Long Barrows*), across the Kama basin (*Bakhmutino*, *Lomovatovo* and *Polom*) and in the terraced valleys of the North Caucasus (*Kislovodsk Alans* and *Derbent*). Across the whole territory, total population dipped only briefly from 2,56M in 350AD to 2,28M in 450AD before climbing with the spread of winter rye and iron ploughs to 3,13M in 700AD and 4,5M by 900AD. That shift into the forest belt and the Middle Volga laid the foundations for medieval Rus' and Volga Bulgaria, and for the later growth that carried the population to 13,8M by 1700AD and 67,5M at the 1897 census.
 
 # Appendix
 
 ## Regional Density and Life-Table Estimates
 
-Table \ref{tab:appendix-benchmarks} summarises the river-valley population densities, farming systems, and skeletal life-table estimates compiled from the regional archaeological literature across the six macro-regions of Belarus, Ukraine, and Russia.
+Table \ref{tab:appendix-benchmarks} summarises the river-valley population densities, farming systems and cemetery life-table figures compiled across the six regions of Belarus, Ukraine and Russia.
 
 ```{r tab3-appendix, results='asis'}
 df_app <- data.frame(
@@ -431,12 +545,12 @@ df_app <- data.frame(
     "1,2-6,5 persons/km² (river valleys)",
     "0,6-2,2 persons/km² (terrace corridors)",
     "2,5-5,8 persons/km² (Samara-Sviyaga)",
-    "1,1-3,0 persons/km² (Kama-Belaya)",
-    "12,0-22,0 persons/km² (terraced valleys)",
+    "1,1-3 persons/km² (Kama-Belaya)",
+    "12-22 persons/km² (terraced valleys)",
     "0,4-1,8 persons/km² (forest-steppe valleys)"
   ),
   Farming_System = c(
-    "Millet, barley, wheat; iron plough (Chernyakhov) -> winter rye (6th-8th c.)",
+    "Millet, barley, wheat; iron plough (Chernyakhov) to winter rye (6th-8th c.)",
     "Forest-fallow & flood-plain plots; barley, wheat, flax, livestock, fur trade",
     "Intensive iron-plough farming; winter rye, millet, wheat; cylindrical grain pits",
     "Mixed arable-pastoralism, horse breeding, bronze/iron metallurgy, fur export",
@@ -445,11 +559,11 @@ df_app <- data.frame(
   ),
   Life_Table = c(
     "e0 = 22,5-24,8 yr; child d(0-14) = 44-48%",
-    "e0 = 22,0-24,5 yr; adult mean age 37,5-40,2 yr (Ryazan-Oka)",
-    "e0 = 23,0-25,0 yr; high cereal-starch dental caries rate",
+    "e0 = 22-24,5 yr; adult mean age 37,5-40,2 yr (Ryazan-Oka)",
+    "e0 = 23-25 yr; high cereal-starch dental caries rate",
     "e0 = 21,8-24,2 yr; Birsk / Nevolino / Lomovatovo series",
-    "e0 = 23,5-26,0 yr; Klin-Yar & Palasa-Syrt catacomb series",
-    "e0 = 21,5-24,0 yr; child mortality 42-48% (Altai / Tashtyk)"
+    "e0 = 23,5-26 yr; Klin-Yar & Palasa-Syrt catacomb series",
+    "e0 = 21,5-24 yr; child mortality 42-48% (Altai / Tashtyk)"
   ),
   Primary_References = c(
     "Oblomskiy (2002, 2016); Terpylovsky (2000); Shchukin (2005)",
@@ -465,9 +579,9 @@ df_app <- data.frame(
 render_table_template(
   df_app,
   list(
-    caption = "River-valley population densities, farming systems, and skeletal life-table estimates across the six macro-regions (250AD - 750AD).",
+    caption = "River-valley population densities, farming systems and cemetery life-table estimates across the six regions, 250AD - 750AD.",
     label = "tab:appendix-benchmarks",
-    col_names = c("Region", "River-Valley Density", "Subsistence & Farming System", "Skeletal Life-Table Estimates", "Key Regional Studies"),
+    col_names = c("Region", "River-Valley Density", "Farming & Herding", "Life-Table Estimates", "Key Regional Studies"),
     font_size = "scriptsize",
     scale_to_fit = FALSE,
     span_columns = TRUE,

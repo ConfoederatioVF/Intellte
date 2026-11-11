@@ -87,6 +87,27 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
     # Strip trailing decimal zeroes on restored European thousands-formatted decimals (e.g. 1.015,0k -> 1.015k)
     s <- gsub("(\\b[1-9][0-9]{0,2}(?:\\.[0-9]{3})+)(,[0-9]*?[1-9])0+(?![0-9])", "\\1\\2", s, perl = TRUE)
     s <- gsub("(\\b[1-9][0-9]{0,2}(?:\\.[0-9]{3})+),0+(?![0-9])", "\\1", s, perl = TRUE)
+    # Upgrade >= 1.000k (or >= 1000k) to M (e.g. 2.040k -> 2,04M)
+    m_k <- gregexpr("\\b[1-9](?:[0-9]{0,2}\\.[0-9]{3}|[0-9]{3,5})(?:,[0-9]+)?k\\b", s, perl = TRUE)
+    reg_k <- regmatches(s, m_k)[[1]]
+    if (length(reg_k) > 0) {
+      repl_k <- character(length(reg_k))
+      for (idx_k in seq_along(reg_k)) {
+        raw_num <- sub("k$", "", reg_k[idx_k])
+        raw_num <- gsub("\\.", "", raw_num)
+        raw_num <- sub(",", ".", raw_num, fixed = TRUE)
+        val_m <- suppressWarnings(as.numeric(raw_num)) / 1000
+        if (!is.na(val_m) && is.finite(val_m)) {
+          fmt_m <- formatC(val_m, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+          fmt_m <- sub("(,[0-9]*?[1-9])0+$", "\\1", fmt_m, perl = TRUE)
+          fmt_m <- sub(",0+$", "", fmt_m, perl = TRUE)
+          repl_k[idx_k] <- paste0(fmt_m, "M")
+        } else {
+          repl_k[idx_k] <- reg_k[idx_k]
+        }
+      }
+      regmatches(s, m_k) <- list(repl_k)
+    }
     out_vec[idx] <- s
   }
 

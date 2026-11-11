@@ -18,39 +18,43 @@
 \RequirePackage[english]{babel}
 \RequirePackage{amsmath,amsfonts,amssymb}
 
-\newcommand{\crd@fontpath}{../../../../core/rticles/intellte/resources/fonts/}
+\newcommand{\crd@fontpath}{../../_shared/fonts/}
 \IfFileExists{../../../../core/rticles/intellte/resources/fonts/Jost-400-Book.otf}{%
   \renewcommand{\crd@fontpath}{../../../../core/rticles/intellte/resources/fonts/}%
 }{%
   \IfFileExists{../../../core/rticles/intellte/resources/fonts/Jost-400-Book.otf}{%
     \renewcommand{\crd@fontpath}{../../../core/rticles/intellte/resources/fonts/}%
   }{%
-    \IfFileExists{../../core/rticles/intellte/resources/fonts/Jost-400-Book.otf}{%
-      \renewcommand{\crd@fontpath}{../../core/rticles/intellte/resources/fonts/}%
+    \IfFileExists{../../_shared/fonts/Jost-400-Book.otf}{%
+      \renewcommand{\crd@fontpath}{../../_shared/fonts/}%
     }{%
-      \IfFileExists{../resources/fonts/Jost-400-Book.otf}{%
-        \renewcommand{\crd@fontpath}{../resources/fonts/}%
+      \IfFileExists{../_shared/fonts/Jost-400-Book.otf}{%
+        \renewcommand{\crd@fontpath}{../_shared/fonts/}%
       }{%
-        \IfFileExists{fonts/Jost-400-Book.otf}{%
-          \renewcommand{\crd@fontpath}{fonts/}%
-        }{}%
+        \IfFileExists{../fonts/Jost-400-Book.otf}{%
+          \renewcommand{\crd@fontpath}{../fonts/}%
+        }{%
+          \IfFileExists{fonts/Jost-400-Book.otf}{%
+            \renewcommand{\crd@fontpath}{fonts/}%
+          }{}%
+        }%
       }%
     }%
   }%
 }
 
-\newcommand{\crd@logopath}{../../../../core/rticles/intellte/resources/crd_logo.png}
+\newcommand{\crd@logopath}{../../_shared/template/crd_logo.png}
 \IfFileExists{../../../../core/rticles/intellte/resources/crd_logo.png}{%
   \renewcommand{\crd@logopath}{../../../../core/rticles/intellte/resources/crd_logo.png}%
 }{%
   \IfFileExists{../../../core/rticles/intellte/resources/crd_logo.png}{%
     \renewcommand{\crd@logopath}{../../../core/rticles/intellte/resources/crd_logo.png}%
   }{%
-    \IfFileExists{../../core/rticles/intellte/resources/crd_logo.png}{%
-      \renewcommand{\crd@logopath}{../../core/rticles/intellte/resources/crd_logo.png}%
+    \IfFileExists{../../_shared/template/crd_logo.png}{%
+      \renewcommand{\crd@logopath}{../../_shared/template/crd_logo.png}%
     }{%
-      \IfFileExists{../resources/crd_logo.png}{%
-        \renewcommand{\crd@logopath}{../resources/crd_logo.png}%
+      \IfFileExists{../_shared/template/crd_logo.png}{%
+        \renewcommand{\crd@logopath}{../_shared/template/crd_logo.png}%
       }{%
         \IfFileExists{crd_logo.png}{%
           \renewcommand{\crd@logopath}{crd_logo.png}%
@@ -395,7 +399,7 @@
     \noindent
     \begin{minipage}{\textwidth}
       \centering
-      \noindent\makebox[\textwidth][c]{\includegraphics[width=\paperwidth]{\@herofigure}}\par
+      \noindent\makebox[\textwidth][c]{\includegraphics[width=\paperwidth,height=0.52\textheight,keepaspectratio]{\@herofigure}}\par
       \captionsetup{type=figure, aboveskip=15pt, belowskip=6pt, skip=15pt}%
       \@ifundefined{@herocaption}{}{%
         \expandafter\caption\expandafter{\@herocaption}%

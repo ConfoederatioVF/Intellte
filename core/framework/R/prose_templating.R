@@ -410,6 +410,7 @@ sanitize_prose_unicode_for_latex <- function (arg0_line) {
       p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
       p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
       p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2011", "-", p, fixed = TRUE)
       p <- gsub("\u2013", "-", p, fixed = TRUE)
       p <- gsub("\u2014", "-", p, fixed = TRUE)
       parts[i] <- p
@@ -428,6 +429,7 @@ sanitize_prose_unicode_for_latex <- function (arg0_line) {
       p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
       p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
       p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2011", "-", p, fixed = TRUE)
       p <- gsub("\u2013", "-", p, fixed = TRUE)
       p <- gsub("\u2014", " - ", p, fixed = TRUE)
       p <- gsub("---", " - ", p, fixed = TRUE)

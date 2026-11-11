@@ -1,25 +1,37 @@
 ---
-title: "GAZETTEER OF URBAN AND REGIONAL SETTLEMENTS ACROSS PRE-WAR TSARIST GOVERNORATES AND OBLASTS DURING THE RUSSIAN CIVIL WAR (1914AD - 1926AD)."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (1914AD - 1926AD)."
+title: "Towns and Cities of the Former Russian Empire During the Civil War"
+subtitle: "Urban Population Estimates for 275 Settlements Across the 48 Pre-War Provinces"
 date: "11 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/russian_civil_war_regional_map.png"
-hero_caption: "Pre-war Tsarist governorates, secession boundaries, famine zones, and major cities during the Russian Civil War and NEP recovery (1914AD - 1926AD)."
+hero_caption: "The 48 pre-war provinces and 275 catalogued urban settlements, showing the 1920-1921 western frontier treaties and the interior cities affected by War Communism and the 1921-1922 famine."
 hero_label: "fig:hero"
 bibliography: russian_civil_war_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 ```{r load-gazetteer-data, include=FALSE}
@@ -36,21 +48,45 @@ fmt_eu_pop <- function (arg0_val) {
   v <- as.numeric(arg0_val)
   if (v >= 1000000) {
     m <- round(v / 1000000, 2)
-    return(paste0(gsub("\\.", ",", format(m, nsmall = 2, trim = TRUE)), "M"))
+    return(paste0(gsub("\\.", ",", as.character(m)), "M"))
   }
   if (v >= 1000) {
     k <- round(v / 1000, 1)
-    if (k == floor(k)) {
-      return(paste0(as.integer(k), "k"))
-    }
-    return(paste0(gsub("\\.", ",", format(k, nsmall = 1, trim = TRUE)), "k"))
+    return(paste0(gsub("\\.", ",", as.character(k)), "k"))
   }
   return(as.character(as.integer(round(v))))
 }
 
 fmt_eu_coord <- function (arg0_x) {
-  s <- format(round(as.numeric(arg0_x), 2), nsmall = 2, trim = TRUE)
-  return(gsub("\\.", ",", s))
+  return(gsub("\\.", ",", as.character(round(as.numeric(arg0_x), 2))))
+}
+
+hyphenate_long_words <- function (arg0_str) {
+  s <- as.character(arg0_str)
+  known_map <- c(
+    "Novonikolaevsk" = "Novo-nikolaevsk",
+    "Dnepropetrovsk" = "Dnepro-petrovsk",
+    "Blagoveshchensk" = "Blago-veshchensk",
+    "Krasnokokshaysk" = "Krasno-kokshaysk",
+    "Starokonstantinov" = "Staro-konstantinov",
+    "Konstantinograd" = "Konstantino-grad",
+    "Krasnoarmeysk" = "Krasno-armeysk",
+    "Swietokrzyski" = "Swietok-rzyski",
+    "Kremenchuk" = "Kremen-chuk",
+    "Novocherkassk" = "Novocher-kassk",
+    "Aleksandrovsk-Grushevsky" = "Aleksan-drovsk-Grushevsky",
+    "Aleksandrovsk-Sakhalinsky" = "Aleksan-drovsk-Sakhalinsky",
+    "Makhachkala" = "Makhach-kala",
+    "Novokuznetsk" = "Novokuz-netsk",
+    "Monastyrskoe" = "Monastyr-skoe",
+    "Verkhneudinsk" = "Verkhne-udinsk",
+    "Petropavlovsk" = "Petropav-lovsk"
+  )
+  for (nm in names(known_map)) {
+    s <- gsub(nm, known_map[[nm]], s, fixed = TRUE)
+  }
+  s <- gsub("([A-Za-z]{7})([A-Za-z]{7,})", "\\1-\\2", s, perl = TRUE)
+  return(s)
 }
 
 get_p <- function (arg0_e, arg1_yr) {
@@ -67,8 +103,9 @@ build_reg48_df <- function (arg0_reg_nums) {
     raw_oth <- if (length(e$other_names) > 0) unlist(e$other_names) else character(0)
     oth_part <- if (length(raw_oth) > 0) paste0(" [", raw_oth[1], "]") else ""
     coord_str <- paste0(fmt_eu_coord(e$coords[[1]]), "N, ", fmt_eu_coord(e$coords[[2]]), "E")
+    label_str <- hyphenate_long_words(paste0(e$name, oth_part, " (R", rnum, ")"))
     data.frame(
-      `Settlement (Reg.)` = paste0(e$name, oth_part, " (R", rnum, ")"),
+      `Settlement (Reg.)` = label_str,
       `Coords` = coord_str,
       `1914` = fmt_eu_pop(get_p(e, "1914")),
       `1917` = fmt_eu_pop(get_p(e, "1917")),
@@ -89,18 +126,20 @@ build_reg48_df <- function (arg0_reg_nums) {
 GAZ_COL_FRACS <- c(0.245, 0.115, rep(0.0545, 9))
 ```
 
-# Overview and Forty-Eight-Region Tsarist Gazetteer Structure
+# Abstract
 
-This supplementary settlement gazetteer compiles 275 urban centres, governorate and uezd seats, seceding national capitals, early Soviet autonomous republic (ASSR) and autonomous oblast (AO) capitals, industrial towns and Arctic river posts across all forty-eight pre-war Tsarist Governorates and Oblasts (18 607 231 km2) from the 1914AD pre-war baseline through the 1917AD Revolutions, the 1918-1922AD Civil War and Independence Wars, the 1921-1922AD Povolzhye-Ural-Southern Ukrainian Famine and the 1926AD recovery. Every catalogued settlement is mapped to one of the forty-eight historical regions alongside positive integer population benchmarks across all nine epoch years: 1914AD, 1917AD, 1918AD, 1919AD, 1920AD, 1921AD, 1922AD, 1924AD and 1926AD.
+Between 1914 and 1926 the towns of the former Russian Empire went through two sharp upheavals. First World War evacuations emptied the western borderland cities of Riga, Liepaja, Kovno, Vilna and Warsaw while crowding rear garrison and railway towns in the interior; then food and fuel shortages under War Communism cut Petrograd by 70,2% and Moscow by nearly half between 1917 and 1920 before the New Economic Policy (*NEP*) and post-war refugee returns restored urban trade and industry. This gazetteer presents population figures for 275 urban settlements across the 48 pre-war provinces (18,61M km2) at nine benchmark dates from 1914 to 1926.
 
-Municipal series are anchored to the 1914AD TsSK statistical yearbooks, the 1917AD All-Russian Municipal Census [@vseros1917gorod], the 28 August 1920AD All-Russian Census [@tsu1920perepis], the 1920AD Finnish Census [@svt1923finland], the 1920AD and 1925AD Latvian Censuses [@skujenieks1927latvia], the 30 September 1921AD First Polish Census [@gus1921skorowidz; @barwinski2015ethnic], the 15 February 1921AD Czechoslovak Census [@csr1924scitani], the 28 December 1922AD Estonian Census [@estonia1924rahvaloendus], the 17 September 1923AD Lithuanian Census [@lithuania1926gyventojai], Romanian administrative directories for Bessarabia and Bukovina [@tartakovsky2009bessarabia; @fondos2024bessarabia], the 15 March 1923AD All-Union Urban Census [@tsu1923gorod] and the 17 December 1926AD First All-Union Population Census [@tsu1926vsesoyuznaya; @koenker1985urbanization; @volkov1930dinamika].
+# Methodology
+
+The settlement series are drawn from the 1914 Russian statistical yearbooks, the 1917 town census [@vseros1917gorod], the 28 August 1920 Russian census [@tsu1920perepis], the 1920 Finnish census [@svt1923finland], the 1920 and 1925 Latvian censuses [@skujenieks1927latvia], the 30 September 1921 Polish census [@gus1921skorowidz; @barwinski2015ethnic], the 15 February 1921 Czechoslovak census [@csr1924scitani], the 28 December 1922 Estonian census [@estonia1924rahvaloendus], the 17 September 1923 Lithuanian census [@lithuania1926gyventojai], Romanian municipal counts for Bessarabia and Bukovina [@tartakovsky2009bessarabia; @fondos2024bessarabia], the 15 March 1923 Soviet urban census [@tsu1923gorod] and the 17 December 1926 All-Union Census [@tsu1926vsesoyuznaya; @koenker1985urbanization; @volkov1930dinamika].
 
 ```{r fig1-md-only, echo=FALSE, results='asis'}
-if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE))) {
+if (!knitr::is_latex_output()) {
   render_figure_template(
     "figures/russian_civil_war_regional_map.png",
     list(
-      caption = "Pre-war Tsarist governorates, secession boundaries, famine zones, and major cities during the Russian Civil War and NEP recovery (1914AD - 1926AD).",
+      caption = "The 48 pre-war provinces and 275 catalogued urban settlements, showing the 1920-1921 western frontier treaties and the interior cities affected by War Communism and the 1921-1922 famine.",
       label = "fig:hero",
       span_columns = TRUE
     )
@@ -108,117 +147,136 @@ if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE)))
 }
 ```
 
-# Regions 1 - 4: Former Congress Poland (Ten Vistula Governorates)
+# Results
 
-Table \ref{tab:reg1-4} documents 23 industrial and administrative centres across Warsaw, Plock and Lomza (Region 1), Piotrkow and Kalisz (Region 2), Lublin, Siedlce and Kholm (Region 3) and Radom, Kielce and Suwalki (Region 4), capturing the 1914AD shelling of Kalisz, the 1915AD Great Retreat evacuation, raw-material blockade de-industrialisation in Lodz (477,9k to 342,0k in 1917AD), the 1920AD Battle of Warsaw and post-Riga urban recovery in the 1921AD Polish Census [@gus1921skorowidz; @barwinski2015ethnic; @gatrell1999whole].
+## Regions 1 - 4: Former Congress Poland
+
+Table \ref{tab:reg1-4} gives population figures for 23 towns across Warsaw, Plock and Lomza (Region 1), Piotrkow and Kalisz (Region 2), Lublin, Siedlce and Kholm (Region 3) and Radom, Kielce and Suwalki (Region 4) [@gus1921skorowidz; @barwinski2015ethnic; @gatrell1999whole].
 
 ```{r table-reg1-4, echo=FALSE, results='asis'}
 render_table_template(
   build_reg48_df(1:4),
   list(
-    caption = "Settlements of Regions 1 - 4: Former Congress Poland / Vistula Governorates (1914AD - 1926AD).",
+    caption = "Urban populations in the ten Vistula provinces, showing the 1915 evacuation losses in Warsaw, Lodz and Lublin and post-1921 recovery under the Second Polish Republic.",
     label = "tab:reg1-4",
     col_fracs = GAZ_COL_FRACS
   )
 )
 ```
 
-# Regions 5 - 9: Baltic Baltic Governorates and Finland
+## Regions 5 - 9: Baltic Provinces and Finland
 
-Table \ref{tab:reg5-9} lists 28 port, industrial and administrative centres across Estland (Region 5), Livland (Region 6), Courland (Region 7), Southern Finland (Region 8) and Interior and Northern Finland (Region 9), recording the 1915-1917AD evacuation of Courland and Riga (517,5k to 185,1k by 1920AD before recovering to 339,0k by 1926AD), the 1918AD Finnish Civil War and prison camp mortality at Helsingfors, Tammerfors, Tavastehus and Viipuri, and the 1920-1925AD Estonian, Latvian and Finnish censuses [@myrskyla2023finnish; @rantala2020warvictims; @gusachenko2021latvia; @estonia1924rahvaloendus; @skujenieks1927latvia; @svt1923finland].
+Table \ref{tab:reg5-9} covers 28 ports and inland towns across Estland (Region 5), Livland (Region 6), Courland (Region 7), Southern Finland (Region 8) and Interior and Northern Finland (Region 9) [@myrskyla2023finnish; @rantala2020warvictims; @gusachenko2021latvia; @estonia1924rahvaloendus; @skujenieks1927latvia; @svt1923finland].
 
 ```{r table-reg5-9, echo=FALSE, results='asis'}
 render_table_template(
   build_reg48_df(5:9),
   list(
-    caption = "Settlements of Regions 5 - 9: Estland, Livland, Courland and Southern and Northern Finland Governorates (1914AD - 1926AD).",
+    caption = "Urban populations in the Baltic provinces and Finland, reflecting factory evacuations from Riga and Courland (1915-1917) and the 1918 Finnish Civil War.",
     label = "tab:reg5-9",
     col_fracs = GAZ_COL_FRACS
   )
 )
 ```
 
-# Regions 10 - 16: Lithuania, Belarus, Galicia, Bukovina-Subcarpathia and Bessarabia
+## Regions 10 - 16: Lithuania, Belarus, Galicia, Bukovina and Bessarabia
 
-Table \ref{tab:reg10-16} covers 42 cities across Kovno (Region 10), Vilna and Grodno (Region 11), Minsk (Region 12), Vitebsk and Mogilev including Latgalian Dvinsk and Rezhitsa (Region 13), Eastern Galicia (Region 14), Bukovina and Subcarpathian Rus (Region 15) and Bessarabia (Region 16), tracing Ober Ost depopulation, Kaunas's provisional capital boom (42,0k to 94,4k), Zeligowski's 1920AD seizure of Vilna, the 1921AD Riga partition of Belarus, the 1918-1919AD battle for Lviv and the Khotyn (1919AD) and Tatarbunary (1924AD) uprisings in Bessarabia [@balkelis2018war; @marcinkevicius2026lithuania; @cichoracki2014polesia; @mick2016galicia; @tartakovsky2009bessarabia; @bondarenko2019bessarabia].
+Table \ref{tab:reg10-16} lists 42 towns across Kovno (Region 10), Vilna and Grodno (Region 11), Minsk (Region 12), Vitebsk and Mogilev (Region 13), Eastern Galicia (Region 14), Bukovina and Subcarpathian Rus (Region 15) and Bessarabia (Region 16) [@balkelis2018war; @marcinkevicius2026lithuania; @cichoracki2014polesia; @mick2016galicia; @tartakovsky2009bessarabia; @bondarenko2019bessarabia].
 
 ```{r table-reg10-16, echo=FALSE, results='asis'}
 render_table_template(
   build_reg48_df(10:16),
   list(
-    caption = "Settlements of Regions 10 - 16: Northwestern Krai (Lithuania and Belarus), Eastern Galicia, Bukovina-Subcarpathia and Bessarabia (1914AD - 1926AD).",
+    caption = "Urban populations across the Lithuanian, Belarusian, Galician, Carpathian and Bessarabian borderlands from the 1915 evacuations to the post-1921 treaty borders.",
     label = "tab:reg10-16",
     col_fracs = GAZ_COL_FRACS
   )
 )
 ```
 
-# Regions 17 - 24: Ukraine, Novorossiya and Taurida-Crimea
+## Regions 17 - 24: Ukraine, Novorossiya and Crimea
 
-Table \ref{tab:reg17-24} lists 46 urban and industrial centres across Volhynia (Region 17), Podolia (Region 18), Kyiv (Region 19), Chernigov and Poltava (Region 20), Kharkov (Region 21), Kherson (Region 22), Ekaterinoslav (Region 23) and Taurida (Region 24), capturing the 1919AD anti-Jewish pogroms across Right-Bank shtetls, Makhno's Huliaipole epicentre, Odessa's 55% contraction (630,0k to 282,0k in 1922AD), Wrangel's November 1920AD Crimean evacuation from Sevastopol and the 1921-1922AD Southern Ukrainian and Crimean famine [@abramson1999prayer; @veidlinger2021midst; @kulchytsky2015demohrafichni; @kolesnikov2025zarubezhe].
+Table \ref{tab:reg17-24} gives figures for 46 towns across Volhynia (Region 17), Podolia (Region 18), Kyiv (Region 19), Chernigov and Poltava (Region 20), Kharkov (Region 21), Kherson (Region 22), Ekaterinoslav (Region 23) and Taurida (Region 24) [@abramson1999prayer; @veidlinger2021midst; @kulchytsky2015demohrafichni; @kolesnikov2025zarubezhe].
 
 ```{r table-reg17-24, echo=FALSE, results='asis'}
 render_table_template(
   build_reg48_df(17:24),
   list(
-    caption = "Settlements of Regions 17 - 24: Right-Bank, Left-Bank and Steppe Ukraine, Donbas and Taurida-Crimea (1914AD - 1926AD).",
+    caption = "Urban populations in Ukraine and Crimea, showing the contraction of Kyiv, Odessa and the Donbas towns during 1918-1922 and the growth of Kharkov as the Ukrainian Soviet capital.",
     label = "tab:reg17-24",
     col_fracs = GAZ_COL_FRACS
   )
 )
 ```
 
-# Regions 25 - 31: Petrograd, Northern Russia, Moscow, Central Industrial Ring and Black-Earth Core
+## Regions 25 - 31: Petrograd, Northern Russia, Moscow and the Central Provinces
 
-Table \ref{tab:reg25-31} compiles 41 cities across Saint Petersburg Governorate (Region 25), Novgorod, Pskov and Olonets (Region 26), Arkhangelsk and Vologda (Region 27), Moscow Governorate (Region 28), the Central Industrial Ring (Region 29) and Western and Eastern Central Black-Earth Governorates (Regions 30-31), recording Petrograd's 70,2% War Communism collapse (2,42M in 1917AD to 722,2k in 1920AD), Moscow's 49,1% drop (2,02M to 1,03M), Allied intervention at Murmansk and Arkhangelsk and the 1920-1921AD Antonovshchina peasant insurgency in Tambov [@koenker1985urbanization; @tsu1920perepis; @dyachkov2021tambov; @tsu1926vsesoyuznaya].
+Table \ref{tab:reg25-31} covers 41 cities across Saint Petersburg (Region 25), Novgorod, Pskov and Olonets (Region 26), Arkhangelsk and Vologda (Region 27), Moscow (Region 28), the Central Industrial Ring (Region 29) and the Central Black-Earth Belt (Regions 30-31) [@koenker1985urbanization; @tsu1920perepis; @dyachkov2021tambov; @tsu1926vsesoyuznaya].
 
 ```{r table-reg25-31, echo=FALSE, results='asis'}
 render_table_template(
   build_reg48_df(25:31),
   list(
-    caption = "Settlements of Regions 25 - 31: Saint Petersburg, Northwestern Lakes, European North, Moscow, Central Industrial Ring and Black-Earth Belt (1914AD - 1926AD).",
+    caption = "Urban populations in Northern and Central European Russia, illustrating the severe 1918-1920 urban flight from Petrograd, Moscow and the textile towns and their recovery under the NEP.",
     label = "tab:reg25-31",
     col_fracs = GAZ_COL_FRACS
   )
 )
 ```
 
-# Regions 32 - 40: Middle and Lower Volga, Don-Kuban-Caucasus and the Urals
+## Regions 32 - 40: The Volga Basin, North Caucasus and the Urals
 
-Table \ref{tab:reg32-40} lists 54 cities across the Middle Volga (Region 32), Samara and Saratov (Region 33), Astrakhan (Region 34), the Don Cossack Host (Region 35), Kuban and Black Sea (Region 36), Stavropol and Terek (Region 37), Dagestan (Region 38), Perm and Vyatka (Region 39) and Ufa and Orenburg (Region 40), spanning the 1921-1922AD Povolzhye-Ural famine epicentre, ARA relief hubs, Don-Kuban-Terek decossackisation, the Mountain and Dagestan ASSRs and Ural industrial recovery [@wheatcroft1981famine; @patenaude2002big; @polyakov2005povolzhskiy; @venkov2018kazachestvo; @feldman2001ural].
+Table \ref{tab:reg32-40} lists 54 towns across the Middle Volga (Region 32), Samara and Saratov (Region 33), Astrakhan (Region 34), the Don Cossack Host (Region 35), Kuban and Black Sea (Region 36), Stavropol and Terek (Region 37), Dagestan (Region 38), Perm and Vyatka (Region 39) and Ufa and Orenburg (Region 40) [@wheatcroft1981famine; @patenaude2002big; @polyakov2005povolzhskiy; @venkov2018kazachestvo; @feldman2001ural].
 
 ```{r table-reg32-40, echo=FALSE, results='asis'}
 render_table_template(
   build_reg48_df(32:40),
   list(
-    caption = "Settlements of Regions 32 - 40: Povolzhye Famine Core, Don-Kuban-Terek-Dagestan Caucasus and Northern and Southern Urals (1914AD - 1926AD).",
+    caption = "Urban populations along the Volga, in the North Caucasus and in the Urals across the 1918-1920 Civil War campaigns and the 1921-1922 Volga-Ural famine.",
     label = "tab:reg32-40",
     col_fracs = GAZ_COL_FRACS
   )
 )
 ```
 
-# Regions 41 - 48: West and East Siberia, Altai-Tuva, Yakutia and the Far East
+## Regions 41 - 48: Siberia and the Far East
 
-Table \ref{tab:reg41-48} compiles 41 towns across Southern Tobolsk and Omsk (Region 41), the Northern Ob-Irtysh Tundra (Region 42), Tomsk and Altai (Region 43), Altai-Sayan and Uriankhai/Tuva (Region 44), Krasnoyarsk and Irkutsk (Region 45), Yenisei-Turukhansk and Lena Goldfields (Region 46), Transbaikalia and Yakutia (Region 47) and Priamurye and Sakhalin (Region 48), tracing Kolchak's 1919AD refugee swell in Omsk (245k), the 1919-1920AD Great Siberian Ice March typhus trail, Chita as capital of the Far Eastern Republic (1920-1922AD), the May 1920AD destruction of Nikolaevsk-on-Amur and the October 1922AD evacuation of Vladivostok [@smele2015russian; @borodin2012siberia; @tumurkhonova2009buryat; @temirgaleev2017primorye].
+Table \ref{tab:reg41-48} gives population figures for 41 towns across Southern Tobolsk and Omsk (Region 41), the Ob-Irtysh North (Region 42), Tomsk and Altai (Region 43), Altai-Sayan and Tuva (Region 44), Krasnoyarsk and Irkutsk (Region 45), Yenisei-Turukhansk and the Lena Goldfields (Region 46), Transbaikalia and Yakutia (Region 47) and Priamurye and Sakhalin (Region 48) [@smele2015russian; @borodin2012siberia; @tumurkhonova2009buryat; @temirgaleev2017primorye].
 
 ```{r table-reg41-48, echo=FALSE, results='asis'}
 render_table_template(
   build_reg48_df(41:48),
   list(
-    caption = "Settlements of Regions 41 - 48: West and East Siberia, Altai-Tuva, Transbaikalia-Yakutia and Priamurye-Sakhalin (1914AD - 1926AD).",
+    caption = "Urban populations across Siberia and the Far East, showing the 1919 refugee influx into Omsk and the rapid growth of Novo-nikolaevsk along the Trans-Siberian Railway.",
     label = "tab:reg41-48",
     col_fracs = GAZ_COL_FRACS
   )
 )
 ```
 
-# Forty-Eight-Region Gazetteer Coverage and Urban-Regional Summary
+# Appendix
 
-Table \ref{tab:reg48-summary} verifies 100% regional coverage across all forty-eight pre-war Tsarist Governorates and Oblasts (275 settlements in total, with at least four settlements in every region), comparing total regional populations (k) against gazetteer municipal sums (k) at 1914AD, 1917AD, 1920AD, 1922AD and 1926AD.
+## Regional Urban Summary
+
+Table \ref{tab:reg48-summary} compares the area, number of catalogued towns, total regional population (1914, 1922 and 1926) and combined population of the catalogued settlements (1914, 1920 and 1926) across each of the 48 pre-war provinces.
 
 ```{r table-reg48-summary, echo=FALSE, results='asis'}
-fmt_int_sp <- function (v) format(as.integer(round(v)), big.mark = " ", scientific = FALSE, trim = TRUE)
+fmt_k_or_m <- function (arg0_val_k) {
+  val_k <- as.numeric(arg0_val_k)
+  if (val_k >= 1000) {
+    return(paste0(gsub("\\.", ",", as.character(round(val_k / 1000, 2))), "M"))
+  }
+  return(paste0(gsub("\\.", ",", as.character(round(val_k, 1))), "k"))
+}
+
+clean_reg_label <- function (nm) {
+  s <- trimws(strsplit(strsplit(as.character(nm), "\\(")[[1]][1], ":")[[1]][1])
+  s <- sub("^15\\. .*$", "15. Bukovina & Subcarpathian Rus", s)
+  s <- sub("^43\\. .*$", "43. Tomsk & Altai", s)
+  s <- sub("^47\\. .*$", "47. Transbaikal & Yakutsk Oblasts", s)
+  s <- sub("^48\\. .*$", "48. Priamurye, Amur & Sakhalin", s)
+  return(s)
+}
 
 sum_rows <- lapply(seq_along(regs), function (i) {
   r <- regs[[i]]
@@ -228,17 +286,17 @@ sum_rows <- lapply(seq_along(regs), function (i) {
   u14 <- sum(vapply(sub_e, function (e) get_p(e, "1914"), numeric(1))) / 1000.0
   u20 <- sum(vapply(sub_e, function (e) get_p(e, "1920"), numeric(1))) / 1000.0
   u26 <- sum(vapply(sub_e, function (e) get_p(e, "1926"), numeric(1))) / 1000.0
-  short_nm <- trimws(strsplit(strsplit(as.character(r$name), "\\(")[[1]][1], ":")[[1]][1])
+  short_nm <- clean_reg_label(r$name)
   data.frame(
-    `Region (Tsarist Governorate / Oblast)` = short_nm,
-    `Cities` = as.character(n_c),
-    `Reg 1914` = paste0(fmt_int_sp(r$population_k[["1914"]]), "k"),
-    `Reg 1917` = paste0(fmt_int_sp(r$population_k[["1917"]]), "k"),
-    `Reg 1922` = paste0(fmt_int_sp(r$population_k[["1922"]]), "k"),
-    `Reg 1926` = paste0(fmt_int_sp(r$population_k[["1926"]]), "k"),
-    `Urb 1914` = paste0(fmt_int_sp(u14), "k"),
-    `Urb 1920` = paste0(fmt_int_sp(u20), "k"),
-    `Urb 1926` = paste0(fmt_int_sp(u26), "k"),
+    `Province / Region` = short_nm,
+    `Area (km2)` = fmt_eu_pop(r$area_km2),
+    `Towns` = as.character(n_c),
+    `Reg 1914` = fmt_k_or_m(r$population_k[["1914"]]),
+    `Reg 1922` = fmt_k_or_m(r$population_k[["1922"]]),
+    `Reg 1926` = fmt_k_or_m(r$population_k[["1926"]]),
+    `Urb 1914` = fmt_k_or_m(u14),
+    `Urb 1920` = fmt_k_or_m(u20),
+    `Urb 1926` = fmt_k_or_m(u26),
     check.names = FALSE,
     stringsAsFactors = FALSE
   )
@@ -249,15 +307,15 @@ tot_u20 <- sum(vapply(all_entries, function (e) get_p(e, "1920"), numeric(1))) /
 tot_u26 <- sum(vapply(all_entries, function (e) get_p(e, "1926"), numeric(1))) / 1000.0
 
 tot_row <- data.frame(
-  `Region (Tsarist Governorate / Oblast)` = "Total (All 48 Tsarist Regions)",
-  `Cities` = as.character(length(all_entries)),
-  `Reg 1914` = paste0(fmt_int_sp(sum_json$totals_k_by_year[["1914"]]), "k"),
-  `Reg 1917` = paste0(fmt_int_sp(sum_json$totals_k_by_year[["1917"]]), "k"),
-  `Reg 1922` = paste0(fmt_int_sp(sum_json$totals_k_by_year[["1922"]]), "k"),
-  `Reg 1926` = paste0(fmt_int_sp(sum_json$totals_k_by_year[["1926"]]), "k"),
-  `Urb 1914` = paste0(fmt_int_sp(tot_u14), "k"),
-  `Urb 1920` = paste0(fmt_int_sp(tot_u20), "k"),
-  `Urb 1926` = paste0(fmt_int_sp(tot_u26), "k"),
+  `Province / Region` = "Total (All 48 Pre-War Regions)",
+  `Area (km2)` = fmt_eu_pop(sum_json$total_area_km2),
+  `Towns` = as.character(length(all_entries)),
+  `Reg 1914` = fmt_k_or_m(sum_json$totals_k_by_year[["1914"]]),
+  `Reg 1922` = fmt_k_or_m(sum_json$totals_k_by_year[["1922"]]),
+  `Reg 1926` = fmt_k_or_m(sum_json$totals_k_by_year[["1926"]]),
+  `Urb 1914` = fmt_k_or_m(tot_u14),
+  `Urb 1920` = fmt_k_or_m(tot_u20),
+  `Urb 1926` = fmt_k_or_m(tot_u26),
   check.names = FALSE,
   stringsAsFactors = FALSE
 )
@@ -265,9 +323,9 @@ tot_row <- data.frame(
 render_table_template(
   rbind(do.call(rbind, sum_rows), tot_row),
   list(
-    caption = "Summary of Regional Totals and Gazetteer Urban Sums Across All Forty-Eight Tsarist Regions (1914AD - 1926AD).",
+    caption = "Provincial areas, number of catalogued settlements, total regional populations (1914, 1922 and 1926) and combined urban populations (1914, 1920 and 1926).",
     label = "tab:reg48-summary",
-    col_fracs = c(0.295, 0.055, rep(0.072, 7))
+    col_fracs = c(0.28, 0.07, 0.055, rep(0.068, 6))
   )
 )
 ```

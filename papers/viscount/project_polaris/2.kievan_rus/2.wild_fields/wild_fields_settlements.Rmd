@@ -1,19 +1,19 @@
 ---
-title: "THE WILD FIELDS AND BUDJAK: SUPPLEMENTARY SETTLEMENT GAZETTEER"
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (10000BC - 1400AD)."
+title: "Ports, Forts and Camps of the Wild Fields and Budjak"
+subtitle: "A Gazetteer of Steppe, River and Black Sea Settlements between the Danube and the Donets"
 date: "10 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/wild_fields_regional_map.png"
-hero_caption: "Cartographic basemap of the Wild Fields and Budjak showing the five natural hydrological sub-regions and principal settlements (10000BC - 1400AD)."
+hero_caption: "Locations of the principal estuary ports, river-bluff forts and steppe settlements catalogued across the five divisions of the Wild Fields and Budjak (~238k km²), from the Danube lakes and Dniester-Bug limans to the Dnieper Rapids and the Middle Seversky Donets."
 hero_label: "fig:gazetteer-map"
 bibliography: wild_fields_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
   md_document:
@@ -21,7 +21,166 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  text <- gsub("\u2014", " - ", text, fixed = TRUE)
+  text <- gsub("\u2013", "-", text, fixed = TRUE)
+  text <- gsub("---", " - ", text, fixed = TRUE)
+  text <- gsub("--", "-", text, fixed = TRUE)
+
+  cmd_vault <- character(0)
+  stash_cmd <- function(m) {
+    idx <- length(cmd_vault) + 1L
+    cmd_vault[[idx]] <<- m
+    paste0("@@LTXCMD", idx, "@@")
+  }
+  m_cmd <- gregexpr("\\\\[a-zA-Z]+(\\{[^{}]*\\})*", text, perl = TRUE)
+  if (m_cmd[[1]][1] != -1) {
+    matched <- regmatches(text, m_cmd)[[1]]
+    repl <- vapply(matched, stash_cmd, character(1))
+    regmatches(text, m_cmd) <- list(repl)
+  }
+
+  text <- gsub("\\*\\*([^*]+)\\*\\*", "\\\\textbf{\\1}", text, perl = TRUE)
+  text <- gsub("\\*([^*]+)\\*", "\\\\textit{\\1}", text, perl = TRUE)
+
+  m_cmd2 <- gregexpr("\\\\(textbf|textit)\\{[^{}]*\\}", text, perl = TRUE)
+  if (m_cmd2[[1]][1] != -1) {
+    matched2 <- regmatches(text, m_cmd2)[[1]]
+    repl2 <- vapply(matched2, stash_cmd, character(1))
+    regmatches(text, m_cmd2) <- list(repl2)
+  }
+
+  text <- gsub("(?<!\\\\)&", "\\\\&", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)%", "\\\\%", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)#", "\\\\#", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)_", "\\\\_", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)\\^", "\\\\textasciicircum{}", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)~", "\\\\textasciitilde{}", text, perl = TRUE)
+
+  unicode_map <- list(
+    c("\u00b1", "\\ensuremath{\\pm}"),
+    c("\u00d7", "\\ensuremath{\\times}"),
+    c("\u00b0", "\\ensuremath{^{\\circ}}"),
+    c("\u00b2", "\\textsuperscript{2}"),
+    c("\u00b3", "\\textsuperscript{3}"),
+    c("\u2248", "\\ensuremath{\\approx}"),
+    c("\u2264", "\\ensuremath{\\le}"),
+    c("\u2265", "\\ensuremath{\\ge}"),
+    c("\u2260", "\\ensuremath{\\neq}"),
+    c("\u2192", "\\ensuremath{\\rightarrow}"),
+    c("\u2190", "\\ensuremath{\\leftarrow}"),
+    c("\u2194", "\\ensuremath{\\leftrightarrow}"),
+    c("\u03b1", "\\ensuremath{\\alpha}"),
+    c("\u03b2", "\\ensuremath{\\beta}"),
+    c("\u03b3", "\\ensuremath{\\gamma}"),
+    c("\u03b4", "\\ensuremath{\\delta}"),
+    c("\u03b5", "\\ensuremath{\\varepsilon}"),
+    c("\u03b8", "\\ensuremath{\\theta}"),
+    c("\u03bb", "\\ensuremath{\\lambda}"),
+    c("\u03bc", "\\ensuremath{\\mu}"),
+    c("\u03c0", "\\ensuremath{\\pi}"),
+    c("\u03c1", "\\ensuremath{\\rho}"),
+    c("\u03c3", "\\ensuremath{\\sigma}"),
+    c("\u03c4", "\\ensuremath{\\tau}"),
+    c("\u03c6", "\\ensuremath{\\varphi}"),
+    c("\u03c7", "\\ensuremath{\\chi}"),
+    c("\u03c9", "\\ensuremath{\\omega}"),
+    c("\u0394", "\\ensuremath{\\Delta}"),
+    c("\u03a3", "\\ensuremath{\\Sigma}"),
+    c("\u03a9", "\\ensuremath{\\Omega}")
+  )
+  for (pair in unicode_map) {
+    text <- gsub(pair[1], pair[2], text, fixed = TRUE)
+  }
+
+  if (length(cmd_vault) > 0) {
+    for (idx in rev(seq_along(cmd_vault))) {
+      text <- gsub(paste0("@@LTXCMD", idx, "@@"), cmd_vault[[idx]], text, fixed = TRUE)
+    }
+  }
+
+  return(text)
+}
+
+local({
+   sanitize_prose_unicode_for_latex <- function(lines) {
+    in_chunk <- FALSE
+    in_yaml <- FALSE
+    yaml_delim_count <- 0L
+    unicode_prose_map <- list(
+      c("\u2014", " - "),
+      c("\u2013", "-"),
+      c("\u00b1", "$\\\\pm$"),
+      c("\u00d7", "$\\\\times$"),
+      c("\u2248", "$\\\\approx$"),
+      c("\u2264", "$\\\\le$"),
+      c("\u2265", "$\\\\ge$"),
+      c("\u2260", "$\\\\neq$"),
+      c("\u2192", "$\\\\rightarrow$"),
+      c("\u2190", "$\\\\leftarrow$"),
+      c("\u2194", "$\\\\leftrightarrow$"),
+      c("\u03b1", "$\\\\alpha$"),
+      c("\u03b2", "$\\\\beta$"),
+      c("\u03b3", "$\\\\gamma$"),
+      c("\u03b4", "$\\\\delta$"),
+      c("\u03b5", "$\\\\varepsilon$"),
+      c("\u03b8", "$\\\\theta$"),
+      c("\u03bb", "$\\\\lambda$"),
+      c("\u03bc", "$\\\\mu$"),
+      c("\u03c0", "$\\\\pi$"),
+      c("\u03c1", "$\\\\rho$"),
+      c("\u03c3", "$\\\\sigma$"),
+      c("\u03c4", "$\\\\tau$"),
+      c("\u03c6", "$\\\\varphi$"),
+      c("\u03c7", "$\\\\chi$"),
+      c("\u03c9", "$\\\\omega$"),
+      c("\u0394", "$\\\\Delta$"),
+      c("\u03a3", "$\\\\Sigma$"),
+      c("\u03a9", "$\\\\Omega$")
+    )
+    for (i in seq_along(lines)) {
+      line <- lines[i]
+      if (grepl("^---\\s*$", line)) {
+        yaml_delim_count <- yaml_delim_count + 1L
+        in_yaml <- (yaml_delim_count == 1L)
+        next
+      }
+      if (in_yaml) {
+        line <- gsub("\u2014", " - ", line, fixed = TRUE)
+        line <- gsub("\u2013", "-", line, fixed = TRUE)
+        lines[i] <- line
+        next
+      }
+      if (grepl("^```", line)) {
+        in_chunk <- !in_chunk
+        next
+      }
+      if (!in_chunk) {
+        for (pair in unicode_prose_map) {
+          line <- gsub(pair[1], pair[2], line, fixed = TRUE)
+        }
+        lines[i] <- line
+      }
+    }
+    lines
+  }
+
+  rmd_input <- knitr::current_input()
+  if (!is.null(rmd_input) && nzchar(rmd_input) && file.exists(rmd_input)) {
+    raw_lines <- readLines(rmd_input, warn = FALSE, encoding = "UTF-8")
+    clean_lines <- sanitize_prose_unicode_for_latex(raw_lines)
+    if (!identical(raw_lines, clean_lines)) {
+      writeLines(clean_lines, rmd_input, useBytes = TRUE)
+    }
+  }
+})
 ```
 
 ```{r load-stadester-json, include=FALSE}
@@ -73,10 +232,17 @@ fmt_span <- function (arg0_s) {
 fmt_num_eu <- function (arg0_val) {
   if (is.null(arg0_val) || is.na(arg0_val)) return("-")
   v <- as.numeric(arg0_val)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
   if (v >= 1000) {
-    s <- sprintf("%.1fk", v / 1000.0)
-    s <- gsub("\\.", ",", s)
-    return(s)
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
   }
   return(as.character(round(v)))
 }
@@ -84,8 +250,14 @@ fmt_num_eu <- function (arg0_val) {
 fmt_coord_pair <- function (arg0_coords) {
   lat <- as.numeric(arg0_coords[[1]])
   lon <- as.numeric(arg0_coords[[2]])
-  lat_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lat))), if (lat >= 0) "N" else "S")
-  lon_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lon))), if (lon >= 0) "E" else "W")
+  fmt_deg <- function(val) {
+    s <- gsub("\\.", ",", sprintf("%.2f", abs(val)))
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    s
+  }
+  lat_s <- paste0(fmt_deg(lat), if (lat >= 0) "°N" else "°S")
+  lon_s <- paste0(fmt_deg(lon), if (lon >= 0) "°E" else "°W")
   return(paste0(lat_s, ", ", lon_s))
 }
 
@@ -112,13 +284,15 @@ get_pop_window_val <- function (arg0_s, arg1_ymin, arg2_ymax) {
 }
 ```
 
-# Gazetteer Methodology, Schema, and Five-Part Sub-Regional Scope
+# Abstract
 
-## Scope and Settlement Data Architecture
+This gazetteer compiles coordinates, historical names and benchmark population estimates for 191 settlements and archaeological sites across the Wild Fields and Budjak (~238k km²) between the Lower Danube and the Seversky Donets from 10000BC to 1400AD. Prehistoric entries cover Ice Age and Mesolithic river camps (Anetovka II, Mirnoe and the Vasylivka rapids cemeteries), Copper Age Bolgrad-Aldeni and Usatovo villages, the Yamnaya stone fort at Mikhailovka and Late Bronze Age Sabatinovka farming villages and Bakhmut copper mines (Kartamysh). Classical and Late Antique entries track the Milesian Greek ports of Pontic Olbia (12k - 15k in 500BC), Tyras (6k), Nikonion and Berezan, the 1,2k ha Scythian ironworking town of Kamenskoye Gorodishche (6k), the 16 Late Scythian stone forts on the Lower Dnieper and the dense village network of the Chernyakhov culture up to 375AD. Medieval entries follow the *Dridu* villages of Budjak, the Khazar-era Saltovo-Mayaki forts on the Seversky Donets (led by Sidorovo at 5k in 900AD), the Kievan Rus river ports of Oleshye (3,5k in 1200AD), Protolche and Igren-Samar, the Polovtsian winter towns of Sharukhan, Sugrov and Balin, and the fourteenth-century Golden Horde, Genoese, Moldavian and Lithuanian ports of Aq Qerman (15k - 16k in 1300AD), Kiliia (6,5k - 8k), Velyki Kuchugury (5,5k - 6k), Dashov and Khadzhibey.
 
-This companion settlement gazetteer documents `r length(settlements_list)` individual archaeological, proto-urban, fortified, and medieval urban settlements located across the ~238 000 km² domain of the Wild Fields (partitioned into five natural sub-regions: I: Budjak [Danube-Prut-Dniester Steppe and Liman], II: NW Pontic Steppe [Dniester-Bug Interfluve], III: Right-Bank Bug-Dnieper and Ingul-Ingulets, IV: Left-Bank Lower Dnieper, Veliky Lug, and Northern Taurida, and V: Middle Seversky Donets, Donets Ridge, and Azov Basin) between 10000BC and 1400AD.
+# Methodology
 
-Every population entry records a positive integer (> 0) anchored to archaeological site area and dwelling counts, classical *polis* and *chora* surveys, *Dridu* and *Saltovo-Mayaki* fortification enclosures, Kievan Rus chronicle and archaeological evidence, and Golden Horde, Genoese, and Moldavian port records up to 1400AD [@kryzhitsky1999; @subbotin2000; @kravchenko2020; @dovzhenok1961; @bocharov2015; @boguslavskiy2014]. Zero values are omitted; when a settlement is abandoned or destroyed (for example, Sredny Stog after 3500BC, Olbia after 375AD, Sidorovo after 965AD, or Kuchugury in 1395AD), its time series terminates cleanly at its final attested benchmark. All coordinates are verified in decimal degrees (45,32°N to 50,06°N, 28,29°E to 39,55°E), and all historical and alternate toponyms are transliterated into Latin script.
+The `r length(settlements_list)` settlements and archaeological sites of the Wild Fields and Budjak (~238k km²) recorded between 10000BC and 1400AD are listed below across its five regions: Budjak (I), the north-western Pontic steppe (II), the right-bank Bug-Dnieper and Ingul-Ingulets uplands (III), the left-bank Lower Dnieper, Veliky Lug and northern Taurida steppe (IV) and the Middle Seversky Donets and Azov basin (V).
+
+Each entry gives the settlement name, historical or alternative names, coordinates, dates of occupation and population estimates. Figures are based on site area and house counts for prehistoric camps and Bronze Age villages, Greek town and rural hinterland surveys, *Dridu* and *Saltovo-Mayaki* fort enclosures, Kievan Rus chronicle and excavation evidence and Golden Horde, Genoese, Moldavian and Lithuanian port records up to 1400AD [@kryzhitsky1999; @subbotin2000; @kravchenko2020; @dovzhenok1961; @bocharov2015; @boguslavskiy2014].
 
 ```{r tab-epoch-summary, results='asis'}
 cnt_prehist <- sum(vapply(settlements_list, function (s) first_year_num(s) <= -1000, logical(1)))
@@ -128,11 +302,11 @@ cnt_horde   <- sum(vapply(settlements_list, function (s) first_year_num(s) > 120
 
 summary_df <- data.frame(
   Horizon = c(
-    "I. Prehistoric, Eneolithic & Bronze Age (10000BC - 1000BC)",
-    "II. Classical Greek Poleis, Scythia, Late Scythian & Chernyakhov (700BC - 400AD)",
+    "I. Prehistoric, Copper Age & Bronze Age (10000BC - 1000BC)",
+    "II. Classical Greek Ports, Scythia, Late Scythian & Chernyakhov (700BC - 400AD)",
     "III. Early Medieval, Dridu (Budjak), Saltovo-Mayaki, Kievan Rus & Cuman (500AD - 1200AD)",
-    "IV. Golden Horde, Genoese, Moldavian-Budjak & Lithuanian Frontier Ports (1240AD - 1400AD)",
-    "Total Gazetteer Settlements (10000BC - 1400AD)"
+    "IV. Golden Horde, Genoese, Moldavian-Budjak & Lithuanian Ports (1240AD - 1400AD)",
+    "Total Gazetteer Settlements"
   ),
   First_Attested_Count = as.character(c(
     cnt_prehist, cnt_classic, cnt_med, cnt_horde, length(settlements_list)
@@ -142,7 +316,7 @@ summary_df <- data.frame(
     "Tyras [Budjak], Orlovka/Aliobrix [Budjak], Olbia, Berezan, Nikonion, Kamenskoye, Chertomlyk, Zolota Balka, Krasny Mayak, Bashmachka",
     "Voznesenka, Suvorovo-Katlabukh [Budjak], Sidorovo, Mayaki-Tsaritsyno, Sukhaya Gomolsha, Oleshye, Protolche, Igren-Samar, Sharukhan",
     "Aq Qerman / Maurocastro [Budjak], Kiliia / Lycostomo [Budjak], Smil / Izmail [Budjak], Kuchugury, Konski Vody, Khadzhibey, Dashov",
-    "All 5 Natural Sub-Regions Including Dedicated Budjak (Sub-Region I) Coverage"
+    "All five regions of the Wild Fields and Budjak"
   ),
   stringsAsFactors = FALSE
 )
@@ -150,18 +324,18 @@ summary_df <- data.frame(
 render_table_template(
   summary_df,
   list(
-    caption = "Chronological distribution of pre-1400AD settlements across the Wild Fields and Budjak by epoch of first attestation (10000BC - 1400AD).",
-    col_names = c("Chronological Horizon", "Sites", "Representative Anchor Settlements"),
+    caption = "Breakdown of the 191 settlements and sites in the Wild Fields and Budjak by period of first record, showing the main prehistoric camps, Classical ports, early medieval forts and Golden Horde trading towns.",
+    col_names = c("Period", "Sites", "Main Settlements & Sites"),
     label = "tab:epoch-summary"
   )
 )
 ```
 
-# Chronological Settlement Directories (10000BC - 1400AD)
+# Results
 
-## Prehistoric Forager Camps, Eneolithic Enclosures, and Bronze Age Villages (10000BC - 1000BC)
+## Prehistoric, Copper Age and Bronze Age Sites
 
-Table \ref{tab:prehistoric-sites} lists all r cnt_prehist prehistoric sites first attested between 10000BC and 1000BC, spanning the Epigravettian bison camps, Budjak Mesolithic camps (Mirnoe), Dnieper Rapids cemeteries, Bolgrad-Aldeni (Gumelnita) and Usatovo Eneolithic centres, Yamnaya fortified citadels, and Sabatinovka-Srubnaya stone-built villages and copper-mining settlements [@olenkovskiy2010; @telegin1986; @subbotin2000; @chernienko2014].
+Table \ref{tab:prehistoric-sites} lists the `r cnt_prehist` prehistoric sites first attested between 10000BC and 1000BC, including Ice Age and Mesolithic hunting camps, the Dnieper Rapids cemeteries, Bolgrad-Aldeni (Gumelnita) and Usatovo Copper Age villages, Yamnaya forts and Sabatinovka-Srubnaya farming and copper-mining settlements [@olenkovskiy2010; @telegin1986; @subbotin2000; @chernienko2014].
 
 ```{r tab-prehistoric-sites, results='asis'}
 pre_list <- Filter(function (s) first_year_num(s) <= -1000, settlements_list)
@@ -177,16 +351,16 @@ pre_df <- data.frame(
 render_table_template(
   pre_df,
   list(
-    caption = "Prehistoric, Eneolithic, and Bronze Age settlements in the Wild Fields and Budjak first attested between 10000BC and 1000BC.",
-    col_names = c("Settlement", "Historical / Archaeological Aliases", "Coords", "Attested Span", "Population Trajectory (<= 1400AD)"),
+    caption = "Prehistoric, Copper Age and Bronze Age sites across the Wild Fields and Budjak founded between 10000BC and 1000BC, giving coordinates, alternative names, dates of occupation and population estimates.",
+    col_names = c("Settlement", "Historical / Alternative Names", "Coords", "Attested Span", "Population Estimates (<= 1400AD)"),
     label = "tab:prehistoric-sites"
   )
 )
 ```
 
-## Classical Greek Poleis, Royal Scythia, Late Scythian Fortresses, and Chernyakhov Centres (700BC - 400AD)
+## Classical, Scythian and Chernyakhov Settlements
 
-Table \ref{tab:classical-sites} details the r cnt_classic settlements first attested during the Classical Greek, Scythian, Sarmatian, Late Scythian, and Gothic-Chernyakhov horizons (700BC - 400AD) across Budjak, the Dniester-Bug Liman, and the Dnieper-Donets steppes [@kryzhitsky1989; @grakov1954; @bylkova2010; @gudkova1999].
+Table \ref{tab:classical-sites} lists the `r cnt_classic` settlements first attested during the Classical Greek, Scythian, Sarmatian, Late Scythian and Chernyakhov periods (700BC - 400AD) across Budjak, the Dniester-Bug Liman and the Dnieper-Donets steppes [@kryzhitsky1989; @grakov1954; @bylkova2010; @gudkova1999].
 
 ```{r tab-classical-sites, results='asis'}
 cls_list <- Filter(function (s) first_year_num(s) > -1000 && first_year_num(s) <= 400, settlements_list)
@@ -202,16 +376,16 @@ cls_df <- data.frame(
 render_table_template(
   cls_df,
   list(
-    caption = "Classical Greek poleis, Royal Scythian centres, Late Scythian fortresses, and Chernyakhov settlements (700BC - 400AD).",
-    col_names = c("Settlement", "Historical / Archaeological Aliases", "Coords", "Attested Span", "Population Trajectory (<= 1400AD)"),
+    caption = "Greek coastal towns (Olbia, Tyras, Nikonion and Berezan), Royal Scythian centres, Late Scythian Lower Dnieper stone forts and Chernyakhov villages first occupied between 700BC and 400AD.",
+    col_names = c("Settlement", "Historical / Alternative Names", "Coords", "Attested Span", "Population Estimates (<= 1400AD)"),
     label = "tab:classical-sites"
   )
 )
 ```
 
-## Medieval Steppe Strongholds, Saltovo-Mayaki Towns, Kievan Rus Emporia, and Golden Horde and Genoese Ports (500AD - 1400AD)
+## Medieval Settlements and Ports
 
-Table \ref{tab:medieval-cossack-sites} presents all r cnt_med + cnt_horde settlements first attested between 500AD and 1400AD, encompassing the Antae/Penkovka rapids villages, the Voznesenka princely camp, the *Dridu* villages of Budjak, the *Saltovo-Mayaki* urban network on the Seversky Donets, the Kievan Rus ports of Oleshye and Protolche, the Polovtsian winter capitals, and the Golden Horde, Genoese, Moldavian, and Lithuanian cities of Aq Qerman (Maurocastro), Kiliia (Lycostomo), Smil (Izmail), Kuchugury, Mamai-Surka, Khadzhibey, and Dashov [@kravchenko2020; @dovzhenok1961; @bocharov2015; @boguslavskiy2014].
+Table \ref{tab:medieval-cossack-sites} lists the `r cnt_med + cnt_horde` settlements first attested between 500AD and 1400AD, covering Antae/Penkovka rapids villages, the Voznesenka camp, the *Dridu* villages of Budjak, the *Saltovo-Mayaki* forts on the Seversky Donets, the Kievan Rus ports of Oleshye and Protolche, the Polovtsian winter towns and the Golden Horde, Genoese, Moldavian and Lithuanian ports of Aq Qerman (Maurocastro), Kiliia (Lycostomo), Smil (Izmail), Kuchugury, Mamai-Surka, Khadzhibey and Dashov [@kravchenko2020; @dovzhenok1961; @bocharov2015; @boguslavskiy2014].
 
 ```{r tab-medieval-cossack-sites, results='asis'}
 med_list <- Filter(function (s) first_year_num(s) > 400 && first_year_num(s) <= 1400, settlements_list)
@@ -227,16 +401,18 @@ med_df <- data.frame(
 render_table_template(
   med_df,
   list(
-    caption = "Early medieval, Balkan-Danubian, Saltovo-Mayaki, Kievan Rus, Polovtsian, and Golden Horde settlements (500AD - 1400AD).",
-    col_names = c("Settlement", "Historical / Archaeological Aliases", "Coords", "Attested Span", "Population Trajectory (500AD - 1400AD)"),
+    caption = "Early and late medieval settlements founded between 500AD and 1400AD, tracking Danubian Bulgarian villages in Budjak, Khazar-era Saltovo forts on the Donets, Kievan Rus river ports and fourteenth-century Golden Horde and Italian trading towns.",
+    col_names = c("Settlement", "Historical / Alternative Names", "Coords", "Attested Span", "Population Estimates (500AD - 1400AD)"),
     label = "tab:medieval-cossack-sites"
   )
 )
 ```
 
-# Complete Master Settlement Gazetteer (10000BC - 1400AD)
+# Appendix
 
-Table \ref{tab:master-gazetteer} provides the complete alphabetical directory of all `r length(settlements_list)` settlements in the regional gazetteer, reporting each settlement's canonical name, alternate historical names, decimal coordinates, attested chronological span, and full benchmark population trajectory from 10000BC to 1400AD.
+## Complete Settlement Directory
+
+Table \ref{tab:master-gazetteer} provides the complete alphabetical list of all `r length(settlements_list)` settlements in the gazetteer, giving each settlement's name, alternative historical names, coordinates, attested span and benchmark population estimates from 10000BC to 1400AD.
 
 ```{r tab-master-gazetteer, results='asis'}
 alpha_idx <- order(vapply(settlements_list, function (s) as.character(s$name), character(1)))
@@ -254,8 +430,8 @@ master_df <- data.frame(
 render_table_template(
   master_df,
   list(
-    caption = "Complete alphabetical master gazetteer of pre-1400AD settlements across the Wild Fields and Budjak (10000BC - 1400AD).",
-    col_names = c("Settlement Name", "Alternate / Historical Names", "Coords", "Span", "Complete Benchmark Population Series"),
+    caption = "Master alphabetical directory of all 191 settlements and sites in the Wild Fields and Budjak, pairing decimal coordinates and occupied date spans with the full sequence of population estimates up to 1400AD.",
+    col_names = c("Settlement Name", "Alternative / Historical Names", "Coords", "Span", "Benchmark Population Series"),
     label = "tab:master-gazetteer"
   )
 )

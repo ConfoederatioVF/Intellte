@@ -1,19 +1,19 @@
 ---
-title: "THE CRIMEAN PENINSULA"
-subtitle: "A Regional Literature Review of Population and Settlement (10000BC - 1400AD)."
+title: "Crimea: Greek Ports, Mountain Towns and Steppe Empires"
+subtitle: "Population and Settlement on the Crimean Peninsula"
 date: "10 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/crimea_regional_map.png"
-hero_caption: "Natural sub-regional divisions, hydrological basins, and principal prehistoric, classical, and medieval settlements of Crimea (10000BC - 1400AD)."
+hero_caption: "The four geographical divisions of Crimea (~26,95k km²), separating the northern Tarkhankut and Sivash steppes from the south-western mountain plateaus, the sheltered southern coast and the eastern Bosporan and Solkhat-Caffa heartland."
 hero_label: "fig:crimea-hero"
 bibliography: crimea_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
   md_document:
@@ -21,164 +21,273 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
 ```
 
-# Regional Subdivisions and Geographic Scope
+# Abstract
 
-This literature review compiles the demographic and settlement history of the Crimean Peninsula (*Taurica*, ~26 945 km² land area; 505 5-arcminute grid cells covering 30 488 km² including coastal cells) from the Final Pleistocene and Early Holocene (10000BC) to the late Golden Horde, Genoese, and Theodorite benchmark of 1400AD (post-1400AD developments under the independent Crimean Khanate, Ottoman Eyâlet of Kefe, and Imperial eras require separate regime handling). Bounded by the Black Sea (*Pontus Euxinus*) to the west and south, the shallow Sea of Azov (*Palus Maeotis*) and the hypersaline Sivash lagoon system to the north-east, and the Kerch Strait (*Kimmerian Bosporus*) to the east, Crimea connects to the Pontic steppe via the 7 km-wide Perekop Isthmus (*Taphros* / *Or Qapi*) and the narrow Arabat Spit. Internally, the peninsula divides along natural topographic and hydrological boundaries into three primary ecological belts: the northern and central dry-steppe plain (~72% of land area), the three parallel cuestas of the Crimean Mountains (the Outer, Inner, and Main *Yayla* ranges, rising to 1 545 m at Roman-Kosh) dissected by the Chorna, Belbek, Kacha, Alma, Salgir, and Biyuk-Karasu valleys, and the sheltered sub-Mediterranean southern littoral south-east of the Main Yayla crest.
+The Crimean Peninsula (*Taurica*, ~26,95k km²) juts out into the Black Sea (*Pontus Euxinus*), bordered on the north-east by the shallow Sea of Azov (*Palus Maeotis*) and the Sivash lagoons and on the east by the Kerch Strait (*Kimmerian Bosporus*). Linked to the mainland steppe only by the 7 km-wide Perekop Isthmus (*Taphros*/*Or Qapi*) and the narrow Arabat Spit, Crimea divides naturally into three zones: the northern and central dry steppe (~72% of the land area), the three parallel ridges of the Crimean Mountains (the Outer, Inner and Main *Yayla* ranges, rising to 1,55k m at Roman-Kosh) cut by the Chorna, Belbek, Kacha, Alma, Salgir and Biyuk-Karasu valleys, and the sheltered southern coast. Small Mesolithic hunting bands (1,2k in 10000BC) and Bronze Age herders and farmers (48k by 1000BC) gave way after 600BC to Greek coastal colonies and the Bosporan and Late Scythian kingdoms, which carried the population to a Classical peak of 225k in 200AD. Gothic and Hunnic raids nearly halved numbers to 115k by 400AD, before Byzantine forts along the coast and in the mountain plateau towns, together with new rural settlement under Khazar rule, restored the total to 215k in 900AD. After a dip during the Pecheneg and Cuman centuries, Black Sea trade through Genoese Caffa and the Golden Horde capital of Solkhat lifted Crimea to a medieval peak of 250k in 1300AD. Plague after 1346AD, civil wars in the Golden Horde and the raids of Timur and Edigu then cut the population back to 185k by 1400AD.
 
-To align the regional spatial modelling strictly with natural topographic, hydrological, and historical boundaries, this synthesis partitions Crimea into four physiographic sub-regions (Table \ref{tab:crimea-subregions}). The South-Western Herakleian Peninsula, Premontane Valleys, and Cave-Town Principality of Theodoro (~5 800 km² land area; 75 grid cells) is bounded on the south-east by the crest of the Western Main Yayla Ridge (north of the Baidar-Balaklava coastal scarp) and encompasses the Herakleian Peninsula (*Chersonesus Taurica* / *Korsun*), the Chorna, Belbek, Kacha, Alma, and Upper Salgir foothill valleys, the cuesta table-mountains (*mesas*) of the Inner Range (Mangup-Doros, Eski-Kermen, Chufut-Kale / *Qirq-Yer*, Bakla, Tepe-Kermen, Kachi-Kalyon, and Kalamita), and the Bakhchisaray and Simferopol (*Scythian Neapolis*) basins.
+# Background
 
-The Southern Crimean Littoral and Main Yayla Mountain Range (~2 750 km² land area; 33 grid cells) is bounded naturally on the north-west by the watershed crest of the Main Yayla Range (Ai-Petri, Yalta, Babugan, Chatyr-Dag, Demerdzhi, and Karabi *Yaylas*), encompassing the narrow sub-Mediterranean coastal amphitheatres from Cembalo (Symbolon / Balaklava) and Foros eastward past Simeiz, Alupka, Charax, Oreanda, Jalita (Yalta), Gorzouvitai (Gurzuf), Partenit, Lambat, and Aluston (*Lusta* / Alushta) to Sugdaia (*Soldaia* / Sudak); historically this zone was administered as the Byzantine *Parathalassia* (*Klimata*) and the Genoese *Capitanate of Gotthia*.
+Following its relief, river basins and historical borders, Crimea divides into four parts (Table \ref{tab:crimea-subregions}). The south-west (~5,8k km²) lies north-west of the Western Main Yayla crest and takes in the Herakleian Peninsula (*Chersonesus Taurica*/*Korsun*), the Chorna, Belbek, Kacha, Alma and Upper Salgir foothill valleys, the flat-topped limestone plateaus of the Inner Range (Mangup-Doros, Eski-Kermen, Chufut-Kale/*Qirq-Yer*, Bakla, Tepe-Kermen, Kachi-Kalyon and Kalamita) and the Bakhchisaray and Simferopol (*Scythian Neapolis*) basins.
 
-Eastern Crimea, the Salgir-Biyuk-Karasu Valley, the Caffa-Solkhat Basin, and the Kerch Bosporus (~6 650 km² land area; 162 grid cells) is bounded on the north-west by the diagonal course of the Salgir River channel toward the Sivash lagoon, encompassing the Biyuk-Karasu valley (Karasubazar), the Golden Horde regional capital of Solkhat (*Qirim* / Staryi Krym), the Feodosia (*Theodosia* / *Caffa*) bay and Karadag-Koktebel (*Tepsen*) littoral, and the European heartland of the Bosporan Kingdom on the Kerch Peninsula (Panticapaeum / *Bosporos* / *Korchev*, Nymphaeum, Myrmekion, Tyritake, Kimmerikon, Kytaia, Akra, and the fortified rural *chora* behind the Uzunlarsky and Tyritake ramparts). Finally, the North-Western Tarkhankut Peninsula, Central Crimean Steppe, and Perekop-Sivash Isthmus (~11 745 km² land area; 235 grid cells) is bounded on the south-east by the Salgir River channel and on the south by the Outer Cuesta foothills, encompassing the limestone coastline of the Tarkhankut Peninsula and the North-Western Chersonesean *chora* (Kerkinitis, Kalos Limen, Chaika, Belyaus, Panskoye I, Masliny, Kara-Tobe, Kulchuk, and Tarpanchi), the central Crimean dry steppe, and the northern fortified gateway at Perekop (*Taphros* / *Or Qapi*) and the Sivash lagoons.
+The southern coast and Main Yayla range (~2,75k km²) runs south-east of the Main Yayla watershed (Ai-Petri, Yalta, Babugan, Chatyr-Dag, Demerdzhi and Karabi *Yaylas*), taking in the narrow coastal bays from Cembalo (Symbolon/Balaklava) and Foros eastward past Simeiz, Alupka, Charax, Oreanda, Jalita (Yalta), Gorzouvitai (Gurzuf), Partenit, Lambat and Aluston (*Lusta*/Alushta) to Sugdaia (*Soldaia*/Sudak). In the Middle Ages this coast formed the Byzantine *Parathalassia* (*Klimata*) and the Genoese *Capitanate of Gotthia*.
+
+Eastern Crimea (~6,65k km²) lies south-east of the Salgir River and covers the Biyuk-Karasu valley (Karasubazar), the Golden Horde capital of Solkhat (*Qirim*/Staryi Krym), the bay of Feodosia (*Theodosia*/*Caffa*), the Karadag-Koktebel (*Tepsen*) coast and the European core of the Bosporan Kingdom on the Kerch Peninsula (Panticapaeum/*Bosporos*/*Korchev*, Nymphaeum, Myrmekion, Tyritake, Kimmerikon, Kytaia, Akra and the rural hinterland behind the Uzunlarsky and Tyritake earthworks). Finally, the north-western and central steppe (~11,75k km²) lies north-west of the Salgir and north of the Outer Ridge foothills, covering the limestone coast of the Tarkhankut Peninsula with its Chersonesean farmsteads and ports (Kerkinitis, Kalos Limen, Chaika, Belyaus, Panskoye I, Masliny, Kara-Tobe, Kulchuk and Tarpanchi), the central dry steppe and the northern gateway at Perekop (*Taphros*/*Or Qapi*) and the Sivash lagoons.
 
 ```{r table-subregions, echo=FALSE, results='asis'}
 df_subregions <- data.frame(
   col_1 = c(
     "South-Western Herakleian, Foothills & Theodoro",
-    "Southern Crimean Littoral & Main Yayla",
+    "Southern Coast & Main Yayla",
     "Eastern Crimea, Caffa-Solkhat & Bosporus",
     "North-Western Tarkhankut & Central Steppe",
-    "Total Crimean Peninsula (10000BC - 1400AD)"
+    "Total Crimean Peninsula"
   ),
   col_2 = c(
-    "5 800 km² (21,5%)",
-    "2 750 km² (10,2%)",
-    "6 650 km² (24,7%)",
-    "11 745 km² (43,6%)",
-    "26 945 km² (100,0%)"
+    "5,8k km² (21,5%)",
+    "2,75k km² (10,2%)",
+    "6,65k km² (24,7%)",
+    "11,75k km² (43,6%)",
+    "26,95k km² (100%)"
   ),
   col_3 = c(
     "Chersonesus (Korsun), Scythian Neapolis, Mangup (Theodoro), Qirq-Yer (Chufut-Kale), Eski-Kermen, Kalamita",
     "Cembalo (Symbolon), Foros, Charax, Jalita (Yalta), Gorzouvitai (Gurzuf), Partenit, Aluston, Sugdaia (Soldaia)",
     "Panticapaeum (Bosporos/Korchev), Theodosia (Caffa), Solkhat (Qirim), Karasubazar, Nymphaeum, Ilurat, Tepsen",
     "Kerkinitis, Kalos Limen, Belyaus, Panskoye I, Masliny, Chaika, Kara-Tobe, Kulchuk, Or Qapi (Taphros/Perekop)",
-    "171 Georeferenced Pre-1400AD Settlements in Regional Gazetteer"
+    "171 recorded settlements and sites"
   ),
   col_4 = c(
-    "17,5k (1000BC); 78,0k (200AD); 74,0k (900AD); 78,0k (1300AD); 62,0k (1400AD)",
-    "7,0k (1000BC); 19,0k (200AD); 36,0k (900AD); 46,0k (1300AD); 36,0k (1400AD)",
-    "13,0k (1000BC); 94,0k (200AD); 77,0k (900AD); 96,0k (1300AD); 65,0k (1400AD)",
-    "10,5k (1000BC); 34,0k (200AD); 28,0k (900AD); 30,0k (1300AD); 22,0k (1400AD)",
-    "48,0k (1000BC); 225,0k (200AD); 215,0k (900AD); 250,0k (1300AD); 185,0k (1400AD)"
+    "17,5k (1000BC); 78k (200AD); 74k (900AD); 78k (1300AD); 62k (1400AD)",
+    "7k (1000BC); 19k (200AD); 36k (900AD); 46k (1300AD); 36k (1400AD)",
+    "13k (1000BC); 94k (200AD); 77k (900AD); 96k (1300AD); 65k (1400AD)",
+    "10,5k (1000BC); 34k (200AD); 28k (900AD); 30k (1300AD); 22k (1400AD)",
+    "48k (1000BC); 225k (200AD); 215k (900AD); 250k (1300AD); 185k (1400AD)"
   ),
   stringsAsFactors = FALSE
 )
 render_table_template(
   df_subregions,
   list(
-    caption = "Physiographic and historical sub-regions of Crimea (~26 945 km²) with principal urban centres and benchmark populations (10000BC - 1400AD).",
+    caption = "The four geographical divisions of Crimea (~26,95k km²), comparing land area, principal settlements and population totals from the Late Bronze Age (1000BC) to 1400AD.",
     label = "tab:crimea-subregions",
-    col_names = c("Sub-Region", "Area (% Share)", "Principal Urban & Archaeological Centres", "Key Benchmark Populations")
+    col_names = c("Region", "Area (% Share)", "Main Settlements & Sites", "Key Benchmark Populations")
   )
 )
 ```
 
-# Prehistoric Foragers, Pastoralists and Early Iron Age Tauri (10000BC - 1000BC)
+# Results
 
-## Terminal Pleistocene, Shan-Koba / Murzak-Koba Mesolithic and Neolithic (10000BC - 5000BC)
+## Prehistory and the Early Iron Age
 
-During the Late Glacial and Early Holocene transition (10000BC - 8000BC), when the Black Sea stood 60 to 80 metres below its present level as the freshwater Neoeuxine lake, human settlement in Crimea concentrated in the sheltered limestone rock-shelters (*grottoes*) of the Inner Cuesta and Chornaya-Belbek-Kacha-Zuya river gorges [@cherkasov2014; @chabai2004]. Continuity from Upper Palaeolithic sites such as Buran-Kaya III (on the Burulcha River), Siuren I (on the Belbek), Kabazi II, Zaskalnaya, and Kiik-Koba gave rise to two sequential Mesolithic archaeological complexes documented by G. A. Bonch-Osmolovsky, S. N. Bibikov, and D. Ya. Telegin [@cherkasov2018; @telegin1985].
+### Mesolithic and Neolithic Hunters and Herders
 
-The Shan-Koba Culture (Final Pleistocene to Early Preboreal, c. 10000-7500BC) is characterised by lunate geometric microliths and intensive hunting of red deer, saiga antelope, wild boar, and forest-steppe equids across rock-shelters at Shan-Koba, Fatma-Koba Layer 6, Grot Skalisty (on the Bodrak), Zamil-Koba I, and Buran-Kaya III [@cherkasov2018]. Across the peninsula's river canyons and expanded coastal plain, seasonal foraging bands (35 - 80 persons per multi-family rock-shelter aggregation) supported an estimated regional population of 1,2k (1 200) at 10000BC, rising to 2,1k (2 100) by 8000BC as Boreal warming expanded oak-pistachio woodlands across the foothill valleys.
+At the end of the Ice Age (10000BC - 8000BC), when the Black Sea stood 60 to 80 metres below its modern level as the freshwater Neoeuxine lake, settlement in Crimea clustered in the limestone rock-shelters (*grottoes*) of the Inner Ridge and the Chornaya, Belbek, Kacha and Zuya river gorges [@cherkasov2014; @chabai2004]. Upper Palaeolithic camps such as Buran-Kaya III (on the Burulcha), Siuren I (on the Belbek), Kabazi II, Zaskalnaya and Kiik-Koba were followed by two successive Mesolithic cultures studied by G. A. Bonch-Osmolovsky, S. N. Bibikov and D. Ya. Telegin [@cherkasov2018; @telegin1985].
 
-The subsequent Murzak-Koba (Tardigravettian / Tardenoisian) Culture (7500-5500BC) and Crimean Neolithic (6000-5000BC) are documented by excavations at Murzak-Koba (in the Chornaya gorge, famous for its double Mesolithic burial showing ritual finger-phalange amputation), Fatma-Koba, Laspi VII on the southern coast, Tash-Air I in the Kacha canyon, Kaya-Arasy near Bakhchisaray, At-Bash on the Ai-Petri *Yayla*, and Frontovoye I on the Kerch Peninsula. These assemblages demonstrate a shift toward trapeziform microliths, *Helix* land-snail harvesting, coastal fishing, and incipient swine and ovicaprid domestication [@cherkasov2014; @cherkasov2018; @telegin1985]. By 6000BC, Crimean population reached 3,5k (3 500), nearly doubling to 6,5k (6 500) at 5000BC with the establishment of permanent Neolithic open-air villages at Tash-Air I, Kaya-Arasy, Alekseevka on the Tarkhankut Peninsula, and Frontovoye.
+The Shan-Koba Culture (c. 10000-7500BC) is marked by crescent-shaped flint microliths and the hunting of red deer, saiga antelope, wild boar and wild horses at Shan-Koba, Fatma-Koba Layer 6, Grot Skalisty (on the Bodrak), Zamil-Koba I and Buran-Kaya III [@cherkasov2018]. Across the river gorges and the wide coastal plain, small hunting bands of 35 to 80 people supported a population of about 1,2k in 10000BC, rising to 2,1k by 8000BC as warmer weather spread oak and pistachio woods through the foothill valleys.
 
-## Eneolithic, Kemi-Oba Megalithic Culture and the Bronze Age - Tauri Transition (4000BC - 1000BC)
+The Murzak-Koba Culture (7500-5500BC) and the Crimean Neolithic (6000-5000BC) are known from excavations at Murzak-Koba in the Chornaya gorge, Fatma-Koba, Laspi VII on the south coast, Tash-Air I in the Kacha canyon, Kaya-Arasy near Bakhchisaray, At-Bash on the Ai-Petri *Yayla* and Frontovoye I on the Kerch Peninsula. These sites show a shift toward trapeze-shaped flints, land-snail gathering, sea fishing and the first keeping of pigs, sheep and goats [@cherkasov2014; @cherkasov2018; @telegin1985]. By 6000BC the population reached 3,5k, nearly doubling to 6,5k in 5000BC as permanent open-air villages appeared at Tash-Air I, Kaya-Arasy, Alekseevka on the Tarkhankut Peninsula and Frontovoye.
 
-Between 4000BC and 2000BC, Crimea became a contact zone between Pontic steppe kurgan pastoralists (Sredny Stog, Yamnaya, and Catacomb cultures) and North Caucasian metalworking traditions [@shchepinsky1966; @bezborodykh2018]. During the Early and Middle Bronze Age (3200-2200BC), the indigenous Kemi-Oba Culture (named after the kurgan sanctuary near Bilohirsk excavated by A. A. Shchepinsky) occupied the premontane valleys from Sevastopol to the Salgir and Biyuk-Karasu basins. Kemi-Oba communities constructed timber-and-stone cist graves painted with polychrome ochre geometric friezes, erected anthropomorphic stone stelae (*Bakhchi-Eli* and *Kazanki*), and practised mixed valley-bottom agriculture and transhumant *Yayla* grazing [@shchepinsky1966; @bezborodykh2018]. Combining Kemi-Oba foothill settlements (7,50k in 3000BC and 12,0k in 2000BC in the south-western premontane zone) with Yamnaya and Catacomb kurgan groups across the Kerch Peninsula (Kamenka-Bosporan and Planerskoye) and Tarkhankut-Sivash steppes, total Crimean population rose from 11,0k at 4000BC to 22,0k at 3000BC and 35,0k at 2000BC.
+### Bronze Age Herders and the Tauri
 
-During the Late Bronze Age and Early Iron Age transition (1500-800BC), Sabatinovka and Belozerka agricultural villages in the steppe coexisted with the Kizil-Koba Culture of the Crimean Mountains and foothills, universally identified by Kh. I. Kris and V. A. Kolotukhin with the historical Tauri (*Tauroi*) described by Herodotus (*Histories* IV.99-103) and Euripides [@kris1981; @kolotukhin1996; @kruglov2025]. Anchored by the 12 ha fortified promontory settlement of Uch-Bash overlooking the Chornaya mouth near Inkerman (0,9k - 1,2k inhabitants), the type-site of Kizil-Koba (*Krasnaya Peshchera*) in the Upper Salgir valley, Druzhnoye, Tash-Dzhargan, and megalithic stone-box (*ashchechnye*) cemeteries across the Baidar valley and Southern Coast (Malorechenskoye, Oreanda, Simeiz, and Gurzuf), the Tauri and pre-colonial steppe communities sustained a regional population of 48,0k (48 000) at 1000BC (17,5k in the south-western foothills, 7,00k along the southern coast, 13,0k in eastern Crimea, and 10,5k across the north-western steppe).
+Between 4000BC and 2000BC, Crimea linked the kurgan herders of the Pontic steppe (Sredny Stog, Yamnaya and Catacomb cultures) with the metalworking peoples of the North Caucasus [@shchepinsky1966; @bezborodykh2018]. In the Early and Middle Bronze Age (3200-2200BC), the local Kemi-Oba Culture occupied the foothill valleys from Sevastopol to the Salgir and Biyuk-Karasu basins. Kemi-Oba communities built timber-and-stone cist graves painted with red ochre patterns, set up carved stone stelae (*Bakhchi-Eli* and *Kazanki*) and combined valley farming with summer grazing on the high *Yayla* pastures [@shchepinsky1966; @bezborodykh2018]. Together with Yamnaya and Catacomb groups on the Kerch Peninsula (Kamenka-Bosporan and Planerskoye) and the Tarkhankut-Sivash steppes, Kemi-Oba settlements (7,5k in 3000BC and 12k in 2000BC in the south-western foothills) raised Crimea's total population from 11k in 4000BC to 22k in 3000BC and 35k in 2000BC.
+
+During the Late Bronze Age and Early Iron Age (1500-800BC), Sabatinovka and Belozerka farming villages in the steppe lived alongside the Kizil-Koba Culture of the mountains and foothills, which Kh. I. Kris and V. A. Kolotukhin identify with the Tauri (*Tauroi*) of Herodotus (*Histories* IV.99-103) and Euripides [@kris1981; @kolotukhin1996; @kruglov2025]. Centred on the 12 ha fortified promontory of Uch-Bash near Inkerman (0,9k - 1,2k inhabitants), Kizil-Koba (*Krasnaya Peshchera*) in the Upper Salgir valley, Druzhnoye, Tash-Dzhargan and the stone-box (*ashchechnye*) cemeteries of the Baidar valley and southern coast (Malorechenskoye, Oreanda, Simeiz and Gurzuf), Tauri and steppe communities supported 48k people in 1000BC (17,5k in the south-western foothills, 7k along the southern coast, 13k in eastern Crimea and 10,5k across the north-western steppe).
 
 ```{r fig-trajectory, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/crimea_fig2_population_trajectory.png",
   list(
-    caption = "Reconstructed demographic trajectory of Crimea across its four natural physiographic sub-regions from 10000BC to 1400AD.",
+    caption = "Total and regional population of Crimea from 10000BC to 1400AD, showing the three main peaks under the Classical Bosporan Kingdom and Chersonesus (225k in 200AD), Byzantine and Khazar rule (215k in 900AD) and Golden Horde Solkhat and Genoese Caffa (250k in 1300AD).",
     label = "fig:crimea-trajectory",
     width = "0.98\\textwidth",
-    span_columns = TRUE
+    span_columns = TRUE,
+    placement = "!htbp"
   )
 )
 ```
 
-# Classical Antiquity: Greek Poleis, Bosporan Chora and the Late Scythian Kingdom (500BC - 400AD)
+## Classical Antiquity
 
-## The European Bosporan Kingdom and the Chersonesean Chora (500BC - 0AD)
+### The Bosporan Kingdom and Chersonesus
 
-Greek maritime colonisation in the sixth and fifth centuries BC triggered the first great demographic expansion in Crimean history, lifting total population from 48,0k in 1000BC to 175,0k in 500BC and 210,0k at 0AD [@maslennikov1998; @shcheglov1978; @carter2000]. Two distinct colonial systems reshaped the peninsula.
+Greek settlement in the sixth and fifth centuries BC set off the first rapid growth in Crimean history, lifting the population from 48k in 1000BC to 175k in 500BC and 210k at 0AD [@maslennikov1998; @shcheglov1978; @carter2000]. Two colonial networks reshaped the peninsula.
 
-In the European Bosporus of eastern Crimea (82,0k at 500BC; 88,0k at 0AD; 94,0k at 200AD), Milesian colonists founded Panticapaeum (modern Kerch) on Mount Mithridates c. 600BC, which became the capital of the Archaeanactid (480BC) and Spartocid (438-108BC) dynasties of the Bosporan Kingdom. At its Classical-Hellenistic and early Roman zenith, Panticapaeum enclosed ~100 ha of terraced acropolis, agora, craft quarters, and harbour suburbs housing 22,0k to 28,0k inhabitants [@maslennikov1998; @evdokimov2011]. Flanking the capital along the Kerch Strait and Azov-Black Sea coasts stood a dense urban network: Theodosia (annexed by Leucon I c. 380BC as a major grain-exporting port capable of berthing 100 ships, 6,0k at 500BC), Nymphaeum (4,5k), Myrmekion (3,5k), Tyritake (3,2k - 4,0k, famed for its fish-salting vats), Kimmerikon (2,5k - 3,0k), Kytaia (2,2k - 2,9k), Porthmion (1,8k), Akra (1,5k - 1,9k), and Zenon's Chersonesus (1,4k - 2,1k). Shielded behind the monumental earthen Tyritake and Uzunlarsky Ramparts (36 km long from the Sea of Azov to Lake Uzunlar), the Kerch interior supported over 280 rural estates and fortified towns (Andreevka-Yuzhnaya, Generalskoye-Zapadnoye, Polyanka, Zolotoe, Tasunovo, Mikhailovka, Artesian, and Ilurat), supplying Athens with 400 000 *medimnoi* (~16 500 tonnes) of wheat annually under Leucon I [@maslennikov1998; @abramzon2016].
+In eastern Crimea (82k in 500BC; 88k in 0AD; 94k in 200AD), colonists from Miletus founded Panticapaeum (modern Kerch) on Mount Mithridates c. 600BC. As capital of the Archaeanactid (480BC) and Spartocid (438-108BC) kings of the Bosporus, Panticapaeum grew to ~100 ha of terraced acropolis, agora, craft quarters and harbour suburbs with 22k to 28k inhabitants [@maslennikov1998; @evdokimov2011]. Around it along the Kerch Strait and Azov-Black Sea coasts stood a ring of Greek towns: Theodosia (annexed by Leucon I c. 380BC as a grain port, 6k in 500BC), Nymphaeum (4,5k), Myrmekion (3,5k), Tyritake (3,2k - 4k), Kimmerikon (2,5k - 3k), Kytaia (2,2k - 2,9k), Porthmion (1,8k), Akra (1,5k - 1,9k) and Zenon's Chersonesus (1,4k - 2,1k). Behind the Tyritake and Uzunlarsky earth ramparts (36 km from the Sea of Azov to Lake Uzunlar), the Kerch interior held over 280 rural estates and fortified villages (Andreevka-Yuzhnaya, Generalskoye-Zapadnoye, Polyanka, Zolotoe, Tasunovo, Mikhailovka, Artesian and Ilurat), which under Leucon I shipped 400k *medimnoi* (~16,5k tonnes) of wheat a year to Athens [@maslennikov1998; @abramzon2016].
 
-In Dorian Chersonesus Taurica and the North-Western Crimean Chora (48,0k and 33,0k at 500BC), Heraclea Pontica founded Chersonesus Taurica in 422/421BC on Quarantine Bay (following an earlier sixth-century Ionian emporium). Chersonesus expanded across a 38 ha orthogonal grid enclosed by ashlar walls, supporting 4,5k inhabitants in 500BC and rising to 16,0k in 0AD and 20,0k in 200AD [@zedgenidze2015; @zubar1994]. On the Herakleian Peninsula (~10 000 ha), G. M. Nikolaenko and J. C. Carter's surveys have mapped 415 stone-walled cadastral land-lots (*kleroi* of 26,5 ha each, subdivided into vineyards and orchards with fortified *pyrgoi* farmhouse towers), supporting an immediate suburban *chora* population of 6,0k - 8,0k [@nikolaenko1999; @carter2000]. In the mid-fourth century BC, Chersonesus incorporated the North-Western Crimean Chora along the Tarkhankut coast, including the older Ionian polis of Kerkinitis (Yevpatoria, 8,5 ha, 4,2k at 500BC), Kalos Limen (Chornomorske, 2,5k - 2,8k), and dozens of fortified coastal estates and grain-collecting stations at Panskoye I, Belyaus, Chaika, Masliny, Kara-Tobe, Kulchuk, Tarpanchi, and Dzhangul [@shcheglov1978; @antonov2017; @antonov2021].
+In south-western and north-western Crimea (48k and 33k in 500BC), settlers from Heraclea Pontica founded Dorian Chersonesus Taurica in 422/421BC on Quarantine Bay over an earlier sixth-century Ionian trading post. Built on a 38 ha street grid inside ashlar walls, Chersonesus grew from 4,5k inhabitants in 500BC to 16k in 0AD and 20k in 200AD [@zedgenidze2015; @zubar1994]. Across the Herakleian Peninsula (~10k ha), G. M. Nikolaenko and J. C. Carter have mapped 415 stone-walled farm plots (*kleroi* of 26,5 ha each, planted with vines and fruit trees around stone farmhouse towers), which supported a rural population of 6k to 8k [@nikolaenko1999; @carter2000]. In the mid-fourth century BC, Chersonesus also took over the north-western coast along the Tarkhankut Peninsula, including the older Ionian town of Kerkinitis (Yevpatoria, 8,5 ha, 4,2k in 500BC), Kalos Limen (Chornomorske, 2,5k - 2,8k) and dozens of fortified coastal farms and grain depots at Panskoye I, Belyaus, Chaika, Masliny, Kara-Tobe, Kulchuk, Tarpanchi and Dzhangul [@shcheglov1978; @antonov2017; @antonov2021].
 
-## The Late Scythian Kingdom, Mithridates VI and the Roman Military Protectorate (200BC - 400AD)
+### Late Scythia and the Roman Garrison
 
-Under pressure from Sarmatian tribes crossing the Don in the third and second centuries BC, Royal Scythian elites consolidated the Late Scythian State in Crimea (*Scythia Minor*), establishing their fortified capital at Scythian Neapolis (*Kermen-Chuk*, a 20 ha stone-walled citadel on the Petrovskaya rocks in modern Simferopol, housing King Skilurus's mausoleum, megaron palace, and ashlar granaries, with 7,5k - 8,0k inhabitants in 0AD - 200AD) [@vysotskaya1979; @popova2011; @puzdrovsky2007]. Late Scythian kings Skilurus and Palakus overran the North-Western Chersonesean *chora* (occupying Kerkinitis, Kalos Limen, Chaika, Belyaus, and Tarpanchi) and constructed a chain of over 50 fortified *gorodishcha* along the Alma, Kacha, Belbek, and Salgir foothill rivers, led by the coastal port-citadel of Ust-Alma (Palakion, 6 ha, 3,5k - 4,0k), Kermen-Kyr (Chabion, 2,8k), Bulganak (Khaboi, 2,5k), Alma-Kermen (2,2k), Belogorsk-Ak-Kaya (2,8k), Zayachye (1,5k), and Dobroye (1,6k) [@popova2011; @antonov2017; @khodyreva2026].
+Pushed south by Sarmatian tribes crossing the Don in the third and second centuries BC, Royal Scythian rulers built a new Late Scythian kingdom in the Crimean foothills (*Scythia Minor*) around their walled capital at Scythian Neapolis (*Kermen-Chuk*, a 20 ha fortress in modern Simferopol with 7,5k - 8k inhabitants in 0AD - 200AD) [@vysotskaya1979; @popova2011; @puzdrovsky2007]. Kings Skilurus and Palakus seized the north-western Chersonesean coast (taking Kerkinitis, Kalos Limen, Chaika, Belyaus and Tarpanchi) and built over 50 hillforts along the Alma, Kacha, Belbek and Salgir rivers, led by the coastal fort of Ust-Alma (Palakion, 6 ha, 3,5k - 4k), Kermen-Kyr (Chabion, 2,8k), Bulganak (Khaboi, 2,5k), Alma-Kermen (2,2k), Belogorsk-Ak-Kaya (2,8k), Zayachye (1,5k) and Dobroye (1,6k) [@popova2011; @antonov2017; @khodyreva2026].
 
-Intervention by Mithridates VI Eupator's general Diophantus (110-107BC) rescued Chersonesus and integrated Crimea into the Pontic Empire before Roman hegemony was established after 63BC [@zubar1994]. Under the Principate (first to third centuries AD), Rome stationed vexillations of Legions *I Italica*, *V Macedonica*, and *XI Claudia* along with the *Classis Flavia Moesica* at the Chersonesus citadel, Balaklava-Kadykovka (Symbolon), and the cliff-top fortress of Charax on Cape Ai-Todor (1,8k troops and *canabae* residents at 200AD) [@zubar1994; @pavlenkov2024]. Simultaneously, the Bosporan Kingdom under the Sarmatian-descended Tibulii-Sauromates dynasty constructed heavy stone fortresses across the Kerch interior to guard against steppe incursions (Ilurat at 2,6k, Artesian at 2,1k, Mikhailovka at 1,8k, and Tasunovo at 1,3k), bringing Crimea to its classical demographic apogee of 225,0k (225 000) in 200AD (78,0k in the south-western zone, 19,0k on the southern coast, 94,0k in the eastern Bosporan zone, and 34,0k across the north-western steppe) [@evdokimov2011; @maslennikov1998].
+In 110-107BC Diophantus, general of Mithridates VI Eupator, rescued Chersonesus and brought Crimea into the Pontic kingdom before Rome established its protectorate after 63BC [@zubar1994]. From the first to the third centuries AD, Rome stationed troops from Legions *I Italica*, *V Macedonica* and *XI Claudia* and warships of the *Classis Flavia Moesica* at Chersonesus, Balaklava-Kadykovka (Symbolon) and the cliff-top fort of Charax on Cape Ai-Todor (1,8k soldiers and camp followers in 200AD) [@zubar1994; @pavlenkov2024]. At the same time, the Bosporan kings built heavy stone forts across the Kerch interior to block steppe raids (Ilurat at 2,6k, Artesian at 2,1k, Mikhailovka at 1,8k and Tasunovo at 1,3k), carrying Crimea to its Classical peak of 225k in 200AD (78k in the south-west, 19k on the south coast, 94k in the east and 34k in the north-west) [@evdokimov2011; @maslennikov1998].
 
-The Gothic and Borani naval raids of 252-275AD (which sacked Tanais, Gorgippia, Ilurat, Myrmekion, and the Late Scythian foothill citadels) and the subsequent Hunnic invasion across the Kerch Strait in 370-376AD (which destroyed the Bosporan rural *chora*, Scythian Neapolis, and Ust-Alma) triggered a severe Late Antique demographic trough [@aibabin1999; @khodyreva2026]. Regional population contracted to 155,0k in 300AD and bottomed out at 115,0k in 400AD (-48,9% below the 200AD peak), as survivors retreated behind the walls of Chersonesus and Bosporos or migrated into the forested valleys of the Crimean Mountains (where the Alanic-Gothic cemeteries of Neyzats, Opushki, Druzhnoye, Suuk-Su, and Luchistoye mark the genesis of medieval Crimean Gothia) [@aibabin1999].
+Gothic and Borani sea raids in 252-275AD (which sacked Tanais, Gorgippia, Ilurat, Myrmekion and the Late Scythian foothill forts) and the Hunnic crossing of the Kerch Strait in 370-376AD (which destroyed the Bosporan countryside, Scythian Neapolis and Ust-Alma) brought a steep drop in numbers [@aibabin1999; @khodyreva2026]. The population fell to 155k in 300AD and 115k in 400AD - nearly half its 200AD level - as survivors fled behind the walls of Chersonesus and Bosporos or into the wooded mountain valleys, where the Alanic and Gothic cemeteries of Neyzats, Opushki, Druzhnoye, Suuk-Su and Luchistoye mark the beginnings of medieval Crimean Gothia [@aibabin1999].
 
-# Medieval Crimea: Byzantine Cherson, Gothia, Khazar Tudunate, Kievan Rus, Golden Horde and Genoese Gazaria (500AD - 1400AD)
+## Medieval Crimea
 
-## Early Byzantine Reconquest, the Cave-Towns of Gothia and the Khazar / Saltovo-Mayaki Boom (500AD - 900AD)
+### Byzantine Cherson, Gothia and the Khazars
 
-Under Emperor Justinian I (527-565AD) and Maurice (582-602AD), Byzantium refortified Chersonesus (*Cherson*) and Bosporos, erected the coastal castles of Aluston (Alushta) and Gorzouvitai (Gurzuf), and constructed the *Long Walls* closing the mountain passes around the Gothic-Alanic federate territory of *Dory* [@aibabin1999; @aibabin2017]. Across the Inner Cuesta of south-western Crimea, Byzantine military engineers and local Christianised Gothic-Alanic communities founded the monumental cliff-top "cave-towns" (*peshchernye goroda*): Mangup-Doros (the 90 ha mesa plateau capital, rising from 2,5k in 500AD to 7,0k in 900AD), Eski-Kermen (18 ha plateau with a three-aisled basilica and rock-cut casemates, rising from 2,8k in 600AD to 5,2k in 900AD), Chufut-Kale (*Qirq-Yer*, 3,2k in 900AD), Bakla (3,4k in 900AD), Tepe-Kermen (2,4k), Kachi-Kalyon (2,1k), Kyz-Kermen (1,8k in 800AD), and Kalamita (Inkerman, 2,0k) [@gertsen1990; @myts1991; @aibabin2017]. Regional population recovered steadily from 125,0k in 500AD to 140,0k in 600AD and 160,0k in 700AD.
+Under Justinian I (527-565AD) and Maurice (582-602AD), Byzantium rebuilt the walls of Chersonesus (*Cherson*) and Bosporos, put up the coastal forts of Aluston (Alushta) and Gorzouvitai (Gurzuf) and closed the mountain passes around the Gothic-Alanic country of *Dory* with stone barrier walls [@aibabin1999; @aibabin2017]. Along the Inner Ridge of south-western Crimea, Byzantine engineers and Christian Gothic-Alanic settlers founded the cliff-top "cave-towns" (*peshchernye goroda*): Mangup-Doros (a 90 ha plateau stronghold that grew from 2,5k in 500AD to 7k in 900AD), Eski-Kermen (an 18 ha plateau, rising from 2,8k in 600AD to 5,2k in 900AD), Chufut-Kale (*Qirq-Yer*, 3,2k in 900AD), Bakla (3,4k in 900AD), Tepe-Kermen (2,4k), Kachi-Kalyon (2,1k), Kyz-Kermen (1,8k in 800AD) and Kalamita (Inkerman, 2k) [@gertsen1990; @myts1991; @aibabin2017]. Total population recovered from 125k in 500AD to 140k in 600AD and 160k in 700AD.
 
-During the eighth and ninth centuries AD, the establishment of the Khazar Khaganate and its Crimean governorate (administered by the Khazar *tudun* at Bosporos, Sugdaia, and periodically Cherson) ushered in the Saltovo-Mayaki demographic expansion documented by I. A. Baranov and A. I. Aibabin [@baranov1990; @aibabin2013]. Semi-nomadic Proto-Bulgarian and Alanic pastoralists sedentarised across over 260 open villages, potteries, and vineyards in Eastern and Foothill Crimea. Sugdaia (Sudak) emerged as a major trans-Pontic emporium (7,5k in 800AD and 9,0k in 900AD), flanked by the sprawling 18 ha coastal craft and monastic centre of Tepsen (Koktebel, 3,4k in 900AD), Kordon-Oba (1,8k), Otuz (Shchebetovka, 1,4k), Geroevskoye, and Ptashkino on the Kerch Peninsula [@baranov1990; @gorbunov2024]. In Byzantine Cherson (elevated to the capital of the *Theme of Klimata / Cherson* under Emperor Theophilos in 833/841AD), urban population reached 11,5k - 12,0k in 800-900AD [@romanchuk2005; @yakobson1964]. Total Crimean population climbed to 195,0k in 800AD and attained an early medieval peak of 215,0k in 900AD (74,0k in the south-west, 36,0k on the southern coast, 77,0k in the east, and 28,0k in the north-west).
+In the eighth and ninth centuries AD, Khazar rule over eastern and foothill Crimea (governed by a Khazar *tudun* at Bosporos, Sugdaia and at times Cherson) brought a wave of rural settlement studied by I. A. Baranov and A. I. Aibabin [@baranov1990; @aibabin2013]. Proto-Bulgarian and Alanic herders settled in more than 260 open villages, pottery centres and vineyards of the Saltovo-Mayaki culture. Sugdaia (Sudak) grew into a major Black Sea port (7,5k in 800AD and 9k in 900AD), flanked by the 18 ha coastal town and monastery of Tepsen (Koktebel, 3,4k in 900AD), Kordon-Oba (1,8k), Otuz (Shchebetovka, 1,4k), Geroevskoye and Ptashkino on the Kerch Peninsula [@baranov1990; @gorbunov2024]. In Byzantine Cherson (made capital of the *Theme of Klimata/Cherson* under Emperor Theophilos in 833/841AD), the town population reached 11,5k - 12k in 800-900AD [@romanchuk2005; @yakobson1964]. Crimea's population climbed to 195k in 800AD and 215k in 900AD (74k in the south-west, 36k on the south coast, 77k in the east and 28k in the north-west).
 
-## Kievan Rus Korsun and Korchev, Pecheneg-Cuman Steppe Raids and the 1200AD Recovery (900AD - 1250AD)
+### Kievan Rus and the Cumans
 
-The arrival of the Pechenegs in the Pontic steppes (c. 900-960AD) and Prince Svyatoslav Igorevich's destruction of the Khazar Khaganate (965AD) disrupted open Saltovo-Mayaki villages in Eastern Crimea and the Kerch steppe (including the burning of Tepsen and Kordon-Oba), causing regional population to contract to 190,0k in 1000AD and 185,0k in 1100AD [@baranov1990; @chkhaidze2010]. Simultaneously, Crimea was drawn directly into the political and ecclesiastical orbit of Kievan Rus.
+Pecheneg raids across the steppe (c. 900-960AD) and Prince Svyatoslav Igorevich's overthrow of the Khazar Khaganate (965AD) ruined many open Saltovo-Mayaki villages in eastern Crimea and on the Kerch steppe (including Tepsen and Kordon-Oba), bringing the population down to 190k in 1000AD and 185k in 1100AD [@baranov1990; @chkhaidze2010]. At the same time, Kievan Rus gained a direct foothold on the peninsula.
 
-During the Korsun campaign of Vladimir the Great in 988-989AD, following a multi-month siege that severed the city's water pipes, Grand Prince Vladimir Svyatoslavich captured Byzantine Cherson (*Korsun*), accepted baptism in the city's episcopal complex, married the Porphyrogenita princess Anna, and returned Korsun to Emperor Basil II as his bride-gift while transferring priests, icons, and bronze quadriga statues to Kiev [@romanchuk2005; @yakobson1964]. Throughout the eleventh and twelfth centuries, Korsun (10,0k in 1000AD; 8,0k - 8,5k in 1100-1200AD) functioned as the premier Byzantine-Rus trade staple (*Korsuniane* merchants in Kiev and Novgorod). Across the Kerch Strait, in the Rus Principality of Tmutarakan and Korchev (988-1094AD), the Rurikid princes of Tmutarakan (Mstislav Vladimirovich, Gleb Svyatoslavich, Rostislav Vladimirovich, and Oleg Svyatoslavich) ruled Korchev (ancient Bosporos / Kerch, 7,5k in 1000AD; 6,5k - 7,0k in 1100-1200AD), as commemorated by Prince Gleb's famous 1068AD *Tmutarakan Stone* measuring the 14 000-fathom ice crossing between Tmutarakan and Korchev [@chkhaidze2010].
+In 988-989AD Grand Prince Vladimir Svyatoslavich besieged and took Byzantine Cherson (*Korsun*), was baptised there, married the princess Anna Porphyrogenita and handed the city back to Emperor Basil II [@romanchuk2005; @yakobson1964]. Through the eleventh and twelfth centuries, Korsun (10k in 1000AD; 8k - 8,5k in 1100-1200AD) remained the main port for trade between Byzantium and Rus. Across the Kerch Strait, the Rurikid princes of Tmutarakan (988-1094AD) ruled Korchev (ancient Bosporos/Kerch, 7,5k in 1000AD; 6,5k - 7k in 1100-1200AD), as recorded on Prince Gleb Svyatoslavich's 1068AD *Tmutarakan Stone*, which measured the 14k-fathom distance across the frozen strait from Tmutarakan to Korchev [@chkhaidze2010].
 
-By 1200AD, under the stable commercial condominium of the Polovtsians (Cumans), the Empire of Trebizond, and the Seljuk Sultanate of Rum, Sugdaia (*Surozh* in Russian chronicles) reached 11,0k inhabitants as the chief silk-and-fur port of the Black Sea, while the fortified mountain towns of Gothia (Mangup at 7,0k, Eski-Kermen at 4,8k, Chufut-Kale at 3,8k, Bakla at 3,0k, Aluston at 3,5k, and Gorzouvitai at 2,8k) expanded, lifting total Crimean population to 205,0k in 1200AD [@myts1991; @yakobson1964].
+By 1200AD, lively trade between the Cumans (Polovtsians), the Empire of Trebizond and the Seljuk Turks of Rum lifted Sugdaia (*Surozh* in Russian chronicles) to 11k inhabitants as the chief silk and fur port on the northern Black Sea. The mountain towns of Gothia also grew (Mangup at 7k, Eski-Kermen at 4,8k, Chufut-Kale at 3,8k, Bakla at 3k, Aluston at 3,5k and Gorzouvitai at 2,8k), carrying the Crimean total back to 205k [@myts1991; @yakobson1964].
 
-## The Mongol Invasions, Golden Horde Solkhat, Genoese Gazaria and the Principality of Theodoro (1223AD - 1400AD)
+### The Golden Horde, Genoese Gazaria and Theodoro
 
-Mongol armies under Jebe and Subutai raided Sugdaia in January 1223AD, followed by Batu's conquest of the Crimean steppe in 1238-1239AD and Nogai's devastating punitive campaign of 1299AD (which sacked Korsun, Eski-Kermen, Bakla, and Sugdaia to avenge the killing of his grandson Aktaji) [@myts2024; @yakobson1964]. While the initial Mongol shock reduced Crimean population from 195,0k in 1240AD to a brief trough of 175,0k in 1250AD, the integration of Crimea into the trans-Eurasian *Pax Mongolica* as the western maritime gateway of the Golden Horde (*Ulus of Jochi*) generated an unprecedented urban and commercial boom by 1300AD (250,0k regional total).
+Mongol horsemen under Jebe and Subutai raided Sugdaia in January 1223AD, Batu conquered the Crimean steppe in 1238-1239AD and Nogai sacked Korsun, Eski-Kermen, Bakla and Sugdaia in 1299AD [@myts2024; @yakobson1964]. Although the initial Mongol attacks reduced the population from 195k in 1240AD to 175k in 1250AD, Crimea soon prospered as the chief Black Sea outlet of the Golden Horde (*Ulus of Jochi*), and by 1300AD the peninsula reached an all-time pre-modern peak of 250k.
 
-Established in the sheltered Agarmysh valley of eastern Crimea as the seat of the Golden Horde *tumen-bashi* (governor of the Crimean *ulus*), Solkhat (*Qirim*, from which the entire peninsula took its name) grew into a 300 ha walled Islamic and multi-confessional metropolis featuring the Mosque of Sultan Baybars (1287-1288AD), the Mosque and Madrasa of Uzbek Khan (1314AD), Armenian and Greek churches, caravanserais, mints, and hydraulic pipe networks [@useinov2022; @myts2024; @karpov2000]. At its 1300-1340AD zenith, Solkhat housed 28,0k (28 000) inhabitants (18,0k in 1400AD), complemented by the rising inland market city of Karasubazar (Bilohirsk, 8,0k in 1300AD and 7,5k in 1400AD) and the fortified cliff-top residence at Chufut-Kale (*Qirq-Yer*) and Eski-Yurt / Salachik in the Bakhchisaray valley (5,5k and 3,5k in 1300-1400AD) [@inalcik1996; @fisher1978; @vodarsky2003; @prokhorov2011].
+Built in the sheltered Agarmysh valley of eastern Crimea as the seat of the Golden Horde governor (*tumen-bashi*), Solkhat (*Qirim*, which gave its name to the whole peninsula) grew into a 300 ha walled city with mosques, madrasas, Armenian and Greek churches, caravanserais, mints and clay water pipes [@useinov2022; @myts2024; @karpov2000]. At its height in 1300-1340AD, Solkhat held 28k inhabitants (18k in 1400AD), alongside the inland market town of Karasubazar (Bilohirsk, 8k in 1300AD and 7,5k in 1400AD) and the cliff-top fortress of Chufut-Kale (*Qirq-Yer*) and Eski-Yurt/Salachik in the Bakhchisaray valley (5,5k and 3,5k in 1300-1400AD) [@inalcik1996; @fisher1978; @vodarsky2003; @prokhorov2011].
 
-In Genoese Gazaria, following commercial concessions granted at ancient Theodosia by Mengu-Timur Khan in 1266AD, the Republic of Genoa transformed Caffa (Feodosia) into a massive double-walled maritime city enclosing 90 ha (a citadel and outer *burgh* with 26 towers protecting 11 000 - 15 000 urban plots and suburban *borghi* populated by Armenians, Greeks, Italians, Tatars, Jews, and Rus) [@ozturk2019; @ozturk2000; @bocharov2017; @karpov2000]. Prior to the outbreak of the Black Death during Janibeg Khan's siege of Caffa in 1346AD, Caffa housed 32,0k - 40,0k inhabitants at the 1300-1345AD peak (bringing the eastern Crimean sub-region to 96,0k in 1300AD). Genoa further acquired Cembalo (Balaklava, 1343/1357AD, 2,2k in 1300AD and 2,5k in 1400AD), Soldaia (Sudak, 1365AD, with its 18 coastal villages and monumental 14-tower fortress, 12,0k in 1300AD and 6,5k in 1400AD), Vosporo (Kerch, 5,5k in 1300AD and 4,5k in 1400AD), and the coastal castles of the *Capitanate of Gotthia* (Aluston / *Lusta* at 4,0k, Gorzouvitai at 3,2k, Partenit at 2,6k, Jalita / Yalta at 3,0k, and Foros at 1,6k) [@bocharov2017; @gorbunov2024; @myts1991; @kurnikova2026].
+On the coast, after Mengu-Timur Khan granted trading rights at ancient Theodosia in 1266AD, the Genoese built Caffa (Feodosia) into a 90 ha double-walled port inhabited by Armenians, Greeks, Italians, Tatars, Jews and Rus [@ozturk2019; @ozturk2000; @bocharov2017; @karpov2000]. Before the Black Death broke out during Janibeg Khan's siege of 1346AD, Caffa held 32k - 40k people, lifting eastern Crimea as a whole to 96k in 1300AD. Genoa also took over Cembalo (Balaklava, 1343/1357AD, 2,2k in 1300AD and 2,5k in 1400AD), Soldaia (Sudak, 1365AD, with 18 coastal villages, 12k in 1300AD and 6,5k in 1400AD), Vosporo (Kerch, 5,5k in 1300AD and 4,5k in 1400AD) and the castles of the *Capitanate of Gotthia* along the southern coast (Aluston/*Lusta* at 4k, Gorzouvitai at 3,2k, Partenit at 2,6k, Jalita/Yalta at 3k and Foros at 1,6k) [@bocharov2017; @gorbunov2024; @myts1991; @kurnikova2026].
 
-In the south-western mountains and Belbek-Kacha-Chorna valleys, the Greek-Gothic dynasty of the Gabrades consolidated the Christian Principality of Theodoro, expanding the citadel and three-line defensive walls of Mangup (8,5k in 1300AD and 9,0k at the 1400AD benchmark), constructing the port fortress of Kalamita (Inkerman, 2,5k in 1400AD) to rival Genoese Cembalo, and fortifying the eastern border castle of Funa at the foot of Mount Demerdzhi alongside Syuyren, Kermenchik, and Chorgun [@gertsen1990; @myts1991; @myts2024].
+In the south-western mountains and the Belbek, Kacha and Chorna valleys, the Greek-Gothic princes of Theodoro enlarged the citadel and walls of Mangup (8,5k in 1300AD and 9k in 1400AD), built the port fort of Kalamita (Inkerman, 2,5k in 1400AD) opposite Genoese Cembalo and fortified the border castle of Funa at the foot of Mount Demerdzhi alongside Syuyren, Kermenchik and Chorgun [@gertsen1990; @myts1991; @myts2024].
 
 ```{r fig-subregional, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/crimea_fig3_subregional_distribution.png",
   list(
-    caption = "Sub-regional population shares and urban, agrarian, and steppe demographic composition across Crimea from 1000BC to 1400AD.",
+    caption = "Shifts in regional weight and town-to-countryside balance across Crimea from 1000BC to 1400AD, contrasting the heavy rural settlement of the Bosporan and Khazar eras with the high urban share of the fourteenth-century Italian and Tatar trading cities.",
     label = "fig:crimea-subregional",
     width = "0.98\\textwidth",
-    span_columns = TRUE
+    span_columns = TRUE,
+    placement = "!htbp"
   )
 )
 ```
 
-## The 1346AD Black Death, Golden Horde Civil Wars and the 1400AD Cutoff
+### The Black Death and the 1400AD Benchmark
 
-Recurrent waves of bubonic plague after Janibeg's 1346AD siege of Caffa, internecine warfare within the Golden Horde during the *Great Troubles* (*Velikaya Zamolnya*, 1359-1380AD, when Mamai controlled the Crimean *ulus*), and the campaigns of Timur (1395-1396AD) and Edigu (who besieged Korsun and sacked its remaining quarters in 1399AD) reduced Crimea's population from 250,0k in 1300AD to 185,0k at the 1400AD terminal benchmark (62,0k in the south-west, 36,0k on the southern coast, 65,0k in the east, and 22,0k in the north-west; with urban populations at Caffa 22,0k, Solkhat 18,0k, Mangup 9,0k, Karasubazar 7,5k, Soldaia 6,5k, Qirq-Yer 5,5k, Vosporo 4,5k, Cembalo 2,5k, and Korsun 2,0k) [@ozturk2019; @myts2024; @troynitsky1904; @borshchik2018]. Because the subsequent secession of the independent Crimean Khanate under Haji I Giray (1441AD) and the Ottoman conquest of Caffa, Soldaia, and Mangup (1475AD) initiated a distinct early modern fiscal and demographic regime, this literature review and its companion spatial calibration terminate at 1400AD.
+Repeated outbreaks of plague after the 1346AD siege of Caffa, civil war in the Golden Horde during the *Great Troubles* (1359-1380AD) and the campaigns of Timur (1395-1396AD) and Edigu (who burned the last inhabited quarters of Korsun in 1399AD) cut Crimea's population from 250k in 1300AD to 185k in 1400AD (62k in the south-west, 36k on the south coast, 65k in the east and 22k in the north-west). By 1400AD the main towns stood at 22k for Caffa, 18k for Solkhat, 9k for Mangup, 7,5k for Karasubazar, 6,5k for Soldaia, 5,5k for Qirq-Yer, 4,5k for Vosporo, 2,5k for Cembalo and 2k for Korsun [@ozturk2019; @myts2024; @troynitsky1904; @borshchik2018].
 
 ```{r fig-urban, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/crimea_fig4_urban_hierarchy.png",
   list(
-    caption = "Urban population hierarchy of Crimea comparing Classical and Late Scythian poleis (500BC - 200AD) with medieval centres (1300 - 1400AD).",
+    caption = "Estimated populations of Crimea's leading cities in Classical antiquity (500BC - 200AD, left) and the late Middle Ages (1300 - 1400AD, right), led by Panticapaeum (28k) and Chersonesus (20k) in the Roman era and by Genoese Caffa (32k) and Golden Horde Solkhat (28k) before the Black Death.",
     label = "fig:crimea-urban",
     width = "0.98\\textwidth",
-    span_columns = TRUE
+    span_columns = TRUE,
+    placement = "!htbp"
   )
 )
 ```
 
-# Master Regional Population Estimates (10000BC - 1400AD)
+## Regional Population Summary
 
-Table \ref{tab:crimea-master-pop} synthesises the complete benchmark population trajectory for Crimea (~26 945 km²) and its four natural sub-regions from 10000BC to 1400AD.
+Table \ref{tab:crimea-master-pop} sets out the population estimates for Crimea (~26,95k km²) and its four regions from 10000BC to 1400AD.
 
 ```{r table-master-pop, echo=FALSE, results='asis'}
 df_master_pop <- data.frame(
@@ -188,55 +297,55 @@ df_master_pop <- data.frame(
     "1000AD", "1100AD", "1200AD", "1240AD", "1250AD", "1300AD", "1400AD"
   ),
   col_2 = c(
-    "0,50k", "0,85k", "1,40k", "2,50k", "4,00k", "7,50k", "12,0k", "17,5k",
-    "48,0k", "72,0k", "78,0k", "56,0k", "44,0k", "48,0k", "54,0k", "60,0k", "68,0k", "74,0k",
-    "68,0k", "65,0k", "72,0k", "69,0k", "63,0k", "78,0k", "62,0k"
+    "0,5k", "0,85k", "1,4k", "2,5k", "4k", "7,5k", "12k", "17,5k",
+    "48k", "72k", "78k", "56k", "44k", "48k", "54k", "60k", "68k", "74k",
+    "68k", "65k", "72k", "69k", "63k", "78k", "62k"
   ),
   col_3 = c(
-    "0,25k", "0,45k", "0,75k", "1,20k", "1,80k", "3,00k", "4,50k", "7,00k",
-    "12,0k", "16,0k", "19,0k", "16,0k", "15,0k", "18,0k", "21,0k", "25,0k", "32,0k", "36,0k",
-    "34,0k", "35,0k", "40,0k", "38,0k", "35,0k", "46,0k", "36,0k"
+    "0,25k", "0,45k", "0,75k", "1,2k", "1,8k", "3k", "4,5k", "7k",
+    "12k", "16k", "19k", "16k", "15k", "18k", "21k", "25k", "32k", "36k",
+    "34k", "35k", "40k", "38k", "35k", "46k", "36k"
   ),
   col_4 = c(
-    "0,25k", "0,45k", "0,75k", "1,50k", "2,80k", "6,00k", "9,50k", "13,0k",
-    "82,0k", "88,0k", "94,0k", "61,0k", "42,0k", "44,0k", "48,0k", "55,0k", "70,0k", "77,0k",
-    "64,0k", "61,0k", "67,0k", "64,0k", "56,0k", "96,0k", "65,0k"
+    "0,25k", "0,45k", "0,75k", "1,5k", "2,8k", "6k", "9,5k", "13k",
+    "82k", "88k", "94k", "61k", "42k", "44k", "48k", "55k", "70k", "77k",
+    "64k", "61k", "67k", "64k", "56k", "96k", "65k"
   ),
   col_5 = c(
-    "0,20k", "0,35k", "0,60k", "1,30k", "2,40k", "5,50k", "9,00k", "10,5k",
-    "33,0k", "34,0k", "34,0k", "22,0k", "14,0k", "15,0k", "17,0k", "20,0k", "25,0k", "28,0k",
-    "24,0k", "24,0k", "26,0k", "24,0k", "21,0k", "30,0k", "22,0k"
+    "0,2k", "0,35k", "0,6k", "1,3k", "2,4k", "5,5k", "9k", "10,5k",
+    "33k", "34k", "34k", "22k", "14k", "15k", "17k", "20k", "25k", "28k",
+    "24k", "24k", "26k", "24k", "21k", "30k", "22k"
   ),
   col_6 = c(
-    "1,2k", "2,1k", "3,5k", "6,5k", "11,0k", "22,0k", "35,0k", "48,0k",
-    "175,0k", "210,0k", "225,0k", "155,0k", "115,0k", "125,0k", "140,0k", "160,0k", "195,0k", "215,0k",
-    "190,0k", "185,0k", "205,0k", "195,0k", "175,0k", "250,0k", "185,0k"
+    "1,2k", "2,1k", "3,5k", "6,5k", "11k", "22k", "35k", "48k",
+    "175k", "210k", "225k", "155k", "115k", "125k", "140k", "160k", "195k", "215k",
+    "190k", "185k", "205k", "195k", "175k", "250k", "185k"
   ),
   col_7 = c(
-    "Upper Palaeolithic / Early Shan-Koba Grottoes (Kiik-Koba, Siuren I, Buran-Kaya III)",
+    "Upper Palaeolithic/Early Shan-Koba Grottoes (Kiik-Koba, Siuren I, Buran-Kaya III)",
     "Boreal Shan-Koba Mesolithic Foragers (Shan-Koba, Fatma-Koba, Grot Skalisty)",
     "Atlantic Murzak-Koba Mesolithic & Early Neolithic (Murzak-Koba, Laspi VII, Zamil-Koba)",
     "Crimean Neolithic Expansion (Tash-Air I, Kaya-Arasy, Frontovoye I, At-Bash)",
     "Eneolithic Steppe & Foothill Pastoralism (Sredny Stog & Early Copper Age)",
     "Early Bronze Age Kemi-Oba Megalithic & Yamnaya Cultures (Kemi-Oba, Bakhchi-Eli)",
     "Middle Bronze Age Catacomb & Late Kemi-Oba Settlements (Kamenka, Planerskoye)",
-    "Late Bronze / Early Iron Age Tauri Kizil-Koba Culture (Uch-Bash, Kizil-Koba)",
+    "Late Bronze/Early Iron Age Tauri Kizil-Koba Culture (Uch-Bash, Kizil-Koba)",
     "Archaic-Classical Greek Colonisation (Panticapaeum, Chersonesus, Theodosia, Kerkinitis)",
     "Hellenistic-Roman Transition & Late Scythian State (Scythian Neapolis, Ust-Alma)",
-    "Roman Protectorate & Bosporan Apogee (Charax, Chersonesus 20k, Panticapaeum 28k)",
+    "Roman Garrison & Bosporan Peak (Charax, Chersonesus 20k, Panticapaeum 28k)",
     "Post-Gothic Raid Contraction (Destruction of Tanais, Ilurat & Scythian Foothill Forts)",
-    "Post-Hunnic Trough (370-376AD Collapse of Bosporan Chora & Migration into Mountains)",
+    "Post-Hunnic Low Point (370-376AD Collapse of Bosporan Chora & Flight into Mountains)",
     "Early Byzantine Reconquest under Anastasius & Justinian I (Aluston, Gorzouvitai, Doros)",
-    "Byzantine Exarchate & Rise of Gothic Cave-Towns (Mangup, Eski-Kermen, Chufut-Kale)",
-    "Early Khazar Condominium & Crimean Tudunate (Cherson, Bosporos, Sugdaia)",
-    "Saltovo-Mayaki Sedentarisation Boom (260+ Eastern & Foothill Villages, Tepsen)",
-    "Byzantine Theme of Klimata / Cherson & Khazar Apogee (Cherson 12k, Sugdaia 9k)",
+    "Byzantine Rule & Rise of Gothic Cave-Towns (Mangup, Eski-Kermen, Chufut-Kale)",
+    "Early Khazar Rule & Crimean Tudunate (Cherson, Bosporos, Sugdaia)",
+    "Saltovo-Mayaki Village Expansion (260+ Eastern & Foothill Villages, Tepsen)",
+    "Byzantine Theme of Klimata/Cherson & Khazar Peak (Cherson 12k, Sugdaia 9k)",
     "Kievan Rus Korsun Campaign (988AD) & Tmutarakan-Korchev Principality (Post-Khazar Shift)",
-    "Cuman (Polovtsian) Steppe Hegemony & Byzantine-Rus Trade at Korsun and Korchev",
+    "Cuman (Polovtsian) Steppe Rule & Byzantine-Rus Trade at Korsun and Korchev",
     "Pre-Mongol Commercial Recovery (Sugdaia/Surozh 11k, Mangup 7k, Korsun 8k)",
-    "Initial Mongol Incursions (1223AD & 1238-1239AD Steppe Campaigns)",
-    "Post-Conquest Transition & Early Ulus of Jochi Reorganisation",
-    "Golden Horde Solkhat (28k) & Genoese Caffa (32k) Maritime Apogee (despite 1299AD Raid)",
+    "Initial Mongol Raids (1223AD & 1238-1239AD Steppe Campaigns)",
+    "Post-Conquest Transition & Early Golden Horde Rule",
+    "Golden Horde Solkhat (28k) & Genoese Caffa (32k) Commercial Peak (despite 1299AD Raid)",
     "Post-1346AD Black Death, Horde Civil Wars & 1395-1399AD Timur/Edigu Raids; Theodoro Peak"
   ),
   stringsAsFactors = FALSE
@@ -244,7 +353,7 @@ df_master_pop <- data.frame(
 render_table_template(
   df_master_pop,
   list(
-    caption = "Master benchmark population estimates for Crimea across its four physiographic sub-regions from 10000BC to 1400AD.",
+    caption = "Complete population series for Crimea and its four regions at 25 benchmark dates, paired with the main archaeological cultures and historical turning points behind each shift.",
     label = "tab:crimea-master-pop",
     col_names = c("Year", "SW & Theodoro", "South Coast", "East & Bosporus", "NW & Steppe", "Total Pop.", "Historical & Archaeological Context")
   )

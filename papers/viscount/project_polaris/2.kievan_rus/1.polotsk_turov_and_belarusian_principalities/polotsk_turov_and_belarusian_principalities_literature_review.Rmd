@@ -1,19 +1,19 @@
 ---
-title: "DEMOGRAPHIC HISTORY OF POLOTSK, TUROV, AND BELARUSIAN RUS (10000BC - 1300AD)"
-subtitle: "A Regional Literature Review of Population and Settlement (10000BC - 1300AD)."
+title: "Polotsk, Turov and the Belarusian Lands"
+subtitle: "Population and Towns of the Dvina, Pripyat and Neman Basins"
 date: "8 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/polotsk_turov_and_belarusian_principalities_regional_map.png"
-hero_caption: "Regional boundaries and fortified settlement hierarchy of Polotsk, Vitebsk, Minsk, Turov, Pinsk, and Black Ruthenia (10000BC - 1300AD)."
+hero_caption: "Approximate boundaries of the Belarusian principalities (207,6k km²), showing the Izyaslavichi capital at Polotsk on the Western Dvina (25k in 1200AD), the Polesian seats at Turov (12k), Pinsk and Berestye, the Upper Neman towns of Black Ruthenia (Grodno and Novogrudok) and the Dvina vassal forts of Jersika and Koknese."
 hero_label: "fig:polotsk-turov-hero"
 bibliography: polotsk_turov_and_belarusian_principalities_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
   md_document:
@@ -21,16 +21,190 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+
+  # Strip backticks and replace em/en-dashes with plain hyphens
+  text <- gsub("`", "", text, fixed = TRUE)
+  text <- gsub("\u2014", " - ", text, fixed = TRUE)
+  text <- gsub("\u2013", "-", text, fixed = TRUE)
+  text <- gsub("---", " - ", text, fixed = TRUE)
+  text <- gsub("--", "-", text, fixed = TRUE)
+
+  # Protect existing LaTeX commands before escaping special characters
+  cmd_vault <- character(0)
+  stash_cmd <- function(m) {
+    idx <- length(cmd_vault) + 1L
+    cmd_vault[[idx]] <<- m
+    paste0("@@LTXCMD", idx, "@@")
+  }
+  m_cmd <- gregexpr("\\\\[a-zA-Z]+(\\{[^{}]*\\})*", text, perl = TRUE)
+  if (m_cmd[[1]][1] != -1) {
+    matched <- regmatches(text, m_cmd)[[1]]
+    repl <- vapply(matched, stash_cmd, character(1))
+    regmatches(text, m_cmd) <- list(repl)
+  }
+
+  # Convert Markdown bold/italic syntax inside cells/captions to LaTeX equivalents
+  text <- gsub("\\*\\*([^*]+)\\*\\*", "\\\\textbf{\\1}", text, perl = TRUE)
+  text <- gsub("\\*([^*]+)\\*", "\\\\textit{\\1}", text, perl = TRUE)
+
+  # Re-stash newly generated \textbf / \textit commands so their braces are preserved
+  m_cmd2 <- gregexpr("\\\\(textbf|textit)\\{[^{}]*\\}", text, perl = TRUE)
+  if (m_cmd2[[1]][1] != -1) {
+    matched2 <- regmatches(text, m_cmd2)[[1]]
+    repl2 <- vapply(matched2, stash_cmd, character(1))
+    regmatches(text, m_cmd2) <- list(repl2)
+  }
+
+  # Escape raw LaTeX special characters
+  text <- gsub("(?<!\\\\)&", "\\\\&", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)%", "\\\\%", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)#", "\\\\#", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)_", "\\\\_", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)\\^", "\\\\textasciicircum{}", text, perl = TRUE)
+  text <- gsub("(?<!\\\\)~", "\\\\textasciitilde{}", text, perl = TRUE)
+
+  # Replace Unicode Greek, mathematical, and typographic symbols with valid LaTeX commands
+  unicode_map <- list(
+    c("\u00b1", "\\ensuremath{\\pm}"),
+    c("\u00d7", "\\ensuremath{\\times}"),
+    c("\u00b0", "\\ensuremath{^{\\circ}}"),
+    c("\u00b2", "\\textsuperscript{2}"),
+    c("\u00b3", "\\textsuperscript{3}"),
+    c("\u2248", "\\ensuremath{\\approx}"),
+    c("\u2264", "\\ensuremath{\\le}"),
+    c("\u2265", "\\ensuremath{\\ge}"),
+    c("\u2260", "\\ensuremath{\\neq}"),
+    c("\u2192", "\\ensuremath{\\rightarrow}"),
+    c("\u2190", "\\ensuremath{\\leftarrow}"),
+    c("\u2194", "\\ensuremath{\\leftrightarrow}"),
+    c("\u03b1", "\\ensuremath{\\alpha}"),
+    c("\u03b2", "\\ensuremath{\\beta}"),
+    c("\u03b3", "\\ensuremath{\\gamma}"),
+    c("\u03b4", "\\ensuremath{\\delta}"),
+    c("\u03b5", "\\ensuremath{\\varepsilon}"),
+    c("\u03b8", "\\ensuremath{\\theta}"),
+    c("\u03bb", "\\ensuremath{\\lambda}"),
+    c("\u03bc", "\\ensuremath{\\mu}"),
+    c("\u03c0", "\\ensuremath{\\pi}"),
+    c("\u03c1", "\\ensuremath{\\rho}"),
+    c("\u03c3", "\\ensuremath{\\sigma}"),
+    c("\u03c4", "\\ensuremath{\\tau}"),
+    c("\u03c6", "\\ensuremath{\\varphi}"),
+    c("\u03c7", "\\ensuremath{\\chi}"),
+    c("\u03c9", "\\ensuremath{\\omega}"),
+    c("\u0394", "\\ensuremath{\\Delta}"),
+    c("\u03a3", "\\ensuremath{\\Sigma}"),
+    c("\u03a9", "\\ensuremath{\\Omega}")
+  )
+  for (pair in unicode_map) {
+    text <- gsub(pair[1], pair[2], text, fixed = TRUE)
+  }
+
+  # Restore stashed LaTeX commands
+  if (length(cmd_vault) > 0) {
+    for (idx in rev(seq_along(cmd_vault))) {
+      text <- gsub(paste0("@@LTXCMD", idx, "@@"), cmd_vault[[idx]], text, fixed = TRUE)
+    }
+  }
+
+  return(text)
+}
+
+# Global knitr hook to sanitize Unicode math/Greek and dashes in prose while preserving code chunks
+local({
+   sanitize_prose_unicode_for_latex <- function(lines) {
+    in_chunk <- FALSE
+    in_yaml <- FALSE
+    yaml_delim_count <- 0L
+    unicode_prose_map <- list(
+      c("\u2014", " - "),
+      c("\u2013", "-"),
+      c("\u00b1", "$\\\\pm$"),
+      c("\u00d7", "$\\\\times$"),
+      c("\u2248", "$\\\\approx$"),
+      c("\u2264", "$\\\\le$"),
+      c("\u2265", "$\\\\ge$"),
+      c("\u2260", "$\\\\neq$"),
+      c("\u2192", "$\\\\rightarrow$"),
+      c("\u2190", "$\\\\leftarrow$"),
+      c("\u2194", "$\\\\leftrightarrow$"),
+      c("\u03b1", "$\\\\alpha$"),
+      c("\u03b2", "$\\\\beta$"),
+      c("\u03b3", "$\\\\gamma$"),
+      c("\u03b4", "$\\\\delta$"),
+      c("\u03b5", "$\\\\varepsilon$"),
+      c("\u03b8", "$\\\\theta$"),
+      c("\u03bb", "$\\\\lambda$"),
+      c("\u03bc", "$\\\\mu$"),
+      c("\u03c0", "$\\\\pi$"),
+      c("\u03c1", "$\\\\rho$"),
+      c("\u03c3", "$\\\\sigma$"),
+      c("\u03c4", "$\\\\tau$"),
+      c("\u03c6", "$\\\\varphi$"),
+      c("\u03c7", "$\\\\chi$"),
+      c("\u03c9", "$\\\\omega$"),
+      c("\u0394", "$\\\\Delta$"),
+      c("\u03a3", "$\\\\Sigma$"),
+      c("\u03a9", "$\\\\Omega$")
+    )
+    for (i in seq_along(lines)) {
+      line <- lines[i]
+      if (grepl("^---\\s*$", line)) {
+        yaml_delim_count <- yaml_delim_count + 1L
+        in_yaml <- (yaml_delim_count == 1L)
+        next
+      }
+      if (in_yaml) {
+        line <- gsub("\u2014", " - ", line, fixed = TRUE)
+        line <- gsub("\u2013", "-", line, fixed = TRUE)
+        lines[i] <- line
+        next
+      }
+      if (grepl("^```", line)) {
+        in_chunk <- !in_chunk
+        next
+      }
+      if (!in_chunk) {
+        for (pair in unicode_prose_map) {
+          line <- gsub(pair[1], pair[2], line, fixed = TRUE)
+        }
+        lines[i] <- line
+      }
+    }
+    lines
+  }
+
+  rmd_input <- knitr::current_input()
+  if (!is.null(rmd_input) && nzchar(rmd_input) && file.exists(rmd_input)) {
+    raw_lines <- readLines(rmd_input, warn = FALSE, encoding = "UTF-8")
+    clean_lines <- sanitize_prose_unicode_for_latex(raw_lines)
+    if (!identical(raw_lines, clean_lines)) {
+      writeLines(clean_lines, rmd_input, useBytes = TRUE)
+    }
+  }
+})
 ```
 
-# Executive Summary and Geographic Scope
+# Abstract
 
-This literature review establishes the Holocene, Iron Age, Kievan Rus, and immediate post-Mongol demographic series (10000BC - 1300AD) together with the fortified urban settlement hierarchy for North-Western Rus (Polotsk, Turov, and Belarusian Rus). Geographically, this region encompasses the 207 600 km² basin network of modern Belarus across the Upper Dnieper, Berezina, Sozh, Pripyat, Western Dvina, Upper Neman, and Western Bug-Mukhavets watersheds, alongside the historical Polotsk tributary principalities of the lower Western Dvina (*Jersika* or *Gerzike* and *Koknese* or *Kukenois* in Latgale and Selonia) and the southern Pripyat-Horyn Polesian appanages of *Dubrovytsia* and *Stepan*.
+Straddling the river portages that linked the Dnieper with the Baltic Sea along the Western Dvina, Neman and Western Bug, the lands of Polotsk, Turov and Belarusian Rus (207,6k km²) formed the north-western wing of the East Slavic world [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy]. From a Final Palaeolithic base of 8k reindeer hunters in 10000BC and 32k Neolithic lake-dwellers in 5000BC, regional population rose to 240k in 500BC across more than 1,1k Iron Age hillforts and reached 340k by 500AD [@charniauski1997arkhealogiya; @isaenko1999arkhealogiya]. Between the sixth and tenth centuries, Slavic settlement by the Krivichi, Dregovichi and Radimichi merged with local Baltic communities to carry the population from 460k in 800AD to 620k in 1000AD [@sedov1970slavyane].
 
-Strictly book-ended at the Mongol Conquests (1238-1241AD) and the immediate post-conquest devolved principalities (1240AD - 1300AD), this regional synthesis harmonises directly with the northern and eastern European Russia synthesis (specifically *Novgorod-Pskov* at 310,0k in 1000AD and 480,0k in 1200AD, and *Smolensk and the Upper Dnieper* east of 31,0°E at 220,0k in 1000AD and 340,0k in 1200AD). Across the Kievan Rus and appanage eras (980AD - 1300AD), North-Western Rus comprised five interconnected dynastic and hydrographic clusters [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy; @kuza1989malye].
+Under the independent Izyaslavichi princes of Polotsk and the Rurikid rulers of Turov, Pinsk and Grodno, the region reached a pre-Mongol peak of 980k inhabitants in 1200AD across 188 fortified towns (*gorodishcha*), led by Polotsk (25k), Turov (12k), Vitebsk (9,5k), Minsk (9k), Grodno (8,5k), Pinsk (8k), Novogrudok (7,5k) and Berestye (7,5k) [@shtykhov1992goroda; @tarasov1998polotsk; @kuza1989malye]. During Batu Khan's campaigns of 1239-1241, Mongol columns sacked Gomel on the lower Sozh and raided the southern Pripyat towns of Turov, Mozyr and Berestye, but the dense Polesian marshes shielded Polotsk, Vitebsk, Minsk and Black Ruthenia from attack. Total population dipped by only 16,3% to 820k in 1250AD and recovered to 860k by 1300AD, providing the urban and military backbone of the early Grand Duchy of Lithuania [@gurevich1981drevniy; @lowmianski1983studia]. These figures connect directly with the neighbouring Russian series for Novgorod-Pskov (310k in 1000AD and 480k in 1200AD) and Smolensk east of 31°E (220k in 1000AD and 340k in 1200AD).
 
-The first cluster comprised the Polotsk-Vitebsk and Lower Dvina principalities, forming the senior Izyaslavichi patrimony along the Western Dvina (Daugava) river, encompassing the core Principality of Polotsk (1001-1241AD), the Principality of Vitebsk (1102-1321AD) with *Orsha* and *Kopys*, and the lower Dvina tributary principalities of Jersika (1001-1210AD) and Koknese (1191-1210AD) [@shtykhov1975drevniy; @alekseev1966polotskaya; @tarasov1998polotsk; @mugurevics1965vostochnaya]. The second cluster comprised the southern Izyaslavichi principalities of Minsk, Drutsk, and Borisov across the Minsk Upland and the Upper Berezina, Svisloch, and Upper Drut portages, including the Principality of Minsk (1102-1327AD, relocated from the 10th-11th century *Menka* complex to the Svisloch-Nemiga *Zamchishche* after 1067AD), the Principality of Drutsk (1102-1251AD), and the Principality of Borisov (1102-1301AD), alongside *Zaslavl* (*Izyaslavl*), *Logoisk* (*Logozhsk*), and *Svisloch-on-Berezina* [@zagorulsky1982vozniknovenie; @shtykhov1992goroda]. The third cluster spanned the Turov-Pinsk principalities and Berestye Land in Pripyat Polesia along the alluvial corridor of the Pripyat, Pina, Yaselda, Sluch, Lan, Ptich, and Horyn rivers, comprising the Principality of Turov (1133-1341AD), the Principality of Pinsk (1175-1321AD), the Principality of Kletsk (1148-1401AD) with *Slutsk* and *Kopyl*, the Principality of Dubrovytsia (1175-1301AD), and the Western Bug-Mukhavets March of Berestye (*Brest*) and Kamenets [@lysenko1974goroda; @lysenko1985berestye; @lysenko2004drevniy]. The fourth cluster encompassed Black Ruthenia (*Chornaya Rus*) in the Slavic-Baltic contact zone along the Upper Neman, Shchara, and Rossa rivers, anchored by the Principality of Grodno (*Goroden*, 1128-1201AD), the Principality of Novogrudok (1201-1241AD), and the Principality of Volkovysk (1201-1241AD) with *Slonim*, *Zditovo-on-Molchad*, and *Turiisk-on-Neman* [@voronin1954drevnee; @gurevich1981drevniy; @zverugo1989verkhnee]. The fifth cluster comprised the Principality of Mstislavl (1181-1198AD) on the Vikhra river, together with the western Smolensk and northern Chernigov-Radimichi towns west of 31,0°E (*Propoisk* or *Prupoi*, *Krichev*, *Luchin*, *Shklov*, *Mogilev*, *Radoml*, *Chechersk*, *Rechitsa*, and *Gomel* or *Homiy*) [@alekseev1980smolenskaya; @sedov1982vostochnye].
+# Background
+
+Across the Kievan Rus and appanage periods (980AD - 1300AD), North-Western Rus fell into five main river-basin groups [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy; @kuza1989malye].
+
+In the north along the Western Dvina (Daugava), the senior Izyaslavichi patrimony comprised the Principality of Polotsk (1001-1241AD), the Principality of Vitebsk (1102-1321AD) with *Orsha* and *Kopys*, and the lower Dvina tributary principalities of Jersika (1001-1210AD) and Koknese (1191-1210AD) in Latgale and Selonia [@shtykhov1975drevniy; @alekseev1966polotskaya; @tarasov1998polotsk; @mugurevics1965vostochnaya]. Across the central Minsk Upland and the Upper Berezina, Svisloch and Drut portages lay the southern Izyaslavichi principalities of Minsk (1102-1327AD, moved from the tenth- and eleventh-century *Menka* fort to the Svisloch-Nemiga *Zamchishche* after 1067AD), Drutsk (1102-1251AD) and Borisov (1102-1301AD), alongside *Zaslavl* (*Izyaslavl*), *Logoisk* (*Logozhsk*) and *Svisloch-on-Berezina* [@zagorulsky1982vozniknovenie; @shtykhov1992goroda]. In the south along the Pripyat, Pina, Yaselda, Sluch, Lan, Ptich and Horyn rivers, Pripyat Polesia and the Berestye Land encompassed the principalities of Turov (1133-1341AD), Pinsk (1175-1321AD), Kletsk (1148-1401AD) with *Slutsk* and *Kopyl*, and Dubrovytsia (1175-1301AD), together with the Western Bug-Mukhavets frontier towns of Berestye (*Brest*) and Kamenets [@lysenko1974goroda; @lysenko1985berestye; @lysenko2004drevniy]. To the west along the Upper Neman, Shchara and Rossa rivers, Black Ruthenia (*Chornaya Rus*) covered the Slavic-Baltic borderland around the principalities of Grodno (*Goroden*, 1128-1201AD), Novogrudok (1201-1241AD) and Volkovysk (1201-1241AD), with *Slonim*, *Zditovo-on-Molchad* and *Turiisk-on-Neman* [@voronin1954drevnee; @gurevich1981drevniy; @zverugo1989verkhnee]. In the east along the Vikhra, Upper Dnieper and Sozh rivers west of 31°E stood the Principality of Mstislavl (1181-1198AD) and the western Smolensk and northern Chernigov-Radimichi towns of *Propoisk* (*Prupoi*), *Krichev*, *Luchin*, *Shklov*, *Mogilev*, *Radoml*, *Chechersk*, *Rechitsa* and *Gomel* (*Homiy*) [@alekseev1980smolenskaya; @sedov1982vostochnye].
 
 ```{r table-auto-1, echo=FALSE, results='asis'}
 df_tab_1 <- data.frame(
@@ -52,55 +226,55 @@ df_tab_1 <- data.frame(
     "1300AD"
   ),
   col_2 = c(
-    "8 000 (8,0k)",
-    "32 000 (32,0k)",
-    "78 000 (78,0k)",
-    "135 000 (135,0k)",
-    "240 000 (240,0k)",
-    "295 000 (295,0k)",
-    "340 000 (340,0k)",
-    "460 000 (460,0k)",
-    "530 000 (530,0k)",
-    "620 000 (620,0k)",
-    "790 000 (790,0k)",
-    "980 000 (980,0k)",
-    "940 000 (940,0k)",
-    "820 000 (820,0k)",
-    "860 000 (860,0k)"
+    "8k",
+    "32k",
+    "78k",
+    "135k",
+    "240k",
+    "295k",
+    "340k",
+    "460k",
+    "530k",
+    "620k",
+    "790k",
+    "980k",
+    "940k",
+    "820k",
+    "860k"
   ),
   col_3 = c(
-    "4 500",
-    "20 000",
-    "52 000",
-    "95 000",
-    "175 000",
-    "220 000",
-    "255 000",
-    "350 000",
-    "410 000",
-    "490 000",
-    "640 000",
-    "850 000",
-    "810 000",
-    "690 000",
-    "720 000"
+    "4,5k",
+    "20k",
+    "52k",
+    "95k",
+    "175k",
+    "220k",
+    "255k",
+    "350k",
+    "410k",
+    "490k",
+    "640k",
+    "850k",
+    "810k",
+    "690k",
+    "720k"
   ),
   col_4 = c(
-    "13 000",
-    "48 000",
-    "110 000",
-    "185 000",
-    "315 000",
-    "380 000",
-    "435 000",
-    "580 000",
-    "660 000",
-    "760 000",
-    "950 000",
-    "1 120 000",
-    "1 080 000",
-    "960 000",
-    "1 000 000"
+    "13k",
+    "48k",
+    "110k",
+    "185k",
+    "315k",
+    "380k",
+    "435k",
+    "580k",
+    "660k",
+    "760k",
+    "950k",
+    "1,12M",
+    "1,08M",
+    "960k",
+    "1M"
   ),
   col_5 = c(
     "0,04",
@@ -126,22 +300,22 @@ df_tab_1 <- data.frame(
     "-",
     "-",
     "-",
-    "12 000",
-    "35 000",
-    "52 000",
-    "78 000",
-    "118 000",
-    "162 000",
-    "152 000",
-    "135 000",
-    "148 000"
+    "12k",
+    "35k",
+    "52k",
+    "78k",
+    "118k",
+    "162k",
+    "152k",
+    "135k",
+    "148k"
   ),
   col_7 = c(
     "Yurevichi, Berdizh, Swiderian & Grensk Final Palaeolithic",
     "Narva, Neman, Dnieper-Donets & Upper Dnieper Neolithic",
     "Krivina pile dwellings (Asavets), Middle Dnieper & Corded Ware",
     "Trzciniec-Sosnytsia & North Belarusian Bronze Age",
-    "Milograd, Brushed Pottery & Dnieper-Dvina (>1 100 hillforts)",
+    "Milograd, Brushed Pottery & Dnieper-Dvina (>1,1k hillforts)",
     "Polesian Zarubintsy (Chaplin), Late Brushed Pottery & Wielbark",
     "Bancerovshchina-Tushemlya, Kolochin & Prague-Korchak",
     "Polotsk Krivichi Long Barrows, Dregovichi & Radimichi",
@@ -158,9 +332,9 @@ df_tab_1 <- data.frame(
 render_table_template(
   df_tab_1,
   list(
-    caption = "Long-run demographic trajectory, uncertainty bounds, and urban population estimates for North-Western Rus (10000BC - 1300AD).",
+    caption = "Estimated population, uncertainty ranges, settlement density and urban totals across the Western Dvina, Pripyat, Neman and Sozh basins (207,6k km²) from the Final Palaeolithic camps of Yurevichi and Berdizh (10000BC) to the early Lithuanian-Ruthenian realm (1300AD).",
     label = "tab:auto-tab-1",
-    col_names = c("Benchmark Year", "Recommended Pop.", "Scholarly Low", "Scholarly High", "Implied Density (per km2)", "Urban Pop. (Gorodishcha)", "Primary Documentary & Archaeological Basis"),
+    col_names = c("Date", "Population", "Low", "High", "Density (per km2)", "Urban Pop.", "Historical Notes"),
     font_size = "footnotesize",
     scale_to_fit = FALSE,
     span_columns = TRUE
@@ -168,70 +342,72 @@ render_table_template(
 )
 ```
 
-# Prehistoric and Iron Age Foundations (10000BC - 500AD)
+# Results
 
-## Final Palaeolithic and Mesolithic Recolonisation (26000BC - 5000BC)
+## Prehistory and the Iron Age
 
-Human settlement across the Belarusian river basins began during the interstadials of the Late Pleistocene prior to the Last Glacial Maximum (26000BC - 21000BC). The two canonical Upper Palaeolithic mammoth-hunter base camps of Belarus are Yurevichi (Yuravichy, Kalinkovichi Raion) on a high terrace of the lower Pripyat river (c. 24500BC) and Berdizh (Berdydzh, Chechersk Raion) on the Sozh river (c. 21500BC), where semi-subterranean dwellings framed with mammoth skulls, tusks, and long bones of *Mammuthus primigenius* were excavated by K. M. Polikarpovich and V. D. Budko [@charniauski1997arkhealogiya; @zagorulsky2001arkheologiya]. Following the retreat of the Poozerie (Valdai or Weichselian) ice sheet from northern Vitebsk around 12000BC - 10000BC, Final Palaeolithic reindeer-hunting bands of the Swiderian, Lyngby, and Grensk cultures colonised the sandy outwash plains and glacial lake margins of the Neman, Pripyat, Upper Dnieper, Sozh, and Western Dvina valleys (*Grensk* and *Korma* on the Sozh, *Ankovichi* in the Poozerie, *Borok* on the Neman). At the 10000BC benchmark, regional carrying capacity across the tundra-parkland corridor is estimated at 8 000 inhabitants (8,0k; range 4,5k - 13,0k, 0,04 per km²) [@charniauski1997arkhealogiya].
+### Final Palaeolithic and Mesolithic
 
-During the Boreal and Atlantic Mesolithic (8000BC - 5000BC), rising temperatures and the spread of mixed pine-birch and broad-leaved oak-hornbeam forests supported denser semi-sedentary hunter-fisher-forager populations grouped into three archaeological provinces: the Kunda culture in the lake-rich Belarusian Poozerie (Western Dvina basin), the Janislawice (Neman) Mesolithic across the Neman and Western Bug basins, and the Sozh and Upper Dnieper Mesolithic in eastern Belarus [@charniauski1997arkhealogiya]. Over 400 Mesolithic camps have been catalogued along lacustrine terraces and river confluences.
+Human settlement across the Belarusian river basins began during the warmer intervals of the Late Pleistocene before the Last Glacial Maximum (26000BC - 21000BC). The two best-known Upper Palaeolithic mammoth-hunter camps in Belarus are Yurevichi (Yuravichy, Kalinkovichi district) on a high terrace of the lower Pripyat (c. 24500BC) and Berdizh (Berdydzh, Chechersk district) on the Sozh (c. 21500BC), where sunken dwellings framed with mammoth skulls, tusks and long bones were excavated by K. M. Polikarpovich and V. D. Budko [@charniauski1997arkhealogiya; @zagorulsky2001arkheologiya]. After the Poozerie (Valdai) ice sheet retreated from northern Vitebsk around 12000BC - 10000BC, Final Palaeolithic reindeer-hunting bands of the Swiderian, Lyngby and Grensk cultures moved onto the sandy plains and lake shores of the Neman, Pripyat, Upper Dnieper, Sozh and Western Dvina valleys (*Grensk* and *Korma* on the Sozh, *Ankovichi* in the Poozerie and *Borok* on the Neman). At 10000BC, the population across this tundra-parkland zone is estimated at 8k inhabitants (range 4,5k - 13k, 0,04 per km²) [@charniauski1997arkhealogiya].
 
-## Neolithic Cultures and the Krivina Peat-Bog Pile Dwellings (5000BC - 2500BC)
+During the Boreal and Atlantic Mesolithic (8000BC - 5000BC), warmer temperatures and the spread of pine-birch and oak-hornbeam forests supported larger hunter-fisher communities across three cultural zones: the Kunda culture in the northern lake district (Western Dvina basin), the Janislawice (Neman) Mesolithic across the Neman and Western Bug basins and the Sozh and Upper Dnieper Mesolithic in eastern Belarus [@charniauski1997arkhealogiya]. Over 400 Mesolithic camps have been recorded along lake shores and river junctions.
 
-The Neolithic transition (5000BC - 2200BC) witnessed a four-fold expansion in regional settlement density (32 000 inhabitants at 5000BC, rising to 78 000 by 2500BC), driven by intensive lacustrine fishing, waterfowl trapping, and the progressive adoption of stockbreeding and millet-barley-emmer cultivation [@charniauski1997arkhealogiya; @zagorulsky2001arkheologiya]. In the Vitebsk Poozerie, the Narva and Usvyaty cultures are renowned for waterlogged pile-dwelling settlements in the Krivina peat-bog micro-region (Beshenkovichi and Senno Raions: *Asavets 2*, *Asavets 7*, *Kryvina 1*, *Aztsy*) excavated by M. M. Charniauski; exceptional organic preservation at *Asavets* yielded wooden fish-weirs, dugout canoes, horn hoes, Baltic amber ornaments, and carved bone and wooden anthropomorphic figurines [@charniauski1997arkhealogiya]. Across the Upper Neman and Western Bug, the Neman Culture produced pointed-bottom and flat-bottom vessels tempered with plant fibres and crushed granite (*Kamen*, *Rusakovo*, *Dobry Bor*), together with the vast subterranean Krasnoselsky flint-mining complex on the Rossa river near Volkovysk, where over 1 000 vertical shafts up to 6 - 9 m deep were sunk into Cretaceous chalk strata with antler picks to extract dark flint nodules for polished axe production across the Baltic-Dnieper region [@charniauski1997arkhealogiya]. Simultaneously, the Dnieper-Donets Culture (in Pripyat Polesia and the Lower Sozh) and the Upper Dnieper Culture (in Eastern Belarus) concentrated in permanent riverine villages along the Pripyat, Yaselda, Berezina, and Sozh rivers (*Litvinovichi*, *Strumen*, *Grodno-Neman*).
+### Neolithic River and Lake Settlements
 
-## Bronze Age and Iron Age Hillfort Cultures (2500BC - 500AD)
+The Neolithic period (5000BC - 2200BC) brought a four-fold increase in population (32k inhabitants at 5000BC, rising to 78k by 2500BC), supported by lake fishing, wildfowling and the gradual spread of stockbreeding and millet, barley and emmer cultivation [@charniauski1997arkhealogiya; @zagorulsky2001arkheologiya]. In the Vitebsk lake district, the Narva and Usvyaty cultures built waterlogged pile-dwelling villages in the Krivina peat basin (Beshenkovichi and Senno districts: *Asavets 2*, *Asavets 7*, *Kryvina 1* and *Aztsy*), excavated by M. M. Charniauski; waterlogged layers at *Asavets* preserved wooden fish-weirs, dugout canoes, horn hoes, Baltic amber ornaments and carved bone and wooden figures [@charniauski1997arkhealogiya]. Across the Upper Neman and Western Bug, the Neman Culture made pointed-bottom and flat-bottom pots tempered with plant fibres and crushed granite (*Kamen*, *Rusakovo* and *Dobry Bor*), and worked the underground Krasnoselsky flint mines on the Rossa river near Volkovysk, where over 1k vertical shafts up to 6 - 9 m deep were dug into chalk strata with antler picks to extract dark flint for polished axes traded across the Baltic-Dnieper region [@charniauski1997arkhealogiya]. At the same time, the Dnieper-Donets Culture (in Pripyat Polesia and the Lower Sozh) and the Upper Dnieper Culture (in eastern Belarus) lived in permanent riverside villages along the Pripyat, Yaselda, Berezina and Sozh (*Litvinovichi*, *Strumen* and *Grodno-Neman*).
 
-During the Late Eneolithic and Bronze Age (2500BC - 700BC), Indo-European pastoralist-agriculturalist groups of the Middle Dnieper Culture (2400BC - 1500BC, a core branch of the Corded Ware or Battle-Axe horizon, with major barrow and flat cemeteries at *Strelitsa* and *Khodosovichi* near Rogachev), Polesian and Strzyzow groups, and the North Belarusian and Trzciniec-Sosnytsia cultures (1500BC - 1000BC) cleared riverine terraces for cattle, swine, and sheep-goat husbandry alongside bronze-casting workshops using imported Carpathian and Alpine copper [@charniauski1997arkhealogiya]. Regional population expanded from 78 000 (78,0k) at 2500BC to 135 000 (135,0k) at 1200BC.
+### Bronze and Iron Age Hillforts
 
-The Early and Middle Iron Age (700BC - 400AD) introduced local bog-iron smelting (*bloomery furnaces*) and transformed the Belarusian landscape into a dense network of over 1 100 fortified timber-and-earth hillforts (*gorodishcha*). Belarusian archaeologists divide the Iron Age into three latitudinal zones that directly prefigure early medieval Baltic-Slavic ethnocultural geography [@mitrofanov1978zhelezny; @pobol1983arkheologicheskie; @isaenko1999arkhealogiya]. In northern Belarus and the Vitebsk Poozerie, the Dnieper-Dvina Culture (700BC - 400AD) spanned the Western Dvina and upper Dnieper basins (*Polotsk-Gorodishche*, *Vitebsk-Zamkovaya Gora*, *Lukoml*, *Novye Bateki*), where inhabitants occupied strongly fortified promontory hillforts (0,3 - 1,2 ha) with concentric earthen ramparts and timber palisades, subsisting on forest-fallow (*podseka*) agriculture, stockbreeding, and ironworking [@isaenko1999arkhealogiya]. Across central and north-western Belarus, the Brushed Pottery Culture (*Kultura Shtrikhovannoy Keramiki*, 700BC - 400AD) occupied the Minsk Upland and Upper Neman basin (*Malyshki*, *Zazony*, *Viazynka*, *Novogrudok*, *Slonim*), where excavations by A. G. Mitrofanov documented multi-room post-built longhouses inside ring-forts [@mitrofanov1978zhelezny]. In southern Belarus across the Pripyat and Lower Berezina-Sozh valleys, the Milograd Culture (700BC - 100BC) and Zarubintsy Culture (200BC - 200AD) spanned Gomel, southern Mogilev, and Brest Polesia (*Milograd*, *Goroshkov*, *Chaplin*, *Mokhov*, *Voronino*, *Otverzhichi*); unlike the small northern hillforts, Milograd and Polesian Zarubintsy communities built larger lowland enclosures (2 - 8 ha) and open agricultural villages (3 - 10 ha) equipped with iron ard-shares (*ralniki*), sickles, and rotary querns [@pobol1983arkheologicheskie; @isaenko1999arkhealogiya].
+During the Late Eneolithic and Bronze Age (2500BC - 700BC), pastoral and farming communities of the Middle Dnieper Culture (2400BC - 1500BC, a branch of the Corded Ware or Battle-Axe horizon, with major barrow and flat cemeteries at *Strelitsa* and *Khodosovichi* near Rogachev), Polesian and Strzyzow groups and the North Belarusian and Trzciniec-Sosnytsia cultures (1500BC - 1000BC) cleared river terraces for cattle, pigs, sheep and goats alongside bronze-casting workshops using imported Carpathian and Alpine copper [@charniauski1997arkhealogiya]. The regional population grew from 78k at 2500BC to 135k at 1200BC.
 
-At the 500BC benchmark, the >1 100 fortified hillforts and associated open *selyshcha* supported 240 000 inhabitants (240,0k; range 175,0k - 315,0k), rising to 295 000 (295,0k) by 200AD during the Zarubintsy and Wielbark contact phase. Across the Late Roman and Migration periods (200AD - 500AD), interaction between early Slavic agriculturalists and local Baltic substrata generated the Kiev, Kolochin (in the Sozh basin, named after the *Kolochin* hillfort near Rechitsa), Bancerovshchina-Tushemlya (central and northern Belarus, named after the *Bancerovshchina* hillfort on the Svisloch near Minsk), and Prague-Korchak (Pripyat Polesia, such as *Snyadin*, *Petrikov*, and *Bereztsy*) horizons, bringing the 500AD regional population to 340 000 (340,0k; range 255,0k - 435,0k) [@isaenko1999arkhealogiya; @sedov1970slavyane].
+The Early and Middle Iron Age (700BC - 400AD) introduced local bog-iron smelting and covered the Belarusian landscape with more than 1,1k fortified timber-and-earth hillforts (*gorodishcha*). Archaeologists divide these hillforts into three east-west belts that foreshadow early medieval Baltic and Slavic settlement [@mitrofanov1978zhelezny; @pobol1983arkheologicheskie; @isaenko1999arkhealogiya]. In northern Belarus and the Vitebsk lake district, the Dnieper-Dvina Culture (700BC - 400AD) occupied the Western Dvina and upper Dnieper basins (*Polotsk-Gorodishche*, *Vitebsk-Zamkovaya Gora*, *Lukoml* and *Novye Bateki*), building small cliff-top hillforts (0,3 - 1,2 ha) with concentric earthen ramparts and timber palisades and living by slash-and-burn (*podseka*) farming, stockbreeding and ironworking [@isaenko1999arkhealogiya]. Across central and north-western Belarus, the Brushed Pottery Culture (*Kultura Shtrikhovannoy Keramiki*, 700BC - 400AD) held the Minsk Upland and Upper Neman basin (*Malyshki*, *Zazony*, *Viazynka*, *Novogrudok* and *Slonim*), where A. G. Mitrofanov excavated multi-room post-built longhouses inside ring-forts [@mitrofanov1978zhelezny]. In southern Belarus across the Pripyat and Lower Berezina-Sozh valleys, the Milograd Culture (700BC - 100BC) and Zarubintsy Culture (200BC - 200AD) spanned Gomel, southern Mogilev and Brest Polesia (*Milograd*, *Goroshkov*, *Chaplin*, *Mokhov*, *Voronino* and *Otverzhichi*); unlike the small northern hillforts, Milograd and Polesian Zarubintsy communities built larger lowland forts (2 - 8 ha) and open farming villages (3 - 10 ha) equipped with iron plough-tips (*ralniki*), sickles and rotary querns [@pobol1983arkheologicheskie; @isaenko1999arkhealogiya].
+
+By 500BC, more than 1,1k hillforts and open villages (*selyshcha*) supported 240k inhabitants (range 175k - 315k), rising to 295k by 200AD during the Zarubintsy and Wielbark period. Across the Late Roman and Migration periods (200AD - 500AD), contact between early Slavic farmers and local Baltic communities produced the Kiev, Kolochin (in the Sozh basin, named after the *Kolochin* hillfort near Rechitsa), Bancerovshchina-Tushemlya (central and northern Belarus, named after the *Bancerovshchina* hillfort on the Svisloch near Minsk) and Prague-Korchak (Pripyat Polesia, at *Snyadin*, *Petrikov* and *Bereztsy*) cultures, bringing the 500AD regional population to 340k (range 255k - 435k) [@isaenko1999arkhealogiya; @sedov1970slavyane].
 
 ```{r fig-auto-1, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/polotsk_turov_and_belarusian_principalities_fig2_population_trajectory.png",
   list(
-    caption = "Holocene, Iron Age, and medieval demographic trajectory of Polotsk, Turov, and Belarusian Rus (10000BC - 1300AD).",
+    caption = "Shaded bands indicate uncertainty ranges around the central estimate for the 207,6k km² Belarusian river basins. Pre-Slavic settlement expanded across more than 1,1k Iron Age hillforts (240k at 500BC) and the Roman-era Zarubintsy and Wielbark horizons (295k at 200AD); medieval growth peaked at 980k in 1200AD before dipping by 16,3% to 820k in 1250AD and recovering to 860k by 1300AD.",
     label = "fig:polotsk-turov-and-belarusian-principalities-fig-1",
     width = "0.98\\textwidth",
     span_columns = TRUE,
-    placement = "t"
+    placement = "!htbp"
   )
 )
 ```
 
-# Early Slavic and Kievan Rus Principalities (500AD - 1240AD)
+## Early Slavic and Kievan Rus Principalities
 
-## Tribal Confederations: Krivichi, Dregovichi, Radimichi, and Baltic Substrata (500AD - 980AD)
+### Tribal Confederations
 
-Between the 6th and 10th centuries, the *Primary Chronicle* (*Povest Vremennykh Let*) and barrow (*kurgan*) archaeology record the crystallisation of three major East Slavic tribal unions across Belarus, progressively assimilating local Baltic (East Lithuanian, Yotvingian or Sudovian, and Latgalian-Selonian) populations [@sedov1970slavyane; @sedov1982vostochnye; @zagorulsky2001arkheologiya]. The Polotsk-Smolensk Krivichi (*Polochane*) settled along the Western Dvina, Polota, Drissa, Ulla, Kasplya, and Upper Berezina rivers, archaeologically marked by elongated Long Barrows (*Dlinnye Kurgany*, 6th - 9th centuries) containing multiple cremation burials, followed in the 9th - 11th centuries by hemispherical barrows with distinctive bronze bracelet-like temple rings (*brasletoobraznye visochnye koltsa*) [@sedov1970slavyane; @shtykhov1992goroda]. The Dregovichi (*Drygavichy*) occupied the Pripyat basin north to the Minsk Upland (overlapping with the Krivichi along the Svisloch-Berezina watershed at *Zaslavl*, *Minsk*, *Logoisk*, and *Borisov*), where burial mounds are distinguished by large granulated silver and bronze bead temple rings (*krupnozernistye businnye koltsa*) and timber mortuary chambers (*domoviny*) [@lysenko1974goroda; @sedov1982vostochnye]. The Radimichi settled along the Sozh, Pronya, Iput, Besed, and Ostyor rivers in eastern Belarus (with major tribal hillforts at *Radoml*, *Propoisk* or *Prupoi*, and *Gomel* or *Homiy*), identified by seven-rayed bronze temple rings (*semiluchevye visochnye koltsa*) [@alekseev1980smolenskaya; @sedov1982vostochnye]. Along the western and north-western fringes, Yotvingians (*Yatvyagi*), Lithuanians (*Litva*), Latgalians, and Selonians occupied the Upper Neman (*Grodno*, *Novogrudok*, *Volkovysk*, *Slonim*, *Lida*, *Krevo*) and Lower Western Dvina (*Braslav*, *Jersika*, *Koknese*, *Asote*) borderlands, where mixed Slavic-Baltic stone-ring barrows (*kamennye mogilniki*) attest to bilingual frontier symbiosis [@zverugo1989verkhnee; @gurevich1981drevniy; @mugurevics1965vostochnaya].
+Between the sixth and tenth centuries, the *Primary Chronicle* (*Povest Vremennykh Let*) and barrow (*kurgan*) excavations trace the growth of three major East Slavic tribal unions across Belarus, which gradually absorbed the local Baltic (East Lithuanian, Yotvingian and Latgalian-Selonian) population [@sedov1970slavyane; @sedov1982vostochnye; @zagorulsky2001arkheologiya]. The Polotsk-Smolensk Krivichi (*Polochane*) settled along the Western Dvina, Polota, Drissa, Ulla, Kasplya and Upper Berezina rivers, leaving elongated Long Barrows (*Dlinnye Kurgany*, sixth to ninth centuries) with cremation burials, followed in the ninth to eleventh centuries by round barrows with bronze bracelet-shaped temple rings (*brasletoobraznye visochnye koltsa*) [@sedov1970slavyane; @shtykhov1992goroda]. The Dregovichi (*Drygavichy*) occupied the Pripyat basin north to the Minsk Upland (meeting the Krivichi along the Svisloch-Berezina watershed at *Zaslavl*, *Minsk*, *Logoisk* and *Borisov*), where their burial mounds contain large granulated silver and bronze bead temple rings (*krupnozernistye businnye koltsa*) and timber burial chambers (*domoviny*) [@lysenko1974goroda; @sedov1982vostochnye]. The Radimichi settled along the Sozh, Pronya, Iput, Besed and Ostyor rivers in eastern Belarus (with major hillforts at *Radoml*, *Propoisk* or *Prupoi* and *Gomel* or *Homiy*), marked by seven-rayed bronze temple rings (*semiluchevye visochnye koltsa*) [@alekseev1980smolenskaya; @sedov1982vostochnye]. Along the western and north-western edges, Yotvingians (*Yatvyagi*), Lithuanians (*Litva*), Latgalians and Selonians held the Upper Neman (*Grodno*, *Novogrudok*, *Volkovysk*, *Slonim*, *Lida* and *Krevo*) and Lower Western Dvina (*Braslav*, *Jersika*, *Koknese* and *Asote*) borderlands, where mixed Slavic-Baltic stone-ring barrows (*kamennye mogilniki*) mark a shared frontier zone [@zverugo1989verkhnee; @gurevich1981drevniy; @mugurevics1965vostochnaya].
 
-Regional population expanded from 460 000 (460,0k) at 800AD to 530 000 (530,0k) at 900AD and 620 000 (620,0k) at 1000AD, comparing directly with 310 000 in *Novgorod-Pskov* and 220 000 in *Eastern Smolensk* within European Russia.
+The regional population grew from 460k in 800AD to 530k in 900AD and 620k in 1000AD, alongside 310k in *Novgorod-Pskov* and 220k in *Eastern Smolensk* within European Russia.
 
-## The Izyaslavichi Principalities of the Polotsk Land (1001AD - 1241AD)
+### The Polotsk Land
 
-Unlike the southern and eastern principalities of Kievan Rus, the Principality of Polotsk (1001-1241AD, 55,49°N, 28,80°E) established permanent dynastic autonomy under the Izyaslavichi (*Rogvolodovichi*), descendants of Prince Rogvolod (d. 978AD), his daughter Rogneda, and her son by Vladimir the Great, Izyaslav Vladimirovich (d. 1001AD) [@shtykhov1975drevniy; @alekseev1966polotskaya]. Under Bryachislav Izyaslavich (1003-1044AD) and Vseslav Bryachislavich the Sorcerer (1044-1101AD), Polotsk controlled the entire Western Dvina trade artery from the Vitebsk-Smolensk portages down to the Gulf of Riga, erecting the monumental seven-domed Cathedral of St. Sophia in Polotsk (c. 1050s) as a direct architectural and ideological counterpart to Kiev and Novgorod [@shtykhov1975drevniy; @tarasov1998polotsk].
+Unlike the southern and eastern principalities of Kievan Rus, the Principality of Polotsk (1001-1241AD, 55,49°N, 28,8°E) kept its own ruling house under the Izyaslavichi (*Rogvolodovichi*), descendants of Prince Rogvolod (d. 978AD), his daughter Rogneda and her son by Vladimir the Great, Izyaslav Vladimirovich (d. 1001AD) [@shtykhov1975drevniy; @alekseev1966polotskaya]. Under Bryachislav Izyaslavich (1003-1044AD) and Vseslav Bryachislavich the Sorcerer (1044-1101AD), Polotsk controlled the entire Western Dvina trade route from the Vitebsk-Smolensk portages down to the Gulf of Riga, building the seven-domed Cathedral of St Sophia in Polotsk (c. 1050s) as a rival to the cathedrals of Kiev and Novgorod [@shtykhov1975drevniy; @tarasov1998polotsk].
 
-Stratigraphic excavations in Polotsk (*Polatsk*) by G. V. Shtykhov (1975, 1992) and historical-topographical reconstructions by S. V. Tarasov (1998) reveal one of the largest urban agglomerations of pre-Mongol Eastern Europe [@shtykhov1975drevniy; @tarasov1998polotsk]. The urban core evolved from an initial hillfort (*Gorodishche*, 9th - 10th centuries, 2,5 ha) on the Polota river, succeeded in the late 10th century by the Upper Castle (*Verkhny Zamok* or *Detinets*, 11,0 ha) at the Polota-Dvina confluence housing St. Sophia Cathedral and the princely court, and expanded across the Great Posad (*Velikiy Posad*, 11th - 12th centuries), the Lower Castle (*Nizhny Zamok* or *Zapadnaya Dvina Posad*, 63,0 ha), Zapolotye (west of the Polota), Ostrov (island quarter), the Euphrosyne Suburb (around the 1128AD Saviour-Euphrosyne Monastery founded by St. Euphrosyne of Polotsk, with the frescoed Church of the Transfiguration built by Master Ioann), and the Belchitsy princely residence on the left bank of the Dvina. By 1200AD, the contiguous settled footprint of Polotsk reached 180 - 200 ha (190,0 ha central synthesis), supporting 22 000 - 28 000 inhabitants (25 000 recommended) across 3 800 - 4 200 urban homesteads (*dvory*), surrounded by satellite towns at Lukoml (3 500), Logoisk (*Logozhsk*, 3 500), Zaslavl (*Izyaslavl*, 20,0 ha, 4 000), Braslav (*Bryachislavl*, 3 000), Usvyaty (2 800), and Svisloch-on-Berezina (2 500) [@tarasov1998polotsk; @shtykhov1992goroda; @kuza1989malye].
+Excavations in Polotsk (*Polatsk*) by G. V. Shtykhov (1975, 1992) and S. V. Tarasov (1998) uncover one of the largest cities of pre-Mongol Eastern Europe [@shtykhov1975drevniy; @tarasov1998polotsk]. The town grew from an early hillfort (*Gorodishche*, ninth and tenth centuries, 2,5 ha) on the Polota river, moved in the late tenth century to the Upper Castle (*Verkhny Zamok* or *Detinets*, 11 ha) at the Polota-Dvina junction around St Sophia Cathedral and the princely court, and spread across the Great Posad (*Velikiy Posad*, eleventh and twelfth centuries), the Lower Castle (*Nizhny Zamok* or *Zapadnaya Dvina Posad*, 63 ha), Zapolotye (west of the Polota), Ostrov (the island quarter), the Euphrosyne Suburb (around the 1128AD Saviour-Euphrosyne Monastery founded by St Euphrosyne of Polotsk, with the frescoed Church of the Transfiguration built by Master Ioann) and the Belchitsy princely seat on the left bank of the Dvina. By 1200AD, the built-up area of Polotsk covered 180 - 200 ha (190 ha in our estimates), housing 22k - 28k inhabitants (25k in our tables) across 3,8k - 4,2k urban homesteads (*dvory*), ringed by smaller towns at Lukoml (3,5k), Logoisk (*Logozhsk*, 3,5k), Zaslavl (*Izyaslavl*, 20 ha, 4k), Braslav (*Bryachislavl*, 3k), Usvyaty (2,8k) and Svisloch-on-Berezina (2,5k) [@tarasov1998polotsk; @shtykhov1992goroda; @kuza1989malye].
 
-After the death of Vseslav the Sorcerer in 1101AD, the Polotsk Land devolved into six appanage principalities (*udely*), each stimulating secondary urban growth. The Principality of Minsk (1102-1327AD, 53,90°N, 27,56°E) was founded by Gleb Vseslavich (d. 1119AD); E. M. Zagorulsky's excavations demonstrated that early *Mensk* originated in the 10th-11th centuries at the Menka archaeological complex (Gorodishche village, 16 km west of modern Minsk on the Menka river, comprising a 1,5 ha two-part ramparted *gorodishche* and a 40,0 ha open *selyshche* peaking at 2 400 inhabitants in 1000AD). Following the 1067AD Battle on the Nemiga River recorded in the *Primary Chronicle* and the *Tale of Igor's Campaign*, the fortress was transferred to the Minsk Zamchishche at the Svisloch-Nemiga confluence (3,0 ha timber-laced rampart enclosing an unfinished 11th-century dressed-limestone church, surrounded by 35,0 ha of waterlogged *posad* log streets), reaching 38,0 ha and 9 000 inhabitants (8 000 - 10 500) at 1200AD [@zagorulsky1982vozniknovenie; @zagorulsky2001arkheologiya]. The Principality of Vitebsk (1102-1321AD, 55,19°N, 30,20°E), held by Svyatoslav and Davyd Vseslavich at the Vitba-Western Dvina junction, comprised the *Verkhny Zamok* (Zamkovaya Gora), *Nizhny Zamok*, and *Uzgorier* posads (50,0 ha total), housed the 1140s Church of the Annunciation (built of alternating brick *plinthos* and dressed dolomite blocks), yielded the late 13th-century birch-bark letter of Stepan, and supported 9 500 inhabitants (8 000 - 11 000) at 1200AD, alongside the Dnieper portage fortress of Orsha (*Rsha*, 1067AD, 22,0 ha, 4 000 inhabitants) and Kopys (1059AD, 2 800) [@alekseev1966polotskaya; @shtykhov1992goroda].
+After the death of Vseslav the Sorcerer in 1101AD, the Polotsk Land split into six smaller principalities (*udely*), each fostering local town growth. The Principality of Minsk (1102-1327AD, 53,9°N, 27,56°E) was founded by Gleb Vseslavich (d. 1119AD); E. M. Zagorulsky's excavations showed that early *Mensk* began in the tenth and eleventh centuries on the Menka river (at Gorodishche village, 16 km west of modern Minsk, with a 1,5 ha two-part fort and a 40 ha open settlement peaking at 2,4k inhabitants in 1000AD). After the 1067AD Battle on the Nemiga River recorded in the *Primary Chronicle* and the *Tale of Igor's Campaign*, the fortress moved to the Minsk Zamchishche at the Svisloch-Nemiga junction (a 3 ha timber-laced rampart enclosing an unfinished eleventh-century stone church, surrounded by 35 ha of waterlogged *posad* log streets), reaching 38 ha and 9k inhabitants (8k - 10,5k) at 1200AD [@zagorulsky1982vozniknovenie; @zagorulsky2001arkheologiya]. The Principality of Vitebsk (1102-1321AD, 55,19°N, 30,2°E), held by Svyatoslav and Davyd Vseslavich at the Vitba-Western Dvina junction, covered the *Verkhny Zamok* (Zamkovaya Gora), *Nizhny Zamok* and *Uzgorier* suburbs (50 ha in all), contained the 1140s Church of the Annunciation (built of alternating brick and dressed dolomite blocks), yielded the late thirteenth-century birch-bark letter of Stepan and held 9,5k inhabitants (8k - 11k) at 1200AD, alongside the Dnieper portage fortress of Orsha (*Rsha*, 1067AD, 22 ha, 4k inhabitants) and Kopys (1059AD, 2,8k) [@alekseev1966polotskaya; @shtykhov1992goroda].
 
-In the central portage zone, the Principality of Drutsk (1102-1251AD, 54,34°N, 29,75°E) was ruled by Rogvolod Borisovich (fl. 1144-1171AD, patron of the 1178AD *Drutsk Gospel* and the inscribed *Boris Stones* on the Dvina), where excavations by L. V. Alekseev documented a 2,5 ha detinets, a 9,5 ha *okolny gorod*, and 23,0 ha of posads (35,0 ha total, 4 500 inhabitants) [@alekseev1966polotskaya]. The Principality of Borisov (1102-1301AD, 54,23°N, 28,52°E) was founded on the Berezina river in 1102AD by Prince Boris Vseslavich at Stary Borisov (18,0 ha complex, 3 500 inhabitants) [@shtykhov1992goroda]. Downriver in Latgale and Selonia, the tributary principalities of Jersika (1001-1210AD, 56,25°N, 26,19°E) and Koknese (1191-1210AD, 56,64°N, 25,42°E) controlled the lower Western Dvina; according to Henry of Livonia's *Chronicon Livoniae*, Orthodox Prince Visvaldis (Vsevolod) of Jersika ruled from the 1,5 ha cliff-top hillfort and 12,0 ha posad of *Jersika (Gerzike)* (2 500 inhabitants) until Bishop Albert of Riga and the Livonian Brothers of the Sword stormed and burned its Orthodox churches in 1209AD, while Prince Vyachko (Vetseke) of Koknese held the Dvina-Perse promontory fortress of *Koknese (Kukenois)* (10,0 ha, 2 000 inhabitants) until burning his own castle in 1208AD [@mugurevics1965vostochnaya; @alekseev1966polotskaya].
+In the central portage country, the Principality of Drutsk (1102-1251AD, 54,34°N, 29,75°E) was ruled by Rogvolod Borisovich (fl. 1144-1171AD, patron of the 1178AD *Drutsk Gospel* and the inscribed *Boris Stones* on the Dvina), where L. V. Alekseev excavated a 2,5 ha citadel, a 9,5 ha *okolny gorod* and 23 ha of suburbs (35 ha in all, 4,5k inhabitants) [@alekseev1966polotskaya]. The Principality of Borisov (1102-1301AD, 54,23°N, 28,52°E) was founded on the Berezina in 1102AD by Prince Boris Vseslavich at Stary Borisov (18 ha, 3,5k inhabitants) [@shtykhov1992goroda]. Downriver in Latgale and Selonia, the tributary principalities of Jersika (1001-1210AD, 56,25°N, 26,19°E) and Koknese (1191-1210AD, 56,64°N, 25,42°E) guarded the lower Western Dvina; according to Henry of Livonia's *Chronicon Livoniae*, Orthodox Prince Visvaldis (Vsevolod) of Jersika ruled from the 1,5 ha cliff-top hillfort and 12 ha suburb of *Jersika (Gerzike)* (2,5k inhabitants) until Bishop Albert of Riga and the Swordbrothers stormed and burned its Orthodox churches in 1209AD, while Prince Vyachko (Vetseke) of Koknese held the Dvina-Perse promontory fortress of *Koknese (Kukenois)* (10 ha, 2k inhabitants) until burning his own castle in 1208AD [@mugurevics1965vostochnaya; @alekseev1966polotskaya].
 
-## The Turov-Pinsk Principalities and Berestye Land (1133AD - 1300AD)
+### Turov-Pinsk and Berestye
 
-Across southern Belarus, the Pripyat river and its ten navigable tributaries formed the Land of Turov and Pinsk. First attested under Prince Tury in 980AD and ruled in the 11th century as the senior throne of the Kievan heir apparent (Svyatopolk Vladimirovich, Izyaslav Yaroslavich, Svyatopolk Izyaslavich), Turov (1133-1341AD, 52,07°N, 27,74°E) secured permanent dynastic independence under Vyacheslav Vladimirovich and Yuri Yaropolkovich (d. c. 1167AD) after withstanding a ten-week coalition siege in 1158AD [@lysenko1974goroda; @lysenko2004drevniy].
+Across southern Belarus, the Pripyat river and its ten navigable tributaries formed the Land of Turov and Pinsk. First mentioned under Prince Tury in 980AD and held in the eleventh century by the senior heirs to the Kievan throne (Svyatopolk Vladimirovich, Izyaslav Yaroslavich and Svyatopolk Izyaslavich), Turov (1133-1341AD, 52,07°N, 27,74°E) became an independent dynastic seat under Vyacheslav Vladimirovich and Yuri Yaropolkovich (d. c. 1167AD) after withstanding a ten-week siege in 1158AD [@lysenko1974goroda; @lysenko2004drevniy].
 
-P. F. Lysenko's excavations (1961-1968, 1992-2003) at Turov (*Turau*) on the Pripyat documented the 2,5 ha *Zamkova Hora* detinets (containing the brick foundations of the 1170s Cathedral of the Dormition, 29,3 x 17,9 m, seat of the celebrated homilist Bishop Cyril of Turov, c. 1130-1182AD, together with four lead patriarchal and episcopal seals and carved Ovruch slate sarcophagi), the 12,5 ha *Okolny Gorod*, and 30,0 ha of alluvial posads (45,0 ha total complex, 12 000 inhabitants at 1200AD), flanked by Mozyr (16,5 ha, 3 500), David-Gorodok (14,0 ha, 3 000), Rogachev (14,0 ha, 3 000), Bragin (11,5 ha, 2 800), and Strelsk (1 800) [@lysenko2004drevniy].
+P. F. Lysenko's excavations (1961-1968, 1992-2003) at Turov (*Turau*) on the Pripyat uncovered the 2,5 ha *Zamkova Hora* citadel (containing the brick foundations of the 1170s Cathedral of the Dormition, 29,3 x 17,9 m, seat of the preacher Bishop Cyril of Turov, c. 1130-1182AD, together with four lead patriarchal and episcopal seals and carved Ovruch slate sarcophagi), the 12,5 ha *Okolny Gorod* and 30 ha of riverside suburbs (45 ha in all, 12k inhabitants at 1200AD), flanked by Mozyr (16,5 ha, 3,5k), David-Gorodok (14 ha, 3k), Rogachev (14 ha, 3k), Bragin (11,5 ha, 2,8k) and Strelsk (1,8k) [@lysenko2004drevniy].
 
-In the late 12th century, Yuri Yaropolkovich's sons partitioned the Polesian basin into multiple appanages. The Principality of Pinsk (1175-1321AD, 52,11°N, 26,10°E) was located at the Pina-Strumen-Pripyat confluence (*Pinsk* or *Pinesk*, 1097AD), where a 3,2 ha detinets, 10,8 ha *okolny gorod*, and 24,0 ha posad (38,0 ha total) supported 8 000 inhabitants (6 500 - 9 500) at 1200AD, alongside *Nobel* (1 600) and *Pogost* (1 400) [@lysenko1974goroda]. The Principality of Kletsk (1148-1401AD, 53,06°N, 26,63°E) and Slutsk (*Sluchesk*, 1116AD, 53,03°N, 27,56°E) anchored the fertile northern Polesian forest-steppe fringe across the loess islands of the Kletsk-Slutsk-Kopyl-Nesvizh ridge, where Slutsk on the Sluch river (25,0 ha, 5 000 inhabitants), Kletsk on the Lan river (18,0 ha, 3 500 inhabitants), and Kopyl (10,0 ha, 2 500 inhabitants) formed major agricultural and craft centres [@lysenko1974goroda]. South of the Pripyat, the Principality of Dubrovytsia (1175-1301AD, 51,57°N, 26,56°E) served as the seat of Prince Gleb Yuryevich (fl. 1183-1190AD, who fought at the Battle of the Kayala in 1185AD) on the Horyn river (18,0 ha, 3 500 inhabitants), linked with Stepan (2 200) and Vysotsk (1 250) [@lysenko1974goroda]. On the western edge of Polesia at the Western Bug-Mukhavets confluence, the Berestye Land (*Beresteyskaya Zemlya*) centred on Berestye (*Brest*, 1019AD), which served as the strategic customs and military gateway between Turov, Volhynia, Mazovia, and Yatvingia. Between 1969 and 1981, P. F. Lysenko excavated 1 800 m² of the waterlogged *Hospital Island* detinets (4 - 7 m cultural layer), uncovering 12 chronological tiers of pine log-corduroy streets (11th - 13th centuries) and over 220 log cabins preserved up to 12 logs (1,8 m) in height complete with doorways, windows, and oak shingles [@lysenko1985berestye]. Berestye covered 34,0 ha (7 500 inhabitants) at 1200AD, guarded to the north by Kamenets (1276AD, where Volhynian Prince Vladimir Vasilkovich and architect Aleksa erected the 30 m brick Tower of Kamenets or *Belaya Vezha*, 3 000 inhabitants by 1300AD), Kobrin (2 000), and Zditov (1 650) [@lysenko1985berestye].
+In the late twelfth century, Yuri Yaropolkovich's sons divided the Polesian basin into several smaller principalities. The Principality of Pinsk (1175-1321AD, 52,11°N, 26,1°E) stood at the Pina-Strumen-Pripyat junction (*Pinsk* or *Pinesk*, 1097AD), where a 3,2 ha citadel, 10,8 ha *okolny gorod* and 24 ha suburb (38 ha in all) held 8k inhabitants (6,5k - 9,5k) at 1200AD, alongside *Nobel* (1,6k) and *Pogost* (1,4k) [@lysenko1974goroda]. The Principality of Kletsk (1148-1401AD, 53,06°N, 26,63°E) and Slutsk (*Sluchesk*, 1116AD, 53,03°N, 27,56°E) occupied the fertile loess ridge along the northern edge of Polesia, where Slutsk on the Sluch (25 ha, 5k inhabitants), Kletsk on the Lan (18 ha, 3,5k) and Kopyl (10 ha, 2,5k) were busy market and craft towns [@lysenko1974goroda]. South of the Pripyat, the Principality of Dubrovytsia (1175-1301AD, 51,57°N, 26,56°E) on the Horyn river (18 ha, 3,5k inhabitants) was the seat of Prince Gleb Yuryevich (fl. 1183-1190AD, who fought at the Kayala in 1185AD), linked with Stepan (2,2k) and Vysotsk (1,25k) [@lysenko1974goroda]. On the western edge of Polesia at the Western Bug-Mukhavets junction, the Berestye Land (*Beresteyskaya Zemlya*) centred on Berestye (*Brest*, 1019AD), the main toll station and fortress between Turov, Volhynia, Mazovia and Yatvingia. Between 1969 and 1981, P. F. Lysenko excavated 1,8k m² of the waterlogged *Hospital Island* citadel (4 - 7 m deep), uncovering 12 layers of pine log-corduroy streets (eleventh to thirteenth centuries) and over 220 log cabins preserved up to 12 logs (1,8 m) high with doorways, windows and oak roof-shingles [@lysenko1985berestye]. Berestye covered 34 ha (7,5k inhabitants) at 1200AD, guarded to the north by Kamenets (1276AD, where Volhynian Prince Vladimir Vasilkovich and the builder Aleksa raised the 30 m brick Tower of Kamenets or *Belaya Vezha*, 3k inhabitants by 1300AD), Kobrin (2k) and Zditov (1,65k) [@lysenko1985berestye].
 
-## Black Ruthenia (Upper Neman) and the Western Smolensk-Sozh Corridor (1128AD - 1241AD)
+### Black Ruthenia and the Upper Sozh
 
-Along the Upper Neman river, Slavic colonisation by Dregovichi, Volhynians, and Krivichi into Yotvingian and Lithuanian territory created the principalities of Black Ruthenia (*Chornaya Rus*) [@voronin1954drevnee; @gurevich1981drevniy; @zverugo1989verkhnee]. The Principality of Grodno (*Goroden*, 1128-1201AD, 53,69°N, 23,83°E) was ruled by Prince Vsevolodko Davydovich (d. 1141AD, husband of Vladimir Monomakh's daughter Agafia) and his sons Boris and Gleb; excavated by J. Jodkowski and N. N. Voronin (1954), Grodno (35,0 ha, 8 500 inhabitants) developed an autonomous school of monumental masonry exemplified by the Kalozha Church of SS. Boris and Gleb (c. 1180s), the Lower Church, and the Princely Palace on *Staraya Gora*, featuring walls inlaid with polished granite boulders and glazed polychrome ceramic crosses [@voronin1954drevnee; @zverugo1989verkhnee]. The Principality of Novogrudok (1201-1241AD, 53,60°N, 25,82°E) occupied the high *Zamkovaya Gora* and *Maly Zamok* hills (323 m elevation), where F. D. Gurevich's excavations (1956-1985) revealed an exceptionally wealthy 12th-13th-century boyar and goldsmith quarter on the *Okolny Gorod* containing two-storey timber mansions equipped with glazed window glass, frescoed plaster interiors, Byzantine amphorae, Syrian enamelled glass goblets, and gold and silver casting matrices (32,0 ha total complex, 7 500 inhabitants at 1200AD, rising to 9 000 by 1300AD as Mindaugas's early capital) [@gurevich1981drevniy]. The Principality of Volkovysk (1201-1241AD, 53,16°N, 24,45°E) comprised the fortified hills of *Shvedskaya Gora*, *Zamchishche*, and *Muravelnik* (24,0 ha, 5 000 inhabitants per Ya. G. Zverugo 1989), alongside Slonim (*Uslonim*, 12,0 ha, 3 500), Turiisk-on-Neman (1 600), and Zditovo-on-Molchad (1 500) [@zverugo1989verkhnee].
+Along the Upper Neman river, Slavic settlement by Dregovichi, Volhynians and Krivichi in Yotvingian and Lithuanian country created the principalities of Black Ruthenia (*Chornaya Rus*) [@voronin1954drevnee; @gurevich1981drevniy; @zverugo1989verkhnee]. The Principality of Grodno (*Goroden*, 1128-1201AD, 53,69°N, 23,83°E) was ruled by Prince Vsevolodko Davydovich (d. 1141AD, husband of Vladimir Monomakh's daughter Agafia) and his sons Boris and Gleb; excavated by J. Jodkowski and N. N. Voronin (1954), Grodno (35 ha, 8,5k inhabitants) developed its own style of brick and stone building seen in the Kalozha Church of SS Boris and Gleb (c. 1180s), the Lower Church and the Princely Palace on *Staraya Gora*, whose walls are inlaid with polished granite boulders and glazed ceramic crosses [@voronin1954drevnee; @zverugo1989verkhnee]. The Principality of Novogrudok (1201-1241AD, 53,6°N, 25,82°E) stood on the high hills of *Zamkovaya Gora* and *Maly Zamok* (323 m elevation), where F. D. Gurevich's excavations (1956-1985) uncovered a rich twelfth- and thirteenth-century boyar and goldsmith quarter on the *Okolny Gorod* with two-storey timber houses, glass windows, frescoed plaster walls, Byzantine amphorae, Syrian enamelled glass goblets and gold and silver casting moulds (32 ha in all, 7,5k inhabitants at 1200AD, rising to 9k by 1300AD as Mindaugas's early capital) [@gurevich1981drevniy]. The Principality of Volkovysk (1201-1241AD, 53,16°N, 24,45°E) covered the fortified hills of *Shvedskaya Gora*, *Zamchishche* and *Muravelnik* (24 ha, 5k inhabitants according to Ya. G. Zverugo), alongside Slonim (*Uslonim*, 12 ha, 3,5k), Turiisk-on-Neman (1,6k) and Zditovo-on-Molchad (1,5k) [@zverugo1989verkhnee].
 
-In eastern Belarus, the Principality of Mstislavl (1181-1198AD, 54,02°N, 31,73°E) and the Upper Dnieper-Sozh corridor were anchored by Mstislavl, founded in 1135AD by Smolensk Prince Rostislav Mstislavich (d. 1167AD) on the Vikhra river and named after his father Mstislav the Great. Excavations by L. V. Alekseev and M. A. Tkachev on *Zamkovaya Gora* (26,0 ha total complex, 5 000 inhabitants at 1200AD) recovered a birch-bark fragment, a princely seal, and rich 12th-century craft layers. Together with Krichev (1136AD, 3 000), Propoisk (*Prupoi*, 1136AD, 2 800), Rechitsa (2 500), Chechersk (1159AD, 2 000), Luchin (1 850), Shklov (1 750), Mogilev (1 950), and Gomel (*Homiy*, 1142AD, 30,0 ha, 6 500 inhabitants on the lower Sozh), this eastern Belarusian corridor held 130 000 inhabitants in 1200AD, separate from the 340 000 inhabitants of eastern Smolensk east of 31,0°E in European Russia [@alekseev1980smolenskaya].
+In eastern Belarus, the Principality of Mstislavl (1181-1198AD, 54,02°N, 31,73°E) and the Upper Dnieper-Sozh valley centred on Mstislavl, founded in 1135AD by Smolensk Prince Rostislav Mstislavich (d. 1167AD) on the Vikhra river and named after his father Mstislav the Great. Excavations by L. V. Alekseev and M. A. Tkachev on *Zamkovaya Gora* (26 ha in all, 5k inhabitants at 1200AD) recovered a birch-bark fragment, a princely seal and twelfth-century workshop layers. Together with Krichev (1136AD, 3k), Propoisk (*Prupoi*, 1136AD, 2,8k), Rechitsa (2,5k), Chechersk (1159AD, 2k), Luchin (1,85k), Shklov (1,75k), Mogilev (1,95k) and Gomel (*Homiy*, 1142AD, 30 ha, 6,5k inhabitants on the lower Sozh), this eastern Belarusian strip held 130k inhabitants in 1200AD, counted separately from the 340k inhabitants of eastern Smolensk east of 31°E in European Russia [@alekseev1980smolenskaya].
 
 ```{r table-auto-2, echo=FALSE, results='asis'}
 df_tab_2 <- data.frame(
@@ -240,56 +416,56 @@ df_tab_2 <- data.frame(
     "Minsk, Drutsk & Borisov",
     "Turov, Pinsk, Kletsk, Dubrovytsia & Berestye",
     "Black Ruthenia: Grodno, Novogrudok & Volkovysk",
-    "Mstislavl, W. Smolensk & Upper Sozh (west of 31,0°E)",
-    "Total North-Western Rus (207 600 km2)"
+    "Mstislavl, W. Smolensk & Upper Sozh (west of 31°E)",
+    "Total North-Western Rus (207,6k km2)"
   ),
   col_2 = c(
-    "135 000",
-    "65 000",
-    "130 000",
-    "70 000",
-    "60 000",
-    "460 000"
+    "135k",
+    "65k",
+    "130k",
+    "70k",
+    "60k",
+    "460k"
   ),
   col_3 = c(
-    "180 000",
-    "90 000",
-    "170 000",
-    "95 000",
-    "85 000",
-    "620 000"
+    "180k",
+    "90k",
+    "170k",
+    "95k",
+    "85k",
+    "620k"
   ),
   col_4 = c(
-    "230 000",
-    "115 000",
-    "215 000",
-    "120 000",
-    "110 000",
-    "790 000"
+    "230k",
+    "115k",
+    "215k",
+    "120k",
+    "110k",
+    "790k"
   ),
   col_5 = c(
-    "285 000",
-    "145 000",
-    "270 000",
-    "150 000",
-    "130 000",
-    "980 000"
+    "285k",
+    "145k",
+    "270k",
+    "150k",
+    "130k",
+    "980k"
   ),
   col_6 = c(
-    "260 000",
-    "130 000",
-    "195 000",
-    "145 000",
-    "90 000",
-    "820 000"
+    "260k",
+    "130k",
+    "195k",
+    "145k",
+    "90k",
+    "820k"
   ),
   col_7 = c(
-    "270 000",
-    "138 000",
-    "205 000",
-    "155 000",
-    "92 000",
-    "860 000"
+    "270k",
+    "138k",
+    "205k",
+    "155k",
+    "92k",
+    "860k"
   ),
   col_8 = c(
     "46 (5 >10 ha)",
@@ -304,9 +480,9 @@ df_tab_2 <- data.frame(
 render_table_template(
   df_tab_2,
   list(
-    caption = "Sub-regional population breakdown and fortified town counts across the five North-Western Rus clusters (800AD - 1300AD).",
+    caption = "Sub-regional population estimates and excavated fortified town counts across the five river-basin groups of North-Western Rus from the Krivichi, Dregovichi and Radimichi tribal era (800AD) to the early Grand Duchy of Lithuania (1300AD).",
     label = "tab:auto-tab-2",
-    col_names = c("Sub-Regional Devolved Principality Cluster", "800AD Pop.", "1000AD Pop.", "1100AD Pop.", "1200AD Peak", "1250AD Trough", "1300AD Pop.", "Gorodishcha (N)"),
+    col_names = c("Principality Group", "800AD Pop.", "1000AD Pop.", "1100AD Pop.", "1200AD Peak", "1250AD Low", "1300AD Pop.", "Fortified Towns"),
     font_size = "footnotesize",
     scale_to_fit = FALSE,
     span_columns = TRUE
@@ -318,40 +494,40 @@ render_table_template(
 render_figure_template(
   "figures/polotsk_turov_and_belarusian_principalities_fig3_principality_breakdown.png",
   list(
-    caption = "Fortified town size hierarchy and sub-regional population trajectory across North-Western Rus principalities (800AD - 1300AD).",
+    caption = "Left: distribution of the 188 excavated fortified settlements (gorodishcha) catalogued by Shtykhov, Lysenko, Zagorulsky and Kuza across the five Belarusian principality groups, distinguishing major capitals (>10 ha), secondary volost centres (2,5 - 10 ha) and small castles (<2,5 ha). Right: sub-regional population trajectories from 800AD to 1300AD, contrasting the 1239-1241AD losses in Turov-Pinsk and the Lower Sozh with the unstormed northern and western principalities.",
     label = "fig:polotsk-turov-and-belarusian-principalities-fig-2",
     width = "0.98\\textwidth",
     span_columns = TRUE,
-    placement = "t"
+    placement = "!htbp"
   )
 )
 ```
 
-# Mongol Raids and Lithuanian-Ruthenian Era (1238AD - 1300AD)
+## The Mongol Invasion and Early Lithuanian Rule
 
-## Asymmetric Impact of the 1239-1241AD Campaigns: Southern Polesia vs Northern Polotsk and Black Ruthenia
+### The Campaigns of 1239-1241
 
-A defining structural feature of North-Western Rus demographic history is the sharp north-south divergence during Batu Khan's Western Campaign (1237-1241AD) [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy]. Across southern Polesia and the Lower Sozh, destruction layers date directly to 1239-1241AD: during the autumn of 1239AD, Mangu's and Batu's columns operating against the Chernigov Principality stormed Gomel (*Homiy*), where excavations on the Sozh promontory revealed burned timber fortifications, weapons caches, and skeletal remains in 1239AD destruction horizons (6 500 in 1200AD falling to 3 500 in 1250AD). In the winter of 1240-1241AD, following the fall of Kiev, Mongol detachments advancing westwards toward Vladimir-in-Volhynia and Poland struck the southern Pripyat corridor, sacking Turov (12 000 to 7 000), Mozyr (3 500 to 2 100), Bragin (2 800 to 1 500), Dubrovytsia (3 500 to 2 200), and Berestye (7 500 to 5 200), where the *Hypatian Chronicle* records unburied corpses lying across the fields between Vladimir and Berestye in early 1241AD [@lysenko1985berestye; @lysenko2004drevniy]. Subsequent punitive expeditions led by the Mongol general Burundai (1258-1259AD) passed through Polesia and compelled Volhynian and local forces to dismantle fortifications along the southern frontier.
+Batu Khan's western campaign (1237-1241AD) produced a sharp divide between the exposed south and the sheltered north of Belarus [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy]. Across southern Polesia and the Lower Sozh, destruction layers date directly to 1239-1241AD: in the autumn of 1239AD, Möngke's and Batu's forces marching against the Chernigov Principality stormed Gomel (*Homiy*), where excavations on the Sozh bluff uncovered burned timber ramparts, weapon caches and unburied skeletons in the 1239AD layer (6,5k in 1200AD falling to 3,5k in 1250AD). In the winter of 1240-1241AD, after the fall of Kiev, Mongol detachments riding west toward Volodymyr and Poland struck the southern Pripyat valley, sacking Turov (12k to 7k), Mozyr (3,5k to 2,1k), Bragin (2,8k to 1,5k), Dubrovytsia (3,5k to 2,2k) and Berestye (7,5k to 5,2k), where the *Hypatian Chronicle* records unburied corpses lying across the fields between Volodymyr and Berestye in early 1241AD [@lysenko1985berestye; @lysenko2004drevniy]. Later raids led by the Mongol general Burundai (1258-1259AD) passed through Polesia and forced the southern frontier towns to pull down their timber walls.
 
-Conversely, protected by the dense marshy forests of the Berezina-Pripyat Polesian lowland and the upper Dnieper watershed, Polotsk (25 000 to 22 000 to 23 000), Vitebsk (9 500 to 8 800 to 9 500), Minsk (9 000 to 8 200 to 8 800), Drutsk (4 500 to 4 100 to 4 300), Borisov (3 500 to 3 200 to 3 400), Grodno (8 500 to 8 000 to 8 500), Novogrudok (7 500 to 8 200 to 9 000), and Volkovysk (5 000 to 4 700 to 5 100) were never besieged or stormed during the 1237-1241AD invasion [@shtykhov1992goroda; @gurevich1981drevniy; @tarasov1998polotsk]. While trade disruptions along the Dnieper-Black Sea route and Livonian crusader pressure on the lower Dvina (*Jersika* and *Koknese* having fallen to Riga in 1208-1209AD) trimmed Polotsk's long-distance commerce, northern and western Belarus absorbed artisan and boyar refugees fleeing the devastated Middle Dnieper and southern Rus principalities.
+Protected by the broad marshes of the Berezina-Pripyat lowlands and the upper Dnieper woods, Polotsk (25k in 1200AD, 22k in 1250AD and 23k in 1300AD), Vitebsk (9,5k, 8,8k and 9,5k), Minsk (9k, 8,2k and 8,8k), Drutsk (4,5k, 4,1k and 4,3k), Borisov (3,5k, 3,2k and 3,4k), Grodno (8,5k, 8k and 8,5k), Novogrudok (7,5k, 8,2k and 9k) and Volkovysk (5k, 4,7k and 5,1k) were never besieged or stormed during the 1237-1241AD invasion [@shtykhov1992goroda; @gurevich1981drevniy; @tarasov1998polotsk]. Although the collapse of Dnieper-Black Sea trade and Livonian crusader advances on the lower Dvina (*Jersika* and *Koknese* having fallen to Riga in 1208-1209AD) reduced Polotsk's river commerce, northern and western Belarus took in craftsmen and boyar families fleeing the ravaged Middle Dnieper.
 
 ```{r fig-auto-3, echo=FALSE, results='asis'}
 render_figure_template(
   "figures/polotsk_turov_and_belarusian_principalities_fig4_urban_archaeology.png",
   list(
-    caption = "Pre-Mongol urban enclosure areas and post-1240AD urban demographic continuity in North-Western Rus (1200AD - 1300AD).",
+    caption = "Left: walled rampart and suburban posad areas plotted against urban population in 1200AD, led by the 190 ha metropolis of Polotsk (25k), Turov (45 ha, 12k), Vitebsk (50 ha, 9,5k) and Minsk (38 ha, 9k). Right: urban population trajectories between 1200AD and 1300AD, contrasting the sacked southern towns of Gomel, Turov and Berestye with the continuity of Polotsk, Vitebsk and Minsk and the growth of Mindaugas's early capital at Novogrudok.",
     label = "fig:polotsk-turov-and-belarusian-principalities-fig-3",
     width = "0.98\\textwidth",
     span_columns = TRUE,
-    placement = "t"
+    placement = "!htbp"
   )
 )
 ```
 
-## Transition into the Early Lithuanian-Ruthenian Realm (1240s - 1300AD)
+### Early Lithuanian-Ruthenian Integration
 
-In the immediate aftermath of the 1238-1241AD Mongol campaigns, the unstormed urban network and boyar *veche* institutions of Black Ruthenia and the Polotsk Land catalysed the formation of the early Grand Duchy of Lithuania (1240s - 1300AD) [@gurevich1981drevniy; @lowmianski1983studia; @ochmanski1982historia]. By the mid-1240s, Novogrudok, Grodno, Volkovysk, and Slonim in Black Ruthenia formed the military, fiscal, and artisanal heartland of Mindaugas (d. 1263AD) and his Orthodox son Vaišvilkas (*Voishalk*, 1264-1267AD), who founded the Lavrishevo Monastery on the Neman near Novogrudok. Archaeological strata in late 13th-century Novogrudok show continuous expansion of its boyar and craft quarters from 7 500 inhabitants in 1200AD to 8 200 in 1250AD and 9 000 in 1300AD [@gurevich1981drevniy].
+In the decades after 1240AD, the unstormed towns and boyar assemblies (*veche*) of Black Ruthenia and the Polotsk Land formed the core of the early Grand Duchy of Lithuania (1240s - 1300AD) [@gurevich1981drevniy; @lowmianski1983studia; @ochmanski1982historia]. By the mid-1240s, Novogrudok, Grodno, Volkovysk and Slonim in Black Ruthenia served as the military and craft heartland of Mindaugas (d. 1263AD) and his Orthodox son Vaišvilkas (*Voishalk*, 1264-1267AD), who founded the Lavrishevo Monastery on the Neman near Novogrudok. Excavations in late thirteenth-century Novogrudok show steady growth across its boyar and craft quarters from 7,5k inhabitants in 1200AD to 8,2k in 1250AD and 9k in 1300AD [@gurevich1981drevniy].
 
-In Polotsk and Vitebsk, through dynastic marriages and *veche* treaties preserving autonomous Polotsk law (*starina*), Mindaugas's nephew Tautvilas (*Tovtivil*, Prince of Polotsk c. 1252-1263AD), Gerdenis (1264-1267AD, signatory of the 1264AD Polotsk-Vitebsk trade treaty with Riga and Gotland), and Prince Konstantin Bezrukii (c. 1270s-1290s) maintained Polotsk (23 000 in 1300AD) and Vitebsk (9 500 in 1300AD) as self-governing principalities allied with Lithuania against the Livonian Order and the Golden Horde [@shtykhov1992goroda; @tarasov1998polotsk; @lowmianski1983studia]. Across North-Western Rus as a whole, total population dipped by -16,3% from its 1200AD pre-Mongol peak of 980 000 (980,0k) to 820 000 (820,0k) at the 1250AD post-conquest trough, before recovering to 860 000 (860,0k; range 720,0k - 1 000,0k, 4,14 per km²) by 1300AD (Polotsk-Vitebsk-Minsk-Drutsk-Borisov 408,0k, Turov-Pinsk-Kletsk-Dubrovytsia-Berestye 205,0k, Black Ruthenia 155,0k, Mstislavl and Upper Sozh 92,0k), providing the intact demographic foundation of the Lithuanian-Ruthenian state at the close of the 13th century [@lowmianski1983studia; @ochmanski1982historia].
+In Polotsk and Vitebsk, through dynastic marriages and *veche* charters guaranteeing traditional local law (*starina*), Mindaugas's nephew Tautvilas (*Tovtivil*, Prince of Polotsk c. 1252-1263AD), Gerdenis (1264-1267AD, who signed the 1264AD Polotsk-Vitebsk trade treaty with Riga and Gotland) and Prince Konstantin Bezrukii (c. 1270s-1290s) kept Polotsk (23k in 1300AD) and Vitebsk (9,5k in 1300AD) as self-governing principalities allied with Lithuania against the Livonian Order and the Golden Horde [@shtykhov1992goroda; @tarasov1998polotsk; @lowmianski1983studia]. Across North-Western Rus as a whole, total population dipped by 16,3% from its 1200AD pre-Mongol peak of 980k to 820k in 1250AD, before recovering to 860k (range 720k - 1M, 4,14 per km²) by 1300AD (408k in Polotsk, Vitebsk, Minsk, Drutsk and Borisov; 205k in Turov, Pinsk, Kletsk, Dubrovytsia and Berestye; 155k in Black Ruthenia; and 92k in Mstislavl and the Upper Sozh), forming the heartland of the Lithuanian-Ruthenian state at the close of the thirteenth century [@lowmianski1983studia; @ochmanski1982historia].
 
 # Sources

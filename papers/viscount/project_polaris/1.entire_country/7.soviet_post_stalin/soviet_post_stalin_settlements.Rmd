@@ -1,25 +1,37 @@
 ---
-title: "SETTLEMENT GAZETTEER OF THE POST-STALIN SOVIET UNION."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (1953AD - 1991AD)."
+title: "Settlement Gazetteer of the Post-Stalin Soviet Union"
+subtitle: "Urban, Industrial and Frontier Settlement Populations Across the Western Republics and the RSFSR"
 date: "11 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/soviet_post_stalin_regional_map.png"
-hero_caption: "Administrative regions and catalogued urban, industrial, scientific, and frontier settlements across the post-Stalin Soviet Union (1953AD - 1991AD)."
+hero_caption: "The 41 regions and 292 catalogued towns of the post-Stalin Soviet Union from 1953 to 1991, spanning the Baltic, Belarusian, Ukrainian and Moldavian republics alongside European Russia, the Urals, Siberia and the Far East."
 hero_label: "fig:hero-gazetteer"
 bibliography: soviet_post_stalin_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 ```{r load-stadester-json, include=FALSE}
@@ -56,7 +68,23 @@ fmt_other_names <- function (arg0_s) {
 fmt_year_lbl <- function (arg0_y) {
   y <- as.numeric(arg0_y)
   if (y < 0) return(paste0(abs(round(y)), "BC"))
-  return(paste0(round(y), "AD"))
+  return(as.character(round(y)))
+}
+
+fmt_sname <- function (arg0_nm) {
+  s <- as.character(arg0_nm)
+  s <- gsub("Dniprodzerzhynsk", "Dnipro-dzerzhynsk", s, fixed = TRUE)
+  s <- gsub("Dnipropetrovsk", "Dnipro-petrovsk", s, fixed = TRUE)
+  s <- gsub("Voroshilovgrad", "Voroshilov-grad", s, fixed = TRUE)
+  s <- gsub("Novocheboksarsk", "Novo-cheboksarsk", s, fixed = TRUE)
+  s <- gsub("Nizhnevartovsk", "Nizhne-vartovsk", s, fixed = TRUE)
+  s <- gsub("Blagoveshchensk", "Blago-veshchensk", s, fixed = TRUE)
+  s <- gsub("Severobaikalsk", "Severo-baikalsk", s, fixed = TRUE)
+  s <- gsub("Chernyakhovsk", "Chernyak-hovsk", s, fixed = TRUE)
+  s <- gsub("Severodonetsk", "Severo-donetsk", s, fixed = TRUE)
+  s <- gsub("Novocherkassk", "Novocher-kassk", s, fixed = TRUE)
+  s <- gsub("Petropavlovsk-Kamchatsky", "Petropav-lovsk-Kamchatsky", s, fixed = TRUE)
+  return(s)
 }
 
 fmt_span <- function (arg0_s) {
@@ -64,17 +92,24 @@ fmt_span <- function (arg0_s) {
   y2 <- last_year_num(arg0_s)
   if (y1 == y2) return(fmt_year_lbl(y1))
   if (y1 < 0 && y2 < 0) return(paste0(abs(y1), "-", abs(y2), "BC"))
-  if (y1 > 0 && y2 > 0) return(paste0(y1, "-", y2, "AD"))
+  if (y1 > 0 && y2 > 0) return(paste0(y1, "-", y2))
   return(paste0(fmt_year_lbl(y1), " - ", fmt_year_lbl(y2)))
 }
 
 fmt_num_eu <- function (arg0_val) {
   if (is.null(arg0_val) || is.na(arg0_val)) return("-")
   v <- as.numeric(arg0_val)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
   if (v >= 1000) {
-    s <- sprintf("%.1fk", v / 1000.0)
-    s <- gsub("\\.", ",", s)
-    return(s)
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
   }
   return(as.character(round(v)))
 }
@@ -406,7 +441,12 @@ reg_map_41 <- c(
   "Zlatoust-Russia" = "ural_industrial_sverdlovsk_chelyabinsk_perm"
 )
 reg_lbl_map <- setNames(
-  vapply(sum_json$regions, function (r) strsplit(as.character(r$name), " (", fixed = TRUE)[[1]][1], character(1)),
+  vapply(sum_json$regions, function (r) {
+    s <- strsplit(as.character(r$name), " (", fixed = TRUE)[[1]][1]
+    s <- gsub("Dnipropetrovsk", "Dnipro-petrovsk", s, fixed = TRUE)
+    s <- gsub("Voroshilovgrad", "Voroshilov-grad", s, fixed = TRUE)
+    return(s)
+  }, character(1)),
   vapply(sum_json$regions, function (r) as.character(r$id), character(1))
 )
 get_rid <- function (arg0_s) {
@@ -425,13 +465,25 @@ fmt_reg_short <- function (arg0_s) {
 }
 ```
 
-# Settlement Gazetteer Overview (1953AD - 1991AD)
+# Abstract
 
-This supplementary settlement gazetteer accompanies the regional demographic literature review for the post-Stalin Soviet Union (1953AD - 1991AD) and compiles 292 individual urban, industrial, scientific, naval, resource-frontier, and evacuated settlements across all forty-one Late-Soviet regions of the Estonian SSR (Region 1), Latvian SSR (Region 2), Lithuanian SSR (Region 3), Moldavian SSR (Region 4), Kaliningrad Oblast RSFSR exclave (Region 5), Byelorussian SSR (Regions 6-8), Ukrainian SSR (Regions 9-15), and mainland RSFSR (Regions 16-41) [@tssu_1962_perepis_1959; @tssu_1972_perepis_1970; @tssu_1984_perepis_1979; @goskomstat_1991_perepis_1989; @goskomstat_1992_demograficheskiy_ezhegodnik_1991]. Every entry records verified geographic coordinates, historical Soviet or pre-Soviet toponyms and functional designations, modern republic attribution (Estonia, Latvia, Lithuania, Moldova, Belarus, Ukraine, or Russia), and positive integer population series across the six post-Stalin benchmark years (1953AD, 1959AD, 1970AD, 1979AD, 1989AD, and 1991AD, plus 1986AD pre-evacuation benchmarks for settlements inside the Chernobyl Exclusion Zone) [@lappo_1997_geografiya_gorodov; @rowland_1996_russia_secret_cities_zato; @iaea_2006_chernobyl_environmental_consequences].
+Between Stalin's death in March 1953 and the dissolution of the USSR in December 1991, the urban population of the seven western and northern union republics - the Russian SFSR and the Ukrainian, Byelorussian, Lithuanian, Latvian, Estonian and Moldavian SSRs - nearly doubled from 86,78M at the 1959 census to 156,78M in 1989. Alongside the steady growth of the republican capitals and older provincial centres, post-Stalin economic planning created hundreds of new towns: Volga, Dnieper and Angara-Yenisei hydroelectric cities, automotive and petrochemical monocities, Moscow science cities, closed nuclear and naval towns (*ZATO*) and Arctic oil, gas, diamond and railway settlements across West Siberia, Yakutia and the Baikal-Amur Mainline.
 
-To facilitate regional cross-referencing across all forty-one Late-Soviet regions, Section 2 tabulates the 47 enumerated settlements of the Baltic SSRs (Estonia, Latvia, Lithuania), the Moldavian SSR, and the Kaliningrad Oblast Baltic Fleet exclave (Regions 1-5, including Snieckus/Visaginas, Sillamae, Tiraspol, Ribnita, Comrat, and Baltiysk), Section 3 tabulates the 82 settlements of the Byelorussian SSR (Regions 6-8) and Ukrainian SSR (Regions 9-15, including the 1954AD Crimean transfer and the 1986AD Chernobyl Exclusion Zone), Section 4 tabulates 107 settlements across European Russia, Leningrad-Novgorod-Pskov (Region 17), the Karelian and Komi ASSRs, the *Nechernozemye* depopulation ring, the Volga-Kama and Ural ASSRs, the 1957AD restored North Caucasus and Kalmyk ASSRs, and declassified *ZATO* nuclear cities (Regions 16-30), Section 5 tabulates 56 settlements across the Yamalo-Nenets and Khanty-Mansi hydrocarbon okrugs, Western Siberia, the Angara-Yenisei hydro cascades, the Tuva, Buryat, and Yakut ASSRs, the Baikal-Amur Mainline (BAM), and the Russian Far East (Regions 31-41), and Section 6 provides the complete unified alphabetical directory across all forty-one regions.
+This gazetteer traces the population histories of 292 towns and urban settlements across all 41 regions from 1953 to 1991. Together with the four post-war Soviet censuses of 1959, 1970, 1979 and 1989 and the opening (1953) and closing (1991) benchmarks, the tables record the pre-evacuation populations of towns inside the 1986 Chernobyl Exclusion Zone and the declassified headcounts of the secret nuclear and naval cities omitted from contemporary Soviet publications.
 
-# Baltic SSRs, Moldavian SSR, and Kaliningrad Exclave Directory (Regions 1 - 5)
+
+# Methodology
+
+The 292 settlements in this gazetteer span all 41 regions of the Estonian SSR (Region 1), Latvian SSR (Region 2), Lithuanian SSR (Region 3), Moldavian SSR (Region 4), the Kaliningrad Oblast RSFSR exclave (Region 5), the Byelorussian SSR (Regions 6-8), the Ukrainian SSR (Regions 9-15) and the mainland RSFSR (Regions 16-41) [@tssu_1962_perepis_1959; @tssu_1972_perepis_1970; @tssu_1984_perepis_1979; @goskomstat_1991_perepis_1989; @goskomstat_1992_demograficheskiy_ezhegodnik_1991]. Population figures are drawn from the All-Union census returns of January 1959, January 1970, January 1979 and January 1989, supplemented by TsSU and Goskomstat urban registers for 1953 and 1991, post-Soviet declassified *Minsredmash* series for closed nuclear and naval cities, and April 1986 pre-evacuation counts for settlements evacuated after the Chernobyl accident [@lappo_1997_geografiya_gorodov; @rowland_1996_russia_secret_cities_zato; @iaea_2006_chernobyl_environmental_consequences].
+
+The regional tables in the Results section group the towns into four geographic zones: the 47 towns of the Baltic SSRs, the Moldavian SSR and Kaliningrad Oblast (Regions 1-5); the 82 towns of the Byelorussian and Ukrainian SSRs (Regions 6-15); the 107 towns of European Russia, the Volga-Ural republics and the North Caucasus (Regions 16-30); and the 56 towns of Siberia, Yakutia and the Far East (Regions 31-41). The Appendix then presents all 292 settlements in a single alphabetical directory with their full benchmark series.
+
+
+# Results
+
+## Baltic SSRs, Moldavian SSR and Kaliningrad Exclave
+
+In the western borderlands (Regions 1-5), urban growth followed contrasting paths: heavy industrial migration into Tallinn, Riga, the Ida-Virumaa oil-shale basin and the left-bank Dniester towns of Tiraspol, Bender and Ribnita, balanced ten-pole regional urbanisation across Lithuania, and naval and fishing expansion in Kaliningrad Oblast (Table \ref{tab:western-ssrs-kaliningrad}).
 
 ```{r tab-western-ssrs-kaliningrad, echo=FALSE, results='asis'}
 west_ids <- c(
@@ -445,7 +497,7 @@ sub_w <- Filter(function (s) get_rid(s) %in% west_ids, settlements_list)
 sub_w <- sub_w[order(match(vapply(sub_w, get_rid, character(1)), west_ids), vapply(sub_w, function (s) as.character(s$name), character(1)))]
 
 df_w <- data.frame(
-  Settlement = vapply(sub_w, function (s) as.character(s$name), character(1)),
+  Settlement = vapply(sub_w, function (s) fmt_sname(s$name), character(1)),
   Region = vapply(sub_w, fmt_reg_short, character(1)),
   Coords = vapply(sub_w, function (s) fmt_coord_pair(s$coords), character(1)),
   Y1953 = vapply(sub_w, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
@@ -459,21 +511,23 @@ df_w <- data.frame(
 render_table_template(
   df_w,
   list(
-    caption = "Settlement population histories across the Estonian, Latvian, Lithuanian, and Moldavian SSRs and the Kaliningrad Oblast exclave (Regions 1 to 5, 1953AD - 1991AD).",
-    col_names = c("Settlement", "Late-Soviet Region (1-5)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1989AD", "1991AD"),
+    caption = "Populations of 47 republican capitals, regional centres, industrial towns and closed naval or nuclear settlements across Estonia, Latvia, Lithuania, Moldavia and Kaliningrad Oblast from 1953 to 1991.",
+    col_names = c("Settlement", "Region (1-5)", "Coords", "1953", "1959", "1970", "1979", "1989", "1991"),
     label = "tab:western-ssrs-kaliningrad"
   )
 )
 ```
 
-# Belarus and Ukraine Settlement Directory (Regions 6 - 15)
+## Byelorussian and Ukrainian SSRs
+
+Across Belarus and Ukraine (Regions 6-15), post-war urban growth was led by Minsk, Kyiv, the western oblast capitals, the Dnieper hydroelectric and metallurgical bend and the Black Sea ports, while the April 1986 Chernobyl accident forced the evacuation of Pripyat, Chernobyl and Poliske and the construction of Slavutych (Table \ref{tab:belarus-ukraine}).
 
 ```{r tab-belarus-ukraine, echo=FALSE, results='asis'}
 sub_bu <- Filter(function (s) s$country %in% c("Belarus", "Ukraine"), settlements_list)
 sub_bu <- sub_bu[order(vapply(sub_bu, function (s) paste0(sprintf("%02d", as.integer(sub("\\..*$", "", fmt_reg_short(s)))), "_", s$name), character(1)))]
 
 df_bu <- data.frame(
-  Settlement = vapply(sub_bu, function (s) as.character(s$name), character(1)),
+  Settlement = vapply(sub_bu, function (s) fmt_sname(s$name), character(1)),
   Region = vapply(sub_bu, fmt_reg_short, character(1)),
   Coords = vapply(sub_bu, function (s) fmt_coord_pair(s$coords), character(1)),
   Y1953 = vapply(sub_bu, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
@@ -487,14 +541,16 @@ df_bu <- data.frame(
 render_table_template(
   df_bu,
   list(
-    caption = "Settlement population histories across the Byelorussian SSR and Ukrainian SSR, including 1986AD Chernobyl benchmarks (Regions 6 to 15, 1953AD - 1991AD).",
-    col_names = c("Settlement", "Late-Soviet Region (6-15)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1986/89AD", "1991AD"),
+    caption = "Populations of 82 towns across the Byelorussian and Ukrainian SSRs (Regions 6-15) from 1953 to 1991, including 1986 pre-evacuation figures for towns in the Chernobyl Exclusion Zone.",
+    col_names = c("Settlement", "Region (6-15)", "Coords", "1953", "1959", "1970", "1979", "1986/89", "1991"),
     label = "tab:belarus-ukraine"
   )
 )
 ```
 
-# European Russia, Volga-Urals, and North Caucasus Directory (Regions 16 - 30)
+## European Russia, Volga-Urals and the North Caucasus
+
+In the European RSFSR, the Volga-Ural republics and the North Caucasus (Regions 16-30), metropolitan expansion in Moscow and Leningrad, the Volga-Kama automotive and petrochemical boomtowns (Tolyatti, Naberezhnye Chelny, Nizhnekamsk and Volzhsky), the Ural closed nuclear towns and the restored capitals of Elista, Grozny, Nalchik and Cherkessk contrasted with rural contraction in the surrounding forest and black-earth villages (Table \ref{tab:european-russia}).
 
 ```{r tab-european-russia, echo=FALSE, results='asis'}
 sib_ids <- c(
@@ -514,7 +570,7 @@ sub_eu <- Filter(function (s) s$country == "Russia" && !(get_rid(s) %in% c(sib_i
 sub_eu <- sub_eu[order(vapply(sub_eu, function (s) as.character(s$name), character(1)))]
 
 df_eu <- data.frame(
-  Settlement = vapply(sub_eu, function (s) as.character(s$name), character(1)),
+  Settlement = vapply(sub_eu, function (s) fmt_sname(s$name), character(1)),
   Region = vapply(sub_eu, fmt_reg_short, character(1)),
   Coords = vapply(sub_eu, function (s) fmt_coord_pair(s$coords), character(1)),
   Y1953 = vapply(sub_eu, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
@@ -528,21 +584,23 @@ df_eu <- data.frame(
 render_table_template(
   df_eu,
   list(
-    caption = "Settlement population histories across European Russia, the Volga-Ural republics, and the restored North Caucasus autonomies (Regions 16 to 30, 1953AD - 1991AD).",
-    col_names = c("Settlement", "Late-Soviet Region (16-30)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1989AD", "1991AD"),
+    caption = "Populations of 107 metropolitan centres, oblast and ASSR capitals, science cities, hydroelectric monocities and closed nuclear towns across European Russia, the Volga-Urals and the North Caucasus (Regions 16-30) from 1953 to 1991.",
+    col_names = c("Settlement", "Region (16-30)", "Coords", "1953", "1959", "1970", "1979", "1989", "1991"),
     label = "tab:european-russia"
   )
 )
 ```
 
-# Siberia, Yakutia, and the Russian Far East Directory (Regions 31 - 41)
+## Siberia, Yakutia and the Far East
+
+East of the Urals (Regions 31-41), older Trans-Siberian and Kuzbass industrial cities were joined by the oil and gas boomtowns of the Middle Ob and Yamal (Surgut, Nizhnevartovsk, Nefteyugansk, Novy Urengoy, Noyabrsk and Nadym), the Angara-Yenisei hydroelectric cities (Bratsk, Angarsk, Ust-Ilimsk, Divnogorsk and Sayanogorsk), the diamond and coal towns of Yakutia (Mirny, Udachny and Neryungri) and the hubs of the Baikal-Amur Mainline and Pacific coast (Table \ref{tab:siberia-fareast}).
 
 ```{r tab-siberia-fareast, echo=FALSE, results='asis'}
 sub_sib <- Filter(function (s) s$country == "Russia" && (get_rid(s) %in% sib_ids), settlements_list)
 sub_sib <- sub_sib[order(vapply(sub_sib, function (s) as.character(s$name), character(1)))]
 
 df_sib <- data.frame(
-  Settlement = vapply(sub_sib, function (s) as.character(s$name), character(1)),
+  Settlement = vapply(sub_sib, function (s) fmt_sname(s$name), character(1)),
   Region = vapply(sub_sib, fmt_reg_short, character(1)),
   Coords = vapply(sub_sib, function (s) fmt_coord_pair(s$coords), character(1)),
   Y1953 = vapply(sub_sib, function (s) get_pop_window_val(s, 1953, 1953), character(1)),
@@ -556,20 +614,30 @@ df_sib <- data.frame(
 render_table_template(
   df_sib,
   list(
-    caption = "Settlement population histories across the West Siberian oil and gas okrugs, Eastern Siberia, Yakutia, and the Far East (Regions 31 to 41, 1953AD - 1991AD).",
-    col_names = c("Settlement", "Late-Soviet Region (31-41)", "Coordinates", "1953AD", "1959AD", "1970AD", "1979AD", "1989AD", "1991AD"),
+    caption = "Populations of 56 cities and resource-frontier towns across West Siberia, the Angara-Yenisei basin, Tuva, Buryatia, Yakutia, the Baikal-Amur Mainline and the Russian Far East (Regions 31-41) from 1953 to 1991.",
+    col_names = c("Settlement", "Region (31-41)", "Coords", "1953", "1959", "1970", "1979", "1989", "1991"),
     label = "tab:siberia-fareast"
   )
 )
 ```
 
-# Complete Alphabetical Settlement Directory (292 Settlements)
+
+# Conclusion
+
+Across the 292 settlements catalogued in this gazetteer, the post-Stalin decades marked the peak of Soviet urban and frontier expansion. Between 1953 and 1991, rural out-migration from the European forest and forest-steppe zones and state investment in automotive, hydroelectric, nuclear and hydrocarbon complexes created a dense hierarchy of regional capitals and specialised industrial towns. With the end of the USSR in December 1991 and the withdrawal of northern wage and transport subsidies, many Arctic mining towns and single-industry *monogoroda* entered demographic contraction, making the 1989-1991 benchmarks the historical high point of the late-Soviet urban network.
+
+
+# Appendix
+
+## Complete Alphabetical Gazetteer
+
+Table \ref{tab:complete-directory} lists all 292 settlements alphabetically across the 41 regions, giving their regional assignment, coordinates and full population series from 1953 to 1991.
 
 ```{r tab-complete-directory, echo=FALSE, results='asis'}
-all_sorted <- settlements_list[order(vapply(settlements_list, function (s) as.character(s$key), character(1)))]
+all_sorted <- settlements_list[order(vapply(settlements_list, function (s) as.character(s$name), character(1)))]
 
 df_all <- data.frame(
-  Key = vapply(all_sorted, function (s) as.character(s$key), character(1)),
+  Settlement = vapply(all_sorted, function (s) fmt_sname(s$name), character(1)),
   Region = vapply(all_sorted, fmt_reg_short, character(1)),
   Coords = vapply(all_sorted, function (s) fmt_coord_pair(s$coords), character(1)),
   Series = vapply(all_sorted, function (s) fmt_pop_series(s, 1953, 1991), character(1)),
@@ -578,8 +646,8 @@ df_all <- data.frame(
 render_table_template(
   df_all,
   list(
-    caption = "Complete alphabetical settlement directory across all forty-one Late-Soviet regions of the western SSRs and the RSFSR (292 settlements, 1953AD - 1991AD).",
-    col_names = c("Stadester Key", "Late-Soviet Region (1-41)", "Coordinates", "Benchmark Population Series (1953AD - 1991AD)"),
+    caption = "Alphabetical gazetteer of all 292 catalogued settlements across the 41 regions of the western union republics and the RSFSR, with coordinates and benchmark populations from 1953 to 1991.",
+    col_names = c("Settlement", "Region (1-41)", "Coords", "Population Series (1953-1991)"),
     label = "tab:complete-directory"
   )
 )

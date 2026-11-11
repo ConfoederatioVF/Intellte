@@ -1,25 +1,139 @@
 ---
-title: "SETTLEMENT GAZETTEER OF DAGESTAN."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (10000BC - 1900AD)."
+title: "Towns and Mountain Villages of Dagestan"
+subtitle: "Caspian Walled Cities, Khazar Towns and Highland Jamaat Centres"
 date: "7 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/dagestan_map_zones_settlements.png"
-hero_caption: "Elevation zones, river basins, and settlements of Dagestan included in the settlement gazetteer (10000BC - 1900AD)."
+hero_caption: "The four elevation zones of Dagestan (50,3k km²): the Maritime Caspian Corridor (6,8k km²) around Velikent, Derbent and Tarki, the Foothill Piedmont (8,5k km²) around Balanjar and Endirey, the Inner Limestone Plateaus and Samur gorges (21,5k km²) around Chokh, Khunzakh, Kumukh and Akhty, and the northern Terek-Sulak steppe (13,5k km²)."
 hero_label: "fig:hero"
 bibliography: dagestan_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 output:
   pdf_document:
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     latex_engine: xelatex
     keep_tex: false
+  md_document:
+    variant: gfm
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 ```{r load-gazetteer, include=FALSE}
@@ -27,12 +141,20 @@ gaz <- jsonlite::fromJSON("dagestan_settlements.json", simplifyVector = FALSE)
 
 fmt_pop <- function(v) {
   if (is.null(v) || is.na(v)) return("-")
-  val <- as.numeric(v)
-  if (val >= 1000) {
-    paste0(gsub("\\.", ",", sprintf("%.1f", val / 1000)), "k")
-  } else {
-    as.character(round(val))
+  v <- as.numeric(v)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
   }
+  if (v >= 1000) {
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
+  }
+  return(as.character(round(v)))
 }
 
 fmt_yr <- function(y) {
@@ -69,13 +191,21 @@ get_peak_str <- function(s) {
 }
 ```
 
-# Introduction
+# Abstract
 
-This supplementary report presents the settlement population gazetteer accompanying the regional literature review of Dagestan (10000BC - 1900AD). The dataset indexes `r length(gaz)` settlements across the Republic of Dagestan with alternate and Cyrillic names, decimal coordinates, and chronological population estimates for inhabited benchmark years.
+Across the 50,3k km² of Dagestan, urban and rural settlement has long rested on a balance between the walled trading cities of the Caspian coastal corridor and the terraced stone *auls* of the interior limestone plateaus. Early Neolithic and Eneolithic mountain villages at Chokh, Ginchi and Chinna and the Early Bronze Age Kura-Araxes mound complex at Velikent (1,8k in 3000BC) were succeeded in classical antiquity and the early Middle Ages by the Sassanian fortress city of Derbent (peaking at 40k in 1000AD) and the Khazar and Savir walled towns of Balanjar (15k in 700AD), Samandar/Tarki (12k in 800AD), Varachan/Urtseki (8k in 600AD) and Endirey [@amirkhanov1987chokh; @gadzhiev1997velikent; @kudryavtsev1982derbent; @magomedov1983khazar].
 
-Prehistoric, Bronze Age, and Classical estimates are derived from excavated settlement areas and dwelling counts [@amirkhanov1987chokh; @gadzhiev1991early; @gadzhiev1997velikent; @abakarov1993atlas; @kudryavtsev1982derbent; @magomedov1983khazar]. Medieval and early modern figures draw on epigraphic chronicles, *Posolskiy Prikaz* embassies, and *jamaat* household lists [@minorsky1958bab; @umakhanov1973mutual; @aliev1975feudal; @aglarov1988jamaat; @aliev1999], while 19th-century and 1897 figures come from the 1886 family lists (*posemeynye spiski*) and the First All-Russian Imperial Census [@kozubsky1895; @kozubsky1901; @troynitskiy1905dagestan; @kabuzan1996].
+While the Mongol and Timurid campaigns of the 13th and 14th centuries devastated the lowland towns and reduced Derbent to 6k inhabitants by 1400AD, the fortified highland capitals and craft centres - Khunzakh, Kumukh, Akusha, Chokh, Sogratl, Kubachi and Akhty - preserved a dense mountain population of 2k-6,5k residents per major *aul* into the early modern era [@umakhanov1973mutual; @aliev1975feudal; @aglarov1988jamaat]. After the Russian creation of Dagestan Oblast in 1860 and the arrival of the Vladikavkaz Railway in the 1890s, coastal and lowland administrative towns expanded rapidly alongside the mountain centres, led in 1897-1900AD by Derbent (14,6k-15,5k), Petrovsk-Port/Makhachkala (9,8k-11k), Temir-Khan-Shura/Buynaksk (9,2k-9,5k), Kizlyar (7,3k-7,5k) and Khasavyurt (5,3k-5,6k) [@kozubsky1901; @troynitskiy1905dagestan].
 
-# Master Settlement Directory
+# Methodology
+
+This gazetteer gives population estimates for `r length(gaz)` towns and villages across Dagestan from 10000BC to 1900AD.
+
+Prehistoric, Bronze Age and classical figures are based on the area of excavated settlements and house counts [@amirkhanov1987chokh; @gadzhiev1991early; @gadzhiev1997velikent; @abakarov1993atlas; @kudryavtsev1982derbent; @magomedov1983khazar]. Medieval and early modern estimates come from local chronicles, Russian embassy reports and village household lists [@minorsky1958bab; @umakhanov1973mutual; @aliev1975feudal; @aglarov1988jamaat; @aliev1999], while 19th-century and 1897 totals are taken from the 1886 family lists (*posemeynye spiski*) and the first Russian imperial census [@kozubsky1895; @kozubsky1901; @troynitskiy1905dagestan; @kabuzan1996].
+
+# Results
+
+## Settlement Directory
 
 ```{r tab-master, echo=FALSE, results='asis'}
 df_master <- data.frame(
@@ -94,9 +224,9 @@ df_master <- data.frame(
 render_table_template(
   df_master,
   list(
-    caption = "Master directory of all indexed settlements and population spans in Dagestan (10000BC - 1900AD).",
+    caption = "Complete list of catalogued towns, fortresses and mountain villages in Dagestan, showing alternative names, coordinates, documented dates, peak population and 1897/1900AD census figures.",
     label = "tab:dagestan-master-gazetteer",
-    col_names = c("Settlement", "Historical / Native Names", "Coords", "Documented Span", "Peak Population", "1897AD", "1900AD"),
+    col_names = c("Settlement", "Other Names", "Coords", "Dates", "Peak Population", "1897AD", "1900AD"),
     alignment = c("l", "l", "l", "l", "r", "r", "r"),
     scale_to_fit = FALSE,
     placement = "!htbp"
@@ -104,7 +234,9 @@ render_table_template(
 )
 ```
 
-# Prehistoric, Bronze Age, and Classical Settlements (8000BC - 400AD)
+## Regional Settlement Gazetteer
+
+### Prehistoric, Bronze Age and Classical Settlements
 
 ```{r tab-prehistoric, echo=FALSE, results='asis'}
 pre_s <- Filter(function(s) any(as.integer(names(s$population)) <= 400), gaz)
@@ -126,7 +258,7 @@ df_pre <- data.frame(
 render_table_template(
   df_pre,
   list(
-    caption = "Prehistoric, Bronze Age, Iron Age, and Classical settlement populations in Dagestan (8000BC - 400AD).",
+    caption = "Estimated populations of Neolithic and Eneolithic mountain villages (Chokh, Ginchi and Chinna), Early Bronze Age Kura-Araxes mounds (Velikent and Gemetyube) and classical Albanian coastal towns (Derbent, Urtseki and Tarki).",
     label = "tab:dagestan-prehistoric-settlements",
     col_names = c("Settlement", "Coords", "8000/6000BC", "4000/3500BC", "3000-2000BC", "1500/1000BC", "500BC / 1AD", "300/400AD"),
     alignment = c("l", "l", "r", "r", "r", "r", "r", "r"),
@@ -136,7 +268,7 @@ render_table_template(
 )
 ```
 
-# Medieval and Early Modern Settlements (600 - 1700AD)
+### Medieval and Early Modern Settlements
 
 ```{r tab-medieval, echo=FALSE, results='asis'}
 med_s <- Filter(function(s) {
@@ -162,7 +294,7 @@ df_med <- data.frame(
 render_table_template(
   df_med,
   list(
-    caption = "Medieval and early modern urban and highland settlement populations in Dagestan (600 - 1700AD).",
+    caption = "Populations of Sassanian, Khazar and early Islamic walled cities (Derbent, Balanjar, Samandar/Tarki, Varachan/Urtseki and Endirey) alongside the highland capitals and craft towns (Khunzakh, Kumukh, Kala-Koreysh, Kubachi and Akusha).",
     label = "tab:dagestan-medieval-settlements",
     col_names = c("Settlement", "Coords", "600/700AD", "800AD", "1000AD", "1200AD", "1400AD", "1600AD", "1700AD"),
     alignment = c("l", "l", "r", "r", "r", "r", "r", "r", "r"),
@@ -172,7 +304,7 @@ render_table_template(
 )
 ```
 
-# Eighteenth and Nineteenth-Century Settlements (1700 - 1900AD)
+### Eighteenth- and Nineteenth-Century Settlements
 
 ```{r tab-modern, echo=FALSE, results='asis'}
 mod_s <- Filter(function(s) any(as.integer(names(s$population)) >= 1700), gaz)
@@ -192,9 +324,9 @@ df_mod <- data.frame(
 render_table_template(
   df_mod,
   list(
-    caption = "Eighteenth and nineteenth-century settlement populations in Dagestan (1700 - 1900AD).",
+    caption = "Populations of major mountain villages (Khunzakh, Kumukh, Chokh, Sogratl, Akusha, Kubachi and Akhty), lowland Kumyk centres (Tarki, Endirey and Aksay) and Russian administrative and port towns (Derbent, Temir-Khan-Shura, Petrovsk-Port, Kizlyar and Khasavyurt) from 1700 to 1900AD.",
     label = "tab:dagestan-modern-settlements",
-    col_names = c("Settlement", "Historical / Native Names", "1700AD", "1750AD", "1800AD", "1850AD", "1897AD", "1900AD"),
+    col_names = c("Settlement", "Other Names", "1700AD", "1750AD", "1800AD", "1850AD", "1897AD", "1900AD"),
     alignment = c("l", "l", "r", "r", "r", "r", "r", "r"),
     scale_to_fit = FALSE,
     placement = "!htbp"

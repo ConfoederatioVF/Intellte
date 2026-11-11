@@ -1,28 +1,140 @@
 ---
-title: "GAZETTEER OF LATE IMPERIAL RUSSIAN, POLISH, BALTIC, FINNISH, AND HABSBURG UKRAINIAN SETTLEMENTS (1815AD - 1917AD)."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (1815AD - 1917AD)."
+title: "Cities, Railway Towns and Frontier Settlements of Late Imperial Russia"
+subtitle: "Town Populations across the Russian Empire and Borderland Provinces"
 date: "11 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 bibliography: imperial_russia_post_1815_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 hero_figure: "figures/imperial_russia_post_1815_regional_map.png"
-hero_caption: "Governorates, oblasts, crownlands, railways, and major urban centres of Late Imperial Russia and Austro-Hungarian Ukraine (1815AD - 1917AD)."
+hero_caption: "The 48 provinces and 265 catalogued cities, industrial centres, railway junctions and ports across Late Imperial Russia and Austro-Hungarian Ukraine from 1815AD to 1917AD."
 hero_label: "fig:hero-map"
 output:
   pdf_document:
     latex_engine: xelatex
     keep_tex: false
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     citation_package: default
   md_document:
     variant: gfm
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 ```{=latex}
@@ -41,12 +153,16 @@ fmt_eu_pop <- function (val) {
   if (v <= 0) return("-")
   if (v >= 1000000) {
     m <- round(v / 1000000, 2)
-    return(paste0(gsub("\\.", ",", format(m, nsmall = 2, trim = TRUE)), "M"))
+    s <- gsub("\\.", ",", format(m, nsmall = 2, trim = TRUE))
+    s <- sub(",00$", "", s)
+    s <- sub("^(,[0-9])0$", "\\1", s)
+    s <- sub("(,[1-9])0$", "\\1", s)
+    return(paste0(s, "M"))
   }
   if (v >= 1000) {
     k <- round(v / 1000, 1)
     if (k == floor(k)) {
-      return(paste0(formatC(as.integer(k), format = "d", big.mark = " "), "k"))
+      return(paste0(formatC(as.integer(k), format = "d", big.mark = "."), "k"))
     }
     return(paste0(gsub("\\.", ",", format(k, nsmall = 1, trim = TRUE)), "k"))
   }
@@ -73,6 +189,18 @@ clean_reg_short <- function (nm) {
   trimws(s)
 }
 
+hyphenate_post1815_words <- function (s) {
+  s <- as.character(s)
+  s <- gsub("Blagoveshchensk", "Blagovesh-chensk", s, fixed = TRUE)
+  s <- gsub("Verkhneudinsk", "Verkhne-udinsk", s, fixed = TRUE)
+  s <- gsub("Petropavlovskaya", "Petropavlov-skaya", s, fixed = TRUE)
+  s <- gsub("Petropavlovsk", "Petropav-lovsk", s, fixed = TRUE)
+  s <- gsub("Novonikolaevsk", "Novonikola-evsk", s, fixed = TRUE)
+  s <- gsub("Troitskosavsk", "Troitsko-savsk", s, fixed = TRUE)
+  s <- gsub("Aleksandrovsky", "Aleksandrov-sky", s, fixed = TRUE)
+  s
+}
+
 build_region_df <- function (reg_slug) {
   sub_list <- Filter(function (e) identical(as.character(reg48_map[[e$key]]), as.character(reg_slug)), all_entries)
   rows <- lapply(sub_list, function (e) {
@@ -89,8 +217,8 @@ build_region_df <- function (reg_slug) {
       " (", e$country, ")"
     )
     data.frame(
-      `Settlement` = e$name,
-      `Historical / Local Names` = oth,
+      `Settlement` = hyphenate_post1815_words(e$name),
+      `Historical / Local Names` = hyphenate_post1815_words(oth),
       `Coords & Country` = coords_span,
       `1815AD` = fmt_eu_pop(get_entry_pop(e, "1815")),
       `1858AD` = fmt_eu_pop(get_entry_pop(e, "1858")),
@@ -105,18 +233,22 @@ build_region_df <- function (reg_slug) {
 }
 ```
 
-# Overview and 48-Region Gazetteer Methodology
+# Abstract
 
-This supplementary gazetteer compiles 265 individual urban, industrial, fortress, and administrative settlements across all 48 period-authentic Governorates (*Guberniyas*), Oblasts, Finnish Provinces, Vistula Provinces, and Habsburg Ukrainian Crownlands of Late Imperial Russia and its western borderlands (excluding Central Asia and the Southern Caucasus) from the Congress of Vienna in 1815AD to the revolutions of 1917AD. Every settlement record is catalogued with full municipal metadata (name, other_names, coords, country, key, and population), keyed as Name-Country according to contemporary sovereign country labels (Russia, Ukraine, Belarus, Poland, Lithuania, Latvia, Estonia, Finland, and Moldova) with georeferenced decimal coordinates and positive integer population series across up to six benchmark dates (1815AD, 1833AD, 1858AD, 1897AD, 1914AD, and 1917AD; tables below display 1815AD, 1858AD, 1897AD, 1914AD, and 1917AD for concise portrait readability while full 1833AD returns remain in the JSON archive).
+This gazetteer compiles population estimates for 265 cities, industrial towns, railway junctions and ports across the 48 provinces of Late Imperial Russia and Austro-Hungarian Ukraine at five benchmark dates between the Congress of Vienna in 1815AD and the Russian Revolution of 1917AD. Before the emancipation of the serfs in the 1860s, urban growth remained modest outside Saint Petersburg, Moscow, Warsaw, Odessa and Riga. Over the next half-century, railway building, coal and steel works in the Donbas and Congress Poland, the Grozny and Boryslav oil booms and peasant migration along the Trans-Siberian line transformed the urban map. By 1914AD, Saint Petersburg (2,12M) and Moscow (1,76M) led an urban network that included Warsaw (884,5k), Odessa (630k), Kyiv (626,3k), Riga (517,5k) and the textile and mining boomtowns of Lodz (477,9k), Sosnowiec (118,5k) and Yuzovka (54k), before the First World War emptied frontline cities in Poland, Courland and Lithuania and swelled interior towns with more than 6M refugees [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Gatrell1999].
 
-For each settlement, headcounts are anchored in primary fiscal, statistical, and census enumerations: the Seventh (1815-1816AD), Eighth (1833-1835AD), and Tenth (1857-1858AD) Imperial Soul Revisions and Ministry of Internal Affairs town tables [@Troinitsky1861; @Kabuzan1971; @Rashin1956], the First All-Russian General Census of 28 January 1897AD across all 89 guberniya volumes and the Central Statistical Committee synthesis of settlements exceeding 500 inhabitants [@Troinitsky1905; @Troinitsky1905Goroda], the 1 January 1914AD Central Statistical Committee and Warsaw Statistical Committee pre-war municipal yearbooks [@TsSK1915; @WarsawStat1914], the Finnish decennial statistical censuses of Tilastollinen paatoimisto [@FinlandStat1870_1915], the Austro-Hungarian and Hungarian decennial censuses of 1869-1910AD for Galicia, Bukovina, and Subcarpathia [@OsterreichischeStatistik1912; @MagyarStatisztika1912], and the 1916-1917AD All-Russian Urban and Agricultural Censuses paired with Tatiana Committee wartime refugee records [@AgCensus1917; @Gatrell1999]. In strict compliance with the population_Stadester specification, only inhabited benchmark dates (population > 0) are stored in the JSON dictionary; industrial, coal, rail, and Arctic boomtowns founded after 1815AD (such as Yuzovka in 1869AD, Novonikolaevsk in 1893AD, Bodaibo in 1864AD, Belotsarsk in 1914AD, and Romanov-on-Murman in 1916AD) display "-" prior to their establishment.
+# Methodology
+
+This gazetteer traces the population histories of 265 towns, industrial centres, ports and fortresses across the 48 provinces of Late Imperial Russia and Austro-Hungarian Ukraine (excluding Central Asia and the Southern Caucasus) from the Congress of Vienna in 1815AD to the revolutions of 1917AD. Each town is listed under its historical name alongside its local and modern equivalents, geographic coordinates and population estimates for 1815AD, 1858AD, 1897AD, 1914AD and 1917AD.
+
+The town figures draw on the main fiscal and statistical surveys of the nineteenth and early twentieth centuries: the Seventh (1815-1816AD), Eighth (1833-1835AD) and Tenth (1857-1858AD) Imperial Soul Revisions and Ministry of Internal Affairs town tables [@Troinitsky1861; @Kabuzan1971; @Rashin1956], the First All-Russian General Census of 28 January 1897AD across all 89 provincial volumes and its companion register of settlements over 500 inhabitants [@Troinitsky1905; @Troinitsky1905Goroda], the 1 January 1914AD yearbooks of the Central Statistical Committee and the Warsaw Statistical Committee [@TsSK1915; @WarsawStat1914], the ten-year censuses of the Finnish Statistical Office [@FinlandStat1870_1915], the Austrian and Hungarian censuses of 1869-1910AD for Galicia, Bukovina and Subcarpathia [@OsterreichischeStatistik1912; @MagyarStatisztika1912] and the 1916-1917AD All-Russian Urban and Agricultural Censuses paired with Tatiana Committee wartime refugee records [@AgCensus1917; @Gatrell1999]. Industrial, coal-mining, railway and northern ports founded after 1815AD - such as Bodaibo (1864AD), Yuzovka (1869AD), Novonikolaevsk (1893AD), Belotsarsk (1914AD) and Romanov-on-Murman (1916AD) - are marked `-` at dates prior to their establishment.
 
 ```{r fig1-md-only, echo=FALSE, results='asis'}
-if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE))) {
+if (!knitr::is_latex_output()) {
   render_figure_template(
     "figures/imperial_russia_post_1815_regional_map.png",
     list(
-      caption = "Governorates, oblasts, crownlands, railways, and major urban centres of Late Imperial Russia and Austro-Hungarian Ukraine (1815AD - 1917AD).",
+      caption = "The 48 provinces and 265 catalogued cities, industrial centres, railway junctions and ports across Late Imperial Russia and Austro-Hungarian Ukraine from 1815AD to 1917AD.",
       label = "fig:hero-map",
       span_columns = TRUE
     )
@@ -124,729 +256,733 @@ if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE)))
 }
 ```
 
-# Warsaw, Plock & Lomza Governorates
+# Results
 
-Table \ref{tab:reg1-sites} lists the 6 catalogued settlements in Region 1 (1. Warsaw, Plock & Lomza Governorates (Congress Poland Capital Core: Warsaw 884k in 1914AD)), where total regional population grew from 1 020k in 1815AD to 3 536k at the 1897AD Census and 5 050k in 1914AD (+395,1%), shifting to 4 420k in 1917AD (-12,5% across 1914-1917AD) [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+## Warsaw, Plock and Lomza Governorates
+
+Table \ref{tab:reg1-sites} gives the populations of the 6 principal towns in the Warsaw, Plock and Lomza governorates, where the regional population grew from 1,02M in 1815AD to 3,54M in 1897AD and 5,05M in 1914AD before falling to 4,42M in 1917AD during the First World War [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
 
 ```{r table-reg1, echo=FALSE, results='asis'}
 df_reg1 <- build_region_df("poland_warsaw_plock_lomza")
 render_table_template(
   df_reg1,
   list(
-    caption = "Urban settlements and benchmark population series in Warsaw, Plock & Lomza Governorates (1815AD - 1917AD).",
+    caption = "Populations of Warsaw, the linen-mill town of Zyrardow, the Vistula river ports of Wloclawek and Plock and the northern Mazovian district seats, 1815AD - 1917AD.",
     label = "tab:reg1-sites"
   )
 )
 ```
 
-# Piotrkow & Kalisz Governorates
+## Piotrkow and Kalisz Governorates
 
-Table \ref{tab:reg2-sites} lists the 7 catalogued settlements in Region 2 (2. Piotrkow & Kalisz Governorates (Lodz Textile Metropolis & Dabrowa Coal-Steel Basin)), where total regional population grew from 720k in 1815AD to 2 245k at the 1897AD Census and 3 320k in 1914AD (+361,1%), shifting to 2 950k in 1917AD (-11,1% across 1914-1917AD) [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+Table \ref{tab:reg2-sites} gives the populations of the 7 principal towns in the Piotrkow and Kalisz governorates, where the regional population rose from 720k in 1815AD to 2,25M in 1897AD and 3,32M in 1914AD before dropping to 2,95M in 1917AD [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
 
 ```{r table-reg2, echo=FALSE, results='asis'}
 df_reg2 <- build_region_df("poland_piotrkow_and_kalisz")
 render_table_template(
   df_reg2,
   list(
-    caption = "Urban settlements and benchmark population series in Piotrkow & Kalisz Governorates (1815AD - 1917AD).",
+    caption = "Populations of the cotton-mill metropolis of Lodz and Pabianice, the Dabrowa coal-and-steel towns of Sosnowiec, Czestochowa and Bendzin and the border seat of Kalisz, 1815AD - 1917AD.",
     label = "tab:reg2-sites"
   )
 )
 ```
 
-# Lublin & Siedlce Governorates
+## Lublin and Siedlce Governorates
 
-Table \ref{tab:reg3-sites} lists the 5 catalogued settlements in Region 3 (3. Lublin & Siedlce Governorates (Eastern Vistula & 1912AD Kholm Governorate Split)), where total regional population grew from 780k in 1815AD to 1 933k at the 1897AD Census and 2 680k in 1914AD (+243,6%), shifting to 2 080k in 1917AD (-22,4% across 1914-1917AD) [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+Table \ref{tab:reg3-sites} gives the populations of the 5 principal towns in the Lublin and Siedlce governorates (including the 1912AD Kholm Governorate), where the regional population grew from 780k in 1815AD to 1,93M in 1897AD and 2,68M in 1914AD before the 1915AD evacuation reduced it to 2,08M in 1917AD [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
 
 ```{r table-reg3, echo=FALSE, results='asis'}
 df_reg3 <- build_region_df("poland_lublin_siedlce_kholm")
 render_table_template(
   df_reg3,
   list(
-    caption = "Urban settlements and benchmark population series in Lublin & Siedlce Governorates (1815AD - 1917AD).",
+    caption = "Populations of Lublin, the railway junction of Siedlce, the fortress town of Zamosc, Biala Podlaska and Kholm (detached as a separate governorate in 1912AD), 1815AD - 1917AD.",
     label = "tab:reg3-sites"
   )
 )
 ```
 
-# Radom, Kielce & Suwalki Governorates
+## Radom, Kielce and Suwalki Governorates
 
-Table \ref{tab:reg4-sites} lists the 5 catalogued settlements in Region 4 (4. Radom, Kielce & Suwalki Governorates (Old Polish Mining Belt & Lithuanian Northern Suwalki)), where total regional population grew from 780k in 1815AD to 2 160k at the 1897AD Census and 2 600k in 1914AD (+233,3%), shifting to 2 180k in 1917AD (-16,2% across 1914-1917AD) [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+Table \ref{tab:reg4-sites} gives the populations of the 5 principal towns in the Radom, Kielce and Suwalki governorates, where the regional population grew from 780k in 1815AD to 2,16M in 1897AD and 2,6M in 1914AD before falling to 2,18M in 1917AD [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
 
 ```{r table-reg4, echo=FALSE, results='asis'}
 df_reg4 <- build_region_df("poland_radom_kielce_suwalki")
 render_table_template(
   df_reg4,
   list(
-    caption = "Urban settlements and benchmark population series in Radom, Kielce & Suwalki Governorates (1815AD - 1917AD).",
+    caption = "Populations of Radom, Kielce, the Kamienna valley ironworks town of Ostrowiec and the northern Lithuanian-Polish border towns of Suwalki and Mariampol, 1815AD - 1917AD.",
     label = "tab:reg4-sites"
   )
 )
 ```
 
-# Estland Governorate
+## Estland Governorate
 
-Table \ref{tab:reg5-sites} lists the 4 catalogued settlements in Region 5 (5. Estland Governorate (Reval/Tallinn; 1816AD Emancipation & Early Demographic Transition)), where total regional population grew from 232k in 1815AD to 413k at the 1897AD Census and 505k in 1914AD (+117,7%), shifting to 515k in 1917AD (+2,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
+Table \ref{tab:reg5-sites} gives the populations of the 4 principal towns in Estland Governorate, where the regional population grew from 232k in 1815AD to 413k in 1897AD, 505k in 1914AD and 515k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
 
 ```{r table-reg5, echo=FALSE, results='asis'}
 df_reg5 <- build_region_df("ostsee_estland_governorate")
 render_table_template(
   df_reg5,
   list(
-    caption = "Urban settlements and benchmark population series in Estland Governorate (1815AD - 1917AD).",
+    caption = "Populations of the Baltic port and naval shipyard city of Reval (Tallinn), the Kreenholm cotton-mill town of Narva, Wesenberg and the coastal resort of Hapsal, 1815AD - 1917AD.",
     label = "tab:reg5-sites"
   )
 )
 ```
 
-# Livland Governorate
+## Livland Governorate
 
-Table \ref{tab:reg6-sites} lists the 6 catalogued settlements in Region 6 (6. Livland Governorate (Riga Port-Industrial Metropolis: 517k in 1914AD & Dorpat University)), where total regional population grew from 615k in 1815AD to 1 299k at the 1897AD Census and 1 565k in 1914AD (+154,5%), shifting to 1 420k in 1917AD (-9,3% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
+Table \ref{tab:reg6-sites} gives the populations of the 6 principal towns in Livland Governorate, where the regional population rose from 615k in 1815AD to 1,3M in 1897AD and 1,56M in 1914AD before wartime factory evacuations from Riga reduced it to 1,42M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
 
 ```{r table-reg6, echo=FALSE, results='asis'}
 df_reg6 <- build_region_df("ostsee_livland_governorate")
 render_table_template(
   df_reg6,
   list(
-    caption = "Urban settlements and benchmark population series in Livland Governorate (1815AD - 1917AD).",
+    caption = "Populations of the port and industrial city of Riga, the university town of Dorpat (Tartu), the timber port of Pernau, the railway junction of Walk and Livland's district towns, 1815AD - 1917AD.",
     label = "tab:reg6-sites"
   )
 )
 ```
 
-# Courland Governorate
+## Courland Governorate
 
-Table \ref{tab:reg7-sites} lists the 5 catalogued settlements in Region 7 (7. Courland Governorate (Mitau/Jelgava & Libau/Liepaja Transatlantic Emigration Port)), where total regional population grew from 418k in 1815AD to 674k at the 1897AD Census and 800k in 1914AD (+91,4%), shifting to 380k in 1917AD (-52,5% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
+Table \ref{tab:reg7-sites} gives the populations of the 5 principal towns in Courland Governorate, where the regional population rose from 418k in 1815AD to 674k in 1897AD and 800k in 1914AD before the 1915AD German occupation and refugee flight halved it to 380k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
 
 ```{r table-reg7, echo=FALSE, results='asis'}
 df_reg7 <- build_region_df("ostsee_courland_governorate")
 render_table_template(
   df_reg7,
   list(
-    caption = "Urban settlements and benchmark population series in Courland Governorate (1815AD - 1917AD).",
+    caption = "Populations of the ice-free emigrant and naval port of Libau (Liepaja), the provincial capital of Mitau (Jelgava), the rail port of Windau (Ventspils), Goldingen and Jakobstadt, 1815AD - 1917AD.",
     label = "tab:reg7-sites"
   )
 )
 ```
 
-# Southern Finland Governorates: Nyland
+## Southern Finland: Nyland, Abo-Bjorneborg, Tavastehus and Vyborg
 
-Table \ref{tab:reg8-sites} lists the 6 catalogued settlements in Region 8 (8. Southern Finland Governorates: Nyland (Helsingfors), Abo-Bjorneborg, Tavastehus & Vyborg), where total regional population grew from 590k in 1815AD to 1 425k at the 1897AD Census and 1 840k in 1914AD (+211,9%), shifting to 1 890k in 1917AD (+2,7% across 1914-1917AD) [@FinlandStat1870_1915; @Pitkanen1993; @Luostarinen2026FinlandMortality].
+Table \ref{tab:reg8-sites} gives the populations of the 6 principal towns in southern Finland (Nyland, Abo-Bjorneborg, Tavastehus and Vyborg provinces), where the regional population grew from 590k in 1815AD to 1,43M in 1897AD, 1,84M in 1914AD and 1,89M in 1917AD [@FinlandStat1870_1915; @Pitkanen1993; @Luostarinen2026FinlandMortality].
 
 ```{r table-reg8, echo=FALSE, results='asis'}
 df_reg8 <- build_region_df("finland_southern_nyland_abo_vyborg")
 render_table_template(
   df_reg8,
   list(
-    caption = "Urban settlements and benchmark population series in Southern Finland Governorates: Nyland (1815AD - 1917AD).",
+    caption = "Populations of the Finnish capital of Helsingfors (Helsinki), the port of Abo (Turku), the textile and paper-mill centre of Tammerfors (Tampere), Viipuri (Vyborg) and the sawmill ports of Bjorneborg and Kotka, 1815AD - 1917AD.",
     label = "tab:reg8-sites"
   )
 )
 ```
 
-# Interior & Northern Finland Governorates: Vasa, Kuopio, Sankt-Michel & Uleaborg
+## Interior and Northern Finland: Vasa, Kuopio, Sankt-Michel and Uleaborg
 
-Table \ref{tab:reg9-sites} lists the 5 catalogued settlements in Region 9 (9. Interior & Northern Finland Governorates: Vasa, Kuopio, Sankt-Michel & Uleaborg (1866-68AD Famine)), where total regional population grew from 520k in 1815AD to 1 130k at the 1897AD Census and 1 400k in 1914AD (+169,2%), shifting to 1 430k in 1917AD (+2,1% across 1914-1917AD) [@FinlandStat1870_1915; @Pitkanen1993; @Luostarinen2026FinlandMortality].
+Table \ref{tab:reg9-sites} gives the populations of the 5 principal towns in interior and northern Finland (Vasa, Kuopio, Sankt-Michel and Uleaborg provinces), where the regional population rose from 520k in 1815AD to 1,13M in 1897AD, 1,4M in 1914AD and 1,43M in 1917AD [@FinlandStat1870_1915; @Pitkanen1993; @Luostarinen2026FinlandMortality].
 
 ```{r table-reg9, echo=FALSE, results='asis'}
 df_reg9 <- build_region_df("finland_northern_vasa_kuopio_oulu")
 render_table_template(
   df_reg9,
   list(
-    caption = "Urban settlements and benchmark population series in Interior & Northern Finland Governorates: Vasa, Kuopio, Sankt-Michel & Uleaborg (1815AD - 1917AD).",
+    caption = "Populations of the Gulf of Bothnia ports of Vasa, Uleaborg (Oulu) and Gamlakarleby and the interior lake towns of Kuopio and Sankt-Michel (Mikkeli), 1815AD - 1917AD.",
     label = "tab:reg9-sites"
   )
 )
 ```
 
-# Kovno Governorate
+## Kovno Governorate
 
-Table \ref{tab:reg10-sites} lists the 5 catalogued settlements in Region 10 (10. Kovno Governorate (Ethnic Lithuania / Samogitia; 1843AD Creation, 1863AD Rising & Emigration)), where total regional population grew from 660k in 1815AD to 1 545k at the 1897AD Census and 1 840k in 1914AD (+178,8%), shifting to 1 320k in 1917AD (-28,3% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+Table \ref{tab:reg10-sites} gives the populations of the 5 principal towns in Kovno Governorate, where the regional population grew from 660k in 1815AD to 1,54M in 1897AD and 1,84M in 1914AD before falling to 1,32M in 1917AD during the First World War [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
 
 ```{r table-reg10, echo=FALSE, results='asis'}
 df_reg10 <- build_region_df("nw_krai_kovno_lithuania")
 render_table_template(
   df_reg10,
   list(
-    caption = "Urban settlements and benchmark population series in Kovno Governorate (1815AD - 1917AD).",
+    caption = "Populations of the Niemen river fortress city of Kovno (Kaunas), the leather-working and railway town of Shavli (Siauliai) and the Lithuanian district seats of Ponevezh, Telshi and Vilkomir, 1815AD - 1917AD.",
     label = "tab:reg10-sites"
   )
 )
 ```
 
-# Vilna & Grodno Governorates
+## Vilna and Grodno Governorates
 
-Table \ref{tab:reg11-sites} lists the 6 catalogued settlements in Region 11 (11. Vilna & Grodno Governorates (Vilnius, Bialystok Textile Hub & Pale Urban Shtetls)), where total regional population grew from 1 145k in 1815AD to 3 195k at the 1897AD Census and 3 940k in 1914AD (+244,1%), shifting to 2 880k in 1917AD (-26,9% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+Table \ref{tab:reg11-sites} gives the populations of the 6 principal towns in the Vilna and Grodno governorates, where the regional population grew from 1,15M in 1815AD to 3,19M in 1897AD and 3,94M in 1914AD before the 1915AD retreat reduced it to 2,88M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
 
 ```{r table-reg11, echo=FALSE, results='asis'}
 df_reg11 <- build_region_df("nw_krai_vilna_and_grodno")
 render_table_template(
   df_reg11,
   list(
-    caption = "Urban settlements and benchmark population series in Vilna & Grodno Governorates (1815AD - 1917AD).",
+    caption = "Populations of Vilna (Vilnius), the woollen-mill boomtown of Bialystok, Grodno, the Bug fortress and railway junction of Brest-Litovsk, Slonim and Lida, 1815AD - 1917AD.",
     label = "tab:reg11-sites"
   )
 )
 ```
 
-# Minsk Governorate & Pripyat Polesia
+## Minsk Governorate and Pripyat Polesia
 
-Table \ref{tab:reg12-sites} lists the 6 catalogued settlements in Region 12 (12. Minsk Governorate & Pripyat Polesia (Central Belarus / Pale of Settlement)), where total regional population grew from 920k in 1815AD to 2 148k at the 1897AD Census and 3 040k in 1914AD (+230,4%), shifting to 2 890k in 1917AD (-4,9% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+Table \ref{tab:reg12-sites} gives the populations of the 6 principal towns in Minsk Governorate, where the regional population grew from 920k in 1815AD to 2,15M in 1897AD and 3,04M in 1914AD before dipping to 2,89M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
 
 ```{r table-reg12, echo=FALSE, results='asis'}
 df_reg12 <- build_region_df("nw_krai_minsk_governorate")
 render_table_template(
   df_reg12,
   list(
-    caption = "Urban settlements and benchmark population series in Minsk Governorate & Pripyat Polesia (1815AD - 1917AD).",
+    caption = "Populations of Minsk, the Berezina fortress town of Bobruisk, the Pripyat waterway port of Pinsk, the railway junction of Baranovichi, Borisov and Mozyr, 1815AD - 1917AD.",
     label = "tab:reg12-sites"
   )
 )
 ```
 
-# Vitebsk & Mogilev Governorates
+## Vitebsk and Mogilev Governorates
 
-Table \ref{tab:reg13-sites} lists the 6 catalogued settlements in Region 13 (13. Vitebsk & Mogilev Governorates (Upper Dvina-Dnieper & Latgalian Uezds)), where total regional population grew from 1 245k in 1815AD to 3 176k at the 1897AD Census and 4 020k in 1914AD (+222,9%), shifting to 3 860k in 1917AD (-4,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+Table \ref{tab:reg13-sites} gives the populations of the 6 principal towns in the Vitebsk and Mogilev governorates, where the regional population grew from 1,25M in 1815AD to 3,18M in 1897AD and 4,02M in 1914AD before edging down to 3,86M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
 
 ```{r table-reg13, echo=FALSE, results='asis'}
 df_reg13 <- build_region_df("nw_krai_vitebsk_and_mogilev")
 render_table_template(
   df_reg13,
   list(
-    caption = "Urban settlements and benchmark population series in Vitebsk & Mogilev Governorates (1815AD - 1917AD).",
+    caption = "Populations of the railway and fortress city of Dvinsk (Daugavpils), Vitebsk, Mogilev (site of the 1915-1917AD Russian army headquarters), the rail hub of Gomel, Polotsk and Rezhitsa, 1815AD - 1917AD.",
     label = "tab:reg13-sites"
   )
 )
 ```
 
-# Austro-Hungarian Eastern Galicia
+## Austro-Hungarian Eastern Galicia
 
-Table \ref{tab:reg14-sites} lists the 6 catalogued settlements in Region 14 (14. Austro-Hungarian Eastern Galicia (Lemberg/Lviv, Boryslav Oil Basin & Overseas Emigration)), where total regional population grew from 2 580k in 1815AD to 4 420k at the 1897AD Census and 5 020k in 1914AD (+94,6%), shifting to 4 450k in 1917AD (-11,4% across 1914-1917AD) [@OsterreichischeStatistik1912; @MagyarStatisztika1912; @Himka1988; @Gatrell1999].
+Table \ref{tab:reg14-sites} gives the populations of the 6 principal towns in Eastern Galicia, where the regional population grew from 2,58M in 1815AD to 4,42M in 1897AD and 5,02M in 1914AD before fighting on the Carpathian and Galician fronts reduced it to 4,45M in 1917AD [@OsterreichischeStatistik1912; @MagyarStatisztika1912; @Himka1988; @Gatrell1999].
 
 ```{r table-reg14, echo=FALSE, results='asis'}
 df_reg14 <- build_region_df("habsburg_eastern_galicia")
 render_table_template(
   df_reg14,
   list(
-    caption = "Urban settlements and benchmark population series in Austro-Hungarian Eastern Galicia (1815AD - 1917AD).",
+    caption = "Populations of the Galician capital of Lemberg (Lviv), the oil-basin boomtowns of Drohobych and Boryslav and the rail and market centres of Tarnopol, Stanislau and Kolomyia, 1815AD - 1917AD.",
     label = "tab:reg14-sites"
   )
 )
 ```
 
-# Austro-Hungarian Bukovina
+## Austro-Hungarian Bukovina and Subcarpathian Rus
 
-Table \ref{tab:reg15-sites} lists the 5 catalogued settlements in Region 15 (15. Austro-Hungarian Bukovina (Czernowitz) & Hungarian Subcarpathian Rus (Uzhhorod/Mukachevo)), where total regional population grew from 770k in 1815AD to 1 400k at the 1897AD Census and 1 630k in 1914AD (+111,7%), shifting to 1 500k in 1917AD (-8,0% across 1914-1917AD) [@OsterreichischeStatistik1912; @MagyarStatisztika1912; @Himka1988; @Gatrell1999].
+Table \ref{tab:reg15-sites} gives the populations of the 5 principal towns in Bukovina and Subcarpathian Rus, where the regional population rose from 770k in 1815AD to 1,4M in 1897AD and 1,63M in 1914AD before falling to 1,5M in 1917AD [@OsterreichischeStatistik1912; @MagyarStatisztika1912; @Himka1988; @Gatrell1999].
 
 ```{r table-reg15, echo=FALSE, results='asis'}
 df_reg15 <- build_region_df("habsburg_bukovina_and_carpathian_rus")
 render_table_template(
   df_reg15,
   list(
-    caption = "Urban settlements and benchmark population series in Austro-Hungarian Bukovina (1815AD - 1917AD).",
+    caption = "Populations of the Bukovinian university and provincial capital of Czernowitz (Chernivtsi) and the Hungarian Subcarpathian county towns of Ungvar, Munkacs, Beregszasz and Huszt, 1815AD - 1917AD.",
     label = "tab:reg15-sites"
   )
 )
 ```
 
-# Bessarabia Governorate
+## Bessarabia Governorate
 
-Table \ref{tab:reg16-sites} lists the 6 catalogued settlements in Region 16 (16. Bessarabia Governorate (Kishinev/Chisinau, 1856-78AD Cahul-Ismail Shift & 1903AD Pogrom)), where total regional population grew from 385k in 1815AD to 1 935k at the 1897AD Census and 2 660k in 1914AD (+590,9%), shifting to 2 620k in 1917AD (-1,5% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+Table \ref{tab:reg16-sites} gives the populations of the 6 principal towns in Bessarabia Governorate, where the regional population grew from 385k in 1815AD to 1,94M in 1897AD and 2,66M in 1914AD (2,62M in 1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
 
 ```{r table-reg16, echo=FALSE, results='asis'}
 df_reg16 <- build_region_df("bessarabia_governorate")
 render_table_template(
   df_reg16,
   list(
-    caption = "Urban settlements and benchmark population series in Bessarabia Governorate (1815AD - 1917AD).",
+    caption = "Populations of the provincial capital of Kishinev (Chisinau), the Dniester fortress towns of Bender, Akkerman and Khotin, the Danube port of Ismail and the northern market town of Beltsy, 1815AD - 1917AD.",
     label = "tab:reg16-sites"
   )
 )
 ```
 
-# Volhynia Governorate
+## Volhynia Governorate
 
-Table \ref{tab:reg17-sites} lists the 5 catalogued settlements in Region 17 (17. Volhynia Governorate (Southwestern Krai / Pale of Settlement)), where total regional population grew from 1 520k in 1815AD to 2 989k at the 1897AD Census and 4 120k in 1914AD (+171,1%), shifting to 3 680k in 1917AD (-10,7% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+Table \ref{tab:reg17-sites} gives the populations of the 5 principal towns in Volhynia Governorate, where the regional population rose from 1,52M in 1815AD to 2,99M in 1897AD and 4,12M in 1914AD before Southwestern Front fighting lowered it to 3,68M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
 
 ```{r table-reg17, echo=FALSE, results='asis'}
 df_reg17 <- build_region_df("sw_krai_volhynia_governorate")
 render_table_template(
   df_reg17,
   list(
-    caption = "Urban settlements and benchmark population series in Volhynia Governorate (1815AD - 1917AD).",
+    caption = "Populations of the provincial seat of Zhitomir, the strategic railway junctions of Rovno and Kovel, the Styr fortress town of Lutsk and Kremenets, 1815AD - 1917AD.",
     label = "tab:reg17-sites"
   )
 )
 ```
 
-# Podolia Governorate
+## Podolia Governorate
 
-Table \ref{tab:reg18-sites} lists the 5 catalogued settlements in Region 18 (18. Podolia Governorate (Southwestern Krai / Pale of Settlement)), where total regional population grew from 1 440k in 1815AD to 3 018k at the 1897AD Census and 3 980k in 1914AD (+176,4%), shifting to 3 820k in 1917AD (-4,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+Table \ref{tab:reg18-sites} gives the populations of the 5 principal towns in Podolia Governorate, where the regional population grew from 1,44M in 1815AD to 3,02M in 1897AD and 3,98M in 1914AD (3,82M in 1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
 
 ```{r table-reg18, echo=FALSE, results='asis'}
 df_reg18 <- build_region_df("sw_krai_podolia_governorate")
 render_table_template(
   df_reg18,
   list(
-    caption = "Urban settlements and benchmark population series in Podolia Governorate (1815AD - 1917AD).",
+    caption = "Populations of Kamenets-Podolsky, the South-Western Railway towns of Vinnitsa and Proskurov, the cattle-and-grain fair town of Balta and the Dniester crossing of Mogilev-Podolsky, 1815AD - 1917AD.",
     label = "tab:reg18-sites"
   )
 )
 ```
 
-# Kyiv Governorate
+## Kyiv Governorate
 
-Table \ref{tab:reg19-sites} lists the 5 catalogued settlements in Region 19 (19. Kyiv Governorate (Sugar-Beet Agro-Industrial Core & Kyiv Metropolis)), where total regional population grew from 940k in 1815AD to 3 559k at the 1897AD Census and 4 780k in 1914AD (+408,5%), shifting to 4 840k in 1917AD (+1,3% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+Table \ref{tab:reg19-sites} gives the populations of the 5 principal towns in Kyiv Governorate, where the regional population grew from 940k in 1815AD to 3,56M in 1897AD, 4,78M in 1914AD and 4,84M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
 
 ```{r table-reg19, echo=FALSE, results='asis'}
 df_reg19 <- build_region_df("sw_krai_kyiv_governorate")
 render_table_template(
   df_reg19,
   list(
-    caption = "Urban settlements and benchmark population series in Kyiv Governorate (1815AD - 1917AD).",
+    caption = "Populations of Kyiv, the commercial and banking town of Berdichev, the sugar-refining centres of Bila Tserkva and Cherkassy and Uman, 1815AD - 1917AD.",
     label = "tab:reg19-sites"
   )
 )
 ```
 
-# Little Russian Governorates: Chernigov & Poltava
+## Chernigov and Poltava Governorates
 
-Table \ref{tab:reg20-sites} lists the 6 catalogued settlements in Region 20 (20. Little Russian Governorates: Chernigov & Poltava (Agrarian Overpopulation & Stolypin Source)), where total regional population grew from 3 350k in 1815AD to 5 076k at the 1897AD Census and 6 650k in 1914AD (+98,5%), shifting to 6 720k in 1917AD (+1,1% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+Table \ref{tab:reg20-sites} gives the populations of the 6 principal towns in the Chernigov and Poltava governorates, where the regional population rose from 3,35M in 1815AD to 5,08M in 1897AD, 6,65M in 1914AD and 6,72M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
 
 ```{r table-reg20, echo=FALSE, results='asis'}
 df_reg20 <- build_region_df("malorossiya_chernigov_and_poltava")
 render_table_template(
   df_reg20,
   list(
-    caption = "Urban settlements and benchmark population series in Little Russian Governorates: Chernigov & Poltava (1815AD - 1917AD).",
+    caption = "Populations of the Dnieper timber and tobacco port of Kremenchug, the provincial capitals of Poltava and Chernigov, the railway workshop town of Konotop and the market towns of Nezhin and Romny, 1815AD - 1917AD.",
     label = "tab:reg20-sites"
   )
 )
 ```
 
-# Kharkov Governorate
+## Kharkov Governorate
 
-Table \ref{tab:reg21-sites} lists the 5 catalogued settlements in Region 21 (21. Kharkov Governorate (Sloboda Ukraine & Kharkov Rail-University Hub)), where total regional population grew from 1 100k in 1815AD to 2 492k at the 1897AD Census and 3 440k in 1914AD (+212,7%), shifting to 3 510k in 1917AD (+2,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+Table \ref{tab:reg21-sites} gives the populations of the 5 principal towns in Kharkov Governorate, where the regional population grew from 1,1M in 1815AD to 2,49M in 1897AD, 3,44M in 1914AD and 3,51M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
 
 ```{r table-reg21, echo=FALSE, results='asis'}
 df_reg21 <- build_region_df("sloboda_kharkov_governorate")
 render_table_template(
   df_reg21,
   list(
-    caption = "Urban settlements and benchmark population series in Kharkov Governorate (1815AD - 1917AD).",
+    caption = "Populations of the university, railway and locomotive-building city of Kharkov, the sugar-refining centre of Sumy, the salt-and-soda works town of Slavyansk, Akhtyrka and Izyum, 1815AD - 1917AD.",
     label = "tab:reg21-sites"
   )
 )
 ```
 
-# Kherson Governorate
+## Kherson Governorate
 
-Table \ref{tab:reg22-sites} lists the 5 catalogued settlements in Region 22 (22. Kherson Governorate (Odessa Grain Port: 630k in 1914AD & Nikolaev Naval Shipyards)), where total regional population grew from 620k in 1815AD to 2 734k at the 1897AD Census and 3 750k in 1914AD (+504,8%), shifting to 3 780k in 1917AD (+0,8% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+Table \ref{tab:reg22-sites} gives the populations of the 5 principal towns in Kherson Governorate, where the regional population grew more than sixfold from 620k in 1815AD to 2,73M in 1897AD, 3,75M in 1914AD and 3,78M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
 
 ```{r table-reg22, echo=FALSE, results='asis'}
 df_reg22 <- build_region_df("novorossiya_kherson_governorate")
 render_table_template(
   df_reg22,
   list(
-    caption = "Urban settlements and benchmark population series in Kherson Governorate (1815AD - 1917AD).",
+    caption = "Populations of the Black Sea grain port of Odessa, the naval shipyard city of Nikolaev, the agricultural-machinery centre of Elisavetgrad, Kherson and the Dniester garrison of Tiraspol, 1815AD - 1917AD.",
     label = "tab:reg22-sites"
   )
 )
 ```
 
-# Ekaterinoslav Governorate
+## Ekaterinoslav Governorate
 
-Table \ref{tab:reg23-sites} lists the 7 catalogued settlements in Region 23 (23. Ekaterinoslav Governorate (Dnieper Bend, Krivoy Rog Iron & Yuzovka-Donbas Coal Boom)), where total regional population grew from 820k in 1815AD to 2 114k at the 1897AD Census and 3 450k in 1914AD (+320,7%), shifting to 3 580k in 1917AD (+3,8% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+Table \ref{tab:reg23-sites} gives the populations of the 7 principal towns in Ekaterinoslav Governorate, where the regional population rose from 820k in 1815AD to 2,11M in 1897AD, 3,45M in 1914AD and 3,58M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
 
 ```{r table-reg23, echo=FALSE, results='asis'}
 df_reg23 <- build_region_df("novorossiya_ekaterinoslav_governorate")
 render_table_template(
   df_reg23,
   list(
-    caption = "Urban settlements and benchmark population series in Ekaterinoslav Governorate (1815AD - 1917AD).",
+    caption = "Populations of the iron-and-steel city of Ekaterinoslav, the Donbas coal and metallurgical boomtowns of Yuzovka, Lugansk and Bakhmut, the iron-ore centre of Krivoy Rog, the Sea of Azov port of Mariupol and Aleksandrovsk, 1815AD - 1917AD.",
     label = "tab:reg23-sites"
   )
 )
 ```
 
-# Taurida Governorate
+## Taurida Governorate
 
-Table \ref{tab:reg24-sites} lists the 6 catalogued settlements in Region 24 (24. Taurida Governorate (Crimean Peninsula, 1854-55AD Crimean War, Tatar Exodus & Tavria Steppe)), where total regional population grew from 370k in 1815AD to 1 448k at the 1897AD Census and 2 060k in 1914AD (+456,8%), shifting to 2 080k in 1917AD (+1,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+Table \ref{tab:reg24-sites} gives the populations of the 6 principal towns in Taurida Governorate, where the regional population grew from 370k in 1815AD to 1,45M in 1897AD, 2,06M in 1914AD and 2,08M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
 
 ```{r table-reg24, echo=FALSE, results='asis'}
 df_reg24 <- build_region_df("novorossiya_taurida_governorate")
 render_table_template(
   df_reg24,
   list(
-    caption = "Urban settlements and benchmark population series in Taurida Governorate (1815AD - 1917AD).",
+    caption = "Populations of the Black Sea Fleet base of Sevastopol, the provincial seat of Simferopol, the Crimean and Azov grain ports of Kerch, Feodosiya and Berdyansk and the railway town of Melitopol, 1815AD - 1917AD.",
     label = "tab:reg24-sites"
   )
 )
 ```
 
-# Saint Petersburg Governorate
+## Saint Petersburg Governorate
 
-Table \ref{tab:reg25-sites} lists the 5 catalogued settlements in Region 25 (25. Saint Petersburg Governorate (2,12M Imperial Capital in 1914AD & Putilov Industrial Core)), where total regional population grew from 760k in 1815AD to 2 112k at the 1897AD Census and 3 150k in 1914AD (+314,5%), shifting to 3 380k in 1917AD (+7,3% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg25-sites} gives the populations of the 5 principal towns in Saint Petersburg Governorate, where the regional population grew from 760k in 1815AD to 2,11M in 1897AD, 3,15M in 1914AD and 3,38M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg25, echo=FALSE, results='asis'}
 df_reg25 <- build_region_df("capital_st_petersburg_governorate")
 render_table_template(
   df_reg25,
   list(
-    caption = "Urban settlements and benchmark population series in Saint Petersburg Governorate (1815AD - 1917AD).",
+    caption = "Populations of the Imperial capital of Saint Petersburg (Petrograd), the island naval fortress of Kronstadt, the palace towns of Tsarskoe Selo and Gatchina and Luga, 1815AD - 1917AD.",
     label = "tab:reg25-sites"
   )
 )
 ```
 
-# Novgorod, Pskov & Olonets Governorates
+## Novgorod, Pskov and Olonets Governorates
 
-Table \ref{tab:reg26-sites} lists the 6 catalogued settlements in Region 26 (26. Novgorod, Pskov & Olonets Governorates (Northwestern Lakes & Karelia)), where total regional population grew from 1 770k in 1815AD to 2 853k at the 1897AD Census and 3 580k in 1914AD (+102,3%), shifting to 3 680k in 1917AD (+2,8% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg26-sites} gives the populations of the 6 principal towns in the Novgorod, Pskov and Olonets governorates, where the regional population grew from 1,77M in 1815AD to 2,85M in 1897AD, 3,58M in 1914AD and 3,68M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg26, echo=FALSE, results='asis'}
 df_reg26 <- build_region_df("lakes_novgorod_pskov_olonets")
 render_table_template(
   df_reg26,
   list(
-    caption = "Urban settlements and benchmark population series in Novgorod, Pskov & Olonets Governorates (1815AD - 1917AD).",
+    caption = "Populations of Pskov, Novgorod, the spa and garrison town of Staraya Russa, the Onega ironworks seat of Petrozavodsk, the railway junction of Velikie Luki and the Mariinsk Canal port of Cherepovets, 1815AD - 1917AD.",
     label = "tab:reg26-sites"
   )
 )
 ```
 
-# Arkhangelsk & Vologda Governorates
+## Arkhangelsk and Vologda Governorates
 
-Table \ref{tab:reg27-sites} lists the 5 catalogued settlements in Region 27 (27. Arkhangelsk & Vologda Governorates (Pomorye, Murman Coast & Northern Peasantry)), where total regional population grew from 920k in 1815AD to 1 688k at the 1897AD Census and 2 220k in 1914AD (+141,3%), shifting to 2 280k in 1917AD (+2,7% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg27-sites} gives the populations of the 5 principal towns in the Arkhangelsk and Vologda governorates, where the regional population rose from 920k in 1815AD to 1,69M in 1897AD, 2,22M in 1914AD and 2,28M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg27, echo=FALSE, results='asis'}
 df_reg27 <- build_region_df("european_north_arkhangelsk_vologda")
 render_table_template(
   df_reg27,
   list(
-    caption = "Urban settlements and benchmark population series in Arkhangelsk & Vologda Governorates (1815AD - 1917AD).",
+    caption = "Populations of the dairy and railway hub of Vologda, the White Sea timber port of Arkhangelsk, Veliky Ustyug, Ust-Sysolsk and the ice-free Arctic rail terminus of Romanov-on-Murman (Murmansk, founded 1916AD), 1815AD - 1917AD.",
     label = "tab:reg27-sites"
   )
 )
 ```
 
-# Moscow Governorate
+## Moscow Governorate
 
-Table \ref{tab:reg28-sites} lists the 5 catalogued settlements in Region 28 (28. Moscow Governorate (1,76M Textile-Rail Metropolis in 1914AD)), where total regional population grew from 1 120k in 1815AD to 2 431k at the 1897AD Census and 3 560k in 1914AD (+217,9%), shifting to 3 820k in 1917AD (+7,3% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg28-sites} gives the populations of the 5 principal towns in Moscow Governorate, where the regional population grew from 1,12M in 1815AD to 2,43M in 1897AD, 3,56M in 1914AD and 3,82M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg28, echo=FALSE, results='asis'}
 df_reg28 <- build_region_df("capital_moscow_governorate")
 render_table_template(
   df_reg28,
   list(
-    caption = "Urban settlements and benchmark population series in Moscow Governorate (1815AD - 1917AD).",
+    caption = "Populations of Moscow, the cotton-weaving cities of Orekhovo-Zuevo, Serpukhov and Bogorodsk and the locomotive-building town of Kolomna, 1815AD - 1917AD.",
     label = "tab:reg28-sites"
   )
 )
 ```
 
-# Central Industrial Ring: Vladimir, Yaroslavl, Kostroma, Tver, Smolensk & Kaluga Governorates
+## Central Industrial Ring: Vladimir, Yaroslavl, Kostroma, Tver, Smolensk and Kaluga Governorates
 
-Table \ref{tab:reg29-sites} lists the 8 catalogued settlements in Region 29 (29. Central Industrial Ring: Vladimir, Yaroslavl, Kostroma, Tver, Smolensk & Kaluga Governorates), where total regional population grew from 6 750k in 1815AD to 9 160k at the 1897AD Census and 11 520k in 1914AD (+70,7%), shifting to 11 880k in 1917AD (+3,1% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg29-sites} gives the populations of the 8 principal towns in the Central Industrial Ring governorates (Vladimir, Yaroslavl, Kostroma, Tver, Smolensk and Kaluga), where the regional population rose from 6,75M in 1815AD to 9,16M in 1897AD, 11,52M in 1914AD and 11,88M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg29, echo=FALSE, results='asis'}
 df_reg29 <- build_region_df("central_industrial_ring")
 render_table_template(
   df_reg29,
   list(
-    caption = "Urban settlements and benchmark population series in the Central Industrial Ring governorates (1815AD - 1917AD).",
+    caption = "Populations of the cotton-mill city of Ivanovo-Voznesensk, the upper Volga ports and textile centres of Yaroslavl, Tver, Kostroma and Rybinsk and the provincial seats of Smolensk, Kaluga and Vladimir, 1815AD - 1917AD.",
     label = "tab:reg29-sites"
   )
 )
 ```
 
-# Western Central Black-Earth Governorates: Kursk, Oryol & Tula
+## Western Central Black-Earth Governorates: Kursk, Oryol and Tula
 
-Table \ref{tab:reg30-sites} lists the 6 catalogued settlements in Region 30 (30. Western Central Black-Earth Governorates: Kursk, Oryol & Tula), where total regional population grew from 4 520k in 1815AD to 6 207k at the 1897AD Census and 7 980k in 1914AD (+76,5%), shifting to 8 180k in 1917AD (+2,5% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg30-sites} gives the populations of the 6 principal towns in the Kursk, Oryol and Tula governorates, where the regional population grew from 4,52M in 1815AD to 6,21M in 1897AD, 7,98M in 1914AD and 8,18M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg30, echo=FALSE, results='asis'}
 df_reg30 <- build_region_df("central_black_earth_west")
 render_table_template(
   df_reg30,
   list(
-    caption = "Urban settlements and benchmark population series in Western Central Black-Earth Governorates: Kursk, Oryol & Tula (1815AD - 1917AD).",
+    caption = "Populations of the arms and samovar manufacturing city of Tula, the rail and ordnance centre of Bryansk, the grain-milling town of Yelets and the provincial seats of Kursk, Oryol and Belgorod, 1815AD - 1917AD.",
     label = "tab:reg30-sites"
   )
 )
 ```
 
-# Eastern Central Black-Earth Governorates: Voronezh, Tambov & Ryazan
+## Eastern Central Black-Earth Governorates: Voronezh, Tambov and Ryazan
 
-Table \ref{tab:reg31-sites} lists the 6 catalogued settlements in Region 31 (31. Eastern Central Black-Earth Governorates: Voronezh, Tambov & Ryazan), where total regional population grew from 5 120k in 1815AD to 7 037k at the 1897AD Census and 9 220k in 1914AD (+80,1%), shifting to 9 450k in 1917AD (+2,5% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg31-sites} gives the populations of the 6 principal towns in the Voronezh, Tambov and Ryazan governorates, where the regional population rose from 5,12M in 1815AD to 7,04M in 1897AD, 9,22M in 1914AD and 9,45M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg31, echo=FALSE, results='asis'}
 df_reg31 <- build_region_df("central_black_earth_east")
 render_table_template(
   df_reg31,
   list(
-    caption = "Urban settlements and benchmark population series in Eastern Central Black-Earth Governorates: Voronezh, Tambov & Ryazan (1815AD - 1917AD).",
+    caption = "Populations of Voronezh, Tambov, the railway meat-packing and grain junction of Kozlov (Michurinsk), Ryazan, Morshansk and the iron-mining and spa town of Lipetsk, 1815AD - 1917AD.",
     label = "tab:reg31-sites"
   )
 )
 ```
 
-# Middle Volga Governorates: Nizhny Novgorod, Kazan, Simbirsk & Penza
+## Middle Volga Governorates: Nizhny Novgorod, Kazan, Simbirsk and Penza
 
-Table \ref{tab:reg32-sites} lists the 6 catalogued settlements in Region 32 (32. Middle Volga Governorates: Nizhny Novgorod, Kazan, Simbirsk & Penza (1891-92AD Famine)), where total regional population grew from 4 280k in 1815AD to 6 755k at the 1897AD Census and 8 350k in 1914AD (+95,1%), shifting to 8 550k in 1917AD (+2,4% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg32-sites} gives the populations of the 6 principal towns in the Nizhny Novgorod, Kazan, Simbirsk and Penza governorates, where the regional population grew from 4,28M in 1815AD to 6,75M in 1897AD, 8,35M in 1914AD and 8,55M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg32, echo=FALSE, results='asis'}
 df_reg32 <- build_region_df("middle_volga_nizhny_kazan_simbirsk_penza")
 render_table_template(
   df_reg32,
   list(
-    caption = "Urban settlements and benchmark population series in Middle Volga Governorates: Nizhny Novgorod, Kazan, Simbirsk & Penza (1815AD - 1917AD).",
+    caption = "Populations of the university and manufacturing city of Kazan, the fair and Sormovo shipyard city of Nizhny Novgorod, Penza, Simbirsk, the Volga rail-bridge port of Syzran and Saransk, 1815AD - 1917AD.",
     label = "tab:reg32-sites"
   )
 )
 ```
 
-# Samara & Saratov Governorates
+## Samara and Saratov Governorates
 
-Table \ref{tab:reg33-sites} lists the 6 catalogued settlements in Region 33 (33. Samara & Saratov Governorates (Volga Wheat Frontier & Volga German Colonies)), where total regional population grew from 1 580k in 1815AD to 5 157k at the 1897AD Census and 6 880k in 1914AD (+335,4%), shifting to 7 120k in 1917AD (+3,5% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg33-sites} gives the populations of the 6 principal towns in the Samara and Saratov governorates, where the regional population grew more than fourfold from 1,58M in 1815AD to 5,16M in 1897AD, 6,88M in 1914AD and 7,12M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg33, echo=FALSE, results='asis'}
 df_reg33 <- build_region_df("volga_steppe_samara_and_saratov")
 render_table_template(
   df_reg33,
   list(
-    caption = "Urban settlements and benchmark population series in Samara & Saratov Governorates (1815AD - 1917AD).",
+    caption = "Populations of the lower Volga grain-milling and oil-transshipment ports of Saratov, Samara and Tsaritsyn, the left-bank wheat port of Pokrovskaya Sloboda (Engels), the cement-making town of Volsk and Kamyshin, 1815AD - 1917AD.",
     label = "tab:reg33-sites"
   )
 )
 ```
 
-# Astrakhan Governorate
+## Astrakhan Governorate
 
-Table \ref{tab:reg34-sites} lists the 5 catalogued settlements in Region 34 (34. Astrakhan Governorate (Caspian Fishery, Kalmyk & Bukey Steppe)), where total regional population grew from 380k in 1815AD to 1 004k at the 1897AD Census and 1 380k in 1914AD (+263,2%), shifting to 1 410k in 1917AD (+2,2% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg34-sites} gives the populations of the 5 principal towns in Astrakhan Governorate, where the regional population grew from 380k in 1815AD to 1M in 1897AD, 1,38M in 1914AD and 1,41M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg34, echo=FALSE, results='asis'}
 df_reg34 <- build_region_df("lower_volga_astrakhan_governorate")
 render_table_template(
   df_reg34,
   list(
-    caption = "Urban settlements and benchmark population series in Astrakhan Governorate (1815AD - 1917AD).",
+    caption = "Populations of the Caspian fisheries and oil-shipping port of Astrakhan, the lower Volga river towns of Tsarev, Cherny Yar and Krasny Yar and the Bukey Kazakh administrative seat of Khanskaya Stavka, 1815AD - 1917AD.",
     label = "tab:reg34-sites"
   )
 )
 ```
 
-# Province of the Don Cossack Host
+## Province of the Don Cossack Host
 
-Table \ref{tab:reg35-sites} lists the 5 catalogued settlements in Region 35 (35. Province of the Don Cossack Host (Rostov-Taganrog Port Hub & Eastern Donbas Coal)), where total regional population grew from 680k in 1815AD to 2 564k at the 1897AD Census and 3 880k in 1914AD (+470,6%), shifting to 3 940k in 1917AD (+1,5% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+Table \ref{tab:reg35-sites} gives the populations of the 5 principal towns in the Province of the Don Cossack Host, where the regional population rose nearly sixfold from 680k in 1815AD to 2,56M in 1897AD, 3,88M in 1914AD and 3,94M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-reg35, echo=FALSE, results='asis'}
 df_reg35 <- build_region_df("don_cossack_host_oblast")
 render_table_template(
   df_reg35,
   list(
-    caption = "Urban settlements and benchmark population series in Province of the Don Cossack Host (1815AD - 1917AD).",
+    caption = "Populations of the commercial port and rail hub of Rostov-on-Don, the Azov grain and steel port of Taganrog, the Don Cossack capital of Novocherkassk, the anthracite-mining town of Aleksandrovsk-Grushevsky (Shakhty) and Kamenskaya, 1815AD - 1917AD.",
     label = "tab:reg35-sites"
   )
 )
 ```
 
-# Kuban Oblast & Black Sea Governorate
+## Kuban Oblast and Black Sea Governorate
 
-Table \ref{tab:reg36-sites} lists the 6 catalogued settlements in Region 36 (36. Kuban Oblast & Black Sea Governorate (1864AD Circassian Muhajir Zone & Cossack Boom)), where total regional population grew from 420k in 1815AD to 1 976k at the 1897AD Census and 3 060k in 1914AD (+628,6%), shifting to 3 120k in 1917AD (+2,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
+Table \ref{tab:reg36-sites} gives the populations of the 6 principal towns in Kuban Oblast and the Black Sea Governorate, where the regional population grew from 420k in 1815AD to 1,98M in 1897AD, 3,06M in 1914AD and 3,12M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
 
 ```{r table-reg36, echo=FALSE, results='asis'}
 df_reg36 <- build_region_df("caucasus_kuban_and_black_sea")
 render_table_template(
   df_reg36,
   list(
-    caption = "Urban settlements and benchmark population series in Kuban Oblast & Black Sea Governorate (1815AD - 1917AD).",
+    caption = "Populations of the Kuban Cossack capital of Ekaterinodar, the Black Sea grain and cement port of Novorossiysk, the Azov port of Yeysk, the oil and timber town of Maykop, the railway boomtown of Armavir and Sochi, 1815AD - 1917AD.",
     label = "tab:reg36-sites"
   )
 )
 ```
 
-# Stavropol Governorate & Terek Oblast
+## Stavropol Governorate and Terek Oblast
 
-Table \ref{tab:reg37-sites} lists the 6 catalogued settlements in Region 37 (37. Stavropol Governorate & Terek Oblast (Grozny Oil, Cossack Lines & Vainakh-Ossetian Highlands)), where total regional population grew from 545k in 1815AD to 1 807k at the 1897AD Census and 2 610k in 1914AD (+378,9%), shifting to 2 650k in 1917AD (+1,5% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
+Table \ref{tab:reg37-sites} gives the populations of the 6 principal towns in Stavropol Governorate and Terek Oblast, where the regional population grew from 545k in 1815AD to 1,81M in 1897AD, 2,61M in 1914AD and 2,65M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
 
 ```{r table-reg37, echo=FALSE, results='asis'}
 df_reg37 <- build_region_df("caucasus_stavropol_and_terek")
 render_table_template(
   df_reg37,
   list(
-    caption = "Urban settlements and benchmark population series in Stavropol Governorate & Terek Oblast (1815AD - 1917AD).",
+    caption = "Populations of the Georgian Military Road terminus of Vladikavkaz, Stavropol, the oil boomtown of Grozny, the mineral-water spa of Pyatigorsk and the Terek line towns of Georgievsk and Mozdok, 1815AD - 1917AD.",
     label = "tab:reg37-sites"
   )
 )
 ```
 
-# Dagestan Oblast
+## Dagestan Oblast
 
-Table \ref{tab:reg38-sites} lists the 4 catalogued settlements in Region 38 (38. Dagestan Oblast (1817-1859AD Caucasian Imamate War, Temir-Khan-Shura & Petrovsk-Port)), where total regional population grew from 450k in 1815AD to 571k at the 1897AD Census and 715k in 1914AD (+58,9%), shifting to 725k in 1917AD (+1,4% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
+Table \ref{tab:reg38-sites} gives the populations of the 4 principal towns in Dagestan Oblast, where the regional population rose from 450k in 1815AD to 571k in 1897AD, 715k in 1914AD and 725k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
 
 ```{r table-reg38, echo=FALSE, results='asis'}
 df_reg38 <- build_region_df("caucasus_dagestan_oblast")
 render_table_template(
   df_reg38,
   list(
-    caption = "Urban settlements and benchmark population series in Dagestan Oblast (1815AD - 1917AD).",
+    caption = "Populations of the Caspian railway ports of Derbent and Petrovsk-Port (Makhachkala), the provincial seat of Temir-Khan-Shura (Buynaksk) and the highland Avar fortress of Khunzakh, 1815AD - 1917AD.",
     label = "tab:reg38-sites"
   )
 )
 ```
 
-# Perm & Vyatka Governorates
+## Perm and Vyatka Governorates
 
-Table \ref{tab:reg39-sites} lists the 6 catalogued settlements in Region 39 (39. Perm & Vyatka Governorates (Trans-Ural Ekaterinburg Mining & Kama Peasantry)), where total regional population grew from 1 920k in 1815AD to 6 025k at the 1897AD Census and 7 880k in 1914AD (+310,4%), shifting to 8 040k in 1917AD (+2,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Kabuzan1992].
+Table \ref{tab:reg39-sites} gives the populations of the 6 principal towns in the Perm and Vyatka governorates, where the regional population grew more than fourfold from 1,92M in 1815AD to 6,03M in 1897AD, 7,88M in 1914AD and 8,04M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Kabuzan1992].
 
 ```{r table-reg39, echo=FALSE, results='asis'}
 df_reg39 <- build_region_df("northern_urals_perm_and_vyatka")
 render_table_template(
   df_reg39,
   list(
-    caption = "Urban settlements and benchmark population series in Perm & Vyatka Governorates (1815AD - 1917AD).",
+    caption = "Populations of the Ural mining and railway hub of Ekaterinburg, the Kama river port and cannon-works city of Perm, the state rifle-factory town of Izhevsky Zavod, the Demidov ironworks centre of Nizhny Tagil, Vyatka and Sarapul, 1815AD - 1917AD.",
     label = "tab:reg39-sites"
   )
 )
 ```
 
-# Ufa & Orenburg Governorates
+## Ufa and Orenburg Governorates
 
-Table \ref{tab:reg40-sites} lists the 6 catalogued settlements in Region 40 (40. Ufa & Orenburg Governorates (Bashkir Steppe Colonisation & Trans-Siberian Gateway)), where total regional population grew from 1 400k in 1815AD to 3 797k at the 1897AD Census and 5 350k in 1914AD (+282,1%), shifting to 5 480k in 1917AD (+2,4% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Kabuzan1992].
+Table \ref{tab:reg40-sites} gives the populations of the 6 principal towns in the Ufa and Orenburg governorates, where the regional population grew from 1,4M in 1815AD to 3,8M in 1897AD, 5,35M in 1914AD and 5,48M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Kabuzan1992].
 
 ```{r table-reg40, echo=FALSE, results='asis'}
 df_reg40 <- build_region_df("southern_urals_ufa_and_orenburg")
 render_table_template(
   df_reg40,
   list(
-    caption = "Urban settlements and benchmark population series in Ufa & Orenburg Governorates (1815AD - 1917AD).",
+    caption = "Populations of the steppe caravan and rail hub of Orenburg, Ufa, the Trans-Siberian gateway and migrant-clearing centre of Chelyabinsk, the border market town of Troitsk, the steel-and-arms town of Zlatoust and Sterlitamak, 1815AD - 1917AD.",
     label = "tab:reg40-sites"
   )
 )
 ```
 
-# West Siberian Trans-Siberian Belt: Southern Tobolsk
+## West Siberian Railway Belt: Southern Tobolsk and Omsk
 
-Table \ref{tab:reg41-sites} lists the 5 catalogued settlements in Region 41 (41. West Siberian Trans-Siberian Belt: Southern Tobolsk (Tyumen, Kurgan, Ishim) & Omsk), where total regional population grew from 545k in 1815AD to 1 740k at the 1897AD Census and 3 180k in 1914AD (+483,5%), shifting to 3 320k in 1917AD (+4,4% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg41-sites} gives the populations of the 5 principal towns in southern Tobolsk and the Omsk district, where the regional population grew nearly sixfold from 545k in 1815AD to 1,74M in 1897AD, 3,18M in 1914AD and 3,32M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg41, echo=FALSE, results='asis'}
 df_reg41 <- build_region_df("siberia_west_transsiberian_tobolsk_omsk")
 render_table_template(
   df_reg41,
   list(
-    caption = "Urban settlements and benchmark population series in West Siberian Trans-Siberian Belt: Southern Tobolsk (1815AD - 1917AD).",
+    caption = "Populations of the West Siberian railway and administrative metropolis of Omsk, the river-and-rail transshipment city of Tyumen, the butter-exporting centres of Kurgan and Ishim and Tara, 1815AD - 1917AD.",
     label = "tab:reg41-sites"
   )
 )
 ```
 
-# Ob-Irtysh River Trail & Polar Tundra: Tobolsk, Surgut, Berezov & Narym
+## Ob-Irtysh North: Tobolsk, Surgut, Berezov and Narym
 
-Table \ref{tab:reg42-sites} lists the 5 catalogued settlements in Region 42 (42. Ob-Irtysh River Trail & Polar Tundra: Tobolsk, Surgut, Berezov & Narym), where total regional population grew from 160k in 1815AD to 375k at the 1897AD Census and 505k in 1914AD (+215,6%), shifting to 520k in 1917AD (+3,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg42-sites} gives the populations of the 5 principal towns along the northern Ob and Irtysh rivers, where the regional population grew from 160k in 1815AD to 375k in 1897AD, 505k in 1914AD and 520k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg42, echo=FALSE, results='asis'}
 df_reg42 <- build_region_df("siberia_ob_irtysh_river_north")
 render_table_template(
   df_reg42,
   list(
-    caption = "Urban settlements and benchmark population series in Ob-Irtysh River Trail & Polar Tundra: Tobolsk, Surgut, Berezov & Narym (1815AD - 1917AD).",
+    caption = "Populations of the historic provincial seat of Tobolsk and the northern Ob-Irtysh fur, fishing and exile outposts of Berezov, Surgut, Obdorsk (Salekhard) and Narym, 1815AD - 1917AD.",
     label = "tab:reg42-sites"
   )
 )
 ```
 
-# Tomsk Railway Trunk
+## Tomsk Governorate and the Altai Cabinet Lands
 
-Table \ref{tab:reg43-sites} lists the 6 catalogued settlements in Region 43 (43. Tomsk Railway Trunk (Novonikolaevsk, Tomsk) & Altai Cabinet Stolypin Magnet (Barnaul, Biysk)), where total regional population grew from 300k in 1815AD to 1 928k at the 1897AD Census and 3 980k in 1914AD (+1226,7%), shifting to 4 180k in 1917AD (+5,0% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg43-sites} gives the populations of the 6 principal towns in Tomsk Governorate and the Altai Cabinet district, where the regional population surged nearly fourteenfold from 300k in 1815AD to 1,93M in 1897AD, 3,98M in 1914AD and 4,18M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg43, echo=FALSE, results='asis'}
 df_reg43 <- build_region_df("siberia_tomsk_rail_and_altai_cabinet")
 render_table_template(
   df_reg43,
   list(
-    caption = "Urban settlements and benchmark population series in Tomsk Railway Trunk (1815AD - 1917AD).",
+    caption = "Populations of the university and provincial capital of Tomsk, the Ob rail-bridge boomtown of Novonikolaevsk (Novosibirsk, founded 1893AD), the Altai Cabinet centres of Barnaul and Biysk, Mariinsk and Kuznetsk, 1815AD - 1917AD.",
     label = "tab:reg43-sites"
   )
 )
 ```
 
-# Altai-Sayan Highlands: Gorny Altai, Minusinsk & Uriankhai Protectorate
+## Altai-Sayan Highlands: Gorny Altai, Minusinsk and Uriankhai
 
-Table \ref{tab:reg44-sites} lists the 4 catalogued settlements in Region 44 (44. Altai-Sayan Highlands: Gorny Altai, Minusinsk & Uriankhai Protectorate (Tuva 1914AD)), where total regional population grew from 125k in 1815AD to 330k at the 1897AD Census and 565k in 1914AD (+352,0%), shifting to 575k in 1917AD (+1,8% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg44-sites} gives the populations of the 4 principal towns in the Altai-Sayan highlands, Minusinsk and the Uriankhai (Tuva) protectorate, where the regional population grew from 125k in 1815AD to 330k in 1897AD, 565k in 1914AD and 575k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg44, echo=FALSE, results='asis'}
 df_reg44 <- build_region_df("siberia_altai_sayan_and_uriankhai_1914")
 render_table_template(
   df_reg44,
   list(
-    caption = "Urban settlements and benchmark population series in Altai-Sayan Highlands: Gorny Altai, Minusinsk & Uriankhai Protectorate (1815AD - 1917AD).",
+    caption = "Populations of the upper Yenisei farming town of Minusinsk, the Altai mission and market seat of Ulala, Ust-Abakanskoe and the Uriankhai protectorate post of Belotsarsk (Kyzyl, founded 1914AD), 1815AD - 1917AD.",
     label = "tab:reg44-sites"
   )
 )
 ```
 
-# Central Siberian Trans-Siberian Corridor: Achinsk-Krasnoyarsk-Kansk & Irkutsk
+## Central Siberian Railway Belt: Krasnoyarsk and Irkutsk
 
-Table \ref{tab:reg45-sites} lists the 5 catalogued settlements in Region 45 (45. Central Siberian Trans-Siberian Corridor: Achinsk-Krasnoyarsk-Kansk & Irkutsk), where total regional population grew from 210k in 1815AD to 795k at the 1897AD Census and 1 540k in 1914AD (+633,3%), shifting to 1 560k in 1917AD (+1,3% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg45-sites} gives the populations of the 5 principal towns along the Central Siberian railway belt in southern Yeniseysk and Irkutsk governorates, where the regional population grew more than sevenfold from 210k in 1815AD to 795k in 1897AD, 1,54M in 1914AD and 1,56M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg45, echo=FALSE, results='asis'}
 df_reg45 <- build_region_df("siberia_central_transsiberian_krasnoyarsk_irkutsk")
 render_table_template(
   df_reg45,
   list(
-    caption = "Urban settlements and benchmark population series in Central Siberian Trans-Siberian Corridor: Achinsk-Krasnoyarsk-Kansk & Irkutsk (1815AD - 1917AD).",
+    caption = "Populations of the East Siberian capital of Irkutsk, the Yenisei rail-bridge and workshop city of Krasnoyarsk and the Trans-Siberian division towns of Kansk, Achinsk and Nizhneudinsk, 1815AD - 1917AD.",
     label = "tab:reg45-sites"
   )
 )
 ```
 
-# Yenisei-Turukhansk Polar North & Bodaibo Lena Goldfields
+## Yenisei-Turukhansk North and the Lena Goldfields
 
-Table \ref{tab:reg46-sites} lists the 4 catalogued settlements in Region 46 (46. Yenisei-Turukhansk Polar North & Bodaibo Lena Goldfields (1912AD Massacre)), where total regional population grew from 68k in 1815AD to 195k at the 1897AD Census and 270k in 1914AD (+297,1%), shifting to 265k in 1917AD (-1,9% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg46-sites} gives the populations of the 4 principal towns in the Yenisei-Turukhansk north and the Lena goldfields around Bodaibo, where the regional population rose from 68k in 1815AD to 195k in 1897AD and 270k in 1914AD (265k in 1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg46, echo=FALSE, results='asis'}
 df_reg46 <- build_region_df("siberia_yenisei_turukhansk_and_lena_gold")
 render_table_template(
   df_reg46,
   list(
-    caption = "Urban settlements and benchmark population series in Yenisei-Turukhansk Polar North & Bodaibo Lena Goldfields (1815AD - 1917AD).",
+    caption = "Populations of the old river port of Yeniseysk, the Vitim-Lena gold-mining centre of Bodaibo (founded 1864AD), the upper Lena steamer port of Kirensk and the northern trading post of Turukhansk, 1815AD - 1917AD.",
     label = "tab:reg46-sites"
   )
 )
 ```
 
-# Transbaikal Oblast
+## Transbaikal and Yakutsk Oblasts
 
-Table \ref{tab:reg47-sites} lists the 6 catalogued settlements in Region 47 (47. Transbaikal Oblast (Chita, Verkhneudinsk) & Yakutsk Oblast (Sakha, Okhotsk, Chukotka, Kamchatka)), where total regional population grew from 278k in 1815AD to 942k at the 1897AD Census and 1 295k in 1914AD (+365,8%), shifting to 1 305k in 1917AD (+0,8% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg47-sites} gives the populations of the 6 principal towns in Transbaikal and Yakutsk oblasts, where the regional population grew from 278k in 1815AD to 942k in 1897AD, 1,29M in 1914AD and 1,3M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg47, echo=FALSE, results='asis'}
 df_reg47 <- build_region_df("siberia_transbaikal_and_yakutsk")
 render_table_template(
   df_reg47,
   list(
-    caption = "Urban settlements and benchmark population series in Transbaikal Oblast (1815AD - 1917AD).",
+    caption = "Populations of the Transbaikal railway hub of Chita, Verkhneudinsk (Ulan-Ude), the Mongolia tea-trade town of Troitskosavsk (Kyakhta), Nerchinsk, Yakutsk and the Kamchatka port of Petropavlovsk, 1815AD - 1917AD.",
     label = "tab:reg47-sites"
   )
 )
 ```
 
-# Priamurye Governor-Generalship: Amur, Primorskaya
+## Priamurye: Amur, Primorskaya and Sakhalin
 
-Table \ref{tab:reg48-sites} lists the 6 catalogued settlements in Region 48 (48. Priamurye Governor-Generalship: Amur, Primorskaya (Vladivostok) & Sakhalin (1858-1860AD Annexation)), where total regional population grew from 30k in 1815AD to 372k at the 1897AD Census and 1 135k in 1914AD (+3683,3%), shifting to 1 150k in 1917AD (+1,3% across 1914-1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+Table \ref{tab:reg48-sites} gives the populations of the 6 principal towns in the Amur, Primorskaya and Sakhalin provinces of the Russian Far East, where the regional population rose from 30k in 1815AD to 372k in 1897AD, 1,14M in 1914AD and 1,15M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
 
 ```{r table-reg48, echo=FALSE, results='asis'}
 df_reg48 <- build_region_df("far_east_priamurye_amur_primorskaya_sakhalin")
 render_table_template(
   df_reg48,
   list(
-    caption = "Urban settlements and benchmark population series in Priamurye Governor-Generalship: Amur, Primorskaya (1815AD - 1917AD).",
+    caption = "Populations of the Pacific naval and rail terminus of Vladivostok, the Amur gold-and-grain city of Blagoveshchensk, Khabarovsk, the Ussuri rail junction of Nikolsk-Ussuriysky, Nikolaevsk-on-Amur and Sakhalin's Aleksandrovsky Post, 1815AD - 1917AD.",
     label = "tab:reg48-sites"
   )
 )
 ```
 
-# Regional Urban Sample Summary
+# Appendix
 
-Table \ref{tab:regional-summary} aggregates the combined urban population of all 265 catalogued settlements across the 48 period-authentic regions from 1815AD to 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+## Regional Urban Population Summary
+
+Table \ref{tab:regional-summary} sums the populations of all 265 towns across the 48 provinces from 1815AD to 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
 
 ```{r table-regional-summary, echo=FALSE, results='asis'}
 bench_yrs <- c("1815", "1858", "1897", "1914", "1917")
@@ -866,10 +1002,10 @@ sum_rows <- lapply(seq_along(summary_meta$regions), function (idx) {
     pct_s <- "Post-1850AD"
   } else {
     pct <- round((raw_sums[["1914"]] - raw_sums[["1815"]]) / raw_sums[["1815"]] * 100, 1)
-    pct_s <- paste0(if (pct > 0) "+" else "", gsub("\\.", ",", format(pct, nsmall = 1, trim = TRUE)), "%")
+    pct_s <- paste0(if (pct > 0) "+" else "", sub(",0$", "", gsub("\\.", ",", format(pct, nsmall = 1, trim = TRUE))), "%")
   }
   data.frame(
-    `Region (Catalogued Cities)` = paste0(clean_reg_short(reg$name), " (n = ", length(sub_e), ")"),
+    `Region (Towns)` = paste0(clean_reg_short(reg$name), " (", length(sub_e), ")"),
     `1815AD` = sums[["1815"]],
     `1858AD` = sums[["1858"]],
     `1897AD` = sums[["1897"]],
@@ -891,10 +1027,10 @@ tot_raw <- sapply(bench_yrs, function (y) {
 })
 tot_sums <- sapply(tot_raw, fmt_eu_pop)
 tot_pct <- round((tot_raw[["1914"]] - tot_raw[["1815"]]) / tot_raw[["1815"]] * 100, 1)
-tot_pct_s <- paste0(if (tot_pct > 0) "+" else "", gsub("\\.", ",", format(tot_pct, nsmall = 1, trim = TRUE)), "%")
+tot_pct_s <- paste0(if (tot_pct > 0) "+" else "", sub(",0$", "", gsub("\\.", ",", format(tot_pct, nsmall = 1, trim = TRUE))), "%")
 
 tot_row <- data.frame(
-  `Region (Catalogued Cities)` = paste0("Total Gazetteer Sample (n = ", length(all_entries), ")"),
+  `Region (Towns)` = paste0("All 48 Regions (", length(all_entries), " towns)"),
   `1815AD` = tot_sums[["1815"]],
   `1858AD` = tot_sums[["1858"]],
   `1897AD` = tot_sums[["1897"]],
@@ -909,7 +1045,7 @@ df_sum <- rbind(df_sum, tot_row)
 render_table_template(
   df_sum,
   list(
-    caption = "Combined Urban Population Across All 265 Gazetteer Settlements by 48 Period-Authentic Regions (1815AD - 1917AD).",
+    caption = "Combined urban population of all 265 catalogued towns across each of the 48 provinces at five benchmark dates from 1815AD to 1917AD, with percentage growth from 1815AD to 1914AD.",
     label = "tab:regional-summary"
   )
 )

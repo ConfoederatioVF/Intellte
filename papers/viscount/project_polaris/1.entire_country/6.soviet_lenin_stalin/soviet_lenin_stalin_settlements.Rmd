@@ -1,28 +1,40 @@
 ---
-title: "GAZETTEER OF SOVIET SETTLEMENTS AND URBAN CENTRES UNDER LENIN AND STALIN."
-subtitle: "Supplementary Tabular Compilation of Settlement Population Histories (1922AD - 1953AD)."
+title: "Towns and Industrial Camps of the Soviet Union Under Lenin and Stalin"
+subtitle: "A Regional Gazetteer of Five-Year-Plan Cities, Annexed Western Towns and Gulag Settlements"
 date: "11 November 2026"
 authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 bibliography: soviet_lenin_stalin_literature_review.bib
-csl: crd-mla-numeric.csl
+csl: ../../_shared/template/crd-mla-numeric.csl
 link-citations: true
 hero_figure: "figures/soviet_lenin_stalin_regional_map.png"
-hero_caption: "Administrative regions and catalogued urban, industrial, and camp settlements across the Soviet Union under Lenin and Stalin (1926AD - 1953AD)."
+hero_caption: "The 45 demographic regions of the European and Asian USSR between 1926 and 1953, showing the western capitals annexed in 1939-1945 alongside the Ural, Kuzbass and Arctic industrial and camp towns built under the Five-Year Plans."
 hero_label: "fig:hero-map"
 output:
   pdf_document:
     latex_engine: xelatex
     keep_tex: false
-    template: ../../../../../core/rticles/intellte/resources/template.tex
+    template: ../../_shared/template/template.tex
     citation_package: default
   md_document:
     variant: gfm
 ---
 
 ```{r setup, include=FALSE}
-source("../../../../../core/framework/R/framework_init.R")
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
 ```
 
 ```{r load-stadester-json, include=FALSE}
@@ -40,21 +52,45 @@ fmt_eu_pop <- function (arg0_val) {
   if (v <= 0) return("-")
   if (v >= 1000000) {
     m <- round(v / 1000000, 2)
-    return(paste0(gsub("\\.", ",", format(m, nsmall = 2, trim = TRUE)), "M"))
+    s <- gsub("\\.", ",", format(m, nsmall = 2, trim = TRUE))
+    s <- sub(",?0+$", "", s)
+    return(paste0(s, "M"))
   }
   if (v >= 1000) {
     k <- round(v / 1000, 1)
-    if (k == floor(k)) {
-      return(paste0(as.integer(k), "k"))
-    }
-    return(paste0(gsub("\\.", ",", format(k, nsmall = 1, trim = TRUE)), "k"))
+    s <- gsub("\\.", ",", format(k, nsmall = 1, trim = TRUE))
+    s <- sub(",?0+$", "", s)
+    return(paste0(s, "k"))
   }
   return(as.character(as.integer(round(v))))
 }
 
 fmt_eu_coord <- function (arg0_x) {
   s <- format(round(as.numeric(arg0_x), 2), nsmall = 2, trim = TRUE)
-  gsub("\\.", ",", s)
+  s <- gsub("\\.", ",", s)
+  sub(",?0+$", "", s)
+}
+
+hyphenate_long_name <- function (arg0_str) {
+  if (is.null(arg0_str) || is.na(arg0_str) || !nzchar(arg0_str)) return(arg0_str)
+  s <- arg0_str
+  s <- gsub("Dnipropetrovsk", "Dnipropet-rovsk", s, fixed = TRUE)
+  s <- gsub("Dnepropetrovsk", "Dnepropet-rovsk", s, fixed = TRUE)
+  s <- gsub("Dneprodzerzhinsk", "Dneprodzer-zhinsk", s, fixed = TRUE)
+  s <- gsub("Dniprodzerzhynsk", "Dniprodzer-zhynsk", s, fixed = TRUE)
+  s <- gsub("Voroshilovgrad", "Voroshilov-grad", s, fixed = TRUE)
+  s <- gsub("Voroshylovhrad", "Voroshylov-hrad", s, fixed = TRUE)
+  s <- gsub("Medvezhyegorsk", "Medvezhye-gorsk", s, fixed = TRUE)
+  s <- gsub("Medvezhegorsk", "Medvezhe-gorsk", s, fixed = TRUE)
+  s <- gsub("Krasnoturyinsk", "Krasnotur-yinsk", s, fixed = TRUE)
+  s <- gsub("Blagoveshchensk", "Blagovesh-chensk", s, fixed = TRUE)
+  s <- gsub("Novoshakhtinsk", "Novoshakh-tinsk", s, fixed = TRUE)
+  s <- gsub("Konstantinovka", "Konstanti-novka", s, fixed = TRUE)
+  s <- gsub("Yekaterinoslav", "Yekaterino-slav", s, fixed = TRUE)
+  s <- gsub("Krasnoarmeyskaya", "Krasnoarmey-skaya", s, fixed = TRUE)
+  s <- gsub("Chernyakhovsk", "Chernyak-hovsk", s, fixed = TRUE)
+  s <- gsub("Krasnoarmeysk-Volga", "Krasno-armeysk-Volga", s, fixed = TRUE)
+  gsub("([A-Za-z]{8})([A-Za-z]{6,})", "\\1-\\2", s)
 }
 
 get_entry_pop <- function (arg0_entry, arg1_yr_str) {
@@ -66,7 +102,7 @@ get_entry_pop <- function (arg0_entry, arg1_yr_str) {
 get_occupied_span <- function (arg0_entry) {
   yrs <- as.integer(names(arg0_entry$population))
   if (length(yrs) == 0) return("-")
-  paste0(min(yrs), "-", max(yrs), "AD")
+  paste0(min(yrs), "-", max(yrs))
 }
 
 build_reg_df <- function (arg0_reg_nums) {
@@ -83,14 +119,14 @@ build_reg_df <- function (arg0_reg_nums) {
       " (", get_occupied_span(e), ")"
     )
     data.frame(
-      `Settlement (Region)` = paste0(e$name, " (Reg. ", rnum, ")"),
-      `Historical / Soviet Names` = oth,
-      `Coords & Span` = coords_span,
-      `1926AD` = fmt_eu_pop(get_entry_pop(e, "1926")),
-      `1933AD` = fmt_eu_pop(get_entry_pop(e, "1933")),
-      `1939AD` = fmt_eu_pop(get_entry_pop(e, "1939")),
-      `1945AD` = fmt_eu_pop(get_entry_pop(e, "1945")),
-      `1953AD` = fmt_eu_pop(get_entry_pop(e, "1953")),
+      `Settlement` = paste0(hyphenate_long_name(e$name), " (Reg. ", rnum, ")"),
+      `Other Names` = hyphenate_long_name(oth),
+      `Coords` = coords_span,
+      `1926` = fmt_eu_pop(get_entry_pop(e, "1926")),
+      `1933` = fmt_eu_pop(get_entry_pop(e, "1933")),
+      `1939` = fmt_eu_pop(get_entry_pop(e, "1939")),
+      `1945` = fmt_eu_pop(get_entry_pop(e, "1945")),
+      `1953` = fmt_eu_pop(get_entry_pop(e, "1953")),
       check.names = FALSE,
       stringsAsFactors = FALSE
     )
@@ -99,18 +135,24 @@ build_reg_df <- function (arg0_reg_nums) {
 }
 ```
 
-# Overview and Estimation Rules across the 45 Stalin-Era Regions
+# Abstract
 
-This supplementary settlement gazetteer compiles 251 urban centres, SSR and ASSR/AO capitals, liquidated and deported ethnic centres, Five-Year-Plan industrial boomtowns, and NKVD-MVD Gulag camp-industrial complexes across all 45 Stalin-era regions of Estonia (Region 1, 6 entries), Latvia (Region 2, 6 entries), Lithuania (Region 3, 5 entries), Moldova (Region 4, 6 entries), Belarus (Regions 6-7, 18 entries), Ukraine including Crimea (Regions 8-15, 63 entries), and Russia including Kaliningrad Oblast and Karelia (Region 5 and Regions 16-45, 147 entries) between 1926AD and 1953AD. Each settlement entry records verified geographic coordinates, historical and Soviet toponyms, sovereign country attribution (Estonia, Latvia, Lithuania, Moldova, Belarus, Ukraine, or Russia), and positive integer population estimates across the 1926AD, 1933AD, 1939AD, 1945AD, and 1953AD benchmarks.
+Between the First All-Union Census of December 1926 and the death of Joseph Stalin in March 1953, the urban network of the European and Asian Soviet Union was transformed by Five-Year-Plan industrialisation, wartime devastation and the expansion of the Gulag. Across the 251 towns, republic capitals, industrial centres and forced-labour camp settlements covered in this gazetteer, the combined urban population more than doubled from 16,91M in 1926 to 41,18M in 1953. Rapid industrial construction in the 1930s and factory evacuations during the Second World War multiplied the size of Moscow, Gorky and the coal and steel cities of the Donbas, the Urals, the Kuzbass and Western Siberia, while creating entirely new polar mining and port towns at Vorkuta, Norilsk, Igarka and Magadan.
 
-Population figures for 1926AD and 1939AD are derived from the First All-Union Census (17 December 1926AD) and the All-Union Census (17 January 1939AD), supplemented for 1939-1945AD annexed borderland cities (Tallinn, Tartu, Narva, and Parnu in Region 1; Riga, Liepaja, Daugavpils, and Jelgava in Region 2; Vilnius, Kaunas, Klaipeda, and Siauliai in Region 3; Chisinau, Balti, and Bender in Region 4; Kaliningrad/Konigsberg, Sovetsk/Tilsit, and Chernyakhovsk/Insterburg in Region 5; Brest and Grodno in Region 6; Lviv, Ternopil, and Lutsk in Region 8; Chernivtsi, Izmail, and Uzhhorod in Region 9; Vyborg and Sortavala in Region 16; Kyzyl in Region 39; and Yuzhno-Sakhalinsk/Toyohara in Region 45) by contemporary Estonian, Latvian, Lithuanian, Polish, Romanian, Czechoslovak, Finnish, German, Tuvan, and Japanese municipal censuses [@tsunkhu1929perepis1926; @polyakov1992perepis1939; @andreev1998demograficheskaya; @parming1972estonia; @zvidrins1992latvia; @balkelis2005vilnius; @kostyashov2009sekretnaya]. Figures for 1933AD, 1945AD, and 1953AD are reconstructed from TsUNKhU urban registers, Evacuation Council and post-liberation municipal tallies (1944-1945AD), NKVD-MVD special-settlement and Gulag administration records, and pre-1959AD statistical yearbooks [@polyakov1991perepis1937; @rudnytskyi2015holodomor; @zemskov2003spetsposelentsy; @khlevniuk2004history; @casu2014moldova]. In the tables below, benchmarks prior to a settlement's foundation (such as Kohtla-Jarve and Sillamae industrial combinats, Vorkuta, Inta, Norilsk, Magadan, Susuman, or Pevek in 1926AD) or after its destruction (Khatyn after March 1943AD) are denoted by -.
+Over the same quarter-century, war, genocide and forced migration hollowed out the historic cities of the western borderlands and the occupied front zone. Between 1941 and 1945, the Holocaust annihilated the Jewish urban communities of Vilnius, Kaunas, Riga, Minsk, Vitebsk, Lviv, Kyiv and Odesa, siege and combat reduced Leningrad, Stalingrad, Voronezh, Sevastopol and Narva to rubble and post-war population transfers replaced the pre-war inhabitants of Kaliningrad, Vyborg, Klaipeda and Yuzhno-Sakhalinsk.
+
+# Methodology
+
+This gazetteer traces the population of 251 towns, republic capitals, Five-Year-Plan industrial boomtowns and Gulag camp centres across the 45 Stalin-era regions of Estonia (Region 1, 6 towns), Latvia (Region 2, 6 towns), Lithuania (Region 3, 5 towns), Moldova (Region 4, 6 towns), Belarus (Regions 6-7, 18 towns), Ukraine including Crimea (Regions 8-15, 63 towns) and Russia including Kaliningrad Oblast and Karelia (Region 5 and Regions 16-45, 147 towns) at five benchmark dates: 1926, 1933, 1939, 1945 and 1953.
+
+Population figures for 1926 and 1939 come from the All-Union Censuses of 17 December 1926 and 17 January 1939, supplemented for the borderland cities annexed between 1939 and 1945 (Tallinn, Tartu, Narva and Parnu in Region 1; Riga, Liepaja, Daugavpils and Jelgava in Region 2; Vilnius, Kaunas, Klaipeda and Siauliai in Region 3; Chisinau, Balti and Bender in Region 4; Kaliningrad/Konigsberg, Sovetsk/Tilsit and Chernyakhovsk/Insterburg in Region 5; Brest and Grodno in Region 6; Lviv, Ternopil and Lutsk in Region 8; Chernivtsi, Izmail and Uzhhorod in Region 9; Vyborg and Sortavala in Region 16; Kyzyl in Region 39; and Yuzhno-Sakhalinsk/Toyohara in Region 45) by Estonian, Latvian, Lithuanian, Polish, Romanian, Czechoslovak, Finnish, German, Tuvan and Japanese censuses [@tsunkhu1929perepis1926; @polyakov1992perepis1939; @andreev1998demograficheskaya; @parming1972estonia; @zvidrins1992latvia; @balkelis2005vilnius; @kostyashov2009sekretnaya]. Estimates for 1933, 1945 and 1953 are drawn from urban registration books, Evacuation Council and post-liberation municipal counts (1944-1945), NKVD-MVD camp and special-settlement files and statistical yearbooks [@polyakov1991perepis1937; @rudnytskyi2015holodomor; @zemskov2003spetsposelentsy; @khlevniuk2004history; @casu2014moldova]. Benchmarks before a settlement's foundation (such as Kohtla-Jarve, Sillamae, Vorkuta, Inta, Norilsk, Magadan, Susuman or Pevek in 1926) or after its wartime destruction (Khatyn after March 1943) are marked with a hyphen (`-`).
 
 ```{r fig1-md-only, echo=FALSE, results='asis'}
-if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE))) {
+if (!knitr::is_latex_output()) {
   render_figure_template(
     "figures/soviet_lenin_stalin_regional_map.png",
     list(
-      caption = "Administrative regions and catalogued urban, industrial, and camp settlements across the Soviet Union under Lenin and Stalin (1926AD - 1953AD).",
+      caption = "The 45 demographic regions of the European and Asian USSR between 1926 and 1953, showing the western capitals annexed in 1939-1945 alongside the Ural, Kuzbass and Arctic industrial and camp towns built under the Five-Year Plans.",
       label = "fig:hero-map",
       span_columns = TRUE
     )
@@ -118,155 +160,159 @@ if (!knitr::is_latex_output() && !isTRUE(getOption("intellte.dom_mode", FALSE)))
 }
 ```
 
-# Regions 1 - 5: Baltic SSRs, Moldavian SSR, and Kaliningrad Oblast
+# Results
 
-Table \ref{tab:reg1-5} lists 28 settlements across Region 1 (Estonian SSR: Tallinn, Tartu, Kohtla-Jarve, Parnu, Narva, Sillamae), Region 2 (Latvian SSR: Riga, Liepaja, Daugavpils, Jelgava, Ventspils, Rezekne), Region 3 (Lithuanian SSR: Vilnius, Kaunas, Klaipeda, Siauliai, Panevezys), Region 4 (Moldavian SSR: Chisinau, Balti, Tiraspol, Bender, Cahul, Orhei), and Region 5 (Kaliningrad Oblast / Northern East Prussia: Kaliningrad, Sovetsk, Chernyakhovsk, Baltiysk, Gusev) [@mertelsmann2009estonia; @strods2002priboi; @balkelis2005vilnius; @casu2014moldova; @kostyashov2022kaliningrad].
+## Regions 1 - 5: Baltic SSRs, Moldavian SSR and Kaliningrad Oblast
+
+Table \ref{tab:reg1-5} gives the population of 28 towns across Estonia (Region 1), Latvia (Region 2), Lithuania (Region 3), Moldova (Region 4) and Kaliningrad Oblast (Region 5) [@mertelsmann2009estonia; @strods2002priboi; @balkelis2005vilnius; @casu2014moldova; @kostyashov2022kaliningrad].
 
 ```{r table-reg1-5, echo=FALSE, results='asis'}
 render_table_template(
   build_reg_df(1:5),
   list(
-    caption = "Settlement population trajectories across the Baltic SSRs, Moldavian SSR, and Kaliningrad Oblast (Regions 1 to 5, 1926AD - 1953AD).",
+    caption = "Town populations across Estonia, Latvia, Lithuania, Moldova and Kaliningrad Oblast (Regions 1 to 5) at the 1926, 1933, 1939, 1945 and 1953 benchmarks, showing wartime losses in Riga, Vilnius and Konigsberg/Kaliningrad and the post-war creation of Estonian oil-shale and uranium towns.",
     label = "tab:reg1-5"
   )
 )
 ```
 
-# Regions 6 - 7: Byelorussian SSR (Western Belarus 1939 Annexation & Eastern BSSR)
+## Regions 6 - 7: Western and Eastern Belarus
 
-Table \ref{tab:reg6-7} lists 18 settlements across Region 6 (Western Belarus: Brest, Grodno, Baranovichi, Molodechno, Pinsk, Lida) and Region 7 (Eastern Byelorussian SSR: Minsk, Vitebsk, Gomel, Mogilev, Bobruisk, Polotsk, Orsha, Borisov, Mozyr, Slutsk, Rechitsa, Khatyn) [@bylov2004belarus; @arad2009holocaust].
+Table \ref{tab:reg6-7} covers 18 settlements across Western Belarus (Region 6: Brest, Grodno, Baranovichi, Molodechno, Pinsk and Lida) and Eastern Belarus (Region 7: Minsk, Vitebsk, Gomel, Mogilev, Bobruisk, Polotsk, Orsha, Borisov, Mozyr, Slutsk, Rechitsa and the razed village of Khatyn) [@bylov2004belarus; @arad2009holocaust].
 
 ```{r table-reg6-7, echo=FALSE, results='asis'}
 render_table_template(
   build_reg_df(6:7),
   list(
-    caption = "Settlement population trajectories across Western Belarus and the Eastern Byelorussian SSR (Regions 6 to 7, 1926AD - 1953AD).",
+    caption = "Town populations across Western and Eastern Belarus (Regions 6 and 7) from 1926 to 1953, capturing the destruction of Jewish urban communities in Minsk, Vitebsk, Brest and Pinsk between 1941 and 1944 and post-war industrial rebuilding.",
     label = "tab:reg6-7"
   )
 )
 ```
 
-# Regions 8 - 11: Western, Right-Bank, and Left-Bank Ukraine (Annexations & Holodomor Core)
+## Regions 8 - 11: Western, Right-Bank and Left-Bank Ukraine
 
-Table \ref{tab:reg8-11} lists 38 settlements across Region 8 (Western Ukraine: Galicia & Volhynia 1939 Annexation), Region 9 (Northern Bukovina & Budjak 1940 + Transcarpathia 1945 Annexations: Chernivtsi, Izmail, Bilhorod-Dnistrovskyi, Uzhhorod, Mukachevo), Region 10 (Right-Bank Ukrainian SSR: Kyiv, Vinnytsia, Zhytomyr, Cherkasy, Bila Tserkva, Uman, Kamianets-Podilskyi), and Region 11 (Left-Bank Ukrainian SSR Holodomor Epicentre: Kharkiv, Poltava, Sumy, Chernihiv, Kremenchuk) [@rudnytskyi2015holodomor; @wolowyna2020holodomor; @polian2001against].
+Table \ref{tab:reg8-11} presents 38 towns across Galicia and Volhynia (Region 8), Northern Bukovina, Budjak and Transcarpathia (Region 9), Right-Bank Ukraine (Region 10) and Left-Bank Ukraine (Region 11) [@rudnytskyi2015holodomor; @wolowyna2020holodomor; @polian2001against].
 
 ```{r table-reg8-11, echo=FALSE, results='asis'}
 render_table_template(
   build_reg_df(8:11),
   list(
-    caption = "Settlement population trajectories across Western, Right-Bank, and Left-Bank Ukraine (Regions 8 to 11, 1926AD - 1953AD).",
+    caption = "Town populations across Western, Right-Bank and Left-Bank Ukraine (Regions 8 to 11) from 1926 to 1953, reflecting the 1933 famine in Kharkiv and Poltava, the wartime depopulation of Kyiv and Lviv and the Polish-Ukrainian population exchanges.",
     label = "tab:reg8-11"
   )
 )
 ```
 
-# Regions 12 - 15: Dnieper Industrial Bend, Donbas Basin, Black Sea Steppe, and Crimean ASSR
+## Regions 12 - 15: Dnieper Bend, Donbas, Black Sea Steppe and Crimea
 
-Table \ref{tab:reg12-15} lists 25 settlements across Region 12 (Dnieper Industrial Bend), Region 13 (Donbas Coal-Metallurgical Basin), Region 14 (Ukrainian Black Sea Steppe: Odesa, Mykolaiv, Kherson, Pervomaisk, Balta), and Region 15 (Crimean ASSR -> Crimean Oblast: Sevastopol, Simferopol, Kerch, Bakhchisarai) [@polyakov1992perepis1939; @senyavsky2019urbanisation; @bugai1995deportatsiya].
+Table \ref{tab:reg12-15} covers 25 towns across the Dnieper Industrial Bend (Region 12), the Donbas Coal-Metallurgical Basin (Region 13), the Ukrainian Black Sea Steppe (Region 14) and Crimea (Region 15) [@polyakov1992perepis1939; @senyavsky2019urbanisation; @bugai1995deportatsiya].
 
 ```{r table-reg12-15, echo=FALSE, results='asis'}
 render_table_template(
   build_reg_df(12:15),
   list(
-    caption = "Settlement population trajectories across the Dnieper Bend, Donbas, Black Sea Steppe, and Crimea (Regions 12 to 15, 1926AD - 1953AD).",
+    caption = "Town populations across the Dnieper Bend, Donbas, Black Sea Steppe and Crimea (Regions 12 to 15) from 1926 to 1953, contrasting rapid Five-Year-Plan growth in Zaporizhzhia, Kryvyi Rih and Stalino with wartime ruin and the 1944 Crimean Tatar deportation.",
     label = "tab:reg12-15"
   )
 )
 ```
 
-# Regions 16 - 22: Karelia, Leningrad Siege Zone, Komi Gulag, Moscow, and Black-Earth
+## Regions 16 - 22: Karelia, Leningrad, Komi, Moscow and Central Russia
 
-Table \ref{tab:reg16-22} lists 42 settlements across Region 16 (Karelo-Finnish SSR & Murmansk: Murmansk, Vyborg, Petrozavodsk, Monchegorsk, Medvezhyegorsk, Belomorsk, Sortavala), Region 17 (Leningrad, Pskov, Novgorod, Volkhov, Staraya Russa), Region 18 (Komi ASSR & Nenets Okrug: Syktyvkar, Vorkuta, Inta, Ukhta, Pechora, Naryan-Mar), Region 19 (Arkhangelsk, Vologda, Severodvinsk, Kotlas), Region 20 (Moscow Metropolis & Dmitlag), Region 21 (Upper Volga & Western Front), and Region 22 (Central Black-Earth Belt) [@baron2007karelia; @lomagin2002neizvestnaya; @applebaum2003gulag].
+Table \ref{tab:reg16-22} lists 42 settlements across Karelia and Murmansk (Region 16), Leningrad, Novgorod and Pskov (Region 17), the Komi ASSR and Nenets Okrug (Region 18), Arkhangelsk and Vologda (Region 19), Moscow (Region 20), the Upper Volga and Western Front (Region 21) and the Central Black-Earth Belt (Region 22) [@baron2007karelia; @lomagin2002neizvestnaya; @applebaum2003gulag].
 
 ```{r table-reg16-22, echo=FALSE, results='asis'}
 render_table_template(
   build_reg_df(16:22),
   list(
-    caption = "Settlement population trajectories across Karelia, Leningrad, Komi, Moscow, and Central Russia (Regions 16 to 22, 1926AD - 1953AD).",
+    caption = "Town populations across Karelia, Leningrad, Komi, Moscow and Central Russia (Regions 16 to 22) from 1926 to 1953, showing the 1941-1944 siege collapse of Leningrad and Novgorod alongside the rapid rise of Moscow and the Arctic coal camps of Vorkuta and Inta.",
     label = "tab:reg16-22"
   )
 )
 ```
 
-# Regions 23 - 34: Volga-Ural ASSRs, Liquidated Volga/Caucasus ASSRs, and Ural Arsenal
+## Regions 23 - 34: Volga-Ural Republics, North Caucasus and the Urals
 
-Table \ref{tab:reg23-34} lists 54 settlements across Region 23 (Chuvash, Mari, Mordovian & Udmurt ASSRs + Gorky/Kirov), Region 24 (Tatar ASSR & Ulyanovsk-Penza), Region 25 (Kuibyshev Wartime Capital, Orenburg, Orsk, Chapayevsk), Region 26 (Liquidated Volga German ASSR: Engels, Marks/Marxstadt, Krasnoarmeysk/Balzer), Region 27 (Stalingrad, Saratov, Astrakhan), Region 28 (Liquidated Kalmyk ASSR: Elista, Lagan), Region 29 (Rostov, Krasnodar/Kuban & Adygei AO: incl. blacklisted Stanitsa Poltavskaya), Region 30 (Stavropol, Karachay AO & Cherkess AO: Stavropol, Pyatigorsk, Cherkessk, Karachaevsk/Mikoyan-Shakhar), Region 31 (Kabardino-Balkar & North Ossetian ASSRs: Ordzhonikidze/Dzaudzhikau, Nalchik, Tyrnyauz), Region 32 (Liquidated Chechen-Ingush ASSR -> Grozny Oblast: Grozny, Gudermes, Nazran), Region 33 (Dagestan ASSR: Makhachkala, Derbent, Khasavyurt), and Region 34 (Great Ural Evacuation Arsenal & Bashkir ASSR) [@german2000nemtsy; @bugai1995deportatsiya; @tsutsiev2014atlas; @kotkin1995magnetic].
+Table \ref{tab:reg23-34} covers 54 towns across the Volga-Vyatka and Middle Volga republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs (Regions 26 and 28), the Lower Volga and North Caucasus (Regions 27 and 29-33) and the Ural industrial region and Bashkir ASSR (Region 34) [@german2000nemtsy; @bugai1995deportatsiya; @tsutsiev2014atlas; @kotkin1995magnetic].
 
 ```{r table-reg23-34, echo=FALSE, results='asis'}
 render_table_template(
   build_reg_df(23:34),
   list(
-    caption = "Settlement population trajectories across the Volga-Ural republics, North Caucasus, and Ural industrial belt (Regions 23 to 34, 1926AD - 1953AD).",
+    caption = "Town populations across the Volga-Ural republics, Lower Volga, North Caucasus and the Urals (Regions 23 to 34) from 1926 to 1953, contrasting the wartime depopulation of Stalingrad, Engels, Elista and Grozny with booming evacuation and steel cities in the Urals.",
     label = "tab:reg23-34"
   )
 )
 ```
 
-# Regions 35 - 45: Siberian Spine, Special Settlements, Polar Gulag, Republics & Far East
+## Regions 35 - 45: Siberia, the Arctic Gulag and the Far East
 
-Table \ref{tab:reg35-45} lists 46 settlements across Region 35 (West Siberian Trans-Siberian Spine: Novosibirsk, Omsk, Tomsk, Tyumen, Kurgan), Region 36 (Ob-Irtysh Special Settlements: Kolpashevo/Narym, Salekhard, Khanty-Mansiysk), Region 37 (Kuzbass Coal-Steel & Siblag: Stalinsk, Kemerovo, Prokopyevsk, Leninsk-Kuznetsky, Anzhero-Sudzhensk), Region 38 (Altai Deportee Hub: Barnaul, Biysk, Rubtsovsk, Slavgorod), Region 39 (Oyrot/Gorno-Altai AO, Khakass AO & Tuva AO: Abakan, Gorno-Altaysk, Chernogorsk, Kyzyl), Region 40 (East Siberian Corridor: Irkutsk, Krasnoyarsk, Cheremkhovo, Tayshet Ozerlag), Region 41 (Yenisei-Taymyr Polar Gulag: Igarka, Norilsk, Dudinka), Region 42 (Buryat-Mongol ASSR & Chita Bamlag: Ulan-Ude, Chita, Zakamensk/Gorodok), Region 43 (Yakut ASSR: Yakutsk, Aldan, Churapcha), Region 44 (Dalstroy Kolyma-Magadan: Petropavlovsk, Magadan, Susuman, Pevek), and Region 45 (Southern Far East: Vladivostok, Khabarovsk, Blagoveshchensk, Komsomolsk-on-Amur, Ussuriysk, Yuzhno-Sakhalinsk, Svobodny, Birobidzhan) [@werth2007cannibal; @shalak2005eastsiberia; @antonov2018churapcha; @applebaum2003gulag].
+Table \ref{tab:reg35-45} presents 46 towns and camp settlements across Western Siberia and the Kuzbass (Regions 35-38), the Altai-Sayan republics (Region 39), Eastern Siberia and the Yenisei-Taymyr polar zone (Regions 40-41), Buryatia, Chita and Yakutia (Regions 42-43), the Dalstroy Kolyma-Magadan complex (Region 44) and the Southern Far East (Region 45) [@werth2007cannibal; @shalak2005eastsiberia; @antonov2018churapcha; @applebaum2003gulag].
 
 ```{r table-reg35-45, echo=FALSE, results='asis'}
 render_table_template(
   build_reg_df(35:45),
   list(
-    caption = "Settlement population trajectories across Western and Eastern Siberia, the Arctic Gulag, and the Far East (Regions 35 to 45, 1926AD - 1953AD).",
+    caption = "Town populations across Western and Eastern Siberia, the Arctic Gulag and the Far East (Regions 35 to 45) from 1926 to 1953, showing the expansion of Novosibirsk, Omsk, Stalinsk, Norilsk, Magadan and Komsomolsk-on-Amur.",
     label = "tab:reg35-45"
   )
 )
 ```
 
-# 45-Region Gazetteer Summary
+# Appendix
 
-Table \ref{tab:regional-summary} summarises the number of catalogued settlements and the combined urban sample population across each of the 45 Stalin-era regions from 1926AD to 1953AD.
+## Regional Gazetteer Summary
+
+Table \ref{tab:regional-summary} sums the population of the 251 towns across each of the 45 regions at the five benchmark dates between 1926 and 1953.
 
 ```{r table-summary, echo=FALSE, results='asis'}
 short_reg_names <- c(
-  "1. Estonian SSR (1940 Occup. & Priboi)",
-  "2. Latvian SSR (1940 Occup. & Priboi)",
-  "3. Lithuanian SSR (Shoah, LLKS & Vesna)",
-  "4. Moldavian SSR (1947 Famine & Op. Yug)",
-  "5. Kaliningrad Oblast (1945 Resettlement)",
-  "6. Western Belarus (1939 Annex.)",
+  "1. Estonian SSR",
+  "2. Latvian SSR",
+  "3. Lithuanian SSR",
+  "4. Moldavian SSR",
+  "5. Kaliningrad Oblast",
+  "6. Western Belarus",
   "7. Eastern Byelorussian SSR",
   "8. Western Ukraine: Galicia & Volhynia",
   "9. N. Bukovina, Budjak & Transcarpathia",
-  "10. Right-Bank UkSSR Holodomor Core",
-  "11. Left-Bank UkSSR (Kharkiv-Poltava)",
+  "10. Right-Bank Ukrainian SSR",
+  "11. Left-Bank Ukrainian SSR",
   "12. Dnieper Industrial Bend",
   "13. Donbas Coal-Metallurgical Basin",
   "14. Ukrainian Black Sea Steppe",
-  "15. Crimean ASSR -> Crimean Oblast",
+  "15. Crimea",
   "16. Karelo-Finnish SSR & Murmansk",
-  "17. Leningrad Siege, Novgorod & Pskov",
-  "18. Komi ASSR (Vorkutlag) & Nenets",
-  "19. Northern Forestry (Arkhangelsk-Vologda)",
-  "20. Moscow Metropolis & Dmitlag",
+  "17. Leningrad, Novgorod & Pskov",
+  "18. Komi ASSR & Nenets Okrug",
+  "19. Arkhangelsk & Vologda",
+  "20. Moscow Metropolis",
   "21. Upper Volga & Western Front",
   "22. Central Black-Earth Belt",
   "23. Chuvash, Mari, Mordvin & Udmurt ASSRs",
   "24. Tatar ASSR & Ulyanovsk-Penza",
-  "25. Kuibyshev Capital & Chkalov",
-  "26. Volga German ASSR (Liquidated 1941)",
+  "25. Kuibyshev & Chkalov",
+  "26. Volga German ASSR",
   "27. Saratov, Stalingrad & Astrakhan",
-  "28. Kalmyk ASSR (Liquidated Dec 1943)",
+  "28. Kalmyk ASSR",
   "29. Rostov, Krasnodar (Kuban) & Adygei AO",
   "30. Stavropol, Karachay AO & Cherkess AO",
   "31. Kabardino-Balkar & N. Ossetian ASSRs",
-  "32. Chechen-Ingush ASSR -> Grozny Oblast",
-  "33. Dagestan ASSR (Akkin & Mountain Moves)",
-  "34. Great Ural Arsenal & Bashkir ASSR",
+  "32. Chechen-Ingush ASSR / Grozny Oblast",
+  "33. Dagestan ASSR",
+  "34. Ural Industrial Belt & Bashkir ASSR",
   "35. West Siberian Trans-Siberian Spine",
   "36. Ob-Irtysh Taiga (Narym, Yugra, Yamal)",
-  "37. Kuzbass Coal-Steel & Siblag",
-  "38. Altai Krai Deportee & Grain Hub",
-  "39. Oyrot/Gorno-Altai, Khakass & Tuva AOs",
-  "40. East Siberian Corridor (Kraslag/Ozerlag)",
-  "41. Yenisei-Taymyr Polar (Norillag/Igarka)",
-  "42. Buryat-Mongol ASSR & Chita (Bamlag)",
-  "43. Yakut ASSR (Aldan & Churapcha)",
-  "44. Dalstroy Kolyma-Magadan & Chukotka",
-  "45. S. Far East (Birobidzhan & S. Sakhalin)"
+  "37. Kuzbass Coal-Steel Basin",
+  "38. Altai Krai",
+  "39. Gorno-Altai, Khakass & Tuva AOs",
+  "40. East Siberian Corridor (Krasnoyarsk-Irkutsk)",
+  "41. Yenisei-Taymyr Polar Zone (Norilsk)",
+  "42. Buryat-Mongol ASSR & Chita",
+  "43. Yakut ASSR",
+  "44. Kolyma-Magadan, Chukotka & Kamchatka",
+  "45. Southern Far East & Sakhalin"
 )
 bench_yrs <- c("1926", "1933", "1939", "1945", "1953")
 
@@ -281,12 +327,12 @@ sum_rows <- lapply(1:45, function (rnum) {
     fmt_eu_pop(sum(vals))
   })
   data.frame(
-    `Stalin-Era Region (Catalogued Sites)` = paste0(short_reg_names[rnum], " (n = ", length(idx), ")"),
-    `1926AD` = sums[["1926"]],
-    `1933AD` = sums[["1933"]],
-    `1939AD` = sums[["1939"]],
-    `1945AD` = sums[["1945"]],
-    `1953AD` = sums[["1953"]],
+    `Region (Towns)` = paste0(short_reg_names[rnum], " (", length(idx), ")"),
+    `1926` = sums[["1926"]],
+    `1933` = sums[["1933"]],
+    `1939` = sums[["1939"]],
+    `1945` = sums[["1945"]],
+    `1953` = sums[["1953"]],
     check.names = FALSE,
     stringsAsFactors = FALSE
   )
@@ -301,12 +347,12 @@ tot_sums <- sapply(bench_yrs, function (y) {
   fmt_eu_pop(sum(vals))
 })
 tot_row <- data.frame(
-  `Stalin-Era Region (Catalogued Sites)` = paste0("Total Gazetteer Sample across 45 Regions (n = ", length(all_entries), ")"),
-  `1926AD` = tot_sums[["1926"]],
-  `1933AD` = tot_sums[["1933"]],
-  `1939AD` = tot_sums[["1939"]],
-  `1945AD` = tot_sums[["1945"]],
-  `1953AD` = tot_sums[["1953"]],
+  `Region (Towns)` = paste0("All 45 Regions (", length(all_entries), " towns)"),
+  `1926` = tot_sums[["1926"]],
+  `1933` = tot_sums[["1933"]],
+  `1939` = tot_sums[["1939"]],
+  `1945` = tot_sums[["1945"]],
+  `1953` = tot_sums[["1953"]],
   check.names = FALSE,
   stringsAsFactors = FALSE
 )
@@ -315,7 +361,7 @@ df_sum <- rbind(df_sum, tot_row)
 render_table_template(
   df_sum,
   list(
-    caption = "Combined urban sample population across the 251 catalogued settlements by forty-five Stalin-era regions from 1926AD to 1953AD.",
+    caption = "Combined urban population of the 251 towns across all 45 regions from 1926 to 1953, showing the doubling of the urban network over the Stalin era despite wartime devastation in the occupied west.",
     label = "tab:regional-summary"
   )
 )

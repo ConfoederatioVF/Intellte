@@ -55,8 +55,18 @@ local({
 #Load global filepath defines and stage intellte resources if knitting
 velkscala_defines <- load_filepath_defines()
 stage_intellte_resources(NULL, velkscala_defines)
+crd_canonical_render_table_template <- render_table_template
+crd_canonical_render_figure_template <- render_figure_template
+crd_canonical_sanitize_latex_text <- sanitize_latex_text
+crd_canonical_sanitize_prose_unicode_for_latex <- sanitize_prose_unicode_for_latex
 
 if (requireNamespace("knitr", quietly = TRUE)) {
+  env_g_init <- knitr::knit_global()
+  assign("render_table_template", crd_canonical_render_table_template, envir = env_g_init)
+  assign("render_figure_template", crd_canonical_render_figure_template, envir = env_g_init)
+  assign("sanitize_latex_text", crd_canonical_sanitize_latex_text, envir = env_g_init)
+  assign("sanitize_prose_unicode_for_latex", crd_canonical_sanitize_prose_unicode_for_latex, envir = env_g_init)
+
   knitr::opts_chunk$set(
     echo = FALSE,
     eval = TRUE,
@@ -64,6 +74,25 @@ if (requireNamespace("knitr", quietly = TRUE)) {
     message = FALSE,
     warning = FALSE
   )
+
+  # Ensure any inline setup chunk overrides of render_table_template are replaced
+  # with the canonical borderless longtable template (captions below table, multi-page continuation)
+  knitr::opts_hooks$set(echo = function (arg0_options) {
+    env_g <- knitr::knit_global()
+    if (exists("crd_canonical_render_table_template", inherits = TRUE)) {
+      assign("render_table_template", crd_canonical_render_table_template, envir = env_g)
+    }
+    if (exists("crd_canonical_render_figure_template", inherits = TRUE)) {
+      assign("render_figure_template", crd_canonical_render_figure_template, envir = env_g)
+    }
+    if (exists("crd_canonical_sanitize_latex_text", inherits = TRUE)) {
+      assign("sanitize_latex_text", crd_canonical_sanitize_latex_text, envir = env_g)
+    }
+    if (exists("crd_canonical_sanitize_prose_unicode_for_latex", inherits = TRUE)) {
+      assign("sanitize_prose_unicode_for_latex", crd_canonical_sanitize_prose_unicode_for_latex, envir = env_g)
+    }
+    return(arg0_options)
+  })
 
   local({
     prev_doc_hook <- knitr::knit_hooks$get("document")

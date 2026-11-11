@@ -197,7 +197,7 @@ render_packed_subtables <- function (arg0_subtables_list, arg1_options = NULL) {
     )
     header_line <- paste0(paste(header_cells, collapse = " & "), " \\\\[4pt]")
 
-    cap_str <- sanitize_latex_text(base_caption)
+    cap_str <- sanitize_latex_text(if (euro_decimals) convert_euro_decimals_in_text(base_caption, TRUE) else base_caption)
     if (p > 1L) {
       cap_str <- paste0("(Continued) ", cap_str)
     }
@@ -305,11 +305,13 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
   col_names <- gsub("([0-9])\\s+(BC|AD)\\b", "\\1\\2", col_names, perl = TRUE)
   col_names <- gsub("\u2014", " - ", col_names, fixed = TRUE)
   col_names <- gsub("\u2013", "-", col_names, fixed = TRUE)
+  col_names <- gsub("\u2011", "-", col_names, fixed = TRUE)
   for (c_i in seq_len(n_cols)) {
     df[[c_i]] <- gsub("`", "", as.character(df[[c_i]]), fixed = TRUE)
     df[[c_i]] <- gsub("\\*\\*", "", as.character(df[[c_i]]))
     df[[c_i]] <- gsub("\u2014", " - ", as.character(df[[c_i]]), fixed = TRUE)
     df[[c_i]] <- gsub("\u2013", "-", as.character(df[[c_i]]), fixed = TRUE)
+    df[[c_i]] <- gsub("\u2011", "-", as.character(df[[c_i]]), fixed = TRUE)
     df[[c_i]] <- gsub("---", " - ", as.character(df[[c_i]]), fixed = TRUE)
     df[[c_i]] <- gsub("--", "-", as.character(df[[c_i]]), fixed = TRUE)
     df[[c_i]] <- gsub("([0-9])\\s+(BC|AD)\\b", "\\1\\2", as.character(df[[c_i]]), perl = TRUE)
@@ -385,7 +387,7 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
     cell_words <- unlist(strsplit(paste(cell_vec_joined, collapse = " "), "[\\s/]+", perl = TRUE))
     cell_max_w <- min(11L, max(nchar(cell_words), 3L))
 
-    req_pts <- max(hdr_max_w*5.1 + 4.0, cell_max_w*4.7 + 4.0, 30.0)
+    req_pts <- max(hdr_max_w*5.1 + 4.0, cell_max_w*5.2 + 6.0, 36.0)
     min_frac[c_idx] <- req_pts/468.0
 
     cell_lens <- nchar(cell_vec)
@@ -403,22 +405,30 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
 
   col_specs <- vapply(
     col_fracs,
-    function (fr) sprintf(">{\\raggedright\\arraybackslash\\hyphenpenalty=50\\exhyphenpenalty=50}p{%.4f\\textwidth}", fr),
+    function (fr) sprintf(">{\\raggedright\\setlength{\\parindent}{0pt}\\arraybackslash\\hyphenpenalty=50\\exhyphenpenalty=50}p{%.4f\\textwidth}", fr),
     character(1)
   )
   align_str <- paste(col_specs, collapse = "")
 
+  sanitize_fn <- if (exists("crd_canonical_sanitize_latex_text", envir = .GlobalEnv)) {
+    get("crd_canonical_sanitize_latex_text", envir = .GlobalEnv)
+  } else {
+    sanitize_latex_text
+  }
   header_cells <- vapply(
     seq_len(n_cols),
     function (c_idx) {
-      clean_h <- sanitize_latex_text(col_names[c_idx], TRUE)
+      clean_h <- sanitize_fn(col_names[c_idx], TRUE)
       paste0("{\\karlabold\\lefthyphenmin=5\\righthyphenmin=5 ", clean_h, "}")
     },
     character(1)
   )
   header_line <- paste0(paste(header_cells, collapse = " & "), " \\\\*[4pt]")
 
-  cap_tex <- sanitize_latex_text(caption_str, FALSE)
+  cap_tex <- sanitize_fn(if (euro_decimals) convert_euro_decimals_in_text(caption_str, TRUE) else caption_str, FALSE)
+  if (nzchar(label_str) && !grepl("^tab:", label_str)) {
+    label_str <- paste0("tab:", label_str)
+  }
   lbl_tex <- if (nzchar(label_str)) paste0("\\label{", label_str, "}") else ""
   row_pt <- if (n_rows >= 14L) "1pt" else "2pt"
   arr_str <- if (n_rows >= 14L) "1.0" else "1.08"
@@ -435,8 +445,6 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
     paste0("\\begin{longtable}[l]{@{}", align_str, "@{}}"),
     header_line,
     "\\endfirsthead",
-    paste0("\\multicolumn{", n_cols, "}{@{}l@{}}{\\normalfont\\karlalight\\fontsize{9pt}{12pt}\\selectfont (Continued from previous page)} \\\\*[3pt]"),
-    header_line,
     "\\endhead"
   )
 
@@ -450,8 +458,8 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
         if (euro_decimals) {
           val_str <- convert_euro_decimals_in_text(val_str)
         }
-        clean_v <- sanitize_latex_text(val_str, TRUE)
-        paste0("{\\normalfont\\rmfamily\\mdseries\\lefthyphenmin=4\\righthyphenmin=4\\hspace{0pt} ", clean_v, "}")
+        clean_v <- sanitize_fn(val_str, TRUE)
+        paste0("{\\normalfont\\rmfamily\\mdseries\\lefthyphenmin=4\\righthyphenmin=4\\hspace{0pt}", clean_v, "}")
       },
       character(1)
     )
@@ -532,6 +540,7 @@ sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
       p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
       p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
       p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2011", "-", p, fixed = TRUE)
       p <- gsub("\u2013", "-", p, fixed = TRUE)
       p <- gsub("\u2014", "-", p, fixed = TRUE)
       p <- gsub("---", "-", p, fixed = TRUE)
@@ -542,10 +551,13 @@ sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
       p <- gsub("\u2192", " to ", p, fixed = TRUE)
       p <- gsub("\u00d7", "x", p, fixed = TRUE)
       p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\\bkm2\\b", "km\\\\textsuperscript{2}", p, perl = TRUE)
+      p <- gsub("\\bm2\\b", "m\\\\textsuperscript{2}", p, perl = TRUE)
       p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
       p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
       p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
       p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2011", "-", p, fixed = TRUE)
       p <- gsub("\u2013", "-", p, fixed = TRUE)
       p <- gsub("\u2014", " - ", p, fixed = TRUE)
       p <- gsub("---", " - ", p, fixed = TRUE)
