@@ -315,10 +315,18 @@ class MarkdownRenderer {
 
     if (!force_eval) {
       if (fs.existsSync(cache_file)) {
-        return fs.readFileSync(cache_file, "utf8");
+        let cached_md = fs.readFileSync(cache_file, "utf8");
+        if (this.isValidEvaluatedMarkdown(cached_md)) {
+          return cached_md;
+        }
+        try { fs.unlinkSync(cache_file); } catch (e) {}
       }
       if (fs.existsSync(crlf_cache_file)) {
-        return fs.readFileSync(crlf_cache_file, "utf8");
+        let crlf_md = fs.readFileSync(crlf_cache_file, "utf8");
+        if (this.isValidEvaluatedMarkdown(crlf_md)) {
+          return crlf_md;
+        }
+        try { fs.unlinkSync(crlf_cache_file); } catch (e) {}
       }
     }
 
@@ -332,9 +340,15 @@ class MarkdownRenderer {
       encoding: "utf8"
     });
 
-    if (proc_res.status !== 0 || !fs.existsSync(cache_file)) {
+    if (proc_res.status !== 0 || !fs.existsSync(cache_file) || !this.isValidEvaluatedMarkdown(fs.readFileSync(cache_file, "utf8"))) {
+      if (fs.existsSync(cache_file) && !this.isValidEvaluatedMarkdown(fs.readFileSync(cache_file, "utf8"))) {
+        try { fs.unlinkSync(cache_file); } catch (e) {}
+      }
       if (fs.existsSync(crlf_cache_file)) {
-        return fs.readFileSync(crlf_cache_file, "utf8");
+        let crlf_md = fs.readFileSync(crlf_cache_file, "utf8");
+        if (this.isValidEvaluatedMarkdown(crlf_md)) {
+          return crlf_md;
+        }
       }
 
       let all_cached = fs.readdirSync(this.cache_dir)
@@ -344,8 +358,11 @@ class MarkdownRenderer {
           mtime: fs.statSync(path.join(this.cache_dir, arg0_f)).mtimeMs
         }))
         .sort((arg0_a, arg1_b) => arg1_b.mtime - arg0_a.mtime);
-      if (all_cached.length > 0) {
-        return fs.readFileSync(all_cached[0].full_path, "utf8");
+      for (let i = 0; i < all_cached.length; i++) {
+        let fallback_md = fs.readFileSync(all_cached[i].full_path, "utf8");
+        if (this.isValidEvaluatedMarkdown(fallback_md)) {
+          return fallback_md;
+        }
       }
 
       console.error(`[MarkdownRenderer] Rscript evaluation error for ${rmd_path}:`, proc_res.stderr);
@@ -417,6 +434,29 @@ class MarkdownRenderer {
 
     //Return statement
     return this.bib_formatter.formatMlaBibliographyEntry(entry);
+  }
+
+
+  /**
+   * Checks whether an evaluated `.md` cache string contains non-empty body prose beyond its YAML frontmatter.
+   *
+   * @param {string} arg0_md_text - Evaluated Markdown content.
+   * @return {boolean} True if the document body after YAML frontmatter is non-empty.
+   */
+  isValidEvaluatedMarkdown (arg0_md_text) {
+    //Convert from parameters
+    let md_text = String(arg0_md_text || "");
+
+    //Declare local instance variables
+    let parsed_doc = {};
+
+    //Guard clauses
+    if (!md_text) return false;
+
+    parsed_doc = this.parseFrontmatter(md_text);
+
+    //Return statement
+    return Boolean(parsed_doc.body && parsed_doc.body.trim().length > 0);
   }
 
 

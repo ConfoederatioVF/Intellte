@@ -212,17 +212,20 @@ compile_rmd_to_dom_markdown <- function (arg0_rmd_path, arg1_out_md_path, arg2_o
 
   out_dir <- dirname(out_md_path)
   if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE)
+  tmp_md_path <- paste0(out_md_path, ".tmp")
 
   old_opts <- options(
     intellte.artefact_base_url = artefact_base_url,
     intellte.dom_mode = TRUE,
     intellte.figure_counter = if (has_hero_figure) 1L else 0L,
+    intellte.has_hero_figure = has_hero_figure,
     intellte.table_counter = 0L
   )
   on.exit(options(old_opts), add = TRUE)
 
   old_wd <- getwd()
   on.exit({
+    if (file.exists(tmp_md_path)) unlink(tmp_md_path)
     transient_assets <- c(
       "intellte.cls",
       "crd-mla-numeric.csl",
@@ -239,11 +242,16 @@ compile_rmd_to_dom_markdown <- function (arg0_rmd_path, arg1_out_md_path, arg2_o
 
   knitr::knit(
     input = basename(rmd_path),
-    output = out_md_path,
+    output = tmp_md_path,
     envir = new.env(parent = globalenv()),
     quiet = TRUE,
     encoding = "UTF-8"
   )
+
+  if (file.exists(tmp_md_path)) {
+    file.copy(tmp_md_path, out_md_path, overwrite = TRUE)
+    unlink(tmp_md_path)
+  }
 
   #Return statement
   return(normalizePath(out_md_path, winslash = "/", mustWork = FALSE))

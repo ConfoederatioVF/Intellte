@@ -134,6 +134,13 @@ render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
 
   if (!is_latex) {
     if (isTRUE(getOption("intellte.dom_mode", FALSE))) {
+      chunk_lbl <- if (requireNamespace("knitr", quietly = TRUE)) as.character(knitr::opts_current$get("label")) else ""
+      if (
+        identical(chunk_lbl, "fig1-md-only") ||
+        (isTRUE(getOption("intellte.has_hero_figure", TRUE)) && label_str %in% c("fig:hero", "fig:hero-map", "fig:principalities_map"))
+      ) {
+        return(knitr::asis_output(""))
+      }
       fig_num <- as.integer(getOption("intellte.figure_counter", 0L)) + 1L
       options(intellte.figure_counter = fig_num)
       base_url <- as.character(getOption("intellte.artefact_base_url", ""))
