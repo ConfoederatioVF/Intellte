@@ -46,6 +46,8 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
     s <- protect_pattern(s, "\\[@[^\\]]+\\]")
     s <- protect_pattern(s, "\\\\(?:ref|label|cite|includegraphics)(?:\\[[^\\]]*\\])?\\{[^}]*\\}")
     s <- protect_pattern(s, "(?:Velkscala|Stadest\u00e9r|Stadester|Eoscala|Viscount|HYDE|Version)\\s+[0-9]+\\.[0-9]+")
+    # Protect already-formatted European thousands-separated numbers (e.g. 17.959.829, 198.080k, 1.398,3k)
+    s <- protect_pattern(s, "\\b[1-9][0-9]{0,2}(?:\\.[0-9]{3})+(?:,[0-9]+)?(?![0-9])")
 
     if (in_latex_math && grepl("\\$", s)) {
       parts <- strsplit(s, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
@@ -56,13 +58,19 @@ convert_euro_decimals_in_text <- function (arg0_text, arg1_in_latex_math = FALSE
         } else if (in_m) {
           parts[p_i] <- gsub("([0-9])\\.([0-9])", "\\1{,}\\2", parts[p_i], perl = TRUE)
           parts[p_i] <- gsub("([0-9]),([0-9])", "\\1{,}\\2", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
         } else {
           parts[p_i] <- gsub("([0-9])\\.([0-9])", "\\1,\\2", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
+          parts[p_i] <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}(?![0-9]))", ".", parts[p_i], perl = TRUE)
         }
       }
       s <- paste(parts, collapse = "")
     } else {
       s <- gsub("([0-9])\\.([0-9])", "\\1,\\2", s, perl = TRUE)
+      s <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}(?![0-9]))", ".", s, perl = TRUE)
+      s <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}(?![0-9]))", ".", s, perl = TRUE)
     }
 
     if (length(protected_tokens) > 0) {
