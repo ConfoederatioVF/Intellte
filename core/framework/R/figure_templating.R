@@ -137,7 +137,7 @@ render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
       chunk_lbl <- if (requireNamespace("knitr", quietly = TRUE)) as.character(knitr::opts_current$get("label")) else ""
       if (
         identical(chunk_lbl, "fig1-md-only") ||
-        (isTRUE(getOption("intellte.has_hero_figure", TRUE)) && label_str %in% c("fig:hero", "fig:hero-map", "fig:principalities_map"))
+        (isTRUE(getOption("intellte.has_hero_figure", TRUE)) && label_str %in% c("fig:hero", "fig:hero-map", "fig:principalities_map", "fig:hero-areal"))
       ) {
         return(knitr::asis_output(""))
       }

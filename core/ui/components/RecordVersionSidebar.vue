@@ -54,6 +54,22 @@
           <span class="crd-tree-project-name">{{ record.project_name }}</span>
         </a>
 
+        <!-- Top-level main paper if present (e.g. Project Polaris Consolidated Synthesis) -->
+        <div
+          v-if="has_folder_tree && main_version"
+          class="crd-version-item crd-tree-item"
+          :class="{ 'is-current': !record.is_folder_stub && !record.is_project_stub && record.version === main_version.version }"
+          style="margin-bottom: 0.4rem;"
+        >
+          <a :href="resolveUrl(main_version.route_url)" class="crd-version-link">
+            <span class="crd-version-label">
+              {{ main_version.label || main_version.version }}
+              <span v-if="main_version.is_latest" class="crd-latest-tag">Latest</span>
+            </span>
+            <span class="crd-version-date">{{ main_version.date }}</span>
+          </a>
+        </div>
+
         <!-- Folder-Grouped Tree (e.g. Project Polaris) -->
         <ul v-if="has_folder_tree" class="crd-tree-folder-list">
           <li
@@ -235,11 +251,15 @@ let props = defineProps({
 defineEmits(["preview-pdf", "request-source-paper"]);
 
 let copied = ref(false);
-let source_filter_query = ref("");
 
 let has_folder_tree = computed(() => {
   let vers = Array.isArray(props.record.versions) ? props.record.versions : [];
   return vers.some((arg0_v) => Boolean(arg0_v.folder_key));
+});
+
+let main_version = computed(() => {
+  let vers = Array.isArray(props.record.versions) ? props.record.versions : [];
+  return vers.find((arg0_v) => !arg0_v.folder_key) || null;
 });
 
 let sorted_tags = computed(() => {
@@ -251,10 +271,13 @@ let sorted_tags = computed(() => {
   });
 });
 
+let source_filter_query = ref("");
+
 let version_tree_folders = computed(() => {
   let folder_map = new Map();
   let folders = [];
-  let vers = Array.isArray(props.record.versions) ? props.record.versions : [];
+  let vers = (Array.isArray(props.record.versions) ? props.record.versions : [])
+    .filter((arg0_v) => Boolean(arg0_v.folder_key));
 
   for (let i = 0; i < vers.length; i++) {
     let ver = vers[i];

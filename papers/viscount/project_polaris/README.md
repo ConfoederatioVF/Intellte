@@ -12,6 +12,10 @@ The following is a compiled list of datasets and supplementary materials made av
 
 ## Reports (Literature Reviews).
 
+**0. Consolidated Synthesis (`studies_on_population`).**
+- [Studies on Population: POLARIS · Eastern Europe & Siberia, 10000BC-2026AD (`studies_on_population.pdf`)](https://github.com/ConfoederatioVF/Project-POLARIS/blob/main/studies_on_population.pdf)
+  - [Markdown Edition (`studies_on_population.md`)](https://github.com/ConfoederatioVF/Project-POLARIS/blob/main/studies_on_population.md) · [RMarkdown Source (`studies_on_population.Rmd`)](https://github.com/ConfoederatioVF/Project-POLARIS/blob/main/studies_on_population.Rmd)
+
 **I. All of Russia (and Expanded Historical Polities, 200AD - 2026AD) (`1.entire_country/`).**
 - [Migration Period (`1.migration_period`)](https://github.com/ConfoederatioVF/Project-POLARIS/blob/main/1.entire_country/1.migration_period/migration_period_literature_review.pdf)
   - [Settlement Gazetteer](https://github.com/ConfoederatioVF/Project-POLARIS/blob/main/1.entire_country/1.migration_period/migration_period_settlements.pdf)

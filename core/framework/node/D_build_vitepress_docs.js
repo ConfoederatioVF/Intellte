@@ -74,11 +74,15 @@ let IntellteVitePressBuilder = {
       }));
 
       if (local_rec.has_folder_tree) {
-        let project_stub_md = IntellteVitePressBuilder.buildProjectStubPageMarkdown(local_rec, version_summaries);
-        let index_md_path = path.join(rec_dir, "index.md");
-        fs.writeFileSync(index_md_path, project_stub_md, "utf8");
-        generated_files.push(index_md_path);
-        local_expected_entries_obj["index.md"] = true;
+        let main_paper_ver = local_rec.versions.find((arg0_v) => Boolean(arg0_v.is_latest && !arg0_v.folder_key));
+
+        if (!main_paper_ver) {
+          let project_stub_md = IntellteVitePressBuilder.buildProjectStubPageMarkdown(local_rec, version_summaries);
+          let index_md_path = path.join(rec_dir, "index.md");
+          fs.writeFileSync(index_md_path, project_stub_md, "utf8");
+          generated_files.push(index_md_path);
+          local_expected_entries_obj["index.md"] = true;
+        }
 
         for (let x = 0; x < local_rec.versions.length; x++) {
           let local_v = local_rec.versions[x];
@@ -130,7 +134,7 @@ let IntellteVitePressBuilder = {
         generated_files.push(ver_md_path);
         local_expected_entries_obj[`${local_ver.version}.md`] = true;
 
-        if (local_ver.is_latest && !local_rec.has_folder_tree) {
+        if (local_ver.is_latest && (!local_rec.has_folder_tree || !local_ver.folder_key)) {
           let root_page_md = IntellteVitePressBuilder.buildVersionPageMarkdown(local_rec, local_ver, version_summaries, {
             canonical_route: `/records/${local_rec.concept_id}/`
           });
@@ -283,6 +287,152 @@ let IntellteVitePressBuilder = {
       html_lines.push(`      </div>`);
     }
     html_lines.push(`    </div>`);
+
+    //Return statement
+    return html_lines.join("\n");
+  },
+
+
+  /**
+   * Builds the HTML for the File Structure tree of folders and papers.
+   *
+   * @param {Object} arg0_rec - Parent record metadata object.
+   * @param {Object} [arg1_options] - Optional options (`folder_key`, `folder_label`, `heading_text`).
+   * @return {string} HTML string representing the file structure tree.
+   */
+  buildFileStructureTreeHtml: function (arg0_rec, arg1_options) {
+    //Convert from parameters
+    let rec = (arg0_rec) ? arg0_rec : {};
+    let options = (arg1_options) ? arg1_options : {};
+
+    //Initialise options
+    let folder_key = String(options.folder_key || "");
+    let heading_text = (options.heading_text !== undefined) ? String(options.heading_text) : "File Structure:";
+
+    //Declare local instance variables
+    let all_versions = Array.isArray(rec.versions) ? rec.versions : [];
+    let folder_groups = [];
+    let folder_map = {};
+    let html_lines = [];
+    let scoped_versions = [];
+
+    for (let i = 0; i < all_versions.length; i++) {
+      let local_v = all_versions[i];
+      if (local_v.folder_key && (!folder_key || local_v.folder_key === folder_key)) {
+        scoped_versions.push(local_v);
+      }
+    }
+
+    for (let i = 0; i < scoped_versions.length; i++) {
+      let local_v = scoped_versions[i];
+      let f_key = local_v.folder_key || "general";
+      let f_label = local_v.folder_label || "General";
+      if (!folder_map[f_key]) {
+        folder_map[f_key] = {
+          items: [],
+          key: f_key,
+          label: f_label,
+          route_url: local_v.folder_route_url || `/records/${rec.concept_id}/${f_key}/`,
+          versions: []
+        };
+        folder_groups.push(folder_map[f_key]);
+      }
+      folder_map[f_key].versions.push(local_v);
+    }
+
+    for (let i = 0; i < folder_groups.length; i++) {
+      let local_fg = folder_groups[i];
+      let by_ver_obj = {};
+      for (let x = 0; x < local_fg.versions.length; x++) {
+        let v = local_fg.versions[x];
+        by_ver_obj[v.version] = { children: [], ver: v };
+      }
+      for (let x = 0; x < local_fg.versions.length; x++) {
+        let v = local_fg.versions[x];
+        let node = by_ver_obj[v.version];
+        if (v.parent_version && by_ver_obj[v.parent_version]) {
+          by_ver_obj[v.parent_version].children.push(node);
+        } else {
+          local_fg.items.push(node);
+        }
+      }
+    }
+
+    //Format html_lines
+    if (heading_text) {
+      html_lines.push(`  <div class="crd-stub-heading">${IntellteVitePressBuilder.escapeHtml(heading_text)}</div>`);
+    }
+    html_lines.push(`  <div class="crd-file-structure-tree">`);
+    html_lines.push(`    <div class="crd-fs-project-root">`);
+    html_lines.push(`      <a href="/records/${rec.concept_id}/" class="crd-fs-root-link">${IntellteVitePressBuilder.escapeHtml(rec.project_name)} (<code>/records/${IntellteVitePressBuilder.escapeHtml(rec.concept_id)}/</code>)</a>`);
+    html_lines.push(`    </div>`);
+    html_lines.push(`    <ul class="crd-fs-folder-list">`);
+
+    for (let i = 0; i < folder_groups.length; i++) {
+      let fg = folder_groups[i];
+      html_lines.push(`      <li class="crd-fs-folder-item">`);
+      html_lines.push(`        <div class="crd-fs-folder-header">`);
+      html_lines.push(`          <a href="${fg.route_url}" class="crd-fs-folder-link">${IntellteVitePressBuilder.escapeHtml(fg.label)}</a>`);
+      html_lines.push(`          <code class="crd-fs-folder-path">${IntellteVitePressBuilder.escapeHtml(fg.key)}/</code>`);
+      html_lines.push(`        </div>`);
+      html_lines.push(`        <ul class="crd-fs-paper-list">`);
+
+      for (let x = 0; x < fg.items.length; x++) {
+        let item_node = fg.items[x];
+        let v = item_node.ver;
+        html_lines.push(`          <li class="crd-fs-paper-item">`);
+        html_lines.push(`            <div class="crd-fs-paper-row">`);
+        html_lines.push(`              <div class="crd-fs-paper-main">`);
+        html_lines.push(`                <a href="${v.version_route_url || v.route_url}" class="crd-fs-paper-title">${IntellteVitePressBuilder.escapeHtml(v.title)}</a>`);
+        html_lines.push(`                <span class="crd-fs-paper-meta">${IntellteVitePressBuilder.escapeHtml(v.label || v.version)} &middot; ${IntellteVitePressBuilder.escapeHtml(v.published_date)}</span>`);
+        html_lines.push(`              </div>`);
+        html_lines.push(`              <div class="crd-fs-paper-actions">`);
+        html_lines.push(`                <a href="${v.version_route_url || v.route_url}" class="crd-fs-action-link">Read Paper</a>`);
+        if (v.pdf_url) {
+          html_lines.push(`                <a href="${v.pdf_url}" download class="crd-fs-action-link">PDF (${IntellteVitePressBuilder.escapeHtml(v.pdf_size_euro || "")})</a>`);
+        }
+        if (v.dataset_url) {
+          let v_dataset_label = IntellteVitePressBuilder.escapeHtml(v.dataset_filename || "JSON");
+          html_lines.push(`                <a href="${v.dataset_url}" download class="crd-fs-action-link" title="${v_dataset_label}">${v_dataset_label}</a>`);
+        }
+        html_lines.push(`              </div>`);
+        html_lines.push(`            </div>`);
+
+        if (item_node.children.length > 0) {
+          html_lines.push(`            <ul class="crd-fs-child-list">`);
+          for (let y = 0; y < item_node.children.length; y++) {
+            let cv = item_node.children[y].ver;
+            html_lines.push(`              <li class="crd-fs-child-item">`);
+            html_lines.push(`                <div class="crd-fs-paper-row">`);
+            html_lines.push(`                  <div class="crd-fs-paper-main">`);
+            html_lines.push(`                    <a href="${cv.version_route_url || cv.route_url}" class="crd-fs-paper-title">${IntellteVitePressBuilder.escapeHtml(cv.title)}</a>`);
+            html_lines.push(`                    <span class="crd-fs-paper-meta">${IntellteVitePressBuilder.escapeHtml(cv.label || cv.version)} &middot; ${IntellteVitePressBuilder.escapeHtml(cv.published_date)}</span>`);
+            html_lines.push(`                  </div>`);
+            html_lines.push(`                  <div class="crd-fs-paper-actions">`);
+            html_lines.push(`                    <a href="${cv.version_route_url || cv.route_url}" class="crd-fs-action-link">Read Paper</a>`);
+            if (cv.pdf_url) {
+              html_lines.push(`                    <a href="${cv.pdf_url}" download class="crd-fs-action-link">PDF (${IntellteVitePressBuilder.escapeHtml(cv.pdf_size_euro || "")})</a>`);
+            }
+            if (cv.dataset_url) {
+              let cv_dataset_label = IntellteVitePressBuilder.escapeHtml(cv.dataset_filename || "JSON");
+              html_lines.push(`                    <a href="${cv.dataset_url}" download class="crd-fs-action-link" title="${cv_dataset_label}">${cv_dataset_label}</a>`);
+            }
+            html_lines.push(`                  </div>`);
+            html_lines.push(`                </div>`);
+            html_lines.push(`              </li>`);
+          }
+          html_lines.push(`            </ul>`);
+        }
+
+        html_lines.push(`          </li>`);
+      }
+
+      html_lines.push(`        </ul>`);
+      html_lines.push(`      </li>`);
+    }
+
+    html_lines.push(`    </ul>`);
+    html_lines.push(`  </div>`);
 
     //Return statement
     return html_lines.join("\n");
@@ -463,8 +613,6 @@ let IntellteVitePressBuilder = {
     let canonical_route = (folder_key)
       ? `/records/${rec.concept_id}/${folder_key}/`
       : `/records/${rec.concept_id}/`;
-    let folder_groups = [];
-    let folder_map = {};
     let html_lines = [];
     let latest_ver = all_versions.find((arg0_v) => Boolean(arg0_v.is_latest)) || all_versions[0] || {};
     let meta_description = IntellteVitePressBuilder.buildProjectMetaDescription(rec, {
@@ -526,38 +674,6 @@ let IntellteVitePressBuilder = {
           aggregated_source_papers.push(local_sp);
         }
       }
-
-      let f_key = local_v.folder_key || "general";
-      let f_label = local_v.folder_label || "General";
-      if (!folder_map[f_key]) {
-        folder_map[f_key] = {
-          items: [],
-          key: f_key,
-          label: f_label,
-          route_url: local_v.folder_route_url || `/records/${rec.concept_id}/${f_key}/`,
-          versions: []
-        };
-        folder_groups.push(folder_map[f_key]);
-      }
-      folder_map[f_key].versions.push(local_v);
-    }
-
-    for (let i = 0; i < folder_groups.length; i++) {
-      let local_fg = folder_groups[i];
-      let by_ver_obj = {};
-      for (let x = 0; x < local_fg.versions.length; x++) {
-        let v = local_fg.versions[x];
-        by_ver_obj[v.version] = { children: [], ver: v };
-      }
-      for (let x = 0; x < local_fg.versions.length; x++) {
-        let v = local_fg.versions[x];
-        let node = by_ver_obj[v.version];
-        if (v.parent_version && by_ver_obj[v.parent_version]) {
-          by_ver_obj[v.parent_version].children.push(node);
-        } else {
-          local_fg.items.push(node);
-        }
-      }
     }
 
     let authors_line_str = (aggregated_authors.length > 0)
@@ -584,78 +700,11 @@ let IntellteVitePressBuilder = {
     html_lines.push(`    <div class="crd-paper-byline">${IntellteVitePressBuilder.escapeHtml(latest_ver.published_date || "")} - ${IntellteVitePressBuilder.escapeHtml(authors_line_str)}</div>`);
     html_lines.push(`  </header>`);
     html_lines.push(`  <p class="crd-stub-lead">${stub_intro_html}</p>`);
-    html_lines.push(`  <div class="crd-stub-heading">File Structure:</div>`);
-    html_lines.push(`  <div class="crd-file-structure-tree">`);
-    html_lines.push(`    <div class="crd-fs-project-root">`);
-    html_lines.push(`      <a href="/records/${rec.concept_id}/" class="crd-fs-root-link">${IntellteVitePressBuilder.escapeHtml(rec.project_name)} (<code>/records/${IntellteVitePressBuilder.escapeHtml(rec.concept_id)}/</code>)</a>`);
-    html_lines.push(`    </div>`);
-    html_lines.push(`    <ul class="crd-fs-folder-list">`);
-
-    for (let i = 0; i < folder_groups.length; i++) {
-      let fg = folder_groups[i];
-      html_lines.push(`      <li class="crd-fs-folder-item">`);
-      html_lines.push(`        <div class="crd-fs-folder-header">`);
-      html_lines.push(`          <a href="${fg.route_url}" class="crd-fs-folder-link">${IntellteVitePressBuilder.escapeHtml(fg.label)}</a>`);
-      html_lines.push(`          <code class="crd-fs-folder-path">${IntellteVitePressBuilder.escapeHtml(fg.key)}/</code>`);
-      html_lines.push(`        </div>`);
-      html_lines.push(`        <ul class="crd-fs-paper-list">`);
-
-      for (let x = 0; x < fg.items.length; x++) {
-        let item_node = fg.items[x];
-        let v = item_node.ver;
-        html_lines.push(`          <li class="crd-fs-paper-item">`);
-        html_lines.push(`            <div class="crd-fs-paper-row">`);
-        html_lines.push(`              <div class="crd-fs-paper-main">`);
-        html_lines.push(`                <a href="${v.version_route_url || v.route_url}" class="crd-fs-paper-title">${IntellteVitePressBuilder.escapeHtml(v.title)}</a>`);
-        html_lines.push(`                <span class="crd-fs-paper-meta">${IntellteVitePressBuilder.escapeHtml(v.label || v.version)} · ${IntellteVitePressBuilder.escapeHtml(v.published_date)}</span>`);
-        html_lines.push(`              </div>`);
-        html_lines.push(`              <div class="crd-fs-paper-actions">`);
-        html_lines.push(`                <a href="${v.version_route_url || v.route_url}" class="crd-fs-action-link">Read Paper</a>`);
-        if (v.pdf_url) {
-          html_lines.push(`                <a href="${v.pdf_url}" download class="crd-fs-action-link">PDF (${IntellteVitePressBuilder.escapeHtml(v.pdf_size_euro || "")})</a>`);
-        }
-        if (v.dataset_url) {
-          let v_dataset_label = IntellteVitePressBuilder.escapeHtml(v.dataset_filename || "JSON");
-          html_lines.push(`                <a href="${v.dataset_url}" download class="crd-fs-action-link" title="${v_dataset_label}">${v_dataset_label}</a>`);
-        }
-        html_lines.push(`              </div>`);
-        html_lines.push(`            </div>`);
-
-        if (item_node.children.length > 0) {
-          html_lines.push(`            <ul class="crd-fs-child-list">`);
-          for (let y = 0; y < item_node.children.length; y++) {
-            let cv = item_node.children[y].ver;
-            html_lines.push(`              <li class="crd-fs-child-item">`);
-            html_lines.push(`                <div class="crd-fs-paper-row">`);
-            html_lines.push(`                  <div class="crd-fs-paper-main">`);
-            html_lines.push(`                    <a href="${cv.version_route_url || cv.route_url}" class="crd-fs-paper-title">${IntellteVitePressBuilder.escapeHtml(cv.title)}</a>`);
-            html_lines.push(`                    <span class="crd-fs-paper-meta">${IntellteVitePressBuilder.escapeHtml(cv.label || cv.version)} · ${IntellteVitePressBuilder.escapeHtml(cv.published_date)}</span>`);
-            html_lines.push(`                  </div>`);
-            html_lines.push(`                  <div class="crd-fs-paper-actions">`);
-            html_lines.push(`                    <a href="${cv.version_route_url || cv.route_url}" class="crd-fs-action-link">Read Paper</a>`);
-            if (cv.pdf_url) {
-              html_lines.push(`                    <a href="${cv.pdf_url}" download class="crd-fs-action-link">PDF (${IntellteVitePressBuilder.escapeHtml(cv.pdf_size_euro || "")})</a>`);
-            }
-            if (cv.dataset_url) {
-              let cv_dataset_label = IntellteVitePressBuilder.escapeHtml(cv.dataset_filename || "JSON");
-              html_lines.push(`                    <a href="${cv.dataset_url}" download class="crd-fs-action-link" title="${cv_dataset_label}">${cv_dataset_label}</a>`);
-            }
-            html_lines.push(`                  </div>`);
-            html_lines.push(`                </div>`);
-            html_lines.push(`              </li>`);
-          }
-          html_lines.push(`            </ul>`);
-        }
-
-        html_lines.push(`          </li>`);
-      }
-
-      html_lines.push(`        </ul>`);
-      html_lines.push(`      </li>`);
-    }
-
-    html_lines.push(`    </ul>`);
-    html_lines.push(`  </div>`);
+    html_lines.push(IntellteVitePressBuilder.buildFileStructureTreeHtml(rec, {
+      folder_key: folder_key,
+      folder_label: folder_label,
+      heading_text: "File Structure:"
+    }));
     html_lines.push(`</div>`);
 
     let meta_payload = {
@@ -782,9 +831,21 @@ let IntellteVitePressBuilder = {
 
     //Declare local instance variables
     let content_lines = [];
+    let file_structure_html = "";
     let has_dom = Boolean(ver.compiled_dom && (ver.compiled_dom.full_dom_md || ver.compiled_dom.body_md));
     let meta_description = String(ver.abstract_excerpt || ver.subtitle || `${rec.project_name} Working Paper (${ver.version})`).trim();
     let supp_links = Array.isArray(ver.compiled_supplementary) ? ver.compiled_supplementary : [];
+
+    if (rec.has_folder_tree && (!ver.folder_key || ver.is_latest)) {
+      file_structure_html = [
+        "",
+        `<div class="crd-stub-heading" style="margin-top: 2.2rem;">File Structure:</div>`,
+        IntellteVitePressBuilder.buildFileStructureTreeHtml(rec, {
+          heading_text: ""
+        }),
+        ""
+      ].join("\n");
+    }
 
     let meta_payload = {
       authors: ver.authors,
@@ -833,7 +894,7 @@ let IntellteVitePressBuilder = {
         `<div class="crd-wysiwyg-paper">`,
         "",
         ver.compiled_dom.full_dom_md,
-        "",
+        file_structure_html,
         `</div>`
       );
     } else {
@@ -864,6 +925,7 @@ let IntellteVitePressBuilder = {
         `  </header>`,
         "",
         local_pdf_html,
+        file_structure_html,
         `</div>`
       );
     }

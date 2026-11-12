@@ -164,7 +164,7 @@ let IntellteDiscovery = {
       let has_folder_tree = enriched_versions.some((arg0_v) => Boolean(arg0_v.folder_key));
       for (let x = 0; x < enriched_versions.length; x++) {
         enriched_versions[x].is_latest = (enriched_versions[x].version === resolved_latest_version);
-        if (enriched_versions[x].is_latest && !has_folder_tree) {
+        if (enriched_versions[x].is_latest && (!has_folder_tree || !enriched_versions[x].folder_key)) {
           enriched_versions[x].route_url = `/records/${concept_id}/`;
         }
         let local_fkey = enriched_versions[x].folder_key;
