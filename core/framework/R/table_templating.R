@@ -495,17 +495,44 @@ html_escape_cell <- function (arg0_text) {
   #Guard clauses
   if (!nzchar(text)) return("")
 
-  out <- gsub("&", "&amp;", text, fixed = TRUE)
-  out <- gsub("<", "&lt;", out, fixed = TRUE)
-  out <- gsub(">", "&gt;", out, fixed = TRUE)
-  out <- gsub("---", " - ", out, fixed = TRUE)
-  out <- gsub("--", "-", out, fixed = TRUE)
-  out <- gsub("\\*\\*([^*]+)\\*\\*", "<strong>\\1</strong>", out, perl = TRUE)
-  out <- gsub("\\*([^*]+)\\*", "<em>\\1</em>", out, perl = TRUE)
-  out <- gsub("`([^`]+)`", "<code>\\1</code>", out, perl = TRUE)
+  if (!grepl("\\$", text)) {
+    out <- gsub("&", "&amp;", text, fixed = TRUE)
+    out <- gsub("<", "&lt;", out, fixed = TRUE)
+    out <- gsub(">", "&gt;", out, fixed = TRUE)
+    out <- gsub("---", " - ", out, fixed = TRUE)
+    out <- gsub("--", "-", out, fixed = TRUE)
+    out <- gsub("\\*\\*([^*]+)\\*\\*", "<strong>\\1</strong>", out, perl = TRUE)
+    out <- gsub("\\*([^*]+)\\*", "<em>\\1</em>", out, perl = TRUE)
+    out <- gsub("`([^`]+)`", "<code>\\1</code>", out, perl = TRUE)
+    return(out)
+  }
+
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      out_parts[i] <- p
+    } else {
+      p <- gsub("&", "&amp;", p, fixed = TRUE)
+      p <- gsub("<", "&lt;", p, fixed = TRUE)
+      p <- gsub(">", "&gt;", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("\\*\\*([^*]+)\\*\\*", "<strong>\\1</strong>", p, perl = TRUE)
+      p <- gsub("\\*([^*]+)\\*", "<em>\\1</em>", p, perl = TRUE)
+      p <- gsub("`([^`]+)`", "<code>\\1</code>", p, perl = TRUE)
+      out_parts[i] <- p
+    }
+  }
 
   #Return statement
-  return(out)
+  return(paste(out_parts, collapse = ""))
 }
 
 

@@ -54,9 +54,6 @@ class MarkdownRenderer {
     //Guard clauses
     if (!text) return "";
 
-    //Clean math inside raw HTML blocks (figcaption, th, td, panel-heading) where markdown-it does not parse math
-    processed_text = self.cleanHtmlInlineMath(processed_text);
-
     //Protect fenced code blocks
     processed_text = processed_text.replace(/(```[\s\S]*?```)/g, (arg0_match) => {
       let idx = code_blocks.length;
@@ -238,6 +235,40 @@ class MarkdownRenderer {
 
       //Transform <pdf src="..."> tags into <PdfEmbed ... /> before markdown-it rendering
       let processed_src = self.transformPdfTags(src, options);
+
+      //Render math inside raw HTML blocks (td, th, figcaption, crd-panel-heading, crd-footnote-text)
+      if (processed_src.includes("$")) {
+        processed_src = processed_src.replace(/<td\b([^>]*)>([\s\S]*?)<\/td>/g, function (arg0_full, arg1_attrs, arg2_content) {
+          if (arg2_content.includes("$")) {
+            return `<td${arg1_attrs}>${md.renderInline(arg2_content)}</td>`;
+          }
+          return arg0_full;
+        });
+        processed_src = processed_src.replace(/<th\b([^>]*)>([\s\S]*?)<\/th>/g, function (arg0_full, arg1_attrs, arg2_content) {
+          if (arg2_content.includes("$")) {
+            return `<th${arg1_attrs}>${md.renderInline(arg2_content)}</th>`;
+          }
+          return arg0_full;
+        });
+        processed_src = processed_src.replace(/<figcaption\b([^>]*)>([\s\S]*?)<\/figcaption>/g, function (arg0_full, arg1_attrs, arg2_content) {
+          if (arg2_content.includes("$")) {
+            return `<figcaption${arg1_attrs}>${md.renderInline(arg2_content)}</figcaption>`;
+          }
+          return arg0_full;
+        });
+        processed_src = processed_src.replace(/<div class="crd-panel-heading">([\s\S]*?)<\/div>/g, function (arg0_full, arg1_content) {
+          if (arg1_content.includes("$")) {
+            return `<div class="crd-panel-heading">${md.renderInline(arg1_content)}</div>`;
+          }
+          return arg0_full;
+        });
+        processed_src = processed_src.replace(/<span class="crd-footnote-text">([\s\S]*?)<\/span>/g, function (arg0_full, arg1_content) {
+          if (arg1_content.includes("$")) {
+            return `<span class="crd-footnote-text">${md.renderInline(arg1_content)}</span>`;
+          }
+          return arg0_full;
+        });
+      }
 
       //Return statement
       return orig_render(processed_src, env);
@@ -569,7 +600,7 @@ class MarkdownRenderer {
     if (hero_figure) {
       let hero_filename = path.basename(hero_figure);
       let hero_src = (artefact_base_url) ? `${artefact_base_url}/${hero_filename}` : hero_figure;
-      let clean_cap = this.formatInlineMathString(hero_caption);
+      let clean_cap = (hero_caption) ? hero_caption : "";
       hero_html = [
         `<figure class="crd-hero-figure" id="${this.escapeHtml(hero_label)}">`,
         `  <img class="crd-hero-img" src="${this.escapeHtml(hero_src)}" alt="${this.escapeHtml(title_str)}" />`,
@@ -837,7 +868,7 @@ class MarkdownRenderer {
       ];
       for (let y = 0; y < footnotes_array.length; y++) {
         let fn_num = y + 1;
-        let fn_clean = this.formatInlineMathString(footnotes_array[y]);
+        let fn_clean = footnotes_array[y];
         fn_lines.push(
           `    <div class="crd-footnote-item" id="crdfn-${fn_num}">` +
           `<a class="crd-footnote-backref" href="#crdfn-ref-${fn_num}"><sup>${fn_num}</sup></a> ` +
