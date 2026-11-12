@@ -440,9 +440,9 @@ let IntellteVitePressBuilder = {
 
 
   /**
-   * Builds YAML frontmatter lines including `<title>`, `<meta name="description">`, OpenGraph (`og:title`, `og:description`, `og:url`) and Twitter card tags for search crawlers and Discord/social media embeds.
+   * Builds YAML frontmatter lines including `<title>`, `<meta name="description">`, OpenGraph (`og:title`, `og:description`, `og:url`), Twitter card, and bibliographic citation tags for search crawlers and Discord/social media embeds.
    *
-   * @param {Object} arg0_options - Frontmatter configuration (`canonical_route`, `description`, `og_title`, `title`, `title_template`).
+   * @param {Object} arg0_options - Frontmatter configuration (`authors_line`, `canonical_route`, `description`, `og_title`, `pdf_url`, `published_date`, `subtitle`, `title`, `title_template`).
    * @return {string[]} Array of YAML frontmatter lines (including `---` delimiters).
    */
   buildFrontmatterLines: function (arg0_options) {
@@ -450,17 +450,39 @@ let IntellteVitePressBuilder = {
     let options = (arg0_options) ? arg0_options : {};
 
     //Initialise options
+    let authors_line = String(options.authors_line || "").trim();
     let canonical_route = String(options.canonical_route || "/");
     let description = String(options.description || "Confoederatio, Research Division (CRD) Working Papers").trim();
     let og_title = String(options.og_title || options.title || "Intellte (CRD)").trim();
+    let pdf_url = String(options.pdf_url || "").trim();
+    let published_date = String(options.published_date || "").trim();
+    let subtitle = String(options.subtitle || "").trim();
     let title = String(options.title || "Intellte (CRD)").trim();
     let title_template = options.title_template;
 
     //Declare local instance variables
     let canonical_url = `https://intellte.confoederatio.org${canonical_route.startsWith("/") ? canonical_route : "/" + canonical_route}`;
+    let clean_sub = subtitle.replace(/\.$/, "").trim();
+    let clean_title = title.replace(/\.$/, "").trim();
+    let full_og_title = og_title;
+    let full_title = clean_title;
+    let pdf_full_url = (pdf_url) ? `https://intellte.confoederatio.org${pdf_url.startsWith("/") ? pdf_url : "/" + pdf_url}` : "";
+
+    if (clean_sub && !clean_title.toLowerCase().includes(clean_sub.toLowerCase())) {
+      full_title = `${clean_title}: ${clean_sub}`;
+    }
+    if (clean_sub && !full_og_title.toLowerCase().includes(clean_sub.toLowerCase())) {
+      full_og_title = `${full_og_title}: ${clean_sub}`;
+    }
+
+    let esc_authors_line = IntellteVitePressBuilder.escapeYamlDoubleQuoted(authors_line);
+    let esc_clean_title = IntellteVitePressBuilder.escapeYamlDoubleQuoted(clean_title);
+    let esc_date = IntellteVitePressBuilder.escapeYamlDoubleQuoted(published_date);
     let esc_desc = IntellteVitePressBuilder.escapeYamlDoubleQuoted(description);
-    let esc_og_title = IntellteVitePressBuilder.escapeYamlDoubleQuoted(og_title);
-    let esc_title = IntellteVitePressBuilder.escapeYamlDoubleQuoted(title);
+    let esc_og_title = IntellteVitePressBuilder.escapeYamlDoubleQuoted(full_og_title);
+    let esc_pdf_url = IntellteVitePressBuilder.escapeYamlDoubleQuoted(pdf_full_url);
+    let esc_sub = IntellteVitePressBuilder.escapeYamlDoubleQuoted(clean_sub);
+    let esc_title = IntellteVitePressBuilder.escapeYamlDoubleQuoted(full_title);
     let esc_url = IntellteVitePressBuilder.escapeYamlDoubleQuoted(canonical_url);
     let fm_lines = [];
 
@@ -499,6 +521,43 @@ let IntellteVitePressBuilder = {
     fm_lines.push("  - - meta");
     fm_lines.push("    - name: twitter:description");
     fm_lines.push(`      content: "${esc_desc}"`);
+
+    if (clean_sub) {
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - name: subtitle");
+      fm_lines.push(`      content: "${esc_sub}"`);
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - property: og:subtitle");
+      fm_lines.push(`      content: "${esc_sub}"`);
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - name: citation_title");
+      fm_lines.push(`      content: "${esc_clean_title}"`);
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - name: citation_subtitle");
+      fm_lines.push(`      content: "${esc_sub}"`);
+    }
+
+    if (authors_line) {
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - name: author");
+      fm_lines.push(`      content: "${esc_authors_line}"`);
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - name: citation_author");
+      fm_lines.push(`      content: "${esc_authors_line}"`);
+    }
+
+    if (published_date) {
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - name: citation_publication_date");
+      fm_lines.push(`      content: "${esc_date}"`);
+    }
+
+    if (pdf_full_url) {
+      fm_lines.push("  - - meta");
+      fm_lines.push("    - name: citation_pdf_url");
+      fm_lines.push(`      content: "${esc_pdf_url}"`);
+    }
+
     fm_lines.push("---");
 
     //Return statement
@@ -734,6 +793,7 @@ let IntellteVitePressBuilder = {
       source_papers: aggregated_source_papers,
       staged_files: aggregated_staged_files,
       status: "Published",
+      subtitle: (folder_key) ? "" : (rec.subtitle || ""),
       supplementary_links: [],
       tags: (aggregated_tags.length > 0) ? aggregated_tags : (rec.tags || []),
       title: page_title,
@@ -746,6 +806,7 @@ let IntellteVitePressBuilder = {
       canonical_route: canonical_route,
       description: meta_description,
       og_title: page_title,
+      subtitle: (folder_key) ? "" : (rec.subtitle || ""),
       title: page_title
     });
 
@@ -877,6 +938,7 @@ let IntellteVitePressBuilder = {
       source_papers: ver.source_papers || [],
       staged_files: ver.staged_files,
       status: ver.status || "Published",
+      subtitle: ver.subtitle || "",
       supplementary_links: supp_links.map((arg0_s) => ({
         key: arg0_s.key,
         route_url: arg0_s.route_url,
@@ -931,9 +993,13 @@ let IntellteVitePressBuilder = {
     }
 
     let fm_lines = IntellteVitePressBuilder.buildFrontmatterLines({
+      authors_line: ver.authors_line,
       canonical_route: canonical_route,
       description: meta_description,
       og_title: ver.title,
+      pdf_url: ver.pdf_url,
+      published_date: ver.published_date,
+      subtitle: ver.subtitle,
       title: ver.title
     });
 
