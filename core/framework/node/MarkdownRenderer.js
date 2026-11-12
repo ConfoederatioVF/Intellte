@@ -667,10 +667,15 @@ class MarkdownRenderer {
       }
       bib_lines.push(`</div>`);
       let bib_html = bib_lines.join("\n");
-      if (/:::\s*\{#refs\}\s*:::/g.test(updated_text)) {
-        updated_text = updated_text.replace(/:::\s*\{#refs\}\s*:::/g, bib_html);
-      } else if (/(^|\r?\n)(#{1,2}\s+(?:References|Sources|Bibliography)\b[^\r\n]*)\s*$/i.test(updated_text)) {
-        updated_text = updated_text.replace(/(^|\r?\n)(#{1,2}\s+(?:References|Sources|Bibliography)\b[^\r\n]*)\s*$/i, `$1$2\n\n${bib_html}\n`);
+      if (/<div\b[^>]*\bid=["']refs["'][^>]*>(?:[\s\S]*?<\/div>)?/i.test(updated_text)) {
+        updated_text = updated_text.replace(/<div\b[^>]*\bid=["']refs["'][^>]*>(?:[\s\S]*?<\/div>)?/gi, bib_html);
+      } else if (/:::\s*\{?#refs\}?\s*:::/i.test(updated_text)) {
+        updated_text = updated_text.replace(/:::\s*\{?#refs\}?\s*:::/gi, bib_html);
+      } else if (/(^|\r?\n)(#{1,2}\s+(?:References|Sources|Bibliography)\b[^\r\n]*)/i.test(updated_text)) {
+        let heading_matches = [...updated_text.matchAll(/(^|\r?\n)(#{1,2}\s+(?:References|Sources|Bibliography)\b[^\r\n]*)/gi)];
+        let last_match = heading_matches[heading_matches.length - 1];
+        let insert_idx = last_match.index + last_match[0].length;
+        updated_text = `${updated_text.slice(0, insert_idx)}\n\n${bib_html}\n${updated_text.slice(insert_idx)}`;
       } else {
         updated_text = `${updated_text.trimEnd()}\n\n# Sources\n\n${bib_html}\n`;
       }

@@ -435,7 +435,6 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
 
   block_lines <- c(
     paste0(strrep("\x60", 3), "{=latex}"),
-    "\\par\\vspace{4pt}",
     "\\begingroup\\fontsize{10pt}{14pt}\\selectfont\\normalfont\\rmfamily\\mdseries",
     "\\setlength{\\tabcolsep}{3pt}",
     paste0("\\renewcommand{\\arraystretch}{", arr_str, "}"),
@@ -456,7 +455,7 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
         val_str <- if (is.null(raw_v) || is.na(raw_v)) "-" else as.character(raw_v)
         val_str <- trimws(gsub("\\*\\*", "", val_str))
         if (euro_decimals) {
-          val_str <- convert_euro_decimals_in_text(val_str)
+          val_str <- convert_euro_decimals_in_text(val_str, TRUE)
         }
         clean_v <- sanitize_fn(val_str, TRUE)
         paste0("{\\normalfont\\rmfamily\\mdseries\\lefthyphenmin=4\\righthyphenmin=4\\hspace{0pt}", clean_v, "}")
@@ -476,7 +475,6 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
   block_lines <- c(
     block_lines,
     "\\end{longtable}\\endgroup",
-    "\\vspace{4pt}\\par",
     strrep("\x60", 3)
   )
 
@@ -536,6 +534,7 @@ sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
       in_math <- !in_math
       out_parts[i] <- "$"
     } else if (in_math) {
+      p <- gsub("([0-9]),([0-9])", "\\1{,}\\2", p, perl = TRUE)
       p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
       p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
       p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
