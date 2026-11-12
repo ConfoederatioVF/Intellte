@@ -1,0 +1,627 @@
+---
+title: "Settlements and Towns of the Yenisei, Baikal, Lena, Kolyma and Pacific Basins"
+subtitle: "From Prehistoric Pit-House Villages and Steppe and Jurchen Fortresses to the Russian Ostrogs and Cities"
+date: "8 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/fig1_eastern_siberia_basins_map.png"
+hero_caption: "The nine drainage regions of Eastern and Pacific Siberia (10,11M km²), showing the locations of the 231 prehistoric camps, walled steppe and Jurchen towns, Russian ostrogs and Imperial cities compiled in this gazetteer."
+hero_label: "fig:hero"
+bibliography: siberia_yenisei_lena_kolyma_pacific_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+  md_document:
+    variant: gfm
+    preserve_yaml: true
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
+```
+
+```{r load-json, include=FALSE}
+library(jsonlite)
+library(knitr)
+
+gaz_data <- jsonlite::fromJSON("siberia_yenisei_lena_kolyma_pacific_settlements.json", simplifyVector = FALSE)
+
+subreg_map <- c(
+  "Shamanka II-Russia" = "II-1",
+  "Lokomotiv-Russia" = "II-1",
+  "Ust-Ida I-Russia" = "II-1",
+  "Khuzhir-Nuge XIV-Russia" = "II-1",
+  "Kurma XI-Russia" = "II-1",
+  "Sagan-Zaba II-Russia" = "II-1",
+  "Gorelyi Les-Russia" = "II-1",
+  "Ust-Belaia-Russia" = "II-1",
+  "Studenoe-Russia" = "II-1",
+  "Ivolga Fortress-Russia" = "II-1",
+  "Nizhnyaya Ivolga-Russia" = "II-1",
+  "Bayangol-Russia" = "II-1",
+  "Dyrestui-Russia" = "II-1",
+  "Ilmovaya Pad-Russia" = "II-1",
+  "Cheremukhovaya Pad-Russia" = "II-1",
+  "Burkhan-Tolgoi-Russia" = "II-1",
+  "Dureny I-Russia" = "II-1",
+  "Nizhnemangirtuyskoe-Russia" = "II-1",
+  "Mankhay I-Russia" = "II-1",
+  "Mankhay II-Russia" = "II-1",
+  "Khura-Khobok-Russia" = "II-1",
+  "Ulan-Bor-Russia" = "II-1",
+  "Shga-Toyon-Russia" = "II-1",
+  "Irkutsk-Russia" = "II-1",
+  "Verkholensk-Russia" = "II-1",
+  "Balagansk-Russia" = "II-1",
+  "Nizhneudinsk-Russia" = "II-1",
+  "Cheremkhovo-Russia" = "II-1",
+  "Zima-Russia" = "II-1",
+  "Tulun-Russia" = "II-1",
+  "Kultuk-Russia" = "II-1",
+  "Listvyanka-Russia" = "II-1",
+  "Verkhneudinsk-Russia" = "II-1",
+  "Selenginsk-Russia" = "II-1",
+  "Troitskosavsk-Russia" = "II-1",
+  "Petrovskiy Zavod-Russia" = "II-1",
+  "Kabansk-Russia" = "II-1",
+  "Barguzin-Russia" = "II-1",
+  "Tunka-Russia" = "II-1",
+  "Chita-Russia" = "II-1",
+  "Aksha-Russia" = "II-1",
+  "Afontova Gora-Russia" = "II-2",
+  "Toora-Dash-Russia" = "II-2",
+  "Afanasyevo Gora-Russia" = "II-2",
+  "Okunev Ulus-Russia" = "II-2",
+  "Sukhanikha-Russia" = "II-2",
+  "Kamenny Log-Russia" = "II-2",
+  "Karasuk I-Russia" = "II-2",
+  "Torgazhak-Russia" = "II-2",
+  "Lugavskoye-Russia" = "II-2",
+  "Tagar Island-Russia" = "II-2",
+  "Salbyk-Russia" = "II-2",
+  "Erbek-Russia" = "II-2",
+  "Bidzha-Russia" = "II-2",
+  "Oglakhty-Russia" = "II-2",
+  "Arzhan-1-Russia" = "II-2",
+  "Arzhan-2-Russia" = "II-2",
+  "Tunnug-1-Russia" = "II-2",
+  "Chinge-Tei-Russia" = "II-2",
+  "Por-Bajin-Russia" = "II-2",
+  "Shagonar I-Russia" = "II-2",
+  "Shagonar III-Russia" = "II-2",
+  "Bazhyn-Alaak-Russia" = "II-2",
+  "Uybatsky Gorodok-Russia" = "II-2",
+  "Kopensky Chaatas-Russia" = "II-2",
+  "Krasnoyarsk-Russia" = "II-2",
+  "Minusinsk-Russia" = "II-2",
+  "Abakan-Russia" = "II-2",
+  "Askiz-Russia" = "II-2",
+  "Achinsk-Russia" = "II-2",
+  "Kansk-Russia" = "II-2",
+  "Shushenskoye-Russia" = "II-2",
+  "Karatuzskoye-Russia" = "II-2",
+  "Kuragino-Russia" = "II-2",
+  "Usinskoye-Russia" = "II-2",
+  "Turan-Russia" = "II-2",
+  "Tagenar VI-Russia" = "II-3",
+  "Abylaakh-1-Russia" = "II-3",
+  "Maimecha-1-Russia" = "II-3",
+  "Pyasina Foundry-Russia" = "II-3",
+  "Ust-Kova-Russia" = "II-3",
+  "Tsepan-Russia" = "II-3",
+  "Kazachka-Russia" = "II-3",
+  "Yeniseysk-Russia" = "II-3",
+  "Turukhansk-Russia" = "II-3",
+  "Dudinka-Russia" = "II-3",
+  "Khatanga-Russia" = "II-3",
+  "Kazachinskoye-Russia" = "II-3",
+  "Bratsk-Russia" = "II-3",
+  "Ilimsk-Russia" = "II-3",
+  "Ust-Kut-Russia" = "II-3",
+  "Kirensk-Russia" = "II-3",
+  "Dyuktai Cave-Russia" = "III-1",
+  "Belkachi I-Russia" = "III-1",
+  "Sumnagin I-Russia" = "III-1",
+  "Ust-Timpton-Russia" = "III-1",
+  "Ust-Mil II-Russia" = "III-1",
+  "Bodaibo-Russia" = "III-1",
+  "Vitim-Russia" = "III-1",
+  "Amga-Russia" = "III-1",
+  "Ust-Maya-Russia" = "III-1",
+  "Tommot-Russia" = "III-1",
+  "Ymyyakhtakh-Russia" = "III-2",
+  "Kullaty-Russia" = "III-2",
+  "Siktyakh-Russia" = "III-2",
+  "Sayylyk-Russia" = "III-2",
+  "Ayyy-Taybyt-Russia" = "III-2",
+  "Kulun-Atakh-Russia" = "III-2",
+  "Sytygan-Sysy-Russia" = "III-2",
+  "Yakutsk-Russia" = "III-2",
+  "Olekminsk-Russia" = "III-2",
+  "Vilyuysk-Russia" = "III-2",
+  "Nyurba-Russia" = "III-2",
+  "Suntar-Russia" = "III-2",
+  "Churapcha-Russia" = "III-2",
+  "Pokrovsk-Russia" = "III-2",
+  "Zhokhov-Russia" = "III-3",
+  "Burkhala-Russia" = "III-3",
+  "Rodinka II-Russia" = "III-3",
+  "Verkhoyansk-Russia" = "III-3",
+  "Zashiversk-Russia" = "III-3",
+  "Srednekolymsk-Russia" = "III-3",
+  "Nizhnekolymsk-Russia" = "III-3",
+  "Ust-Yansk-Russia" = "III-3",
+  "Bulun-Russia" = "III-3",
+  "Oymyakon-Russia" = "III-3",
+  "Gasya-Russia" = "IV-1",
+  "Khummi-Russia" = "IV-1",
+  "Goncharka-1-Russia" = "IV-1",
+  "Suchu Island-Russia" = "IV-1",
+  "Kondon-Pochtovoye-Russia" = "IV-1",
+  "Voznesenovka-Russia" = "IV-1",
+  "Malyshevo-Russia" = "IV-1",
+  "Kalinovka-Russia" = "IV-1",
+  "Osinovoye Ozero-Russia" = "IV-1",
+  "Uritskoye-Russia" = "IV-1",
+  "Kukelevo-Russia" = "IV-1",
+  "Poltse I-Russia" = "IV-1",
+  "Troitskoye-Russia" = "IV-1",
+  "Naifeld-Russia" = "IV-1",
+  "Boisman-1-Russia" = "IV-1",
+  "Boisman-2-Russia" = "IV-1",
+  "Chertovy Vorota-Russia" = "IV-1",
+  "Rudnaya Pristan-Russia" = "IV-1",
+  "Zaisanovka-1-Russia" = "IV-1",
+  "Valentin-Peresheyek-Russia" = "IV-1",
+  "Siniy Gai-Russia" = "IV-1",
+  "Krounovka-1-Russia" = "IV-1",
+  "Bogolyubovka-1-Russia" = "IV-1",
+  "Peschany-1-Russia" = "IV-1",
+  "Malaya Podushechka-Russia" = "IV-1",
+  "Slavyanka-1-Russia" = "IV-1",
+  "Bulochka-Russia" = "IV-1",
+  "Kraskinskoye-Russia" = "IV-1",
+  "Koksharovka-1-Russia" = "IV-1",
+  "Maryanovka-Russia" = "IV-1",
+  "Novogordeyevskoye-Russia" = "IV-1",
+  "Gorbatka-Russia" = "IV-1",
+  "Nikolayevskoye-1-Russia" = "IV-1",
+  "Yuzhno-Ussuriyskoye-Russia" = "IV-1",
+  "Krasnoyarovskoye-Russia" = "IV-1",
+  "Shayginskoye-Russia" = "IV-1",
+  "Ananyevskoye-Russia" = "IV-1",
+  "Lazovskoye-Russia" = "IV-1",
+  "Ekaterinovskoye-Russia" = "IV-1",
+  "Skalistoye-Russia" = "IV-1",
+  "Chuguyevskoye-Russia" = "IV-1",
+  "Novopokrovskoye-Russia" = "IV-1",
+  "Albazin-Russia" = "IV-1",
+  "Guigudar-Russia" = "IV-1",
+  "Kumarsky Ostrog-Russia" = "IV-1",
+  "Nerchinsk-Russia" = "IV-1",
+  "Nerchinskiy Zavod-Russia" = "IV-1",
+  "Sretensk-Russia" = "IV-1",
+  "Shilka-Russia" = "IV-1",
+  "Blagoveshchensk-Russia" = "IV-1",
+  "Zeya-Russia" = "IV-1",
+  "Khabarovsk-Russia" = "IV-1",
+  "Sofiysk-Russia" = "IV-1",
+  "Mariinsk-na-Amure-Russia" = "IV-1",
+  "Nikolayevsk-on-Amur-Russia" = "IV-1",
+  "Bikin-Russia" = "IV-1",
+  "Iman-Russia" = "IV-1",
+  "Spasskoye-Russia" = "IV-1",
+  "Nikolsk-Ussuriyskiy-Russia" = "IV-1",
+  "Razdolnoye-Russia" = "IV-1",
+  "Posyet-Russia" = "IV-1",
+  "Olga-Russia" = "IV-1",
+  "Vladivostok-Russia" = "IV-1",
+  "Ushki I-Russia" = "IV-2",
+  "Ushki V-Russia" = "IV-2",
+  "Avacha-Russia" = "IV-2",
+  "Targay-Russia" = "IV-2",
+  "Zhupanovo-Russia" = "IV-2",
+  "Kamaki-Russia" = "IV-2",
+  "Imchin-Russia" = "IV-2",
+  "Starodubskoye-2-Russia" = "IV-2",
+  "Susuya-Russia" = "IV-2",
+  "Svobodnoye-Russia" = "IV-2",
+  "Promyslovoye-Russia" = "IV-2",
+  "Yuzhno-Kurilsk Midden-Russia" = "IV-2",
+  "Kurilskoe Ozero-Russia" = "IV-2",
+  "Okhotsk-Russia" = "IV-2",
+  "Udskoye-Russia" = "IV-2",
+  "Ayan-Russia" = "IV-2",
+  "Verkhnekamchatsk-Russia" = "IV-2",
+  "Nizhnekamchatsk-Russia" = "IV-2",
+  "Bolsheretsk-Russia" = "IV-2",
+  "Tigil-Russia" = "IV-2",
+  "Petropavlovsk-Kamchatskiy-Russia" = "IV-2",
+  "Nikolskoye-Russia" = "IV-2",
+  "Aleksandrovskiy Post-Russia" = "IV-2",
+  "Rykovskoye-Russia" = "IV-2",
+  "Korsakov-Russia" = "IV-2",
+  "Vladimirovka-Russia" = "IV-2",
+  "Ust-Belaia Chukotka-Russia" = "IV-3",
+  "Chirovoe-Russia" = "IV-3",
+  "Pegtymel-Russia" = "IV-3",
+  "Uelen-Russia" = "IV-3",
+  "Ekven-Russia" = "IV-3",
+  "Enmynytnyn-Russia" = "IV-3",
+  "Chini-Russia" = "IV-3",
+  "Birnirk-Russia" = "IV-3",
+  "Sireniki-Russia" = "IV-3",
+  "Naukan-Russia" = "IV-3",
+  "Chaplino-Russia" = "IV-3",
+  "Anadyrsk-Russia" = "IV-3",
+  "Markovo-Russia" = "IV-3",
+  "Gizhiginsk-Russia" = "IV-3",
+  "Penzhino-Russia" = "IV-3",
+  "Novo-Mariinsk-Russia" = "IV-3"
+)
+
+fmt_num <- function(x) {
+  if (is.null(x) || is.na(x)) return("-")
+  v <- as.numeric(x)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
+  if (v >= 1000) {
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
+  }
+  return(as.character(round(v)))
+}
+
+fmt_coord <- function(lat, lon) {
+  ns <- ifelse(lat >= 0, "N", "S")
+  ew <- ifelse(lon >= 0, "E", "W")
+  paste0(
+    format(round(abs(lat), 2), nsmall = 2, decimal.mark = ","), "°", ns, " ",
+    format(round(abs(lon), 2), nsmall = 2, decimal.mark = ","), "°", ew
+  )
+}
+
+fmt_year <- function(y) {
+  yi <- as.integer(y)
+  if (yi < 0) {
+    paste0(abs(yi), "BC")
+  } else {
+    paste0(yi, "AD")
+  }
+}
+
+wrap_long_tokens <- function(txt) {
+  txt <- as.character(txt)
+  if (length(txt) == 0 || is.na(txt) || !nzchar(txt)) return("-")
+  if (!knitr::is_latex_output()) return(txt)
+  tokens <- strsplit(txt, " ", fixed = TRUE)[[1]]
+  out <- vapply(tokens, function(w) {
+    if (nchar(w) <= 10) return(w)
+    chars <- strsplit(w, "", fixed = TRUE)[[1]]
+    res <- character(0)
+    for (i in seq_along(chars)) {
+      res <- c(res, chars[i])
+      if (i %% 6 == 0 && i < length(chars) - 2 && chars[i] != "-" && chars[i + 1] != "-") {
+        res <- c(res, "\\-")
+      }
+    }
+    paste(res, collapse = "")
+  }, character(1))
+  paste(out, collapse = " ")
+}
+
+build_subregion_df <- function(subreg_code) {
+  keys <- names(gaz_data)[!is.na(subreg_map[names(gaz_data)]) & subreg_map[names(gaz_data)] == subreg_code]
+  rows <- lapply(keys, function(k) {
+    s <- gaz_data[[k]]
+    p_list <- s$population
+    yrs <- as.integer(names(p_list))
+    vals <- as.integer(unlist(p_list))
+    ord <- order(yrs)
+    yrs <- yrs[ord]
+    vals <- vals[ord]
+
+    start_yr <- yrs[1]
+    end_yr <- yrs[length(yrs)]
+    span_str <- ifelse(start_yr == end_yr, fmt_year(start_yr), paste0(fmt_year(start_yr), " - ", fmt_year(end_yr)))
+
+    pre1600_idx <- which(yrs < 1600)
+    if (length(pre1600_idx) > 0) {
+      max_i <- pre1600_idx[which.max(vals[pre1600_idx])]
+      pre1600_str <- paste0(fmt_num(vals[max_i]), " (", fmt_year(yrs[max_i]), ")")
+    } else {
+      pre1600_str <- "-"
+    }
+
+    get_bench <- function(target_yr, tol = 25) {
+      exact_i <- which(yrs == target_yr)
+      if (length(exact_i) > 0) return(fmt_num(vals[exact_i[1]]))
+      near_i <- which(abs(yrs - target_yr) <= tol)
+      if (length(near_i) > 0) {
+        best_i <- near_i[which.min(abs(yrs[near_i] - target_yr))]
+        return(fmt_num(vals[best_i]))
+      }
+      return("-")
+    }
+
+    alt_vec <- unlist(s$other_names)
+    alt_str <- if (length(alt_vec) > 0) paste(alt_vec[1:min(2, length(alt_vec))], collapse = "; ") else "-"
+
+    data.frame(
+      Settlement = wrap_long_tokens(s$name),
+      `Native / Alternate Names` = wrap_long_tokens(alt_str),
+      Coords = fmt_coord(s$coords[[1]], s$coords[[2]]),
+      `Active Span` = span_str,
+      `Pre-1600 Peak` = pre1600_str,
+      `1700` = get_bench(1700, 45),
+      `1800` = get_bench(1800, 35),
+      `1850` = get_bench(1850, 25),
+      `1897` = get_bench(1897, 5),
+      `1900` = get_bench(1900, 2),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, rows)
+}
+```
+
+# Abstract
+
+Across the 10,11M km² of Eastern and Pacific Siberia, early settlement clustered at productive salmon, seal and river-crossing sites such as Pleistocene Ushki I-V in Kamchatka (45 residents in 10000BC) [@Goebel2003], High Arctic Zhokhov (38 residents in 6000BC) [@SikoraPitulko2019], Early Neolithic Kitoi camps at Shamanka II and Lokomotiv on Lake Baikal [@Weber2016a] and the large Neolithic pit-house village on Suchu Island in the Lower Amur (185 residents in 3000BC) [@Filatova2018]. During the Bronze Age, Early Iron Age and Middle Ages, permanent winter villages and walled towns (*gorodishcha*) emerged across the southern steppe and monsoon valleys: Karasuk Torgazhak (150 residents in 1000BC) [@Legrand2006], Xiongnu Ivolga Fortress in Transbaikalia (2,8k residents in 100BC) [@Vasyutin2022], the Uyghur fortresses of Por-Bajin and Shagonar in Tuva (800AD) [@Tulush2016], the Bohai port of Kraskinskoye (2,2k in 800AD) [@Gelman2018] and the Jurchen Jin and Eastern Xia mountain cities of Krasnoyarovskoye (15k in 1220AD) and Shayginskoye (3,8k) in Primorye [@Artemyeva2013; @Artemyeva2025], alongside Bering Strait whaling villages at Ekven and Uelen (250-300 residents) [@Dneprovskiy2017] and Sakha *alaas* settlements at Sayylyk and Ayyy-Taybyt [@Kiryanov2019]. From the 17th century, Russian river forts (*ostrogi*) founded at Yeniseysk (1619), Krasnoyarsk (1628), Yakutsk (1632), Irkutsk (1661), Nerchinsk (1658) and Petropavlovsk (1740), followed after 1858 by the Far Eastern ports and railway cities, grew into an urban network led in 1897-1900AD by Irkutsk (51,5k in 1897), Blagoveshchensk (32,8k), Vladivostok (28,9k), Krasnoyarsk (26,7k), Khabarovsk (15k), Chita (11,5k) and Yeniseysk (11,5k) [@Kabuzan1985; @Troinitskiy1905; @Patkanov1912].
+
+# Methodology
+
+This gazetteer presents the coordinates, native and historical names, dates of occupation and population estimates for 231 settlements across Eastern and Pacific Siberia from 10000BC to 1900AD (Figure \ref{fig:hero}; Tables \ref{tab:ii1} to \ref{tab:iv3}). Occupation spans correspond to the earliest and latest benchmark dates recorded for each settlement.
+
+Prehistoric camp and pit-house village figures are derived from excavated house counts, floor areas and cemetery sizes [@Chernykh2022; @Weber2016a; @Kuzmin2006; @AlekseyevDyakonov2009; @Fitzhugh2016; @Dneprovskiy2017]. Estimates for Iron Age and medieval fortified settlements (*gorodishcha*) in Transbaikalia, Tuva, Khakassia, the Amur Basin and Primorye are drawn from walled areas and excavated house-pit totals [@Vasyutin2022; @Tulush2011; @Tulush2016; @Artemyeva2013; @Artemyeva2025; @Gelman2018; @Ivliev2021]. Early Russian forts (*ostrogi*), 18th-century mining and border towns and 19th-century towns are compiled from *yasak* and garrison rolls [@Dolgikh1960; @Chertykov2009; @Ushnitskiy2017a; @Turaev2013], poll-tax revision lists and urban histories [@Kabuzan1985; @Mansheev2010; @Kurchatova2015; @Kyshpanakov2022a; @Kolomiets2022; @Rygalova2024] and the First All-Russian Census of 1897 [@Troinitskiy1905; @Patkanov1912].
+
+# Results
+
+## Yenisei and Baikal Region
+
+### Baikal and Selenga Basin
+
+```{r tab-ii1, echo=FALSE}
+render_table_template(
+  build_subregion_df("II-1"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 41 settlements in the Baikal and Selenga Basin, from Cis-Baikal Neolithic cemetery camps and Xiongnu Ivolga Fortress to Irkutsk, Verkhneudinsk, Chita and Kyakhta.",
+    label = "tab:ii1"
+  )
+)
+```
+
+### Sayan, Minusinsk and Tuva
+
+```{r tab-ii2, echo=FALSE}
+render_table_template(
+  build_subregion_df("II-2"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 35 settlements in Sayan, Minusinsk and Tuva, covering Afanasievo to Tagar-Tashtyk centres, Uyghur stamped-clay fortresses (Por-Bajin, Shagonar) and Russian towns led by Krasnoyarsk and Minusinsk.",
+    label = "tab:ii2"
+  )
+)
+```
+
+### Middle and Lower Yenisei
+
+```{r tab-ii3, echo=FALSE}
+render_table_template(
+  build_subregion_df("II-3"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 16 settlements along the Middle and Lower Yenisei, Lower Angara and Taimyr tundra, including Taimyr bronze foundries and the Russian river towns of Yeniseysk, Bratsk, Ilimsk and Turukhansk.",
+    label = "tab:ii3"
+  )
+)
+```
+
+## Lena and Kolyma Region
+
+### Vitim, Olekma and Aldan
+
+```{r tab-iii1, echo=FALSE}
+render_table_template(
+  build_subregion_df("III-1"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 10 settlements in the Vitim, Olekma and Aldan basins, from multi-layered prehistoric river camps (Dyuktai Cave, Belkachi I, Sumnagin I) to the Bodaibo goldfields.",
+    label = "tab:iii1"
+  )
+)
+```
+
+### Central Yakutia and Lower Lena
+
+```{r tab-iii2, echo=FALSE}
+render_table_template(
+  build_subregion_df("III-2"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 14 settlements in Central Yakutia and the Vilyuy-Lower Lena basin, covering Kulun-Atakh Sakha alaas homesteads and the Russian and Sakha administrative centres of Yakutsk, Vilyuysk and Olekminsk.",
+    label = "tab:iii2"
+  )
+)
+```
+
+### Yana, Indigirka and Kolyma
+
+```{r tab-iii3, echo=FALSE}
+render_table_template(
+  build_subregion_df("III-3"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 10 settlements in the Yana, Indigirka, Kolyma and High Arctic basins, from Mesolithic Zhokhov (76°N) and Burkhala to the northern ostrog towns of Verkhoyansk, Zashiversk and Srednekolymsk.",
+    label = "tab:iii3"
+  )
+)
+```
+
+## Pacific Region
+
+### Amur Basin and Primorye
+
+```{r tab-iv1, echo=FALSE}
+render_table_template(
+  build_subregion_df("IV-1"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 63 settlements in the Amur, Ussuri and Primorye basin, spanning early pottery camps, Bohai Kraskinskoye, Jurchen mountain fortresses (Krasnoyarovskoye, Shayginskoye), Daur Albazin, Nerchinsk and post-1858 cities led by Blagoveshchensk, Vladivostok and Khabarovsk.",
+    label = "tab:iv1"
+  )
+)
+```
+
+### Kamchatka, Sakhalin and Kuril Islands
+
+```{r tab-iv2, echo=FALSE}
+render_table_template(
+  build_subregion_df("IV-2"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 26 settlements across Kamchatka, the Okhotsk coast, Sakhalin and the Kuril Islands, from Pleistocene Ushki I-V and Okhotsk Culture coastal villages to Okhotsk, Petropavlovsk and the Sakhalin penal settlements.",
+    label = "tab:iv2"
+  )
+)
+```
+
+### Chukotka, Anadyr and Bering Strait
+
+```{r tab-iv3, echo=FALSE}
+render_table_template(
+  build_subregion_df("IV-3"),
+  list(
+    caption = "Pre-1600 peak populations and 1700-1900AD benchmark counts for 16 settlements in Chukotka, the Anadyr basin and the Bering Strait, contrasting Old Bering Sea and Punuk whaling villages (Ekven, Uelen, Sireniki) with the Russian outposts of Anadyrsk, Markovo and Gizhiginsk.",
+    label = "tab:iv3"
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+```{r crd_footnotes, echo=FALSE, results='asis'}
+emit_crd_footnotes()
+```

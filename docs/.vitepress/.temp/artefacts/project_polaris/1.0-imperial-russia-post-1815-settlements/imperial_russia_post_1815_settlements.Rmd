@@ -1,0 +1,1057 @@
+---
+title: "Cities, Railway Towns and Frontier Settlements of Late Imperial Russia"
+subtitle: "Town Populations across the Russian Empire and Borderland Provinces"
+date: "11 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: imperial_russia_post_1815_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/imperial_russia_post_1815_regional_map.png"
+hero_caption: "The 48 provinces and 265 catalogued cities, industrial centres, railway junctions and ports across Late Imperial Russia and Austro-Hungarian Ukraine from 1815AD to 1917AD."
+hero_label: "fig:hero-map"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: false
+    template: ../../_shared/template/template.tex
+    citation_package: default
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
+```
+
+```{=latex}
+\emergencystretch=1.5em
+```
+
+```{r load-stadester-json, include=FALSE}
+stadester_data <- jsonlite::fromJSON("imperial_russia_post_1815_settlements.json", simplifyVector = FALSE)
+all_entries <- unname(stadester_data)
+reg48_map <- jsonlite::fromJSON('{"Warsaw-Poland": "poland_warsaw_plock_lomza", "Plock-Poland": "poland_warsaw_plock_lomza", "Lomza-Poland": "poland_warsaw_plock_lomza", "Wloclawek-Poland": "poland_warsaw_plock_lomza", "Zyrardow-Poland": "poland_warsaw_plock_lomza", "Ostroleka-Poland": "poland_warsaw_plock_lomza", "Lodz-Poland": "poland_piotrkow_and_kalisz", "Sosnowiec-Poland": "poland_piotrkow_and_kalisz", "Czestochowa-Poland": "poland_piotrkow_and_kalisz", "Kalisz-Poland": "poland_piotrkow_and_kalisz", "Piotrkow-Poland": "poland_piotrkow_and_kalisz", "Bendzin-Poland": "poland_piotrkow_and_kalisz", "Pabianice-Poland": "poland_piotrkow_and_kalisz", "Lublin-Poland": "poland_lublin_siedlce_kholm", "Siedlce-Poland": "poland_lublin_siedlce_kholm", "Kholm-Poland": "poland_lublin_siedlce_kholm", "Zamosc-Poland": "poland_lublin_siedlce_kholm", "Biala Podlaska-Poland": "poland_lublin_siedlce_kholm", "Radom-Poland": "poland_radom_kielce_suwalki", "Kielce-Poland": "poland_radom_kielce_suwalki", "Suwalki-Poland": "poland_radom_kielce_suwalki", "Ostrowiec-Poland": "poland_radom_kielce_suwalki", "Mariampol-Lithuania": "poland_radom_kielce_suwalki", "Reval-Estonia": "ostsee_estland_governorate", "Narva-Estonia": "ostsee_estland_governorate", "Wesenberg-Estonia": "ostsee_estland_governorate", "Hapsal-Estonia": "ostsee_estland_governorate", "Riga-Latvia": "ostsee_livland_governorate", "Dorpat-Estonia": "ostsee_livland_governorate", "Pernau-Estonia": "ostsee_livland_governorate", "Walk-Latvia": "ostsee_livland_governorate", "Wenden-Latvia": "ostsee_livland_governorate", "Arensburg-Estonia": "ostsee_livland_governorate", "Libau-Latvia": "ostsee_courland_governorate", "Mitau-Latvia": "ostsee_courland_governorate", "Windau-Latvia": "ostsee_courland_governorate", "Goldingen-Latvia": "ostsee_courland_governorate", "Jakobstadt-Latvia": "ostsee_courland_governorate", "Helsingfors-Finland": "finland_southern_nyland_abo_vyborg", "Abo-Finland": "finland_southern_nyland_abo_vyborg", "Tammerfors-Finland": "finland_southern_nyland_abo_vyborg", "Viipuri-Russia": "finland_southern_nyland_abo_vyborg", "Bjorneborg-Finland": "finland_southern_nyland_abo_vyborg", "Kotka-Finland": "finland_southern_nyland_abo_vyborg", "Vasa-Finland": "finland_northern_vasa_kuopio_oulu", "Uleaborg-Finland": "finland_northern_vasa_kuopio_oulu", "Kuopio-Finland": "finland_northern_vasa_kuopio_oulu", "Sankt-Michel-Finland": "finland_northern_vasa_kuopio_oulu", "Gamlakarleby-Finland": "finland_northern_vasa_kuopio_oulu", "Kovno-Lithuania": "nw_krai_kovno_lithuania", "Shavli-Lithuania": "nw_krai_kovno_lithuania", "Ponevezh-Lithuania": "nw_krai_kovno_lithuania", "Telshi-Lithuania": "nw_krai_kovno_lithuania", "Vilkomir-Lithuania": "nw_krai_kovno_lithuania", "Vilna-Lithuania": "nw_krai_vilna_and_grodno", "Bialystok-Poland": "nw_krai_vilna_and_grodno", "Grodno-Belarus": "nw_krai_vilna_and_grodno", "Brest-Litovsk-Belarus": "nw_krai_vilna_and_grodno", "Slonim-Belarus": "nw_krai_vilna_and_grodno", "Lida-Belarus": "nw_krai_vilna_and_grodno", "Minsk-Belarus": "nw_krai_minsk_governorate", "Bobruisk-Belarus": "nw_krai_minsk_governorate", "Pinsk-Belarus": "nw_krai_minsk_governorate", "Baranovichi-Belarus": "nw_krai_minsk_governorate", "Borisov-Belarus": "nw_krai_minsk_governorate", "Mozyr-Belarus": "nw_krai_minsk_governorate", "Dvinsk-Latvia": "nw_krai_vitebsk_and_mogilev", "Vitebsk-Belarus": "nw_krai_vitebsk_and_mogilev", "Mogilev-Belarus": "nw_krai_vitebsk_and_mogilev", "Gomel-Belarus": "nw_krai_vitebsk_and_mogilev", "Polotsk-Belarus": "nw_krai_vitebsk_and_mogilev", "Rezhitsa-Latvia": "nw_krai_vitebsk_and_mogilev", "Lemberg-Ukraine": "habsburg_eastern_galicia", "Tarnopol-Ukraine": "habsburg_eastern_galicia", "Stanislau-Ukraine": "habsburg_eastern_galicia", "Drohobych-Ukraine": "habsburg_eastern_galicia", "Boryslav-Ukraine": "habsburg_eastern_galicia", "Kolomyia-Ukraine": "habsburg_eastern_galicia", "Czernowitz-Ukraine": "habsburg_bukovina_and_carpathian_rus", "Ungvar-Ukraine": "habsburg_bukovina_and_carpathian_rus", "Munkacs-Ukraine": "habsburg_bukovina_and_carpathian_rus", "Beregszasz-Ukraine": "habsburg_bukovina_and_carpathian_rus", "Huszt-Ukraine": "habsburg_bukovina_and_carpathian_rus", "Kishinev-Moldova": "bessarabia_governorate", "Bender-Moldova": "bessarabia_governorate", "Akkerman-Ukraine": "bessarabia_governorate", "Ismail-Ukraine": "bessarabia_governorate", "Beltsy-Moldova": "bessarabia_governorate", "Khotin-Ukraine": "bessarabia_governorate", "Zhitomir-Ukraine": "sw_krai_volhynia_governorate", "Rovno-Ukraine": "sw_krai_volhynia_governorate", "Kovel-Ukraine": "sw_krai_volhynia_governorate", "Lutsk-Ukraine": "sw_krai_volhynia_governorate", "Kremenets-Ukraine": "sw_krai_volhynia_governorate", "Kamenets-Podolsky-Ukraine": "sw_krai_podolia_governorate", "Vinnitsa-Ukraine": "sw_krai_podolia_governorate", "Proskurov-Ukraine": "sw_krai_podolia_governorate", "Balta-Ukraine": "sw_krai_podolia_governorate", "Mogilev-Podolsky-Ukraine": "sw_krai_podolia_governorate", "Kyiv-Ukraine": "sw_krai_kyiv_governorate", "Berdichev-Ukraine": "sw_krai_kyiv_governorate", "Bila Tserkva-Ukraine": "sw_krai_kyiv_governorate", "Uman-Ukraine": "sw_krai_kyiv_governorate", "Cherkassy-Ukraine": "sw_krai_kyiv_governorate", "Kremenchug-Ukraine": "malorossiya_chernigov_and_poltava", "Poltava-Ukraine": "malorossiya_chernigov_and_poltava", "Chernigov-Ukraine": "malorossiya_chernigov_and_poltava", "Nezhin-Ukraine": "malorossiya_chernigov_and_poltava", "Konotop-Ukraine": "malorossiya_chernigov_and_poltava", "Romny-Ukraine": "malorossiya_chernigov_and_poltava", "Kharkov-Ukraine": "sloboda_kharkov_governorate", "Sumy-Ukraine": "sloboda_kharkov_governorate", "Akhtyrka-Ukraine": "sloboda_kharkov_governorate", "Slavyansk-Ukraine": "sloboda_kharkov_governorate", "Izyum-Ukraine": "sloboda_kharkov_governorate", "Odessa-Ukraine": "novorossiya_kherson_governorate", "Nikolaev-Ukraine": "novorossiya_kherson_governorate", "Elisavetgrad-Ukraine": "novorossiya_kherson_governorate", "Kherson-Ukraine": "novorossiya_kherson_governorate", "Tiraspol-Moldova": "novorossiya_kherson_governorate", "Ekaterinoslav-Ukraine": "novorossiya_ekaterinoslav_governorate", "Yuzovka-Ukraine": "novorossiya_ekaterinoslav_governorate", "Lugansk-Ukraine": "novorossiya_ekaterinoslav_governorate", "Mariupol-Ukraine": "novorossiya_ekaterinoslav_governorate", "Krivoy Rog-Ukraine": "novorossiya_ekaterinoslav_governorate", "Aleksandrovsk-Ukraine": "novorossiya_ekaterinoslav_governorate", "Bakhmut-Ukraine": "novorossiya_ekaterinoslav_governorate", "Sevastopol-Ukraine": "novorossiya_taurida_governorate", "Simferopol-Ukraine": "novorossiya_taurida_governorate", "Kerch-Ukraine": "novorossiya_taurida_governorate", "Berdyansk-Ukraine": "novorossiya_taurida_governorate", "Melitopol-Ukraine": "novorossiya_taurida_governorate", "Feodosiya-Ukraine": "novorossiya_taurida_governorate", "Saint Petersburg-Russia": "capital_st_petersburg_governorate", "Kronstadt-Russia": "capital_st_petersburg_governorate", "Tsarskoe Selo-Russia": "capital_st_petersburg_governorate", "Gatchina-Russia": "capital_st_petersburg_governorate", "Luga-Russia": "capital_st_petersburg_governorate", "Pskov-Russia": "lakes_novgorod_pskov_olonets", "Novgorod-Russia": "lakes_novgorod_pskov_olonets", "Staraya Russa-Russia": "lakes_novgorod_pskov_olonets", "Petrozavodsk-Russia": "lakes_novgorod_pskov_olonets", "Velikie Luki-Russia": "lakes_novgorod_pskov_olonets", "Cherepovets-Russia": "lakes_novgorod_pskov_olonets", "Vologda-Russia": "european_north_arkhangelsk_vologda", "Arkhangelsk-Russia": "european_north_arkhangelsk_vologda", "Veliky Ustyug-Russia": "european_north_arkhangelsk_vologda", "Ust-Sysolsk-Russia": "european_north_arkhangelsk_vologda", "Romanov-on-Murman-Russia": "european_north_arkhangelsk_vologda", "Moscow-Russia": "capital_moscow_governorate", "Serpukhov-Russia": "capital_moscow_governorate", "Orekhovo-Zuevo-Russia": "capital_moscow_governorate", "Kolomna-Russia": "capital_moscow_governorate", "Bogorodsk-Russia": "capital_moscow_governorate", "Yaroslavl-Russia": "central_industrial_ring", "Ivanovo-Voznesensk-Russia": "central_industrial_ring", "Tver-Russia": "central_industrial_ring", "Smolensk-Russia": "central_industrial_ring", "Kaluga-Russia": "central_industrial_ring", "Kostroma-Russia": "central_industrial_ring", "Vladimir-Russia": "central_industrial_ring", "Rybinsk-Russia": "central_industrial_ring", "Tula-Russia": "central_black_earth_west", "Kursk-Russia": "central_black_earth_west", "Oryol-Russia": "central_black_earth_west", "Yelets-Russia": "central_black_earth_west", "Bryansk-Russia": "central_black_earth_west", "Belgorod-Russia": "central_black_earth_west", "Voronezh-Russia": "central_black_earth_east", "Tambov-Russia": "central_black_earth_east", "Kozlov-Russia": "central_black_earth_east", "Ryazan-Russia": "central_black_earth_east", "Morshansk-Russia": "central_black_earth_east", "Lipetsk-Russia": "central_black_earth_east", "Kazan-Russia": "middle_volga_nizhny_kazan_simbirsk_penza", "Nizhny Novgorod-Russia": "middle_volga_nizhny_kazan_simbirsk_penza", "Penza-Russia": "middle_volga_nizhny_kazan_simbirsk_penza", "Simbirsk-Russia": "middle_volga_nizhny_kazan_simbirsk_penza", "Syzran-Russia": "middle_volga_nizhny_kazan_simbirsk_penza", "Saransk-Russia": "middle_volga_nizhny_kazan_simbirsk_penza", "Saratov-Russia": "volga_steppe_samara_and_saratov", "Samara-Russia": "volga_steppe_samara_and_saratov", "Tsaritsyn-Russia": "volga_steppe_samara_and_saratov", "Pokrovskaya Sloboda-Russia": "volga_steppe_samara_and_saratov", "Volsk-Russia": "volga_steppe_samara_and_saratov", "Kamyshin-Russia": "volga_steppe_samara_and_saratov", "Astrakhan-Russia": "lower_volga_astrakhan_governorate", "Tsarev-Russia": "lower_volga_astrakhan_governorate", "Cherny Yar-Russia": "lower_volga_astrakhan_governorate", "Krasny Yar-Russia": "lower_volga_astrakhan_governorate", "Khanskaya Stavka-Russia": "lower_volga_astrakhan_governorate", "Rostov-on-Don-Russia": "don_cossack_host_oblast", "Novocherkassk-Russia": "don_cossack_host_oblast", "Taganrog-Russia": "don_cossack_host_oblast", "Aleksandrovsk-Grushevsky-Russia": "don_cossack_host_oblast", "Kamenskaya-Russia": "don_cossack_host_oblast", "Ekaterinodar-Russia": "caucasus_kuban_and_black_sea", "Novorossiysk-Russia": "caucasus_kuban_and_black_sea", "Maykop-Russia": "caucasus_kuban_and_black_sea", "Armavir-Russia": "caucasus_kuban_and_black_sea", "Yeysk-Russia": "caucasus_kuban_and_black_sea", "Sochi-Russia": "caucasus_kuban_and_black_sea", "Vladikavkaz-Russia": "caucasus_stavropol_and_terek", "Stavropol-Russia": "caucasus_stavropol_and_terek", "Grozny-Russia": "caucasus_stavropol_and_terek", "Pyatigorsk-Russia": "caucasus_stavropol_and_terek", "Georgievsk-Russia": "caucasus_stavropol_and_terek", "Mozdok-Russia": "caucasus_stavropol_and_terek", "Petrovsk-Port-Russia": "caucasus_dagestan_oblast", "Derbent-Russia": "caucasus_dagestan_oblast", "Temir-Khan-Shura-Russia": "caucasus_dagestan_oblast", "Khunzakh-Russia": "caucasus_dagestan_oblast", "Ekaterinburg-Russia": "northern_urals_perm_and_vyatka", "Perm-Russia": "northern_urals_perm_and_vyatka", "Izhevsky Zavod-Russia": "northern_urals_perm_and_vyatka", "Vyatka-Russia": "northern_urals_perm_and_vyatka", "Nizhny Tagil-Russia": "northern_urals_perm_and_vyatka", "Sarapul-Russia": "northern_urals_perm_and_vyatka", "Orenburg-Russia": "southern_urals_ufa_and_orenburg", "Ufa-Russia": "southern_urals_ufa_and_orenburg", "Chelyabinsk-Russia": "southern_urals_ufa_and_orenburg", "Troitsk-Russia": "southern_urals_ufa_and_orenburg", "Zlatoust-Russia": "southern_urals_ufa_and_orenburg", "Sterlitamak-Russia": "southern_urals_ufa_and_orenburg", "Omsk-Russia": "siberia_west_transsiberian_tobolsk_omsk", "Tyumen-Russia": "siberia_west_transsiberian_tobolsk_omsk", "Kurgan-Russia": "siberia_west_transsiberian_tobolsk_omsk", "Ishim-Russia": "siberia_west_transsiberian_tobolsk_omsk", "Tara-Russia": "siberia_west_transsiberian_tobolsk_omsk", "Tobolsk-Russia": "siberia_ob_irtysh_river_north", "Berezov-Russia": "siberia_ob_irtysh_river_north", "Surgut-Russia": "siberia_ob_irtysh_river_north", "Obdorsk-Russia": "siberia_ob_irtysh_river_north", "Narym-Russia": "siberia_ob_irtysh_river_north", "Tomsk-Russia": "siberia_tomsk_rail_and_altai_cabinet", "Novonikolaevsk-Russia": "siberia_tomsk_rail_and_altai_cabinet", "Barnaul-Russia": "siberia_tomsk_rail_and_altai_cabinet", "Biysk-Russia": "siberia_tomsk_rail_and_altai_cabinet", "Mariinsk-Russia": "siberia_tomsk_rail_and_altai_cabinet", "Kuznetsk-Russia": "siberia_tomsk_rail_and_altai_cabinet", "Minusinsk-Russia": "siberia_altai_sayan_and_uriankhai_1914", "Ulala-Russia": "siberia_altai_sayan_and_uriankhai_1914", "Ust-Abakanskoe-Russia": "siberia_altai_sayan_and_uriankhai_1914", "Belotsarsk-Russia": "siberia_altai_sayan_and_uriankhai_1914", "Irkutsk-Russia": "siberia_central_transsiberian_krasnoyarsk_irkutsk", "Krasnoyarsk-Russia": "siberia_central_transsiberian_krasnoyarsk_irkutsk", "Kansk-Russia": "siberia_central_transsiberian_krasnoyarsk_irkutsk", "Achinsk-Russia": "siberia_central_transsiberian_krasnoyarsk_irkutsk", "Nizhneudinsk-Russia": "siberia_central_transsiberian_krasnoyarsk_irkutsk", "Yeniseysk-Russia": "siberia_yenisei_turukhansk_and_lena_gold", "Bodaibo-Russia": "siberia_yenisei_turukhansk_and_lena_gold", "Kirensk-Russia": "siberia_yenisei_turukhansk_and_lena_gold", "Turukhansk-Russia": "siberia_yenisei_turukhansk_and_lena_gold", "Chita-Russia": "siberia_transbaikal_and_yakutsk", "Verkhneudinsk-Russia": "siberia_transbaikal_and_yakutsk", "Troitskosavsk-Russia": "siberia_transbaikal_and_yakutsk", "Nerchinsk-Russia": "siberia_transbaikal_and_yakutsk", "Yakutsk-Russia": "siberia_transbaikal_and_yakutsk", "Petropavlovsk-Russia": "siberia_transbaikal_and_yakutsk", "Vladivostok-Russia": "far_east_priamurye_amur_primorskaya_sakhalin", "Blagoveshchensk-Russia": "far_east_priamurye_amur_primorskaya_sakhalin", "Khabarovsk-Russia": "far_east_priamurye_amur_primorskaya_sakhalin", "Nikolsk-Ussuriysky-Russia": "far_east_priamurye_amur_primorskaya_sakhalin", "Nikolaevsk-on-Amur-Russia": "far_east_priamurye_amur_primorskaya_sakhalin", "Aleksandrovsky Post-Russia": "far_east_priamurye_amur_primorskaya_sakhalin"}', simplifyVector = FALSE)
+summary_meta <- jsonlite::fromJSON((if (file.exists("imperial_russia_post_1815_summary.json")) "imperial_russia_post_1815_summary.json" else "../../_shared/_gis_cache/imperial_russia_post_1815_summary.json"), simplifyVector = FALSE)
+
+fmt_eu_pop <- function (val) {
+  if (is.null(val) || is.na(val)) return("-")
+  v <- as.numeric(val)
+  if (v <= 0) return("-")
+  if (v >= 1000000) {
+    m <- round(v / 1000000, 2)
+    s <- gsub("\\.", ",", format(m, nsmall = 2, trim = TRUE))
+    s <- sub(",00$", "", s)
+    s <- sub("^(,[0-9])0$", "\\1", s)
+    s <- sub("(,[1-9])0$", "\\1", s)
+    return(paste0(s, "M"))
+  }
+  if (v >= 1000) {
+    k <- round(v / 1000, 1)
+    if (k == floor(k)) {
+      return(paste0(formatC(as.integer(k), format = "d", big.mark = "."), "k"))
+    }
+    return(paste0(gsub("\\.", ",", format(k, nsmall = 1, trim = TRUE)), "k"))
+  }
+  return(as.character(as.integer(round(v))))
+}
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+get_entry_pop <- function (entry, yr_str) {
+  p <- entry$population[[yr_str]]
+  if (is.null(p)) return(NA_real_)
+  as.numeric(p)
+}
+
+clean_reg_short <- function (nm) {
+  s <- sub("\\s*\\(.*$", "", as.character(nm))
+  s <- gsub("Governorates", "Gubs.", s, fixed = TRUE)
+  s <- gsub("Governorate", "Gub.", s, fixed = TRUE)
+  s <- gsub("Province of the ", "", s, fixed = TRUE)
+  s <- gsub("Governor-Generalship", "Gov.-Gen.", s, fixed = TRUE)
+  trimws(s)
+}
+
+hyphenate_post1815_words <- function (s) {
+  s <- as.character(s)
+  s <- gsub("Blagoveshchensk", "Blagovesh-chensk", s, fixed = TRUE)
+  s <- gsub("Verkhneudinsk", "Verkhne-udinsk", s, fixed = TRUE)
+  s <- gsub("Petropavlovskaya", "Petropavlov-skaya", s, fixed = TRUE)
+  s <- gsub("Petropavlovsk", "Petropav-lovsk", s, fixed = TRUE)
+  s <- gsub("Novonikolaevsk", "Novonikola-evsk", s, fixed = TRUE)
+  s <- gsub("Troitskosavsk", "Troitsko-savsk", s, fixed = TRUE)
+  s <- gsub("Aleksandrovsky", "Aleksandrov-sky", s, fixed = TRUE)
+  s
+}
+
+build_region_df <- function (reg_slug) {
+  sub_list <- Filter(function (e) identical(as.character(reg48_map[[e$key]]), as.character(reg_slug)), all_entries)
+  rows <- lapply(sub_list, function (e) {
+    raw_oth <- if (length(e$other_names) > 0) unlist(e$other_names) else character(0)
+    if (length(raw_oth) > 1) {
+      oth <- paste(head(raw_oth, 2L), collapse = "; ")
+    } else if (length(raw_oth) == 1) {
+      oth <- raw_oth[1]
+    } else {
+      oth <- "-"
+    }
+    coords_span <- paste0(
+      fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]),
+      " (", e$country, ")"
+    )
+    data.frame(
+      `Settlement` = hyphenate_post1815_words(e$name),
+      `Historical / Local Names` = hyphenate_post1815_words(oth),
+      `Coords & Country` = coords_span,
+      `1815AD` = fmt_eu_pop(get_entry_pop(e, "1815")),
+      `1858AD` = fmt_eu_pop(get_entry_pop(e, "1858")),
+      `1897AD` = fmt_eu_pop(get_entry_pop(e, "1897")),
+      `1914AD` = fmt_eu_pop(get_entry_pop(e, "1914")),
+      `1917AD` = fmt_eu_pop(get_entry_pop(e, "1917")),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, rows)
+}
+```
+
+# Abstract
+
+This gazetteer compiles population estimates for 265 cities, industrial towns, railway junctions and ports across the 48 provinces of Late Imperial Russia and Austro-Hungarian Ukraine at five benchmark dates between the Congress of Vienna in 1815AD and the Russian Revolution of 1917AD. Before the emancipation of the serfs in the 1860s, urban growth remained modest outside Saint Petersburg, Moscow, Warsaw, Odessa and Riga. Over the next half-century, railway building, coal and steel works in the Donbas and Congress Poland, the Grozny and Boryslav oil booms and peasant migration along the Trans-Siberian line transformed the urban map. By 1914AD, Saint Petersburg (2,12M) and Moscow (1,76M) led an urban network that included Warsaw (884,5k), Odessa (630k), Kyiv (626,3k), Riga (517,5k) and the textile and mining boomtowns of Lodz (477,9k), Sosnowiec (118,5k) and Yuzovka (54k), before the First World War emptied frontline cities in Poland, Courland and Lithuania and swelled interior towns with more than 6M refugees [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Gatrell1999].
+
+# Methodology
+
+This gazetteer traces the population histories of 265 towns, industrial centres, ports and fortresses across the 48 provinces of Late Imperial Russia and Austro-Hungarian Ukraine (excluding Central Asia and the Southern Caucasus) from the Congress of Vienna in 1815AD to the revolutions of 1917AD. Each town is listed under its historical name alongside its local and modern equivalents, geographic coordinates and population estimates for 1815AD, 1858AD, 1897AD, 1914AD and 1917AD.
+
+The town figures draw on the main fiscal and statistical surveys of the nineteenth and early twentieth centuries: the Seventh (1815-1816AD), Eighth (1833-1835AD) and Tenth (1857-1858AD) Imperial Soul Revisions and Ministry of Internal Affairs town tables [@Troinitsky1861; @Kabuzan1971; @Rashin1956], the First All-Russian General Census of 28 January 1897AD across all 89 provincial volumes and its companion register of settlements over 500 inhabitants [@Troinitsky1905; @Troinitsky1905Goroda], the 1 January 1914AD yearbooks of the Central Statistical Committee and the Warsaw Statistical Committee [@TsSK1915; @WarsawStat1914], the ten-year censuses of the Finnish Statistical Office [@FinlandStat1870_1915], the Austrian and Hungarian censuses of 1869-1910AD for Galicia, Bukovina and Subcarpathia [@OsterreichischeStatistik1912; @MagyarStatisztika1912] and the 1916-1917AD All-Russian Urban and Agricultural Censuses paired with Tatiana Committee wartime refugee records [@AgCensus1917; @Gatrell1999]. Industrial, coal-mining, railway and northern ports founded after 1815AD - such as Bodaibo (1864AD), Yuzovka (1869AD), Novonikolaevsk (1893AD), Belotsarsk (1914AD) and Romanov-on-Murman (1916AD) - are marked `-` at dates prior to their establishment.
+
+```{r fig1-md-only, echo=FALSE, results='asis'}
+if (!knitr::is_latex_output()) {
+  render_figure_template(
+    "figures/imperial_russia_post_1815_regional_map.png",
+    list(
+      caption = "The 48 provinces and 265 catalogued cities, industrial centres, railway junctions and ports across Late Imperial Russia and Austro-Hungarian Ukraine from 1815AD to 1917AD.",
+      label = "fig:hero-map",
+      span_columns = TRUE
+    )
+  )
+}
+```
+
+# Results
+
+## Warsaw, Plock and Lomza Governorates
+
+Table \ref{tab:reg1-sites} gives the populations of the 6 principal towns in the Warsaw, Plock and Lomza governorates, where the regional population grew from 1,02M in 1815AD to 3,54M in 1897AD and 5,05M in 1914AD before falling to 4,42M in 1917AD during the First World War [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+
+```{r table-reg1, echo=FALSE, results='asis'}
+df_reg1 <- build_region_df("poland_warsaw_plock_lomza")
+render_table_template(
+  df_reg1,
+  list(
+    caption = "Populations of Warsaw, the linen-mill town of Zyrardow, the Vistula river ports of Wloclawek and Plock and the northern Mazovian district seats, 1815AD - 1917AD.",
+    label = "tab:reg1-sites"
+  )
+)
+```
+
+## Piotrkow and Kalisz Governorates
+
+Table \ref{tab:reg2-sites} gives the populations of the 7 principal towns in the Piotrkow and Kalisz governorates, where the regional population rose from 720k in 1815AD to 2,25M in 1897AD and 3,32M in 1914AD before dropping to 2,95M in 1917AD [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+
+```{r table-reg2, echo=FALSE, results='asis'}
+df_reg2 <- build_region_df("poland_piotrkow_and_kalisz")
+render_table_template(
+  df_reg2,
+  list(
+    caption = "Populations of the cotton-mill metropolis of Lodz and Pabianice, the Dabrowa coal-and-steel towns of Sosnowiec, Czestochowa and Bendzin and the border seat of Kalisz, 1815AD - 1917AD.",
+    label = "tab:reg2-sites"
+  )
+)
+```
+
+## Lublin and Siedlce Governorates
+
+Table \ref{tab:reg3-sites} gives the populations of the 5 principal towns in the Lublin and Siedlce governorates (including the 1912AD Kholm Governorate), where the regional population grew from 780k in 1815AD to 1,93M in 1897AD and 2,68M in 1914AD before the 1915AD evacuation reduced it to 2,08M in 1917AD [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+
+```{r table-reg3, echo=FALSE, results='asis'}
+df_reg3 <- build_region_df("poland_lublin_siedlce_kholm")
+render_table_template(
+  df_reg3,
+  list(
+    caption = "Populations of Lublin, the railway junction of Siedlce, the fortress town of Zamosc, Biala Podlaska and Kholm (detached as a separate governorate in 1912AD), 1815AD - 1917AD.",
+    label = "tab:reg3-sites"
+  )
+)
+```
+
+## Radom, Kielce and Suwalki Governorates
+
+Table \ref{tab:reg4-sites} gives the populations of the 5 principal towns in the Radom, Kielce and Suwalki governorates, where the regional population grew from 780k in 1815AD to 2,16M in 1897AD and 2,6M in 1914AD before falling to 2,18M in 1917AD [@WarsawStat1914; @Troinitsky1905Goroda; @Corrsin1989; @Gatrell1999].
+
+```{r table-reg4, echo=FALSE, results='asis'}
+df_reg4 <- build_region_df("poland_radom_kielce_suwalki")
+render_table_template(
+  df_reg4,
+  list(
+    caption = "Populations of Radom, Kielce, the Kamienna valley ironworks town of Ostrowiec and the northern Lithuanian-Polish border towns of Suwalki and Mariampol, 1815AD - 1917AD.",
+    label = "tab:reg4-sites"
+  )
+)
+```
+
+## Estland Governorate
+
+Table \ref{tab:reg5-sites} gives the populations of the 4 principal towns in Estland Governorate, where the regional population grew from 232k in 1815AD to 413k in 1897AD, 505k in 1914AD and 515k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
+
+```{r table-reg5, echo=FALSE, results='asis'}
+df_reg5 <- build_region_df("ostsee_estland_governorate")
+render_table_template(
+  df_reg5,
+  list(
+    caption = "Populations of the Baltic port and naval shipyard city of Reval (Tallinn), the Kreenholm cotton-mill town of Narva, Wesenberg and the coastal resort of Hapsal, 1815AD - 1917AD.",
+    label = "tab:reg5-sites"
+  )
+)
+```
+
+## Livland Governorate
+
+Table \ref{tab:reg6-sites} gives the populations of the 6 principal towns in Livland Governorate, where the regional population rose from 615k in 1815AD to 1,3M in 1897AD and 1,56M in 1914AD before wartime factory evacuations from Riga reduced it to 1,42M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
+
+```{r table-reg6, echo=FALSE, results='asis'}
+df_reg6 <- build_region_df("ostsee_livland_governorate")
+render_table_template(
+  df_reg6,
+  list(
+    caption = "Populations of the port and industrial city of Riga, the university town of Dorpat (Tartu), the timber port of Pernau, the railway junction of Walk and Livland's district towns, 1815AD - 1917AD.",
+    label = "tab:reg6-sites"
+  )
+)
+```
+
+## Courland Governorate
+
+Table \ref{tab:reg7-sites} gives the populations of the 5 principal towns in Courland Governorate, where the regional population rose from 418k in 1815AD to 674k in 1897AD and 800k in 1914AD before the 1915AD German occupation and refugee flight halved it to 380k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Gortfelder2023BalticFertility; @Gatrell1999].
+
+```{r table-reg7, echo=FALSE, results='asis'}
+df_reg7 <- build_region_df("ostsee_courland_governorate")
+render_table_template(
+  df_reg7,
+  list(
+    caption = "Populations of the ice-free emigrant and naval port of Libau (Liepaja), the provincial capital of Mitau (Jelgava), the rail port of Windau (Ventspils), Goldingen and Jakobstadt, 1815AD - 1917AD.",
+    label = "tab:reg7-sites"
+  )
+)
+```
+
+## Southern Finland: Nyland, Abo-Bjorneborg, Tavastehus and Vyborg
+
+Table \ref{tab:reg8-sites} gives the populations of the 6 principal towns in southern Finland (Nyland, Abo-Bjorneborg, Tavastehus and Vyborg provinces), where the regional population grew from 590k in 1815AD to 1,43M in 1897AD, 1,84M in 1914AD and 1,89M in 1917AD [@FinlandStat1870_1915; @Pitkanen1993; @Luostarinen2026FinlandMortality].
+
+```{r table-reg8, echo=FALSE, results='asis'}
+df_reg8 <- build_region_df("finland_southern_nyland_abo_vyborg")
+render_table_template(
+  df_reg8,
+  list(
+    caption = "Populations of the Finnish capital of Helsingfors (Helsinki), the port of Abo (Turku), the textile and paper-mill centre of Tammerfors (Tampere), Viipuri (Vyborg) and the sawmill ports of Bjorneborg and Kotka, 1815AD - 1917AD.",
+    label = "tab:reg8-sites"
+  )
+)
+```
+
+## Interior and Northern Finland: Vasa, Kuopio, Sankt-Michel and Uleaborg
+
+Table \ref{tab:reg9-sites} gives the populations of the 5 principal towns in interior and northern Finland (Vasa, Kuopio, Sankt-Michel and Uleaborg provinces), where the regional population rose from 520k in 1815AD to 1,13M in 1897AD, 1,4M in 1914AD and 1,43M in 1917AD [@FinlandStat1870_1915; @Pitkanen1993; @Luostarinen2026FinlandMortality].
+
+```{r table-reg9, echo=FALSE, results='asis'}
+df_reg9 <- build_region_df("finland_northern_vasa_kuopio_oulu")
+render_table_template(
+  df_reg9,
+  list(
+    caption = "Populations of the Gulf of Bothnia ports of Vasa, Uleaborg (Oulu) and Gamlakarleby and the interior lake towns of Kuopio and Sankt-Michel (Mikkeli), 1815AD - 1917AD.",
+    label = "tab:reg9-sites"
+  )
+)
+```
+
+## Kovno Governorate
+
+Table \ref{tab:reg10-sites} gives the populations of the 5 principal towns in Kovno Governorate, where the regional population grew from 660k in 1815AD to 1,54M in 1897AD and 1,84M in 1914AD before falling to 1,32M in 1917AD during the First World War [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+
+```{r table-reg10, echo=FALSE, results='asis'}
+df_reg10 <- build_region_df("nw_krai_kovno_lithuania")
+render_table_template(
+  df_reg10,
+  list(
+    caption = "Populations of the Niemen river fortress city of Kovno (Kaunas), the leather-working and railway town of Shavli (Siauliai) and the Lithuanian district seats of Ponevezh, Telshi and Vilkomir, 1815AD - 1917AD.",
+    label = "tab:reg10-sites"
+  )
+)
+```
+
+## Vilna and Grodno Governorates
+
+Table \ref{tab:reg11-sites} gives the populations of the 6 principal towns in the Vilna and Grodno governorates, where the regional population grew from 1,15M in 1815AD to 3,19M in 1897AD and 3,94M in 1914AD before the 1915AD retreat reduced it to 2,88M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+
+```{r table-reg11, echo=FALSE, results='asis'}
+df_reg11 <- build_region_df("nw_krai_vilna_and_grodno")
+render_table_template(
+  df_reg11,
+  list(
+    caption = "Populations of Vilna (Vilnius), the woollen-mill boomtown of Bialystok, Grodno, the Bug fortress and railway junction of Brest-Litovsk, Slonim and Lida, 1815AD - 1917AD.",
+    label = "tab:reg11-sites"
+  )
+)
+```
+
+## Minsk Governorate and Pripyat Polesia
+
+Table \ref{tab:reg12-sites} gives the populations of the 6 principal towns in Minsk Governorate, where the regional population grew from 920k in 1815AD to 2,15M in 1897AD and 3,04M in 1914AD before dipping to 2,89M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+
+```{r table-reg12, echo=FALSE, results='asis'}
+df_reg12 <- build_region_df("nw_krai_minsk_governorate")
+render_table_template(
+  df_reg12,
+  list(
+    caption = "Populations of Minsk, the Berezina fortress town of Bobruisk, the Pripyat waterway port of Pinsk, the railway junction of Baranovichi, Borisov and Mozyr, 1815AD - 1917AD.",
+    label = "tab:reg12-sites"
+  )
+)
+```
+
+## Vitebsk and Mogilev Governorates
+
+Table \ref{tab:reg13-sites} gives the populations of the 6 principal towns in the Vitebsk and Mogilev governorates, where the regional population grew from 1,25M in 1815AD to 3,18M in 1897AD and 4,02M in 1914AD before edging down to 3,86M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rowland1986; @Gatrell1999].
+
+```{r table-reg13, echo=FALSE, results='asis'}
+df_reg13 <- build_region_df("nw_krai_vitebsk_and_mogilev")
+render_table_template(
+  df_reg13,
+  list(
+    caption = "Populations of the railway and fortress city of Dvinsk (Daugavpils), Vitebsk, Mogilev (site of the 1915-1917AD Russian army headquarters), the rail hub of Gomel, Polotsk and Rezhitsa, 1815AD - 1917AD.",
+    label = "tab:reg13-sites"
+  )
+)
+```
+
+## Austro-Hungarian Eastern Galicia
+
+Table \ref{tab:reg14-sites} gives the populations of the 6 principal towns in Eastern Galicia, where the regional population grew from 2,58M in 1815AD to 4,42M in 1897AD and 5,02M in 1914AD before fighting on the Carpathian and Galician fronts reduced it to 4,45M in 1917AD [@OsterreichischeStatistik1912; @MagyarStatisztika1912; @Himka1988; @Gatrell1999].
+
+```{r table-reg14, echo=FALSE, results='asis'}
+df_reg14 <- build_region_df("habsburg_eastern_galicia")
+render_table_template(
+  df_reg14,
+  list(
+    caption = "Populations of the Galician capital of Lemberg (Lviv), the oil-basin boomtowns of Drohobych and Boryslav and the rail and market centres of Tarnopol, Stanislau and Kolomyia, 1815AD - 1917AD.",
+    label = "tab:reg14-sites"
+  )
+)
+```
+
+## Austro-Hungarian Bukovina and Subcarpathian Rus
+
+Table \ref{tab:reg15-sites} gives the populations of the 5 principal towns in Bukovina and Subcarpathian Rus, where the regional population rose from 770k in 1815AD to 1,4M in 1897AD and 1,63M in 1914AD before falling to 1,5M in 1917AD [@OsterreichischeStatistik1912; @MagyarStatisztika1912; @Himka1988; @Gatrell1999].
+
+```{r table-reg15, echo=FALSE, results='asis'}
+df_reg15 <- build_region_df("habsburg_bukovina_and_carpathian_rus")
+render_table_template(
+  df_reg15,
+  list(
+    caption = "Populations of the Bukovinian university and provincial capital of Czernowitz (Chernivtsi) and the Hungarian Subcarpathian county towns of Ungvar, Munkacs, Beregszasz and Huszt, 1815AD - 1917AD.",
+    label = "tab:reg15-sites"
+  )
+)
+```
+
+## Bessarabia Governorate
+
+Table \ref{tab:reg16-sites} gives the populations of the 6 principal towns in Bessarabia Governorate, where the regional population grew from 385k in 1815AD to 1,94M in 1897AD and 2,66M in 1914AD (2,62M in 1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+
+```{r table-reg16, echo=FALSE, results='asis'}
+df_reg16 <- build_region_df("bessarabia_governorate")
+render_table_template(
+  df_reg16,
+  list(
+    caption = "Populations of the provincial capital of Kishinev (Chisinau), the Dniester fortress towns of Bender, Akkerman and Khotin, the Danube port of Ismail and the northern market town of Beltsy, 1815AD - 1917AD.",
+    label = "tab:reg16-sites"
+  )
+)
+```
+
+## Volhynia Governorate
+
+Table \ref{tab:reg17-sites} gives the populations of the 5 principal towns in Volhynia Governorate, where the regional population rose from 1,52M in 1815AD to 2,99M in 1897AD and 4,12M in 1914AD before Southwestern Front fighting lowered it to 3,68M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+
+```{r table-reg17, echo=FALSE, results='asis'}
+df_reg17 <- build_region_df("sw_krai_volhynia_governorate")
+render_table_template(
+  df_reg17,
+  list(
+    caption = "Populations of the provincial seat of Zhitomir, the strategic railway junctions of Rovno and Kovel, the Styr fortress town of Lutsk and Kremenets, 1815AD - 1917AD.",
+    label = "tab:reg17-sites"
+  )
+)
+```
+
+## Podolia Governorate
+
+Table \ref{tab:reg18-sites} gives the populations of the 5 principal towns in Podolia Governorate, where the regional population grew from 1,44M in 1815AD to 3,02M in 1897AD and 3,98M in 1914AD (3,82M in 1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+
+```{r table-reg18, echo=FALSE, results='asis'}
+df_reg18 <- build_region_df("sw_krai_podolia_governorate")
+render_table_template(
+  df_reg18,
+  list(
+    caption = "Populations of Kamenets-Podolsky, the South-Western Railway towns of Vinnitsa and Proskurov, the cattle-and-grain fair town of Balta and the Dniester crossing of Mogilev-Podolsky, 1815AD - 1917AD.",
+    label = "tab:reg18-sites"
+  )
+)
+```
+
+## Kyiv Governorate
+
+Table \ref{tab:reg19-sites} gives the populations of the 5 principal towns in Kyiv Governorate, where the regional population grew from 940k in 1815AD to 3,56M in 1897AD, 4,78M in 1914AD and 4,84M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Perlmann2006PaleEmigration; @Gatrell1999].
+
+```{r table-reg19, echo=FALSE, results='asis'}
+df_reg19 <- build_region_df("sw_krai_kyiv_governorate")
+render_table_template(
+  df_reg19,
+  list(
+    caption = "Populations of Kyiv, the commercial and banking town of Berdichev, the sugar-refining centres of Bila Tserkva and Cherkassy and Uman, 1815AD - 1917AD.",
+    label = "tab:reg19-sites"
+  )
+)
+```
+
+## Chernigov and Poltava Governorates
+
+Table \ref{tab:reg20-sites} gives the populations of the 6 principal towns in the Chernigov and Poltava governorates, where the regional population rose from 3,35M in 1815AD to 5,08M in 1897AD, 6,65M in 1914AD and 6,72M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+
+```{r table-reg20, echo=FALSE, results='asis'}
+df_reg20 <- build_region_df("malorossiya_chernigov_and_poltava")
+render_table_template(
+  df_reg20,
+  list(
+    caption = "Populations of the Dnieper timber and tobacco port of Kremenchug, the provincial capitals of Poltava and Chernigov, the railway workshop town of Konotop and the market towns of Nezhin and Romny, 1815AD - 1917AD.",
+    label = "tab:reg20-sites"
+  )
+)
+```
+
+## Kharkov Governorate
+
+Table \ref{tab:reg21-sites} gives the populations of the 5 principal towns in Kharkov Governorate, where the regional population grew from 1,1M in 1815AD to 2,49M in 1897AD, 3,44M in 1914AD and 3,51M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+
+```{r table-reg21, echo=FALSE, results='asis'}
+df_reg21 <- build_region_df("sloboda_kharkov_governorate")
+render_table_template(
+  df_reg21,
+  list(
+    caption = "Populations of the university, railway and locomotive-building city of Kharkov, the sugar-refining centre of Sumy, the salt-and-soda works town of Slavyansk, Akhtyrka and Izyum, 1815AD - 1917AD.",
+    label = "tab:reg21-sites"
+  )
+)
+```
+
+## Kherson Governorate
+
+Table \ref{tab:reg22-sites} gives the populations of the 5 principal towns in Kherson Governorate, where the regional population grew more than sixfold from 620k in 1815AD to 2,73M in 1897AD, 3,75M in 1914AD and 3,78M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+
+```{r table-reg22, echo=FALSE, results='asis'}
+df_reg22 <- build_region_df("novorossiya_kherson_governorate")
+render_table_template(
+  df_reg22,
+  list(
+    caption = "Populations of the Black Sea grain port of Odessa, the naval shipyard city of Nikolaev, the agricultural-machinery centre of Elisavetgrad, Kherson and the Dniester garrison of Tiraspol, 1815AD - 1917AD.",
+    label = "tab:reg22-sites"
+  )
+)
+```
+
+## Ekaterinoslav Governorate
+
+Table \ref{tab:reg23-sites} gives the populations of the 7 principal towns in Ekaterinoslav Governorate, where the regional population rose from 820k in 1815AD to 2,11M in 1897AD, 3,45M in 1914AD and 3,58M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+
+```{r table-reg23, echo=FALSE, results='asis'}
+df_reg23 <- build_region_df("novorossiya_ekaterinoslav_governorate")
+render_table_template(
+  df_reg23,
+  list(
+    caption = "Populations of the iron-and-steel city of Ekaterinoslav, the Donbas coal and metallurgical boomtowns of Yuzovka, Lugansk and Bakhmut, the iron-ore centre of Krivoy Rog, the Sea of Azov port of Mariupol and Aleksandrovsk, 1815AD - 1917AD.",
+    label = "tab:reg23-sites"
+  )
+)
+```
+
+## Taurida Governorate
+
+Table \ref{tab:reg24-sites} gives the populations of the 6 principal towns in Taurida Governorate, where the regional population grew from 370k in 1815AD to 1,45M in 1897AD, 2,06M in 1914AD and 2,08M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Friedgut1989].
+
+```{r table-reg24, echo=FALSE, results='asis'}
+df_reg24 <- build_region_df("novorossiya_taurida_governorate")
+render_table_template(
+  df_reg24,
+  list(
+    caption = "Populations of the Black Sea Fleet base of Sevastopol, the provincial seat of Simferopol, the Crimean and Azov grain ports of Kerch, Feodosiya and Berdyansk and the railway town of Melitopol, 1815AD - 1917AD.",
+    label = "tab:reg24-sites"
+  )
+)
+```
+
+## Saint Petersburg Governorate
+
+Table \ref{tab:reg25-sites} gives the populations of the 5 principal towns in Saint Petersburg Governorate, where the regional population grew from 760k in 1815AD to 2,11M in 1897AD, 3,15M in 1914AD and 3,38M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg25, echo=FALSE, results='asis'}
+df_reg25 <- build_region_df("capital_st_petersburg_governorate")
+render_table_template(
+  df_reg25,
+  list(
+    caption = "Populations of the Imperial capital of Saint Petersburg (Petrograd), the island naval fortress of Kronstadt, the palace towns of Tsarskoe Selo and Gatchina and Luga, 1815AD - 1917AD.",
+    label = "tab:reg25-sites"
+  )
+)
+```
+
+## Novgorod, Pskov and Olonets Governorates
+
+Table \ref{tab:reg26-sites} gives the populations of the 6 principal towns in the Novgorod, Pskov and Olonets governorates, where the regional population grew from 1,77M in 1815AD to 2,85M in 1897AD, 3,58M in 1914AD and 3,68M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg26, echo=FALSE, results='asis'}
+df_reg26 <- build_region_df("lakes_novgorod_pskov_olonets")
+render_table_template(
+  df_reg26,
+  list(
+    caption = "Populations of Pskov, Novgorod, the spa and garrison town of Staraya Russa, the Onega ironworks seat of Petrozavodsk, the railway junction of Velikie Luki and the Mariinsk Canal port of Cherepovets, 1815AD - 1917AD.",
+    label = "tab:reg26-sites"
+  )
+)
+```
+
+## Arkhangelsk and Vologda Governorates
+
+Table \ref{tab:reg27-sites} gives the populations of the 5 principal towns in the Arkhangelsk and Vologda governorates, where the regional population rose from 920k in 1815AD to 1,69M in 1897AD, 2,22M in 1914AD and 2,28M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg27, echo=FALSE, results='asis'}
+df_reg27 <- build_region_df("european_north_arkhangelsk_vologda")
+render_table_template(
+  df_reg27,
+  list(
+    caption = "Populations of the dairy and railway hub of Vologda, the White Sea timber port of Arkhangelsk, Veliky Ustyug, Ust-Sysolsk and the ice-free Arctic rail terminus of Romanov-on-Murman (Murmansk, founded 1916AD), 1815AD - 1917AD.",
+    label = "tab:reg27-sites"
+  )
+)
+```
+
+## Moscow Governorate
+
+Table \ref{tab:reg28-sites} gives the populations of the 5 principal towns in Moscow Governorate, where the regional population grew from 1,12M in 1815AD to 2,43M in 1897AD, 3,56M in 1914AD and 3,82M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg28, echo=FALSE, results='asis'}
+df_reg28 <- build_region_df("capital_moscow_governorate")
+render_table_template(
+  df_reg28,
+  list(
+    caption = "Populations of Moscow, the cotton-weaving cities of Orekhovo-Zuevo, Serpukhov and Bogorodsk and the locomotive-building town of Kolomna, 1815AD - 1917AD.",
+    label = "tab:reg28-sites"
+  )
+)
+```
+
+## Central Industrial Ring: Vladimir, Yaroslavl, Kostroma, Tver, Smolensk and Kaluga Governorates
+
+Table \ref{tab:reg29-sites} gives the populations of the 8 principal towns in the Central Industrial Ring governorates (Vladimir, Yaroslavl, Kostroma, Tver, Smolensk and Kaluga), where the regional population rose from 6,75M in 1815AD to 9,16M in 1897AD, 11,52M in 1914AD and 11,88M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg29, echo=FALSE, results='asis'}
+df_reg29 <- build_region_df("central_industrial_ring")
+render_table_template(
+  df_reg29,
+  list(
+    caption = "Populations of the cotton-mill city of Ivanovo-Voznesensk, the upper Volga ports and textile centres of Yaroslavl, Tver, Kostroma and Rybinsk and the provincial seats of Smolensk, Kaluga and Vladimir, 1815AD - 1917AD.",
+    label = "tab:reg29-sites"
+  )
+)
+```
+
+## Western Central Black-Earth Governorates: Kursk, Oryol and Tula
+
+Table \ref{tab:reg30-sites} gives the populations of the 6 principal towns in the Kursk, Oryol and Tula governorates, where the regional population grew from 4,52M in 1815AD to 6,21M in 1897AD, 7,98M in 1914AD and 8,18M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg30, echo=FALSE, results='asis'}
+df_reg30 <- build_region_df("central_black_earth_west")
+render_table_template(
+  df_reg30,
+  list(
+    caption = "Populations of the arms and samovar manufacturing city of Tula, the rail and ordnance centre of Bryansk, the grain-milling town of Yelets and the provincial seats of Kursk, Oryol and Belgorod, 1815AD - 1917AD.",
+    label = "tab:reg30-sites"
+  )
+)
+```
+
+## Eastern Central Black-Earth Governorates: Voronezh, Tambov and Ryazan
+
+Table \ref{tab:reg31-sites} gives the populations of the 6 principal towns in the Voronezh, Tambov and Ryazan governorates, where the regional population rose from 5,12M in 1815AD to 7,04M in 1897AD, 9,22M in 1914AD and 9,45M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg31, echo=FALSE, results='asis'}
+df_reg31 <- build_region_df("central_black_earth_east")
+render_table_template(
+  df_reg31,
+  list(
+    caption = "Populations of Voronezh, Tambov, the railway meat-packing and grain junction of Kozlov (Michurinsk), Ryazan, Morshansk and the iron-mining and spa town of Lipetsk, 1815AD - 1917AD.",
+    label = "tab:reg31-sites"
+  )
+)
+```
+
+## Middle Volga Governorates: Nizhny Novgorod, Kazan, Simbirsk and Penza
+
+Table \ref{tab:reg32-sites} gives the populations of the 6 principal towns in the Nizhny Novgorod, Kazan, Simbirsk and Penza governorates, where the regional population grew from 4,28M in 1815AD to 6,75M in 1897AD, 8,35M in 1914AD and 8,55M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg32, echo=FALSE, results='asis'}
+df_reg32 <- build_region_df("middle_volga_nizhny_kazan_simbirsk_penza")
+render_table_template(
+  df_reg32,
+  list(
+    caption = "Populations of the university and manufacturing city of Kazan, the fair and Sormovo shipyard city of Nizhny Novgorod, Penza, Simbirsk, the Volga rail-bridge port of Syzran and Saransk, 1815AD - 1917AD.",
+    label = "tab:reg32-sites"
+  )
+)
+```
+
+## Samara and Saratov Governorates
+
+Table \ref{tab:reg33-sites} gives the populations of the 6 principal towns in the Samara and Saratov governorates, where the regional population grew more than fourfold from 1,58M in 1815AD to 5,16M in 1897AD, 6,88M in 1914AD and 7,12M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg33, echo=FALSE, results='asis'}
+df_reg33 <- build_region_df("volga_steppe_samara_and_saratov")
+render_table_template(
+  df_reg33,
+  list(
+    caption = "Populations of the lower Volga grain-milling and oil-transshipment ports of Saratov, Samara and Tsaritsyn, the left-bank wheat port of Pokrovskaya Sloboda (Engels), the cement-making town of Volsk and Kamyshin, 1815AD - 1917AD.",
+    label = "tab:reg33-sites"
+  )
+)
+```
+
+## Astrakhan Governorate
+
+Table \ref{tab:reg34-sites} gives the populations of the 5 principal towns in Astrakhan Governorate, where the regional population grew from 380k in 1815AD to 1M in 1897AD, 1,38M in 1914AD and 1,41M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg34, echo=FALSE, results='asis'}
+df_reg34 <- build_region_df("lower_volga_astrakhan_governorate")
+render_table_template(
+  df_reg34,
+  list(
+    caption = "Populations of the Caspian fisheries and oil-shipping port of Astrakhan, the lower Volga river towns of Tsarev, Cherny Yar and Krasny Yar and the Bukey Kazakh administrative seat of Khanskaya Stavka, 1815AD - 1917AD.",
+    label = "tab:reg34-sites"
+  )
+)
+```
+
+## Province of the Don Cossack Host
+
+Table \ref{tab:reg35-sites} gives the populations of the 5 principal towns in the Province of the Don Cossack Host, where the regional population rose nearly sixfold from 680k in 1815AD to 2,56M in 1897AD, 3,88M in 1914AD and 3,94M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-reg35, echo=FALSE, results='asis'}
+df_reg35 <- build_region_df("don_cossack_host_oblast")
+render_table_template(
+  df_reg35,
+  list(
+    caption = "Populations of the commercial port and rail hub of Rostov-on-Don, the Azov grain and steel port of Taganrog, the Don Cossack capital of Novocherkassk, the anthracite-mining town of Aleksandrovsk-Grushevsky (Shakhty) and Kamenskaya, 1815AD - 1917AD.",
+    label = "tab:reg35-sites"
+  )
+)
+```
+
+## Kuban Oblast and Black Sea Governorate
+
+Table \ref{tab:reg36-sites} gives the populations of the 6 principal towns in Kuban Oblast and the Black Sea Governorate, where the regional population grew from 420k in 1815AD to 1,98M in 1897AD, 3,06M in 1914AD and 3,12M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
+
+```{r table-reg36, echo=FALSE, results='asis'}
+df_reg36 <- build_region_df("caucasus_kuban_and_black_sea")
+render_table_template(
+  df_reg36,
+  list(
+    caption = "Populations of the Kuban Cossack capital of Ekaterinodar, the Black Sea grain and cement port of Novorossiysk, the Azov port of Yeysk, the oil and timber town of Maykop, the railway boomtown of Armavir and Sochi, 1815AD - 1917AD.",
+    label = "tab:reg36-sites"
+  )
+)
+```
+
+## Stavropol Governorate and Terek Oblast
+
+Table \ref{tab:reg37-sites} gives the populations of the 6 principal towns in Stavropol Governorate and Terek Oblast, where the regional population grew from 545k in 1815AD to 1,81M in 1897AD, 2,61M in 1914AD and 2,65M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
+
+```{r table-reg37, echo=FALSE, results='asis'}
+df_reg37 <- build_region_df("caucasus_stavropol_and_terek")
+render_table_template(
+  df_reg37,
+  list(
+    caption = "Populations of the Georgian Military Road terminus of Vladikavkaz, Stavropol, the oil boomtown of Grozny, the mineral-water spa of Pyatigorsk and the Terek line towns of Georgievsk and Mozdok, 1815AD - 1917AD.",
+    label = "tab:reg37-sites"
+  )
+)
+```
+
+## Dagestan Oblast
+
+Table \ref{tab:reg38-sites} gives the populations of the 4 principal towns in Dagestan Oblast, where the regional population rose from 450k in 1815AD to 571k in 1897AD, 715k in 1914AD and 725k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Richmond2013; @Dagestan1897Census].
+
+```{r table-reg38, echo=FALSE, results='asis'}
+df_reg38 <- build_region_df("caucasus_dagestan_oblast")
+render_table_template(
+  df_reg38,
+  list(
+    caption = "Populations of the Caspian railway ports of Derbent and Petrovsk-Port (Makhachkala), the provincial seat of Temir-Khan-Shura (Buynaksk) and the highland Avar fortress of Khunzakh, 1815AD - 1917AD.",
+    label = "tab:reg38-sites"
+  )
+)
+```
+
+## Perm and Vyatka Governorates
+
+Table \ref{tab:reg39-sites} gives the populations of the 6 principal towns in the Perm and Vyatka governorates, where the regional population grew more than fourfold from 1,92M in 1815AD to 6,03M in 1897AD, 7,88M in 1914AD and 8,04M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Kabuzan1992].
+
+```{r table-reg39, echo=FALSE, results='asis'}
+df_reg39 <- build_region_df("northern_urals_perm_and_vyatka")
+render_table_template(
+  df_reg39,
+  list(
+    caption = "Populations of the Ural mining and railway hub of Ekaterinburg, the Kama river port and cannon-works city of Perm, the state rifle-factory town of Izhevsky Zavod, the Demidov ironworks centre of Nizhny Tagil, Vyatka and Sarapul, 1815AD - 1917AD.",
+    label = "tab:reg39-sites"
+  )
+)
+```
+
+## Ufa and Orenburg Governorates
+
+Table \ref{tab:reg40-sites} gives the populations of the 6 principal towns in the Ufa and Orenburg governorates, where the regional population grew from 1,4M in 1815AD to 3,8M in 1897AD, 5,35M in 1914AD and 5,48M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @Kabuzan1992].
+
+```{r table-reg40, echo=FALSE, results='asis'}
+df_reg40 <- build_region_df("southern_urals_ufa_and_orenburg")
+render_table_template(
+  df_reg40,
+  list(
+    caption = "Populations of the steppe caravan and rail hub of Orenburg, Ufa, the Trans-Siberian gateway and migrant-clearing centre of Chelyabinsk, the border market town of Troitsk, the steel-and-arms town of Zlatoust and Sterlitamak, 1815AD - 1917AD.",
+    label = "tab:reg40-sites"
+  )
+)
+```
+
+## West Siberian Railway Belt: Southern Tobolsk and Omsk
+
+Table \ref{tab:reg41-sites} gives the populations of the 5 principal towns in southern Tobolsk and the Omsk district, where the regional population grew nearly sixfold from 545k in 1815AD to 1,74M in 1897AD, 3,18M in 1914AD and 3,32M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg41, echo=FALSE, results='asis'}
+df_reg41 <- build_region_df("siberia_west_transsiberian_tobolsk_omsk")
+render_table_template(
+  df_reg41,
+  list(
+    caption = "Populations of the West Siberian railway and administrative metropolis of Omsk, the river-and-rail transshipment city of Tyumen, the butter-exporting centres of Kurgan and Ishim and Tara, 1815AD - 1917AD.",
+    label = "tab:reg41-sites"
+  )
+)
+```
+
+## Ob-Irtysh North: Tobolsk, Surgut, Berezov and Narym
+
+Table \ref{tab:reg42-sites} gives the populations of the 5 principal towns along the northern Ob and Irtysh rivers, where the regional population grew from 160k in 1815AD to 375k in 1897AD, 505k in 1914AD and 520k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg42, echo=FALSE, results='asis'}
+df_reg42 <- build_region_df("siberia_ob_irtysh_river_north")
+render_table_template(
+  df_reg42,
+  list(
+    caption = "Populations of the historic provincial seat of Tobolsk and the northern Ob-Irtysh fur, fishing and exile outposts of Berezov, Surgut, Obdorsk (Salekhard) and Narym, 1815AD - 1917AD.",
+    label = "tab:reg42-sites"
+  )
+)
+```
+
+## Tomsk Governorate and the Altai Cabinet Lands
+
+Table \ref{tab:reg43-sites} gives the populations of the 6 principal towns in Tomsk Governorate and the Altai Cabinet district, where the regional population surged nearly fourteenfold from 300k in 1815AD to 1,93M in 1897AD, 3,98M in 1914AD and 4,18M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg43, echo=FALSE, results='asis'}
+df_reg43 <- build_region_df("siberia_tomsk_rail_and_altai_cabinet")
+render_table_template(
+  df_reg43,
+  list(
+    caption = "Populations of the university and provincial capital of Tomsk, the Ob rail-bridge boomtown of Novonikolaevsk (Novosibirsk, founded 1893AD), the Altai Cabinet centres of Barnaul and Biysk, Mariinsk and Kuznetsk, 1815AD - 1917AD.",
+    label = "tab:reg43-sites"
+  )
+)
+```
+
+## Altai-Sayan Highlands: Gorny Altai, Minusinsk and Uriankhai
+
+Table \ref{tab:reg44-sites} gives the populations of the 4 principal towns in the Altai-Sayan highlands, Minusinsk and the Uriankhai (Tuva) protectorate, where the regional population grew from 125k in 1815AD to 330k in 1897AD, 565k in 1914AD and 575k in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg44, echo=FALSE, results='asis'}
+df_reg44 <- build_region_df("siberia_altai_sayan_and_uriankhai_1914")
+render_table_template(
+  df_reg44,
+  list(
+    caption = "Populations of the upper Yenisei farming town of Minusinsk, the Altai mission and market seat of Ulala, Ust-Abakanskoe and the Uriankhai protectorate post of Belotsarsk (Kyzyl, founded 1914AD), 1815AD - 1917AD.",
+    label = "tab:reg44-sites"
+  )
+)
+```
+
+## Central Siberian Railway Belt: Krasnoyarsk and Irkutsk
+
+Table \ref{tab:reg45-sites} gives the populations of the 5 principal towns along the Central Siberian railway belt in southern Yeniseysk and Irkutsk governorates, where the regional population grew more than sevenfold from 210k in 1815AD to 795k in 1897AD, 1,54M in 1914AD and 1,56M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg45, echo=FALSE, results='asis'}
+df_reg45 <- build_region_df("siberia_central_transsiberian_krasnoyarsk_irkutsk")
+render_table_template(
+  df_reg45,
+  list(
+    caption = "Populations of the East Siberian capital of Irkutsk, the Yenisei rail-bridge and workshop city of Krasnoyarsk and the Trans-Siberian division towns of Kansk, Achinsk and Nizhneudinsk, 1815AD - 1917AD.",
+    label = "tab:reg45-sites"
+  )
+)
+```
+
+## Yenisei-Turukhansk North and the Lena Goldfields
+
+Table \ref{tab:reg46-sites} gives the populations of the 4 principal towns in the Yenisei-Turukhansk north and the Lena goldfields around Bodaibo, where the regional population rose from 68k in 1815AD to 195k in 1897AD and 270k in 1914AD (265k in 1917AD) [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg46, echo=FALSE, results='asis'}
+df_reg46 <- build_region_df("siberia_yenisei_turukhansk_and_lena_gold")
+render_table_template(
+  df_reg46,
+  list(
+    caption = "Populations of the old river port of Yeniseysk, the Vitim-Lena gold-mining centre of Bodaibo (founded 1864AD), the upper Lena steamer port of Kirensk and the northern trading post of Turukhansk, 1815AD - 1917AD.",
+    label = "tab:reg46-sites"
+  )
+)
+```
+
+## Transbaikal and Yakutsk Oblasts
+
+Table \ref{tab:reg47-sites} gives the populations of the 6 principal towns in Transbaikal and Yakutsk oblasts, where the regional population grew from 278k in 1815AD to 942k in 1897AD, 1,29M in 1914AD and 1,3M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg47, echo=FALSE, results='asis'}
+df_reg47 <- build_region_df("siberia_transbaikal_and_yakutsk")
+render_table_template(
+  df_reg47,
+  list(
+    caption = "Populations of the Transbaikal railway hub of Chita, Verkhneudinsk (Ulan-Ude), the Mongolia tea-trade town of Troitskosavsk (Kyakhta), Nerchinsk, Yakutsk and the Kamchatka port of Petropavlovsk, 1815AD - 1917AD.",
+    label = "tab:reg47-sites"
+  )
+)
+```
+
+## Priamurye: Amur, Primorskaya and Sakhalin
+
+Table \ref{tab:reg48-sites} gives the populations of the 6 principal towns in the Amur, Primorskaya and Sakhalin provinces of the Russian Far East, where the regional population rose from 30k in 1815AD to 372k in 1897AD, 1,14M in 1914AD and 1,15M in 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Treadgold1957; @Dameshek2007; @Stephan1994].
+
+```{r table-reg48, echo=FALSE, results='asis'}
+df_reg48 <- build_region_df("far_east_priamurye_amur_primorskaya_sakhalin")
+render_table_template(
+  df_reg48,
+  list(
+    caption = "Populations of the Pacific naval and rail terminus of Vladivostok, the Amur gold-and-grain city of Blagoveshchensk, Khabarovsk, the Ussuri rail junction of Nikolsk-Ussuriysky, Nikolaevsk-on-Amur and Sakhalin's Aleksandrovsky Post, 1815AD - 1917AD.",
+    label = "tab:reg48-sites"
+  )
+)
+```
+
+# Appendix
+
+## Regional Urban Population Summary
+
+Table \ref{tab:regional-summary} sums the populations of all 265 towns across the 48 provinces from 1815AD to 1917AD [@Troinitsky1905Goroda; @TsSK1915; @Rashin1956; @AgCensus1917].
+
+```{r table-regional-summary, echo=FALSE, results='asis'}
+bench_yrs <- c("1815", "1858", "1897", "1914", "1917")
+sum_rows <- lapply(seq_along(summary_meta$regions), function (idx) {
+  reg <- summary_meta$regions[[idx]]
+  rslug <- as.character(reg$id)
+  sub_e <- Filter(function (e) identical(as.character(reg48_map[[e$key]]), rslug), all_entries)
+  raw_sums <- sapply(bench_yrs, function (y) {
+    vals <- sapply(sub_e, function (e) {
+      v <- get_entry_pop(e, y)
+      if (is.na(v)) 0 else v
+    })
+    sum(vals)
+  })
+  sums <- sapply(raw_sums, fmt_eu_pop)
+  if (raw_sums[["1815"]] <= 0) {
+    pct_s <- "Post-1850AD"
+  } else {
+    pct <- round((raw_sums[["1914"]] - raw_sums[["1815"]]) / raw_sums[["1815"]] * 100, 1)
+    pct_s <- paste0(if (pct > 0) "+" else "", sub(",0$", "", gsub("\\.", ",", format(pct, nsmall = 1, trim = TRUE))), "%")
+  }
+  data.frame(
+    `Region (Towns)` = paste0(clean_reg_short(reg$name), " (", length(sub_e), ")"),
+    `1815AD` = sums[["1815"]],
+    `1858AD` = sums[["1858"]],
+    `1897AD` = sums[["1897"]],
+    `1914AD` = sums[["1914"]],
+    `1917AD` = sums[["1917"]],
+    `1815-1914AD` = pct_s,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+
+tot_raw <- sapply(bench_yrs, function (y) {
+  vals <- sapply(all_entries, function (e) {
+    v <- get_entry_pop(e, y)
+    if (is.na(v)) 0 else v
+  })
+  sum(vals)
+})
+tot_sums <- sapply(tot_raw, fmt_eu_pop)
+tot_pct <- round((tot_raw[["1914"]] - tot_raw[["1815"]]) / tot_raw[["1815"]] * 100, 1)
+tot_pct_s <- paste0(if (tot_pct > 0) "+" else "", sub(",0$", "", gsub("\\.", ",", format(tot_pct, nsmall = 1, trim = TRUE))), "%")
+
+tot_row <- data.frame(
+  `Region (Towns)` = paste0("All 48 Regions (", length(all_entries), " towns)"),
+  `1815AD` = tot_sums[["1815"]],
+  `1858AD` = tot_sums[["1858"]],
+  `1897AD` = tot_sums[["1897"]],
+  `1914AD` = tot_sums[["1914"]],
+  `1917AD` = tot_sums[["1917"]],
+  `1815-1914AD` = tot_pct_s,
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, tot_row)
+
+render_table_template(
+  df_sum,
+  list(
+    caption = "Combined urban population of all 265 catalogued towns across each of the 48 provinces at five benchmark dates from 1815AD to 1917AD, with percentage growth from 1815AD to 1914AD.",
+    label = "tab:regional-summary"
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

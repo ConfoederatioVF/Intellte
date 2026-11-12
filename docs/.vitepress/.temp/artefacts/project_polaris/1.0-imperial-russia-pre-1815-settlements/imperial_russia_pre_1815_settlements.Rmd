@@ -1,0 +1,935 @@
+---
+title: "Towns, Ports and Factory Settlements of Early Imperial Russia"
+subtitle: "Town Populations from Peter the Great to the Congress of Vienna"
+date: "11 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: imperial_russia_pre_1815_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/imperial_russia_pre_1815_regional_map.png"
+hero_caption: "The 40 provinces and 224 catalogued towns, ports, fortresses and factory settlements across the Russian Empire and adjacent partition lands from 1721AD to 1815AD."
+hero_label: "fig:hero-map"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    keep_tex: false
+    template: ../../_shared/template/template.tex
+    citation_package: default
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
+```
+
+```{r load-stadester-json, include=FALSE}
+stadester_data <- jsonlite::fromJSON("imperial_russia_pre_1815_settlements.json", simplifyVector = FALSE)
+all_entries <- unname(stadester_data)
+reg40_map <- jsonlite::fromJSON('{"Reval-Estonia": "ostsee_estland_governorate", "Wesenberg-Estonia": "ostsee_estland_governorate", "Hapsal-Estonia": "ostsee_estland_governorate", "Weissenstein-Estonia": "ostsee_estland_governorate", "Baltischport-Estonia": "ostsee_estland_governorate", "Riga-Latvia": "ostsee_livland_governorate", "Dorpat-Estonia": "ostsee_livland_governorate", "Pernau-Estonia": "ostsee_livland_governorate", "Arensburg-Estonia": "ostsee_livland_governorate", "Wenden-Latvia": "ostsee_livland_governorate", "Fellin-Estonia": "ostsee_livland_governorate", "Mitau-Latvia": "ostsee_courland_governorate", "Libau-Latvia": "ostsee_courland_governorate", "Windau-Latvia": "ostsee_courland_governorate", "Goldingen-Latvia": "ostsee_courland_governorate", "Jakobstadt-Latvia": "ostsee_courland_governorate", "Vyborg-Russia": "old_finland_vyborg_governorate", "Fredrikshamn-Finland": "old_finland_vyborg_governorate", "Villmanstrand-Finland": "old_finland_vyborg_governorate", "Kexholm-Russia": "old_finland_vyborg_governorate", "Nyslott-Finland": "old_finland_vyborg_governorate", "Abo-Finland": "grand_duchy_of_finland_1809", "Helsingfors-Finland": "grand_duchy_of_finland_1809", "Uleaborg-Finland": "grand_duchy_of_finland_1809", "Vasa-Finland": "grand_duchy_of_finland_1809", "Bjorneborg-Finland": "grand_duchy_of_finland_1809", "Tavastehus-Finland": "grand_duchy_of_finland_1809", "Kuopio-Finland": "grand_duchy_of_finland_1809", "Vilna-Lithuania": "lithuania_vilna_and_samogitia_kovno", "Kovno-Lithuania": "lithuania_vilna_and_samogitia_kovno", "Shavli-Lithuania": "lithuania_vilna_and_samogitia_kovno", "Telshi-Lithuania": "lithuania_vilna_and_samogitia_kovno", "Ponevezh-Lithuania": "lithuania_vilna_and_samogitia_kovno", "Grodno-Belarus": "belarus_grodno_and_belostok_1807", "Brest-Litovsk-Belarus": "belarus_grodno_and_belostok_1807", "Belostok-Poland": "belarus_grodno_and_belostok_1807", "Slonim-Belarus": "belarus_grodno_and_belostok_1807", "Novogrudok-Belarus": "belarus_grodno_and_belostok_1807", "Lida-Belarus": "belarus_grodno_and_belostok_1807", "Vitebsk-Belarus": "belarus_vitebsk_and_mogilev_1772", "Mogilev-Belarus": "belarus_vitebsk_and_mogilev_1772", "Polotsk-Belarus": "belarus_vitebsk_and_mogilev_1772", "Shklov-Belarus": "belarus_vitebsk_and_mogilev_1772", "Dunaburg-Latvia": "belarus_vitebsk_and_mogilev_1772", "Gomel-Belarus": "belarus_vitebsk_and_mogilev_1772", "Orsha-Belarus": "belarus_vitebsk_and_mogilev_1772", "Minsk-Belarus": "belarus_minsk_governorate_1793", "Slutsk-Belarus": "belarus_minsk_governorate_1793", "Pinsk-Belarus": "belarus_minsk_governorate_1793", "Bobruisk-Belarus": "belarus_minsk_governorate_1793", "Borisov-Belarus": "belarus_minsk_governorate_1793", "Mozyr-Belarus": "belarus_minsk_governorate_1793", "Lviv-Ukraine": "habsburg_galicia_and_bukovina_1772", "Brody-Ukraine": "habsburg_galicia_and_bukovina_1772", "Stanislau-Ukraine": "habsburg_galicia_and_bukovina_1772", "Tarnopol-Ukraine": "habsburg_galicia_and_bukovina_1772", "Drohobych-Ukraine": "habsburg_galicia_and_bukovina_1772", "Chernivtsi-Ukraine": "habsburg_galicia_and_bukovina_1772", "Uzhhorod-Ukraine": "habsburg_galicia_and_bukovina_1772", "Kamenets-Podolsky-Ukraine": "ukraine_volhynia_and_podolia_1793", "Zhitomir-Ukraine": "ukraine_volhynia_and_podolia_1793", "Dubno-Ukraine": "ukraine_volhynia_and_podolia_1793", "Lutsk-Ukraine": "ukraine_volhynia_and_podolia_1793", "Vinnitsa-Ukraine": "ukraine_volhynia_and_podolia_1793", "Mogilev-Podolsky-Ukraine": "ukraine_volhynia_and_podolia_1793", "Kyiv-Ukraine": "ukraine_kyiv_governorate_1793", "Berdichev-Ukraine": "ukraine_kyiv_governorate_1793", "Uman-Ukraine": "ukraine_kyiv_governorate_1793", "Bila Tserkva-Ukraine": "ukraine_kyiv_governorate_1793", "Cherkasy-Ukraine": "ukraine_kyiv_governorate_1793", "Nezhin-Ukraine": "malorossiya_chernigov_and_poltava", "Poltava-Ukraine": "malorossiya_chernigov_and_poltava", "Chernigov-Ukraine": "malorossiya_chernigov_and_poltava", "Glukhov-Ukraine": "malorossiya_chernigov_and_poltava", "Kremenchug-Ukraine": "malorossiya_chernigov_and_poltava", "Starodub-Russia": "malorossiya_chernigov_and_poltava", "Kharkov-Ukraine": "sloboda_ukraine_kharkov_governorate", "Sumy-Ukraine": "sloboda_ukraine_kharkov_governorate", "Akhtyrka-Ukraine": "sloboda_ukraine_kharkov_governorate", "Izyum-Ukraine": "sloboda_ukraine_kharkov_governorate", "Chuguev-Ukraine": "sloboda_ukraine_kharkov_governorate", "Ekaterinoslav-Ukraine": "novorossiya_ekaterinoslav_zaporizhzhia", "Mariupol-Ukraine": "novorossiya_ekaterinoslav_zaporizhzhia", "Bakhmut-Ukraine": "novorossiya_ekaterinoslav_zaporizhzhia", "Aleksandrovsk-Ukraine": "novorossiya_ekaterinoslav_zaporizhzhia", "Lugansk-Ukraine": "novorossiya_ekaterinoslav_zaporizhzhia", "Novomoskovsk-Ukraine": "novorossiya_ekaterinoslav_zaporizhzhia", "Odessa-Ukraine": "novorossiya_kherson_ochakov_odessa", "Kherson-Ukraine": "novorossiya_kherson_ochakov_odessa", "Nikolaev-Ukraine": "novorossiya_kherson_ochakov_odessa", "Elisavetgrad-Ukraine": "novorossiya_kherson_ochakov_odessa", "Ochakov-Ukraine": "novorossiya_kherson_ochakov_odessa", "Tiraspol-Moldova": "novorossiya_kherson_ochakov_odessa", "Bakhchisarai-Ukraine": "novorossiya_taurida_crimea_1783", "Sevastopol-Ukraine": "novorossiya_taurida_crimea_1783", "Simferopol-Ukraine": "novorossiya_taurida_crimea_1783", "Feodosia-Ukraine": "novorossiya_taurida_crimea_1783", "Evpatoria-Ukraine": "novorossiya_taurida_crimea_1783", "Karasubazar-Ukraine": "novorossiya_taurida_crimea_1783", "Kishinev-Moldova": "bessarabia_oblast_1812", "Bender-Moldova": "bessarabia_oblast_1812", "Izmail-Ukraine": "bessarabia_oblast_1812", "Akkerman-Ukraine": "bessarabia_oblast_1812", "Khotin-Ukraine": "bessarabia_oblast_1812", "Saint Petersburg-Russia": "capital_st_petersburg_governorate", "Kronstadt-Russia": "capital_st_petersburg_governorate", "Narva-Estonia": "capital_st_petersburg_governorate", "Tsarskoe Selo-Russia": "capital_st_petersburg_governorate", "Shlisselburg-Russia": "capital_st_petersburg_governorate", "Novgorod-Russia": "lakes_novgorod_pskov_and_olonets", "Pskov-Russia": "lakes_novgorod_pskov_and_olonets", "Petrozavodsk-Russia": "lakes_novgorod_pskov_and_olonets", "Staraya Russa-Russia": "lakes_novgorod_pskov_and_olonets", "Tikhvin-Russia": "lakes_novgorod_pskov_and_olonets", "Velikie Luki-Russia": "lakes_novgorod_pskov_and_olonets", "Arkhangelsk-Russia": "north_arkhangelsk_and_vologda", "Vologda-Russia": "north_arkhangelsk_and_vologda", "Velikiy Ustyug-Russia": "north_arkhangelsk_and_vologda", "Totma-Russia": "north_arkhangelsk_and_vologda", "Ust-Sysolsk-Russia": "north_arkhangelsk_and_vologda", "Moscow-Russia": "capital_moscow_governorate", "Kolomna-Russia": "capital_moscow_governorate", "Serpukhov-Russia": "capital_moscow_governorate", "Mozhaysk-Russia": "capital_moscow_governorate", "Dmitrov-Russia": "capital_moscow_governorate", "Kaluga-Russia": "western_approach_smolensk_kaluga_tver", "Tver-Russia": "western_approach_smolensk_kaluga_tver", "Smolensk-Russia": "western_approach_smolensk_kaluga_tver", "Torzhok-Russia": "western_approach_smolensk_kaluga_tver", "Vyazma-Russia": "western_approach_smolensk_kaluga_tver", "Maloyaroslavets-Russia": "western_approach_smolensk_kaluga_tver", "Yaroslavl-Russia": "central_non_black_earth_industrial", "Nizhny Novgorod-Russia": "central_non_black_earth_industrial", "Kostroma-Russia": "central_non_black_earth_industrial", "Vladimir-Russia": "central_non_black_earth_industrial", "Suzdal-Russia": "central_non_black_earth_industrial", "Arzamas-Russia": "central_non_black_earth_industrial", "Tula-Russia": "northern_black_earth_tula_ryazan_orel", "Oryol-Russia": "northern_black_earth_tula_ryazan_orel", "Yelets-Russia": "northern_black_earth_tula_ryazan_orel", "Bolkhov-Russia": "northern_black_earth_tula_ryazan_orel", "Ryazan-Russia": "northern_black_earth_tula_ryazan_orel", "Bryansk-Russia": "northern_black_earth_tula_ryazan_orel", "Kursk-Russia": "southern_black_earth_kursk_voronezh_tambov", "Voronezh-Russia": "southern_black_earth_kursk_voronezh_tambov", "Tambov-Russia": "southern_black_earth_kursk_voronezh_tambov", "Kozlov-Russia": "southern_black_earth_kursk_voronezh_tambov", "Belgorod-Russia": "southern_black_earth_kursk_voronezh_tambov", "Morshansk-Russia": "southern_black_earth_kursk_voronezh_tambov", "Kazan-Russia": "middle_volga_kazan_simbirsk_penza", "Simbirsk-Russia": "middle_volga_kazan_simbirsk_penza", "Penza-Russia": "middle_volga_kazan_simbirsk_penza", "Syzran-Russia": "middle_volga_kazan_simbirsk_penza", "Saransk-Russia": "middle_volga_kazan_simbirsk_penza", "Cheboksary-Russia": "middle_volga_kazan_simbirsk_penza", "Astrakhan-Russia": "lower_volga_saratov_astrakhan_1763_1771", "Saratov-Russia": "lower_volga_saratov_astrakhan_1763_1771", "Volsk-Russia": "lower_volga_saratov_astrakhan_1763_1771", "Tsaritsyn-Russia": "lower_volga_saratov_astrakhan_1763_1771", "Sarepta-Russia": "lower_volga_saratov_astrakhan_1763_1771", "Katharinenstadt-Russia": "lower_volga_saratov_astrakhan_1763_1771", "Starocherkassk-Russia": "don_cossack_host_province", "Novocherkassk-Russia": "don_cossack_host_province", "Taganrog-Russia": "don_cossack_host_province", "Nakhichevan-on-Don-Russia": "don_cossack_host_province", "Rostov-on-Don-Russia": "don_cossack_host_province", "Kizlyar-Russia": "caucasian_line_kuban_and_stavropol", "Mozdok-Russia": "caucasian_line_kuban_and_stavropol", "Georgievsk-Russia": "caucasian_line_kuban_and_stavropol", "Stavropol-Russia": "caucasian_line_kuban_and_stavropol", "Ekaterinodar-Russia": "caucasian_line_kuban_and_stavropol", "Derbent-Russia": "north_caucasus_highlands_circassia_dagestan", "Tarki-Russia": "north_caucasus_highlands_circassia_dagestan", "Khunzakh-Russia": "north_caucasus_highlands_circassia_dagestan", "Anapa-Russia": "north_caucasus_highlands_circassia_dagestan", "Vladikavkaz-Russia": "north_caucasus_highlands_circassia_dagestan", "Ekaterinburg-Russia": "northern_urals_perm_and_vyatka", "Nizhny Tagil-Russia": "northern_urals_perm_and_vyatka", "Perm-Russia": "northern_urals_perm_and_vyatka", "Vyatka-Russia": "northern_urals_perm_and_vyatka", "Solikamsk-Russia": "northern_urals_perm_and_vyatka", "Izhevsk-Russia": "northern_urals_perm_and_vyatka", "Kungur-Russia": "northern_urals_perm_and_vyatka", "Orenburg-Russia": "southern_urals_orenburg_and_bashkiria", "Ufa-Russia": "southern_urals_orenburg_and_bashkiria", "Chelyabinsk-Russia": "southern_urals_orenburg_and_bashkiria", "Zlatoust-Russia": "southern_urals_orenburg_and_bashkiria", "Sterlitamak-Russia": "southern_urals_orenburg_and_bashkiria", "Troitsk-Russia": "southern_urals_orenburg_and_bashkiria", "Tyumen-Russia": "siberia_tobolsk_trakt_and_ishim_line", "Tara-Russia": "siberia_tobolsk_trakt_and_ishim_line", "Omsk-Russia": "siberia_tobolsk_trakt_and_ishim_line", "Ishim-Russia": "siberia_tobolsk_trakt_and_ishim_line", "Kurgan-Russia": "siberia_tobolsk_trakt_and_ishim_line", "Tobolsk-Russia": "siberia_tobolsk_north_ob_irtysh_narym", "Berezov-Russia": "siberia_tobolsk_north_ob_irtysh_narym", "Surgut-Russia": "siberia_tobolsk_north_ob_irtysh_narym", "Narym-Russia": "siberia_tobolsk_north_ob_irtysh_narym", "Obdorsk-Russia": "siberia_tobolsk_north_ob_irtysh_narym", "Tomsk-Russia": "siberia_tomsk_and_kolyvan_altai_mines", "Barnaul-Russia": "siberia_tomsk_and_kolyvan_altai_mines", "Zmeinogorsk-Russia": "siberia_tomsk_and_kolyvan_altai_mines", "Biysk-Russia": "siberia_tomsk_and_kolyvan_altai_mines", "Kuznetsk-Russia": "siberia_tomsk_and_kolyvan_altai_mines", "Minusinsk-Russia": "siberia_altai_sayan_and_minusinsk_border", "Abakanskiy Ostrog-Russia": "siberia_altai_sayan_and_minusinsk_border", "Sayanskiy Ostrog-Russia": "siberia_altai_sayan_and_minusinsk_border", "Ust-Kamenogorsk-Kazakhstan": "siberia_altai_sayan_and_minusinsk_border", "Yeniseysk-Russia": "siberia_yeniseisk_and_turukhansk_basin", "Krasnoyarsk-Russia": "siberia_yeniseisk_and_turukhansk_basin", "Achinsk-Russia": "siberia_yeniseisk_and_turukhansk_basin", "Kansk-Russia": "siberia_yeniseisk_and_turukhansk_basin", "Turukhansk-Russia": "siberia_yeniseisk_and_turukhansk_basin", "Irkutsk-Russia": "siberia_irkutsk_and_transbaikal_kiakhta", "Kiakhta-Russia": "siberia_irkutsk_and_transbaikal_kiakhta", "Verkhneudinsk-Russia": "siberia_irkutsk_and_transbaikal_kiakhta", "Nerchinsk-Russia": "siberia_irkutsk_and_transbaikal_kiakhta", "Selenginsk-Russia": "siberia_irkutsk_and_transbaikal_kiakhta", "Kirensk-Russia": "siberia_irkutsk_and_transbaikal_kiakhta", "Yakutsk-Russia": "siberia_yakutsk_okhotsk_and_kamchatka", "Okhotsk-Russia": "siberia_yakutsk_okhotsk_and_kamchatka", "Nizhnekamchatsk-Russia": "siberia_yakutsk_okhotsk_and_kamchatka", "Petropavlovsk-Kamchatsky-Russia": "siberia_yakutsk_okhotsk_and_kamchatka", "Zashiversk-Russia": "siberia_yakutsk_okhotsk_and_kamchatka"}', simplifyVector = FALSE)
+summary_meta <- jsonlite::fromJSON((if (file.exists("imperial_russia_pre_1815_summary.json")) "imperial_russia_pre_1815_summary.json" else "../../_shared/_gis_cache/imperial_russia_pre_1815_summary.json"), simplifyVector = FALSE)
+
+fmt_eu_pop <- function(val) {
+  if (is.null(val) || is.na(val)) return("-")
+  v <- as.numeric(val)
+  if (v <= 0) return("-")
+  if (v >= 1000000) {
+    m <- round(v / 1000000, 2)
+    s <- gsub("\\.", ",", format(m, nsmall = 2, trim = TRUE))
+    s <- sub(",00$", "", s)
+    s <- sub("(,[1-9])0$", "\\1", s)
+    return(paste0(s, "M"))
+  }
+  if (v >= 1000) {
+    k <- round(v / 1000, 1)
+    if (k == floor(k)) {
+      return(paste0(as.integer(k), "k"))
+    }
+    return(paste0(gsub("\\.", ",", format(k, nsmall = 1, trim = TRUE)), "k"))
+  }
+  return(as.character(as.integer(round(v))))
+}
+
+fmt_eu_coord <- function(x) {
+  s <- format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+get_entry_pop <- function(entry, yr_str) {
+  p <- entry$population[[yr_str]]
+  if (is.null(p)) return(NA_real_)
+  as.numeric(p)
+}
+
+fmt_pct_change <- function(entry) {
+  p1 <- get_entry_pop(entry, "1721")
+  p2 <- get_entry_pop(entry, "1815")
+  if (is.na(p2) || p2 <= 0) return("-")
+  if (is.na(p1) || p1 <= 0) return("New")
+  pct <- round((p2 - p1) / p1 * 100, 1)
+  sign_s <- if (pct > 0) "+" else ""
+  paste0(sign_s, sub(",0$", "", gsub("\\.", ",", format(pct, nsmall = 1, trim = TRUE))), "%")
+}
+
+hyphenate_pre1815_words <- function(s) {
+  s <- as.character(s)
+  s <- gsub("Verkhneudinsk", "Verkhne-udinsk", s, fixed = TRUE)
+  s <- gsub("Petropavlovskaya", "Petropavlov-skaya", s, fixed = TRUE)
+  s <- gsub("Petropavlovsk", "Petropav-lovsk", s, fixed = TRUE)
+  s <- gsub("Starocherkasskaya", "Starocher-kasskaya", s, fixed = TRUE)
+  s <- gsub("Starocherkassk", "Starocher-kassk", s, fixed = TRUE)
+  s <- gsub("Nizhnekamchatsk", "Nizhne-kamchatsk", s, fixed = TRUE)
+  s
+}
+
+build_region_df <- function(reg_slug) {
+  sub_list <- Filter(function(e) identical(as.character(reg40_map[[e$key]]), as.character(reg_slug)), all_entries)
+  sub_list <- sub_list[order(sapply(sub_list, function(e) {
+    v <- get_entry_pop(e, "1815")
+    if (is.na(v)) 0 else -v
+  }))]
+  rows <- lapply(sub_list, function(e) {
+    raw_oth <- if (length(e$other_names) > 0) unlist(e$other_names) else character(0)
+    if (length(raw_oth) > 1) {
+      oth <- paste(head(raw_oth, 2L), collapse = "; ")
+    } else if (length(raw_oth) == 1) {
+      oth <- raw_oth[1]
+    } else {
+      oth <- "-"
+    }
+    coords_span <- paste0(
+      fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]),
+      " (", e$country, ")"
+    )
+    data.frame(
+      `Settlement` = hyphenate_pre1815_words(e$name),
+      `Alternative / Historical Names` = hyphenate_pre1815_words(oth),
+      `Coords & Country` = coords_span,
+      `1721AD` = fmt_eu_pop(get_entry_pop(e, "1721")),
+      `1762AD` = fmt_eu_pop(get_entry_pop(e, "1762")),
+      `1795AD` = fmt_eu_pop(get_entry_pop(e, "1795")),
+      `1811AD` = fmt_eu_pop(get_entry_pop(e, "1811")),
+      `1815AD` = fmt_eu_pop(get_entry_pop(e, "1815")),
+      `Change` = fmt_pct_change(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, rows)
+}
+```
+
+```{=latex}
+\emergencystretch=1.5em
+```
+
+# Abstract
+
+This gazetteer compiles population estimates for 224 towns, ports, fortresses, market towns (*miasteczka*) and factory settlements across the 40 provinces and frontier regions of the Russian Empire and its neighbouring partition lands between the Peace of Nystad (1721AD) and the Congress of Vienna (1815AD). Arranged across the Baltic provinces and Finland, the Polish-Lithuanian partition lands and Galicia, Ukraine and Novorossiya, Central Russia and the Volga-Urals, the Caucasus and Siberia, the tables follow urban growth across five Soul Revision benchmarks (1721, 1762, 1795, 1811 and 1815AD). Over these nine decades, the rapid rise of Saint Petersburg, the founding of new Black Sea ports led by Odessa, Kherson and Sevastopol, the growth of Ural and Altai iron and silver works and the annexation of Polish-Lithuanian market towns reshaped the urban map, even as the 1771AD plague and the 1812AD fire and retreat inflicted sharp losses on Moscow, Smolensk, Vitebsk and Vilna.
+
+# Methodology
+
+This gazetteer presents population estimates for 224 towns, fortress settlements, maritime ports, market towns (*miasteczka* or *shtetlekh*), colonist centres, Ural and Altai iron and silver works (*gornye zavody*) and Siberian *ostrogi* across the 40 provinces and frontier regions of Early Imperial Russia and its adjacent partition lands between 1721AD and 1815AD [@Kabuzan1963; @Kabuzan1971; @Vodarsky1973; @Mironov1990Urban]. Across the entire 40-region area (18,5M km²), total population more than doubled from 23,89M in 1721AD to 51,17M in 1815AD (or from 22,26M to 47,82M within the 39 regions belonging to the Russian Empire in 1815AD, excluding Austrian Galicia and Bukovina). Each entry gives the settlement's main name, historical or local names, coordinates and modern country alongside its population at the principal revision benchmarks (1721AD, 1762AD, 1795AD, 1811AD and 1815AD).
+
+Town figures draw on the merchant and townsmen (*posad* and *meshchane*) rolls of the first seven Imperial Soul Revisions (1719-1816AD) together with provincial police and military-statistical returns compiled by Boris Mironov, Yaroslav Vodarsky, Vladimir Kabuzan and Pyotr Keppen [@Mironov1990Urban; @Vodarsky1973; @Kabuzan1990; @Keppen1857]. Outside the Great Russian core, these returns are paired with Baltic German ploughland and Lutheran magistracy lists [@Hupel1774; @Palli1996], Swedish-Finnish *Tabellverket* town registers [@Jutikkala1965; @Turpeinen1979], Polish-Lithuanian hearth-tax (*podymne*) and Jewish *kahal* rolls alongside Austrian Galician conscriptions [@Kuklo2009; @Stampfer1995; @Fellerer2023Galicia], Novorossiya and Bessarabia colonist chancellery tables [@Skalkovsky1836; @Herlihy1986; @Bushin2011; @Feldman2023Bessarabia], Ural and Altai mining-chancellery inventories [@Portal1950; @Smirnov1992UralZavody; @Isaev2025AltaiCabinet] and Siberian post-road and *ostrog* returns [@Hartley2014; @Forsyth1992]. Ports, fortresses and factory towns founded after 1721AD - such as Ekaterinburg (1723AD), Orenburg (1735/1743AD), Barnaul (1730s), Petropavlovsk-Kamchatsky (1740AD), Elisavetgrad (1754AD), Izhevsk (1760AD), Katharinenstadt (1765AD), Kherson (1778AD), Mariupol (1778AD), Sevastopol (1783AD), Simferopol (1784AD), Nikolaev (1789AD), Ekaterinodar (1793AD), Odessa (1794AD) and Novocherkassk (1805AD) - show a hyphen (`-`) before their foundation and `New` in the percentage change column.
+
+```{r fig1-md-only, echo=FALSE, results='asis'}
+if (!knitr::is_latex_output()) {
+  render_figure_template(
+    "figures/imperial_russia_pre_1815_regional_map.png",
+    list(
+      caption = "The 40 provinces and 224 catalogued towns, ports, fortresses and factory settlements across the Russian Empire and adjacent partition lands from 1721AD to 1815AD.",
+      label = "fig:hero-map",
+      span_columns = TRUE
+    )
+  )
+}
+```
+
+# Results
+
+## Estland Governorate
+
+Table \ref{tab:reg1-sites} lists the towns of Region 1 (Estland Governorate, 22,64k km²), where regional population rose from 105k in 1721AD to 228k in 1811AD and 232k in 1815AD (+121%) [@Palli1980; @Palli1996; @Hupel1774].
+
+```{r table-reg1, echo=FALSE, results='asis'}
+df_reg1 <- build_region_df("ostsee_estland_governorate")
+render_table_template(
+  df_reg1,
+  list(
+    caption = "Recovery of Reval (Tallinn), Wesenberg, Hapsal, Weissenstein and the naval roadstead of Baltischport from the 1710AD Baltic plague to the eve of peasant emancipation in 1815AD.",
+    label = "tab:reg1-sites"
+  )
+)
+```
+
+## Livland Governorate (Riga & Dorpat)
+
+Table \ref{tab:reg2-sites} lists the towns of Region 2 (Livland Governorate, 54,24k km²), where regional population rose from 195k in 1721AD to 605k in 1811AD and 615k in 1815AD (+215,4%) [@Hupel1774; @Jaadla2014Tartu; @Savikhin2011Ostsee].
+
+```{r table-reg2, echo=FALSE, results='asis'}
+df_reg2 <- build_region_df("ostsee_livland_governorate")
+render_table_template(
+  df_reg2,
+  list(
+    caption = "Growth of Riga as the Empire's second maritime export port alongside the university town of Dorpat (Tartu), Pernau, Arensburg, Wenden and Fellin from 1721AD to 1815AD.",
+    label = "tab:reg2-sites"
+  )
+)
+```
+
+## Courland Governorate (Mitau & Libau)
+
+Table \ref{tab:reg3-sites} lists the towns of Region 3 (Courland Governorate, 27,59k km²), where regional population rose from 200k in 1721AD to 435k in 1811AD before dipping to 418k in 1815AD (+109%) [@Kabuzan1990; @Kabuzan1992; @Kappeler2001].
+
+```{r table-reg3, echo=FALSE, results='asis'}
+df_reg3 <- build_region_df("ostsee_courland_governorate")
+render_table_template(
+  df_reg3,
+  list(
+    caption = "Populations of the ducal capital Mitau (Jelgava), the ice-free Baltic ports of Libau and Windau, Goldingen and Jakobstadt across the 1795AD annexation and the 1812AD Prussian occupation.",
+    label = "tab:reg3-sites"
+  )
+)
+```
+
+## Old Finland / Vyborg Governorate
+
+Table \ref{tab:reg4-sites} lists the towns of Region 4 (Old Finland / Vyborg Governorate, 43,53k km²), where regional population grew from 110k in 1721AD to 198k in 1811AD and 202k in 1815AD (+83,6%) [@Kashchenko2016Vyborg; @Jutikkala1965].
+
+```{r table-reg4, echo=FALSE, results='asis'}
+df_reg4 <- build_region_df("old_finland_vyborg_governorate")
+render_table_template(
+  df_reg4,
+  list(
+    caption = "Border fortresses and timber-shipping ports of Vyborg, Fredrikshamn (Hamina), Villmanstrand (Lappeenranta), Kexholm and Nyslott from the treaties of Nystad and Åbo to reunion with Finland in 1812AD.",
+    label = "tab:reg4-sites"
+  )
+)
+```
+
+## Grand Duchy of Finland
+
+Table \ref{tab:reg5-sites} lists the towns of Region 5 (Grand Duchy of Finland, 333,9k km²), where regional population rose from 390k in 1721AD to 880k in 1811AD and 908k in 1815AD (+132,8%) [@Jutikkala1965; @Turpeinen1979; @Pitkanen1993].
+
+```{r table-reg5, echo=FALSE, results='asis'}
+df_reg5 <- build_region_df("grand_duchy_of_finland_1809")
+render_table_template(
+  df_reg5,
+  list(
+    caption = "Swedish-Finnish Tabellverket returns for Åbo (Turku), the new 1812AD capital Helsingfors (Helsinki), Gulf of Bothnia tar ports at Uleåborg, Vasa and Björneborg, and inland Tavastehus and Kuopio.",
+    label = "tab:reg5-sites"
+  )
+)
+```
+
+## Vilna Governorate & Samogitia
+
+Table \ref{tab:reg6-sites} lists the towns of Region 6 (Vilna Governorate and Samogitia, 94,34k km²), where regional population grew from 655k in 1721AD to 1,22M in 1811AD before falling to 1,11M in 1815AD (+69,5%) [@Kuklo2009; @Stampfer1995; @Lieven2009].
+
+```{r table-reg6, echo=FALSE, results='asis'}
+df_reg6 <- build_region_df("lithuania_vilna_and_samogitia_kovno")
+render_table_template(
+  df_reg6,
+  list(
+    caption = "Growth of Vilna (Vilnius), Kovno (Kaunas) and the Samogitian market towns of Shavli, Telshi and Ponevezh up to 1811AD, followed by heavy wartime and typhus losses in 1812AD.",
+    label = "tab:reg6-sites"
+  )
+)
+```
+
+## Grodno Governorate & Belostok Oblast
+
+Table \ref{tab:reg7-sites} lists the towns of Region 7 (Grodno Governorate and Belostok Oblast, 40,42k km²), where regional population rose from 360k in 1721AD to 760k in 1811AD before dropping to 695k in 1815AD (+93,1%) [@Kuklo2009; @Reutskaya2016Belarus; @Klier1986].
+
+```{r table-reg7, echo=FALSE, results='asis'}
+df_reg7 <- build_region_df("belarus_grodno_and_belostok_1807")
+render_table_template(
+  df_reg7,
+  list(
+    caption = "Neman and Western Bug administrative and market towns of Grodno, Brest-Litovsk, Belostok (annexed at Tilsit in 1807AD), Slonim, Novogrudok and Lida from 1721AD to 1815AD.",
+    label = "tab:reg7-sites"
+  )
+)
+```
+
+## Vitebsk & Mogilev Governorates
+
+Table \ref{tab:reg8-sites} lists the towns of Region 8 (Vitebsk and Mogilev Governorates, 80,65k km²), where regional population grew from 610k in 1721AD to 1,38M in 1811AD before falling to 1,25M in 1815AD (+104,1%) [@Reutskaya2016Belarus; @Kabuzan1971; @Lieven2009].
+
+```{r table-reg8, echo=FALSE, results='asis'}
+df_reg8 <- build_region_df("belarus_vitebsk_and_mogilev_1772")
+render_table_template(
+  df_reg8,
+  list(
+    caption = "Upper Dnieper and Western Dvina trading towns of Mogilev, Vitebsk, Shklov, Polotsk, Dünaburg, Gomel and Orsha annexed in the First Partition of 1772AD and battered during the 1812AD campaign.",
+    label = "tab:reg8-sites"
+  )
+)
+```
+
+## Minsk Governorate & Polesia
+
+Table \ref{tab:reg9-sites} lists the towns of Region 9 (Minsk Governorate and Pripyat Polesia, 94,97k km²), where regional population rose from 430k in 1721AD to 995k in 1811AD before dropping to 920k in 1815AD (+114%) [@Reutskaya2016Belarus; @Stampfer1995; @Kabuzan1992].
+
+```{r table-reg9, echo=FALSE, results='asis'}
+df_reg9 <- build_region_df("belarus_minsk_governorate_1793")
+render_table_template(
+  df_reg9,
+  list(
+    caption = "Populations of Minsk, Slutsk, Pinsk, the Berezina fortress of Bobruisk, Borisov and Mozyr across the Second Partition of 1793AD and the Berezina crossing of November 1812AD.",
+    label = "tab:reg9-sites"
+  )
+)
+```
+
+## Habsburg Galicia & Bukovina
+
+Table \ref{tab:reg10-sites} lists the towns of Region 10 (Habsburg Galicia, Bukovina and Carpathian Rus, 70,61k km²), where regional population rose from 1,62M in 1721AD to 3,26M in 1811AD and 3,35M in 1815AD (+106,2%) [@Bohachevsky1967; @Fellerer2023Galicia; @Kuklo2009].
+
+```{r table-reg10, echo=FALSE, results='asis'}
+df_reg10 <- build_region_df("habsburg_galicia_and_bukovina_1772")
+render_table_template(
+  df_reg10,
+  list(
+    caption = "Growth of the crownland capital Lviv (Lemberg), the free-trade border emporium of Brody, Stanislau, Tarnopol, the salt town of Drohobych, Chernivtsi and Uzhhorod under Polish and Austrian rule.",
+    label = "tab:reg10-sites"
+  )
+)
+```
+
+## Volhynia & Podolia Governorates
+
+Table \ref{tab:reg11-sites} lists the towns of Region 11 (Volhynia and Podolia Governorates, 118,21k km²), where regional population grew from 1,2M in 1721AD to 2,87M in 1811AD and 2,96M in 1815AD (+147,7%) [@Perkovsky1979; @Klier1986; @Kabuzan2006].
+
+```{r table-reg11, echo=FALSE, results='asis'}
+df_reg11 <- build_region_df("ukraine_volhynia_and_podolia_1793")
+render_table_template(
+  df_reg11,
+  list(
+    caption = "Provincial capitals and fair towns of Kamenets-Podolsky, Zhitomir, Dubno, Lutsk, Vinnitsa and the Dniester crossing of Mogilev-Podolsky from 1721AD to 1815AD.",
+    label = "tab:reg11-sites"
+  )
+)
+```
+
+## Kyiv Governorate (Left & Right Bank)
+
+Table \ref{tab:reg12-sites} lists the towns of Region 12 (Kyiv Governorate, 54,18k km²), where regional population grew from 342k in 1721AD to 905k in 1811AD and 940k in 1815AD (+174,9%) [@Perkovsky1979; @Kabuzan2006; @Mironov1990Urban].
+
+```{r table-reg12, echo=FALSE, results='asis'}
+df_reg12 <- build_region_df("ukraine_kyiv_governorate_1793")
+render_table_template(
+  df_reg12,
+  list(
+    caption = "Expansion of Kyiv (following the transfer of the Contract Fair from Dubno in 1797AD) alongside the commercial and banking hub of Berdichev, Uman, Bila Tserkva and Cherkasy.",
+    label = "tab:reg12-sites"
+  )
+)
+```
+
+## Little Russia: Chernigov & Poltava
+
+Table \ref{tab:reg13-sites} lists the towns of Region 13 (Chernigov and Poltava Governorates, 106,76k km²), where regional population rose from 1,55M in 1721AD to 3,27M in 1811AD and 3,35M in 1815AD (+115,4%) [@Irtenina2022Hetmanate; @Kabuzan2006; @Moon1999].
+
+```{r table-reg13, echo=FALSE, results='asis'}
+df_reg13 <- build_region_df("malorossiya_chernigov_and_poltava")
+render_table_template(
+  df_reg13,
+  list(
+    caption = "Former Hetmanate regimental and trading towns of Nezhin, Poltava, Chernigov, Glukhov, the Dnieper port of Kremenchug and Old Believer Starodub from 1721AD to 1815AD.",
+    label = "tab:reg13-sites"
+  )
+)
+```
+
+## Sloboda-Ukrainian / Kharkov Governorate
+
+Table \ref{tab:reg14-sites} lists the towns of Region 14 (Sloboda-Ukrainian / Kharkov Governorate, 57,38k km²), where regional population grew from 402k in 1721AD to 1,06M in 1811AD and 1,1M in 1815AD (+173,6%) [@Bagaley1918; @Kabuzan2006; @Mironov1990Urban].
+
+```{r table-reg14, echo=FALSE, results='asis'}
+df_reg14 <- build_region_df("sloboda_ukraine_kharkov_governorate")
+render_table_template(
+  df_reg14,
+  list(
+    caption = "Former Sloboda Cossack regimental seats of Kharkov (home to Kharkov University from 1805AD), Akhtyrka, Sumy, Izyum and the military settlement of Chuguev.",
+    label = "tab:reg14-sites"
+  )
+)
+```
+
+## Ekaterinoslav & Former Zaporizhzhia
+
+Table \ref{tab:reg15-sites} lists the towns of Region 15 (Ekaterinoslav Governorate and former Zaporizhzhia, 58,89k km²), where regional population surged from 145k in 1721AD to 765k in 1811AD and 820k in 1815AD (+465,5%) [@Kabuzan1976Novorossiya; @Pakhomenko2014Mariupol1778; @Bessarabova2017].
+
+```{r table-reg15, echo=FALSE, results='asis'}
+df_reg15 <- build_region_df("novorossiya_ekaterinoslav_zaporizhzhia")
+render_table_template(
+  df_reg15,
+  list(
+    caption = "New steppe foundations of Ekaterinoslav (1787AD), the Crimean Greek port of Mariupol (1778AD), Aleksandrovsk (1770AD) and the Lugansk cannon foundry (1795AD) alongside Bakhmut and Novomoskovsk.",
+    label = "tab:reg15-sites"
+  )
+)
+```
+
+## Kherson, Nikolaev & Odessa Steppe
+
+Table \ref{tab:reg16-sites} lists the towns of Region 16 (Kherson Governorate and the Ochakov-Odessa steppe, 77,46k km²), where regional population rose from 105k in 1721AD to 565k in 1811AD and 620k in 1815AD (+490,5%) [@Herlihy1986; @Skalkovsky1836; @Bushin2011; @Kashirin2019].
+
+```{r table-reg16, echo=FALSE, results='asis'}
+df_reg16 <- build_region_df("novorossiya_kherson_ochakov_odessa")
+render_table_template(
+  df_reg16,
+  list(
+    caption = "Rapid rise of the Black Sea grain port of Odessa (founded 1794AD), the Admiralty shipyards of Kherson (1778AD) and Nikolaev (1789AD), New Serbian Elisavetgrad (1754AD), Tiraspol and Ochakov.",
+    label = "tab:reg16-sites"
+  )
+)
+```
+
+## Taurida Governorate (Crimea)
+
+Table \ref{tab:reg17-sites} lists the towns of Region 17 (Taurida Governorate, 69,87k km²), where regional population stood at 370k in 1721AD, dipped after the 1783AD annexation and returned to 345k in 1811AD and 370k in 1815AD (0% net change) [@Williams2001; @Dmitriev2018CrimeaEmigration; @Kabuzan1976Novorossiya].
+
+```{r table-reg17, echo=FALSE, results='asis'}
+df_reg17 <- build_region_df("novorossiya_taurida_crimea_1783")
+render_table_template(
+  df_reg17,
+  list(
+    caption = "Contrast between the post-1783AD contraction of old Crimean Khanate towns (Bakhchisarai, Karasubazar, Feodosia and Evpatoria) and the rise of the Black Sea Fleet base at Sevastopol and provincial capital Simferopol.",
+    label = "tab:reg17-sites"
+  )
+)
+```
+
+## Bessarabia Oblast
+
+Table \ref{tab:reg18-sites} lists the towns of Region 18 (Bessarabia Oblast, 47,08k km²), where regional population grew from 200k in 1721AD to 310k in 1811AD and 385k in 1815AD (+92,5%) [@Feldman2023Bessarabia; @Bas2015Novorossiya; @Kabuzan1992].
+
+```{r table-reg18, echo=FALSE, results='asis'}
+df_reg18 <- build_region_df("bessarabia_oblast_1812")
+render_table_template(
+  df_reg18,
+  list(
+    caption = "Surge of the new oblast capital Kishinev after the May 1812AD Treaty of Bucharest alongside the Dniester and Danube fortresses of Bender, Izmail, Akkerman and Khotin.",
+    label = "tab:reg18-sites"
+  )
+)
+```
+
+## Saint Petersburg Governorate
+
+Table \ref{tab:reg19-sites} lists the towns of Region 19 (Saint Petersburg Governorate, 62,71k km²), where regional population rose from 260k in 1721AD to 735k in 1811AD and 760k in 1815AD (+192,3%) [@Mironov1990Urban; @Kahan1985; @Vodarsky1973].
+
+```{r table-reg19, echo=FALSE, results='asis'}
+df_reg19 <- build_region_df("capital_st_petersburg_governorate")
+render_table_template(
+  df_reg19,
+  list(
+    caption = "Eightfold expansion of the imperial capital Saint Petersburg (from 40k to 335k) alongside the Baltic Fleet base at Kronstadt, Narva, the court residence of Tsarskoe Selo and the Ladoga canal lock town of Shlisselburg.",
+    label = "tab:reg19-sites"
+  )
+)
+```
+
+## Novgorod, Pskov & Olonets Governorates
+
+Table \ref{tab:reg20-sites} lists the towns of Region 20 (Novgorod, Pskov and Olonets Governorates, 306,75k km²), where regional population grew from 1,16M in 1721AD to 1,75M in 1811AD and 1,77M in 1815AD (+53,2%) [@Vodarsky1973; @Kahan1985; @Mironov1990Urban].
+
+```{r table-reg20, echo=FALSE, results='asis'}
+df_reg20 <- build_region_df("lakes_novgorod_pskov_and_olonets")
+render_table_template(
+  df_reg20,
+  list(
+    caption = "Populations of Pskov, Novgorod, the salt-boiling town of Staraya Russa, the Alexandrovsky cannon-foundry seat of Petrozavodsk, Velikie Luki and the canal town of Tikhvin.",
+    label = "tab:reg20-sites"
+  )
+)
+```
+
+## Arkhangelsk & Vologda Governorates
+
+Table \ref{tab:reg21-sites} lists the towns of Region 21 (Arkhangelsk and Vologda Governorates, 1,31M km²), where regional population rose from 560k in 1721AD to 905k in 1811AD and 920k in 1815AD (+64,3%) [@Vodarsky1977; @Kabuzan1971; @Kahan1985].
+
+```{r table-reg21, echo=FALSE, results='asis'}
+df_reg21 <- build_region_df("north_arkhangelsk_and_vologda")
+render_table_template(
+  df_reg21,
+  list(
+    caption = "Northern Dvina and Sukhona trading towns of Vologda, White Sea Arkhangelsk, Velikiy Ustyug, Totma and the Komi timber town of Ust-Sysolsk from 1721AD to 1815AD.",
+    label = "tab:reg21-sites"
+  )
+)
+```
+
+## Moscow Governorate
+
+Table \ref{tab:reg22-sites} lists the towns of Region 22 (Moscow Governorate, 28,08k km²), where regional population rose from 725k in 1721AD to 1,24M in 1811AD before falling to 1,12M in 1815AD (+54,5%) [@Alexander1980; @Iskhakov2013Plague1771; @Mironov1990Urban; @Lieven2009].
+
+```{r table-reg22, echo=FALSE, results='asis'}
+df_reg22 <- build_region_df("capital_moscow_governorate")
+render_table_template(
+  df_reg22,
+  list(
+    caption = "Growth of Moscow to 275k in 1811AD and its sharp contraction to 185k after the September 1812AD fire, alongside the Oka-Moskva river and textile towns of Kolomna, Serpukhov, Dmitrov and Mozhaysk.",
+    label = "tab:reg22-sites"
+  )
+)
+```
+
+## Smolensk, Kaluga & Tver Governorates
+
+Table \ref{tab:reg23-sites} lists the towns of Region 23 (Smolensk, Kaluga and Tver Governorates, 152,78k km²), where regional population grew from 1,72M in 1721AD to 2,87M in 1811AD before dropping to 2,64M in 1815AD (+53,5%) [@Shelomentseva2015Smolensk1812; @Lieven2009; @Mironov1990Urban].
+
+```{r table-reg23, echo=FALSE, results='asis'}
+df_reg23 <- build_region_df("western_approach_smolensk_kaluga_tver")
+render_table_template(
+  df_reg23,
+  list(
+    caption = "Upper Volga and Oka shipping hubs of Kaluga, Tver and Torzhok alongside the 1812AD battlefield towns of Smolensk, Vyazma and Maloyaroslavets.",
+    label = "tab:reg23-sites"
+  )
+)
+```
+
+## Central Industrial Non-Black-Earth
+
+Table \ref{tab:reg24-sites} lists the towns of Region 24 (Vladimir, Yaroslavl, Kostroma and Nizhny Novgorod Governorates, 217,28k km²), where regional population grew from 2,42M in 1721AD to 4,02M in 1811AD and 4,11M in 1815AD (+69,8%) [@Mironov1990Urban; @Kahan1985; @Moon1999].
+
+```{r table-reg24, echo=FALSE, results='asis'}
+df_reg24 <- build_region_df("central_non_black_earth_industrial")
+render_table_template(
+  df_reg24,
+  list(
+    caption = "Upper Volga textile and river-trade centres of Yaroslavl, Nizhny Novgorod, Kostroma, Arzamas, Suzdal and Vladimir across the eighteenth and early nineteenth centuries.",
+    label = "tab:reg24-sites"
+  )
+)
+```
+
+## Northern Black-Earth: Tula, Ryazan & Oryol
+
+Table \ref{tab:reg25-sites} lists the towns of Region 25 (Tula, Ryazan and Oryol Governorates, 114,13k km²), where regional population rose from 1,58M in 1721AD to 3,42M in 1811AD and 3,52M in 1815AD (+122,8%) [@Kabuzan1971; @Myakisheva2016; @Mironov1990Urban].
+
+```{r table-reg25, echo=FALSE, results='asis'}
+df_reg25 <- build_region_df("northern_black_earth_tula_ryazan_orel")
+render_table_template(
+  df_reg25,
+  list(
+    caption = "Expansion of the imperial arms centre of Tula and the Oka-Sosna grain and leather markets of Oryol, Yelets, Bolkhov, Ryazan and Bryansk from 1721AD to 1815AD.",
+    label = "tab:reg25-sites"
+  )
+)
+```
+
+## Southern Black-Earth: Kursk, Voronezh & Tambov
+
+Table \ref{tab:reg26-sites} lists the towns of Region 26 (Kursk, Voronezh and Tambov Governorates, 166,57k km²), where regional population grew from 1,51M in 1721AD to 3,94M in 1811AD and 4,12M in 1815AD (+172,8%) [@Myakisheva2016; @Kabuzan1971; @Moon1999].
+
+```{r table-reg26, echo=FALSE, results='asis'}
+df_reg26 <- build_region_df("southern_black_earth_kursk_voronezh_tambov")
+render_table_template(
+  df_reg26,
+  list(
+    caption = "Chernozem grain, tallow and fair centres of Kursk, Voronezh, Tambov, Kozlov, Belgorod and the Tsna river grain port of Morshansk from 1721AD to 1815AD.",
+    label = "tab:reg26-sites"
+  )
+)
+```
+
+## Middle Volga: Kazan, Simbirsk & Penza
+
+Table \ref{tab:reg27-sites} lists the towns of Region 27 (Kazan, Simbirsk and Penza Governorates, 145,9k km²), where regional population rose from 1,42M in 1721AD to 3,18M in 1811AD and 3,29M in 1815AD (+131,7%) [@Abdullin2013; @Kabuzan1990; @Mironov1990Urban].
+
+```{r table-reg27, echo=FALSE, results='asis'}
+df_reg27 <- build_region_df("middle_volga_kazan_simbirsk_penza")
+render_table_template(
+  df_reg27,
+  list(
+    caption = "Middle Volga administrative and commercial hubs of Kazan (seat of Kazan University from 1804AD), Simbirsk, Penza, Syzran, Saransk and Cheboksary.",
+    label = "tab:reg27-sites"
+  )
+)
+```
+
+## Lower Volga: Saratov & Astrakhan
+
+Table \ref{tab:reg28-sites} lists the towns of Region 28 (Saratov and Astrakhan Governorates, 329,07k km²), where regional population grew from 480k in 1721AD to 1,49M in 1811AD and 1,58M in 1815AD (+229,2%) [@Bartlett1979; @Galperina2013VolgaGermans; @Khodarkovsky1992; @Ochirov2012Kalmyk1771].
+
+```{r table-reg28, echo=FALSE, results='asis'}
+df_reg28 <- build_region_df("lower_volga_saratov_astrakhan_1763_1771")
+render_table_template(
+  df_reg28,
+  list(
+    caption = "Caspian entrepot of Astrakhan, the booming Lower Volga salt and grain ports of Saratov and Volsk, Tsaritsyn and the 1765AD German and Moravian colonies of Katharinenstadt and Sarepta.",
+    label = "tab:reg28-sites"
+  )
+)
+```
+
+## Province of the Don Cossack Host
+
+Table \ref{tab:reg29-sites} lists the towns of Region 29 (Province of the Don Cossack Host, 172,66k km²), where regional population rose from 180k in 1721AD to 645k in 1811AD and 680k in 1815AD (+277,8%) [@Sunderland2004; @Kabuzan1971; @Mironov1990Urban].
+
+```{r table-reg29, echo=FALSE, results='asis'}
+df_reg29 <- build_region_df("don_cossack_host_province")
+render_table_template(
+  df_reg29,
+  list(
+    caption = "Azov and Lower Don ports and capitals: Crimean Armenian Nakhichevan-on-Don (1779AD), Taganrog (refounded 1769AD), the new 1805AD Host capital Novocherkassk, Starocherkassk and Rostov-on-Don.",
+    label = "tab:reg29-sites"
+  )
+)
+```
+
+## Caucasian Line, Kuban & Stavropol
+
+Table \ref{tab:reg30-sites} lists the towns of Region 30 (Caucasian Line, Kuban and Stavropol, 112,7k km²), where regional population grew from 120k in 1721AD to 465k in 1811AD and 505k in 1815AD (+320,8%) [@Burykina2008; @Sunderland2004; @Kabuzan1990].
+
+```{r table-reg30, echo=FALSE, results='asis'}
+df_reg30 <- build_region_df("caucasian_line_kuban_and_stavropol")
+render_table_template(
+  df_reg30,
+  list(
+    caption = "Eighteenth-century fortress towns of the Caucasian Line: Terek silk-and-wine centre Kizlyar (1735AD), Mozdok (1763AD), Stavropol and Georgievsk (1777AD), and the Black Sea Cossack capital Ekaterinodar (1793AD).",
+    label = "tab:reg30-sites"
+  )
+)
+```
+
+## North Caucasian Highlanders
+
+Table \ref{tab:reg31-sites} lists the principal settlements of Region 31 (North Caucasian Highlands: Circassia, Kabarda, Chechnya and Dagestan, 149,43k km²), where regional population rose from 780k in 1721AD to 905k in 1811AD and 910k in 1815AD (+16,7%) [@Tovsultanov2017; @Kabuzan1990; @Kappeler2001].
+
+```{r table-reg31, echo=FALSE, results='asis'}
+df_reg31 <- build_region_df("north_caucasus_highlands_circassia_dagestan")
+render_table_template(
+  df_reg31,
+  list(
+    caption = "Caspian and mountain strongholds of Derbent, Kumyk Tarki, Avar Khunzakh, the Ottoman Black Sea fortress of Anapa and the Russian Darial Gorge fort of Vladikavkaz (founded 1784AD).",
+    label = "tab:reg31-sites"
+  )
+)
+```
+
+## Perm & Vyatka Urals
+
+Table \ref{tab:reg32-sites} lists the towns and ironworks of Region 32 (Perm and Vyatka Governorates, 491,79k km²), where regional population grew from 685k in 1721AD to 1,84M in 1811AD and 1,92M in 1815AD (+180,3%) [@Portal1950; @Smirnov1992UralZavody; @Kahan1985].
+
+```{r table-reg32, echo=FALSE, results='asis'}
+df_reg32 <- build_region_df("northern_urals_perm_and_vyatka")
+render_table_template(
+  df_reg32,
+  list(
+    caption = "Ural mining and metallurgical centres of Nizhny Tagil, Ekaterinburg (1723AD) and the Izhevsk arms works (1760AD) alongside Perm, Kungur, Vyatka and Solikamsk.",
+    label = "tab:reg32-sites"
+  )
+)
+```
+
+## Orenburg Governorate & Bashkiria
+
+Table \ref{tab:reg33-sites} lists the towns and fortresses of Region 33 (Orenburg Governorate and Bashkiria, 425,09k km²), where regional population rose from 460k in 1721AD to 1,32M in 1811AD and 1,4M in 1815AD (+204,3%) [@Shaykhislamov2018Bashkiria; @Kahan1985; @Kabuzan1971].
+
+```{r table-reg33, echo=FALSE, results='asis'}
+df_reg33 <- build_region_df("southern_urals_orenburg_and_bashkiria")
+render_table_template(
+  df_reg33,
+  list(
+    caption = "Ufa and the eighteenth-century Orenburg Line fortresses, salt ports and Southern Ural ironworks of Orenburg (1743AD), Zlatoust (1754AD), Troitsk (1743AD), Chelyabinsk (1736AD) and Sterlitamak (1766AD).",
+    label = "tab:reg33-sites"
+  )
+)
+```
+
+## Tobolsk South: Siberian Trakt & Ishim
+
+Table \ref{tab:reg34-sites} lists the towns of Region 34 (Southern Tobolsk along the Siberian Post Road and Ishim Line, 244,12k km²), where regional population grew from 215k in 1721AD to 528k in 1811AD and 545k in 1815AD (+153,5%) [@Hartley2014; @Korusenko2011Siberia; @Kabuzan1971].
+
+```{r table-reg34, echo=FALSE, results='asis'}
+df_reg34 <- build_region_df("siberia_tobolsk_trakt_and_ishim_line")
+render_table_template(
+  df_reg34,
+  list(
+    caption = "West Siberian post-road and Irtysh-Ishim line towns of Tyumen, Omsk, Tara, Ishim and Kurgan from 1721AD to 1815AD.",
+    label = "tab:reg34-sites"
+  )
+)
+```
+
+## Tobolsk North: Ob-Irtysh Basin
+
+Table \ref{tab:reg35-sites} lists the towns and *ostrogi* of Region 35 (Northern Tobolsk and the Ob-Irtysh basin, 1,64M km²), where regional population rose from 85k in 1721AD to 156k in 1811AD and 160k in 1815AD (+88,2%) [@Forsyth1992; @Korusenko2011Siberia; @Hartley2014].
+
+```{r table-reg35, echo=FALSE, results='asis'}
+df_reg35 <- build_region_df("siberia_tobolsk_north_ob_irtysh_narym")
+render_table_template(
+  df_reg35,
+  list(
+    caption = "The old Siberian capital Tobolsk alongside the northern Ob-Irtysh fur-tribute outposts of Narym, Berezov, Surgut and polar Obdorsk from 1721AD to 1815AD.",
+    label = "tab:reg35-sites"
+  )
+)
+```
+
+## Tomsk & Altai Silver Mines
+
+Table \ref{tab:reg36-sites} lists the towns and mining settlements of Region 36 (Tomsk Governorate and the Altai Cabinet silver district, 499,97k km²), where regional population grew from 95k in 1721AD to 289k in 1811AD and 300k in 1815AD (+215,8%) [@Isaev2025AltaiCabinet; @Hartley2014; @Kahan1985].
+
+```{r table-reg36, echo=FALSE, results='asis'}
+df_reg36 <- build_region_df("siberia_tomsk_and_kolyvan_altai_mines")
+render_table_template(
+  df_reg36,
+  list(
+    caption = "Expansion of Tomsk (made a governorate seat in 1804AD), the Imperial Cabinet silver-smelting towns of Barnaul and Zmeinogorsk, and the frontier forts of Biysk and Kuznetsk.",
+    label = "tab:reg36-sites"
+  )
+)
+```
+
+## Altai-Sayan & Minusinsk Borderlands
+
+Table \ref{tab:reg37-sites} lists the frontier posts of Region 37 (Altai-Sayan and Minusinsk borderlands, 418,84k km²), where regional population rose from 75k in 1721AD to 122k in 1811AD and 125k in 1815AD (+66,7%) [@Ekeev2020; @Forsyth1992; @Kabuzan1990].
+
+```{r table-reg37, echo=FALSE, results='asis'}
+df_reg37 <- build_region_df("siberia_altai_sayan_and_minusinsk_border")
+render_table_template(
+  df_reg37,
+  list(
+    caption = "Upper Irtysh and Upper Yenisei frontier outposts of Ust-Kamenogorsk (1720AD), Minusinsk (1739AD), Abakanskiy Ostrog and Sayanskiy Ostrog.",
+    label = "tab:reg37-sites"
+  )
+)
+```
+
+## Yeniseisk, Krasnoyarsk & Turukhansk
+
+Table \ref{tab:reg38-sites} lists the towns of Region 38 (Yeniseisk Province, 2,25M km²), where regional population grew from 72k in 1721AD to 138k in 1811AD and 144k in 1815AD (+100%) [@Hartley2014; @Forsyth1992; @Kabuzan1971].
+
+```{r table-reg38, echo=FALSE, results='asis'}
+df_reg38 <- build_region_df("siberia_yeniseisk_and_turukhansk_basin")
+render_table_template(
+  df_reg38,
+  list(
+    caption = "Yenisei river-portage town of Yeniseysk, the southern post-road stations of Krasnoyarsk, Achinsk and Kansk, and the subarctic fur outpost of Turukhansk.",
+    label = "tab:reg38-sites"
+  )
+)
+```
+
+## Irkutsk & Transbaikal Frontier
+
+Table \ref{tab:reg39-sites} lists the towns of Region 39 (Irkutsk Governorate and Transbaikalia, 2,5M km²), where regional population rose from 142k in 1721AD to 243k in 1811AD and 252k in 1815AD (+77,5%) [@Hartley2014; @Forsyth1992; @Kahan1985].
+
+```{r table-reg39, echo=FALSE, results='asis'}
+df_reg39 <- build_region_df("siberia_irkutsk_and_transbaikal_kiakhta")
+render_table_template(
+  df_reg39,
+  list(
+    caption = "East Siberian capital Irkutsk, the Sino-Russian treaty port of Kiakhta/Troitskosavsk (founded 1727AD), the Nerchinsk silver-lead mines, Verkhneudinsk, Selenginsk and Kirensk.",
+    label = "tab:reg39-sites"
+  )
+)
+```
+
+## Yakutsk, Okhotsk & Kamchatka
+
+Table \ref{tab:reg40-sites} lists the settlements of Region 40 (Yakutsk, Okhotsk Seaboard and Kamchatka, 5,3M km²), where regional population moved from 155k in 1721AD to 158k in 1811AD and 160k in 1815AD (+3,2%) [@Turaev2012Kamchatka; @Tolkacheva2015Kamchatka; @Forsyth1992].
+
+```{r table-reg40, echo=FALSE, results='asis'}
+df_reg40 <- build_region_df("siberia_yakutsk_okhotsk_and_kamchatka")
+render_table_template(
+  df_reg40,
+  list(
+    caption = "Lena and North Pacific outposts of Yakutsk, Okhotsk, Petropavlovsk-Kamchatsky (founded by Vitus Bering in 1740AD), Nizhnekamchatsk and Indigirka Zashiversk.",
+    label = "tab:reg40-sites"
+  )
+)
+```
+
+# Appendix
+
+## Regional Summary of Towns
+
+Table \ref{tab:regional-summary} sums the population of the 224 towns across all 40 regions from 1721AD to 1815AD [@Mironov1990Urban; @Kabuzan1971; @Keppen1857].
+
+```{r table-regional-summary, echo=FALSE, results='asis'}
+regs_meta <- summary_meta$regions
+yrs_sum <- c("1721", "1762", "1795", "1811", "1815")
+
+sum_rows <- lapply(regs_meta, function(r) {
+  rslug <- r$id
+  short_nm <- sub("\\s*\\(.*", "", as.character(r$name))
+  sub_e <- Filter(function(e) identical(as.character(reg40_map[[e$key]]), as.character(rslug)), all_entries)
+  raw_v <- sapply(yrs_sum, function(y) {
+    sum(sapply(sub_e, function(e) {
+      v <- get_entry_pop(e, y)
+      if (is.na(v)) 0 else v
+    }))
+  })
+  pct <- if (raw_v[["1721"]] > 0) round((raw_v[["1815"]] - raw_v[["1721"]]) / raw_v[["1721"]] * 100, 1) else NA_real_
+  pct_s <- if (is.na(pct)) "New" else paste0(if (pct > 0) "+" else "", sub(",0$", "", gsub("\\.", ",", format(pct, nsmall = 1, trim = TRUE))), "%")
+  data.frame(
+    `Region (Towns)` = paste0(short_nm, " (", length(sub_e), ")"),
+    `1721AD` = fmt_eu_pop(raw_v[["1721"]]),
+    `1762AD` = fmt_eu_pop(raw_v[["1762"]]),
+    `1795AD` = fmt_eu_pop(raw_v[["1795"]]),
+    `1811AD` = fmt_eu_pop(raw_v[["1811"]]),
+    `1815AD` = fmt_eu_pop(raw_v[["1815"]]),
+    `Change` = pct_s,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+
+tot_raw <- sapply(yrs_sum, function(y) {
+  sum(sapply(all_entries, function(e) {
+    v <- get_entry_pop(e, y)
+    if (is.na(v)) 0 else v
+  }))
+})
+tot_pct <- round((tot_raw[["1815"]] - tot_raw[["1721"]]) / tot_raw[["1721"]] * 100, 1)
+tot_pct_s <- paste0(if (tot_pct > 0) "+" else "", sub(",0$", "", gsub("\\.", ",", format(tot_pct, nsmall = 1, trim = TRUE))), "%")
+
+tot_row <- data.frame(
+  `Region (Towns)` = paste0("Total Towns (", length(all_entries), ")"),
+  `1721AD` = fmt_eu_pop(tot_raw[["1721"]]),
+  `1762AD` = fmt_eu_pop(tot_raw[["1762"]]),
+  `1795AD` = fmt_eu_pop(tot_raw[["1795"]]),
+  `1811AD` = fmt_eu_pop(tot_raw[["1811"]]),
+  `1815AD` = fmt_eu_pop(tot_raw[["1815"]]),
+  `Change` = tot_pct_s,
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, tot_row)
+
+render_table_template(
+  df_sum,
+  list(
+    caption = "Combined urban population of all 224 catalogued towns across each of the 40 regions at five revision benchmarks from 1721AD to 1815AD.",
+    label = "tab:regional-summary"
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

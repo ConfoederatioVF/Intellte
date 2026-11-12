@@ -1,0 +1,284 @@
+---
+title: "Towns and Villages of Ancient and Medieval Crimea"
+subtitle: "A Gazetteer of Cave-Towns, Coastal Ports and Steppe Settlements"
+date: "10 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/crimea_regional_map.png"
+hero_caption: "Locations of the principal towns, plateau fortresses and archaeological sites catalogued across the four geographical divisions of Crimea (~26,95k km²), from Mesolithic foothill grottoes and Classical Greek ports to the medieval seats of Theodoro, Solkhat and Genoese Caffa."
+hero_label: "fig:crimea-settlements-hero"
+bibliography: crimea_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+```
+
+```{r load-stadester-json, include=FALSE}
+GAZETTEER_JSON_FILE <- "crimea_settlements.json"
+gaz_map <- jsonlite::fromJSON(GAZETTEER_JSON_FILE, simplifyVector = FALSE)
+settlements_list <- unname(gaz_map)
+
+first_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(99999)
+  return(min(yrs))
+}
+last_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(-99999)
+  return(max(yrs))
+}
+
+ord_idx <- order(
+  vapply(settlements_list, first_year_num, numeric(1)),
+  vapply(settlements_list, function (s) as.character(s$name), character(1))
+)
+settlements_list <- settlements_list[ord_idx]
+
+fmt_other_names <- function (arg0_s) {
+  onames <- unlist(arg0_s$other_names)
+  if (length(onames) == 0) return("-")
+  clean_vec <- unique(as.character(onames))
+  clean_vec <- clean_vec[nzchar(clean_vec) & tolower(clean_vec) != tolower(arg0_s$name)]
+  if (length(clean_vec) == 0) clean_vec <- unique(as.character(onames))
+  return(paste(head(clean_vec, 2L), collapse = "; "))
+}
+
+fmt_year_lbl <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_span <- function (arg0_s) {
+  y1 <- first_year_num(arg0_s)
+  y2 <- last_year_num(arg0_s)
+  if (y1 == y2) return(fmt_year_lbl(y1))
+  if (y1 < 0 && y2 < 0) return(paste0(abs(y1), "-", abs(y2), "BC"))
+  if (y1 > 0 && y2 > 0) return(paste0(y1, "-", y2, "AD"))
+  return(paste0(fmt_year_lbl(y1), " - ", fmt_year_lbl(y2)))
+}
+
+fmt_num_eu <- function (arg0_val) {
+  if (is.null(arg0_val) || is.na(arg0_val)) return("-")
+  v <- as.numeric(arg0_val)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
+  if (v >= 1000) {
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
+  }
+  return(as.character(round(v)))
+}
+
+fmt_coord_pair <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  fmt_deg <- function (val) {
+    s <- gsub("\\.", ",", sprintf("%.2f", abs(val)))
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(s)
+  }
+  lat_s <- paste0(fmt_deg(lat), if (lat >= 0) "°N" else "°S")
+  lon_s <- paste0(fmt_deg(lon), if (lon >= 0) "°E" else "°W")
+  return(paste0(lat_s, ", ", lon_s))
+}
+
+fmt_pop_series <- function (arg0_s, arg1_ymin = -99999, arg2_ymax = 99999) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  keep <- which(yrs >= arg1_ymin & yrs <= arg2_ymax)
+  if (length(keep) == 0) return("-")
+  if (length(keep) > 6L) {
+    sel_idx <- unique(round(seq(1, length(keep), length.out = 6L)))
+    keep <- keep[sel_idx]
+  }
+  parts <- vapply(keep, function (idx) {
+    paste0(fmt_year_lbl(yrs[idx]), ": ", fmt_num_eu(vals[idx]))
+  }, character(1))
+  return(paste(parts, collapse = "; "))
+}
+```
+
+# Abstract
+
+This gazetteer compiles location coordinates, alternative Greek, Scythian, Byzantine and Tatar names and benchmark population estimates for 171 settlements and archaeological sites across the Crimean Peninsula (~26,95k km²) from 10000BC to 1400AD. In prehistory and the Bronze Age, settlement moved from the Mesolithic limestone rock-shelters of the Inner Ridge (Shan-Koba, Murzak-Koba and Fatma-Koba) to Kemi-Oba valley settlements and the fortified Tauri promontory of Uch-Bash (0,9k - 1,2k in 1000BC). After 600BC, Milesian and Dorian colonists built Panticapaeum (28k in 200AD), Chersonesus Taurica (20k), Theodosia and Kerkinitis alongside the Late Scythian capital at Scythian Neapolis (8k) and the Roman fort at Charax, before Gothic and Hunnic raids emptied the open countryside in the third and fourth centuries AD. Medieval town life revived under Byzantine and Khazar rule at Cherson (12k in 900AD), Sugdaia (9k) and the cliff-top plateau towns of Mangup-Doros (7k) and Eski-Kermen (5,2k), reaching a fourteenth-century commercial peak at Genoese Caffa (32k - 40k in 1300 - 1345AD) and Golden Horde Solkhat (28k) before the Black Death and the raids of Timur and Edigu reduced urban numbers by 1400AD.
+
+# Methodology
+
+The `r length(settlements_list)` towns, villages and archaeological sites of Crimea (~26,95k km²) recorded between 10000BC and 1400AD are listed below with their historical or alternative names, coordinates, dates of occupation and estimated populations.
+
+For the Palaeolithic, Mesolithic, Neolithic and Bronze Age (10000BC - 1000BC), figures are based on the floor area of rock-shelters and open camps [@cherkasov2018; @shchepinsky1966; @kris1981]. For Classical Chersonesus, the Bosporan Kingdom and Late Scythia (500BC - 400AD), estimates come from walled town areas and surveys of the surrounding farmland [@maslennikov1998; @carter2000; @popova2011]. For the Middle Ages (500AD - 1400AD) - covering Byzantine Cherson, Crimean Gothia, Khazar settlements, Kievan Rus Korsun and Korchev, the Principality of Theodoro, Golden Horde Solkhat and the Genoese ports - estimates are drawn from fortress walls, mountain plateau settlements and town quarters [@aibabin1999; @baranov1990; @bocharov2017; @myts2024; @ozturk2019; @inalcik1996; @vodarsky2003].
+
+# Results
+
+## Prehistoric, Classical and Scythian Sites
+
+Table \ref{tab:crimea-gaz-ancient} lists the Mesolithic rock-shelters, Bronze Age and Tauri settlements, Greek coastal colonies and Late Scythian hillforts first occupied up to 400AD, along with their later medieval continuation where attested.
+
+```{r table-prehistoric-classical, echo=FALSE, results='asis'}
+sub_ancient <- Filter(function (s) first_year_num(s) <= 400, settlements_list)
+df_ancient <- data.frame(
+  col_1 = vapply(sub_ancient, function (s) as.character(s$name), character(1)),
+  col_2 = vapply(sub_ancient, fmt_other_names, character(1)),
+  col_3 = vapply(sub_ancient, function (s) fmt_coord_pair(s$coords), character(1)),
+  col_4 = vapply(sub_ancient, fmt_span, character(1)),
+  col_5 = vapply(sub_ancient, function (s) fmt_pop_series(s, -10000, 1400), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_ancient,
+  list(
+    caption = "Settlements and archaeological sites in Crimea founded between 10000BC and 400AD, giving coordinates, alternative Greek, Scythian and Tatar names, dates of occupation and up to six benchmark population estimates.",
+    label = "tab:crimea-gaz-ancient",
+    col_names = c("Settlement / Site", "Historical / Alternative Names", "Coords", "Attested Span", "Selected Benchmark Populations")
+  )
+)
+```
+
+## Medieval Settlements
+
+Table \ref{tab:crimea-gaz-med-mod} covers the Byzantine coastal forts, the cliff-top towns of Crimean Gothia and Theodoro, the Saltovo-Mayaki villages of the Khazar period and the ports and inland cities of the Golden Horde and Genoese Gazaria founded from 500AD onwards.
+
+```{r table-medieval-modern, echo=FALSE, results='asis'}
+sub_med_mod <- Filter(function (s) first_year_num(s) >= 500, settlements_list)
+df_med_mod <- data.frame(
+  col_1 = vapply(sub_med_mod, function (s) as.character(s$name), character(1)),
+  col_2 = vapply(sub_med_mod, fmt_other_names, character(1)),
+  col_3 = vapply(sub_med_mod, function (s) fmt_coord_pair(s$coords), character(1)),
+  col_4 = vapply(sub_med_mod, fmt_span, character(1)),
+  col_5 = vapply(sub_med_mod, function (s) fmt_pop_series(s, 500, 1400), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_med_mod,
+  list(
+    caption = "Byzantine, Gothic-Theodoran, Khazar, Golden Horde and Genoese settlements founded in Crimea between 500AD and 1400AD, pairing coordinates and historical names with their medieval population series.",
+    label = "tab:crimea-gaz-med-mod",
+    col_names = c("Settlement / Site", "Historical / Alternative Names", "Coords", "Attested Span", "Selected Benchmark Populations")
+  )
+)
+```
+
+# Sources

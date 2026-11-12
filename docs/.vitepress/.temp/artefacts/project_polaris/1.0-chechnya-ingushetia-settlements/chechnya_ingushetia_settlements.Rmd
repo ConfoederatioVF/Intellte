@@ -1,0 +1,341 @@
+---
+title: "Towns, Hillforts and Tower Complexes of Chechnya and Ingushetia"
+subtitle: "Vainakh, Alanic and Cossack Settlements from the Sunzha Plain to the Argun Gorges"
+date: "7 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/chechnya_ingushetia_map_basins.png"
+hero_caption: "The three settlement belts of Chechnya and Ingushetia: the Sunzha-Assa-Argun piedmont plain (8,6k km²) with its Eastern Koban hillforts and Alanic walled towns, the limestone tower gorges of Dzheirakh, Targim and the upper Argun (6,7k km²), and the Trans-Terek steppe (5,5k km²)."
+hero_label: "fig:hero"
+bibliography: chechnya_ingushetia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
+```
+
+```{r load-gazetteer, include=FALSE}
+gaz <- jsonlite::fromJSON("chechnya_ingushetia_settlements.json", simplifyVector = FALSE)
+
+fmt_pop <- function(v) {
+  if (is.null(v) || is.na(v)) return("-")
+  v <- as.numeric(v)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
+  if (v >= 1000) {
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
+  }
+  return(as.character(round(v)))
+}
+
+fmt_yr <- function(y) {
+  yi <- as.integer(y)
+  if (yi < 0) paste0(abs(yi), "BC") else paste0(yi, "AD")
+}
+
+get_span <- function(s) {
+  yrs <- as.integer(names(s$population))
+  if (length(yrs) == 0) return("-")
+  if (min(yrs) == max(yrs)) return(fmt_yr(min(yrs)))
+  paste0(fmt_yr(min(yrs)), " - ", fmt_yr(max(yrs)))
+}
+
+get_pop_yr <- function(s, yr) {
+  k <- as.character(as.integer(yr))
+  if (!is.null(s$population[[k]])) return(fmt_pop(s$population[[k]]))
+  return("-")
+}
+
+get_pop_window <- function(s, yr_vec) {
+  for (y in yr_vec) {
+    k <- as.character(as.integer(y))
+    if (!is.null(s$population[[k]])) return(fmt_pop(s$population[[k]]))
+  }
+  return("-")
+}
+
+get_peak_str <- function(s) {
+  vals <- as.numeric(unlist(s$population))
+  yrs <- as.integer(names(s$population))
+  idx <- which.max(vals)
+  paste0(fmt_pop(vals[idx]), " (", fmt_yr(yrs[idx]), ")")
+}
+```
+
+# Abstract
+
+Across the 20,8k km² of Chechnya and Ingushetia, settlement has shifted repeatedly between the fertile Sunzha-Assa-Argun piedmont plain and the defensive limestone canyons of the Greater Caucasus. Early Bronze Age villages at Lugovoye and Bamut and Eastern Koban craft hillforts at Serzhen-Yurt and Zandak (housing 400-800 residents apiece by 1000-500BC) gave way in the first millennium AD to the walled Alanic towns of the Sunzha and Assa plains, led by Alkhan-Kala (12k in 1200AD) and the Magas settlement cluster around Nazran and Ekazhevo (18k in 1200AD) [@munchaev1961lugovoye; @kozenkova1992serzhen; @vinogradov1970; @chakhkiev2006magas].
+
+The Mongol siege of Magas in 1239-1240 and Timur's campaign of 1395 destroyed the lowland towns and drove the surviving population into the fortified stone tower villages (*aul-kreposti*) of the Armkhi, Assa and Argun gorges, including Egikal, Erzi, Targim, Vovnushki, Tsoy-Pede and Khoy [@markovin1965monuments; @dolgieva2013ingushetia]. Between the 16th and 18th centuries, Vainakh settlers returned to the foothills and plains to found large agricultural *auls* of 1k-4k inhabitants at Shali, Urus-Martan, Aldy, Germenchuk, Chechen-Aul and Nazran alongside the Greben and Terek Cossack *stanitsas* on the left bank of the Terek [@kusheva1963peoples; @akhmadov2002chechnya; @kabuzan1996]. By 1897-1900AD, following the Caucasian War and the 1893 discovery of the Grozny oilfield, Grozny had grown into an industrial city of 15,6k-18,5k inhabitants, flanked by major lowland villages and Sunzha-Terek Cossack settlements [@troynitskiy1905terek; @ibragimova2006].
+
+# Methodology
+
+This gazetteer traces the population histories of `r length(gaz)` settlements across Chechnya and Ingushetia from 10000BC to 1900AD.
+
+Prehistoric, Eastern Koban and Alanic figures are derived from excavated settlement areas and cemetery surveys [@munchaev1961lugovoye; @kozenkova1992serzhen; @vinogradov1970; @chakhkiev2006magas; @mamaev2009]. Highland stone tower and early modern estimates draw on architectural surveys of the Assa, Armkhi and Argun gorges alongside Russian diplomatic registers [@markovin1965monuments; @chakhkiev2007weapons; @kusheva1963peoples; @akhmadov2002chechnya; @akhmadov2019chechnya], while 19th-century and 1897 totals follow military returns and the First All-Russian Imperial Census for Terek Oblast [@berger1859chechnya; @ibragimova2006; @troynitskiy1905terek; @kabuzan1996].
+
+# Results
+
+## Settlement Directory
+
+```{r tab-master, echo=FALSE, results='asis'}
+df_master <- data.frame(
+  Settlement = vapply(gaz, function(s) s$name, character(1)),
+  Other_Names = vapply(gaz, function(s) paste(s$other_names, collapse = ", "), character(1)),
+  Coords = vapply(gaz, function(s) {
+    paste0(gsub("\\.", ",", sprintf("%.2f", s$coords[[1]])), "N, ", gsub("\\.", ",", sprintf("%.2f", s$coords[[2]])), "E")
+  }, character(1)),
+  Span = vapply(gaz, get_span, character(1)),
+  Peak = vapply(gaz, get_peak_str, character(1)),
+  AD1897 = vapply(gaz, function(s) get_pop_yr(s, 1897), character(1)),
+  AD1900 = vapply(gaz, function(s) get_pop_yr(s, 1900), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_master,
+  list(
+    caption = "Complete list of catalogued settlements in Chechnya and Ingushetia, showing alternative names, coordinates, documented date range, peak population and 1897/1900AD census figures.",
+    label = "tab:chechnya-master-gazetteer",
+    col_names = c("Settlement", "Other Names", "Coords", "Dates", "Peak Population", "1897AD", "1900AD"),
+    alignment = c("l", "l", "l", "l", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+## Regional Settlement Gazetteer
+
+### Prehistoric, Eastern Koban and Alanic Settlements
+
+```{r tab-prehistoric, echo=FALSE, results='asis'}
+pre_s <- Filter(function(s) any(as.integer(names(s$population)) <= 1200), gaz)
+
+df_pre <- data.frame(
+  Settlement = vapply(pre_s, function(s) s$name, character(1)),
+  Coords = vapply(pre_s, function(s) {
+    paste0(gsub("\\.", ",", sprintf("%.2f", s$coords[[1]])), "N, ", gsub("\\.", ",", sprintf("%.2f", s$coords[[2]])), "E")
+  }, character(1)),
+  BC_Early = vapply(pre_s, function(s) get_pop_window(s, c(-8000, -4000, -3500, -3000, -2500)), character(1)),
+  BC1000_500 = vapply(pre_s, function(s) get_pop_window(s, c(-1500, -1000, -500)), character(1)),
+  AD400_600 = vapply(pre_s, function(s) get_pop_window(s, c(1, 400, 600)), character(1)),
+  AD800 = vapply(pre_s, function(s) get_pop_yr(s, 800), character(1)),
+  AD1000 = vapply(pre_s, function(s) get_pop_yr(s, 1000), character(1)),
+  AD1200 = vapply(pre_s, function(s) get_pop_yr(s, 1200), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_pre,
+  list(
+    caption = "Estimated populations of prehistoric villages, Eastern Koban hillforts (such as Serzhen-Yurt and Zandak) and Alanic walled towns (including Alkhan-Kala and the Magas cluster) up to the Mongol invasion.",
+    label = "tab:chechnya-prehistoric-alanic",
+    col_names = c("Settlement", "Coords", "8000-2500BC", "1500-500BC", "1-600AD", "800AD", "1000AD", "1200AD"),
+    alignment = c("l", "l", "r", "r", "r", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+### Late Medieval Highland Tower Complexes and Early Modern Settlements
+
+```{r tab-medieval, echo=FALSE, results='asis'}
+med_s <- Filter(function(s) {
+  yrs <- as.integer(names(s$population))
+  any(yrs >= 1300 & yrs <= 1700)
+}, gaz)
+
+df_med <- data.frame(
+  Settlement = vapply(med_s, function(s) s$name, character(1)),
+  Other_Names = vapply(med_s, function(s) paste(s$other_names, collapse = ", "), character(1)),
+  Coords = vapply(med_s, function(s) {
+    paste0(gsub("\\.", ",", sprintf("%.2f", s$coords[[1]])), "N, ", gsub("\\.", ",", sprintf("%.2f", s$coords[[2]])), "E")
+  }, character(1)),
+  AD1400 = vapply(med_s, function(s) get_pop_window(s, c(1300, 1400)), character(1)),
+  AD1600 = vapply(med_s, function(s) get_pop_window(s, c(1500, 1600)), character(1)),
+  AD1700 = vapply(med_s, function(s) get_pop_yr(s, 1700), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_med,
+  list(
+    caption = "Estimated populations of the fortified stone tower villages of the Armkhi, Assa and Argun gorges (Egikal, Erzi, Targim, Tsoy-Pede and Khoy) and the earliest 16th- and 17th-century foothill and lowland settlements.",
+    label = "tab:chechnya-medieval-towers",
+    col_names = c("Settlement", "Other Names", "Coords", "1300/1400AD", "1500/1600AD", "1700AD"),
+    alignment = c("l", "l", "l", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+### Eighteenth- and Nineteenth-Century Settlements
+
+```{r tab-modern, echo=FALSE, results='asis'}
+mod_s <- Filter(function(s) any(as.integer(names(s$population)) >= 1700), gaz)
+
+df_mod <- data.frame(
+  Settlement = vapply(mod_s, function(s) s$name, character(1)),
+  Other_Names = vapply(mod_s, function(s) paste(s$other_names, collapse = ", "), character(1)),
+  AD1700 = vapply(mod_s, function(s) get_pop_yr(s, 1700), character(1)),
+  AD1750 = vapply(mod_s, function(s) get_pop_window(s, c(1725, 1750, 1770, 1780)), character(1)),
+  AD1800 = vapply(mod_s, function(s) get_pop_yr(s, 1800), character(1)),
+  AD1850 = vapply(mod_s, function(s) get_pop_yr(s, 1850), character(1)),
+  AD1897 = vapply(mod_s, function(s) get_pop_yr(s, 1897), character(1)),
+  AD1900 = vapply(mod_s, function(s) get_pop_yr(s, 1900), character(1)),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_mod,
+  list(
+    caption = "Populations of major Chechen and Ingush lowland villages (Shali, Urus-Martan, Aldy, Chechen-Aul and Nazran), Terek and Sunzha Cossack stanitsas and the city of Grozny from 1700 to 1900AD.",
+    label = "tab:chechnya-modern-settlements",
+    col_names = c("Settlement", "Other Names", "1700AD", "1750AD", "1800AD", "1850AD", "1897AD", "1900AD"),
+    alignment = c("l", "l", "r", "r", "r", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+```{r crd_footnotes, echo=FALSE, results='asis'}
+emit_crd_footnotes()
+```

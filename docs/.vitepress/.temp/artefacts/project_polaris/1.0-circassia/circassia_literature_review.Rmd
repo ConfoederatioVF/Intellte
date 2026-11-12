@@ -1,0 +1,462 @@
+---
+title: "Steppe, Highland and Frontier in Circassia and Central Ciscaucasia"
+subtitle: "From Maykop, Bosporus and Alania to the 1864 Muhajir Exodus and Kuban Colonisation"
+date: "7 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/circassia_map_subregions_sites.png"
+hero_caption: "Extending 650 km from the Taman Peninsula and Black Sea coast to the Darial Gorge (122,9k km²), the region spans Krasnodar Krai, Adygea, Karachay-Cherkessia, Kabardino-Balkaria with the Kislovodsk basin, and North Ossetia, linking Greek Bosporan and Maeotian lowland cities with Maykop kurgans, Bronze Age dolmens and Alanic mountain fortresses."
+hero_label: "fig:hero"
+bibliography: circassia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/polaris_rmd_helpers.R")
+Sys.setenv(VELKSCALA_ROOT = "E:/Active Projects/Project 1746 - Intellte/papers/velkscala")
+source("E:/Active Projects/Project 1746 - Intellte/core/framework/R/framework_init.R")
+
+# Ensure all tables render inline at 10pt body font size without horizontal overflow or float page isolation,
+# and replace em/en-dashes with plain hyphens (-).
+sanitize_latex_text <- function (arg0_text, arg1_in_table = FALSE) {
+  text <- as.character(arg0_text)
+  if (length(text) == 0 || is.na(text) || !nzchar(text)) return("")
+  text <- gsub("`", "", text, fixed = TRUE)
+  parts <- strsplit(text, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  out_parts <- character(length(parts))
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+      out_parts[i] <- "$"
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u00b2", "^2", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      p <- gsub("---", "-", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      out_parts[i] <- p
+    } else {
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      p <- gsub("(?<!\\\\)&", "\\\\&", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)%", "\\\\%", p, perl = TRUE)
+      p <- gsub("(?<!\\\\)_", "\\\\_", p, perl = TRUE)
+      if (isTRUE(arg1_in_table)) {
+        p <- gsub("\\_", "\\_\\allowbreak{}", p, fixed = TRUE)
+        p <- gsub("/", "/\\allowbreak{}", p, fixed = TRUE)
+        # Keep thousands-separated numbers and BC/AD dates on a single line inside table cells
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\b[1-9][0-9]{0,2}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("(?<=\\.[0-9]{3}) (?=[0-9]{3}\\b)", ".", p, perl = TRUE)
+        p <- gsub("([0-9])\\s*(BC|AD)\\b", "\\1\\2", p, perl = TRUE)
+        # Prevent line breaks immediately after a leading negative sign (e.g. -10000)
+        p <- gsub("(^|\\s|\\()-([0-9])", "\\1\\\\mbox{-}\\2", p, perl = TRUE)
+      }
+      out_parts[i] <- p
+    }
+  }
+  return(paste(out_parts, collapse = ""))
+}
+
+sanitize_prose_unicode_for_latex <- function (arg0_line) {
+  line_str <- as.character(arg0_line)
+  if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
+  in_math <- FALSE
+  for (i in seq_along(parts)) {
+    p <- parts[i]
+    if (identical(p, "$")) {
+      in_math <- !in_math
+    } else if (in_math) {
+      p <- gsub("\u2192", " \\rightarrow ", p, fixed = TRUE)
+      p <- gsub("\u00d7", " \\times ", p, fixed = TRUE)
+      p <- gsub("\u0394", "\\Delta ", p, fixed = TRUE)
+      p <- gsub("\u2248", " \\approx ", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", "-", p, fixed = TRUE)
+      parts[i] <- p
+    } else {
+      p <- gsub(
+        "\\b(Figures?|Figs?\\.|Tables?|Tabs?\\.|Images?|Definitions?|Sections?|Appendix)(?:\\s+|~)\\\\ref\\{([^}]+)\\}",
+        "\\\\crdxref{\\1}{\\2}",
+        p,
+        perl = TRUE
+      )
+      p <- gsub("\u2192", " to ", p, fixed = TRUE)
+      p <- gsub("\u00d7", "x", p, fixed = TRUE)
+      p <- gsub("\u0394", "$\\Delta$", p, fixed = TRUE)
+      p <- gsub("\u2248", "~", p, fixed = TRUE)
+      p <- gsub("km\u00b2", "km\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("m\u00b2", "m\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("R\u00b2", "R\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u00b2", "\\textsuperscript{2}", p, fixed = TRUE)
+      p <- gsub("\u2013", "-", p, fixed = TRUE)
+      p <- gsub("\u2014", " - ", p, fixed = TRUE)
+      p <- gsub("---", " - ", p, fixed = TRUE)
+      p <- gsub("--", "-", p, fixed = TRUE)
+      parts[i] <- p
+    }
+  }
+  return(paste(parts, collapse = ""))
+}
+
+orig_render_figure_template <- render_figure_template
+render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+  options$placement <- "!htbp"
+  if (is.null(options$max_height) || identical(options$max_height, "none")) {
+    options$max_height <- "0.42\\textheight"
+  }
+  return(orig_render_figure_template(arg0_file_path, options))
+}
+```
+
+# Abstract
+
+Stretching across 122,9k km² from the Kerch Strait and the Black Sea coast to the Darial Gorge, historical Circassia and Central Ciscaucasia encompass modern Krasnodar Krai, Adygea, Karachay-Cherkessia, Kabardino-Balkaria, North Ossetia-Alania and the Kislovodsk basin of southern Stavropol Krai. Across the last twelve millennia this western and central sector of the North Caucasus has consistently supported the largest population north of the main range. Early Holocene rock-shelter foragers at Satanay and Sosruko (rising from 2k in 10000BC to 13k in 5000BC) [@formozov1965stone; @leonova2013gubs; @golovanova2020sosruko] gave way in the 5th and 4th millennia BC to fortified Eneolithic villages at Meshoko and Svobodnoe and to the Early and Middle Bronze Age Maykop-Novosvobodnaya and Western Caucasian dolmen cultures, which raised the regional population from 70k in 3000BC to 100k in 2000BC [@korenevskiy2004ancient; @korenevskiy2008a; @trifonov2001dolmens; @markovin1978dolmens]. Symmetrical stone-built villages on the sub-alpine plateaus around Mount Elbrus and extensive Koban agricultural terracing in the mid-mountain valleys carried numbers from 160k in 1500BC to 225k in 1000BC [@reinhold2017lba; @korobov2017system; @kozenkova1989western]. In classical antiquity, the Greek cities of the Asiatic Bosporus (Phanagoria, Gorgippia and Hermonassa) and more than 200 fortified Maeotian towns along the Kuban supported 310k inhabitants in 500BC and 340k at 1AD [@marchenko1996maeotians; @kuznetsov2017phanagoria; @alekseeva1997anapa]. After reaching a medieval peak of 470k around 1200AD across the Christian kingdom of Alania (Nizhniy Arkhyz, Khumara, the Kislovodsk fortresses and the two Dzhulats) and coastal Zichia [@kuznetsov1993arkhyz; @bidzhiev1983khumara; @korobov2017system; @afanasyev2014alans], the region lost nearly a third of its population during the Mongol and Timurid invasions, falling to 330k in 1400AD. Subsequent growth across Western Circassia, Greater and Lesser Kabarda, Abaza, Karachay-Balkaria, Ossetia and the Lesser Nogai Horde restored the population to 600k (530k-680k) by 1700AD and 740k by 1800AD [@gardanov1967social; @khotko2008circassians; @khotko2015zichia; @trepalov2016nogai]. In the 19th century, the Caucasian War (1817-1864) and the 1860-1864 *muhajir* expulsion of some 450k-600k Western Circassians and Abaza to the Ottoman Empire were followed by massive Kuban Cossack and Slavic peasant colonisation, which quadrupled the regional population to 2,42M (2,3M-2,55M) by 1900AD [@kabuzan1996; @kumykov1994; @berger1860expulsion; @troynitskiy1905kuban; @bgeu2007demography].
+
+# Background
+
+Stretching 650 km from the Taman Peninsula and the Kerch Strait (the Cimmerian Bosporus) across the chernozem plains of the Kuban (*Prikuban'ye*) and the Sub-Elbrus volcanic plateaus to the Darial Gorge on the upper Terek, North-Western and Central Ciscaucasia (122,9k km²) comprises five linked geographical regions (Figure 1 and Table 1).
+
+In the north-west, Krasnodar Krai (75,5k km²) takes in the Taman Peninsula, the Black Sea littoral (*Zichia* from Anapa to Sochi), the Azov reed-flats and the lower and middle Kuban chernozem plains. This lowland and coastal corridor hosted the richest Early Bronze Age royal kurgans at Maykop and Staromyshastovskaya, over 200 classical Maeotian fortified towns (Elizavetinskoye, Starokorsunskoye and Semibratneye), the Greek polis cities of Phanagoria (65 ha) and Gorgippia (40 ha) and 39 Genoese-Zichian trading ports, including Matrega, Copa, Mapa and Maurocastro. In the early modern period it formed the core territory of the Western Circassian tribes and principalities (Zhaney, Temirgoy, Bjedukh, Hatukay, Shapsug, Natukhai, Abadzekh and Ubykh), before becoming after 1792-1864 the administrative heartland of Kuban Oblast around Yekaterinodar and Black Sea Governorate around Novorossiysk [@marchenko1996maeotians; @kuznetsov2017phanagoria; @khotko2015zichia; @gardanov1967social; @troynitskiy1905kuban].
+
+Bounded by the Belaya, Laba, Fars and Pshish rivers in the Trans-Kuban foothills, the Republic of Adygea (7,8k km²) contains the stratified Eneolithic stone fortresses of Meshoko and Yasenova Polyana, the eponymous Oshad kurgan of Maykop, the Klady (Novosvobodnaya) megalithic tombs, dense clusters of Bronze Age slab and trough dolmens at Kizinka, Deguako and Bogatyrskaya Polyana, the Maeotian sanctuary kurgans of Ulyap and the core lands of the Temirgoy (*Kemirgoy*) and Hatukay principalities (the 19th-century Maykop Otdel) [@formozov1965stone; @korenevskiy2004ancient; @trifonov2001dolmens].
+
+Further south-east, Karachay-Cherkessia (14,3k km²) spans the upper Kuban, Zelenchuk and Teberda gorges commanding the Klukhor and Marukh passes into Abkhazia. Here stood the 8th-10th-century fortress of Khumara (25 ha) and the 10th-12th-century metropolitan see of Alania at Nizhniy Arkhyz (65 ha, preserving three standing Byzantine stone churches), succeeded in the early modern era by the territories of the Besleney Circassians, the Abaza (Tapanta/Altykesek and Shkaraua) and the Karachay in the Batalpashinsk Otdel [@bidzhiev1983khumara; @kuznetsov1993arkhyz; @volkova1974ethnic; @titorenko2017].
+
+East of Elbrus, Kabardino-Balkaria (12,5k km²) and the adjacent Pyatigorye or Kislovodsk basin (4,8k km², making 17,3k km² combined) occupy the Baksan, Malka and Cherek gorges together with the Podkumok-Eshkakon limestone basin. Surveys by Sabine Reinhold and D. S. Korobov between 2004 and 2020 mapped over 260 Late Bronze Age stone plateau settlements at 1.400-2.400 m (such as Kabardinka 2), agricultural terraces covering 16,1% of the Kislovodsk basin during the Koban and Alanic periods and more than 140 early medieval Alanic promontory fortresses [@reinhold2017lba; @korobov2017system; @shaev2024terraces]. In later centuries this region supported the Golden Horde city of Nizhniy Dzhulat, the princely federation of Greater and Lesser Kabarda alongside the five Balkar mountain societies, and the 19th-century Nalchik Okrug and Pyatigorsk-Kislovodsk spa towns [@gardanov1967social; @kusheva1963peoples; @azikova2021].
+
+Finally, the upper Terek and Darial corridor in North Ossetia-Alania (8k km²) is anchored by the eponymous Koban cemetery in the Gizeldon gorge, the Alanic and Golden Horde city of Verkhniy Dzhulat (Tatartup or Dedyakov) at the Elkhotovo Gates, the Zmeyskaya catacomb necropolis, the four post-Timurid Ossetian mountain societies (Digor, Alagir, Kurtat and Tagaur) and the Russian fortress and administrative capital of Vladikavkaz, founded in 1784 [@kuznetsov1984alania; @bliev2000ossetia].
+
+# Methodology
+
+## Regional Subdivisions
+
+To trace population shifts between the Azov-Kuban steppe, the Black Sea coast and the central mountain gorges, we divide the 122,9k km² territory into five regions (Table 1).
+
+```{r tab-circ-zones, echo=FALSE, results='asis'}
+df_circ_zones <- data.frame(
+  Subregion = c(
+    "Krasnodar Krai (Taman, Black Sea Coast and Kuban Plain)",
+    "Republic of Adygea (Belaya-Laba Foothills and Dolmen Belt)",
+    "Karachay-Cherkessia (Upper Kuban, Zelenchuk and Teberda)",
+    "Kabardino-Balkaria and Pyatigorye / Kislovodsk Basin",
+    "North Ossetia-Alania (Upper Terek, Ardon and Darial Gorge)",
+    "Total Circassia and Central Ciscaucasia"
+  ),
+  Elevation = c("0 to 3.256 m", "50 to 3.238 m", "400 to 5.642 m", "150 to 5.642 m", "130 to 5.033 m", "0 to 5.642 m"),
+  Area_km2 = c("75,5k", "7,8k", "14,3k", "17,3k", "8k", "122,9k"),
+  Watersheds = c(
+    "Lower/Middle Kuban, Taman delta, Eya-Chelbas Azov steppe and Pontic rivers",
+    "Belaya, Laba, Fars, Kurdzhips and Gubs river valleys",
+    "Upper Kuban, Bolshoy and Malyy Zelenchuk, Urup and Teberda",
+    "Podkumok-Kuma (Kislovodsk), Malka, Baksan, Chegem and Cherek",
+    "Upper Terek, Urukh, Ardon, Fiagdon, Gizeldon and Kambileyevka",
+    "Azov-Black Sea (Kuban) and Caspian (Kuma-Terek) drainage basins"
+  ),
+  Key_Centres = c(
+    "Phanagoria, Gorgippia, Semibratneye, Elizavetinskoye, Yekaterinodar, Novorossiysk",
+    "Meshoko, Maykop (Oshad), Klady (Novosvobodnaya), Satanay, Kizinka, Ulyap",
+    "Nizhniy Arkhyz (65 ha), Khumara Fortress (25 ha), Batalpashinsk",
+    "Sosruko, Kabardinka 2, Kislovodsk forts (>140), Nizhniy Dzhulat, Nalchik, Pyatigorsk",
+    "Koban, Zmeyskaya, Verkhniy Dzhulat (Tatartup), Dargavs, Vladikavkaz",
+    "Over 5k mapped prehistoric, classical and medieval sites"
+  ),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_circ_zones,
+  list(
+    caption = "The five geographical divisions of Circassia and Central Ciscaucasia, showing elevation ranges, land area, river drainage and principal towns and sites.",
+    label = "tab:circassia_zones",
+    col_names = c("Region", "Elevation", "Area (km²)", "River Basins", "Main Towns and Sites"),
+    alignment = c("l", "l", "r", "l", "l"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+## Estimation Methods
+
+Our regional population series combines archaeological settlement and land-use surveys for the prehistoric, classical and medieval eras with diplomatic, military and census records from the 16th century onwards.
+
+For the Late Bronze Age high-plateau settlements and Koban terraces (1600-500BC), we draw on Sabine Reinhold's inventory of more than 260 stone plateau villages at 1.400-2.400 m (each with 10-36 double-row stone courtyard houses, or 80-200 inhabitants) [@reinhold2017lba; @korobov2012] alongside D. S. Korobov and A. V. Borisov's land-use study of the 800 km² Kislovodsk basin, where 16,1% terraced surface coverage could sustain 15k-25k inhabitants in that single basin alone [@korobov2017system; @borisov2013; @korobov2023; @shaev2024terraces].
+
+In the classical period (500BC-300AD), estimates for the Asiatic Bosporus combine the walled areas of Phanagoria (65 ha), Gorgippia (40 ha), Hermonassa (25 ha), Semibratneye/Labrys (14 ha), Patraeus and Kepoi at 100-130 persons/ha [@kuznetsov2017phanagoria; @alekseeva1997anapa; @voroshilov2023phanagoria] with I. I. Marchenko and N. V. Anfimov's surveys of over 200 fortified Maeotian *gorodishcha* and open *selishcha* along the Kuban terrace bluffs (2-15 ha each, together with the 200 ha Elizavetinskoye delta trading town) [@marchenko1996maeotians; @anfimov1958; @limberis2019; @limberis2020].
+
+For the Alanic period (400-1238AD), we use Korobov's survey of more than 140 early medieval Alanic stone fortresses and over 700 sites in the Kislovodsk basin (spaced 1,5-2,5 km apart and supporting 12k-22k inhabitants) [@korobov2017system; @afanasyev2014alans; @belinskiy2018] alongside urban estimates for the Christian Alanic capital at Nizhniy Arkhyz (65 ha, 6k-10k inhabitants) [@kuznetsov1993arkhyz; @dzidzoev2017], Khumara (25 ha) [@bidzhiev1983khumara], Nizhniy Dzhulat and Verkhniy Dzhulat (Tatartup) [@kuznetsov1984alania].
+
+Early modern figures (1500-1800AD) cross-check the accounts of Giorgio Interiano (1502), Giovanni da Lucca (1625), Evliya Çelebi (1666-1667), Xavier Glavani (1724), Johann Anton Güldenstädt (1770-1773) and P. S. Pallas (1793) against Russian *Posolskiy Prikaz* registers (1552-1700) analysed by V. K. Gardanov [@gardanov1967social], E. N. Kusheva [@kusheva1963peoples], S. Kh. Khotko [@khotko2008circassians; @khotko2015zichia; @khotko2016princedoms; @fomenko2019; @azikova2021] and V. V. Trepalov [@trepalov2016nogai]. Nineteenth-century totals (1800-1900AD) combine General A. P. Berger's and T. Kh. Kumykov's records of the 1858-1865 Circassian and Abaza *muhajir* deportations [@berger1860expulsion; @kumykov1994], V. M. Kabuzan's population tables for Ciscaucasia in 1795-1897 [@kabuzan1996] and the 1897 imperial census returns for Kuban Oblast (1,92M inhabitants), Black Sea Governorate (57,5k inhabitants) and the western *okrugs* of Terek Oblast (Nalchik, Vladikavkaz, Pyatigorsk and Mozdok) [@troynitskiy1905kuban; @golovlev2017census; @bgeu2007demography].
+
+# Results
+
+```{r fig-circ-pop, echo=FALSE, results='asis'}
+render_figure_template(
+  "figures/circassia_holocene_population.png",
+  list(
+    caption = "Panel A traces growth from the Early Bronze Age Maykop culture (70k in 3000BC) and Koban terrace villages (225k in 1000BC) to the classical Bosporan and Maeotian towns (340k at 1AD). Panel B shows the medieval Alanic and Zichian peak of 470k around 1200AD, the drop to 330k after Timur's 1395AD campaign, early modern recovery to 740k in 1800AD, and the surge to 2,42M by 1900AD following the 1864 Muhajir expulsion and Slavic-Cossack colonisation.",
+    label = "fig:circassia_curve",
+    width = "0.98\\textwidth",
+    placement = "!htbp"
+  )
+)
+```
+
+## Mesolithic, Neolithic and Eneolithic Villages: Satanay, Sosruko and Meshoko
+
+During the Terminal Pleistocene and Early Holocene (10000-5000BC), hunter-gatherer bands occupied karst rock-shelters across both the north-western foothills (Satanay or Gubskiy Naves No. 7, Chygai, Dvoinaya and Kasozhskaya caves in the Gubs gorge of Adygea and Krasnodar) and the central volcanic canyons (Sosruko and Badynoko rock-shelters in the Baksan gorge of Kabardino-Balkaria) [@formozov1965stone; @leonova2013gubs; @golovanova2014; @golovanova2020sosruko]. Stratified hearths at Sosruko (Layers 7-4) and Satanay preserve geometric obsidian and flint microliths, bone harpoons, edible land snails (*Helix*) and bones of Caucasian tur, wild boar and red deer, pointing to a gradual rise from 2k in 10000BC to 7,5k in 6000BC and 13k in 5000BC.
+
+In the mid-5th millennium BC (4500-3700BC), settled farmers established the Meshoko-Svobodnoe (Darkveti-Meshoko) culture in the Belaya and Kuban foothills [@formozov1965stone; @korenevskiy2004ancient; @korenevskiy2008a]. Excavated by A. A. Formozov and A. D. Rezepkin among the fortified promontory villages of Meshoko, Yasenova Polyana, Skala and Myskhako and the steppe settlement of Svobodnoe, Meshoko occupied a cliff-lined limestone plateau in Adygea protected by a dry-stone defensive wall 150 m long and 4 m thick, while Svobodnoe on the Kuban plain was enclosed by a circular ditch-and-palisade system of 2,5 ha containing 25-40 rectangular wattle-and-daub houses [@formozov1965stone; @korenevskiy2004ancient; @korenevskiy2008a]. Subsisting on domesticated cattle, pigs (30-40% of the animal bones at Meshoko) and emmer and barley cultivation, and trading in copper and obsidian - as seen in the Nalchik Eneolithic cemetery of 121 ochre-stained burials in Kabardino-Balkaria - the regional population reached 30k (22k-38k) by 4000BC.
+
+## Early and Middle Bronze Ages: The Maykop Culture and Western Caucasian Dolmens
+
+Between 3700 and 2900BC, North-Western and Central Ciscaucasia formed the core of the Maykop-Novosvobodnaya culture, documented in the monographs and radiocarbon chronologies of S. N. Korenevskiy, R. M. Munchaev and V. A. Trifonov [@korenevskiy2004ancient; @korenevskiy2008b; @korenevskiy2017origin; @korenevskiy2016dolmens; @munchaev1975caucasus].
+
+Excavations of open river-terrace Maykop settlements along the Kuban and Terek (Galyugay I-III, Sereginskoye, Chekon and Bolshoy Tegink, with Galyugay I spanning 6-8 ha of large circular sunken-floor wattle-and-daub dwellings of 50-80 m²) demonstrate that the great royal kurgans - such as the 11 m high Maykop (Oshad) kurgan excavated in 1897, Kishpek, Marinskaya and the Klady (Novosvobodnaya) megalithic two-chamber stone tombs - rested on a broad network of farming villages producing wheel-made pottery [@korenevskiy2004ancient; @korenevskiy2008b; @korenevskiy2017origin]. Ancient DNA and skull studies confirm strong continuity among Caucasian Hunter-Gatherer and Anatolian-Iranian Neolithic farming populations alongside steppe exchange [@kazarnitsky2024ba; @berezina2023trepanation]. By 3000BC, the regional population reached 70k (55k-85k).
+
+During the subsequent Western Caucasian Dolmen culture (2900-1400BC) across the wooded mountain valleys from the Taman-Anapa coast (Pshekh, Pshada and Dzhubga) to the Belaya and Laba headwaters (Kizinka, Deguako and Bogatyrskaya Polyana), V. I. Markovin and V. A. Trifonov catalogued between 2,3k and 3k megalithic stone dolmens. Built as slab, composite, trough-shaped and monolithic tombs weighing 15-50 tonnes, these monuments cluster in cemeteries of up to 564 dolmens at Kizinka and more than 300 at Bogatyrskaya Polyana [@markovin1978dolmens; @trifonov2001dolmens; @trifonov2014; @bondarev2020; @kudin2021]. Excavations at the fortified settlement of Deguako-Dakhovskoye and collective chamber burials holding 15-70 individuals per dolmen attest to settled mountain-forest communities which, together with the North Caucasian and Piedmont Catacomb cultures of Central Ciscaucasia, supported 100k (80k-120k) inhabitants by 2000BC.
+
+## Late Bronze and Early Iron Ages: High-Plateau Stone Villages and Koban Terraces
+
+In the mid-2nd millennium BC (1600-1000BC), Russian-German surveys led by Sabine Reinhold, D. S. Korobov and A. B. Belinskiy (2004-2017) identified a major Late Bronze Age settlement phase at 1.400-2.400 m elevation stretching 140 km across the sub-alpine limestone plateaus north of Mount Elbrus in Kislovodsk/Pyatigorye, Karachay-Cherkessia and Kabardino-Balkaria [@reinhold2007; @reinhold2017lba; @korobov2017system].
+
+Using aerial photography, magnetic surveys and excavations at Kabardinka 2, Pravoberezhnaya Berezovaya and Tambukan, Reinhold and her colleagues mapped over 260 permanent stone-built villages laid out in symmetrical linear or oval plans around central livestock enclosures. With 10-36 double-row stone houses (80-200 inhabitants) per village, the high plateaus alone supported 20k-35k inhabitants between 1500 and 1100BC (Figure 3A) [@reinhold2017lba; @peters2014].
+
+Following climatic cooling around 1000-900BC, communities of the Western and Central Koban culture (1100-400BC) moved 400-600 m down into the mid-mountain valleys (800-1.300 m), establishing classic Koban settlements and cemeteries at Koban, Tli, Verkhnyaya Rutkha and Kumbulta in Ossetia, Bylym and Zayukovo in Kabardino-Balkaria, the Kislovodsk basin, Tereze and Kyzyl-Kala in Karachay-Cherkessia, and Proto-Maeotian sites on the Kuban plain [@kozenkova1989western; @korobov2017system]. In the 800 km² Kislovodsk basin alone, more than 130 Koban settlements built agricultural lynchet terraces across 16,1% of the landscape (Figure 3B) [@korobov2017system; @borisov2013; @shaev2024terraces], raising the total regional population from 160k in 1500BC to 225k (190k-260k) by 1000BC.
+
+```{r fig-kislovodsk, echo=FALSE, results='asis'}
+render_figure_template(
+  "figures/circassia_kislovodsk_basin_dynamics.png",
+  list(
+    caption = "Panel A compares the number of mapped stone villages and fortresses (blue bars) with estimated population (red line) across five settlement phases in the Kislovodsk basin and adjacent high plateaus from 1600BC to 1200AD. Panel B compares the share of total land area covered by ancient agricultural terraces across five regions of the North Caucasus.",
+    label = "fig:circassia_kislovodsk",
+    width = "0.98\\textwidth",
+    placement = "!htbp"
+  )
+)
+```
+
+## Classical Antiquity: The Asiatic Bosporus and Maeotian Fortified Towns
+
+Between the 6th century BC and the 3rd century AD, North-Western Ciscaucasia supported a dense population through trade between the Greek cities of the Asiatic Bosporus and the settled Maeotian farming tribes of the Kuban basin [@marchenko1996maeotians; @kuznetsov2017phanagoria; @alekseeva1997anapa; @strokov2022bosporus; @voroshilov2023phanagoria; @limberis2019; @limberis2020].
+
+On the Taman Peninsula and at Anapa, Phanagoria - founded by Teian colonists around 543BC - became the eastern capital of the Bosporan Kingdom, with a 65 ha walled upper and lower city, more than 22 ha submerged in Taman Bay and over 600 kurgans, housing 10k-15k urban residents [@kuznetsov2017phanagoria; @voroshilov2023phanagoria]. Gorgippia (Anapa, 40 ha, 6k-9k residents), Hermonassa (Taman, 25 ha), Kepoi, Patraeus and the Sindian capital Labrys (Semibratneye, 14 ha) were surrounded by more than 250 rural farmsteads (*chora*) exporting grain and salted fish to Athens and Pontus, giving a total population of 55k-75k in the Asiatic Bosporus [@alekseeva1997anapa; @strokov2022bosporus].
+
+Along the high right-bank terrace of the Kuban from Ust-Labinsk to Krasnodar and across the Laba-Belaya and Ponura-Kirpili rivers, N. V. Anfimov and I. I. Marchenko mapped over 200 fortified Maeotian *gorodishcha* - including Elizavetinskoye (200 ha outer enclosure and 12 ha inner citadel), Starokorsunskoye No. 2, Pashkovskoye, Voronezhskoye and Ust-Labinskoye - each surrounded by three to eight open agricultural villages (*selishcha*) and flat cemeteries containing 500-3k graves [@anfimov1958; @anfimov1987; @marchenko1996maeotians; @limberis2019]. Strabo (*Geography* 11.5.8) recorded that the neighbouring Siraces and Aorsi of the Kuban-Kuma steppes could field 20k and 200k horsemen respectively. Combined with the Sarmatian-Koban population of Central Ciscaucasia, the regional population reached 310k in 500BC and 340k (290k-390k) at 1AD, before declining to 260k in 400AD during the Gothic and Hunnic wars (c. 370-375AD).
+
+## Early and High Middle Ages: Western Alania, *Zichia* and the Mongol and Timurid Invasions
+
+Between the 5th and early 13th centuries AD, population grew across both the Christian kingdom of Alania in Central Ciscaucasia and the coastal and foothill confederation of Zichia and Kasogia in the north-west. As mapped by D. S. Korobov and G. E. Afanasyev, over 140 single-layer stone promontory castles (Rim-Gora, Klin-Yar and Khasaut) and more than 700 sites occupied the 800 km² Kislovodsk basin during the 5th to 8th centuries AD, supporting 15k-22k inhabitants in that basin alone [@korobov2012; @korobov2017system; @korobov2023; @afanasyev2014alans; @belinskiy2018].
+
+From the 9th to the 13th century, Christian Alanic cathedral towns anchored the upper Kuban and Terek valleys. Extending 3,5 km along the Bolshoy Zelenchuk valley at 1.150 m behind three stone defensive walls (65 ha inside the walls), Nizhniy Arkhyz served as the seat of the Byzantine Metropolitan of Alania, established in 914-916AD under Patriarch Nicholas Mystikos. Excavations by V. A. Kuznetsov uncovered three standing cross-domed stone cathedrals (the North, Middle and South Zelenchuk churches), 11 smaller chapels, paved stone streets, residential quarters and over 1k stone-cist and catacomb burials, supporting 6k-10k urban inhabitants [@kuznetsov1993arkhyz; @kuznetsov1984alania; @dzidzoev2017; @titorenko2017]. Nearby Khumara on the upper Kuban (25 ha) was protected by a 5-7 m thick ashlar stone wall with 19 towers and Turkic runic inscriptions, housing 3k-5k inhabitants [@bidzhiev1983khumara], while Illichevskoye in the Otradnaya district (45 ha with six stone churches), Nizhniy Dzhulat (Mayskiy, Kabardino-Balkaria) and Verkhniy Dzhulat (Tatartup or Dedyakov in North Ossetia, over 35 ha with Christian churches, two Golden Horde minarets and a brick mosque) controlled the main piedmont corridors [@kuznetsov1984alania; @kuznetsov1992; @bliev2000ossetia].
+
+In Krasnodar and Adygea (Zichia, Kasogia and Taman), cremation and inhumation kurgan fields at Borisovskiy, Dyurso, Moldavanovskiy and Kazazovo (over 800 burials) together with the Taman port of Tmutarakan (Matrega) supported a dense Zichian-Kasogian farming population (195k in Krasnodar and 28k in Adygea by 1200AD), lifting the regional total to 470k (410k-530k) around 1200AD [@dmitriev1982; @pyankov2001; @khotko2015zichia].
+
+Although Batu and Möngke devastated central Alania in 1238-1240 and Mengu-Timur stormed Dedyakov (Verkhniy Dzhulat) in 1278, several large towns survived under Golden Horde rule at Verkhniy Dzhulat, Nizhniy Dzhulat and Madzhar (380k in 1300AD) until Timur's 1395 campaign burned the Circassian Kuban forests, stormed the Elbrus gorges (*Buriberd*, *Kula* and *Taus*) and destroyed both Dzhulats [@kuznetsov1984alania; @khotko2016princedoms; @fomenko2018; @fomenko2019]. The regional population fell to 330k (285k-375k) in 1400AD. While Alanic communities survived in the Digor, Alagir, Kurtat, Tagaur and Balkar-Karachay gorges, the 15th century saw the eastward expansion of the Kabardian Circassians across Pyatigorye, the Baksan basin and the Terek bend [@gardanov1967social; @khotko2016princedoms; @khotko2017].
+
+## Early Modern Circassia, Kabarda, Abaza, Karachay-Balkaria, Ossetia and the Lesser Nogais
+
+Between 1450 and 1700AD, the revival of Black Sea, Crimean, Ottoman and Russian Terki-Astrakhan trade routes carried the total regional population from 415k in 1500AD to 505k in 1600AD and 600k (530k-680k) by 1700AD (Figure 4 and Table 2).
+
+Drawing on the Italian, Ottoman, French and Russian accounts analysed by V. K. Gardanov [@gardanov1967social], E. N. Kusheva [@kusheva1963peoples], N. G. Volkova [@volkova1974ethnic], S. Kh. Khotko [@khotko2001; @khotko2008circassians; @khotko2015zichia; @khotko2015natukhai; @achmiz2023] and V. V. Trepalov [@trepalov2016nogai], six principal regional groups can be reconstructed. In Western Circassia (Krasnodar Krai and Adygea, 300k-350k), Giorgio Interiano noted in 1502 that the Circassians could muster over 20k noble heavy cavalry (*uzden* and *pshi*) alongside peasant infantry. In 1666-1667, the Ottoman traveller Evliya Çelebi (*Seyahatnâme*, Vol. VII) journeyed across the Circassian lands from Taman and Anapa through Shegak, Zhaney, Hatukay, Temirgoy (*Kemirgoy* or Bolotoko), Bjedukh, Abadzekh and Kabarda, recording 3k to 10k armed warriors per principality, or 70k-85k fighting men across all Circassian tribes [@gardanov1967social; @khotko2008circassians]. In 1724, the French consul in Crimea Xavier Glavani (*Description de la Circassie*) compiled a district-by-district household (*maison*) count across 14 Western and Central Circassian provinces (crediting Temirgoy with over 5k households in 40 large villages and Besleney with 1,5k households, alongside Bjedukh, Hatukay, Zhaney, Shapsug, Natukhai and Abadzekh), confirming 52k-62k Western Circassian households, or 300k-350k inhabitants [@gardanov1967social; @khotko2008circassians; @khotko2015natukhai].
+
+In Greater and Lesser Kabarda (115k-145k), following the 1557 diplomatic alliance with Ivan IV under Temryuk Idarovich, Russian *Posolskiy Prikaz* embassies between 1589 and 1700 documented the four princely houses of Greater Kabarda (Kaytukino, Atazhukino/Hatokshoko, Misostovo and Bekmurzino along the Malka, Baksan, Cherek and Pyatigorye) and Lesser Kabarda (Talostanovo and Dzholyakhstanovo/Mudarovo along the Terek bend), which fielded 10k-15k noble cavalry and 20k infantry from 19k-24k households across more than 150 princely and *uzden* villages (*kabaki*) [@kusheva1963peoples; @gardanov1967social; @kazharov1994; @azikova2021]. The Lesser Nogai Horde (Kazyev Ulus), founded by Ghazi Mirza in the 1550s across the Kuban-Azov steppes and Pyatigorye, together with Ottoman garrisons at Azov, Temryuk, Taman and Anapa, comprised 9k-11k *kibitkas* or households and 50k-65k inhabitants [@trepalov2016nogai].
+
+In the mountain gorges, the Abaza (Tapanta/Altykesek and Shkaraua) inhabited the upper Kuban, Zelenchuk, Urup and Laba valleys (the Bibard, Loov, Dudaruq, Klych, Kech and Tram *kabaki*, with 6,5k-8,5k households and 38k-47k inhabitants) [@volkova1974ethnic; @kusheva1963peoples]. The four Ossetian mountain societies (Tagaur, Kurtat, Alagir and Digor) occupied the fortified stone tower villages of Dargavs, Tsmiti, Nuzal and Zadalesk in North Ossetia (7k-9k households, 44k-54k inhabitants) [@bliev2000ossetia; @volkova1974ethnic], while Karachay and the five Balkar mountain societies (Baksan/Urusbiev, Chegem, Khulam, Bezengi and Balkar/Malkar) comprised 4k-5,2k mountain stone homesteads (25k-32k inhabitants) around Mount Elbrus [@volkova1974ethnic; @kusheva1963peoples].
+
+```{r fig-circ-17c, echo=FALSE, results='asis'}
+render_figure_template(
+  "figures/circassia_17c_subethnic_demography.png",
+  list(
+    caption = "Around 1700AD, the Western Circassian lowland principalities (175k) and coastal-mountain tribes (150k) together accounted for over half of the region's 600k inhabitants, followed by Greater and Lesser Kabarda (130k), the Lesser Nogai Horde (57,5k) and the Ossetian, Abaza and Karachay-Balkar mountain societies.",
+    label = "fig:circassia_17c",
+    width = "0.96\\textwidth",
+    placement = "!htbp"
+  )
+)
+```
+
+```{r tab-circ-17c, echo=FALSE, results='asis'}
+df_circ17 <- data.frame(
+  Polity_Group = c(
+    "Western Circassian Principalities (Temirgoy, Bjedukh, Hatukay, Zhaney, Besleney, Mamkhegh)",
+    "Western Circassian Coastal and Mountain Tribes (Shapsug, Abadzekh, Natukhai, Ubykh)",
+    "Greater and Lesser Kabarda (Atazhukino, Kaytukino, Misostovo, Bekmurzino, Talostanovo, Dzholyakhstanovo)",
+    "Lesser Nogai Horde (Kazyev Ulus) and Ottoman Taman-Temryuk-Anapa Ports",
+    "Four Ossetian Mountain Societies (Digor, Alagir, Kurtat, Tagaur)",
+    "Abaza (Tapanta / Altykesek Six-Clan Federation and Shkaraua Mountain Clans)",
+    "Karachay (Upper Kuban) and Five Balkar Societies (Baksan, Chegem, Khulam, Bezengi, Malkar)",
+    "Total Circassia and Central Ciscaucasia (122,9k km²)"
+  ),
+  Subregion = c(
+    "Krasnodar, Adygea and W. Karachay-Cherkessia",
+    "Black Sea Littoral (Anapa-Sochi) and Western Slopes",
+    "Kabardino-Balkaria, Pyatigorye and Terek Curve",
+    "Azov-Kuban Steppe (Krasnodar) and Taman",
+    "North Ossetia-Alania (Upper Terek and Ardon)",
+    "Karachay-Cherkessia and E. Adygea Gorges",
+    "High-Mountain Karachay-Cherkessia and Kabardino-Balkaria",
+    "All 5 Regions (122,9k km²)"
+  ),
+  Households = c(
+    "28k - 33k", "24k - 28k", "19k - 24k", "9k - 11k",
+    "7k - 9k", "6,5k - 8,5k", "4k - 5,2k", "97,5k - 118,7k"
+  ),
+  Militia = c(
+    "25k - 32k", "22k - 28k", "20k - 28k", "10k - 14k",
+    "7k - 9,5k", "6k - 8k", "4k - 5,5k", "94k - 125k"
+  ),
+  Population = c(
+    "160k - 190k", "135k - 165k", "115k - 145k", "50k - 65k",
+    "44k - 54k", "38k - 47k", "25k - 32k", "600k (530k - 680k)"
+  ),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_circ17,
+  list(
+    caption = "Household, militia and population estimates for the seven principalities and tribal groupings of Circassia and Central Ciscaucasia around 1700AD, compiled from Ottoman, French and Russian embassy accounts.",
+    label = "tab:circassia_17c",
+    col_names = c("Principality or Group", "Region", "Households (Dvors/Kibitkas)", "Militia (Cavalry and Foot)", "Estimated Population"),
+    alignment = c("l", "l", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+## The Eighteenth and Nineteenth Centuries
+
+Between 1700 and 1900AD, North-Western and Central Ciscaucasia underwent the most dramatic population and ethnic shift in its history [@kabuzan1996; @kumykov1994; @berger1860expulsion; @volkova1974ethnic; @bgeu2007demography].
+
+During the first three quarters of the 18th century, Circassian, Kabardian, Abaza, Karachay-Balkar and Ossetian numbers grew steadily from 600k in 1700AD to 670k (590k-750k) in 1750AD [@kabuzan1996; @gardanov1967social]. Following the Russo-Turkish War of 1768-1774 (Treaty of Küçük Kaynarca) and the annexation of the Crimean Khanate in 1783, the Russian Empire constructed the Azov-Mozdok Fortified Line (1777-1780, founding Stavropol, Georgievsk, Konstantinogorsk/Pyatigorsk and, in 1784, Vladikavkaz), crushed the Kuban Nogai Horde under Suvorov in 1783 and in 1792-1793 resettled around 25k former Zaporozhian Cossacks (the Black Sea Cossack Host) onto the right-bank Kuban plain between the Taman Peninsula and Ust-Labinsk, founding Yekaterinodar (Krasnodar) in 1793 and stationing the Old Line Cossack regiments along the middle and upper Kuban in 1794-1804 [@kabuzan1996; @bgeu2007demography]. Total population across the five regions reached 740k (650k-830k) in 1800AD.
+
+In the early 19th century, Greater and Lesser Kabarda suffered a severe population collapse caused by the 1804-1812 plague epidemics, Russian military campaigns in 1804, 1810 and 1822 (when General Yermolov founded Nalchik) and the departure of "fugitive Kabardians" (*beglyye kabardintsy*) across the Kuban to join the Western Adyghe; the Kabardian population fell from 150k-200k in the 1780s to 35k-40k in the 1830s [@kabuzan1996; @kazharov1994; @volkova1974ethnic]. In Western Circassia, the construction of the Black Sea coastline forts (1837-1839), the Laba and Belaya fortified lines (with the founding of Maykop in 1857) and the final Russian offensive of 1859-1864 (ending at Kbaada/Krasnaya Polyana on 21 May 1864) culminated in the mass expulsion (*muhajirism*) of the Western Circassian and Abaza populations to the Ottoman Empire [@berger1860expulsion; @kumykov1994; @achmiz2023]. Official Russian embarkation logs compiled by A. P. Berger in 1882 recorded 493,2k mountaineers deported through Black Sea ports (Anapa, Novorossiysk, Tuapse, Sochi and Adler) between 1858 and 1865 - including virtually the entire Ubykh, Natukhai and coastal Shapsug populations, the majority of the Abadzekh, Temirgoy, Bjedukh, Hatukay, Besleney and Shkaraua/Tapanta Abaza, and the Kuban Nogais - while T. Kh. Kumykov and S. Kh. Khotko estimate total Circassian and Abaza war losses and emigration in 1858-1865 at 450k-600k [@berger1860expulsion; @kumykov1994; @achmiz2023]. Only 50k-65k Western Circassians (settled in lowland villages of the Yekaterinodar and Maykop *otdels*) and 9k-12k Abaza remained on the north-western slopes by 1865 [@volkova1974ethnic; @kabuzan1996]. Because Slavic and Cossack military colonisation of the right-bank Kuban plain and Pyatigorye was already well underway by mid-century, the total population across the five regions stood at 920k (820k-1,02M) in 1850AD [@kabuzan1996; @bgeu2007demography].
+
+Following the 1860 formation of Kuban Oblast (uniting the Black Sea and Caucasus Line Cossack hosts into the Kuban Cossack Host), the 1861 emancipation of the serfs, the 1862 law on the settlement of the Western Caucasus foothills and the construction of the Rostov-Vladikavkaz Railway (1875) and the Tikhoretsk-Novorossiysk line (1888), over one million Russian and Ukrainian peasants (*inogorodniye*) and Cossacks settled on the fertile Kuban plains and foothill valleys [@kabuzan1996; @bgeu2007demography]. In the First General Census of the Russian Empire (28 January 1897) [@troynitskiy1905kuban; @golovlev2017census], Kuban Oblast (94,3k km², encompassing modern Krasnodar Krai, Adygea and Karachay-Cherkessia/Batalpashinsk Otdel) recorded 1,92M inhabitants (908,8k Ukrainians or Little Russians [47,4%], 816,7k Great Russians [42,6%], 38,5k Western Circassians and Adyghe, 26,9k Karachays, 20,1k Germans, 14,3k Greeks, 13,9k Armenians and 12,4k Abaza and Nogais), with Yekaterinodar reaching 65,6k residents, Maykop 34,3k and Yeysk 35,4k [@troynitskiy1905kuban; @bgeu2007demography]. Black Sea Governorate (from Anapa and Novorossiysk to Sochi) recorded 57,5k inhabitants, including 16,9k in the port of Novorossiysk [@troynitskiy1905kuban].
+
+In Central Ciscaucasia (western Terek Oblast), the Nalchik Okrug (Kabarda and Balkaria) recorded 102,9k inhabitants (with 84,1k Kabardians and 23,2k Balkars across the oblast), the Pyatigorsk Otdel recorded around 125k inhabitants (centred on Pyatigorsk with 18,4k residents and Kislovodsk) and North Ossetia (the Vladikavkaz Okrug plus Ossetian villages along the Mozdok and Sunzha border) recorded roughly 215k inhabitants, including 43,7k in Vladikavkaz city and 96,6k ethnic Ossetians across Terek Oblast [@troynitskiy1905kuban; @kabuzan1996; @golovlev2017census]. Summing all five regions within their modern boundaries yields a total 1900AD population of 2,42M (2,3M-2,55M, or 19,69 persons/km²): 1,65M in Krasnodar Krai, 215k in Adygea, 165k in Karachay-Cherkessia, 235k in Kabardino-Balkaria and Pyatigorye, and 155k in North Ossetia-Alania (excluding the Ingush Nazran sector counted in Chechnya and Ingushetia) [@troynitskiy1905kuban; @kabuzan1996].
+
+# Limitations
+
+Three main constraints affect population estimates for Circassia and Central Ciscaucasia. First, unlike the permanent stone *auls* of the mountain gorges, the Azov-Kuban and Kuma steppes hosted mobile pastoral groups (Scythians, Siraces, Kipchaks and Lesser Nogais) whose winter camps (*kochev'ya*) along the Kuban and Kuma shifted seasonally across the Don-Manych watershed [@marchenko1996maeotians; @trepalov2016nogai]. Second, because relative Black Sea and Azov sea levels have risen by 3,5-4 m since the 1st millennium BC (the Phanagorian Transgression), roughly one-third of ancient Phanagoria, Patraeus and Korokondame now lies beneath Taman Bay and must be included when estimating classical town populations [@kuznetsov2017phanagoria; @strokov2022bosporus]. Third, while Russian port commissions registered 493,2k *muhajirs* embarking at designated Black Sea ports [@berger1860expulsion], unrecorded departures on Ottoman feluccas along the Abkhaz-Ubykh-Shapsug coast and typhus deaths in coastal camps mean that pre-1860 Western Circassian population totals carry an uncertainty margin of around 15% [@kumykov1994; @achmiz2023].
+
+# Conclusion
+
+Spanning 122,9k km² from the Kerch Strait to the Darial Gorge, historical Circassia and Central Ciscaucasia supported the largest population in the North Caucasus throughout the last twelve millennia. From 70k inhabitants under the Early Bronze Age Maykop culture in 3000BC, regional numbers rose to 225k during the Late Bronze and Koban terrace expansion in 1000BC, 340k in the classical Bosporan and Maeotian era at 1AD and 470k at the medieval Alanic and Zichian peak around 1200AD. Following the Mongol and Timurid losses, recovery across Western Circassia, Kabarda and the mountain societies carried the population to 600k by 1700AD and 740k by 1800AD. In the 19th century, the expulsion of most of the Western Circassian and Abaza population in 1860-1864 and the arrival of more than 1,7M Kuban Cossacks and Slavic peasant settlers remade the population of the region, lifting its total to 2,42M by 1900AD. Taken together, the three North Caucasian regions - Dagestan (690k), Chechnya-Ingushetia (350k) and Circassia and Central Ciscaucasia (2,42M) - contained 1,19M inhabitants in 1700AD and 3,46M in 1900AD across 194k km².
+
+# Appendix
+
+## Population Estimates
+
+```{r tab-circ-holocene, echo=FALSE, results='asis'}
+df_circhol <- data.frame(
+  Benchmark = c(
+    "10000BC", "8000BC", "6000BC", "5000BC", "4000BC", "3000BC", "2000BC",
+    "1500BC", "1000BC", "500BC", "1AD", "400AD", "600AD", "800AD",
+    "1000AD", "1200AD", "1300AD", "1400AD", "1500AD", "1600AD", "1700AD",
+    "1750AD", "1800AD", "1850AD", "1900AD"
+  ),
+  S1_Krasnodar = c(
+    "0,9k", "1,6k", "3,5k", "6k", "14k", "34k", "46k",
+    "64k", "92k", "155k", "175k", "110k", "130k", "148k",
+    "178k", "195k", "165k", "150k", "190k", "232k", "275k",
+    "310k", "365k", "520k", "1,65M"
+  ),
+  S2_Adygea = c(
+    "0,3k", "0,5k", "1,1k", "2k", "4,8k", "11k", "15k",
+    "19k", "24k", "32k", "35k", "22k", "24k", "26k",
+    "27k", "28k", "25k", "24k", "32k", "40k", "48k",
+    "54k", "62k", "75k", "215k"
+  ),
+  S3_Karachay = c(
+    "0,25k", "0,45k", "0,95k", "1,6k", "3,5k", "8k", "12k",
+    "24k", "32k", "35k", "38k", "38k", "48k", "55k",
+    "68k", "72k", "56k", "46k", "54k", "63k", "72k",
+    "78k", "85k", "95k", "165k"
+  ),
+  S4_Kabarda_KMV = c(
+    "0,35k", "0,6k", "1,25k", "2,2k", "5k", "11,5k", "18k",
+    "35k", "48k", "55k", "58k", "56k", "72k", "80k",
+    "98k", "108k", "82k", "66k", "92k", "122k", "156k",
+    "172k", "160k", "140k", "235k"
+  ),
+  S5_Ossetia = c(
+    "0,2k", "0,35k", "0,7k", "1,2k", "2,7k", "5,5k", "9k",
+    "18k", "29k", "33k", "34k", "34k", "41k", "46k",
+    "59k", "67k", "52k", "44k", "47k", "48k", "49k",
+    "56k", "68k", "90k", "155k"
+  ),
+  Total_Mid = c(
+    "2k", "3,5k", "7,5k", "13k", "30k", "70k", "100k",
+    "160k", "225k", "310k", "340k", "260k", "315k", "355k",
+    "430k", "470k", "380k", "330k", "415k", "505k", "600k",
+    "670k", "740k", "920k", "2,42M"
+  ),
+  Range_Low_High = c(
+    "1,2k - 3k", "2,2k - 5k", "5k - 10,5k", "9k - 18k", "22k - 38k",
+    "55k - 85k", "80k - 120k", "135k - 190k", "190k - 260k", "260k - 360k",
+    "290k - 390k", "220k - 300k", "270k - 360k", "305k - 405k",
+    "375k - 485k", "410k - 530k", "330k - 430k", "285k - 375k",
+    "365k - 465k", "445k - 565k", "530k - 680k",
+    "590k - 750k", "650k - 830k", "820k - 1,02M", "2,3M - 2,55M"
+  ),
+  Density = c(
+    "0,02", "0,03", "0,06", "0,11", "0,24", "0,57", "0,81",
+    "1,3", "1,83", "2,52", "2,77", "2,12", "2,56", "2,89",
+    "3,5", "3,82", "3,09", "2,69", "3,38", "4,11", "4,88",
+    "5,45", "6,02", "7,49", "19,69"
+  ),
+  stringsAsFactors = FALSE
+)
+
+render_table_template(
+  df_circhol,
+  list(
+    caption = "Population estimates across 25 benchmark dates from 10000BC to 1900AD for each of the five regions of Circassia and Central Ciscaucasia, together with regional totals, uncertainty ranges and overall density.",
+    label = "tab:circassia_holocene_full",
+    col_names = c("Benchmark", "Krasnodar (75,5k km²)", "Adygea (7,8k km²)", "Karachay-Cherkessia (14,3k km²)", "Kabardino-Balkaria and KMV (17,3k km²)", "North Ossetia (8k km²)", "Total", "Range", "Density (p/km²)"),
+    alignment = c("l", "r", "r", "r", "r", "r", "r", "r", "r"),
+    scale_to_fit = FALSE,
+    placement = "!htbp"
+  )
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+```{r crd_footnotes, echo=FALSE, results='asis'}
+emit_crd_footnotes()
+```
