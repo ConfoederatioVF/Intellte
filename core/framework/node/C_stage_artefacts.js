@@ -3,6 +3,41 @@ let path = require("path");
 
 let IntellteArtefactStager = {
   /**
+   * Copies a static artefact only when the destination is missing or size/mtime differs.
+   *
+   * @param {string} arg0_src - Absolute source path.
+   * @param {string} arg1_dst - Absolute destination path.
+   * @return {boolean} True when a copy was written.
+   */
+  copyFileIfChanged: function (arg0_src, arg1_dst) {
+    //Convert from parameters
+    let dst_path = arg1_dst;
+    let src_path = arg0_src;
+
+    //Guard clauses
+    if (!src_path || !fs.existsSync(src_path)) return false;
+
+    //Declare local instance variables
+    let src_stat = fs.statSync(src_path);
+
+    if (fs.existsSync(dst_path)) {
+      let dst_stat = fs.statSync(dst_path);
+      if (dst_stat.size === src_stat.size && Math.abs(dst_stat.mtimeMs - src_stat.mtimeMs) <= 1000)
+        return false;
+    }
+
+    fs.mkdirSync(path.dirname(dst_path), { recursive: true });
+    fs.copyFileSync(src_path, dst_path);
+    try {
+      fs.utimesSync(dst_path, src_stat.atime, src_stat.mtime);
+    } catch (e) {}
+
+    //Return statement
+    return true;
+  },
+
+
+  /**
    * Step C: Stages static artefacts (.pdf, .Rmd, .bib, .md, high-DPI .png figures,
    * CRD emblem, and web fonts) into `docs/public/` and computes European-formatted file sizes.
    *
@@ -23,9 +58,7 @@ let IntellteArtefactStager = {
 
     //Stage CRD logo
     fs.mkdirSync(path.dirname(logo_dst), { recursive: true });
-    if (fs.existsSync(logo_src)) {
-      fs.copyFileSync(logo_src, logo_dst);
-    }
+    IntellteArtefactStager.copyFileIfChanged(logo_src, logo_dst);
 
     //Stage .nojekyll for GitHub Pages
     let nojekyll_path = path.join(docs_public, ".nojekyll");
@@ -40,7 +73,7 @@ let IntellteArtefactStager = {
       for (let i = 0; i < font_files.length; i++) {
         let f_name = font_files[i];
         if (/\.(otf|ttf|woff|woff2)$/i.test(f_name)) {
-          fs.copyFileSync(path.join(fonts_src, f_name), path.join(fonts_dst, f_name));
+          IntellteArtefactStager.copyFileIfChanged(path.join(fonts_src, f_name), path.join(fonts_dst, f_name));
         }
       }
     }
@@ -66,12 +99,13 @@ let IntellteArtefactStager = {
         //1. Compiled PDF
         if (local_ver.pdf_abs && fs.existsSync(local_ver.pdf_abs)) {
           let dst_pdf = path.join(stage_dir, local_ver.pdf_filename);
-          fs.copyFileSync(local_ver.pdf_abs, dst_pdf);
+          IntellteArtefactStager.copyFileIfChanged(local_ver.pdf_abs, dst_pdf);
+          let sz = fs.statSync(dst_pdf).size;
           staged_files.push({
             category: "PDF Manuscript",
             filename: local_ver.pdf_filename,
-            size_bytes: fs.statSync(dst_pdf).size,
-            size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_pdf).size),
+            size_bytes: sz,
+            size_euro: IntellteArtefactStager.formatEuroFileSize(sz),
             url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.pdf_filename)}`
           });
         }
@@ -79,12 +113,13 @@ let IntellteArtefactStager = {
         //2. Executable R Markdown (.Rmd)
         if (local_ver.rmd_abs && fs.existsSync(local_ver.rmd_abs)) {
           let dst_rmd = path.join(stage_dir, local_ver.rmd_filename);
-          fs.copyFileSync(local_ver.rmd_abs, dst_rmd);
+          IntellteArtefactStager.copyFileIfChanged(local_ver.rmd_abs, dst_rmd);
+          let sz = fs.statSync(dst_rmd).size;
           staged_files.push({
             category: "R Markdown Source",
             filename: local_ver.rmd_filename,
-            size_bytes: fs.statSync(dst_rmd).size,
-            size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_rmd).size),
+            size_bytes: sz,
+            size_euro: IntellteArtefactStager.formatEuroFileSize(sz),
             url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.rmd_filename)}`
           });
         }
@@ -92,12 +127,13 @@ let IntellteArtefactStager = {
         //3. BibTeX Bibliography (.bib)
         if (local_ver.bib_abs && fs.existsSync(local_ver.bib_abs)) {
           let dst_bib = path.join(stage_dir, local_ver.bib_filename);
-          fs.copyFileSync(local_ver.bib_abs, dst_bib);
+          IntellteArtefactStager.copyFileIfChanged(local_ver.bib_abs, dst_bib);
+          let sz = fs.statSync(dst_bib).size;
           staged_files.push({
             category: "BibTeX Sources",
             filename: local_ver.bib_filename,
-            size_bytes: fs.statSync(dst_bib).size,
-            size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_bib).size),
+            size_bytes: sz,
+            size_euro: IntellteArtefactStager.formatEuroFileSize(sz),
             url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.bib_filename)}`
           });
         }
@@ -105,12 +141,13 @@ let IntellteArtefactStager = {
         //3b. Supplementary Dataset (.json) & Additional Supplementary Files
         if (local_ver.dataset_abs && fs.existsSync(local_ver.dataset_abs)) {
           let dst_dataset = path.join(stage_dir, local_ver.dataset_filename);
-          fs.copyFileSync(local_ver.dataset_abs, dst_dataset);
+          IntellteArtefactStager.copyFileIfChanged(local_ver.dataset_abs, dst_dataset);
+          let sz = fs.statSync(dst_dataset).size;
           staged_files.push({
             category: "Supplementary Material (JSON)",
             filename: local_ver.dataset_filename,
-            size_bytes: fs.statSync(dst_dataset).size,
-            size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_dataset).size),
+            size_bytes: sz,
+            size_euro: IntellteArtefactStager.formatEuroFileSize(sz),
             url: `${local_ver.artefact_base_url}/${encodeURI(local_ver.dataset_filename)}`
           });
         }
@@ -124,12 +161,13 @@ let IntellteArtefactStager = {
           if (local_src_supp && fs.existsSync(local_src_supp)) {
             let local_supp_name = path.basename(local_src_supp);
             let local_dst_supp = path.join(stage_dir, local_supp_name);
-            fs.copyFileSync(local_src_supp, local_dst_supp);
+            IntellteArtefactStager.copyFileIfChanged(local_src_supp, local_dst_supp);
+            let sz = fs.statSync(local_dst_supp).size;
             staged_files.push({
               category: local_supp_file.category || "Supplementary Material (JSON)",
               filename: local_supp_name,
-              size_bytes: fs.statSync(local_dst_supp).size,
-              size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(local_dst_supp).size),
+              size_bytes: sz,
+              size_euro: IntellteArtefactStager.formatEuroFileSize(sz),
               title: local_supp_file.title || local_supp_name,
               url: `${local_ver.artefact_base_url}/${encodeURI(local_supp_name)}`
             });
@@ -143,12 +181,13 @@ let IntellteArtefactStager = {
           if (fs.existsSync(src_fig)) {
             let fig_name = path.basename(src_fig);
             let dst_fig = path.join(stage_dir, fig_name);
-            fs.copyFileSync(src_fig, dst_fig);
+            IntellteArtefactStager.copyFileIfChanged(src_fig, dst_fig);
+            let sz = fs.statSync(dst_fig).size;
             staged_files.push({
               category: "Figure (PNG)",
               filename: fig_name,
-              size_bytes: fs.statSync(dst_fig).size,
-              size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_fig).size),
+              size_bytes: sz,
+              size_euro: IntellteArtefactStager.formatEuroFileSize(sz),
               title: fig_obj.title,
               url: `${local_ver.artefact_base_url}/${fig_name}`
             });
@@ -160,12 +199,13 @@ let IntellteArtefactStager = {
           let supp = local_ver.compiled_supplementary[z];
           if (fs.existsSync(supp.source_abs)) {
             let dst_md = path.join(stage_dir, supp.filename);
-            fs.copyFileSync(supp.source_abs, dst_md);
+            IntellteArtefactStager.copyFileIfChanged(supp.source_abs, dst_md);
+            let sz = fs.statSync(dst_md).size;
             staged_files.push({
               category: "Validation Report",
               filename: supp.filename,
-              size_bytes: fs.statSync(dst_md).size,
-              size_euro: IntellteArtefactStager.formatEuroFileSize(fs.statSync(dst_md).size),
+              size_bytes: sz,
+              size_euro: IntellteArtefactStager.formatEuroFileSize(sz),
               title: supp.title,
               url: `${local_ver.artefact_base_url}/${supp.filename}`
             });
@@ -181,6 +221,7 @@ let IntellteArtefactStager = {
         let existing_dirs = fs.readdirSync(local_concept_stage_dir);
         for (let x = 0; x < existing_dirs.length; x++) {
           let local_entry_name = existing_dirs[x];
+          if (local_entry_name === "project_versions.json") continue;
           if (!local_active_versions_obj[local_entry_name]) {
             try {
               fs.rmSync(path.join(local_concept_stage_dir, local_entry_name), { force: true, recursive: true });
@@ -192,7 +233,7 @@ let IntellteArtefactStager = {
       }
     }
 
-    if (fs.existsSync(artefacts_root_dir)) {
+    if (!manifest.only_concept_id && fs.existsSync(artefacts_root_dir)) {
       let existing_concepts = fs.readdirSync(artefacts_root_dir, { withFileTypes: true });
       for (let i = 0; i < existing_concepts.length; i++) {
         let local_entry = existing_concepts[i];

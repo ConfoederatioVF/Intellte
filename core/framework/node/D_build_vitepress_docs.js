@@ -4,8 +4,37 @@ let { IntellteDiscovery } = require("./A_discover_records.js");
 
 let IntellteVitePressBuilder = {
   /**
-   * Step D: Emits VitePress Markdown pages (`docs/index.md`, `docs/records/<concept_id>/<version>.md`,
-   * project/folder stub pages, supplementary report pages, `docs/data/search_index.json`, and `docs/public/search_index.json`).
+   * Writes text to disk only if file is absent or its UTF-8 content changed, preserving incremental cache mtimes.
+   *
+   * @param {string} arg0_file_path
+   * @param {string} arg1_content
+   * @return {boolean} True if file was written.
+   */
+  writeFileIfChanged: function (arg0_file_path, arg1_content) {
+    //Convert from parameters
+    let content = String(arg1_content || "");
+    let file_path = arg0_file_path;
+
+    //Function body
+    if (fs.existsSync(file_path)) {
+      try {
+        let existing = fs.readFileSync(file_path, "utf8");
+        if (existing === content) return false;
+      } catch (e) {}
+    }
+
+    fs.mkdirSync(path.dirname(file_path), { recursive: true });
+    fs.writeFileSync(file_path, content, "utf8");
+
+    //Return statement
+    return true;
+  },
+
+
+  /**
+   * Step D: Emits VitePress Markdown pages (`docs/index.md`, `docs/records/<concept_id>/<version>/index.md`,
+   * project/folder stub pages, supplementary report pages, per-project `project_versions.json`,
+   * `docs/data/search_index.json`, and `docs/public/search_index.json`).
    *
    * @param {Object} arg0_manifest - Manifest returned by C_stageArtefacts.
    * @return {Object} Summary of generated VitePress pages.
@@ -40,8 +69,8 @@ let IntellteVitePressBuilder = {
     loc_json_path = path.join(docs_public, "localisation.json");
     loc_string = JSON.stringify(manifest.localisation, null, 2);
 
-    fs.writeFileSync(loc_data_json_path, loc_string, "utf8");
-    fs.writeFileSync(loc_json_path, loc_string, "utf8");
+    IntellteVitePressBuilder.writeFileIfChanged(loc_data_json_path, loc_string);
+    IntellteVitePressBuilder.writeFileIfChanged(loc_json_path, loc_string);
     generated_files.push(loc_data_json_path);
     generated_files.push(loc_json_path);
 
@@ -73,13 +102,16 @@ let IntellteVitePressBuilder = {
         version: arg0_v.version
       }));
 
+      let versions_manifest_path = path.join(docs_public, "artefacts", local_rec.concept_id, "project_versions.json");
+      IntellteVitePressBuilder.writeFileIfChanged(versions_manifest_path, JSON.stringify(version_summaries));
+
       if (local_rec.has_folder_tree) {
         let main_paper_ver = local_rec.versions.find((arg0_v) => Boolean(arg0_v.is_latest && !arg0_v.folder_key));
 
         if (!main_paper_ver) {
           let project_stub_md = IntellteVitePressBuilder.buildProjectStubPageMarkdown(local_rec, version_summaries);
           let index_md_path = path.join(rec_dir, "index.md");
-          fs.writeFileSync(index_md_path, project_stub_md, "utf8");
+          IntellteVitePressBuilder.writeFileIfChanged(index_md_path, project_stub_md);
           generated_files.push(index_md_path);
           local_expected_entries_obj["index.md"] = true;
         }
@@ -101,16 +133,10 @@ let IntellteVitePressBuilder = {
           });
 
           let folder_dir = path.join(rec_dir, local_fkey);
-          fs.mkdirSync(folder_dir, { recursive: true });
           let folder_index_path = path.join(folder_dir, "index.md");
-          fs.writeFileSync(folder_index_path, folder_stub_md, "utf8");
+          IntellteVitePressBuilder.writeFileIfChanged(folder_index_path, folder_stub_md);
           generated_files.push(folder_index_path);
           local_expected_entries_obj[local_fkey] = true;
-
-          let folder_md_path = path.join(rec_dir, `${local_fkey}.md`);
-          fs.writeFileSync(folder_md_path, folder_stub_md, "utf8");
-          generated_files.push(folder_md_path);
-          local_expected_entries_obj[`${local_fkey}.md`] = true;
         }
       }
 
@@ -120,47 +146,34 @@ let IntellteVitePressBuilder = {
           canonical_route: `/records/${local_rec.concept_id}/${local_ver.version}/`
         });
 
-        // 1. Version directory index (for route /records/<concept_id>/<version>/)
+        // Canonical version directory route: /records/<concept_id>/<version>/
         let ver_dir = path.join(rec_dir, local_ver.version);
-        fs.mkdirSync(ver_dir, { recursive: true });
         let ver_index_path = path.join(ver_dir, "index.md");
-        fs.writeFileSync(ver_index_path, page_md, "utf8");
+        IntellteVitePressBuilder.writeFileIfChanged(ver_index_path, page_md);
         generated_files.push(ver_index_path);
         local_expected_entries_obj[String(local_ver.version)] = true;
-
-        // 2. Version flat markdown file (for route /records/<concept_id>/<version>)
-        let ver_md_path = path.join(rec_dir, `${local_ver.version}.md`);
-        fs.writeFileSync(ver_md_path, page_md, "utf8");
-        generated_files.push(ver_md_path);
-        local_expected_entries_obj[`${local_ver.version}.md`] = true;
 
         if (local_ver.is_latest && (!local_rec.has_folder_tree || !local_ver.folder_key)) {
           let root_page_md = IntellteVitePressBuilder.buildVersionPageMarkdown(local_rec, local_ver, version_summaries, {
             canonical_route: `/records/${local_rec.concept_id}/`
           });
           let index_md_path = path.join(rec_dir, "index.md");
-          fs.writeFileSync(index_md_path, root_page_md, "utf8");
+          IntellteVitePressBuilder.writeFileIfChanged(index_md_path, root_page_md);
           generated_files.push(index_md_path);
           local_expected_entries_obj["index.md"] = true;
         }
 
-        // Emit supplementary validation report pages
+        // Canonical supplementary validation report route: /records/<concept_id>/<version>-<key>/
         let supp_reports = Array.isArray(local_ver.compiled_supplementary) ? local_ver.compiled_supplementary : [];
         for (let y = 0; y < supp_reports.length; y++) {
           let supp = supp_reports[y];
           let supp_page_md = IntellteVitePressBuilder.buildSupplementaryPageMarkdown(local_rec, local_ver, supp);
 
           let supp_dir = path.join(rec_dir, `${local_ver.version}-${supp.key}`);
-          fs.mkdirSync(supp_dir, { recursive: true });
           let supp_index_path = path.join(supp_dir, "index.md");
-          fs.writeFileSync(supp_index_path, supp_page_md, "utf8");
+          IntellteVitePressBuilder.writeFileIfChanged(supp_index_path, supp_page_md);
           generated_files.push(supp_index_path);
           local_expected_entries_obj[`${local_ver.version}-${supp.key}`] = true;
-
-          let supp_md_path = path.join(rec_dir, `${local_ver.version}-${supp.key}.md`);
-          fs.writeFileSync(supp_md_path, supp_page_md, "utf8");
-          generated_files.push(supp_md_path);
-          local_expected_entries_obj[`${local_ver.version}-${supp.key}.md`] = true;
         }
 
         //Add to client search index
@@ -204,7 +217,7 @@ let IntellteVitePressBuilder = {
           tags: local_ver.tags || local_rec.tags,
           title: local_ver.title,
           version: local_ver.version,
-          versions: version_summaries
+          versions_url: `/artefacts/${local_rec.concept_id}/project_versions.json`
         });
       }
 
@@ -223,7 +236,7 @@ let IntellteVitePressBuilder = {
       }
     }
 
-    if (fs.existsSync(docs_records)) {
+    if (!manifest.only_concept_id && fs.existsSync(docs_records)) {
       let existing_concepts = fs.readdirSync(docs_records, { withFileTypes: true });
       for (let i = 0; i < existing_concepts.length; i++) {
         let local_entry = existing_concepts[i];
@@ -235,19 +248,27 @@ let IntellteVitePressBuilder = {
       }
     }
 
-    //Write search_index.json
+    //Write search_index.json (merging when --only=<concept_id> is active)
     search_data_json_path = path.join(docs_data, "search_index.json");
     search_json_path = path.join(docs_public, "search_index.json");
+    if (manifest.only_concept_id && fs.existsSync(search_json_path)) {
+      try {
+        let prev_obj = JSON.parse(fs.readFileSync(search_json_path, "utf8"));
+        let prev_recs = Array.isArray(prev_obj && prev_obj.records) ? prev_obj.records : [];
+        let preserved = prev_recs.filter(function (arg0_r) { return arg0_r.concept_id !== manifest.only_concept_id; });
+        search_records = preserved.concat(search_records);
+      } catch (e) {}
+    }
     search_string = JSON.stringify({ records: search_records }, null, 2);
 
-    fs.writeFileSync(search_data_json_path, search_string, "utf8");
-    fs.writeFileSync(search_json_path, search_string, "utf8");
+    IntellteVitePressBuilder.writeFileIfChanged(search_data_json_path, search_string);
+    IntellteVitePressBuilder.writeFileIfChanged(search_json_path, search_string);
     generated_files.push(search_data_json_path);
     generated_files.push(search_json_path);
 
     //Write top-level docs/index.md portal page
     root_index_path = path.join(docs_dir, "index.md");
-    fs.writeFileSync(root_index_path, IntellteVitePressBuilder.buildPortalHomeMarkdown(), "utf8");
+    IntellteVitePressBuilder.writeFileIfChanged(root_index_path, IntellteVitePressBuilder.buildPortalHomeMarkdown());
     generated_files.push(root_index_path);
 
     //Return statement
@@ -798,7 +819,8 @@ let IntellteVitePressBuilder = {
       tags: (aggregated_tags.length > 0) ? aggregated_tags : (rec.tags || []),
       title: page_title,
       version: "",
-      versions: version_summaries
+      versions: (Array.isArray(version_summaries) && version_summaries.length <= 10) ? version_summaries : [],
+      versions_url: `/artefacts/${rec.concept_id}/project_versions.json`
     };
     let meta_json_b64 = Buffer.from(JSON.stringify(meta_payload), "utf8").toString("base64");
 
@@ -947,7 +969,8 @@ let IntellteVitePressBuilder = {
       tags: ver.tags || rec.tags,
       title: ver.title,
       version: ver.version,
-      versions: version_summaries
+      versions: (Array.isArray(version_summaries) && version_summaries.length <= 10) ? version_summaries : [],
+      versions_url: `/artefacts/${rec.concept_id}/project_versions.json`
     };
     let meta_json_b64 = Buffer.from(JSON.stringify(meta_payload), "utf8").toString("base64");
 

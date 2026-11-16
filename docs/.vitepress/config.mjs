@@ -107,6 +107,40 @@ export default defineConfig({
   cleanUrls: true,
   ignoreDeadLinks: true,
 
+  /**
+   * Emits ultra-lightweight static HTML redirect stubs (`/records/<c>/<v>.html` -> `./<v>/`)
+   * post-build so clean URLs without trailing slashes resolve on static hosts without duplicate `.md` builds.
+   *
+   * @param {Object} arg0_site_config
+   */
+  buildEnd: function (arg0_site_config) {
+    let out_dir = (arg0_site_config && arg0_site_config.outDir) ?
+      arg0_site_config.outDir : path.join(docs_dir, ".vitepress/dist");
+    let rec_root = path.join(out_dir, "records");
+    if (!fs.existsSync(rec_root)) return;
+
+    let concepts = fs.readdirSync(rec_root, { withFileTypes: true });
+    for (let i = 0; i < concepts.length; i++) {
+      if (!concepts[i].isDirectory()) continue;
+      let concept_dir = path.join(rec_root, concepts[i].name);
+      let children = fs.readdirSync(concept_dir, { withFileTypes: true });
+      for (let x = 0; x < children.length; x++) {
+        if (!children[x].isDirectory()) continue;
+        let sub_slug = children[x].name;
+        let index_html = path.join(concept_dir, sub_slug, "index.html");
+        let flat_html = path.join(concept_dir, `${sub_slug}.html`);
+        if (fs.existsSync(index_html) && !fs.existsSync(flat_html)) {
+          let target = `./${encodeURIComponent(sub_slug)}/`;
+          fs.writeFileSync(
+            flat_html,
+            `<!doctype html><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=${target}"><link rel="canonical" href="${target}">`,
+            "utf8"
+          );
+        }
+      }
+    }
+  },
+
   head: [
     ["link", { rel: "icon", type: "image/png", href: `${base_url}artefacts/crd_logo.png` }],
     [
@@ -190,17 +224,6 @@ export default defineConfig({
     nav: [
       { text: en_strings.nav_catalogue || "Catalogue", link: "/" }
     ],
-    search: {
-      provider: "local",
-      options: {
-        translations: {
-          button: {
-            buttonAriaLabel: en_strings.nav_search_placeholder || "Search Intellte",
-            buttonText: en_strings.nav_search_placeholder || "Search Intellte"
-          }
-        }
-      }
-    },
     footer: {
       message: "Confoederatio, Research Division (CRD)",
       copyright: "Intellte Working Papers"

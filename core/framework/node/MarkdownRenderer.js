@@ -1,6 +1,7 @@
 let child_process = require("child_process");
 let crypto = require("crypto");
 let fs = require("fs");
+let os = require("os");
 let path = require("path");
 let { MlaBibliographyFormatter } = require("./MlaBibliographyFormatter.js");
 
@@ -31,6 +32,32 @@ class MarkdownRenderer {
     this.rscript_path = (options.rscript_path)
       ? options.rscript_path
       : "C:/Program Files/R/R-4.6.1/bin/Rscript.exe";
+    this.r_framework_hash = this.computeRFrameworkHash();
+  }
+
+
+  /**
+   * Computes a deterministic short SHA-256 digest over all `core/framework/R/*.R` files
+   * so framework updates invalidate RMarkdown DOM caches automatically without `--force-eval`.
+   *
+   * @return {string} 8-character hex digest.
+   */
+  computeRFrameworkHash () {
+    //Declare local instance variables
+    let hash = crypto.createHash("sha256");
+    let r_dir = path.resolve(this.root_dir, "core/framework/R");
+
+    //Function body
+    if (fs.existsSync(r_dir)) {
+      let r_files = fs.readdirSync(r_dir).filter(function (arg0_f) { return /\.R$/i.test(arg0_f); }).sort();
+      for (let i = 0; i < r_files.length; i++) {
+        hash.update(r_files[i]);
+        hash.update(fs.readFileSync(path.join(r_dir, r_files[i]), "utf8"));
+      }
+    }
+
+    //Return statement
+    return hash.digest("hex").slice(0, 8);
   }
 
 
@@ -112,18 +139,18 @@ class MarkdownRenderer {
     let self = this;
 
     //Convert inline math in figcaption
-    out_text = out_text.replace(/<figcaption class="crd-caption">([\s\S]*?)<\/figcaption>/g, function (arg0_m, arg1_cap) {
-      return `<figcaption class="crd-caption">${self.formatInlineMathString(arg1_cap)}</figcaption>`;
+    out_text = out_text.replace(/<figcaption(\b[^>]*)>([\s\S]*?)<\/figcaption>/gi, function (arg0_m, arg1_attrs, arg2_cap) {
+      return `<figcaption${arg1_attrs}>${self.formatInlineMathString(arg2_cap)}</figcaption>`;
     });
 
     //Convert inline math in th headers
-    out_text = out_text.replace(/<th class="crd-th">([\s\S]*?)<\/th>/g, function (arg0_m, arg1_cell) {
-      return `<th class="crd-th">${self.formatInlineMathString(arg1_cell)}</th>`;
+    out_text = out_text.replace(/<th(\b[^>]*)>([\s\S]*?)<\/th>/gi, function (arg0_m, arg1_attrs, arg2_cell) {
+      return `<th${arg1_attrs}>${self.formatInlineMathString(arg2_cell)}</th>`;
     });
 
-    //Convert inline math in td cells
-    out_text = out_text.replace(/<td class="crd-td">([\s\S]*?)<\/td>/g, function (arg0_m, arg1_cell) {
-      return `<td class="crd-td">${self.formatInlineMathString(arg1_cell)}</td>`;
+    //Convert inline math in td cells and panel headings
+    out_text = out_text.replace(/<td(\b[^>]*)>([\s\S]*?)<\/td>/gi, function (arg0_m, arg1_attrs, arg2_cell) {
+      return `<td${arg1_attrs}>${self.formatInlineMathString(arg2_cell)}</td>`;
     });
 
     //Convert inline math in panel headings
@@ -179,19 +206,22 @@ class MarkdownRenderer {
       bib_entries = this.parseBibFile(bib_path);
     }
 
-    evaluated_md = this.evaluateRmdWithCache(rmd_path, {
-      artefact_base_url: artefact_base_url,
-      force_eval: force_eval,
-      has_hero_figure: Boolean(frontmatter.hero_figure)
-    });
+    evaluated_md = (options.pre_evaluated_md !== undefined && options.pre_evaluated_md !== null)
+      ? options.pre_evaluated_md
+      : this.evaluateRmdWithCache(rmd_path, {
+          artefact_base_url: artefact_base_url,
+          force_eval: force_eval,
+          has_hero_figure: Boolean(frontmatter.hero_figure)
+        });
 
     parsed_doc = this.parseFrontmatter(evaluated_md);
     body_md = parsed_doc.body;
 
-    //Process LaTeX cross-references, citations, footnotes, <pdf src> tags, and inline math
+    //Process LaTeX cross-references, citations, footnotes, <pdf src> tags, table HTML math and inline prose math
     body_md = this.stripLatexPaginationBlocks(body_md);
     body_md = this.resolveCrossReferences(body_md, Boolean(frontmatter.hero_figure), frontmatter.hero_label);
     body_md = this.resolveTableAndCaptionMarkdown(body_md);
+    body_md = this.cleanHtmlInlineMath(body_md);
     body_md = this.resolveCitationsAndBibliography(body_md, bib_entries);
     body_md = this.resolveFootnotes(body_md);
     body_md = this.transformPdfTags(body_md, { artefact_base_url: artefact_base_url });
@@ -236,20 +266,22 @@ class MarkdownRenderer {
       //Transform <pdf src="..."> tags into <PdfEmbed ... /> before markdown-it rendering
       let processed_src = self.transformPdfTags(src, options);
 
-      //Render math inside raw HTML blocks (td, th, figcaption, crd-panel-heading, crd-footnote-text)
+      //Render math inside raw HTML blocks only when pre-rendered v-pre tables are not used
       if (processed_src.includes("$")) {
-        processed_src = processed_src.replace(/<td\b([^>]*)>([\s\S]*?)<\/td>/g, function (arg0_full, arg1_attrs, arg2_content) {
-          if (arg2_content.includes("$")) {
-            return `<td${arg1_attrs}>${md.renderInline(arg2_content)}</td>`;
-          }
-          return arg0_full;
-        });
-        processed_src = processed_src.replace(/<th\b([^>]*)>([\s\S]*?)<\/th>/g, function (arg0_full, arg1_attrs, arg2_content) {
-          if (arg2_content.includes("$")) {
-            return `<th${arg1_attrs}>${md.renderInline(arg2_content)}</th>`;
-          }
-          return arg0_full;
-        });
+        if (!processed_src.includes(`class="crd-wysiwyg-table" v-pre`)) {
+          processed_src = processed_src.replace(/<td\b([^>]*)>([\s\S]*?)<\/td>/g, function (arg0_full, arg1_attrs, arg2_content) {
+            if (arg2_content.includes("$")) {
+              return `<td${arg1_attrs}>${md.renderInline(arg2_content)}</td>`;
+            }
+            return arg0_full;
+          });
+          processed_src = processed_src.replace(/<th\b([^>]*)>([\s\S]*?)<\/th>/g, function (arg0_full, arg1_attrs, arg2_content) {
+            if (arg2_content.includes("$")) {
+              return `<th${arg1_attrs}>${md.renderInline(arg2_content)}</th>`;
+            }
+            return arg0_full;
+          });
+        }
         processed_src = processed_src.replace(/<figcaption\b([^>]*)>([\s\S]*?)<\/figcaption>/g, function (arg0_full, arg1_attrs, arg2_content) {
           if (arg2_content.includes("$")) {
             return `<figcaption${arg1_attrs}>${md.renderInline(arg2_content)}</figcaption>`;
@@ -299,6 +331,204 @@ class MarkdownRenderer {
 
 
   /**
+   * Resolves deterministic cache file paths for an `.Rmd` evaluation job, incorporating
+   * the SHA-256 digest of all `core/framework/R/*.R` files (`v10_<framework_hash>`).
+   *
+   * @param {string} arg0_rmd_path
+   * @param {Object} [arg1_options]
+   * @return {Object} Cache descriptor `{ cache_file, crlf_cache_file, rmd_base, rmd_norm, raw_rmd }`
+   */
+  getRmdCacheKeyInfo (arg0_rmd_path, arg1_options) {
+    //Convert from parameters
+    let rmd_path = arg0_rmd_path;
+    let options = (arg1_options) ? arg1_options : {};
+
+    //Initialise options
+    let artefact_base_url = (options.artefact_base_url) ? options.artefact_base_url : "";
+    let has_hero_figure = (options.has_hero_figure !== undefined) ? Boolean(options.has_hero_figure) : true;
+
+    //Declare local instance variables
+    let cache_file = "";
+    let cache_hash = "";
+    let crlf_cache_file = "";
+    let crlf_hash = "";
+    let norm_rmd = "";
+    let raw_rmd = fs.readFileSync(rmd_path, "utf8");
+    let rmd_base = path.basename(rmd_path, ".Rmd");
+    let rmd_norm = rmd_path.replace(/\\/g, "/");
+    let salt = `v10_${this.r_framework_hash || "0"}`;
+
+    if (!fs.existsSync(this.cache_dir)) {
+      fs.mkdirSync(this.cache_dir, { recursive: true });
+    }
+
+    norm_rmd = raw_rmd.replace(/\r\n/g, "\n");
+    cache_hash = crypto
+      .createHash("sha256")
+      .update(`${norm_rmd}|${artefact_base_url}|${has_hero_figure}|${salt}`)
+      .digest("hex")
+      .slice(0, 16);
+    cache_file = path.join(this.cache_dir, `${rmd_base}_${cache_hash}.md`).replace(/\\/g, "/");
+
+    crlf_hash = crypto
+      .createHash("sha256")
+      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|${salt}`)
+      .digest("hex")
+      .slice(0, 16);
+    crlf_cache_file = path.join(this.cache_dir, `${rmd_base}_${crlf_hash}.md`).replace(/\\/g, "/");
+
+    //Return statement
+    return {
+      artefact_base_url: artefact_base_url,
+      cache_file: cache_file,
+      crlf_cache_file: crlf_cache_file,
+      has_hero_figure: has_hero_figure,
+      raw_rmd: raw_rmd,
+      rmd_base: rmd_base,
+      rmd_norm: rmd_norm
+    };
+  }
+
+
+  /**
+   * Evaluates an array of `.Rmd` compilation jobs in parallel across persistent R workers
+   * (`min(os.cpus().length, 8)` processes), checking the SHA-256 cache first and grouping uncached
+   * jobs by source directory to avoid temporary asset races.
+   *
+   * @param {Array<Object>} arg0_jobs - Jobs `{ key, rmd_path, artefact_base_url, has_hero_figure }`
+   * @param {Object} [arg1_options] - Options (`concurrency`, `force_eval`)
+   * @return {Promise<Map<string, string>>} Map from `job.key` to evaluated Markdown
+   */
+  async evaluateRmdBatchParallel (arg0_jobs, arg1_options) {
+    //Convert from parameters
+    let jobs = Array.isArray(arg0_jobs) ? arg0_jobs : [];
+    let options = (arg1_options) ? arg1_options : {};
+
+    //Initialise options
+    let force_eval = Boolean(options.force_eval);
+
+    //Declare local instance variables
+    let max_workers = Math.max(1, Math.min(Number(options.concurrency) || Math.min(os.cpus().length, 8), 8));
+    let result_map = new Map();
+    let rscript_bin = (fs.existsSync(this.rscript_path)) ? this.rscript_path : "Rscript";
+    let uncached_jobs = [];
+    let worker_r_path = path.resolve(__dirname, "r_dom_worker.R").replace(/\\/g, "/");
+
+    //Function body
+    for (let i = 0; i < jobs.length; i++) {
+      let job = jobs[i];
+      if (!job || !job.rmd_path || !fs.existsSync(job.rmd_path)) continue;
+      let info = this.getRmdCacheKeyInfo(job.rmd_path, {
+        artefact_base_url: job.artefact_base_url,
+        has_hero_figure: job.has_hero_figure
+      });
+
+      if (!force_eval) {
+        if (fs.existsSync(info.cache_file)) {
+          let cached_md = fs.readFileSync(info.cache_file, "utf8");
+          if (this.isValidEvaluatedMarkdown(cached_md)) {
+            result_map.set(job.key, cached_md);
+            continue;
+          }
+          try { fs.unlinkSync(info.cache_file); } catch (e) {}
+        }
+        if (fs.existsSync(info.crlf_cache_file)) {
+          let crlf_md = fs.readFileSync(info.crlf_cache_file, "utf8");
+          if (this.isValidEvaluatedMarkdown(crlf_md)) {
+            result_map.set(job.key, crlf_md);
+            continue;
+          }
+          try { fs.unlinkSync(info.crlf_cache_file); } catch (e) {}
+        }
+      }
+
+      uncached_jobs.push({
+        artefact_base_url: info.artefact_base_url,
+        cache_file: info.cache_file,
+        dir_key: path.dirname(job.rmd_path).toLowerCase(),
+        has_hero_figure: info.has_hero_figure,
+        key: job.key,
+        rmd_path: info.rmd_norm
+      });
+    }
+
+    if (uncached_jobs.length === 0) {
+      return result_map;
+    }
+
+    //Group jobs by directory so two parallel workers never touch the same folder simultaneously
+    let dir_map = new Map();
+    for (let i = 0; i < uncached_jobs.length; i++) {
+      let u_job = uncached_jobs[i];
+      if (!dir_map.has(u_job.dir_key)) dir_map.set(u_job.dir_key, []);
+      dir_map.get(u_job.dir_key).push(u_job);
+    }
+
+    let dir_groups = Array.from(dir_map.values());
+    let actual_workers = Math.min(max_workers, dir_groups.length);
+    let shards = Array.from({ length: actual_workers }, function () { return []; });
+    for (let i = 0; i < dir_groups.length; i++) {
+      let target_shard = shards[i % actual_workers];
+      for (let x = 0; x < dir_groups[i].length; x++)
+        target_shard.push(dir_groups[i][x]);
+    }
+
+    console.log(`[MarkdownRenderer] Compiling ${uncached_jobs.length} uncached .Rmd file(s) across ${actual_workers} persistent R worker(s)...`);
+
+    let jobs_tmp_dir = path.join(this.cache_dir, "worker_jobs");
+    if (!fs.existsSync(jobs_tmp_dir)) fs.mkdirSync(jobs_tmp_dir, { recursive: true });
+
+    let worker_promises = shards.map((arg0_shard, arg1_idx) => {
+      if (arg0_shard.length === 0) return Promise.resolve();
+      let job_json_path = path.join(jobs_tmp_dir, `worker_${process.pid}_${arg1_idx}.json`).replace(/\\/g, "/");
+      fs.writeFileSync(job_json_path, JSON.stringify(arg0_shard, null, 2), "utf8");
+
+      return new Promise((arg0_resolve) => {
+        let child = child_process.spawn(rscript_bin, [worker_r_path, job_json_path], {
+          cwd: this.root_dir,
+          stdio: ["ignore", "pipe", "pipe"]
+        });
+        let stderr_chunks = [];
+        child.stderr.on("data", function (arg0_chunk) { stderr_chunks.push(String(arg0_chunk)); });
+        child.on("close", (arg0_code) => {
+          try { fs.unlinkSync(job_json_path); } catch (e) {}
+          if (arg0_code !== 0 && stderr_chunks.length > 0) {
+            console.warn(`[MarkdownRenderer] R worker ${arg1_idx} exited with code ${arg0_code}: ${stderr_chunks.join("").slice(0, 400)}`);
+          }
+          arg0_resolve();
+        });
+        child.on("error", () => {
+          try { fs.unlinkSync(job_json_path); } catch (e) {}
+          arg0_resolve();
+        });
+      });
+    });
+
+    await Promise.all(worker_promises);
+
+    //Collect outputs and fall back to evaluateRmdWithCache if any single file failed in batch
+    for (let i = 0; i < uncached_jobs.length; i++) {
+      let uj = uncached_jobs[i];
+      if (fs.existsSync(uj.cache_file)) {
+        let eval_md = fs.readFileSync(uj.cache_file, "utf8");
+        if (this.isValidEvaluatedMarkdown(eval_md)) {
+          result_map.set(uj.key, eval_md);
+          continue;
+        }
+      }
+      result_map.set(uj.key, this.evaluateRmdWithCache(uj.rmd_path, {
+        artefact_base_url: uj.artefact_base_url,
+        force_eval: force_eval,
+        has_hero_figure: uj.has_hero_figure
+      }));
+    }
+
+    //Return statement
+    return result_map;
+  }
+
+
+  /**
    * Evaluates an .Rmd file via Rscript and knitr into DOM Markdown, using SHA-256 caching.
    *
    * @param {string} arg0_rmd_path - Absolute path to the .Rmd file.
@@ -311,38 +541,16 @@ class MarkdownRenderer {
     let options = (arg1_options) ? arg1_options : {};
 
     //Initialise options
-    let artefact_base_url = (options.artefact_base_url) ? options.artefact_base_url : "";
     let force_eval = Boolean(options.force_eval);
-    let has_hero_figure = (options.has_hero_figure !== undefined) ? Boolean(options.has_hero_figure) : true;
 
     //Declare local instance variables
-    let cache_file = "";
-    let cache_hash = "";
     let fw_init_path = path.resolve(this.root_dir, "core/framework/R/framework_init.R").replace(/\\/g, "/");
-    let norm_rmd = "";
-    let raw_rmd = fs.readFileSync(rmd_path, "utf8");
-    let rmd_base = path.basename(rmd_path, ".Rmd");
-    let rmd_norm = rmd_path.replace(/\\/g, "/");
+    let info = this.getRmdCacheKeyInfo(rmd_path, options);
+    let cache_file = info.cache_file;
+    let crlf_cache_file = info.crlf_cache_file;
+    let raw_rmd = info.raw_rmd;
+    let rmd_base = info.rmd_base;
     let rscript_bin = (fs.existsSync(this.rscript_path)) ? this.rscript_path : "Rscript";
-
-    if (!fs.existsSync(this.cache_dir)) {
-      fs.mkdirSync(this.cache_dir, { recursive: true });
-    }
-
-    norm_rmd = raw_rmd.replace(/\r\n/g, "\n");
-    cache_hash = crypto
-      .createHash("sha256")
-      .update(`${norm_rmd}|${artefact_base_url}|${has_hero_figure}|v9`)
-      .digest("hex")
-      .slice(0, 16);
-    cache_file = path.join(this.cache_dir, `${rmd_base}_${cache_hash}.md`).replace(/\\/g, "/");
-
-    let crlf_hash = crypto
-      .createHash("sha256")
-      .update(`${raw_rmd}|${artefact_base_url}|${has_hero_figure}|v9`)
-      .digest("hex")
-      .slice(0, 16);
-    let crlf_cache_file = path.join(this.cache_dir, `${rmd_base}_${crlf_hash}.md`).replace(/\\/g, "/");
 
     if (!force_eval) {
       if (fs.existsSync(cache_file)) {
@@ -363,7 +571,7 @@ class MarkdownRenderer {
 
     let r_expr = [
       `source('${fw_init_path}')`,
-      `compile_rmd_to_dom_markdown('${rmd_norm}', '${cache_file}', list(artefact_base_url = '${artefact_base_url}', has_hero_figure = ${has_hero_figure ? "TRUE" : "FALSE"}))`
+      `compile_rmd_to_dom_markdown('${info.rmd_norm}', '${cache_file}', list(artefact_base_url = '${info.artefact_base_url}', has_hero_figure = ${info.has_hero_figure ? "TRUE" : "FALSE"}))`
     ].join("; ");
 
     let proc_res = child_process.spawnSync(rscript_bin, ["-e", r_expr], {
@@ -427,6 +635,12 @@ class MarkdownRenderer {
       .replace(/\\times(?![A-Za-z])/g, "×")
       .replace(/\\cdot(?![A-Za-z])/g, "·")
       .replace(/\\sim\s*/g, "~")
+      .replace(/\\nu(?![A-Za-z])/g, "ν")
+      .replace(/\\tau(?![A-Za-z])/g, "τ")
+      .replace(/\\sigma(?![A-Za-z])/g, "σ")
+      .replace(/\\alpha(?![A-Za-z])/g, "α")
+      .replace(/\\beta(?![A-Za-z])/g, "β")
+      .replace(/\\mu(?![A-Za-z])/g, "μ")
       .replace(/\$?p\(5[^)]*19\)\/p\(5\+\)\$?/g, "<i>p</i>(5-19)/<i>p</i>(5+)")
       .replace(/\$?p\(0[^)]*4\)\$?/g, "<i>p</i>(0-4)")
       .replace(/\\pm\s*([0-9]+)\s*\\sigma/g, "±$1σ")
@@ -682,7 +896,7 @@ class MarkdownRenderer {
     });
 
     if (cited_keys.length > 0) {
-      let bib_lines = [`<div class="crd-bibliography-list">`];
+      let bib_lines = [`<div class="crd-bibliography-list" v-pre>`];
       for (let i = 0; i < cited_keys.length; i++) {
         let local_key = cited_keys[i];
         let local_num = i + 1;

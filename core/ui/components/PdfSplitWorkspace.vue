@@ -186,6 +186,7 @@ let props = defineProps({
 });
 
 let active_source_paper = ref(null);
+let fetched_versions = ref(null);
 let is_pdf_expanded = ref(false);
 
 let closeSourcePaperModal = function () {
@@ -243,6 +244,15 @@ let source_paper_mailto = computed(() => {
 onMounted(() => {
   if (typeof window !== "undefined") {
     window.addEventListener("keydown", handleKeydown);
+    let parsed = record_obj.value;
+    if (parsed && parsed.versions_url && (!Array.isArray(parsed.versions) || parsed.versions.length === 0)) {
+      fetch(resolveUrl(parsed.versions_url))
+        .then((arg0_res) => (arg0_res && arg0_res.ok ? arg0_res.json() : null))
+        .then((arg0_data) => {
+          if (Array.isArray(arg0_data)) fetched_versions.value = arg0_data;
+        })
+        .catch(() => {});
+    }
   }
 });
 
@@ -270,7 +280,11 @@ let decodeBase64Utf8 = function (arg0_b64) {
 
 let record_obj = computed(() => {
   try {
-    return JSON.parse(decodeBase64Utf8(props.recordB64));
+    let parsed = JSON.parse(decodeBase64Utf8(props.recordB64));
+    if (Array.isArray(fetched_versions.value) && (!Array.isArray(parsed.versions) || parsed.versions.length === 0)) {
+      return { ...parsed, versions: fetched_versions.value };
+    }
+    return parsed;
   } catch (e) {
     return {
       tags: [],

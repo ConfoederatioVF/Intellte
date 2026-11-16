@@ -16,6 +16,7 @@ let IntellteDiscovery = {
     let options = (arg0_options) ? arg0_options : {};
 
     //Initialise options
+    let only_concept_id = (options.only_concept_id) ? String(options.only_concept_id).trim() : "";
     let root_dir = (options.root_dir) ? options.root_dir : path.resolve(__dirname, "../../..");
 
     //Declare local instance variables
@@ -42,6 +43,7 @@ let IntellteDiscovery = {
       let local_key = all_concept_ids[i];
       let local_rec = registry_obj[local_key];
       let concept_id = local_rec.concept_id || local_key;
+      if (only_concept_id && concept_id !== only_concept_id && local_key !== only_concept_id) continue;
       let child_repo_rel = local_rec.child_repo_path || `papers/${concept_id}`;
       let child_repo_abs = path.join(root_dir, child_repo_rel);
       let enriched_versions = [];
@@ -191,6 +193,7 @@ let IntellteDiscovery = {
     return {
       defines: defines_obj,
       localisation: localisation_obj,
+      only_concept_id: only_concept_id,
       records: enriched_records,
       root_dir: root_dir
     };

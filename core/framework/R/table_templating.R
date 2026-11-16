@@ -120,7 +120,7 @@ render_packed_subtables <- function (arg0_subtables_list, arg1_options = NULL) {
       html_lines <- c(
         paste0("<figure class=\"crd-table-figure\" id=\"", html_escape_cell(base_label), "\">"),
         "<div class=\"crd-table-scroll\">",
-        "<table class=\"crd-wysiwyg-table\">",
+        "<table class=\"crd-wysiwyg-table\" v-pre>",
         paste0("<thead><tr>", paste(th_cells, collapse = ""), "</tr></thead>"),
         "<tbody>"
       )
@@ -330,7 +330,7 @@ render_table_template <- function (arg0_df, arg1_options = NULL) {
       html_lines <- c(
         paste0("<figure class=\"crd-table-figure\"", if (nzchar(label_str)) paste0(" id=\"", html_escape_cell(label_str), "\"") else "", ">"),
         "<div class=\"crd-table-scroll\">",
-        "<table class=\"crd-wysiwyg-table\">",
+        "<table class=\"crd-wysiwyg-table\" v-pre>",
         paste0("<thead><tr>", paste(th_cells, collapse = ""), "</tr></thead>"),
         "<tbody>"
       )

@@ -11,7 +11,7 @@ let IntellteRmdCompiler = {
    * @param {Object} [arg1_options] - Options (`force_eval`).
    * @return {Object} Updated manifest with compiled DOM payloads attached to each version.
    */
-  B_compileRmdDom: function (arg0_manifest, arg1_options) {
+  B_compileRmdDom: async function (arg0_manifest, arg1_options) {
     //Convert from parameters
     let manifest = arg0_manifest;
     let options = (arg1_options) ? arg1_options : {};
@@ -20,10 +20,33 @@ let IntellteRmdCompiler = {
     let force_eval = Boolean(options.force_eval);
 
     //Declare local instance variables
+    let rmd_jobs = [];
     let records = (manifest && Array.isArray(manifest.records)) ? manifest.records : [];
     let renderer = new MarkdownRenderer({
       root_dir: manifest.root_dir,
       rscript_path: (manifest.defines && manifest.defines.rscript_path) ? manifest.defines.rscript_path : undefined
+    });
+
+    for (let i = 0; i < records.length; i++) {
+      let local_rec = records[i];
+      let versions = local_rec.versions;
+      for (let x = 0; x < versions.length; x++) {
+        let local_ver = versions[x];
+        if (local_ver.has_rmd && local_ver.rmd_abs && fs.existsSync(local_ver.rmd_abs)) {
+          let fm = renderer.parseFrontmatter(fs.readFileSync(local_ver.rmd_abs, "utf8")).frontmatter || {};
+          rmd_jobs.push({
+            artefact_base_url: local_ver.artefact_base_url,
+            has_hero_figure: Boolean(fm.hero_figure),
+            key: `${local_rec.concept_id}::${local_ver.version}`,
+            rmd_path: local_ver.rmd_abs
+          });
+        }
+      }
+    }
+
+    let pre_eval_map = await renderer.evaluateRmdBatchParallel(rmd_jobs, {
+      concurrency: options.concurrency,
+      force_eval: force_eval
     });
 
     for (let i = 0; i < records.length; i++) {
@@ -35,11 +58,13 @@ let IntellteRmdCompiler = {
         let compiled_dom = { body_md: "", frontmatter: {}, full_dom_md: "", header_html: "" };
 
         if (local_ver.has_rmd && local_ver.rmd_abs && fs.existsSync(local_ver.rmd_abs)) {
+          let job_key = `${local_rec.concept_id}::${local_ver.version}`;
           compiled_dom = renderer.compileRmdToDom(local_ver.rmd_abs, {
             artefact_base_url: local_ver.artefact_base_url,
             bib_path: local_ver.bib_abs,
             force_eval: force_eval,
-            pdf_url: local_ver.pdf_url
+            pdf_url: local_ver.pdf_url,
+            pre_evaluated_md: pre_eval_map.get(job_key)
           });
         }
 

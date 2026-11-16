@@ -8,22 +8,29 @@ let IntelltePipeline = {
   /**
    * Executes steps A through D of the Intellte static site generation pipeline.
    *
-   * @param {Object} [arg0_options] - Options (`force_eval`, `root_dir`).
-   * @return {Object} Build result object.
+   * @param {Object} [arg0_options] - Options (`force_eval`, `only_concept_id`, `root_dir`).
+   * @return {Promise<Object>} Build result object.
    */
-  runAll: function (arg0_options) {
+  runAll: async function (arg0_options) {
     //Convert from parameters
     let options = (arg0_options) ? arg0_options : {};
 
     //Initialise options
     let force_eval = Boolean(options.force_eval);
+    let only_concept_id = (options.only_concept_id) ? String(options.only_concept_id).trim() : "";
     let root_dir = (options.root_dir) ? options.root_dir : path.resolve(__dirname, "../../..");
 
     console.log("[Intellte] Step A: Discovering child repositories & working paper records...");
-    let manifest = IntellteDiscovery.A_discoverRecords({ root_dir: root_dir });
+    let manifest = IntellteDiscovery.A_discoverRecords({
+      only_concept_id: only_concept_id,
+      root_dir: root_dir
+    });
 
     console.log("[Intellte] Step B: Compiling .Rmd & .md documents into WYSIWYG DOM Markdown/HTML...");
-    manifest = IntellteRmdCompiler.B_compileRmdDom(manifest, { force_eval: force_eval });
+    manifest = await IntellteRmdCompiler.B_compileRmdDom(manifest, {
+      concurrency: options.concurrency,
+      force_eval: force_eval
+    });
 
     console.log("[Intellte] Step C: Staging PDFs, RMarkdown sources, BibTeX, figures & CRD fonts...");
     manifest = IntellteArtefactStager.C_stageArtefacts(manifest);
@@ -40,7 +47,15 @@ let IntelltePipeline = {
 
 if (require.main === module) {
   let force_flag = process.argv.includes("--force-eval");
-  IntelltePipeline.runAll({ force_eval: force_flag });
+  let only_arg = process.argv.find(function (arg0_a) { return arg0_a.startsWith("--only="); });
+  let only_id = only_arg ? only_arg.slice(7).trim() : "";
+  IntelltePipeline.runAll({
+    force_eval: force_flag,
+    only_concept_id: only_id
+  }).catch(function (arg0_err) {
+    console.error("[Intellte] Pipeline fatal error:", arg0_err);
+    process.exit(1);
+  });
 }
 
 module.exports = { IntelltePipeline };

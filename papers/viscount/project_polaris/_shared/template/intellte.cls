@@ -31,12 +31,16 @@
       \IfFileExists{../_shared/fonts/Jost-400-Book.otf}{%
         \renewcommand{\crd@fontpath}{../_shared/fonts/}%
       }{%
-        \IfFileExists{../fonts/Jost-400-Book.otf}{%
-          \renewcommand{\crd@fontpath}{../fonts/}%
+        \IfFileExists{_shared/fonts/Jost-400-Book.otf}{%
+          \renewcommand{\crd@fontpath}{_shared/fonts/}%
         }{%
-          \IfFileExists{fonts/Jost-400-Book.otf}{%
-            \renewcommand{\crd@fontpath}{fonts/}%
-          }{}%
+          \IfFileExists{../fonts/Jost-400-Book.otf}{%
+            \renewcommand{\crd@fontpath}{../fonts/}%
+          }{%
+            \IfFileExists{fonts/Jost-400-Book.otf}{%
+              \renewcommand{\crd@fontpath}{fonts/}%
+            }{}%
+          }%
         }%
       }%
     }%
@@ -56,9 +60,13 @@
       \IfFileExists{../_shared/template/crd_logo.png}{%
         \renewcommand{\crd@logopath}{../_shared/template/crd_logo.png}%
       }{%
-        \IfFileExists{crd_logo.png}{%
-          \renewcommand{\crd@logopath}{crd_logo.png}%
-        }{}%
+        \IfFileExists{_shared/template/crd_logo.png}{%
+          \renewcommand{\crd@logopath}{_shared/template/crd_logo.png}%
+        }{%
+          \IfFileExists{crd_logo.png}{%
+            \renewcommand{\crd@logopath}{crd_logo.png}%
+          }{}%
+        }%
       }%
     }%
   }%
@@ -258,20 +266,24 @@
   singlelinecheck=true,
   justification=centering,
   position=below,
-  aboveskip=10pt,
-  belowskip=2pt,
-  skip=6pt
+  aboveskip=8pt,
+  belowskip=0pt,
+  skip=4pt
 }
-\captionsetup[figure]{position=below, justification=centering, aboveskip=10pt, belowskip=2pt, skip=6pt}
-\captionsetup[table]{position=below, justification=centering, aboveskip=10pt, belowskip=2pt, skip=6pt}
+\captionsetup[figure]{position=below, justification=centering, aboveskip=8pt, belowskip=0pt, skip=4pt}
+\captionsetup[table]{position=below, justification=centering, aboveskip=8pt, belowskip=0pt, skip=4pt}
 
 %% Image n. and Definition n. environments using Karla Bold labels inline with Source Serif 4
 \DeclareCaptionType[fileext=loi,placement={!htbp},within=none]{crdimage}[Image][List of Images]
-\captionsetup[crdimage]{position=below,format=crdformat,labelsep=period,name=Image,justification=centering,aboveskip=10pt,belowskip=2pt,skip=6pt}
+\captionsetup[crdimage]{position=below,format=crdformat,labelsep=period,name=Image,justification=centering,aboveskip=8pt,belowskip=0pt,skip=4pt}
 
-\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
-\setlength{\intextsep}{10pt plus 2pt minus 2pt}
-\setlength{\floatsep}{10pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{6pt plus 1pt minus 1pt}
+\setlength{\intextsep}{5pt plus 1pt minus 1pt}
+\setlength{\floatsep}{6pt plus 1pt minus 1pt}
+\AtBeginDocument{%
+  \setlength{\LTpre}{6pt}%
+  \setlength{\LTpost}{4pt}%
+}
 
 \newcounter{crddefinition}
 \newenvironment{definition}[1][]{%
@@ -328,8 +340,8 @@
   {#1}
   []
 
-\titlespacing*{\section}{0pt}{14pt plus 2pt minus 2pt}{6pt}
-\titlespacing*{\subsection}{0pt}{10pt plus 2pt minus 1pt}{4pt}
+\titlespacing*{\section}{0pt}{10pt plus 2pt minus 1pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt plus 2pt minus 1pt}{3pt}
 \titlespacing*{\subsubsection}{0pt}{8pt plus 2pt minus 1pt}{2pt}
 \titlespacing*{\paragraph}{0pt}{5pt plus 1pt minus 1pt}{8pt}
 
