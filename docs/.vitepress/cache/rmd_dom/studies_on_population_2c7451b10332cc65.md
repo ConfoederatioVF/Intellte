@@ -65,28 +65,30 @@ From 1400AD onward, POLARIS transitions to eight chronological regime masks that
 
 As shown in Figure 1, POLARIS separates Ukraine (gold) and Belarus (teal) across all six historical panels, tracks the entry and exit of western borderlands (the Grand Duchy of Finland 1809-1917AD, Congress Poland 1815-1917AD, the Baltic provinces and Soviet republics 1400-1991AD, and Bessarabia and Soviet Moldavia 1812-1991AD), and integrates frontline boundaries from DeepStateMAP for 2022-2026AD. This distinguishes Ukrainian territories liberated in late 2022AD (Northern Ukraine across Kyiv, Chernihiv, Sumy and Zhytomyr oblasts, alongside Kharkiv/Izium and Right-Bank Kherson) from Russian-occupied zones in Crimea, Donbas and southern Zaporizhzhia-Kherson.
 
-
-
-Table: Structure of POLARIS's 23 constituent modules, showing priority tiers, chronological spans, administrative units, gazetteer coverage, area, and primary documentary and archaeological sources.
-
-|Constituent Module & Scope                      |Time Span      |Units & Towns    | Area (km²)|Population Range                     |Primary Archival & Archaeological Substrata                                           |
-|:-----------------------------------------------|:--------------|:----------------|----------:|:------------------------------------|:-------------------------------------------------------------------------------------|
-|Pre-Modern Baseline (Migration Period)          |10000BC-1900AD |11 zones (t=168) |     17,92M|87,82k (10000BC) to 11,84M (1200AD)  |Institute of Archaeology registry, Belarus/Ukraine monument lists, HYDE               |
-|Kievan Rus & Western Lands (6 modules)          |10000BC-1900AD |4 princ. (t=463) |       560k|38,5k (10000BC) to 4,88M (1200AD)    |43.437 Belarusian and Ukrainian sites, fortified gorodishche areas, chronicles        |
-|Russian Forest Core & Urals                     |10000BC-1900AD |1 core (t=248)   |      2,19M|13k (10000BC) to 4,67M (1200AD)      |Oka-Volga Opolye surveys, Novgorod birch-bark documents, pistsovye cadastres          |
-|Pontic Steppe & Lower Volga                     |10000BC-1900AD |4 zones (t=382)  |      1,04M|10,02k (10000BC) to 1,1M (1300AD)    |Kurgan and Alanian fortification registers, Golden Horde coin finds                   |
-|North Caucasus (3 modules)                      |10000BC-1900AD |3 zones (t=241)  |     194,5k|3,5k (10000BC) to 952k (1200AD)      |Koban, Maeotian and Alanian monuments, Derbent epigraphy, Vainakh towers              |
-|Siberia & Far East (2 modules)                  |10000BC-1900AD |2 zones (t=312)  |     12,74M|22,8k (10000BC) to 527,4k (900AD)    |Siberian radiocarbon dates, Minusinsk and Lena basin sites, yasak books               |
-|Tsardom of Russia (1400-1721AD)                 |1400AD-1721AD  |38 reg. (t=412)  |     18,12M|11,36M (1400AD) to 22,83M (1720AD)   |Muscovite pistsovye cadastres, 1678/1710 household books, Lithuanian podymne          |
-|Early Russian Empire (1721-1815AD)              |1721AD-1815AD  |40 reg. (t=438)  |      18,5M|23,89M (1721AD) to 51,17M (1815AD)   |1st to 6th Imperial Revisions (1719-1811AD), General Land Survey, Novorossiya records |
-|Late Russian Empire (1815-1917AD)               |1815AD-1917AD  |48 reg. (t=524)  |     18,61M|57,87M (1815AD) to 167,95M (1914AD)  |7th to 10th Revisions, 1897 Imperial Census, 1914-1917 provincial yearbooks           |
-|First World War & Civil War (1914-1926AD)       |1914AD-1926AD  |48 reg. (t=486)  |     18,61M|167,95M (1914AD) to 148,66M (1922AD) |1917 Agricultural and Urban Census, 1920 census, 1926 All-Union Census                |
-|Soviet Union under Lenin & Stalin (1926-1953AD) |1926AD-1953AD  |45 reg. (t=492)  |     18,18M|145,07M (1926AD) to 165,35M (1953AD) |1926, 1937 and 1939 Censuses, TsUNKhU vital records, Gulag registries                 |
-|Soviet Union post-Stalin (1953-1991AD)          |1953AD-1991AD  |41 reg. (t=468)  |     18,18M|165,35M (1953AD) to 224,55M (1991AD) |1959, 1970, 1979 and 1989 All-Union Censuses, Goskomstat vital registers              |
-|Post-Soviet Space (1991-2021AD)                 |1991AD-2021AD  |35 reg. (t=245)  |     17,97M|212,26M (1991AD) to 198,08M (2021AD) |Rosstat, Ukrstat and Belstat 1999-2021 census rounds, vital and migration balances    |
-|War in Ukraine & Contemporary Era (2021-2026AD) |2021AD-2026AD  |123 div. (t=220) |     17,96M|198,08M (2021AD) to 188,56M (2026AD) |2021-2026 vital statistics, UNHCR and IOM displacement data, DeepStateMAP             |
-
-
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Constituent Module &amp; Scope</th><th class="crd-th">Time Span</th><th class="crd-th">Units &amp; Towns</th><th class="crd-th">Area (km²)</th><th class="crd-th">Population Range</th><th class="crd-th">Primary Archival &amp; Archaeological Substrata</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Pre-Modern Baseline (Migration Period)</strong></td><td class="crd-td">10000BC-1900AD</td><td class="crd-td">11 zones (t=168)</td><td class="crd-td">17,92M</td><td class="crd-td">87,82k (10000BC) to 11,84M (1200AD)</td><td class="crd-td">Institute of Archaeology registry, Belarus/Ukraine monument lists, HYDE</td></tr>
+<tr><td class="crd-td"><strong>Kievan Rus &amp; Western Lands (6 modules)</strong></td><td class="crd-td">10000BC-1900AD</td><td class="crd-td">4 princ. (t=463)</td><td class="crd-td">560k</td><td class="crd-td">38,5k (10000BC) to 4,88M (1200AD)</td><td class="crd-td">43.437 Belarusian and Ukrainian sites, fortified gorodishche areas, chronicles</td></tr>
+<tr><td class="crd-td"><strong>Russian Forest Core &amp; Urals</strong></td><td class="crd-td">10000BC-1900AD</td><td class="crd-td">1 core (t=248)</td><td class="crd-td">2,19M</td><td class="crd-td">13k (10000BC) to 4,67M (1200AD)</td><td class="crd-td">Oka-Volga Opolye surveys, Novgorod birch-bark documents, pistsovye cadastres</td></tr>
+<tr><td class="crd-td"><strong>Pontic Steppe &amp; Lower Volga</strong></td><td class="crd-td">10000BC-1900AD</td><td class="crd-td">4 zones (t=382)</td><td class="crd-td">1,04M</td><td class="crd-td">10,02k (10000BC) to 1,1M (1300AD)</td><td class="crd-td">Kurgan and Alanian fortification registers, Golden Horde coin finds</td></tr>
+<tr><td class="crd-td"><strong>North Caucasus (3 modules)</strong></td><td class="crd-td">10000BC-1900AD</td><td class="crd-td">3 zones (t=241)</td><td class="crd-td">194,5k</td><td class="crd-td">3,5k (10000BC) to 952k (1200AD)</td><td class="crd-td">Koban, Maeotian and Alanian monuments, Derbent epigraphy, Vainakh towers</td></tr>
+<tr><td class="crd-td"><strong>Siberia &amp; Far East (2 modules)</strong></td><td class="crd-td">10000BC-1900AD</td><td class="crd-td">2 zones (t=312)</td><td class="crd-td">12,74M</td><td class="crd-td">22,8k (10000BC) to 527,4k (900AD)</td><td class="crd-td">Siberian radiocarbon dates, Minusinsk and Lena basin sites, yasak books</td></tr>
+<tr><td class="crd-td"><strong>Tsardom of Russia (1400-1721AD)</strong></td><td class="crd-td">1400AD-1721AD</td><td class="crd-td">38 reg. (t=412)</td><td class="crd-td">18,12M</td><td class="crd-td">11,36M (1400AD) to 22,83M (1720AD)</td><td class="crd-td">Muscovite pistsovye cadastres, 1678/1710 household books, Lithuanian podymne</td></tr>
+<tr><td class="crd-td"><strong>Early Russian Empire (1721-1815AD)</strong></td><td class="crd-td">1721AD-1815AD</td><td class="crd-td">40 reg. (t=438)</td><td class="crd-td">18,5M</td><td class="crd-td">23,89M (1721AD) to 51,17M (1815AD)</td><td class="crd-td">1st to 6th Imperial Revisions (1719-1811AD), General Land Survey, Novorossiya records</td></tr>
+<tr><td class="crd-td"><strong>Late Russian Empire (1815-1917AD)</strong></td><td class="crd-td">1815AD-1917AD</td><td class="crd-td">48 reg. (t=524)</td><td class="crd-td">18,61M</td><td class="crd-td">57,87M (1815AD) to 167,95M (1914AD)</td><td class="crd-td">7th to 10th Revisions, 1897 Imperial Census, 1914-1917 provincial yearbooks</td></tr>
+<tr><td class="crd-td"><strong>First World War &amp; Civil War (1914-1926AD)</strong></td><td class="crd-td">1914AD-1926AD</td><td class="crd-td">48 reg. (t=486)</td><td class="crd-td">18,61M</td><td class="crd-td">167,95M (1914AD) to 148,66M (1922AD)</td><td class="crd-td">1917 Agricultural and Urban Census, 1920 census, 1926 All-Union Census</td></tr>
+<tr><td class="crd-td"><strong>Soviet Union under Lenin &amp; Stalin (1926-1953AD)</strong></td><td class="crd-td">1926AD-1953AD</td><td class="crd-td">45 reg. (t=492)</td><td class="crd-td">18,18M</td><td class="crd-td">145,07M (1926AD) to 165,35M (1953AD)</td><td class="crd-td">1926, 1937 and 1939 Censuses, TsUNKhU vital records, Gulag registries</td></tr>
+<tr><td class="crd-td"><strong>Soviet Union post-Stalin (1953-1991AD)</strong></td><td class="crd-td">1953AD-1991AD</td><td class="crd-td">41 reg. (t=468)</td><td class="crd-td">18,18M</td><td class="crd-td">165,35M (1953AD) to 224,55M (1991AD)</td><td class="crd-td">1959, 1970, 1979 and 1989 All-Union Censuses, Goskomstat vital registers</td></tr>
+<tr><td class="crd-td"><strong>Post-Soviet Space (1991-2021AD)</strong></td><td class="crd-td">1991AD-2021AD</td><td class="crd-td">35 reg. (t=245)</td><td class="crd-td">17,97M</td><td class="crd-td">212,26M (1991AD) to 198,08M (2021AD)</td><td class="crd-td">Rosstat, Ukrstat and Belstat 1999-2021 census rounds, vital and migration balances</td></tr>
+<tr><td class="crd-td"><strong>War in Ukraine &amp; Contemporary Era (2021-2026AD)</strong></td><td class="crd-td">2021AD-2026AD</td><td class="crd-td">123 div. (t=220)</td><td class="crd-td">17,96M</td><td class="crd-td">198,08M (2021AD) to 188,56M (2026AD)</td><td class="crd-td">2021-2026 vital statistics, UNHCR and IOM displacement data, DeepStateMAP</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Structure of POLARIS's 23 constituent modules, showing priority tiers, chronological spans, administrative units, gazetteer coverage, area, and primary documentary and archaeological sources.</figcaption>
+</figure>
 
 ## Archaeological Substrata and Matérn Kriging Across Russia, Belarus and Ukraine
 
@@ -127,26 +129,28 @@ During spatial disaggregation at any target year, point-settlement populations i
 
 To evaluate the internal consistency of the archaeological kriging mosaic and its spatial disaggregation skill, Table 2 summarises the cross-validation diagnostics across both regional domains.
 
-
-
-Table: Geostatistical parameters and cross-validation diagnostics for the Russian/Crimean and Belarusian/Ukrainian archaeological kriging mosaics.
-
-|Metric                                               |Russia & Crimea                              |Belarus & Ukraine                            |Combined Domain                    |
-|:----------------------------------------------------|:--------------------------------------------|:--------------------------------------------|:----------------------------------|
-|Domestic ADM2 raion centroids ($n$)                  |1.765 (Russia & Crimea)                      |595 (118 BLR + 477 UKR)                      |2.360 domestic ADM2 raions         |
-|Cross-frontier conditioning nodes ($n$, 250 km)      |294 (Belarus & Ukraine)                      |322 (Russia & Crimea)                        |616 reciprocal conditioning nodes  |
-|Total conditioning nodes in dual solve ($n$)         |2.059                                        |917                                          |2.976 coupled solve nodes          |
-|Catalogued site-epoch observations ($n$)             |67.205 (64.812 raion-resolved)               |43.437 (4.196 BLR + 39.241 UKR)              |110.642 site-epoch records         |
-|Valid 5' grid cells / domain area (km²)              |412.892 cells/16,56M km²                     |14.271 cells/775,2k km²                      |427.163 cells/17,34M km²           |
-|Median Voronoi catchment $A_k$ and radius $r_k$      |2.467 km²/28,02 km                           |1.232 km²/19,8 km                            |2.110 km² weighted median          |
-|Short-range Matérn scale $\tau_1$ ($w_1 = 0{,}72$)   |1,06 ($w_1 = 0{,}72$)                        |1,09 ($w_1 = 0{,}72$)                        |1,06 to 1,09 (harm. $(\nu = 3/2)$) |
-|Macro-ecotone Matérn scale $\tau_2$ ($w_2 = 0{,}28$) |3,01 ($w_2 = 0{,}28$)                        |3,01 ($w_2 = 0{,}28$)                        |3,01 (shared macro-ecotone)        |
-|Relative nugget ratio $c_0 / \sigma^2$ (Mediaeval)   |0,04 ($c_0 = 0{,}041$, $\sigma^2 = 1{,}039$) |0,11 ($c_0 = 0{,}224$, $\sigma^2 = 2{,}045$) |0,04 to 0,11 (low nugget noise)    |
-|Log-linear residual kriging skill ($R^2$)            |0,83 (across 1.765 raions)                   |0,88 (across 595 raions)                     |0,85 weighted domain $R^2$         |
-|Cross-frontier seam jump across 200 km belt ($C^1$)  |< 0,4% mean absolute jump                    |< 0,4% mean absolute jump                    |$C^1$-continuous across RU-BY-UA   |
-|Polygon mass-conservation error (dasymetric)         |0% (exact machine precision)                 |0% (exact machine precision)                 |100% regional total preservation   |
-
-
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Metric</th><th class="crd-th">Russia &amp; Crimea</th><th class="crd-th">Belarus &amp; Ukraine</th><th class="crd-th">Combined Domain</th></tr></thead>
+<tbody>
+<tr><td class="crd-td">**Domestic ADM2 raion centroids ($n$)**</td><td class="crd-td">1.765 (Russia &amp; Crimea)</td><td class="crd-td">595 (118 BLR + 477 UKR)</td><td class="crd-td">2.360 domestic ADM2 raions</td></tr>
+<tr><td class="crd-td">**Cross-frontier conditioning nodes ($n$, 250 km)**</td><td class="crd-td">294 (Belarus &amp; Ukraine)</td><td class="crd-td">322 (Russia &amp; Crimea)</td><td class="crd-td">616 reciprocal conditioning nodes</td></tr>
+<tr><td class="crd-td">**Total conditioning nodes in dual solve ($n$)**</td><td class="crd-td">2.059</td><td class="crd-td">917</td><td class="crd-td">2.976 coupled solve nodes</td></tr>
+<tr><td class="crd-td">**Catalogued site-epoch observations ($n$)**</td><td class="crd-td">67.205 (64.812 raion-resolved)</td><td class="crd-td">43.437 (4.196 BLR + 39.241 UKR)</td><td class="crd-td">110.642 site-epoch records</td></tr>
+<tr><td class="crd-td"><strong>Valid 5' grid cells / domain area (km²)</strong></td><td class="crd-td">412.892 cells/16,56M km²</td><td class="crd-td">14.271 cells/775,2k km²</td><td class="crd-td">427.163 cells/17,34M km²</td></tr>
+<tr><td class="crd-td">**Median Voronoi catchment $A_k$ and radius $r_k$**</td><td class="crd-td">2.467 km²/28,02 km</td><td class="crd-td">1.232 km²/19,8 km</td><td class="crd-td">2.110 km² weighted median</td></tr>
+<tr><td class="crd-td">**Short-range Matérn scale $\tau_1$ ($w_1 = 0{,}72$)**</td><td class="crd-td">1,06 ($w_1 = 0{,}72$)</td><td class="crd-td">1,09 ($w_1 = 0{,}72$)</td><td class="crd-td">1,06 to 1,09 (harm. $(\nu = 3/2)$)</td></tr>
+<tr><td class="crd-td">**Macro-ecotone Matérn scale $\tau_2$ ($w_2 = 0{,}28$)**</td><td class="crd-td">3,01 ($w_2 = 0{,}28$)</td><td class="crd-td">3,01 ($w_2 = 0{,}28$)</td><td class="crd-td">3,01 (shared macro-ecotone)</td></tr>
+<tr><td class="crd-td">**Relative nugget ratio $c_0 / \sigma^2$ (Mediaeval)**</td><td class="crd-td">0,04 ($c_0 = 0{,}041$, $\sigma^2 = 1{,}039$)</td><td class="crd-td">0,11 ($c_0 = 0{,}224$, $\sigma^2 = 2{,}045$)</td><td class="crd-td">0,04 to 0,11 (low nugget noise)</td></tr>
+<tr><td class="crd-td">**Log-linear residual kriging skill ($R^2$)**</td><td class="crd-td">0,83 (across 1.765 raions)</td><td class="crd-td">0,88 (across 595 raions)</td><td class="crd-td">0,85 weighted domain $R^2$</td></tr>
+<tr><td class="crd-td">**Cross-frontier seam jump across 200 km belt ($C^1$)**</td><td class="crd-td">&lt; 0,4% mean absolute jump</td><td class="crd-td">&lt; 0,4% mean absolute jump</td><td class="crd-td">$C^1$-continuous across RU-BY-UA</td></tr>
+<tr><td class="crd-td"><strong>Polygon mass-conservation error (dasymetric)</strong></td><td class="crd-td">0% (exact machine precision)</td><td class="crd-td">0% (exact machine precision)</td><td class="crd-td">100% regional total preservation</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Geostatistical parameters and cross-validation diagnostics for the Russian/Crimean and Belarusian/Ukrainian archaeological kriging mosaics.</figcaption>
+</figure>
 
 Three diagnostic findings illustrate the behaviour of the mosaic formulation.
 
@@ -183,31 +187,33 @@ The decisive demographic acceleration occurred during the Eneolithic (4500-3000B
 
 Simultaneously, horse domestication, wheeled wagon transport and pastoralism across the Sredny Stog, Khvalynsk and Yamnaya horizons (3300-2500BC) opened the drier interfluves of the Pontic-Caspian steppe. Steppe numbers expanded from 100,17k in 4000BC to 182,49k in 3000BC and 290,92k in 2000BC. In the North Caucasus, the Maikop and Kura-Araxes cultures transformed the piedmont, supporting 133k by 3000BC. Afanasievo pastoralists settled the Minusinsk and Altai basins, contributing to a Siberian total of 141,9k in 3000BC and 207,5k in 2000BC [@Anthony2007; @Korenevskiy2011; @Vadetskaya1986]. By 2000BC, consolidated domain population reached 1,46M (0,081 inhabitants/km²).
 
-
-
-Table: Consolidated pre-modern population trajectories across the 14 specialist regional masks in POLARIS from 10000BC to 1300AD (domain area = 17,92M km²).
-
-|Horizon | Rus BY/UA (4)| Russian Core| Steppe & Crimea (4)| North Caucasus (3)| Siberia (2)| POLARIS Total| Dens. (/km²)|
-|:-------|-------------:|------------:|-------------------:|------------------:|-----------:|-------------:|------------:|
-|10000BC |         38,5k|          13k|              10,02k|               3,5k|       22,8k|        87,82k|        0,005|
-|8000BC  |           70k|          22k|              17,32k|               6,2k|       35,9k|       151,42k|        0,008|
-|6000BC  |        117,5k|        44,5k|              33,93k|              14,2k|       61,2k|       271,33k|        0,015|
-|4000BC  |          455k|          86k|             100,17k|              53,5k|     104,43k|        799,1k|        0,045|
-|3000BC  |          559k|         122k|             182,49k|               133k|      141,9k|         1,14M|        0,064|
-|2000BC  |          592k|         182k|             290,92k|               188k|      207,5k|         1,46M|        0,081|
-|1000BC  |          925k|         278k|             379,26k|               376k|     337,64k|          2,3M|        0,128|
-|500BC   |         1,25M|         444k|             670,63k|               503k|      420,2k|         3,28M|        0,183|
-|1AD     |         1,28M|         610k|             710,01k|               585k|      440,9k|         3,63M|        0,203|
-|300AD   |          1,8M|      780,52k|             639,62k|               555k|     440,99k|         4,21M|        0,235|
-|500AD   |         1,43M|         920k|             465,03k|             597,5k|     451,65k|         3,86M|        0,215|
-|700AD   |         1,67M|        1,18M|                680k|               685k|        485k|          4,7M|        0,262|
-|900AD   |         2,39M|        1,82M|             958,66k|               800k|     527,35k|         6,49M|        0,362|
-|1000AD  |          3,1M|        2,51M|             743,63k|               865k|      522,1k|         7,74M|        0,432|
-|1100AD  |         3,96M|        3,48M|                790k|               910k|        500k|         9,64M|        0,538|
-|1200AD  |         4,88M|        4,67M|             863,25k|               952k|      483,1k|        11,84M|        0,661|
-|1300AD  |         3,44M|        4,33M|                1,1M|               750k|     442,05k|        10,06M|        0,561|
-
-
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Horizon</th><th class="crd-th">Rus BY/UA (4)</th><th class="crd-th">Russian Core</th><th class="crd-th">Steppe &amp; Crimea (4)</th><th class="crd-th">North Caucasus (3)</th><th class="crd-th">Siberia (2)</th><th class="crd-th">POLARIS Total</th><th class="crd-th">Dens. (/km²)</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>10000BC</strong></td><td class="crd-td">38,5k</td><td class="crd-td">13k</td><td class="crd-td">10,02k</td><td class="crd-td">3,5k</td><td class="crd-td">22,8k</td><td class="crd-td">87,82k</td><td class="crd-td">0,005</td></tr>
+<tr><td class="crd-td"><strong>8000BC</strong></td><td class="crd-td">70k</td><td class="crd-td">22k</td><td class="crd-td">17,32k</td><td class="crd-td">6,2k</td><td class="crd-td">35,9k</td><td class="crd-td">151,42k</td><td class="crd-td">0,008</td></tr>
+<tr><td class="crd-td"><strong>6000BC</strong></td><td class="crd-td">117,5k</td><td class="crd-td">44,5k</td><td class="crd-td">33,93k</td><td class="crd-td">14,2k</td><td class="crd-td">61,2k</td><td class="crd-td">271,33k</td><td class="crd-td">0,015</td></tr>
+<tr><td class="crd-td"><strong>4000BC</strong></td><td class="crd-td">455k</td><td class="crd-td">86k</td><td class="crd-td">100,17k</td><td class="crd-td">53,5k</td><td class="crd-td">104,43k</td><td class="crd-td">799,1k</td><td class="crd-td">0,045</td></tr>
+<tr><td class="crd-td"><strong>3000BC</strong></td><td class="crd-td">559k</td><td class="crd-td">122k</td><td class="crd-td">182,49k</td><td class="crd-td">133k</td><td class="crd-td">141,9k</td><td class="crd-td">1,14M</td><td class="crd-td">0,064</td></tr>
+<tr><td class="crd-td"><strong>2000BC</strong></td><td class="crd-td">592k</td><td class="crd-td">182k</td><td class="crd-td">290,92k</td><td class="crd-td">188k</td><td class="crd-td">207,5k</td><td class="crd-td">1,46M</td><td class="crd-td">0,081</td></tr>
+<tr><td class="crd-td"><strong>1000BC</strong></td><td class="crd-td">925k</td><td class="crd-td">278k</td><td class="crd-td">379,26k</td><td class="crd-td">376k</td><td class="crd-td">337,64k</td><td class="crd-td">2,3M</td><td class="crd-td">0,128</td></tr>
+<tr><td class="crd-td"><strong>500BC</strong></td><td class="crd-td">1,25M</td><td class="crd-td">444k</td><td class="crd-td">670,63k</td><td class="crd-td">503k</td><td class="crd-td">420,2k</td><td class="crd-td">3,28M</td><td class="crd-td">0,183</td></tr>
+<tr><td class="crd-td"><strong>1AD</strong></td><td class="crd-td">1,28M</td><td class="crd-td">610k</td><td class="crd-td">710,01k</td><td class="crd-td">585k</td><td class="crd-td">440,9k</td><td class="crd-td">3,63M</td><td class="crd-td">0,203</td></tr>
+<tr><td class="crd-td"><strong>300AD</strong></td><td class="crd-td">1,8M</td><td class="crd-td">780,52k</td><td class="crd-td">639,62k</td><td class="crd-td">555k</td><td class="crd-td">440,99k</td><td class="crd-td">4,21M</td><td class="crd-td">0,235</td></tr>
+<tr><td class="crd-td"><strong>500AD</strong></td><td class="crd-td">1,43M</td><td class="crd-td">920k</td><td class="crd-td">465,03k</td><td class="crd-td">597,5k</td><td class="crd-td">451,65k</td><td class="crd-td">3,86M</td><td class="crd-td">0,215</td></tr>
+<tr><td class="crd-td"><strong>700AD</strong></td><td class="crd-td">1,67M</td><td class="crd-td">1,18M</td><td class="crd-td">680k</td><td class="crd-td">685k</td><td class="crd-td">485k</td><td class="crd-td">4,7M</td><td class="crd-td">0,262</td></tr>
+<tr><td class="crd-td"><strong>900AD</strong></td><td class="crd-td">2,39M</td><td class="crd-td">1,82M</td><td class="crd-td">958,66k</td><td class="crd-td">800k</td><td class="crd-td">527,35k</td><td class="crd-td">6,49M</td><td class="crd-td">0,362</td></tr>
+<tr><td class="crd-td"><strong>1000AD</strong></td><td class="crd-td">3,1M</td><td class="crd-td">2,51M</td><td class="crd-td">743,63k</td><td class="crd-td">865k</td><td class="crd-td">522,1k</td><td class="crd-td">7,74M</td><td class="crd-td">0,432</td></tr>
+<tr><td class="crd-td"><strong>1100AD</strong></td><td class="crd-td">3,96M</td><td class="crd-td">3,48M</td><td class="crd-td">790k</td><td class="crd-td">910k</td><td class="crd-td">500k</td><td class="crd-td">9,64M</td><td class="crd-td">0,538</td></tr>
+<tr><td class="crd-td"><strong>1200AD</strong></td><td class="crd-td">4,88M</td><td class="crd-td">4,67M</td><td class="crd-td">863,25k</td><td class="crd-td">952k</td><td class="crd-td">483,1k</td><td class="crd-td">11,84M</td><td class="crd-td">0,661</td></tr>
+<tr><td class="crd-td"><strong>1300AD</strong></td><td class="crd-td">3,44M</td><td class="crd-td">4,33M</td><td class="crd-td">1,1M</td><td class="crd-td">750k</td><td class="crd-td">442,05k</td><td class="crd-td">10,06M</td><td class="crd-td">0,561</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Consolidated pre-modern population trajectories across the 14 specialist regional masks in POLARIS from 10000BC to 1300AD (domain area = 17,92M km²).</figcaption>
+</figure>
 
 ## Bronze-Iron Transition, Classical Scythia-Sarmatia and the Migration Period Trough (2000BC-600AD)
 
@@ -256,62 +262,68 @@ After recovering to 20,7M in 1648AD, the Khmelnytsky Uprising, the Russo-Polish 
 
 From the 1630s onward, construction of the Belgorod, Simbirsk and Izium fortified lines shielded the Central Black-Earth region and Sloboda Ukraine from slave raids, allowing over 1,8M peasants and Cossacks to settle the fertile Voronezh-Kursk-Belgorod belt [@Bagaley1887; @Davies2007]. By the 1678AD Household Census (19,96M total; Figure 5, Panel A) and the First Revision in 1719-1721AD (22,83M in 1720AD), settlement had expanded substantially. East of the Urals, garrison forts established at Tobolsk, Tomsk, Yeniseysk, Yakutsk and Irkutsk anchored agricultural colonisation in the arable river basins, where Russian settlers (~310k by 1719AD) came to outnumber the indigenous tribute-paying population (~220k), bringing the Siberian total to 530k [@Dolgikh1960; @Kabuzan1979Siberia].
 
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">National Epoch &amp; Scope</th><th class="crd-th">Chronological Span</th><th class="crd-th">Population Trajectory</th><th class="crd-th">Net Demographic Shift</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Tsardom of Russia (38 reg., 18,12M km²)</strong></td><td class="crd-td">1400AD-1721AD</td><td class="crd-td">11,36M (1400AD) to 22,83M (1720AD)</td><td class="crd-td">+11,47M (+101%)</td></tr>
+<tr><td class="crd-td"><strong>Early Russian Empire (40 reg., 18,5M km²)</strong></td><td class="crd-td">1721AD-1815AD</td><td class="crd-td">23,89M (1721AD) to 51,17M (1815AD)</td><td class="crd-td">+27,28M (+114,2%)</td></tr>
+<tr><td class="crd-td"><strong>Late Russian Empire (48 reg., 18,61M km²)</strong></td><td class="crd-td">1815AD-1914AD</td><td class="crd-td">57,87M (1815AD) to 167,95M (1914AD)</td><td class="crd-td">+110,08M (+190,2%)</td></tr>
+<tr><td class="crd-td"><strong>First World War &amp; Civil War (48 reg., 18,61M km²)</strong></td><td class="crd-td">1914AD-1926AD</td><td class="crd-td">167,95M (1914AD) to 167,78M (1926AD)</td><td class="crd-td">-0,17M (148,66M trough)</td></tr>
+<tr><td class="crd-td"><strong>Soviet Union (Lenin &amp; Stalin) (45 reg., 18,18M km²)</strong></td><td class="crd-td">1926AD-1953AD</td><td class="crd-td">145,07M (1926AD) to 165,35M (1953AD)</td><td class="crd-td">+20,28M (142,62M war trough)</td></tr>
+<tr><td class="crd-td"><strong>Soviet Union (Post-Stalin) (41 reg., 18,18M km²)</strong></td><td class="crd-td">1953AD-1991AD</td><td class="crd-td">165,35M (1953AD) to 224,55M (1991AD)</td><td class="crd-td">+59,2M (+35,8%)</td></tr>
+<tr><td class="crd-td"><strong>Post-Soviet Space (35 reg., 17,97M km²)</strong></td><td class="crd-td">1991AD-2021AD</td><td class="crd-td">212,26M (1991AD) to 198,08M (2021AD)</td><td class="crd-td">-14,18M (-6,7%)</td></tr>
+<tr><td class="crd-td"><strong>War in Ukraine &amp; Three States (123 div., 17,96M km²)</strong></td><td class="crd-td">2021AD-2026AD</td><td class="crd-td">198,08M (2021AD) to 188,56M (2026AD)</td><td class="crd-td">-9,52M (-4,8%)</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 4.</span> National epoch population trajectories across Eastern Europe and Northern Asia from 1400AD to 2026AD.</figcaption>
+</figure>
 
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">National Epoch &amp; Scope</th><th class="crd-th">Representative Horizon</th><th class="crd-th">Urban Population</th><th class="crd-th">Urban Share (%)</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Tsardom of Russia</strong></td><td class="crd-td">1678AD (Household Census)</td><td class="crd-td">898k</td><td class="crd-td">4,5%</td></tr>
+<tr><td class="crd-td"><strong>Early Russian Empire</strong></td><td class="crd-td">1811AD (Fifth Revision)</td><td class="crd-td">2,36M</td><td class="crd-td">4,8%</td></tr>
+<tr><td class="crd-td"><strong>Late Russian Empire</strong></td><td class="crd-td">1897AD (Imperial Census)</td><td class="crd-td">16,57M</td><td class="crd-td">13,4%</td></tr>
+<tr><td class="crd-td"><strong>Late Russian Empire (Pre-War)</strong></td><td class="crd-td">1914AD (Imperial Yearbooks)</td><td class="crd-td">26,54M</td><td class="crd-td">15,8%</td></tr>
+<tr><td class="crd-td"><strong>Soviet Interwar Baseline</strong></td><td class="crd-td">1926AD (All-Union Census)</td><td class="crd-td">25,97M</td><td class="crd-td">17,9%</td></tr>
+<tr><td class="crd-td"><strong>Soviet Pre-War Peak</strong></td><td class="crd-td">1939AD (All-Union Census)</td><td class="crd-td">55,18M</td><td class="crd-td">33,2%</td></tr>
+<tr><td class="crd-td"><strong>Soviet Industrial High</strong></td><td class="crd-td">1970AD (All-Union Census)</td><td class="crd-td">112,02M</td><td class="crd-td">56,6%</td></tr>
+<tr><td class="crd-td"><strong>Soviet Dissolution Baseline</strong></td><td class="crd-td">1989AD (All-Union Census)</td><td class="crd-td">147,99M</td><td class="crd-td">66,4%</td></tr>
+<tr><td class="crd-td"><strong>Post-Soviet Demarcation</strong></td><td class="crd-td">2021AD (Post-Soviet Censuses)</td><td class="crd-td">146,38M</td><td class="crd-td">73,9%</td></tr>
+<tr><td class="crd-td"><strong>Post-Soviet Space (2026AD)</strong></td><td class="crd-td">2026AD (Wartime Synthesis)</td><td class="crd-td">141,04M</td><td class="crd-td">74,8%</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 5.</span> Long-run urbanisation and settlement concentration across Eastern Europe and Northern Asia from 1400AD to 2026AD.</figcaption>
+</figure>
 
-Table: National epoch population trajectories across Eastern Europe and Northern Asia from 1400AD to 2026AD.
-
-|National Epoch & Scope                               | Chronological Span |Population Trajectory                |        Net Demographic Shift|
-|:----------------------------------------------------|:------------------:|:------------------------------------|----------------------------:|
-|Tsardom of Russia (38 reg., 18,12M km²)              |   1400AD-1721AD    |11,36M (1400AD) to 22,83M (1720AD)   |            +11,47M (+101%)|
-|Early Russian Empire (40 reg., 18,5M km²)           |   1721AD-1815AD    |23,89M (1721AD) to 51,17M (1815AD)   |            +27,28M (+114,2%)|
-|Late Russian Empire (48 reg., 18,61M km²)            |   1815AD-1914AD    |57,87M (1815AD) to 167,95M (1914AD)  |           +110,08M (+190,2%)|
-|First World War & Civil War (48 reg., 18,61M km²)    |   1914AD-1926AD    |167,95M (1914AD) to 167,78M (1926AD) |      -0,17M (148,66M trough)|
-|Soviet Union (Lenin & Stalin) (45 reg., 18,18M km²)  |   1926AD-1953AD    |145,07M (1926AD) to 165,35M (1953AD) | +20,28M (142,62M war trough)|
-|Soviet Union (Post-Stalin) (41 reg., 18,18M km²)     |   1953AD-1991AD    |165,35M (1953AD) to 224,55M (1991AD) |             +59,2M (+35,8%)|
-|Post-Soviet Space (35 reg., 17,97M km²)              |   1991AD-2021AD    |212,26M (1991AD) to 198,08M (2021AD) |              -14,18M (-6,7%)|
-|War in Ukraine & Three States (123 div., 17,96M km²) |   2021AD-2026AD    |198,08M (2021AD) to 188,56M (2026AD) |               -9,52M (-4,8%)|
-
-
-
-
-
-Table: Long-run urbanisation and settlement concentration across Eastern Europe and Northern Asia from 1400AD to 2026AD.
-
-|National Epoch & Scope        |Representative Horizon        | Urban Population| Urban Share (%)|
-|:-----------------------------|:-----------------------------|----------------:|---------------:|
-|Tsardom of Russia             |1678AD (Household Census)     |             898k|            4,5%|
-|Early Russian Empire          |1811AD (Fifth Revision)       |            2,36M|            4,8%|
-|Late Russian Empire           |1897AD (Imperial Census)      |           16,57M|           13,4%|
-|Late Russian Empire (Pre-War) |1914AD (Imperial Yearbooks)   |           26,54M|           15,8%|
-|Soviet Interwar Baseline      |1926AD (All-Union Census)     |           25,97M|           17,9%|
-|Soviet Pre-War Peak           |1939AD (All-Union Census)     |           55,18M|           33,2%|
-|Soviet Industrial High        |1970AD (All-Union Census)     |          112,02M|           56,6%|
-|Soviet Dissolution Baseline   |1989AD (All-Union Census)     |          147,99M|           66,4%|
-|Post-Soviet Demarcation       |2021AD (Post-Soviet Censuses) |          146,38M|           73,9%|
-|Post-Soviet Space (2026AD)    |2026AD (Wartime Synthesis)    |          141,04M|           74,8%|
-
-
-
-
-
-Table: Major demographic crises, famine troughs and territorial boundary splices across the national epoch series from 1400AD to 2026AD.
-
-|National Epoch Module         | Event / Shock Horizon | Benchmark Pop. / Trough|Territorial Splices & Demographic Shocks                                           |
-|:-----------------------------|:---------------------:|-----------------------:|:----------------------------------------------------------------------------------|
-|Tsardom of Russia             |      1601-1603AD      |                  16,8M|Oprichnina, 1601-1603 famine and Time of Troubles (-980k trough)                   |
-|Tsardom of Russia             |      1654-1667AD      |                  18,6M|Khmelnytsky Uprising, Swedish Deluge and 1654-1657 plague (-2,1M)                 |
-|Early Russian Empire          |        1762AD         |                  32,34M|1st to 3rd Revisions; Ural metallurgical boom and Sloboda Ukraine growth           |
-|Early Russian Empire          |      1795-1812AD      |                  49,49M|Polish Partitions (+7,3M), Crimea (1783), Finland (1809), Bessarabia (1812)        |
-|Late Russian Empire           |        1815AD         |                  57,87M|+6,7M Congress Poland boundary splice; 1861 peasant emancipation                  |
-|Late Russian Empire           |      1897-1914AD      |                 123,89M|Donbas-Kryvyi Rih coal and steel boom; 3,8M Trans-Siberian agrarian migration      |
-|First World War & Civil War   |        1922AD         |                 148,66M|First World War casualties, Civil War, typhus, and 1921-1922 Volga famine          |
-|Soviet Union (Lenin & Stalin) |        1933AD         |                 149,93M|-22,71M Finland and Poland exit splice; 1932-1933 Holodomor famine                 |
-|Soviet Union (Lenin & Stalin) |        1945AD         |                 142,62M|Second World War invasion trough (-29,96M net loss); 1946-1947 drought famine      |
-|Soviet Union (Post-Stalin)    |        1970AD         |                 197,91M|Post-war demographic recovery, Virgin Lands campaign, and West Siberian oil cities |
-|Post-Soviet Space             |      1991-2005AD      |                 203,24M|-12,29M Baltic and Moldovan exit splice; post-Soviet male mortality crisis         |
-|War in Ukraine                |      2023-2026AD      |                 188,56M|Full-scale Russian invasion (~6,3M refugees abroad, ~6,2M in occupied Ukraine)     |
-
-
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">National Epoch Module</th><th class="crd-th">Event / Shock Horizon</th><th class="crd-th">Benchmark Pop. / Trough</th><th class="crd-th">Territorial Splices &amp; Demographic Shocks</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Tsardom of Russia</strong></td><td class="crd-td">1601-1603AD</td><td class="crd-td">16,8M</td><td class="crd-td">Oprichnina, 1601-1603 famine and Time of Troubles (-980k trough)</td></tr>
+<tr><td class="crd-td"><strong>Tsardom of Russia</strong></td><td class="crd-td">1654-1667AD</td><td class="crd-td">18,6M</td><td class="crd-td">Khmelnytsky Uprising, Swedish Deluge and 1654-1657 plague (-2,1M)</td></tr>
+<tr><td class="crd-td"><strong>Early Russian Empire</strong></td><td class="crd-td">1762AD</td><td class="crd-td">32,34M</td><td class="crd-td">1st to 3rd Revisions; Ural metallurgical boom and Sloboda Ukraine growth</td></tr>
+<tr><td class="crd-td"><strong>Early Russian Empire</strong></td><td class="crd-td">1795-1812AD</td><td class="crd-td">49,49M</td><td class="crd-td">Polish Partitions (+7,3M), Crimea (1783), Finland (1809), Bessarabia (1812)</td></tr>
+<tr><td class="crd-td"><strong>Late Russian Empire</strong></td><td class="crd-td">1815AD</td><td class="crd-td">57,87M</td><td class="crd-td">+6,7M Congress Poland boundary splice; 1861 peasant emancipation</td></tr>
+<tr><td class="crd-td"><strong>Late Russian Empire</strong></td><td class="crd-td">1897-1914AD</td><td class="crd-td">123,89M</td><td class="crd-td">Donbas-Kryvyi Rih coal and steel boom; 3,8M Trans-Siberian agrarian migration</td></tr>
+<tr><td class="crd-td"><strong>First World War &amp; Civil War</strong></td><td class="crd-td">1922AD</td><td class="crd-td">148,66M</td><td class="crd-td">First World War casualties, Civil War, typhus, and 1921-1922 Volga famine</td></tr>
+<tr><td class="crd-td"><strong>Soviet Union (Lenin &amp; Stalin)</strong></td><td class="crd-td">1933AD</td><td class="crd-td">149,93M</td><td class="crd-td">-22,71M Finland and Poland exit splice; 1932-1933 Holodomor famine</td></tr>
+<tr><td class="crd-td"><strong>Soviet Union (Lenin &amp; Stalin)</strong></td><td class="crd-td">1945AD</td><td class="crd-td">142,62M</td><td class="crd-td">Second World War invasion trough (-29,96M net loss); 1946-1947 drought famine</td></tr>
+<tr><td class="crd-td"><strong>Soviet Union (Post-Stalin)</strong></td><td class="crd-td">1970AD</td><td class="crd-td">197,91M</td><td class="crd-td">Post-war demographic recovery, Virgin Lands campaign, and West Siberian oil cities</td></tr>
+<tr><td class="crd-td"><strong>Post-Soviet Space</strong></td><td class="crd-td">1991-2005AD</td><td class="crd-td">203,24M</td><td class="crd-td">-12,29M Baltic and Moldovan exit splice; post-Soviet male mortality crisis</td></tr>
+<tr><td class="crd-td"><strong>War in Ukraine</strong></td><td class="crd-td">2023-2026AD</td><td class="crd-td">188,56M</td><td class="crd-td">Full-scale Russian invasion (~6,3M refugees abroad, ~6,2M in occupied Ukraine)</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 6.</span> Major demographic crises, famine troughs and territorial boundary splices across the national epoch series from 1400AD to 2026AD.</figcaption>
+</figure>
 
 ## Imperial Expansion, Revision Censuses, Novorossiya Colonisation and Industrialisation (1721AD-1914AD)
 
@@ -350,22 +362,24 @@ The full-scale Russian invasion launched on 24 February 2022 generated the large
 
 Between 2021AD and 2026AD, total population across the three countries declined from 198,08M to 188,56M (-4,8%). Ukraine within sovereign 1991 borders contracted from 43,87M to 37,66M (-14,2%), comprising approximately 31,44M in government-controlled territory and 6,22M in Russian-occupied regions. This drop reflects 6M to 6,5M external refugees, 3,7M internal displacements, wartime casualties, and a fertility decline to 0,8-0,9 children per woman [@Libanova2023; @UNHCR2024]. The Russian Federation within 1991 borders declined from 145,06M to 141,79M (or 144,19M including Crimea), driven by elevated natural decrease, pandemic excess mortality, war casualties, and outward migration [@Kobak2021; @Rosstat2024]. In Belarus, population edged down from 9,15M to 9,11M [@Belstat2024].
 
-
-
-Table: Harmonised modern sub-polity population breakdown across Russia, Ukraine, Belarus and historical borderlands from 1897AD to 2026AD.
-
-|Sub-Polity/Territorial Zone                                |  1897AD|        1926AD|  1959AD|           1989AD|  2021AD|  2026AD|
-|:----------------------------------------------------------|-------:|-------------:|-------:|----------------:|-------:|-------:|
-|Russian Federation (1991 borders excl. Crimea)             |  67,47M|        92,74M| 117,53M|          147,02M| 145,06M| 141,79M|
-|Ukraine (1991 sovereign borders incl. Crimea)              |  28,45M|        36,82M|  41,87M|           51,45M|  43,87M|  37,66M|
-|- Kyiv-controlled Ukraine (incl. 2022 liberated zones)     |   24,1M|         31,2M|   34,2M|            41,8M|   37,6M|  31,44M|
-|- Russian-occupied Ukraine (Crimea + Donbas/South)         |   4,35M|         5,62M|   7,67M|            9,65M|   6,27M|   6,22M|
-|Republic of Belarus (1991 sovereign borders)               |   6,67M|         7,15M|   8,06M|           10,15M|   9,15M|   9,11M|
-|Core 3-State Subtotal (RU + UA + BY, 17,96M km²)           | 102,59M|       136,71M| 167,46M|          208,62M| 198,08M| 188,56M|
-|Baltic States (Estonia, Latvia, Lithuania) & Moldova       |   7,28M|         8,36M|   9,94M| 14,26M (exit 91)|       -|       -|
-|Grand Duchy of Finland & Congress Poland (1815-1917 scope) |  14,02M| 22,71M (exit)|       -|                -|       -|       -|
-
-
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Sub-Polity/Territorial Zone</th><th class="crd-th">1897AD</th><th class="crd-th">1926AD</th><th class="crd-th">1959AD</th><th class="crd-th">1989AD</th><th class="crd-th">2021AD</th><th class="crd-th">2026AD</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Russian Federation (1991 borders excl. Crimea)</strong></td><td class="crd-td">67,47M</td><td class="crd-td">92,74M</td><td class="crd-td">117,53M</td><td class="crd-td">147,02M</td><td class="crd-td">145,06M</td><td class="crd-td">141,79M</td></tr>
+<tr><td class="crd-td"><strong>Ukraine (1991 sovereign borders incl. Crimea)</strong></td><td class="crd-td">28,45M</td><td class="crd-td">36,82M</td><td class="crd-td">41,87M</td><td class="crd-td">51,45M</td><td class="crd-td">43,87M</td><td class="crd-td">37,66M</td></tr>
+<tr><td class="crd-td"><strong>- Kyiv-controlled Ukraine (incl. 2022 liberated zones)</strong></td><td class="crd-td">24,1M</td><td class="crd-td">31,2M</td><td class="crd-td">34,2M</td><td class="crd-td">41,8M</td><td class="crd-td">37,6M</td><td class="crd-td">31,44M</td></tr>
+<tr><td class="crd-td"><strong>- Russian-occupied Ukraine (Crimea + Donbas/South)</strong></td><td class="crd-td">4,35M</td><td class="crd-td">5,62M</td><td class="crd-td">7,67M</td><td class="crd-td">9,65M</td><td class="crd-td">6,27M</td><td class="crd-td">6,22M</td></tr>
+<tr><td class="crd-td"><strong>Republic of Belarus (1991 sovereign borders)</strong></td><td class="crd-td">6,67M</td><td class="crd-td">7,15M</td><td class="crd-td">8,06M</td><td class="crd-td">10,15M</td><td class="crd-td">9,15M</td><td class="crd-td">9,11M</td></tr>
+<tr><td class="crd-td"><strong>Core 3-State Subtotal (RU + UA + BY, 17,96M km²)</strong></td><td class="crd-td">102,59M</td><td class="crd-td">136,71M</td><td class="crd-td">167,46M</td><td class="crd-td">208,62M</td><td class="crd-td">198,08M</td><td class="crd-td">188,56M</td></tr>
+<tr><td class="crd-td"><strong>Baltic States (Estonia, Latvia, Lithuania) &amp; Moldova</strong></td><td class="crd-td">7,28M</td><td class="crd-td">8,36M</td><td class="crd-td">9,94M</td><td class="crd-td">14,26M (exit 91)</td><td class="crd-td">-</td><td class="crd-td">-</td></tr>
+<tr><td class="crd-td"><strong>Grand Duchy of Finland &amp; Congress Poland (1815-1917 scope)</strong></td><td class="crd-td">14,02M</td><td class="crd-td">22,71M (exit)</td><td class="crd-td">-</td><td class="crd-td">-</td><td class="crd-td">-</td><td class="crd-td">-</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 7.</span> Harmonised modern sub-polity population breakdown across Russia, Ukraine, Belarus and historical borderlands from 1897AD to 2026AD.</figcaption>
+</figure>
 
 # Limitations
 

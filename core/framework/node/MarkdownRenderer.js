@@ -303,7 +303,13 @@ class MarkdownRenderer {
       }
 
       //Return statement
-      return orig_render(processed_src, env);
+      let rendered_html = orig_render(processed_src, env);
+      rendered_html = rendered_html.replace(/<table(\b[^>]*)>([\s\S]*?)<\/table>/gi, function (arg0_full, arg1_attrs) {
+        if (/\bcrd-wysiwyg-table\b/i.test(arg1_attrs)) return arg0_full;
+        return `<div class="crd-table-scroll">${arg0_full}</div>`;
+      });
+
+      return rendered_html;
     };
 
     //Return statement
@@ -626,41 +632,77 @@ class MarkdownRenderer {
     //Declare local instance variables
     let clean = str;
 
+    clean = clean.replace(/\$\$([\s\S]*?)\$\$/g, function (arg0_m, arg1_inner) {
+      return `$${arg1_inner}$`;
+    });
+
+    clean = clean.replace(/\$([^$\r\n]+)\$/g, function (arg0_m, arg1_inner) {
+      let math_body = String(arg1_inner || "");
+      let text_tokens = [];
+
+      math_body = math_body
+        .replace(/\{,\}/g, ",")
+        .replace(/\\%/g, "%");
+
+      math_body = math_body.replace(/\\(?:text|mathrm)\{([^}]*)\}/g, function (arg0_tm, arg1_txt) {
+        let idx = text_tokens.length;
+        let clean_txt = String(arg1_txt || "").replace(/(?:--|\u2013|\u2014)/g, "-");
+        text_tokens.push(clean_txt);
+        return `\x01${idx}\x02`;
+      });
+
+      math_body = math_body
+        .replace(/\s*\\approx\s*/g, " ≈ ")
+        .replace(/\s*\\(?:rightarrow|to)\s*/g, " → ")
+        .replace(/\\times(?![A-Za-z])/g, "×")
+        .replace(/\\cdot(?![A-Za-z])/g, "·")
+        .replace(/\\sim\s*/g, "~")
+        .replace(/\\nu(?![A-Za-z])/g, "ν")
+        .replace(/\\tau(?![A-Za-z])/g, "τ")
+        .replace(/\\sigma(?![A-Za-z])/g, "σ")
+        .replace(/\\alpha(?![A-Za-z])/g, "α")
+        .replace(/\\beta(?![A-Za-z])/g, "β")
+        .replace(/\\gamma(?![A-Za-z])/g, "γ")
+        .replace(/\\delta(?![A-Za-z])/g, "δ")
+        .replace(/\\eta(?![A-Za-z])/g, "η")
+        .replace(/\\kappa(?![A-Za-z])/g, "κ")
+        .replace(/\\lambda(?![A-Za-z])/g, "λ")
+        .replace(/\\mu(?![A-Za-z])/g, "μ")
+        .replace(/\\rho(?![A-Za-z])/g, "ρ")
+        .replace(/\\Delta(?![A-Za-z])/g, "Δ")
+        .replace(/\\pm\s*([0-9]+)\s*σ/g, "±$1σ")
+        .replace(/\\pm(?![A-Za-z])/g, "±")
+        .replace(/\\leq?(?![A-Za-z])/g, "≤")
+        .replace(/\\geq?(?![A-Za-z])/g, "≥")
+        .replace(/\\neq(?![A-Za-z])/g, "≠")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+
+      math_body = math_body.replace(/(?<![A-Za-z0-9&_\\\x01])([A-Za-z])(?![A-Za-z;\x02])/g, "\x03$1\x04");
+
+      for (let i = 0; i < text_tokens.length; i++) {
+        math_body = math_body.replace(`\x01${i}\x02`, () => text_tokens[i]);
+      }
+
+      math_body = math_body
+        .replace(/\^\{([^}]+)\}/g, "<sup>$1</sup>")
+        .replace(/\^([0-9A-Za-z+\-]+)/g, "<sup>$1</sup>")
+        .replace(/_\{([^}]+)\}/g, "<sub>$1</sub>")
+        .replace(/_([0-9A-Za-z+\-]+)/g, "<sub>$1</sub>")
+        .replace(/\x03([A-Za-z])\x04/g, "<i>$1</i>")
+        .replace(/\s*--\s*/g, "-")
+        .trim();
+
+      return math_body;
+    });
+
     clean = clean
-      .replace(/\$\$([\s\S]*?)\$\$/g, "$1")
       .replace(/\{,\}/g, ",")
       .replace(/\\%/g, "%")
+      .replace(/\\Delta(?![A-Za-z])/g, "Δ")
+      .replace(/\\pm(?![A-Za-z])/g, "±")
       .replace(/\s*\\approx\s*/g, " ≈ ")
-      .replace(/\s*\\(?:rightarrow|to)\s*/g, " → ")
-      .replace(/\\times(?![A-Za-z])/g, "×")
-      .replace(/\\cdot(?![A-Za-z])/g, "·")
-      .replace(/\\sim\s*/g, "~")
-      .replace(/\\nu(?![A-Za-z])/g, "ν")
-      .replace(/\\tau(?![A-Za-z])/g, "τ")
-      .replace(/\\sigma(?![A-Za-z])/g, "σ")
-      .replace(/\\alpha(?![A-Za-z])/g, "α")
-      .replace(/\\beta(?![A-Za-z])/g, "β")
-      .replace(/\\mu(?![A-Za-z])/g, "μ")
-      .replace(/\$?p\(5[^)]*19\)\/p\(5\+\)\$?/g, "<i>p</i>(5-19)/<i>p</i>(5+)")
-      .replace(/\$?p\(0[^)]*4\)\$?/g, "<i>p</i>(0-4)")
-      .replace(/\\pm\s*([0-9]+)\s*\\sigma/g, "±$1σ")
-      .replace(/\\pm/g, "±")
-      .replace(/\$?T_\{?(?:\\text\{)?onset\}?\}?\$?/g, "<i>T</i><sub>onset</sub>")
-      .replace(/\\Delta\s*([A-Za-z]+)\^([0-9]+)/g, "Δ<i>$1</i><sup>$2</sup>")
-      .replace(/\\Delta\s*([A-Za-z]+)/g, "Δ<i>$1</i>")
-      .replace(/\\Delta/g, "Δ")
-      .replace(/\\text\{([^}]+)\}/g, "$1")
-      .replace(/([0-9A-Za-z]+)\^\{([^}]+)\}/g, "$1<sup>$2</sup>")
-      .replace(/([0-9A-Za-z]+)\^2\b/g, "$1<sup>2</sup>")
-      .replace(/([0-9A-Za-z]+)_\{([^}]+)\}/g, "$1<sub>$2</sub>")
-      .replace(/\(\$R(?:\^2|\\text\{\^2\}|\^\{2\}|<sup>2<\/sup>)\$\)/g, "(<i>R</i><sup>2</sup>)")
-      .replace(/\$R(?:\^2|\\text\{\^2\}|\^\{2\}|<sup>2<\/sup>)\$/g, "<i>R</i><sup>2</sup>")
-      .replace(/\$([A-Za-z]+)\^([0-9A-Za-z]+)\$/g, "<i>$1</i><sup>$2</sup>")
-      .replace(/\$([A-Za-z])\s*=\s*([^$]+)\$/g, "<i>$1</i> = $2")
-      .replace(/\$([0-9][0-9,.\sA-Za-z<>\/+\-]*)\$/g, "$1")
-      .replace(/\$([A-Za-z])\$/g, "<i>$1</i>")
-      .replace(/([0-9A-Za-z)\]])\s*--\s*([0-9A-Za-z(\[])/g, "$1-$2")
-      .replace(/\$([^$]+)\$/g, "$1");
+      .replace(/([0-9A-Za-z)\]])\s*--\s*([0-9A-Za-z(\[])/g, "$1-$2");
 
     //Return statement
     return clean;

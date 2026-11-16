@@ -9,6 +9,193 @@
 # ==============================================================================
 
 
+#' Converts Markdown pipe tables (e.g. `knitr::kable(..., format = "pipe")`) inside a DOM-knitted
+#' document into canonical CRD HTML `<figure class="crd-table-figure">` blocks via `render_table_template()`.
+#'
+#' @param arg0_text Character string or vector of knitted Markdown text.
+#' @param arg1_options Optional named list (`euro_decimals`).
+#' @return Character string with pipe tables converted to CRD HTML table figures.
+#' @export
+convert_dom_pipe_tables <- function (arg0_text, arg1_options = NULL) {
+  #Convert from parameters
+  text <- paste(as.character(arg0_text), collapse = "\n")
+  options <- if (!is.null(arg1_options)) arg1_options else list()
+
+  #Initialise options
+  euro_decimals <- if (!is.null(options$euro_decimals)) isTRUE(options$euro_decimals) else TRUE
+
+  #Declare local instance variables
+  ends_with_nl <- grepl("\n$", text)
+  html_block_tag <- ""
+  i <- 1L
+  in_fenced_block <- FALSE
+  in_frontmatter <- FALSE
+  lines_vec <- character(0)
+  n_lines <- 0L
+  out_lines <- character(0)
+
+  #Guard clauses
+  if (is.null(arg0_text) || length(arg0_text) == 0 || !nzchar(text)) return(arg0_text)
+
+  lines_vec <- strsplit(text, "\n", fixed = TRUE)[[1]]
+  n_lines <- length(lines_vec)
+
+  split_pipe_row <- function (arg0_row_str) {
+    inner <- sub("^\\|\\s*", "", sub("\\s*\\|$", "", trimws(arg0_row_str)))
+    parts <- strsplit(paste0(inner, " "), "(?<!\\\\)\\|", perl = TRUE)[[1]]
+    parts <- trimws(parts)
+    parts <- gsub("\\\\\\|", "|", parts, perl = TRUE)
+    return(parts)
+  }
+
+  while (i <= n_lines) {
+    local_line <- lines_vec[i]
+    local_trim <- trimws(local_line)
+
+    if (i == 1L && identical(local_trim, "---")) {
+      in_frontmatter <- TRUE
+      out_lines <- c(out_lines, local_line)
+      i <- i + 1L
+      next
+    }
+    if (in_frontmatter) {
+      if (identical(local_trim, "---") || identical(local_trim, "...")) {
+        in_frontmatter <- FALSE
+      }
+      out_lines <- c(out_lines, local_line)
+      i <- i + 1L
+      next
+    }
+
+    if (grepl("^```", local_trim)) {
+      in_fenced_block <- !in_fenced_block
+      out_lines <- c(out_lines, local_line)
+      i <- i + 1L
+      next
+    }
+    if (in_fenced_block) {
+      out_lines <- c(out_lines, local_line)
+      i <- i + 1L
+      next
+    }
+
+    if (nzchar(html_block_tag)) {
+      if (grepl(paste0("</", html_block_tag, ">\\s*$"), local_trim, ignore.case = TRUE, perl = TRUE)) {
+        html_block_tag <- ""
+      }
+      out_lines <- c(out_lines, local_line)
+      i <- i + 1L
+      next
+    }
+    if (grepl("^<(figure|table|div|header)\\b", local_trim, ignore.case = TRUE, perl = TRUE)) {
+      open_tag <- tolower(sub("^<(figure|table|div|header)\\b.*$", "\\1", local_trim, ignore.case = TRUE, perl = TRUE))
+      if (!grepl(paste0("</", open_tag, ">\\s*$"), local_trim, ignore.case = TRUE, perl = TRUE)) {
+        html_block_tag <- open_tag
+      }
+      out_lines <- c(out_lines, local_line)
+      i <- i + 1L
+      next
+    }
+
+    if (
+      i < n_lines &&
+      grepl("^\\|.*\\|$", local_trim, perl = TRUE) &&
+      grepl("^\\|[\\s:\\-\\|]+\\|$", trimws(lines_vec[i + 1L]), perl = TRUE) &&
+      grepl("-", trimws(lines_vec[i + 1L]), fixed = TRUE)
+    ) {
+      header_raw <- local_trim
+      sep_raw <- trimws(lines_vec[i + 1L])
+      scan_idx <- i + 2L
+      row_lines <- character(0)
+      while (scan_idx <= n_lines && grepl("^\\|.*\\|$", trimws(lines_vec[scan_idx]), perl = TRUE)) {
+        row_lines <- c(row_lines, trimws(lines_vec[scan_idx]))
+        scan_idx <- scan_idx + 1L
+      }
+
+      col_headers <- split_pipe_row(header_raw)
+      sep_cells <- split_pipe_row(sep_raw)
+      n_cols <- length(col_headers)
+
+      if (n_cols > 0L && length(row_lines) > 0L) {
+        align_vec <- vapply(sep_cells, function (sc) {
+          if (grepl("^:.*:$", sc)) return("c")
+          if (grepl(":$", sc)) return("r")
+          return("l")
+        }, character(1))
+        if (length(align_vec) != n_cols) {
+          align_vec <- rep("l", n_cols)
+        }
+
+        mat_rows <- lapply(row_lines, function (rl) {
+          cells <- split_pipe_row(rl)
+          if (length(cells) < n_cols) {
+            cells <- c(cells, rep("", n_cols - length(cells)))
+          } else if (length(cells) > n_cols) {
+            cells <- cells[seq_len(n_cols)]
+          }
+          cells
+        })
+
+        bold_first_col <- FALSE
+        first_col_vals <- vapply(mat_rows, function (r) trimws(r[1L]), character(1))
+        non_empty_first <- first_col_vals[nzchar(first_col_vals)]
+        if (length(non_empty_first) > 0L && all(grepl("^\\*\\*.+\\*\\*$", non_empty_first, perl = TRUE))) {
+          bold_first_col <- TRUE
+          for (r_idx in seq_along(mat_rows)) {
+            mat_rows[[r_idx]][1L] <- sub("^\\*\\*(.+)\\*\\*$", "\\1", trimws(mat_rows[[r_idx]][1L]), perl = TRUE)
+          }
+        }
+
+        pending_caption <- ""
+        back_idx <- length(out_lines)
+        while (back_idx >= 1L && !nzchar(trimws(out_lines[back_idx]))) {
+          back_idx <- back_idx - 1L
+        }
+        if (back_idx >= 1L) {
+          cand_trim <- trimws(out_lines[back_idx])
+          if (grepl("^(?:Table:|:)\\s+(.+)$", cand_trim, perl = TRUE)) {
+            pending_caption <- sub("^(?:Table:|:)\\s+", "", cand_trim, perl = TRUE)
+            out_lines <- if (back_idx > 1L) out_lines[seq_len(back_idx - 1L)] else character(0)
+          } else if (grepl("^#{3,4}\\s+Table\\s+[0-9]+[:.]\\s*(.+)$", cand_trim, perl = TRUE)) {
+            pending_caption <- sub("^#{3,4}\\s+Table\\s+[0-9]+[:.]\\s*", "", cand_trim, perl = TRUE)
+            out_lines <- if (back_idx > 1L) out_lines[seq_len(back_idx - 1L)] else character(0)
+          }
+        }
+
+        df_out <- as.data.frame(do.call(rbind, mat_rows), stringsAsFactors = FALSE)
+        safe_colnames <- make.unique(ifelse(nzchar(col_headers), col_headers, paste0("V", seq_len(n_cols))))
+        colnames(df_out) <- safe_colnames
+
+        rendered_html <- as.character(render_table_template(
+          df_out,
+          list(
+            align = unname(align_vec),
+            bold_first_col = bold_first_col,
+            caption = pending_caption,
+            col_names = col_headers,
+            euro_decimals = euro_decimals
+          )
+        ))
+        out_lines <- c(out_lines, rendered_html)
+        i <- scan_idx
+        next
+      }
+    }
+
+    out_lines <- c(out_lines, local_line)
+    i <- i + 1L
+  }
+
+  out_str <- paste(out_lines, collapse = "\n")
+  if (ends_with_nl && !grepl("\n$", out_str)) {
+    out_str <- paste0(out_str, "\n")
+  }
+
+  #Return statement
+  return(out_str)
+}
+
+
 #' Formats native Markdown prose lines in a knitted `.Rmd` document, applying
 #' European decimal formatting (including `{,}` inside LaTeX `$...$` math) and
 #' Unicode-to-LaTeX symbol conversion while skipping frontmatter, code blocks,
@@ -38,6 +225,9 @@ format_knitted_document <- function (arg0_doc_vec, arg1_options = NULL) {
 
   #Declare local instance variables
   full_text <- paste(as.character(doc_vec), collapse = "\n")
+  if (!is_latex && isTRUE(getOption("intellte.dom_mode", FALSE))) {
+    full_text <- convert_dom_pipe_tables(full_text, list(euro_decimals = euro_decimals))
+  }
   in_fenced_block <- FALSE
   in_frontmatter <- FALSE
   in_html_block <- FALSE

@@ -91,6 +91,27 @@ if (requireNamespace("knitr", quietly = TRUE)) {
     if (exists("crd_canonical_sanitize_prose_unicode_for_latex", inherits = TRUE)) {
       assign("sanitize_prose_unicode_for_latex", crd_canonical_sanitize_prose_unicode_for_latex, envir = env_g)
     }
+    if (
+      isTRUE(getOption("intellte.dom_mode", FALSE)) &&
+      exists("polaris_table", envir = env_g, inherits = FALSE) &&
+      exists("crd_canonical_render_table_template", inherits = TRUE)
+    ) {
+      assign("polaris_table", function (df, caption, col.names, align = NULL, label = NULL) {
+        crd_canonical_render_table_template(
+          df,
+          list(
+            align = align,
+            bold_first_col = TRUE,
+            caption = caption,
+            col_names = col.names,
+            font_size = "footnotesize",
+            label = label,
+            scale_to_fit = FALSE,
+            span_columns = TRUE
+          )
+        )
+      }, envir = env_g)
+    }
     return(arg0_options)
   })
 
