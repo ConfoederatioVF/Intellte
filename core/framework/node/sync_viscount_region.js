@@ -337,10 +337,20 @@ let sync_viscount_region = {
 
     if (build_after) {
       let pipeline_js = path.join(intellte_root, "core/framework/node/run_pipeline.js");
-      child_process.spawnSync(process.execPath, [pipeline_js, `--only=${concept_id}`], {
+      let build_res = child_process.spawnSync(process.execPath, [pipeline_js, `--only=${concept_id}`], {
         cwd: intellte_root,
         stdio: "inherit"
       });
+      if (build_res.status !== 0) {
+        console.error(`[sync_viscount_region] Pipeline compilation failed for ${concept_id} (exit=${build_res.status}).`);
+        return {
+          added_versions: added_versions,
+          concept_id: concept_id,
+          copied_count: copied_count,
+          meta_path: meta_path,
+          success: false
+        };
+      }
     }
 
     //Return statement

@@ -51,8 +51,9 @@ class MarkdownRenderer {
     if (fs.existsSync(r_dir)) {
       let r_files = fs.readdirSync(r_dir).filter(function (arg0_f) { return /\.R$/i.test(arg0_f); }).sort();
       for (let i = 0; i < r_files.length; i++) {
+        let r_text = fs.readFileSync(path.join(r_dir, r_files[i]), "utf8").replace(/\r\n/g, "\n");
         hash.update(r_files[i]);
-        hash.update(fs.readFileSync(path.join(r_dir, r_files[i]), "utf8"));
+        hash.update(r_text);
       }
     }
 
@@ -481,7 +482,7 @@ class MarkdownRenderer {
 
     console.log(`[MarkdownRenderer] Compiling ${uncached_jobs.length} uncached .Rmd file(s) across ${actual_workers} persistent R worker(s)...`);
 
-    let jobs_tmp_dir = path.join(this.cache_dir, "worker_jobs");
+    let jobs_tmp_dir = path.join(os.tmpdir(), "intellte_rmd_workers");
     if (!fs.existsSync(jobs_tmp_dir)) fs.mkdirSync(jobs_tmp_dir, { recursive: true });
 
     let worker_promises = shards.map((arg0_shard, arg1_idx) => {
