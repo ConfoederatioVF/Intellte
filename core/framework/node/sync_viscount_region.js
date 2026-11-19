@@ -134,13 +134,13 @@ let sync_viscount_region = {
       let rel_path = rel_prefix ? `${rel_prefix}/${entry.name}` : entry.name;
 
       if (entry.isDirectory()) {
-        if (entry.name === "1.kriged_rasters" || entry.name === "2.population_rasters" || entry.name === "_gis_cache" || entry.name === "geojson" || entry.name === "images" || entry.name.endsWith("_files"))
+        if (entry.name === "1.kriged_rasters" || entry.name === "2.population_rasters" || entry.name === "_gis_cache" || entry.name === "diagnostics_visual" || entry.name === "geojson" || entry.name === "images" || entry.name.endsWith("_files"))
           continue;
         sync_viscount_region.collectSyncableFiles(abs_path, rel_path, out);
       } else if (entry.isFile()) {
         if (
           /\.(Rmd|pdf|bib|json5|R|py|cls|csl|md)$/i.test(entry.name) ||
-          /_(?:settlements|metadata)\.json$/i.test(entry.name) ||
+          /_(?:settlements|metadata|diagnostics|manifest)\.json$/i.test(entry.name) ||
           (/\.(png)$/i.test(entry.name) && (rel_path.includes("/figures/") || rel_path.startsWith("figures/") || entry.name.endsWith("_areal_mask.png")))
         ) {
           if (entry.name === "template.tex") continue;

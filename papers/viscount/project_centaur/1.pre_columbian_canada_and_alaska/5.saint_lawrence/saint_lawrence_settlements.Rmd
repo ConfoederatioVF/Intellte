@@ -1,0 +1,215 @@
+---
+title: "Settlement Gazetteer of the Pre-Columbian Saint Lawrence Basin and Huronia"
+subtitle: "CENTAUR-II: Coordinates, Toponymy and Demographic Trajectories, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: saint_lawrence_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_saint_lawrence_spatial.png"
+hero_caption: "Spatial distribution of 172 palisaded towns, villages and riverine fishery hubs across the Saint Lawrence Basin and Huronia from 10000BC to 1600AD."
+hero_label: "fig:hero-saint-lawrence"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("saint_lawrence.json5")
+set_data <- read_json_file("saint_lawrence_settlements.json")
+led_data <- read_json_file("saint_lawrence_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 6L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 6L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+peak_vals <- vapply(set_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+set_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+set_list_ranked <- set_list[order(-peak_vals, set_names)]
+top_set_list <- head(set_list_ranked, 45L)
+
+reg_short <- list(
+  sl_huronia_simcoe_ontario_peninsula = "Huronia-Ontario",
+  sl_ottawa_rideau_upper_st_lawrence = "Ottawa-Shield",
+  sl_montreal_trois_rivieres_quebec = "St. Lawrence",
+  sl_saguenay_north_shore_gaspe = "Saguenay-Gaspe"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+exc_top <- head(exc_list, 30L)
+```
+
+# Abstract
+
+This gazetteer compiles WGS84 coordinates, Indigenous and early contact toponymy, occupation spans and population series for `r length(set_list)` pre-contact towns, villages and seasonal fishery centres across the Saint Lawrence Basin and Huronia (814,8k km²) from 10000BC to 1600AD. Recorded sites span from 9000BC Palaeoindian camps across the Lake Algonquin and Champlain Sea margins at Fisher (85 peak), Parkhill (80) and Mégantic (65) through Middle Holocene river hubs at Allumette Island (580 peak) and Tadoussac (620 peak) to Late Woodland Iroquoian palisaded capitals led by Warminster/Cahiagué (3,5k), Hochelaga (2,6k), Walker (1,95k), Draper (1,95k), Mantle (1,8k), Ossossané (1,8k) and Stadacona (1,8k), alongside the Sault Ste. Marie whitefish fishery at Bawating (1,1k). All 172 included settlements (465 chronological observations averaging 2,7 per site, with 99 carrying three or more observations) reconcile cleanly against 351 candidates in the regional source ledger with 179 duplicate-alias exclusions within 2 km and zero schema discrepancies.
+
+# Background
+
+Excavated longhouse plans, Borden-registered village footprints and early French eyewitness reports divide settlements across the Saint Lawrence Basin into two residential regimes [@warrick2008; @trigger1976]. South of the Precambrian Shield across Huronia, the Toronto Duffins and Humber corridors, the Grand River plain, the upper St. Lawrence limestone flats and the Montreal-Quebec river terraces, agricultural communities erected multi-row palisaded towns containing 25 to over 100 bark-covered longhouses housing between 600 and 3.500 inhabitants [@birch2012; @finlayson1985; @pendergast1993].
+
+Along the Algonquian rapids, portages and tidal estuaries of the Ottawa, St. Marys and Saguenay rivers, warm-season trade assemblies and sturgeon, whitefish and eel fisheries brought together 200 to 1.100 residents at Bawating, Allumette Island, Tadoussac, Métabetchouan and Chicoutimi [@clermont1999; @conway1980; @plumet1998]. Separating these distinct archaeological footprints prevents rural agricultural interpolation from blurring dense Iroquoian village nodes or overlooking key boreal trade crossroads.
+
+# Methodology
+
+Inclusion in the regional source ledger requires excavated longhouse-hearth or midden boundaries, documented Borden-number village extents or contact-era population accounts [@warrick2008; @heidenreich1971]. Close-pair candidates falling within 2 km of an existing canonical site under variant names are marked as excluded under duplicate-alias rules rather than retained twice. Coordinates follow decimal degrees in WGS84, and Table \ref{tab:summary} summarises included site counts and peak sums across the four sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) sub_sets[[which.max(peaks)]]$name else "-"
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Included = viscount_fmt_number(length(sub_sets), 0L),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of included settlements and peak populations across the Saint Lawrence Basin.",
+  c("Sub-Region", "Included Sites", "Sum of Site Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "footnotesize")
+)
+```
+
+# Testing and Validation
+
+Source-ledger checks pass with 172 included settlements (465 chronological observations), 179 excluded duplicate-alias entries, zero unaccounted candidates and zero coordinate or schema faults. Site latitudes extend from 42,29 to 50,2 N and longitudes from 64,22 to 89,32 W, with every record carrying CENTAUR provenance. Figure \ref{fig:settlements} charts the rank-size curve across all 172 catalogued settlements alongside the 15 highest-peaking capitals led by Warminster (3,5k) and Hochelaga (2,6k).
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_saint_lawrence_settlements.png",
+  "Rank-size distribution and leading peak populations across the 172 catalogued settlements of the Saint Lawrence Basin.",
+  "fig:settlements"
+)
+```
+
+# Results
+
+## Leading Settlement Trajectories
+
+Table \ref{tab:gazetteer} documents the top `r length(top_set_list)` settlements by peak population descending out of the `r length(set_list)` catalogued sites in the regional gazetteer.
+
+```{r tbl-gazetteer, results='asis'}
+gaz_rows <- lapply(top_set_list, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  onames <- unlist(s$other_names)
+  oname_s <- if (length(onames) > 0) paste(head(as.character(onames), 2L), collapse = "; ") else "-"
+  pk <- max(as.numeric(unlist(s$population)))
+  data.frame(
+    Settlement = clean_text(s$name),
+    AltNames = clean_text(oname_s),
+    SubRegion = reg_short[[s$region]],
+    Coords = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    Series = fmt_pop_series(s$population),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+rownames(df_gaz) <- NULL
+viscount_table(
+  df_gaz,
+  "Top 45 settlements by peak population descending in the Saint Lawrence Basin (10000BC to 1600AD).",
+  c("Settlement", "Alternative Names", "Sub-Region", "Coordinates", "Span", "Peak", "Benchmark Series"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:excluded} lists the leading 30 of 179 excluded duplicate-alias entries recorded in the regional source ledger, capped at 30 rows for display.
+
+```{r tbl-excluded, results='asis'}
+exc_rows <- lapply(exc_top, function (c) {
+  just_s <- gsub("Existing Verified Monument Inventory", "Monument Inventory", as.character(c$justification), fixed = TRUE)
+  just_s <- gsub(" / ", " and ", just_s, fixed = TRUE)
+  data.frame(
+    Candidate = clean_text(c$name),
+    Reason = clean_text(c$reason),
+    Justification = clean_text(just_s),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+rownames(df_exc) <- NULL
+viscount_table(
+  df_exc,
+  "Leading 30 of 179 excluded candidate entries in the Saint Lawrence Basin source ledger.",
+  c("Candidate Entry", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "footnotesize")
+)
+```
+
+## Sub-Regional Settlement Summaries
+
+Huronia and the Ontario Peninsula (87 entries, peak sum 63.580) span early Palaeoindian camps (Fisher, Parkhill, Thedford II, Udora, Crowfield at 9000BC), fifteenth-century north shore villages at Draper (1,95k), Mantle (1,8k), Seed-Barker (1,15k), Keffer (1,05k) and Lawson (1,45k), and sixteenth-century Wendat, Petun and Neutral capitals led by Warminster (3,5k), Walker (1,95k), Ossossané (1,8k), Hamilton (1,5k), Ball (1,45k), Hood (1,35k), Christianson (1,2k) and Molson (1,1k), alongside upper St. Lawrence sites McKeown (1,15k), Salem (980), Beckstead (880), Glenbrook (840) and the Sault Ste. Marie fishery at Bawating (1,1k) [@finlayson1985; @birch2012; @heidenreich1971; @conway1980].
+
+In the St. Lawrence Lowlands (29 entries, peak sum 18.315), Mégantic marks 9000BC post-glacial reoccupation before Late Woodland Iroquoian towns peak around 1500AD at Hochelaga (2,6k), Droulers-Tsiionhiakwatha (950), Mandeville (820), Chateauguay River Mouth Capital (790), Chambly Richelieu Rapids Capital (780), Lanoraie (780) and Berry (680), prior to abandonment by 1600AD [@pendergast1993; @chapdelaine2004]. Upstream in the Ottawa-Rideau and upper St. Lawrence corridor (27 entries, peak sum 13.710), Allumette Island (580 peak) spans 3000BC to 1600AD [@clermont1999], complemented by Roebuck (1,45k), Gatineau Confluence Capital (720), Mattawa River Confluence Capital (680) and Petawawa River Confluence Town (610). Downstream, Saguenay-Gaspe (29 entries, peak sum 14.750) spans Stadacona (1,8k), Restigouche Listuguj Capital (780), Sept-Iles Moisie Capital (690), Tadoussac (620 peak), Métabetchouan (290), Chicoutimi (290), Grandes-Bergeronnes (240), Bic (210) and Bérubé (190) [@plumet1998].
+
+# Limitations
+
+Because sequential Iroquoian village relocations on 15 to 25-year swidden cycles produced overlapping village horizons across Duffins Creek, Humber River and Simcoe County, only contemporaneously occupied or chronologically phased site trajectories enter the subtracted urban mask while smaller dispersed hamlets remain in the rural kriging surface [@warrick2008; @birch2012].
+
+# Conclusion
+
+Cataloguing 172 settlements across 814,8k km² resolves the urban-rural structure of the pre-contact Saint Lawrence Basin, capturing both the dense Late Woodland palisaded core of Ontario and the St. Lawrence Lowlands and the enduring riverine fisheries of the Shield and estuary.
+
+# Sources
+
+<div id="refs"></div>

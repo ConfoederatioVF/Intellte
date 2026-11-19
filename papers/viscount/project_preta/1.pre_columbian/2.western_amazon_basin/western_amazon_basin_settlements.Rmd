@@ -1,0 +1,432 @@
+---
+title: "Settlement Gazetteer of Pre-Columbian Western Amazon Basin"
+subtitle: "PRETA: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1542AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: western_amazon_basin_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_western_amazon_basin_spatial.png"
+hero_caption: "Spatial distribution of 617 catalogued pre-Columbian settlements and regional hydrological catchments across the Western Amazon Basin (4,31M km²) from 10000BC to 1542AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("western_amazon_basin.json5")
+set_data <- read_json_file("western_amazon_basin_settlements.json")
+led_data <- read_json_file("western_amazon_basin_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("%", "\\\\%", s, fixed = TRUE)
+  s <- gsub("#", "\\\\#", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  wamz_central_amazon_rio_negro = "Central Amazon & Negro",
+  wamz_madeira_guapore = "Madeira-Guaporé",
+  wamz_llanos_de_moxos = "Llanos de Moxos",
+  wamz_purus_jurua_acre = "Purus-Juruá-Acre",
+  wamz_caqueta_putumayo_napo = "Solimões-Napo-Upano",
+  wamz_maranon_ucayali = "Marañón-Ucayali"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues geographic coordinates, cultural affiliations, occupation spans and demographic trajectories for 617 pre-Columbian settlements across the Western Amazon Basin (4,31M km², encompassing 4.312.135 km²) from 10000BC to 1542AD. Spanning six major hydrological divisions, the gazetteer encompasses diverse architectural and settlement traditions: monumental stepped pyramid capitals and causeway networks of the Casarabe culture in Llanos de Moxos, garden-city platform complexes in the Ecuadorian Upano Valley, riverine bluff towns on fertile Terra Preta anthrosols along the Central Amazon trunk stream, geometric ditch enclosures (geoglyphs) carved into the plateaus of Acre and elongated várzea ribbons along the Solimões, Marañón and Ucayali floodplains.
+
+Catalogued settlement peak sizes range from early Holocene rock shelters and shell middens to monumental urban centres led by Sangay in the Upano Valley (9,5k peak at 0AD to 400AD), Cotoca in Llanos de Moxos (8,4k peak in 1000AD), Kilamope (6,5k peak), Landívar (5,1k peak), Manaus at the Encontro das Águas (4,5k peak), Hatahara (3,7k peak), the mountaintop stone fortress of Kuelap (3,5k peak), San Ignacio de Moxos (3,4k peak), Iquitos (3,3k peak), Açutuba (3,2k peak), Leticia (3,1k peak), Tefé (2,9k peak) and Baures (2,8k peak). Every catalogued settlement reconciles against 1.104 source ledger candidates under PRETA alongside 487 documented exclusions, consisting of 482 duplicate-alias consolidations within 3 km and five non-habitation geological features.
+
+By coupling georeferenced settlement trajectories with regional anthrosol pedology and fluvial catchments, this gazetteer establishes an archaeological baseline for pre-contact nucleation in lowland South America. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that historical demographic reconstructions reflect genuine archaeological site densities rather than speculative continental assumptions.
+
+# Settlement Archaeology in Western Amazonia
+
+Archaeological settlement patterns in the Western Amazon Basin reflect sophisticated adaptations to regional hydrology, soil management and aquatic resources [@neves2003historical; @prumers2022casarabe; @rostain2024upano]. Five primary settlement traditions characterise the regional archaeological record:
+
+1. **Casarabe Monumental Urbanism**: In the seasonal savanna wetlands of Llanos de Moxos, Bolivia, the Casarabe culture constructed a hierarchical settlement system centred on stepped earthen pyramids rising up to twenty-one metres above monumental rectangular platforms [@prumers2022casarabe]. Primary centres at Cotoca and Landívar were connected to secondary mound centres and raised agricultural field belts by straight causeways and navigable canals spanning dozens of kilometres [@prumers2022casarabe; @walker2004agricultural].
+2. **Upano Valley Garden Cities**: Along the eastern Andean foothills of Ecuador, the Kilamope and Upano cultures constructed thousands of monumental rectangular earthen platforms arranged in formal spatial complexes [@rostain2024upano]. Linked by wide sunken streets and integrated with drained agricultural plots, major centres at Sangay and Kilamope formed an interconnected agro-urban landscape flourishing from 500BC to 600AD [@rostain2024upano].
+3. **Central Amazon Bluff Towns**: Along the high bluffs overlooking the Rio Negro and Solimões confluence, permanent settlements developed on deep anthropogenic dark earths (Terra Preta do Índio) [@neves2003historical; @lima2002ceramica]. Sites like Manaus, Açutuba, Hatahara and Manacapuru supported thousands of residents, protected by landward defensive ditches and palisades [@neves2014acutuba; @macedo2017pedogenetic].
+4. **Acre Geometric Enclosures**: In the forested plateaus of Acre and northern Rondônia, indigenous builders excavated hundreds of circular, square and octagonal ditch-and-bank geoglyphs [@parssinen2009geoglyphs; @schaan2012sacred; @watling2017impact]. These monumental enclosures functioned as ceremonial assembly centres and defensive meeting grounds surrounded by managed palm orchards [@carson2014environmental; @desouza2018earthbuilders].
+5. **Várzea Levee Settlements**: Along the white-water floodplains of the Solimões, Marañón and Ucayali, linear village settlements occupied natural river levees continuously for multiple kilometres [@lathrap1970upper; @myers1990sarabandero]. Supported by fertile annual silt deposition and aquatic harvesting, these chiefdoms maintained large fleets of war canoes and turtle corrals [@lathrap1970upper].
+
+# Methodology and Source Ledger Reconciliation
+
+Candidate sites in the source ledger were evaluated using published excavation monographs, regional heritage inventories from national agencies (IPHAN in Brazil, SIARPU in Bolivia, INPC in Ecuador, MINCUL in Peru), remote sensing surveys and radiocarbon syntheses [@neves2003historical; @prumers2022casarabe; @rostain2024upano; @peripato2023earthworks]. Inclusion requires:
+- Precise WGS84 geographic coordinates validated against regional hydrography.
+- Documented cultural horizons, ceramic affiliations or radiocarbon chronologies.
+- Area-based or house-count demographic estimations calibrated to site extent.
+
+Where multiple archaeological survey points fall within 3 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features such as isolated petroglyphs or stone tool quarries lacking residential refuse are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of 617 catalogued settlements and summed site peaks across the six sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 617 catalogued settlements and summed site peaks across the Western Amazon Basin.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Leading Pre-Columbian Settlements
+
+Table \ref{tab:gazetteer} presents the leading 40 pre-Columbian settlements across Western Amazonia ordered by peak population descending, detailing coordinates, sub-regional attribution, occupation span and benchmark demographic series.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_40 <- set_list[ord_all[seq_len(min(40L, length(set_list)))]]
+
+gaz_rows <- lapply(top_40, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  reg_key <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[reg_key]])) reg_short[[reg_key]] else clean_text(reg_key)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 24),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 40 pre-Columbian settlements ordered by peak population across the Western Amazon Basin (10000BC to 1542AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+# Sub-Regional Settlement Catalogues
+
+## Central Amazon and Rio Negro-Branco
+
+The Central Amazon division catalogues 103 settlements concentrated around the confluence of the Rio Negro and Rio Solimões [@neves2003historical; @neves2014acutuba]. Settlements were established on elevated bluffs overlooking rich floodplain fisheries and black-water navigation routes. Leading centres include Manaus at the Encontro das Águas (4,5k peak in 1000AD), Hatahara (3,7k peak in 800AD), Açutuba (3,2k peak in 400AD), Manacapuru (2,6k peak) and Osvaldo (2,4k peak). These sites are characterized by multi-metre anthropogenic dark earth deposits, ceramic assemblages of the Pocó-Açutuba, Manacapuru, Paredão and Guarita traditions, and defensive ditch perimeters [@lima2002ceramica; @macedo2017pedogenetic].
+
+Table \ref{tab:subreg-central} catalogues the leading 25 settlements in the Central Amazon and Rio Negro-Branco division.
+
+```{r tbl-subreg-central, results='asis'}
+sub_central <- Filter(function (s) identical(s$region_id, "wamz_central_amazon_rio_negro") || identical(s$region, "wamz_central_amazon_rio_negro"), set_list)
+pks_c <- vapply(sub_central, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+sub_central <- sub_central[order(pks_c, decreasing = TRUE)[seq_len(min(25L, length(sub_central)))]]
+
+c_rows <- lapply(sub_central, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Country = substr(clean_text(s$country), 1, 10),
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+viscount_table(
+  do.call(rbind, c_rows),
+  "Leading 25 catalogued settlements across the Central Amazon and Rio Negro-Branco division.",
+  c("Settlement Name", "Country", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:subreg-central", font_size = "scriptsize")
+)
+```
+
+## Lower and Middle Madeira-Guaporé
+
+The Madeira-Guaporé division catalogues 144 settlements along the Madeira River rapids and its expansive clear-water tributaries [@watling2018direct; @porsani2017gpr]. Continuous archaeological sequences at the Teotônio rapids (2,4k peak) demonstrate early Holocene plant manipulation and continuous dark-earth accumulation spanning nine millennia [@watling2018direct]. Other leading nucleated centres include Humaitá (2,2k peak), Porto Velho (2,0k peak), Guajará-Mirim (1,9k peak) and Ariquemes (1,6k peak). Settlements combined rich riverine fisheries with intensive agroforestry of peach palm, Brazil nuts and cassava on fertile anthrosol bluffs [@watling2018direct; @clement2015domestication].
+
+Table \ref{tab:subreg-madeira} catalogues the leading 25 settlements in the Lower and Middle Madeira-Guaporé division.
+
+```{r tbl-subreg-madeira, results='asis'}
+sub_madeira <- Filter(function (s) identical(s$region_id, "wamz_madeira_guapore") || identical(s$region, "wamz_madeira_guapore"), set_list)
+pks_m <- vapply(sub_madeira, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+sub_madeira <- sub_madeira[order(pks_m, decreasing = TRUE)[seq_len(min(25L, length(sub_madeira)))]]
+
+m_rows <- lapply(sub_madeira, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Country = substr(clean_text(s$country), 1, 10),
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+viscount_table(
+  do.call(rbind, m_rows),
+  "Leading 25 catalogued settlements across the Lower and Middle Madeira-Guaporé division.",
+  c("Settlement Name", "Country", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:subreg-madeira", font_size = "scriptsize")
+)
+```
+
+## Llanos de Moxos, Beni and Mamoré
+
+The Llanos de Moxos division catalogues 143 settlements across the seasonally flooded savannas of Beni, Bolivia [@prumers2022casarabe; @erickson2000applied; @walker2004agricultural]. Between 500AD and 1400AD, the Casarabe culture developed monumental low-density urbanism centred on stepped earthen pyramids, artificial platform mounds, causeways and canals [@prumers2022casarabe]. Leading regional centres include Cotoca (8,4k peak in 1000AD), Landívar (5,1k peak), San Ignacio de Moxos (3,4k peak), Baures (2,8k peak), Loma Salvatierra (2,6k peak) and Loma Mendoza (2,2k peak). These nucleated centres were integrated with extensive raised-field systems and landscape-scale fish weirs that sustained dense populations across flood cycles [@erickson2000applied; @walker2004agricultural].
+
+Table \ref{tab:subreg-moxos} catalogues the leading 30 settlements in the Llanos de Moxos, Beni and Mamoré division.
+
+```{r tbl-subreg-moxos, results='asis'}
+sub_moxos <- Filter(function (s) identical(s$region_id, "wamz_llanos_de_moxos") || identical(s$region, "wamz_llanos_de_moxos"), set_list)
+pks_mx <- vapply(sub_moxos, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+sub_moxos <- sub_moxos[order(pks_mx, decreasing = TRUE)[seq_len(min(30L, length(sub_moxos)))]]
+
+mx_rows <- lapply(sub_moxos, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Country = substr(clean_text(s$country), 1, 10),
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+viscount_table(
+  do.call(rbind, mx_rows),
+  "Leading 30 catalogued settlements across the Llanos de Moxos, Beni and Mamoré division.",
+  c("Settlement Name", "Country", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:subreg-moxos", font_size = "scriptsize")
+)
+```
+
+## Purus, Juruá and Acre Geoglyph Belt
+
+The Purus-Juruá-Acre division catalogues 64 settlements distinguished by geometric earthworks (geoglyphs) and riverine bluff occupations [@parssinen2009geoglyphs; @saunaluoma2018geometric; @watling2017impact]. Deep ditch enclosures spanning circular, square and octagonal forms served as ceremonial gathering places and fortified villages [@carson2014environmental; @schaan2012sacred]. Leading nucleated centres include Tefé Caiambé (2,9k peak in 1000AD), Rio Branco Fazenda Colorada (2,4k peak), Xapuri (2,1k peak), Sena Madureira (1,9k peak), Boca do Acre (1,8k peak) and Cruzeiro do Sul (1,7k peak). Inhabitants combined managed palm agroforestry with terrace cultivation and river trade [@watling2017impact; @peripato2023earthworks].
+
+Table \ref{tab:subreg-acre} catalogues the leading 25 settlements in the Purus, Juruá and Acre Geoglyph Belt.
+
+```{r tbl-subreg-acre, results='asis'}
+sub_acre <- Filter(function (s) identical(s$region_id, "wamz_purus_jurua_acre") || identical(s$region, "wamz_purus_jurua_acre"), set_list)
+pks_a <- vapply(sub_acre, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+sub_acre <- sub_acre[order(pks_a, decreasing = TRUE)[seq_len(min(25L, length(sub_acre)))]]
+
+a_rows <- lapply(sub_acre, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Country = substr(clean_text(s$country), 1, 10),
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+viscount_table(
+  do.call(rbind, a_rows),
+  "Leading 25 catalogued settlements across the Purus, Juruá and Acre Geoglyph Belt.",
+  c("Settlement Name", "Country", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:subreg-acre", font_size = "scriptsize")
+)
+```
+
+## Solimões, Caquetá-Putumayo and Napo-Upano
+
+The Solimões-Napo-Upano division catalogues 47 settlements along the upper northwestern Amazon river corridors and the Ecuadorian piedmont [@lathrap1970upper; @rostain2024upano]. The upper Upano Valley features extensive garden-city urbanism flourishing between 500BC and 600AD [@rostain2024upano]. Downstream along the Solimões, dense riverine chiefdoms of the Omagua and Aparia occupied long levee ribbons [@lathrap1970upper]. Leading settlements include Iquitos (3,3k peak in 1000AD), Leticia (3,1k peak), São Paulo de Olivença (2,4k peak), Tabatinga (2,2k peak), Fonte Boa (2,0k peak) and Coari (1,9k peak).
+
+Table \ref{tab:subreg-solimoes} catalogues the leading 25 settlements in the Solimões, Caquetá-Putumayo and Napo-Upano division.
+
+```{r tbl-subreg-solimoes, results='asis'}
+sub_solimoes <- Filter(function (s) identical(s$region_id, "wamz_caqueta_putumayo_napo") || identical(s$region, "wamz_caqueta_putumayo_napo"), set_list)
+pks_s <- vapply(sub_solimoes, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+sub_solimoes <- sub_solimoes[order(pks_s, decreasing = TRUE)[seq_len(min(25L, length(sub_solimoes)))]]
+
+s_rows <- lapply(sub_solimoes, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Country = substr(clean_text(s$country), 1, 10),
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+viscount_table(
+  do.call(rbind, s_rows),
+  "Leading 25 catalogued settlements across the Solimões, Caquetá-Putumayo and Napo-Upano division.",
+  c("Settlement Name", "Country", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:subreg-solimoes", font_size = "scriptsize")
+)
+```
+
+## Marañón, Huallaga and Ucayali Lowlands
+
+The Marañón-Huallaga-Ucayali division catalogues 116 settlements across the fertile Andean foreland of northeastern Peru and the adjacent Upano basin of Ecuador [@lathrap1970upper; @myers1990sarabandero; @rostain2024upano]. This division concentrated the largest individual settlements in Western Amazonia, led by the garden-city platform complexes of Sangay (9,5k peak at 0AD to 400AD) and Kilamope (6,5k peak) in the Upano Valley [@rostain2024upano], alongside the fortified Chachapoya citadel of Kuelap (3,5k peak) [@church2020kuelap]. In the silt-rich Peruvian lowlands, leading riverine centres include Pucallpa (2,5k peak), Yurimaguas (2,3k peak), Nauta (2,2k peak), Tarapoto (2,1k peak) and Moyobamba (1,9k peak).
+
+Table \ref{tab:subreg-maranon} catalogues the leading 30 settlements in the Marañón, Huallaga and Ucayali Lowlands division.
+
+```{r tbl-subreg-maranon, results='asis'}
+sub_maranon <- Filter(function (s) identical(s$region_id, "wamz_maranon_ucayali") || identical(s$region, "wamz_maranon_ucayali"), set_list)
+pks_mu <- vapply(sub_maranon, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+sub_maranon <- sub_maranon[order(pks_mu, decreasing = TRUE)[seq_len(min(30L, length(sub_maranon)))]]
+
+mu_rows <- lapply(sub_maranon, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Country = substr(clean_text(s$country), 1, 10),
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+viscount_table(
+  do.call(rbind, mu_rows),
+  "Leading 30 catalogued settlements across the Marañón, Huallaga and Ucayali Lowlands division.",
+  c("Settlement Name", "Country", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:subreg-maranon", font_size = "scriptsize")
+)
+```
+
+# Source Ledger Audit and Excluded Candidates
+
+The PRETA source ledger records 1.104 candidate sites for the Western Amazon Basin. Of these, 617 were included as primary catalogued settlements, while 487 candidates were excluded. Exclusions fall into two distinct categories:
+1. **Duplicate Alias Consolidations (482 sites, 99,0% of exclusions)**: Satellite survey coordinates, isolated test trenches and auxiliary mound points located within 3 km of a primary nucleated settlement were merged into the canonical site to avoid artificial spatial over-concentration.
+2. **Non-Habitation Features (5 sites, 1,0% of exclusions)**: Isolated petroglyph boulders, ceremonial stone carvings and raw material quarries that lacked evidence of domestic habitation refuse or stratified anthrosols were excluded from settlement subtraction.
+
+Table \ref{tab:excluded} documents the leading 25 excluded candidates from the source ledger alongside their canonical primary settlement and justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading 25 excluded candidate sites from the Western Amazon Basin source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Limitations and Preservation Biases
+
+Archaeological visibility in the Western Amazon Basin remains affected by preservation biases and variable survey coverage:
+1. **Fluvial Lateral Erosion and Silt Inundation**: Active lateral migration of the Amazon, Marañón and Solimões river channels continually erodes riverbank levee settlements, while annual flood silts bury early Holocene archaeological deposits beneath metres of alluvium [@lathrap1970upper].
+2. **Equatorial Forest Canopy Obscuration**: Outside deforested pasture zones in Acre and agricultural clearing in Moxos, thousands of ancient earthworks remain concealed beneath closed-canopy rain forest, a limitation only recently mitigated by airborne LiDAR [@peripato2023earthworks; @rostain2024upano].
+3. **Perishable Organic Architecture**: Indigenous domestic structures were built primarily from wood, bamboo, vine lashings and palm thatch, which decompose rapidly in humid tropical soils, leaving subtle posthole patterns and ceramic middens as the primary residential signatures [@neves2003historical].
+
+Despite these taphonomic factors, the cataloguing of 617 georeferenced settlements demonstrates that pre-Columbian Western Amazonia was a densely occupied, highly engineered cultural landscape.
+
+# Sources
+
+<div id="refs"></div>

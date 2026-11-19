@@ -1,0 +1,291 @@
+---
+title: "Settlement Gazetteer of the Colonial Spanish Amazon"
+subtitle: "Coordinates, Toponymy and Demographic Trajectories across Maynas, Quijos, Caquetá-Putumayo, Moxos and Chiquitos (1542AD to 1825AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: colonial_spanish_amazon_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_colonial_spanish_amazon_spatial.png"
+hero_caption: "Spatial distribution of 188 catalogued colonial settlements across the four frontier divisions of the Colonial Spanish Amazon (1,87M km²) from 1542AD to 1825AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("colonial_spanish_amazon.json5")
+set_data <- read_json_file("colonial_spanish_amazon_settlements.json")
+led_data <- read_json_file("colonial_spanish_amazon_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+found_yrs <- vapply(set_list, function (s) {
+  if (!is.null(s$foundation_year)) as.numeric(s$foundation_year) else 1650
+}, numeric(1))
+set_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+set_list <- set_list[order(found_yrs, set_names)]
+
+reg_labels <- list(
+  csa_maynas_peru = "Maynas (Peru)",
+  csa_quijos_oriente_ecuador = "Quijos (Ecuador)",
+  csa_caqueta_putumayo_colombia = "Caqueta-Putumayo (Colombia)",
+  csa_moxos_chiquitos_santa_cruz = "Moxos-Chiquitos (Bolivia)"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer documents geographic coordinates, historical toponyms, foundation chronologies and demographic trajectories for 188 colonial settlements across the Colonial Spanish Amazon (1.874.185 km²) between 1542AD and 1825AD. Across four administrative and missionary frontiers, the catalogued network spans the Jesuit missions of Maynas along the Marañón, Huallaga and Ucayali river systems; the Gobernación de Quijos, Canelos and Macas in the Ecuadorian Oriente; the Franciscan custodial missions across the Caquetá, Putumayo and Sibundoy basins; and the Jesuit reductions, secular presidios and cattle ranching frontiers of Moxos, Chiquitos and Santa Cruz de la Sierra in the Bolivian lowlands.
+
+The catalogued settlement trajectories incorporate 1.258 benchmark population records, averaging 6,69 observations per locality. Nucleated populations range from early sixteenth-century cordilleran gateways such as Chachapoyas (founded 1538AD, 16,6k peak) and Moyobamba (founded 1540AD, 15,3k peak) to secular frontier cities such as Santa Cruz de la Sierra (founded 1561AD, 19,6k peak) and Vallegrande (founded 1612AD, 5,9k peak). They encompass major Jesuit mission capitals including Trinidad (founded 1686AD, 4,9k peak), San Ignacio de Moxos (founded 1689AD, 4,2k peak), Jeberos (founded 1640AD, 4,1k peak), San Ignacio de Velasco (founded 1748AD, 4,1k peak), Baeza (founded 1559AD, 3,9k peak), San José de Chiquitos (founded 1697AD, 3,9k peak), Concepción de Chiquitos (founded 1708AD, 3,8k peak) and Lagunas (founded 1670AD, 3,8k peak), alongside Andean piedmont outposts at Archidona (4,8k peak), Sibundoy (4,8k peak), Macas (4,6k peak) and Mocoa (4,2k peak).
+
+Candidate records in the source ledger reconcile completely against regional mission censuses and colonial padrones [@block1994mission; @radding2005landscapes; @newson1995life; @taylor1999western]. Across 240 catalogued candidate entries, 188 qualify as distinct colonial settlements while 52 entries represent duplicate aliases and missionary relocations, yielding 0 unaccounted records. Every catalogued settlement carries verified WGS84 coordinates within its respective administrative boundary, establishing a consistent geographic framework for colonial population modelling and settlement subtraction.
+
+# Background
+
+Colonial settlement across the Spanish Amazon developed through four distinct waves of military conquest, administrative foundation and religious reduction [@taylor1999western; @sweet1974rich]. The initial phase followed Francisco de Orellana's descent of the Napo and Amazon in 1542AD, prompting Spanish expeditions into the eastern Andean piedmont (la Ceja de Selva). Early footholds at Chachapoyas (1538AD) and Moyobamba (1540AD) anchored the Maynas frontier, while expeditions east of Quito established Baeza (1559AD), Avila (1563AD) and Archidona (1580AD) in the Gobernación de Quijos [@newson1995life]. Farther south, Ñuflo de Chaves led the 1561AD foundation of Santa Cruz de la Sierra from Asunción, establishing a southern bastion between the silver mines of Potosí and the uncharted Amazonian savannas [@block1994mission].
+
+The second phase transformed the frontier through religious reductions. Following the foundation of San Francisco de Borja on the Marañón in 1638AD, Jesuits established the missions of Maynas among Maina, Jebero, Cocama and Omagua peoples [@vega1992estructura; @grohs1974reducciones]. Father Samuel Fritz mapped the Marañón mainstem between 1686AD and 1723AD, coordinating thirty-eight riverine reductions from San Joaquín de Omaguas to the mouth of the Rio Negro against Portuguese *resgate* slave raiding [@fritz1922journal; @hemming1978red]. Simultaneously in the Bolivian lowlands, Jesuits established the Moxos missions from Loreto (1682AD) and Trinidad (1686AD) along the Mamoré, and the Chiquitos missions from San Javier (1691AD) and San Rafael (1696AD) across the granitic Chiquitano plateau [@block1994mission; @radding2005landscapes; @kuhne2025churches]. To the north, Franciscans established custodial reductions across the upper Caquetá and Putumayo valleys from Sibundoy and Mocoa [@gomezgonzalez2014misiones].
+
+The third phase began with the Jesuit expulsion in 1767AD, shifting reductions into secular curacies and military intendancies. In Maynas, Governor Francisco Requena directed administrative reform leading to the creation of the Comandancia General de Maynas in 1802AD [@taylor1999western]. In Moxos and Chiquitos, secular administrators extracted agricultural surpluses, cotton textiles and tallow while indigenous populations maintained religious and musical traditions inside magnificent timber churches [@nawrot2016musical; @gangui2021orientatio; @trujillo2010arquitectu]. The colonial era closed during the Spanish American wars of independence around 1825AD, leaving a durable network of riverine towns and mission settlements across Upper Amazonia.
+
+# Methodology
+
+Candidate entries in the source ledger were gathered through archival mission censuses, colonial visitas and regional demographic monographs [@block1994mission; @radding2005landscapes; @newson1995life; @taylor1999western; @gomezgonzalez2014misiones]. Each locality was verified against historical cartography, archaeological surveys and modern municipal registries to establish WGS84 coordinates, historical toponyms and foundation years [@coomes2021geolocatio; @fritz1922journal].
+
+To prevent spatial double counting in population subtraction, candidate entries within 5 km of an established centre that represent alternative colonial spellings, patron saints or mission relocations were consolidated as duplicate aliases (52 candidates). Table \ref{tab:summary} summarises the distribution of included settlements, regional land areas and demographic metrics across the four frontier sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  r <- mod_data$regions[[rk]]
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  a <- as.numeric(r$area_km2)
+  p1650 <- as.numeric(r$population[["1650"]])
+  p1750 <- as.numeric(r$population[["1750"]])
+  p1825 <- as.numeric(r$population[["1825"]])
+  data.frame(
+    SubRegion = reg_labels[[rk]],
+    Area = viscount_fmt_number(a, 0L),
+    Sites = as.character(length(sub_sets)),
+    Pop1650 = viscount_fmt_pop(p1650),
+    Pop1750 = viscount_fmt_pop(p1750),
+    Pop1825 = viscount_fmt_pop(p1825),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    Leading = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 188 catalogued colonial settlements, land area and population across the Colonial Spanish Amazon.",
+  c("Sub-Region", "Area km²", "Sites", "1650AD", "1750AD", "1825AD", "Peak Sum", "Leading Settlement"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Reconciliation of the 188 catalogued settlements against the 240 source-ledger candidates confirms 0 unaccounted records and 0 schema violations. The 52 excluded records comprise verified duplicate aliases and mission relocation records. All coordinates fall within the spatial bounding boxes defined in the regional configuration, ranging from 20,46 S to 4,04 N latitude and 79,46 W to 57,46 W longitude. Figure \ref{fig:trajectory} charts the aggregate regional population trajectory alongside the leading urban hierarchies.
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_colonial_spanish_amazon_trajectory.png",
+  "Aggregate regional population trajectory from 1542AD to 1825AD (Panel A) and leading colonial urban hierarchies (Panel B) across the Colonial Spanish Amazon.",
+  "fig:trajectory"
+)
+```
+
+# Results
+
+## Leading Colonial Settlements and Mission Reductions
+
+Table \ref{tab:leading} documents the leading thirty-five settlements across the Colonial Spanish Amazon ranked by peak colonial population, reporting coordinates, foundation dates and population estimates across key benchmark years.
+
+```{r tbl-leading, results='asis'}
+peaks_all <- vapply(set_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+names_all <- vapply(set_list, function (s) as.character(s$name), character(1))
+ord_top <- order(-peaks_all, names_all)[seq_len(min(35L, length(set_list)))]
+top_sets <- set_list[ord_top]
+
+top_rows <- lapply(top_sets, function (s) {
+  p <- s$population
+  f_yr <- if (!is.null(s$foundation_year)) as.character(s$foundation_year) else "1650"
+  p1650 <- if (!is.null(p[["1650"]])) viscount_fmt_pop(p[["1650"]]) else "-"
+  p1750 <- if (!is.null(p[["1750"]])) viscount_fmt_pop(p[["1750"]]) else "-"
+  p1825 <- if (!is.null(p[["1825"]])) viscount_fmt_pop(p[["1825"]]) else "-"
+  pk <- viscount_fmt_pop(max(as.numeric(unlist(p))))
+  rk <- if (!is.null(reg_labels[[s$region_id]])) reg_labels[[s$region_id]] else s$region_id
+  data.frame(
+    Settlement = clean_text(s$name),
+    SubRegion = rk,
+    Coords = fmt_coord(s$coords),
+    Found = f_yr,
+    P1650 = p1650,
+    P1750 = p1750,
+    P1825 = p1825,
+    Peak = pk,
+    stringsAsFactors = FALSE
+  )
+})
+df_top <- do.call(rbind, top_rows)
+viscount_table(
+  df_top,
+  "Leading thirty-five colonial settlements and mission reductions ordered by peak population across the Colonial Spanish Amazon.",
+  c("Settlement", "Sub-Region", "Coordinates", "Found.", "1650AD", "1750AD", "1825AD", "Peak"),
+  list(label = "tab:leading", font_size = "scriptsize")
+)
+```
+
+## Jesuit Reductions of Moxos and Chiquitos
+
+The Bolivian lowlands supported sixty-nine catalogued settlements, centred upon the Jesuit mission provinces of Moxos and Chiquitos and the secular agricultural hinterland of Santa Cruz de la Sierra [@block1994mission; @radding2005landscapes]. Table \ref{tab:moxos-chiquitos} details twenty-five principal reductions and frontier towns across this savanna environment.
+
+```{r tbl-moxos-chiquitos, results='asis'}
+mox_sets <- Filter(function (s) identical(s$region_id, "csa_moxos_chiquitos_santa_cruz"), set_list)
+mox_peaks <- vapply(mox_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+mox_names <- vapply(mox_sets, function (s) as.character(s$name), character(1))
+ord_mox <- order(-mox_peaks, mox_names)[seq_len(min(25L, length(mox_sets)))]
+top_mox <- mox_sets[ord_mox]
+
+mox_rows <- lapply(top_mox, function (s) {
+  p <- s$population
+  f_yr <- if (!is.null(s$foundation_year)) as.character(s$foundation_year) else "1650"
+  p1650 <- if (!is.null(p[["1650"]])) viscount_fmt_pop(p[["1650"]]) else "-"
+  p1750 <- if (!is.null(p[["1750"]])) viscount_fmt_pop(p[["1750"]]) else "-"
+  p1825 <- if (!is.null(p[["1825"]])) viscount_fmt_pop(p[["1825"]]) else "-"
+  pk <- viscount_fmt_pop(max(as.numeric(unlist(p))))
+  data.frame(
+    Settlement = clean_text(s$name),
+    Coords = fmt_coord(s$coords),
+    Found = f_yr,
+    P1650 = p1650,
+    P1700 = if (!is.null(p[["1700"]])) viscount_fmt_pop(p[["1700"]]) else "-",
+    P1750 = p1750,
+    P1825 = p1825,
+    Peak = pk,
+    stringsAsFactors = FALSE
+  )
+})
+df_mox <- do.call(rbind, mox_rows)
+viscount_table(
+  df_mox,
+  "Twenty-five principal mission reductions and towns across Moxos, Chiquitos and Santa Cruz de la Sierra (Bolivian Lowlands).",
+  c("Settlement", "Coordinates", "Found.", "1650AD", "1700AD", "1750AD", "1825AD", "Peak"),
+  list(label = "tab:moxos-chiquitos", font_size = "scriptsize")
+)
+```
+
+## Frontier Missions and Towns of Maynas and Quijos
+
+In the Upper Amazon, sixty-six settlements in Maynas and nineteen in Quijos guarded the fluvial approaches from the Pacific highlands to the Amazonian plain [@taylor1999western; @newson1995life; @vega1992estructura]. Table \ref{tab:maynas-quijos} documents twenty-four key riverine reductions and garrisons across the Marañón, Huallaga, Ucayali and Napo valleys.
+
+```{r tbl-maynas-quijos, results='asis'}
+mq_sets <- Filter(function (s) s$region_id %in% c("csa_maynas_peru", "csa_quijos_oriente_ecuador"), set_list)
+mq_peaks <- vapply(mq_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+mq_names <- vapply(mq_sets, function (s) as.character(s$name), character(1))
+ord_mq <- order(-mq_peaks, mq_names)[seq_len(min(24L, length(mq_sets)))]
+top_mq <- mq_sets[ord_mq]
+
+mq_rows <- lapply(top_mq, function (s) {
+  p <- s$population
+  f_yr <- if (!is.null(s$foundation_year)) as.character(s$foundation_year) else "1650"
+  p1650 <- if (!is.null(p[["1650"]])) viscount_fmt_pop(p[["1650"]]) else "-"
+  p1750 <- if (!is.null(p[["1750"]])) viscount_fmt_pop(p[["1750"]]) else "-"
+  p1825 <- if (!is.null(p[["1825"]])) viscount_fmt_pop(p[["1825"]]) else "-"
+  pk <- viscount_fmt_pop(max(as.numeric(unlist(p))))
+  rk <- if (identical(s$region_id, "csa_maynas_peru")) "Maynas" else "Quijos"
+  data.frame(
+    Settlement = clean_text(s$name),
+    SubRegion = rk,
+    Coords = fmt_coord(s$coords),
+    Found = f_yr,
+    P1650 = p1650,
+    P1750 = p1750,
+    P1825 = p1825,
+    Peak = pk,
+    stringsAsFactors = FALSE
+  )
+})
+df_mq <- do.call(rbind, mq_rows)
+viscount_table(
+  df_mq,
+  "Twenty-four leading mission reductions and administrative centres across Maynas and Quijos in the Upper Amazon.",
+  c("Settlement", "Sub-Region", "Coordinates", "Found.", "1650AD", "1750AD", "1825AD", "Peak"),
+  list(label = "tab:maynas-quijos", font_size = "scriptsize")
+)
+```
+
+## Northern Frontier Reductions of Caquetá and Putumayo
+
+Across thirty-four catalogued settlements in the Colombian Amazon, Franciscan missionaries and Spanish military expeditions established riverine reductions along the Caquetá, Putumayo, Guaviare and upper Rio Negro basins [@gomezgonzalez2014misiones]. Table \ref{tab:caqueta} presents twenty leading settlements across this northern Amazonian frontier.
+
+```{r tbl-caqueta, results='asis'}
+caq_sets <- Filter(function (s) identical(s$region_id, "csa_caqueta_putumayo_colombia"), set_list)
+caq_peaks <- vapply(caq_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+caq_names <- vapply(caq_sets, function (s) as.character(s$name), character(1))
+ord_caq <- order(-caq_peaks, caq_names)[seq_len(min(20L, length(caq_sets)))]
+top_caq <- caq_sets[ord_caq]
+
+caq_rows <- lapply(top_caq, function (s) {
+  p <- s$population
+  f_yr <- if (!is.null(s$foundation_year)) as.character(s$foundation_year) else "1650"
+  p1650 <- if (!is.null(p[["1650"]])) viscount_fmt_pop(p[["1650"]]) else "-"
+  p1750 <- if (!is.null(p[["1750"]])) viscount_fmt_pop(p[["1750"]]) else "-"
+  p1825 <- if (!is.null(p[["1825"]])) viscount_fmt_pop(p[["1825"]]) else "-"
+  pk <- viscount_fmt_pop(max(as.numeric(unlist(p))))
+  data.frame(
+    Settlement = clean_text(s$name),
+    Coords = fmt_coord(s$coords),
+    Found = f_yr,
+    P1650 = p1650,
+    P1700 = if (!is.null(p[["1700"]])) viscount_fmt_pop(p[["1700"]]) else "-",
+    P1750 = p1750,
+    P1825 = p1825,
+    Peak = pk,
+    stringsAsFactors = FALSE
+  )
+})
+df_caq <- do.call(rbind, caq_rows)
+viscount_table(
+  df_caq,
+  "Twenty leading mission settlements and frontier posts across Caquetá, Putumayo and the Colombian Amazon.",
+  c("Settlement", "Coordinates", "Found.", "1650AD", "1700AD", "1750AD", "1825AD", "Peak"),
+  list(label = "tab:caqueta", font_size = "scriptsize")
+)
+```
+
+# Sources

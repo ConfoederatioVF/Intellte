@@ -1,0 +1,167 @@
+---
+title: "Settlement Gazetteer of Colonial America to 1754AD"
+subtitle: "CENTAUR-II: Atlantic Ports, New England Towns, Spanish Presidios and Indigenous Capitals, 1500AD to 1754AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: colonial_america_to_1754_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_colonial_america_to_1754_spatial.png"
+hero_caption: "Spatial distribution of 1.225 colonial towns, forts, missions and Indigenous capitals across 22 sub-regions through 1754AD."
+hero_label: "fig:hero-colonial-america-to-1754"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("colonial_america_to_1754.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("colonial_america_to_1754_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("colonial_america_to_1754_source_ledger.json5", simplifyVector = FALSE)
+```
+
+# Abstract
+
+This gazetteer compiles 1.225 urban, military, mission and Indigenous settlement trajectories active across North America and Bermuda between 1500AD and 1754AD (9.157.164 km²). Synthesising colonial town censuses, Spanish presidio and mission *padrones*, French Louisiana post returns, archaeological town syntheses and conservative 1754AD back-projections from early federal municipal counts [@bridenbaugh1938cities; @bridenbaugh1955cities; @gerhard1982north; @milner2010eastern], the catalogue covers all 22 sub-regional masks with highest density in Massachusetts Bay-Maine (220 sites), Trans-Appalachian Indigenous territory (159), New Hampshire (137), New York (101), Connecticut (83), Virginia (66), New Jersey (65), Pennsylvania (48) and Spanish New Mexico (46). At the 1750–1754AD benchmark, the largest settlements in the register were New York (22k in 1750AD, 14,2k in 1754AD), Philadelphia (20,5k in 1754AD), the sixteenth-century Choctaw ceremonial locus Nanih Waiya (20k in 1500AD), Boston (17k in 1740AD, 15,65k in 1754AD), Charleston (7,8k in 1754AD) and Newport (6,8k in 1754AD) [@bridenbaugh1955cities; @wells1975population]. Alongside the 1.225 included entries (3.585 settlement-year observations averaging 2,93 per site, with 465 carrying three or more observations), the regional source ledger documents 299 excluded duplicate aliases out of 1.524 total candidates.
+
+# Background
+
+Urbanisation in North America prior to 1754AD combined rising Atlantic port concentration with dispersing Indigenous confederacy towns [@bridenbaugh1938cities; @milner2010eastern]. In 1500AD, major population centres were entirely Indigenous, led by Late Mississippian and Muskogean ceremonial sites such as Nanih Waiya (20k in 1500AD) and Natchez (3,5k), Iroquois towns such as Ganondagan (3,5k) and Puebloan hubs along the Rio Grande and Colorado Plateau such as Zuni (3,2k) [@milner2010eastern; @jones1979los]. By the mid-eighteenth century, maritime commerce elevated New York, Philadelphia, Boston, Charleston and Newport above 5k inhabitants, while interior New England commons sustained dense networks of 1k to 5k townships [@bridenbaugh1955cities; @greene1932american].
+
+# Methodology
+
+Settlement trajectories were compiled from Bridenbaugh's colonial port counts, Greene and Harrington's provincial town tables, Spanish borderland mission registers, conservative 1790AD federal census town back-projections for settlements founded prior to 1754AD and GeoNames WGS84 coordinates [@bridenbaugh1938cities; @greene1932american; @gerhard1982north]. All 1.225 included records carry CENTAUR provenance and map onto the 22 sub-regional masks using a six-pixel coastal snap search. In the regional source ledger, 299 candidate entries were marked excluded as close-pair duplicates or colonial aliases within 2 km (such as New York City merged into New York, Charles Town Port into Charleston, Albany City into Albany, Plymouth Town into Plymouth, Philadelphia City into Philadelphia, Acoma Pueblo into Haaku and San Agustin Port into St. Augustine).
+
+# Testing and Validation
+
+Ledger reconciliation confirms 1.225 included settlements and 299 excluded entries (1.524 total candidates, 0 unaccounted). All 1.225 records carry valid WGS84 coordinates and 3.585 non-zero integer population observations within the 1500AD to 1754AD window. Figure \ref{fig:sett-1754} plots the rank-size curve and the fifteen leading settlement peaks.
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_colonial_america_to_1754_settlements.png",
+  "Rank-size distribution and leading fifteen settlement peaks across the 1.225 catalogued centres of Colonial America to 1754AD.",
+  "fig:sett-1754"
+)
+```
+
+# Results
+
+## Top 45 Settlements by Peak Population
+
+Table \ref{tab:top45-1754} reports the top 45 settlements in the gazetteer ranked by peak observed population, spanning Atlantic seaports, New England townships, Spanish borderland capitals and early Indigenous centres.
+
+```{r tab-top45, results='asis'}
+fmt_coord <- function(x) gsub("\\.", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+get_pop_str <- function(e, y) {
+  v <- e$population[[y]]
+  if (is.null(v)) return("-")
+  viscount_fmt_pop(v)
+}
+
+peaks <- vapply(sett_data, function(e) max(unlist(e$population)), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+top_n <- min(45L, length(ord))
+
+rows <- lapply(sett_data[ord[seq_len(top_n)]], function(e) {
+  yrs <- as.integer(names(e$population))
+  pk_y <- names(e$population)[which.max(unlist(e$population))]
+  pk_v <- max(unlist(e$population))
+  data.frame(
+    Settlement = e$name,
+    Polity = e$country,
+    Coords = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Span = paste0(min(yrs), "-", max(yrs), "AD"),
+    P1650 = get_pop_str(e, "1650"),
+    P1700 = get_pop_str(e, "1700"),
+    P1750 = get_pop_str(e, "1750"),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_y, "AD)"),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  "Top 45 settlements in Colonial America to 1754AD ordered by peak catalogued population (n=1.225 total).",
+  c("Settlement", "Colony", "Lat, Lon", "Span", "1650AD", "1700AD", "1750AD", "Peak (Year)"),
+  list(label = "tab:top45-1754", font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+## Sub-Regional Distribution and Ledger Exclusions
+
+Table \ref{tab:regsum-1754} summarises settlement counts across all 22 sub-regional masks alongside maximum catalogued peak populations, highlighting dense town enumeration in New England and the Mid-Atlantic versus sparser nodal coverage across western Indigenous domains. Table \ref{tab:excluded-1754} details the leading 30 of 299 excluded duplicate candidates recorded in the source ledger.
+
+```{r tab-regsum, results='asis'}
+reg_keys <- names(mod_data$regions)
+sum_rows <- lapply(reg_keys, function(rk) {
+  sub_e <- Filter(function(e) identical(e$region_id, rk), sett_data)
+  max_nm <- "-"
+  if (length(sub_e) > 0) {
+    pks <- vapply(sub_e, function(e) max(unlist(e$population)), numeric(1))
+    idx_m <- which.max(pks)
+    max_nm <- paste0(sub_e[[idx_m]]$name, " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  reg_short <- sub("^[0-9]+\\.\\s*", "", mod_data$regions[[rk]]$name)
+  reg_short <- sub("\\s*\\(Cherokee.*\\)$", "", reg_short)
+  data.frame(
+    Region = gsub("&", "and", reg_short, fixed = TRUE),
+    Sites = as.character(length(sub_e)),
+    Lead = max_nm,
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Settlement count and leading urban or nodal centre across all 22 sub-regions to 1754AD (1.225 total sites).",
+  c("Sub-Region", "Sites", "Leading Site (Peak)"),
+  list(label = "tab:regsum-1754", font_size = "scriptsize", max_rows_per_page = 26L)
+)
+```
+
+```{r tab-excluded, results='asis'}
+exc_list <- Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates)
+exc_n <- min(30L, length(exc_list))
+exc_rows <- lapply(exc_list[seq_len(exc_n)], function(c) {
+  just <- as.character(c$justification)
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", just, perl = TRUE)
+  just <- gsub("CENTAUR Verified Colonial Registry", "CENTAUR Colonial Registry", just, fixed = TRUE)
+  data.frame(
+    Candidate = c$name,
+    Polity = c$country,
+    Category = "Duplicate alias",
+    Justification = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+
+viscount_table(
+  exc_df,
+  "Leading 30 of 299 excluded duplicate candidates in the Colonial America to 1754AD source ledger, consolidated into canonical parent towns.",
+  c("Candidate", "Territory", "Reason", "Consolidation Note"),
+  list(label = "tab:excluded-1754", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Two spatial artefacts affect sub-regional aggregation in the raw gazetteer. First, at five-arcminute resolution, borderland ports sitting on major rivers snap across adjacent grid cells: Philadelphia (39,95 N, 75,16 W) snaps to New Jersey, Elizabethtown (40,66 N, 74,21 W) snaps to New York and El Paso del Norte (31,70 N, 106,33 W) snaps to Spanish New Mexico, although every record preserves its canonical province or state label. Second, interior Plains and Far West Indigenous populations remained predominantly mobile or non-nucleated prior to 1754AD, so sub-regional totals rely on areal kriging priors rather than town sums [@ubelaker1988north].
+
+# Sources
+
+<div id="refs"></div>

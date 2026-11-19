@@ -281,6 +281,8 @@ format_knitted_document <- function (arg0_doc_vec, arg1_options = NULL) {
 
     if (!nzchar(local_trim)) next
 
+    local_line <- unwrap_prose_inline_backticks(local_line)
+
     if (euro_decimals) {
       local_line <- convert_euro_decimals_in_text(local_line, is_latex)
     }
@@ -576,8 +578,47 @@ render_markdown_prose <- function (arg0_md_source, arg1_options = NULL) {
 }
 
 
+#' Unwraps inline backtick spans around ordinary prose tokens (numbers, units,
+#' dates, coordinates and toponyms) while preserving genuine code, formula, flag
+#' or file-path tokens.
+#'
+#' @param arg0_line Single Markdown prose line.
+#' @return Line with non-code inline backticks removed.
+#' @export
+unwrap_prose_inline_backticks <- function (arg0_line) {
+  #Convert from parameters
+  line_str <- as.character(arg0_line)
+
+  #Guard clauses
+  if (length(line_str) == 0L || is.na(line_str) || !nzchar(line_str)) return(line_str)
+  if (!grepl("`", line_str, fixed = TRUE)) return(line_str)
+
+  m <- gregexpr("(?<!`)`(?!`)([^`\n]+)(?<!`)`(?!`)", line_str, perl = TRUE)
+  matches <- regmatches(line_str, m)[[1]]
+  if (length(matches) == 0L) return(line_str)
+
+  replacements <- character(length(matches))
+  for (i in seq_along(matches)) {
+    tok <- matches[i]
+    inner <- substr(tok, 2L, nchar(tok) - 1L)
+    inner_trim <- trimws(inner)
+    is_genuine_code <- grepl(
+      "(?:[_\\\\{}]|^--[A-Za-z0-9_-]+|[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+|^[A-Za-z0-9_.-]+=[A-Za-z0-9_.-]+$)",
+      inner_trim,
+      perl = TRUE
+    )
+    replacements[i] <- if (is_genuine_code) tok else inner
+  }
+  regmatches(line_str, m) <- list(replacements)
+
+  #Return statement
+  return(line_str)
+}
+
+
 #' Converts Unicode mathematical/typographic symbols in a Markdown prose line into
-#' LaTeX-compatible equivalents while respecting `$...$` math boundaries.
+#' LaTeX-compatible equivalents while respecting `$...$` math boundaries and
+#' protecting remaining inline code spans.
 #'
 #' @param arg0_line Single Markdown prose line.
 #' @return Line with LaTeX-compatible symbol commands.
@@ -588,6 +629,20 @@ sanitize_prose_unicode_for_latex <- function (arg0_line) {
 
   #Guard clauses
   if (length(line_str) == 0 || is.na(line_str) || !nzchar(line_str)) return(line_str)
+
+  code_tokens <- character(0)
+  if (grepl("`", line_str, fixed = TRUE)) {
+    code_m <- gregexpr("`[^`\n]+`", line_str, perl = TRUE)
+    code_matches <- regmatches(line_str, code_m)[[1]]
+    if (length(code_matches) > 0L) {
+      placeholders <- character(length(code_matches))
+      for (k in seq_along(code_matches)) {
+        code_tokens[k] <- code_matches[k]
+        placeholders[k] <- paste0("___INT_CODE_", k, "___")
+      }
+      regmatches(line_str, code_m) <- list(placeholders)
+    }
+  }
 
   parts <- strsplit(line_str, "(?<=\\$)|(?=\\$)", perl = TRUE)[[1]]
   in_math <- FALSE
@@ -628,7 +683,18 @@ sanitize_prose_unicode_for_latex <- function (arg0_line) {
     }
   }
 
+  out_str <- paste(parts, collapse = "")
+  if (length(code_tokens) > 0L) {
+    for (k in seq_along(code_tokens)) {
+      tok_norm <- code_tokens[k]
+      tok_norm <- gsub("\u2011", "-", tok_norm, fixed = TRUE)
+      tok_norm <- gsub("\u2013", "-", tok_norm, fixed = TRUE)
+      tok_norm <- gsub("\u2014", "-", tok_norm, fixed = TRUE)
+      out_str <- gsub(paste0("___INT_CODE_", k, "___"), tok_norm, out_str, fixed = TRUE)
+    }
+  }
+
   #Return statement
-  return(paste(parts, collapse = ""))
+  return(out_str)
 }
 

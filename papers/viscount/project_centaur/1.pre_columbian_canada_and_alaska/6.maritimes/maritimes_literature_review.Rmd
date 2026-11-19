@@ -1,0 +1,371 @@
+---
+title: "Pre-Columbian Atlantic Maritimes, Newfoundland and Labrador: Maritime Archaic, Mi'kmaq, Beothuk and Norse Vinland"
+subtitle: "CENTAUR-II: Mi'kma'ki, Wolastoq Basin, Newfoundland and Labrador, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: maritimes_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_maritimes_spatial.png"
+hero_caption: "Four coastal and boreal divisions and 159 catalogued settlements across the Atlantic Maritimes, Newfoundland and Labrador (545,83k km²) from 10000BC to 1600AD."
+hero_label: "fig:hero-maritimes"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("maritimes.json5")
+set_data <- read_json_file("maritimes_settlements.json")
+led_data <- read_json_file("maritimes_source_ledger.json5")
+diag_na <- read_json_file("../../_shared/sites_northern_america/config/kriging_diagnostics.json")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+reg_keys <- names(mod_data$regions)
+all_years <- names(mod_data$summary$headline_population_by_benchmark)
+tot_1500 <- as.numeric(mod_data$summary$headline_population_by_benchmark[["1500"]])
+tot_1600 <- as.numeric(mod_data$summary$headline_population_by_benchmark[["1600"]])
+tot_area <- as.numeric(mod_data$total_area_km2)
+```
+
+\newpage
+
+# Abstract
+
+The Atlantic Maritimes, Newfoundland and Labrador (545,83k km², covering 11.233 terrestrial 5-arcminute pixels) supported estuarine, shell-midden and marine-hunting communities from Palaeoindian caribou hunters at Debert (9000BC to 8000BC) through the Maritime Archaic florescence and late pre-contact Mi'kmaq, Wolastoqiyik, Beothuk, Innu and Inuit networks [@macdonald1968; @tuck1976; @prins1996]. Reconstructed across four coastal and plateau divisions under CENTAUR-II, population rises from zero in 10000BC to 300 in 9000BC, 8,9k in 5000BC and 27,6k at 0AD, reaching a pre-contact maximum of 36k in 1500AD (6,6 persons per 100 km²).
+
+In 1500AD, Mi'kma'ki (45,8% of regional inhabitants at 28,73 persons per 100 km²) and the Wolastoq-Miramichi basin (30,6% at 15,53 per 100 km²) together hold 76,4% of total population on just 23,5% of regional land area, whereas Newfoundland (9,7%) and Labrador (13,9%) carry sparser subarctic densities [@miller1976; @fitzhugh1972; @pastore1992]. Following 1500AD, seasonal European cod fisheries, Basque whaling crews and initial infectious disease outbreaks cut regional numbers by 22,78% to 27,8k by 1600AD [@miller1976; @pastore1992; @chittick2011pride]. Spatial disaggregation relies on the North American non-stationary Matérn ($\nu = 3/2$) surface (93.129 unique site-periods across 3.833 domestic catchments, 14,24x over the 6.539 legacy baseline, regularised $\tau_1 = 1,35$, raw nugget 0, regularised nugget-to-sill 0,04, WLS $R^2 = 0,9990$ to $0,9992$) integrated with 159 catalogued sites from 332 ledger candidates [@bird2022p3k14c; @kelly2025].
+
+# Background
+
+## Coastal Resources, Tidal Estuaries and Subarctic Plateaus
+
+Global historical grids compressed Nova Scotia, New Brunswick, Prince Edward Island, Newfoundland and Labrador into a single undifferentiated boreal zone, obscuring both the rich shellfish and salmon productivity of the southern Maritimes and the sequence of Maritime Archaic, Dorset Palaeo-Eskimo, Norse Vinland, Beothuk and Thule Inuit occupations across the north Atlantic littoral [@tuck1976; @renouf1999; @wallace2003]. Unlike inland continental plains, population in Atlantic Canada clung closely to ice-free coastal bays, tidal estuaries and migratory caribou bottlenecks where marine upwelling, anadromous fish runs and harbour seal colonies concentrated calories across predictable seasons [@prins1996; @fitzhugh1972; @harris2019dorset].
+
+At the opening of the Holocene, residual ice caps still covered central Newfoundland, interior New Brunswick and almost the entire Labrador Plateau, while the Goldthwait and DeGeer seas inundated depressed coastal margins [@macdonald1968; @mckillop2019they]. Post-glacial isostatic rebound lifted raised beaches in northern Newfoundland and Labrador above modern tidewater, whereas crustal subsidence along the Bay of Fundy and Atlantic Nova Scotia gradually drowned early river estuaries and lower intertidal shell middens [@tuck1976; @watton2016coastal].
+
+## The Four Regional Divisions
+
+CENTAUR-II partitions the 545.830 km² territory into four ecological and ethnohistoric divisions (Table \ref{tab:subregions}). Nova Scotia, Unama'ki (Cape Breton Island) and Epekwitk (Prince Edward Island) (57.424 km², 10,5% of area, 1.169 cells) constitute the core Mi'kma'ki coastal zone [@prins1996; @miller1976]. Enriched by extreme Bay of Fundy tides along the Minas Basin, warm summer waters across Northumberland Strait, eelgrass lagoons along Prince Edward Island and productive Bras d'Or estuarine lakes on Cape Breton, this small division consistently supported the highest human densities in Atlantic Canada [@halwas2006where; @mckillop2019they].
+
+West of Chignecto Isthmus, the Wolastoq (Saint John) Basin, Miramichi and Passamaquoddy (70.849 km², 13% of area, 1.282 cells) bind together New Brunswick's major salmon watersheds and the year-round upwelling fisheries of Passamaquoddy Bay [@prins1996; @gutekunst2009wabanaki]. Shared across Wolastoqiyik (Maliseet), Passamaquoddy and Mi'kmaq districts, the Saint John and Miramichi corridors linked Gulf of St. Lawrence coastal villages with upper New England and St. Lawrence canoe routes [@hicks2017travelling; @gutekunst2009wabanaki].
+
+Across Cabot Strait, the Island of Newfoundland and Saint-Pierre-et-Miquelon (106.715 km², 19,6% of area, 2.204 cells) sustained distinct island hunter-gatherer populations punctuated by sea-ice fluctuations and periodic isolation from the mainland [@tuck1976; @renouf1999; @aylward2014beothuk]. Harp seal whelping migrations past the Northern Peninsula at Port au Choix, soapstone quarries at Fleur de Lys and rich salmon rivers draining into Notre Dame and Bonavista bays anchored Maritime Archaic, Groswater, Dorset, Recent Indian and Beothuk communities alongside the brief 1000AD Norse outpost at L'Anse aux Meadows [@ingstad1985; @wallace2003; @erwin2001prehistoric; @teal2001archaeological].
+
+North of the Strait of Belle Isle, the Labrador Plateau and Nunatsiavut Coast (310.842 km², 56,9% of area, 6.578 cells) span more than half of the module's land area yet carry its lowest average density. Interior caribou hunting territories around Hamilton Inlet and Lake Melville supported Innu (Montagnais-Naskapi) groups, while the outer Labrador fjords from Groswater Bay to Nain, Okak and Ramah Bay sustained Maritime Archaic lithic networks, Palaeo-Eskimo sealers and late pre-contact Thule-Inuit whaling villages [@fitzhugh1972; @renouf1999; @butler2014resistance].
+
+```{r tbl-subregions, results='asis'}
+sub_rows <- lapply(reg_keys, function (rk) {
+  r <- mod_data$regions[[rk]]
+  a <- as.numeric(r$area_km2)
+  data.frame(
+    Region = clean_text(r$name),
+    Area = paste0(viscount_fmt_number(a, 0L), " (", viscount_fmt_number(a / tot_area * 100, 1L), "%)"),
+    P5000BC = viscount_fmt_pop(r$population[["-5000"]]),
+    P0AD = viscount_fmt_pop(r$population[["0"]]),
+    P1000AD = viscount_fmt_pop(r$population[["1000"]]),
+    P1500AD = viscount_fmt_pop(r$population[["1500"]]),
+    P1600AD = viscount_fmt_pop(r$population[["1600"]]),
+    Density1500 = viscount_fmt_number(as.numeric(r$population[["1500"]]) / a * 100, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+df_sub <- do.call(rbind, sub_rows)
+df_tot <- data.frame(
+  Region = "Regional Total",
+  Area = paste0(viscount_fmt_number(tot_area, 0L), " (100%)"),
+  P5000BC = viscount_fmt_pop(mod_data$summary$headline_population_by_benchmark[["-5000"]]),
+  P0AD = viscount_fmt_pop(mod_data$summary$headline_population_by_benchmark[["0"]]),
+  P1000AD = viscount_fmt_pop(mod_data$summary$headline_population_by_benchmark[["1000"]]),
+  P1500AD = viscount_fmt_pop(tot_1500),
+  P1600AD = viscount_fmt_pop(tot_1600),
+  Density1500 = viscount_fmt_number(tot_1500 / tot_area * 100, 2L),
+  stringsAsFactors = FALSE
+)
+df_sub <- rbind(df_sub, df_tot)
+rownames(df_sub) <- NULL
+viscount_table(
+  df_sub,
+  "Sub-regional land area, benchmark populations and 1500AD density (persons per 100 km²) across the Atlantic Maritimes, Newfoundland and Labrador.",
+  c("Sub-Region", "Area km² (Share)", "5000BC", "0AD", "1000AD", "1500AD", "1600AD", "1500AD Density"),
+  list(label = "tab:subregions", font_size = "scriptsize")
+)
+```
+
+# Methodology
+
+## Ethnohistoric Anchors and Radiocarbon Series
+
+Benchmark population trajectories across 23 chronological intervals from 10000BC to 1600AD combine ethnohistoric carrying-capacity estimates at contact with regional radiocarbon series [@miller1976; @pastore1992; @kelly2025]. For Mi'kma'ki and the Wolastoq-Miramichi basin, Miller's critical re-evaluation of sixteenth- and early seventeenth-century French missionary, Biard and Denys accounts anchors pre-epidemic Mi'kmaq and Wabanaki population bounds around 1500AD before documenting contact mortality [@miller1976; @prins1996; @gutekunst2009wabanaki]. For Newfoundland and Labrador, regional trajectories reflect archaeological site-density pulses separating Maritime Archaic, Groswater, Dorset, Beothuk, Innu and Thule-Inuit phases [@fitzhugh1972; @renouf1999; @pastore1992; @harris2019dorset].
+
+Each benchmark post-emergence carries a symmetric plus or minus 8% structural uncertainty band, grounded in archaeological hearth-area and band-territory estimates [@ubelaker2006; @prins1996]. At 10000BC, all four divisions stand at zero because Laurentide and local Maritime ice caps still covered central plateaus and blocked interior river valleys [@macdonald1968; @mckillop2019they].
+
+## Multi-Registry Spatial Disaggregation
+
+Rural population allocation across the 11.233 5-arcminute pixels of the Maritime provinces, Newfoundland and Labrador uses the continental North American non-stationary Matérn ($\nu = 3/2$) residual kriging model spanning 18,56M km² (493.687 valid land cells, with 78.938 to 149.138 active inhabited non-wasteland cells across 10 Holocene horizons from 13000BC to 1650AD). The underlying composite integrates p3k14c [@bird2022p3k14c] and C14bazAAR radiocarbon dates with Canadian archaeological radiocarbon records, Newfoundland and Labrador coastal survey inventories and CENTAUR monument records.
+
+Deduplicating by catchment and 200-year chronological bin yields 93.129 unique site-periods (286.193 horizon site records) across 3.833 domestic Voronoi catchments (15.517.268 km², or 15,52M km²; 2.570 active inhabited catchments, 67,05% coverage; equivalent circular radius median 29,48 km and 90th percentile 40,95 km overall, 29,3 km and 39,85 km across active catchments; square-root-area median 52,25 km and 90th percentile 72,66 km), delivering an effective point density 14,24x higher than the 6.539-record legacy global radiocarbon baseline inside the North American mask. An outer belt of 251 cross-frontier catchments extending up to 300 km joins coastal New Brunswick and Nova Scotia continuously with Maine across the Passamaquoddy border and links western Labrador and Gaspe smoothly with Quebec [@kelly2025; @wallace2003].
+
+Within each of the ten Holocene horizons (13000BC to 1650AD), weighted least squares residual kriging estimates site density using five biophysical covariates: terrain habitability, natural agro-ecological suitability, ecozone productivity, 13,5 km exponential fluvial distance and coastal proximity. Along the indented coasts of Nova Scotia, Newfoundland and Nunatsiavut, coastal proximity exerts primary control, packing predicted population onto sheltered coves, estuaries and nearshore islands rather than interior barrens.
+
+## Settlement Subtraction and Island Continuity
+
+Before scaling rural pixels across the Atlantic regional land mask, the disaggregation pipeline subtracts the active benchmark populations of 159 catalogued coastal, riverine and island sites from their parent sub-region. Two separable 4-pixel smoothing passes then reconcile borders shared with Hudson Bay, the Saint Lawrence Basin and New England (HU 01) across the Restigouche, Saint John and St. Croix watersheds while preserving exact sub-regional sums. Island territories, including Prince Edward Island, Cape Breton, Newfoundland, Saint-Pierre-et-Miquelon and the Magdalen littoral, retain bounded offshore weights without overland leakage.
+
+# Testing and Validation
+
+All regional spatial, variogram and ledger checks pass with zero errors as of 18 November 2026 GMT+0:
+
+1. **Kriging Sharpness and Fit**: Across all ten Holocene horizons of the North American surface, regularised dimensionless short-range correlation equals $\tau_1 = 1,35$ on every horizon (raw $\tau_1$ ranging from 1,519 to 1,6098, mean 1,5782; effective short range 45,23 km to 47,94 km, mean 47 km, within the 1,8 ceiling) and long-range scale equals $\tau_2 = 2,9025$ (2,9). Unregularised variogram nugget-to-sill ratio measures 0 across all ten horizons, regularised uniformly at 0,04 ($\eta = 0,0417$, well below 0,45), and WLS residual $R^2$ holds between 0,9990 and 0,9992 (Table \ref{tab:horizons}).
+2. **Gazetteer and Ledger Reconciliation**: Cross-checking the regional settlement gazetteer against the source ledger accounts for all 332 candidates, comprising 159 included settlements and 173 excluded duplicate-alias consolidations within 2 km of canonical sites (such as the Oxbow locality merged into Metepenagiag), with zero unaccounted candidates and zero coordinate or schema errors.
+3. **Chronological Alignment**: Newfoundland sub-regional troughs between 600AD and 800AD (3,5k to 3,3k) match radiocarbon and isotopic evidence for Late Dorset decline prior to Little Ice Age and Recent Indian shifts [@renouf1999; @harris2019dorset; @teal2001archaeological], while the brief 1000AD bump (3,6k) captures the Vinland presence at L'Anse aux Meadows [@wallace2003; @ingstad1985].
+4. **Seam Continuity**: Multi-pass border smoothing across the Gaspe Peninsula, New Brunswick-Maine border and northern Quebec-Labrador divide removes artificial provincial or international discontinuities.
+
+```{r tbl-horizons, results='asis'}
+horizon_labels <- c(
+  palaeoindian_early_archaic = "1. Palaeoindian and Early Archaic (13000-6000BC)",
+  middle_archaic = "2. Middle Archaic (6000-3000BC)",
+  late_archaic = "3. Late Archaic (3000-1000BC)",
+  early_woodland_formative = "4. Early Woodland and Formative (1000-200BC)",
+  middle_woodland_hopewell = "5. Middle Woodland Hopewell (200BC-400AD)",
+  late_woodland_dorset = "6. Late Woodland and Dorset (400-800AD)",
+  early_mississippian_pueblo_ii = "7. Early Mississippian and Pueblo II (800-1100AD)",
+  middle_mississippian_pueblo_iii = "8. Middle Mississippian and Pueblo III (1100-1300AD)",
+  late_precontact_thule_oneota = "9. Late Pre-Contact, Oneota and Thule (1300-1500AD)",
+  protohistoric_contact_horizon = "10. Protohistoric Contact Horizon (1500-1650AD)"
+)
+h_keys <- names(diag_na$variogram_models)
+h_rows <- lapply(h_keys, function (hk) {
+  vm <- diag_na$variogram_models[[hk]]
+  data.frame(
+    Horizon = horizon_labels[[hk]],
+    Tau1 = viscount_fmt_number(vm$tau1_dimensionless, 4L),
+    RangeKm = viscount_fmt_number(vm$effective_short_range_km, 2L),
+    RawNugget = viscount_fmt_number(vm$raw_nugget_to_sill_ratio, 4L),
+    RegNugget = viscount_fmt_number(vm$nugget_to_sill_ratio, 4L),
+    R2 = viscount_fmt_number(vm$residual_r2, 4L),
+    stringsAsFactors = FALSE
+  )
+})
+df_hor <- do.call(rbind, h_rows)
+rownames(df_hor) <- NULL
+viscount_table(
+  df_hor,
+  "Variogram calibration across the ten Holocene horizons of the North American kriging surface.",
+  c("Analytical Horizon", "Tau1", "Range (km)", "Raw Nugget", "Reg. Nugget", "Residual R²"),
+  list(label = "tab:horizons", font_size = "scriptsize")
+)
+```
+
+# Results
+
+## Debert Palaeoindians to Maritime Archaic Expansion (10000BC to 2000BC)
+
+Following final retreat of the Cobequid and Chignecto ice lobes, Palaeoindian caribou hunters camped on glacial-outwash terraces at Debert in central Nova Scotia by 9000BC (90 peak at site, 300 regional total across Nova Scotia and New Brunswick) [@macdonald1968; @mckillop2019they]. As post-glacial spruce forests and coastal lagoons matured across emergent shorelines, population rose to 1k in 8000BC, anchored on Prince Edward Island at St. Peter's Bay (260 peak, starting 8000BC) while Newfoundland and Labrador remained largely ice-bound until 7500BC. Once the Strait of Belle Isle cleared, Maritime Archaic pioneers occupied Pinware Hill (45 at 7000BC, peaking at 75 by 5000BC) and built the deep-stratified mound and marine-hunting camp at L'Anse Amour (starting 6000BC, 180 peak) [@tuck1976; @fitzhugh1972].
+
+Between 7000BC (2,6k) and 2000BC (21k), the Maritime Archaic tradition reached every coast from Minas Basin to northern Labrador. Swordfish hunting, deep-water cod fishing and harp-seal sealing sustained multi-century coastal hubs at Port au Choix (420 peak, occupied from 2000BC), Sheshatshiu (290 peak from 3000BC), Beaches on Bonavista Bay (220 peak from 3000BC), Gould (190 peak from 3000BC), Hamilton Inlet (Groswater Bay) (210 peak from 3000BC) and northern quarrying and habitation camps at Ramah Bay (130 peak from 4000BC) and Nukasusutok (170 peak from 3500BC) [@tuck1976; @fitzhugh1972; @teal2001archaeological]. Total population rose from 5,3k in 6000BC to 8,9k in 5000BC, 13k in 4000BC and 17,3k in 3000BC before reaching 21k in 2000BC.
+
+## Woodland Ceremonialism, Dorset Sealers and Norse Vinland (1000BC to 1300AD)
+
+During the first millennium BC, Adena-influenced Woodland mound and burial ritual took root in New Brunswick river valleys while coastal shell-midden villages expanded across Nova Scotia and Prince Edward Island [@prins1996; @halwas2006where]. At Metepenagiag (Oxbow and Augustine Mound) on the Miramichi River (620 peak, starting 1000BC), deep stratified salmon terraces and copper-bearing burial mounds anchored the earliest major Early Woodland ceremonial and riverine hub on the Miramichi, alongside the long-lived estuarine centre at Saint John Reversing Falls Capital (210 in 500BC, rising to 520 by 400AD and 890 by 1500AD). Nearby Mi'kmaq coastal and river settlements at Truro Cobequid Capital (810 peak), Annapolis Royal Equille Capital (760), Fredericton Saint John River Town (740), Bridgewater LaHave Capital (730), Kejimkujik-Merigomish (580 peak from 1000BC), Eel Bridge (260), Grand-Pré (340 from 500BC), St. Croix (240), Minister's Island (260) and Weir (220) expanded steadily, lifting regional numbers from 24,4k in 1000BC to 27,6k at 0AD, 31,05k in 400AD and 33,1k in 800AD [@prins1996; @halwas2006where].
+
+On Newfoundland and the Labrador coast, two distinct Palaeo-Eskimo waves, Groswater and Dorset, exploited sea-ice leads for harp seal while excavating soapstone vessels at Fleur de Lys and hunting interior caribou [@renouf1999; @erwin2001prehistoric; @harris2019dorset]. Newfoundland peaked early at 3,7k around 400AD during the Middle Dorset florescence at Port au Choix and Pointe Riche (190 peak), eased to 3,3k by 800AD as Dorset bands contracted northward, and rose briefly to 3,6k around 1000AD when Thule-era and Recent Indian occupations coincided with the short-lived Norse Vinland overwintering station at L'Anse aux Meadows (110 inhabitants) [@wallace2003; @ingstad1985; @teal2001archaeological]. Thereafter, Beothuk ancestors consolidated in coastal bays around Boyd's Cove Beothuk Capital (380), Beaches Caribou House Town (360) and Boyd's Cove (260) (3,5k across 1100AD to 1500AD), while Thule-Inuit pioneers expanded along northern Labrador around Okak (290) and Nain (260) [@pastore1992; @fitzhugh1972].
+
+## Late Pre-Contact Equilibrium and Atlantic Decline (1300AD to 1600AD)
+
+Between 1000AD (34,4k) and 1500AD (36k), population growth slowed to 0,91% per century (0,009% per year) as estuarine carrying capacities approached saturation without widespread intensive maize cultivation north of southern New Brunswick [@prins1996; @miller1976]. In 1500AD, Mi'kma'ki held 16,5k inhabitants (45,8% at 28,73 per 100 km²), the Wolastoq-Miramichi basin held 11k (30,6% at 15,53 per 100 km²), Labrador held 5k (13,9% at 1,61 per 100 km²) and Newfoundland held 3,5k (9,7% at 3,28 per 100 km²) (Figures \ref{fig:traj} and \ref{fig:shares}, Table \ref{tab:density}). Palisaded river centres and regional capitals such as Saint John Reversing Falls Capital (890 peak at 1500AD), Truro Cobequid Capital (810), Annapolis Royal Equille Capital (760), Fredericton Saint John River Town (740), Bridgewater LaHave Capital (730), Meductic (480 peak, 1300AD to 1600AD), Beaubassin (380, 1100AD to 1600AD), Malpeque (310), Melanson (310), Geganisg (280), Rustico Island (260) and Boyd's Cove (260) anchored late pre-contact regional trade [@prins1996; @pastore1992].
+
+Soon after 1500AD, however, Basque, Breton, Norman, Portuguese and West Country English cod-drying stages and Strait of Belle Isle whaleboat stations transformed coastal epidemiology [@miller1976; @chittick2011pride; @aylward2014beothuk]. Acute Old World respiratory and viral pathogens introduced along seasonal drying beaches and summer fur-trade landings eroded coastal bands well before permanent French colonies appeared at Port-Royal in 1605AD. Regional population fell from 36k in 1500AD to 33k in 1550AD and 27,8k in 1600AD (-22,78%, Table \ref{tab:master}), driven by sharp losses in Newfoundland (-31,4%, from 3,5k to 2,4k), Mi'kma'ki (-26,1%, from 16,5k to 12,2k) and the Wolastoq basin (-21,8%, from 11k to 8,6k), whereas northern Labrador declined more modestly (-8%, from 5k to 4,6k) [@miller1976; @pastore1992; @butler2014resistance].
+
+```{r fig-traj, results='asis'}
+viscount_figure(
+  "figures/fig2_maritimes_trajectory.png",
+  "Demographic trajectory of the Atlantic Maritimes, Newfoundland and Labrador from 10000BC to 1600AD showing the 1500AD peak (36k) and post-1500AD contact decline.",
+  "fig:traj"
+)
+```
+
+```{r fig-shares, results='asis'}
+viscount_figure(
+  "figures/fig3_maritimes_shares.png",
+  "Sub-regional population shares across the Atlantic Maritimes, Newfoundland and Labrador from 9000BC to 1600AD.",
+  "fig:shares"
+)
+```
+
+## Sub-Regional Density Gradients and Settlement Hierarchy
+
+Population densities across the four divisions reflect a nearly eighteen-fold divergence between warm-water maritime bays and subarctic plateaus (Table \ref{tab:density}). At 5000BC, Nova Scotia and Prince Edward Island already carried 6,27 persons per 100 km², climbing to 20,55 at 0AD and 28,73 at 1500AD, while the Wolastoq-Miramichi basin rose from 3,81 at 5000BC to 11,72 at 0AD and 15,53 at 1500AD. By contrast, Newfoundland peaked at 3,47 persons per 100 km² in 400AD (3,28 in 1500AD) and Labrador never exceeded 1,61 persons per 100 km². Across the 159 catalogued sites, the Wolastoq-Miramichi basin accounts for 65 sites (peak sum 28.390), Mi'kma'ki 61 (27.230), Labrador 18 (3.320) and Newfoundland 15 (3.475, Table \ref{tab:subreg-sites}). Epochal growth rates likewise decelerated smoothly from 0,085% per year across 9000BC to 5000BC down to 0,009% per year across 1000AD to 1500AD before reversing to -0,258% per year during the sixteenth-century contact shock (Table \ref{tab:eras}).
+
+```{r tbl-density, results='asis'}
+dens_yrs <- c("-5000", "0", "1000", "1400", "1500", "1600")
+dens_rows <- lapply(reg_keys, function (rk) {
+  r <- mod_data$regions[[rk]]
+  a <- as.numeric(r$area_km2)
+  dvals <- vapply(dens_yrs, function (yr) {
+    viscount_fmt_number(as.numeric(r$population[[yr]]) / a * 100, 2L)
+  }, character(1))
+  data.frame(
+    SubRegion = clean_text(r$name),
+    D5000BC = dvals[1],
+    D0AD = dvals[2],
+    D1000AD = dvals[3],
+    D1400AD = dvals[4],
+    D1500AD = dvals[5],
+    D1600AD = dvals[6],
+    stringsAsFactors = FALSE
+  )
+})
+df_dens <- do.call(rbind, dens_rows)
+rownames(df_dens) <- NULL
+viscount_table(
+  df_dens,
+  "Sub-regional population density (persons per 100 km²) across six benchmarks from 5000BC to 1600AD.",
+  c("Sub-Region", "5000BC", "0AD", "1000AD", "1400AD", "1500AD", "1600AD"),
+  list(label = "tab:density", font_size = "scriptsize")
+)
+```
+
+```{r tbl-subreg-sites, results='asis'}
+site_rows <- lapply(reg_keys, function (rk) {
+  sub_s <- Filter(function (s) identical(s$region, rk), set_data)
+  pks <- vapply(sub_s, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+  ord <- order(-pks)
+  top3 <- vapply(ord[seq_len(min(3L, length(ord)))], function (idx) {
+    paste0(clean_text(sub_s[[idx]]$name), " (", viscount_fmt_pop(pks[idx]), ")")
+  }, character(1))
+  data.frame(
+    SubRegion = clean_text(mod_data$regions[[rk]]$name),
+    Sites = viscount_fmt_number(length(sub_s), 0L),
+    PeakSum = viscount_fmt_number(sum(pks), 0L),
+    MedianPeak = viscount_fmt_number(median(pks), 0L),
+    LeadingThree = paste(top3, collapse = "; "),
+    stringsAsFactors = FALSE
+  )
+})
+df_sites <- do.call(rbind, site_rows)
+rownames(df_sites) <- NULL
+viscount_table(
+  df_sites,
+  "Distribution of the 159 catalogued settlements across the four Maritimes divisions by peak sum and leading centres.",
+  c("Sub-Region", "Sites", "Sum of Peaks", "Median Peak", "Leading Three Settlements"),
+  list(label = "tab:subreg-sites", font_size = "scriptsize")
+)
+```
+
+```{r tbl-eras, results='asis'}
+era_specs <- list(
+  list("Palaeoindian to Middle Archaic", "-9000", "-5000"),
+  list("Maritime Archaic to Early Woodland", "-5000", "0"),
+  list("Woodland, Dorset and Vinland Horizon", "0", "1000"),
+  list("Late Pre-Contact Coastal Equilibrium", "1000", "1500"),
+  list("Sixteenth-Century Maritime Contact", "1500", "1600")
+)
+hl <- mod_data$summary$headline_population_by_benchmark
+era_rows <- lapply(era_specs, function (sp) {
+  y0 <- as.numeric(sp[[2]])
+  y1 <- as.numeric(sp[[3]])
+  p0 <- as.numeric(hl[[sp[[2]]]])
+  p1 <- as.numeric(hl[[sp[[3]]]])
+  pct <- (p1 - p0) / p0 * 100
+  yrs_span <- y1 - y0
+  cagr <- ((p1 / p0)^(1 / yrs_span) - 1) * 100
+  data.frame(
+    Era = sp[[1]],
+    Span = paste0(fmt_yr(y0), " to ", fmt_yr(y1)),
+    StartPop = viscount_fmt_pop(p0),
+    EndPop = viscount_fmt_pop(p1),
+    NetChange = paste0(ifelse(pct >= 0, "+", ""), viscount_fmt_number(pct, 1L), "%"),
+    AnnualRate = paste0(viscount_fmt_number(cagr, 3L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+df_eras <- do.call(rbind, era_rows)
+rownames(df_eras) <- NULL
+viscount_table(
+  df_eras,
+  "Epochal population transitions and implied annualised growth rates across the Atlantic Maritimes, Newfoundland and Labrador.",
+  c("Cultural Horizon", "Span", "Start Pop.", "End Pop.", "Net Change", "Annual Rate"),
+  list(label = "tab:eras", font_size = "scriptsize")
+)
+```
+
+```{r tbl-master, results='asis'}
+master_rows <- lapply(all_years, function (yr) {
+  vals <- vapply(reg_keys, function (rk) {
+    viscount_fmt_pop(mod_data$regions[[rk]]$population[[yr]])
+  }, character(1))
+  tot_v <- as.numeric(mod_data$summary$headline_population_by_benchmark[[yr]])
+  b_low <- round(tot_v * 0.92)
+  b_high <- round(tot_v * 1.08)
+  data.frame(
+    Year = fmt_yr(yr),
+    Mikmaki = vals[1],
+    Wolastoq = vals[2],
+    Newfoundland = vals[3],
+    Labrador = vals[4],
+    Total = viscount_fmt_pop(tot_v),
+    Interval = paste0(viscount_fmt_pop(b_low), " to ", viscount_fmt_pop(b_high)),
+    stringsAsFactors = FALSE
+  )
+})
+df_master <- do.call(rbind, master_rows)
+rownames(df_master) <- NULL
+viscount_table(
+  df_master,
+  "Twenty-three benchmark population estimates for the Atlantic Maritimes, Newfoundland and Labrador (10000BC to 1600AD) with 8% aggregate bounds.",
+  c("Year", "Mi'kma'ki", "Wolastoq-NB", "Newfoundland", "Labrador", "Total", "8 pct Bounds"),
+  list(label = "tab:master", font_size = "scriptsize")
+)
+```
+
+## Maritime Subsistence, Shell Middens and Seasonal Mobility
+
+Unlike Iroquoian southern Ontario or New England river valleys where maize surpluses anchored permanent palisaded towns, pre-contact demography in Atlantic Canada depended on finely timed seasonal transhumance across coastal and riverine ecotones [@prins1996; @hicks2017travelling]. During spring and early summer, bands gathered at tidal river mouths and sheltered estuaries, such as Clam Cove, Melanson, Bear River, Jemseg Crossing and Miramichi, to harvest alewife, salmon, striped bass, soft-shell clams and migratory waterfowl [@halwas2006where; @mckillop2019they]. In winter, interior moose and woodland caribou hunting dispersed groups across snow-covered ridges, keeping regional densities bounded even along fertile alluvial bays.
+
+On Newfoundland and Labrador, isotopic reconstructions of human bone collagen demonstrate stark dietary separation between marine-specialised Dorset Palaeo-Eskimo sealers and broad-spectrum Beothuk foragers who combined Atlantic salmon, seabirds and seasonal caribou drives across Red Indian Lake and Notre Dame Bay [@harris2019dorset; @pastore1992]. High coastal productivity along the Strait of Belle Isle supported specialised stone tool exchange: translucent Ramah quartzite quarried in northern Labrador circulated more than 1.500 km southward into Maritime Archaic burials and New England camps centuries before European arrival [@fitzhugh1972; @tuck1976].
+
+## Cross-Border Continuity Across Acadia, Gaspe and Northern Labrador
+
+Because Indigenous maritime networks linked Passamaquoddy Bay with the Penobscot coast and joined the Miramichi and Restigouche valleys with the lower St. Lawrence, the North American kriging surface conditions regional edges across New England (HU 01), the Saint Lawrence Basin and Hudson Bay up to 300 km beyond the Maritimes perimeter. Across the Strait of Belle Isle and Cabot Strait, offshore maritime proximity weights capture dense coastal resource use without artificial breaks across inter-provincial channels [@wallace2003; @renouf1999].
+
+At the 1600AD terminal benchmark, this demographic distribution transitions directly into the Colonial Canada to 1763AD module, when early French seasonal stations in Mi'kma'ki and Acadia (Port-Royal, Beaubassin and Grand-Pré) and seasonal West Country English stages in eastern Newfoundland (Ferryland and St. John's) superimposed European fishing settlements atop long-established Indigenous maritime harbours [@prins1996; @watton2016coastal; @chittick2011pride].
+
+# Limitations
+
+Four taphonomic and archival constraints shape this reconstruction. First, Holocene relative sea-level rise along the Bay of Fundy, southern Nova Scotia and Ferryland submerged early coastal shell middens and drowned low-lying river terraces, biasing surviving radiocarbon dates toward interior river banks and isostatically uplifted northern beaches in Labrador and the Strait of Belle Isle [@tuck1976; @mckillop2019they; @watton2016coastal]. Although the continental coastal covariates offset raw site omission along southern shores, deep-time maritime densities before 4000BC retain wide spatial uncertainty.
+
+Second, sixteenth-century population contractions between 1500AD and 1600AD precede systematic French parish or Jesuit tallies in Acadia and English censuses in Newfoundland, requiring retrospective demographic ratios drawn from early seventeenth-century eyewitness accounts [@miller1976; @prins1996; @aylward2014beothuk]. Third, Beothuk retreat into interior Newfoundland after 1550AD moved settlement away from visible coastal bays, complicating direct site-count comparisons across the contact threshold [@pastore1992; @harris2019dorset]. Fourth, seasonal cross-strait Mi'kmaq voyages linking Cape Breton and southern Newfoundland blur rigid island-versus-mainland boundaries during the late pre-contact and early historic eras [@butler2014resistance; @prins1996].
+
+# Conclusion
+
+From post-glacial caribou hunters at Debert (9000BC) to late pre-contact Mi'kmaq, Wolastoqiyik, Beothuk, Innu and Inuit maritime networks (36k in 1500AD), human density in Atlantic Canada tracked estuarine fish, shellfish and seal concentrations rather than agricultural soil zones. Anchored to the North American kriging surface (93.129 unique site-periods, regularised $\tau_1 = 1,35$, raw nugget 0, regularised nugget-to-sill 0,04, WLS $R^2 = 0,9990$ to $0,9992$) and 159 catalogued sites, CENTAUR-II resolves the steep carrying-capacity contrast separating southern Maritime tidal basins (28,73 per 100 km²) from subarctic Labrador (1,61 per 100 km²) and captures the 22,78% demographic contraction triggered by sixteenth-century North Atlantic European contact prior to colonial settlement.
+
+# Sources
+
+<div id="refs"></div>

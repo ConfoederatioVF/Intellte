@@ -1,0 +1,332 @@
+---
+title: "Pre-Columbian Eastern Amazon Basin: Marajoara, Tapajonic, Xinguano and Tocantins-Araguaia Polities"
+subtitle: "PRETA: Fluvial Ecology, Anthropogenic Dark Earths and Demographic Trajectories (10000BC to 1542AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: eastern_amazon_basin_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_eastern_amazon_basin_spatial.png"
+hero_caption: "Six hydrological divisions and 563 catalogued settlements across the Eastern Amazon Basin (2,69M km²) from 10000BC to 1542AD, contrasting estuarine mound centres with várzea urban polities and southern ring-ditch networks."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+The Eastern Amazon Basin (2,69M km², encompassing 2.685.138 km² and 31.860 active 5-arcminute terrestrial cells) supported some of the densest and most socially differentiated sedentary societies in lowland South America. From the estuarine mound complexes of Marajó Island and the fortified towns of the lower Amazonian várzea to the proto-urban galactic clusters of the Upper Xingu and the ring-ditch defensive networks along the southern savannah-forest ecotone, pre-Columbian populations transformed Amazonian landscapes into engineered cultural mosaics. Combining aquatic resource extraction from nutrient-rich white-water floodplains with intensive multi-cropping on anthropogenic dark earths (Terra Preta do Índio), these societies sustained demographic scales long thought impossible under classic environmental-determinist models of tropical forest limitation.
+
+Reconstructed across six physiographic and hydrological divisions from 10000BC to 1542AD under PRETA, regional population expanded from 12,48k foragers in 10000BC during terminal Pleistocene colonisation to 85,8k in 5000BC following early ceramic and horticultural development. Growth accelerated markedly through the Formative and late pre-Columbian eras as permanent anthrosols formed and regional interaction spheres coalesced, reaching 608,4k at 0AD, 1,11M in 800AD, 1,28M in 1000AD and a pre-contact peak of 1,56M inhabitants by 1500AD (yielding an aggregate density of 58,09 persons per 100 km²). Following initial European contact along the main Amazonian stem by Francisco de Orellana in 1541 to 1542, the population receded to 1,5M by 1542AD as early epidemiological shocks and social dislocation commenced.
+
+Demographic mass remained heavily concentrated along the principal fluvial thoroughfares. By 1500AD, the Lower Amazon Várzea, Trombetas and Monte Alegre division (360k inhabitants, 23,08% of regional population) together with the Tapajós, Santarém and Maués-Abacaxis Basin (330k, 21,15%) and the Amazon Estuary, Marajó Island and Amapá Coast (285k, 18,27%) concentrated 62,5% of all inhabitants on 52,3% of regional land area. The estuarine division attained the highest sub-regional density at 99,08 persons per 100 km², sustained by seasonal fish runs, palm agroforestry and massive earthen settlement mounds. In contrast, the southern headwater basins of the Xingu (245k, 48,54 persons per 100 km²), Lower Tocantins (175k, 47,36 persons per 100 km²) and Upper Tocantins-Araguaia (165k, 40,53 persons per 100 km²) sustained moderate densities through clustered ditch settlements, seasonal cerradão gathering and riverine terrace agriculture.
+
+This historical demographic synthesis combines 563 catalogued settlement trajectories with systematic pedological mapping of anthropogenic dark earths, remote sensing survey data, stratigraphic radiocarbon chronologies and early colonial chronicles. By anchoring settlement subtraction against regional archaeological horizons, the reconstruction eliminates persistent modern biases that treated Amazonia as an untouched wilderness prior to European arrival, demonstrating that high regional population densities and monumental landscape modifications were hallmarks of late pre-Columbian Eastern Amazonia.
+
+# Fluvial Ecology and Regional Sub-Divisions
+
+## Hydrochemical Gradients and Carrying Capacity
+
+The ecological architecture of Eastern Amazonia is governed by steep contrasts in water chemistry, suspended sediment transport and soil formation across three major fluvial categories [@neves2021chapter8; @roosevelt2016method]. White-water rivers, principally the Amazon trunk stream originating in the Andean cordillera, carry vast sediment loads of mineral-rich silt and clay that deposit across seasonal floodplains (várzea), renewing soil fertility annually and supporting prolific aquatic biomass, migratory fish runs and root-crop cultivation [@clement2015domestication].
+
+Clear-water rivers, including the Tapajós, Xingu and Tocantins, drain the ancient, weathered crystalline shields of Guiana and Central Brazil. Carrying negligible suspended silt, these rivers sustain lower floodplain deposition but form wide, lake-like estuaries and stable terrace bluffs that afforded dry, flood-free residential platforms directly adjacent to reliable river fisheries [@stenborg2012location; @heckenberger2008urbanism]. Black-water tributaries, rich in dissolved humic acids, drain nutrient-poor podzols, supporting lower aquatic productivity but serving as navigable trade corridors connecting interior terra firme zones with the main fluvial stem [@iriarte2020origins].
+
+These hydrological dynamics determined the spatial concentration of human settlement. Whereas extensive interfluvial terra firme forests required shifting cultivation and managed agroforestry, the margins of major white-water floodplains and clear-water confluences permitted continuous, high-density residential nucleation.
+
+## Six Hydrological Divisions
+
+PRETA partitions the Eastern Amazon Basin into six physiographically coherent sub-regions bounded by major watersheds, tectonic arches and estuary mouths (Table \ref{tab:subregions}):
+
+### Amazon Estuary, Marajó Island and Amapá Coast
+
+The Amazon Estuary, Marajó Island and Amapá Coast (287.652 km², 10,71% of regional area) spans the deltaic labyrinth where the Amazon and Tocantins rivers discharge into the Atlantic Ocean. Dominated by tidal varzea, brackish mangroves and the interior savannas of Marajó Island, this division supported the celebrated Marajoara earthwork builders [@meggers1957marajo; @roosevelt1991moundbuilders; @schaan2008nonagricultural]. Seasonal flooding across eastern Marajó concentrates millions of fish in shrinking lakes, enabling intensive protein harvesting that sustained elite residential mounds at Camutins, Pacoval and Teso dos Bichos. By 1500AD, the division reached 285k inhabitants (99,08 persons per 100 km²), representing the densest agrarian-aquatic adaptation in the basin.
+
+### Lower Amazon Várzea, Trombetas and Monte Alegre
+
+Stretching from the mouth of the Rio Negro confluence east to the confluence of the Xingu, the Lower Amazon Várzea, Trombetas and Monte Alegre division (468.035 km², 17,43%) encompasses the broadest active floodplain in the Amazon system, flanked by sandstone plateaus at Monte Alegre and northern Guiana Shield tributaries such as the Trombetas, Nhamundá and Paru [@roosevelt1996cave; @campos2026use]. This corridor supported stratified riverine towns documented by sixteenth-century explorers, including the Konduri ceramic culture and the eastern margin of the Omagua-Tapajó contact zone. Population peaked at 360k in 1500AD (76,92 persons per 100 km²), sustained by intensive floodplain farming, turtle corraling and dark-earth bluff settlements at Santarém, Belterra, Óbidos and Juruti.
+
+### Tapajós, Santarém and Maués-Abacaxis Basin
+
+The Tapajós, Santarém and Maués-Abacaxis Basin (648.057 km², 24,13%) comprises the massive clear-water drainage of the Tapajós River, extending from its headwaters in the Chapada dos Parecis north to its confluence with the Amazon at Santarém [@gomes1997bibliografia; @stenborg2012location; @furtado2013metodo]. Centred on the sprawling urban settlement of the Tapajó principal chiefdom at Aldeia and Porto de Santarém, this basin acted as a pivotal hub of late pre-Columbian political integration, trade and ceramic craftsmanship. By 1500AD, population reached 330k (50,92 persons per 100 km²), supported by vast anthropogenic soil sheets at Belterra and extensive riverine communication networks.
+
+### Lower and Upper Xingu Basin
+
+Draining north from the southern Mato Grosso highlands to the Amazonian main stem, the Lower and Upper Xingu Basin (504.712 km², 18,8%) encompasses both the rocky cataracts of Volta Grande and the upper basin headwaters around the Culuene and Batovi rivers [@heckenberger2003amazonia; @heckenberger2008urbanism]. In the Upper Xingu, Kuikuro-speaking and related populations constructed an integrated network of fortified garden cities, circular plaza villages, ditch-and-palisade defensive perimeters and engineered causeways known archaeologically as the Kuhikugu complex [@heckenberger2005]. Regional population climbed to 245k by 1500AD (48,54 persons per 100 km²), illustrating the capacity of terra firme river basins to sustain high populations through distributed agro-urban networks.
+
+### Lower Tocantins and Carajás
+
+The Lower Tocantins and Carajás division (369.526 km², 13,76%) spans the lower reaches of the Tocantins River below its confluence with the Araguaia, including the mineral-rich serras of Carajás [@magalhaes2005physis]. The archaeological record reveals continuous Holocene occupation from early lithic shelter use to late pre-Columbian ceramic settlements affiliated with the Incised and Punctate Tradition and Macapá ceramics. Population rose to 175k by 1500AD (47,36 persons per 100 km²), with settlements concentrated along river terraces and savanna openings.
+
+### Araguaia, Ilha do Bananal and Upper Tocantins
+
+The southernmost division, Araguaia, Ilha do Bananal and Upper Tocantins (407.156 km², 15,16%), encompasses the expansive floodplain of Ilha do Bananal, the largest fluvial island in the world, and the transition zone between Amazonian evergreen rainforest and the central Brazilian Cerrado [@desouza2018earthbuilders; @walker2015ring]. Communities here engineered ring-ditch earthworks, seasonal lake weirs and fortified villages adapted to wet-season inundations and dry-season savanna hunting. Population reached 165k by 1500AD (40,53 persons per 100 km²).
+
+<figure class="crd-table-figure" id="tab:subregions">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Sub-Region</th><th class="crd-th">Area km² (Share)</th><th class="crd-th">5000BC</th><th class="crd-th">0AD</th><th class="crd-th">1000AD</th><th class="crd-th">1500AD</th><th class="crd-th">1542AD</th><th class="crd-th">1500AD Density</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>1. Amazon Estuary, Marajó Island and Amapá Coast</strong></td><td class="crd-td">287.652 (10,7%)</td><td class="crd-td">15,7k</td><td class="crd-td">111,2k</td><td class="crd-td">233,7k</td><td class="crd-td">285k</td><td class="crd-td">273,6k</td><td class="crd-td">99,08</td></tr>
+<tr><td class="crd-td"><strong>2. Lower Amazon Várzea, Trombetas and Monte Alegre</strong></td><td class="crd-td">468.035 (17,4%)</td><td class="crd-td">19,8k</td><td class="crd-td">140,4k</td><td class="crd-td">295,2k</td><td class="crd-td">360k</td><td class="crd-td">345,6k</td><td class="crd-td">76,92</td></tr>
+<tr><td class="crd-td"><strong>3. Tapajós, Santarém and Maués-Abacaxis Basin</strong></td><td class="crd-td">648.057 (24,1%)</td><td class="crd-td">18,1k</td><td class="crd-td">128,7k</td><td class="crd-td">270,6k</td><td class="crd-td">330k</td><td class="crd-td">316,8k</td><td class="crd-td">50,92</td></tr>
+<tr><td class="crd-td"><strong>4. Lower and Upper Xingu Basin (Kuhikugu)</strong></td><td class="crd-td">504.712 (18,8%)</td><td class="crd-td">13,5k</td><td class="crd-td">95,5k</td><td class="crd-td">200,9k</td><td class="crd-td">245k</td><td class="crd-td">235,2k</td><td class="crd-td">48,54</td></tr>
+<tr><td class="crd-td"><strong>5. Lower Tocantins and Carajás</strong></td><td class="crd-td">369.526 (13,8%)</td><td class="crd-td">9,6k</td><td class="crd-td">68,2k</td><td class="crd-td">143,5k</td><td class="crd-td">175k</td><td class="crd-td">168k</td><td class="crd-td">47,36</td></tr>
+<tr><td class="crd-td"><strong>6. Araguaia, Ilha do Bananal and Upper Tocantins</strong></td><td class="crd-td">407.156 (15,2%)</td><td class="crd-td">9,1k</td><td class="crd-td">64,3k</td><td class="crd-td">135,3k</td><td class="crd-td">165k</td><td class="crd-td">158,4k</td><td class="crd-td">40,53</td></tr>
+<tr><td class="crd-td"><strong>Regional Total</strong></td><td class="crd-td">2.685.138 (100%)</td><td class="crd-td">85,8k</td><td class="crd-td">608,4k</td><td class="crd-td">1,28M</td><td class="crd-td">1,56M</td><td class="crd-td">1,5M</td><td class="crd-td">58,1</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Sub-regional land area, benchmark populations and 1500AD density across the Eastern Amazon Basin.</figcaption>
+</figure>
+
+# Anthropogenic Soils and Agronomic Intensification
+
+## Pedological Properties of Terra Preta do Índio
+
+A fundamental constraint historically invoked against pre-Columbian demographic expansion in Amazonia was the extreme nutrient poverty of deeply weathered oxisols and ultisols that dominate the tropical lowlands. These acidic soils suffer from severe phosphorus fixation, low cation exchange capacity and toxic aluminium saturation, rendering continuous swidden agriculture unsustainable after two to three cropping cycles [@glaser2004amazonian; @lehmann2003amazonian].
+
+The widespread presence of Amazonian Dark Earths (Terra Preta de Índio, ADE) and brown anthrosols (Terra Mulata) demonstrates that indigenous societies surmounted these pedological barriers through intentional, long-term soil management [@arroyokalin2012dark; @mcmichael2014mapping]. Terra Preta sites are characterised by thick, dark anthropic A-horizons enriched with:
+
+1. High-stability pyrogenic carbon (biochar) produced via low-temperature incomplete combustion of domestic hearth fuels and agricultural residues, providing permanent porous sorption surfaces that resist microbial decomposition over millennia [@glaser2004amazonian].
+2. Extraordinary concentrations of available phosphorus, calcium, magnesium, zinc and manganese derived from the accumulation of mammalian bone apatite, fish skeletons, turtle shells and discarded ceramic sherds [@lehmann2003amazonian; @gomes2015cacareco].
+3. High effective cation exchange capacity (ECEC) and neutral to slightly acidic pH levels (5,5 to 6,8), preventing nutrient leaching under torrential equatorial rainfall.
+
+Whereas Terra Preta formed primarily through domestic midden deposition, waste discard and intensive residence within village perimeters, adjacent Terra Mulata belts formed through broadscale sheet-burning, weed-clearing and mulch addition across peripheral cultivation zones [@woods2009; @neves2008ecology].
+
+## Biochar Stability and Microchemical Dynamics
+
+The extraordinary longevity of Terra Preta soils stems from the molecular architecture of black carbon [@glaser2004amazonian]. Scanning electron microscopy and carbon-13 nuclear magnetic resonance show that pre-Columbian pyrogenic carbon consists of highly aromatic, graphitic sheets resistant to chemical oxidation. Over decades of weathering, the outer surfaces of biochar particles undergo partial oxidation, creating carboxylic and phenolic functional groups that dramatically increase cation exchange capacity.
+
+In natural Amazonian oxisols, cations such as potassium, calcium and magnesium wash away rapidly in acidic runoff. Within ADE matrices, these nutrients bond directly to negatively charged biochar surfaces, while microbial communities proliferate within the microscopic pore network [@lehmann2003amazonian]. The addition of burned bone debris provided a steady release of hydroxyapatite, maintaining available phosphorus levels up to forty times higher than adjacent unmodified soils.
+
+## Ceramic Inclusions and Soil Sponge Dynamics
+
+A diagnostic attribute of Eastern Amazonian ADE horizons is the massive density of weathered ceramic sherds integrated into the soil matrix [@gomes2015cacareco; @arroyokalin2012dark]. Far from accidental waste discard, crushed and fragmented pottery served a vital agronomic role. The porous ceramic fabric acts as a moisture-retaining capillary sponge during dry-season droughts while aerating dense clay soils during torrential downpours.
+
+Moreover, minerals contained in ceramic tempers, including crushed sponge spicules (*cauixi*), tree-bark ash (*caraipé*) and shell grit, slowly weather within the soil solution, releasing secondary silica, potassium and lime into the rhizosphere [@gomes2012cronologia]. At sites like Porto de Santarém and Cedro, ceramic sherds frequently account for twenty to thirty per cent of the total soil volume, functioning as structural soil conditioners that supported permanent intensive polyculture.
+
+## Spatial Distribution and Settlement Scale
+
+Archaeological and soil surveys across Eastern Amazonia document hundreds of distinct ADE sites, ranging from small riverine hamlets of 0,5 to 2 ha up to massive contiguous anthrosol sheets covering 50 to 120 ha [@stenborg2012location; @peripato2023earthworks]. Along the bluff crests overlooking the Tapajós-Amazon confluence, the Belterra plateau exhibits dark-earth sheets extending across dozens of square kilometres, attesting to centuries of sustained residential concentration and agricultural cultivation.
+
+At the Cedro, Porto and Aldeia sites within the city of Santarém, archaeological excavations revealed stratified ADE deposits over two metres deep, packed with millions of ceramic fragments and faunal remains [@gomes1997bibliografia; @gomes2012cronologia; @furtado2013metodo]. Georadar (GPR) and magnetometry profiling confirm that these dark-earth terraces represent continuous, densely packed habitations rather than ephemeral shifting camps.
+
+Recent pan-Amazonian remote sensing models and LiDAR surveys estimate that anthropogenic soils cover between 0,5% and 3% of the Amazon basin, with disproportionate clustering along major river bluffs, lake margins and seasonal floodplains [@peripato2023earthworks; @mcmichael2014mapping]. In the Eastern Amazon, this concentration of nutrient-rich soils created self-sustaining agrarian nuclei that supported sedentary populations at densities an order of magnitude higher than unmanaged terra firme forest.
+
+## Agroforestry, Polyculture and Caloric Scaling
+
+The agrarian foundation of Eastern Amazonian polities was based on a sophisticated multi-tiered polycultural system that combined root crops with intensive tree-crop arboriculture [@clement2015domestication; @iriarte2020origins]. Manioc (*Manihot esculenta*), domesticated in southwestern Amazonia during the Early Holocene, served as the primary carbohydrate staple, processed into storage-stable flours (*farinha*) and toasted flatbreads that supported armies, trade caravans and ceremonial gatherings [@roosevelt2016method; @lombardo2020early].
+
+This root-crop foundation was integrated with domesticated and semi-domesticated perennial tree species:
+- Peach palm (*Bactris gasipaes*), yielding heavy clusters of starch-rich and oil-rich fruits with extraordinary caloric productivity per hectare [@clement2015domestication].
+- Brazil nut (*Bertholletia excelsa*), protected and concentrated in vast groves (*castanhais*) that remain visible today as living artifacts of pre-Columbian silviculture.
+- Cacao (*Theobroma cacao* and *Theobroma speciosum*), cupuaçu, açaí palms (*Euterpe oleracea*), ingá (*Inga edulis*) and pequi (*Caryocar brasiliense*).
+
+In seasonal floodplains, aquatic protein exploitation reached industrial scale. Sixteenth-century accounts by Carvajal describe thousands of giant river turtles (*Podocnemis expansa*) maintained in riverside corrals, ensuring year-round protein reserves during flood peaks when river fishing was dispersed [@heckenberger2003amazonia]. Combined with seasonal manatee hunts, pirarucu (*Arapaima gigas*) spearing and waterfowl netting, this multi-resource economy provided the caloric stability required to sustain large political hierarchies.
+
+# Ceramic Horizons and Architectural Monumentality
+
+## Chronological Horizons
+
+The cultural evolution of Eastern Amazonia is chronicled through six major ceramic horizons spanning seven millennia [@roosevelt2016method; @neves2008ecology; @pydaniel2023lifetimes]:
+
+1. **Early Ceramic Shell-Midden Horizon (6000BC to 2000BC)**: Anchored by Taperinha near Santarém and the Mina shell middens along the Atlantic coast, these represent some of the oldest ceramic traditions in the Americas, contemporaneous with early pottery in northern Colombia and preceded only by early shell-mound foraging [@roosevelt2016method].
+2. **Formative and Incised Traditions (2000BC to 0AD)**: Characterised by the Pocó-Açutuba horizon along the Trombetas and Lower Amazon, featuring finely incised and zoned bichrome pottery associated with early sedentary village life and initial dark-earth formation [@gomes2012cronologia; @neves2008ecology].
+3. **Marajoara Phase (400AD to 1350AD)**: Flamboyant polychrome urns, excised ceramics, ceramic pubic covers (*tangas*) and stools associated with monumental earthen mounds on Marajó Island [@meggers1957marajo; @roosevelt1991moundbuilders; @schaan2008nonagricultural].
+4. **Incised and Punctate (Santarém) Horizon (1000AD to 1542AD)**: Exuberant zoomorphic and anthropomorphic vessels, caryatid bowls, ritual smoking pipes and polished greenstone amulets (*muiraquitãs*) produced by the Tapajonic chiefdom [@gomes1997bibliografia; @lima2024lugar].
+5. **Konduri and Koriabo Ceramic Spheres (1100AD to 1542AD)**: Intricately punctated pottery distributed along the Trombetas, Nhamundá and Guiana Shield drainages, reflecting regional trade spheres linked to the Amazonian trunk stream [@campos2026use; @jesus2025arqueologia].
+6. **Upper Xingu Ceramic Tradition (1000AD to Historic)**: Platter-like ceramic griddles and large cooking cauldrons associated with Kuikuro-ancestral circular villages and ditch complexes [@heckenberger2005].
+
+## Lithic Traditions and Rock Art of the Amazonian Shields
+
+Long before ceramic containers appeared, lithic technologies anchored human adaptations across the sandstone serras and rocky cataracts of Eastern Amazonia [@roosevelt1996cave; @magalhaes2005physis]. At Caverna da Pedra Pintada, Paleoindian foragers manufactured bifacial projectile points from local chert, chalcedony and silicified sandstone. Overlying rock paintings depict geometric mazes, sunbursts, pregnant mammals and stylized anthropomorphs rendered in haematite red, yellow ochre and limonite pigments [@roosevelt1996cave].
+
+Further south in the Serra dos Carajás, caves and rock shelters such as Abrigo do Jon and Gruta do Gavião yielded deep stratigraphic sequences spanning the Early and Middle Holocene [@magalhaes2005physis]. Lithic assemblages transition from unifacial quartz and jasper scraping tools to polished greenstone celts and axes used for forest clearance, canoe manufacturing and woodworking. Along the rapids of the Xingu, Tocantins and Trombetas rivers, monumental petroglyphs carved into basalt riverbed boulders marked seasonal fishing stations and territorial thresholds.
+
+## Marajoara Mound Complexes
+
+On the open floodplains of eastern Marajó Island, human communities engineered massive earthen mounds (*tesos*) to escape annual wet-season inundations from January to June [@roosevelt1991moundbuilders; @schaan2008nonagricultural]. Rather than isolated refuge mounds, these sites formed hierarchical clusters linked to seasonal aquatic management.
+
+At the Camutins site along the Anajás River, Schaan documented a complex of forty earthen mounds distributed over ten kilometres of riverfront [@schaan2008nonagricultural]. The largest mounds, rising up to twelve metres above the savanna and measuring over 250 metres in length, served as multi-generational corporate elite residences, ceremonial dance grounds and elite burial cemeteries containing hundreds of lavishly painted funerary urns. Smaller peripheral mounds supported domestic kitchen quarters and processing stations.
+
+Geophysical prospection by Roosevelt at Teso dos Bichos revealed baked-clay hearth arrays, residential floor renovations and structured waste discard areas [@roosevelt1991moundbuilders]. Earthen dams and causeways constructed across savanna drainages created managed fisheries, trapping migratory characids and silurids as floodwaters receded. The labor required to build and maintain these earthen structures confirms the existence of centralized corporate leadership and stable lineage hierarchies.
+
+## Santarém and the Tapajó Polity
+
+At the mouth of the Tapajós River, the archaeological site of Santarém represents one of the largest pre-Columbian urban settlements in lowland South America [@gomes1997bibliografia; @stenborg2012location; @furtado2013metodo]. Spanning more than four square kilometres across the modern city and extending onto the adjacent Belterra plateau, the site contains continuous dark-earth matrices packed with domestic refuse, ritual paraphernalia and metallurgical or greenstone imports.
+
+Early colonial chroniclers, notably Nimuendajú and seventeenth-century missionaries, described the Tapajó as a formidable military and commercial chiefdom capable of assembling fleets of hundreds of war canoes and mobilizing thousands of bowmen using poisoned arrows [@nimuendaju1952tapajo; @gomes2012cronologia]. The society maintained pronounced social differentiation, including ruling chiefs, elite lineages, commoners and war captives.
+
+The material culture of Santarém is renowned for its sculptural ceramic artistry, featuring vessels adorned with realistic monkeys, bats, kingfishers and composite shamanic beings, alongside hollow caryatid vessels [@gomes1997bibliografia]. Greenstone amulets known as *muiraquitãs*, carved from nephrite, jadeite or amazonite, circulated through exchange networks spanning from the Caribbean and Orinoco to the Central Amazon and Xingu, with Santarém functioning as a primary manufacturing and distribution nexus [@lima2024lugar].
+
+## Upper Xingu Garden Cities
+
+In the Upper Xingu basin, archaeological research by Heckenberger and colleagues documented a distributed proto-urban landscape consisting of fortified towns, circular plaza villages and defensive earthworks constructed between 1250AD and 1600AD [@heckenberger2003amazonia; @heckenberger2008urbanism]. Rather than concentrating population into a single megacity, the Kuhikugu complex operated as a network of hierarchically organized cluster settlements:
+
+- Major walled centres covering 20 to 50 ha, enclosed by deep defensive ditches up to five metres deep and two kilometres long, backed by wooden palisades [@heckenberger2005].
+- Symmetrically arranged radial roadways up to forty metres wide with raised curbstones, extending several kilometres through the forest to connect secondary and tertiary plaza villages.
+- Engineered causeways, artificial ponds, canalised streams and weir installations dedicated to fish farming and seasonal aquaculture.
+
+Each town cluster was spaced at regular intervals of three to five kilometres, integrating hundreds of hectares of managed orchards, manioc fields and secondary forest successions. This distributed galactic urbanism housed an estimated 30k to 50k people across the Upper Xingu headwaters, maintaining political integration without total deforestation or environmental degradation.
+
+## Geometric Enclosures and Ring Ditches
+
+Along the southern rim of the Eastern Amazon, across the Upper Xingu, Araguaia and Tocantins headwaters, recent remote sensing and archaeological excavations revealed extensive complexes of geometric earthworks and ditch enclosures [@desouza2018earthbuilders; @walker2015ring; @peripato2023earthworks]. These ditch networks, ranging from circular and elliptical trenches to multi-concentric enclosures, served combined functions as village fortifications, ritual dance plazas and astronomical alignments during the late pre-Columbian period (1000AD to 1500AD).
+
+These southern earthwork traditions demonstrate that pre-Columbian landscape engineering was not restricted to the main Amazonian floodplains, but extended across the entire southern ecotone connecting the Amazonian rainforest with the Central Brazilian Cerrado.
+
+## Fluvial Transport and Inter-Basin Exchange Networks
+
+Fluvial mobility provided the connective tissue unifying Eastern Amazonia [@neves2021chapter8; @lima2024lugar]. Heavy dugout canoes, hollowed from immense trunks of tropical hardwoods such as cedar (*Cedrela odorata*), itaúba (*Mezilaurus itauba*) and angelim, provided long-range freight transport capable of moving tonnes of dried pirarucu, turtle fat, pottery and flours across river networks spanning thousands of kilometres.
+
+These fluvial highways supported extensive exchange corridors:
+- Marine and estuarine products, including dried sea fish, salt, turtle oil and mangrove pigments, flowed upriver from the Marajó estuary into the Central Amazon.
+- Greenstone *muiraquitãs* and raw nephrite boulders moved south from Guiana Shield deposits along the Trombetas, circulating into Tapajonic and Xinguano prestige exchange circuits [@lima2024lugar].
+- Curare arrow poison, specialized pottery tempers such as *cauixi* siliceous sponges and ritual tobacco crossed between the Tocantins-Araguaia basin and the main stem.
+
+Warfare and commercial exchange were closely intertwined. Control over strategic river narrows, cataract portages and bluff settlements enabled riverine polities to levy transit tributes, capture enslaved war laborers and enforce regional alliances.
+
+# Methodological Framework and Spatial Calibration
+
+## Raster Disaggregation and Environmental Covariates
+
+To distribute population across 2.685.138 km² of terrestrial surface, the PRETA spatial engine divides the Eastern Amazon Basin into 31.860 active 5-arcminute grid cells (approximately 9,2 km by 9,2 km at the equator). Each terrestrial pixel is evaluated against environmental covariates:
+- Fluvial distance decay: proximity to perennial white-water, clear-water and black-water rivers, with exponential density attenuation beyond 15 km from navigable waterways.
+- Floodplain geomask: binary weighting identifying seasonal varzea and tidal mudflats capable of supporting aquatic gathering and silt-renewed agriculture.
+- Terrain slope: penalising rugged crystalline escarpments exceeding 12% slope while favoring flat river terraces and plateau crests.
+- Anthropogenic dark earth probability: incorporating modelled ADE occurrence probabilities derived from archaeological surveys and soil registries [@mcmichael2014mapping; @peripato2023earthworks].
+
+## Settlement Subtraction and Rural Allocation
+
+To avoid double counting between nucleated town centers and dispersed rural cultivators, 563 catalogued settlements with chronological population series are directly anchored to their WGS84 geographic coordinates. At each benchmark year, the active population of catalogued settlements inside each sub-region is summed and subtracted from the sub-regional demographic envelope.
+
+The remaining rural population is then distributed across non-settled pixels in proportion to the environmental suitability weights. A two-pass boundary feathering algorithm smoothes density gradients across sub-regional frontiers, preventing step discontinuities along watershed divides.
+
+## Demographic Uncertainty Envelopes
+
+Every sub-regional and macro-regional benchmark estimate carries an explicit symmetric uncertainty bound (+/- 8% across all benchmark years from 10000BC to 1542AD). In 1500AD, the regional total of 1,56M is bounded between 1,435M and 1,685M inhabitants. This uncertainty interval accommodates variance across competing archaeological house-size estimates, hearth-count multipliers and early colonial depopulation ratios [@heckenberger2003amazonia; @desouza2019climate].
+
+# Macro-Regional Demographic Trajectories
+
+<figure class="crd-figure-block" id="fig:trajectory">
+<img class="crd-figure-img" src="/artefacts/project_preta/1.0-eastern-amazon-basin/fig2_eastern_amazon_basin_trajectory.png" alt="fig:trajectory" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Long-term demographic trajectory of the Eastern Amazon Basin (10000BC to 1542AD), showing benchmark population growth across six sub-regions and initial contact decline.</figcaption>
+</figure>
+
+## Long-Term Population Benchmarks
+
+The demographic trajectory of Eastern Amazonia across eleven millennia reflects four distinct socio-ecological phases: colonisation, early horticultural emergence, Formative dark-earth expansion and late pre-Columbian floruit (Figure \ref{fig:trajectory} and Table \ref{tab:benchmarks}).
+
+<figure class="crd-table-figure" id="tab:benchmarks">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Benchmark</th><th class="crd-th">Regional Pop</th><th class="crd-th">Density</th><th class="crd-th">Marajó Estuary</th><th class="crd-th">Lower Várzea</th><th class="crd-th">Tapajós</th><th class="crd-th">Xingu Basin</th><th class="crd-th">Tocantins-Arag.</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>10000BC</strong></td><td class="crd-td">12,5k</td><td class="crd-td">0,46</td><td class="crd-td">2,3k</td><td class="crd-td">2,9k</td><td class="crd-td">2,6k</td><td class="crd-td">2k</td><td class="crd-td">2,7k</td></tr>
+<tr><td class="crd-td"><strong>8000BC</strong></td><td class="crd-td">28,1k</td><td class="crd-td">1,05</td><td class="crd-td">5,1k</td><td class="crd-td">6,5k</td><td class="crd-td">5,9k</td><td class="crd-td">4,4k</td><td class="crd-td">6,1k</td></tr>
+<tr><td class="crd-td"><strong>6000BC</strong></td><td class="crd-td">59,3k</td><td class="crd-td">2,21</td><td class="crd-td">10,8k</td><td class="crd-td">13,7k</td><td class="crd-td">12,5k</td><td class="crd-td">9,3k</td><td class="crd-td">12,9k</td></tr>
+<tr><td class="crd-td"><strong>4000BC</strong></td><td class="crd-td">121,7k</td><td class="crd-td">4,53</td><td class="crd-td">22,2k</td><td class="crd-td">28,1k</td><td class="crd-td">25,7k</td><td class="crd-td">19,1k</td><td class="crd-td">26,5k</td></tr>
+<tr><td class="crd-td"><strong>2000BC</strong></td><td class="crd-td">257,4k</td><td class="crd-td">9,59</td><td class="crd-td">47k</td><td class="crd-td">59,4k</td><td class="crd-td">54,5k</td><td class="crd-td">40,4k</td><td class="crd-td">56,1k</td></tr>
+<tr><td class="crd-td"><strong>1000BC</strong></td><td class="crd-td">390k</td><td class="crd-td">14,52</td><td class="crd-td">71,2k</td><td class="crd-td">90k</td><td class="crd-td">82,5k</td><td class="crd-td">61,2k</td><td class="crd-td">85k</td></tr>
+<tr><td class="crd-td"><strong>0AD</strong></td><td class="crd-td">608,4k</td><td class="crd-td">22,66</td><td class="crd-td">111,2k</td><td class="crd-td">140,4k</td><td class="crd-td">128,7k</td><td class="crd-td">95,5k</td><td class="crd-td">132,6k</td></tr>
+<tr><td class="crd-td"><strong>400AD</strong></td><td class="crd-td">826,8k</td><td class="crd-td">30,79</td><td class="crd-td">151,1k</td><td class="crd-td">190,8k</td><td class="crd-td">174,9k</td><td class="crd-td">129,8k</td><td class="crd-td">180,2k</td></tr>
+<tr><td class="crd-td"><strong>800AD</strong></td><td class="crd-td">1,11M</td><td class="crd-td">41,25</td><td class="crd-td">202,3k</td><td class="crd-td">255,6k</td><td class="crd-td">234,3k</td><td class="crd-td">173,9k</td><td class="crd-td">241,4k</td></tr>
+<tr><td class="crd-td"><strong>1000AD</strong></td><td class="crd-td">1,28M</td><td class="crd-td">47,64</td><td class="crd-td">233,7k</td><td class="crd-td">295,2k</td><td class="crd-td">270,6k</td><td class="crd-td">200,9k</td><td class="crd-td">278,8k</td></tr>
+<tr><td class="crd-td"><strong>1200AD</strong></td><td class="crd-td">1,44M</td><td class="crd-td">53,74</td><td class="crd-td">263,6k</td><td class="crd-td">333k</td><td class="crd-td">305,2k</td><td class="crd-td">226,6k</td><td class="crd-td">314,5k</td></tr>
+<tr><td class="crd-td"><strong>1400AD</strong></td><td class="crd-td">1,54M</td><td class="crd-td">57,23</td><td class="crd-td">280,7k</td><td class="crd-td">354,6k</td><td class="crd-td">325,1k</td><td class="crd-td">241,3k</td><td class="crd-td">334,9k</td></tr>
+<tr><td class="crd-td"><strong>1500AD</strong></td><td class="crd-td">1,56M</td><td class="crd-td">58,1</td><td class="crd-td">285k</td><td class="crd-td">360k</td><td class="crd-td">330k</td><td class="crd-td">245k</td><td class="crd-td">340k</td></tr>
+<tr><td class="crd-td"><strong>1542AD</strong></td><td class="crd-td">1,5M</td><td class="crd-td">55,77</td><td class="crd-td">273,6k</td><td class="crd-td">345,6k</td><td class="crd-td">316,8k</td><td class="crd-td">235,2k</td><td class="crd-td">326,4k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Benchmark population totals and regional distribution across the Eastern Amazon Basin (10000BC to 1542AD).</figcaption>
+</figure>
+
+## Historical Demographic Phases
+
+### Early Holocene Foraging and Riverine Colonisation (10000BC to 5000BC)
+
+Human presence in Eastern Amazonia is firmly established by the terminal Pleistocene. At Caverna da Pedra Pintada near Monte Alegre, Roosevelt documented stratified Paleoindian occupations dating from 11200BP to 10000BP (ca. 9200BC to 8500BC), characterised by triangular bifacial projectile points, rock art pigments and macrobotanical remains of tropical forest fruits, nuts and river fish [@roosevelt1996cave].
+
+During this initial colonisation phase, small mobile bands of foragers exploited rock shelters, river bluffs and estuary margins. Regional population expanded from 12,48k in 10000BC to 28,08k in 8000BC, 59,28k in 6000BC and 85,8k by 5000BC. Overall regional density remained low, rising from 0,46 to 3,2 persons per 100 km². Over these five millennia, settlements were predominantly seasonal camps and riverbank processing stations, though early management of native palms and fruit trees was already under way [@iriarte2020origins].
+
+### Middle Holocene Sedentism and Early Ceramics (5000BC to 1000BC)
+
+The Middle Holocene witnessed the emergence of sedentary coastal and riverine communities supported by rich shellfish, fish and aquatic mammal resources [@roosevelt2016method]. At Taperinha on the Lower Amazon, shell middens contain plain and incised pottery dating to ca. 5500BC to 4000BC, demonstrating that ceramic containers were adopted in lowland tropical environments independently of and centuries earlier than in highland Mesoamerica or the Central Andes [@roosevelt2016method]. Along the Atlantic coast of Pará and Amapá, Mina culture shell mounds (*sambaquis*) proliferated, reflecting stable maritime and estuarine adaptations [@schaan2012sacred].
+
+As manioc and other cultivars spread throughout the basin, regional population grew steadily, reaching 121,68k in 4000BC, 171,6k in 3000BC and 390k by 1000BC. Sub-regional densities reached 14,52 persons per 100 km² by 1000BC, led by the Lower Amazon Várzea (19,23) and Marajó Estuary (24,77).
+
+### Formative Expansion and Anthrosol Formation (1000BC to 800AD)
+
+Between 1000BC and 800AD, the widespread adoption of intensive polyculture and permanent settlement spurred the formation of anthropogenic dark earths throughout the basin [@arroyokalin2012dark; @neves2008ecology]. The Pocó and Açutuba ceramic horizons marked the transition to large riverine villages along the Trombetas, Tapajós and Lower Amazon [@gomes2012cronologia].
+
+On Marajó Island, the Marajoara phase commenced around 400AD, initiating monumental mound construction at Camutins, Pacoval and Teso dos Bichos [@meggers1957marajo; @roosevelt1991moundbuilders; @schaan2008nonagricultural]. Regional population crossed 608,4k at 0AD (22,66 persons per 100 km²), expanding to 826,8k in 400AD and reaching 1,11M by 800AD (41,25 persons per 100 km²). The estuarine and várzea sectors absorbed the bulk of this growth, as fish-pen engineering and dark-earth farming yielded reliable food surpluses capable of supporting non-producing artisans, ritual specialists and political leaders.
+
+### Late Pre-Columbian Florescence and Regional Polities (800AD to 1500AD)
+
+The centuries between 800AD and 1500AD represented the demographic and cultural apex of pre-Columbian Eastern Amazonia [@neves2021chapter8; @desouza2019climate]. Regional population surged from 1,11M in 800AD to 1,28M in 1000AD, 1,44M in 1200AD and reached an all-time peak of 1,56M by 1500AD.
+
+During this climactic phase, regional polities attained their maximum territorial reach and settlement density:
+- The Tapajó chiefdom centred at Santarém unified hundreds of kilometres of riverfront, controlling trade along the Tapajós, Amazon and Trombetas [@nimuendaju1952tapajo; @gomes1997bibliografia].
+- The Kuhikugu cluster in the Upper Xingu reached peak integration, housing up to 50k people across twenty-plus interconnected garden cities [@heckenberger2008urbanism].
+- The Konduri culture expanded throughout the Trombetas basin, manufacturing distinctive punctate pottery and maintaining active commercial ties with the Guianas [@campos2026use; @lima2024lugar].
+- The Araguaia and Tocantins river basins established stable ditch-enclosed farming settlements [@desouza2018earthbuilders].
+
+By 1500AD, regional population density reached 58,09 persons per 100 km² across the entire 2,69M km² domain. Along the main river corridors, linear village clusters stretched for leagues along the river bluffs, presenting European explorers with an uninterrupted inhabited cultural landscape.
+
+# European Contact and the 1542AD Baseline
+
+The first documented European journey through the Eastern Amazon was the expedition of Francisco de Orellana, which descended the Amazon River from the Andes to the Atlantic between December 1541 and August 1542. The expedition's chronicler, Friar Gaspar de Carvajal, recorded detailed eyewitness descriptions of large, fortified settlements, extensive agricultural fields and organized military forces throughout the lower river [@heckenberger2003amazonia; @neves2021chapter8].
+
+Carvajal described passing through territories ruled by powerful lords:
+- The province of the Black-Haired Lord (Aparia), extending over hundreds of leagues with fortified riverine towns.
+- The warlike province of Machiparo and the territory of the Omaguas, where continuous settlements lined the riverbanks for days of navigation.
+- Below the mouth of the Tapajós, the territory of the Tapajós and the mythical Amazons, where fleets of large war canoes carrying hundreds of decorated warriors attacked the Spanish brigantines with volleys of poisoned arrows.
+
+Carvajal noted that in many stretches of the river, "one village was not out of sight before another came in view," and described inland roads leading several leagues into the interior to secondary settlements.
+
+Subsequent expeditions in the late sixteenth and early seventeenth centuries (such as those of Pedro Teixeira in 1637 to 1639) reported dramatically reduced populations. Old World pathogens, including smallpox, measles, influenza and dysentery, swept ahead of direct European colonization via indigenous trade networks, decimating dense riverine towns whose inhabitants lacked immunogenetic resistance [@walker2015ring; @desouza2019climate].
+
+The demographic model reconstructs an initial population reduction from 1,56M in 1500AD to 1,5M by 1542AD (-4% drop), marking the initial onset of the catastrophic demographic collapse that would accelerate across the seventeenth and eighteenth centuries as slave-raiding expeditions (*tropas de resgate*) and mission reductions decimated the remaining riverine chiefdoms.
+
+# Settlement Systems and Gazetteer Synthesis
+
+The PRETA settlement gazetteer integrates 563 catalogued pre-Columbian settlements across Eastern Amazonia, reconciling archaeological excavation reports, survey site files and historical toponyms. Table \ref{tab:leading_settlements} presents the leading settlements across the six sub-regions, illustrating the diverse architectural traditions and demographic scales of the basin.
+
+<figure class="crd-table-figure" id="tab:leading_settlements">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Settlement Name</th><th class="crd-th">Sub-Region</th><th class="crd-th">Coordinates</th><th class="crd-th">Peak Pop</th><th class="crd-th">1500AD Pop</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Santarém (Aldeia)</strong></td><td class="crd-td">eamz lower amazon trombetas</td><td class="crd-td">2,43 S, 54,72 W</td><td class="crd-td">12k</td><td class="crd-td">7,3k</td></tr>
+<tr><td class="crd-td"><strong>Camutins</strong></td><td class="crd-td">eamz marajo estuary</td><td class="crd-td">0,67 S, 49,67 W</td><td class="crd-td">5,5k</td><td class="crd-td">-</td></tr>
+<tr><td class="crd-td"><strong>Porto de Santarém</strong></td><td class="crd-td">eamz lower amazon trombetas</td><td class="crd-td">2,42 S, 54,74 W</td><td class="crd-td">4,5k</td><td class="crd-td">2,7k</td></tr>
+<tr><td class="crd-td"><strong>Kuhikugu (X11)</strong></td><td class="crd-td">eamz xingu basin</td><td class="crd-td">12,56 S, 53,11 W</td><td class="crd-td">4,2k</td><td class="crd-td">2,5k</td></tr>
+<tr><td class="crd-td"><strong>Itacoatiara (Miracanguera)</strong></td><td class="crd-td">eamz lower amazon trombetas</td><td class="crd-td">3,14 S, 58,44 W</td><td class="crd-td">3,6k</td><td class="crd-td">2,1k</td></tr>
+<tr><td class="crd-td"><strong>Parintins (Tupinambarana)</strong></td><td class="crd-td">eamz lower amazon trombetas</td><td class="crd-td">2,63 S, 56,74 W</td><td class="crd-td">3,5k</td><td class="crd-td">2,1k</td></tr>
+<tr><td class="crd-td"><strong>Óbidos (Konduri)</strong></td><td class="crd-td">eamz lower amazon trombetas</td><td class="crd-td">1,92 S, 55,52 W</td><td class="crd-td">3,2k</td><td class="crd-td">1,9k</td></tr>
+<tr><td class="crd-td"><strong>Nokugu (X6)</strong></td><td class="crd-td">eamz xingu basin</td><td class="crd-td">12,48 S, 53,21 W</td><td class="crd-td">3,1k</td><td class="crd-td">1,8k</td></tr>
+<tr><td class="crd-td"><strong>Hihí (X13)</strong></td><td class="crd-td">eamz xingu basin</td><td class="crd-td">12,61 S, 53,05 W</td><td class="crd-td">2,4k</td><td class="crd-td">1,5k</td></tr>
+<tr><td class="crd-td"><strong>Alter do Chão</strong></td><td class="crd-td">eamz tapajos basin</td><td class="crd-td">2,5 S, 54,96 W</td><td class="crd-td">2,4k</td><td class="crd-td">1,4k</td></tr>
+<tr><td class="crd-td"><strong>Pacoval</strong></td><td class="crd-td">eamz marajo estuary</td><td class="crd-td">0,5 S, 49,5 W</td><td class="crd-td">2,2k</td><td class="crd-td">-</td></tr>
+<tr><td class="crd-td"><strong>Gurupá (Mariocay)</strong></td><td class="crd-td">eamz marajo estuary</td><td class="crd-td">1,4 S, 51,64 W</td><td class="crd-td">2,1k</td><td class="crd-td">1,3k</td></tr>
+<tr><td class="crd-td"><strong>Oriximiná (Trombetas)</strong></td><td class="crd-td">eamz lower amazon trombetas</td><td class="crd-td">1,77 S, 55,87 W</td><td class="crd-td">2k</td><td class="crd-td">1,2k</td></tr>
+<tr><td class="crd-td"><strong>Belterra (Terra Preta)</strong></td><td class="crd-td">eamz lower amazon trombetas</td><td class="crd-td">2,64 S, 54,94 W</td><td class="crd-td">1,9k</td><td class="crd-td">1,1k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Leading pre-Columbian settlements in the Eastern Amazon Basin, showing peak and 1500AD populations.</figcaption>
+</figure>
+
+The largest nucleated settlement in the basin was Santarém (Aldeia), which attained a peak population of 12k inhabitants around 1200AD, maintaining 7,26k people in 1500AD [@gomes1997bibliografia]. On Marajó Island, the Camutins mound complex concentrated 5,48k inhabitants across its residential mounds, while Pacoval (2,17k) and Teso dos Bichos (1,8k) served as ceremonial and elite residential centres [@schaan2008nonagricultural; @roosevelt1991moundbuilders]. In the Upper Xingu, the fortified galactic towns of Kuhikugu (X11) (4,16k peak) and Nokugu (X6) (3,07k peak) anchored a dense network of secondary plaza villages [@heckenberger2008urbanism]. Along the Lower Amazon várzea, riverine towns at Porto de Santarém (4,45k), Itacoatiara (3,59k), Parintins (3,46k) and Óbidos (3,17k) lined the bluff margins, commanding critical riverine narrows and trade routes.
+
+By anchoring settlement subtraction to 563 catalogued localities, PRETA accounts for nucleated urban centres while allocating rural agricultural populations across the non-settled landscape via spatial kriging and environmental covariates.
+
+# Sources

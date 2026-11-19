@@ -266,10 +266,10 @@ build_group_df <- function (arg0_keys, arg1_ranges, arg2_use_founded = FALSE) {
   rows <- lapply(arg0_keys, function (k) {
     full_k <- paste0(k, "-Russia")
     item <- stadester_data[[full_k]]
-    if (is.null(item)) stop(paste("Missing key in JSON:", full_k))
+    if (is.null(item)) return(NULL)
     base_df <- data.frame(
-      Settlement = as.character(item$name),
-      AltName = get_alt_name(item),
+      Settlement = gsub("#", "No. ", as.character(item$name), fixed = TRUE),
+      AltName = gsub("#", "No. ", get_alt_name(item), fixed = TRUE),
       Coords = fmt_coords(item),
       Span = if (arg2_use_founded) get_founded_str(item) else get_span_str(item),
       stringsAsFactors = FALSE
@@ -280,27 +280,15 @@ build_group_df <- function (arg0_keys, arg1_ranges, arg2_use_founded = FALSE) {
     }
     return(base_df)
   })
+  rows <- Filter(Negate(is.null), rows)
+  if (length(rows) == 0) return(data.frame())
   return(do.call(rbind, rows))
 }
-```
 
-# Abstract
+count_present_keys <- function (arg0_keys) {
+  sum(vapply(arg0_keys, function (k) !is.null(stadester_data[[paste0(k, "-Russia")]]), logical(1)))
+}
 
-Across the 2,4M km² of the Ob-Irtysh river basin, settlement evolved from northern taiga pit-house forts at Early Neolithic Amnya I (60 residents in 6000BC) and Kayukovo 2 (42 residents) [@Piezonka2023; @Kardash2020] to Copper Age horse-hunting villages at Botai (650 residents in 3500BC) [@Outram2009], Middle Bronze Age copper-smelting forts at Arkaim (800 residents in 2000BC) and Kamennyi Ambar (580) [@Krause2019] and the Late Bronze Age fortified town of Chicha-1 in Baraba (1,05k residents in 800BC) [@Molodin2009]. During the Early Iron Age and Middle Ages, the Sargat confederacy built large forest-steppe towns led by Rafailovskoye (1,45k residents in 300BC) [@Matveeva2000; @Chikunova2005], while ten hereditary Ob-Ugrian principalities in Yugra occupied fortified log towns (*gorodki*) at Koda/Sherkaly-1 (280 residents), Emder (170), Ust-Voikary (135) and Nadym Gorodok (58) alongside the Siberian Khanate capitals of Chimgi-Tura and Isker (650 permanent residents in 1580AD) [@Dolgikh1960; @Kardash2009; @Vizgalov2008; @Tataurov2016]. Following the founding of Tyumen (1586), Tobolsk (1587), Tomsk (1604), Tara (1594), Omsk (1716) and the Altai silver-mining works at Barnaul (1739) and Zmeinogorsk, Russian administrative, mining and railway towns expanded rapidly across Western Siberia, led at the close of the 19th century by Tomsk (52,2k in 1897), Omsk (37,4k), Tyumen (29,6k), Barnaul (21,1k), Tobolsk (20,4k), Petropavlovsk (19,7k) and Biysk (17,2k) [@Kabuzan1990; @Kolesnikov1973; @Patkanov1911; @Bryukhanova2021].
-
-# Methodology
-
-This gazetteer presents the coordinates, historical and native names, dates of occupation and population estimates for 193 settlements across Western Siberia (the Ob-Irtysh river basin, ~2,4M km²) from 6000BC to 1900AD [@Chernykh2022]. It covers prehistoric, Bronze Age and Iron Age villages and forts across the Altai region, the South-West Siberian steppe and forest-steppe and the northern taiga, tundra and Yugra, followed by medieval Ob-Ugrian, Selkup, Turkic and Siberian Tatar fortified towns (*gorodki* and *gorodishcha*) and early modern and Imperial Russian towns, forts (*ostrogi*), mining works (*zavody*) and peasant villages (*slobody*).
-
-Prehistoric, Bronze Age and Iron Age settlement populations are estimated from excavated house counts, floor areas ($4,5\text{ m}^2$ per person with an occupancy factor of $0,65$ to $0,8$) and magnetometry plans [@Piezonka2023; @Dubovtseva2020; @Borzunov2012; @Ryabogina2010; @Outram2009; @Epimakhov2009; @Krause2019; @Molodin2009; @Matveeva1999; @Losey2018; @Grushin2011; @Dashkovskiy2024]. Medieval Yugra and Siberian Khanate populations combine excavated *gorodishche* house counts with 17th-century Russian fur-tribute (*yasak*) registers using B. O. Dolgikh's household multipliers ($4$ per adult male payer for Ob-Ugrian and Selkup communities and $4,5$ to $5$ for Siberian Tatar *yurts*) [@Dolgikh1960; @Bakhrushin1935; @Kardash2009; @Vizgalov2008; @Vizgalov2011; @Solodkin2015; @Tataurov2016; @Maslyuzhenko2018; @Matveev2011; @Vodyasov2016; @Vodyasov2017; @Gorbunov2018]. Early modern and 18th- to 19th-century town and village populations are drawn from 17th-century garrison and household rolls (*dozornye* and *perepisnye knigi*), the ten Poll-Tax Revisions (1719-1858) [@Kabuzan1990; @Kolesnikov1973; @Rezun1989; @Korusenko2011] and the First All-Russian Census of 1897 [@Patkanov1911; @Tychinskikh2019; @Bryukhanova2021].
-
-# Results
-
-## Early Villages, Bronze Age Forts and Iron Age Settlements
-
-Table \ref{tab:neolithic_bronze_sites} lists the 45 Neolithic, Copper Age and Bronze Age settlements (6000-700BC), and Table \ref{tab:early_iron_sites} lists the 24 Early Iron Age settlements (600BC - 500AD).
-
-```{r table_neolithic_bronze, echo=FALSE, results='asis'}
 neo_bronze_keys <- c(
   "Amnya I", "Amnya II", "Kayukovo 1", "Kayukovo 2", "Mergen 3", "Mergen 6",
   "Imbegen", "Bystryanka", "Bolshoy Mys", "Itkul", "Borovoe", "Botai",
@@ -313,6 +301,67 @@ neo_bronze_keys <- c(
   "Malo-Panyushevo", "Kent", "Burla-3"
 )
 
+iron_keys <- c(
+  "Rafailovskoye", "Pavlinovo", "Inberen-IV", "Kolovoye", "Maray-1",
+  "Likhachevskoye", "Barkhatovo", "Bogdanovka", "Batakovo", "Staro-Lybaevo",
+  "Ust-Tartas", "Ust-Polui", "Barsova Gora", "Sarom-Pugor", "Saygatino",
+  "Bolshoy Log", "Kargat-4", "Mayma-1", "Manzherok", "Katanda",
+  "Berel", "Balykty-Yul", "Kok-Pash", "Chultukov-Log"
+)
+
+med_keys <- c(
+  "Isker", "Chimgi-Tura", "Kyzyl-Tura", "Ton-Tura", "Koda", "Emder",
+  "Pelym", "Kondinskoye", "Samarovo", "Belogorye", "Kazym", "Lyapin",
+  "Ust-Voikary", "Kunovat", "Pulnovat-Vash", "Nadym Gorodok", "Mangazeya",
+  "Staraya Mangazeya", "Narym", "Ketsk", "Parabel", "Toiyanov Gorodok",
+  "Eushta", "Baturino", "Kinzhal", "Potchevash", "Suzgun", "Chuvashsky Mys",
+  "Karachin-Gorodok", "Kullarov-Gorodok", "Yepanchin-Yurt", "Sugmut-Vash",
+  "Peregrebnoye", "Muligort", "Tegi", "Nyakhsimvol", "Lozva", "Tabary",
+  "Koshandel", "Shaim", "Srostki-1", "Odintsovka", "Basandayka",
+  "Timiryazevo-1", "Relka", "Shaytanskoye"
+)
+
+tobolsk_keys <- c(
+  "Tobolsk", "Tyumen", "Tara", "Turinsk", "Berezov", "Surgut", "Obdorsk",
+  "Verkhoturye", "Kurgan", "Ishim", "Yalutorovsk", "Tyukalinsk",
+  "Zavodoukovsk", "Shadrinsk", "Kamyshlov", "Irbit", "Dalmatovo", "Kataisk",
+  "Talitsa", "Ust-Ishim", "Znamenskoye", "Evgashchino", "Takmyk",
+  "Bolsherechye", "Muromtsevo", "Vikulovo", "Abatskoye", "Aromashevo",
+  "Yarkovo", "Vagai", "Uvat", "Demyanskoye", "Sherkaly", "Muzhi"
+)
+
+irtysh_keys <- c(
+  "Omsk", "Petropavlovsk", "Kokchetav", "Pavlodar", "Semipalatinsk",
+  "Ust-Kamenogorsk", "Zaysan", "Yamyshevskaya", "Zhelezinskaya",
+  "Presnogorkovskaya", "Cherlak", "Kalachinsk", "Isilkul", "Nazyvayevsk"
+)
+
+tomsk_altai_keys <- c(
+  "Tomsk", "Kuznetsk", "Biysk", "Barnaul", "Zmeinogorsk", "Kolyvan",
+  "Suzun", "Pavlovsk", "Lokot", "Salair", "Gurievsk", "Gavrilovsk",
+  "Mariinsk", "Kainsk", "Novonikolayevsk", "Berdsk", "Iskitim", "Bolotnoye",
+  "Chulym", "Toguchin", "Kamen-na-Obi", "Aleysk", "Rubtsovsk", "Belokurikha",
+  "Ulala", "Onguday", "Kosh-Agach", "Ust-Koksa", "Cherga", "Shebalino"
+)
+```
+
+# Abstract
+
+Across the 2,4M km² of the Ob-Irtysh river basin, settlement evolved from northern taiga pit-house forts at Early Neolithic Amnya I (60 residents in 6000BC) and Kayukovo 2 (42 residents) [@Piezonka2023; @Kardash2020] to Copper Age horse-hunting villages at Botai (650 residents in 3500BC) [@Outram2009], Middle Bronze Age copper-smelting forts at Arkaim (800 residents in 2000BC) and Kamennyi Ambar (580) [@Krause2019] and the Late Bronze Age fortified town of Chicha-1 in Baraba (1,05k residents in 800BC) [@Molodin2009]. During the Early Iron Age and Middle Ages, the Sargat confederacy built large forest-steppe towns led by Rafailovskoye (1,45k residents in 300BC) [@Matveeva2000; @Chikunova2005], while ten hereditary Ob-Ugrian principalities in Yugra occupied fortified log towns (*gorodki*) at Koda/Sherkaly-1 (280 residents), Emder (170), Ust-Voikary (135) and Nadym Gorodok (58) alongside the Siberian Khanate capitals of Chimgi-Tura and Isker (650 permanent residents in 1580AD) [@Dolgikh1960; @Kardash2009; @Vizgalov2008; @Tataurov2016]. Following the founding of Tyumen (1586), Tobolsk (1587), Tomsk (1604), Tara (1594), Omsk (1716) and the Altai silver-mining works at Barnaul (1739) and Zmeinogorsk, Russian administrative, mining and railway towns expanded rapidly across Western Siberia, led at the close of the 19th century by Tomsk (52,2k in 1897), Omsk (37,4k), Tyumen (29,6k), Barnaul (21,1k), Tobolsk (20,4k), Petropavlovsk (19,7k) and Biysk (17,2k) [@Kabuzan1990; @Kolesnikov1973; @Patkanov1911; @Bryukhanova2021].
+
+# Methodology
+
+This gazetteer presents the coordinates, historical and native names, dates of occupation and population estimates for `r length(stadester_data)` settlements across Western Siberia (the Ob-Irtysh river basin, ~2,4M km²) from 6000BC to 1900AD [@Chernykh2022]. It covers prehistoric, Bronze Age and Iron Age villages and forts across the Altai region, the South-West Siberian steppe and forest-steppe and the northern taiga, tundra and Yugra, followed by medieval Ob-Ugrian, Selkup, Turkic and Siberian Tatar fortified towns (*gorodki* and *gorodishcha*) and early modern and Imperial Russian towns, forts (*ostrogi*), mining works (*zavody*) and peasant villages (*slobody*).
+
+Prehistoric, Bronze Age and Iron Age settlement populations are estimated from excavated house counts, floor areas ($4,5\text{ m}^2$ per person with an occupancy factor of $0,65$ to $0,8$) and magnetometry plans [@Piezonka2023; @Dubovtseva2020; @Borzunov2012; @Ryabogina2010; @Outram2009; @Epimakhov2009; @Krause2019; @Molodin2009; @Matveeva1999; @Losey2018; @Grushin2011; @Dashkovskiy2024]. Medieval Yugra and Siberian Khanate populations combine excavated *gorodishche* house counts with 17th-century Russian fur-tribute (*yasak*) registers using B. O. Dolgikh's household multipliers ($4$ per adult male payer for Ob-Ugrian and Selkup communities and $4,5$ to $5$ for Siberian Tatar *yurts*) [@Dolgikh1960; @Bakhrushin1935; @Kardash2009; @Vizgalov2008; @Vizgalov2011; @Solodkin2015; @Tataurov2016; @Maslyuzhenko2018; @Matveev2011; @Vodyasov2016; @Vodyasov2017; @Gorbunov2018]. Early modern and 18th- to 19th-century town and village populations are drawn from 17th-century garrison and household rolls (*dozornye* and *perepisnye knigi*), the ten Poll-Tax Revisions (1719-1858) [@Kabuzan1990; @Kolesnikov1973; @Rezun1989; @Korusenko2011] and the First All-Russian Census of 1897 [@Patkanov1911; @Tychinskikh2019; @Bryukhanova2021].
+
+# Results
+
+## Early Villages, Bronze Age Forts and Iron Age Settlements
+
+Table \ref{tab:neolithic_bronze_sites} lists the `r count_present_keys(neo_bronze_keys)` Neolithic, Copper Age and Bronze Age settlements (6000-700BC), and Table \ref{tab:early_iron_sites} lists the `r count_present_keys(iron_keys)` Early Iron Age settlements (600BC - 500AD).
+
+```{r table_neolithic_bronze, echo=FALSE, results='asis'}
 df_neo_bronze <- build_group_df(
   neo_bronze_keys,
   list(
@@ -327,7 +376,7 @@ df_neo_bronze <- build_group_df(
 render_table_template(
   df_neo_bronze,
   list(
-    caption = "Estimated populations across four prehistoric benchmark windows for 45 Neolithic pit-house forts, Botai horse-hunting villages, Sintashta-Arkaim copper-smelting towns and Late Bronze Age Irmen and Chicha-1 settlements.",
+    caption = paste0("Estimated populations across four prehistoric benchmark windows for ", nrow(df_neo_bronze), " Neolithic pit-house forts, Copper Age villages, Sintashta-Arkaim copper-smelting towns and Late Bronze Age Irmen and Chicha-1 settlements."),
     label = "tab:neolithic_bronze_sites",
     col_names = c("Settlement", "Alternative Name", "Coords", "Occupied Span", "6000-3000", "2500-1850", "1800-1200", "1100-700"),
     euro_decimals = TRUE
@@ -336,14 +385,6 @@ render_table_template(
 ```
 
 ```{r table_early_iron, echo=FALSE, results='asis'}
-iron_keys <- c(
-  "Rafailovskoye", "Pavlinovo", "Inberen-IV", "Kolovoye", "Maray-1",
-  "Likhachevskoye", "Barkhatovo", "Bogdanovka", "Batakovo", "Staro-Lybaevo",
-  "Ust-Tartas", "Ust-Polui", "Barsova Gora", "Sarom-Pugor", "Saygatino",
-  "Bolshoy Log", "Kargat-4", "Mayma-1", "Manzherok", "Katanda",
-  "Berel", "Balykty-Yul", "Kok-Pash", "Chultukov-Log"
-)
-
 df_iron <- build_group_df(
   iron_keys,
   list(
@@ -358,7 +399,7 @@ df_iron <- build_group_df(
 render_table_template(
   df_iron,
   list(
-    caption = "Estimated populations across four Iron Age benchmark windows for 24 Sargat forest-steppe fortified towns, Kulai and Ust-Polui taiga centres and Altai Pazyryk and Bulan-Koba valley settlements.",
+    caption = paste0("Estimated populations across four Iron Age benchmark windows for ", nrow(df_iron), " Sargat forest-steppe fortified towns, Kulai and Ust-Polui taiga centres."),
     label = "tab:early_iron_sites",
     col_names = c("Settlement", "Alternative Name", "Coords", "Occupied Span", "800-300BC", "250-100BC", "1-250AD", "300-800AD"),
     euro_decimals = TRUE
@@ -368,21 +409,9 @@ render_table_template(
 
 ## Yugra Principalities and Siberian Khanate Centres
 
-Table \ref{tab:medieval_settlements} presents the 46 medieval Ob-Ugrian, Samoyedic, Selkup, Altai Turkic and Siberian Tatar fortified settlements and principalities.
+Table \ref{tab:medieval_settlements} presents the `r count_present_keys(med_keys)` medieval Ob-Ugrian, Samoyedic, Selkup, Altai Turkic and Siberian Tatar fortified settlements and principalities.
 
 ```{r table_medieval, echo=FALSE, results='asis'}
-med_keys <- c(
-  "Isker", "Chimgi-Tura", "Kyzyl-Tura", "Ton-Tura", "Koda", "Emder",
-  "Pelym", "Kondinskoye", "Samarovo", "Belogorye", "Kazym", "Lyapin",
-  "Ust-Voikary", "Kunovat", "Pulnovat-Vash", "Nadym Gorodok", "Mangazeya",
-  "Staraya Mangazeya", "Narym", "Ketsk", "Parabel", "Toiyanov Gorodok",
-  "Eushta", "Baturino", "Kinzhal", "Potchevash", "Suzgun", "Chuvashsky Mys",
-  "Karachin-Gorodok", "Kullarov-Gorodok", "Yepanchin-Yurt", "Sugmut-Vash",
-  "Peregrebnoye", "Muligort", "Tegi", "Nyakhsimvol", "Lozva", "Tabary",
-  "Koshandel", "Shaim", "Srostki-1", "Odintsovka", "Basandayka",
-  "Timiryazevo-1", "Relka", "Shaytanskoye"
-)
-
 df_med <- build_group_df(
   med_keys,
   list(
@@ -409,18 +438,9 @@ render_table_template(
 
 ## Russian Towns, Ostrogs and Peasant Villages
 
-Tables \ref{tab:tobolsk_yugra_towns}, \ref{tab:irtysh_steppe_towns} and \ref{tab:tomsk_altai_towns} present the 78 Russian towns, fortified *ostrogi*, farming *slobody* and mining settlements (*zavody*) across Tobolsk Governorate, the Irtysh defensive line, Tomsk Governorate and the Altai region up to the First All-Russian Census of 1897 and 1900AD.
+Tables \ref{tab:tobolsk_yugra_towns}, \ref{tab:irtysh_steppe_towns} and \ref{tab:tomsk_altai_towns} present the `r count_present_keys(tobolsk_keys) + count_present_keys(irtysh_keys) + count_present_keys(tomsk_altai_keys)` Russian towns, fortified *ostrogi*, farming *slobody* and mining settlements (*zavody*) across Tobolsk Governorate, the Irtysh defensive line, Tomsk Governorate and the Altai region up to the First All-Russian Census of 1897 and 1900AD.
 
 ```{r table_tobolsk_yugra, echo=FALSE, results='asis'}
-tobolsk_keys <- c(
-  "Tobolsk", "Tyumen", "Tara", "Turinsk", "Berezov", "Surgut", "Obdorsk",
-  "Verkhoturye", "Kurgan", "Ishim", "Yalutorovsk", "Tyukalinsk",
-  "Zavodoukovsk", "Shadrinsk", "Kamyshlov", "Irbit", "Dalmatovo", "Kataisk",
-  "Talitsa", "Ust-Ishim", "Znamenskoye", "Evgashchino", "Takmyk",
-  "Bolsherechye", "Muromtsevo", "Vikulovo", "Abatskoye", "Aromashevo",
-  "Yarkovo", "Vagai", "Uvat", "Demyanskoye", "Sherkaly", "Muzhi"
-)
-
 df_tobolsk <- build_group_df(
   tobolsk_keys,
   list(
@@ -438,7 +458,7 @@ df_tobolsk <- build_group_df(
 render_table_template(
   df_tobolsk,
   list(
-    caption = "Foundation dates and benchmark populations from 17th-century garrison rolls, the ten Poll-Tax Revisions and the 1897 Census for 34 Russian administrative cities, northern ostrog outposts and farming slobodas in Tobolsk Governorate.",
+    caption = paste0("Foundation dates and benchmark populations from 17th-century garrison rolls, the ten Poll-Tax Revisions and the 1897 Census for ", nrow(df_tobolsk), " Russian administrative cities, northern ostrog outposts and farming slobodas in Tobolsk Governorate."),
     label = "tab:tobolsk_yugra_towns",
     col_names = c("Settlement", "Historical Name", "Coords", "1st Rec.", "1586-1650", "1700", "1750", "1800", "1850", "1897", "1900"),
     euro_decimals = TRUE
@@ -447,12 +467,6 @@ render_table_template(
 ```
 
 ```{r table_irtysh_steppe, echo=FALSE, results='asis'}
-irtysh_keys <- c(
-  "Omsk", "Petropavlovsk", "Kokchetav", "Pavlodar", "Semipalatinsk",
-  "Ust-Kamenogorsk", "Zaysan", "Yamyshevskaya", "Zhelezinskaya",
-  "Presnogorkovskaya", "Cherlak", "Kalachinsk", "Isilkul", "Nazyvayevsk"
-)
-
 df_irtysh <- build_group_df(
   irtysh_keys,
   list(
@@ -468,7 +482,7 @@ df_irtysh <- build_group_df(
 render_table_template(
   df_irtysh,
   list(
-    caption = "Foundation dates and benchmark populations from military revision lists and the 1897 Census for 14 fortresses, Cossack line stanitsas and railway towns along the Irtysh and Novo-Ishimskaya lines.",
+    caption = paste0("Foundation dates and benchmark populations from military revision lists and the 1897 Census for ", nrow(df_irtysh), " fortresses, Cossack line stanitsas and towns along the Irtysh and Novo-Ishimskaya lines."),
     label = "tab:irtysh_steppe_towns",
     col_names = c("Settlement", "Historical Name", "Coords", "1st Rec.", "1716-1752", "1800", "1850", "1897", "1900"),
     euro_decimals = TRUE
@@ -477,14 +491,6 @@ render_table_template(
 ```
 
 ```{r table_tomsk_altai, echo=FALSE, results='asis'}
-tomsk_altai_keys <- c(
-  "Tomsk", "Kuznetsk", "Biysk", "Barnaul", "Zmeinogorsk", "Kolyvan",
-  "Suzun", "Pavlovsk", "Lokot", "Salair", "Gurievsk", "Gavrilovsk",
-  "Mariinsk", "Kainsk", "Novonikolayevsk", "Berdsk", "Iskitim", "Bolotnoye",
-  "Chulym", "Toguchin", "Kamen-na-Obi", "Aleysk", "Rubtsovsk", "Belokurikha",
-  "Ulala", "Onguday", "Kosh-Agach", "Ust-Koksa", "Cherga", "Shebalino"
-)
-
 df_tomsk_altai <- build_group_df(
   tomsk_altai_keys,
   list(
@@ -501,7 +507,7 @@ df_tomsk_altai <- build_group_df(
 render_table_template(
   df_tomsk_altai,
   list(
-    caption = "Foundation dates and benchmark populations from Cabinet mining registers, Poll-Tax Revisions and the 1897 Census for 30 towns, silver-smelting works (zavody) and agricultural settlements in Tomsk Governorate and the Altai.",
+    caption = paste0("Foundation dates and benchmark populations from Cabinet mining registers, Poll-Tax Revisions and the 1897 Census for ", nrow(df_tomsk_altai), " towns, silver-smelting works (zavody) and agricultural settlements in Tomsk Governorate and the Altai."),
     label = "tab:tomsk_altai_towns",
     col_names = c("Settlement", "Historical Name", "Coords", "1st Rec.", "1604-1725", "1750", "1800", "1850", "1897", "1900"),
     euro_decimals = TRUE

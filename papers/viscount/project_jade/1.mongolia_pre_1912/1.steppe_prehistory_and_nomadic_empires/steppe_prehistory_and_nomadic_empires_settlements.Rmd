@@ -1,0 +1,195 @@
+---
+title: "Settlement Gazetteer of Mongolia to 1206AD"
+subtitle: "JADE-I: Bronze Age Megaliths, Xiongnu Outposts, Turkic Monuments, Uyghur Metropolis and Khitan Liao Garrisons"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: steppe_prehistory_and_nomadic_empires_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_steppe_prehistory_and_nomadic_empires_spatial.png"
+hero_caption: "Spatial distribution of 92 catalogued settlements, walled enclosures and monumental mortuary complexes across Mongolia through 1206AD."
+hero_label: "fig:hero-steppe-settlements"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("steppe_prehistory_and_nomadic_empires.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("steppe_prehistory_and_nomadic_empires_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("steppe_prehistory_and_nomadic_empires_source_ledger.json5", simplifyVector = FALSE)
+```
+
+# Abstract
+
+This gazetteer compiles 92 catalogued settlements, walled citadels, agricultural enclaves, elite necropolises and monumental mortuary complexes active across Mongolia between 10000BC and 1206AD (1.562.476 km²). Synthesising archaeological excavation reports, systematic surface pedestrian surveys, radiocarbon chronologies and historical dynastic annals [@bemmann2011complex; @honeychurch2014inner; @brosseder2011xiongnu; @Taylor2019Radiocarbon], the catalogue covers all six primary hydrographic basins with highest site density in the Khangai central highlands (23 sites), Kherlen-Onon eastern steppe (20) and Orkhon-Selenge forest-steppe (13).
+
+The settlement hierarchy reflects the episodic nature of steppe urbanisation, where permanent towns served as imperial administrative instruments rather than autonomous commercial centres [@rogers2012inner; @barfield1989perilous]. Urban demography peaked during the Uyghur Khaganate with the monumental metropolis of Khar Balgas on the Orkhon River (48k in 820AD), followed by a chain of Khitan Liao frontier fortresses led by Chin Tolgoi (14k in 1100AD) and Kherlen Bars (11k in 1100AD) [@bemmann2011complex]. In earlier periods, regional demographic concentration manifested as colossal Bronze Age ritual ceremonial complexes like Urt Bulagyn (peaking at 2,8k) and Xiongnu fortified agricultural bases such as Tereljiin Dorvoljin (6,5k), Gua Dov (5,0k) and Boroo Gol (3,5k) [@honeychurch2014inner; @Zhang2021Pastoralism].
+
+# Spatial Distribution and Hierarchy
+
+The catalogued sites encompass four primary functional typologies:
+1. Walled urban metropolises and imperial administrative citadels: characterized by massive rammed-earth ramparts, internal palace compounds, ceremonial brick structures and permanent residential quarters (Khar Balgas, Chin Tolgoi, Kherlen Bars, Khar Bukh Balgas).
+2. Fortified frontier garrisons and agricultural colonies: compact rectangular ramparts enclosing granaries, pottery kilns and soldier barracks designed to supervise tributary trade and produce supplemental grain (Boroo Gol, Gua Dov, Tereljiin Dorvoljin, Khermen Denzh).
+3. Royal memorial monuments and elite necropolises: formal mortuary complexes featuring wooden terrace tombs, stone sarcophagi, runic stelae and sacrificial altars (Gol Mod 1 and 2, Noyon Uul, Khoshoo Tsaidam, Burkhan Tolgoi).
+4. Bronze Age ritual aggregation centres: clusters of khirigsuur mounds, deer stones and horse sacrificial cists marking seasonal transhumant boundaries (Urt Bulagyn, Khanuy Valley, Ulaangom, Ulaanzuukh).
+
+Figure \ref{fig:sett-steppe} presents the log-log rank-size distribution of all 92 catalogued settlements alongside horizontal population bars for the leading fifteen centres. The distribution displays marked primacy, dominated by the imperial capital of Khar Balgas, whose 48k urban population exceeded that of the second-ranked centre by a factor of 3,4.
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_steppe_prehistory_and_nomadic_empires_settlements.png",
+  "Rank-size distribution and leading fifteen settlement peaks across the 92 catalogued centres of Mongolia to 1206AD.",
+  "fig:sett-steppe"
+)
+```
+
+# Leading Settlements and Urban Centres
+
+Table \ref{tab:top45-steppe} documents the Top 45 settlements across Mongolia ordered by peak catalogued population. Settlement coordinates are presented in European decimal notation. Spans indicate the initial and terminal occupation centuries, with peak years and populations reflecting the maximum documented demographic footprint.
+
+```{r tab-top45, results='asis'}
+fmt_coord <- function(x) gsub("\\.", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+fmt_era <- function(y) {
+  yi <- as.integer(y)
+  if (is.na(yi)) return("-")
+  if (yi < 0) paste0(abs(yi), "BC") else paste0(yi, "AD")
+}
+
+clean_site_name <- function(nm) {
+  sub("\\s*\\([^)]*$", "", nm)
+}
+
+peaks <- vapply(sett_data, function(e) max(unlist(e$population)), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+top_n <- min(45L, length(ord))
+
+reg_short_names <- c(
+  orkhon_selenge_forest_steppe = "Orkhon-Selenge",
+  khangai_central_highlands = "Khangai Highlands",
+  kherlen_onon_eastern_steppe = "Kherlen-Onon",
+  altai_great_lakes_basin = "Altai-Great Lakes",
+  gobi_southern_desert_steppe = "Southern Gobi",
+  khovsgol_darkhad_taiga = "Khövsgöl Taiga"
+)
+
+rows <- lapply(sett_data[ord[seq_len(top_n)]], function(e) {
+  yrs <- as.integer(names(e$population))
+  pk_idx <- which.max(unlist(e$population))
+  pk_y <- names(e$population)[pk_idx]
+  pk_v <- max(unlist(e$population))
+  
+  reg_lbl <- if (e$region_id %in% names(reg_short_names)) unname(reg_short_names[[e$region_id]]) else e$region_id
+  nm_clean <- clean_site_name(e$name)
+  
+  span_str <- if (length(yrs) > 1) {
+    paste0(fmt_era(min(yrs)), " to ", fmt_era(max(yrs)))
+  } else {
+    fmt_era(yrs[1])
+  }
+  
+  data.frame(
+    Settlement = nm_clean,
+    Basin = reg_lbl,
+    Coordinates = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Span = span_str,
+    PeakPop = viscount_fmt_pop(pk_v),
+    PeakYear = fmt_era(pk_y),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  "Top 45 settlements and monument complexes in Mongolia to 1206AD ordered by peak population (n=88 total sites).",
+  c("Settlement", "Hydro-Basin", "Lat, Lon", "Chronological Span", "Peak Pop.", "Peak Year"),
+  list(label = "tab:top45-steppe", font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+# Hydrographic Basin Summaries
+
+Table \ref{tab:regsum-steppe} provides aggregated spatial metrics across the six hydrographic basins, reporting catalogued site counts, leading urban or nodal centres, terminal 1206AD baseline populations and estimated pastoral densities.
+
+```{r tab-regsum, results='asis'}
+reg_keys <- names(mod_data$regions)
+sum_rows <- lapply(reg_keys, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  ar <- as.numeric(rv$area_km2)
+  sub_e <- Filter(function(e) identical(e$region_id, rk), sett_data)
+  lead_txt <- "-"
+  if (length(sub_e) > 0) {
+    pks <- vapply(sub_e, function(e) max(unlist(e$population)), numeric(1))
+    idx_m <- which.max(pks)
+    lead_txt <- paste0(clean_site_name(sub_e[[idx_m]]$name), " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  reg_short <- sub("^[0-9]+\\.\\s*", "", rv$name)
+  data.frame(
+    Region = gsub("&", "and", reg_short, fixed = TRUE),
+    Area = viscount_fmt_number(ar, 0L),
+    Sites = viscount_fmt_number(length(sub_e), 0L),
+    Lead = lead_txt,
+    P1206 = viscount_fmt_pop(rv$population[["1206"]]),
+    Dens = viscount_fmt_number(as.numeric(rv$population[["1206"]]) / ar, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Settlement counts, leading centres and terminal 1206AD pastoral population density across all six hydrographic basins.",
+  c("Hydro-Basin", "Area (km²)", "Sites", "Leading Site (Peak)", "1206AD Pop.", "1206AD (km²)"),
+  list(label = "tab:regsum-steppe", font_size = "scriptsize")
+)
+```
+
+# Excluded Candidate Analysis
+
+The initial settlement source ledger compiled 121 candidate localities across Mongolia. Following spatial deduplication and validation against archaeological excavation registers [@Ganbaatar2023Issue; @bemmann2011complex], 33 candidate entries were excluded from the primary database. Exclusions were executed under strict criteria:
+1. Spatial proximity duplicates: candidate localities situated within 8,0 km of a higher-ranked, thoroughly excavated parent complex were consolidated to prevent artificial double-counting of population clusters.
+2. Fragmentary surface scatters: isolated artifact findspots lacking structural evidence of permanent habitation, defensive earthworks or formal mortuary architecture were relegated to regional archaeological background layers.
+3. Modern administrative centroids: gazetteer entries referencing twentieth-century provincial (*aimag*) or district (*sum*) administrative centres without confirmed pre-1206AD archaeological occupation layers were purged.
+
+Table \ref{tab:excluded-steppe} details the leading 30 excluded candidate entries alongside their consolidation justifications.
+
+```{r tab-excluded, results='asis'}
+exc_list <- Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates)
+exc_n <- min(30L, length(exc_list))
+exc_rows <- lapply(exc_list[seq_len(exc_n)], function(c) {
+  just <- as.character(c$justification)
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", just, perl = TRUE)
+  just <- gsub("-Mongolia", "", just, fixed = TRUE)
+  nm_clean <- clean_site_name(c$name)
+  data.frame(
+    Candidate = nm_clean,
+    Territory = c$country,
+    Reason = "Proximity duplicate",
+    Consolidation = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+
+viscount_table(
+  exc_df,
+  "Leading 30 of 33 excluded duplicate candidates in the source ledger consolidated into parent complexes.",
+  c("Candidate Site", "Territory", "Exclusion Reason", "Consolidation Note"),
+  list(label = "tab:excluded-steppe", font_size = "scriptsize")
+)
+```
+
+# Sources

@@ -1,0 +1,437 @@
+---
+title: "Pre-Columbian North-Eastern Brazil"
+subtitle: "Demographic Trajectories, Fluvial Corridors and Littoral Chiefdoms from 10000BC to 1500AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: northeastern_brazil_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_northeastern_brazil_spatial.png"
+hero_caption: "Five Pre-Columbian ecological macro-basins across North-Eastern Brazil, showing the distribution of 818 recorded settlements from the Maranhão estearias to the Recôncavo da Bahia between 10000BC and 1500AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+North-Eastern Brazil comprises an ecological macro-region of 1.881.594 km², extending from the equatorial floodplains of Maranhão to the Atlantic littoral of Bahia and inland through the semi-arid depression of the São Francisco River. Archaeological investigations conducted over five decades have established a continuous human occupation sequence spanning twelve millennia, from the terminal Pleistocene foraging bands of the Serra da Capivara to the densely populated coastal agricultural chiefdoms encountered by European navigators at 1500AD. The spatial distribution of pre-colonial human populations was fundamentally structured by hydrological access and rainfall predictability across five discrete basins: the Mid-North fluvial network of Maranhão, the sandstone massifs of the Parnaíba Basin, the humid coastal forest strip of the Atlantic littoral, the axial artery of the São Francisco Valley, and the fertile margins of the Recôncavo da Bahia.
+
+Demographic expansion followed a distinct two-phase trajectory. During the early and middle Holocene, between 10000BC and 2000BC, foraging groups associated with the Itaparica, Nordeste and Agreste lithic and rock-art traditions occupied rock shelters and perennial riverbanks at aggregate densities rarely exceeding 0,01 to 0,09 persons per km². Regional population rose gradually from an initial baseline of 13.160 inhabitants at 10000BC to 89.300 at 5000BC and 220.900 at 2000BC. Climatic oscillations towards increased aridity in the interior Caatinga prompted adaptive reorganisations, favouring seasonal mobility along riverine gallery forests and the exploitation of microclimatic enclaves in high-altitude serras.
+
+The transition to sedentary horticulture after 1000BC, accelerated by the dispersion of ceramic-producing populations belonging to the Aratu-Sapucaí and Tupiguarani traditions, precipitated substantial demographic growth. Sedentary villages supported by bitter and sweet manioc (*Manihot esculenta*), maize (*Zea mays*), and intensive marine and riverine gathering expanded rapidly along alluvial terraces and coastal lagoons. By 1000AD, the aggregate regional population reached 761.400, climbing to 940.000 by 1500AD, with overall densities averaging 0,5 persons per km². Major settlement concentrations exceeded 2.000 to 4.700 inhabitants in large palisaded villages on the Island of Maranhão (São Luís), the Bay of All Saints (Salvador), the Marim littoral (Olinda), and the lacustrine pile-dwellings (*estearias*) of the Baixada Maranhense.
+
+This reconstruction integrates systematic excavation reports, radiocarbon chronologies and settlement surveys encompassing 818 recorded pre-colonial sites. The demographic trajectory demonstrates that Pre-Columbian North-Eastern Brazil supported a sophisticated and substantial population whose spatial organisation reflected long-term ecological adaptation to periodic drought, extensive riverine navigation, and intensive coastal resource extraction.
+
+# Background
+
+## Physiographic Setting and Environmental Zonation
+
+The physical geography of North-Eastern Brazil is defined by sharp ecological gradients that transition from the humid equatorial margins of the Amazon basin to the Atlantic forest biome and the drought-prone interior depression.
+
+The territory encompasses 1.881.594 km², bordered to the north and east by the Atlantic Ocean, to the west by the Tocantins drainage basin, and to the south by the crystalline highlands of Minas Gerais and the Espinhaço range.
+
+Three principal macro-ecological zones govern human habitability: the humid coastal forest strip (*Mata Atlântica*), the transitional sub-humid belt (*Agreste*), and the extensive semi-arid interior (*Sertão*), dominated by xerophytic thorn scrub (*Caatinga*).
+
+Precipitation regimes display dramatic geographical divergence across the territory.
+
+The coastal strip receives between 1.500 mm and 2.200 mm of annual rainfall, supporting evergreen rainforests, rich mangrove estuaries, and fertile alluvial soils.
+
+In contrast, the interior depression experiences mean annual precipitation of fewer than 500 mm to 750 mm, concentrated within a brief three-month rainy season.
+
+The semi-arid interior is subject to the periodic southward displacement of the Intertropical Convergence Zone (ITCZ) and disruptions associated with the El Niño-Southern Oscillation (ENSO), producing multi-year droughts that periodically despoil terrestrial biomass and eliminate ephemeral surface watercourses.
+
+Within this arid sertão landscape, critical ecological refugia were provided by the *brejos de altitude*. These elevated crystalline massifs, such as the Serra de Baturité in Ceará, the Borborema escarpment in Paraíba, and the Chapada Diamantina in Bahia, capture orographic rainfall, generating isolated humid islands that maintained perennial springs and dense forest canopies.
+
+Pre-colonial populations utilised these highland microclimates as crucial demographic fallback zones during prolonged lowland droughts, practicing intensive gathering of wild fruit and small-scale cultivation on moist colluvial soils.
+
+To analyse pre-colonial demography systematically, the region is partitioned into five hydrological macro-basins [@martin2008pre; @prous1992arqueologia]. Each macro-basin represents an integrated hydrological and ecological system with distinct carrying capacities and demographic histories:
+
+1. The Mid-North Mearim-Itapecuru-Gurupi basin occupies 281.408 km² across Maranhão. It forms a vast ecotone between Amazonian tropical forests and eastern savannas, drained by large, low-gradient perennial rivers that feed labyrinthine lakes and wetlands in the Baixada Maranhense.
+
+2. The Parnaíba Basin and Serra da Capivara encompass 342.910 km² across Piauí, western Ceará, and eastern Maranhão. Anchored by the 1.400 km Parnaíba River, this basin features towering sandstone tablelands, deeply dissected canyons, and cavernous cuesta escarpments that provided permanent springs and sheltered overhangs.
+
+3. The Northeastern Atlantic Coast and Agreste basin covers 288.617 km² extending across Ceará, Rio Grande do Norte, Paraíba, Pernambuco, and Alagoas. Drained by short coastal rivers descending from the crystalline Borborema Plateau, this zone offered accessible marine fisheries, productive shell beds, and humid agricultural valleys.
+
+4. The São Francisco Valley comprises 649.053 km², representing the single largest interior catchment. Flowing northwards from Minas Gerais before turning east towards the Atlantic, the São Francisco forms an exogenous perennial river that bisects the semi-arid Caatinga, functioning as a vital hydrological lifeline and migration corridor throughout antiquity.
+
+5. Eastern Bahia, Recôncavo and Jequitinhonha encompasses 319.606 km² in eastern and southern Bahia. It is centred upon the sheltered waters of the Bay of All Saints (*Baía de Todos os Santos*), bordered by deep massapê soils of exceptional agricultural fertility and flanked by the Paraguaçu, Contas, and Jequitinhonha river mouths.
+
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Macro-Basin</th><th class="crd-th">Area (km²)</th><th class="crd-th">Sites</th><th class="crd-th">10000BC Pop.</th><th class="crd-th">10000BC D.</th><th class="crd-th">1500AD Pop.</th><th class="crd-th">1500AD D.</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>1. Mid-North Mearim-Itapecuru</strong></td><td class="crd-td">281.408</td><td class="crd-td">61</td><td class="crd-td">2.030</td><td class="crd-td">0,007</td><td class="crd-td">145.000</td><td class="crd-td">0,52</td></tr>
+<tr><td class="crd-td"><strong>2. Parnaíba &amp; Serra da Capivara</strong></td><td class="crd-td">342.910</td><td class="crd-td">84</td><td class="crd-td">3.510</td><td class="crd-td">0,01</td><td class="crd-td">115.000</td><td class="crd-td">0,34</td></tr>
+<tr><td class="crd-td"><strong>3. NE Atlantic Coast &amp; Agreste</strong></td><td class="crd-td">288.617</td><td class="crd-td">264</td><td class="crd-td">1.840</td><td class="crd-td">0,006</td><td class="crd-td">275.000</td><td class="crd-td">0,95</td></tr>
+<tr><td class="crd-td"><strong>4. São Francisco Valley</strong></td><td class="crd-td">649.053</td><td class="crd-td">295</td><td class="crd-td">4.220</td><td class="crd-td">0,006</td><td class="crd-td">195.000</td><td class="crd-td">0,3</td></tr>
+<tr><td class="crd-td"><strong>5. Eastern Bahia &amp; Recôncavo</strong></td><td class="crd-td">319.606</td><td class="crd-td">114</td><td class="crd-td">1.560</td><td class="crd-td">0,005</td><td class="crd-td">210.000</td><td class="crd-td">0,66</td></tr>
+<tr><td class="crd-td"><strong>Regional Aggregate</strong></td><td class="crd-td">1.881.594</td><td class="crd-td">818</td><td class="crd-td">13.160</td><td class="crd-td">0,007</td><td class="crd-td">940.000</td><td class="crd-td">0,5</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Physiographic dimensions, site inventory, and demographic baselines across the five macro-basins of Pre-Columbian North-Eastern Brazil at 10000BC and 1500AD.</figcaption>
+</figure>
+
+## The Pleistocene-Holocene Boundary and Early Lithic Horizons
+
+The antiquity of human occupation in North-Eastern Brazil constitutes one of the most prominent chapters in American prehistoric archaeology.
+
+Excavations directed by Niède Guidon and international teams in the Serra da Capivara National Park in south-eastern Piauí recovered charcoal hearths, circular stone structures, and flaked quartz cobbles from deep stratigraphic layers at Boqueirão da Pedra Furada, yielding radiocarbon dates in excess of 30000BC to 50000BC [@guidon1986carbon; @parenti2001pedra].
+
+While these claims of pre-Last Glacial Maximum antiquity attracted scepticism regarding whether flaked cobbles represented human manufacture or natural spalls falling from high sandstone cliffs [@arroyo2020wear; @funari2006social], multi-disciplinary re-investigations at Vale da Pedra Furada, Sítio do Meio, and Toca da Tira Peia confirmed stratified anthropogenic tool industries dating from 20000BC through the terminal Pleistocene [@boeda2014new; @bueno2011povoamento].
+
+By 10000BC, indisputable human occupation was established across all five macro-basins.
+
+Terminal Pleistocene and early Holocene foragers inhabited both rock shelters and open-air riverside encampments under palaeoclimatic conditions characterised by greater effective moisture, denser gallery woodlands, and relict Pleistocene megafaunal species, including ground sloths (*Eremotherium*) and glyptodonts [@valladares2018solos; @figueiredo2021percepcoes].
+
+Lithic assemblages dating from 10000BC to 6000BC are typified by the Itaparica tradition, identified across Goiás, Minas Gerais, Bahia, and Piauí [@araujo2005itaparica; @schmitz1987cazadores; @prous1999archaeology].
+
+The hallmark of Itaparica lithic technology is the unifacial planoconvex slug-shaped scraper (*lesma*), skilfully knapped on fine-grained quartzite, chert, or chalcedony flakes.
+
+These tools served multi-functional woodworking, hide scraping, and vegetal processing purposes, supplemented by hammerstones, pestles and unretouched cutting flakes.
+
+Raw material procurement strategies reveal intimate knowledge of regional geology.
+
+In the São Francisco basin, foragers extracted high-grade chalcedony nodules from river gravels and quartz crystal veins, transporting selected blanks up to 80 km from quarry sources to residential shelters.
+
+Palaeoparasitological analysis of coprolites recovered from stratified rockshelter deposits in Piauí has identified ova and larvae of intestinal helminths, including *Strongyloides ferreirai*, dating to 6000BC to 8000BC [@araujo1989strongyloi].
+
+These microscopic indicators confirm regular human and animal co-habitation within confined rock overhangs and demonstrate the antiquity of endemic parasitic loads among early foraging bands.
+
+## Monumental Graphic Expressions and Rock-Art Traditions
+
+Concomitant with early Holocene lithic industries, foraging communities across North-Eastern Brazil developed one of the densest and most visually complex rock-art complexes in the world [@martin2008pre; @etchevarne2007escrito].
+
+Over 1.500 rock-art sites have been catalogued in the sandstone massifs of Piauí, Ceará, Rio Grande do Norte, Paraíba, Pernambuco, and Bahia.
+
+Archaeological consensus classifies these visual expressions into three broad traditions: the Nordeste Tradition, the Agreste Tradition, and the São Francisco Tradition.
+
+The Nordeste Tradition, prevailing from 9000BC to 3000BC in the Serra da Capivara and the Seridó region of Rio Grande do Norte, is distinguished by small, dynamic anthropomorphic and zoomorphic figures executed in deep red, yellow and white ochre pigments [@cisneiros2019similarida; @junior2018direct].
+
+The compositions portray lively narrative scenes of collective life, including group hunting of deer and armadillos, tree-felling, acrobatic dancing, childbirth and sexual encounters [@lopes2024concealmen].
+
+Crucially, numerous Nordeste Tradition panels depict organized collective violence, including execution scenes, bow-and-arrow skirmishes, and club-wielding combats [@silva2013collective; @belarmino2017representa].
+
+These violent representations provide visual documentation of inter-band territorial competition and conflict, indicating that even at modest foraging densities, prime rockshelter locations and perennial water catchments required armed defence and territorial demarcation.
+
+In the Seridó sub-tradition of Rio Grande do Norte and Paraíba, rock paintings frequently depict ceremonial processions and complex bodily ornamentation, executed on granitic inselbergs that rise dramatically above the semi-arid pediplains.
+
+At sites such as Lajedo de Soledade in the Apodi basin, petroglyphs and pictographs are carved directly into limestone dissolution pavements, occasionally juxtaposed with Cretaceous dinosaur footprints and megafaunal fossils, indicating that pre-colonial populations actively observed, interpreted and monumentalised geological oddities in their landscape [@troiano2024remarkable].
+
+The Agreste Tradition, emerging in the middle Holocene (6000BC to 1000BC) across the Borborema Plateau, Pernambuco, and Paraíba, exhibits a contrasting aesthetic characterised by large, static, schematic anthropomorphs with rayed heads or geometric torsos [@martin2008pre].
+
+In the São Francisco basin, the São Francisco Tradition features bichrome geometric motifs, maze patterns, and astronomical symbols painted on cliff faces flanking the river channel [@etchevarne2007escrito].
+
+Together, these rock-art horizons illustrate durable social networks, territorial boundaries, and ceremonial aggregation points maintained over millennia.
+
+# Methodology
+
+## Archaeological Ingestion and Spatial Calibration
+
+The demographic reconstruction presented in this study synthesises a comprehensive spatial gazetteer of 818 pre-colonial archaeological sites catalogued across the five macro-basins of North-Eastern Brazil.
+
+Data ingestion proceeded through systematic evaluation of official inventories from the Instituto do Patrimônio Histórico e Artístico Nacional (IPHAN), state-level heritage registers, regional survey monographs, and published academic excavation reports [@funari2006social; @dias2007novas].
+
+Each site record was evaluated according to strict criteria: geographical coordinates verified against satellite imagery and micro-basin hydrology, stratigraphic integrity, associated material culture complexes, and chronometric dates.
+
+Radiocarbon determinations were calibrated against the IntCal20 and SHCal20 atmospheric curves.
+
+Occupations were classified into diagnostic chronological phases: early Holocene foragers (10000BC to 6000BC), middle Holocene broad-spectrum foragers (6000BC to 2000BC), early ceramic horticulturists (2000BC to 0AD), middle ceramic village formations (0AD to 1000AD), and late pre-colonial chiefdom networks (1000AD to 1500AD).
+
+Specialized corpora were incorporated to capture distinctive landscape adaptations, including the coastal shell mounds (*sambaquis*) of Rio Grande do Norte and Bahia [@lima2021marine; @barbosa2021morphometr], the lacustrine pile-dwellings (*estearias*) of Maranhão [@navarro2018estearias; @navarro2021new], the fortified villages of the Tupinambá and Potiguara [@correa2014tupinamba; @noelli1999hypothese], and the semi-arid rockshelter networks of the interior Caatinga [@guidon1986carbon; @martin2008pre].
+
+## Watershed Aggregation and Settlement Area Scaling
+
+To translate discrete archaeological site records into continuous population estimates, a non-linear catchment aggregation framework was deployed across the five macro-basins.
+
+Demographic modelling for pre-colonial societies requires accounting for settlement morphology, residential density, and environmental carrying capacity constraints:
+
+1. For early and middle Holocene foraging bands, population was estimated from rockshelter floor areas, open-air debitage scatter extents, and regional band home-range sizes. Residential densities were calibrated between 0,005 and 0,02 persons per km², reflecting low-density nomadic bands exploiting extensive resource catchments along gallery forests and mountain scarps [@araujo2005itaparica; @schmitz1987cazadores].
+
+2. For ceramic-period agricultural villages, population was calculated directly from measurable village perimeters, defensive ditch circumferences, and structural post-hole distributions.
+
+For nucleated ring villages of the Aratu tradition, which feature circular concentric house plans surrounding a central plaza, residential densities were calculated at 50 to 90 persons per hectare [@robrahn1996aratu].
+
+For linear Tupinambá palisaded villages, where multiple communal longhouses (*malocas*) housed extended kin groups, density was modelled at 70 to 120 persons per hectare [@correa2014tupinamba; @fausto1992fragmentos].
+
+Ethnohistorical accounts by sixteenth-century French and Portuguese observers, such as Jean de Léry and Claude d'Abbeville, record that a single Tupinambá longhouse measured 40 to 100 metres in length, accommodating between one hundred and two hundred individuals belonging to allied extended families.
+
+A fortified village typically comprised between four and eight such communal dwellings arranged around a central square, yielding localized residential counts of 600 to 1.600 persons per nucleated centre, with interconnected village clusters easily exceeding 3.000 inhabitants.
+
+3. For lacustrine estearias in Maranhão, population was determined from submerged hardwood pile counts, floor platforms, and associated midden mounds. Individual pile-dwelling clusters spanned 1 to 3 hectares of lakebed surface, supporting localized populations of 800 to 1.800 persons during seasonal high-water aggregations [@navarro2021new].
+
+Regional demographic trajectories were harmonised across twenty-one standard benchmark periods from 10000BC to 1500AD.
+
+Estimates were bounded by non-stationary Matérn kriging models conditioned on physical covariates, including distance to perennial watercourses, digital elevation models, coastal lagoon proximity, and soil suitability, preventing artificial population leakage into waterless interior wastelands.
+
+# Results
+
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Period</th><th class="crd-th">Mid-North</th><th class="crd-th">Parnaíba</th><th class="crd-th">NE Atlantic</th><th class="crd-th">São Francisco</th><th class="crd-th">Eastern Bahia</th><th class="crd-th">Regional Total</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>10000BC</strong></td><td class="crd-td">2.030</td><td class="crd-td">3.510</td><td class="crd-td">1.840</td><td class="crd-td">4.220</td><td class="crd-td">1.560</td><td class="crd-td">13.160</td></tr>
+<tr><td class="crd-td"><strong>8000BC</strong></td><td class="crd-td">4.640</td><td class="crd-td">7.520</td><td class="crd-td">4.211</td><td class="crd-td">9.626</td><td class="crd-td">4.083</td><td class="crd-td">30.080</td></tr>
+<tr><td class="crd-td"><strong>6000BC</strong></td><td class="crd-td">9.425</td><td class="crd-td">14.664</td><td class="crd-td">8.554</td><td class="crd-td">19.552</td><td class="crd-td">8.905</td><td class="crd-td">61.100</td></tr>
+<tr><td class="crd-td"><strong>4000BC</strong></td><td class="crd-td">19.575</td><td class="crd-td">29.187</td><td class="crd-td">17.766</td><td class="crd-td">40.608</td><td class="crd-td">19.764</td><td class="crd-td">126.900</td></tr>
+<tr><td class="crd-td"><strong>2000BC</strong></td><td class="crd-td">34.075</td><td class="crd-td">48.598</td><td class="crd-td">30.926</td><td class="crd-td">70.688</td><td class="crd-td">36.613</td><td class="crd-td">220.900</td></tr>
+<tr><td class="crd-td"><strong>1000BC</strong></td><td class="crd-td">43.500</td><td class="crd-td">56.400</td><td class="crd-td">45.120</td><td class="crd-td">90.240</td><td class="crd-td">46.740</td><td class="crd-td">282.000</td></tr>
+<tr><td class="crd-td"><strong>0AD</strong></td><td class="crd-td">59.450</td><td class="crd-td">50.850</td><td class="crd-td">104.900</td><td class="crd-td">88.650</td><td class="crd-td">81.550</td><td class="crd-td">385.400</td></tr>
+<tr><td class="crd-td"><strong>400AD</strong></td><td class="crd-td">78.300</td><td class="crd-td">65.988</td><td class="crd-td">142.128</td><td class="crd-td">121.824</td><td class="crd-td">99.360</td><td class="crd-td">507.600</td></tr>
+<tr><td class="crd-td"><strong>800AD</strong></td><td class="crd-td">102.950</td><td class="crd-td">86.762</td><td class="crd-td">193.546</td><td class="crd-td">153.502</td><td class="crd-td">130.640</td><td class="crd-td">667.400</td></tr>
+<tr><td class="crd-td"><strong>1000AD</strong></td><td class="crd-td">117.450</td><td class="crd-td">94.600</td><td class="crd-td">220.800</td><td class="crd-td">161.850</td><td class="crd-td">166.700</td><td class="crd-td">761.400</td></tr>
+<tr><td class="crd-td"><strong>1200AD</strong></td><td class="crd-td">131.225</td><td class="crd-td">103.785</td><td class="crd-td">246.703</td><td class="crd-td">178.647</td><td class="crd-td">190.340</td><td class="crd-td">850.700</td></tr>
+<tr><td class="crd-td"><strong>1400AD</strong></td><td class="crd-td">141.810</td><td class="crd-td">112.157</td><td class="crd-td">266.603</td><td class="crd-td">190.299</td><td class="crd-td">208.451</td><td class="crd-td">919.320</td></tr>
+<tr><td class="crd-td"><strong>1500AD</strong></td><td class="crd-td">145.000</td><td class="crd-td">115.000</td><td class="crd-td">275.000</td><td class="crd-td">195.000</td><td class="crd-td">210.000</td><td class="crd-td">940.000</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Longitudinal population trajectory across the five macro-basins of North-Eastern Brazil from 10000BC to 1500AD (benchmark counts in persons).</figcaption>
+</figure>
+
+## Basin 1: Mid-North Mearim-Itapecuru-Gurupi and Lacustrine Estearias
+
+The Mid-North basin encompasses 281.408 km² in modern Maranhão, extending across the drainages of the Gurupi, Turiaçu, Mearim, Pindaré, and Itapecuru rivers.
+
+The demographic trajectory of this basin exhibits consistent long-term growth, rising from 2.030 foragers at 10000BC to 9.425 at 6000BC, 34.075 at 2000BC, 117.450 at 1000AD, and reaching 145.000 inhabitants by 1500AD.
+
+The physical landscape of the Mid-North offered singular ecological advantages for human settlement.
+
+Situated at the juncture of Amazonian rain forests, cerrado savannas, and maritime estuaries, the basin provided diverse food resources.
+
+Extensive palm forests dominated by babassu (*Attalea speciosa*) supplied nutrient-dense oil, carbohydrates and building thatch, supporting sedentary foraging bands well before the introduction of domesticated cultigens.
+
+Between 800AD and 1400AD, human adaptation culminated in the Estearias tradition of the Baixada Maranhense, a low-lying lacustrine depression subject to extensive seasonal inundation [@navarro2018estearias; @navarro2021new].
+
+Sedentary communities constructed elaborate villages elevated above lakebeds on thousands of durable hardwood stilts (*estearias*), principally extracted from aroeira (*Myracrodruon urundeuva*).
+
+Radiocarbon dates from sites on Lake Cajari and along the Turiaçu River document intensive occupation from 800AD onwards.
+
+The site of Estearias do Lago Cajari supported an estimated peak population of 1.784 inhabitants, functioning as a permanent lacustrine community.
+
+Excavations within the underwater pile foundations recovered decorated ceramic bowls, clay figurines, stone axes, and zoomorphic ceramic whistles exhibiting stylistic connections to lower Amazonian ceramic cultures.
+
+Subsistence combined intensive harvest of freshwater fish (traíra, tamoatá), aquatic reptiles, and water birds with flood-recession manioc and maize cultivation on surrounding natural levees (*restegas*).
+
+Towards the end of the pre-colonial era, Tupinambá groups expanded along the coast, establishing fortified settlements on the Island of Maranhão (Upaon-Açu).
+
+French and Portuguese accounts from the early seventeenth century describe large, palisaded settlements organized into multi-village chiefdoms.
+
+The Upaon-Açu settlement concentration reached an estimated peak population of 4.757 inhabitants, representing the single largest demographic focal point in the Mid-North basin.
+
+## Basin 2: Parnaíba Basin and the Serra da Capivara
+
+The Parnaíba Basin and Serra da Capivara encompass 342.910 km² across Piauí, eastern Maranhão, and western Ceará.
+
+The demographic trajectory began at 3.510 inhabitants at 10000BC, rose to 29.187 at 4000BC and 48.598 at 2000BC, experienced a temporary deceleration during middle Holocene droughts, and recovered during the ceramic era to reach 94.600 at 1000AD and 115.000 by 1500AD.
+
+The early prehistory of this basin is tied to the sandstone cuestas and cuesta escarpments of the Serra da Capivara, Serra Branca, and Serra das Confusões in south-eastern Piauí.
+
+During the terminal Pleistocene and early Holocene, these massifs functioned as ecological refugia within an increasingly arid regional environment.
+
+Weathering created natural rock shelters, overhangs and circular bedrock cisterns (*caldeirões*) that stored rainwater for months after seasonal rains ceased [@figueiredo2021percepcoes; @albani2020geodiversi].
+
+Between 9000BC and 3000BC, mobile bands associated with the Nordeste rock-art tradition congregated at these highland springs during dry seasons, exploiting wild game (peccary, brocket deer, armadillo) and gathering native legumes, wild tubers, and cactus fruits.
+
+Deep stratified deposits at sites such as Toca do Boqueirão da Pedra Furada, Toca do Baixão do Perna, and Toca da Entrada do Pajaú reveal intense, repeated hearth construction and lithic tool refurbishment.
+
+During the middle Holocene arid interval (approximately 4000BC to 2000BC), human populations adapted to regional drying by shifting settlement focus towards the perennial channel of the Parnaíba River and its major tributaries, such as the Poti, Canindé, and Gurgueia.
+
+The middle Parnaíba valley, near the confluence with the Poti River (modern Teresina), emerged as a major demographic centre, sustaining nucleated riparian settlements reaching 1.090 inhabitants.
+
+In the late pre-colonial era, ceramic-producing populations associated with the Aratu-Sapucaí and Tupiguarani traditions colonised the alluvial plains of the Parnaíba.
+
+These agricultural communities cleared fertile river terraces for bitter manioc, maize and beans, establishing permanent open-air villages that gradually displaced or integrated earlier nomadic hunter-gatherer populations.
+
+## Basin 3: Northeastern Atlantic Coast, Potiguara Littoral and Agreste
+
+The Northeastern Atlantic Coast and Agreste basin covers 288.617 km² extending from Ceará through Rio Grande do Norte, Paraíba, Pernambuco, and Alagoas.
+
+This littoral corridor witnessed the most intense demographic expansion in North-Eastern Brazil, growing from 1.840 inhabitants at 10000BC to 30.926 at 2000BC, accelerating to 104.900 at 0AD, 220.800 at 1000AD, and culminating at 275.000 by 1500AD, achieving an average regional density of 0,95 persons per km².
+
+Archaic human occupation along the coast is documented by shell middens (*sambaquis*) and estuarine campsites dating from 5000BC to 1000BC [@lima2021marine; @barbosa2021morphometr].
+
+These foraging bands exploited rich mangrove ecosystems, collecting mangrove oysters (*Crassostrea rhizophorae*), crabs, and estuarine fish, supplemented by hunting small coastal fauna.
+
+The decisive demographic turning point occurred during the first millennium BC with the adoption of root-crop agriculture and ceramic technology, followed after 500AD by the expansion of Tupi-speaking horticulturalists of the Tupiguarani tradition [@correa2014tupinamba; @noelli1999hypothese].
+
+Tupi groups expanded along the Atlantic forest coastal strip, settling river estuaries, coastal lagoons, and the humid valleys of the Agreste.
+
+By 1000AD to 1500AD, the littoral was divided among powerful Indigenous nations: the Tabajara in Ceará, the Potiguara in Rio Grande do Norte and Paraíba, and the Caeté in Pernambuco and Alagoas.
+
+These groups resided in large, fortified villages (*tabas*) defended by double palisades (*taipas*) and defensive trenches.
+
+Village clusters were connected by maintained trails and waterborne canoe routes, supporting dense multi-village chiefdoms.
+
+Major settlement concentrations recorded in the archaeological and historical record include:
+
+- Olinda (Marim Caeté): situated at the mouth of the Beberibe and Capibaribe rivers, with a peak pre-colonial population estimated at 3.766 inhabitants.
+
+- Baía da Traição (Potiguara): a major naval and fortified centre on the Paraíba coast, sustaining 2.874 inhabitants.
+
+- Itamaracá (Potiguara): an insular and estuarine settlement concentration on the Santa Cruz channel, supporting 2.577 inhabitants.
+
+- Maceió (Alagoas Caeté): positioned between Mundaú Lagoon and the sea, sustaining 2.295 inhabitants.
+
+- Natal (Potengi Potiguara): located at the mouth of the Potengi River, maintaining 2.195 inhabitants.
+
+- Fortaleza (Siará Tabajara): situated on the Ceará littoral, supporting 2.095 inhabitants.
+
+Sixteenth-century Portuguese chroniclers repeatedly remarked upon the dense human settlement of the Pernambuco and Paraíba coasts, recording that the Potiguara could field armies of ten to twenty thousand warriors within forty-eight hours of mobilization, confirming an exceptionally robust demographic infrastructure.
+
+## Basin 4: São Francisco Fluvial Corridor and Itaparica Complexes
+
+The São Francisco Valley is the largest basin in North-Eastern Brazil, encompassing 649.053 km².
+
+Drained by the 2.900 km São Francisco River, it served as an uninterrupted perennial artery traversing the semi-arid interior.
+
+The basin supported 4.220 inhabitants at 10000BC, rising to 40.608 at 4000BC, 70.688 at 2000BC, 161.850 at 1000AD, and reaching 195.000 by 1500AD.
+
+Throughout the early and middle Holocene, the São Francisco River served as the primary demographic sanctuary of the interior Sertão.
+
+During regional drought episodes that rendered the interfluvial Caatinga uninhabitable, foraging bands congregated along the main river channel and within canyon sectors such as Xingó, where deep pools provided dependable fish, freshwater mussels, and turtles.
+
+The Justino site, situated in the lower São Francisco canyon near Canindé de São Francisco (Sergipe), contains one of the most complete stratified archaeological sequences in South America.
+
+Excavations revealed continuous occupational levels spanning from 7000BC to 1500AD, including extensive cemetery areas with over one hundred excavated human burials, residential hearths, and food-processing areas.
+
+The Justino settlement complex supported an estimated peak population of 1.073 inhabitants, sustained by intensive exploitation of riverine aquatic fauna and wild plant gathering.
+
+Faunal remains recovered from Justino demonstrate systematic harvesting of large predatory fish, including surubim (*Pseudoplatystoma*), alongside freshwater bivalves (*Diplodon* and *Anodontites*), creating dense riverine shell accumulations that parallel maritime sambaquis.
+
+Further upstream, in the middle valley near Petrolina and Sobradinho, fertile alluvial terraces and seasonal floodplains supported sedentary agricultural villages from 500BC onwards.
+
+The Petrolina settlement node sustained an estimated peak population of 1.174 inhabitants.
+
+In the upper middle basin, in the limestone karst canyon of the Peruaçu River near Januária (Minas Gerais), extensive dry caves and monumental rock-art galleries accommodated sedentary horticulturalists, sustaining 950 inhabitants.
+
+During the late pre-colonial era, the middle and lower São Francisco were occupied by agricultural populations belonging to the Aratu-Sapucaí ceramic tradition, alongside macro-Jê and Cariri linguistic groups collectively designated as Tapuia [@robrahn1996aratu; @schmitz1987cazadores].
+
+These communities cultivated maize, manioc and squash on seasonal flood recession terraces (*vazantes*), living in circular ring villages containing substantial subterranean food storage pits.
+
+## Basin 5: Eastern Bahia, Recôncavo and Southern Littoral
+
+The Eastern Bahia basin encompasses 319.606 km² in eastern and southern Bahia, including the Recôncavo da Bahia, the Bay of All Saints (*Baía de Todos os Santos*), and the lower basins of the Paraguaçu, Contas, and Jequitinhonha rivers.
+
+The population expanded from 1.560 inhabitants at 10000BC to 19.764 at 4000BC, 36.613 at 2000BC, 166.700 at 1000AD, and reached 210.000 by 1500AD.
+
+The geographic core of this basin was the Recôncavo da Bahia, the fertile lowland rim surrounding the Bay of All Saints.
+
+With an area exceeding 1.100 km² of protected, highly productive marine waters, dozens of islands, and dense mangrove estuaries, the bay provided an extraordinary concentration of maritime food resources.
+
+Furthermore, the surrounding terrestrial soils, derived from Cretaceous sandstones and shales, formed deep, moisture-retentive black clay soils (*massapê*) that offered exceptional fertility for pre-colonial slash-and-burn horticulture.
+
+By 1000AD, the Recôncavo was settled by coastal Tupinambá chiefdoms that established large, palisaded settlements along the bay shoreline and up the tidal reaches of the Paraguaçu and Subaé rivers [@fausto1992fragmentos; @viveirosdecastro1992individuo].
+
+The principal pre-colonial settlement cluster at Salvador (Todos os Santos Tupinambá) attained an estimated peak population of 4.191 inhabitants.
+
+Southward along the coast, Tupiniquim settlements at Ilhéus, positioned at the mouth of the Cachoeira River, sustained a peak population of 2.195 inhabitants.
+
+Sixteenth-century Portuguese chroniclers, such as Pero de Magalhães Gândavo and Gabriel Soares de Sousa, described the Recôncavo as intensely settled, with palisaded villages separated by only a few kilometres of continuous agricultural clearings.
+
+The maritime capacity of the Tupinambá was expressed in fleets of large dugout canoes (*ubás*), capable of carrying thirty to forty warriors across the bay for long-distance trading expeditions and seasonal warfare.
+
+<figure class="crd-figure-block" id="fig:trajectory">
+<img class="crd-figure-img" src="/artefacts/project_preta/1.0-northeastern-brazil/fig2_northeastern_brazil_trajectory.png" alt="fig:trajectory" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Longitudinal demographic trajectory of Pre-Columbian North-Eastern Brazil from 10000BC to 1500AD (Panel A) and peak population estimates for the ten principal settlement concentrations (Panel B).</figcaption>
+</figure>
+
+## Longitudinal Population Synthesis from 10000BC to 1500AD
+
+Synthesising the demographic evolution of Pre-Columbian North-Eastern Brazil reveals two distinct structural growth regimes over the twelve-millennium sequence:
+
+1. Early and Middle Holocene Foraging Stability (10000BC to 2000BC): Total regional population expanded slowly from 13.160 to 220.900 persons, corresponding to a compound annual growth rate of approximately 0,035%.
+
+During this era, population distribution was heavily skewed towards interior fluvial and sandstone refugia.
+
+The São Francisco Valley and Parnaíba Basin accounted for over 55% of the total regional population, reflecting the necessity of perennial water sources and secure cave shelters in the semi-arid interior.
+
+2. Late Holocene Horticultural Acceleration (2000BC to 1500AD): With the spread of pottery, manioc cultivation, and maritime canoe navigation, regional population grew from 220.900 to 940.000 inhabitants, achieving an average density of 0,5 persons per km².
+
+Crucially, this second phase witnessed a decisive spatial reallocation of demographic weight from the interior to the coast.
+
+While interior populations in the São Francisco and Parnaíba basins reached environmental carrying capacity ceilings imposed by Caatinga drought cycles, the Atlantic Coast and Eastern Bahia basins experienced rapid demographic growth.
+
+Between 0AD and 1500AD, the combined population of the Atlantic littoral and Eastern Bahia rose from 186.450 to 485.000 inhabitants, representing 51,6% of the total macro-regional population by the time of European arrival.
+
+<figure class="crd-table-figure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Cultural Tradition</th><th class="crd-th">Chronological Span</th><th class="crd-th">Primary River Basin</th><th class="crd-th">Diagnostic Technology</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Itaparica Lithic</strong></td><td class="crd-td">10000BC-6000BC</td><td class="crd-td">São Francisco &amp; Parnaíba</td><td class="crd-td">Unifacial slug scrapers (lesmas)</td></tr>
+<tr><td class="crd-td"><strong>Nordeste Rock Art</strong></td><td class="crd-td">9000BC-3000BC</td><td class="crd-td">Parnaíba (Capivara)</td><td class="crd-td">Narrative red and yellow pigment murals</td></tr>
+<tr><td class="crd-td"><strong>Agreste Rock Art</strong></td><td class="crd-td">6000BC-1000BC</td><td class="crd-td">NE Agreste &amp; Borborema</td><td class="crd-td">Static anthropomorphic figures</td></tr>
+<tr><td class="crd-td"><strong>Una Ceramic</strong></td><td class="crd-td">500BC-1200AD</td><td class="crd-td">Bahia &amp; Coastal Caves</td><td class="crd-td">Thin dark pottery, rockshelters</td></tr>
+<tr><td class="crd-td"><strong>Aratu-Sapucaí</strong></td><td class="crd-td">800AD-1500AD</td><td class="crd-td">São Francisco &amp; Bahia</td><td class="crd-td">Globular jars, ring villages</td></tr>
+<tr><td class="crd-td"><strong>Estearias Lacustrine</strong></td><td class="crd-td">800AD-1400AD</td><td class="crd-td">Mid-North (Maranhão)</td><td class="crd-td">Hardwood stilts, decorated bowls</td></tr>
+<tr><td class="crd-td"><strong>Tupiguarani</strong></td><td class="crd-td">800AD-1500AD</td><td class="crd-td">Atlantic Coast &amp; Recôncavo</td><td class="crd-td">Polychrome pottery, urn burials</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Principal archaeological traditions and cultural complexes across Pre-Columbian North-Eastern Brazil, showing chronological boundaries, geographic distribution, and diagnostic material culture.</figcaption>
+</figure>
+
+# Limitations
+
+## Taphonomic Biases and Caatinga Preservation Dynamics
+
+Reconstructing pre-colonial demography in North-Eastern Brazil requires confronting severe taphonomic and preservation asymmetries across environmental zones [@valladares2018solos; @matos2022economy].
+
+In the semi-arid interior, the dry microclimates of sandstone and limestone rockshelters provide exceptional preservation conditions for organic remains, including wooden implements, basketry, cords, pigments and coprolites [@araujo1989strongyloi].
+
+This exceptional preservation has focused archaeological attention upon rockshelters, generating a potential over-representation of cavernous sites relative to open-air campsites.
+
+In contrast, open-air settlements on alluvial terraces in the Caatinga were subject to violent seasonal flash floods (*trombas d'água*) and rapid sheet erosion, which washed away post-holes and dispersed ceramic scatters.
+
+Along the Atlantic coast, the situation is reversed.
+
+The humid tropical climate, acidic podzolic soils, and intense biological activity promote rapid decomposition of organic materials, leaving only durable lithics, ceramic sherds, and thick shell middens (*sambaquis*).
+
+Furthermore, five centuries of intensive post-colonial sugarcane plantation agriculture, coastal urban expansion, and beach erosion have destroyed hundreds of pre-colonial settlements and shell mounds across Rio Grande do Norte, Paraíba, Pernambuco, and Bahia [@matos2022economy; @lima2021marine].
+
+## Survey Coverage Disparities and Ethnohistorical Distortions
+
+Archaeological survey coverage across North-Eastern Brazil remains geographically uneven [@funari2006social; @lucas2025mobile].
+
+Intensive institutional survey programs have been concentrated in specific project areas, most notably the Serra da Capivara National Park in Piauí (under the Mission Archéologique Française and FUMDHAM) and the lower São Francisco Valley (under the Xingó Hydroelectric Salvage Program).
+
+Consequently, these sectors exhibit high site densities that partly reflect survey intensity rather than solely prehistoric human concentration.
+
+Conversely, vast stretches of the interior Borborema Plateau, the Cariris Velhos, the western Maranhão interfluvial plateaus, and southern Bahia remain insufficiently explored by systematic pedestrian survey.
+
+While non-stationary kriging models mitigate these gaps by interpolating across physiographic covariates, future archaeological discoveries will refine localized settlement boundaries.
+
+Finally, early European chroniclers recorded Indigenous populations through the distorting lens of colonial confrontation and alliance building [@fausto1992fragmentos; @viveirosdecastro1992individuo].
+
+While early descriptions of village size and warrior counts provide valuable benchmark figures, rapidly spreading Old World epidemic diseases (smallpox, influenza, measles) preceded sustained European exploration in many coastal sectors, causing catastrophic demographic collapse within decades of first contact.
+
+# Conclusion
+
+The demographic trajectory of Pre-Columbian North-Eastern Brazil reflects a continuous and resilient process of landscape adaptation spanning twelve millennia.
+
+From an initial baseline of approximately 13.160 mobile foragers at 10000BC, human populations successfully settled the diverse biomes of the region, expanding to 220.900 by 2000BC and culminating in an aggregate population of 940.000 inhabitants distributed across 818 recorded settlement centres at 1500AD.
+
+This twelve-millennium sequence was characterised by a profound spatial transformation.
+
+While early and middle Holocene populations were anchored in the sheltered canyons and perennial springs of the São Francisco Valley and Parnaíba Basin, the late pre-colonial era was dominated by densely populated horticultural chiefdoms along the Atlantic littoral, the Bay of All Saints, and the lake basins of Maranhão.
+
+The pre-colonial inhabitants developed sophisticated adaptations to semi-arid droughts, constructed monumental rock-art galleries, engineered lacustrine pile-dwellings, and organized fortified village federations capable of sustaining thousands of residents, establishing North-Eastern Brazil as a major centre of demographic and cultural complexity in ancient South America.
+
+# Appendix
+
+The quantitative estimates presented in this study are derived from the regional settlement gazetteer cataloguing 818 archaeological sites and historical settlement records across the five macro-basins of North-Eastern Brazil.
+
+Spatial aggregation procedures and non-stationary Matérn kriging parameters were calibrated to maintain consistency across regional watershed boundaries while respecting localized environmental carrying capacity ceilings.
+
+# Sources

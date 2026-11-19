@@ -1,0 +1,177 @@
+---
+title: "Settlement Gazetteer of Pre-Annexation Hawai'i and American Polynesia"
+subtitle: "CENTAUR-II: Royal Centres, Ahupua'a Nodes and Mission Ports, 1000BC to 1898AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: hawaii_and_american_polynesia_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_hawaii_and_american_polynesia_spatial.png"
+hero_caption: "Spatial distribution of 216 Polynesian royal centres, ahupua'a valleys and bay villages mapped onto the five CENTAUR-II areal masks."
+hero_label: "fig:hero-hawaii-and-american-polynesia"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("hawaii_and_american_polynesia.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("hawaii_and_american_polynesia_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("hawaii_and_american_polynesia_source_ledger.json5", simplifyVector = FALSE)
+```
+
+# Abstract
+
+This gazetteer documents the 216 catalogued settlements compiled for Hawai'i and American Polynesia under CENTAUR-II from 1000BC to 1898AD (16.600 km²). Drawn from archaeological valley surveys, royal court chronologies, USGS Geographic Names Information System (GNIS) and GeoNames coordinate registers and Hawaiian Kingdom censuses [@kirch2010how; @schmitt1968demographic; @schmitt1977historical], the catalogue records 65 centres on Hawai'i Island, 61 in Maui Nui, 45 on O'ahu, 31 on Kaua'i-Ni'ihau and 14 across Tutuila and Manu'a in Eastern Samoa, spanning 1.587 temporal benchmark observations (mean 7,35 observations per locus; all 216 carrying at least three anchors). At the 1778AD pre-contact peak, the largest concentrated settlements were Waikīkī (8,5k), Waipi'o Valley (6,8k), Kailua-Kona (6,5k), Lāhainā (6,2k), Hilo (5,8k) and Wailuku (4,9k) [@kirch2010how]. During the nineteenth century, port-driven nucleation shifted urban primacy to Honolulu (29,92k in 1896AD and 34,2k in 1898AD), while Pago Pago (1,22k in 1898AD) and Leone (870 in 1898AD; 1,05k at contact) anchored settlement in Eastern Samoa [@schmitt1977historical; @uscensus1901twelfth]. Out of 477 total candidates in the regional source ledger, 261 duplicate-alias candidates within 2 km were excluded to prevent close-pair double counting.
+
+# Background
+
+Unlike continental urban grids, pre-contact Polynesian population distributed across radially bounded *ahupua'a* catchment strips in Hawai'i and bay-centred *nu'u* villages in Samoa [@kirch2010how; @rieth2008radiocarbon]. High-density clusters formed where irrigated wetland *lo'i* plains met protected reef or fishpond coastlines, or where high chiefs (*ali'i nui*) maintained seasonal royal courts such as Waikīkī, Lāhainā, Kailua-Kona, Hōnaunau and Waipi'o Valley [@kirch2010how; @ladefoged2009opportunities]. Following Western contact in 1778AD, whaling, sandalwood trade and sugar-export infrastructure redirected settlement away from dryland leeward districts toward deep-water harbours at Honolulu, Lāhainā, Hilo and Pago Pago [@schmitt1968demographic].
+
+# Methodology
+
+Every candidate locus in the regional literature was evaluated against the regional source ledger and assigned exclusively to CENTAUR provenance. All 216 included Hawaiian and American Samoan loci were re-anchored onto USGS GNIS and GeoNames WGS84 decimal coordinates and mapped to the five five-arcminute areal masks using a 12-pixel coastal snap radius. Two hundred and sixty-one duplicate coordinate or alias candidates (230 across Hawai'i, including coastal and upland localities such as 'Ele'ele, Ke'ei, Kealaikahiki, Kuli'ou'ou and Wai'alae, alongside 31 across Eastern Samoa such as Futiga, Ili'ili, Tula and Āmouli) lying within 2 km of a canonical valley, bay or port centre were consolidated into their parent records and marked excluded in the source ledger.
+
+# Testing and Validation
+
+Ledger reconciliation confirms 216 included settlements and 261 excluded candidates (477 total candidates, 0 unaccounted), covering 1.587 benchmark observations across 1000BC to 1898AD. All 216 records map cleanly onto their host island masks (18,97 N to 22,22 N and 154,85 W to 160,23 W in Hawai'i; 14,26 S to 14,35 S and 170,58 W to 170,83 W in Eastern Samoa) with non-zero integer population counts across each locus's active span. Figure \ref{fig:sett-hawaii} presents the rank-size curve and the top fifteen settlements across the gazetteer.
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_hawaii_and_american_polynesia_settlements.png",
+  "Rank-size distribution and leading fifteen settlement peaks across the 216 catalogued centres of Hawai'i and American Polynesia.",
+  "fig:sett-hawaii"
+)
+```
+
+# Results
+
+## Top 45 Settlements by Peak Population
+
+Table \ref{tab:gazetteer-hawaii} lists the top 45 settlements by peak population from the 216-entry gazetteer, reporting USGS GNIS and GeoNames coordinates, island group, occupation span and benchmark estimates across 1778AD, 1832AD and 1896AD.
+
+```{r tab-gazetteer, results='asis'}
+fmt_coord <- function(x) gsub("\\.", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+fmt_yr_lbl <- function(y) {
+  yi <- as.integer(y)
+  if (yi < 0) paste0(abs(yi), "BC") else paste0(yi, "AD")
+}
+get_pop_str <- function(e, y) {
+  v <- e$population[[y]]
+  if (is.null(v)) return("-")
+  viscount_fmt_pop(v)
+}
+
+peaks <- vapply(sett_data, function(e) max(unlist(e$population)), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+top_n <- min(45L, length(ord))
+
+rows <- lapply(sett_data[ord[seq_len(top_n)]], function(e) {
+  yrs <- as.integer(names(e$population))
+  pk_y <- names(e$population)[which.max(unlist(e$population))]
+  pk_v <- max(unlist(e$population))
+  reg_nm <- mod_data$regions[[e$region_id]]$name
+  reg_short <- sub("^[0-9]+\\.\\s*", "", reg_nm)
+  reg_short <- sub("\\s*\\(.*\\)$", "", reg_short)
+  data.frame(
+    Settlement = e$name,
+    Region = gsub(" */ *", " and ", gsub("&", "and", reg_short, fixed = TRUE)),
+    Coords = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Span = paste0(fmt_yr_lbl(min(yrs)), "-", fmt_yr_lbl(max(yrs))),
+    P1778 = get_pop_str(e, "1778"),
+    P1832 = get_pop_str(e, "1832"),
+    P1896 = get_pop_str(e, "1896"),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", fmt_yr_lbl(pk_y), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+gaz_df <- do.call(rbind, rows)
+rownames(gaz_df) <- NULL
+
+viscount_table(
+  gaz_df,
+  "Top 45 settlements in the Hawai'i and American Polynesia gazetteer ordered by peak population (n=216 total).",
+  c("Settlement", "Island Group", "Lat, Lon", "Span", "1778AD", "1832AD", "1896AD", "Peak (Year)"),
+  list(label = "tab:gazetteer-hawaii", font_size = "scriptsize", max_rows_per_page = 24L)
+)
+```
+
+## Sub-Regional Summary
+
+Table \ref{tab:regsum-hawaii} aggregates catalogued nodal populations by island group at 1778AD, 1832AD, 1896AD and 1898AD. At 1778AD, the 216 named centres sum to 280,2k persons (73,3% of the 382,2k regional total), reflecting wide coverage across Hawaiian *ahupua'a* valleys and Samoan coastal villages [@kirch2010how; @schmitt1977historical].
+
+```{r tab-regsum, results='asis'}
+reg_keys <- names(mod_data$regions)
+sum_rows <- lapply(reg_keys, function(rk) {
+  sub_e <- Filter(function(e) identical(e$region_id, rk), sett_data)
+  s1778 <- sum(vapply(sub_e, function(e) { v <- e$population[["1778"]]; if (is.null(v)) 0 else as.numeric(v) }, numeric(1)))
+  s1832 <- sum(vapply(sub_e, function(e) { v <- e$population[["1832"]]; if (is.null(v)) 0 else as.numeric(v) }, numeric(1)))
+  s1896 <- sum(vapply(sub_e, function(e) { v <- e$population[["1896"]]; if (is.null(v)) 0 else as.numeric(v) }, numeric(1)))
+  s1898 <- sum(vapply(sub_e, function(e) { v <- e$population[["1898"]]; if (is.null(v)) 0 else as.numeric(v) }, numeric(1)))
+  reg_short <- sub("^[0-9]+\\.\\s*", "", mod_data$regions[[rk]]$name)
+  data.frame(
+    Region = gsub(" */ *", " and ", gsub("&", "and", reg_short, fixed = TRUE)),
+    Sites = as.character(length(sub_e)),
+    S1778 = if (s1778 > 0) viscount_fmt_pop(s1778) else "-",
+    S1832 = if (s1832 > 0) viscount_fmt_pop(s1832) else "-",
+    S1896 = if (s1896 > 0) viscount_fmt_pop(s1896) else "-",
+    S1898 = if (s1898 > 0) viscount_fmt_pop(s1898) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Catalogued settlement count and summed nodal population by sub-region at 1778AD, 1832AD, 1896AD and 1898AD.",
+  c("Sub-Region", "Sites", "1778AD Nodes", "1832AD Nodes", "1896AD Nodes", "1898AD Nodes"),
+  list(label = "tab:regsum-hawaii", font_size = "footnotesize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:excluded-hawaii} lists the first 30 representative duplicate-alias entries out of 261 excluded candidates recorded in the regional source ledger together with their target canonical settlements.
+
+```{r tab-excluded, results='asis'}
+exc_list <- Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates)
+exc_n <- min(30L, length(exc_list))
+exc_rows <- lapply(exc_list[seq_len(exc_n)], function(c) {
+  nm <- if (!is.null(c$name) && nzchar(c$name)) c$name else c$settlement_key
+  just <- as.character(c$justification)
+  data.frame(
+    Candidate = nm,
+    Territory = c$country,
+    Category = "Duplicate alias",
+    Justification = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+
+viscount_table(
+  exc_df,
+  "Representative excluded duplicate candidates in the Hawai'i and American Polynesia source ledger (first 30 of n=261, all consolidated within 2 km into canonical loci).",
+  c("Candidate", "Territory", "Reason", "Consolidation Note"),
+  list(label = "tab:excluded-hawaii", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Because pre-contact Hawaiian settlement formed continuous *ahupua'a* bands rather than nucleated European towns, point coordinates represent chiefdom and valley centroids anchored to USGS GNIS and GeoNames features rather than walled urban boundaries [@kirch2010how; @dye2011model]. On O'ahu, the 45 catalogued entries sum to 59,58k in 1896AD, exceeding the island census total of 40.205, because Honolulu's municipal enumeration (29.920 in 1896AD) already includes inner Kona-O'ahu valleys (Waikīkī, Kalihi, Nu'uanu, Mānoa and Makiki) that remain tracked independently across pre-contact benchmarks. Similarly, Eastern Samoa entries anchor on 1836AD, 1850AD, 1890AD and 1898AD rather than the Hawaiian Kingdom censuses of 1832AD and 1896AD, and the 14 bay villages sum to 5,85k in 1898AD (5,66k sub-regional total) where overlapping Pago Pago Harbor communities share coastal basins [@kirch1993toaga; @uscensus1901twelfth].
+
+# Sources
+
+<div id="refs"></div>

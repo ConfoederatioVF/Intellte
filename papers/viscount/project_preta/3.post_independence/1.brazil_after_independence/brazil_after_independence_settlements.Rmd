@@ -1,0 +1,338 @@
+---
+title: "Settlement Gazetteer of Brazil after Independence: Imperial Parishes and Contemporary IBGE Municipalities"
+subtitle: "PRETA-III: Five Macro-Regions and 5.952 Inhabited Municipal Localities, 1822AD to 2026AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: brazil_after_independence_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_brazil_after_independence_spatial.png"
+hero_caption: "Spatial distribution of 5.952 catalogued IBGE municipalities and historic parishes across all 27 Federative Units of Brazil (8,55M km²), contrasting dense Atlantic coastal settlements with interior Cerrado and Amazonian river networks from 1822AD to 2026AD."
+hero_label: "fig:hero-settlements"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("brazil_after_independence.json5")
+set_data <- read_json_file("brazil_after_independence_settlements.json")
+led_data <- read_json_file("brazil_after_independence_source_ledger.json5")
+
+clean_name <- function (arg0_s) {
+  s <- as.character(arg0_s)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+get_pop_num <- function (arg0_pop, arg1_yr) {
+  val <- arg0_pop[[arg1_yr]]
+  if (is.null(val) || length(val) == 0) return(NA_real_)
+  as.numeric(val)
+}
+
+fmt_coord_lat <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+}
+
+fmt_coord_lon <- function (arg0_coords) {
+  lon <- as.numeric(arg0_coords[[2]])
+  paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+}
+
+uf_abbrev <- list(
+  bra_acre = "AC", bra_alagoas = "AL", bra_amapa = "AP", bra_amazonas = "AM",
+  bra_bahia = "BA", bra_ceara = "CE", bra_distrito_federal = "DF", bra_espirito_santo = "ES",
+  bra_goias = "GO", bra_maranhao = "MA", bra_mato_grosso = "MT", bra_mato_grosso_do_sul = "MS",
+  bra_minas_gerais = "MG", bra_para = "PA", bra_paraiba = "PB", bra_parana = "PR",
+  bra_pernambuco = "PE", bra_piaui = "PI", bra_rio_de_janeiro = "RJ", bra_rio_grande_do_norte = "RN",
+  bra_rio_grande_do_sul = "RS", bra_rondonia = "RO", bra_roraima = "RR", bra_santa_catarina = "SC",
+  bra_sao_paulo = "SP", bra_sergipe = "SE", bra_tocantins = "TO"
+)
+
+macro_lookup <- list(
+  bra_acre = "North", bra_amapa = "North", bra_amazonas = "North", bra_para = "North",
+  bra_rondonia = "North", bra_roraima = "North", bra_tocantins = "North",
+  bra_alagoas = "Northeast", bra_bahia = "Northeast", bra_ceara = "Northeast", bra_maranhao = "Northeast",
+  bra_paraiba = "Northeast", bra_pernambuco = "Northeast", bra_piaui = "Northeast",
+  bra_rio_grande_do_norte = "Northeast", bra_sergipe = "Northeast",
+  bra_espirito_santo = "Southeast", bra_minas_gerais = "Southeast", bra_rio_de_janeiro = "Southeast",
+  bra_sao_paulo = "Southeast",
+  bra_parana = "South", bra_rio_grande_do_sul = "South", bra_santa_catarina = "South",
+  bra_distrito_federal = "Central-West", bra_goias = "Central-West", bra_mato_grosso = "Central-West",
+  bra_mato_grosso_do_sul = "Central-West"
+)
+
+set_list <- unname(set_data)
+tot_setts <- length(set_list)
+```
+
+# Abstract
+
+This gazetteer catalogues geographic coordinates, administrative hierarchies and demographic benchmark series for 5.952 inhabited settlements across all 27 Federative Units and five macro-regions of Brazil from 1822AD to 2026AD. Encompassing all 5.570 contemporary IBGE municipalities alongside 382 historical parishes, mining curacies and railway districts documented since the 1872AD Imperial Census, this repository provides the spatial foundation for non-stationary kriging and demographic interpolation across 8,55M km² of South American territory.
+
+Spatial disaggregation links municipal centroid coordinates in WGS84 with longitudinal census observations spanning sixteen national benchmarks: the 1872AD Imperial Census, the 1890AD, 1900AD and 1920AD republican surveys, the 1940AD to 2022AD decennial IBGE enumerations, and projected 2026AD totals. Inhabited settlements range from global metropolitan giants like São Paulo (13,82M municipal residents in 2026AD) and Rio de Janeiro (7,27M) to interior agro-industrial nodes, Amazonian river trading posts, and remote sertanejo districts.
+
+The gazetteer reconciles against the PRETA source ledger through four systematic enumeration waves, incorporating 5.832 official census entities from IBGE SIDRA databases, 95 CEDEPLAR historical parish rolls, and 25 longitudinal backfilled district series, with 5.361 excluded candidate entities verified as duplicate toponymic aliases or uninhabited administrative fragments. To preserve legibility while maintaining documentation of the full machine-readable dataset of 5.952 entities, this report presents an exhaustive state-by-state administrative summary paired with curated gazetteer tables covering the leading 160 urban centres grouped across Brazil's five macro-regions.
+
+# Administrative Evolution of Brazilian Municipalities
+
+The administrative architecture of Brazilian local governance derives from Portuguese municipal traditions codified in the *Ordenações Manuelinas* and *Ordenações Filipinas* [@ibge2003estatisticas; @marcilio1984demographic]. During the colonial era, urban status was stratified between ecclesiastical curacies (*freguesias*), autonomous municipal councils (*vilas*), and chartered royal cities (*cidades*), the latter restricted to provincial capitals and major seaports such as Salvador, Rio de Janeiro, São Luís, and Belém. Municipal autonomy was vested in the *Senado da Câmara*, composed of wealthy landowners (*homens bons*), which exercised judicial and fiscal authority over extensive rural territories.
+
+Following independence in 1822AD, the Imperial Constitution of 1824AD and the Municipal Law of 1828AD abolished town councils, replacing them with elected municipal chambers (*câmaras municipais*) subject to provincial presidential supervision [@botelho2000populacao]. At the time of the 1872AD Imperial Census, Brazil comprised approximately 640 municipalities subdivided into 1.483 parishes [@ibge1874recenseamento]. As coffee cultivation and European immigration populated the interior of São Paulo, Minas Gerais and the southern provinces, provincial assemblies subdivided expansive rural districts, creating hundreds of new municipal seats.
+
+Under the Federal Constitution of 1889AD, municipalities gained statutory fiscal autonomy, triggering waves of municipal emancipations driven by local political elites [@skidmore1999brazil]. The number of municipalities expanded to 1.574 by the 1940AD census, 2.766 by 1960AD, 3.974 by 1970AD, and 4.491 by 1991AD. The promulgation of the 1988AD Federal Constitution elevated municipalities to autonomous federative entities alongside states and the Union, entitling them to shares of the Municipal Participation Fund (Fundo de Participação dos Municípios). This fiscal incentive sparked an emancipation boom that created over 1.000 new municipalities during the 1990s, culminating in the 5.570 municipalities enumerated in the 2022AD IBGE census [@ibge2023censo].
+
+# Source Saturation and Gazetteer Provenance
+
+The 5.952 settlement entities in this gazetteer derive from a four-wave saturation audit recorded in the PRETA source ledger, reconciling multiple historical and contemporary cartographic corpora:
+
+1. **Wave 1: Official Decennial Censuses and IBGE SIDRA Databases**: Encompasses 5.832 modern municipal jurisdictions and historical district seats documented across decennial censuses from 1970AD to 2022AD. Every entity carries official 7-digit IBGE geocodes, gazetteer coordinates, and longitudinal population counts.
+2. **Wave 2: CEDEPLAR Historical Parish Inventories**: Integrates 95 historical nineteenth-century parishes and mining curacies extracted from the 1872AD Imperial Census database compiled by the Centro de Desenvolvimento e Planejamento Regional (CEDEPLAR) of the Universidade Federal de Minas Gerais [@botelho2000populacao; @ibge1874recenseamento].
+3. **Wave 3: Longitudinal Administrative Backfills**: Adds 25 historical settlement series from 1822AD to 1920AD, connecting colonial administrative centres with their modern successor municipalities.
+4. **Wave 4: Terminal Gap-Hunter and Toponymic Verification**: Audited 5.361 excluded candidate entities from GeoNames and historical gazetteers, identifying duplicate spelling aliases (such as Desterro for Florianópolis, Vila Rica for Ouro Preto, and São Salvador da Bahia for Salvador) and uninhabited topographic points, confirming zero unaccounted inhabited settlements and 100% corpus saturation.
+
+# State-by-State Municipal Summary
+
+Table 1 synthesises the administrative distribution of all 5.952 settlements across the 27 Federative Units, showing land area, municipal counts, historical benchmarks, and contemporary average municipal headcount.
+
+```{r state_summary_table, results='asis'}
+reg_keys <- names(mod_data$regions)
+
+df_state_sum <- do.call(rbind, lapply(reg_keys, function (k) {
+  reg <- mod_data$regions[[k]]
+  area <- as.numeric(reg$area_km2)
+  p1900 <- as.numeric(reg$population[["1900"]])
+  p1960 <- as.numeric(reg$population[["1960"]])
+  p2026 <- as.numeric(reg$population[["2026"]])
+  
+  uf_code <- uf_abbrev[[k]]
+  macro <- macro_lookup[[k]]
+  
+  k_setts <- Filter(function (s) identical(s$region_id, k), set_list)
+  n_setts <- length(k_setts)
+  mean_pop <- if (n_setts > 0) p2026 / n_setts else 0
+  
+  data.frame(
+    State = as.character(reg$name),
+    UF = uf_code,
+    Macro = macro,
+    Settlements = n_setts,
+    Area = formatC(round(area), format = "d", big.mark = "."),
+    P1900 = viscount_fmt_pop(p1900),
+    P1960 = viscount_fmt_pop(p1960),
+    P2026 = viscount_fmt_pop(p2026),
+    MeanPop = viscount_fmt_pop(mean_pop),
+    stringsAsFactors = FALSE
+  )
+}))
+
+df_state_sum <- df_state_sum[order(-vapply(reg_keys, function (k) as.numeric(mod_data$regions[[k]]$population[["2026"]]), numeric(1))), ]
+
+viscount_table(
+  df_state_sum[, c("State", "UF", "Macro", "Settlements", "Area", "P1900", "P2026", "MeanPop")],
+  "State-by-state administrative summary of 5.952 catalogued Brazilian settlements across all 27 Federative Units.",
+  c("Federative Unit", "UF", "Macro-Region", "Municipalities", "Area (km²)", "1900AD", "2026AD", "Mean Size"),
+  list(font_size = "scriptsize")
+)
+```
+
+Minas Gerais contains the largest number of municipal jurisdictions (853 municipalities), reflecting its colonial history of fragmented mountain valleys and nineteenth-century agrarian settlement, followed by São Paulo (645 municipalities), Rio Grande do Sul (497), and Bahia (417).
+
+# Leading Municipalities by Macro-Region
+
+To illustrate the hierarchical structure of the settlement network, the following tables detail the leading urban and regional centres in each macro-region, reporting WGS84 coordinates, historical populations in 1900AD and 1960AD, projected 2026AD population, and long-term population multiplication factors.
+
+## Southeast Macro-Region
+
+The Southeast concentrates the apex of the Brazilian urban hierarchy, dominated by the São Paulo and Rio de Janeiro metropolitan complexes alongside interior industrial and mining centres.
+
+```{r southeast_table, results='asis'}
+se_setts <- Filter(function (s) macro_lookup[[s$region_id]] == "Southeast", set_list)
+se_sorted <- se_setts[order(-vapply(se_setts, function (s) { p <- get_pop_num(s$population, "2026"); if (is.na(p)) 0 else p }, numeric(1)))]
+se_top <- se_sorted[1:36]
+
+df_se <- do.call(rbind, lapply(se_top, function (s) {
+  p00 <- get_pop_num(s$population, "1900")
+  p60 <- get_pop_num(s$population, "1960")
+  p26 <- get_pop_num(s$population, "2026")
+  mult <- if (length(p00) > 0 && !is.na(p00) && p00 > 0 && length(p26) > 0 && !is.na(p26)) paste0(viscount_fmt_number(p26 / p00, 1L), "x") else "-"
+  data.frame(
+    Municipality = clean_name(s$name),
+    UF = uf_abbrev[[s$region_id]],
+    Lat = fmt_coord_lat(s$coords),
+    Lon = fmt_coord_lon(s$coords),
+    P1900 = viscount_fmt_pop(p00),
+    P1960 = viscount_fmt_pop(p60),
+    P2026 = viscount_fmt_pop(p26),
+    Growth = mult,
+    stringsAsFactors = FALSE
+  )
+}))
+
+viscount_table(
+  df_se,
+  "Leading 36 municipalities of the Southeast Macro-Region, ranked by projected 2026AD population.",
+  c("Municipality", "UF", "Latitude", "Longitude", "1900AD", "1960AD", "2026AD", "Growth"),
+  list(font_size = "scriptsize")
+)
+```
+
+## Northeast Macro-Region
+
+The Northeast presents a dual settlement structure: densely populated coastal capital metropolises (Salvador, Fortaleza, Recife, São Luís, Maceió, Natal, João Pessoa, Aracaju, Teresina) contrasting with commercial hub cities in the interior Agreste and Sertão.
+
+```{r northeast_table, results='asis'}
+ne_setts <- Filter(function (s) macro_lookup[[s$region_id]] == "Northeast", set_list)
+ne_sorted <- ne_setts[order(-vapply(ne_setts, function (s) { p <- get_pop_num(s$population, "2026"); if (is.na(p)) 0 else p }, numeric(1)))]
+ne_top <- ne_sorted[1:36]
+
+df_ne <- do.call(rbind, lapply(ne_top, function (s) {
+  p00 <- get_pop_num(s$population, "1900")
+  p60 <- get_pop_num(s$population, "1960")
+  p26 <- get_pop_num(s$population, "2026")
+  mult <- if (length(p00) > 0 && !is.na(p00) && p00 > 0 && length(p26) > 0 && !is.na(p26)) paste0(viscount_fmt_number(p26 / p00, 1L), "x") else "-"
+  data.frame(
+    Municipality = clean_name(s$name),
+    UF = uf_abbrev[[s$region_id]],
+    Lat = fmt_coord_lat(s$coords),
+    Lon = fmt_coord_lon(s$coords),
+    P1900 = viscount_fmt_pop(p00),
+    P1960 = viscount_fmt_pop(p60),
+    P2026 = viscount_fmt_pop(p26),
+    Growth = mult,
+    stringsAsFactors = FALSE
+  )
+}))
+
+viscount_table(
+  df_ne,
+  "Leading 36 municipalities of the Northeast Macro-Region, ranked by projected 2026AD population.",
+  c("Municipality", "UF", "Latitude", "Longitude", "1900AD", "1960AD", "2026AD", "Growth"),
+  list(font_size = "scriptsize")
+)
+```
+
+## South Macro-Region
+
+The South features an integrated polycentric urban network rooted in nineteenth-century immigrant colonisation, characterized by thriving agro-industrial cooperatives and specialized manufacturing nodes.
+
+```{r south_table, results='asis'}
+so_setts <- Filter(function (s) macro_lookup[[s$region_id]] == "South", set_list)
+so_sorted <- so_setts[order(-vapply(so_setts, function (s) { p <- get_pop_num(s$population, "2026"); if (is.na(p)) 0 else p }, numeric(1)))]
+so_top <- so_sorted[1:32]
+
+df_so <- do.call(rbind, lapply(so_top, function (s) {
+  p00 <- get_pop_num(s$population, "1900")
+  p60 <- get_pop_num(s$population, "1960")
+  p26 <- get_pop_num(s$population, "2026")
+  mult <- if (length(p00) > 0 && !is.na(p00) && p00 > 0 && length(p26) > 0 && !is.na(p26)) paste0(viscount_fmt_number(p26 / p00, 1L), "x") else "-"
+  data.frame(
+    Municipality = clean_name(s$name),
+    UF = uf_abbrev[[s$region_id]],
+    Lat = fmt_coord_lat(s$coords),
+    Lon = fmt_coord_lon(s$coords),
+    P1900 = viscount_fmt_pop(p00),
+    P1960 = viscount_fmt_pop(p60),
+    P2026 = viscount_fmt_pop(p26),
+    Growth = mult,
+    stringsAsFactors = FALSE
+  )
+}))
+
+viscount_table(
+  df_so,
+  "Leading 32 municipalities of the South Macro-Region, ranked by projected 2026AD population.",
+  c("Municipality", "UF", "Latitude", "Longitude", "1900AD", "1960AD", "2026AD", "Growth"),
+  list(font_size = "scriptsize")
+)
+```
+
+## North Macro-Region
+
+The North displays a distinctive bifurcated settlement pattern: riverine metropolises and port cities alongside mining complexes and highway colonization nodes along the Transamazônica and BR-364.
+
+```{r north_table, results='asis'}
+no_setts <- Filter(function (s) macro_lookup[[s$region_id]] == "North", set_list)
+no_sorted <- no_setts[order(-vapply(no_setts, function (s) { p <- get_pop_num(s$population, "2026"); if (is.na(p)) 0 else p }, numeric(1)))]
+no_top <- no_sorted[1:28]
+
+df_no <- do.call(rbind, lapply(no_top, function (s) {
+  p00 <- get_pop_num(s$population, "1900")
+  p60 <- get_pop_num(s$population, "1960")
+  p26 <- get_pop_num(s$population, "2026")
+  mult <- if (length(p00) > 0 && !is.na(p00) && p00 > 0 && length(p26) > 0 && !is.na(p26)) paste0(viscount_fmt_number(p26 / p00, 1L), "x") else "-"
+  data.frame(
+    Municipality = clean_name(s$name),
+    UF = uf_abbrev[[s$region_id]],
+    Lat = fmt_coord_lat(s$coords),
+    Lon = fmt_coord_lon(s$coords),
+    P1900 = viscount_fmt_pop(p00),
+    P1960 = viscount_fmt_pop(p60),
+    P2026 = viscount_fmt_pop(p26),
+    Growth = mult,
+    stringsAsFactors = FALSE
+  )
+}))
+
+viscount_table(
+  df_no,
+  "Leading 28 municipalities of the North Macro-Region, ranked by projected 2026AD population.",
+  c("Municipality", "UF", "Latitude", "Longitude", "1900AD", "1960AD", "2026AD", "Growth"),
+  list(font_size = "scriptsize")
+)
+```
+
+## Central-West Macro-Region
+
+The Central-West is anchored by the federal capital of Brasília and state capitals Goiânia, Campo Grande and Cuiabá, flanked by rapidly expanding grain and livestock municipalities across the Cerrado plateau.
+
+```{r central_west_table, results='asis'}
+cw_setts <- Filter(function (s) macro_lookup[[s$region_id]] == "Central-West", set_list)
+cw_sorted <- cw_setts[order(-vapply(cw_setts, function (s) { p <- get_pop_num(s$population, "2026"); if (is.na(p)) 0 else p }, numeric(1)))]
+cw_top <- cw_sorted[1:28]
+
+df_cw <- do.call(rbind, lapply(cw_top, function (s) {
+  p00 <- get_pop_num(s$population, "1900")
+  p60 <- get_pop_num(s$population, "1960")
+  p26 <- get_pop_num(s$population, "2026")
+  mult <- if (length(p00) > 0 && !is.na(p00) && p00 > 0 && length(p26) > 0 && !is.na(p26)) paste0(viscount_fmt_number(p26 / p00, 1L), "x") else "-"
+  data.frame(
+    Municipality = clean_name(s$name),
+    UF = uf_abbrev[[s$region_id]],
+    Lat = fmt_coord_lat(s$coords),
+    Lon = fmt_coord_lon(s$coords),
+    P1900 = viscount_fmt_pop(p00),
+    P1960 = viscount_fmt_pop(p60),
+    P2026 = viscount_fmt_pop(p26),
+    Growth = mult,
+    stringsAsFactors = FALSE
+  )
+}))
+
+viscount_table(
+  df_cw,
+  "Leading 28 municipalities of the Central-West Macro-Region, ranked by projected 2026AD population.",
+  c("Municipality", "UF", "Latitude", "Longitude", "1900AD", "1960AD", "2026AD", "Growth"),
+  list(font_size = "scriptsize")
+)
+```
+
+Across all five macro-regions, the top 160 municipalities catalogued in Tables 2 through 6 account for 109,4M residents in 2026AD (51,5% of Brazil's total population), demonstrating the pronounced spatial concentration of Brazilian demographic and economic activity within leading regional nodes, while the remaining 103,2M inhabitants are distributed across the other 5.792 municipal jurisdictions.
+
+# Sources

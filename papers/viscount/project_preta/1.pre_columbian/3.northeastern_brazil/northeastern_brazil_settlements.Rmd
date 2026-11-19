@@ -1,0 +1,265 @@
+---
+title: "Settlements of Pre-Columbian North-Eastern Brazil"
+subtitle: "Gazetteer of 818 Archaeological Sites and Ethnohistorical Settlements from 10000BC to 1500AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: northeastern_brazil_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_northeastern_brazil_spatial.png"
+hero_caption: "Five Pre-Columbian ecological macro-basins across North-Eastern Brazil, showing the distribution of 818 recorded settlements from the Maranhão estearias to the Recôncavo da Bahia between 10000BC and 1500AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+```
+
+```{r load-settlements, include=FALSE}
+settlements_raw <- jsonlite::fromJSON("northeastern_brazil_settlements.json", simplifyVector = FALSE)
+total_settlement_count <- length(settlements_raw)
+
+fmt_coord <- function (arg0_coords) {
+  if (is.null(arg0_coords) || length(arg0_coords) < 2) return("-")
+  lat <- round(as.numeric(arg0_coords[[1]]), 2)
+  lon <- round(as.numeric(arg0_coords[[2]]), 2)
+  paste0(
+    gsub("\\.", ",", format(lat, nsmall = 2, trim = TRUE)),
+    ", ",
+    gsub("\\.", ",", format(lon, nsmall = 2, trim = TRUE))
+  )
+}
+
+get_span <- function (arg0_pop) {
+  if (is.null(arg0_pop) || length(arg0_pop) == 0) return("-")
+  yrs <- as.integer(names(arg0_pop))
+  min_y <- min(yrs)
+  max_y <- max(yrs)
+  fmt_yr <- function (y) {
+    if (y < 0) paste0(abs(y), "BC") else paste0(y, "AD")
+  }
+  if (min_y == max_y) fmt_yr(min_y) else paste0(fmt_yr(min_y), "-", fmt_yr(max_y))
+}
+
+get_peak_pop <- function (arg0_pop) {
+  if (is.null(arg0_pop) || length(arg0_pop) == 0) return(0L)
+  max(as.integer(unlist(arg0_pop)))
+}
+
+fmt_pop_num <- function (arg0_val) {
+  if (is.null(arg0_val) || is.na(arg0_val) || arg0_val <= 0) return("-")
+  formatC(as.integer(arg0_val), format = "d", big.mark = ".", decimal.mark = ",")
+}
+
+clean_text <- function (arg0_text) {
+  s <- as.character(arg0_text)
+  s <- gsub("_", "-", s, fixed = TRUE)
+  s <- gsub("#", "No. ", s, fixed = TRUE)
+  s
+}
+
+extract_subregion <- function (arg0_reg_id, arg0_top_n = 35) {
+  items <- list()
+  for (k in names(settlements_raw)) {
+    entry <- settlements_raw[[k]]
+    reg <- if (!is.null(entry$region)) entry$region else entry$region_id
+    if (identical(reg, arg0_reg_id)) {
+      entry$peak <- get_peak_pop(entry$population)
+      items[[length(items) + 1]] <- entry
+    }
+  }
+  # Sort descending by peak population
+  peaks <- vapply(items, function(x) x$peak, integer(1))
+  items <- items[order(peaks, decreasing = TRUE)]
+  if (length(items) > arg0_top_n) {
+    items <- items[seq_len(arg0_top_n)]
+  }
+  rows <- lapply(items, function(e) {
+    data.frame(
+      Settlement = clean_text(e$name),
+      Coordinates = fmt_coord(e$coords),
+      Occupied_Span = get_span(e$population),
+      Peak_Inhabitants = fmt_pop_num(e$peak),
+      stringsAsFactors = FALSE
+    )
+  })
+  do.call(rbind, rows)
+}
+```
+
+# Abstract
+
+This settlement report presents a comprehensive catalogue of `r total_settlement_count` Pre-Columbian archaeological sites and ethnohistorical settlement locations recorded across North-Eastern Brazil, encompassing an area of 1.881.594 km². Drained by five major hydrological networks, the territory spans the equatorial floodplains of Maranhão, the sandstone cuesta massifs of the Parnaíba Basin, the densely occupied Atlantic littoral, the axial artery of the São Francisco Valley, and the fertile margins of the Recôncavo da Bahia. The gazetteer integrates multi-wave archaeological surveys conducted by the Instituto do Patrimônio Histórico e Artístico Nacional (IPHAN), state-level cultural heritage registers, and academic excavation projects published over five decades.
+
+The spatial distribution of settlements illustrates the structural evolution of pre-colonial human geography over twelve millennia. Terminal Pleistocene and early Holocene foragers occupied protected sandstone overhangs, karst caverns, and perennial riverbanks, concentrated primarily in the Serra da Capivara and the Xingó canyon of the lower São Francisco River. During the late Holocene, the widespread adoption of manioc and maize horticulture, accompanied by ceramic technologies belonging to the Aratu-Sapucaí and Tupiguarani traditions, prompted a massive reallocation of population towards coastal estuaries, fertile black-soil lowlands, and lacustrine wetlands.
+
+Major urban concentrations on the eve of European contact at 1500AD were anchored by large palisaded village clusters and lacustrine pile-dwellings. Principal settlements included São Luís on the Island of Upaon-Açu (4.757 peak inhabitants), Salvador on the Bay of All Saints (4.191 peak inhabitants), Olinda on the Marim Caeté coast (3.766 peak inhabitants), Baía da Traição on the Potiguara littoral (2.874 peak inhabitants), and the lacustrine pile-dwelling village complex of Lake Cajari in the Baixada Maranhense (1.784 peak inhabitants).
+
+The gazetteer tables catalogue all five sub-regions, detailing the leading settlement concentrations in each hydrological basin. Every recorded settlement includes geographic coordinates, occupation spans, and peak population figures derived from residential area scaling and structural excavations, establishing an empirical foundation for Pre-Columbian demographic history.
+
+# Background
+
+## Geographic Distribution across Five Macro-Basins
+
+Pre-Columbian human settlement in North-Eastern Brazil was strictly conditioned by water security, soil moisture retention, and aquatic resource availability [@martin2008pre; @prous1992arqueologia]. In an interior dominated by the semi-arid Caatinga biome, where precipitation is erratic and streamflows are largely seasonal, permanent human occupation was concentrated along perennial river arteries and within sheltered highland canyons. Conversely, the humid coastal forest strip provided dependable maritime fisheries, estuarine shell beds, and humid alluvial soils that permitted dense sedentary village life.
+
+The 818 recorded settlements are distributed across five hydrological macro-basins:
+
+1. Mid-North Mearim-Itapecuru-Gurupi: 61 recorded settlements situated in Maranhão, characterised by lacustrine pile-dwellings (*estearias*) in the Baixada Maranhense and large coastal Tupinambá villages on the Island of Upaon-Açu [@navarro2018estearias; @navarro2021new].
+
+2. Parnaíba Basin and Serra da Capivara: 84 recorded settlements spanning Piauí and eastern Maranhão, anchored by the dense concentration of painted rock shelters in the Serra da Capivara cuestas and open-air riparian villages along the Parnaíba River [@guidon1986carbon; @parenti2001pedra; @boeda2014new].
+
+3. Northeastern Atlantic Coast and Agreste: 264 recorded settlements extending across Ceará, Rio Grande do Norte, Paraíba, Pernambuco, and Alagoas, featuring coastal shell middens (*sambaquis*) and fortified Tupinambá, Potiguara, Caeté, and Tabajara agricultural settlements [@correa2014tupinamba; @noelli1999hypothese; @lima2021marine].
+
+4. São Francisco Valley: 295 recorded settlements across the largest interior drainage basin, spanning Minas Gerais, Bahia, Pernambuco, Sergipe and Alagoas, highlighted by stratified archaic camps in the Xingó canyon, rock shelters in the Peruaçu karst, and circular Aratu-Sapucaí agricultural villages [@araujo2005itaparica; @schmitz1987cazadores; @robrahn1996aratu].
+
+5. Eastern Bahia, Recôncavo and Jequitinhonha: 114 recorded settlements concentrated around the Bay of All Saints (*Baía de Todos os Santos*), the lower Paraguaçu floodplain, and the southern Bahia coastline, supporting dense Tupinambá and Tupiniquim chiefdoms [@fausto1992fragmentos; @viveirosdecastro1992individuo].
+
+```{r table1-summary}
+summary_df <- data.frame(
+  Macro_Basin = c(
+    "1. Mid-North Mearim-Itapecuru",
+    "2. Parnaíba & Serra da Capivara",
+    "3. NE Atlantic Coast & Agreste",
+    "4. São Francisco Valley",
+    "5. Eastern Bahia & Recôncavo",
+    "Regional Total"
+  ),
+  Area_km2 = c("281.408", "342.910", "288.617", "649.053", "319.606", "1.881.594"),
+  Settlements_n = c("61", "84", "264", "295", "114", "818"),
+  Leading_Settlement = c(
+    "São Luís (Upaon-Açu)",
+    "Teresina (Middle Parnaíba)",
+    "Olinda (Marim Caeté)",
+    "Petrolina (Sobradinho)",
+    "Salvador (Todos os Santos)",
+    "São Luís (Upaon-Açu)"
+  ),
+  Peak_Community_Pop = c("4.757", "1.090", "3.766", "1.174", "4.191", "4.757"),
+  Regional_1500AD_Pop = c("145.000", "115.000", "275.000", "195.000", "210.000", "940.000"),
+  stringsAsFactors = FALSE
+)
+
+viscount_table(
+  summary_df,
+  "Macro-basin distribution of the 818 recorded settlements in Pre-Columbian North-Eastern Brazil, showing total site counts, leading settlement nodes, and aggregate population baselines.",
+  c("Macro-Basin", "Area (km²)", "Settlements (n)", "Leading Settlement", "Peak Pop.", "1500AD Pop."),
+  list(font_size = "scriptsize")
+)
+```
+
+# Methodology
+
+## Settlement Identification and Population Estimation
+
+Settlement data were compiled from systematic regional inventories, salvage archaeology programs, and academic excavation monographs. Coordinates were validated against high-resolution digital elevation models and river basin hydrography to eliminate duplicate entries and positional inaccuracies.
+
+Chronological attribution for each site was determined through associated radiocarbon dates, diagnostic ceramic complexes, and lithic techno-typologies. Occupational spans are reported from the earliest confirmed stratum to the terminal occupation date.
+
+Population figures for individual settlements were calculated through non-linear spatial scaling based upon:
+
+1. Measurable archaeological site area, bounded by ceramic scatter limits, defensive ditches, palisade post-hole trenches, or hardwood stilt platform margins [@correa2014tupinamba; @navarro2021new].
+
+2. Structural household density estimates, calibrated at 60 to 120 persons per residential hectare for agricultural villages and nucleated stilt settlements, and 10 to 30 persons per rockshelter living floor [@robrahn1996aratu; @fausto1992fragmentos].
+
+3. Environmental carrying capacity constraints, verified against local catchment productivity, freshwater supply, and soil fertility.
+
+# Results
+
+## Mid-North Mearim-Itapecuru-Gurupi Settlements
+
+Table 2 catalogues the leading settlements of the Mid-North basin, which contains 61 recorded pre-colonial sites. The settlement hierarchy is headed by the palisaded Tupinambá chiefdom on the Island of Upaon-Açu (São Luís), which supported an estimated peak population of 4.757 inhabitants. In the floodplains of the Baixada Maranhense, the lacustrine pile-dwelling village of Estearias do Lago Cajari sustained a permanent community of 1.784 inhabitants, supported by stilt architecture, intensive fishing, and flood-recession horticulture [@navarro2018estearias; @navarro2021new].
+
+```{r table2-midnorth, results='asis'}
+df_midnorth <- extract_subregion("nebr_midnorth_maranhao", 30)
+viscount_table(
+  df_midnorth,
+  "Leading settlements of the Mid-North Mearim-Itapecuru-Gurupi basin, showing coordinates, chronological span, and peak population estimates.",
+  c("Settlement Name", "Coordinates", "Occupied Span", "Peak Pop."),
+  list(font_size = "scriptsize", label = "tab:midnorth-sites")
+)
+```
+
+## Parnaíba Basin and Serra da Capivara Settlements
+
+Table 3 presents the leading settlements of the Parnaíba Basin and Serra da Capivara, encompassing 84 catalogued sites. Human settlement was divided between upland rockshelter complexes in the sandstone cuestas of south-eastern Piauí and open-air riparian villages along the Parnaíba River and its tributaries. The leading settlement node at Teresina (Middle Parnaíba) maintained 1.090 inhabitants, while secondary agricultural villages and rockshelter camps supported between 200 and 420 residents [@guidon1986carbon; @parenti2001pedra; @albani2020geodiversi].
+
+```{r table3-parnaiba, results='asis'}
+df_parnaiba <- extract_subregion("nebr_parnaiba_capivara", 35)
+viscount_table(
+  df_parnaiba,
+  "Leading settlements of the Parnaíba Basin and Serra da Capivara, showing coordinates, chronological span, and peak population estimates.",
+  c("Settlement Name", "Coordinates", "Occupied Span", "Peak Pop."),
+  list(font_size = "scriptsize", label = "tab:parnaiba-sites")
+)
+```
+
+## Northeastern Atlantic Coast and Agreste Settlements
+
+Table 4 catalogues the leading settlements of the Northeastern Atlantic Coast and Agreste, containing 264 recorded pre-colonial sites. This littoral corridor sustained the highest settlement density in North-Eastern Brazil, dominated by fortified agricultural towns belonging to the Potiguara, Caeté, and Tabajara nations. Leading centres included Olinda (Marim Caeté, 3.766 inhabitants), Baía da Traição (Potiguara, 2.874 inhabitants), Itamaracá (Potiguara, 2.577 inhabitants), Maceió (Alagoas Caeté, 2.295 inhabitants), Natal (Potengi Potiguara, 2.195 inhabitants), and Fortaleza (Siará Tabajara, 2.095 inhabitants) [@correa2014tupinamba; @noelli1999hypothese].
+
+```{r table4-atlantic, results='asis'}
+df_atlantic <- extract_subregion("nebr_coastal_atlantic_tupi", 40)
+viscount_table(
+  df_atlantic,
+  "Leading settlements of the Northeastern Atlantic Coast and Agreste, showing coordinates, chronological span, and peak population estimates.",
+  c("Settlement Name", "Coordinates", "Occupied Span", "Peak Pop."),
+  list(font_size = "scriptsize", label = "tab:atlantic-sites")
+)
+```
+
+## São Francisco Valley Settlements
+
+Table 5 catalogues the leading settlements of the São Francisco Valley, which harbours 295 recorded sites. Serving as the primary hydrological sanctuary of the interior Sertão, the river supported major agricultural villages and stratified canyon occupations. Leading settlement nodes included Petrolina-Sobradinho (1.174 inhabitants), the Justino complex in the Xingó canyon (1.073 inhabitants), the Januária karst cavern settlements in the Peruaçu valley (950 inhabitants), and numerous circular Aratu ring villages supporting 280 to 560 residents [@araujo2005itaparica; @schmitz1987cazadores; @robrahn1996aratu].
+
+```{r table5-saofrancisco, results='asis'}
+df_saofrancisco <- extract_subregion("nebr_sao_francisco", 40)
+viscount_table(
+  df_saofrancisco,
+  "Leading settlements of the São Francisco Valley, showing coordinates, chronological span, and peak population estimates.",
+  c("Settlement Name", "Coordinates", "Occupied Span", "Peak Pop."),
+  list(font_size = "scriptsize", label = "tab:saofrancisco-sites")
+)
+```
+
+## Eastern Bahia, Recôncavo and Southern Littoral Settlements
+
+Table 6 presents the leading settlements of Eastern Bahia, the Recôncavo and Jequitinhonha, encompassing 114 recorded sites. Anchored in the sheltered waters and fertile massapê soils of the Bay of All Saints, settlement was dominated by extensive palisaded Tupinambá and Tupiniquim villages. The Salvador settlement cluster (Todos os Santos Tupinambá) attained an estimated peak population of 4.191 inhabitants, followed by the Tupiniquim coastal centre of Ilhéus with 2.195 inhabitants [@fausto1992fragmentos; @viveirosdecastro1992individuo].
+
+```{r table6-bahia, results='asis'}
+df_bahia <- extract_subregion("nebr_bahia_reconcavo_east", 35)
+viscount_table(
+  df_bahia,
+  "Leading settlements of Eastern Bahia, Recôncavo and Jequitinhonha, showing coordinates, chronological span, and peak population estimates.",
+  c("Settlement Name", "Coordinates", "Occupied Span", "Peak Pop."),
+  list(font_size = "scriptsize", label = "tab:bahia-sites")
+)
+```
+
+# Limitations
+
+## Taphonomic Constraints and Survey Bias
+
+The catalogued distribution of 818 pre-colonial settlements is subject to distinct taphonomic and historiographical biases. In the interior Caatinga, dry rockshelter conditions ensure exceptional preservation of organic artefacts, rock art, and faunal remains, whereas open-air alluvial sites were frequently degraded by episodic flash floods and erosion. Conversely, along the Atlantic coast, post-colonial sugarcane agriculture, urban development, and coastal erosion have obliterated extensive areas of pre-colonial settlement [@matos2022economy; @lima2021marine].
+
+Furthermore, archaeological survey intensity varies considerably across North-Eastern Brazil. While the Serra da Capivara in Piauí and the lower São Francisco canyon in Sergipe and Alagoas have undergone intensive institutional investigation, vast interior plateaus in Maranhão, Ceará, and Bahia remain under-explored [@funari2006social; @lucas2025mobile]. The catalogue presented here reflects the current state of empirical archaeological documentation.
+
+# Conclusion
+
+The settlement gazetteer of Pre-Columbian North-Eastern Brazil documents a rich and diverse human landscape encompassing `r total_settlement_count` recorded archaeological and historical sites. Over twelve millennia, settlement systems adapted from mobile early Holocene forager groups occupying rockshelter enclaves into dense, sedentary horticultural chiefdoms and lacustrine pile-dwelling federations.
+
+By the terminal pre-colonial period (1500AD), the region supported an aggregate population of 940.000 inhabitants. Major coastal and lacustrine towns exceeding 2.000 to 4.700 residents demonstrated sophisticated social organisation, monumental architecture, and intensive resource exploitation, confirming that Pre-Columbian North-Eastern Brazil was an extensively occupied, highly interconnected cultural domain on the eve of European transatlantic contact.
+
+# Appendix
+
+The settlement database was compiled from official archaeological registrations, academic surveys, and published regional monographs. Spatial data and population trajectories are maintained within the regional pre-colonial archive.
+
+# Sources

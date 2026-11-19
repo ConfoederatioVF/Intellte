@@ -1,0 +1,211 @@
+---
+title: "Settlement Gazetteer of Pre-Columbian Northern Cascadia and Alaska"
+subtitle: "CENTAUR-II: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1600AD)"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: northern_cascadia_and_alaska_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_northern_cascadia_and_alaska_spatial.png"
+hero_caption: "Spatial distribution of 225 catalogued pre-contact settlements across the five ecological divisions of Northern Cascadia and Alaska (2,64M km²) from 10000BC to 1600AD."
+hero_label: "fig:hero-northern-cascadia-and-alaska"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("northern_cascadia_and_alaska.json5")
+set_data <- read_json_file("northern_cascadia_and_alaska_settlements.json")
+led_data <- read_json_file("northern_cascadia_and_alaska_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("c\u0313\u0259sna\u0294\u0259m", "Cesna'em", s, fixed = TRUE)
+  s <- gsub("sc\u0313\u0259wa\u03b8\u0259n", "Sc'ewathen", s, fixed = TRUE)
+  s <- gsub("Ki\u014bigin", "Kingigin", s, fixed = TRUE)
+  s <- gsub("Utqia\u0121vik", "Utqiagvik", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 6L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 6L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+first_yr <- vapply(set_list, function (s) min(as.numeric(names(s$population))), numeric(1))
+set_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+set_list <- set_list[order(first_yr, set_names)]
+
+reg_short <- list(
+  nc_aleutians_kodiak_south_alaska = "Aleutians and Kodiak",
+  nc_yupik_inupiat_arctic_alaska = "Arctic Alaska",
+  nc_interior_yukon_tanana_athabaskan = "Interior Yukon",
+  nc_tlingit_haida_outer_coast = "Outer Coast",
+  nc_salish_fraser_bc_plateau = "Salish and Fraser"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer compiles WGS84 coordinates, indigenous and archaeological names, occupation spans and benchmark population series for `r length(set_list)` pre-contact settlements across Northern Cascadia and Alaska (2,64M km²) from 10000BC to 1600AD (892 benchmark observations, averaging 3,96 per settlement, with 219 sites spanning at least three benchmarks). Excavated winter villages, shell-midden towns and stratified pit-house aggregates range from 10000BC Beringian hearths at Swan Point (150 peak) and Broken Mammoth (55) and the 8500BC coastal midden at Namu (540 peak) to late Holocene plank-house and pit-house towns at Marpole (1,45k), Keatley Creek (1,4k), Yuquot (1,2k), Bridge River Pithouse Metropolis (1,1k), Keatley Creek Pithouse Town (950), Laxgalts'ap (920), Bridge River (820), Karluk (820), Ipiutak (800), Gitwangak (720), Sitka (680), Utqiagvik (620) and Victoria (620). Every included site carries CENTAUR provenance in the settlement gazetteer and reconciles cleanly against 461 source-ledger candidates alongside `r length(exc_list)` excluded entries (234 duplicate-alias consolidations and 2 non-habitation cave exclusions).
+
+# Background
+
+Settlement archaeology across Alaska, Yukon and British Columbia distinguishes three major residential traditions [@ames1999; @matson1995]. Along the Salish Sea, Vancouver Island, Haida Gwaii and Skeena-Nass fjords, multi-lineage red-cedar plank-house towns sat atop deep coastal shell middens and commanded fortified ridge refuges such as Gitwangak and Boardwalk [@macdonald1989; @martindale2009]. Across the Fraser-Columbia Plateau and the Aleutian-Kodiak littoral, semi-subterranean earth-roofed pit houses clustered in winter villages such as Keatley Creek, Bridge River, Karluk and Chaluka [@hayden1997; @fitzhugh2003; @laughlin1980]. On the Bering, Chukchi and Beaufort coasts, whalebone-and-sod winter mounds at Utqiagvik, Gambell, Wales and Cape Krusenstern housed Arctic marine-mammal hunters [@larsen1948; @giddings1986].
+
+# Methodology
+
+Candidate entries in the source ledger qualify for inclusion when excavation monographs, regional radiocarbon syntheses or heritage inventories supply bounded geographic coordinates, dated cultural horizons and house-floor or site-area demographic estimates [@maples2006; @martindale2009]. Overlapping coordinate twins within 2 km are consolidated as duplicate aliases, and non-habitation archaeological features such as caves without permanent residential structures (Eagle Cave and On Your Knees Cave) are excluded so each locality contributes once to settlement subtraction. Table \ref{tab:summary} summarises included site counts and summed site peaks across the five sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Included = as.character(length(sub_sets)),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 225 included settlements and summed site peaks in Northern Cascadia and Alaska.",
+  c("Sub-Region", "Included Sites", "Sum of Site Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "footnotesize")
+)
+```
+
+# Testing and Validation
+
+Reconciliation checks between the 225 catalogued settlements and the 461 ledger candidates pass with 0 unaccounted entries (225 included, 234 consolidated duplicate aliases and 2 non-habitation cave exclusions) and 0 schema faults. All WGS84 coordinates fall within valid regional bounds (48,46 to 71,29 N and 113,86 to 176,63 W), every record carries CENTAUR provenance and Figure \ref{fig:settlements} charts the rank-size hierarchy across the 225 catalogued settlements.
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_northern_cascadia_and_alaska_settlements.png",
+  "Rank-size distribution and leading fifteen peak populations across the 225 catalogued settlements of Northern Cascadia and Alaska.",
+  "fig:settlements"
+)
+```
+
+# Results
+
+## Leading Settlement Trajectories
+
+Table \ref{tab:gazetteer} documents the leading 45 settlements out of `r length(set_list)` total entries ordered by peak population descending, linking coordinates and alternative indigenous or archival names to selected benchmark estimates.
+
+```{r tbl-gazetteer, results='asis'}
+peak_vals <- vapply(set_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+top_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+top_sets <- set_list[order(-peak_vals, top_names)[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_sets, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  onames <- unlist(s$other_names)
+  oname_s <- if (length(onames) > 0) paste(head(as.character(onames), 2L), collapse = "; ") else "-"
+  pk <- max(as.numeric(unlist(s$population)))
+  data.frame(
+    Settlement = clean_text(s$name),
+    AltNames = clean_text(oname_s),
+    SubRegion = reg_short[[s$region]],
+    Coords = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    Series = fmt_pop_series(s$population),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 pre-contact settlements ordered by peak population across Northern Cascadia and Alaska (10000BC to 1600AD).",
+  c("Settlement", "Alternative Names", "Sub-Region", "Coordinates", "Span", "Peak", "Benchmark Series"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:excluded} lists the leading 30 of `r length(exc_list)` excluded records (234 duplicate-alias consolidations and 2 non-habitation cave exclusions) recorded among 461 source-ledger candidates together with their archival justifications.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(30L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  data.frame(
+    Candidate = clean_text(c$name),
+    Country = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = clean_text(c$justification),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading thirty excluded candidates (out of 236 total exclusions) in the Northern Cascadia and Alaska source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "footnotesize")
+)
+```
+
+## Sub-Regional Settlement Summaries
+
+Across the Salish Sea, Vancouver Island and Fraser-Columbia Plateau (58 settlements), riverine and coastal occupation begins at Milliken (340 peak, occupied from 7500BC to 1500AD) and Glenrose Cannery (290 peak from 6500BC) and culminates in large plank-house and pit-house towns at Marpole (1,45k peak), Keatley Creek (1,4k in 1000AD), Yuquot (1,2k), Bridge River Pithouse Metropolis (1,1k), Keatley Creek Pithouse Town (950), Bridge River (820), Victoria (620), Ts'ishaa Capital (610), Tsawwassen (580) and Bell Site (520) [@hayden1997; @dewar2001; @samuels1991]. On the Inside Passage, Haida Gwaii and Skeena-Nass coast (63 settlements), continuous shell-midden occupation begins at Namu (540 peak, 8500BC to 1500AD) [@carlson1996] while Laxgalts'ap (920 peak), Gitwangak (720), Sitka (680), Lax Kw'alaams (610), Massett (580), Boardwalk (560) and Bella Coola (540) anchor outer-fjord Tlingit, Haida and Tsimshian exchange [@macdonald1989; @martindale2009]. Farther north along the Aleutian-Kodiak littoral (44 settlements), Karluk (820), Izembek (540), Chaluka (520), Amaknak Bridge (390), Uyak (390), Naknek (380) and Nushagak (380) document dense maritime villages [@laughlin1980; @fitzhugh2003], while Ipiutak (800 peak), Utqiagvik (620), Gambell (580), Wales (520), Kukulik (520), Cape Krusenstern (480) and Kotzebue (440) lead the 39 Arctic Alaska whaling hubs [@larsen1948; @giddings1986]. Interior Yukon-Tanana (21 settlements) retains lower-density riverine and lakeside loci led by Rat Indian Creek Town (310 peak), Fort Yukon (250), Klondike-Tr'ochëk (220), Nenana (210), Circle (200), Swan Point (150 from 10000BC), Healy Lake (95) and Bluefish Caves (20) [@holmes2001; @morlan2003; @cook1996].
+
+# Limitations
+
+Gazetteer visibility remains skewed toward deep coastal shell middens, outer-fjord cedar plank-house villages and stratified Fraser canyon pit-house aggregates over dispersed boreal hunting camps. Post-glacial sea-level rise along Hecate Strait and coseismic subsidence in south-central Alaska submerged early coastal shorelines prior to 5000BC, leaving mobile and submerged populations represented primarily within the rural kriging surface.
+
+# Sources
+
+<div id="refs"></div>

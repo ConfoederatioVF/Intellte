@@ -1,0 +1,282 @@
+---
+title: "Ohio River Hydrological Unit (HU 05)"
+subtitle: "CENTAUR-II: Adena-Hopewell Monumental Cores, Fort Ancient and Cumberland-Wabash, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: ohio_river_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_ohio_river_spatial.png"
+hero_caption: "Sub-regional areal masks and 164 settlements across the Ohio River Hydrological Unit (424.160 km²) from the Allegheny Plateau to the Wabash-Ohio confluence, 10000BC to 1600AD."
+hero_label: "fig:hero-ohio-river"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+This chapter reconstructs the pre-Columbian demographic trajectory of the Ohio River Hydrological Unit (USGS HU 05) across 424.160 km² (6.322 five-arcminute cells) from 10000BC to 1600AD. Anchored to Kelly et al. [@kelly2025] radiocarbon summed probability curves (N = 1.828 terrestrial dates, median peak 1295AD), non-stationary Matérn ($\nu = 3/2$) kriging over the continental North American prior (92.500 unique site-periods across 3.832 domestic catchments, 14,15x the 6.539 legacy radiocarbon baseline, $\tau_1 = 1,35$, raw nugget 0, regularised nugget-to-sill 0,04 and $R^2 = 0,9991$ to $0,9993$), Adena-Hopewell earthwork inventories [@dancey1997; @charles2006], Fort Ancient village sequences [@comstock2018; @cook2017] and Vacant Quarter abandonment studies [@cobb2002; @cobb2023], HU 05 is divided into four watershed sub-regions enclosing 164 catalogued settlements (307 candidates in the source ledger: 136 excluded duplicate-alias consolidations and 7 excluded unquantified non-habitation caves or rockshelters).
+
+Basin population expands from 950 inhabitants (874 to 1.026) in 10000BC to 26,3k in 5000BC, 81,8k in 2000BC and 142k (130,6k to 153,4k) at 0AD. Numbers climb through Middle Woodland Hopewell aggregation (162k at 200AD; 0,382 persons per km²) and reach a Holocene apex of 264k (242,9k to 285,1k; 0,622 persons per km²) in 1300AD as drought-era migrants from Cahokia and the American Bottom reinforce Lower Ohio, Angel and Fort Ancient centres [@benson2009; @comstock2018].
+
+Fourteenth-century Vacant Quarter abandonment reduces aggregate numbers by 26,14% to 195k in 1400AD, led by steep contraction across Wabash-White-Lower Ohio (down 39,5% to 39k) and Kentucky-Cumberland-Green (down 28,5% to 49k) divisions [@cobb2002; @cobb2023; @hilgeman2000]. Upper Ohio, Monongahela and Caborn-Welborn communities buffer part of the basin decline through the fifteenth century, leaving 176k (161,9k to 190,1k) in 1500AD and 151k (138,9k to 163,1k; 0,356 persons per km²) by 1600AD prior to seventeenth-century Haudenosaunee Beaver Wars disruption [@milner2010; @ubelaker2006].
+
+# Background
+
+USGS Hydrological Unit 05 drains the unglaciated Appalachian Plateau, the Lexington-Nashville limestone basins and the Wisconsinan Till Plains from western New York and Pennsylvania along the Allegheny, Monongahela, Kanawha, Scioto, Little Miami, Great Miami, Kentucky, Green, Cumberland and Wabash rivers to the Mississippi confluence near Cairo, Illinois.
+
+Physiographic contrast shaped every stage of Holocene settlement. Broad gravel terraces along the Scioto and Miami rivers supported dense Early and Middle Woodland ritual landscapes, karstic shoals along the Green and Cumberland rivers sustained persistent Archaic shell-midden camps and Mississippian farming towns, and dissected sandstone uplands of the upper basin hosted stockaded Late Prehistoric Monongahela rings [@dancey1997; @charles2006; @cook2017].
+
+Earlier broad-scale continental grids flattened the Ohio drainage into an undifferentiated Eastern Woodlands zone, blurring two sharp structural contrasts that emerge in the archaeological record. First, the basin did not peak in step with the American Bottom. Using 1.828 screened radiocarbon dates across HU 05, Kelly et al. [@kelly2025] place the basin-wide median peak at 1295AD, nearly two centuries after the Upper Mississippi peak at 1107AD.
+
+Palaeoclimatic and isotopic evidence indicates that more reliable summer precipitation across the Ohio valley during the twelfth and thirteenth centuries drew emigrating groups out of drought-stressed Cahokia and central Illinois [@benson2009; @comstock2018]. Incoming populations fused with indigenous Late Woodland and Fort Ancient communities, sustaining Angel, Mound Bottom, Castalian Springs and Madisonville through the thirteenth century [@hilgeman2000; @cook2017].
+
+Second, archaeological visibility across HU 05 varies sharply with soil chemistry, quarry-preservation history and agricultural clearance. Acidic upland soils on the Allegheny Plateau destroy uncalcined bone and shell much faster than alkaline Green River shell middens or limestone-tempered Fort Ancient pit fills, while nineteenth-century ploughing erased low earthen embankments across the Till Plains before antiquarian mapping began [@dancey1997].
+
+Long-term Indigenous orchard management, fire-maintained woodland openings and floodplain clearance also left persistent ecological signatures across Appalachian and Piedmont margins that later structured colonial Euro-American farmsteads [@coughlan2018influences]. Interpreting site-count curves therefore requires separating genuine demographic growth from changes in residential mobility, maize field exhaustion and taphonomic filtering [@hart2020using; @gillreathbrown2018experimental].
+
+## Palaeoclimate, Maize Horticulture and Demographic Turning Points
+
+Between 10000BC and 4000BC, post-glacial oak-hickory forest expansion turned the Ohio valley into one of eastern North America's richest mast and deer corridors. Early Palaeoindian occupations at Paleo Crossing in northeastern Ohio and upland camp stations such as Hansford along the Kanawha document low-density mobile foraging groups moving along glacial outwash terraces, while unquantified sandstone-overhang strata at Meadowcroft Rockshelter remain separated in the exclusion ledger.
+
+During the Middle and Late Archaic (5000BC to 1000BC), warm mid-Holocene Hypsithermal conditions lowered river stages along the Green and middle Ohio channels. Concentrated freshwater mussel beds and spawning shoals supported multi-century base camps such as Indian Knoll, Carlston Annis and Chiggerville.
+
+From roughly 500BC onwards, Eastern Agricultural Complex seed crops, goosefoot (*Chenopodium berlandieri*), marshelder (*Iva annua*), erect knotweed and squash, underpinned Adena burial mounds and the monumental geometric enclosures of the Scioto-Miami Hopewell core (0AD to 400AD) [@dancey1997; @charles2006].
+
+Hopewell population density along the central Scioto and Little Miami terraces rose well above surrounding upland plateaus, though monumental plaza maintenance relied on dispersed hamlets rather than compact urban towns. Earthwork construction drew labour from scattered valley clusters across tens of kilometres.
+
+Following the fourth-century cessation of geometric earthwork construction, Late Woodland communities shifted toward smaller nucleated villages as tropical maize (*Zea mays*) entered regional diets alongside existing starchy seeds [@cook2017]. By 1000AD to 1200AD, intensive maize-bean-squash agriculture transformed both valley demography and political geography.
+
+Isotopic nitrogen studies of fifteenth- and sixteenth-century northeastern Iroquoian maize fields show how sustained cropping depleted upland soils and drove periodic village relocations every one to three decades [@hart2020using]. Across the Fort Ancient and Monongahela zones of HU 05, similar swidden cycles multiplied the raw number of late prehistoric village footprints relative to contemporaneous population size unless village-duration weights are explicitly controlled [@cook2017; @comstock2018].
+
+Around major Mississippian centres along the lower Ohio and Cumberland, heavy fuelwood harvesting and field clearing also altered local woodland structure in ways comparable to catchment strain documented around other dense pre-contact North American centres [@lentz2021ecosystem].
+
+After 1350AD, climatic instability during the onset of the Little Ice Age combined with escalating inter-village warfare and palisade fortification [@krus2016] to trigger the Vacant Quarter abandonment along the lower Ohio, Wabash and lower Cumberland rivers [@cobb2002; @cobb2023]. Lower valley centres emptied rapidly between 1350AD and 1425AD, leaving only localised Caborn-Welborn farming clusters (Slack Farm, Hovey Lake, Murphy, Welborn, Bone Bank) near the Wabash-Ohio mouth after 1400AD.
+
+By contrast, Fort Ancient towns (Madisonville, Hardin Village, Buffalo, Clover) and upper Ohio Monongahela rings (Johnston Site, Campbell Farm, McJunkin, Foley Farm) persisted past 1500AD until indirect European trade-network pathogens and peripheral raiding depressed numbers to 151k by 1600AD [@milner2010; @ubelaker2006].
+
+# Methodology
+
+## Sub-Regional Partitioning and Areal Masks
+
+CENTAUR-II partitions HU 05 on the five-arcminute WGS84 global grid (6.322 active land pixels covering 424.160 km²) into four hydrologically and culturally coherent sub-regions.
+
+1. **Allegheny, Monongahela and Kanawha-Upper Ohio Plateau** (160.575 km², 2.410 pixels, 37,86% of basin area, 45 catalogued settlements): Drains the dissected Appalachian Plateau across western Pennsylvania, western New York, eastern Ohio and West Virginia, uniting Adena tumuli (Grave Creek Mound, South Charleston Mound), Hopewell precincts (Newark Earthworks, Marietta Earthworks), Monongahela circular villages (Johnston Site, Campbell Farm, Ryan, Gnagey, Peck No. 2, Foley Farm) and protohistoric Fort Ancient settlements (Buffalo, Blennerhassett Island Village).
+2. **Scioto, Little and Great Miami Valleys** (54.184 km², 812 pixels, 12,77% of basin area, 37 catalogued settlements): Covers the glaciated Till Plains and central Scioto-Miami alluvial corridors of southern Ohio and southeastern Indiana, enclosing Adena-Hopewell earthworks (Hopewell Mound Group, Seip Earthworks, Mound City, Fort Ancient, Portsmouth Earthworks, Harness Mound Group, Circleville Earthworks) and Fort Ancient agricultural villages (Madisonville, Hardin Village, Clover, SunWatch, Feurt, Baum, Gartner).
+3. **Cumberland, Kentucky and Green River Valleys** (96.818 km², 1.414 pixels, 22,83% of basin area, 66 catalogued settlements): Spans the Kentucky Bluegrass, Green River shell-mound corridor, Nashville Basin and adjacent Ohio bank, uniting Late Archaic middens (Indian Knoll, Carlston Annis, Chiggerville, Ward), Fox Farm Fort Ancient Town, Middle Cumberland Mississippian towns (Mound Bottom, Castalian Springs, Noel Farm, Rutherford-Kizer, Averbuch, Gordontown, Sellars) and Angel Mounds.
+4. **Wabash-White Basins and Lower Ohio Confluence** (112.583 km², 1.686 pixels, 26,54% of basin area, 16 catalogued settlements): Encompasses the Wabash and White river plains of Indiana and eastern Illinois plus the confluence bank, linking Middle Woodland Mounds State Park and Mann Site, Allison-La Motte Daugherty-Monroe, Oliver-phase Strawtown Enclosure, Morell-Sheets, late pre-contact Wabash-Tippecanoe Kethtippecanunk and post-1400AD Caborn-Welborn villages (Slack Farm, Hovey Lake, Murphy, Welborn, Bone Bank).
+
+<figure class="crd-table-figure" id="tab:oh-structure">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Sub-region</th><th class="crd-th">Area (km²)</th><th class="crd-th">Area Share</th><th class="crd-th">Sites</th><th class="crd-th">Peak (Year)</th><th class="crd-th">Peak Density (per km²)</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>1. Upper Ohio, Allegheny and Kanawha</strong></td><td class="crd-td">160.575</td><td class="crd-td">37,86%</td><td class="crd-td">45</td><td class="crd-td">72,5k (1300AD)</td><td class="crd-td">0,452</td></tr>
+<tr><td class="crd-td"><strong>2. Scioto and Miami Valleys</strong></td><td class="crd-td">54.184</td><td class="crd-td">12,77%</td><td class="crd-td">37</td><td class="crd-td">58,5k (1300AD)</td><td class="crd-td">1,08</td></tr>
+<tr><td class="crd-td"><strong>3. Cumberland, Kentucky and Green</strong></td><td class="crd-td">96.818</td><td class="crd-td">22,83%</td><td class="crd-td">66</td><td class="crd-td">68,5k (1300AD)</td><td class="crd-td">0,708</td></tr>
+<tr><td class="crd-td"><strong>4. Wabash-White and Lower Ohio</strong></td><td class="crd-td">112.583</td><td class="crd-td">26,54%</td><td class="crd-td">16</td><td class="crd-td">64,5k (1300AD)</td><td class="crd-td">0,573</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Sub-regional areal geometry, catalogued settlement counts and peak demographic densities in Ohio River (HU 05).</figcaption>
+</figure>
+
+## Multi-Registry Radiocarbon Kriging and Benchmark Calibration
+
+Rural spatial weights inside HU 05 are drawn directly from the continental North American substrata prior covering 493.687 valid land cells (18.561.382 km²; 129.716 to 133.990 active inhabited cells across ten horizons). That composite aggregates global radiocarbon syntheses (p3k14c [@bird2022p3k14c] and C14bazAAR), the Canadian Archaeological Radiocarbon Database, United States state archaeological site registers and regional CRM surveys into 92.500 unique site-period observations (166.545 horizon site-record sum).
+
+Observations are grouped across 3.832 domestic Voronoi catchments spanning 15.517.215 km² (2.562 active inhabited catchments, 66,86% coverage; equivalent circular radius median 29,48 km and 90th percentile 41 km overall, or 29,31 km and 39,86 km across active catchments) plus 251 cross-frontier buffer catchments extending 300 km outside the continental boundary, representing 14,15x the 6.539 legacy radiocarbon database baseline inside North America [@kelly2022; @crema2021].
+
+Catchment site densities undergo Freeman-Tukey variance stabilisation, macro-tile log-variance regularisation and 1-ring Poisson-Gamma credibility smoothing before weighted least-squares (WLS) covariate regression and 2D Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) kriging across ten Holocene horizons (13000BC to 1650AD).
+
+Biophysical covariates incorporate habitable fraction, terrain slope, coastal proximity and 13,5 km exponential fluvial decay, capturing dense alluvial settlement corridors along the Scioto, Wabash, Green and Cumberland terraces while preventing artificial density cliffs across the watershed divide with HU 07 (Upper Mississippi), HU 04 (Great Lakes), HU 02 (Mid-Atlantic), HU 06 (Tennessee-Cumberland) and HU 08 (Lower Mississippi).
+
+Methodologically, reconciling radiocarbon frequency curves with site-level settlement estimates addresses several well-documented taphonomic and sampling biases. Charcoal selection, taphonomic attrition and reservoir effects distort unscreened summed probability distributions unless controlled against short-lived botanical samples [@kelly2022; @crema2021].
+
+Similarly, Bayesian radiocarbon chronologies refine phase boundaries across circular villages [@hart2022the], ceramic technology and maize nitrogen isotopes trace local agrarian mobility and field duration across Upper Ohio and Fort Ancient communities [@hart2020using; @bebber2018a], and experimental archaeofaunal studies clarify fragmentation patterns in shell and bone middens [@gillreathbrown2018experimental].
+
+## Mathematical Calibration and Urban-Rural Residual Smoothing
+
+For each sub-region $r$ at benchmark horizon $t \in \{-10000, \dots, 1600\}$, rural demographic capacity $R_r(t)$ is obtained by subtracting the sum of bounded urban and monumental settlement populations $U_{i}(t)$ inside sub-region $r$ from the sub-regional benchmark total $P_r(t)$:
+
+$$R_r(t) = P_r(t) - \sum_{i \in S_r} U_i(t), \qquad w_c(t) = \frac{\hat{\lambda}_c(t)}{\sum_{j \in \Omega_r} \hat{\lambda}_j(t)}$$
+
+where $\hat{\lambda}_c(t)$ is the temporally interpolated Matérn ($\nu = 3/2$) kriging density weight at 5-arcminute cell $c \in \Omega_r$. Each rural cell receives $R_r(t) \cdot w_c(t)$ before two separable 5-pixel log-multiplier passes damp sharp boundary transitions along inter-watershed seams without altering exact sub-regional totals $P_r(t)$.
+
+Symmetric plus or minus 8% interval bounds express cumulative uncertainty across radiocarbon calibration spread, household-size scalars and uneven nineteenth-century earthwork documentation.
+
+# Testing and Validation
+
+Five reconciliation checks establish spatial, statistical and arithmetic consistency across HU 05 at GMT+0, linking radiocarbon coverage, variogram parameters and urban-rural mass conservation across all 23 benchmark dates:
+
+1. **Radiocarbon Sample Sufficiency**: HU 05 draws on N = 1.828 cleaned terrestrial radiocarbon dates in the regional synthesis [@kelly2025], more than four times the 400-date reliability floor required for robust summed probability inference over two-millennium windows [@crema2021; @kelly2022].
+2. **Non-Stationary Kriging Sharpness**: Across all ten Holocene horizons of the North American surface, the fitted Matérn ($\nu = 3/2$) model achieves regularised dimensionless short-range correlation $\tau_1 = 1,35$ on every horizon (raw 1,4834 to 1,6067, mean 1,5861; well below the 1,8 ceiling), long-range scale $\tau_2 = 2,9025$ (2,9), effective short range 44,17 km to 47,85 km (mean 47,23 km), raw nugget-to-sill 0 across all ten horizons, regularised nugget-to-sill 0,04 across all ten horizons (below the 0,45 ceiling) and WLS residual fit $R^2 = 0,9991$ to $0,9993$.
+3. **Gazetteer and Ledger Reconciliation**: Cross-checking the regional settlement gazetteer (164 included sites: 45 in Upper Ohio-Allegheny-Kanawha, 37 in Scioto-Miami, 66 in Cumberland-Kentucky-Green and 16 in Wabash-White-Lower Ohio) against the source ledger (307 total candidates: 136 excluded duplicate-alias consolidations within 2 km and 7 excluded unquantified non-habitation caves or rockshelters) confirms 0 unaccounted entries and 0 coordinate errors.
+4. **Urban-Rural Mass Conservation**: Summed settlement populations stay strictly below sub-regional totals across every horizon, reaching 11.610 (7,17% of 162k) at the 200AD Middle Woodland crest, 16.530 (6,26% of 264k) at the 1300AD basin peak, 11.400 (6,48% of 176k) in 1500AD and 6.180 (4,09% of 151k) in 1600AD.
+5. **Arithmetic Benchmark Consistency**: Sub-regional point estimates and plus or minus 8% interval bounds sum exactly to watershed totals across all 23 horizons from 10000BC (950) to 1600AD (151k).
+
+Table \ref{tab:oh-benchmarks} summarises the resulting benchmark series, uncertainty bounds, regional population densities and summed gazetteer urban shares from 10000BC to 1600AD.
+
+<figure class="crd-table-figure" id="tab:oh-benchmarks">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Benchmark</th><th class="crd-th">Population</th><th class="crd-th">Bounds</th><th class="crd-th">Density (per km²)</th><th class="crd-th">Settlement Sum</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>10000BC</strong></td><td class="crd-td">950</td><td class="crd-td">874 to 1k</td><td class="crd-td">0,002</td><td class="crd-td">55</td></tr>
+<tr><td class="crd-td"><strong>8000BC</strong></td><td class="crd-td">4,8k</td><td class="crd-td">4,4k to 5,1k</td><td class="crd-td">0,011</td><td class="crd-td">70</td></tr>
+<tr><td class="crd-td"><strong>5000BC</strong></td><td class="crd-td">26,3k</td><td class="crd-td">24,2k to 28,4k</td><td class="crd-td">0,062</td><td class="crd-td">75</td></tr>
+<tr><td class="crd-td"><strong>3000BC</strong></td><td class="crd-td">58,7k</td><td class="crd-td">54k to 63,4k</td><td class="crd-td">0,138</td><td class="crd-td">775</td></tr>
+<tr><td class="crd-td"><strong>2000BC</strong></td><td class="crd-td">81,8k</td><td class="crd-td">75,3k to 88,3k</td><td class="crd-td">0,193</td><td class="crd-td">800</td></tr>
+<tr><td class="crd-td"><strong>1000BC</strong></td><td class="crd-td">111k</td><td class="crd-td">102,1k to 119,9k</td><td class="crd-td">0,262</td><td class="crd-td">845</td></tr>
+<tr><td class="crd-td"><strong>0AD</strong></td><td class="crd-td">142k</td><td class="crd-td">130,6k to 153,4k</td><td class="crd-td">0,335</td><td class="crd-td">5,6k</td></tr>
+<tr><td class="crd-td"><strong>200AD</strong></td><td class="crd-td">162k</td><td class="crd-td">149k to 175k</td><td class="crd-td">0,382</td><td class="crd-td">11,6k</td></tr>
+<tr><td class="crd-td"><strong>400AD</strong></td><td class="crd-td">172k</td><td class="crd-td">158,2k to 185,8k</td><td class="crd-td">0,406</td><td class="crd-td">5,6k</td></tr>
+<tr><td class="crd-td"><strong>600AD</strong></td><td class="crd-td">189,5k</td><td class="crd-td">174,3k to 204,7k</td><td class="crd-td">0,447</td><td class="crd-td">800</td></tr>
+<tr><td class="crd-td"><strong>800AD</strong></td><td class="crd-td">210k</td><td class="crd-td">193,2k to 226,8k</td><td class="crd-td">0,495</td><td class="crd-td">630</td></tr>
+<tr><td class="crd-td"><strong>1000AD</strong></td><td class="crd-td">231k</td><td class="crd-td">212,5k to 249,5k</td><td class="crd-td">0,545</td><td class="crd-td">1,6k</td></tr>
+<tr><td class="crd-td"><strong>1100AD</strong></td><td class="crd-td">245,5k</td><td class="crd-td">225,9k to 265,1k</td><td class="crd-td">0,579</td><td class="crd-td">8k</td></tr>
+<tr><td class="crd-td"><strong>1200AD</strong></td><td class="crd-td">257k</td><td class="crd-td">236,4k to 277,6k</td><td class="crd-td">0,606</td><td class="crd-td">15,4k</td></tr>
+<tr><td class="crd-td"><strong>1300AD</strong></td><td class="crd-td">264k</td><td class="crd-td">242,9k to 285,1k</td><td class="crd-td">0,622</td><td class="crd-td">16,5k</td></tr>
+<tr><td class="crd-td"><strong>1400AD</strong></td><td class="crd-td">195k</td><td class="crd-td">179,4k to 210,6k</td><td class="crd-td">0,46</td><td class="crd-td">8,7k</td></tr>
+<tr><td class="crd-td"><strong>1500AD</strong></td><td class="crd-td">176k</td><td class="crd-td">161,9k to 190,1k</td><td class="crd-td">0,415</td><td class="crd-td">11,4k</td></tr>
+<tr><td class="crd-td"><strong>1550AD</strong></td><td class="crd-td">163,5k</td><td class="crd-td">150,4k to 176,6k</td><td class="crd-td">0,385</td><td class="crd-td">3,5k</td></tr>
+<tr><td class="crd-td"><strong>1600AD</strong></td><td class="crd-td">151k</td><td class="crd-td">138,9k to 163,1k</td><td class="crd-td">0,356</td><td class="crd-td">6,2k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Benchmark population estimates, 8% uncertainty intervals, mean density and catalogued settlement sums for Ohio River (HU 05), 10000BC to 1600AD.</figcaption>
+</figure>
+
+# Results
+
+## Archaic Shell Middens to Middle Woodland Hopewell Apex
+
+From sparse Late Glacial foraging camps (950 in 10000BC, 4.750 in 8000BC), HU 05 expanded steadily during the Middle Holocene as river levels stabilised and freshwater mussel shoals formed along the Green, lower Cumberland and middle Ohio channels. Population reached 26,3k in 5000BC, 58,7k in 3000BC and 81,8k in 2000BC, anchored by persistent Green River Archaic aggregations at Indian Knoll (340 at 2000BC), Carlston Annis (210 at 2500BC), Ward (190 at 2000BC) and Chiggerville (175 at 2200BC), alongside river-terrace occupations at East Steubenville, Hansford and Parrish.
+
+Between 1000BC and 200AD, Early Woodland Adena tumuli and Middle Woodland Hopewell earthwork precincts reshaped regional settlement geography across southern Ohio, northern Kentucky, West Virginia and southeastern Indiana [@dancey1997; @charles2006]. Basin population climbed from 111k (102,1k to 119,9k) in 1000BC to 142k (130,6k to 153,4k) at 0AD and 162k (149k to 175k) at 200AD (Figure \ref{fig:oh-trajectory}).
+
+During this Middle Woodland surge, the Scioto-Miami core experienced its steepest relative concentration, climbing to a local crest of 41k (0,757 persons per km²) in 200AD. Monumental octagonal, circular and hilltop earthworks at Hopewell Mound Group (1.650), Seip Earthworks (1.100), Fort Ancient (980), Mound City (980), Portsmouth Earthworks (780), Harness Mound Group (760), Circleville Earthworks (720) and Hopeton Earthworks (620) stood alongside Newark Earthworks (1.850) and Marietta Earthworks (780) on the upper Ohio and Mann Site (950) near the Wabash confluence.
+
+<figure class="crd-figure-block" id="fig:oh-trajectory">
+<img class="crd-figure-img" src="/artefacts/project_centaur/1.0-ohio-river/fig2_ohio_river_trajectory.png" alt="fig:oh-trajectory" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Aggregate and sub-regional population trajectories for Ohio River (HU 05) from 10000BC to 1600AD with uncertainty interval.</figcaption>
+</figure>
+
+Following the fourth-century decline of monumental Hopewell mound ceremonialism, trajectories diverged temporarily across sub-regions. Scioto-Miami paused and dipped 7,3% from 41k in 200AD to 38k in 400AD as large geometric enclosures fell out of active construction and nucleated ritual clusters dispersed into smaller Late Woodland valley hamlets [@dancey1997].
+
+Over the same two centuries, Upper Ohio (43k to 47k), Cumberland-Green (42k to 47k) and Wabash-White (36k to 40k) continued growing without interruption, lifting total HU 05 population to 172k in 400AD, 189,5k in 600AD and 210k in 800AD.
+
+## Mississippian and Fort Ancient Thirteenth-Century Maximum
+
+After 900AD, widespread adoption of northern flint and eight-row maize transformed floodplain agriculture across every major tributary of the Ohio. Total basin population expanded from 231k (212,5k to 249,5k) in 1000AD to 245,5k in 1100AD, 257k in 1200AD and an all-time pre-Columbian zenith of 264k (242,9k to 285,1k; 0,622 persons per km²) in 1300AD.
+
+That thirteenth-century peak tracks the HU 05 radiocarbon mode at 1295AD [@kelly2025] and reflects sustained twelfth- and thirteenth-century demographic absorption from drought-stricken Cahokia and central Illinois [@benson2009; @comstock2018]. All four sub-regions reached their individual pre-contact peaks simultaneously in 1300AD: Upper Ohio-Allegheny-Kanawha at 72,5k (66,7k to 78,3k; 0,452 persons per km²), Kentucky-Cumberland-Green at 68,5k (63k to 74k; 0,708 persons per km²), Wabash-White-Lower Ohio at 64,5k (59,3k to 69,7k; 0,573 persons per km²) and Scioto-Miami at 58,5k (53,8k to 63,2k; 1,08 persons per km²).
+
+Along the lower Ohio and Cumberland terraces, fortified Mississippian plaza towns proliferated: Angel Mounds reached 3.200 residents in 1300AD [@hilgeman2000], Mound Bottom peaked at 1.600 in 1200AD (alongside an adjacent 1250AD mound complex of 1.200 residents), Castalian Springs reached 980 (1300AD), Noel Farm 860 (1350AD), Rutherford-Kizer 740 (1375AD), Averbuch 720 (1350AD), East Nashville Mounds 640 (1350AD), Gordontown 640 (1350AD), Sellars 640 (1150AD), Brick Church Pike 620 (1250AD) and Fewkes 580 (1300AD).
+
+Further upstream, Fort Ancient circular plaza villages such as SunWatch (560), Baum (540), Fox Farm (620, adjacent to Fox Farm Fort Ancient Town 950) and Feurt (520) coexisted with Oliver-phase Strawtown Enclosure (720) and stockaded Monongahela communities such as Johnston Site (580), Peck No. 2 (420) and Household (390) [@cook2017].
+
+## Vacant Quarter Contraction and Upper Valley Persistence
+
+Between 1300AD and 1400AD, HU 05 experienced its sharpest pre-contact demographic contraction, losing 69k inhabitants (26,14%) to stand at 195k (179,4k to 210,6k). Losses fell asymmetrically on the western and southern floodplains (Figure \ref{fig:oh-shares}).
+
+Wabash-White-Lower Ohio plummeted 39,5% from 64,5k to 39k, and Kentucky-Cumberland-Green fell 28,5% from 68,5k to 49k, as palisaded Mississippian polities abandoned the lower Ohio, lower Wabash and central Cumberland valleys during the Vacant Quarter realignment [@cobb2002; @cobb2023]. Bioarchaeological trauma patterns and heightened stockade construction indicate that climatic instability after 1300AD coincided with intensified inter-polity conflict across the Midwest and Upper South [@krus2016].
+
+<figure class="crd-figure-block" id="fig:oh-shares">
+<img class="crd-figure-img" src="/artefacts/project_centaur/1.0-ohio-river/fig3_ohio_river_shares.png" alt="fig:oh-shares" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 3.</span> Sub-regional demographic shares across the four divisions of Ohio River (HU 05) from 10000BC to 1600AD.</figcaption>
+</figure>
+
+## Sub-Regional Trajectories Across the Four Divisions
+
+### Allegheny, Monongahela and Kanawha Plateau
+
+Covering 160.575 km² (37,86% of HU 05), the upper plateau began with 250 inhabitants (0,002 persons per km²) in 10000BC and grew slowly through the Archaic to 7,2k in 5000BC and 37,5k (0,234 persons per km²) at 0AD. Early Adena mound builders at Grave Creek Mound (450 at 0AD) and South Charleston Mound (310 at 100BC) preceded the Newark (1.850) and Marietta (780) Hopewell nodes at 200AD.
+
+Unlike the Scioto core, Upper Ohio suffered no fourth-century demographic check, expanding from 43k in 200AD to 47k in 400AD, 62,5k in 1000AD and 72,5k (0,452 persons per km²) in 1300AD. Upland valleys absorbed small farming groups along the Youghiogheny, Monongahela and Kanawha terraces without triggering large-scale mound abandonment.
+
+During the fourteenth and fifteenth centuries, Monongahela stockaded hilltop and terrace villages (Johnston Site, Campbell Farm, McFate, Montague, Ryan, Wylie 3) alongside Fort Ancient Kanawha towns (Buffalo 880 at 1550AD and Blennerhassett Island Village 750 at 1500AD) limited regional contraction to 61k in 1400AD and 56k in 1500AD.
+
+As lower Ohio populations fell, Upper Ohio's share of HU 05 climbed from 27,46% in 1300AD to 31,82% in 1500AD and 31,79% (48k, 0,299 persons per km²) at 1600AD.
+
+### Scioto and Miami Earthwork Core
+
+Despite occupying only 12,77% of basin land (54.184 km²), the Scioto and Miami valleys consistently carried the highest population densities in HU 05. Population rose from 200 in 10000BC to 6,2k in 5000BC, 36k (0,664 persons per km²) at 0AD and 41k (0,757 persons per km²) at 200AD during the Hopewell florescence centred on Chillicothe and the Scioto-Miami corridor [@dancey1997; @charles2006].
+
+Following the fourth-century dip to 38k (400AD), Late Woodland and Fort Ancient maize villages lifted the sub-region to 50,5k in 1000AD and 58,5k (1,08 persons per km²) in 1300AD [@cook2017]. That peak density exceeded the Upper Ohio plateau (0,452 per km²) more than twofold and stood well above the Cumberland-Green (0,708) and Wabash-Lower Ohio (0,573) valleys.
+
+Subsequent contraction lowered numbers to 46k (1400AD), 42k (1500AD) and 36k (1600AD, 0,664 persons per km²). Even so, major sixteenth-century settlements persisted along the central Ohio, Great Miami and Scioto valleys at Madisonville (980 at 1500AD), Hardin Village (820 at 1550AD) and Clover (610 at 1550AD).
+
+### Cumberland, Kentucky and Green River Valleys
+
+Across 96.818 km² (22,83% of HU 05), Green River Archaic shell middens elevated early totals from 300 in 10000BC to 7,5k in 5000BC and 37k (0,382 persons per km²) at 0AD. Karst shoals and rich oak-hickory savannas supported stable multi-century base camps long before maize cultivation.
+
+Population climbed steadily through Late Woodland Yankeetown (360 at 950AD) to 62k in 1000AD and 68,5k (0,708 persons per km²) in 1300AD. At its apex, this division combined Angel Mounds (3.200) on the lower Ohio bank with dense Nashville Basin stone-box towns (Mound Bottom, Castalian Springs, Noel Farm, Averbuch, Rutherford-Kizer) and Fox Farm Fort Ancient Town (950).
+
+Vacant Quarter abandonment reduced totals by 28,5% to 49k in 1400AD [@cobb2002; @cobb2023]. Numbers subsequently settled to 44k (1500AD), 41k (1550AD) and 38k (1600AD, 0,392 persons per km²).
+
+### Wabash-White Basins and Lower Ohio Confluence
+
+Covering 112.583 km² (26,54% of HU 05), the Wabash-White plains and confluence zone advanced from 200 in 10000BC to 5,4k in 5000BC, 31,5k (0,28 persons per km²) at 0AD, 40k at 400AD and 56k at 1000AD before peaking at 64,5k (0,573 persons per km²) in 1300AD, anchored early on by Middle Woodland Mann Site (950 at 200AD) and Mounds State Park (420 at 100AD).
+
+Because the lower Wabash and lower Ohio corridor lay at the core of the Vacant Quarter abandonment zone, its post-1300AD fall (39,5% down to 39k in 1400AD) was the steepest in HU 05. Caborn-Welborn persistence near the confluence (Slack Farm 1.100, Hovey Lake 890, Murphy 760, Welborn 720, Bone Bank 580) buffered the decline to 34k in 1500AD, 31,5k in 1550AD and 29k (0,258 persons per km²; 19,21% share) in 1600AD [@cobb2002; @milner2010; @ubelaker2006].
+
+### Frontier Context and Late Pre-Contact Realignment
+
+Across neighbouring hydrological divisions, HU 05 bridges the gap between early-peaking Mississippian cores to the west and later-peaking eastern Atlantic basins [@kelly2025]. Whereas Upper Mississippi (HU 07) and Cahokia declined sharply after 1150AD to 1250AD [@benson2009], HU 05 held peak totals at 1300AD and retained higher fifteenth-century densities in the Scioto and Upper Ohio corridors than in the depopulated lower Wabash bottomlands.
+
+That eastward demographic tilt foreshadowed early historic Algonquian and Siouan distributions encountered by seventeenth-century French and English traders, while cross-watershed radiocarbon smoothing keeps population gradients continuous across divides into the Cumberland, Great Lakes and Mid-Atlantic basins.
+
+<figure class="crd-table-figure" id="tab:oh-subregions">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Region</th><th class="crd-th">Period</th><th class="crd-th">Population</th><th class="crd-th">Bounds</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Upper Ohio-Allegheny-Kanawha</strong></td><td class="crd-td">1300AD</td><td class="crd-td">72,5k</td><td class="crd-td">66,7k to 78,3k</td></tr>
+<tr><td class="crd-td"><strong>Scioto-Miami Hopewell Core</strong></td><td class="crd-td">1300AD</td><td class="crd-td">58,5k</td><td class="crd-td">53,8k to 63,2k</td></tr>
+<tr><td class="crd-td"><strong>Kentucky-Cumberland-Green</strong></td><td class="crd-td">1300AD</td><td class="crd-td">68,5k</td><td class="crd-td">63k to 74k</td></tr>
+<tr><td class="crd-td"><strong>Wabash-White-Lower Ohio</strong></td><td class="crd-td">1300AD</td><td class="crd-td">64,5k</td><td class="crd-td">59,3k to 69,7k</td></tr>
+<tr><td class="crd-td"><strong>Upper Ohio-Allegheny-Kanawha</strong></td><td class="crd-td">1500AD</td><td class="crd-td">56k</td><td class="crd-td">51,5k to 60,5k</td></tr>
+<tr><td class="crd-td"><strong>Scioto-Miami Hopewell Core</strong></td><td class="crd-td">1500AD</td><td class="crd-td">42k</td><td class="crd-td">38,6k to 45,4k</td></tr>
+<tr><td class="crd-td"><strong>Kentucky-Cumberland-Green</strong></td><td class="crd-td">1500AD</td><td class="crd-td">44k</td><td class="crd-td">40,5k to 47,5k</td></tr>
+<tr><td class="crd-td"><strong>Wabash-White-Lower Ohio</strong></td><td class="crd-td">1500AD</td><td class="crd-td">34k</td><td class="crd-td">31,3k to 36,7k</td></tr>
+<tr><td class="crd-td"><strong>Upper Ohio-Allegheny-Kanawha</strong></td><td class="crd-td">1600AD</td><td class="crd-td">48k</td><td class="crd-td">44,2k to 51,8k</td></tr>
+<tr><td class="crd-td"><strong>Scioto-Miami Hopewell Core</strong></td><td class="crd-td">1600AD</td><td class="crd-td">36k</td><td class="crd-td">33,1k to 38,9k</td></tr>
+<tr><td class="crd-td"><strong>Kentucky-Cumberland-Green</strong></td><td class="crd-td">1600AD</td><td class="crd-td">38k</td><td class="crd-td">35k to 41k</td></tr>
+<tr><td class="crd-td"><strong>Wabash-White-Lower Ohio</strong></td><td class="crd-td">1600AD</td><td class="crd-td">29k</td><td class="crd-td">26,7k to 31,3k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Sub-regional population totals across Ohio River (HU 05) at 1300AD, 1500AD and 1600AD.</figcaption>
+</figure>
+
+# Limitations
+
+Three principal evidentiary constraints qualify the HU 05 demographic reconstruction. First, Middle Woodland Hopewell earthworks such as Newark Earthworks, Hopewell Mound Group and Seip Earthworks functioned as regional mortuary and ceremonial centres serving dispersed valley populations whose seasonal gatherings temporarily exceeded permanent caretaker clusters [@dancey1997; @charles2006].
+
+Treating monument catchments strictly as permanent year-round residences rather than distinguishing caretaker clusters (980 to 1.850) would artificially spike 200AD urban totals at the expense of surrounding rural hamlets.
+
+Second, shifting-field maize horticulture across Fort Ancient and Monongahela uplands generated short village occupation spans (15 to 35 years) prior to soil nitrogen depletion and firewood exhaustion [@hart2020using; @cook2017]. Without adjusting for overlapping radiocarbon probability ranges and short-lived settlement phases, raw site counts inflate fourteenth- and fifteenth-century densities relative to long-lived Mississippian mound towns such as Angel Mounds and Mound Bottom.
+
+Third, HU 05 experienced no direct European chronicled expeditions during the sixteenth century. Demographic trajectories from 1500AD to 1600AD therefore rely on late Fort Ancient and Caborn-Welborn radiocarbon continuity, European trade-brass and glass-bead horizons at Madisonville, Hardin Village and Buffalo, and continental epidemic diffusion modelling rather than contemporary eyewitness censuses [@milner2010; @ubelaker2006; @cobb2023].
+
+Fourth, post-glacial alluvial burial along the lower Ohio and Wabash channels and nineteenth-century ploughing across the Till Plains unevenly conceal small Archaic and Early Woodland floodplain camps, leaving upland terraces and limestone ridges slightly better represented in early Holocene radiocarbon distributions [@kelly2022; @gillreathbrown2018experimental].
+
+# Conclusion
+
+Ohio River (HU 05) followed a distinct long-run demographic rhythm within eastern North America, cresting around 1300AD at 264k inhabitants (0,622 persons per km²) nearly two centuries after the American Bottom peak. Vacant Quarter abandonment then cut lower-valley numbers sharply while Fort Ancient and Monongahela villages sustained upper-basin density past 1500AD.
+
+Partitioning the 424.160 km² watershed across four ecological divisions and calibrating 164 catalogued settlements alongside the North American Matérn radiocarbon prior preserves both Middle Woodland Hopewell concentration in the Scioto-Miami valleys and the fourteenth-century eastward shift in regional demographic gravity.
+
+Extending this pre-contact baseline directly into seventeenth- and eighteenth-century colonial parish returns, trading-post journals and early federal enumerations anchors long-run demographic continuity across the trans-Appalachian interior without artificial breaks at 1600AD.
+
+# Sources
+
+<div id="refs"></div>

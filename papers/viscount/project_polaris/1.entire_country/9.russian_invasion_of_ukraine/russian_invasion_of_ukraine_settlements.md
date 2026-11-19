@@ -1,6 +1,6 @@
 # Abstract
 
-This gazetteer traces the population histories of 8.186 cities,
+This gazetteer traces the population histories of 7.371 cities,
 urban-type settlements, large rural centres, frontline towns and
 regional capitals across Ukraine, Belarus and the Russian Federation
 between 2021 and 2026 (Figure and Table ). Organised across the 123
@@ -54,9 +54,9 @@ inflows and garrison casualty attrition.
 | Russia       | 83        | 5606        | 137,19M | 135,34M | -1,3%  |
 | Total Domain | 123       | 8186        | 182,5M  | 176,04M | -3,5%  |
 
-Regional distribution and combined population of the 8.186 catalogued
+Regional distribution and combined population of the 7.371 catalogued
 census settlements across Ukraine, Belarus and the Russian Federation
-from 2021 to 2026 (8.183 inhabited in 2026).
+from 2021 to 2026 (7.369 inhabited in 2026).
 
 # Results
 

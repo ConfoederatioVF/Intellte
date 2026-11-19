@@ -1,0 +1,169 @@
+---
+title: "Settlement Gazetteer of the Pre-Colonial Great Lakes (HU 04)"
+subtitle: "CENTAUR-II: Copper Extraction Camps, Lake Fisheries, Oneota Villages and Iroquoian Towns, 9500BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+bibliography: great_lakes_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_great_lakes_spatial.png"
+hero_caption: "Geographic distribution of 105 catalogued settlements across the Great Lakes (HU 04) overlaid on the three sub-regional areal masks."
+hero_label: "fig:hero-great-lakes"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+sett <- fromJSON("great_lakes_settlements.json", simplifyVector = FALSE)
+ledger <- fromJSON("great_lakes_source_ledger.json5", simplifyVector = TRUE)
+
+clean_text <- function (txt) {
+  s <- as.character(txt)
+  s <- gsub("Existing Verified ", "", s, fixed = TRUE)
+  s <- gsub("CENTAUR Monument Inventory", "monument inventory", s, fixed = TRUE)
+  s <- gsub("coordinate/alias", "coordinate or alias", s, fixed = TRUE)
+  s <- gsub("(cave/rockshelter/mine/quarry/medicine wheel/cemetery/kill site)", "(non-habitation feature)", s, fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  s <- gsub(" & ", " and ", s, fixed = TRUE)
+  s <- gsub("&", " and ", s, fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  return(s)
+}
+```
+
+# Abstract
+
+This gazetteer compiles 105 coordinate-anchored settlements and 109 excluded candidates across the Great Lakes basin (USGS Hydrological Unit 04, 319.677 km²) between 9500BC and 1600AD. Spanning 214 total evaluated ledger entries across seven U.S. states and adjacent Canadian borderlands (108 duplicate-coordinate aliases within 2 km and 1 unquantified cemetery excluded), the inventory traces Palaeoindian and Early Archaic beach-ridge stations at Hiscock (9500BC, 25 to 60), Gainey (9000BC, 65) and Petersen (9000BC, 45 to 540 in 1500AD) [@simons1984gainey; @mason1981greatlakes], Archaic Lake Superior copper-mining sites at Isle Royale-Minong (180 in 2000BC) and Copper Harbor (140 in 1000AD) [@martin1999copper], island whitefish stations at Juntunen (450 in 1200AD, alongside Juntunen Late Woodland Town reaching 900 in 1350AD) [@mcpherron1967juntunen; @cleland1982fishery], Fox-Winnebago and Lake Michigan Oneota towns at Lake Winnebago (1.450 in 1500AD), Bell Site (1.150 in 1600AD) and Moccasin Bluff (950 in 1500AD) [@overstreet1997oneota; @bettarel1973moccasin], and Northern Iroquoian-Erie capitals led by Ganondagan (2.600 in 1600AD), Indian Hill (Onondaga) (2.400 in 1600AD), Onondaga (2.400 in 1600AD), Ripley (1.650 in 1600AD) and Factory Hollow (1.450 in 1600AD) [@trigger1976huron; @tuck1971onondaga; @snow1994iroquois; @sullivan1996ripley].
+
+# Background
+
+Great Lakes settlement morphology reflects three distinct ecological zones: northern Shield-boreal lake fisheries, copper-bearing basalts and Green Bay-Winnebago wild-rice wetlands, eastern and western Lake Michigan littoral valleys, and southern Huron-Erie-Ontario agricultural uplands [@mason1981greatlakes]. Early Holocene occupations such as Gainey in Genesee County, Michigan (42,92 N, 83,64 W) and Hiscock in western New York (43 N, 78,19 W) anchor post-glacial caribou-hunting corridors along former proglacial shorelines [@simons1984gainey].
+
+Middle and Late Woodland mound centres, palisaded enclosures, longhouse rows and stratified island fishery middens supply coordinate-anchored residential counts across all 105 included settlements. Separating these 105 nucleated centres from diffuse rural densities prevents non-stationary kriging surfaces from smearing concentrated village populations into surrounding upland forest and boreal Shield terrain [@kelly2025].
+
+# Methodology
+
+## Inclusion Criteria and Site Demographic Methods
+
+Candidate screening in the regional source ledger consolidates 214 regional entries across three compilation waves, retaining 105 distinct residential, fishery or copper-extraction centres and excluding 109 records (108 duplicate coordinate aliases merged within 2 km into canonical town entries and 1 unquantified non-habitation cemetery at Riverside Cemetery in Michigan). Population trajectories derive from excavated longhouse hearth counts across Seneca, Onondaga, Cayuga, Oneida and Erie towns (Ganondagan, Onondaga, Indian Hill (Onondaga), Ripley, Factory Hollow and Thurston) [@trigger1976huron; @tuck1971onondaga; @snow1994iroquois; @sullivan1996ripley], ridged-field catchment areas and pit-feature counts around Lake Winnebago and the St. Joseph River (Lake Winnebago, Bell Site, Doty Island, Lasley's Point and Moccasin Bluff) [@overstreet1997oneota; @bettarel1973moccasin], and fishery aggregation middens at Bois Blanc Island and Whitefish Bay (Juntunen and Naomikong Point) [@cleland1982fishery; @mcpherron1967juntunen].
+
+# Testing and Validation
+
+Gazetteer auditing cleared zero-error tolerance at GMT+0:
+
+1. **Ledger Parity**: All 214 ledger candidates (105 included, 109 excluded) reconcile across the three watershed sub-regions (21 in Superior-Upper Peninsula-Winnebago, 13 in Lake Michigan East and West and 71 in Huron-Erie-Finger Lakes).
+2. **Coordinate and Spatial Compliance**: All 105 records carry valid coordinates (41,09 N to 48,08 N, 73,01 W to 89,11 W), strictly positive integer populations and uniform archaeological provenance across seven U.S. states and Canadian borderlands (34 New York, 34 Michigan, 15 Wisconsin, 13 Ohio, 6 Vermont, 2 Ontario borderlands and 1 Indiana).
+3. **Sub-Regional Mass Conservation**: Explicit 1500AD settlement entries account for 22.410 inhabitants (13,66% of 164k) and 1600AD entries account for 28.125 (18,32% of 153,5k), leaving strictly positive rural residuals across every sub-region.
+
+```{r tbl-gazetteer, results='asis'}
+fmt_coord <- function (cvec) {
+  lat <- as.numeric(cvec[[1]])
+  lon <- as.numeric(cvec[[2]])
+  paste0(viscount_fmt_number(abs(lat), 2L), " N, ", viscount_fmt_number(abs(lon), 2L), " W")
+}
+
+reg_short <- list(
+  gl_superior_upper_peninsula = "Superior-Winnebago",
+  gl_michigan_fox_winnebago = "Lake Michigan",
+  gl_huron_erie_finger_lakes_ny = "Huron-Erie-NY"
+)
+
+rows <- lapply(names(sett), function (sk) {
+  sv <- sett[[sk]]
+  p_vec <- unlist(sv$population)
+  yrs <- as.integer(names(p_vec))
+  p_vals <- as.numeric(p_vec)
+  pk_idx <- which.max(p_vals)
+  lo_y <- min(yrs)
+  hi_y <- max(yrs)
+  lo_str <- ifelse(lo_y < 0, paste0(abs(lo_y), "BC"), paste0(lo_y, "AD"))
+  hi_str <- ifelse(hi_y < 0, paste0(abs(hi_y), "BC"), paste0(hi_y, "AD"))
+  span_str <- if (lo_y == hi_y) lo_str else paste0(lo_str, "-", hi_str)
+  pk_yr_str <- ifelse(yrs[pk_idx] < 0, paste0(abs(yrs[pk_idx]), "BC"), paste0(yrs[pk_idx], "AD"))
+  data.frame(
+    Settlement = clean_text(sv$name),
+    Polity = clean_text(sv$country),
+    SubRegion = reg_short[[sv$region_id]],
+    Coords = fmt_coord(sv$coords),
+    Span = span_str,
+    PeakYear = pk_yr_str,
+    PeakPop = viscount_fmt_number(p_vals[pk_idx], 0L),
+    stringsAsFactors = FALSE,
+    pk_num = p_vals[pk_idx]
+  )
+})
+df_gaz <- do.call(rbind, rows)
+df_gaz <- df_gaz[order(-df_gaz$pk_num, df_gaz$Settlement), ]
+df_gaz <- head(df_gaz, 45L)
+df_gaz$pk_num <- NULL
+rownames(df_gaz) <- NULL
+
+viscount_table(
+  df_gaz,
+  "Top 45 settlements by peak population across the 105 catalogued sites in the Great Lakes (HU 04) gazetteer.",
+  c("Settlement", "State or Country", "Sub-Region", "Coordinates", "Span", "Peak Year", "Peak Pop.")
+)
+```
+
+# Results
+
+## Iroquoian Towns and Lake Erie Borderlands
+
+In the southeastern sub-region (71 settlements), large palisaded Northern Iroquoian and Erie towns dominated late pre-contact demography (Table 1 and Figure 1). Across western and central New York, Ganondagan (42,96 N, 77,41 W) expanded from 1.400 inhabitants in 1500AD to 2.600 in 1600AD, matched by Onondaga capitals at Indian Hill (Onondaga) (1.100 in 1500AD to 2.400 in 1600AD) and Onondaga (480 in 1300AD to 2.400 in 1600AD) [@tuck1971onondaga; @snow1994iroquois]. Along the Lake Erie south shore, Ripley rose from 850 in 1400AD to 1.350 in 1500AD and 1.650 in 1600AD [@sullivan1996ripley], while Factory Hollow (1.450), Cameron (Seneca) (1.200), Adams (Seneca) (1.150 in 1570AD), Thurston (1.150), Tram (1.050 in 1590AD) and Genoa Fort (980) formed dense clustered village belts from the Genesee to Oneida Creek [@trigger1976huron; @snow1994iroquois].
+
+Further west along the Lake Erie southern shore and Saginaw drainage, Whittlesey and Western Basin fortified centres included Indian Hills (Ohio) (720 in 1600AD), South Park (720 in 1600AD), Libben (620 in 1100AD), Fairport Harbor (560 in 1600AD), Petersen (540 in 1500AD) and White Fort (510 in 1500AD), Juntunen on Bois Blanc Island in northwestern Lake Huron rose from 180 in 800AD to 450 in 1200AD (Juntunen Late Woodland Town reaching 900 in 1350AD) [@mcpherron1967juntunen], and Missisquoi on Lake Champlain reached 680 in 1500AD (640 in 1600AD) [@mason1981greatlakes].
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_great_lakes_settlements.png",
+  "Rank-size distribution and leading fifteen settlement peaks across the 105 sites in the Great Lakes (HU 04) gazetteer.",
+  "fig:sett-great-lakes"
+)
+```
+
+## Lake Michigan and Superior-Winnebago Settlements
+
+In the Lake Michigan East and West sub-region (13 settlements), southern and eastern littoral communities were led by Moccasin Bluff (41,86 N, 86,37 W, peaking at 950 in 1500AD and 820 in 1600AD) [@bettarel1973moccasin], Kalamazoo River Potawatomi Town (680 in 1600AD), Muskegon River Village (620 in 1600AD), Manistee River Village (580 in 1600AD) and Middle Woodland Norton Mounds (540 in 200AD).
+
+In the Lake Superior, Upper Peninsula and Fox-Winnebago sub-region (21 settlements), Oneota agricultural and Winnebago lakeside towns formed a prominent western cluster [@overstreet1997oneota]: Lake Winnebago (44,11 N, 88,69 W) grew from 580 in 1100AD to 1.050 in 1300AD and 1.450 in 1500AD (1.400 in 1600AD), flanked by Bell Site (420 in 1400AD to 1.150 in 1600AD), Doty Island (840 in 1600AD), Lasley's Point (720 in 1500AD), Grand River (620 in 1300AD) and Rock Island II (480 in 1600AD). Along Lake Superior and the Straits of Mackinac, Isle Royale-Minong (48,03 N, 88,78 W, 180 in 2000BC), Isle Royale Minong Mines (145 in 2000BC) and Copper Harbor (140 in 1000AD) document multi-millennial native copper quarrying [@martin1999copper], while fishery stations at Naomikong Point (240 in 500AD) and St. Ignace Straits Settlement (850 in 1600AD) anchored seasonal whitefish shoals [@cleland1982fishery].
+
+```{r tbl-ledger, results='asis'}
+cand <- ledger$candidates
+exc <- cand[cand$status == "excluded", , drop = FALSE]
+non_dup <- exc[exc$reason != "duplicate_alias", , drop = FALSE]
+dup_rows <- exc[exc$reason == "duplicate_alias", , drop = FALSE]
+exc_show <- rbind(non_dup, dup_rows)
+if (nrow(exc_show) > 30L) exc_show <- exc_show[seq_len(30L), , drop = FALSE]
+df_led <- data.frame(
+  Candidate = clean_text(exc_show$name),
+  StateCountry = clean_text(exc_show$country),
+  Status = exc_show$status,
+  Reason = clean_text(exc_show$reason),
+  Details = clean_text(exc_show$justification),
+  stringsAsFactors = FALSE
+)
+rownames(df_led) <- NULL
+viscount_table(
+  df_led,
+  "Leading 30 of 109 excluded candidates (1 non-habitation cemetery and 108 duplicate aliases across 214 entries) in the Great Lakes (HU 04) source ledger.",
+  c("Candidate Site", "State or Country", "Status", "Exclusion Reason", "Consolidation Note"),
+  list(font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Seasonal copper-mining camps (Isle Royale-Minong, Copper Harbor) and Straits fishery stations (Juntunen, Naomikong Point) experienced pronounced warm-season versus winter population swings that annualised benchmark integers flatten into mean seasonal equivalents [@cleland1982fishery; @martin1999copper]. Separately, dispersed Ojibwe, Ottawa, Potawatomi and Menominee winter hunting groups across northern Michigan and Wisconsin remain embedded in the kriged rural substratum rather than discrete village coordinates [@mason1981greatlakes], while Middle Mississippian Aztalan in southeastern Wisconsin falls just across the Rock-Fox watershed divide outside HU 04 [@goldstein1991aztalan]. In addition, the remaining 60 smaller catalogued settlements below rank 45 (peaking between 50 and 550 inhabitants) are retained in the rural subtraction grid although Table 1 prints only the leading 45 centres.
+
+# Sources
+
+<div id="refs"></div>

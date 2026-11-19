@@ -1,0 +1,396 @@
+---
+title: "Demographic Trajectories of Contemporary China, Taiwan, Hong Kong and Macao"
+subtitle: "JADE-IV: Census Enumerations, Agrarian Crises, Planned Fertility and Coastal Megalopolises, 1949AD to 2026AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: prc_taiwan_hong_kong_and_macao_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_prc_taiwan_hong_kong_and_macao_spatial.png"
+hero_caption: "Sub-regional administrative mask and 30.002 catalogued settlements across 34 provincial units of China, Taiwan, Hong Kong and Macao from 1949AD to 2026AD."
+hero_label: "fig:hero-prc-taiwan-hong-kong-and-macao"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("prc_taiwan_hong_kong_and_macao.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("prc_taiwan_hong_kong_and_macao_settlements.json", simplifyVector = FALSE)
+diag_data <- fromJSON("../../_shared/sites_east_asia/config/kriging_diagnostics.json", simplifyVector = FALSE)
+
+# Compute dynamic aggregate totals across all 34 regions
+census_yrs <- names(mod_data$regions[[1]]$population)
+census_totals <- vapply(census_yrs, function(y) {
+  sum(vapply(mod_data$regions, function(r) as.numeric(r$population[[y]]), numeric(1)))
+}, numeric(1))
+names(census_totals) <- census_yrs
+```
+
+# Abstract
+
+This paper reconstructs the demographic evolution of the People's Republic of China, Taiwan, Hong Kong and Macao from the establishment of the communist regime in 1949AD to the terminal benchmark of 2026AD under JADE-IV. Across 34 provincial-level administrative masks covering 9.389.222 km² (137.431 five-arcminute grid cells), aggregate population expanded from 535,04M (535.040.000) in 1949AD across seven national population censuses: 592,35M (592.349.000) in 1953AD, 709,55M (709.550.000) in 1964AD, 1.027,98M (1.027.979.000) in 1982AD, 1.156,98M (1.156.978.000) in 1990AD, 1.291,65M (1.291.654.000) in 2000AD, 1.363,51M (1.363.510.000) in 2010AD and peaking at 1.441,50M (1.441.504.000) in 2020AD, before entering historical peacetime contraction to 1.437,91M (1.437.911.000) in 2025AD and 1.435,09M (1.435.086.422) in 2026AD [@nbs1954census; @nbs1964census; @nbs1982census; @nbs1990census; @nbs2000census; @nbs2010census; @nbs2020census; @nbs2025estimates]. Anchored to official National Bureau of Statistics censuses, Hou Yangfang's historical series, Taiwan Ministry of the Interior household registers, Hong Kong Census and Statistics Department digests and Macao Statistics and Census Service tabulations [@hou2001zhongguo; @taiwan_moi2025; @hk_censtatd2025; @macao_dsec2025], the analysis models the acute mortality trough of the 1959AD to 1961AD Great Leap Forward famine (which suppressed aggregate growth to 672,76M in 1960AD), the demographic discipline of the *hukou* household registration system, the state-directed fertility decline achieved through the *wan-xi-shao* and One-Child policies, and the post-1978 spatial redistribution of over 250M rural migrants into the Pearl River Delta (lifting Guangdong to 127,54M, led by Shenzhen's growth to 18,61M), the Yangtze River Delta (concentrating 24,75M in Shanghai, 85,09M in Jiangsu and 66,57M in Zhejiang) and the Beijing-Tianjin megalopolis [@Song2009Does; @Meng2010Institutional; @Shen2017Urbanization; @Chen2019Polycentricity]. These expansions contrast with persistent population loss across the Northeast Rustbelt (Heilongjiang, Jilin and Liaoning), controlled frontier growth in Xinjiang (26,18M) and Tibet (3,69M), parallel ultralow fertility transitions in Taiwan (23,38M), Hong Kong (7,54M) and Macao (690k), and the onset of negative national natural increase after 2021AD [@Zhao2026Still; @Zhang2024Regional; @taiwan_moi2025]. Spatial disaggregation applies Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) kriging across 1.274 domestic catchments (1.074 active inhabited units, median radius 45,11 km, regularised $\tau_1 = 1,5$, short range 73,43 km, nugget-to-sill 0,04, WLS $R^2 = 0,9991$ to 0,9996) conditioned on 30.002 catalogued settlements [@paciorek2006spatial].
+
+# Background
+
+## The Demographic Baseline of 1949AD and the First National Census
+
+When the People's Republic of China was proclaimed on 1 October 1949, the country emerged from twelve years of continuous warfare against Imperial Japanese occupation (1937AD to 1945AD) and the Chinese Civil War (1945AD to 1949AD) [@hou2001zhongguo]. Nationalist-era statistical operations had never accomplished an exhaustive national headcount, relying instead on pao-chia neighbourhood reporting, salt-tax registers and provincial police compilations [@hou2001zhongguo]. Retrospective demographic reconstructions by Hou Yangfang establish that mainland China contained approximately 525M inhabitants in late 1949AD, expanding to 535,04M when combined with Nationalist-held Taiwan (7,40M), British Hong Kong (1,86M) and Portuguese Macao (196k) [@hou2001zhongguo; @taiwan_moi2025; @hk_censtatd2025; @macao_dsec2025].
+
+The pacification of the mainland, land reform campaigns and public health mobilisations brought an immediate decline in crude death rates [@hou2001zhongguo; @nbs1954census]. Massive vaccination drives against smallpox, pestilence controls along inland waterways and basic sanitation programmes in rural villages suppressed infant and child mortality [@hou2001zhongguo]. To establish an administrative basis for food distribution, parliamentary representation in the First National People's Congress and the First Five-Year Plan (1953AD to 1957AD), the State Council ordered China's First National Population Census as of 30 June 1953 [@nbs1954census].
+
+Conducted with technical assistance from Soviet demographers and deploying over 2,5M enumerators, the 1953AD census enumerated 582,60M persons in mainland China, or 592,35M across the entire Chinese macro-region when incorporating 8,44M in Taiwan, 2,24M in Hong Kong and 188k in Macao [@nbs1954census; @taiwan_moi2025]. The results astonished contemporary observers: the total exceeded Republican estimates by more than 100M individuals, revealing a youthful population where over 36% of residents were under fifteen years of age and the crude rate of natural increase stood at 20 per thousand [@nbs1954census; @hou2001zhongguo]. Rural populations predominated overwhelmingly, accounting for 86,7% of the total, while heavy industrial centres in the Northeast (Liaoning 18,31M, Jilin 10,09M, Heilongjiang 10,12M) formed the principal urban nuclei outside Shanghai (7,73M) and Beijing (4,14M) [@nbs1954census].
+
+## The Great Leap Forward Famine and Demographic Trough
+
+Between 1958AD and 1961AD, this expansion was violently interrupted by the Great Leap Forward, which precipitated the deadliest famine of the twentieth century [@Song2009Does; @Grda2011Great; @Grda2013Great; @Meng2010Institutional]. Initiated by Mao Zedong to achieve rapid transition to full communism through rural collectivisation into people's communes (*renmin gongshe*) and backyard steel production, the campaign disrupted agricultural cycles across northern and central China [@Meng2010Institutional]. Communal dining halls encouraged unconstrained grain consumption in late 1958AD, while exaggerated crop yield reporting by local cadres prompted the central government to set punitive grain procurement quotas that stripped rural counties of basic subsistence [@Meng2010Institutional; @Hu2021Great].
+
+Compounded by drought in the Yellow River basin, typhoons along the southern coast and the withdrawal of Soviet technical assistance in 1960AD, agricultural production collapsed [@Grda2013Great; @Hu2021Great]. National grain output dropped from 200M metric tonnes in 1958AD to 143M tonnes in 1960AD [@Meng2010Institutional]. Demographic consequences were catastrophic. Systematic econometric and demographic analyses of county-level archival records by Song, Meng, Qian and Yared, Ó Gráda and Hou Yangfang demonstrate that excess mortality concentrated heavily in interior agrarian provinces that historically produced grain surpluses: Sichuan, Anhui, Henan, Shandong, Guizhou and Gansu [@Song2009Does; @Song2008Mortality; @Meng2010Institutional; @Grda2011Great; @Cao2022Clans].
+
+In Anhui, crude death rates escalated from 12,3 per thousand in 1957AD to 68,6 per thousand in 1960AD, while Henan, Guizhou and Sichuan experienced widespread starvation [@Meng2010Institutional; @Cheng2021Great]. Aggregate mainland population contracted from approximately 672M in 1959AD to 662M in late 1960AD, representing an absolute loss of 10M persons in official series and an estimated demographic deficit of 25M to 35M births missing or delayed alongside 15M to 30M premature deaths [@Song2009Does; @Grda2013Great; @Almond2007Long; @Kim2015Long]. The JADE-IV spatial benchmark reconstructs this famine nadir at 672,76M aggregate across all 34 territories in 1960AD, capturing both absolute mortality and suppressed fertility. Epidemiological follow-up studies confirm that cohorts in utero during 1959AD to 1961AD suffered persistent long-term deficits in height, educational attainment, cognitive function and metabolic health [@Almond2007Long; @Kim2013Lasting; @Xu2017Early; @Li2017Exposure; @Zhang2025Intergenerational].
+
+Recovery was rapid once communal kitchens were dismantled and private household plots (*ziliudi*) restored in 1962AD [@Meng2010Institutional]. A massive compensatory baby boom lifted crude birth rates above 40 per thousand between 1962AD and 1970AD [@Song2008Mortality; @nbs1964census]. When the Second National Population Census was conducted on 30 June 1964, the regional aggregate reached 709,55M (694,58M in mainland China, 12,26M in Taiwan, 3,51M in Hong Kong and 205k in Macao), confirming robust post-famine rebound [@nbs1964census].
+
+## Institutional Controls: The Hukou System and State-Planned Fertility
+
+To insulate urban centres from rural destitution during the Great Leap Forward and manage resource allocation under central planning, the Standing Committee of the National People's Congress promulgated the Regulations on Household Registration in January 1958, institutionalising the *hukou* system [@Meng2019Rural; @Zhou2025Rural]. Every citizen was assigned a status tied to birthplace: agricultural (*nongye hukou*) or non-agricultural (*feinongye hukou*). Urban *hukou* holders enjoyed guaranteed employment in state enterprises, housing subsidies, grain ration coupons (*liangpiao*) and state health insurance, whereas rural holders were restricted to commune work-point remuneration and local subsistence [@Zhou2025Rural; @Chen2011Rural]. Unauthorised movement to cities was prevented through food rationing checkpoints and street committee surveillance, creating a rigid institutional divide that bounded rural labour to the land for two decades [@Meng2019Rural].
+
+By the early 1970s, the demographic pressure of over 25M annual births alarmed central planners, threatening state capital accumulation [@Song2013Prenatal]. In 1971AD, the State Council launched the *wan-xi-shao* (later, longer, fewer) campaign, promoting later marriage (ages 23 for women and 25 for men in rural areas; 25 and 28 in cities), longer birth intervals (three to four years) and fewer children (a ceiling of two per couple) [@Song2013Prenatal]. This policy achieved remarkable success: China's total fertility rate fell precipitously from 5,8 births per woman in 1970AD to 2,7 in 1978AD, representing the fastest fertility transition recorded in a developing society prior to industrialisation [@Song2013Prenatal].
+
+Unsatisfied with this voluntary reduction, the post-Mao leadership under Deng Xiaoping instituted the One-Child Policy in 1979AD, mandating that Han couples in urban areas restrict reproduction to a single offspring, enforced through workplace birth quotas, mandatory intrauterine device insertions, postpartum tubal ligations, financial fines (*shehui fuyangfei*) and administrative demotions [@Song2013Prenatal; @Li2020Echo]. In rural villages, resistance prompted a partial relaxation in 1984AD allowing a second child if the first was female (the 1,5-child policy), while ethnic minorities in frontier autonomous regions (Xinjiang, Tibet, Inner Mongolia, Ningxia, Guangxi) were permitted two or three children [@Song2013Prenatal; @nbs1990census].
+
+The demographic consequences were profound. When the Third National Population Census was undertaken on 1 July 1982 using computerised data processing supported by the United Nations Fund for Population Activities, mainland China breached the one-billion milestone, recording 1.008,18M persons (1.027,98M across all 34 territories) [@nbs1982census]. By the Fourth Census in 1990AD (1.156,98M aggregate) and the Fifth Census in 2000AD (1.291,65M aggregate), fertility had dropped well below replacement level (approximately 1,5 to 1,6), inducing severe sex-ratio imbalances at birth that exceeded 118 boys per 100 girls in several central provinces due to son preference and sex-selective abortion [@nbs1990census; @nbs2000census; @Li2020Echo].
+
+## Economic Reform, Spatial Polarisation and Rural-to-Urban Migration
+
+Following the Third Plenum of the Eleventh Central Committee in December 1978, the introduction of the Household Responsibility System (*jiating liangchan chengbao zerenzhi*) in agriculture freed an estimated 100M surplus labourers from peasant farming [@Meng2019Rural]. Simultaneously, Deng Xiaoping designated four Special Economic Zones in southern China in 1979AD and 1980AD: Shenzhen, Zhuhai and Shantou in Guangdong, and Xiamen in Fujian [@Chen2019Polycentricity]. The opening of fourteen coastal port cities in 1984AD, the declaration of Hainan as a separate province and special zone in 1988AD, and the development of the Shanghai Pudong New Area in 1990AD created powerful industrial clusters hungry for low-cost manufacturing labour [@Shen2017Urbanization; @Zhang2017Multiplex].
+
+To accommodate export-led growth without granting permanent urban welfare entitlements, the state relaxed physical travel controls while retaining the *hukou* boundary, facilitating the emergence of the floating population (*liudong renkou*) [@Meng2019Rural; @Zhou2025Rural]. Millions of young rural workers, predominantly women in light assembly and men in construction, migrated from the agricultural plains of Henan, Sichuan, Anhui, Jiangxi and Hunan toward coastal metropolises [@Meng2019Rural; @Chen2011Rural].
+
+Demographic gravity shifted toward three coastal megalopolises [@Shen2017Urbanization; @Peng2024More]:
+
+1. *The Pearl River Delta (Greater Bay Area)*: Guangdong expanded from 27,83M in 1949AD and 53,63M in 1982AD to 86,42M in 2000AD, 104,30M in 2010AD and 126,01M in the 2020AD census, reaching 127,54M in 2026AD [@nbs2020census; @Chen2019Polycentricity]. Guangdong surpassed Henan and Shandong to become China's most populous province in 2007AD. At the municipal level, Shenzhen transformed from a fishing border county of 30k residents into a high-technology metropolis of 17,56M permanent residents in 2020AD (18,61M peak in 2025AD), while Dongguan (10,22M), Foshan (9,59M) and Guangzhou (17,06M) formed a continuous urban conurbation [@Chen2019Polycentricity; @Li2017Urban; @Ou2013Urbanisation].
+
+2. *The Yangtze River Delta*: Anchored by Shanghai's financial and commercial expansion, the regional agglomeration across Shanghai, southern Jiangsu and northern Zhejiang absorbed tens of millions of interprovincial migrants [@Zhang2017Multiplex; @Zhong2022Urban]. Shanghai expanded from 7,73M in 1949AD to 16,74M in 2000AD, 23,02M in 2010AD and 24,87M in 2020AD (24,75M in 2026AD), while Jiangsu grew to 85,09M and Zhejiang to 66,57M, supported by private manufacturing clusters in Hangzhou (10,54M), Suzhou (11,04M) and Ningbo [@nbs2020census; @Zhong2022Urban].
+
+3. *The Beijing-Tianjin-Hebei Region (Jing-Jin-Ji)*: The capital region experienced rapid population concentration as national political administration, higher education and corporate headquarters expanded [@Liu2022Research]. Beijing surged from 4,14M in 1949AD and 9,23M in 1982AD to 21,89M in 2020AD (21,79M in 2026AD), while neighbouring Tianjin grew to 13,87M (13,61M in 2026AD), surrounded by Hebei's manufacturing basin of 73,63M [@nbs2020census; @Liu2022Research].
+
+4. *Central Agrarian Reservoirs and Inland Basins*: Counterbalancing the coastal magnets, the interior agricultural provinces of Henan (97,65M in 2026AD), Sichuan (83,47M), Hunan (65,26M), Anhui (61,11M), Hubei (58,22M) and Jiangxi (44,93M) functioned as primary labour reservoirs [@Meng2019Rural; @Chen2011Rural]. During the height of the reform era between 1995AD and 2015AD, each of these provinces sustained net out-migration exceeding 5M to 10M residents working along the coast, while simultaneously modernising local agriculture and fostering secondary inland industrial growth around provincial capitals such as Zhengzhou (10,47M), Chengdu (17,48M), Wuhan (11,02M), Changsha (8,80M) and Hefei (8,17M) [@Meng2019Rural; @nbs2020census].
+
+## Regional Divergence: Northeast Rustbelt Depopulation and Western Frontiers
+
+While coastal metropolises expanded, the Northeast Rustbelt (*Dongbei*, comprising Liaoning, Jilin and Heilongjiang) entered structural demographic contraction [@Zhao2026Still; @Zhang2024Regional]. Throughout the Japanese Manchukuo period and early communist Five-Year Plans, the Northeast functioned as China's primary industrial heartland, endowed with rich coal deposits, iron ore and timber, attracting millions of Han migrants from Shandong and Hebei [@hou2001zhongguo; @Zhao2026Still]. By the 1980s, state-owned enterprises employed the majority of urban workers in Shenyang, Harbin, Changchun and Anshan, enforcing strict One-Child compliance that compressed fertility earlier than in agrarian provinces [@Zhao2026Still].
+
+Market reforms during the 1990s closed uncompetitive state mines and steel mills, causing widespread layoffs (*xiagang*) [@Zhao2026Still]. Lacking economic diversification, the region suffered severe out-migration of educated youths and working-age cohorts to coastal provinces and Beijing [@Zhang2024Regional]. Combined with low birth rates and cold winter climates, the Northeast began experiencing absolute population loss after 2010AD [@Zhao2026Still; @Zhang2024Regional]. Between the 2010AD and 2020AD censuses, Heilongjiang shrank from 38,31M to 31,85M (-16,9%, falling further to 30,23M in 2026AD), Jilin contracted from 27,46M to 24,07M (-12,3%, reaching 23,12M in 2026AD), and Liaoning fell from 43,75M to 42,59M (41,47M in 2026AD) [@nbs2020census; @Zhao2026Still]. The total Dongbei population fell by nearly 11M persons in a single decade, marking it as one of the fastest-shrinking industrial regions worldwide [@Zhao2026Still].
+
+In contrast, China's western borderlands exhibited distinct demographic trajectories [@nbs2020census]. In the Xinjiang Uygur Autonomous Region (1.634.591 km²), population expanded from 4,33M in 1949AD to 13,08M in 1982AD, 18,46M in 2000AD and 25,85M in 2020AD (26,18M in 2026AD), driven by the settlement of the Xinjiang Production and Construction Corps (*Bingtuan*), state-directed Han migration to Urumqi and the northern Dzungarian basin, and historically higher fertility allowances for Turkic Muslim minorities (Uygurs, Kazakhs, Kyrgyz) [@nbs2020census]. In the Tibet Autonomous Region (Xizang, 1.127.666 km²), improved healthcare, maternal mortality reduction and high ethnic Tibetan birth rates lifted population from 1,15M in 1949AD to 1,89M in 1982AD, 2,62M in 2000AD and 3,65M in 2020AD (3,69M in 2026AD), maintaining the lowest population density in China at 3,27 persons per km² [@nbs2020census].
+
+## Cross-Strait and Maritime Trajectories: Taiwan, Hong Kong and Macao
+
+Beyond mainland China, peripheral Chinese territories experienced autonomous demographic transitions conditioned by distinct geopolitical and socioeconomic regimes [@taiwan_moi2025; @hk_censtatd2025; @macao_dsec2025]:
+
+1. *Taiwan*: In late 1949AD, the retreat of the Republic of China government, armed forces and civilian refugees added approximately 1,2M mainlanders to Taiwan's native island population of 6,1M, lifting total numbers to 7,40M [@taiwan_moi2025; @hou2001zhongguo]. A strong post-war baby boom expanded population to 8,44M in 1953AD, 12,26M in 1964AD and 18,46M in 1982AD [@taiwan_moi2025]. Economic takeoff under export-oriented industrialisation during the 1960s and 1970s prompted voluntary fertility decline through educational expansion and female labour force participation, without coercive state mandates [@taiwan_moi2025]. Total fertility fell below replacement level in 1984AD and dropped beneath 1,0 child per woman after 2010AD. Taiwan's population peaked at 23,60M in 2019AD before entering peacetime natural decline to 23,56M in 2020AD, 23,40M in 2025AD and 23,38M in 2026AD [@taiwan_moi2025].
+2. *Hong Kong*: British Hong Kong served as a major demographic haven and commercial entrepôt following the 1949AD communist victory, absorbing waves of refugees escaping civil conflict, land reform, the Great Leap famine and the Cultural Revolution [@Almond2007Long; @hk_censtatd2025]. Population climbed from 1,86M in 1949AD to 2,24M in 1953AD, 3,51M in 1964AD, 5,26M in 1982AD and 6,67M in 2000AD [@hk_censtatd2025]. Rapid economic development and hyper-dense vertical housing in Kowloon and the New Territories compressed fertility to ultralow levels (crude birth rates below 6 per thousand by 2023AD), though immigration from the mainland via the One-Way Permit scheme sustained population at 7,48M in 2020AD and 7,54M in 2026AD [@hk_censtatd2025].
+3. *Macao*: Portuguese Macao experienced continuous population influx from neighbouring Guangdong, expanding from 196k in 1949AD to 262k in 1982AD, 432k in 2000AD and 683k in 2020AD (690k in 2026AD) [@macao_dsec2025]. Massive maritime land reclamation expanded Macao's territory from 15 km² in 1949AD to over 40 km² in 2026AD, accommodating the highest territorial population density in the world at over 17.000 persons per km² [@macao_dsec2025].
+
+## The Post-2021 Turning Point: Negative Natural Growth and Rapid Ageing
+
+The culmination of four decades of sub-replacement fertility, rising living costs, female educational attainment and declining marriage rates brought mainland China to a historic turning point [@nbs2020census; @nbs2025estimates; @Peng2024More]. The Seventh National Population Census of November 2020 enumerated 1.411,78M mainland residents (1.441,50M aggregate), recording an average annual growth rate of just 0,53% between 2010AD and 2020AD, the lowest since the 1953AD census [@nbs2020census]. Despite the abandonment of the One-Child Policy in favour of a Universal Two-Child Policy in 2016AD and a Three-Child Policy in 2021AD, annual births collapsed from 17,86M in 2016AD to 12,00M in 2020AD, 9,56M in 2022AD and 9,02M in 2023AD [@nbs2025estimates].
+
+In 2022AD, mainland China entered peacetime negative natural growth for the first time since the 1960AD famine, as deaths (10,41M) exceeded births (9,56M) by 850k [@nbs2025estimates]. Natural decrease deepened in 2023AD (-2,08M) and 2024AD, pulling mainland numbers down to 1.406,29M in 2025AD and 1.403,48M in 2026AD, establishing an aggregate regional total of 1.437,91M in 2025AD and 1.435,09M in 2026AD [@nbs2025estimates]. Concurrently, the proportion of citizens aged 60 and over reached 21,1% in 2023AD, while the working-age population (ages 16 to 59) contracted by over 40M individuals between 2012AD and 2023AD, signalling a structural shift toward rapid demographic ageing and spatial contraction [@Peng2024More; @nbs2025estimates].
+
+# Methodology
+
+## Census Harmonisation and Statistical Reconstructions
+
+Demographic reconstruction across JADE-IV integrates official primary records from national census offices and historical demographic registers [@nbs1954census; @nbs1964census; @nbs1982census; @nbs1990census; @nbs2000census; @nbs2010census; @nbs2020census; @nbs2025estimates; @hou2001zhongguo; @taiwan_moi2025; @hk_censtatd2025; @macao_dsec2025]. To ensure longitudinal consistency across shifting provincial administrative boundaries (such as the separation of Hainan from Guangdong in 1988AD, the establishment of Chongqing Municipality separate from Sichuan in 1997AD, and the retrocession of Hong Kong in 1997AD and Macao in 1999AD), all historical figures are reconciled into 34 contemporary provincial-level administrative masks: 22 provinces, 5 autonomous regions, 4 direct-controlled municipalities, 2 Special Administrative Regions and Taiwan [@nbs2020census].
+
+Historical populations for Chongqing prior to 1997AD are disaggregated from Sichuan using prefectural and county tabulations from the 1953AD, 1964AD, 1982AD and 1990AD censuses [@nbs1954census; @nbs1982census; @nbs1990census]. Similarly, Hainan's population prior to 1988AD is separated from Guangdong using Hainan Administrative District census records [@nbs1954census; @nbs1982census]. For intercensal benchmarks, series are harmonised against Hou Yangfang's historical volumes for 1949AD, official 1960AD Ministry of Public Security household counts for the Great Leap famine trough, and National Bureau of Statistics statistical communiqués for 2025AD and 2026AD [@hou2001zhongguo; @nbs2025estimates].
+
+## Non-Stationary Matérn Kriging Calibration
+
+Intra-provincial population disaggregation utilises the East Asian regional kriging calibration, which incorporates 87.811 unique archaeological and historical site records across 1.274 domestic Voronoi catchments (1.074 active inhabited units, representing 84,3% coverage) with a median Voronoi radius of 45,11 km and a 90th percentile of 68,81 km. Site counts per Voronoi polygon exhibit strong heteroskedasticity, which is stabilised using the Freeman-Tukey square-root variance transformation:
+
+$$z_i = \sqrt{y_i} + \sqrt{y_i + 1}$$
+
+where $y_i$ represents the raw count of archaeological site-periods in catchment $i$. The transformed variable $z_i$ is regressed via weighted least squares (WLS) against five biophysical spatial covariates [@paciorek2006spatial]:
+
+1. *Habitable land fraction*: Proportion of non-glaciated, non-submerged terrain suitable for permanent settlement.
+2. *Natural productivity index*: Photosynthetically active thermal and moisture regime governing biomass yield.
+3. *Terrain ecozone suitability*: Slope, ruggedness and elevation penalties derived from five-arcminute topography.
+4. *Fluvial distance decay*: Log-transformed Euclidean distance to major perennial river channels with an effective decay scale of 13,5 km.
+5. *Smooth coastal proximity*: Gaussian distance kernel to coastline corridors capturing maritime trade advantages.
+
+Residual spatial autocorrelation from the WLS mean model is estimated with Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) covariance functions [@paciorek2006spatial]:
+
+$$C(s_i, s_j) = \sigma_i \sigma_j \, |\Sigma_i|^{1/4} |\Sigma_j|^{1/4} \left|\frac{\Sigma_i + \Sigma_j}{2}\right|^{-1/2} \mathcal{M}_{3/2}\!\left(\sqrt{Q_{ij}}\right)$$
+
+where $\Sigma_i$ denotes the spatially varying local metric tensor at location $s_i$, and $Q_{ij} = (s_i - s_j)^T \left(\frac{\Sigma_i + \Sigma_j}{2}\right)^{-1} (s_i - s_j)$ is the Mahalanobis distance. Regularised dimensionless variogram bandwidth parameters stand at $\tau_1 = 1,5$ (raw estimate 1,6277) and $\tau_2 = 2,775$, yielding an effective spatial short range of 73,43 km. The regularised nugget-to-sill ratio is calibrated to 0,04 (0,0507 in the Liao-Song-Jin-Yuan imperial horizon), producing WLS coefficient of determination $R^2$ values between 0,9991 and 0,9996 across temporal horizons. In each provincial mask, urban populations from 30.002 catalogued settlements (selected from 2.156 candidate entries, with 38 duplicate aliases consolidated) condition local municipal density gradients before subtracting urban cells to preserve rural totals.
+
+# Testing and Validation
+
+Cross-provincial balance tests confirm exact mathematical parity between the JADE-IV spatial database and official National Bureau of Statistics census totals across all seven national enumerations, as well as zero-discrepancy continuity with Taiwan Ministry of the Interior, Hong Kong Census and Statistics Department and Macao Statistics and Census Service registers [@nbs1954census; @nbs1964census; @nbs1982census; @nbs1990census; @nbs2000census; @nbs2010census; @nbs2020census; @taiwan_moi2025; @hk_censtatd2025; @macao_dsec2025]. Table \ref{tab:validation-prc} presents the longitudinal reconciliation across all major benchmark years.
+
+```{r tab-validation, results='asis'}
+bench_yrs <- c("1949", "1953", "1960", "1964", "1982", "1990", "2000", "2010", "2020", "2025", "2026")
+bench_labels <- c(
+  "1949AD (Establishment)",
+  "1953AD (First Census)",
+  "1960AD (Famine Trough)",
+  "1964AD (Second Census)",
+  "1982AD (Third Census)",
+  "1990AD (Fourth Census)",
+  "2000AD (Fifth Census)",
+  "2010AD (Sixth Census)",
+  "2020AD (Seventh Census)",
+  "2025AD (NBS Estimate)",
+  "2026AD (Terminal Projection)"
+)
+
+val_rows <- lapply(seq_along(bench_yrs), function(idx) {
+  y <- bench_yrs[idx]
+  # Mainland sum: regions 1 to 31
+  ml_keys <- names(mod_data$regions)[1:31]
+  ml_tot <- sum(vapply(ml_keys, function(k) as.numeric(mod_data$regions[[k]]$population[[y]]), numeric(1)))
+  tw_tot <- as.numeric(mod_data$regions[["prc_taiwan"]]$population[[y]])
+  hk_tot <- as.numeric(mod_data$regions[["prc_hong_kong"]]$population[[y]])
+  mo_tot <- as.numeric(mod_data$regions[["prc_macao"]]$population[[y]])
+  tot <- ml_tot + tw_tot + hk_tot + mo_tot
+
+  data.frame(
+    Benchmark = bench_labels[idx],
+    Mainland = viscount_fmt_pop(ml_tot),
+    Taiwan = viscount_fmt_pop(tw_tot),
+    Hong_Kong = viscount_fmt_pop(hk_tot),
+    Macao = viscount_fmt_pop(mo_tot),
+    Aggregate = viscount_fmt_pop(tot),
+    stringsAsFactors = FALSE
+  )
+})
+val_df <- do.call(rbind, val_rows)
+rownames(val_df) <- NULL
+
+viscount_table(
+  val_df,
+  "Reconciliation of national census enumerations, official estimates and macro-regional aggregates from 1949AD to 2026AD.",
+  c("Benchmark Event", "PRC Mainland", "Taiwan", "Hong Kong", "Macao", "Regional Aggregate"),
+  list(label = "tab:validation-prc", font_size = "footnotesize")
+)
+```
+
+Provincial growth trajectories are visualised in Figure \ref{fig:traj-prc}, illustrating the steep upward ascent of Guangdong, Shandong, Henan and Zhejiang over the reform period alongside the post-2020 plateau.
+
+```{r fig-traj, results='asis'}
+viscount_figure(
+  "figures/fig2_prc_taiwan_hong_kong_and_macao_trajectory.png",
+  "Provincial population trajectories across 34 administrative units of China, Taiwan, Hong Kong and Macao from 1949AD to 2026AD.",
+  "fig:traj-prc"
+)
+```
+
+Figure \ref{fig:shares-prc} plots the historical evolution of provincial population shares and compares peak catalogued totals against terminal 2026AD numbers for China's ten most populous provinces, illustrating Guangdong's rise and the contraction of inland rural bases.
+
+```{r fig-shares, results='asis'}
+viscount_figure(
+  "figures/fig3_prc_taiwan_hong_kong_and_macao_shares.png",
+  "Provincial population shares and peak versus terminal comparisons across China's leading ten provinces from 1949AD to 2026AD.",
+  "fig:shares-prc"
+)
+```
+
+Figure \ref{fig:sett-prc} documents the rank-size distribution of all 30.002 catalogued settlements alongside bar charts for the leading fifteen megacity peaks.
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_prc_taiwan_hong_kong_and_macao_settlements.png",
+  "Rank-size distribution and leading fifteen settlement peaks across the 30.002 catalogued centres of China, Taiwan, Hong Kong and Macao from 1949AD to 2026AD.",
+  "fig:sett-prc"
+)
+```
+
+# Results
+
+## Provincial Trajectories and Regional Reorganisation
+
+Demographic change across China between 1949AD and 2026AD reorganised national population geography [@Shen2017Urbanization; @Peng2024More]. In 1949AD, population was anchored in the agrarian river valleys of Henan (41,74M), Sichuan (40,90M), Shandong (45,49M) and Jiangsu (35,12M) [@hou2001zhongguo; @nbs1954census]. By 2026AD, economic gravitational pull concentrated over 279M inhabitants into the coastal industrial powerhouse provinces of Guangdong (127,54M), Jiangsu (85,09M) and Zhejiang (66,57M), pulling surplus labour out of the central agricultural plains [@Meng2019Rural; @Chen2019Polycentricity]. Table \ref{tab:prov-growth} documents population growth across all 34 provinces and territories between the First National Census of 1953AD and the terminal 2026AD benchmark.
+
+```{r tab-prov-growth, results='asis'}
+reg_keys <- names(mod_data$regions)
+growth_rows <- lapply(reg_keys, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  nm <- sub("^[0-9]+\\.\\s*", "", rv$name)
+  nm <- gsub("&", "and", nm, fixed = TRUE)
+  pks <- unlist(rv$population)
+  pk_val <- max(pks)
+  pk_yr <- names(rv$population)[which.max(pks)]
+
+  data.frame(
+    Province = nm,
+    P1953 = viscount_fmt_pop(rv$population[["1953"]]),
+    P1964 = viscount_fmt_pop(rv$population[["1964"]]),
+    P1982 = viscount_fmt_pop(rv$population[["1982"]]),
+    P2000 = viscount_fmt_pop(rv$population[["2000"]]),
+    P2020 = viscount_fmt_pop(rv$population[["2020"]]),
+    P2026 = viscount_fmt_pop(rv$population[["2026"]]),
+    Peak = paste0(viscount_fmt_pop(pk_val), " (", pk_yr, "AD)"),
+    stringsAsFactors = FALSE
+  )
+})
+growth_df <- do.call(rbind, growth_rows)
+rownames(growth_df) <- NULL
+
+viscount_table(
+  growth_df,
+  "Provincial population enumerations and projections across all 34 administrative units from 1953AD to 2026AD.",
+  c("Province", "1953AD", "1964AD", "1982AD", "2000AD", "2020AD", "2026AD", "Peak (Year)"),
+  list(label = "tab:prov-growth", font_size = "scriptsize", max_rows_per_page = 26L)
+)
+```
+
+## Spatial Densities and Settlement Coverage
+
+Across the 9.389.222 km² domain, population density exhibits extreme spatial variation, governed by the Heihe-Tengchong Line (Hu Huanyong Line) proposed in 1935AD [@Peng2024More]. East of the line, which occupies roughly 43% of national land area, resides over 94% of the population, yielding densities exceeding 800 persons per km² across the North China Plain and coastal deltas [@Peng2024More; @Zhong2022Urban]. West of the line, hyper-arid deserts and high-altitude plateaux sustain sparse pastoral populations below 20 persons per km² in Qinghai (8,42 persons per km²), Xinjiang (16,01 persons per km²) and Tibet (3,27 persons per km²) [@nbs2020census].
+
+To understand regional differentiation across China's 34 territories, demographers identify seven canonical macro-regions [@hou2001zhongguo; @Peng2024More]:
+
+1. *Eastern Coastal Region*: Encompassing Shanghai (4.058,4 persons per km² in 2026AD), Jiangsu (882,0), Zhejiang (619,7), Shandong (623,0), Anhui (494,4) and Fujian (364,9), this belt combines intensive double-cropping paddy agriculture with dense industrial corridors.
+2. *Southern Coastal Region*: Comprising Guangdong (754,7 persons per km²), Guangxi (216,9) and Hainan (316,6), alongside Hong Kong SAR (7.327,5) and Macao SAR (17.250,0), forming the primary maritime gateway of China.
+3. *Northern Plain and Capital Region*: Including Beijing (1.650,3 persons per km²), Tianjin (996,1) and Hebei (411,5), alongside the loess hills of Shanxi (206,3) and Inner Mongolia (20,8).
+4. *Central Agrarian Belt*: Henan (603,5 persons per km²), Hubei (319,8) and Hunan (295,6), providing China's grain and pork production base.
+5. *Southwestern Mountain Basins*: Sichuan (169,0 persons per km²), Chongqing (444,0), Guizhou (219,2) and Yunnan (115,9), where settlement concentrates in fertile river basins such as the Chengdu Plain.
+6. *Northwestern Frontier*: Shaanxi (184,2 persons per km²), Gansu (64,3), Ningxia (126,8), Qinghai (8,4) and Xinjiang (16,0), characterised by oasis settlements along the ancient Silk Road corridors.
+7. *Northeast Rustbelt*: Liaoning (272,2 persons per km²), Jilin (117,3) and Heilongjiang (68,4), undergoing transition from heavy industry toward agricultural forestry.
+8. *Island Provinces and Territories*: Taiwan (654,3 persons per km² in 2026AD), exhibiting high-density concentration along the western coastal plain from Taipei to Kaohsiung [@taiwan_moi2025].
+
+Table \ref{tab:density-prc} details settlement counts, surface areas, initial 1953AD densities and terminal 2026AD densities across all 34 territories.
+
+```{r tab-density, results='asis'}
+dens_rows <- lapply(reg_keys, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  nm <- sub("^[0-9]+\\.\\s*", "", rv$name)
+  nm <- gsub("&", "and", nm, fixed = TRUE)
+  ar <- as.numeric(rv$area_km2)
+  n_sites <- sum(vapply(sett_data, function(s) identical(s$region_id, rk), logical(1)))
+  p1953 <- as.numeric(rv$population[["1953"]])
+  p2020 <- as.numeric(rv$population[["2020"]])
+  p2026 <- as.numeric(rv$population[["2026"]])
+
+  data.frame(
+    Province = nm,
+    Sites = viscount_fmt_number(n_sites, 0L),
+    Area = viscount_fmt_number(ar, 0L),
+    D1953 = viscount_fmt_number(p1953 / ar, 1L),
+    D2020 = viscount_fmt_number(p2020 / ar, 1L),
+    D2026 = viscount_fmt_number(p2026 / ar, 1L),
+    stringsAsFactors = FALSE
+  )
+})
+dens_df <- do.call(rbind, dens_rows)
+rownames(dens_df) <- NULL
+
+viscount_table(
+  dens_df,
+  "Catalogued settlements (n=30.002), land areas and longitudinal population densities across all 34 administrative units.",
+  c("Administrative Unit", "Sites", "Area (km²)", "1953AD Density", "2020AD Density", "2026AD Density"),
+  list(label = "tab:density-prc", font_size = "scriptsize", max_rows_per_page = 26L)
+)
+```
+
+## Kriging Domain Diagnostics
+
+The underlying continuous surface interpolation is conditioned by variogram calibrations derived from the East Asian archaeological and historical spatial domain. Table \ref{tab:kriging-params} summarises the key geostatistical parameters governing the spatial field.
+
+```{r tab-kriging, results='asis'}
+krig_df <- data.frame(
+  Parameter = c(
+    "Total Domestic Voronoi Catchments",
+    "Active Inhabited Catchments",
+    "Administrative Coverage Ratio",
+    "Unique Spatial Archaeological Sites",
+    "Median Voronoi Catchment Radius",
+    "90th Percentile Catchment Radius",
+    "Dimensionless Bandwidth (tau1)",
+    "Dimensionless Bandwidth (tau2)",
+    "Effective Variogram Short Range",
+    "Regularised Nugget-to-Sill Ratio",
+    "WLS Regression Determination (R2)"
+  ),
+  Raw_Estimate = c(
+    "1.274",
+    "1.074",
+    "0,843",
+    "87.811",
+    "45,11 km",
+    "68,81 km",
+    "1,6277",
+    "2,775",
+    "73,43 km",
+    "0,0000",
+    "0,9991 - 0,9996"
+  ),
+  Regularised_Value = c(
+    "1.274",
+    "1.074",
+    "84,3%",
+    "87.811",
+    "45,11 km",
+    "68,81 km",
+    "1,5000",
+    "2,775",
+    "73,43 km",
+    "0,0400",
+    "0,9991 - 0,9996"
+  ),
+  Description = c(
+    "Total Voronoi polygon conditioning partition",
+    "Catchments containing positive habitation records",
+    "Prefectural adm2 spatial boundary overlap",
+    "Deduplicated historical and archaeological sites",
+    "Median equivalent circular catchment radius",
+    "90th percentile catchment boundary distance",
+    "First dimensionless Matérn spatial bandwidth",
+    "Second dimensionless Matérn spatial bandwidth",
+    "Effective spatial dependency range in kilometres",
+    "Regularised small-scale spatial variance floor",
+    "Weighted least squares variogram fit range"
+  ),
+  stringsAsFactors = FALSE
+)
+rownames(krig_df) <- NULL
+
+viscount_table(
+  krig_df,
+  "Geostatistical parameters and diagnostic metrics for the East Asian non-stationary Matérn kriging calibration.",
+  c("Parameter", "Raw Estimate", "Regularised Value", "Description"),
+  list(label = "tab:kriging-params", font_size = "footnotesize")
+)
+```
+
+# Limitations
+
+Four principal demographic and administrative constraints condition precision across this reconstruction. First, the One-Child Policy generated incentives for local cadres and rural families to under-report female births during the 1980s and 1990s [@Song2013Prenatal; @Almond2007Long]. Retrospective census analysis reveals that millions of missing girls were subsequently registered upon school enrolment, marriage or national identity card issuance in their teenage years, meaning that early census cohorts slightly understate true infant populations while subsequent censuses capture the regularised totals [@Song2013Prenatal].
+
+Second, the statistical definition of urban populations in mainland China underwent successive revisions between censuses [@Meng2019Rural; @Zhou2025Rural]. Prior to the 2000AD census, urban counts reflected agricultural versus non-agricultural *hukou* registration status, excluding millions of temporary rural migrant workers residing in city outskirts [@Meng2019Rural]. From 2000AD onward, the National Bureau of Statistics adopted permanent resident criteria (*changzhurenkou*) based on six months or more of continuous residence, harmonising urban numbers with international definitions but introducing a structural step-change between 1990AD and 2000AD [@nbs2000census; @nbs2020census].
+
+Third, widespread administrative reclassifications of rural counties into urban districts (*chexian-shequ*) between 1990AD and 2015AD artificially boosted official urbanisation statistics without corresponding physical residential moves [@Petushkova2025Urbanization; @Peng2024More]. Hundreds of thousands of rural peasants were reclassified as urban district residents overnight when municipal boundaries swallowed peripheral agrarian townships.
+
+Fourth, excess mortality during the 1959AD to 1961AD Great Leap Forward famine remains subject to historical estimation intervals [@hou2001zhongguo; @Song2009Does; @Grda2011Great]. Because vital registration collapsed in severely afflicted interior counties and local registers were falsified to conceal starvation, regional famine depths rely on retrospective cohort survival back-projections from the 1982AD census rather than contemporaneous parish headcounts [@Song2009Does; @Meng2010Institutional]. Nonetheless, provincial mortality differentials are well established across econometric and demographic literature [@Song2008Mortality; @Grda2013Great].
+
+# Conclusion
+
+Between 1949AD and 2026AD, China experienced one of the most concentrated demographic expansions and structural transformations in world history. Aggregate population expanded nearly threefold from 535,04M in 1949AD to peak at 1.441,50M in 2020AD, enduring the catastrophic mortal trough of the Great Leap Forward famine before undergoing an unprecedented state-engineered fertility collapse and post-1978 rural-to-urban coastal migration. Over 250M labourers migrated from agrarian hinterlands to establish global megalopolises in the Pearl River Delta, the Yangtze River Delta and Beijing-Tianjin, while the Northeast Rustbelt depopulated and peripheral autonomous regions grew under targeted administrative regimes.
+
+By 2022AD, persistent sub-replacement fertility pushed China into peacetime natural decrease, initiating a phase of rapid population ageing and structural contraction that reduced the regional aggregate to 1.435,09M by 2026AD. Integrating seven national censuses with Taiwan, Hong Kong and Macao administrative registers across 34 provincial masks, 1.274 catchments and 30.002 catalogued settlements establishes a consistent geostatistical foundation for twentieth- and twenty-first-century Chinese demography.
+
+# Sources
+
+<div id="refs"></div>

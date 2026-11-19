@@ -1,0 +1,154 @@
+---
+title: "Settlement Gazetteer of Pre-Colonial California (HU 18)"
+subtitle: "CENTAUR-II: Shellmounds, Delta Villages, Acorn Towns and Chumash Maritime Centres, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+bibliography: california_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_california_spatial.png"
+hero_caption: "Geographic distribution of 351 catalogued settlements across California (HU 18) overlaid on the four sub-regional areal masks."
+hero_label: "fig:hero-california"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+sett <- fromJSON("california_settlements.json", simplifyVector = FALSE)
+ledger <- fromJSON("california_source_ledger.json5", simplifyVector = TRUE)
+```
+
+# Abstract
+
+This gazetteer documents 351 coordinate-anchored habitation settlement trajectories (1.414 benchmark observations, averaging 4,03 per site, 337 with 3 or more estimates, median peak 310) and 379 excluded records (370 duplicate-alias consolidations and 9 unquantified non-habitation exclusions) across California (USGS Hydrological Unit 18, 425.671 km²) from 10000BC to 1600AD. Spanning 730 ledger candidates with included entries across California (343 sites), western Nevada's Amargosa-Oasis borderlands (4 sites) and the upper Klamath margin of southern Oregon (4 sites), the inventory reaches its maximum concentration in the final pre-contact century (253 sites peaking between 1500AD and 1600AD), consistent with Kelly et al. [@kelly2025] and Jones et al. [@jones2021california]. Leading centres comprise the Telamni Yokuts delta town of Tulare-Telamni (1.800 inhabitants in 1600AD), Chumash coastal capital Syuxtun (1.550), Sacramento River Patwin-Koru (1.300), Emeryville Shellmound on San Francisco Bay (1.200, occupied from 1000BC), Fairfield Suisun Marsh Capital (1.080), Los Angeles basin Yaanga (1.050), Watsonville Pajaro Capital (1.040), Pleasanton Valle Capital (1.020), Syukhtun (850), Helo' (780), Chaw'se-Grinding Rock (740), Klamath-mouth Rek'woi (680) and Owens Valley Bishop (Payahuunadu) (640) [@cook1976california; @broughton1999emeryville; @johnson1988chumash].
+
+# Background
+
+Pre-mission Californian demography was structured around hundreds of autonomous tribelet village communities rather than centralised urban states, yet major river deltas, shellmound estuaries and Santa Barbara Channel ports achieved town-scale aggregations exceeding 1.000 residents [@kroeber1925california; @cook1976california]. Earliest catalogued occupations appear at Santa Rosa Island (Qshiwqshiw at 10000BC), Lake Mojave (9500BC), Witt Site (9000BC) and Borax Lake (9000BC) [@moratto1984california].
+
+Bounded residential sites, shellmounds and ethnohistoric principal villages enter the 351-site habitation gazetteer, while 370 duplicate coordinate aliases within 2 km (including duplicate entries around Emeryville Shellmound and Syukhtun) and 9 unquantified non-habitation contexts are consolidated or excluded in the archival source ledger so no mound or village count is duplicated across overlapping monographs.
+
+# Methodology
+
+## Inclusion Criteria and Demographic Estimation
+
+All 730 candidates in the regional source ledger follow CENTAUR screening rules. Under duplicate-alias and habitation screening, 370 duplicate coordinate entries within 2 km and 9 unquantified non-habitation records are excluded, whereas 351 distinct archaeological and ethnohistoric settlements enter across four sub-regions (62 in Klamath-North Coast with 246 observations, 98 in Sacramento-SF Bay-Delta with 381 observations, 117 in San Joaquin-Central Coast with 484 observations and 74 in Chumash Channel-Southern California with 303 observations).
+
+Population time-series combine excavated house-pit and shellmound volume trajectories at Emeryville Shellmound, Ryan Mound and Ellis Landing [@broughton1999emeryville], Chumash mission-baptismal and plank-canoe reconstructions at Syuxtun, Syukhtun, Helo', Mikiw, Shisholop and Muwu [@johnson1988chumash; @arnold2001chumash], Central Valley Yokuts, Bay-Delta and Patwin village counts at Tulare-Telamni, Tulamniu, Patwin-Koru and Fairfield Suisun Marsh Capital [@cook1976california], Yurok redwood-plank house tallies at Rek'woi and Tsurai [@kroeber1925california], Sierra bedrock-mortar aggregation at Chaw'se-Grinding Rock [@lightfoot2009california] and irrigated Owens Valley villages around Bishop (Payahuunadu) [@bettinger1982owens].
+
+# Testing and Validation
+
+Gazetteer auditing passed all reconciliation checks at 0 errors at GMT+0:
+
+1. **Ledger Parity**: All 730 ledger candidates (351 included and 379 excluded: 370 duplicate aliases plus 9 unquantified non-habitation exclusions) reconcile cleanly with zero discrepancies.
+2. **Coordinate Compliance**: All 351 included records carry valid coordinates (32,62 N to 42,93 N, 115,64 W to 124,38 W), strictly positive integer populations and uniform CENTAUR provenance.
+3. **Sub-Regional Mass Conservation**: Explicit settlement totals sum to 67.365 in 1500AD (21,73% of HU 18 total 310k) and 79.760 in 1600AD (23,74% of 336k), leaving strictly positive rural residuals in every sub-region.
+
+```{r tbl-gazetteer, results='asis'}
+fmt_coord <- function(cvec) {
+  lat <- as.numeric(cvec[[1]])
+  lon <- as.numeric(cvec[[2]])
+  paste0(viscount_fmt_number(abs(lat), 2L), " N, ", viscount_fmt_number(abs(lon), 2L), " W")
+}
+
+reg_short <- list(
+  ca_klamath_north_coast_shasta = "Klamath-N. Coast",
+  ca_sacramento_sf_bay_delta = "Sacramento-Delta",
+  ca_san_joaquin_central_coast = "San Joaquin-Coast",
+  ca_chumash_channel_southern_cal = "Chumash-South"
+)
+
+rows <- lapply(names(sett), function(sk) {
+  sv <- sett[[sk]]
+  p_vec <- unlist(sv$population)
+  yrs <- as.integer(names(p_vec))
+  p_vals <- as.numeric(p_vec)
+  pk_idx <- which.max(p_vals)
+  lo_str <- ifelse(min(yrs) < 0, paste0(abs(min(yrs)), "BC"), paste0(min(yrs), "AD"))
+  hi_str <- ifelse(max(yrs) < 0, paste0(abs(max(yrs)), "BC"), paste0(max(yrs), "AD"))
+  span_str <- if (min(yrs) == max(yrs)) lo_str else paste0(lo_str, "-", hi_str)
+  pk_yr_str <- ifelse(yrs[pk_idx] < 0, paste0(abs(yrs[pk_idx]), "BC"), paste0(yrs[pk_idx], "AD"))
+  data.frame(
+    Settlement = sv$name,
+    Polity = sv$country,
+    SubRegion = reg_short[[sv$region_id]],
+    Coords = fmt_coord(sv$coords),
+    Span = span_str,
+    PeakYear = pk_yr_str,
+    PeakPop = viscount_fmt_number(p_vals[pk_idx], 0L),
+    stringsAsFactors = FALSE,
+    pk_num = p_vals[pk_idx]
+  )
+})
+df_gaz <- do.call(rbind, rows)
+df_gaz <- df_gaz[order(-df_gaz$pk_num, df_gaz$Settlement), ]
+df_gaz <- head(df_gaz, 45L)
+df_gaz$pk_num <- NULL
+rownames(df_gaz) <- NULL
+
+viscount_table(
+  df_gaz,
+  "Top 45 settlements by peak population across the 351 catalogued sites in the California (HU 18) gazetteer.",
+  c("Settlement", "State", "Sub-Region", "Coordinates", "Span", "Peak Year", "Peak Pop.")
+)
+```
+
+# Results
+
+## Central Valley, Delta and North Coast Villages
+
+In the Central Valley, Bay-Delta (98 sites) and Klamath (62 sites) sub-regions, nucleated riverside and marsh-edge towns expanded across the Late Holocene (Table 1 and Figure 1). In Sacramento-San Joaquin Delta, Patwin-Koru reached 1.300 in 1600AD alongside Fairfield Suisun Marsh Capital (1.080 in 1350AD), Pleasanton Valle Capital (1.020), Benicia Carquinez Strait Town (990) and San Francisco Bay's Emeryville Shellmound (37,84 N, 122,29 W, rising from 240 in 1000BC to 520 at 0AD, 950 in 1200AD and 1.200 in 1600AD) [@broughton1999emeryville], complemented by Pujune (520), Yukisma (510), Ellis Landing (490 in 800AD), Castro Mound (480) and Pano (470). Further south across San Joaquin-Central Coast (117 sites), Tulare-Telamni on the Kaweah Delta rose from 480 in 600AD to 1.650 in 1500AD and 1.800 in 1600AD, flanked by Watsonville Pajaro Capital (1.040), Hollister San Benito Capital (850), Tulamniu (580 in 1600AD, active from 5000BC), Hotchkiss (520) and Wukchumni (490) [@cook1976california].
+
+Along the Sierra and eastern Great Basin margin of Sub-Region 3, Chaw'se-Grinding Rock expanded from 340 in 1000AD to 740 in 1600AD, Owens Valley hub Bishop (Payahuunadu) reached 640 in 1600AD, and Amargosa-Oasis border centres included Ash Meadows Oasis Village (580 in 1400AD) [@bettinger1982owens; @lightfoot2009california]. Across the Klamath-North Coast tier (62 sites), Yurok, Wiyot, Tolowa, Pomo and Hupa villages at Rek'woi (680), Tolowot (480), Shanel (450), Yontocket (420), Takimilding (410) and Tsurai (310) anchored the northern littoral [@kroeber1925california].
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_california_settlements.png",
+  "Rank-size distribution and leading fifteen centres across the 351 sites in the California (HU 18) gazetteer.",
+  "fig:sett-california"
+)
+```
+
+## Chumash Channel and Southern California Centres
+
+Across the western Santa Barbara Channel boundary in San Joaquin-Central Coast (117 sites) and coastal southern California (74 sites in Chumash Channel-Southern California), maritime plank-canoe (*tomol*) trade and island-mainland craft specialisation supported dense coastal capitals [@arnold2001chumash; @johnson1988chumash]. Syuxtun (34,46 N, 119,71 W) expanded from 420 residents at 0AD to 1.150 in 1200AD and 1.550 in 1600AD, flanked by Syukhtun (850), Helo' (780) and Mikiw (620 in 1500AD), while Sub-Region 4 anchors eastern Channel towns Shisholop (610 in 1600AD) and Muwu (540 in 1500AD, 520 in 1600AD) alongside Los Angeles basin and interior southern valleys led by Yaanga (1.050 in 1600AD), Puvungna (490), Humaliwo (460), Suangna (440), Cosoy (420) and Lake Cahuilla (Coachella) (420) [@cook1976california].
+
+```{r tbl-ledger, results='asis'}
+cand <- ledger$candidates
+exc <- cand[cand$status == "excluded" & cand$reason == "duplicate_alias", , drop = FALSE]
+if (nrow(exc) > 30L) exc <- exc[seq_len(30L), , drop = FALSE]
+clean_details <- gsub("CENTAUR Existing [^ ]+ Monument Inventory", "CENTAUR Monument Inventory", exc$justification)
+clean_details <- gsub("coordinate/alias", "coordinate and alias", clean_details, fixed = TRUE)
+clean_details <- gsub(" & ", " and ", clean_details, fixed = TRUE)
+df_led <- data.frame(
+  Candidate = exc$name,
+  StateCountry = exc$country,
+  Status = exc$status,
+  Reason = gsub("_", " ", exc$reason, fixed = TRUE),
+  Details = clean_details,
+  stringsAsFactors = FALSE
+)
+rownames(df_led) <- NULL
+viscount_table(
+  df_led,
+  "Representative consolidated duplicate-alias candidates (first 30 of 370 duplicate aliases out of 379 total exclusions across 730 entries) in the California (HU 18) source ledger.",
+  c("Candidate Site", "State", "Status", "Exclusion Reason", "Consolidation Note")
+)
+```
+
+# Limitations
+
+Because pre-contact California comprised hundreds of autonomous tribelet villages averaging 100 to 300 inhabitants each [@kroeber1925california; @cook1976california], the 351 catalogued settlements capture 23,74% (79.760 of 336k) of the 1600AD regional total, leaving 76,26% of rural inhabitants allocated across the non-stationary Matérn radiocarbon surface [@kelly2025]. In addition, small seasonal camps in the High Sierra and Mojave Desert remain subsumed inside sub-regional background totals rather than fixed point coordinates [@moratto1984california].
+
+# Sources
+
+<div id="refs"></div>

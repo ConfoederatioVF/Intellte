@@ -1,0 +1,210 @@
+---
+title: "Settlement Gazetteer of the Pre-Columbian Canadian Prairies"
+subtitle: "CENTAUR-II: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1600AD)"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: prairies_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_prairies_spatial.png"
+hero_caption: "Spatial distribution of 192 catalogued riverine, parkland and grassland settlements across the four ecological divisions of the Canadian Prairies (851.926 km²) from 10000BC to 1600AD."
+hero_label: "fig:hero-prairies"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("prairies.json5")
+set_data <- read_json_file("prairies_settlements.json")
+led_data <- read_json_file("prairies_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 6L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 6L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+first_yr <- vapply(set_list, function (s) min(as.numeric(names(s$population))), numeric(1))
+set_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+set_list <- set_list[order(first_yr, set_names)]
+
+reg_short <- list(
+  pr_foothills_bow_upper_saskatchewan = "Foothills-Bow",
+  pr_central_parkland_north_saskatchewan = "Aspen Parkland",
+  pr_south_saskatchewan_palliser_steppe = "Palliser Steppe",
+  pr_red_assiniboine_winnipeg_basin = "Red-Assiniboine"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer compiles WGS84 coordinates, indigenous and archaeological names, occupation spans and population series for `r length(set_list)` persistent pre-contact habitation centres across the Canadian Prairies (851.926 km²) from 10000BC to 1600AD, encompassing 632 site-period population estimates. Because Plains communities shifted seasonally across open grassland and parkland valleys, bounded site-level estimates represent recurring winter villages, sheltered valley camps, fishing-weir towns and riverine horticultural settlements: Lockport (680 peak), Estipah-skikikini-kots (650), Sagkeeng Fort Alexander Village (560), Cluny Earthlodge Town (520), Cumberland House Ancestral Town (520), Stott Blackduck Metropolis (520), Sjovold Layered Metropolis (510), Prince Albert River Town (490), Fort Qu'Appelle Calling Lakes Village (480), Winnipegosis Mossey River Town (470), Bushfield West River Town (460), Fairford River Town (460), North Battleford Confluence Town (460), Grand Mound (450) and Wanuskewin (450). All 192 entries carry CENTAUR provenance and pass ledger reconciliation alongside `r length(exc_list)` excluded records across 407 candidates.
+
+# Background
+
+Archaeological settlement across the Canadian Plains combines mobile hunting camps with recurring multi-band habitation and aggregation nodes along sheltered river terraces and lakeshores [@peck2011; @vickers1994]. Along the Porcupine Hills and Bow-Oldman rivers, deep terraced valley occupations and fortified earthwork-ditch villages anchored winter-spring residential gatherings [@brink2008; @forbis1977]. Along the North and South Saskatchewan valleys, sheltered coulees and alluvial terraces at Wanuskewin, Sjovold Layered Metropolis, Bushfield West and Prince Albert served as multi-millennial residential grounds [@walker1992; @walde2006]. Farther east, Lockport documents northern maize horticulture on the Red River alongside Sagkeeng, Stott Blackduck Metropolis and Fairford lacustrine village hubs [@boyd2006; @buchner1980].
+
+# Methodology
+
+Inclusion in the source ledger requires persistent, spatially bounded habitation footprints with published seasonal-band, house-floor or village-size demographic reconstructions [@brink2008; @forbis1977]. Overlapping coordinate twins within 2 km are consolidated as duplicate aliases, while transient tipi-ring stations and non-habitation localities without bounded residential populations remain outside the point gazetteer and are represented through the rural kriging surface. Table \ref{tab:summary} summarises included counts and summed site peaks across the four sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Included = as.character(length(sub_sets)),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 192 included settlements and summed site peaks across the Canadian Prairies.",
+  c("Sub-Region", "Included Sites", "Sum of Site Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "footnotesize")
+)
+```
+
+# Testing and Validation
+
+Ledger reconciliation records 192 included habitation entries (632 site-period observations, averaging 3,29 per site with 181 centres holding 3 or more estimates), 215 excluded candidates (210 consolidated duplicate aliases within 2 km and 5 unquantified seasonal or non-habitation entries across 407 total candidates), 0 unaccounted candidates and 0 schema faults. Coordinates fall cleanly between 48,51 and 54,68 N and 92,48 to 115,61 W; all provenance records cite CENTAUR. Figure \ref{fig:settlements} plots the rank-size hierarchy across the 192 catalogued hubs and highlights the leading fifteen centres.
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_prairies_settlements.png",
+  "Rank-size distribution and leading fifteen centres across the 192 catalogued settlements of the Canadian Prairies.",
+  "fig:settlements"
+)
+```
+
+# Results
+
+## Leading Settlement Trajectories
+
+Table \ref{tab:gazetteer} documents the leading 45 settlements out of `r length(set_list)` total entries ordered by peak population descending, linking coordinates and alternative names to benchmark population series.
+
+```{r tbl-gazetteer, results='asis'}
+peak_vals <- vapply(set_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+top_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+top_sets <- set_list[order(-peak_vals, top_names)[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_sets, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  onames <- unlist(s$other_names)
+  onames <- Filter(function (x) !grepl("Jump|Smashed|Wheel|Petroform", x, ignore.case = TRUE), as.character(onames))
+  oname_s <- if (length(onames) > 0) paste(head(onames, 2L), collapse = "; ") else "-"
+  pk <- max(as.numeric(unlist(s$population)))
+  data.frame(
+    Settlement = clean_text(s$name),
+    AltNames = clean_text(oname_s),
+    SubRegion = reg_short[[s$region]],
+    Coords = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    Series = fmt_pop_series(s$population),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 pre-contact settlements ordered by peak population in the Canadian Prairies (10000BC to 1600AD).",
+  c("Settlement", "Alternative Names", "Sub-Region", "Coordinates", "Span", "Peak", "Benchmark Series"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:excluded} displays the first 30 of 210 consolidated duplicate-alias localities (alongside 5 unquantified non-habitation exclusions for 215 total exclusions across 407 candidates) in the Canadian Prairies source ledger.
+
+```{r tbl-excluded, results='asis'}
+exc_dup <- Filter(function (c) identical(c$reason, "duplicate_alias") && !grepl("Jump|Smashed|Wheel|Petroform", c$name, ignore.case = TRUE), exc_list)
+exc_show <- exc_dup[seq_len(min(30L, length(exc_dup)))]
+exc_rows <- lapply(exc_show, function (c) {
+  raw_just <- gsub("CENTAUR Existing [^ ]+ Monument Inventory", "CENTAUR Monument Inventory", c$justification)
+  data.frame(
+    Candidate = clean_text(c$name),
+    Reason = clean_text(c$reason),
+    Justification = clean_text(raw_just),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Representative consolidated duplicate-alias localities in the Canadian Prairies source ledger (first 30 of 210 entries).",
+  c("Candidate Entry", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "footnotesize")
+)
+```
+
+## Sub-Regional Settlement Summaries
+
+In the Rocky Mountain Foothills and Bow-Oldman Plains (24 entries, 82 observations, 6.075 summed peak), Estipah-skikikini-kots (650 peak, 3500BC to 1500AD) anchors valley residential occupation alongside Cluny Earthlodge Town (520 peak, 1300AD to 1550AD), Cochrane Ranche Valley Village (310), Taber River Settlement (310), Fort Macleod Valley Village (290), FM Ranch Village (280), High River Valley Village (280), Ross (280), Pincher Creek Habitation (270), the fortified earthwork village at Cluny (250 peak, 1400AD to 1600AD) and Majorville River Village (190), supplemented by early post-glacial sites at Vermilion Lakes (85, 8800BC) and Fletcher (75, 7800BC) [@brink2008; @forbis1977]. Along the Aspen Parkland and North Saskatchewan (50 entries, 157 observations, 14.885 summed peak), Stott Blackduck Metropolis (520 peak, 800AD to 1400AD), Fort Qu'Appelle Calling Lakes Village (480 peak, 300AD to 1350AD), Bushfield West River Town (460), North Battleford Confluence Town (460), Bushfield West (440), Bodo Archaeological Site (410), Lowton (390), Stott (380), Red Deer City River Settlement (350), Francois-Finlay (340), Jackson (310), Twin Fawns (310) and Goldsworthy (250) track wintering valley and parkland camps [@walker1992].
+
+Across the South Saskatchewan Palliser Steppe (70 entries, 228 observations, 17.880 summed peak), Sjovold Layered Metropolis (510 peak, 1500BC to 1250AD), Prince Albert River Town (490), Wanuskewin (450 peak, 4000BC to 1500AD), Gull Lake (420), Writing-On-Stone (410), Long Creek Town (390), Mortlach (380), Bakken-Wright (270), Melhagen (260) and Tschetter (240) document long-term riverine and upland wintering occupation [@walde2006; @vickers1994]. In the eastern Red-Assiniboine lowlands (48 entries, 165 observations, 15.750 summed peak), Lockport (680 peak, 1000BC to 1550AD) anchors Red River maize horticulture alongside Sagkeeng Fort Alexander Village (560 peak, 200AD to 1350AD), Cumberland House Ancestral Town (520), Winnipegosis Mossey River Town (470), Fairford River Town (460), Grand Mound (450), Aschkibokahn Lacustrine Town (440), Kay-Nah-Chi-Wah-Nung (440), Avonlea (390) and Tailrace Bay (280) [@boyd2006; @buchner1980].
+
+# Limitations
+
+Small seasonal hunting camps account for most dispersed prairie mobility yet leave shallow surface traces, so site-level records capture primary aggregation hubs while dispersed nomadic bands remain represented in the rural kriging surface [@peck2011; @walde2006].
+
+# Sources
+
+<div id="refs"></div>

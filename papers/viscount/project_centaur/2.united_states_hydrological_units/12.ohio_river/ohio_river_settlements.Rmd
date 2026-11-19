@@ -1,0 +1,182 @@
+---
+title: "Settlement Gazetteer of the Ohio River Hydrological Unit (HU 05)"
+subtitle: "CENTAUR-II: Archaic Shell Middens, Adena-Hopewell Earthworks and Fort Ancient-Mississippian Towns, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: ohio_river_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_ohio_river_spatial.png"
+hero_caption: "Locations of 164 catalogued settlements across the four areal divisions of the Ohio River Hydrological Unit (424.160 km²) from 10000BC to 1600AD."
+hero_label: "fig:hero-ohio-river-gaz"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("ohio_river.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("ohio_river_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("ohio_river_source_ledger.json5", simplifyVector = FALSE)
+
+clean_text <- function(s_in) {
+  s <- gsub("&", "and", as.character(s_in), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("#", "No. ", s, fixed = TRUE)
+  s <- gsub("%", "pct", s, fixed = TRUE)
+  s <- gsub("Existing Verified ", "", s, fixed = TRUE)
+  s <- gsub("coordinate/alias", "coordinate or alias", s, fixed = TRUE)
+  s <- gsub("(cave/rockshelter/mine/quarry/medicine wheel/cemetery/kill site)", "(unquantified non-habitation feature)", s, fixed = TRUE)
+  s <- gsub(" / ", " or ", s, fixed = TRUE)
+  trimws(s)
+}
+
+short_region <- function(rid) {
+  if (identical(rid, "oh_upper_ohio_allegheny_kanawha")) return("Upper Ohio-Allegheny")
+  if (identical(rid, "oh_scioto_miami_hopewell_core")) return("Scioto-Miami")
+  if (identical(rid, "oh_kentucky_cumberland_green")) return("Cumberland-Green")
+  if (identical(rid, "oh_wabash_white_lower_ohio_kincaid")) return("Wabash-Lower Ohio")
+  return(rid)
+}
+
+fmt_yr_label <- function(y) {
+  if (y < 0) paste0(abs(y), "BC") else paste0(y, "AD")
+}
+
+fmt_coord_pair <- function(cvec) {
+  lat <- as.numeric(cvec[[1]])
+  lon <- as.numeric(cvec[[2]])
+  paste0(viscount_fmt_number(abs(lat), 2L), " N, ", viscount_fmt_number(abs(lon), 2L), " W")
+}
+
+fmt_span_pop <- function(pop_list) {
+  yrs <- as.integer(names(pop_list))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vapply(yrs, function(y) as.numeric(pop_list[[as.character(y)]]), numeric(1))
+  pk_idx <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[pk_idx]), " (", fmt_yr_label(yrs[pk_idx]), ")")
+}
+
+fmt_period_span <- function(pop_list) {
+  yrs <- sort(as.integer(names(pop_list)))
+  if (min(yrs) == max(yrs)) return(fmt_yr_label(min(yrs)))
+  paste0(fmt_yr_label(min(yrs)), " to ", fmt_yr_label(max(yrs)))
+}
+```
+
+# Abstract
+
+This gazetteer compiles coordinate-anchored settlement series for the Ohio River Hydrological Unit (HU 05, 424.160 km²) from 10000BC to 1600AD. Of 307 archaeological candidates evaluated in the regional source ledger, 164 bounded settlements and monumental precincts meet spatial inclusion criteria (Tennessee 42, Ohio 40, Kentucky 30, Pennsylvania 22, Indiana 16, West Virginia 14), while 143 entries are excluded: 136 duplicate coordinate or alias records within 2 km of retained sites (such as Angel Mounds, Mound Bottom, Fort Ancient and Serpent Mound) and 7 unquantified non-habitation caves or rockshelters (two Meadowcroft Rockshelter entries, Salts Cave, Mammoth Cave, Dunbar Cave, Cloudsplitter Rockshelter and Big Bone Cave). Enumerated centres span from early Palaeoindian and Archaic occupations at Paleo Crossing (70 at 9000BC), Hansford (85 at 3000BC) and Green River Indian Knoll (340 at 2000BC), through Early and Middle Woodland ceremonial complexes at Grave Creek Mound (450 at 0AD), Newark Earthworks (1.850 at 200AD), Hopewell Mound Group (1.650 at 200AD), Seip Earthworks (1.100 at 250AD), Fort Ancient (980 at 200AD), Mound City (980 at 200AD) and Mann Site (950 at 200AD), to Mississippian, Fort Ancient and Monongahela capitals led by Angel Mounds (3.200 at 1300AD), Mound Bottom (1.600 at 1200AD), Slack Farm (1.100 at 1500AD), Castalian Springs (980 at 1300AD), Madisonville (980 at 1500AD), Fox Farm Fort Ancient Town (950 at 1500AD), Hovey Lake (890 at 1500AD) and Buffalo (880 at 1550AD).
+
+# Background
+
+Excavations across the Ohio basin document four sequential settlement forms [@adovasio1999; @webb1974]. Terminal Pleistocene and Early Archaic outwash terraces (Paleo Crossing, Hansford, Parrish) preserve camp hearths dating back to 10000BC, whereas unquantified sandstone overhangs and karstic caves (Meadowcroft Rockshelter, Cloudsplitter Rockshelter, Salts Cave, Mammoth Cave, Dunbar Cave, Big Bone Cave) are recorded in the exclusion ledger rather than scored as permanent settlements [@adovasio1999]. Between 4000BC and 1000BC, deep shell middens formed along the Green River shoals (Carlston Annis, Chiggerville, Indian Knoll, Ward) [@webb1974].
+
+From 500BC to 400AD, Adena burial tumuli (Grave Creek Mound, Adena Mound, Miamisburg Mound) and geometric Hopewell precincts (Newark Earthworks, Hopewell Mound Group, Seip Earthworks, Fort Ancient, Mound City, Marietta Earthworks, Mann Site) concentrated monumental architecture across southern Ohio, West Virginia and southwestern Indiana [@clay1998; @dancey1997; @charles2006]. After 1000AD, Mississippian palisaded towns (Angel Mounds, Mound Bottom, Castalian Springs, Noel Farm, Averbuch), Fort Ancient plaza villages (Madisonville, SunWatch, Hardin Village, Buffalo, Fox Farm Fort Ancient Town), Oliver enclosures (Strawtown Enclosure), Monongahela circular villages (Johnston Site, Campbell Farm, Peck No. 2) and Caborn-Welborn confluence centres (Slack Farm, Hovey Lake, Murphy, Welborn, Bone Bank) carried the basin to its 1295AD radiocarbon peak (N = 1.828) [@kelly2025; @hilgeman2000; @cook2017; @comstock2018; @cobb2002].
+
+# Methodology
+
+## Inclusion Criteria and Schema Audit
+
+All 307 candidate records in the regional source ledger were checked for WGS84 coordinates, multi-phase residential or precinct boundaries and distinct spatial identities. The 164 retained habitation records carry curated regional provenance logged in the companion bibliography and source ledger. Duplicate aliases falling within 2 km of an established primary centre (136 records) alongside 7 unquantified non-habitation caves or rockshelters are excluded in the ledger to prevent spatial or urban double-counting.
+
+## Settlement Size Calibration
+
+Woodland earthwork figures (Newark Earthworks, Hopewell Mound Group, Seip Earthworks, Grave Creek Mound, Mann Site) represent resident caretaker and adjacent hamlet clusters rather than seasonal festival gatherings [@dancey1997; @charles2006]. Mississippian, Fort Ancient and Monongahela town totals (Angel Mounds, Mound Bottom, Madisonville, SunWatch, Slack Farm, Buffalo, Johnston Site) derive from excavated house-basin counts, palisade circumference hectares and domestic midden areas [@hilgeman2000; @cook2017; @comstock2018; @cobb2002]. Adjacent macro-frontier parallels from Michigan (Moccasin Bluff) [@bettarel1973], Lake Erie (Ripley) [@sullivan1996] and the eastern Appalachian Piedmont (Berry and Hiwassee Island) [@beck2016; @lewis1946] cross-check household-to-hectare density scalars across the eastern Woodland-Mississippian margin.
+
+# Testing and Validation
+
+Reconciliation checks between the settlement gazetteer and the source ledger completed with 0 unaccounted entries and 0 coordinate errors at GMT+0:
+
+1. **Included Settlements**: 164 sites (45 in Upper Ohio-Allegheny, 37 in Scioto-Miami, 66 in Cumberland-Green and 16 in Wabash-Lower Ohio; 449 observations, 2,74 average, 99 with at least three benchmarks), spanning 35,68 N to 41,53 N and 79,02 W to 88,4 W.
+2. **Excluded Candidates**: 143 excluded entries (136 duplicate coordinate or alias merges within 2 km and 7 unquantified non-habitation caves or rockshelters) across 307 total candidates.
+3. **Sub-Regional Mass Conservation**: Catalogued settlement sums stay strictly below sub-regional totals across all 23 horizons, reaching 11.610 (7,17% of 162k) at 200AD, 16.530 (6,26% of 264k) at 1300AD, 11.400 (6,48% of 176k) at 1500AD and 6.180 (4,09% of 151k) at 1600AD.
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_ohio_river_settlements.png",
+  "Rank-size profile and leading peak populations across the 164 catalogued settlements of Ohio River (HU 05).",
+  "fig:oh-settlements"
+)
+```
+
+# Results
+
+## Included Woodland, Mississippian and Fort Ancient Settlements
+
+Table \ref{tab:oh-included} lists the leading 45 settlements by peak population descending from the 164-site HU 05 gazetteer, down to Bone Bank (580 at 1500AD), alongside the fifteen highest-peaking centres shown in Figure \ref{fig:oh-settlements}. Among Early and Middle Woodland monuments (1000BC to 400AD), Newark Earthworks (1.850 at 200AD), Hopewell Mound Group (1.650 at 200AD), Seip Earthworks (1.100 at 250AD), Fort Ancient (980 at 200AD), Mound City (980 at 200AD), Mann Site (950 at 200AD), Marietta Earthworks (780 at 200AD), Portsmouth Earthworks (780 at 200AD), Harness Mound Group (760 at 200AD) and Circleville Earthworks (720 at 200AD) dominate the Scioto-Miami, Upper Ohio and Lower Wabash corridors [@dancey1997; @charles2006; @clay1998].
+
+Late Pre-Contact centres (1000AD to 1600AD) cluster across the lower Ohio, Cumberland and middle Ohio floodplains. Angel Mounds reaches 3.200 (1300AD) [@hilgeman2000], Mound Bottom peaks at 1.600 (1200AD) beside its 1250AD mound precinct of 1.200, Castalian Springs reaches 980 (1300AD), Noel Farm 860 (1350AD), Rutherford-Kizer 740 (1375AD), Averbuch 720 (1350AD) and Strawtown Enclosure 720 (1300AD) prior to Vacant Quarter contraction [@cobb2002]. After 1400AD, Caborn-Welborn settlements (Slack Farm 1.100, Hovey Lake 890, Murphy 760, Welborn 720, Bone Bank 580 at 1500AD) and late Fort Ancient towns (Madisonville 980 at 1500AD, Fox Farm Fort Ancient Town 950 at 1500AD, Buffalo 880 at 1550AD, Hardin Village 820 at 1550AD, Clover 610 at 1550AD) lead the regional urban hierarchy [@cook2017; @comstock2018].
+
+```{r tbl-included, results='asis'}
+keys_inc <- names(sett_data)
+rows_inc <- lapply(keys_inc, function(k) {
+  sv <- sett_data[[k]]
+  vals <- vapply(names(sv$population), function(y) as.numeric(sv$population[[y]]), numeric(1))
+  data.frame(
+    Settlement = clean_text(sv$name),
+    State = clean_text(sv$country),
+    SubRegion = short_region(sv$region_id),
+    Coords = fmt_coord_pair(sv$coords),
+    Span = fmt_period_span(sv$population),
+    Peak = fmt_span_pop(sv$population),
+    pk_num = max(vals),
+    stringsAsFactors = FALSE
+  )
+})
+df_inc <- do.call(rbind, rows_inc)
+df_inc <- df_inc[order(-df_inc$pk_num, df_inc$Settlement), ]
+df_inc <- head(df_inc, 45L)
+df_inc$pk_num <- NULL
+rownames(df_inc) <- NULL
+viscount_table(
+  df_inc,
+  "Top 45 settlements by peak population in Ohio River (HU 05) from the 164-site gazetteer, showing occupied spans and WGS84 coordinates.",
+  c("Settlement", "State", "Sub-region", "Coordinates", "Span", "Peak (Year)"),
+  list(label = "tab:oh-included", font_size = "scriptsize")
+)
+```
+
+## Excluded Ledger Candidates
+
+Of 307 evaluated entries in the regional source ledger, 143 candidates are excluded from urban totals to maintain strict spatial deduplication and habitation boundaries (Table \ref{tab:oh-excluded}, capped at the leading 30 rows): 136 duplicate coordinate or alias records consolidated within 2 km of canonical sites (including Angel Mounds, Mound Bottom, Fort Ancient, Serpent Mound, Newark Earthworks, Hopewell Mound Group and Seip Earthworks) alongside 7 unquantified non-habitation caves or rockshelters (Meadowcroft Rockshelter [two entries], Salts Cave, Mammoth Cave, Dunbar Cave, Cloudsplitter Rockshelter and Big Bone Cave) [@hilgeman2000; @adovasio1999].
+
+```{r tbl-excluded, results='asis'}
+exc_list <- head(Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates), 30L)
+rows_exc <- lapply(exc_list, function(c) {
+  just_clean <- clean_text(gsub("(\\d+)\\.(\\d+)", "\\1,\\2", c$justification))
+  data.frame(
+    Candidate = clean_text(paste0(c$name, " (", c$country, ")")),
+    Status = "Excluded",
+    Reason = clean_text(c$reason),
+    Details = just_clean,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, rows_exc)
+rownames(df_exc) <- NULL
+viscount_table(
+  df_exc,
+  "Representative 30 of 143 excluded candidate sites documented in the Ohio River (HU 05) source ledger.",
+  c("Candidate", "Status", "Reason", "Disposition"),
+  list(label = "tab:oh-excluded", font_size = "footnotesize")
+)
+```
+
+# Limitations
+
+Small Late Woodland hamlets and dispersed Archaic foraging camps lacking durable mound or palisade footprints remain absorbed within the continuous rural radiocarbon prior rather than individualised in the 164-site gazetteer [@dancey1997; @cook2017]. Notice also that early stratified occupations (Paleo Crossing, Hansford, Indian Knoll) reflect seasonal-to-semi-sedentary base camps whose point-level numbers represent sustained group maxima rather than year-round urban settlements [@adovasio1999; @webb1974].
+
+# Sources
+
+<div id="refs"></div>

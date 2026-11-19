@@ -1,0 +1,371 @@
+---
+title: "Extreme Northern Plains Hydrological Unit (HU 09): Demographic Reconstruction"
+subtitle: "CENTAUR-II: Souris-Red-Rainy Glacial Lake Agassiz Basin, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: extreme_northern_plains_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_extreme_northern_plains_spatial.png"
+hero_caption: "Three drainage divisions and 100 catalogued sites across Extreme Northern Plains Hydrological Unit 09 (144,29k km²), covering the Souris Drift Prairie, Red River of the North and Rainy River borderlands."
+hero_label: "fig:hero-extreme-northern-plains"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_json <- jsonlite::fromJSON("extreme_northern_plains.json5", simplifyVector = FALSE)
+sett_json <- jsonlite::fromJSON("extreme_northern_plains_settlements.json", simplifyVector = FALSE)
+ledger_json <- jsonlite::fromJSON("extreme_northern_plains_source_ledger.json5", simplifyVector = FALSE)
+diag_na <- jsonlite::fromJSON("../../_shared/sites_northern_america/config/kriging_diagnostics.json", simplifyVector = FALSE)
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+reg_keys <- names(mod_json$regions)
+all_years <- names(mod_json$summary$headline_population_by_benchmark)
+tot_area <- as.numeric(mod_json$total_area_km2)
+```
+
+# Abstract
+
+Extreme Northern Plains Hydrological Unit 09 (144,29k km², covering 2.540 terrestrial 5-arcminute grid cells) occupies the flat lacustrine bed of Glacial Lake Agassiz and the bordering drift prairies along the United States-Canada frontier [@kelly2025; @seaber1987hydrologic; @teller2002freshwater]. Because ice-dammed meltwaters still submerged the Red River trough at the opening of the Holocene, human numbers stand at zero in 10000BC across all three divisions, spanning the Souris Loop and Devils Lake Drift Prairie, the Red River of the North Valley and the Rainy River and Lake of the Woods Boreal Border, before rising after lake drainage to 300 in 9000BC, 5,8k in 5000BC and 19,8k (18,2k to 21,4k) at 0AD [@teller2002freshwater; @stoltman1973laurel; @johnson1973arvilla].
+
+Population peaks at 26,7k (24,6k to 28,8k; 18,5 persons per 100 km²) around 800AD, aligning within 27 years of the Kelly et al. HU 09 radiocarbon median peak of 827AD (1.123 cal BP) [@kelly2025]. Unlike southwestern canyon basins that suffered abrupt thirteenth-century collapse, HU 09 declines gradually after 800AD to 24,1k in 1100AD, 21,9k in 1300AD and 19,4k (17,8k to 21k) in 1600AD as Northeastern Plains Village farming, bison procurement and northern wild-rice lakes cushion late Holocene climatic shifts [@gregg1994plains; @toom2004northeastern; @milner2010]. Spatial allocation employs the continental North American non-stationary Matérn ($\nu = 3/2$) composite (93.129 unique site-periods across 3.833 domestic catchments and 2.570 active catchments, 14,24x baseline) paired with 100 catalogued sites from 202 ledger candidates.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_extreme_northern_plains_spatial.png",
+    "Three drainage divisions and 100 catalogued sites across Extreme Northern Plains Hydrological Unit 09 (144,29k km²), covering the Souris Drift Prairie, Red River of the North and Rainy River borderlands.",
+    "fig:hero-extreme-northern-plains"
+  )
+}
+```
+
+# Background
+
+## Deglaciation, Glacial Lake Agassiz and Northward Drainage
+
+Extreme Northern Plains Hydrological Unit 09 encompasses the United States portion of the Hudson Bay watershed, draining northward via the Souris (Mouse), Red River of the North and Rainy rivers across northern Minnesota, eastern and north-central North Dakota and a small Rocky Mountain Front salient in Glacier County, Montana [@seaber1987hydrologic; @teller2002freshwater]. Unlike adjacent Missouri River plains to the south-west, HU 09 lies directly along the ecological transition linking tallgrass and mixed-grass prairie to aspen parkland and boreal spruce-pine forest [@syms1977cultural].
+
+At 10000BC, the southern outlet of Glacial Lake Agassiz discharged through the Glacial River Warren down the Minnesota Valley while deep lacustrine waters drowned the Red River and Lake of the Woods basins [@teller2002freshwater]. Successive retreats of the Laurentide Ice Sheet triggered catastrophic eastward and north-westward outbursts during the Moorhead low-water phase and final Emerson drainage after 9000BC to 7500BC, exposing rich silt-clay lakebeds, gravel beach ridges (Campbell, Herman and Ojata beaches) and productive shallow lakes [@teller2002freshwater]. Those raised sand-and-gravel strandlines formed dry travel highways across wet clay flats, guiding Early Holocene caribou and bison hunters into the interior [@thulman2023clovis; @birch2016late].
+
+## Three Sub-Regional Ecological Divisions
+
+CENTAUR-II partitions the 144.294 km² basin into three drainage units aligned with environmental transitions (Table \ref{tab:subregions-extreme-northern-plains}). The Souris Loop and Devils Lake Drift Prairie (49.590 km², 34,4% of area, 863 cells) covers glacially sculpted knob-and-kettle till plains, the closed Devils Lake basin, the upper Sheyenne bend and the Turtle Mountains woodland oasis alongside the St. Mary-Waterton headwaters salient on the western margin. Seasonal bison herds, migratory waterfowl and sheltered lake-narrows woodlands sustained Archaic strandline camps such as Moon Lake (from 9000BC), Sonota-Besant and Devils Lake-Sourisford burial communities and late fortified earthlodge settlements such as Shea, Sprunk and Biesterfeldt [@gregg1994plains; @syms1977cultural; @wendt2024year].
+
+Across the central axis, the Red River of the North Valley (67.998 km², 47,1% of area, 1.192 cells) spans the flat Lake Agassiz clay plain and oak-gallery tributaries including the Red Lake, Otter Tail, Bois de Sioux and Wild Rice rivers. Consistently holding around half of HU 09 inhabitants, this corridor supported early Agassiz beach occupations at Ojata Beach (from 8500BC), Middle Holocene hubs at Orwell, Arvilla linear and conical mound builders in the first millennium AD and wild-rice lake centres such as Schocker and Waskish Upper Red Lake [@johnson1973arvilla; @toom2004northeastern].
+
+Eastward across the Beltrami and Lake of the Woods bog margin, the Rainy River and Lake of the Woods Boreal Border (26.706 km², 18,5% of area, 485 cells) embraces boundary-waters lakes, wild-rice beds (*Zizania palustris*) and whitewater rapids along the Rainy and Little Fork rivers. Here Laurel, Blackduck and Rainy River Late Woodland societies erected monumental burial mounds at Grand Mound and McKinstry adjacent to spring lake-sturgeon spawning runs and autumn wild-rice harvests [@stoltman1973laurel; @lenius1990rainy].
+
+```{r tab-subregions, results='asis'}
+reg_list <- mod_json$regions
+sub_rows <- lapply(names(reg_list), function(rk) {
+  rv <- reg_list[[rk]]
+  pops <- unlist(rv$population)
+  pk_yr <- names(pops)[which.max(as.numeric(pops))]
+  pk_val <- max(as.numeric(pops))
+  bb <- rv$bbox
+  a <- as.numeric(rv$area_km2)
+  data.frame(
+    Subregion = clean_text(sub("^\\d+\\.\\s*", "", rv$name)),
+    Cells = viscount_fmt_number(rv$pixel_count, 0L),
+    Area = paste0(viscount_fmt_number(a, 0L), " (", viscount_fmt_number(a / tot_area * 100, 1L), "%)"),
+    BBox = paste0(
+      viscount_fmt_number(bb$min_lat, 2L), "-", viscount_fmt_number(bb$max_lat, 2L), "N, ",
+      viscount_fmt_number(abs(bb$max_lon), 2L), "-", viscount_fmt_number(abs(bb$min_lon), 2L), "W"
+    ),
+    Peak = paste0(fmt_yr(pk_yr), " (", viscount_fmt_pop(pk_val), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sub <- do.call(rbind, sub_rows)
+rownames(df_sub) <- NULL
+viscount_table(
+  df_sub,
+  "Sub-regional areal masks, grid cells, land areas and peak population dates across Extreme Northern Plains HU 09.",
+  c("Sub-Region", "Grid Cells", "Area km² (Share)", "Bounding Box", "Peak Year (Pop.)"),
+  list(label = "tab:subregions-extreme-northern-plains", font_size = "scriptsize")
+)
+```
+
+# Methodology
+
+## Radiocarbon Calibration and Carrying-Capacity Priors
+
+Demographic timing draws directly on the Kelly et al. IntCal20 radiocarbon analysis for HU 09 (N = 149 quality-screened dates; standard error at most 100 years) [@kelly2025; @kelly2022new]. Across 500 running-mean resampling iterations, Kelly et al. identify a radiocarbon mode spanning 980 to 1.163 cal BP (787AD to 970AD), with a first quartile at 1.028 cal BP (922AD), a third quartile at 1.139 cal BP (811AD), a mean at 1.094 cal BP (856AD) and a median peak at 1.123 cal BP (827AD) [@kelly2025].
+
+Twenty-three sub-regional benchmarks from 10000BC to 1600AD combine radiocarbon summed probability curves [@peros2010prehistoric; @kelly2025; @rorabaugh2023assessing] with regional Woodland mound and Northeastern Plains Village settlement carrying capacities [@gregg1994plains; @toom2004northeastern; @milner2010]. Post-emergence benchmarks carry a symmetric plus or minus 8% structural interval around the central series, while all three divisions stand at zero (with a 0-5 person boundary floor) at 10000BC prior to final Glacial Lake Agassiz drainage [@teller2002freshwater; @ubelaker2006].
+
+## Multi-Registry Spatial Disaggregation
+
+Gridded rural habitation weights across all 2.540 land pixels use the continental North American non-stationary Matérn ($\nu = 3/2$) residual kriging framework spanning 18,56M km² (493.687 terrestrial 5-arcminute cells, with 78.938 to 149.138 active inhabited cells across ten horizons from 13000BC to 1650AD). Rather than relying on a sparse local subset alone, the North American composite integrates Kelly and Robinson's Lower 48 database [@kelly2022new; @kelly2025], p3k14c [@bird2022p3k14c], c14bazAAR, state archaeological registers and CENTAUR monument records.
+
+After deduplication by catchment and 200-year chronological bin, the North American composite contains 93.129 unique site-periods (286.193 horizon records) across 3.833 domestic Voronoi catchments spanning 15,52M km² (2.570 active inhabited catchments, or 67,05%; equivalent circular radius median 29,48 km and 90th percentile 40,95 km overall, or 29,3 km median and 39,85 km 90th percentile across active catchments), yielding an effective point density 14,24x higher than the 6.539-site baseline global radiocarbon database inside the North American mask. Crucially for a narrow border watershed such as HU 09, 251 cross-frontier buffer catchments extending up to 300 km bridge the 49th parallel smoothly into southern Manitoba, Saskatchewan and northwestern Ontario alongside Upper Mississippi (HU 07) and Northern Plains (HU 10) masks [@syms1977cultural].
+
+Across ten Holocene horizons (13000BC to 1650AD), weighted least squares residual kriging couples catchment density with five biophysical covariates: terrain habitability, agro-ecological suitability, ecozone productivity, 13,5 km exponential fluvial proximity and coastal access. In HU 09, fluvial proximity and ecozone productivity concentrate rural habitation tightly along Lake Agassiz beach ridges, the Red and Sheyenne gallery forests and Rainy River wild-rice lakes while leaving flat poorly drained peat bogs lightly populated.
+
+## Settlement Subtraction and Border Blending
+
+Before scaling rural pixels inside the sub-regional areal mask, the disaggregation pipeline subtracts the active trajectories of 100 catalogued mound complexes, fortified villages, wild-rice stations and beach-ridge camps from their parent sub-region. Two separable 4-pixel smoothing passes then eliminate seams along the international border and HUC-2 drainage divides while keeping sub-regional population totals exact.
+
+# Testing and Validation
+
+All spatial, variogram and ledger reconciliation checks pass with zero errors as of 18 November 2026 GMT+0:
+
+1. **Kriging Sharpness and Fit**: Across all ten Holocene horizons (13000BC to 1650AD) of the North American composite, regularised dimensionless short-range correlation equals $\tau_1 = 1,35$ across all ten horizons (raw $\tau_1$ spanning 1,519 to 1,6098, mean 1,5782; effective short range 45,23 km to 47,94 km, mean 47 km, well below the 1,8 ceiling) and long-range scale equals $\tau_2 = 2,9025$ (2,9). Unregularised raw variogram nugget-to-sill ratio measures 0 across all ten horizons, regularised to 0,04 across all ten horizons (well below 0,45), and WLS residual $R^2$ ranges between 0,9990 and 0,9992 (Table \ref{tab:horizons}).
+2. **Post-Glacial and Radiocarbon Alignment**: Zeroing population across all three divisions at 10000BC matches Glacial Lake Agassiz inundation prior to the Moorhead and Emerson phases [@teller2002freshwater], while the 800AD basin crest (26,7k) aligns within 27 years of the Kelly et al. HU 09 radiocarbon median peak of 827AD (1.123 cal BP) [@kelly2025].
+3. **Late Holocene Stability**: The moderate 13,9% decline between 800AD (26,7k) and 1200AD (23k) matches archaeological evidence for resilient Northeastern Plains Village mixed horticultural-bison economies and Rainy River wild-rice harvesting rather than abrupt Mississippian collapse [@gregg1994plains; @toom2004northeastern; @milner2010].
+4. **Gazetteer and Ledger Reconciliation**: Auditing the settlement gazetteer against the source ledger accounts for all 202 candidates, comprising 100 included complexes (308 dated observations) and 102 excluded entries (101 duplicate-alias consolidations merged within 2 km of canonical sites, led by Devils Lake-Narrows and Arvilla, plus one seasonal stone quarry at Rustad Quarry lacking permanent residential bounds), with zero unaccounted candidates.
+
+```{r tbl-horizons, results='asis'}
+horizon_labels <- c(
+  palaeoindian_early_archaic = "1. Palaeoindian and Early Archaic (13000-6000BC)",
+  middle_archaic = "2. Middle Archaic (6000-3000BC)",
+  late_archaic = "3. Late Archaic (3000-1000BC)",
+  early_woodland_formative = "4. Early Woodland and Formative (1000-200BC)",
+  middle_woodland_hopewell = "5. Middle Woodland Hopewell (200BC-400AD)",
+  late_woodland_dorset = "6. Late Woodland and Dorset (400-800AD)",
+  early_mississippian_pueblo_ii = "7. Early Mississippian and Pueblo II (800-1100AD)",
+  middle_mississippian_pueblo_iii = "8. Middle Mississippian and Pueblo III (1100-1300AD)",
+  late_precontact_thule_oneota = "9. Late Pre-Contact, Oneota and Thule (1300-1500AD)",
+  protohistoric_contact_horizon = "10. Protohistoric Contact Horizon (1500-1650AD)"
+)
+h_keys <- names(diag_na$variogram_models)
+h_rows <- lapply(h_keys, function (hk) {
+  vm <- diag_na$variogram_models[[hk]]
+  data.frame(
+    Horizon = horizon_labels[[hk]],
+    Tau1 = viscount_fmt_number(vm$tau1_dimensionless, 4L),
+    RangeKm = viscount_fmt_number(vm$effective_short_range_km, 2L),
+    RawNugget = viscount_fmt_number(vm$raw_nugget_to_sill_ratio, 4L),
+    RegNugget = viscount_fmt_number(vm$nugget_to_sill_ratio, 4L),
+    R2 = viscount_fmt_number(vm$residual_r2, 4L),
+    stringsAsFactors = FALSE
+  )
+})
+df_hor <- do.call(rbind, h_rows)
+rownames(df_hor) <- NULL
+viscount_table(
+  df_hor,
+  "Variogram calibration across the ten Holocene horizons of the North American kriging surface.",
+  c("Analytical Horizon", "Tau1", "Range (km)", "Raw Nugget", "Reg. Nugget", "Residual R²"),
+  list(label = "tab:horizons", font_size = "scriptsize")
+)
+```
+
+# Results
+
+## Lake Agassiz Emergence and Early-to-Middle Holocene Foragers (10000BC to 1000BC)
+
+As Lake Agassiz waters receded from the Herman and Campbell strandlines after 9500BC, Palaeoindian and Late Plano hunters quickly colonised newly exposed dry beach ridges and morainal lakeshores [@teller2002freshwater; @thulman2023clovis]. Early occupation is documented at Moon Lake (9000BC, 95 peak) on the Drift Prairie margin and Ojata Beach (8500BC, 55 peak) in the Red River Valley, joined by 8000BC by Agassiz Mosbeck (55) and Browns Valley (7800BC, 120 peak) along the southern River Warren outlet alongside Rice Lake Ward (95) and Swiftcurrent Lake (75) on the Drift Prairie [@birch2016late]. Basin numbers climbed from 300 in 9000BC to 1k in 8000BC and 2,2k in 7000BC.
+
+During the Middle Holocene Altithermal warm period (6000BC to 3000BC), eastern shortgrass prairie expanded across the Red River plain while permanent lakes and oak gallery strips preserved bison-hunting refugia along the Sheyenne, Red Lake and Pembina rivers [@syms1977cultural; @wendt2024year]. Regional population rose steadily from 3,8k in 6000BC to 5,8k in 5000BC, 8,2k in 4000BC and 10,9k in 3000BC before reaching 13,8k in 2000BC and 16,8k in 1000BC (Figure \ref{fig:trajectory-extreme-northern-plains}). Long-lived Archaic-to-Woodland river hubs such as Orwell (starting 2200BC, 240 peak), Little Floyd Lake (2400BC, 165 peak), Basswood Lake (2000BC, 145 peak) and Cavalier Tongue River (2000BC, 145 peak) anchored early wetland and bison-crossing zones.
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_extreme_northern_plains_trajectory.png",
+  "Total and sub-regional population trajectory across Extreme Northern Plains HU 09 from 10000BC to 1600AD, with shaded 8 per cent uncertainty band.",
+  "fig:trajectory-extreme-northern-plains"
+)
+```
+
+## Woodland Mound Florescence and Plains Village Transition (0AD to 1600AD)
+
+Between 1000BC and 800AD, Middle and Late Woodland cultures transformed settlement visibility across all three divisions. Along the Rainy River and Lake of the Woods, Laurel and Blackduck communities concentrated each spring at sturgeon rapids and wild-rice bays, building monumental burial earthworks at McKinstry (360 peak, 100BC to 1200AD) and Grand Mound (320 peak, 100BC to 900AD), alongside long-lived wild-rice centres at Nett Lake (265), Big Rice (245), Warroad (235), Hannaford (210) and Northwest Angle (210) [@stoltman1973laurel; @lenius1990rainy]. On the Red River beach ridges, Sonota-Besant, Arvilla and Red Lake communities gathered at Arvilla (360 peak, 600 to 1300AD), Schocker (290), Waskish Upper Red Lake (250), Orwell (240), Round Mound (210), Lake Bronson (195), Haarstad Mound (190) and Warner Mound (185), while along the Devils Lake narrows and Sheyenne drift prairie centres developed at Devils Lake-Narrows (290 peak, 600 to 1500AD), Sullys Hill Mounds (230) and Baldhill Mound (210) [@johnson1973arvilla; @gregg1994plains]. Basin population grew from 19,8k (18,2k to 21,4k) at 0AD to 23,6k in 400AD, 25,3k in 600AD and an all-time maximum of 26,7k (24,6k to 28,8k; 18,5 persons per 100 km²) in 800AD.
+
+After 800AD, cooling summers and shifts in northern bison ranges brought a gradual moderation rather than sudden collapse. Between 800AD and 1200AD, total population eased by 13,9% to 23k (Table \ref{tab:trajectory-extreme-northern-plains}), stabilised by Northeastern Plains Village earthlodge farming and ditch-fortified villages along the Sheyenne and Maple rivers [@gregg1994plains; @toom2004northeastern]. Fortified late pre-contact settlements including Sprunk (240 peak, 1100 to 1500AD), Shea (310 peak, 1400 to 1550AD) and the historic-threshold Cheyenne earthlodge town of Biesterfeldt (480 peak, 1550 to 1600AD) combined maize-beans-squash horticulture with communal bison hunting, keeping HU 09 at 21,9k in 1300AD, 20,5k in 1500AD and 19,4k (17,8k to 21k) in 1600AD [@toom2004northeastern; @milner2010].
+
+```{r tab-trajectory, results='asis'}
+bench_cols <- c("-10000", "-5000", "0", "400", "800", "1100", "1300", "1600")
+traj_rows <- lapply(names(reg_list), function(rk) {
+  rv <- reg_list[[rk]]
+  vals <- vapply(bench_cols, function(y) viscount_fmt_pop(rv$population[[y]]), character(1))
+  as.data.frame(as.list(c(Subregion = clean_text(sub("^\\d+\\.\\s*", "", rv$name)), vals)), stringsAsFactors = FALSE)
+})
+hl <- mod_json$summary$headline_population_by_benchmark
+tot_vals <- vapply(bench_cols, function(y) viscount_fmt_pop(hl[[y]]), character(1))
+tot_row <- as.data.frame(as.list(c(Subregion = "Extreme Northern Plains HU 09 Total", tot_vals)), stringsAsFactors = FALSE)
+df_traj <- do.call(rbind, c(traj_rows, list(tot_row)))
+rownames(df_traj) <- NULL
+viscount_table(
+  df_traj,
+  "Benchmark population series by sub-region in Extreme Northern Plains HU 09 from 10000BC to 1600AD.",
+  c("Sub-Region", "10000BC", "5000BC", "0AD", "400AD", "800AD", "1100AD", "1300AD", "1600AD"),
+  list(label = "tab:trajectory-extreme-northern-plains", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Composition, Density and Epochal Growth Rates
+
+Throughout the Common Era, the Red River Valley and Rainy River boreal border maintained higher and closely matched densities relative to the drier drift prairie (Figure \ref{fig:shares-extreme-northern-plains}, Table \ref{tab:density}). At 800AD, the Red River Valley carried 20 persons per 100 km² (13,6k) and the Rainy River border carried 20,59 (5,5k), compared with 15,33 across the Souris-Devils Lake unit (7,6k). Because the Red River Valley covers 47,1% of basin land area, it consistently held roughly half of HU 09 inhabitants: 49,5% at 0AD (9,8k of 19,8k), 50,9% in 800AD (13,6k of 26,7k) and 51,5% in 1600AD (10k of 19,4k). Souris-Devils Lake contributed 26,8% to 29,8% across the same span, while the Rainy River and Lake of the Woods boreal margin held 20,6% to 22% [@lenius1990rainy; @stoltman1973laurel].
+
+Among the 100 catalogued sites, 53 sit on the Souris-Devils Lake Drift Prairie (peak sum 9.365; median 160), 37 in the Red River Valley (peak sum 6.285; median 165) and 10 along the Rainy River borderlands (peak sum 2.355; median 222,5, Table \ref{tab:subreg-sites}). Measured across cultural epochs (Table \ref{tab:eras}), basin growth decelerated smoothly from 0,074% per year between 9000BC and 5000BC down to 0,037% between 0AD and 800AD before reversing gently at -0,04% per year from 800AD to 1600AD.
+
+```{r fig-shares, results='asis'}
+viscount_figure(
+  "figures/fig3_extreme_northern_plains_shares.png",
+  "Sub-regional percentage shares of total population across Extreme Northern Plains HU 09 from 10000BC to 1600AD.",
+  "fig:shares-extreme-northern-plains"
+)
+```
+
+```{r tbl-density, results='asis'}
+dens_yrs <- c("-5000", "0", "800", "1100", "1300", "1600")
+dens_rows <- lapply(reg_keys, function (rk) {
+  r <- mod_json$regions[[rk]]
+  a <- as.numeric(r$area_km2)
+  dvals <- vapply(dens_yrs, function (yr) {
+    viscount_fmt_number(as.numeric(r$population[[yr]]) / a * 100, 2L)
+  }, character(1))
+  data.frame(
+    SubRegion = clean_text(sub("^\\d+\\.\\s*", "", r$name)),
+    D5000BC = dvals[1],
+    D0AD = dvals[2],
+    D800AD = dvals[3],
+    D1100AD = dvals[4],
+    D1300AD = dvals[5],
+    D1600AD = dvals[6],
+    stringsAsFactors = FALSE
+  )
+})
+df_dens <- do.call(rbind, dens_rows)
+rownames(df_dens) <- NULL
+viscount_table(
+  df_dens,
+  "Sub-regional population density (persons per 100 km²) across six benchmarks in Extreme Northern Plains HU 09.",
+  c("Sub-Region", "5000BC", "0AD", "800AD", "1100AD", "1300AD", "1600AD"),
+  list(label = "tab:density", font_size = "scriptsize")
+)
+```
+
+```{r tbl-subreg-sites, results='asis'}
+site_rows <- lapply(reg_keys, function (rk) {
+  sub_s <- Filter(function (s) identical(s$region, rk), sett_json)
+  pks <- vapply(sub_s, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+  ord <- order(-pks)
+  top3 <- vapply(ord[seq_len(min(3L, length(ord)))], function (idx) {
+    paste0(clean_text(sub_s[[idx]]$name), " (", viscount_fmt_pop(pks[idx]), ")")
+  }, character(1))
+  data.frame(
+    SubRegion = clean_text(sub("^\\d+\\.\\s*", "", mod_json$regions[[rk]]$name)),
+    Sites = viscount_fmt_number(length(sub_s), 0L),
+    PeakSum = viscount_fmt_number(sum(pks), 0L),
+    MedianPeak = viscount_fmt_number(median(pks), 1L),
+    LeadingThree = paste(top3, collapse = "; "),
+    stringsAsFactors = FALSE
+  )
+})
+df_sites <- do.call(rbind, site_rows)
+rownames(df_sites) <- NULL
+viscount_table(
+  df_sites,
+  "Distribution of the 100 catalogued sites across the three Extreme Northern Plains divisions.",
+  c("Sub-Region", "Sites", "Sum of Peaks", "Median Peak", "Leading Three Sites"),
+  list(label = "tab:subreg-sites", font_size = "scriptsize")
+)
+```
+
+```{r tbl-eras, results='asis'}
+era_specs <- list(
+  list("Lake Agassiz Drainage to Middle Archaic", "-9000", "-5000"),
+  list("Middle Archaic to Early Woodland", "-5000", "0"),
+  list("Laurel and Arvilla Woodland Florescence", "0", "800"),
+  list("Late Woodland and Plains Village Shift", "800", "1300"),
+  list("Late Pre-Contact Resilience", "1300", "1600")
+)
+hl <- mod_json$summary$headline_population_by_benchmark
+era_rows <- lapply(era_specs, function (sp) {
+  y0 <- as.numeric(sp[[2]])
+  y1 <- as.numeric(sp[[3]])
+  p0 <- as.numeric(hl[[sp[[2]]]])
+  p1 <- as.numeric(hl[[sp[[3]]]])
+  pct <- (p1 - p0) / p0 * 100
+  yrs_span <- y1 - y0
+  cagr <- ((p1 / p0)^(1 / yrs_span) - 1) * 100
+  data.frame(
+    Era = sp[[1]],
+    Span = paste0(fmt_yr(y0), " to ", fmt_yr(y1)),
+    StartPop = viscount_fmt_pop(p0),
+    EndPop = viscount_fmt_pop(p1),
+    NetChange = paste0(ifelse(pct >= 0, "+", ""), viscount_fmt_number(pct, 1L), "%"),
+    AnnualRate = paste0(viscount_fmt_number(cagr, 3L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+df_eras <- do.call(rbind, era_rows)
+rownames(df_eras) <- NULL
+viscount_table(
+  df_eras,
+  "Epochal population transitions and implied annualised growth rates across Extreme Northern Plains HU 09.",
+  c("Cultural Horizon", "Span", "Start Pop.", "End Pop.", "Net Change", "Annual Rate"),
+  list(label = "tab:eras", font_size = "scriptsize")
+)
+```
+
+```{r tbl-master, results='asis'}
+master_rows <- lapply(all_years, function (yr) {
+  vals <- vapply(reg_keys, function (rk) {
+    viscount_fmt_pop(mod_json$regions[[rk]]$population[[yr]])
+  }, character(1))
+  tot_v <- as.numeric(mod_json$summary$headline_population_by_benchmark[[yr]])
+  b_low <- round(tot_v * 0.92)
+  b_high <- round(tot_v * 1.08)
+  data.frame(
+    Year = fmt_yr(yr),
+    Souris = vals[1],
+    RedRiver = vals[2],
+    Rainy = vals[3],
+    Total = viscount_fmt_pop(tot_v),
+    Interval = paste0(viscount_fmt_pop(b_low), " to ", viscount_fmt_pop(b_high)),
+    stringsAsFactors = FALSE
+  )
+})
+df_master <- do.call(rbind, master_rows)
+rownames(df_master) <- NULL
+viscount_table(
+  df_master,
+  "Twenty-three benchmark population estimates for Extreme Northern Plains HU 09 (10000BC to 1600AD) with 8% aggregate bounds.",
+  c("Year", "Souris-Devils Lake", "Red River Valley", "Rainy River Border", "Total", "8% Bounds"),
+  list(label = "tab:master", font_size = "scriptsize")
+)
+```
+
+## Cross-Border Continuity Across the Canadian Prairies and Boreal Shield
+
+Hydrological connectivity across the 49th parallel makes cross-border conditioning indispensable for HU 09. Both the Souris Loop (flowing out of Saskatchewan through North Dakota and back into Manitoba) and the Red River of the North (flowing northward past Pembina toward Lake Winnipeg) form integrated cultural corridors occupied by Assiniboine, Plains Cree, Anishinaabe and Hidatsa-Cheyenne trade networks [@syms1977cultural; @toom2004northeastern]. Across the North American spatial framework, 300 km cross-frontier buffers link HU 09 continuously with the Canadian Prairies and Hudson Bay modules to the north, Upper Mississippi (HU 07) to the south-east and Northern Plains (HU 10) across the Missouri Coteau escarpment, transferring cleanly at 1600AD into Colonial Canada and colonial upper Plains trading routes.
+
+# Limitations
+
+Four limitations affect HU 09 estimates. First, HU 09 carries the smallest radiocarbon sample in the Kelly et al. contiguous United States dataset (N = 149), widening sampling variance around the 827AD peak [@kelly2025; @rorabaugh2023assessing]. Second, the United States HUC-2 boundary cuts across the middle of the Souris, Red and Rainy-Winnipeg drainage basins at the 49th parallel, requiring careful cross-border conditioning against Canadian Prairies and Hudson Bay masks [@syms1977cultural].
+
+Third, mobile seasonal bison-hunting camps across the Drift Prairie leave ephemeral hearth scatters and thin bone beds that are under-represented in excavation registers compared with monumental Laurel and Arvilla burial mounds [@johnson1973arvilla; @gregg1994plains; @wendt2024year]. Fourth, fluctuating mid- and late-Holocene highstands in closed Devils Lake inundated or eroded shoreline camps across Devils Lake-Narrows, reducing early prehistoric sample recovery along inner terrace margins [@gregg1994plains].
+
+# Conclusion
+
+Between 10000BC and 1600AD, human settlement across Extreme Northern Plains Hydrological Unit 09 followed the opening of the Glacial Lake Agassiz plain, rising from zero under ice-dammed meltwaters to a mixed prairie-forest peak of 26,7k around 800AD before settling smoothly near 19,4k in 1600AD without abrupt demographic collapse. Anchored to the continental North American radiocarbon-archaeological composite (93.129 unique site-periods across 3.833 domestic and 2.570 active catchments over 493.687 valid cells, regularised $\tau_1 = 1,35$, $\tau_2 = 2,9025$, effective short range 45,23 km to 47,94 km with mean 47 km, raw nugget 0, regularised nugget-to-sill 0,04, WLS residual $R^2$ from 0,9990 to 0,9992) and 100 catalogued complexes, CENTAUR-II restores continuous demographic geography across the Red, Souris and Rainy river borderlands.
+
+# Sources
+
+<div id="refs"></div>

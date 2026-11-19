@@ -1,0 +1,469 @@
+---
+title: "Settlement Gazetteer of Bolivia after Independence"
+subtitle: "Toponymy, Geographic Coordinates and Municipal Trajectories across Nine Departments, 1825AD to 2026AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: bolivia_after_independence_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_bolivia_after_independence_spatial.png"
+hero_caption: "Spatial distribution of 369 catalogued settlements and nine administrative departments across Bolivia (1,12M km²) from 1825AD to 2026AD, illustrating the demographic contrast between Altiplano basins and lowland agricultural frontiers."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("bolivia_after_independence.json5")
+set_data <- read_json_file("bolivia_after_independence_settlements.json")
+led_data <- read_json_file("bolivia_after_independence_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("\"", "", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  paste0(round(as.numeric(arg0_y)), "AD")
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+get_val <- function (arg0_pop, arg1_year) {
+  y_str <- as.character(arg1_year)
+  if (!is.null(arg0_pop[[y_str]])) {
+    v <- as.numeric(arg0_pop[[y_str]])
+    if (!is.na(v) && is.finite(v)) return(viscount_fmt_pop(v))
+  }
+  return("-")
+}
+
+reg_keys <- names(mod_data$regions)
+set_list <- unname(set_data)
+
+# Sort settlements by 2024 population descending
+get_p24 <- function (s) {
+  if (!is.null(s$population[["2024"]])) as.numeric(s$population[["2024"]]) else 0
+}
+p24_vec <- vapply(set_list, get_p24, numeric(1))
+set_list <- set_list[order(-p24_vec)]
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer compiles geographic coordinates, administrative affiliations and longitudinal population series for 369 catalogued urban settlements and municipal sections across the nine departments of Bolivia from 1825AD to 2026AD.
+
+The dataset integrates the official national censuses of 1846, 1900, 1950, 1976, 1992, 2001, 2012 and 2024, published by José María Dalence and the Instituto Nacional de Estadística (INE), supplemented by historical municipal rolls and provincial registers [@dalence1851bosquejo; @ine1900censo; @ine1950censo; @ine2024censo; @copa2026censosbo].
+
+The spatial coverage of the gazetteer reflects the historical shifts that transformed republican settlement patterns over two centuries. In the early nineteenth century, sedentary municipal units were confined almost entirely to the high Altiplano and inter-Andean valleys, where silver mining, estate agriculture and indigenous peasant communities sustained traditional administrative capitals such as La Paz, Potosí, Sucre and Cochabamba.
+
+Across the late twentieth and early twenty-first centuries, state-directed colonisation, transport infrastructure and agro-industrial commercialisation produced rapid urbanisation in the eastern lowlands, led by Santa Cruz de la Sierra (2,15M residents in 2024AD), Montero (116,9k), Warnes (84,2k), La Guardia (114,8k) and Yapacaní (50,5k), alongside the dramatic expansion of El Alto (885,0k) and Cochabamba (957,1k) along the central transport axis.
+
+Every catalogued locality is anchored to precise WGS84 geographic coordinates, assigned to its canonical administrative department and reconciled against 467 candidate records in the project source ledger (369 included municipalities and 98 documented exclusions).
+
+By subtracting active settlement populations from departmental aggregates, the gazetteer supplies the nucleated component of the Operation Viscount demographic model, preventing artificial concentration in rural raster cells and ensuring an accurate spatial representation of Bolivian settlement history.
+
+# Methodology and Source Ledger Audit
+
+Settlement inclusion in the gazetteer follows three rigorous demographic and archival criteria:
+1. **Administrative Autonomy and Census Continuity**: All 336 official Bolivian municipal sections recognized in modern national censuses (2001, 2012 and 2024) are included as autonomous spatial units, supplemented by 33 historical mining towns, canton capitals and rubber ports that possessed independent demographic significance prior to mid-twentieth-century municipal consolidations [@copa2026censosbo].
+2. **Geographic Coordinate Validation**: All settlement coordinates are verified against Instituto Geográfico Militar (IGM) cartography and high-resolution satellite imagery, ensuring that every coordinate pair falls strictly within its respective departmental boundaries.
+3. **Reconciliation against Excluded Candidates**: Among the 467 candidates evaluated in the source ledger, 98 records are documented as excluded. These comprise dependent canton hamlets subsumed within larger municipal sections, duplicate toponymic variants within 2 km of canonical centres, and non-urban military forts that lacked permanent civilian populations.
+
+```{r tbl-dept-summary, results='asis'}
+sum_rows <- lapply(reg_keys, function (rk) {
+  r <- mod_data$regions[[rk]]
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  n_sets <- length(sub_sets)
+  
+  get_sum_yr <- function (yr) {
+    vals <- vapply(sub_sets, function (s) {
+      if (!is.null(s$population[[yr]])) as.numeric(s$population[[yr]]) else 0
+    }, numeric(1))
+    sum(vals)
+  }
+  
+  p24_vals <- vapply(sub_sets, function (s) {
+    if (!is.null(s$population[["2024"]])) as.numeric(s$population[["2024"]]) else 0
+  }, numeric(1))
+  top_idx <- which.max(p24_vals)
+  top_name <- if (n_sets > 0) clean_text(sub_sets[[top_idx]]$name) else "-"
+  top_pk <- if (n_sets > 0) p24_vals[top_idx] else 0
+  
+  data.frame(
+    Department = clean_text(r$name),
+    Units = as.character(n_sets),
+    Sum1850 = viscount_fmt_pop(get_sum_yr("1850")),
+    Sum1900 = viscount_fmt_pop(get_sum_yr("1900")),
+    Sum1950 = viscount_fmt_pop(get_sum_yr("1950")),
+    Sum1980 = viscount_fmt_pop(get_sum_yr("1980")),
+    Sum2000 = viscount_fmt_pop(get_sum_yr("2000")),
+    Sum2024 = viscount_fmt_pop(get_sum_yr("2024")),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+
+tot_sets <- length(set_list)
+get_tot_yr <- function (yr) {
+  vals <- vapply(set_list, function (s) {
+    if (!is.null(s$population[[yr]])) as.numeric(s$population[[yr]]) else 0
+  }, numeric(1))
+  sum(vals)
+}
+
+df_tot <- data.frame(
+  Department = "National Total",
+  Units = as.character(tot_sets),
+  Sum1850 = viscount_fmt_pop(get_tot_yr("1850")),
+  Sum1900 = viscount_fmt_pop(get_tot_yr("1900")),
+  Sum1950 = viscount_fmt_pop(get_tot_yr("1950")),
+  Sum1980 = viscount_fmt_pop(get_tot_yr("1980")),
+  Sum2000 = viscount_fmt_pop(get_tot_yr("2000")),
+  Sum2024 = viscount_fmt_pop(get_tot_yr("2024")),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot)
+
+viscount_table(
+  df_sum,
+  "Departmental distribution of 369 catalogued settlements and aggregate urban population sums across benchmark years from 1850AD to 2024AD.",
+  c("Department", "Settlements", "1850AD Sum", "1900AD Sum", "1950AD Sum", "1980AD Sum", "2000AD Sum", "2024AD Sum"),
+  list(label = "tab:dept-summary", font_size = "scriptsize")
+)
+```
+
+# Departmental Settlement Trajectories
+
+## Department of La Paz
+
+The Department of La Paz encompasses 93 catalogued settlements, representing the most extensive municipal network in Bolivia. Settlement geography is bifurcated between the dense Aymara agricultural cantons of the Lake Titicaca basin and the rapid urbanization of the metropolitan area in the La Paz river canyon and high Altiplano rim [@arbona2008urban].
+
+Table \ref{tab:gaz-lapaz} documents the leading 25 settlements in the department, ordered by 2024 population.
+
+```{r tbl-gaz-lapaz, results='asis'}
+sub_lp <- Filter(function (s) identical(s$region_id, "bol_la_paz") || identical(s$region, "bol_la_paz"), set_list)
+sub_lp <- head(sub_lp, 25L)
+
+lp_rows <- lapply(sub_lp, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_lp <- do.call(rbind, lp_rows)
+
+viscount_table(
+  df_lp,
+  "Leading twenty-five settlements in the Department of La Paz ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-lapaz", font_size = "scriptsize")
+)
+```
+
+## Department of Santa Cruz
+
+The Department of Santa Cruz contains 69 catalogued settlements, displaying an extraordinary transition from pre-industrial pastoral isolation to intensive commercial agriculture [@fifer1972bolivia; @schoop1980verstaedterung].
+
+The integrated northern agricultural belt—including Montero, Warnes, Mineros and San Pedro—exhibits sustained population growth driven by mechanized soybean, sugarcane and dairy production.
+
+Table \ref{tab:gaz-santacruz} presents the leading 25 settlements across the department.
+
+```{r tbl-gaz-santacruz, results='asis'}
+sub_sc <- Filter(function (s) identical(s$region_id, "bol_santa_cruz") || identical(s$region, "bol_santa_cruz"), set_list)
+sub_sc <- head(sub_sc, 25L)
+
+sc_rows <- lapply(sub_sc, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sc <- do.call(rbind, sc_rows)
+
+viscount_table(
+  df_sc,
+  "Leading twenty-five settlements in the Department of Santa Cruz ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-santacruz", font_size = "scriptsize")
+)
+```
+
+## Department of Cochabamba
+
+The Department of Cochabamba contains 49 catalogued settlements, forming the dense demographic heartland of the central valleys [@blanes1984campesinos].
+
+The central valley conurbation connects Cochabamba with Quillacollo, Sacaba, Colcapirhua, Tiquipaya and Vinto, while the tropical Chapare to the northeast encompasses Villa Tunari, Puerto Villarroel, Shinahota and Chimoré.
+
+Table \ref{tab:gaz-cochabamba} presents the leading 20 settlements in Cochabamba.
+
+```{r tbl-gaz-cochabamba, results='asis'}
+sub_cb <- Filter(function (s) identical(s$region_id, "bol_cochabamba") || identical(s$region, "bol_cochabamba"), set_list)
+sub_cb <- head(sub_cb, 20L)
+
+cb_rows <- lapply(sub_cb, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_cb <- do.call(rbind, cb_rows)
+
+viscount_table(
+  df_cb,
+  "Leading twenty settlements in the Department of Cochabamba ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-cochabamba", font_size = "scriptsize")
+)
+```
+
+## Department of Potosí
+
+The Department of Potosí encompasses 42 catalogued settlements, reflecting centuries of mineral extraction across the southern Andes [@platt1982estado; @dunkerley1984rebellion].
+
+Mining centres such as Potosí, Llallagua, Uncía and Uyuni contrast with agricultural valley settlements in Betanzos, Cotagaita and Tupiza.
+
+Table \ref{tab:gaz-potosi} documents the leading 20 settlements in Potosí.
+
+```{r tbl-gaz-potosi, results='asis'}
+sub_po <- Filter(function (s) identical(s$region_id, "bol_potosi") || identical(s$region, "bol_potosi"), set_list)
+sub_po <- head(sub_po, 20L)
+
+po_rows <- lapply(sub_po, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_po <- do.call(rbind, po_rows)
+
+viscount_table(
+  df_po,
+  "Leading twenty settlements in the Department of Potosí ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-potosi", font_size = "scriptsize")
+)
+```
+
+## Department of Oruro
+
+The Department of Oruro contains 35 catalogued settlements across the central Altiplano.
+
+Urban concentration is pronounced around the departmental capital, which acts as the transport junction linking Bolivia with northern Chilean ports, complemented by agricultural and pastoral settlements in Challapata, Caracollo, Toledo and Salinas de Garci Mendoza.
+
+Table \ref{tab:gaz-oruro} records the leading 15 settlements in Oruro.
+
+```{r tbl-gaz-oruro, results='asis'}
+sub_or <- Filter(function (s) identical(s$region_id, "bol_oruro") || identical(s$region, "bol_oruro"), set_list)
+sub_or <- head(sub_or, 15L)
+
+or_rows <- lapply(sub_or, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_or <- do.call(rbind, or_rows)
+
+viscount_table(
+  df_or,
+  "Leading fifteen settlements in the Department of Oruro ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-oruro", font_size = "scriptsize")
+)
+```
+
+## Department of Chuquisaca
+
+The Department of Chuquisaca encompasses 34 catalogued settlements spanning the constitutional capital of Sucre, the Cinti wine valleys and the eastern Chaco hills [@klein2011history].
+
+Table \ref{tab:gaz-chuquisaca} records the leading 15 settlements across the department.
+
+```{r tbl-gaz-chuquisaca, results='asis'}
+sub_ch <- Filter(function (s) identical(s$region_id, "bol_chuquisaca") || identical(s$region, "bol_chuquisaca"), set_list)
+sub_ch <- head(sub_ch, 15L)
+
+ch_rows <- lapply(sub_ch, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_ch <- do.call(rbind, ch_rows)
+
+viscount_table(
+  df_ch,
+  "Leading fifteen settlements in the Department of Chuquisaca ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-chuquisaca", font_size = "scriptsize")
+)
+```
+
+## Department of El Beni
+
+The Department of El Beni contains 23 catalogued settlements across the Llanos de Moxos.
+
+Urban settlements cluster along navigable river channels and savanna cattle stations, led by Trinidad, Riberalta, Guayaramerín and San Borja [@langer1989economic].
+
+Table \ref{tab:gaz-beni} presents the leading 15 settlements in El Beni.
+
+```{r tbl-gaz-beni, results='asis'}
+sub_be <- Filter(function (s) identical(s$region_id, "bol_el_beni") || identical(s$region, "bol_el_beni"), set_list)
+sub_be <- head(sub_be, 15L)
+
+be_rows <- lapply(sub_be, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_be <- do.call(rbind, be_rows)
+
+viscount_table(
+  df_be,
+  "Leading fifteen settlements in the Department of El Beni ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-beni", font_size = "scriptsize")
+)
+```
+
+## Department of Pando
+
+The Department of Pando comprises 15 catalogued settlements across the northern Amazonian rainforest [@zuidema2002demography].
+
+All 15 settlements are documented in Table \ref{tab:gaz-pando}, led by the departmental capital of Cobija on the Brazilian frontier.
+
+```{r tbl-gaz-pando, results='asis'}
+sub_pa <- Filter(function (s) identical(s$region_id, "bol_pando") || identical(s$region, "bol_pando"), set_list)
+
+pa_rows <- lapply(sub_pa, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_pa <- do.call(rbind, pa_rows)
+
+viscount_table(
+  df_pa,
+  "Catalogued settlements in the Department of Pando ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-pando", font_size = "scriptsize")
+)
+```
+
+## Department of Tarija
+
+The Department of Tarija contains 9 catalogued settlements, all of which are documented in Table \ref{tab:gaz-tarija}.
+
+The departmental capital of Tarija in the Guadalquivir valley contrasts with the rapidly growing Chaco hydrocarbon centres of Yacuiba, Villa Montes, Bermejo and Caraparí [@fifer1972bolivia].
+
+```{r tbl-gaz-tarija, results='asis'}
+sub_ta <- Filter(function (s) identical(s$region_id, "bol_tarija") || identical(s$region, "bol_tarija"), set_list)
+
+ta_rows <- lapply(sub_ta, function (s) {
+  data.frame(
+    Municipality = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2000 = get_val(s$population, "2000"),
+    P2024 = get_val(s$population, "2024"),
+    stringsAsFactors = FALSE
+  )
+})
+df_ta <- do.call(rbind, ta_rows)
+
+viscount_table(
+  df_ta,
+  "Catalogued settlements in the Department of Tarija ordered by 2024AD population.",
+  c("Municipality", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2000AD", "2024AD"),
+  list(label = "tab:gaz-tarija", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+<div id="refs"></div>

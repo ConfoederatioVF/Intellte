@@ -1,52 +1,3 @@
-Studies on Population
-================
-Aust Kätzchen
-11 November 2026
-
-- [Abstract](#abstract)
-- [Background](#background)
-- [Methodology](#methodology)
-  - [Areal Coverage, Shifting Boundaries and Hierarchical
-    Masking](#areal-coverage-shifting-boundaries-and-hierarchical-masking)
-  - [Archaeological Substrata and Matérn Kriging Across Russia, Belarus
-    and
-    Ukraine](#archaeological-substrata-and-matérn-kriging-across-russia-belarus-and-ukraine)
-  - [Historical Settlement Gazetteers and Dasymetric
-    Allocation](#historical-settlement-gazetteers-and-dasymetric-allocation)
-- [Testing and Validation](#testing-and-validation)
-  - [Variogram Diagnostics, Cross-Frontier Seam Continuity and Residual
-    Skill](#variogram-diagnostics-cross-frontier-seam-continuity-and-residual-skill)
-  - [Comparison with Global Gridded Baselines (HYDE 3.1, HYDE 3.2 and
-    McEvedy &
-    Jones)](#comparison-with-global-gridded-baselines-hyde-31-hyde-32-and-mcevedy--jones)
-- [Results](#results)
-  - [Early and Middle Holocene: Forager Refugia to the Trypillia and
-    Yamnaya Horizons
-    (10000BC-2000BC)](#early-and-middle-holocene-forager-refugia-to-the-trypillia-and-yamnaya-horizons-10000bc-2000bc)
-  - [Bronze-Iron Transition, Classical Scythia-Sarmatia and the
-    Migration Period Trough
-    (2000BC-600AD)](#bronze-iron-transition-classical-scythia-sarmatia-and-the-migration-period-trough-2000bc-600ad)
-  - [Rise of Kievan Rus, Volga Bulgaria, Khazaria-Alania and the
-    Pre-Mongol Apogee
-    (600AD-1240AD)](#rise-of-kievan-rus-volga-bulgaria-khazaria-alania-and-the-pre-mongol-apogee-600ad-1240ad)
-  - [The Mongol Shock, Golden Horde Urbanism and the North-Eastern Shift
-    (1240AD-1400AD)](#the-mongol-shock-golden-horde-urbanism-and-the-north-eastern-shift-1240ad-1400ad)
-  - [Muscovite Consolidation, the Polish-Lithuanian Borderlands and the
-    Conquest of Siberia
-    (1400AD-1721AD)](#muscovite-consolidation-the-polish-lithuanian-borderlands-and-the-conquest-of-siberia-1400ad-1721ad)
-  - [Imperial Expansion, Revision Censuses, Novorossiya Colonisation and
-    Industrialisation
-    (1721AD-1914AD)](#imperial-expansion-revision-censuses-novorossiya-colonisation-and-industrialisation-1721ad-1914ad)
-  - [Demographic Catastrophe and Soviet Modernisation: War, Famine and
-    Urbanisation
-    (1914AD-1991AD)](#demographic-catastrophe-and-soviet-modernisation-war-famine-and-urbanisation-1914ad-1991ad)
-  - [Post-Soviet Demographic Transition and the Russian Invasion of
-    Ukraine
-    (1991AD-2026AD)](#post-soviet-demographic-transition-and-the-russian-invasion-of-ukraine-1991ad-2026ad)
-- [Limitations](#limitations)
-- [Conclusion](#conclusion)
-- [Sources](#sources)
-
 # Abstract
 
 Reconstructing long-run human settlement across Eastern Europe and
@@ -67,15 +18,15 @@ POLARIS comprises 46 constituent research papers (23 regional
 demographic reviews and 23 coordinate-anchored settlement gazetteers),
 integrating 110.642 archaeological site-epoch observations across 2.360
 domestic second-level administrative districts (raions) in Russia,
-Belarus and Ukraine alongside 54.977 historical settlement trajectories
-across 11.403 discrete coordinates (11.393 deduplicated settlements). To
+Belarus and Ukraine alongside 64.103 historical settlement trajectories
+across 16.140 discrete coordinates (14.844 deduplicated settlements). To
 eliminate boundary artefacts between the archaeological registry of the
 Russian Academy of Sciences (67.205 sites across 1.765 raions) and the
 combined Belarusian and Ukrainian state monument registries (43.437
 sites across 595 raions), POLARIS solves a non-stationary Matérn
-($\nu = 3/2$) kriging mosaic coupled through a 250 km cross-frontier
+($`\nu = 3/2`$) kriging mosaic coupled through a 250 km cross-frontier
 conditioning belt (294 Belarusian and Ukrainian, 322 Russian and Crimean
-raions) and $C^1$ raised-cosine seam feathering
+raions) and $`C^1`$ raised-cosine seam feathering
 [\[4\]](#ref-PaciorekSchervish2006)[\[5\]](#ref-Makarov2016).
 
 Across the Holocene, population within the pre-modern 14-division domain
@@ -180,7 +131,7 @@ mortality records, and forced-settlement tallies
 
 POLARIS harmonises these sources through 22 regional polygon masks,
 110.642 archaeological site records across Russia, Belarus and Ukraine,
-and 54.977 settlement trajectories (11.393 deduplicated settlements)
+and 64.103 settlement trajectories (14.844 deduplicated settlements)
 from 10000BC to 2026AD. This paper presents the underlying data, the
 geostatistical method, and the reconstructed regional population series.
 
@@ -242,20 +193,20 @@ Crimea, Donbas and southern Zaporizhzhia-Kherson.
 
 | Constituent Module & Scope | Time Span | Units & Towns | Area (km²) | Population Range | Primary Archival & Archaeological Substrata |
 |:---|:---|:---|---:|:---|:---|
-| Pre-Modern Baseline (Migration Period) | 10000BC-1900AD | 11 zones (t=242) | 17,92M | 87,82k (10000BC) to 11,84M (1200AD) | Institute of Archaeology registry, Belarus/Ukraine monument lists, HYDE |
-| Kievan Rus & Western Lands (6 modules) | 10000BC-1900AD | 4 princ. (t=834) | 560k | 38,5k (10000BC) to 4,88M (1200AD) | 43.437 Belarusian and Ukrainian sites, fortified gorodishche areas, chronicles |
-| Russian Forest Core & Urals | 10000BC-1900AD | 1 core (t=276) | 2,19M | 13k (10000BC) to 4,67M (1200AD) | Oka-Volga Opolye surveys, Novgorod birch-bark documents, pistsovye cadastres |
-| Pontic Steppe & Lower Volga | 10000BC-1900AD | 4 zones (t=688) | 1,04M | 10,02k (10000BC) to 1,1M (1300AD) | Kurgan and Alanian fortification registers, Golden Horde coin finds |
-| North Caucasus (3 modules) | 10000BC-1900AD | 3 zones (t=583) | 194,5k | 3,5k (10000BC) to 952k (1200AD) | Koban, Maeotian and Alanian monuments, Derbent epigraphy, Vainakh towers |
-| Siberia & Far East (2 modules) | 10000BC-1900AD | 2 zones (t=485) | 12,74M | 22,8k (10000BC) to 527,4k (900AD) | Siberian radiocarbon dates, Minusinsk and Lena basin sites, yasak books |
-| Tsardom of Russia (1400-1721AD) | 1400AD-1721AD | 38 reg. (t=205) | 18,12M | 11,36M (1400AD) to 22,83M (1720AD) | Muscovite pistsovye cadastres, 1678/1710 household books, Lithuanian podymne |
-| Early Russian Empire (1721-1815AD) | 1721AD-1815AD | 40 reg. (t=224) | 18,5M | 23,89M (1721AD) to 51,17M (1815AD) | 1st to 6th Imperial Revisions (1719-1811AD), General Land Survey, Novorossiya records |
-| Late Russian Empire (1815-1917AD) | 1815AD-1917AD | 48 reg. (t=8.881) | 18,61M | 57,87M (1815AD) to 167,95M (1914AD) | 7th to 10th Revisions, 1897 Imperial Census, 1914-1917 provincial yearbooks |
-| First World War & Civil War (1914-1926AD) | 1914AD-1926AD | 48 reg. (t=8.894) | 18,61M | 167,95M (1914AD) to 148,66M (1922AD) | 1917 Agricultural and Urban Census, 1920 census, 1926 All-Union Census |
-| Soviet Union under Lenin & Stalin (1926-1953AD) | 1926AD-1953AD | 45 reg. (t=8.674) | 18,18M | 145,07M (1926AD) to 165,35M (1953AD) | 1926, 1937 and 1939 Censuses, TsUNKhU vital records, Gulag registries |
-| Soviet Union post-Stalin (1953-1991AD) | 1953AD-1991AD | 41 reg. (t=8.614) | 18,18M | 165,35M (1953AD) to 224,55M (1991AD) | 1959, 1970, 1979 and 1989 All-Union Censuses, Goskomstat vital registers |
-| Post-Soviet Space (1991-2021AD) | 1991AD-2021AD | 35 reg. (t=8.191) | 17,97M | 212,26M (1991AD) to 198,08M (2021AD) | Rosstat, Ukrstat and Belstat 1999-2021 census rounds, vital and migration balances |
-| War in Ukraine & Contemporary Era (2021-2026AD) | 2021AD-2026AD | 123 div. (t=8.186) | 17,96M | 198,08M (2021AD) to 188,56M (2026AD) | 2021-2026 vital statistics, UNHCR and IOM displacement data, DeepStateMAP |
+| Pre-Modern Baseline (Migration Period) | 10000BC-1900AD | 11 zones (t=362) | 17,92M | 87,82k (10000BC) to 11,84M (1200AD) | Institute of Archaeology registry, Belarus/Ukraine monument lists, HYDE |
+| Kievan Rus & Western Lands (6 modules) | 10000BC-1900AD | 4 princ. (t=3.614) | 560k | 38,5k (10000BC) to 4,88M (1200AD) | 43.437 Belarusian and Ukrainian sites, fortified gorodishche areas, chronicles |
+| Russian Forest Core & Urals | 10000BC-1900AD | 1 core (t=976) | 2,19M | 13k (10000BC) to 4,67M (1200AD) | Oka-Volga Opolye surveys, Novgorod birch-bark documents, pistsovye cadastres |
+| Pontic Steppe & Lower Volga | 10000BC-1900AD | 4 zones (t=1.804) | 1,04M | 10,02k (10000BC) to 1,1M (1300AD) | Kurgan and Alanian fortification registers, Golden Horde coin finds |
+| North Caucasus (3 modules) | 10000BC-1900AD | 3 zones (t=606) | 194,5k | 3,5k (10000BC) to 952k (1200AD) | Koban, Maeotian and Alanian monuments, Derbent epigraphy, Vainakh towers |
+| Siberia & Far East (2 modules) | 10000BC-1900AD | 2 zones (t=690) | 12,74M | 22,8k (10000BC) to 527,4k (900AD) | Siberian radiocarbon dates, Minusinsk and Lena basin sites, yasak books |
+| Tsardom of Russia (1400-1721AD) | 1400AD-1721AD | 38 reg. (t=3.886) | 18,12M | 11,36M (1400AD) to 22,83M (1720AD) | Muscovite pistsovye cadastres, 1678/1710 household books, Lithuanian podymne |
+| Early Russian Empire (1721-1815AD) | 1721AD-1815AD | 40 reg. (t=5.692) | 18,5M | 23,89M (1721AD) to 51,17M (1815AD) | 1st to 6th Imperial Revisions (1719-1811AD), General Land Survey, Novorossiya records |
+| Late Russian Empire (1815-1917AD) | 1815AD-1917AD | 48 reg. (t=8.064) | 18,61M | 57,87M (1815AD) to 167,95M (1914AD) | 7th to 10th Revisions, 1897 Imperial Census, 1914-1917 provincial yearbooks |
+| First World War & Civil War (1914-1926AD) | 1914AD-1926AD | 48 reg. (t=8.053) | 18,61M | 167,95M (1914AD) to 148,66M (1922AD) | 1917 Agricultural and Urban Census, 1920 census, 1926 All-Union Census |
+| Soviet Union under Lenin & Stalin (1926-1953AD) | 1926AD-1953AD | 45 reg. (t=7.826) | 18,18M | 145,07M (1926AD) to 165,35M (1953AD) | 1926, 1937 and 1939 Censuses, TsUNKhU vital records, Gulag registries |
+| Soviet Union post-Stalin (1953-1991AD) | 1953AD-1991AD | 41 reg. (t=7.783) | 18,18M | 165,35M (1953AD) to 224,55M (1991AD) | 1959, 1970, 1979 and 1989 All-Union Censuses, Goskomstat vital registers |
+| Post-Soviet Space (1991-2021AD) | 1991AD-2021AD | 35 reg. (t=7.376) | 17,97M | 212,26M (1991AD) to 198,08M (2021AD) | Rosstat, Ukrstat and Belstat 1999-2021 census rounds, vital and migration balances |
+| War in Ukraine & Contemporary Era (2021-2026AD) | 2021AD-2026AD | 123 div. (t=7.371) | 17,96M | 198,08M (2021AD) to 188,56M (2026AD) | 2021-2026 vital statistics, UNHCR and IOM displacement data, DeepStateMAP |
 
 Structure of POLARIS’s 23 constituent modules, showing priority tiers,
 chronological spans, administrative units, gazetteer coverage, area, and
@@ -313,8 +264,8 @@ injects 294 Belarusian and Ukrainian raion centroids into the Russian
 solve, and reciprocally injects 322 Russian and Crimean centroids into
 the Belarusian and Ukrainian solve.
 
-Fourth, the system applies a non-stationary Matérn ($\nu = 3/2$) kernel
-using geodesic distances scaled by local Voronoi support radii
+Fourth, the system applies a non-stationary Matérn ($`\nu = 3/2`$)
+kernel using geodesic distances scaled by local Voronoi support radii
 [\[4\]](#ref-PaciorekSchervish2006). The covariance combines short-range
 river-valley clustering with macro-ecological correlation, solved via
 non-negative dual kriging to guarantee positive site intensities across
@@ -334,8 +285,8 @@ Disaggregating regional populations solely through rural archaeological
 densities risks dispersing concentrated urban populations across
 surrounding countryside. To prevent this, each constituent POLARIS
 module incorporates a coordinate-anchored historical settlement
-gazetteer. In total, POLARIS traces 54.977 settlement trajectories
-across 11.403 discrete geographic coordinates (11.393 deduplicated
+gazetteer. In total, POLARIS traces 58.803 settlement trajectories
+across 11.230 discrete geographic coordinates (10.290 deduplicated
 settlements).
 
 Every settlement entry records time-indexed population figures from
@@ -388,17 +339,17 @@ cross-validation diagnostics across both regional domains.
 
 | Metric | Russia & Crimea | Belarus & Ukraine | Combined Domain |
 |:---|:---|:---|:---|
-| Domestic ADM2 raion centroids ($n$) | 1.765 (Russia & Crimea) | 595 (118 BLR + 477 UKR) | 2.360 domestic ADM2 raions |
-| Cross-frontier conditioning nodes ($n$, 250 km) | 294 (Belarus & Ukraine) | 322 (Russia & Crimea) | 616 reciprocal conditioning nodes |
-| Total conditioning nodes in dual solve ($n$) | 2.059 | 917 | 2.976 coupled solve nodes |
-| Catalogued site-epoch observations ($n$) | 67.205 (64.812 raion-resolved) | 43.437 (4.196 BLR + 39.241 UKR) | 110.642 site-epoch records |
+| Domestic ADM2 raion centroids ($`n`$) | 1.765 (Russia & Crimea) | 595 (118 BLR + 477 UKR) | 2.360 domestic ADM2 raions |
+| Cross-frontier conditioning nodes ($`n`$, 250 km) | 294 (Belarus & Ukraine) | 322 (Russia & Crimea) | 616 reciprocal conditioning nodes |
+| Total conditioning nodes in dual solve ($`n`$) | 2.059 | 917 | 2.976 coupled solve nodes |
+| Catalogued site-epoch observations ($`n`$) | 67.205 (64.812 raion-resolved) | 43.437 (4.196 BLR + 39.241 UKR) | 110.642 site-epoch records |
 | Valid 5’ grid cells / domain area (km²) | 412.892 cells/16,56M km² | 14.271 cells/775,2k km² | 427.163 cells/17,34M km² |
-| Median Voronoi catchment $A_k$ and radius $r_k$ | 2.467 km²/28,02 km | 1.232 km²/19,8 km | 2.110 km² weighted median |
-| Short-range Matérn scale $\tau_1$ ($w_1 = 0{,}72$) | 1,06 ($w_1 = 0{,}72$) | 1,09 ($w_1 = 0{,}72$) | 1,06 to 1,09 (harm. $(\nu = 3/2)$) |
-| Macro-ecotone Matérn scale $\tau_2$ ($w_2 = 0{,}28$) | 3,01 ($w_2 = 0{,}28$) | 3,01 ($w_2 = 0{,}28$) | 3,01 (shared macro-ecotone) |
-| Relative nugget ratio $c_0 / \sigma^2$ (Mediaeval) | 0,04 ($c_0 = 0{,}041$, $\sigma^2 = 1{,}039$) | 0,11 ($c_0 = 0{,}224$, $\sigma^2 = 2{,}045$) | 0,04 to 0,11 (low nugget noise) |
-| Log-linear residual kriging skill ($R^2$) | 0,83 (across 1.765 raions) | 0,88 (across 595 raions) | 0,85 weighted domain $R^2$ |
-| Cross-frontier seam jump across 200 km belt ($C^1$) | \< 0,4% mean absolute jump | \< 0,4% mean absolute jump | $C^1$-continuous across RU-BY-UA |
+| Median Voronoi catchment $`A_k`$ and radius $`r_k`$ | 2.467 km²/28,02 km | 1.232 km²/19,8 km | 2.110 km² weighted median |
+| Short-range Matérn scale $`\tau_1`$ ($`w_1 = 0{,}72`$) | 1,06 ($`w_1 = 0{,}72`$) | 1,09 ($`w_1 = 0{,}72`$) | 1,06 to 1,09 (harm. $`(\nu = 3/2)`$) |
+| Macro-ecotone Matérn scale $`\tau_2`$ ($`w_2 = 0{,}28`$) | 3,01 ($`w_2 = 0{,}28`$) | 3,01 ($`w_2 = 0{,}28`$) | 3,01 (shared macro-ecotone) |
+| Relative nugget ratio $`c_0 / \sigma^2`$ (Mediaeval) | 0,04 ($`c_0 = 0{,}041`$, $`\sigma^2 = 1{,}039`$) | 0,11 ($`c_0 = 0{,}224`$, $`\sigma^2 = 2{,}045`$) | 0,04 to 0,11 (low nugget noise) |
+| Log-linear residual kriging skill ($`R^2`$) | 0,83 (across 1.765 raions) | 0,88 (across 595 raions) | 0,85 weighted domain $`R^2`$ |
+| Cross-frontier seam jump across 200 km belt ($`C^1`$) | \< 0,4% mean absolute jump | \< 0,4% mean absolute jump | $`C^1`$-continuous across RU-BY-UA |
 | Polygon mass-conservation error (dasymetric) | 0% (exact machine precision) | 0% (exact machine precision) | 100% regional total preservation |
 
 Geostatistical parameters and cross-validation diagnostics for the

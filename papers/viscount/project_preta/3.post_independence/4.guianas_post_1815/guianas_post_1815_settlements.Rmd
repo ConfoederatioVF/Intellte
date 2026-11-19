@@ -1,0 +1,400 @@
+---
+title: "Settlement Gazetteer of the Guianas post-1815"
+subtitle: "Toponymy, Geographic Coordinates and Urban Trajectories across 21 Administrative Divisions, 1815AD to 2026AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: guianas_post_1815_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_guianas_post_1815_spatial.png"
+hero_caption: "Spatial distribution of 466 catalogued settlements and 21 administrative divisions across Guyana, Suriname and French Guiana (453,9k km²) from 1815AD to 2026AD, illustrating the settlement hierarchy from coastal ports to interior mining and tribal communities."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("guianas_post_1815.json5")
+set_data <- read_json_file("guianas_post_1815_settlements.json")
+led_data <- read_json_file("guianas_post_1815_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("\"", "", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  paste0(round(as.numeric(arg0_y)), "AD")
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+get_val <- function (arg0_pop, arg1_year) {
+  y_str <- as.character(arg1_year)
+  if (!is.null(arg0_pop[[y_str]])) {
+    v <- as.numeric(arg0_pop[[y_str]])
+    if (!is.na(v) && is.finite(v) && v > 0) return(viscount_fmt_pop(v))
+  }
+  return("-")
+}
+
+reg_keys <- names(mod_data$regions)
+raw_set_list <- unname(set_data)
+
+# Deduplicate raw settlements: group by canonical clean name and territory, retaining the highest 2026 population record
+get_p26 <- function (s) {
+  if (!is.null(s$population[["2026"]])) as.numeric(s$population[["2026"]]) else 0
+}
+
+set_map <- list()
+for (s in raw_set_list) {
+  c_name <- clean_text(s$name)
+  c_terr <- clean_text(s$country)
+  key <- paste(c_terr, c_name, sep = "::")
+  if (is.null(set_map[[key]])) {
+    set_map[[key]] <- s
+  } else {
+    if (get_p26(s) > get_p26(set_map[[key]])) {
+      set_map[[key]] <- s
+    }
+  }
+}
+set_list <- unname(set_map)
+
+# Order deduplicated list by 2026 population descending
+p26_vec <- vapply(set_list, get_p26, numeric(1))
+set_list <- set_list[order(-p26_vec)]
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer compiles geographic coordinates, administrative affiliations and longitudinal population trajectories for 466 catalogued settlements across Guyana, Suriname and French Guiana from 1815AD to 2026AD. The dataset integrates official decennial and quinquennial censuses, municipal registries and statistical publications from the Bureau of Statistics Guyana, the Algemeen Bureau voor de Statistiek in Suriname and the Institut National de la Statistique et des Études Économiques in France [@bos2016guyana; @abs2014suriname; @insee2023guyane]. These records are supplemented by historical village registers, plantation cadastres and missionary records spanning two centuries of post-emancipation settlement [@adamson1972sugar; @hoefte1998in_place; @mamlamfouck1992histoire].
+
+The spatial morphology of the gazetteer reflects the profound geographical constraints of the Guiana Shield. Sedentary settlements cluster heavily along the low-lying Atlantic coastline and the navigable lower reaches of primary river estuaries, where empoldered plantation agriculture, drainage networks and road corridors supported dense village settlement. In Guyana, the coastal polders of Demerara, Essequibo and Berbice encompass 360 catalogued localities, ranging from the primate capital of Georgetown (244,8k municipal core, 327,3k agglomeration) to communal African freehold villages and Indo-Guyanese rice communities [@rodney1981history; @ramdayal2021legacy]. In Suriname, 63 catalogued settlements document the primacy of Paramaribo (237,8k) and its suburban expansion across Wanica, flanked by coastal polders at Nieuw Nickerie and historic Maroon and Amerindian villages in the interior [@lamur1973demographic; @lima2015origine]. In French Guiana, 43 catalogued centres record the concentration of population around Cayenne (79,9k), the aerospace metropolis of Kourou (31,2k) and rapidly expanding border river ports at Saint-Laurent-du-Maroni (59,6k), Apatou and Grand-Santi [@calmont1978croissance; @piantoni2009migrants].
+
+Every catalogued settlement is anchored to WGS84 coordinates and assigned to one of the 21 canonical administrative divisions. Reconciled against 891 candidate records in the project source ledger (466 included settlements and 425 documented exclusions), the gazetteer supplies the nucleated component of the Operation Viscount demographic model. By subtracting active settlement populations from administrative division totals, the model isolates residual rural populations for dasymetric surface kriging, providing an empirical basis for analysing long-run settlement dynamics across the Three Guianas.
+
+# Methodology and Source Ledger Audit
+
+Settlement enumeration and validation follow four successive waves of archival and demographic ingestion:
+1. **Official Census Ingestion**: Baseline municipal sections, communes, resorts and census tracts were extracted from modern censuses, including the 2012 Census of Guyana, the 2012 Eighth Census of Suriname and the annual municipal updates of INSEE for French Guiana [@bos2016guyana; @abs2014suriname; @insee2023guyane].
+2. **Historical Monograph and Cadastral Backfill**: Pre-twentieth-century population series were backfilled using historical plantation rolls, village purchase deeds from the post-emancipation African village movement (1838-1851), and indentured estate registers from the British and Dutch colonial archives [@mandle1973plantation; @hoefte1998in_place].
+3. **Geographic Coordinate Validation**: All settlement coordinates were cross-checked against satellite imagery, national topographic mapping and maritime charts, verifying that each location falls strictly within its respective territorial boundaries.
+4. **Source Ledger Reconciliation**: Out of 891 candidate localities evaluated in the project source ledger, 466 were included as autonomous nucleated settlements and 425 were documented as excluded. Excluded records comprise duplicate toponymic spellings, dependent estate camps subsumed within canonical municipal halls, and historical outposts that lacked permanent civilian populations.
+
+```{r tbl-division-summary, results='asis'}
+sum_rows <- lapply(reg_keys, function (rk) {
+  r <- mod_data$regions[[rk]]
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  n_sets <- length(sub_sets)
+  
+  get_sum_yr <- function (yr) {
+    vals <- vapply(sub_sets, function (s) {
+      if (!is.null(s$population[[yr]])) as.numeric(s$population[[yr]]) else 0
+    }, numeric(1))
+    sum(vals)
+  }
+  
+  data.frame(
+    Division = clean_text(r$name),
+    Units = as.character(n_sets),
+    Sum1850 = viscount_fmt_pop(get_sum_yr("1850")),
+    Sum1900 = viscount_fmt_pop(get_sum_yr("1900")),
+    Sum1950 = viscount_fmt_pop(get_sum_yr("1950")),
+    Sum1980 = viscount_fmt_pop(get_sum_yr("1980")),
+    Sum2026 = viscount_fmt_pop(get_sum_yr("2026")),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+
+tot_sets <- length(set_list)
+get_tot_yr <- function (yr) {
+  vals <- vapply(set_list, function (s) {
+    if (!is.null(s$population[[yr]])) as.numeric(s$population[[yr]]) else 0
+  }, numeric(1))
+  sum(vals)
+}
+
+df_sum_tot <- data.frame(
+  Division = "Regional Total (Three Guianas)",
+  Units = as.character(tot_sets),
+  Sum1850 = viscount_fmt_pop(get_tot_yr("1850")),
+  Sum1900 = viscount_fmt_pop(get_tot_yr("1900")),
+  Sum1950 = viscount_fmt_pop(get_tot_yr("1950")),
+  Sum1980 = viscount_fmt_pop(get_tot_yr("1980")),
+  Sum2026 = viscount_fmt_pop(get_tot_yr("2026")),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_sum_tot)
+
+viscount_table(
+  df_sum,
+  "Administrative division distribution of catalogued settlements and aggregate urban population sums across benchmark years from 1850AD to 2026AD.",
+  c("Administrative Division", "Settlements", "1850AD Sum", "1900AD Sum", "1950AD Sum", "1980AD Sum", "2026AD Sum"),
+  list(label = "tab:division-summary", font_size = "scriptsize")
+)
+```
+
+# Gazetteer of Leading Settlements across Guyana
+
+## Coastal Guyana: Demerara, Essequibo and Berbice
+
+The coastal plain of Guyana contains the majority of the nation's human settlement, concentrated along sea-wall polders and estuarine riverbanks in Regions 2, 3, 4, 5 and 6 [@mandle1973plantation; @rodney1981history].
+
+Table \ref{tab:gaz-coastal-guyana} documents 45 leading settlements in Coastal Guyana, ordered by 2026 population:
+
+```{r tbl-gaz-coastal-guyana, results='asis'}
+sub_cg <- Filter(function (s) {
+  c_terr <- clean_text(s$country)
+  if (c_terr != "Guyana") return(FALSE)
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  rk %in% c("guy_pomeroon_supenaam", "guy_essequibo_islands_west_demerara", "guy_demerara_mahaica", "guy_mahaica_berbice", "guy_east_berbice_corentyne")
+}, set_list)
+sub_cg <- head(sub_cg, 45L)
+
+cg_rows <- lapply(sub_cg, function (s) {
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  r_name <- if (!is.null(mod_data$regions[[rk]])) clean_text(mod_data$regions[[rk]]$name) else clean_text(rk)
+  r_short <- sub(" \\(Guyana\\)", "", r_name)
+  data.frame(
+    Settlement = clean_text(s$name),
+    Region = r_short,
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2026 = get_val(s$population, "2026"),
+    stringsAsFactors = FALSE
+  )
+})
+df_cg <- do.call(rbind, cg_rows)
+
+viscount_table(
+  df_cg,
+  "Leading forty-five settlements in Coastal Guyana ordered by 2026AD population.",
+  c("Settlement", "Region", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2026AD"),
+  list(label = "tab:gaz-coastal-guyana", font_size = "scriptsize")
+)
+```
+
+## Interior Guyana: Mining Corridors and Savannas
+
+The interior of Guyana encompasses the forested watersheds of the Barima, Cuyuni, Mazaruni, Potaro, middle Demerara and upper Essequibo rivers (Regions 1, 7, 8, 9 and 10) [@calix2008economic; @granger2012geopolitics].
+
+Table \ref{tab:gaz-interior-guyana} documents 30 leading settlements across Interior Guyana, ordered by 2026 population:
+
+```{r tbl-gaz-interior-guyana, results='asis'}
+sub_ig <- Filter(function (s) {
+  c_terr <- clean_text(s$country)
+  if (c_terr != "Guyana") return(FALSE)
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  rk %in% c("guy_barima_waini", "guy_cuyuni_mazaruni", "guy_potaro_siparuni", "guy_upper_takutu_upper_essequibo", "guy_upper_demerara_berbice")
+}, set_list)
+sub_ig <- head(sub_ig, 30L)
+
+ig_rows <- lapply(sub_ig, function (s) {
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  r_name <- if (!is.null(mod_data$regions[[rk]])) clean_text(mod_data$regions[[rk]]$name) else clean_text(rk)
+  r_short <- sub(" \\(Guyana\\)", "", r_name)
+  data.frame(
+    Settlement = clean_text(s$name),
+    Region = r_short,
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2026 = get_val(s$population, "2026"),
+    stringsAsFactors = FALSE
+  )
+})
+df_ig <- do.call(rbind, ig_rows)
+
+viscount_table(
+  df_ig,
+  "Leading thirty settlements in Interior Guyana ordered by 2026AD population.",
+  c("Settlement", "Region", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2026AD"),
+  list(label = "tab:gaz-interior-guyana", font_size = "scriptsize")
+)
+```
+
+# Gazetteer of Leading Settlements across Suriname
+
+## Paramaribo and Wanica Metropolitan Belt
+
+The contiguous urban agglomeration of Paramaribo and Wanica concentrates nearly 60% of Suriname's national population within a compact 1.180 km² coastal zone [@lamur1973demographic; @abs2014suriname].
+
+Table \ref{tab:gaz-paramaribo-wanica} presents 25 leading urban centres and administrative resorts across Paramaribo and Wanica, ordered by 2026 population:
+
+```{r tbl-gaz-paramaribo-wanica, results='asis'}
+sub_pw <- Filter(function (s) {
+  c_terr <- clean_text(s$country)
+  if (c_terr != "Suriname") return(FALSE)
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  rk %in% c("sur_paramaribo", "sur_wanica")
+}, set_list)
+sub_pw <- head(sub_pw, 25L)
+
+pw_rows <- lapply(sub_pw, function (s) {
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  r_name <- if (!is.null(mod_data$regions[[rk]])) clean_text(mod_data$regions[[rk]]$name) else clean_text(rk)
+  r_short <- sub(" \\(Suriname\\)", "", r_name)
+  data.frame(
+    Settlement = clean_text(s$name),
+    District = r_short,
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2026 = get_val(s$population, "2026"),
+    stringsAsFactors = FALSE
+  )
+})
+df_pw <- do.call(rbind, pw_rows)
+
+viscount_table(
+  df_pw,
+  "Leading twenty-five settlements in the Paramaribo and Wanica metropolitan conurbation ordered by 2026AD population.",
+  c("Settlement", "District", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2026AD"),
+  list(label = "tab:gaz-paramaribo-wanica", font_size = "scriptsize")
+)
+```
+
+## Coastal Polders and Interior River Basins
+
+Beyond the capital agglomeration, Surinamese settlement extends through the coastal agricultural districts of Nickerie, Coronie, Saramacca and Commewijne, and southward into the interior bauxite, mining and Maroon territories of Para, Marowijne, Brokopondo and Sipaliwini [@ramdayal2021legacy; @lima2015origine].
+
+Table \ref{tab:gaz-suriname-districts} documents 25 leading regional settlements across these eight districts, ordered by 2026 population:
+
+```{r tbl-gaz-suriname-districts, results='asis'}
+sub_sd <- Filter(function (s) {
+  c_terr <- clean_text(s$country)
+  if (c_terr != "Suriname") return(FALSE)
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  !(rk %in% c("sur_paramaribo", "sur_wanica"))
+}, set_list)
+sub_sd <- head(sub_sd, 25L)
+
+sd_rows <- lapply(sub_sd, function (s) {
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  r_name <- if (!is.null(mod_data$regions[[rk]])) clean_text(mod_data$regions[[rk]]$name) else clean_text(rk)
+  r_short <- sub(" \\(Suriname\\)", "", r_name)
+  data.frame(
+    Settlement = clean_text(s$name),
+    District = r_short,
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2026 = get_val(s$population, "2026"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sd <- do.call(rbind, sd_rows)
+
+viscount_table(
+  df_sd,
+  "Leading twenty-five regional settlements in rural and interior Suriname ordered by 2026AD population.",
+  c("Settlement", "District", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2026AD"),
+  list(label = "tab:gaz-suriname-districts", font_size = "scriptsize")
+)
+```
+
+# Gazetteer of Leading Settlements across French Guiana
+
+French Guiana contains 22 communes and numerous historical localities distributed along the coastal littoral and the Maroni and Oyapock river borders [@mamlamfouck1992histoire; @insee2023guyane].
+
+Table \ref{tab:gaz-french-guiana} presents 35 leading settlements across French Guiana, ordered by 2026 population:
+
+```{r tbl-gaz-french-guiana, results='asis'}
+sub_fg <- Filter(function (s) {
+  c_terr <- clean_text(s$country)
+  c_terr == "French Guiana"
+}, set_list)
+sub_fg <- head(sub_fg, 35L)
+
+fg_rows <- lapply(sub_fg, function (s) {
+  data.frame(
+    Settlement = clean_text(s$name),
+    Commune = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1900 = get_val(s$population, "1900"),
+    P1950 = get_val(s$population, "1950"),
+    P1980 = get_val(s$population, "1980"),
+    P2026 = get_val(s$population, "2026"),
+    stringsAsFactors = FALSE
+  )
+})
+df_fg <- do.call(rbind, fg_rows)
+
+viscount_table(
+  df_fg,
+  "Leading thirty-five catalogued settlements and communes in French Guiana ordered by 2026AD population.",
+  c("Settlement", "Commune", "Coordinates", "1850AD", "1900AD", "1950AD", "1980AD", "2026AD"),
+  list(label = "tab:gaz-french-guiana", font_size = "scriptsize")
+)
+```
+
+# Excluded Candidates and Source Ledger Reconciliation
+
+The project source ledger records 425 candidate localities that were evaluated and documented as excluded from the final gazetteer. These exclusions follow three consistent criteria:
+1. **Duplicate Toponymic Aliases**: Variant orthographies or duplicate coordinate listings situated within 2,5 km of a primary canonical settlement hall (e.g. redundant entries for Georgetown, Paramaribo and Cayenne).
+2. **Subsumed Estate Camps and Dependent Hamlets**: Small residential outposts or historical sugar estate barracks lacking independent administrative or census recognition in modern statistical compendia.
+3. **Non-Civilian Installations**: Historic military fortresses, penal isolation camps and navigation beacons that did not sustain permanent civilian populations following the mid-twentieth century.
+
+Table \ref{tab:ledger-exclusions} documents a sample of twenty prominent excluded candidate records alongside their documented justifications:
+
+```{r tbl-ledger-exclusions, results='asis'}
+sub_exc <- head(exc_list, 20L)
+
+exc_rows <- lapply(sub_exc, function (c) {
+  data.frame(
+    CandidateKey = clean_text(c$settlement_key),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = clean_text(c$justification),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+
+viscount_table(
+  df_exc,
+  "Sample of twenty documented exclusions from the project source ledger with exclusion justifications.",
+  c("Candidate Key", "Territory", "Classification", "Documented Justification"),
+  list(label = "tab:ledger-exclusions", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+<div id="refs"></div>

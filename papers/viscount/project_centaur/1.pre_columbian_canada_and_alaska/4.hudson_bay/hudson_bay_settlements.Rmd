@@ -1,0 +1,215 @@
+---
+title: "Settlement Gazetteer of the Pre-Columbian Hudson Bay and Boreal Shield"
+subtitle: "CENTAUR-II: Coordinates, Toponymy and Demographic Trajectories, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: hudson_bay_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_hudson_bay_spatial.png"
+hero_caption: "Spatial distribution of 130 catalogued subarctic, Woodland and coastal Arctic settlements across the Hudson Bay and Boreal Shield basin from 10000BC to 1600AD."
+hero_label: "fig:hero-hudson-bay"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("hudson_bay.json5")
+set_data <- read_json_file("hudson_bay_settlements.json")
+led_data <- read_json_file("hudson_bay_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("\\s+/\\s+", "; ", s)
+  s <- gsub("Existing Verified ", "", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 6L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 6L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+first_yr <- vapply(set_list, function (s) min(as.numeric(names(s$population))), numeric(1))
+set_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+set_list <- set_list[order(first_yr, set_names)]
+
+reg_short <- list(
+  hb_keewatin_western_barrens = "Kivalliq Barrens",
+  hb_hudson_james_lowlands_cree = "Hudson-James Cree",
+  hb_eastmain_nunavik_ungava = "Eastmain-Nunavik"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer compiles WGS84 coordinates, indigenous and archaeological names, occupation spans and population trajectories for `r length(set_list)` persistent settlements across the Hudson Bay and Boreal Shield basin (2,48M km²) between 10000BC and 1600AD.
+
+Early post-glacial occupations begin around 6000BC at Migod (110 peak) in Kivalliq, 5100BC at Wapekeka (135) on the northern Ontario Shield and 3000BC at Lac de la Hutte Sauvage (165) in Eastmain-Ungava, expanding through late-Holocene Cree river-lake capitals at Norway House Playgreen Capital (620), Southern Indian Lake Town (550), Garden Hill Island Town (530) and Split Lake Cree Capital (510) alongside Ungava longhouse and Arctic coastal hubs at Tuvaaluk Longhouse Metropolis (480), Kangirsuk Longhouse Town (410), Fort Albany Ancestral Town (380), Port Nelson Ancestral Village (360), Ivujivik-Nuvuk (350), Sadlermiut (Native Point) (340), Silumiut (340), Churchill-Seahorse Gully (320), Moose Factory-Moosonee (320), Nelson River-York Factory (310), Arvia'juaq (310), Chesterfield Inlet (Igluligaarjuk) (290), Baker Lake (Qamani'tuaq) (280) and Kuujjuaq (Ungava) (280). All 130 catalogued settlements comprise 462 benchmark observations (mean 3,55 per site, all carrying at least three dated estimates) and reconcile against the regional source ledger (259 candidates, 130 included and 129 excluded).
+
+# Background
+
+Residential persistence across the Hudson Bay drainage anchored along three ecological niches [@wright1995; @pilon1987]. First, estuarine river mouths along western Hudson Bay and James Bay supported multi-season waterfowl, caribou and whitefish harvests at Churchill-Seahorse Gully, Nelson River-York Factory and Moose Factory-Moosonee [@nash1969; @pilon1987].
+
+Second, Hudson Strait, Ungava Bay and Kivalliq caribou crossings concentrated Pre-Dorset, Dorset and Thule sealing and Barrenland camps at Tuvaaluk Longhouse Metropolis, Ivujivik-Nuvuk, Silumiut, Arvia'juaq and Baker Lake (Qamani'tuaq), linked eastwards across upland portages toward Atlantic Maritime Archaic traditions [@plumet1994; @clark1977; @tuck1976].
+
+Third, southern Shield-margin lake outlets sustained Archaic lithic workshops, native-copper exchange reaching Lake Abitibi and Woodland-Selkirk river-lake towns spanning Norway House Playgreen Capital and the Nelson drainage alongside bordering Rainy River traditions [@martin1999; @arzigian2008; @buchner1980].
+
+# Methodology
+
+Entries in the regional source ledger require dated habitation horizons, fixed coordinates and published band-aggregation, riverine-hub or coastal demographic counts [@arzigian2008; @plumet1994]. Duplicate or subordinate records within 2 km (including Moose Factory (Moose River) folded into Moose Factory-Moosonee and two Diana Bay entries consolidated into Tuvaaluk Longhouse Metropolis) are excluded so no catchment is double-counted, while dispersed winter family hunting camps across the interior Shield are represented by the continuous kriging background. Table \ref{tab:summary} summarises site distribution across the three sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) sub_sets[[which.max(peaks)]]$name else "-"
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Included = as.character(length(sub_sets)),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of included settlements and peak populations across the Hudson Bay basin.",
+  c("Sub-Region", "Included Sites", "Sum of Site Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "footnotesize")
+)
+```
+
+# Testing and Validation
+
+Gazetteer reconciliation confirms 130 included settlements (23 in Kivalliq Barrens, 61 in Hudson-James Lowlands and Cree Shield and 46 in Eastmain, Nunavik and Ungava), 129 excluded duplicate-alias consolidations within 2 km (259 total candidates), 0 unaccounted entries and 0 schema errors. Coordinates span 48,67 to 64,88 N and 64,71 to 101,33 W; all 130 records carry between three and seven benchmark observations (462 total observations, averaging 3,55 per settlement). Figure \ref{fig:settlements} charts the rank-size curve.
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_hudson_bay_settlements.png",
+  "Rank-size distribution and leading peak populations across the 130 catalogued settlements of the Hudson Bay basin.",
+  "fig:settlements"
+)
+```
+
+# Results
+
+## Catalogued Settlement Trajectories
+
+Table \ref{tab:gazetteer} documents the top 45 of `r length(set_list)` included settlements ordered by peak population descending.
+
+```{r tbl-gazetteer, results='asis'}
+peak_vals <- vapply(set_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+top_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+top_sets <- set_list[order(-peak_vals, top_names)[seq_len(min(45L, length(set_list)))]]
+gaz_rows <- lapply(top_sets, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  onames <- unlist(s$other_names)
+  oname_s <- if (length(onames) > 0) paste(head(as.character(onames), 2L), collapse = "; ") else "-"
+  pk <- max(as.numeric(unlist(s$population)))
+  data.frame(
+    Settlement = clean_text(s$name),
+    AltNames = clean_text(oname_s),
+    SubRegion = reg_short[[s$region]],
+    Coords = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    Series = fmt_pop_series(s$population),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Top 45 of 130 pre-contact settlements and aggregation hubs ordered by peak population in the Hudson Bay basin (10000BC to 1600AD).",
+  c("Settlement", "Alternative Names", "Sub-Region", "Coordinates", "Span", "Peak", "Benchmark Series"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:excluded} reports the excluded candidate records from the regional source ledger.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(30L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  data.frame(
+    Candidate = clean_text(c$name),
+    Reason = clean_text(c$reason),
+    Justification = clean_text(c$justification),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  paste0("Excluded candidate records in the Hudson Bay source ledger (", length(exc_show), " of ", length(exc_list), " excluded entries shown)."),
+  c("Candidate Entry", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "footnotesize")
+)
+```
+
+## Sub-Regional Settlement Summaries
+
+Within the Hudson and James Bay Lowlands and Northern Ontario Shield (61 entries), interior Cree and Shield river-lake capitals at Norway House Playgreen Capital (620 peak), Southern Indian Lake Town (550), Garden Hill Island Town (530), Split Lake Cree Capital (510), Cross Lake Pimicikamak Town (480) and Nelson House Nisichawayasihk Capital (470) pair with James and western Hudson Bay estuaries at Fort Albany Ancestral Town (380), Moose Factory-Moosonee (320) and Nelson River-York Factory (310), alongside interior Shield lake and copper-corridor centres at Abitibi Point (220), Lake Abitibi (190) and Wapekeka (135) [@arzigian2008; @martin1999; @pilon1987; @nash1969; @buchner1980].
+
+In Eastmain, Nunavik and Ungava (46 entries), northern Ungava and Hudson Strait longhouse and sealing stations at Tuvaaluk Longhouse Metropolis (480), Kangirsuk Longhouse Town (410), Kuujjuaq (Ungava) (280), Salluit (270) and Inukjuak (260) balance James Bay and coastal Cree hubs at Wemindji Ancestral Town (340), Lac Guillaume-Delisle Settlement (310), Fort George (Chisasibi) (250) and Kuujjuarapik (240) alongside interior upland stations at Lake Mistassini (Temiscamie) (220) and Lac de la Hutte Sauvage (165) [@plumet1994; @tuck1976].
+
+On the Kivalliq barrens and western-to-northern Hudson Bay coast (23 entries), Thule whaling and caribou-crossing settlements cluster at Port Nelson Ancestral Village (360), Ivujivik-Nuvuk (350), Sadlermiut (Native Point) (340), Silumiut (340), Churchill-Seahorse Gully (320), Arvia'juaq (310), Chesterfield Inlet (Igluligaarjuk) (290), Baker Lake (Qamani'tuaq) (280), Kamarvik Settlement (260), Ennadai Lake (125) and Migod (110) [@clark1977].
+
+# Limitations
+
+Because Cree and Innu families dispersed across winter bush hunting territories in small extended-family bands, persistent archaeological villages are concentrated along estuarine river mouths, caribou crossings and southern Shield lake outlets, leaving scattered upland campsites represented through the continuous kriging surface [@wright1995; @pilon1987]. Rapid glacio-isostatic uplift around James Bay and western Hudson Bay has also elevated early shoreline stations tens of kilometres inland behind modern coastal marshes.
+
+# Sources
+
+<div id="refs"></div>

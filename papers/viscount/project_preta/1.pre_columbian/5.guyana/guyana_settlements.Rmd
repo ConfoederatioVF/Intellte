@@ -1,0 +1,272 @@
+---
+title: "Pre-Columbian Guiana Archaeological Settlements: Gazetteer and Spatial Demography"
+subtitle: "An Inventory of Eighty-Four Excavated Sites across Guyana, Suriname and French Guiana"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: guyana_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_guyana_spatial.png"
+hero_caption: "Spatial distribution of eighty-four radiocarbon-dated archaeological settlements across the four Guiana sub-regions from 10000BC to 1595AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+format_era_year <- function(yr) {
+  if (is.na(yr)) return("-")
+  if (yr < 0) paste0(abs(yr), "BC") else paste0(yr, "AD")
+}
+
+format_site_span <- function(pop_list) {
+  if (length(pop_list) == 0) return("-")
+  yrs <- as.integer(names(pop_list))
+  min_y <- min(yrs)
+  max_y <- max(yrs)
+  if (min_y == max_y) return(format_era_year(min_y))
+  paste0(format_era_year(min_y), " to ", format_era_year(max_y))
+}
+```
+
+# Abstract
+
+The archaeological gazetteer of the Guiana Shield catalogues eighty-four excavated and radiocarbon-dated pre-Columbian settlements distributed across 453.868 km² of northeastern South America. Spanning modern Guyana, Suriname, French Guiana and adjacent northern Brazilian borderlands, these sites document eleven millennia of continuous human adaptation to estuarine mangroves, coastal clay marshes, interior rainforest valleys and high-altitude savannas. The inventory captures three major structural adaptations: mid-Holocene maritime shell middens of the Alaka phase, middle pre-Columbian raised agricultural field and residential mound complexes of the Arauquinoid horizon, and late pre-Columbian fortified hilltop settlements (*montagnes couronnées*) and riverine villages associated with Koriabo and Aristé ceramics.
+
+Spatial analysis reveals marked demographic nucleation along littoral cheniers and navigable estuarine junctions, where aquatic biomass and alluvial soil enrichment permitted sustained multi-generational occupation. The eighty-four sites range from monumental ceremonial and residential mounds supporting over 2.500 persons at peak maturity, such as Hertenrits in western Suriname and Cayenne on the Île de Cayenne, down to localized fishing stations and rock shelters supporting seasonal foraging groups. Radiocarbon determinations establish multi-millennial occupational persistence at estuarine shell mounds, contrasting with more nucleated, defensible settlement relocations during the late pre-Columbian era.
+
+This report presents the complete regional inventory of catalogued sites, detailing geographical coordinates, administrative territorial affiliations, chronological occupational spans and modelled peak residential populations. By integrating official archaeological inventories from national heritage registries with published monograph surveys, the gazetteer provides a standardised empirical foundation for comparative demographic analysis across the Guiana Shield.
+
+# Settlement Gazetteer Framework and Spatial Methodology
+
+The catalogued settlements are organized across the four canonical sub-regions of the Guiana Shield: the Pomeroon, Cuyuni and Lower Essequibo Coast (13 sites); the Rupununi Savannas and Upper Essequibo Interior (2 sites); the Berbice, Courantyne and Suriname Raised Fields (25 sites); and the Maroni, Coastal French Guiana and Oyapock sub-region (44 sites). Site coordinates reflect documented excavation loci recorded in national heritage registries, calibrated against satellite imagery and published site plans [@williams2003prehistoric; @versteeg1992suriname; @mestre2013ringditches].
+
+```{r table-summary-gazetteer, results="asis"}
+settlements_data <- jsonlite::fromJSON("guyana_settlements.json", simplifyVector = FALSE)
+guyana_data <- jsonlite::fromJSON("guyana.json5", simplifyVector = FALSE)
+
+subreg_keys <- c(
+  "guy_western_essequibo_coast",
+  "guy_rupununi_interior_shield",
+  "guy_suriname_raised_fields",
+  "guy_french_guiana_maroni_oyapock"
+)
+subreg_labels <- c(
+  "1. Pomeroon-Essequibo",
+  "2. Rupununi Savannas",
+  "3. Berbice-Suriname",
+  "4. Maroni-Oyapock"
+)
+
+summary_rows <- list()
+for (i in seq_along(subreg_keys)) {
+  k <- subreg_keys[i]
+  r_sites <- Filter(function(s) s$region_id == k, settlements_data)
+  r_info <- guyana_data$regions[[k]]
+  
+  all_yrs <- unlist(lapply(r_sites, function(s) as.integer(names(s$population))))
+  min_yr <- if (length(all_yrs) > 0) min(all_yrs) else NA_integer_
+  max_yr <- if (length(all_yrs) > 0) max(all_yrs) else NA_integer_
+  
+  all_pops <- unlist(lapply(r_sites, function(s) as.numeric(s$population)))
+  peak_site_pop <- if (length(all_pops) > 0) max(all_pops) else NA_real_
+  
+  span_label <- paste0(format_era_year(min_yr), " to ", format_era_year(max_yr))
+  
+  summary_rows[[i]] <- data.frame(
+    SubRegion = subreg_labels[i],
+    Area = paste0(viscount_fmt_number(r_info$area_km2, 0L), " km\u00b2"),
+    Sites = as.character(length(r_sites)),
+    Chronology = span_label,
+    Pop1500 = viscount_fmt_pop(r_info$population[["1500"]]),
+    PeakSite = viscount_fmt_pop(peak_site_pop),
+    stringsAsFactors = FALSE
+  )
+}
+df_sum <- do.call(rbind, summary_rows)
+viscount_table(
+  df_sum,
+  "Regional summary of archaeological site distribution, chronological depth and demographic parameters across the four Guiana sub-regions.",
+  c("Sub-Region", "Area (km\u00b2)", "Sites", "Recorded Span", "Pop. 1500AD", "Max Site Pop."),
+  list(font_size = "footnotesize")
+)
+```
+
+# Sub-Regional Settlement Gazetteers
+
+## 1. Pomeroon, Cuyuni and Lower Essequibo Coast
+
+The northwestern coastal littoral of Guyana contains thirteen catalogued archaeological sites spanning from mid-Holocene shell mounds to contact-era trading villages. The Alaka phase shell middens at Barabina, Piraka and Hosororo Creek demonstrate continuous exploitation of mangrove molluscs and estuarine catfish over several millennia [@williams2003prehistoric; @shearn2020participatory]. During the first millennium of the Christian era, horticultural settlements of the Mabaruma phase occupied elevated lateritic hills overlooking the Aruka and Barima rivers.
+
+```{r table-gazetteer-essequibo, results="asis"}
+sites_essequibo <- Filter(function(s) s$region_id == "guy_western_essequibo_coast", settlements_data)
+sites_essequibo <- sites_essequibo[order(vapply(sites_essequibo, function(s) s$name, character(1)))]
+
+rows_ess <- list()
+for (i in seq_along(sites_essequibo)) {
+  s <- sites_essequibo[[i]]
+  coords_vec <- as.numeric(unlist(s$coords))
+  peak_p <- max(as.numeric(unlist(s$population)))
+  rows_ess[[i]] <- data.frame(
+    Name = s$name,
+    Country = s$country,
+    Latitude = paste0(viscount_fmt_number(abs(coords_vec[1]), 2L), ifelse(coords_vec[1] >= 0, "\u00b0N", "\u00b0S")),
+    Longitude = paste0(viscount_fmt_number(abs(coords_vec[2]), 2L), ifelse(coords_vec[2] >= 0, "\u00b0E", "\u00b0W")),
+    Span = format_site_span(s$population),
+    PeakPop = viscount_fmt_pop(peak_p),
+    stringsAsFactors = FALSE
+  )
+}
+df_ess <- do.call(rbind, rows_ess)
+viscount_table(
+  df_ess,
+  "Archaeological settlements of Sub-Region 1: Pomeroon, Cuyuni and Lower Essequibo Coast (n=13).",
+  c("Site Name", "Territory", "Latitude", "Longitude", "Occupational Span", "Peak Population"),
+  list(font_size = "scriptsize")
+)
+```
+
+## 2. Rupununi Savannas and Upper Essequibo Interior
+
+The interior savannas and granitic hills of southern Guyana form a critical ecological corridor linking the Guiana Shield to the Rio Branco and Amazonian basin [@plew2005archaeology]. Archaeological sites in this sub-region reflect semi-sedentary riverine horticulture, seasonal fishing encampments and petroglyphic rock art sites. Settlements clustered along gallery forests and mountain foot slopes where fertile colluvium supported bitter manioc cultivation.
+
+```{r table-gazetteer-rupununi, results="asis"}
+sites_rup <- Filter(function(s) s$region_id == "guy_rupununi_interior_shield", settlements_data)
+sites_rup <- sites_rup[order(vapply(sites_rup, function(s) s$name, character(1)))]
+
+rows_rup <- list()
+for (i in seq_along(sites_rup)) {
+  s <- sites_rup[[i]]
+  coords_vec <- as.numeric(unlist(s$coords))
+  peak_p <- max(as.numeric(unlist(s$population)))
+  rows_rup[[i]] <- data.frame(
+    Name = s$name,
+    Country = s$country,
+    Latitude = paste0(viscount_fmt_number(abs(coords_vec[1]), 2L), ifelse(coords_vec[1] >= 0, "\u00b0N", "\u00b0S")),
+    Longitude = paste0(viscount_fmt_number(abs(coords_vec[2]), 2L), ifelse(coords_vec[2] >= 0, "\u00b0E", "\u00b0W")),
+    Span = format_site_span(s$population),
+    PeakPop = viscount_fmt_pop(peak_p),
+    stringsAsFactors = FALSE
+  )
+}
+df_rup <- do.call(rbind, rows_rup)
+viscount_table(
+  df_rup,
+  "Archaeological settlements of Sub-Region 2: Rupununi Savannas and Upper Essequibo Interior (n=2).",
+  c("Site Name", "Territory", "Latitude", "Longitude", "Occupational Span", "Peak Population"),
+  list(font_size = "scriptsize")
+)
+```
+
+## 3. Berbice, Courantyne and Suriname Raised Fields
+
+The coastal swamplands between the Berbice and Maroni rivers contain twenty-five catalogued settlements representing the monumental earthwork tradition of the Arauquinoid culture [@versteeg1992suriname; @boomert1976raised]. Prominent residential mounds (*terpen*) such as Hertenrits, Kwatta (Tingiholo), Barbakoeba and Buckleburg were surrounded by hundreds of hectares of raised agricultural beds that sustained dense sedentary communities from 600AD to 1250AD.
+
+```{r table-gazetteer-suriname, results="asis"}
+sites_sur <- Filter(function(s) s$region_id == "guy_suriname_raised_fields", settlements_data)
+sites_sur <- sites_sur[order(vapply(sites_sur, function(s) s$name, character(1)))]
+
+rows_sur <- list()
+for (i in seq_along(sites_sur)) {
+  s <- sites_sur[[i]]
+  coords_vec <- as.numeric(unlist(s$coords))
+  peak_p <- max(as.numeric(unlist(s$population)))
+  rows_sur[[i]] <- data.frame(
+    Name = s$name,
+    Country = s$country,
+    Latitude = paste0(viscount_fmt_number(abs(coords_vec[1]), 2L), ifelse(coords_vec[1] >= 0, "\u00b0N", "\u00b0S")),
+    Longitude = paste0(viscount_fmt_number(abs(coords_vec[2]), 2L), ifelse(coords_vec[2] >= 0, "\u00b0E", "\u00b0W")),
+    Span = format_site_span(s$population),
+    PeakPop = viscount_fmt_pop(peak_p),
+    stringsAsFactors = FALSE
+  )
+}
+df_sur <- do.call(rbind, rows_sur)
+viscount_table(
+  df_sur,
+  "Archaeological settlements of Sub-Region 3: Berbice, Courantyne and Suriname Raised Fields (n=25).",
+  c("Site Name", "Territory", "Latitude", "Longitude", "Occupational Span", "Peak Population"),
+  list(font_size = "scriptsize")
+)
+```
+
+## 4. Maroni, Coastal French Guiana and Oyapock
+
+The eastern sub-region encompasses forty-four catalogued settlements distributed across French Guiana and adjacent northern Brazilian territories [@rostain2008archaeology; @mestre2013ringditches]. Settlement morphology ranges from coastal savanna raised fields around Kourou and Sinnamary to fortified hilltop ring ditches (*montagnes couronnées*) along the Maroni, Approuague and Oyapock river basins, alongside large coastal trading hubs on the Île de Cayenne.
+
+```{r table-gazetteer-fg-a, results="asis"}
+sites_fg <- Filter(function(s) s$region_id == "guy_french_guiana_maroni_oyapock", settlements_data)
+sites_fg <- sites_fg[order(vapply(sites_fg, function(s) s$name, character(1)))]
+
+# Split into two balanced tables of 22 sites for clean portrait pagination
+sites_fg_a <- sites_fg[1:22]
+rows_fg_a <- list()
+for (i in seq_along(sites_fg_a)) {
+  s <- sites_fg_a[[i]]
+  coords_vec <- as.numeric(unlist(s$coords))
+  peak_p <- max(as.numeric(unlist(s$population)))
+  rows_fg_a[[i]] <- data.frame(
+    Name = s$name,
+    Country = s$country,
+    Latitude = paste0(viscount_fmt_number(abs(coords_vec[1]), 2L), ifelse(coords_vec[1] >= 0, "\u00b0N", "\u00b0S")),
+    Longitude = paste0(viscount_fmt_number(abs(coords_vec[2]), 2L), ifelse(coords_vec[2] >= 0, "\u00b0E", "\u00b0W")),
+    Span = format_site_span(s$population),
+    PeakPop = viscount_fmt_pop(peak_p),
+    stringsAsFactors = FALSE
+  )
+}
+df_fg_a <- do.call(rbind, rows_fg_a)
+viscount_table(
+  df_fg_a,
+  "Archaeological settlements of Sub-Region 4: Maroni, Coastal French Guiana and Oyapock (Part A, n=22).",
+  c("Site Name", "Territory", "Latitude", "Longitude", "Occupational Span", "Peak Population"),
+  list(font_size = "scriptsize")
+)
+```
+
+```{r table-gazetteer-fg-b, results="asis"}
+sites_fg_b <- sites_fg[23:44]
+rows_fg_b <- list()
+for (i in seq_along(sites_fg_b)) {
+  s <- sites_fg_b[[i]]
+  coords_vec <- as.numeric(unlist(s$coords))
+  peak_p <- max(as.numeric(unlist(s$population)))
+  rows_fg_b[[i]] <- data.frame(
+    Name = s$name,
+    Country = s$country,
+    Latitude = paste0(viscount_fmt_number(abs(coords_vec[1]), 2L), ifelse(coords_vec[1] >= 0, "\u00b0N", "\u00b0S")),
+    Longitude = paste0(viscount_fmt_number(abs(coords_vec[2]), 2L), ifelse(coords_vec[2] >= 0, "\u00b0E", "\u00b0W")),
+    Span = format_site_span(s$population),
+    PeakPop = viscount_fmt_pop(peak_p),
+    stringsAsFactors = FALSE
+  )
+}
+df_fg_b <- do.call(rbind, rows_fg_b)
+viscount_table(
+  df_fg_b,
+  "Archaeological settlements of Sub-Region 4: Maroni, Coastal French Guiana and Oyapock (Part B, n=22).",
+  c("Site Name", "Territory", "Latitude", "Longitude", "Occupational Span", "Peak Population"),
+  list(font_size = "scriptsize")
+)
+```
+
+# Chronological Distribution and Settlement Longevity
+
+The chronological distribution of the eighty-four catalogued settlements illustrates distinct structural transitions in pre-Columbian demographic history. Archaic shell mound occupations, established during the mid-Holocene transgression between 5000BC and 2000BC, demonstrate remarkable multi-millennial longevity, with sites like Barabina occupied continuously across three thousand years.
+
+The middle pre-Columbian Arauquinoid period (600AD to 1250AD) represented the peak of capital-intensive landscape construction, during which communities invested substantial labour in raising agricultural fields and habitation mounds. The abandonment of many coastal mounds around 1250AD coincided with changing coastal sedimentation patterns and regional political reorganizations.
+
+During the late pre-Columbian horizon (1250AD to 1500AD), human settlement shifted toward defensive ridgetop locations, giving rise to the fortified *montagnes couronnées* of French Guiana, while coastal islands such as Cayenne expanded into macro-regional commercial centres.
+
+The subsequent protohistoric contraction between 1500AD and 1595AD initiated a prolonged phase of settlement relocation and demographic decline, as introduced pathogens and European slave raiding destabilised indigenous polities across the Guiana Shield.
+
+# Sources

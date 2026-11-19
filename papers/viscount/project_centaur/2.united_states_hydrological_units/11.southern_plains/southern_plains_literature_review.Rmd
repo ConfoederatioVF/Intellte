@@ -1,0 +1,374 @@
+---
+title: "Southern Plains Hydrological Unit (HU 12)"
+subtitle: "CENTAUR-II: Texas-Gulf Caddoan Chiefdoms, Central Prairies and Coastal Foragers, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: southern_plains_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_southern_plains_spatial.png"
+hero_caption: "Sub-regional areal masks and 102 catalogued settlements across the Southern Plains Hydrological Unit (462,01k km²), from Caddoan East Texas to the Karankawa coast."
+hero_label: "fig:hero-southern-plains"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("southern_plains.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("southern_plains_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("southern_plains_source_ledger.json5", simplifyVector = FALSE)
+diag_na <- fromJSON("../../_shared/sites_northern_america/config/kriging_diagnostics.json", simplifyVector = FALSE)
+
+sum_pop <- function (yr) {
+  sum(vapply(mod_data$regions, function (r) as.numeric(r$population[[as.character(yr)]]), numeric(1)))
+}
+
+sum_bounds <- function (yr) {
+  lo <- sum(vapply(mod_data$regions, function (r) as.numeric(r$population_bounds[[as.character(yr)]][[1]]), numeric(1)))
+  hi <- sum(vapply(mod_data$regions, function (r) as.numeric(r$population_bounds[[as.character(yr)]][[2]]), numeric(1)))
+  paste0(viscount_fmt_pop(lo), "-", viscount_fmt_pop(hi))
+}
+
+reg_pop <- function (rk, yr) {
+  viscount_fmt_pop(mod_data$regions[[rk]]$population[[as.character(yr)]])
+}
+
+reg_bounds <- function (rk, yr) {
+  b <- mod_data$regions[[rk]]$population_bounds[[as.character(yr)]]
+  paste0(viscount_fmt_pop(b[[1]]), "-", viscount_fmt_pop(b[[2]]))
+}
+
+fmt_yr <- function (y) {
+  if (y < 0) paste0(abs(y), "BC") else paste0(y, "AD")
+}
+```
+
+# Abstract
+
+This study reconstructs the pre-Columbian and early contact population of the Texas-Gulf Southern Plains Hydrological Unit (USGS HU 12, bordering adjacent Red River HU 11 drainages) across 462.013 km² (6.364 five-arcminute cells) from 10000BC to 1600AD. Linking radiocarbon summed probability distributions (N = 2.347, median peak 1287AD) [@kelly2025] with East Texas Caddoan mound surveys [@perttula2012], Central Texas spring and burnt-rock-midden syntheses [@perttula2004; @waters2011] and coastal Karankawa settlement records [@ricklis1996], HU 12 is partitioned into three sub-regions encompassing 102 catalogued habitation settlements (337 observations) out of 205 ledger candidates.
+
+Total basin population climbs from 850 (782 to 918) in 10000BC to 48,5k in 2000BC and 82,3k (75,7k to 88,9k) at 0AD, rising to a Holocene maximum of 160k (147,2k to 172,8k; 0,35 persons per km²) in 1300AD. Unlike the Southeast and Lower Mississippi, which peaked around 1200AD, Southern Plains totals continued expanding through the thirteenth century behind Neches-Sabine-Trinity Caddoan farming chiefdoms (77k at 1300AD).
+
+Fourteenth-century Southern Plains droughts, bison-hunter mobility across the prairies and East Texas chiefdom dispersal lower totals by 11,8% to 141,2k in 1400AD and 131k (120,5k to 141,5k) in 1500AD [@vehik2002; @doering2020]. Following Cabeza de Vaca's 1528AD Gulf Coast landing and Moscoso's 1542AD overland passage into East Texas, introduced epidemics reduce basin population by 27,5% over the sixteenth century to 112k in 1550AD and 95k (87,4k to 102,6k) by 1600AD [@ewers1973; @jones2014].
+
+# Background
+
+USGS HU 12 spans a pronounced ecological gradient from humid pineywoods in the Sabine, Neches and Upper Trinity valleys west across the Blackland Prairie, Brazos and Colorado bottomlands, the karst springs of the Balcones Escarpment and Edwards Plateau, and up onto the semi-arid Southern High Plains before descending south to the Nueces brush country and Galveston-Matagorda coastal barrier bays. That West-to-East precipitation gradient dictated pre-contact human geography: annual rainfall exceeds 1.200 mm in the pineywoods of East Texas, drops below 750 mm along the Balcones springs, and falls under 450 mm on the Llano Estacado margin.
+
+Because rainfall and arable soil varied so sharply across this transect, HU 12 never formed a uniform demographic belt [@perttula2004]. Sedentary Caddoan maize-beans-squash communities occupied the sandy terraces and alluvial bottoms of East Texas [@perttula2012], semi-sedentary bison and geophyte bands moved between reliable Balcones karst springs across central Texas, and seasonal estuarine fishers harvested oyster reefs and lagoon fish along the coastal bend from Galveston to Corpus Christi [@ricklis1996].
+
+Across 2.347 cleaned radiocarbon dates in HU 12, Kelly et al. [@kelly2025] identify a median summed probability peak at 1287AD, roughly two centuries later than the Rio Grande (1112AD) and more than a century after both the Southeast (1169AD) and Lower Mississippi (1177AD). That late thirteenth-century apex corresponds to the flourishing of Early and Middle Caddoan civic-ceremonial towns led by George C. Davis and Washington Square Mound alongside dense Edwards Plateau earth-oven cooking camps and Galveston-Corpus Christi littoral middens [@perttula2012; @ricklis1996].
+
+Palaeoindian stratigraphy across central and western Texas also anchors some of the oldest documented archaeological horizons in North America. Excavations at Gault and the neighbouring Buttermilk Creek complex on the Balcones margin [@waters2011], together with High Plains hunting camps at Blackwater Draw Locality 1, Lubbock Lake, Aubrey and Plainview, provide deep terminal Pleistocene baselines whose lithic hafting and morphometric traditions have been compared across the continent [@buchanan2012assessment; @buchanan2012morphometric].
+
+```{r tbl-subregion-profiles, results='asis'}
+reg_keys <- names(mod_data$regions)
+reg_names <- c(
+  "Sabine, Neches and Upper Trinity Caddo",
+  "Brazos, Colorado and Edwards Plateau",
+  "Texas Gulf Coast and Nueces Bays"
+)
+df_regprof <- data.frame(
+  Division = reg_names,
+  Area = vapply(reg_keys, function (rk) paste0(viscount_fmt_number(mod_data$regions[[rk]]$area_km2, 0L), " km²"), character(1)),
+  Pixels = vapply(reg_keys, function (rk) viscount_fmt_number(mod_data$regions[[rk]]$pixel_count, 0L), character(1)),
+  Sites = vapply(reg_keys, function (rk) viscount_fmt_number(ledger_data$saturation_audit$submask_coverage[[rk]], 0L), character(1)),
+  Peak1300 = vapply(reg_keys, function (rk) reg_pop(rk, 1300), character(1)),
+  End1600 = vapply(reg_keys, function (rk) reg_pop(rk, 1600), character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(df_regprof) <- NULL
+viscount_table(
+  df_regprof,
+  "Sub-regional divisions of Southern Plains (HU 12) showing areal coverage, five-arcminute cells, catalogued settlements and 1300AD-1600AD population benchmarks.",
+  c("Sub-region", "Area", "Cells", "Sites", "1300AD", "1600AD"),
+  list(label = "tab:sp-subregion-profiles", font_size = "footnotesize")
+)
+```
+
+# Methodology
+
+## Radiocarbon Kriging and Sub-Regional Partitioning
+
+Rural spatial priors at five-arcminute resolution derive from the continental North American radiocarbon domain covering 493.687 valid terrestrial cells (18.561.382 km²), merging global syntheses (p3k14c [@bird2022p3k14c] and c14bazAAR) with Texas, Louisiana and New Mexico archaeological site files [@kelly2022; @crema2021]. After spatial and chronological deduplication across 200-year bins, the domain encompasses 93.129 unique site-period observations across 3.833 domestic Voronoi catchments (15.517.268 km²; 2.570 active inhabited catchments, 67,05%; equivalent circular radius median 29,48 km, 90th percentile 40,95 km, or 29,3 km and 39,85 km across active catchments), yielding a 14,24x site-density increase over the 6.539-entry legacy baseline.
+
+Across ten Holocene horizons from 13000BC to 1650AD, 2D Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) residual kriging links Freeman-Tukey transformed catchment counts to biophysical covariates capturing fluvial proximity, coastal access and slope. Along the southern Rio Grande and Gulf margins, 251 cross-frontier buffer catchments condition adjacent borderlands and neighbouring basins up to 300 km beyond the CENTAUR boundary so southern prairie gradients remain smooth.
+
+Within HU 12, 6.364 five-arcminute land cells (462.013 km²) partition into three sub-regional masks (Table \ref{tab:sp-subregion-profiles}):
+
+1. **Sabine, Neches and Upper Trinity Basins** (102.333 km², 1.433 cells, 24 catalogued sites): spans the East Texas pineywoods, Neches-Angelina terraces, Sabine crossings and Upper Trinity agricultural belt, anchoring George C. Davis, Washington Square Mound, Pine Tree Mound, Deshazo Caddo Village, Hudnall-Pirtle, Oak Hill Village, Deshazo, Whitesboro Red River Village and Gilbert.
+2. **Brazos, Colorado and Edwards Plateau Balcones Escarpment** (164.281 km², 2.262 cells, 32 catalogued sites): encompasses the Blackland Prairie, middle Brazos-Colorado river valleys, eastern Edwards Plateau karst and Llano Estacado margins, containing Gault, Lubbock Lake, Blackwater Draw Locality 1, Horn Shelter No. 2, Ernest Witte, Waco-Wichita Village, Harrell Henrietta Town and San Gabriel River Village.
+3. **Texas Gulf Barrier Coast, Galveston-Matagorda and Nueces** (195.399 km², 2.669 cells, 46 catalogued sites): spans the coastal bend from Matagorda Bay and the Guadalupe-San Antonio delta across the Balcones margin and Nueces brush country to Corpus Christi lagoons, centred on Oso Dune Karankawa Village, Barton Springs Village, Nueces Bay Town, Guadalupe River Mouth Village, Copano Bay Village, Oso Creek-Corpus Christi, Mitchell Ridge, Cayo del Oso, Spring Lake San Marcos, Morhiss, Buckeye Knoll and Floyd Morris.
+
+## Subsistence Calibration, Chronology and Uncertainty Bounds
+
+Benchmark trajectories across 23 intervals from 10000BC to 1600AD separate Caddoan floodplain horticulture (0,75 persons per km² sub-regional mean at 1300AD) from wider central Texas and Llano Estacado foraging grasslands (0,36 persons per km²) and the Gulf-Nueces estuarine and brushland plains (0,13 persons per km²) [@perttula2012; @ricklis1996; @milner2010]. Point estimates for all 102 catalogued sites are subtracted from sub-regional targets before distributing rural populations across the kriged grid and smoothing across two 5-pixel passes.
+
+Symmetric $\pm 8\%$ uncertainty intervals account for uneven highway and reservoir survey density between East Texas river basins and remote West Texas ranches, marine reservoir exclusion along Gulf shell middens, and sixteenth-century epidemiological interpolation [@jones2014; @ubelaker2006; @ewers1973]. Quantitative cultural-transmission models for Great Plains projectile styles [@lycett2014dynamics], historical-ecological shifting baselines along the Gulf of Mexico [@pluckhahn2024historical], experimental faunal craft studies [@gillreathbrown2018experimental] and continental stratigraphic preservation, Pleistocene-Holocene transition and Lower-48 radiocarbon syntheses [@surovell2022late; @holliday2016a; @kelly2022] inform how we interpret foraging mobility and surface preservation without modifying local Texas-Gulf carrying capacities.
+
+# Testing and Validation
+
+All spatial, variogram, gazetteer and arithmetic audits clear pre-publication thresholds at GMT+0:
+
+1. **Kriging Sharpness and Fit**: Across all ten Holocene horizons in the North American surface (78.938 to 149.138 active inhabited non-wasteland cells), the non-stationary Matérn variograms maintain regularised dimensionless short range $\tau_1 = 1,35$ across all ten horizons (raw 1,519 to 1,6098, mean 1,5782; $\tau_2 = 2,9$ at 2,9025; effective short range 45,23 km to 47,94 km, mean 47,00 km), raw nugget-to-sill ratio 0 across all ten horizons (regularised 0,04) and weighted least-squares residual $R^2$ from 0,9990 to 0,9992 (Table \ref{tab:sp-kriging-horizons}).
+2. **Gazetteer Reconciliation**: Out of 205 ledger candidates evaluated, 102 bounded habitation sites (337 observations) enter the active point gazetteer (24 in Sabine-Neches Caddo, 32 in Brazos-Colorado-Edwards and 46 in Gulf Coast-Nueces) while 103 entries are excluded (102 duplicate-alias consolidations within 2 km and 1 unquantified non-habitation feature exclusion), leaving 0 unaccounted records.
+3. **Arithmetic Integrity**: Sub-regional totals sum identically to the basin headline series across all 23 benchmark horizons from 10000BC (850) to 1600AD (95k) in Table \ref{tab:sp-benchmarks}.
+
+```{r tbl-kriging-horizons, results='asis'}
+h_keys <- c(
+  "palaeoindian_early_archaic", "middle_archaic", "late_archaic",
+  "early_woodland_formative", "middle_woodland_hopewell", "late_woodland_dorset",
+  "early_mississippian_pueblo_ii", "middle_mississippian_pueblo_iii",
+  "late_precontact_thule_oneota", "protohistoric_contact_horizon"
+)
+h_labels <- c(
+  "Palaeoindian and Early Archaic (13000-6000BC)", "Middle Archaic (6000-3000BC)",
+  "Late Archaic (3000-1000BC)", "Early Woodland and Formative (1000-200BC)",
+  "Middle Woodland Hopewell (200BC-400AD)", "Late Woodland and Dorset (400-800AD)",
+  "Early Mississippian and Pueblo II (800-1100AD)", "Middle Mississippian and Pueblo III (1100-1300AD)",
+  "Late Pre-Contact and Oneota (1300-1500AD)", "Protohistoric Contact (1500-1650AD)"
+)
+h_rows <- lapply(seq_along(h_keys), function (i) {
+  vm <- diag_na$variogram_models[[h_keys[i]]]
+  data.frame(
+    Horizon = h_labels[i],
+    Tau1 = viscount_fmt_number(vm$tau1_dimensionless, 2L),
+    RawNugget = viscount_fmt_number(vm$raw_nugget_to_sill_ratio, 4L),
+    RegNugget = viscount_fmt_number(vm$nugget_to_sill_ratio, 4L),
+    R2 = viscount_fmt_number(vm$residual_r2, 4L),
+    RangeKm = viscount_fmt_number(vm$effective_short_range_km, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+df_krig <- do.call(rbind, h_rows)
+rownames(df_krig) <- NULL
+viscount_table(
+  df_krig,
+  "Non-stationary Matérn variogram parameters across the ten Holocene horizons of the North American radiocarbon domain.",
+  c("Horizon", "Tau 1", "Raw Nugget", "Reg. Ratio", "R²", "Range (km)"),
+  list(label = "tab:sp-kriging-horizons", font_size = "scriptsize")
+)
+```
+
+```{r tbl-benchmarks, results='asis'}
+key_yrs <- sort(as.integer(names(mod_data$summary$headline_population_by_benchmark)))
+lbl_yrs <- vapply(key_yrs, fmt_yr, character(1))
+df_bench <- data.frame(
+  Period = lbl_yrs,
+  Caddo = vapply(key_yrs, function (y) reg_pop("sp_neches_sabine_trinity_caddo", y), character(1)),
+  Brazos = vapply(key_yrs, function (y) reg_pop("sp_brazos_colorado_edwards", y), character(1)),
+  Coast = vapply(key_yrs, function (y) reg_pop("sp_gulf_coast_nueces_karankawa", y), character(1)),
+  Total = vapply(key_yrs, function (y) viscount_fmt_pop(sum_pop(y)), character(1)),
+  Bounds = vapply(key_yrs, sum_bounds, character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(df_bench) <- NULL
+viscount_table(
+  df_bench,
+  "Benchmark population estimates across all 23 horizons for Southern Plains (HU 12) and its three sub-regions, 10000BC to 1600AD.",
+  c("Period", "Sabine-Neches", "Brazos-Edwards", "Gulf Coast", "Total", "Bounds"),
+  list(label = "tab:sp-benchmarks", font_size = "scriptsize")
+)
+```
+
+# Results
+
+## Palaeoindian Springs and Archaic Bison-Geophyte Campgrounds (10000BC to 0AD)
+
+At 10000BC, sparse mobile bands clustered around perennial limestone springs, flint quarries and High Plains playa basins, giving HU 12 an initial population near 850 (782 to 918). Early settlements appear along the Balcones Escarpment at Gault (65 in 10000BC; rising to 90 by 8000BC) [@waters2011], Horn Shelter No. 2 (35 at 9000BC), Kincaid Shelter (40 at 8600BC) and Spring Lake San Marcos, alongside High Plains Clovis, Folsom and Plano hunting loci at Lubbock Lake (30 at 9800BC), Blackwater Draw Locality 1 (55 at 9500BC), Aubrey (35 at 9500BC), Siren (25 at 9500BC) and Plainview (35 to 45 around 8000BC).
+
+Comparative Palaeoindian research across North America highlights how stone tool caching, hafting design and late Pleistocene megafaunal ecology shaped early foraging ranges [@buchanan2012assessment; @buchanan2012morphometric; @hannold2026diets], while global comparisons with independent Old World fluting traditions demonstrate the specialised technical character of North American Clovis assemblages [@crassard2020fluted].
+
+By 5000BC, Middle Archaic climate warming shifted bison herds northward and focused central Texas bands onto sotol and camas earth-oven baking at burnt-rock middens across the Edwards Plateau [@perttula2004]. Basin numbers rose nearly fivefold from 3,6k in 8000BC to 17,1k in 5000BC, reaching 48,5k at 2000BC and 64,1k at 1000BC as Early and Middle Holocene land use stabilised across inland prairies and coastal estuaries [@perttula2004; @ricklis1996; @kelly2022].
+
+Along the coastal prairie and lower river terraces, multi-component cemeteries and shell middens such as Buckeye Knoll (65 at 5600BC; 165 at 1000BC), Morhiss (65 at 4300BC; 215 at 200AD), Cayo del Oso (65 at 3800BC) and Ernest Witte (70 at 3300BC) document growing territorial continuity. By 0AD, total population reached 82,3k (75,7k to 88,9k), with East Texas woodland terraces overtaking the western prairies in aggregate weight (36k vs 31,5k).
+
+## Caddoan Maize Florescence and Prairie Intensification (0AD to 1300AD)
+
+Between 0AD and 1000AD, Woodland pottery adoption, bow-and-arrow hunting and early maize cultivation in the Neches, Angelina and Sabine valleys widened the gap between East Texas and the central grasslands (Figure \ref{fig:sp-trajectory}). Total population rose from 82,3k at 0AD to 120,6k in 600AD and 144,7k in 1000AD, as Sabine-Neches-Trinity Caddo share climbed from 43,7% to 47,3%.
+
+Between 800AD and 1300AD, Early and Middle Caddoan civic centres with earthen platform mounds and circular timber temples transformed East Texas into the demographic core of HU 12 [@perttula2012]. George C. Davis (Caddo Mounds) on the Neches expanded from 450 in 800AD to 1,45k in 1100AD and a peak of 1,65k at 1200AD before easing to 1,2k in 1300AD, complemented by Hudnall-Pirtle (480 at 1100AD), Burr's Ferry Earthworks (280 at 1200AD), Murvaul Creek (245 at 1200AD) and Washington Square Mound (520 in 1200AD; rising to 950 at 1300AD).
+
+Simultaneously, farming hamlets and seasonal valley settlements expanded along the Brazos, Colorado and Pecos frontiers (including Loeve-Fox at 210 in 1100AD, Sam Wahl at 180 in 1250AD, San Gabriel River Village at 350 in 1200AD and Ochoa-phase Merchant in eastern New Mexico at 265 in 1350AD), lifting HU 12 to its Holocene maximum of 160k (147,2k to 172,8k) in 1300AD. That peak sits right alongside Kelly et al. [@kelly2025] 1287AD radiocarbon summed probability maximum (N = 2.347). At 1300AD, Sabine-Neches-Trinity held 77k (48,1%; 0,75 persons per km²), Brazos-Colorado-Edwards held 58,5k (36,6%; 0,36 persons per km²) and Gulf Coast-Nueces held 24,5k (15,3%; 0,13 persons per km²).
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_southern_plains_trajectory.png",
+  "Aggregate and sub-regional population trajectories for Southern Plains (HU 12) from 10000BC to 1600AD with uncertainty interval.",
+  "fig:sp-trajectory"
+)
+```
+
+## Drought Realignment, Plains Trade and Contact Losses (1300AD to 1600AD)
+
+Between 1300AD and 1500AD, Southern Plains demography underwent a dual realignment (Figure \ref{fig:sp-shares}). Persistent fourteenth-century droughts and shifting exchange routes fragmented older mound precincts in East Texas, dropping Sabine-Neches-Trinity by 19,5% from 77k in 1300AD to 67k in 1400AD and 62k in 1500AD even as dispersed Late Caddo towns such as Deshazo Caddo Village (600 at 1600AD), Pine Tree Mound (640 at 1450AD), Oak Hill Village (460 at 1350AD) and Deshazo (340 at 1450AD) succeeded George C. Davis [@perttula2012].
+
+Across the central prairies and Edwards Plateau, Brazos-Colorado-Edwards eased 17,9% from 58,5k in 1300AD to 48k in 1500AD as Toyah-horizon bison hunters expanded and Plains Village groups settled along the middle Brazos and Red-Trinity margins (Waco-Wichita Village at 580 in 1500AD, Harrell Henrietta Town at 550 in 1450AD, San Gabriel River Village at 550 in 1400AD) [@vehik2002; @perttula2004]. Over the same centuries, southern Athabascan migrations reached the western High Plains borderlands [@doering2020], while Karankawa and inland-coastal communities maintained dense centres at Oso Dune Karankawa Village (750 at 1500AD), Barton Springs Village (700 at 1400AD), Nueces Bay Town (700 at 1500AD), Guadalupe River Mouth Village (650 at 1500AD), Copano Bay Village (600 at 1500AD), Oso Creek-Corpus Christi (460 at 1500AD), Cayo del Oso (340 at 1450AD) and Mitchell Ridge on Galveston Island (440 at 1500AD) [@ricklis1996]. Basin population stood at 131k (120,5k to 141,5k) at 1500AD.
+
+```{r fig-shares, results='asis'}
+viscount_figure(
+  "figures/fig3_southern_plains_shares.png",
+  "Sub-regional demographic shares across Southern Plains (HU 12) from 10000BC to 1600AD.",
+  "fig:sp-shares"
+)
+```
+
+Sixteenth-century European landings and interior contacts began earlier on the Texas coast than in most interior North American basins. Álvar Núñez Cabeza de Vaca and survivors of the Narváez expedition washed ashore near Galveston Island (Mitchell Ridge) in 1528AD and lived for years among coastal Karankawa and inland Coahuiltecan bands, followed in 1542AD by Luis de Moscoso's overland march across Hasinai Caddoan villages in East Texas [@ewers1973; @perttula2012; @ricklis1996].
+
+Introduced respiratory and eruptive diseases spread rapidly along Plains-Caddo trade trails [@ewers1973; @jones2014]. Regional numbers fell 14,5% between 1500AD and 1550AD (to 112k) and reached 95k (87,4k to 102,6k) by 1600AD, representing a 27,5% drop from 1500AD and 40,6% below the 1300AD apex (Table \ref{tab:sp-subregions}). Caddoan East Texas experienced the steepest loss (-32,3%, from 62k to 42k) as riverine farmsteads thinned around Deshazo Caddo Village (600), Deshazo (380) and Gilbert (320), Gulf Coast-Nueces fell 28,6% (21k to 15k), and mobile Brazos-Edwards bands declined more gently by 20,8% (48k to 38k), anchored by Wichita villages near Waco (780 at 1600AD) [@ubelaker2006; @milner2010].
+
+## Sub-Regional Balances and Settlement Hierarchy
+
+Across eleven millennia, the balance between East Texas pineywoods, the Brazos-Colorado grasslands and the Gulf Coast-Nueces zone shifted sharply (Table \ref{tab:sp-subregions}, Table \ref{tab:sp-subregion-densities} and Table \ref{tab:sp-leading-centres}). At 10000BC, the 164.281 km² Brazos-Colorado-Edwards division held 47,1% of basin population thanks to abundant Balcones springs and High Plains hunting corridors, compared with 35,3% in Sabine-Neches-Trinity (102.333 km²) and 17,6% across Gulf Coast-Nueces (195.399 km²).
+
+Agricultural intensification lifted Sabine-Neches-Trinity (22,1% of total land area) to 48,1% of total HU 12 population by 1300AD, supporting more than double the density of Brazos-Colorado-Edwards (0,75 vs 0,36 persons per km²) and nearly six times that of Gulf Coast-Nueces (0,13 persons per km²). Within the East Texas core, multi-mound capitals such as George C. Davis (1,65k) and Washington Square Mound (950) stood atop dense hierarchies of secondary village centres including Pine Tree Mound (640), Deshazo Caddo Village (600), Hudnall-Pirtle (480), Oak Hill Village (460), Lang Pasture (310), Tyson (270), Musgano (260), Broadway (245) and Murvaul Creek (245) [@perttula2012].
+
+Across the central prairies and Edwards Plateau, settlement stayed tethered to permanent limestone springs, river terraces and bison-migration corridors. Major Archaic and Late Prehistoric loci such as Ernest Witte (240), Morgan Chapel (240), Belton (220), Loeve-Fox (210), San Gabriel River Village (550 at 1400AD), Harrell Henrietta Town (550 at 1450AD) and Harrell (295 at 1400AD) anchored seasonal aggregation cycles before protohistoric Wichita villages coalesced near Waco (780 at 1600AD) [@perttula2004; @vehik2002]. Along the western Pecos-Llano border, Ochoa-phase farming outposts such as Merchant (265 at 1350AD) connected Plains bison traders with Puebloan exchange networks further west.
+
+On the Gulf barrier littoral and Nueces lowlands, the Texas Gulf Coast and Nueces division (195.399 km², 42,3% of HU 12 land area) held 15,3% to 19,4% of basin population across prehistory (0,13 persons per km² at 1300AD), pairing broad semi-arid South Texas brushland plains with productive Galveston, Matagorda and Corpus Christi estuarine fisheries where Oso Dune Karankawa Village (750), Barton Springs Village (700), Nueces Bay Town (700), Guadalupe River Mouth Village (650), Copano Bay Village (600), Oso Creek-Corpus Christi (460), Mitchell Ridge (440), Cayo del Oso (340), Spring Lake San Marcos (230), Morhiss (215), Floyd Morris (210) and Buckeye Knoll (175) sustained local demographic clusters [@ricklis1996]. Once sixteenth-century epidemics reached both navigable East Texas streams and Galveston-Corpus Christi bay shores, Caddo numbers dropped 32,3% and coastal numbers fell 28,6%, narrowing the gap by 1600AD when East Texas held 44,2% (42k) and Brazos-Colorado-Edwards held 40% (38k).
+
+```{r tbl-subregion-densities, results='asis'}
+dens_yrs <- c(-10000L, -5000L, -2000L, 0L, 600L, 1000L, 1300L, 1500L, 1600L)
+dens_fn <- function (rk, yr) {
+  val <- as.numeric(mod_data$regions[[rk]]$population[[as.character(yr)]])
+  area <- as.numeric(mod_data$regions[[rk]]$area_km2)
+  viscount_fmt_number(val / area, 2L)
+}
+tot_dens_fn <- function (yr) {
+  viscount_fmt_number(sum_pop(yr) / as.numeric(mod_data$total_area_km2), 2L)
+}
+df_dens <- data.frame(
+  Period = vapply(dens_yrs, fmt_yr, character(1)),
+  Caddo = vapply(dens_yrs, function (y) dens_fn("sp_neches_sabine_trinity_caddo", y), character(1)),
+  Brazos = vapply(dens_yrs, function (y) dens_fn("sp_brazos_colorado_edwards", y), character(1)),
+  Coast = vapply(dens_yrs, function (y) dens_fn("sp_gulf_coast_nueces_karankawa", y), character(1)),
+  Basin = vapply(dens_yrs, tot_dens_fn, character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(df_dens) <- NULL
+viscount_table(
+  df_dens,
+  "Mean population density in persons per km² across Southern Plains (HU 12) sub-regions from 10000BC to 1600AD.",
+  c("Period", "Sabine-Neches", "Brazos-Edwards", "Gulf Coast", "HU 12 Mean"),
+  list(label = "tab:sp-subregion-densities", font_size = "footnotesize")
+)
+```
+
+```{r tbl-leading-centres, results='asis'}
+sett_keys <- names(sett_data)
+pk_vals <- vapply(sett_keys, function (k) max(as.numeric(unlist(sett_data[[k]]$population)), na.rm = TRUE), numeric(1))
+top12_keys <- sett_keys[order(-pk_vals, sett_keys)[seq_len(min(12L, length(sett_keys)))]]
+reg_short <- function (rid) {
+  if (identical(rid, "sp_neches_sabine_trinity_caddo")) return("Sabine-Neches Caddo")
+  if (identical(rid, "sp_brazos_colorado_edwards")) return("Brazos-Edwards")
+  if (identical(rid, "sp_gulf_coast_nueces_karankawa")) return("Gulf Coast-Nueces")
+  return(rid)
+}
+rows_top <- lapply(top12_keys, function (k) {
+  sv <- sett_data[[k]]
+  yrs <- as.integer(names(sv$population))
+  vals <- vapply(yrs, function (y) as.numeric(sv$population[[as.character(y)]]), numeric(1))
+  pk_i <- which.max(vals)
+  data.frame(
+    Settlement = sv$name,
+    Division = reg_short(sv$region_id),
+    Span = if (min(yrs) == max(yrs)) fmt_yr(min(yrs)) else paste0(fmt_yr(min(yrs)), "-", fmt_yr(max(yrs))),
+    Peak = viscount_fmt_pop(vals[pk_i]),
+    PeakYear = fmt_yr(yrs[pk_i]),
+    stringsAsFactors = FALSE
+  )
+})
+df_top <- do.call(rbind, rows_top)
+rownames(df_top) <- NULL
+viscount_table(
+  df_top,
+  "Twelve largest catalogued settlements across Southern Plains (HU 12) by peak population descending.",
+  c("Settlement", "Division", "Span", "Peak", "Peak Year"),
+  list(label = "tab:sp-leading-centres", font_size = "footnotesize")
+)
+```
+
+```{r tbl-subregions, results='asis'}
+df_sub <- data.frame(
+  Region = c(
+    "Sabine-Neches-Trinity Caddo", "Brazos-Colorado-Edwards", "Gulf Coast-Nueces",
+    "Sabine-Neches-Trinity Caddo", "Brazos-Colorado-Edwards", "Gulf Coast-Nueces",
+    "Sabine-Neches-Trinity Caddo", "Brazos-Colorado-Edwards", "Gulf Coast-Nueces",
+    "Sabine-Neches-Trinity Caddo", "Brazos-Colorado-Edwards", "Gulf Coast-Nueces"
+  ),
+  Period = c(
+    rep("1300AD", 3),
+    rep("1400AD", 3),
+    rep("1500AD", 3),
+    rep("1600AD", 3)
+  ),
+  Population = c(
+    reg_pop("sp_neches_sabine_trinity_caddo", 1300),
+    reg_pop("sp_brazos_colorado_edwards", 1300),
+    reg_pop("sp_gulf_coast_nueces_karankawa", 1300),
+    reg_pop("sp_neches_sabine_trinity_caddo", 1400),
+    reg_pop("sp_brazos_colorado_edwards", 1400),
+    reg_pop("sp_gulf_coast_nueces_karankawa", 1400),
+    reg_pop("sp_neches_sabine_trinity_caddo", 1500),
+    reg_pop("sp_brazos_colorado_edwards", 1500),
+    reg_pop("sp_gulf_coast_nueces_karankawa", 1500),
+    reg_pop("sp_neches_sabine_trinity_caddo", 1600),
+    reg_pop("sp_brazos_colorado_edwards", 1600),
+    reg_pop("sp_gulf_coast_nueces_karankawa", 1600)
+  ),
+  Bounds = c(
+    reg_bounds("sp_neches_sabine_trinity_caddo", 1300),
+    reg_bounds("sp_brazos_colorado_edwards", 1300),
+    reg_bounds("sp_gulf_coast_nueces_karankawa", 1300),
+    reg_bounds("sp_neches_sabine_trinity_caddo", 1400),
+    reg_bounds("sp_brazos_colorado_edwards", 1400),
+    reg_bounds("sp_gulf_coast_nueces_karankawa", 1400),
+    reg_bounds("sp_neches_sabine_trinity_caddo", 1500),
+    reg_bounds("sp_brazos_colorado_edwards", 1500),
+    reg_bounds("sp_gulf_coast_nueces_karankawa", 1500),
+    reg_bounds("sp_neches_sabine_trinity_caddo", 1600),
+    reg_bounds("sp_brazos_colorado_edwards", 1600),
+    reg_bounds("sp_gulf_coast_nueces_karankawa", 1600)
+  ),
+  stringsAsFactors = FALSE
+)
+rownames(df_sub) <- NULL
+viscount_table(
+  df_sub,
+  "Sub-regional population totals and uncertainty bounds across Southern Plains (HU 12) at 1300AD, 1400AD, 1500AD and 1600AD.",
+  c("Region", "Period", "Population", "Bounds"),
+  list(label = "tab:sp-subregions", font_size = "footnotesize")
+)
+```
+
+# Limitations
+
+Four limitations affect the Southern Plains demographic reconstruction. First, estuarine shell-midden radiocarbon dates along Galveston, Matagorda and Corpus Christi bays are filtered out of Kelly et al. [@kelly2025] due to variable marine reservoir offsets, which can attenuate late Holocene coastal amplitude relative to inland valleys [@ricklis1996].
+
+Second, seasonal residential mobility among Edwards Plateau Toyah bands and South Texas Coahuiltecan groups resists discrete town-point enumeration. Many of the 32 catalogued sites in Brazos-Colorado-Edwards, alongside inland camps among the 46 Gulf Coast-Nueces entries, represent persistent spring camps, bluff camps and burnt-rock midden terraces rather than permanent towns, leaving broad prairie stretches represented primarily through continental North American catchment interpolation [@perttula2004].
+
+Third, dispersed Caddoan farmstead hamlets across the Upper Neches, Angelina and Sulphur tributaries outnumbered major platform-mound precincts in total rural population yet leave fainter architectural footprints outside reservoir-salvage corridors [@perttula2012].
+
+Fourth, wind deflation, playa silting and coastal barrier-island migration erode surface hearths across the western Llano Estacado and Laguna Madre shoreline, while early sixteenth-century Spanish contact records between 1528AD and 1600AD are episodic outside the Galveston-Hasinai corridor [@ewers1973; @jones2014].
+
+# Conclusion
+
+From 10000BC to 1600AD, the Southern Plains Hydrological Unit traced a distinctive demographic arc anchored by early Balcones and High Plains spring-camp occupation (850 inhabitants at 10000BC), long Archaic stability across central Texas burnt-rock middens and Gulf shell bays, and a late thirteenth-century peak of 160k residents in 1300AD led by Caddoan agricultural communities in East Texas.
+
+Unlike eastern Mississippian valleys that peaked near 1200AD, HU 12 continued growing through 1300AD before fourteenth-century droughts, Plains bison-hunter expansion and sixteenth-century European-introduced diseases lowered basin totals by 40,6% to 95k in 1600AD. Even after rapid coastal and Caddoan losses during the 1500s, East Texas Hasinai towns, Wichita villages along the Brazos and Karankawa estuarine bands maintained distinct regional nuclei into the Spanish and French colonial era.
+
+Integrating 102 catalogued settlements (337 observations) with the 93.129-observation North American kriging domain captures both the dense agricultural towns of the Neches-Sabine pineywoods and the sparser mobile corridors of the central prairies and Gulf-Nueces zone across eleven millennia.
+
+# Sources
+
+<div id="refs"></div>

@@ -1,0 +1,367 @@
+---
+title: "Cumberland (Tennessee) Hydrological Unit (HU 06)"
+subtitle: "CENTAUR-II: Dallas-Mouse Creek Chiefdoms and Tennessee Valley Mound Towns, 10000BC-1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: cumberland_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_cumberland_spatial.png"
+hero_caption: "Sub-regional areal masks and 90 catalogued settlements across the Tennessee-Cumberland Hydrological Unit (110,7k km²), spanning the Ridge-and-Valley to the lower confluence."
+hero_label: "fig:hero-cumberland"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("cumberland.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("cumberland_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("cumberland_source_ledger.json5", simplifyVector = FALSE)
+diag_na <- fromJSON("../../_shared/sites_northern_america/config/kriging_diagnostics.json", simplifyVector = FALSE)
+
+fmt_yr_compact <- function(y) {
+  yi <- as.integer(y)
+  if (yi < 0) paste0(abs(yi), "BC") else paste0(yi, "AD")
+}
+
+sum_pop <- function(yr) {
+  sum(vapply(mod_data$regions, function(r) as.numeric(r$population[[as.character(yr)]]), numeric(1)))
+}
+
+sum_bounds <- function(yr) {
+  lo <- sum(vapply(mod_data$regions, function(r) as.numeric(r$population_bounds[[as.character(yr)]][[1]]), numeric(1)))
+  hi <- sum(vapply(mod_data$regions, function(r) as.numeric(r$population_bounds[[as.character(yr)]][[2]]), numeric(1)))
+  paste0(viscount_fmt_pop(lo), "-", viscount_fmt_pop(hi))
+}
+
+reg_pop <- function(rk, yr) {
+  viscount_fmt_pop(mod_data$regions[[rk]]$population[[as.character(yr)]])
+}
+
+reg_bounds <- function(rk, yr) {
+  b <- mod_data$regions[[rk]]$population_bounds[[as.character(yr)]]
+  paste0(viscount_fmt_pop(b[[1]]), "-", viscount_fmt_pop(b[[2]]))
+}
+```
+
+# Abstract
+
+This study reconstructs the pre-Columbian demographic trajectory of the Tennessee-Cumberland Hydrological Unit (USGS HU 06) across 110.698 km² (1.601 five-arcminute cells) from 10000BC to 1600AD.
+Spanning Upper East Tennessee, Middle Tennessee Bend and Muscle Shoals, and the Lower Tennessee-Ohio confluence, HU 06 captures a striking transition from Archaic river-bluff and shellfish foraging to Mississippian mound capitals and Overhill Cherokee towns.
+The reconstruction integrates Kelly et al. [@kelly2025] radiocarbon summed probability trends (N = 354, median peak 1167AD) with Vacant Quarter abandonment chronologies [@cobb2002; @cobb2023], Mississippian mound surveys [@welch2006; @king2003; @muller1997] and sixteenth-century Spanish chronicles [@hudson1997].
+Spatial weights derive from continental non-stationary Matérn ($\nu = 3/2$) kriging across 493.687 valid land cells (18.561.382 km² or 18,56M km², with 78.938 to 149.138 active cells across 10 horizons from 13000BC to 1650AD), integrating 93.129 unique site-periods (286.193 horizon site-record sum) across 3.833 domestic catchments (15.517.268 km² or 15,52M km²; 2.570 active, 67,05% coverage; 251 frontier buffers; 14,24x over the 6.539 legacy baseline), achieving regularised $\tau_1 = 1,35$ on all 10 horizons (raw 1,519 to 1,6098, mean 1,5782; $\tau_2 = 2,9025$; effective short range 45,23 km to 47,94 km, mean 47,00 km), raw nugget 0, regularised nugget-to-sill 0,04 and WLS residual $R^2$ from 0,9990 to 0,9992.
+
+Basin population rises from 750 (690-810) in 10000BC to 90,5k (83,3k-97,7k) at 0AD and peaks at 157k (144,4k-169,6k; 141,83 per 100 km²) in 1200AD.
+Subsequent Vacant Quarter contraction lowers totals by 38,5% to 96,5k (88,8k-104,2k) in 1400AD as Lower and Middle Tennessee mound centres empty.
+Meanwhile, Upper East Tennessee and the Blue Ridge valleys rebound to 56k inhabitants in 1500AD, accounting for 57,7% of basin population [@hudson1997].
+Following Hernando de Soto's 1540AD passage and introduced epidemics, total numbers decline to 79,6k in 1550AD and 65,5k (60,3k-70,7k) by 1600AD [@milner2010; @ubelaker2006].
+Ledger reconciliation confirms 90 included settlements (40 in Upper East Tennessee, 28 in Middle Tennessee and 22 in the Lower Confluence) alongside 96 excluded records (94 duplicate-alias consolidations and 2 non-habitation cave exclusions) across 186 evaluated candidates.
+
+# Background
+
+## Drainage Physiography and Ecological Foundations
+
+USGS HU 06 encompasses the Tennessee River arc from its Holston, Watauga, French Broad and Little Tennessee headwaters in the Blue Ridge and Ridge-and-Valley through the Chattanooga gorge and Muscle Shoals to the Ohio-Kentucky confluence, together with bordering Cumberland-Coosa uplands.
+Covering 110.698 km² across parts of Tennessee, northern Alabama, western North Carolina, western Kentucky, southwestern Virginia and southern Illinois, the basin combines three contrasting subsistence environments.
+In the east, broad limestone valleys between parallel Appalachian ridges retain mild frost-free seasons exceeding 190 days and rich bottomland silt loams suited to double-cropped maize and squash [@lewis1946; @hudson1997].
+At the heart of the basin, the Tennessee River sweeps across the Highland Rim and Muscle Shoals limestone shelves, where wide alluvial terraces and freshwater mussel beds supported dense Archaic and Woodland camps long before maize farming arrived [@smith1992; @welch2006].
+Further northwest, the lower Tennessee meanders alongside the Western Highland Rim into the flat alluvial plain of the Ohio confluence, where backwater oxbows, cypress swamps and natural levees linked local chiefdoms to the wider Mississippian river world [@muller1997; @cobb2002].
+
+Pre-European upland forest compositions across the eastern Piedmont and Appalachian borderlands combined chestnut, oak, hickory and pine mosaics shaped by deliberate Indigenous burning [@elliott2013subfossil; @coughlan2018influences].
+Comparative palaeoecological fire-regime studies confirm that recurrent low-intensity woodland burning increased deer browse, nut yields and edge biodiversity across temperate landscapes [@daniau2010testing; @coughlan2018influences].
+Those managed oak-hickory mast belts buffered riverine towns whenever dry summers trimmed bottomland maize harvests.
+Along the Appalachian foothills, upland clearance for firewood and cornfields also created stable secondary successional corridors that persisted well into the colonial frontier era [@coughlan2018influences].
+
+## Archaic Domestication, Mississippian Rise and the Vacant Quarter
+
+Human settlement across the Tennessee-Cumberland corridor stretches back into the Early Holocene before 8200BC, anchored by deep river-bluff and terrace camps such as Rose Island, Icehouse Bottom, Stanfield-Worley Bluff Shelter and Eva [@smith1992].
+Between 6000BC and 1000BC, Middle and Late Archaic bands established persistent freshwater shell-mound fisheries along the Muscle Shoals and Kentucky Lake reaches before domesticating native seed crops of the Eastern Agricultural Complex, including goosefoot (*Chenopodium*), sumpweed (*Iva annua*), sunflower (*Helianthus*) and squash [@smith1992].
+Middle Woodland groups constructed ceremonial stone enclosures and earthworks such as Old Stone Fort, Florence Mound, Oakville Indian Mounds and Garden Creek (0AD-450AD), participating in Hopewell exchange before Late Woodland village proliferation set in across tributary terraces.
+
+After 900AD, intensive maize cultivation fuelled rapid population nucleation inside palisaded Mississippian platform-mound capitals [@muller1997; @welch2006].
+Across 354 cleaned radiocarbon dates in HU 06, Kelly et al. [@kelly2025] identify a median summed probability peak at 1167AD, immediately preceding a century of realignment.
+High-precision Bayesian radiocarbon modelling of Middle Cumberland, Lower Ohio and Upper Appalachian late precontact towns [@cobb2023; @hart2022monongahela] dates the major demographic retreat across the lower and middle valley to 1300AD-1480AD.
+Recurrent droughts, soil exhaustion and chronic inter-chiefdom warfare marked by fortified palisades and traumatic skeletal lesions drove populations out of the lower confluence toward Dallas, Mouse Creek and early Cherokee towns in East Tennessee and western North Carolina [@krus2016; @milner2013; @cobb2023].
+Meanwhile, political centres in adjacent Coosa and Etowah valleys maintained diplomatic and trade links across the Blue Ridge passes into the Little Tennessee and Hiwassee drainages [@king2003; @hudson1997].
+Sixteenth-century Spanish expeditions under Hernando de Soto (1540AD), Tristan de Luna (1560AD) and Juan Pardo (1567AD) documented dense Ridge-and-Valley paramountcies immediately before introduced epidemics cut native numbers sharply by 1600AD [@hudson1997; @milner2010; @ubelaker2006].
+Earlier regional overviews struggled to separate this sixteenth-century upland persistence from lower-basin abandonment, highlighting the need for sub-regional spatial resolution.
+
+# Methodology
+
+## Radiocarbon Kriging and Three-Mask Partitioning
+
+Baseline rural habitation potential comes from the continental Northern America multi-registry kriging domain, spanning 493.687 valid five-arcminute terrestrial cells (18.561.382 km², or 18,56M km², with 78.938 to 149.138 active inhabited non-wasteland cells across 10 horizons from 13000BC to 1650AD) on the WGS84 five-arcminute global grid.
+Compositing p3k14c [@bird2022p3k14c] and c14bazAAR with Kelly and Robinson's lower-48 radiocarbon archive [@kelly2022], state archaeological inventories and regional CRM databases [@crema2021], strict spatial-chronological deduplication preserves 93.129 unique site-periods (286.193 horizon site-record sum) across 3.833 domestic Voronoi catchments covering 15.517.268 km² (15,52M km²; 2.570 active inhabited catchments, 67,05% coverage; equivalent circular radius $r = \sqrt{A/\pi}$ median 29,48 km and 90th percentile 40,95 km overall, or 29,3 km median and 39,85 km 90th percentile across active catchments; 29,78 km median and 40,69 km 90th-percentile Voronoi radius in the continental diagnostics), an effective observation density 14,24x above the 6.539-entry legacy global c14bazAAR baseline alone.
+
+To prevent artificial seam cliffs along neighbouring Mississippi, Ohio and Piedmont drainages, 251 cross-frontier buffer catchments condition external territories up to 300 km beyond the continental margin, paired with two passes of a 5-pixel separable log-multiplier filter inside the continental substrata mosaic.
+Catchment counts undergo Freeman-Tukey variance stabilisation and Bayesian shrinkage smoothing before Weighted Least Squares fitting of five biophysical covariates (habitat mask, natural productivity, ecological suitability, 13,5 km exponential fluvial proximity and coastal distance) and 2D Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) kriging across ten continental Holocene horizons (13000BC to 1650AD).
+Comparative Bayesian radiocarbon demographic syntheses in Bronze Age Europe [@capuzzo2018highly] and eastern North America [@hart2022monongahela] confirm the importance of smoothing short-interval wiggle effects and river-corridor sampling bias before translating site densities into regional trajectories.
+
+Within HU 06, 1.601 five-arcminute pixels (110.698 km²) partition onto three colour-indexed sub-regions on the regional areal mask (Table \ref{tab:cu-masks}):
+
+1. **Upper East Tennessee, Holston-French Broad and Chickamauga Ridge-and-Valley** (62.959 km², 56,9% of area, 907 pixels, 34,62-37,21 N, 81,29-85,71 W): covers the Holston, French Broad, Little Tennessee, Hiwassee and Blue Ridge corridors (40 catalogued settlements).
+2. **Middle Tennessee Bend, Elk River and Muscle Shoals** (28.329 km², 25,6% of area, 409 pixels, 34,12-35,46 N, 85,62-88,38 W): spans the Elk River, Middle Tennessee Bend, Guntersville-Wheeler basins and Muscle Shoals terraces (28 catalogued settlements).
+3. **Lower Tennessee River and Highland Rim Confluence** (19.410 km², 17,5% of area, 285 pixels, 35,04-37,12 N, 86,04-88,62 W): covers the Shiloh-Savannah corridor, Western Highland Rim and Kentucky-Ohio confluence (22 catalogued settlements).
+
+## Household Density, Mortuary Baselines and Uncertainty Bounds
+
+Sub-regional totals across 23 benchmark years (10000BC to 1600AD) combine riverine floodplain arable carrying capacity, excavated domestic structure counts (5-6 persons per Mississippian wattle-and-daub wall-trench house) and mortuary age-structure models [@milner2010; @muller1997; @lewis1946].
+Because timber structures in humid southeastern floodplains lasted 10-20 years, summed house counts are scaled by phase-occupancy ratios before estimating town sizes [@muller1997; @welch2006].
+Arable silt-loam terraces along the Tennessee bend and Ridge-and-Valley bottoms supported 120-145 persons per 100 km² at the twelfth-century peak, compared with roughly 59 persons per 100 km² after sixteenth-century dislocation [@milner2010; @muller1997].
+Before allocating rural density onto grid cells, active populations of all 90 catalogued settlements are deducted from their sub-regional totals.
+Symmetric uncertainty bounds of plus or minus 8 per cent bracket inter-phase house longevity, survey recovery rates and regional radiocarbon precision [@cobb2023; @kelly2025].
+All pipeline diagnostic outputs carry GMT+0 timestamps.
+
+```{r tab-cu-masks, results='asis'}
+reg_keys <- names(mod_data$regions)
+m_rows <- lapply(reg_keys, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  pops <- unlist(rv$population)
+  pk_y <- names(pops)[which.max(as.numeric(pops))]
+  pk_v <- max(as.numeric(pops))
+  n_s <- sum(vapply(sett_data, function(s) identical(s$region_id, rk), logical(1)))
+  nm_clean <- gsub("\\s*/\\s*", " and ", gsub("&", "and", sub("^\\d+\\.\\s*", "", rv$name), fixed = TRUE), perl = TRUE)
+  data.frame(
+    SubRegion = nm_clean,
+    Cells = viscount_fmt_number(rv$pixel_count, 0L),
+    Area = viscount_fmt_number(rv$area_km2, 0L),
+    Sites = viscount_fmt_number(n_s, 0L),
+    Peak = paste0(fmt_yr_compact(pk_y), " (", viscount_fmt_pop(pk_v), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_masks <- do.call(rbind, m_rows)
+rownames(df_masks) <- NULL
+viscount_table(
+  df_masks,
+  "Sub-regional areal masks, 5-arcminute cell counts, land areas, catalogued sites and peak dates in Cumberland HU 06.",
+  c("Sub-Region", "Cells", "Area (km²)", "Sites", "Peak (Pop.)"),
+  list(label = "tab:cu-masks", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Four independent checks test spatial calibration, chronological correspondence and ledger parity across HU 06 at GMT+0:
+
+First, across all ten Holocene horizons (13000BC to 1650AD) of the Northern America kriging domain (493.687 valid cells, 78.938 to 149.138 active cells across horizons, 93.129 unique site-periods and 286.193 horizon site records aggregated across 3.833 domestic catchments and 2.570 active catchments, 67,05% coverage, 251 frontier buffers, 14,24x baseline density), regularised dimensionless short-range correlation stands at $\tau_1 = 1,35$ on every horizon (unregularised raw $\tau_1$ 1,519 to 1,6098, mean 1,5782, continental diagnostic 1,5794, below the 1,8 sharpness ceiling).
+That decay corresponds to an effective short range of 45,23 km to 47,94 km (mean 47,00 km) and a secondary range of $\tau_2 = 2,9025$ (2,9).
+Raw nugget-to-sill equals 0 and regularised nugget-to-sill equals 0,04 (below 0,45) across all 10 horizons, while Weighted Least Squares covariate fits reach $R^2$ values from 0,9990 to 0,9992 (mean 0,9991) across all ten periods (Table \ref{tab:cu-kriging}).
+Two passes of a 5-pixel separable log-multiplier filter preserve smooth river-corridor transitions across the Ohio River, Southeast and Lower Mississippi boundaries without inflating sub-regional totals.
+
+Second, the reconstructed basin peak of 157k in 1200AD aligns within thirty-three years of the Kelly et al. [@kelly2025] HU 06 median radiocarbon peak of 1167AD, reflecting the relatively small 354-date regional sample alongside sustained Dallas-phase occupation across East Tennessee [@lewis1946; @cobb2023].
+Between 1200AD and 1400AD, the three sub-regions diverge sharply: the Lower Confluence falls by -60,4% (24k to 9,5k), Middle Tennessee-Muscle Shoals falls by -47,3% (64,5k to 34k) and Upper East Tennessee declines by only -22,6% (68,5k to 53k) before rebounding in 1500AD.
+
+Third, ledger reconciliation confirms exact parity between the 90-site settlement gazetteer (40 in Upper East Tennessee, 28 in Middle Tennessee-Muscle Shoals and 22 in the Lower Tennessee confluence) and the regional source ledger (96 excluded records: 94 duplicate-alias consolidations within 2 km and 2 unquantified non-habitation cave exclusions for Dust Cave and Russell Cave, totalling 186 candidates with 0 unaccounted records).
+
+Fourth, benchmark arithmetic equals regional summary totals across every interval from 10000BC (750) to 1600AD (65,5k).
+Linearly interpolated across active site spans, catalogued settlements sum to 21,2k in 1200AD (13,5% of 157k), peak at 31,2k in 1300AD and total 16,3k in 1400AD (16,9% of 96,5k), 13,6k in 1500AD (14% of 97k) and 6,03k in 1600AD (9,2% of 65,5k).
+
+```{r tab-cu-kriging, results='asis'}
+horizon_names <- list(
+  palaeoindian_early_archaic = "Palaeoindian and Early Archaic",
+  middle_archaic = "Middle Archaic",
+  late_archaic = "Late Archaic",
+  early_woodland_formative = "Early Woodland",
+  middle_woodland_hopewell = "Middle Woodland",
+  late_woodland_dorset = "Late Woodland",
+  early_mississippian_pueblo_ii = "Early Mississippian",
+  middle_mississippian_pueblo_iii = "Middle Mississippian",
+  late_precontact_thule_oneota = "Late Precontact Dallas",
+  protohistoric_contact_horizon = "Protohistoric Contact"
+)
+vm_list <- diag_na$variogram_models
+k_rows <- lapply(names(horizon_names), function(hk) {
+  vm <- vm_list[[hk]]
+  ks <- diag_na$kriged_raster_stats[[hk]]
+  data.frame(
+    Horizon = horizon_names[[hk]],
+    Tau1 = viscount_fmt_number(vm$tau1_dimensionless, 2L),
+    RawNugget = viscount_fmt_number(vm$raw_nugget_to_sill_ratio, 4L),
+    RegNugget = viscount_fmt_number(vm$nugget_to_sill_ratio, 4L),
+    R2 = viscount_fmt_number(vm$residual_r2, 4L),
+    MeanDens = viscount_fmt_number(ks$mean_value, 4L),
+    stringsAsFactors = FALSE
+  )
+})
+df_krig <- do.call(rbind, k_rows)
+rownames(df_krig) <- NULL
+viscount_table(
+  df_krig,
+  "Continental Northern America Matérn kriging parameters across ten Holocene horizons (93.129 unique site-periods, 3.833 domestic catchments).",
+  c("Horizon", "Tau 1", "Raw Nugget", "Reg. Nugget", "Residual R²", "Mean Density"),
+  list(label = "tab:cu-kriging", font_size = "scriptsize")
+)
+```
+
+```{r tbl-benchmarks, results='asis'}
+key_yrs <- c(-10000, -5000, -2000, 0, 600, 1000, 1100, 1200, 1300, 1400, 1500, 1550, 1600)
+lbl_yrs <- vapply(key_yrs, fmt_yr_compact, character(1))
+df_bench <- data.frame(
+  Region = rep("Cumberland (HU 06)", length(key_yrs)),
+  Period = lbl_yrs,
+  Population = vapply(key_yrs, function(y) viscount_fmt_pop(sum_pop(y)), character(1)),
+  Bounds = vapply(key_yrs, sum_bounds, character(1)),
+  Density = vapply(key_yrs, function(y) viscount_fmt_number(100*sum_pop(y)/mod_data$total_area_km2, 2L), character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(df_bench) <- NULL
+viscount_table(
+  df_bench,
+  "Benchmark population estimates, 8% uncertainty bounds and density per 100 km² for Cumberland (HU 06), 10000BC to 1600AD.",
+  c("Region", "Period", "Population", "Bounds", "Density (per 100 km²)"),
+  list(label = "tab:cu-benchmarks", font_size = "scriptsize")
+)
+```
+
+# Results
+
+## Archaic-Woodland Expansion and Twelfth-Century Peak
+
+From 750 (690-810; 0,68 per 100 km²) inhabitants at 10000BC, Tennessee-Cumberland river valleys grew steadily through Archaic river-bluff and terrace occupations (Rose Island, Stanfield-Worley Bluff Shelter and Icehouse Bottom) and riverine shellfish-mound foraging (Eva, Seven Mile Island and Flint River) [@smith1992].
+Deeply stratified hearths at Rose Island (8200BC-7000BC), Stanfield-Worley Bluff Shelter (8000BC-2000BC) and Icehouse Bottom (7500BC-750AD) show repeated seasonal aggregation around riverine terraces and bluff overhangs paired with warm-season freshwater mussel harvesting along Tennessee River shoals.
+Comparative Holocene aquatic-foraging studies in lake-seal and coastal shell-midden economies elsewhere confirm how predictable freshwater mussel and fish shoals stabilised semi-sedentary Archaic band densities along river narrows [@nomokonova2015year; @fossile2023bridging].
+By 5000BC, HU 06 reached 16,9k (15,27 per 100 km²), rising through Early Woodland native seed horticulture (*Chenopodium*, *Iva annua*, *Helianthus*) to 53k in 2000BC, 70,5k in 1000BC and 90,5k (83,3k-97,7k; 81,75 per 100 km²) at 0AD [@smith1992].
+
+During the Middle Woodland (0AD-450AD), ceremonial hilltop enclosures and burial mounds multiplied across the basin.
+Key centres included Florence Mound (480 at 200AD), Old Stone Fort (480 at 250AD), Garden Creek (440 at 400AD), Oakville Indian Mounds (380 at 200AD), Walling (260 at 200AD) and Yearwood (240 at 200AD), followed by Late Woodland Owl Hollow (320 at 450AD) and Candy Creek (260 at 700AD) farming villages.
+Basin numbers accordingly expanded to 117k in 400AD and 129,5k in 600AD.
+Maize intensification after 800AD and Emergent Mississippian nucleation carried totals from 141,5k in 800AD to 150k in 1000AD, 155k in 1100AD and a peak of 157k (144,4k-169,6k; 141,83 per 100 km²) at 1200AD.
+That twelfth-century zenith aligns with Kelly et al. [@kelly2025] 1167AD radiocarbon mode (Table \ref{tab:cu-benchmarks} and Figure \ref{fig:cu-trajectory}).
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_cumberland_trajectory.png",
+  "Aggregate and sub-regional population trajectories for Cumberland (HU 06) from 10000BC to 1600AD with uncertainty envelope.",
+  "fig:cu-trajectory"
+)
+```
+
+## Vacant Quarter Abandonment and Upland Persistence
+
+Between 1200AD and 1400AD, total basin population contracted by 38,5% (from 157k to 96,5k), marked by sharp internal divergence between the lower confluence and the Appalachian Ridge-and-Valley (Figure \ref{fig:cu-shares} and Table \ref{tab:cu-subregions}).
+Along the Lower Tennessee and Middle Bend, multi-year droughts, soil depletion and escalating inter-chiefdom conflict thinned fortified floodplain towns [@cobb2002; @cobb2023; @krus2016; @milner2013].
+Palisade ditches, bastions and burnt structures excavated at Kincaid Mounds, Jonathan Creek and Shiloh Indian Mounds confirm rising defensive costs prior to fourteenth-century abandonment [@welch2006; @muller1997].
+By contrast, Upper East Tennessee and the Blue Ridge foothills maintained resilient agricultural populations across the fifteenth century, lifting basin totals slightly from 96,5k in 1400AD to 97k (89,2k-104,8k) in 1500AD.
+Following Hernando de Soto's 1540AD expedition through the Tennessee-Coosa corridor and Juan Pardo's 1567AD inland marches [@hudson1997], epidemic disruption lowered HU 06 by 17,9% to 79,6k in 1550AD.
+Continued mortality and regional realignment across the upper valleys lowered totals further to 65,5k (60,3k-70,7k; 59,17 per 100 km²) by 1600AD [@milner2010; @ubelaker2006].
+
+```{r fig-shares, results='asis'}
+viscount_figure(
+  "figures/fig3_cumberland_shares.png",
+  "Sub-regional demographic shares across Cumberland (HU 06) from 10000BC to 1600AD.",
+  "fig:cu-shares"
+)
+```
+
+### Upper East Tennessee, Holston-French Broad and Chickamauga Ridge-and-Valley
+
+Covering 62.959 km² (56,9% of HU 06), Upper East Tennessee expanded from 300 inhabitants in 10000BC to 6,8k in 5000BC, 36k at 0AD and its precontact peak of 68,5k in 1200AD (43,6% of the basin).
+Early Holocene camps at Rose Island (8200BC-7000BC) and Icehouse Bottom (7500BC-750AD) anchored terrace foraging in the Little Tennessee corridor before Woodland mound centres such as Garden Creek (440 at 400AD) rose along the Blue Ridge margins [@lewis1946; @smith1992].
+Unlike the downstream reaches, upland numbers declined modestly to 61k in 1300AD and 53k in 1400AD, then rebounded to 56k (51,5k-60,5k) in 1500AD.
+By 1500AD, Upper East Tennessee held 57,7% of all HU 06 inhabitants, rising slightly to 58% by 1600AD.
+
+Between 1350AD and 1550AD, dense Dallas and Mouse Creek palisaded towns lined the Chickamauga, Hiwassee and Little Tennessee floodplains [@lewis1946; @muller1997].
+Key centres included Hiwassee Island Town (1,3k at 1300AD), Hiwassee Island (1,2k at 1400AD), Toqua Dallas Town (1,2k at 1450AD), Toqua (1,1k at 1400AD), Citico (920 at 1400AD), Moccasin Bend Habitation Town (900 at 1350AD), Dallas (740 at 1450AD), Ledford Island (690 at 1500AD), Rymer (540 at 1500AD), Bussell Island (480 at 1450AD) and Davis (480 at 1350AD).
+Adjacent Overhill, Valley and Middle Cherokee towns, including Citico (Overhill) (780 at 1600AD), Tomotley (750), Kituhwa (680), Nikwasi (620) and Coweeta Creek (480), sustained dense townhouse precincts across the mountains alongside northern Ridge-and-Valley villages such as Hoge (340 in 1500AD) [@hudson1997; @king2003].
+Spanish contact and regional epidemics after 1540AD then cut upland totals to 46k in 1550AD and 38k in 1600AD [@milner2010; @ubelaker2006].
+
+### Middle Tennessee Bend, Elk River and Muscle Shoals
+
+Spanning 28.329 km² (25,6% of HU 06), Middle Tennessee Bend and Muscle Shoals matched Upper East Tennessee early on, growing from 300 in 10000BC to 6,8k in 5000BC, 36,5k at 0AD and a co-peak of 64,5k in 1200AD.
+Deeply stratified terrace and river-bluff deposits at Stanfield-Worley Bluff Shelter (8000BC-2000BC) and Banks III (4000BC-1250AD) document continuous Palaeoindian and Archaic foraging before rich shell-mound villages emerged along Seven Mile Island (6000BC-1300AD) and Flint River (3000BC-1200AD), while unquantified limestone cave deposits (Dust Cave and Russell Cave) are tracked separately as ledger exclusions [@smith1992].
+Middle Woodland ceremonial earthworks (Florence Mound 480, Oakville Indian Mounds 380, Walling 260 and Yearwood 240) gave way to Late Woodland Owl Hollow villages (320) and Mississippian platform-mound towns led by Muscle Shoals Town (1k at 1300AD), Hobbs Island Town (950 at 1350AD), Seven Mile Island Town (850 at 1350AD), Kogers Island Village (700 at 1350AD), Hobbs Island (560 at 1350AD), Kogers Island (460) and Murphy Hill (360).
+During the fourteenth-century Vacant Quarter realignment, population fell by nearly half from 64,5k in 1200AD to 34k in 1400AD (35,2% share), easing further to 32k in 1500AD and 21k (32,1%) in 1600AD [@cobb2023; @krus2016].
+
+### Lower Tennessee River and Highland Rim Confluence
+
+Covering 19.410 km² (17,5% of HU 06), the lower confluence grew from 150 inhabitants in 10000BC to 3,3k in 5000BC, 18k at 0AD and its early maximum of 24,5k in 1100AD (15,8% of HU 06).
+Because this corridor sat directly inside the Mississippian Vacant Quarter core, major fortified towns including Kincaid Mounds (2,4k at 1300AD), Jonathan Creek Palisaded Town (1,1k at 1350AD), Savannah Mound Town (1,1k at 1300AD), Shiloh Indian Mounds (1,1k at 1200AD), Jonathan Creek (920 at 1200AD), Link Duck River Town (800 at 1350AD), Swallow Bluff (480), Chambers (360) and Coffee Bluff (320) declined sharply after 1300AD, succeeding Middle Woodland earthworks such as Old Stone Fort (480 at 250AD) [@welch2006; @cobb2002; @muller1997].
+Extensive excavations at Shiloh and Kincaid document rapid abandonment of palisaded plazas and platform mounds between 1350AD and 1450AD [@welch2006; @cobb2023].
+Sub-regional totals dropped from 24k in 1200AD to 15k in 1300AD, 9,5k in 1400AD (9,8% share) and 6,5k (9,9%) in 1600AD.
+
+```{r tbl-subregions, results='asis'}
+df_sub <- data.frame(
+  Region = c(
+    "Upper East Tennessee Ridge",
+    "Middle Tennessee-Muscle Shoals",
+    "Lower Tennessee Confluence",
+    "Upper East Tennessee Ridge",
+    "Middle Tennessee-Muscle Shoals",
+    "Lower Tennessee Confluence",
+    "Upper East Tennessee Ridge",
+    "Middle Tennessee-Muscle Shoals",
+    "Lower Tennessee Confluence"
+  ),
+  Period = c(
+    "1200AD", "1200AD", "1200AD",
+    "1500AD", "1500AD", "1500AD",
+    "1600AD", "1600AD", "1600AD"
+  ),
+  Population = c(
+    reg_pop("cu_upper_east_tennessee_ridge", 1200),
+    reg_pop("cu_middle_tennessee_muscle_shoals", 1200),
+    reg_pop("cu_lower_tennessee_kentucky_confluence", 1200),
+    reg_pop("cu_upper_east_tennessee_ridge", 1500),
+    reg_pop("cu_middle_tennessee_muscle_shoals", 1500),
+    reg_pop("cu_lower_tennessee_kentucky_confluence", 1500),
+    reg_pop("cu_upper_east_tennessee_ridge", 1600),
+    reg_pop("cu_middle_tennessee_muscle_shoals", 1600),
+    reg_pop("cu_lower_tennessee_kentucky_confluence", 1600)
+  ),
+  Bounds = c(
+    reg_bounds("cu_upper_east_tennessee_ridge", 1200),
+    reg_bounds("cu_middle_tennessee_muscle_shoals", 1200),
+    reg_bounds("cu_lower_tennessee_kentucky_confluence", 1200),
+    reg_bounds("cu_upper_east_tennessee_ridge", 1500),
+    reg_bounds("cu_middle_tennessee_muscle_shoals", 1500),
+    reg_bounds("cu_lower_tennessee_kentucky_confluence", 1500),
+    reg_bounds("cu_upper_east_tennessee_ridge", 1600),
+    reg_bounds("cu_middle_tennessee_muscle_shoals", 1600),
+    reg_bounds("cu_lower_tennessee_kentucky_confluence", 1600)
+  ),
+  stringsAsFactors = FALSE
+)
+rownames(df_sub) <- NULL
+viscount_table(
+  df_sub,
+  "Sub-regional population totals across Cumberland (HU 06) at 1200AD, 1500AD and 1600AD.",
+  c("Region", "Period", "Population", "Bounds"),
+  list(label = "tab:cu-subregions", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Four constraints qualify these demographic estimates for HU 06.
+First, Kelly et al. [@kelly2025] note that HU 06 contains 354 cleaned radiocarbon dates across the past two millennia, falling slightly below their 400-date (0,2 dates per year) simulation reliability threshold.
+As a result, local summed probability peak timing carries wider statistical variance than neighbouring HU 05 (Ohio River) or HU 03 (Southeast), requiring joint anchoring against Bayesian site chronologies and excavated townhouse sequences [@cobb2023; @hart2022monongahela].
+
+Second, twentieth-century Tennessee Valley Authority reservoir impoundments along Kentucky Lake, Wheeler, Guntersville, Chickamauga and Tellico inundated low floodplain hamlets prior to modern CRM surveys [@welch2006].
+Permanent flooding beneath reservoir pools biases surviving site visibility toward elevated platform-mound precincts and high bluff terraces, making rural carrying-capacity priors essential for filling submerged bottomland zones.
+
+Third, comparative dendro-ecological disturbance studies [@andrade2019growth], anthracological charcoal combustion analyses [@coradeschi2023anthracological] and skeletal palaeopathology baselines [@robbins2009ancient] illustrate how differential preservation of timber, burnt organics and osteological lesions affects proxy visibility across humid river basins.
+Acid upland soils in the Blue Ridge dissolve unburnt bone faster than limestone bluff-shelter strata such as Stanfield-Worley Bluff Shelter, requiring explicit mortuary correction [@milner2010; @muller1997].
+Fourth, sixteenth-century disease mortality between 1500AD and 1600AD (97k down to 65,5k) depends on indirect archaeological abandonment rates and sparse Spanish chronicle notices rather than continuous parish registers [@hudson1997; @ubelaker2006].
+
+# Conclusion
+
+Cumberland-Tennessee Hydrological Unit 06 records a distinct upland-lowland divergence across 110.698 km² of Appalachian valleys, Highland Rim terraces and lower Mississippi-Ohio confluence floodplains.
+Growing steadily from 750 people in 10000BC to 90,5k at 0AD, basin population peaked at 157k (141,83 per 100 km²) in 1200AD during high Mississippian town nucleation.
+While Vacant Quarter abandonment depopulated the lower confluence and thinned Middle Tennessee by 1400AD (96,5k basin-wide), Ridge-and-Valley Dallas, Mouse Creek and early Cherokee towns sustained 56k inhabitants in Upper East Tennessee through 1500AD (57,7% of HU 06).
+Even after mid-sixteenth-century Spanish expeditions and introduced epidemics lowered total numbers to 65,5k in 1600AD, Upper East Tennessee still retained 58% of the entire basin population.
+Reconciled across 90 catalogued settlements (186 evaluated ledger candidates) and continental Matérn kriging over 93.129 unique site-periods (286.193 horizon site records) across 3.833 domestic catchments (2.570 active, 67,05% coverage; 251 frontier buffers; 493.687 valid land cells; 14,24x baseline; regularised $\tau_1 = 1,35$, raw mean 1,5782, $\tau_2 = 2,9025$, effective short range 45,23 km to 47,94 km with mean 47,00 km, raw nugget 0, regularised 0,04, $R^2$ 0,9990 to 0,9992), the HU 06 series tracks both early Holocene riverine-terrace foraging and late precontact chiefdom resilience into the colonial era.
+
+# Sources
+
+<div id="refs"></div>

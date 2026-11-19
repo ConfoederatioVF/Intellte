@@ -1,0 +1,208 @@
+---
+title: "Settlement Gazetteer of Pre-Columbian Northern Canada and Greenland"
+subtitle: "CENTAUR-II: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1600AD)"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: northern_canada_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_northern_canada_spatial.png"
+hero_caption: "Locations of 926 catalogued Arctic, subarctic and Norse Greenland settlements across Northern Canada and Greenland (5,27M km²) from 10000BC to 1600AD."
+hero_label: "fig:hero-northern-canada"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("northern_canada.json5")
+set_data <- read_json_file("northern_canada_settlements.json")
+led_data <- read_json_file("northern_canada_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 6L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 6L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+first_yr <- vapply(set_list, function (s) min(as.numeric(names(s$population))), numeric(1))
+set_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+set_list <- set_list[order(first_yr, set_names)]
+
+reg_short <- list(
+  ncan_mackenzie_dene_subarctic = "Mackenzie Dene",
+  ncan_western_central_arctic = "W-C Arctic",
+  ncan_eastern_high_arctic_baffin = "E-High Arctic",
+  ncan_greenland_west_norse_kalaallit = "W Greenland",
+  ncan_greenland_east_high_north = "E Greenland"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer documents WGS84 coordinates, indigenous and Norse toponymy, attested chronological spans and benchmark populations (3.801 observations; mean 4,1 per site, with 922 carrying three or more benchmarks) for `r length(set_list)` pre-modern settlements across Northern Canada and Greenland (5,27M km²) between 10000BC and 1600AD. Entries span from 7400BC occupation at Saskatoon Mountain (95 peak) and 6500BC Mackenzie Dene occupation at Fisherman Lake (120 peak) through 2400BC Palaeo-Inuit coastal stations at Akulliit (29), Qeqertasussuk (42), Independence I (10) and Sermermiut (125) to Dorset and Thule whaling complexes at Qariaraqyuk (480 and 380), Creswell Bay Whalebone Metropolis (420), Alarnerk Ridge Metropolis (720), Qeqertat Island Town (620), Kuukpak Sod Metropolis (920) and Kittigazuit (1k), alongside mediaeval Norse estate centres at Qassiarsuk (161 peak) and Igaliku (117). All 926 settlements in the gazetteer carry CENTAUR provenance and reconcile cleanly against 2.213 source-ledger candidates alongside `r length(exc_list)` excluded entries (1.286 duplicate-alias consolidations and 1 non-habitation seasonal cave context).
+
+# Background
+
+High-latitude settlement visibility concentrates where seasonal marine-mammal harvests, caribou water crossings or Norse fjord pastures anchored multi-family winter dwellings [@mcghee1996; @friesen2016]. In the Mackenzie Delta and Coronation Gulf, driftwood-framed semi-subterranean winter houses at Kittigazuit and Kuukpak supported large beluga-hunting aggregations [@morrison1990]. Across the central and eastern archipelago, whalebone winter houses at Qariaraqyuk and Foxe Basin polynya middens at Alarnerk and Qeqertat Island Town anchored Dorset and Thule networks [@savelle2002; @maxwell1985; @taylor1968]. In West and East Greenland, *Nunniffiit* heritage inventories supplement excavated Norse turf-and-stone farmsteads around Tunulliarfik and Igaliku fjords and Disko Bay Saqqaq and Kalaallit stations [@arneborg2012; @gronnow2004; @mathiassen1933].
+
+# Methodology
+
+Sites enter the source ledger when archaeological house-pit surveys, national heritage registers or mediaeval Norse farm inventories establish bounded coordinates and residential population trajectories [@lynnerup1998; @savelle2002]. Overlapping coordinate twins within 2 km or identical centroids (1.286 entries: 1.211 across Greenland *Nunniffiit* and colonial registers and 75 across northern Canada) are consolidated as duplicate aliases alongside 1 unquantified cave context (Charlie Lake Cave) so each locality is subtracted only once from sub-regional rural weights. Dispersed boreal hunting stations without fixed house structures remain represented in the rural kriging surface [@gordon1996]. Table \ref{tab:summary} summarises included counts and summed site peaks across the five divisions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Included = as.character(length(sub_sets)),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 926 included settlements and summed site peaks in Northern Canada and Greenland.",
+  c("Sub-Region", "Included Sites", "Sum of Site Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "footnotesize")
+)
+```
+
+# Testing and Validation
+
+Schema and ledger checks confirm 926 included settlements, 1.287 excluded candidates (1.286 duplicate-alias consolidations and 1 unquantified cave context out of 2.213 total candidates), 0 unaccounted candidates and 0 coordinate errors (54,16 to 83,2 N and 16,42 to 139,85 W) spanning 3.801 benchmark headcounts. Every record carries CENTAUR provenance. Figure \ref{fig:settlements} charts the rank-size hierarchy and leading fifteen settlement peaks across the 926 catalogued sites led by Kittigazuit (1k).
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_northern_canada_settlements.png",
+  "Rank-size distribution and leading fifteen peak populations across the 926 catalogued settlements of Northern Canada and Greenland.",
+  "fig:settlements"
+)
+```
+
+# Results
+
+## Leading Settlement Trajectories
+
+Table \ref{tab:gazetteer} documents the leading 45 settlements out of `r length(set_list)` included entries ordered by peak population descending, linking WGS84 coordinates and alternative indigenous or Norse names to benchmark population series.
+
+```{r tbl-gazetteer, results='asis'}
+peak_vals <- vapply(set_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+top_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+top_sets <- set_list[order(-peak_vals, top_names)[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_sets, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), "-", fmt_yr(y_max))
+  onames <- unlist(s$other_names)
+  oname_s <- if (length(onames) > 0) paste(head(as.character(onames), 2L), collapse = "; ") else "-"
+  pk <- max(as.numeric(unlist(s$population)))
+  data.frame(
+    Settlement = clean_text(s$name),
+    AltNames = clean_text(oname_s),
+    SubRegion = reg_short[[s$region]],
+    Coords = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    Series = fmt_pop_series(s$population),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 pre-modern settlements ordered by peak population in Northern Canada and Greenland (10000BC to 1600AD).",
+  c("Settlement", "Alternative Names", "Sub-Region", "Coordinates", "Span", "Peak", "Benchmark Series"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:excluded} presents the first `r min(30L, length(exc_list))` of `r length(exc_list)` excluded candidates (1.286 duplicate-alias consolidations and 1 non-habitation seasonal cave context) logged across the 2.213 source-ledger candidates together with their consolidation justifications.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(30L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  data.frame(
+    Candidate = clean_text(c$name),
+    Reason = clean_text(c$reason),
+    Justification = clean_text(c$justification),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "First 30 excluded duplicate-alias localities in the Northern Canada and Greenland source ledger.",
+  c("Candidate Entry", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "footnotesize")
+)
+```
+
+## Sub-Regional Settlement Summaries
+
+West Greenland (662 records) spans Disko Bay Palaeo-Inuit and Kalaallit occupation at Qeqertasussuk (42 peak), Saqqaq (49) and Sermermiut (125 in 1600AD), coastal Thule centres at Kangeq (83), Comer's Midden (81), Nuulliit (75), Kangamiut (70) and Illorpaat (62), alongside mediaeval Norse Eastern Settlement hubs at Qassiarsuk (161 peak) and Igaliku (117) [@gronnow2004; @arneborg2012; @lynnerup1998]. East and High North Greenland (195 records) combine early Independence I campsites (10 peak) with Tunumiit and Thule coastal stations led by Dødemandsbugten (27), Clavering Ø (21) and Zackenberg (21) [@mathiassen1933; @friesen2016].
+
+In the Eastern and High Arctic (24 records), Somerset Island's Qariaraqyuk (480 and 380 clusters) and Creswell Bay Whalebone Metropolis (420) pair with Skraeling Island Winter Town (360), Cumberland Sound (310), Mitimatalik Winter Town (310), Kapuivik (290) and Tungatsivvik (280) [@savelle2002; @maxwell1985; @taylor1968]. Across the Central and Western Arctic (31 records), Kittigazuit (1k in 1600AD) and Kuukpak Sod Metropolis (920; Kuukpak 580) anchor Mackenzie Delta beluga harvesting alongside Foxe Basin and Coronation Gulf hubs at Alarnerk Ridge Metropolis (720), Qeqertat Island Town (620), Alarnerk (380), Nuvugak (320), Avvaq Winter Settlement (320), Lady Franklin Point (310), Naujan (310), Ekalluk River (260) and Bloody Falls (180) [@morrison1990; @nash1969], while the Mackenzie Dene subarctic (14 records) is led by Pauline Cove (390), Nunaluk Sod Village (310), Cache Point Town (290), Deline on Great Bear Lake (260), Reliance Taltheilei Village (260), Taltheilei Narrows (160), Trout Lake (150) and Fisherman Lake (120) [@gordon1996].
+
+# Limitations
+
+Small summer tent-ring camps across interior Barrenlands, Victoria Island and Northeast Greenland lack multi-family winter middens and remain absorbed in the rural kriging background, while detailed *Nunniffiit* heritage registration makes Greenland far denser in point count (857 records combined) than northern Canada's boreal shield and Arctic islands (69 records) [@friesen2016; @gordon1996].
+
+# Sources
+
+<div id="refs"></div>

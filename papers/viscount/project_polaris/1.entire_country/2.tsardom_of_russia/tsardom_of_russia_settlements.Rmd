@@ -6,7 +6,7 @@ authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/tsardom_of_russia_regional_map.png"
-hero_caption: "The 38 historical regions and 205 catalogued towns, fortresses and Siberian river outposts across Eastern Europe and Northern Asia from 1400AD to 1721AD."
+hero_caption: "The 38 historical regions and 3.886 catalogued towns, fortresses and Siberian river outposts across Eastern Europe and Northern Asia from 1400AD to 1721AD."
 hero_label: "fig:hero"
 bibliography: tsardom_of_russia_literature_review.bib
 csl: ../../_shared/template/crd-mla-numeric.csl
@@ -137,7 +137,10 @@ render_figure_template <- function (arg0_file_path, arg1_options = NULL) {
 ```{r load-stadester-json, include=FALSE}
 GAZETTEER_JSON_FILE <- "tsardom_of_russia_settlements.json"
 gaz_map <- jsonlite::fromJSON(GAZETTEER_JSON_FILE, simplifyVector = FALSE)
-settlements_list <- unname(gaz_map)
+settlements_list <- unname(Map(function(e, k) {
+  if (is.null(e$key)) e$key <- k
+  e
+}, gaz_map, names(gaz_map)))
 
 first_year_num <- function (arg0_s) {
   yrs <- as.numeric(names(arg0_s$population))
@@ -169,9 +172,9 @@ hyphenate_tsardom_words <- function (arg0_str) {
 fmt_other_names <- function (arg0_s) {
   onames <- unlist(arg0_s$other_names)
   if (length(onames) == 0) return("-")
-  clean_vec <- unique(as.character(onames))
+  clean_vec <- unique(gsub("`", "'", as.character(onames), fixed = TRUE))
   clean_vec <- clean_vec[nzchar(clean_vec) & tolower(clean_vec) != tolower(arg0_s$name)]
-  if (length(clean_vec) == 0) clean_vec <- unique(as.character(onames))
+  if (length(clean_vec) == 0) clean_vec <- unique(gsub("`", "'", as.character(onames), fixed = TRUE))
   return(hyphenate_tsardom_words(paste(head(clean_vec, 2L), collapse = "; ")))
 }
 
@@ -246,7 +249,7 @@ This gazetteer compiles the population histories of `r length(settlements_list)`
 
 # Methodology
 
-This gazetteer traces the population history of `r length(settlements_list)` towns, fortresses and frontier outposts across the 38 historical regions of Eastern Europe and Siberia between 1400AD and 1721AD: 109 in Russia and Siberia (Regions 18-38), 47 in Ukraine and Crimea (Regions 9-17), 27 across the Baltic provinces, Lithuania and Old Finland (Regions 1-4) and 22 in Belarus (Regions 5-8) [@Vodarsky1973; @Vodarsky1977; @Kabuzan1963; @Palli1996; @Dunsdorfs1962; @Kiaupa2000; @KarpachevKozlovsky1972; @Yakovenko2006; @Dolgikh1960]. These settlements span Hanseatic ports on the Baltic, Magdeburg-law market towns (*miasteczka*) in Lithuania, Belarus and Ukraine, Swedish border castles in Karelia, Cossack regimental capitals, timber and stone strongholds along the Oka, Belgorod and Simbirsk defence lines, Ural salt and ironworks towns and Siberian river *ostrogi* [@Tikhomirov1962; @Bernotas2013; @Sharukho2010; @Rezun1989; @Zhigalov2024].
+This gazetteer traces the population history of `r length(settlements_list)` towns, fortresses and frontier outposts across the 38 historical regions of Eastern Europe and Siberia between 1400AD and 1721AD: 1.965 in Russia and Siberia (Regions 18-38), 1.184 in Ukraine and Crimea (Regions 9-17), 287 in Belarus (Regions 5-8) and 258 across the Baltic provinces, Lithuania and Old Finland (Regions 1-4) [@Vodarsky1973; @Vodarsky1977; @Kabuzan1963; @Palli1996; @Dunsdorfs1962; @Kiaupa2000; @KarpachevKozlovsky1972; @Yakovenko2006; @Dolgikh1960]. These settlements span Hanseatic ports on the Baltic, Magdeburg-law market towns (*miasteczka*) in Lithuania, Belarus and Ukraine, Swedish border castles in Karelia, Cossack regimental capitals, timber and stone strongholds along the Oka, Belgorod and Simbirsk defence lines, Ural salt and ironworks towns and Siberian river *ostrogi* [@Tikhomirov1962; @Bernotas2013; @Sharukho2010; @Rezun1989; @Zhigalov2024].
 
 Town populations across the benchmark dates are drawn from Baltic ploughland audits (*Hakenrevisionen*) and burgher rolls, the 1528AD Lithuanian muster (*Popis*) and hearth-tax (*podymne*) registers, Muscovite land books (*pistsovye knigi*), the 1646AD and 1678AD household censuses (*perepisnye knigi*), Peter the Great's First Soul Revision (1719-1721AD, *revizskie skazki*), Left-Bank Ukrainian census books (1666AD) and Cossack regimental rolls, Ottoman tax registers (*tahrir defterleri*) for Crimea and Kefe and Siberian fur-tribute (*yasak*) and inspection (*dozornye*) books [@Shapiro1974; @Morzy1965; @Vasiliauskas2012; @Saloheimo1976; @Irtenina2022; @Ozturk2019; @Pokrovsky1984]. Dates before a town was founded or after it was abandoned are marked with a hyphen (-).
 
@@ -257,9 +260,20 @@ reg_map <- setNames(reg_labels, reg_ids)
 reg_num_map <- setNames(paste0("Reg. ", seq_along(reg_ids)), reg_ids)
 settlement_reg_lookup <- c("Riga-Latvia" = "livonia_estland_narva_dorpat", "Reval-Estonia" = "livonia_estland_narva_dorpat", "Dorpat-Estonia" = "livonia_estland_narva_dorpat", "Narva-Estonia" = "livonia_estland_narva_dorpat", "Pernau-Estonia" = "livonia_estland_narva_dorpat", "Arensburg-Estonia" = "livonia_estland_narva_dorpat", "Wenden-Latvia" = "livonia_estland_narva_dorpat", "Mitau-Latvia" = "courland_semigallia_and_inflanty", "Libau-Latvia" = "courland_semigallia_and_inflanty", "Windau-Latvia" = "courland_semigallia_and_inflanty", "Goldingen-Latvia" = "courland_semigallia_and_inflanty", "Bauske-Latvia" = "courland_semigallia_and_inflanty", "Dunaburg-Latvia" = "courland_semigallia_and_inflanty", "Rezhitsa-Latvia" = "courland_semigallia_and_inflanty", "Ludza-Latvia" = "courland_semigallia_and_inflanty", "Vilnius-Lithuania" = "gdl_vilnius_trakai_and_samogitia", "Trakai-Lithuania" = "gdl_vilnius_trakai_and_samogitia", "Kaunas-Lithuania" = "gdl_vilnius_trakai_and_samogitia", "Kedainiai-Lithuania" = "gdl_vilnius_trakai_and_samogitia", "Siauliai-Lithuania" = "gdl_vilnius_trakai_and_samogitia", "Raseiniai-Lithuania" = "gdl_vilnius_trakai_and_samogitia", "Telsiai-Lithuania" = "gdl_vilnius_trakai_and_samogitia", "Vyborg-Russia" = "vyborg_kexholm_old_finland", "Kexholm-Russia" = "vyborg_kexholm_old_finland", "Nyslott-Finland" = "vyborg_kexholm_old_finland", "Fredrikshamn-Finland" = "vyborg_kexholm_old_finland", "Villmanstrand-Finland" = "vyborg_kexholm_old_finland", "Drissa-Belarus" = "gdl_polotsk_vitebsk_dvina", "Lepel-Belarus" = "gdl_polotsk_vitebsk_dvina", "Yaitskiy Gorodok-Kazakhstan" = "muscovy_bashkir_darugas_and_yaik", "Menzelinsk-Russia" = "muscovy_bashkir_darugas_and_yaik", "Razdory-Russia" = "steppe_don_cossack_host_and_azov", "Mikhaylovskiy Gorodok-Russia" = "steppe_don_cossack_host_and_azov", "Obdorsk-Russia" = "siberia_pomor_mangazeya_arctic_route", "Vilyuysk-Russia" = "siberia_lena_yakutsk_alaas_core", "Polotsk-Belarus" = "gdl_polotsk_vitebsk_dvina", "Vitebsk-Belarus" = "gdl_polotsk_vitebsk_dvina", "Mogilev-Belarus" = "gdl_minsk_orsha_mogilev", "Minsk-Belarus" = "gdl_minsk_orsha_mogilev", "Brest-Belarus" = "gdl_brest_pinsk_turov_polesia", "Grodno-Belarus" = "gdl_vilna_grodno_novogrudok", "Slutsk-Belarus" = "gdl_minsk_orsha_mogilev", "Pinsk-Belarus" = "gdl_brest_pinsk_turov_polesia", "Novogrudok-Belarus" = "gdl_vilna_grodno_novogrudok", "Orsha-Belarus" = "gdl_minsk_orsha_mogilev", "Mstislavl-Belarus" = "gdl_minsk_orsha_mogilev", "Lida-Belarus" = "gdl_vilna_grodno_novogrudok", "Nesvizh-Belarus" = "gdl_minsk_orsha_mogilev", "Slonim-Belarus" = "gdl_vilna_grodno_novogrudok", "Volkovysk-Belarus" = "gdl_vilna_grodno_novogrudok", "Mozyr-Belarus" = "gdl_brest_pinsk_turov_polesia", "Gomel-Belarus" = "gdl_minsk_orsha_mogilev", "Bobruysk-Belarus" = "gdl_minsk_orsha_mogilev", "Turov-Belarus" = "gdl_brest_pinsk_turov_polesia", "Borisov-Belarus" = "gdl_minsk_orsha_mogilev", "Lviv-Ukraine" = "crown_galicia_belz_carpathian_rus", "Kiev-Ukraine" = "hetmanate_right_bank_kyiv_regiments", "Kamianets-Podilskyi-Ukraine" = "crown_podolia_and_bratslav", "Lutsk-Ukraine" = "crown_volhynia_voivodeship", "Ostroh-Ukraine" = "crown_volhynia_voivodeship", "Volodymyr-Ukraine" = "crown_volhynia_voivodeship", "Kremenets-Ukraine" = "crown_galicia_belz_carpathian_rus", "Dubno-Ukraine" = "crown_volhynia_voivodeship", "Zhovkva-Ukraine" = "crown_galicia_belz_carpathian_rus", "Brody-Ukraine" = "crown_galicia_belz_carpathian_rus", "Drohobych-Ukraine" = "crown_galicia_belz_carpathian_rus", "Halych-Ukraine" = "crown_galicia_belz_carpathian_rus", "Ternopil-Ukraine" = "crown_galicia_belz_carpathian_rus", "Bratslav-Ukraine" = "crown_podolia_and_bratslav", "Vinnytsia-Ukraine" = "crown_podolia_and_bratslav", "Bar-Ukraine" = "crown_podolia_and_bratslav", "Medzhybizh-Ukraine" = "crown_podolia_and_bratslav", "Bila Tserkva-Ukraine" = "hetmanate_right_bank_kyiv_regiments", "Chyhyryn-Ukraine" = "hetmanate_right_bank_kyiv_regiments", "Korsun-Ukraine" = "hetmanate_right_bank_kyiv_regiments", "Uman-Ukraine" = "hetmanate_right_bank_kyiv_regiments", "Chernihiv-Ukraine" = "hetmanate_left_bank_north_chernihiv", "Nizhyn-Ukraine" = "hetmanate_left_bank_north_chernihiv", "Baturyn-Ukraine" = "hetmanate_left_bank_north_chernihiv", "Hlukhiv-Ukraine" = "hetmanate_left_bank_north_chernihiv", "Starodub-Ukraine" = "hetmanate_left_bank_north_chernihiv", "Pereyaslav-Ukraine" = "hetmanate_left_bank_south_poltava", "Poltava-Ukraine" = "hetmanate_left_bank_south_poltava", "Lubny-Ukraine" = "hetmanate_left_bank_south_poltava", "Pryluky-Ukraine" = "hetmanate_left_bank_south_poltava", "Myrhorod-Ukraine" = "hetmanate_left_bank_south_poltava", "Hadiach-Ukraine" = "hetmanate_left_bank_south_poltava", "Putyvl-Ukraine" = "hetmanate_left_bank_north_chernihiv", "Kharkiv-Ukraine" = "sloboda_ukraine_regiments", "Sumy-Ukraine" = "sloboda_ukraine_regiments", "Okhtyrka-Ukraine" = "sloboda_ukraine_regiments", "Izium-Ukraine" = "sloboda_ukraine_regiments", "Bakhmut-Ukraine" = "zaporozhian_sich_and_wild_fields", "Zaporozhian Sich-Ukraine" = "zaporozhian_sich_and_wild_fields", "Kodak-Ukraine" = "zaporozhian_sich_and_wild_fields", "Bakhchisaray-Ukraine" = "crimean_khanate_and_ottoman_kefe", "Kaffa-Ukraine" = "crimean_khanate_and_ottoman_kefe", "Karasubazar-Ukraine" = "crimean_khanate_and_ottoman_kefe", "Gozleve-Ukraine" = "crimean_khanate_and_ottoman_kefe", "Ochakiv-Ukraine" = "zaporozhian_sich_and_wild_fields", "Moscow-Russia" = "muscovy_zamoskovny_moscow_core", "Saint Petersburg-Russia" = "muscovy_karelia_ingria_st_petersburg", "Kronstadt-Russia" = "muscovy_karelia_ingria_st_petersburg", "Veliky Novgorod-Russia" = "muscovy_novgorod_pskov_pyatiny", "Pskov-Russia" = "muscovy_novgorod_pskov_pyatiny", "Smolensk-Russia" = "muscovy_smolensk_and_seversk", "Yaroslavl-Russia" = "muscovy_zamoskovny_moscow_core", "Vologda-Russia" = "muscovy_pomorye_dvina_pechora", "Arkhangelsk-Russia" = "muscovy_pomorye_dvina_pechora", "Kholmogory-Russia" = "muscovy_pomorye_dvina_pechora", "Veliky Ustyug-Russia" = "muscovy_pomorye_dvina_pechora", "Solvychegodsk-Russia" = "muscovy_pomorye_dvina_pechora", "Kargopol-Russia" = "muscovy_pomorye_dvina_pechora", "Tver-Russia" = "muscovy_zamoskovny_moscow_core", "Kostroma-Russia" = "muscovy_zamoskovny_moscow_core", "Vladimir-Russia" = "muscovy_zamoskovny_moscow_core", "Suzdal-Russia" = "muscovy_zamoskovny_moscow_core", "Rostov Veliky-Russia" = "muscovy_zamoskovny_moscow_core", "Pereslavl-Zalessky-Russia" = "muscovy_zamoskovny_moscow_core", "Uglich-Russia" = "muscovy_zamoskovny_moscow_core", "Kolomna-Russia" = "muscovy_oka_ryazan_tula_abatis", "Serpukhov-Russia" = "muscovy_zamoskovny_moscow_core", "Kaluga-Russia" = "muscovy_zamoskovny_moscow_core", "Mozhaysk-Russia" = "muscovy_zamoskovny_moscow_core", "Vyazma-Russia" = "muscovy_smolensk_and_seversk", "Rzhev-Russia" = "muscovy_zamoskovny_moscow_core", "Torzhok-Russia" = "muscovy_zamoskovny_moscow_core", "Staraya Russa-Russia" = "muscovy_novgorod_pskov_pyatiny", "Tikhvin-Russia" = "muscovy_novgorod_pskov_pyatiny", "Olonets-Russia" = "muscovy_karelia_ingria_st_petersburg", "Kola-Russia" = "muscovy_pomorye_dvina_pechora", "Pustozersk-Russia" = "muscovy_pomorye_dvina_pechora", "Bryansk-Russia" = "muscovy_smolensk_and_seversk", "Murom-Russia" = "muscovy_zamoskovny_moscow_core", "Nizhny Novgorod-Russia" = "muscovy_kazan_middle_volga_cherta", "Kazan-Russia" = "muscovy_kazan_middle_volga_cherta", "Ryazan-Russia" = "muscovy_oka_ryazan_tula_abatis", "Tula-Russia" = "muscovy_oka_ryazan_tula_abatis", "Orel-Russia" = "muscovy_oka_ryazan_tula_abatis", "Kursk-Russia" = "muscovy_belgorod_voronezh_razryads", "Belgorod-Russia" = "muscovy_belgorod_voronezh_razryads", "Voronezh-Russia" = "muscovy_belgorod_voronezh_razryads", "Yelets-Russia" = "muscovy_oka_ryazan_tula_abatis", "Tambov-Russia" = "muscovy_belgorod_voronezh_razryads", "Kozlov-Russia" = "muscovy_belgorod_voronezh_razryads", "Ostrogozhsk-Russia" = "sloboda_ukraine_regiments", "Valuyki-Russia" = "sloboda_ukraine_regiments", "Stary Oskol-Russia" = "muscovy_belgorod_voronezh_razryads", "Lipetsk-Russia" = "muscovy_belgorod_voronezh_razryads", "Kasimov-Russia" = "muscovy_kazan_middle_volga_cherta", "Temnikov-Russia" = "muscovy_kazan_middle_volga_cherta", "Arzamas-Russia" = "muscovy_kazan_middle_volga_cherta", "Saransk-Russia" = "muscovy_kazan_middle_volga_cherta", "Penza-Russia" = "muscovy_kazan_middle_volga_cherta", "Simbirsk-Russia" = "muscovy_kazan_middle_volga_cherta", "Samara-Russia" = "muscovy_kazan_middle_volga_cherta", "Syzran-Russia" = "muscovy_kazan_middle_volga_cherta", "Cheboksary-Russia" = "muscovy_kazan_middle_volga_cherta", "Sviyazhsk-Russia" = "muscovy_kazan_middle_volga_cherta", "Vyatka-Russia" = "muscovy_vyatka_perm_stroganov_urals", "Cherdyn-Russia" = "muscovy_vyatka_perm_stroganov_urals", "Solikamsk-Russia" = "muscovy_vyatka_perm_stroganov_urals", "Kungur-Russia" = "muscovy_vyatka_perm_stroganov_urals", "Ufa-Russia" = "muscovy_bashkir_darugas_and_yaik", "Nevyansk-Russia" = "muscovy_vyatka_perm_stroganov_urals", "Astrakhan-Russia" = "steppe_lower_volga_astrakhan_kalmyks", "Saratov-Russia" = "steppe_lower_volga_astrakhan_kalmyks", "Tsaritsyn-Russia" = "steppe_lower_volga_astrakhan_kalmyks", "Cherkassk-Russia" = "steppe_don_cossack_host_and_azov", "Azov-Russia" = "steppe_don_cossack_host_and_azov", "Taganrog-Russia" = "steppe_don_cossack_host_and_azov", "Derbent-Russia" = "caucasus_circassia_kabarda_vainakh_dagestan", "Tarki-Russia" = "caucasus_circassia_kabarda_vainakh_dagestan", "Terki-Russia" = "caucasus_circassia_kabarda_vainakh_dagestan", "Kumukh-Russia" = "caucasus_circassia_kabarda_vainakh_dagestan", "Endirey-Russia" = "caucasus_circassia_kabarda_vainakh_dagestan", "Tobolsk-Russia" = "siberia_tobolsk_irtysh_ob_water_highway", "Tyumen-Russia" = "siberia_tobolsk_irtysh_ob_water_highway", "Verkhoturye-Russia" = "siberia_tobolsk_irtysh_ob_water_highway", "Turinsk-Russia" = "siberia_tobolsk_irtysh_ob_water_highway", "Pelym-Russia" = "siberia_tobolsk_irtysh_ob_water_highway", "Berezov-Russia" = "siberia_tobolsk_irtysh_ob_water_highway", "Surgut-Russia" = "siberia_tobolsk_irtysh_ob_water_highway", "Mangazeya-Russia" = "siberia_pomor_mangazeya_arctic_route", "Tara-Russia" = "siberia_southern_tara_tomsk_kuznetsk_line", "Tomsk-Russia" = "siberia_southern_tara_tomsk_kuznetsk_line", "Kuznetsk-Russia" = "siberia_southern_tara_tomsk_kuznetsk_line", "Yeniseysk-Russia" = "siberia_yeniseysk_angara_ilimsk_portage", "Krasnoyarsk-Russia" = "siberia_yeniseysk_angara_ilimsk_portage", "Omsk-Russia" = "siberia_southern_tara_tomsk_kuznetsk_line", "Ilimsk-Russia" = "siberia_yeniseysk_angara_ilimsk_portage", "Irkutsk-Russia" = "siberia_yeniseysk_angara_ilimsk_portage", "Selenginsk-Russia" = "siberia_transbaikal_dauria_nerchinsk", "Udinsk-Russia" = "siberia_transbaikal_dauria_nerchinsk", "Nerchinsk-Russia" = "siberia_transbaikal_dauria_nerchinsk", "Albazin-Russia" = "siberia_transbaikal_dauria_nerchinsk", "Yakutsk-Russia" = "siberia_lena_yakutsk_alaas_core", "Okhotsk-Russia" = "siberia_arctic_kolyma_okhotsk_kamchatka", "Anadyrsk-Russia" = "siberia_arctic_kolyma_okhotsk_kamchatka", "Nizhnekamchatsk-Russia" = "siberia_arctic_kolyma_okhotsk_kamchatka", "Abakan-Russia" = "siberia_nomadic_baraba_altai_sayan_steppe", "Biysk-Russia" = "siberia_nomadic_baraba_altai_sayan_steppe", "Birsk-Russia" = "muscovy_bashkir_darugas_and_yaik", "Turukhansk-Russia" = "siberia_pomor_mangazeya_arctic_route", "Olekminsk-Russia" = "siberia_lena_yakutsk_alaas_core")
 
+get_tsardom_rid <- function (arg0_s) {
+  if (!is.null(arg0_s$region_id) && nzchar(as.character(arg0_s$region_id))) {
+    return(as.character(arg0_s$region_id))
+  }
+  k <- as.character(arg0_s$key)
+  if (length(k) == 1L && nzchar(k) && k %in% names(settlement_reg_lookup)) {
+    return(as.character(settlement_reg_lookup[[k]]))
+  }
+  return(NA_character_)
+}
+
 sum_rows <- lapply(seq_along(reg_ids), function (i) {
   rid <- reg_ids[i]
-  sub_s <- Filter(function (s) identical(as.character(settlement_reg_lookup[[as.character(s$key)]]), rid), settlements_list)
+  sub_s <- Filter(function (s) identical(get_tsardom_rid(s), rid), settlements_list)
   n_s <- length(sub_s)
   sum_yr <- function (yr) {
     sum(vapply(sub_s, function (s) {
@@ -311,7 +325,7 @@ render_table_template(
 ```{r tab-benchmark-matrix, echo=FALSE}
 build_matrix_df <- function (arg0_list) {
   rows <- lapply(arg0_list, function (s) {
-    rid <- as.character(settlement_reg_lookup[[as.character(s$key)]])
+    rid <- get_tsardom_rid(s)
     rshort <- if (rid %in% names(reg_map)) sub("\\s*\\(.*", "", reg_map[[rid]]) else rid
     data.frame(
       Name = hyphenate_tsardom_words(as.character(s$name)),
@@ -334,7 +348,7 @@ df_mat <- build_matrix_df(settlements_list)
 render_table_template(
   df_mat,
   list(
-    caption = "Population estimates for all 205 catalogued towns, fortresses and Siberian outposts across seven benchmark windows from 1400AD to 1720AD, with hyphens marking dates prior to foundation.",
+    caption = paste0("Population estimates for all ", length(settlements_list), " catalogued towns, fortresses and Siberian outposts across seven benchmark windows from 1400AD to 1720AD, with hyphens marking dates prior to foundation."),
     col_names = c("Settlement", "Region", "Coords", "1400-1450AD", "1500AD", "1550-1580AD", "1600-1615AD", "1648-1667AD", "1678AD", "1700-1720AD"),
     label = "tab:benchmark-matrix"
   )
@@ -347,7 +361,7 @@ render_table_template(
 
 ```{r tab-full-directory, echo=FALSE}
 dir_rows <- lapply(settlements_list, function (s) {
-  rid <- as.character(settlement_reg_lookup[[as.character(s$key)]])
+  rid <- get_tsardom_rid(s)
   rclean <- if (rid %in% names(reg_map)) sub("\\s*\\(.*", "", reg_map[[rid]]) else rid
   data.frame(
     Name = hyphenate_tsardom_words(as.character(s$name)),
@@ -363,7 +377,7 @@ df_dir <- do.call(rbind, dir_rows)
 render_table_template(
   df_dir,
   list(
-    caption = "Complete directory of all 205 catalogued settlements from 1400AD to 1720AD, listing historical and local names, regional assignments, geographic coordinates and dated population estimates.",
+    caption = paste0("Complete directory of all ", length(settlements_list), " catalogued settlements from 1400AD to 1720AD, listing historical and local names, regional assignments, geographic coordinates and dated population estimates."),
     col_names = c("Settlement", "Historical & Alternative Names", "Region", "Coords", "Active Span", "Population Series (Year: Population)"),
     label = "tab:full-directory"
   )

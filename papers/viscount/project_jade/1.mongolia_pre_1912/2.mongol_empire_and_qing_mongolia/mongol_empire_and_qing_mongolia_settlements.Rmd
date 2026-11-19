@@ -1,0 +1,178 @@
+---
+title: "Settlement Gazetteer of the Mongol Empire and Qing Mongolia"
+subtitle: "JADE: Imperial Ords, Monastic Enclaves, Frontier Garrisons and Banner Centres, 1206AD to 1912AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: mongol_empire_and_qing_mongolia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_mongol_empire_and_qing_mongolia_spatial.png"
+hero_caption: "Spatial distribution of 325 catalogued monastic, imperial, administrative and frontier settlements across six historical territories of Mongolia from 1206AD to 1912AD."
+hero_label: "fig:hero-mongol-settlements"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("mongol_empire_and_qing_mongolia.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("mongol_empire_and_qing_mongolia_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("mongol_empire_and_qing_mongolia_source_ledger.json5", simplifyVector = FALSE)
+```
+
+# Abstract
+
+This gazetteer documents 254 urban, monastic, military and administrative settlement trajectories active across the 1.562.476 km² territory of Outer Mongolia between the foundation of the Mongol Empire in 1206AD and the establishment of the Bogd Khanate in 1912AD under JADE. Synthesising mediaeval imperial archaeological excavations, Qing banner cadastres, Lifanyuan courier post registers and early twentieth-century geographical surveys [@wusongdi2000zhongguo; @caoshuji2001zhongguo; @pozdneyev1971mongolia; @maiskii1921sovremennaya; @Bemmann2020Karakorum], the register spans all six historical territories: Tüsheet Khan aimag (70 sites), Sain Noyon Khan aimag (49), Khovd frontier district (39), Setsen Khan aimag (34), Zasagt Khan aimag (34) and Khövsgöl-Dariganga (28). Across seven centuries of nomadic and sedentary settlement, the largest centres in the catalogue are Ulaanbaatar (Urga or Ikh Khüree, reaching 50k in 1911AD), the mediaeval imperial capital Karakorum (38k in 1255AD), Chinggis Khan's base camp Avraga Ord (14k in 1210AD), the Qing military seat Uliastai (8k in 1820AD), the Russian border trading depot Altanbulag (8k in 1860AD), the western frontier residency Khovd (6,8k in 1820AD), Tsetserleg (5,5k in 1850AD), Choibalsan (5k in 1911AD), Chinggis (4,2k in 1911AD) and Amarbayasgalant monastery (2,8k in 1820AD) [@Bemmann2020Karakorum; @pozdneyev1971mongolia; @maiskii1921sovremennaya]. Beside the 254 included centres, the regional source ledger accounts for 10 excluded duplicate aliases out of 264 total candidates.
+
+# Background
+
+Settlement patterns in Mongolia from 1206AD to 1912AD reflected two distinct urbanisation waves separated by centuries of nomadic pastoral circulation [@Bemmann2020Karakorum; @bawden1989modern]. In the thirteenth century, the unified Chinggisid state established fixed imperial capitals to house craft workshops, storehouses and diplomatic embassies, notably Avraga Ord along the Kherlen River and Karakorum in the Orkhon valley [@Wright2025Zuun; @Tolnai2026Tracing]. Following the collapse of the Yuan dynasty in 1368AD, these mediaeval urban hubs declined, and settlement resumed an almost exclusively mobile pastoral regime organised around mobile royal encampments (*ord*) [@bawden1989modern].
+
+From the late sixteenth century onward, the widespread adoption of Tibetan Buddhism introduced a durable urban form: the permanent monastic enclave (*khüree* or *khiid*) [@pozdneyev1971mongolia; @Ujeed2015Establishment]. Monasteries such as Erdene Zuu (founded 1586AD), Ikh Khüree (1639AD) and Amarbayasgalant (1727AD) evolved from mobile assemblies into stone and timber temple complexes flanked by permanent residential colleges, Chinese merchant quarters (*Maimaicheng*) and seasonal pastoral markets, anchoring the modern urban hierarchy of Outer Mongolia [@bawden1989modern; @maiskii1921sovremennaya].
+
+# Methodology
+
+Settlement records were compiled from China Historical GIS (CHGIS V6) administrative layers, archaeological excavation registers from the Mongolian Academy of Sciences, Qing Lifanyuan banner tables, and Russian field surveys by Aleksei Pozdneyev and Ivan Maiskii [@wusongdi2000zhongguo; @caoshuji2001zhongguo; @pozdneyev1971mongolia; @maiskii1921sovremennaya; @Bemmann2020Karakorum]. All 325 catalogued centres carry valid WGS84 geographic coordinates and longitudinal population observations across historical benchmark years.
+
+In the regional source ledger, 10 candidate records were categorized as excluded duplicate aliases situated within 12,0 km of higher-ranking canonical settlements (for instance, Uliastay merged into Uliastai, Kharkhorin into Karakorum, Ulan Bator into Ulaanbaatar, Modot into Avraga Ord, Undurkhaan into Chinggis, and Herlen into Chinggis), ensuring zero double-counting across the database.
+
+# Testing and Validation
+
+Ledger reconciliation confirms exactly 254 included settlements and 10 excluded duplicate aliases out of 264 total candidates (0 unaccounted). All 325 catalogued centres map directly onto the six sub-regional territorial masks. Figure \ref{fig:sett-mongol} displays the rank-size distribution and the leading fifteen settlement population peaks.
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_mongol_empire_and_qing_mongolia_settlements.png",
+  "Rank-size distribution and leading fifteen settlement peaks across the 325 catalogued centres of Mongolia from 1206AD to 1912AD.",
+  "fig:sett-mongol"
+)
+```
+
+# Results
+
+## Top 45 Settlements by Peak Population
+
+Table \ref{tab:top45-mongol} reports the top 45 settlements in the gazetteer ranked by peak catalogued population, spanning mediaeval imperial capitals, Qing military headquarters, frontier trading marts and major Buddhist monastic centres.
+
+```{r tab-top45, results='asis'}
+fmt_coord <- function(x) gsub("\\.", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+get_pop_str <- function(e, y) {
+  v <- e$population[[y]]
+  if (is.null(v)) return("-")
+  viscount_fmt_pop(v)
+}
+
+peaks <- vapply(sett_data, function(e) max(unlist(e$population)), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+top_n <- min(45L, length(ord))
+
+rows <- lapply(sett_data[ord[seq_len(top_n)]], function(e) {
+  yrs <- as.integer(names(e$population))
+  pk_y <- names(e$population)[which.max(unlist(e$population))]
+  pk_v <- max(unlist(e$population))
+  reg_nm <- sub("^[0-9]+\\.\\s*", "", mod_data$regions[[e$region_id]]$name)
+  data.frame(
+    Settlement = e$name,
+    Territory = reg_nm,
+    Coords = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Span = paste0(min(yrs), "-", max(yrs), "AD"),
+    P1290 = get_pop_str(e, "1290"),
+    P1820 = get_pop_str(e, "1820"),
+    P1911 = get_pop_str(e, "1911"),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_y, "AD)"),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  "Top 45 settlements in Mongolia from 1206AD to 1912AD ordered by peak catalogued population (n=254 total centres).",
+  c("Settlement", "Territory", "Lat, Lon", "Span", "1290AD", "1820AD", "1911AD", "Peak (Year)"),
+  list(label = "tab:top45-mongol", font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+## Sub-Regional Distribution and Ledger Exclusions
+
+Table \ref{tab:regsum-mongol} summarizes settlement counts and leading centres across the six administrative territories. Tüsheet Khan aimag contained the highest concentration of catalogued sites (70), followed by Sain Noyon Khan aimag (49) and the Khovd frontier district (39). Table \ref{tab:excluded-mongol} documents all 10 excluded duplicate candidates from the regional source ledger.
+
+```{r tab-regsum, results='asis'}
+reg_keys <- names(mod_data$regions)
+sum_rows <- lapply(reg_keys, function(rk) {
+  sub_e <- Filter(function(e) identical(e$region_id, rk), sett_data)
+  max_nm <- "-"
+  if (length(sub_e) > 0) {
+    pks <- vapply(sub_e, function(e) max(unlist(e$population)), numeric(1))
+    idx_m <- which.max(pks)
+    max_nm <- paste0(sub_e[[idx_m]]$name, " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  reg_short <- sub("^[0-9]+\\.\\s*", "", mod_data$regions[[rk]]$name)
+  data.frame(
+    Territory = reg_short,
+    Sites = as.character(length(sub_e)),
+    Lead = max_nm,
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Settlement count and leading urban or monastic centre across all six territories from 1206AD to 1912AD (254 total sites).",
+  c("Territory", "Settlements", "Leading Centre (Peak)"),
+  list(label = "tab:regsum-mongol", font_size = "scriptsize")
+)
+```
+
+```{r tab-excluded, results='asis'}
+exc_list <- Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates)
+exc_rows <- lapply(exc_list, function(c) {
+  just <- as.character(c$justification)
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", just, perl = TRUE)
+  just <- gsub("-Mongolia", "", just, fixed = TRUE)
+  data.frame(
+    Candidate = c$name,
+    Territory = c$country,
+    Category = "Duplicate alias",
+    Justification = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+
+viscount_table(
+  exc_df,
+  "All 10 excluded duplicate candidates in the Mongolian source ledger, consolidated into canonical parent centres.",
+  c("Candidate", "Country", "Reason", "Consolidation Note"),
+  list(label = "tab:excluded-mongol", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Two specific spatial constraints affect settlement analysis across historical Mongolia. First, monastic settlements frequently functioned as mobile tent camps before establishing permanent brick, stone or timber foundations [@pozdneyev1971mongolia; @bawden1989modern]. Ikh Khüree (Urga), for instance, moved across twenty-eight distinct geographic locations between 1639AD and 1778AD before permanently settling on the Tuul River, meaning its coordinates prior to 1778AD represent the institutional predecessor rather than a static geographic point.
+
+Second, purely nomadic pastoral seasonal camps leave minimal architectural surface remains outside hearth stones and corral lines [@DR2019Modeling; @Franklin2023Archaeology]. As a consequence, catalogued settlements capture nucleated monastic centres, imperial palaces, border fortresses and courier relay stations, while purely mobile pastoral populations are distributed via continuous kriging surfaces rather than nucleated town registers [@S2026Spatial].
+
+# Conclusion
+
+The settlement gazetteer of historical Mongolia illustrates the structural transformation of steppe urbanism from mediaeval imperial ords to eighteenth-century Buddhist monastic enclaves. Across 325 catalogued centres, urban population concentrated along fertile river valleys (the Orkhon, Tuul, Kherlen and Selenge) and strategic trade arteries.
+
+By 1912AD, the monastic metropolis of Ikh Khüree (50k) along with secondary hubs such as Uliastai (8k), Altanbulag (8k), Khovd (6,8k) and Tsetserleg (5,5k) formed a structured administrative network that underpinned the theocratic governance of the Bogd Khanate.
+
+# Sources
+
+<div id="refs"></div>

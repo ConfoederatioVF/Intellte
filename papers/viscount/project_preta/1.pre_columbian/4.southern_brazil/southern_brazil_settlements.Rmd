@@ -1,0 +1,250 @@
+---
+title: "Settlement Gazetteer of Pre-Columbian Southern and South-Eastern Brazil"
+subtitle: "Operation Viscount Archaeological Sites, Coordinates, Toponymy and Demographic Trajectories (10000BC to 1500AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: southern_brazil_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_southern_brazil_spatial.png"
+hero_caption: "Spatial distribution of 1.482 catalogued pre-contact settlements across the six hydrological sub-regions of Southern and South-Eastern Brazil (1,92M km²), highlighting Atlantic littoral shell-mounds, highland Araucária pit-house clusters and inland fluvial networks."
+hero_label: "fig:hero-settlements"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("southern_brazil.json5")
+set_data <- read_json_file("southern_brazil_settlements.json")
+led_data <- read_json_file("southern_brazil_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_pop_val <- function (arg0_p) {
+  p <- as.numeric(arg0_p)
+  if (is.na(p) || p <= 0) return("0")
+  if (p >= 1000) return(paste0(viscount_fmt_number(p / 1000, 1L), "k"))
+  as.character(as.integer(round(p)))
+}
+
+extract_subregion_table <- function (arg0_reg_id, arg1_n_top = 25L) {
+  items <- list()
+  for (k in names(set_data)) {
+    it <- set_data[[k]]
+    r <- if (!is.null(it$region_id)) it$region_id else it$region
+    if (identical(r, arg0_reg_id)) {
+      pop_map <- it$population
+      p1500 <- if (!is.null(pop_map[["1500"]])) as.numeric(pop_map[["1500"]]) else 0
+      p_vals <- if (length(pop_map) > 0) as.numeric(unlist(pop_map)) else 0
+      p_peak <- max(p_vals, na.rm = TRUE)
+      peak_yr <- "1500AD"
+      for (y_str in names(pop_map)) {
+        if (as.numeric(pop_map[[y_str]]) == p_peak) {
+          peak_yr <- fmt_yr(y_str)
+          break
+        }
+      }
+      items[[length(items) + 1L]] <- list(
+        name = clean_text(it$name),
+        lat = as.numeric(it$coords[[1]]),
+        lon = as.numeric(it$coords[[2]]),
+        peak_pop = p_peak,
+        pop_1500 = p1500,
+        peak_yr = peak_yr
+      )
+    }
+  }
+  ord <- order(
+    sapply(items, function(x) x$peak_pop),
+    sapply(items, function(x) x$pop_1500),
+    decreasing = TRUE
+  )
+  items <- items[ord]
+  if (length(items) > arg1_n_top) items <- items[seq_len(arg1_n_top)]
+  
+  data.frame(
+    Site = sapply(items, function(x) x$name),
+    Latitude = sapply(items, function(x) paste0(viscount_fmt_number(abs(x$lat), 2L), if (x$lat >= 0) " N" else " S")),
+    Longitude = sapply(items, function(x) paste0(viscount_fmt_number(abs(x$lon), 2L), if (x$lon >= 0) " E" else " W")),
+    Peak_Pop = sapply(items, function(x) fmt_pop_val(x$peak_pop)),
+    Pop_1500 = sapply(items, function(x) fmt_pop_val(x$pop_1500)),
+    Peak_Period = sapply(items, function(x) x$peak_yr),
+    stringsAsFactors = FALSE
+  )
+}
+```
+
+# Abstract
+
+This gazetteer documents 1.482 systematically geo-referenced Pre-Columbian archaeological settlements catalogued across the 1.920.483 km² expanse of extra-Amazonian Southern and South-Eastern Brazil. Spanning eleven millennia from terminal Pleistocene foraging camps (10000BC) to the European contact horizon in 1500AD, the gazetteer records coordinates, cultural traditions, demographic trajectories and toponymic data across six macro-hydrological sub-regions. By integrating stratigraphic excavation reports, regional heritage inventories and radiocarbon series, this register provides an empirical anchor for spatial population reconstructions across eastern South America.
+
+The spatial distribution of settlements reflects intense concentration within distinct ecological zones. The Southern Atlantic Sambaqui and Lagoa dos Patos Belt accounts for 419 catalogued sites, featuring monumental shell mounds that sustained dense littoral populations from 5000BC to 1000BC. The Tietê, Paranapanema and Iguaçu basins contain 415 catalogued sites, documenting highland pit-house clusters of the Taquara-Itararé tradition and riverine horticultural settlements of the Guarani. The Southeast Atlantic Coast encompasses 277 sites across Rio de Janeiro, Espírito Santo and eastern Minas Gerais. The Uruguay Basin and Rio Grande do Sul Pampa record 177 sites, while the Upper Paraná and Central Cerrado preserve 129 sites belonging to the Aratu-Sapucaí tradition, and the Pantanal wetland depression registers 65 elevated earthen mounds (*aterros*).
+
+At the contact threshold in 1500AD, the macro-region supported an aggregate population of 1.200.000 persons, led by major nucleated settlements including the Karióka Tupinambá confederacy of Guanabara (2.613 persons at contact, peak 5.154), the Guairá Guarani cluster on the Upper Paraná (1.909 persons, peak 3.796), Foz do Iguaçu (1.708 persons, peak 3.392), São Vicente (1.558 persons, peak 3.073), and São Miguel on the Uruguay River (1.306 persons, peak 2.557). While the entire gazetteer of 1.482 settlements is computed in our quantitative demographic analyses, this report presents detailed tabular registers of the leading 160 centres, capturing the architectural, geographical and demographic heterogeneity of Pre-Columbian Southern Brazil.
+
+# Macro-Regional Gazetteer Architecture and Spatial Coverage
+
+The Operation Viscount settlement database coordinates primary archaeological field data within an integrated geographic information system. Each recorded site is georeferenced to WGS84 coordinates, assigned to one of six hydrologically bounded sub-regions, and linked to chronological population estimates based on architectural volume, residential surface area and artifact discard rates [@deblasis2007some; @gaspar2008dating; @souza2016understanding].
+
+To capture dynamic population changes over time, settlement trajectories are benchmarked across twenty-one temporal intervals from 10000BC to 1500AD. For monumental sambaquis, demographic estimates reflect the volume of mounded shell matrix, burial counts and radiocarbon deposition rates [@fish2013monumental; @villagran2014microstratigraphic]. For highland Southern Proto-Jê settlements, populations are derived from the number, diameter and contemporaneity of excavated pit-houses (*casas subterrâneas*), applying ethnographic floor-area coefficients of 4 to 6 square metres per person [@corteletti2015landscape; @schmitz2010casas]. For Tupi-Guarani settlements, population sizes reflect the dimensions of communal longhouses (*malocas*) and total village enclosed area [@bonomo2015expansion; @noelli1998tupi].
+
+```{r table_macro_breakdown}
+macro_df <- data.frame(
+  Subregion = c(
+    "1. Southeast Atlantic Coast",
+    "2. South Atlantic Sambaqui",
+    "3. Upper Parana and Cerrado",
+    "4. Tiete, Paranapanema, Iguacu",
+    "5. Pantanal and Upper Paraguay",
+    "6. Uruguay and RS Pampa",
+    "Total Southern Brazil"
+  ),
+  Area_km2 = c(
+    "259.847", "231.713", "357.528", "457.742", "445.775", "167.878", "1.920.483"
+  ),
+  Catalogued_Sites = c("277", "419", "129", "415", "65", "177", "1.482"),
+  Site_Share = c("18,7%", "28,3%", "8,7%", "28,0%", "4,4%", "11,9%", "100,0%"),
+  Pop_1500AD = c("240.000", "215.000", "205.000", "285.000", "115.000", "140.000", "1.200.000"),
+  Density_1500 = c("0,92", "0,93", "0,57", "0,62", "0,26", "0,83", "0,62"),
+  stringsAsFactors = FALSE
+)
+
+viscount_table(
+  macro_df,
+  arg1_caption = "Systematic distribution of 1.482 catalogued archaeological settlements, territorial surface areas, contact populations, and mean densities across the six Pre-Columbian sub-regions of Southern Brazil.",
+  arg2_col_names = c("Sub-region", "Area (km²)", "Sites", "Share (%)", "1500AD Pop", "Density (p/km²)")
+)
+```
+
+# Sub-Regional Settlement Catalogues
+
+## Southeast Atlantic Coast (Doce, Paraíba do Sul and Guanabara)
+
+The Southeast Atlantic Coast sub-region encompasses 259.847 km² across the maritime lowlands and coastal cordilleras of Rio de Janeiro, Espírito Santo and eastern Minas Gerais. The 277 catalogued sites reflect three principal occupational horizons: early to middle Holocene estuarine shell mounds (such as Sambaqui do Forte, Saquarema and Sambaqui da Tarioba), rock-shelters of the Una ceramic tradition, and late pre-contact Tupinambá fortified towns surrounding Guanabara Bay and the lower Paraíba do Sul valley [@lima2000em; @prous1992arqueologia].
+
+At European contact in 1500AD, the sub-regional population reached 240.000 persons (density 0,92 persons/km²). Settlement was anchored by the Karióka Tupinambá village complex in Guanabara Bay (contact population 2.613 persons, cumulative peak 5.154 persons) and the Tupiniquim coastal hub at Porto Seguro (contact population 1.206 persons, peak 2.395 persons). Table 2 registers twenty-five leading settlements in the Southeast Atlantic sub-region ranked by peak demographic footprint.
+
+```{r table_se_atlantic}
+df_se <- extract_subregion_table("sbr_southeast_atlantic_sambaqui", 25L)
+viscount_table(
+  df_se,
+  arg1_caption = "Twenty-five leading archaeological settlements of the Southeast Atlantic Coast, showing WGS84 coordinates, peak demographic capacity, contact population in 1500AD, and peak chronological period.",
+  arg2_col_names = c("Site Name", "Latitude", "Longitude", "Peak Pop", "1500AD Pop", "Key Period"),
+  arg3_options = list(font_size = "scriptsize")
+)
+```
+
+## Southern Atlantic Sambaqui and Lagoa dos Patos Belt
+
+The Southern Atlantic Sambaqui Belt covers 231.713 km² from the Baixada Santista in São Paulo through the coastal lagoons of Paraná and Santa Catarina to the maritime outlet of Lagoa dos Patos in Rio Grande do Sul. This coastal strip contains 419 catalogued archaeological sites, representing the highest concentration of monumental shell architecture in the Americas [@deblasis2007some; @gaspar2008dating; @klokler2010juntos].
+
+Sites such as the Sambaqui de Garopaba do Sul (peak population 1.575 persons in 1000BC), Jabuticabeira II (peak 1.400 persons), and Cabeçuda (peak 1.200 persons) attained monumental volumes exceeding 100.000 cubic metres. Following the mid-Holocene climatic climax, coastal communities diversified into estuarine fishing and seasonal horticulture, culminating in the contact-period Tupiniquim maritime town of São Vicente (Guaibê, contact population 1.558 persons, peak 3.073 persons) and the cerrito mounds of Rio Grande. Table 3 presents thirty-five leading settlements in this sub-region.
+
+```{r table_s_sambaqui}
+df_ss <- extract_subregion_table("sbr_south_atlantic_sambaqui", 35L)
+viscount_table(
+  df_ss,
+  arg1_caption = "Thirty-five leading archaeological settlements of the Southern Atlantic Sambaqui and Lagoa dos Patos Belt, showing WGS84 coordinates, peak demographic capacity, contact population in 1500AD, and peak chronological period.",
+  arg2_col_names = c("Site Name", "Latitude", "Longitude", "Peak Pop", "1500AD Pop", "Key Period"),
+  arg3_options = list(font_size = "scriptsize")
+)
+```
+
+## Upper Paraná, Paranaíba and Central Cerrado
+
+The Upper Paraná, Paranaíba and Central Cerrado sub-region spans 357.528 km² across the highland plateaux and savanna woodlands of Goiás, western Minas Gerais and eastern Mato Grosso do Sul. The gazetteer records 129 archaeological sites, predominantly open-air ring villages belonging to the Aratu-Sapucaí ceramic tradition [@robrahn1996tradicao].
+
+Aratu settlements typically featured circular or semi-circular house arrangements encircling a spacious central ceremonial plaza. Prominent regional centres, such as Goiânia (Aratu-Sapucaí, contact population 904 persons, peak 1.761 persons) and Uberlândia (Aratu Triângulo, contact population 754 persons, peak 1.467 persons), were positioned on high, well-drained interfluvial ridges with immediate access to fertile river terraces suitable for maize and manioc cultivation. Table 4 details twenty leading settlements in this sub-region.
+
+```{r table_upper_parana}
+df_up <- extract_subregion_table("sbr_upper_parana_cerrado", 20L)
+viscount_table(
+  df_up,
+  arg1_caption = "Twenty leading archaeological settlements of the Upper Paraná, Paranaíba and Central Cerrado, showing WGS84 coordinates, peak demographic capacity, contact population in 1500AD, and peak chronological period.",
+  arg2_col_names = c("Site Name", "Latitude", "Longitude", "Peak Pop", "1500AD Pop", "Key Period"),
+  arg3_options = list(font_size = "scriptsize")
+)
+```
+
+## Tietê, Paranapanema and Iguaçu
+
+Covering 457.742 km² across São Paulo, Paraná and western Santa Catarina, the Tietê, Paranapanema and Iguaçu basins formed the primary demographic heartland of interior Southern Brazil. The 415 catalogued sites document two major cultural horizons: high-density pit-house villages and geometric earthworks of the Taquara-Itararé tradition in the pine highlands, and extensive Guarani horticultural villages along river terraces [@corteletti2015landscape; @souza2016understanding; @bonomo2015expansion].
+
+At contact in 1500AD, sub-regional population reached 285.000 persons (density 0,62 persons/km²). Major population centres included the fortified Guarani towns of Guaíra (contact population 1.909 persons, peak 3.796 persons) and Foz do Iguaçu (contact population 1.708 persons, peak 3.392 persons), positioned strategically above major rapids and river junctions. In the upper Tietê valley, Piratininga supported 1.206 persons at contact (peak 2.379 persons). Table 5 presents thirty-five leading settlements in this basin.
+
+```{r table_tiete_iguacu}
+df_ti <- extract_subregion_table("sbr_tiete_paranapanema_iguacu", 35L)
+viscount_table(
+  df_ti,
+  arg1_caption = "Thirty-five leading archaeological settlements of the Tietê, Paranapanema and Iguaçu basins, showing WGS84 coordinates, peak demographic capacity, contact population in 1500AD, and peak chronological period.",
+  arg2_col_names = c("Site Name", "Latitude", "Longitude", "Peak Pop", "1500AD Pop", "Key Period"),
+  arg3_options = list(font_size = "scriptsize")
+)
+```
+
+## Pantanal and Upper Paraguay Basin
+
+The Pantanal and Upper Paraguay Basin encompasses 445.775 km² of seasonal wetland marshes, river channels and surrounding cerrado plateaux in Mato Grosso and Mato Grosso do Sul. The 65 catalogued archaeological sites prominently feature artificial earthen mounds (*aterros*), constructed along the Paraguay, Miranda, Cuiabá and Aquidauana rivers to provide dry habitation platforms during the annual six-month flood cycle [@eremites2002prehistoria; @peixoto2003populacoes].
+
+The leading settlement complex at Corumbá (Pantanal Aterros) supported an estimated 804 inhabitants at contact in 1500AD, with a cumulative peak capacity of 1.596 persons during late prehistoric ceramic horizons. Excavations on aterros reveal dense ceramic discard, post-mould structures, clay cooking hearths and human burials, documenting sustained multi-generational occupation focused on intensive aquatic foraging, fish smoke-curing and turtle harvesting. Table 6 catalogues twenty leading sites in the Pantanal and Upper Paraguay sub-region.
+
+```{r table_pantanal}
+df_pa <- extract_subregion_table("sbr_pantanal_upper_paraguay", 20L)
+viscount_table(
+  df_pa,
+  arg1_caption = "Twenty leading archaeological settlements of the Pantanal and Upper Paraguay Basin, showing WGS84 coordinates, peak demographic capacity, contact population in 1500AD, and peak chronological period.",
+  arg2_col_names = c("Site Name", "Latitude", "Longitude", "Peak Pop", "1500AD Pop", "Key Period"),
+  arg3_options = list(font_size = "scriptsize")
+)
+```
+
+## Uruguay Basin and Rio Grande do Sul Pampa
+
+The Uruguay Basin and Rio Grande do Sul Pampa sub-region covers 167.878 km² of undulating grasslands, gallery forests and southern basaltic plateaux along the borderlands of southern Brazil, Uruguay and north-eastern Argentina. The 177 catalogued archaeological sites record early Umbu lithic camps, monumental earthen *cerritos* flanking river floodplains, highland pit-house enclosures and protohistoric Guarani towns [@loponte2015fishtail; @milheira2017monumental; @noelli1998tupi].
+
+At European contact in 1500AD, sub-regional population reached 140.000 persons (density 0,83 persons/km²). The demographic network was anchored by the Guarani fluvial centre of São Miguel on the middle Uruguay River (contact population 1.306 persons, peak 2.557 persons), the highland Southern Proto-Jê ceremonial hub of Pinhal da Serra (contact population 955 persons, peak 1.876 persons), and the Urubici pit-house cluster (contact population 804 persons, peak 1.596 persons). Table 7 catalogues twenty-five leading sites in this sub-region.
+
+```{r table_uruguay}
+df_ur <- extract_subregion_table("sbr_uruguay_pampa", 25L)
+viscount_table(
+  df_ur,
+  arg1_caption = "Twenty-five leading archaeological settlements of the Uruguay Basin and Rio Grande do Sul Pampa, showing WGS84 coordinates, peak demographic capacity, contact population in 1500AD, and peak chronological period.",
+  arg2_col_names = c("Site Name", "Latitude", "Longitude", "Peak Pop", "1500AD Pop", "Key Period"),
+  arg3_options = list(font_size = "scriptsize")
+)
+```
+
+# Spatial Covariates and Settlement Density Distributions
+
+The geographic distribution of the 1.482 catalogued pre-contact settlements demonstrates strong statistical dependence on three environmental covariates: proximity to perennial waterways, elevation and coastal lagoon density. Over 78 percent of all catalogued sites lie within 5 kilometres of a major river or oceanic shoreline, highlighting the primacy of aquatic transport and aquatic biomass in sustaining sedentary populations.
+
+In the highland zone (altitudes between 600 and 1.200 metres), settlement distribution corresponds closely to the modern and reconstructed distribution of *Araucária angustifolia* moist forests [@iriarte2016emergent]. Semi-subterranean pit-houses are concentrated on basaltic plateau ridges where winter insolation is maximised and cold-air pooling in valley bottoms is avoided. In the coastal zone, sambaquis cluster around estuarine bottlenecks and protected lagoon margins that afforded safe canoe navigation and continuous shellfish harvesting during rough sea conditions.
+
+Across the macro-region, the overall site density of 0,77 sites per 1.000 km² exhibits notable sub-regional variation, ranging from 1,81 sites per 1.000 km² in the Southern Atlantic Sambaqui belt to 0,15 sites per 1.000 km² in the seasonally inundated Pantanal. These spatial gradients reinforce the multi-focal nature of Pre-Columbian demographic organisation in Southern Brazil, where independent centres of cultural complexity emerged in response to distinct ecological endowments.
+
+# Sources

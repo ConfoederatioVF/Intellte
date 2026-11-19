@@ -30,7 +30,7 @@ Sunzha-Terek Cossack settlements
 
 # Methodology
 
-This gazetteer traces the population histories of 165 settlements across
+This gazetteer traces the population histories of 170 settlements across
 Chechnya and Ingushetia from 10000BC to 1900AD.
 
 Prehistoric, Eastern Koban and Alanic figures are derived from excavated
@@ -50,171 +50,176 @@ All-Russian Imperial Census for Terek Oblast
 
 | Settlement | Other Names | Coords | Dates | Peak Population | 1897AD | 1900AD |
 |:---|:---|:---|:---|:---|:---|:---|
-| Kezenoy-Am | Кезеной-Ам, Эйзенах | 42,78N, 46,15E | 10000BC - 4000BC | 110 (4000BC) | \- | \- |
-| Bamut Bronze Age Site | Bamut Bronze Age Site | 43,16N, 45,2E | 3500BC - 2000BC | 320 (3000BC) | \- | \- |
-| Bamut Bronze Age Site 2 | Bamut Bronze Age Site 2 | 43,16N, 45,2E | 1000BC | 450 (1000BC) | \- | \- |
-| Bamut | Бамут | 43,16N, 45,19E | 1700AD - 1900AD | 1,2k (1900AD) | 1,1k | 1,2k |
-| Lugovoye Bronze Age Site | Lugovoye Bronze Age Site | 43,11N, 45,02E | 3500BC - 3000BC | 380 (3000BC) | \- | \- |
-| Lugovoye Iron Age Site | Lugovoye Iron Age Site | 43,1N, 45,02E | 1000BC - 500BC | 600 (500BC) | \- | \- |
-| Lugovoye | Луговое, Мужичи, Muzichi | 43,1N, 45,02E | 1700AD - 1900AD | 1k (1900AD) | 980 | 1k |
-| Serzhen-Yurt Bronze Age Site | Serzhen-Yurt Bronze Age Site | 43,12N, 46,02E | 3000BC - 2000BC | 450 (3000BC) | \- | \- |
-| Serzhen-Yurt Iron Age Site | Serzhen-Yurt Iron Age Site | 43,12N, 46,02E | 1000BC - 500BC | 900 (1000BC) | \- | \- |
-| Serzhen-Yurt | Сержень-Юрт, Сержень-Юрт I-II | 43,12N, 46,02E | 1700AD - 1900AD | 1,7k (1900AD) | 1,6k | 1,7k |
-| Zandak Iron Age Site | Zandak Iron Age Site | 43N, 46,37E | 1000BC - 500BC | 700 (1000BC) | \- | \- |
-| Zandak | Зандак, Зандакский комплекс | 43N, 46,37E | 1000AD - 1900AD | 2k (1900AD) | 1,9k | 2k |
-| Nesterovskaya Iron Age Site | Nesterovskaya Iron Age Site | 43,24N, 45,06E | 1000BC - 500BC | 600 (1000BC) | \- | \- |
-| Nesterovskaya Medieval Gorodishche | Nesterovskaya Medieval Gorodishche | 43,24N, 45,05E | 1000AD | 1,1k (1000AD) | \- | \- |
-| Nesterovskaya | Нестеровская, Нестеровское | 43,23N, 45,05E | 1800AD - 1900AD | 3,5k (1900AD) | 3,4k | 3,5k |
-| Alkhan-Yurt Iron Age Site | Alkhan-Yurt Iron Age Site | 43,24N, 45,55E | 500BC | 650 (500BC) | \- | \- |
-| Alkhan-Yurt Medieval Gorodishche | Alkhan-Yurt Medieval Gorodishche | 43,23N, 45,55E | 800AD - 1200AD | 2,1k (1200AD) | \- | \- |
-| Alkhan-Yurt | Алхан-Юрт, Iалхан-Юрт | 43,23N, 45,54E | 1700AD - 1900AD | 2,8k (1900AD) | 2,7k | 2,8k |
-| Belgatoy Bronze Age Site | Belgatoy Bronze Age Site | 43,06N, 45,96E | 1000BC | 450 (1000BC) | \- | \- |
-| Belgatoy Medieval Gorodishche | Belgatoy Medieval Gorodishche | 43,05N, 45,95E | 1200AD | 750 (1200AD) | \- | \- |
-| Belgatoy | Белгатой | 43,05N, 45,95E | 1700AD - 1900AD | 1,7k (1900AD) | 1,7k | 1,7k |
-| Kharachoy Bronze Age Site | Kharachoy Bronze Age Site | 42,91N, 46,15E | 1500BC | 350 (1500BC) | \- | \- |
-| Kharachoy Bronze Age Site 2 | Kharachoy Bronze Age Site 2 | 42,91N, 46,14E | 1000BC | 480 (1000BC) | \- | \- |
-| Kharachoy | Харачой | 42,91N, 46,14E | 1400AD - 1900AD | 1,4k (1800AD) | 1,3k | 1,3k |
+| Achaluki | Ачалуки, Средние Ачалуки | 43,35N, 44,72E | 1800AD - 1850AD | 1,3k (1850AD) | \- | \- |
+| Achkhoy-Martan | Ачхой-Мартан | 43,19N, 45,28E | 1700AD - 1850AD | 2,2k (1800AD) | \- | \- |
+| Aldam-Gezi | Aldam-Gezi | 42,76N, 46,11E | 1600AD - 1858AD | 1,2k (1600AD) | \- | \- |
+| Aldy Medieval Gorodishche | Aldy Medieval Gorodishche | 43,28N, 45,66E | 1100AD - 1280AD | 2k (1200AD) | \- | \- |
+| Aldy | Алды, Бухан-Юрт | 43,28N, 45,66E | 1700AD - 1850AD | 3,2k (1750AD) | \- | \- |
+| Ali-Yurt Medieval Gorodishche | Ali-Yurt Medieval Gorodishche | 43,18N, 44,86E | 600AD - 1200AD | 2,2k (1200AD) | \- | \- |
+| Ali-Yurt | Али-Юрт | 43,17N, 44,85E | 1800AD - 1850AD | 1k (1850AD) | \- | \- |
 | Alkhan-Kala Iron Age Site | Alkhan-Kala Iron Age Site | 43,27N, 45,52E | 300BC - 1AD | 1,5k (1AD) | \- | \- |
 | Alkhan-Kala Medieval Gorodishche | Alkhan-Kala Medieval Gorodishche | 43,26N, 45,52E | 400AD - 1200AD | 13,5k (1200AD) | \- | \- |
-| Alkhan-Kala | Алхан-Кала, Ермоловская | 43,26N, 45,51E | 1850AD - 1900AD | 3k (1900AD) | 2,9k | 3k |
-| Yandare Medieval Gorodishche | Yandare Medieval Gorodishche | 43,25N, 44,92E | 400AD - 1200AD | 4,2k (1200AD) | \- | \- |
-| Yandare | Яндаре, Яндаре-Городище | 43,24N, 44,92E | 1750AD - 1900AD | 2,2k (1900AD) | 2,1k | 2,2k |
-| Gazi-Yurt Medieval Gorodishche | Gazi-Yurt Medieval Gorodishche | 43,22N, 44,89E | 400AD - 1200AD | 5,5k (1200AD) | \- | \- |
-| Gazi-Yurt | Гази-Юрт, Магас | 43,22N, 44,88E | 1800AD - 1900AD | 1,1k (1900AD) | 1,1k | 1,1k |
-| Ekazhevo Medieval Gorodishche | Ekazhevo Medieval Gorodishche | 43,22N, 44,82E | 600AD - 1200AD | 3,5k (1200AD) | \- | \- |
-| Ekazhevo | Экажево, Экажевское городище | 43,21N, 44,82E | 1750AD - 1900AD | 4,3k (1900AD) | 4,1k | 4,3k |
-| Ali-Yurt Medieval Gorodishche | Ali-Yurt Medieval Gorodishche | 43,18N, 44,86E | 600AD - 1200AD | 2,2k (1200AD) | \- | \- |
-| Ali-Yurt | Али-Юрт | 43,17N, 44,85E | 1800AD - 1900AD | 1,6k (1900AD) | 1,5k | 1,6k |
-| Surkhakhi Medieval Gorodishche | Surkhakhi Medieval Gorodishche | 43,2N, 44,91E | 600AD - 1200AD | 2,6k (1200AD) | \- | \- |
-| Surkhakhi | Сурхахи | 43,19N, 44,9E | 1750AD - 1900AD | 3,1k (1900AD) | 3k | 3,1k |
-| Plievo Medieval Gorodishche | Plievo Medieval Gorodishche | 43,26N, 44,82E | 800AD - 1200AD | 2,4k (1200AD) | \- | \- |
-| Plievo | Плиево | 43,25N, 44,81E | 1750AD - 1900AD | 2,9k (1900AD) | 2,8k | 2,9k |
+| Alkhan-Kala | Алхан-Кала, Ермоловская | 43,26N, 45,51E | 1800AD - 1858AD | 1,5k (1858AD) | \- | \- |
+| Alkhan-Yurt Iron Age Site | Alkhan-Yurt Iron Age Site | 43,24N, 45,55E | 500BC - 400AD | 650 (500BC) | \- | \- |
+| Alkhan-Yurt Medieval Gorodishche | Alkhan-Yurt Medieval Gorodishche | 43,23N, 45,55E | 300BC - 1200AD | 2,1k (1200AD) | \- | \- |
+| Alkhan-Yurt | Алхан-Юрт, Iалхан-Юрт | 43,23N, 45,54E | 300BC - 1850AD | 2,3k (1800AD) | \- | \- |
+| Alleroy | Аллерой | 43,05N, 46,27E | 1500AD - 1850AD | 1,4k (1800AD) | \- | \- |
+| Assinovskaya Bronze Age Site | Assinovskaya Bronze Age Site | 43,25N, 45,19E | 3000BC - 2000BC | 350 (2500BC) | \- | \- |
+| Assinovskaya | Ассиновская | 43,24N, 45,18E | 1800AD - 1850AD | 1,8k (1850AD) | \- | \- |
+| Avtury | Автуры | 43,17N, 46E | 1700AD - 1850AD | 2,1k (1800AD) | \- | \- |
+| Bamut Bronze Age Site 2 | Bamut Bronze Age Site 2 | 43,16N, 45,2E | 1000BC - 400AD | 480 (400AD) | \- | \- |
+| Bamut Bronze Age Site | Bamut Bronze Age Site | 43,16N, 45,2E | 3500BC - 2000BC | 320 (3000BC) | \- | \- |
+| Bamut | Бамут | 43,16N, 45,19E | 1700AD - 1850AD | 785 (1800AD) | \- | \- |
 | Barsuki Medieval Gorodishche | Barsuki Medieval Gorodishche | 43,26N, 44,79E | 800AD - 1200AD | 1,8k (1200AD) | \- | \- |
-| Barsuki | Барсуки | 43,26N, 44,78E | 1750AD - 1900AD | 2,5k (1900AD) | 2,4k | 2,5k |
-| Nasyr-Kort Medieval Gorodishche | Nasyr-Kort Medieval Gorodishche | 43,22N, 44,8E | 800AD - 1200AD | 1,9k (1200AD) | \- | \- |
-| Nasyr-Kort | Насыр-Корт | 43,22N, 44,79E | 1750AD - 1900AD | 2,8k (1900AD) | 2,7k | 2,8k |
-| Troitskaya Medieval Gorodishche | Troitskaya Medieval Gorodishche | 43,31N, 44,99E | 800AD - 1200AD | 2,3k (1200AD) | \- | \- |
-| Troitskaya | Троицкая, Эбан | 43,31N, 44,98E | 1800AD - 1900AD | 4,8k (1900AD) | 4,6k | 4,8k |
+| Barsuki | Барсуки | 43,26N, 44,78E | 1750AD - 1850AD | 1,6k (1850AD) | \- | \- |
+| Bazorkino | Базоркино, Чермен, Мочко-Юрт | 43,14N, 44,75E | 1800AD - 1858AD | 1,8k (1858AD) | \- | \- |
+| Belgatoy Bronze Age Site | Belgatoy Bronze Age Site | 43,06N, 45,96E | 1300BC - 700BC | 450 (1000BC) | \- | \- |
+| Belgatoy Medieval Gorodishche | Belgatoy Medieval Gorodishche | 43,05N, 45,95E | 1100AD - 1280AD | 750 (1200AD) | \- | \- |
+| Belgatoy | Белгатой | 43,05N, 45,95E | 1700AD - 1800AD | 1,2k (1800AD) | \- | \- |
+| Beno-Yurt | Бено-Юрт | 43,67N, 45,05E | 1750AD - 1850AD | 1,6k (1850AD) | \- | \- |
+| Benoy | Беной | 42,97N, 46,32E | 1400AD - 1850AD | 1,9k (1800AD) | \- | \- |
+| Beyni | Бейни | 42,83N, 44,69E | 1400AD - 1800AD | 388 (1700AD) | \- | \- |
+| Borzoy | Борзой | 42,85N, 45,62E | 1200AD - 1800AD | 1,1k (1800AD) | \- | \- |
+| Braguny Medieval Gorodishche | Braguny Medieval Gorodishche | 43,44N, 46,02E | 1100AD - 1280AD | 1,4k (1200AD) | \- | \- |
+| Braguny | Брагуны, Борагангечув | 43,43N, 46,02E | 1600AD - 1850AD | 1,8k (1800AD) | \- | \- |
+| Chechen-Aul Medieval Gorodishche | Chechen-Aul Medieval Gorodishche | 43,2N, 45,79E | 1100AD - 1280AD | 2,2k (1200AD) | \- | \- |
+| Chechen-Aul | Чечен-Аул, Чечень | 43,2N, 45,79E | 1700AD - 1850AD | 4k (1750AD) | \- | \- |
+| Chervlennaya | Червленная, Ораз-Кала | 43,52N, 45,96E | 1600AD - 1850AD | 3,3k (1850AD) | \- | \- |
+| Chiri-Yurt | Чири-Юрт | 43,09N, 45,75E | 1700AD - 1850AD | 1,3k (1800AD) | \- | \- |
+| Dargo Bronze Age Site | Dargo Bronze Age Site | 42,96N, 46,24E | 1800BC - 1200BC | 320 (1500BC) | \- | \- |
+| Dargo | Дарго, ДаргIа | 42,95N, 46,24E | 1400AD - 1850AD | 1,5k (1800AD) | \- | \- |
+| Dolakovo | Долаково | 43,24N, 44,69E | 1800AD - 1850AD | 1,3k (1850AD) | \- | \- |
+| Dora | Dora | 42,71N, 45,58E | 800AD - 1300AD | 1,2k (1300AD) | \- | \- |
+| Duba-Yurt | Дуба-Юрт | 43,04N, 45,74E | 1700AD - 1850AD | 1,2k (1800AD) | \- | \- |
+| Dzheyrakh | Джейрах | 42,82N, 44,68E | 1400AD - 1800AD | 547 (1700AD) | \- | \- |
+| Egikal | Эгикхал, Агикхал | 42,83N, 44,92E | 1000AD - 1800AD | 1,4k (1600AD) | \- | \- |
+| Ekazhevo Medieval Gorodishche | Ekazhevo Medieval Gorodishche | 43,22N, 44,82E | 600AD - 1200AD | 3,5k (1200AD) | \- | \- |
+| Ekazhevo | Экажево, Экажевское городище | 43,21N, 44,82E | 1750AD - 1850AD | 2,8k (1850AD) | \- | \- |
+| Engenoy | Энгеной | 43N, 46,28E | 1500AD - 1800AD | 1,2k (1800AD) | \- | \- |
+| Erzi | Эрзи, Арзи | 42,81N, 44,76E | 1300AD - 1800AD | 600 (1700AD) | \- | \- |
+| Falkhan | Фалхан | 42,8N, 44,72E | 1400AD - 1800AD | 424 (1700AD) | \- | \- |
+| Furtoug | Фуртоуг | 42,83N, 44,65E | 1400AD - 1800AD | 397 (1700AD) | \- | \- |
+| Galanchozh | Галанчож | 42,87N, 45,3E | 1200AD - 1800AD | 1,1k (1600AD) | \- | \- |
+| Gazi-Yurt Medieval Gorodishche | Gazi-Yurt Medieval Gorodishche | 43,22N, 44,89E | 400AD - 1200AD | 5,5k (1200AD) | \- | \- |
+| Gazi-Yurt | Гази-Юрт, Магас | 43,22N, 44,88E | 1750AD - 1840AD | 712 (1840AD) | \- | \- |
+| Gekhi | Гехи | 43,16N, 45,47E | 1700AD - 1850AD | 2,1k (1800AD) | \- | \- |
+| Geldagan | Гелдаган | 43,23N, 46,02E | 1700AD - 1850AD | 1,7k (1800AD) | \- | \- |
+| Germenchuk Medieval Gorodishche | Germenchuk Medieval Gorodishche | 43,19N, 45,93E | 1100AD - 1280AD | 1,8k (1200AD) | \- | \- |
+| Germenchuk | Герменчук | 43,19N, 45,93E | 1700AD - 1850AD | 3,5k (1800AD) | \- | \- |
+| Gerzel-aul | Gerzel-aul | 43,24N, 46,41E | 1820AD - 1858AD | 1,2k (1820AD) | \- | \- |
+| Gordali | Гордали | 43,02N, 46,25E | 1500AD - 1850AD | 1,4k (1800AD) | \- | \- |
+| Goryacheistochnenskaya | Горячеисточненская | 43,42N, 45,77E | 1800AD - 1858AD | 1,2k (1858AD) | \- | \- |
+| Goyty Medieval Gorodishche | Goyty Medieval Gorodishche | 43,22N, 45,66E | 1100AD - 1280AD | 1,5k (1200AD) | \- | \- |
+| Goyty | Гойты | 43,22N, 45,66E | 1700AD - 1850AD | 2,4k (1800AD) | \- | \- |
+| Grozny Medieval Gorodishche | Grozny Medieval Gorodishche | 43,32N, 45,7E | 1100AD - 1280AD | 1,9k (1200AD) | \- | \- |
+| Grozny | Грозный, Крепость Грозная, Соьлжа-ГIала | 43,32N, 45,69E | 1750AD - 1850AD | 3,9k (1850AD) | \- | \- |
+| Gudermes Medieval Gorodishche | Gudermes Medieval Gorodishche | 43,35N, 46,1E | 1100AD - 1280AD | 1,3k (1200AD) | \- | \- |
+| Gudermes | Гудермес, ГIуьмсе | 43,35N, 46,1E | 1700AD - 1850AD | 1,6k (1800AD) | \- | \- |
+| Gukhoy | Гухой | 42,77N, 45,53E | 1200AD - 1800AD | 971 (1700AD) | \- | \- |
+| Guli | Гули | 42,79N, 44,86E | 1400AD - 1800AD | 459 (1700AD) | \- | \- |
+| Ishcherskaya | Ищерская | 43,7N, 45,13E | 1770AD - 1850AD | 2,1k (1850AD) | \- | \- |
+| Isti-Su | Исти-Су, Мелчхи | 43,28N, 46,15E | 1600AD - 1850AD | 1,5k (1800AD) | \- | \- |
+| Itum-Kale | Итум-Кале, Пхакоч | 42,73N, 45,58E | 1000AD - 1850AD | 1,6k (1600AD) | \- | \- |
+| Kalinovskaya | Калиновская | 43,57N, 45,52E | 1770AD - 1850AD | 2,5k (1850AD) | \- | \- |
+| Kantyshevo | Кантышево | 43,23N, 44,67E | 1800AD - 1850AD | 1,5k (1850AD) | \- | \- |
 | Karabulak Medieval Gorodishche | Karabulak Medieval Gorodishche | 43,31N, 44,9E | 800AD - 1200AD | 2,1k (1200AD) | \- | \- |
-| Karabulak | Карабулак | 43,31N, 44,9E | 1750AD - 1900AD | 3,5k (1900AD) | 3,4k | 3,5k |
+| Karabulak | Карабулак | 43,31N, 44,9E | 1750AD - 1850AD | 1,7k (1850AD) | \- | \- |
+| Katyr-Yurt | Катыр-Юрт | 43,17N, 45,35E | 1700AD - 1850AD | 1,4k (1800AD) | \- | \- |
+| Kezenoy-Am | Кезеной-Ам, Эйзенах | 42,78N, 46,15E | 10000BC - 4000BC | 110 (4000BC) | \- | \- |
+| Khaibakh | Хайбах | 42,88N, 45,38E | 1200AD - 1800AD | 950 (1600AD) | \- | \- |
+| Khamkhi | Хамхи | 42,82N, 44,91E | 1000AD - 1800AD | 900 (1600AD) | \- | \- |
+| Kharachoy Bronze Age Site 2 | Kharachoy Bronze Age Site 2 | 42,91N, 46,14E | 1300BC - 700BC | 480 (1000BC) | \- | \- |
+| Kharachoy Bronze Age Site | Kharachoy Bronze Age Site | 42,91N, 46,15E | 1800BC - 1200BC | 350 (1500BC) | \- | \- |
+| Kharachoy | Харачой | 42,91N, 46,14E | 1400AD - 1850AD | 1,1k (1800AD) | \- | \- |
+| Khimoi Historical and Architectural Complex | Khimoi Historical and Architectural Complex | 42,66N, 45,85E | 800AD - 1300AD | 1,2k (1300AD) | \- | \- |
+| Khimoy | Химой | 42,67N, 45,88E | 1200AD - 1800AD | 1k (1700AD) | \- | \- |
+| Khoy | Хой | 42,76N, 46,13E | 1000AD - 1850AD | 1,3k (1700AD) | \- | \- |
+| Kokadoi | Кокадой | 42,72N, 45,6E | 1200AD - 1800AD | 750 (1700AD) | \- | \- |
+| Kurchaloy Bronze Age Site | Kurchaloy Bronze Age Site | 43,21N, 46,09E | 1300BC - 700BC | 450 (1000BC) | \- | \- |
+| Kurchaloy | Курчалой | 43,21N, 46,09E | 1700AD - 1850AD | 2,4k (1800AD) | \- | \- |
+| Kurdyukovskaya | Курдюковская | 43,58N, 46,3E | 1725AD - 1850AD | 1,6k (1850AD) | \- | \- |
+| Lugovoye Bronze Age Site | Lugovoye Bronze Age Site | 43,11N, 45,02E | 3500BC - 3000BC | 380 (3000BC) | \- | \- |
+| Lugovoye Iron Age Site | Lugovoye Iron Age Site | 43,1N, 45,02E | 1000BC - 500BC | 600 (500BC) | \- | \- |
+| Lugovoye | Луговое, Мужичи, Muzichi | 43,1N, 45,02E | 1700AD - 1800AD | 620 (1800AD) | \- | \- |
+| Lyazhgi | Ляжги | 42,81N, 44,74E | 1400AD - 1800AD | 441 (1700AD) | \- | \- |
+| Makazhoy Historical and Architectural Complex | Makazhoy Historical and Architectural Complex | 42,74N, 46,06E | 800AD - 1300AD | 1,2k (1300AD) | \- | \- |
+| Makazhoy | Макажой | 42,77N, 46,08E | 1200AD - 1800AD | 1,2k (1700AD) | \- | \- |
+| Mayrtup | Майртуп | 43,2N, 46,15E | 1700AD - 1850AD | 2,2k (1800AD) | \- | \- |
+| Mekenskaya | Мекенская | 43,62N, 45,42E | 1770AD - 1850AD | 2k (1850AD) | \- | \- |
+| Mikhaylovskaya | Михайловская, Серноводская | 43,32N, 45,17E | 1800AD - 1858AD | 1,6k (1858AD) | \- | \- |
+| Motsaroy | Моцарой, Нашха | 42,9N, 45,37E | 1000AD - 1800AD | 1,4k (1600AD) | \- | \- |
+| Nasyr-Kort Medieval Gorodishche | Nasyr-Kort Medieval Gorodishche | 43,22N, 44,8E | 800AD - 1200AD | 1,9k (1200AD) | \- | \- |
+| Nasyr-Kort | Насыр-Корт | 43,22N, 44,79E | 1750AD - 1850AD | 1,8k (1850AD) | \- | \- |
+| Naurskaya | Наурская | 43,65N, 45,31E | 1770AD - 1850AD | 3,1k (1850AD) | \- | \- |
+| Nazran | Назрань, Наьсаре | 43,23N, 44,76E | 1780AD - 1850AD | 2,1k (1850AD) | \- | \- |
+| Nesterovskaya Iron Age Site | Nesterovskaya Iron Age Site | 43,24N, 45,06E | 1000BC - 500BC | 600 (1000BC) | \- | \- |
+| Nesterovskaya Medieval Gorodishche | Nesterovskaya Medieval Gorodishche | 43,24N, 45,05E | 850AD - 1150AD | 1,1k (1000AD) | \- | \- |
+| Nesterovskaya | Нестеровская, Нестеровское | 43,23N, 45,05E | 1800AD - 1850AD | 1,6k (1850AD) | \- | \- |
+| Nikaroy | Никарой, Терлой | 42,73N, 45,4E | 1200AD - 1800AD | 1,1k (1600AD) | \- | \- |
+| Nikhaloy | Нихалой | 42,83N, 45,66E | 1200AD - 1800AD | 927 (1700AD) | \- | \- |
+| Niy | Ний | 42,78N, 44,98E | 1400AD - 1800AD | 477 (1700AD) | \- | \- |
+| Nizhniy Naur | Нижний Наур, Надтеречное | 43,62N, 45,28E | 1700AD - 1850AD | 2,5k (1850AD) | \- | \- |
+| Novyye Atagi | Новые Атаги | 43,14N, 45,77E | 1750AD - 1850AD | 1,5k (1800AD) | \- | \- |
+| Olgeti | Ольгети | 42,81N, 44,75E | 1400AD - 1800AD | 371 (1700AD) | \- | \- |
+| Ongusht | Онгушт, Ангушт, Тарское | 43,07N, 44,78E | 1700AD - 1850AD | 1,6k (1800AD) | \- | \- |
+| Petropavlovskaya | Петропавловская | 43,37N, 45,82E | 1800AD - 1858AD | 1,3k (1858AD) | \- | \- |
+| Plievo Medieval Gorodishche | Plievo Medieval Gorodishche | 43,26N, 44,82E | 800AD - 1200AD | 2,4k (1200AD) | \- | \- |
+| Plievo | Плиево | 43,25N, 44,81E | 1750AD - 1850AD | 1,8k (1850AD) | \- | \- |
+| Pui | Пуй | 42,8N, 44,95E | 1200AD - 1800AD | 530 (1550AD) | \- | \- |
+| Pyaling | Пялинг | 42,79N, 44,99E | 1400AD - 1800AD | 450 (1700AD) | \- | \- |
+| Roshni-Chu | Рошни-Чу | 43,08N, 45,45E | 1700AD - 1850AD | 1,4k (1800AD) | \- | \- |
+| Sagopshi | Сагопши | 43,4N, 44,57E | 1800AD - 1850AD | 1,4k (1850AD) | \- | \- |
+| Salgi | Салги | 42,77N, 44,82E | 1400AD - 1800AD | 397 (1700AD) | \- | \- |
+| Samashki | Самашки, Самашкинская | 43,28N, 45,29E | 1750AD - 1850AD | 1,7k (1850AD) | \- | \- |
+| Serzhen-Yurt Bronze Age Site | Serzhen-Yurt Bronze Age Site | 43,12N, 46,02E | 3000BC - 2000BC | 450 (3000BC) | \- | \- |
+| Serzhen-Yurt Iron Age Site | Serzhen-Yurt Iron Age Site | 43,12N, 46,02E | 1000BC - 500BC | 900 (1000BC) | \- | \- |
+| Serzhen-Yurt | Сержень-Юрт, Сержень-Юрт I-II | 43,12N, 46,02E | 1700AD - 1850AD | 1,1k (1800AD) | \- | \- |
+| Shalazhi Bronze Age Site | Shalazhi Bronze Age Site | 43,1N, 45,37E | 1300BC - 700BC | 420 (1000BC) | \- | \- |
+| Shalazhi | Шалажи | 43,1N, 45,37E | 1700AD - 1850AD | 1,6k (1800AD) | \- | \- |
+| Shali Medieval Gorodishche | Shali Medieval Gorodishche | 43,15N, 45,91E | 1100AD - 1280AD | 2k (1200AD) | \- | \- |
+| Shali | Шали, Шела | 43,15N, 45,9E | 1700AD - 1850AD | 4,3k (1800AD) | \- | \- |
+| Sharo-Argun | Шаро-Аргун | 42,73N, 45,87E | 1200AD - 1800AD | 1k (1700AD) | \- | \- |
+| Sharoy | Шарой | 42,63N, 45,95E | 1200AD - 1800AD | 1,1k (1700AD) | \- | \- |
+| Shatoy | Шатой, Хакмадой | 42,87N, 45,69E | 1000AD - 1850AD | 1,7k (1800AD) | \- | \- |
+| Shchedrinskaya | Щедринская | 43,48N, 46,12E | 1700AD - 1850AD | 1,7k (1850AD) | \- | \- |
+| Shelkovskaya | Шелковская | 43,51N, 46,34E | 1725AD - 1850AD | 1,5k (1850AD) | \- | \- |
+| Shoan | Шоан, Шоани | 42,78N, 44,7E | 1400AD - 1800AD | 460 (1600AD) | \- | \- |
+| Shuan | Шуани | 43,02N, 46,22E | 1500AD - 1800AD | 950 (1800AD) | \- | \- |
 | Sleptsovskaya Medieval Gorodishche | Sleptsovskaya Medieval Gorodishche | 43,32N, 45,05E | 800AD - 1200AD | 2,5k (1200AD) | \- | \- |
-| Sleptsovskaya | Слепцовская, Сунжа, Орджоникидзевская | 43,32N, 45,05E | 1800AD - 1900AD | 5,3k (1900AD) | 5,1k | 5,3k |
-| Targim | Таргим | 42,81N, 44,93E | 1000AD - 1900AD | 1k (1700AD) | 380 | 360 |
-| Egikal | Эгикхал, Агикхал | 42,83N, 44,92E | 1000AD - 1900AD | 1,6k (1700AD) | 620 | 600 |
-| Khamkhi | Хамхи | 42,82N, 44,91E | 1000AD - 1900AD | 980 (1700AD) | 340 | 320 |
-| Vovnushki | Вовнушки, Оздик | 42,8N, 45,01E | 1400AD - 1900AD | 620 (1700AD) | 220 | 210 |
-| Erzi | Эрзи, Арзи | 42,81N, 44,76E | 1300AD - 1900AD | 680 (1700AD) | 290 | 280 |
-| Falkhan | Фалхан | 42,8N, 44,72E | 1400AD - 1900AD | 480 (1700AD) | 210 | 200 |
-| Shoan | Шоан, Шоани | 42,78N, 44,7E | 1400AD - 1900AD | 520 (1700AD) | 250 | 240 |
-| Lyazhgi | Ляжги | 42,81N, 44,74E | 1400AD - 1900AD | 500 (1700AD) | 240 | 230 |
-| Salgi | Салги | 42,77N, 44,82E | 1400AD - 1900AD | 450 (1700AD) | 190 | 180 |
-| Guli | Гули | 42,79N, 44,86E | 1400AD - 1900AD | 520 (1700AD) | 270 | 260 |
-| Pui | Пуй | 42,8N, 44,95E | 1200AD - 1900AD | 580 (1700AD) | 210 | 200 |
-| Tumgi | Тумги | 42,81N, 44,87E | 1400AD - 1900AD | 490 (1700AD) | 200 | 190 |
-| Tsori | Цори | 42,77N, 45,03E | 1400AD - 1900AD | 600 (1700AD) | 260 | 250 |
-| Niy | Ний | 42,78N, 44,98E | 1400AD - 1900AD | 540 (1700AD) | 230 | 220 |
-| Pyaling | Пялинг | 42,79N, 44,99E | 1400AD - 1900AD | 510 (1700AD) | 210 | 200 |
-| Beyni | Бейни | 42,83N, 44,69E | 1400AD - 1900AD | 440 (1700AD) | 220 | 210 |
-| Dzheyrakh | Джейрах | 42,82N, 44,68E | 1400AD - 1900AD | 620 (1700AD) | 480 | 490 |
-| Furtoug | Фуртоуг | 42,83N, 44,65E | 1400AD - 1900AD | 450 (1700AD) | 310 | 320 |
-| Olgeti | Ольгети | 42,81N, 44,75E | 1400AD - 1900AD | 420 (1700AD) | 240 | 230 |
-| Khoy | Хой | 42,76N, 46,13E | 1000AD - 1900AD | 1,5k (1700AD) | 890 | 920 |
-| Makazhoy | Макажой | 42,77N, 46,08E | 1200AD - 1900AD | 1,4k (1700AD) | 820 | 850 |
-| Sharo-Argun | Шаро-Аргун | 42,73N, 45,87E | 1200AD - 1900AD | 1,1k (1700AD) | 780 | 800 |
-| Sharoy | Шарой | 42,63N, 45,95E | 1200AD - 1900AD | 1,3k (1700AD) | 860 | 890 |
-| Khimoy | Химой | 42,67N, 45,88E | 1200AD - 1900AD | 1,1k (1700AD) | 790 | 820 |
-| Kenkhi | Кенхи | 42,58N, 46,02E | 1200AD - 1900AD | 1,4k (1800AD) | 1,4k | 1,4k |
-| Itum-Kale | Итум-Кале, Пхакоч | 42,73N, 45,58E | 1000AD - 1900AD | 1,8k (1700AD) | 980 | 1k |
-| Tazbichi | Тазбичи | 42,73N, 45,65E | 1200AD - 1900AD | 1,2k (1700AD) | 840 | 870 |
-| Ushkaloy | Ушкалой | 42,77N, 45,62E | 1200AD - 1900AD | 950 (1700AD) | 680 | 700 |
-| Kokadoi | Кокадой | 42,72N, 45,6E | 1200AD - 1900AD | 850 (1700AD) | 590 | 610 |
-| Shatoy | Шатой, Хакмадой | 42,87N, 45,69E | 1000AD - 1900AD | 2,3k (1900AD) | 2,2k | 2,3k |
-| Nikhaloy | Нихалой | 42,83N, 45,66E | 1200AD - 1900AD | 1k (1700AD) | 710 | 730 |
-| Gukhoy | Гухой | 42,77N, 45,53E | 1200AD - 1900AD | 1,1k (1700AD) | 760 | 780 |
-| Borzoy | Борзой | 42,85N, 45,62E | 1200AD - 1900AD | 1,3k (1800AD) | 1,1k | 1,2k |
-| Varandy | Варанды | 42,92N, 45,7E | 1200AD - 1900AD | 1,1k (1800AD) | 980 | 1k |
-| Vaserkel | Васеркел, Майсты | 42,63N, 45,42E | 1200AD - 1900AD | 1,2k (1700AD) | 420 | 400 |
-| Tsekaloy | Цекалой | 42,64N, 45,43E | 1300AD - 1900AD | 750 (1700AD) | 260 | 250 |
-| Tsikaro | Цикарой, Малхиста | 42,68N, 45,28E | 1200AD - 1900AD | 1,4k (1700AD) | 490 | 470 |
-| Nikaroy | Никарой, Терлой | 42,73N, 45,4E | 1200AD - 1900AD | 1,3k (1700AD) | 520 | 500 |
-| Motsaroy | Моцарой, Нашха | 42,9N, 45,37E | 1000AD - 1900AD | 1,6k (1700AD) | 680 | 660 |
-| Khaibakh | Хайбах | 42,88N, 45,38E | 1200AD - 1900AD | 1k (1700AD) | 490 | 480 |
-| Galanchozh | Галанчож | 42,87N, 45,3E | 1200AD - 1900AD | 1,2k (1700AD) | 580 | 570 |
-| Yalkhoroy | Ялхорой, Акки | 42,85N, 45,22E | 1200AD - 1900AD | 1,2k (1700AD) | 610 | 600 |
-| Vedeno | Ведено, Ведана | 42,97N, 46,1E | 1500AD - 1900AD | 3,5k (1850AD) | 1,8k | 1,9k |
-| Dargo Bronze Age Site | Dargo Bronze Age Site | 42,96N, 46,24E | 1500BC | 320 (1500BC) | \- | \- |
-| Dargo | Дарго, ДаргIа | 42,95N, 46,24E | 1400AD - 1900AD | 1,8k (1800AD) | 1,6k | 1,7k |
-| Benoy | Беной | 42,97N, 46,32E | 1400AD - 1900AD | 2,6k (1900AD) | 2,5k | 2,6k |
-| Alleroy | Аллерой | 43,05N, 46,27E | 1500AD - 1900AD | 2k (1900AD) | 1,9k | 2k |
-| Tsentoroy | Центорой, Хоси-Юрт | 43,1N, 46,22E | 1600AD - 1900AD | 1,9k (1900AD) | 1,8k | 1,9k |
-| Gordali | Гордали | 43,02N, 46,25E | 1500AD - 1900AD | 1,7k (1900AD) | 1,7k | 1,7k |
-| Engenoy | Энгеной | 43N, 46,28E | 1500AD - 1900AD | 1,6k (1900AD) | 1,5k | 1,6k |
-| Shuan | Шуани | 43,02N, 46,22E | 1500AD - 1900AD | 1,3k (1900AD) | 1,2k | 1,3k |
-| Ongusht | Онгушт, Ангушт, Тарское | 43,07N, 44,78E | 1700AD - 1900AD | 2,4k (1900AD) | 2,3k | 2,4k |
-| Nazran | Назрань, Наьсаре | 43,23N, 44,76E | 1780AD - 1900AD | 3,9k (1900AD) | 3,8k | 3,9k |
-| Bazorkino | Базоркино, Чермен, Мочко-Юрт | 43,14N, 44,75E | 1850AD - 1900AD | 3,4k (1900AD) | 3,3k | 3,4k |
-| Kantyshevo | Кантышево | 43,23N, 44,67E | 1800AD - 1900AD | 2,7k (1900AD) | 2,6k | 2,7k |
-| Dolakovo | Долаково | 43,24N, 44,69E | 1800AD - 1900AD | 2,3k (1900AD) | 2,2k | 2,3k |
-| Sagopshi | Сагопши | 43,4N, 44,57E | 1800AD - 1900AD | 2,6k (1900AD) | 2,5k | 2,6k |
-| Achaluki | Ачалуки, Средние Ачалуки | 43,35N, 44,72E | 1800AD - 1900AD | 2,3k (1900AD) | 2,2k | 2,3k |
-| Staryy Yurt Medieval Gorodishche | Staryy Yurt Medieval Gorodishche | 43,45N, 45,79E | 1200AD | 1,8k (1200AD) | \- | \- |
-| Staryy Yurt | Старый Юрт, Толстой-Юрт | 43,45N, 45,78E | 1600AD - 1900AD | 3,8k (1900AD) | 3,6k | 3,8k |
-| Nizhniy Naur | Нижний Наур, Надтеречное | 43,62N, 45,28E | 1700AD - 1900AD | 4k (1900AD) | 3,8k | 4k |
-| Beno-Yurt | Бено-Юрт | 43,67N, 45,05E | 1750AD - 1900AD | 2,6k (1900AD) | 2,5k | 2,6k |
-| Braguny Medieval Gorodishche | Braguny Medieval Gorodishche | 43,44N, 46,02E | 1200AD | 1,4k (1200AD) | \- | \- |
-| Braguny | Брагуны, Борагангечув | 43,43N, 46,02E | 1600AD - 1900AD | 2,5k (1900AD) | 2,4k | 2,5k |
-| Isti-Su | Исти-Су, Мелчхи | 43,28N, 46,15E | 1600AD - 1900AD | 2,2k (1900AD) | 2,1k | 2,2k |
-| Gudermes Medieval Gorodishche | Gudermes Medieval Gorodishche | 43,35N, 46,1E | 1200AD | 1,3k (1200AD) | \- | \- |
-| Gudermes | Гудермес, ГIуьмсе | 43,35N, 46,1E | 1700AD - 1900AD | 3,8k (1900AD) | 3,6k | 3,8k |
-| Kurchaloy Bronze Age Site | Kurchaloy Bronze Age Site | 43,21N, 46,09E | 1000BC | 450 (1000BC) | \- | \- |
-| Kurchaloy | Курчалой | 43,21N, 46,09E | 1700AD - 1900AD | 3,8k (1900AD) | 3,7k | 3,8k |
-| Mayrtup | Майртуп | 43,2N, 46,15E | 1700AD - 1900AD | 3,4k (1900AD) | 3,3k | 3,4k |
-| Geldagan | Гелдаган | 43,23N, 46,02E | 1700AD - 1900AD | 2,5k (1900AD) | 2,5k | 2,5k |
-| Tsotsi-Yurt | Цоци-Юрт | 43,24N, 45,99E | 1700AD - 1900AD | 2,4k (1900AD) | 2,3k | 2,4k |
-| Avtury | Автуры | 43,17N, 46E | 1700AD - 1900AD | 3,1k (1900AD) | 3k | 3,1k |
-| Shali Medieval Gorodishche | Shali Medieval Gorodishche | 43,15N, 45,91E | 1200AD | 2k (1200AD) | \- | \- |
-| Shali | Шали, Шела | 43,15N, 45,9E | 1700AD - 1900AD | 8,1k (1900AD) | 7,8k | 8,1k |
-| Germenchuk Medieval Gorodishche | Germenchuk Medieval Gorodishche | 43,19N, 45,93E | 1200AD | 1,8k (1200AD) | \- | \- |
-| Germenchuk | Герменчук | 43,19N, 45,93E | 1700AD - 1900AD | 4,2k (1800AD) | 3,5k | 3,6k |
-| Chechen-Aul Medieval Gorodishche | Chechen-Aul Medieval Gorodishche | 43,2N, 45,79E | 1200AD | 2,2k (1200AD) | \- | \- |
-| Chechen-Aul | Чечен-Аул, Чечень | 43,2N, 45,79E | 1700AD - 1900AD | 4,6k (1800AD) | 2,9k | 3k |
-| Aldy Medieval Gorodishche | Aldy Medieval Gorodishche | 43,28N, 45,66E | 1200AD | 2k (1200AD) | \- | \- |
-| Aldy | Алды, Бухан-Юрт | 43,28N, 45,66E | 1700AD - 1900AD | 3,8k (1800AD) | 2,6k | 2,8k |
-| Staryye Atagi Medieval Gorodishche | Staryye Atagi Medieval Gorodishche | 43,13N, 45,75E | 1200AD | 1,8k (1200AD) | \- | \- |
-| Staryye Atagi | Старые Атаги, Большие Атаги | 43,13N, 45,74E | 1700AD - 1900AD | 4k (1900AD) | 3,8k | 4k |
-| Novyye Atagi | Новые Атаги | 43,14N, 45,77E | 1750AD - 1900AD | 2,4k (1900AD) | 2,3k | 2,4k |
-| Chiri-Yurt | Чири-Юрт | 43,09N, 45,75E | 1700AD - 1900AD | 2k (1900AD) | 1,9k | 2k |
-| Duba-Yurt | Дуба-Юрт | 43,04N, 45,74E | 1700AD - 1900AD | 1,8k (1900AD) | 1,8k | 1,8k |
-| Urus-Martan Medieval Gorodishche | Urus-Martan Medieval Gorodishche | 43,13N, 45,54E | 1200AD | 2,4k (1200AD) | \- | \- |
-| Urus-Martan | Урус-Мартан, МартантIи | 43,13N, 45,54E | 1700AD - 1900AD | 6,9k (1900AD) | 6,7k | 6,9k |
-| Goyty Medieval Gorodishche | Goyty Medieval Gorodishche | 43,22N, 45,66E | 1200AD | 1,5k (1200AD) | \- | \- |
-| Goyty | Гойты | 43,22N, 45,66E | 1700AD - 1900AD | 3,9k (1900AD) | 3,8k | 3,9k |
-| Gekhi | Гехи | 43,16N, 45,47E | 1700AD - 1900AD | 3,4k (1900AD) | 3,2k | 3,4k |
-| Roshni-Chu | Рошни-Чу | 43,08N, 45,45E | 1700AD - 1900AD | 2,2k (1900AD) | 2,1k | 2,2k |
-| Shalazhi Bronze Age Site | Shalazhi Bronze Age Site | 43,1N, 45,37E | 1000BC | 420 (1000BC) | \- | \- |
-| Shalazhi | Шалажи | 43,1N, 45,37E | 1700AD - 1900AD | 2,5k (1900AD) | 2,4k | 2,5k |
-| Valerik | Валерик | 43,18N, 45,41E | 1700AD - 1900AD | 1,9k (1900AD) | 1,8k | 1,9k |
-| Achkhoy-Martan | Ачхой-Мартан | 43,19N, 45,28E | 1700AD - 1900AD | 4,1k (1900AD) | 3,9k | 4,1k |
-| Katyr-Yurt | Катыр-Юрт | 43,17N, 45,35E | 1700AD - 1900AD | 2,2k (1900AD) | 2,1k | 2,2k |
-| Samashki | Самашки, Самашкинская | 43,28N, 45,29E | 1750AD - 1900AD | 3,6k (1900AD) | 3,5k | 3,6k |
-| Zakan-Yurt | Закан-Юрт, Закан-Юртовская | 43,27N, 45,42E | 1750AD - 1900AD | 3k (1900AD) | 2,9k | 3k |
-| Assinovskaya Bronze Age Site | Assinovskaya Bronze Age Site | 43,25N, 45,19E | 2500BC | 350 (2500BC) | \- | \- |
-| Assinovskaya | Ассиновская | 43,24N, 45,18E | 1800AD - 1900AD | 4k (1900AD) | 3,9k | 4k |
-| Mikhaylovskaya | Михайловская, Серноводская | 43,32N, 45,17E | 1850AD - 1900AD | 3,2k (1900AD) | 3,1k | 3,2k |
-| Petropavlovskaya | Петропавловская | 43,37N, 45,82E | 1850AD - 1900AD | 2,7k (1900AD) | 2,6k | 2,7k |
-| Goryacheistochnenskaya | Горячеисточненская | 43,42N, 45,77E | 1850AD - 1900AD | 2,4k (1900AD) | 2,3k | 2,4k |
-| Chervlennaya | Червленная, Ораз-Кала | 43,52N, 45,96E | 1600AD - 1900AD | 5,6k (1900AD) | 5,5k | 5,6k |
-| Shchedrinskaya | Щедринская | 43,48N, 46,12E | 1700AD - 1900AD | 2,8k (1900AD) | 2,7k | 2,8k |
-| Starogladovskaya | Старогладовская | 43,55N, 46,23E | 1725AD - 1900AD | 3k (1900AD) | 2,8k | 3k |
-| Kurdyukovskaya | Курдюковская | 43,58N, 46,3E | 1725AD - 1900AD | 2,6k (1900AD) | 2,5k | 2,6k |
-| Shelkovskaya | Шелковская | 43,51N, 46,34E | 1725AD - 1900AD | 2,4k (1900AD) | 2,4k | 2,4k |
-| Kalinovskaya | Калиновская | 43,57N, 45,52E | 1770AD - 1900AD | 4,3k (1900AD) | 4,1k | 4,3k |
-| Naurskaya | Наурская | 43,65N, 45,31E | 1770AD - 1900AD | 5k (1900AD) | 4,8k | 5k |
-| Ishcherskaya | Ищерская | 43,7N, 45,13E | 1770AD - 1900AD | 3,6k (1900AD) | 3,5k | 3,6k |
-| Mekenskaya | Мекенская | 43,62N, 45,42E | 1770AD - 1900AD | 3,4k (1900AD) | 3,3k | 3,4k |
-| Vozdvizhenskaya | Воздвиженская, Чахкери | 43,12N, 45,73E | 1850AD - 1900AD | 2,2k (1900AD) | 2,1k | 2,2k |
-| Grozny Medieval Gorodishche | Grozny Medieval Gorodishche | 43,32N, 45,7E | 1200AD | 1,9k (1200AD) | \- | \- |
-| Grozny | Грозный, Крепость Грозная, Соьлжа-ГIала | 43,32N, 45,69E | 1750AD - 1900AD | 17,2k (1900AD) | 15,6k | 17,2k |
+| Sleptsovskaya | Слепцовская, Сунжа, Орджоникидзевская | 43,32N, 45,05E | 1800AD - 1850AD | 2,3k (1850AD) | \- | \- |
+| Starogladovskaya | Старогладовская | 43,55N, 46,23E | 1725AD - 1850AD | 1,8k (1850AD) | \- | \- |
+| Staryy Yurt Medieval Gorodishche | Staryy Yurt Medieval Gorodishche | 43,45N, 45,79E | 1100AD - 1280AD | 1,8k (1200AD) | \- | \- |
+| Staryy Yurt | Старый Юрт, Толстой-Юрт | 43,45N, 45,78E | 1600AD - 1850AD | 2,6k (1800AD) | \- | \- |
+| Staryye Atagi Medieval Gorodishche | Staryye Atagi Medieval Gorodishche | 43,13N, 45,75E | 1100AD - 1280AD | 1,8k (1200AD) | \- | \- |
+| Staryye Atagi | Старые Атаги, Большие Атаги | 43,13N, 45,74E | 1700AD - 1850AD | 3,2k (1800AD) | \- | \- |
+| Surkhakhi Medieval Gorodishche | Surkhakhi Medieval Gorodishche | 43,2N, 44,91E | 600AD - 1200AD | 2,6k (1200AD) | \- | \- |
+| Surkhakhi | Сурхахи | 43,19N, 44,9E | 1750AD - 1850AD | 2k (1850AD) | \- | \- |
+| Targim | Таргим | 42,81N, 44,93E | 1000AD - 1800AD | 950 (1600AD) | \- | \- |
+| Tazbichi | Тазбичи | 42,73N, 45,65E | 1200AD - 1800AD | 1,1k (1700AD) | \- | \- |
+| Troitskaya Medieval Gorodishche | Troitskaya Medieval Gorodishche | 43,31N, 44,99E | 800AD - 1200AD | 2,3k (1200AD) | \- | \- |
+| Troitskaya | Троицкая, Эбан | 43,31N, 44,98E | 1800AD - 1850AD | 2,1k (1850AD) | \- | \- |
+| Tsekaloy | Цекалой | 42,64N, 45,43E | 1300AD - 1800AD | 662 (1700AD) | \- | \- |
+| Tsentoroy | Центорой, Хоси-Юрт | 43,1N, 46,22E | 1600AD - 1850AD | 1,3k (1800AD) | \- | \- |
+| Tsikaro | Цикарой, Малхиста | 42,68N, 45,28E | 1200AD - 1800AD | 1,2k (1600AD) | \- | \- |
+| Tsoi-Pede | Цой-Педе, City of the Dead, Malkhista Fort | 42,71N, 45,26E | 1100AD - 1858AD | 750 (1400AD) | \- | \- |
+| Tsori | Цори | 42,77N, 45,03E | 1400AD - 1800AD | 530 (1700AD) | \- | \- |
+| Tsotsi-Yurt | Цоци-Юрт | 43,24N, 45,99E | 1700AD - 1850AD | 1,6k (1800AD) | \- | \- |
+| Tumgi | Тумги | 42,81N, 44,87E | 1400AD - 1800AD | 432 (1700AD) | \- | \- |
+| Urus-Martan Medieval Gorodishche | Urus-Martan Medieval Gorodishche | 43,13N, 45,54E | 1100AD - 1280AD | 2,4k (1200AD) | \- | \- |
+| Urus-Martan | Урус-Мартан, МартантIи | 43,13N, 45,54E | 1700AD - 1850AD | 4k (1800AD) | \- | \- |
+| Ushkaloy | Ушкалой | 42,77N, 45,62E | 1200AD - 1800AD | 839 (1700AD) | \- | \- |
+| Valerik | Валерик | 43,18N, 45,41E | 1700AD - 1850AD | 1,3k (1800AD) | \- | \- |
+| Varandy | Варанды | 42,92N, 45,7E | 1200AD - 1800AD | 950 (1800AD) | \- | \- |
+| Vaserkel | Васеркел, Майсты | 42,63N, 45,42E | 1200AD - 1800AD | 1,1k (1600AD) | \- | \- |
+| Vedeno | Ведено, Ведана | 42,97N, 46,1E | 940AD - 1850AD | 3,1k (1850AD) | \- | \- |
+| Vovnushki | Вовнушки, Оздик | 42,8N, 45,01E | 1400AD - 1800AD | 550 (1600AD) | \- | \- |
+| Vozdvizhenskaya | Воздвиженская, Чахкери | 43,12N, 45,73E | 1800AD - 1858AD | 1,7k (1858AD) | \- | \- |
+| Yalkhoroy | Ялхорой, Акки | 42,85N, 45,22E | 1200AD - 1800AD | 1,1k (1600AD) | \- | \- |
+| Yandare Medieval Gorodishche | Yandare Medieval Gorodishche | 43,25N, 44,92E | 400AD - 1200AD | 4,2k (1200AD) | \- | \- |
+| Yandare | Яндаре, Яндаре-Городище | 43,24N, 44,92E | 1750AD - 1850AD | 1,4k (1850AD) | \- | \- |
+| Zakan-Yurt | Закан-Юрт, Закан-Юртовская | 43,27N, 45,42E | 1750AD - 1850AD | 1,5k (1850AD) | \- | \- |
+| Zandak Iron Age Site | Zandak Iron Age Site | 43N, 46,37E | 1000BC - 500BC | 700 (1000BC) | \- | \- |
+| Zandak | Зандак, Зандакский комплекс | 43N, 46,37E | 1000AD - 1850AD | 1,5k (1800AD) | \- | \- |
 
 Complete list of catalogued settlements in Chechnya and Ingushetia,
 showing alternative names, coordinates, documented date range, peak
@@ -226,77 +231,82 @@ population and 1897/1900AD census figures.
 
 | Settlement | Coords | 8000-2500BC | 1500-500BC | 1-600AD | 800AD | 1000AD | 1200AD |
 |:---|:---|:---|:---|:---|:---|:---|:---|
-| Kezenoy-Am | 42,78N, 46,15E | 45 | \- | \- | \- | \- | \- |
-| Bamut Bronze Age Site | 43,16N, 45,2E | 250 | \- | \- | \- | \- | \- |
-| Bamut Bronze Age Site 2 | 43,16N, 45,2E | \- | 450 | \- | \- | \- | \- |
-| Lugovoye Bronze Age Site | 43,11N, 45,02E | 200 | \- | \- | \- | \- | \- |
-| Lugovoye Iron Age Site | 43,1N, 45,02E | \- | 550 | \- | \- | \- | \- |
-| Serzhen-Yurt Bronze Age Site | 43,12N, 46,02E | 450 | \- | \- | \- | \- | \- |
-| Serzhen-Yurt Iron Age Site | 43,12N, 46,02E | \- | 900 | \- | \- | \- | \- |
-| Zandak Iron Age Site | 43N, 46,37E | \- | 700 | \- | \- | \- | \- |
-| Zandak | 43N, 46,37E | \- | \- | \- | \- | 850 | \- |
-| Nesterovskaya Iron Age Site | 43,24N, 45,06E | \- | 600 | \- | \- | \- | \- |
-| Nesterovskaya Medieval Gorodishche | 43,24N, 45,05E | \- | \- | \- | \- | 1,1k | \- |
-| Alkhan-Yurt Iron Age Site | 43,24N, 45,55E | \- | 650 | \- | \- | \- | \- |
-| Alkhan-Yurt Medieval Gorodishche | 43,23N, 45,55E | \- | \- | \- | 1,4k | \- | 2,1k |
-| Belgatoy Bronze Age Site | 43,06N, 45,96E | \- | 450 | \- | \- | \- | \- |
-| Belgatoy Medieval Gorodishche | 43,05N, 45,95E | \- | \- | \- | \- | \- | 750 |
-| Kharachoy Bronze Age Site | 42,91N, 46,15E | \- | 350 | \- | \- | \- | \- |
-| Kharachoy Bronze Age Site 2 | 42,91N, 46,14E | \- | 480 | \- | \- | \- | \- |
+| Aldy Medieval Gorodishche | 43,28N, 45,66E | \- | \- | \- | \- | \- | 2k |
+| Ali-Yurt Medieval Gorodishche | 43,18N, 44,86E | \- | \- | 850 | \- | 1,8k | 2,2k |
 | Alkhan-Kala Iron Age Site | 43,27N, 45,52E | \- | \- | 1,5k | \- | \- | \- |
 | Alkhan-Kala Medieval Gorodishche | 43,26N, 45,52E | \- | \- | 3,5k | 7,5k | 11k | 13,5k |
-| Yandare Medieval Gorodishche | 43,25N, 44,92E | \- | \- | 900 | 2,2k | 3,4k | 4,2k |
-| Gazi-Yurt Medieval Gorodishche | 43,22N, 44,89E | \- | \- | 1,1k | 2,8k | 4,5k | 5,5k |
-| Ekazhevo Medieval Gorodishche | 43,22N, 44,82E | \- | \- | 1,2k | \- | 2,8k | 3,5k |
-| Ali-Yurt Medieval Gorodishche | 43,18N, 44,86E | \- | \- | 850 | \- | 1,8k | 2,2k |
-| Surkhakhi Medieval Gorodishche | 43,2N, 44,91E | \- | \- | 950 | \- | 2,1k | 2,6k |
-| Plievo Medieval Gorodishche | 43,26N, 44,82E | \- | \- | \- | 1,1k | 1,9k | 2,4k |
+| Alkhan-Yurt Iron Age Site | 43,24N, 45,55E | \- | 650 | 500 | \- | \- | \- |
+| Alkhan-Yurt Medieval Gorodishche | 43,23N, 45,55E | \- | \- | 500 | 1,4k | \- | 2,1k |
+| Alkhan-Yurt | 43,23N, 45,54E | \- | \- | 500 | \- | 1k | \- |
+| Assinovskaya Bronze Age Site | 43,25N, 45,19E | 298 | \- | \- | \- | \- | \- |
+| Bamut Bronze Age Site 2 | 43,16N, 45,2E | \- | 450 | 420 | \- | \- | \- |
+| Bamut Bronze Age Site | 43,16N, 45,2E | 250 | \- | \- | \- | \- | \- |
 | Barsuki Medieval Gorodishche | 43,26N, 44,79E | \- | \- | \- | 900 | \- | 1,8k |
-| Nasyr-Kort Medieval Gorodishche | 43,22N, 44,8E | \- | \- | \- | 950 | \- | 1,9k |
-| Troitskaya Medieval Gorodishche | 43,31N, 44,99E | \- | \- | \- | 1,2k | \- | 2,3k |
-| Karabulak Medieval Gorodishche | 43,31N, 44,9E | \- | \- | \- | 1,1k | \- | 2,1k |
-| Sleptsovskaya Medieval Gorodishche | 43,32N, 45,05E | \- | \- | \- | 1,3k | \- | 2,5k |
-| Targim | 42,81N, 44,93E | \- | \- | \- | \- | 450 | \- |
+| Belgatoy Bronze Age Site | 43,06N, 45,96E | \- | 450 | \- | \- | \- | \- |
+| Belgatoy Medieval Gorodishche | 43,05N, 45,95E | \- | \- | \- | \- | \- | 750 |
+| Borzoy | 42,85N, 45,62E | \- | \- | \- | \- | \- | 500 |
+| Braguny Medieval Gorodishche | 43,44N, 46,02E | \- | \- | \- | \- | \- | 1,4k |
+| Chechen-Aul Medieval Gorodishche | 43,2N, 45,79E | \- | \- | \- | \- | \- | 2,2k |
+| Dargo Bronze Age Site | 42,96N, 46,24E | \- | 320 | \- | \- | \- | \- |
+| Dora | 42,71N, 45,58E | \- | \- | \- | 950 | 950 | 950 |
 | Egikal | 42,83N, 44,92E | \- | \- | \- | \- | 600 | \- |
+| Ekazhevo Medieval Gorodishche | 43,22N, 44,82E | \- | \- | 1,2k | \- | 2,8k | 3,5k |
+| Galanchozh | 42,87N, 45,3E | \- | \- | \- | \- | \- | 480 |
+| Gazi-Yurt Medieval Gorodishche | 43,22N, 44,89E | \- | \- | 1,1k | 2,8k | 4,5k | 5,5k |
+| Germenchuk Medieval Gorodishche | 43,19N, 45,93E | \- | \- | \- | \- | \- | 1,8k |
+| Goyty Medieval Gorodishche | 43,22N, 45,66E | \- | \- | \- | \- | \- | 1,5k |
+| Grozny Medieval Gorodishche | 43,32N, 45,7E | \- | \- | \- | \- | \- | 1,9k |
+| Gudermes Medieval Gorodishche | 43,35N, 46,1E | \- | \- | \- | \- | \- | 1,3k |
+| Gukhoy | 42,77N, 45,53E | \- | \- | \- | \- | \- | 480 |
+| Itum-Kale | 42,73N, 45,58E | \- | \- | \- | \- | 650 | \- |
+| Karabulak Medieval Gorodishche | 43,31N, 44,9E | \- | \- | \- | 1,1k | \- | 2,1k |
+| Kezenoy-Am | 42,78N, 46,15E | 45 | \- | \- | \- | \- | \- |
+| Khaibakh | 42,88N, 45,38E | \- | \- | \- | \- | \- | 420 |
 | Khamkhi | 42,82N, 44,91E | \- | \- | \- | \- | 400 | \- |
-| Pui | 42,8N, 44,95E | \- | \- | \- | \- | \- | 320 |
+| Kharachoy Bronze Age Site 2 | 42,91N, 46,14E | \- | 480 | \- | \- | \- | \- |
+| Kharachoy Bronze Age Site | 42,91N, 46,15E | \- | 350 | \- | \- | \- | \- |
+| Khimoi Historical and Architectural Complex | 42,66N, 45,85E | \- | \- | \- | 950 | 950 | 950 |
+| Khimoy | 42,67N, 45,88E | \- | \- | \- | \- | \- | 480 |
 | Khoy | 42,76N, 46,13E | \- | \- | \- | \- | 550 | \- |
+| Kokadoi | 42,72N, 45,6E | \- | \- | \- | \- | \- | 380 |
+| Kurchaloy Bronze Age Site | 43,21N, 46,09E | \- | 450 | \- | \- | \- | \- |
+| Lugovoye Bronze Age Site | 43,11N, 45,02E | 200 | \- | \- | \- | \- | \- |
+| Lugovoye Iron Age Site | 43,1N, 45,02E | \- | 550 | \- | \- | \- | \- |
+| Makazhoy Historical and Architectural Complex | 42,74N, 46,06E | \- | \- | \- | 950 | 950 | 950 |
 | Makazhoy | 42,77N, 46,08E | \- | \- | \- | \- | \- | 500 |
+| Motsaroy | 42,9N, 45,37E | \- | \- | \- | \- | 600 | \- |
+| Nasyr-Kort Medieval Gorodishche | 43,22N, 44,8E | \- | \- | \- | 950 | \- | 1,9k |
+| Nesterovskaya Iron Age Site | 43,24N, 45,06E | \- | 600 | \- | \- | \- | \- |
+| Nesterovskaya Medieval Gorodishche | 43,24N, 45,05E | \- | \- | \- | \- | 1,1k | \- |
+| Nikaroy | 42,73N, 45,4E | \- | \- | \- | \- | \- | 480 |
+| Nikhaloy | 42,83N, 45,66E | \- | \- | \- | \- | \- | 450 |
+| Plievo Medieval Gorodishche | 43,26N, 44,82E | \- | \- | \- | 1,1k | 1,9k | 2,4k |
+| Pui | 42,8N, 44,95E | \- | \- | \- | \- | \- | 320 |
+| Serzhen-Yurt Bronze Age Site | 43,12N, 46,02E | 450 | \- | \- | \- | \- | \- |
+| Serzhen-Yurt Iron Age Site | 43,12N, 46,02E | \- | 900 | \- | \- | \- | \- |
+| Shalazhi Bronze Age Site | 43,1N, 45,37E | \- | 420 | \- | \- | \- | \- |
+| Shali Medieval Gorodishche | 43,15N, 45,91E | \- | \- | \- | \- | \- | 2k |
 | Sharo-Argun | 42,73N, 45,87E | \- | \- | \- | \- | \- | 450 |
 | Sharoy | 42,63N, 45,95E | \- | \- | \- | \- | \- | 550 |
-| Khimoy | 42,67N, 45,88E | \- | \- | \- | \- | \- | 480 |
-| Kenkhi | 42,58N, 46,02E | \- | \- | \- | \- | \- | 520 |
-| Itum-Kale | 42,73N, 45,58E | \- | \- | \- | \- | 650 | \- |
-| Tazbichi | 42,73N, 45,65E | \- | \- | \- | \- | \- | 500 |
-| Ushkaloy | 42,77N, 45,62E | \- | \- | \- | \- | \- | 420 |
-| Kokadoi | 42,72N, 45,6E | \- | \- | \- | \- | \- | 380 |
 | Shatoy | 42,87N, 45,69E | \- | \- | \- | \- | 750 | \- |
-| Nikhaloy | 42,83N, 45,66E | \- | \- | \- | \- | \- | 450 |
-| Gukhoy | 42,77N, 45,53E | \- | \- | \- | \- | \- | 480 |
-| Borzoy | 42,85N, 45,62E | \- | \- | \- | \- | \- | 500 |
+| Sleptsovskaya Medieval Gorodishche | 43,32N, 45,05E | \- | \- | \- | 1,3k | \- | 2,5k |
+| Staryy Yurt Medieval Gorodishche | 43,45N, 45,79E | \- | \- | \- | \- | \- | 1,8k |
+| Staryye Atagi Medieval Gorodishche | 43,13N, 45,75E | \- | \- | \- | \- | \- | 1,8k |
+| Surkhakhi Medieval Gorodishche | 43,2N, 44,91E | \- | \- | 950 | \- | 2,1k | 2,6k |
+| Targim | 42,81N, 44,93E | \- | \- | \- | \- | 450 | \- |
+| Tazbichi | 42,73N, 45,65E | \- | \- | \- | \- | \- | 500 |
+| Troitskaya Medieval Gorodishche | 43,31N, 44,99E | \- | \- | \- | 1,2k | \- | 2,3k |
+| Tsikaro | 42,68N, 45,28E | \- | \- | \- | \- | \- | 500 |
+| Tsoi-Pede | 42,71N, 45,26E | \- | \- | \- | \- | \- | 450 |
+| Urus-Martan Medieval Gorodishche | 43,13N, 45,54E | \- | \- | \- | \- | \- | 2,4k |
+| Ushkaloy | 42,77N, 45,62E | \- | \- | \- | \- | \- | 420 |
 | Varandy | 42,92N, 45,7E | \- | \- | \- | \- | \- | 450 |
 | Vaserkel | 42,63N, 45,42E | \- | \- | \- | \- | \- | 450 |
-| Tsikaro | 42,68N, 45,28E | \- | \- | \- | \- | \- | 500 |
-| Nikaroy | 42,73N, 45,4E | \- | \- | \- | \- | \- | 480 |
-| Motsaroy | 42,9N, 45,37E | \- | \- | \- | \- | 600 | \- |
-| Khaibakh | 42,88N, 45,38E | \- | \- | \- | \- | \- | 420 |
-| Galanchozh | 42,87N, 45,3E | \- | \- | \- | \- | \- | 480 |
+| Vedeno | 42,97N, 46,1E | \- | \- | \- | \- | \- | 220 |
 | Yalkhoroy | 42,85N, 45,22E | \- | \- | \- | \- | \- | 500 |
-| Dargo Bronze Age Site | 42,96N, 46,24E | \- | 320 | \- | \- | \- | \- |
-| Staryy Yurt Medieval Gorodishche | 43,45N, 45,79E | \- | \- | \- | \- | \- | 1,8k |
-| Braguny Medieval Gorodishche | 43,44N, 46,02E | \- | \- | \- | \- | \- | 1,4k |
-| Gudermes Medieval Gorodishche | 43,35N, 46,1E | \- | \- | \- | \- | \- | 1,3k |
-| Kurchaloy Bronze Age Site | 43,21N, 46,09E | \- | 450 | \- | \- | \- | \- |
-| Shali Medieval Gorodishche | 43,15N, 45,91E | \- | \- | \- | \- | \- | 2k |
-| Germenchuk Medieval Gorodishche | 43,19N, 45,93E | \- | \- | \- | \- | \- | 1,8k |
-| Chechen-Aul Medieval Gorodishche | 43,2N, 45,79E | \- | \- | \- | \- | \- | 2,2k |
-| Aldy Medieval Gorodishche | 43,28N, 45,66E | \- | \- | \- | \- | \- | 2k |
-| Staryye Atagi Medieval Gorodishche | 43,13N, 45,75E | \- | \- | \- | \- | \- | 1,8k |
-| Urus-Martan Medieval Gorodishche | 43,13N, 45,54E | \- | \- | \- | \- | \- | 2,4k |
-| Goyty Medieval Gorodishche | 43,22N, 45,66E | \- | \- | \- | \- | \- | 1,5k |
-| Shalazhi Bronze Age Site | 43,1N, 45,37E | \- | 420 | \- | \- | \- | \- |
-| Assinovskaya Bronze Age Site | 43,25N, 45,19E | 350 | \- | \- | \- | \- | \- |
-| Grozny Medieval Gorodishche | 43,32N, 45,7E | \- | \- | \- | \- | \- | 1,9k |
+| Yandare Medieval Gorodishche | 43,25N, 44,92E | \- | \- | 900 | 2,2k | 3,4k | 4,2k |
+| Zandak Iron Age Site | 43N, 46,37E | \- | 700 | \- | \- | \- | \- |
+| Zandak | 43N, 46,37E | \- | \- | \- | \- | 850 | \- |
 
 Estimated populations of prehistoric villages, Eastern Koban hillforts
 (such as Serzhen-Yurt and Zandak) and Alanic walled towns (including
@@ -306,91 +316,95 @@ Alkhan-Kala and the Magas cluster) up to the Mongol invasion.
 
 | Settlement | Other Names | Coords | 1300/1400AD | 1500/1600AD | 1700AD |
 |:---|:---|:---|:---|:---|:---|
-| Bamut | Бамут | 43,16N, 45,19E | \- | \- | 650 |
-| Lugovoye | Луговое, Мужичи, Muzichi | 43,1N, 45,02E | \- | \- | 500 |
-| Serzhen-Yurt | Сержень-Юрт, Сержень-Юрт I-II | 43,12N, 46,02E | \- | \- | 950 |
-| Zandak | Зандак, Зандакский комплекс | 43N, 46,37E | 950 | \- | 1,4k |
-| Alkhan-Yurt | Алхан-Юрт, Iалхан-Юрт | 43,23N, 45,54E | \- | \- | 1,5k |
-| Belgatoy | Белгатой | 43,05N, 45,95E | \- | \- | 1,1k |
-| Kharachoy | Харачой | 42,91N, 46,14E | 650 | \- | 1k |
-| Targim | Таргим | 42,81N, 44,93E | 750 | 950 | 1k |
-| Egikal | Эгикхал, Агикхал | 42,83N, 44,92E | 1,1k | 1,4k | 1,6k |
-| Khamkhi | Хамхи | 42,82N, 44,91E | 700 | 900 | 980 |
-| Vovnushki | Вовнушки, Оздик | 42,8N, 45,01E | 350 | 550 | 620 |
-| Erzi | Эрзи, Арзи | 42,81N, 44,76E | 350 | 550 | 680 |
-| Falkhan | Фалхан | 42,8N, 44,72E | 280 | 420 | 480 |
-| Shoan | Шоан, Шоани | 42,78N, 44,7E | 320 | 460 | 520 |
-| Lyazhgi | Ляжги | 42,81N, 44,74E | 290 | 440 | 500 |
-| Salgi | Салги | 42,77N, 44,82E | 260 | 390 | 450 |
-| Guli | Гули | 42,79N, 44,86E | 300 | 450 | 520 |
-| Pui | Пуй | 42,8N, 44,95E | 480 | \- | 580 |
-| Tumgi | Тумги | 42,81N, 44,87E | 280 | 420 | 490 |
-| Tsori | Цори | 42,77N, 45,03E | 340 | 520 | 600 |
-| Niy | Ний | 42,78N, 44,98E | 310 | 470 | 540 |
-| Pyaling | Пялинг | 42,79N, 44,99E | 290 | 440 | 510 |
-| Beyni | Бейни | 42,83N, 44,69E | 260 | 380 | 440 |
-| Dzheyrakh | Джейрах | 42,82N, 44,68E | 350 | 520 | 620 |
-| Furtoug | Фуртоуг | 42,83N, 44,65E | 250 | 380 | 450 |
-| Olgeti | Ольгети | 42,81N, 44,75E | 240 | 360 | 420 |
-| Khoy | Хой | 42,76N, 46,13E | 950 | 1,3k | 1,5k |
-| Makazhoy | Макажой | 42,77N, 46,08E | 850 | \- | 1,4k |
-| Sharo-Argun | Шаро-Аргун | 42,73N, 45,87E | 750 | \- | 1,1k |
-| Sharoy | Шарой | 42,63N, 45,95E | 900 | \- | 1,3k |
-| Khimoy | Химой | 42,67N, 45,88E | 800 | \- | 1,1k |
-| Kenkhi | Кенхи | 42,58N, 46,02E | 850 | \- | 1,4k |
-| Itum-Kale | Итум-Кале, Пхакоч | 42,73N, 45,58E | 1,1k | 1,6k | 1,8k |
-| Tazbichi | Тазбичи | 42,73N, 45,65E | 850 | \- | 1,2k |
-| Ushkaloy | Ушкалой | 42,77N, 45,62E | 700 | \- | 950 |
-| Kokadoi | Кокадой | 42,72N, 45,6E | 620 | \- | 850 |
-| Shatoy | Шатой, Хакмадой | 42,87N, 45,69E | 1,2k | \- | 1,8k |
-| Nikhaloy | Нихалой | 42,83N, 45,66E | 750 | \- | 1k |
-| Gukhoy | Гухой | 42,77N, 45,53E | 780 | \- | 1,1k |
-| Borzoy | Борзой | 42,85N, 45,62E | 820 | \- | 1,2k |
-| Varandy | Варанды | 42,92N, 45,7E | 720 | \- | 1k |
-| Vaserkel | Васеркел, Майсты | 42,63N, 45,42E | 850 | 1,1k | 1,2k |
-| Tsekaloy | Цекалой | 42,64N, 45,43E | 380 | 620 | 750 |
-| Tsikaro | Цикарой, Малхиста | 42,68N, 45,28E | 950 | 1,2k | 1,4k |
-| Nikaroy | Никарой, Терлой | 42,73N, 45,4E | 880 | 1,1k | 1,3k |
-| Motsaroy | Моцарой, Нашха | 42,9N, 45,37E | 1,1k | 1,4k | 1,6k |
-| Khaibakh | Хайбах | 42,88N, 45,38E | 750 | 950 | 1k |
-| Galanchozh | Галанчож | 42,87N, 45,3E | 850 | 1,1k | 1,2k |
-| Yalkhoroy | Ялхорой, Акки | 42,85N, 45,22E | 880 | 1,1k | 1,2k |
-| Vedeno | Ведено, Ведана | 42,97N, 46,1E | \- | 600 | 1,1k |
-| Dargo | Дарго, ДаргIа | 42,95N, 46,24E | 650 | \- | 1,3k |
-| Benoy | Беной | 42,97N, 46,32E | 850 | \- | 1,6k |
-| Alleroy | Аллерой | 43,05N, 46,27E | \- | 650 | 1,2k |
-| Tsentoroy | Центорой, Хоси-Юрт | 43,1N, 46,22E | \- | 600 | 1,1k |
-| Gordali | Гордали | 43,02N, 46,25E | \- | 650 | 1,2k |
-| Engenoy | Энгеной | 43N, 46,28E | \- | 550 | 1k |
-| Shuan | Шуани | 43,02N, 46,22E | \- | 480 | 850 |
-| Ongusht | Онгушт, Ангушт, Тарское | 43,07N, 44,78E | \- | \- | 1,1k |
-| Staryy Yurt | Старый Юрт, Толстой-Юрт | 43,45N, 45,78E | \- | 1,4k | 2,2k |
-| Nizhniy Naur | Нижний Наур, Надтеречное | 43,62N, 45,28E | \- | \- | 1,5k |
-| Braguny | Брагуны, Борагангечув | 43,43N, 46,02E | \- | 1,2k | 1,8k |
-| Isti-Su | Исти-Су, Мелчхи | 43,28N, 46,15E | \- | 850 | 1,4k |
-| Gudermes | Гудермес, ГIуьмсе | 43,35N, 46,1E | \- | \- | 1,1k |
-| Kurchaloy | Курчалой | 43,21N, 46,09E | \- | \- | 1,6k |
-| Mayrtup | Майртуп | 43,2N, 46,15E | \- | \- | 1,5k |
-| Geldagan | Гелдаган | 43,23N, 46,02E | \- | \- | 1,2k |
-| Tsotsi-Yurt | Цоци-Юрт | 43,24N, 45,99E | \- | \- | 1,1k |
-| Avtury | Автуры | 43,17N, 46E | \- | \- | 1,4k |
-| Shali | Шали, Шела | 43,15N, 45,9E | \- | \- | 2,8k |
-| Germenchuk | Герменчук | 43,19N, 45,93E | \- | \- | 2,4k |
-| Chechen-Aul | Чечен-Аул, Чечень | 43,2N, 45,79E | \- | \- | 3,2k |
-| Aldy | Алды, Бухан-Юрт | 43,28N, 45,66E | \- | \- | 2,2k |
-| Staryye Atagi | Старые Атаги, Большие Атаги | 43,13N, 45,74E | \- | \- | 2,1k |
-| Chiri-Yurt | Чири-Юрт | 43,09N, 45,75E | \- | \- | 950 |
-| Duba-Yurt | Дуба-Юрт | 43,04N, 45,74E | \- | \- | 900 |
-| Urus-Martan | Урус-Мартан, МартантIи | 43,13N, 45,54E | \- | \- | 2,3k |
-| Goyty | Гойты | 43,22N, 45,66E | \- | \- | 1,6k |
-| Gekhi | Гехи | 43,16N, 45,47E | \- | \- | 1,4k |
-| Roshni-Chu | Рошни-Чу | 43,08N, 45,45E | \- | \- | 950 |
-| Shalazhi | Шалажи | 43,1N, 45,37E | \- | \- | 1,1k |
-| Valerik | Валерик | 43,18N, 45,41E | \- | \- | 900 |
-| Achkhoy-Martan | Ачхой-Мартан | 43,19N, 45,28E | \- | \- | 1,5k |
-| Katyr-Yurt | Катыр-Юрт | 43,17N, 45,35E | \- | \- | 950 |
-| Chervlennaya | Червленная, Ораз-Кала | 43,52N, 45,96E | \- | 900 | 1,4k |
-| Shchedrinskaya | Щедринская | 43,48N, 46,12E | \- | \- | 850 |
+| Achkhoy-Martan | Ачхой-Мартан | 43,19N, 45,28E | \- | \- | 1,3k |
+| Aldam-Gezi | Aldam-Gezi | 42,76N, 46,11E | \- | 1,2k | 1,1k |
+| Aldy | Алды, Бухан-Юрт | 43,28N, 45,66E | \- | \- | 1,9k |
+| Alkhan-Yurt | Алхан-Юрт, Iалхан-Юрт | 43,23N, 45,54E | 1,2k | \- | 1,3k |
+| Alleroy | Аллерой | 43,05N, 46,27E | \- | 650 | 1,1k |
+| Avtury | Автуры | 43,17N, 46E | \- | \- | 1,3k |
+| Bamut | Бамут | 43,16N, 45,19E | \- | \- | 574 |
+| Belgatoy | Белгатой | 43,05N, 45,95E | \- | \- | 971 |
+| Benoy | Беной | 42,97N, 46,32E | 850 | \- | 1,4k |
+| Beyni | Бейни | 42,83N, 44,69E | 260 | 380 | 388 |
+| Borzoy | Борзой | 42,85N, 45,62E | 820 | \- | 1,1k |
+| Braguny | Брагуны, Борагангечув | 43,43N, 46,02E | \- | 1,2k | 1,6k |
+| Chechen-Aul | Чечен-Аул, Чечень | 43,2N, 45,79E | \- | \- | 2,8k |
+| Chervlennaya | Червленная, Ораз-Кала | 43,52N, 45,96E | \- | 900 | 1,2k |
+| Chiri-Yurt | Чири-Юрт | 43,09N, 45,75E | \- | \- | 839 |
+| Dargo | Дарго, ДаргIа | 42,95N, 46,24E | 650 | \- | 1,1k |
+| Dora | Dora | 42,71N, 45,58E | 1,2k | \- | \- |
+| Duba-Yurt | Дуба-Юрт | 43,04N, 45,74E | \- | \- | 794 |
+| Dzheyrakh | Джейрах | 42,82N, 44,68E | 350 | 520 | 547 |
+| Egikal | Эгикхал, Агикхал | 42,83N, 44,92E | 1,1k | 1,4k | 1,4k |
+| Engenoy | Энгеной | 43N, 46,28E | \- | 550 | 927 |
+| Erzi | Эрзи, Арзи | 42,81N, 44,76E | 350 | 550 | 600 |
+| Falkhan | Фалхан | 42,8N, 44,72E | 280 | 420 | 424 |
+| Furtoug | Фуртоуг | 42,83N, 44,65E | 250 | 380 | 397 |
+| Galanchozh | Галанчож | 42,87N, 45,3E | 850 | 1,1k | 1,1k |
+| Gekhi | Гехи | 43,16N, 45,47E | \- | \- | 1,3k |
+| Geldagan | Гелдаган | 43,23N, 46,02E | \- | \- | 1,1k |
+| Germenchuk | Герменчук | 43,19N, 45,93E | \- | \- | 2,1k |
+| Gordali | Гордали | 43,02N, 46,25E | \- | 650 | 1,1k |
+| Goyty | Гойты | 43,22N, 45,66E | \- | \- | 1,4k |
+| Gudermes | Гудермес, ГIуьмсе | 43,35N, 46,1E | \- | \- | 971 |
+| Gukhoy | Гухой | 42,77N, 45,53E | 780 | \- | 971 |
+| Guli | Гули | 42,79N, 44,86E | 300 | 450 | 459 |
+| Isti-Su | Исти-Су, Мелчхи | 43,28N, 46,15E | \- | 850 | 1,2k |
+| Itum-Kale | Итум-Кале, Пхакоч | 42,73N, 45,58E | 1,1k | 1,6k | 1,5k |
+| Katyr-Yurt | Катыр-Юрт | 43,17N, 45,35E | \- | \- | 839 |
+| Khaibakh | Хайбах | 42,88N, 45,38E | 750 | 950 | 927 |
+| Khamkhi | Хамхи | 42,82N, 44,91E | 700 | 900 | 865 |
+| Kharachoy | Харачой | 42,91N, 46,14E | 650 | \- | 927 |
+| Khimoi Historical and Architectural Complex | Khimoi Historical and Architectural Complex | 42,66N, 45,85E | 1,2k | \- | \- |
+| Khimoy | Химой | 42,67N, 45,88E | 800 | \- | 1k |
+| Khoy | Хой | 42,76N, 46,13E | 950 | 1,3k | 1,3k |
+| Kokadoi | Кокадой | 42,72N, 45,6E | 620 | \- | 750 |
+| Kurchaloy | Курчалой | 43,21N, 46,09E | \- | \- | 1,5k |
+| Lugovoye | Луговое, Мужичи, Muzichi | 43,1N, 45,02E | \- | \- | 441 |
+| Lyazhgi | Ляжги | 42,81N, 44,74E | 290 | 440 | 441 |
+| Makazhoy Historical and Architectural Complex | Makazhoy Historical and Architectural Complex | 42,74N, 46,06E | 1,2k | \- | \- |
+| Makazhoy | Макажой | 42,77N, 46,08E | 850 | \- | 1,2k |
+| Mayrtup | Майртуп | 43,2N, 46,15E | \- | \- | 1,3k |
+| Motsaroy | Моцарой, Нашха | 42,9N, 45,37E | 1,1k | 1,4k | 1,4k |
+| Nikaroy | Никарой, Терлой | 42,73N, 45,4E | 880 | 1,1k | 1,1k |
+| Nikhaloy | Нихалой | 42,83N, 45,66E | 750 | \- | 927 |
+| Niy | Ний | 42,78N, 44,98E | 310 | 470 | 477 |
+| Nizhniy Naur | Нижний Наур, Надтеречное | 43,62N, 45,28E | \- | \- | 1,3k |
+| Olgeti | Ольгети | 42,81N, 44,75E | 240 | 360 | 371 |
+| Ongusht | Онгушт, Ангушт, Тарское | 43,07N, 44,78E | \- | \- | 971 |
+| Pui | Пуй | 42,8N, 44,95E | 480 | \- | 512 |
+| Pyaling | Пялинг | 42,79N, 44,99E | 290 | 440 | 450 |
+| Roshni-Chu | Рошни-Чу | 43,08N, 45,45E | \- | \- | 839 |
+| Salgi | Салги | 42,77N, 44,82E | 260 | 390 | 397 |
+| Serzhen-Yurt | Сержень-Юрт, Сержень-Юрт I-II | 43,12N, 46,02E | \- | \- | 839 |
+| Shalazhi | Шалажи | 43,1N, 45,37E | \- | \- | 971 |
+| Shali | Шали, Шела | 43,15N, 45,9E | \- | \- | 2,5k |
+| Sharo-Argun | Шаро-Аргун | 42,73N, 45,87E | 750 | \- | 1k |
+| Sharoy | Шарой | 42,63N, 45,95E | 900 | \- | 1,1k |
+| Shatoy | Шатой, Хакмадой | 42,87N, 45,69E | 1,2k | \- | 1,6k |
+| Shchedrinskaya | Щедринская | 43,48N, 46,12E | \- | \- | 750 |
+| Shoan | Шоан, Шоани | 42,78N, 44,7E | 320 | 460 | 459 |
+| Shuan | Шуани | 43,02N, 46,22E | \- | 480 | 750 |
+| Staryy Yurt | Старый Юрт, Толстой-Юрт | 43,45N, 45,78E | \- | 1,4k | 1,9k |
+| Staryye Atagi | Старые Атаги, Большие Атаги | 43,13N, 45,74E | \- | \- | 1,9k |
+| Targim | Таргим | 42,81N, 44,93E | 750 | 950 | 927 |
+| Tazbichi | Тазбичи | 42,73N, 45,65E | 850 | \- | 1,1k |
+| Tsekaloy | Цекалой | 42,64N, 45,43E | 380 | 620 | 662 |
+| Tsentoroy | Центорой, Хоси-Юрт | 43,1N, 46,22E | \- | 600 | 971 |
+| Tsikaro | Цикарой, Малхиста | 42,68N, 45,28E | 950 | 1,2k | 1,2k |
+| Tsoi-Pede | Цой-Педе, City of the Dead, Malkhista Fort | 42,71N, 45,26E | 600 | 700 | 441 |
+| Tsori | Цори | 42,77N, 45,03E | 340 | 520 | 530 |
+| Tsotsi-Yurt | Цоци-Юрт | 43,24N, 45,99E | \- | \- | 1k |
+| Tumgi | Тумги | 42,81N, 44,87E | 280 | 420 | 432 |
+| Urus-Martan | Урус-Мартан, МартантIи | 43,13N, 45,54E | \- | \- | 2k |
+| Ushkaloy | Ушкалой | 42,77N, 45,62E | 700 | \- | 839 |
+| Valerik | Валерик | 43,18N, 45,41E | \- | \- | 794 |
+| Varandy | Варанды | 42,92N, 45,7E | 720 | \- | 927 |
+| Vaserkel | Васеркел, Майсты | 42,63N, 45,42E | 850 | 1,1k | 1,1k |
+| Vedeno | Ведено, Ведана | 42,97N, 46,1E | 260 | 600 | 971 |
+| Vovnushki | Вовнушки, Оздик | 42,8N, 45,01E | 350 | 550 | 547 |
+| Yalkhoroy | Ялхорой, Акки | 42,85N, 45,22E | 880 | 1,1k | 1,1k |
+| Zandak | Зандак, Зандакский комплекс | 43N, 46,37E | 950 | \- | 1,2k |
 
 Estimated populations of the fortified stone tower villages of the
 Armkhi, Assa and Argun gorges (Egikal, Erzi, Targim, Tsoy-Pede and Khoy)
@@ -401,127 +415,129 @@ settlements.
 
 | Settlement | Other Names | 1700AD | 1750AD | 1800AD | 1850AD | 1897AD | 1900AD |
 |:---|:---|:---|:---|:---|:---|:---|:---|
-| Bamut | Бамут | 650 | \- | 950 | 750 | 1,1k | 1,2k |
-| Lugovoye | Луговое, Мужичи, Muzichi | 500 | \- | 750 | \- | 980 | 1k |
-| Serzhen-Yurt | Сержень-Юрт, Сержень-Юрт I-II | 950 | \- | 1,4k | 1,1k | 1,6k | 1,7k |
-| Zandak | Зандак, Зандакский комплекс | 1,4k | \- | 1,8k | 1,5k | 1,9k | 2k |
-| Nesterovskaya | Нестеровская, Нестеровское | \- | \- | 950 | 1,8k | 3,4k | 3,5k |
-| Alkhan-Yurt | Алхан-Юрт, Iалхан-Юрт | 1,5k | \- | 2,8k | 2,2k | 2,7k | 2,8k |
-| Belgatoy | Белгатой | 1,1k | \- | 1,4k | \- | 1,7k | 1,7k |
-| Kharachoy | Харачой | 1k | \- | 1,4k | 1,1k | 1,3k | 1,3k |
-| Alkhan-Kala | Алхан-Кала, Ермоловская | \- | \- | \- | 1,6k | 2,9k | 3k |
-| Yandare | Яндаре, Яндаре-Городище | \- | 850 | 1,2k | 1,6k | 2,1k | 2,2k |
-| Gazi-Yurt | Гази-Юрт, Магас | \- | \- | 750 | \- | 1,1k | 1,1k |
-| Ekazhevo | Экажево, Экажевское городище | \- | 1,4k | 2,4k | 3,2k | 4,1k | 4,3k |
-| Ali-Yurt | Али-Юрт | \- | \- | 850 | 1,1k | 1,5k | 1,6k |
-| Surkhakhi | Сурхахи | \- | 1,1k | 1,8k | 2,3k | 3k | 3,1k |
-| Plievo | Плиево | \- | 900 | 1,6k | 2,1k | 2,8k | 2,9k |
-| Barsuki | Барсуки | \- | 850 | 1,4k | 1,8k | 2,4k | 2,5k |
-| Nasyr-Kort | Насыр-Корт | \- | 950 | 1,6k | 2k | 2,7k | 2,8k |
-| Troitskaya | Троицкая, Эбан | \- | \- | 1,4k | 2,4k | 4,6k | 4,8k |
-| Karabulak | Карабулак | \- | 1,2k | 1,8k | 1,9k | 3,4k | 3,5k |
-| Sleptsovskaya | Слепцовская, Сунжа, Орджоникидзевская | \- | \- | 1,8k | 2,6k | 5,1k | 5,3k |
-| Targim | Таргим | 1k | \- | 700 | \- | 380 | 360 |
-| Egikal | Эгикхал, Агикхал | 1,6k | \- | 1,1k | \- | 620 | 600 |
-| Khamkhi | Хамхи | 980 | \- | 650 | \- | 340 | 320 |
-| Vovnushki | Вовнушки, Оздик | 620 | \- | 450 | \- | 220 | 210 |
-| Erzi | Эрзи, Арзи | 680 | \- | 520 | \- | 290 | 280 |
-| Falkhan | Фалхан | 480 | \- | 360 | \- | 210 | 200 |
-| Shoan | Шоан, Шоани | 520 | \- | 400 | \- | 250 | 240 |
-| Lyazhgi | Ляжги | 500 | \- | 380 | \- | 240 | 230 |
-| Salgi | Салги | 450 | \- | 340 | \- | 190 | 180 |
-| Guli | Гули | 520 | \- | 410 | \- | 270 | 260 |
-| Pui | Пуй | 580 | \- | 420 | \- | 210 | 200 |
-| Tumgi | Тумги | 490 | \- | 360 | \- | 200 | 190 |
-| Tsori | Цори | 600 | \- | 450 | \- | 260 | 250 |
-| Niy | Ний | 540 | \- | 390 | \- | 230 | 220 |
-| Pyaling | Пялинг | 510 | \- | 370 | \- | 210 | 200 |
-| Beyni | Бейни | 440 | \- | 340 | \- | 220 | 210 |
-| Dzheyrakh | Джейрах | 620 | \- | 550 | \- | 480 | 490 |
-| Furtoug | Фуртоуг | 450 | \- | 390 | \- | 310 | 320 |
-| Olgeti | Ольгети | 420 | \- | 330 | \- | 240 | 230 |
-| Khoy | Хой | 1,5k | \- | 1,4k | 950 | 890 | 920 |
-| Makazhoy | Макажой | 1,4k | \- | 1,2k | \- | 820 | 850 |
-| Sharo-Argun | Шаро-Аргун | 1,1k | \- | 1,1k | \- | 780 | 800 |
-| Sharoy | Шарой | 1,3k | \- | 1,2k | \- | 860 | 890 |
-| Khimoy | Химой | 1,1k | \- | 1,1k | \- | 790 | 820 |
-| Kenkhi | Кенхи | 1,4k | \- | 1,4k | \- | 1,4k | 1,4k |
-| Itum-Kale | Итум-Кале, Пхакоч | 1,8k | \- | 1,5k | 1,1k | 980 | 1k |
-| Tazbichi | Тазбичи | 1,2k | \- | 1,1k | \- | 840 | 870 |
-| Ushkaloy | Ушкалой | 950 | \- | 900 | \- | 680 | 700 |
-| Kokadoi | Кокадой | 850 | \- | 800 | \- | 590 | 610 |
-| Shatoy | Шатой, Хакмадой | 1,8k | \- | 2,1k | 1,6k | 2,2k | 2,3k |
-| Nikhaloy | Нихалой | 1k | \- | 950 | \- | 710 | 730 |
-| Gukhoy | Гухой | 1,1k | \- | 1k | \- | 760 | 780 |
-| Borzoy | Борзой | 1,2k | \- | 1,3k | \- | 1,1k | 1,2k |
-| Varandy | Варанды | 1k | \- | 1,1k | \- | 980 | 1k |
-| Vaserkel | Васеркел, Майсты | 1,2k | \- | 850 | \- | 420 | 400 |
-| Tsekaloy | Цекалой | 750 | \- | 520 | \- | 260 | 250 |
-| Tsikaro | Цикарой, Малхиста | 1,4k | \- | 950 | \- | 490 | 470 |
-| Nikaroy | Никарой, Терлой | 1,3k | \- | 900 | \- | 520 | 500 |
-| Motsaroy | Моцарой, Нашха | 1,6k | \- | 1,1k | \- | 680 | 660 |
-| Khaibakh | Хайбах | 1k | \- | 800 | \- | 490 | 480 |
-| Galanchozh | Галанчож | 1,2k | \- | 920 | \- | 580 | 570 |
-| Yalkhoroy | Ялхорой, Акки | 1,2k | \- | 950 | \- | 610 | 600 |
-| Vedeno | Ведено, Ведана | 1,1k | \- | 1,5k | 3,5k | 1,8k | 1,9k |
-| Dargo | Дарго, ДаргIа | 1,3k | \- | 1,8k | 1,4k | 1,6k | 1,7k |
-| Benoy | Беной | 1,6k | \- | 2,3k | 1,9k | 2,5k | 2,6k |
-| Alleroy | Аллерой | 1,2k | \- | 1,6k | 1,4k | 1,9k | 2k |
-| Tsentoroy | Центорой, Хоси-Юрт | 1,1k | \- | 1,6k | 1,4k | 1,8k | 1,9k |
-| Gordali | Гордали | 1,2k | \- | 1,7k | 1,4k | 1,7k | 1,7k |
-| Engenoy | Энгеной | 1k | \- | 1,4k | \- | 1,5k | 1,6k |
-| Shuan | Шуани | 850 | \- | 1,1k | \- | 1,2k | 1,3k |
-| Ongusht | Онгушт, Ангушт, Тарское | 1,1k | 1,5k | 1,9k | 1,6k | 2,3k | 2,4k |
-| Nazran | Назрань, Наьсаре | \- | 900 | 1,6k | 2,4k | 3,8k | 3,9k |
-| Bazorkino | Базоркино, Чермен, Мочко-Юрт | \- | \- | \- | 1,9k | 3,3k | 3,4k |
-| Kantyshevo | Кантышево | \- | \- | 1,1k | 1,8k | 2,6k | 2,7k |
-| Dolakovo | Долаково | \- | \- | 950 | 1,5k | 2,2k | 2,3k |
-| Sagopshi | Сагопши | \- | \- | 1k | 1,6k | 2,5k | 2,6k |
-| Achaluki | Ачалуки, Средние Ачалуки | \- | \- | 900 | 1,4k | 2,2k | 2,3k |
-| Staryy Yurt | Старый Юрт, Толстой-Юрт | 2,2k | \- | 3,1k | 2,8k | 3,6k | 3,8k |
-| Nizhniy Naur | Нижний Наур, Надтеречное | 1,5k | \- | 2,6k | 2,9k | 3,8k | 4k |
-| Beno-Yurt | Бено-Юрт | \- | 950 | 1,6k | 1,8k | 2,5k | 2,6k |
-| Braguny | Брагуны, Борагангечув | 1,8k | \- | 2,2k | 2k | 2,4k | 2,5k |
-| Isti-Su | Исти-Су, Мелчхи | 1,4k | \- | 1,8k | 1,6k | 2,1k | 2,2k |
-| Gudermes | Гудермес, ГIуьмсе | 1,1k | \- | 1,9k | 1,6k | 3,6k | 3,8k |
-| Kurchaloy | Курчалой | 1,6k | \- | 2,9k | 2,5k | 3,7k | 3,8k |
-| Mayrtup | Майртуп | 1,5k | \- | 2,7k | 2,2k | 3,3k | 3,4k |
-| Geldagan | Гелдаган | 1,2k | \- | 2,1k | 1,8k | 2,5k | 2,5k |
-| Tsotsi-Yurt | Цоци-Юрт | 1,1k | \- | 1,9k | 1,7k | 2,3k | 2,4k |
-| Avtury | Автуры | 1,4k | \- | 2,5k | 2,1k | 3k | 3,1k |
-| Shali | Шали, Шела | 2,8k | 3,8k | 5,2k | 4,6k | 7,8k | 8,1k |
-| Germenchuk | Герменчук | 2,4k | \- | 4,2k | 2,5k | 3,5k | 3,6k |
-| Chechen-Aul | Чечен-Аул, Чечень | 3,2k | 4k | 4,6k | 2,2k | 2,9k | 3k |
-| Aldy | Алды, Бухан-Юрт | 2,2k | 3,2k | 3,8k | 1,9k | 2,6k | 2,8k |
-| Staryye Atagi | Старые Атаги, Большие Атаги | 2,1k | \- | 3,9k | 2,8k | 3,8k | 4k |
-| Novyye Atagi | Новые Атаги | \- | 1,1k | 1,8k | 1,6k | 2,3k | 2,4k |
-| Chiri-Yurt | Чири-Юрт | 950 | \- | 1,6k | 1,4k | 1,9k | 2k |
-| Duba-Yurt | Дуба-Юрт | 900 | \- | 1,4k | 1,2k | 1,8k | 1,8k |
-| Urus-Martan | Урус-Мартан, МартантIи | 2,3k | 3,4k | 4,8k | 3,9k | 6,7k | 6,9k |
-| Goyty | Гойты | 1,6k | \- | 2,9k | 2,4k | 3,8k | 3,9k |
-| Gekhi | Гехи | 1,4k | \- | 2,6k | 2,2k | 3,2k | 3,4k |
-| Roshni-Chu | Рошни-Чу | 950 | \- | 1,6k | 1,4k | 2,1k | 2,2k |
-| Shalazhi | Шалажи | 1,1k | \- | 1,9k | 1,6k | 2,4k | 2,5k |
-| Valerik | Валерик | 900 | \- | 1,6k | 1,3k | 1,8k | 1,9k |
-| Achkhoy-Martan | Ачхой-Мартан | 1,5k | \- | 2,7k | 2,4k | 3,9k | 4,1k |
-| Katyr-Yurt | Катыр-Юрт | 950 | \- | 1,6k | 1,4k | 2,1k | 2,2k |
-| Samashki | Самашки, Самашкинская | \- | 1,1k | 1,8k | 1,9k | 3,5k | 3,6k |
-| Zakan-Yurt | Закан-Юрт, Закан-Юртовская | \- | 950 | 1,6k | 1,7k | 2,9k | 3k |
-| Assinovskaya | Ассиновская | \- | \- | 1,1k | 2,1k | 3,9k | 4k |
-| Mikhaylovskaya | Михайловская, Серноводская | \- | \- | \- | 1,6k | 3,1k | 3,2k |
-| Petropavlovskaya | Петропавловская | \- | \- | \- | 1,4k | 2,6k | 2,7k |
-| Goryacheistochnenskaya | Горячеисточненская | \- | \- | \- | 1,2k | 2,3k | 2,4k |
-| Chervlennaya | Червленная, Ораз-Кала | 1,4k | \- | 2,9k | 3,8k | 5,5k | 5,6k |
-| Shchedrinskaya | Щедринская | 850 | \- | 1,6k | 1,9k | 2,7k | 2,8k |
-| Starogladovskaya | Старогладовская | \- | 900 | 1,6k | 2,1k | 2,8k | 3k |
-| Kurdyukovskaya | Курдюковская | \- | 800 | 1,4k | 1,8k | 2,5k | 2,6k |
-| Shelkovskaya | Шелковская | \- | 750 | 1,4k | 1,8k | 2,4k | 2,4k |
-| Kalinovskaya | Калиновская | \- | 1,1k | 1,9k | 2,8k | 4,1k | 4,3k |
-| Naurskaya | Наурская | \- | 1,4k | 2,6k | 3,5k | 4,8k | 5k |
-| Ishcherskaya | Ищерская | \- | 950 | 1,8k | 2,4k | 3,5k | 3,6k |
-| Mekenskaya | Мекенская | \- | 900 | 1,6k | 2,3k | 3,3k | 3,4k |
-| Vozdvizhenskaya | Воздвиженская, Чахкери | \- | \- | \- | 1,8k | 2,1k | 2,2k |
-| Grozny | Грозный, Крепость Грозная, Соьлжа-ГIала | \- | 1,8k | 2,4k | 4,5k | 15,6k | 17,2k |
+| Achaluki | Ачалуки, Средние Ачалуки | \- | \- | 744 | 1,3k | \- | \- |
+| Achkhoy-Martan | Ачхой-Мартан | 1,3k | \- | 2,2k | 2,1k | \- | \- |
+| Aldam-Gezi | Aldam-Gezi | 1,1k | 1,2k | \- | \- | \- | \- |
+| Aldy | Алды, Бухан-Юрт | 1,9k | 3,2k | 3,1k | 1,7k | \- | \- |
+| Ali-Yurt | Али-Юрт | \- | \- | 702 | 1k | \- | \- |
+| Alkhan-Kala | Алхан-Кала, Ермоловская | \- | \- | 1,2k | 1,4k | \- | \- |
+| Alkhan-Yurt | Алхан-Юрт, Iалхан-Юрт | 1,3k | \- | 2,3k | 1,9k | \- | \- |
+| Alleroy | Аллерой | 1,1k | \- | 1,4k | 1,3k | \- | \- |
+| Assinovskaya | Ассиновская | \- | \- | 909 | 1,8k | \- | \- |
+| Avtury | Автуры | 1,3k | \- | 2,1k | 1,8k | \- | \- |
+| Bamut | Бамут | 574 | \- | 785 | 656 | \- | \- |
+| Barsuki | Барсуки | \- | 850 | 1,2k | 1,6k | \- | \- |
+| Bazorkino | Базоркино, Чермен, Мочко-Юрт | \- | \- | 1,4k | 1,7k | \- | \- |
+| Belgatoy | Белгатой | 971 | \- | 1,2k | \- | \- | \- |
+| Beno-Yurt | Бено-Юрт | \- | 950 | 1,3k | 1,6k | \- | \- |
+| Benoy | Беной | 1,4k | \- | 1,9k | 1,7k | \- | \- |
+| Beyni | Бейни | 388 | \- | 281 | \- | \- | \- |
+| Borzoy | Борзой | 1,1k | \- | 1,1k | \- | \- | \- |
+| Braguny | Брагуны, Борагангечув | 1,6k | \- | 1,8k | 1,8k | \- | \- |
+| Chechen-Aul | Чечен-Аул, Чечень | 2,8k | 4k | 3,8k | 1,9k | \- | \- |
+| Chervlennaya | Червленная, Ораз-Кала | 1,2k | \- | 2,4k | 3,3k | \- | \- |
+| Chiri-Yurt | Чири-Юрт | 839 | \- | 1,3k | 1,2k | \- | \- |
+| Dargo | Дарго, ДаргIа | 1,1k | \- | 1,5k | 1,2k | \- | \- |
+| Dolakovo | Долаково | \- | \- | 785 | 1,3k | \- | \- |
+| Duba-Yurt | Дуба-Юрт | 794 | \- | 1,2k | 1,1k | \- | \- |
+| Dzheyrakh | Джейрах | 547 | \- | 454 | \- | \- | \- |
+| Egikal | Эгикхал, Агикхал | 1,4k | \- | 950 | \- | \- | \- |
+| Ekazhevo | Экажево, Экажевское городище | \- | 1,4k | 2k | 2,8k | \- | \- |
+| Engenoy | Энгеной | 927 | \- | 1,2k | \- | \- | \- |
+| Erzi | Эрзи, Арзи | 600 | \- | 430 | \- | \- | \- |
+| Falkhan | Фалхан | 424 | \- | 297 | \- | \- | \- |
+| Furtoug | Фуртоуг | 397 | \- | 322 | \- | \- | \- |
+| Galanchozh | Галанчож | 1,1k | \- | 760 | \- | \- | \- |
+| Gazi-Yurt | Гази-Юрт, Магас | \- | 660 | 620 | \- | \- | \- |
+| Gekhi | Гехи | 1,3k | \- | 2,1k | 1,9k | \- | \- |
+| Geldagan | Гелдаган | 1,1k | \- | 1,7k | 1,6k | \- | \- |
+| Germenchuk | Герменчук | 2,1k | \- | 3,5k | 2,2k | \- | \- |
+| Gerzel-aul | Gerzel-aul | \- | \- | \- | \- | \- | \- |
+| Gordali | Гордали | 1,1k | \- | 1,4k | 1,2k | \- | \- |
+| Goryacheistochnenskaya | Горячеисточненская | \- | \- | 909 | 1,1k | \- | \- |
+| Goyty | Гойты | 1,4k | \- | 2,4k | 2,1k | \- | \- |
+| Grozny | Грозный, Крепость Грозная, Соьлжа-ГIала | \- | 1,8k | 2k | 3,9k | \- | \- |
+| Gudermes | Гудермес, ГIуьмсе | 971 | \- | 1,6k | 1,4k | \- | \- |
+| Gukhoy | Гухой | 971 | \- | 868 | \- | \- | \- |
+| Guli | Гули | 459 | \- | 339 | \- | \- | \- |
+| Ishcherskaya | Ищерская | \- | 950 | 1,4k | 2,1k | \- | \- |
+| Isti-Su | Исти-Су, Мелчхи | 1,2k | \- | 1,5k | 1,4k | \- | \- |
+| Itum-Kale | Итум-Кале, Пхакоч | 1,5k | \- | 1,2k | 963 | \- | \- |
+| Kalinovskaya | Калиновская | \- | 1,1k | 1,6k | 2,5k | \- | \- |
+| Kantyshevo | Кантышево | \- | \- | 909 | 1,5k | \- | \- |
+| Karabulak | Карабулак | \- | 1,2k | 1,5k | 1,7k | \- | \- |
+| Katyr-Yurt | Катыр-Юрт | 839 | \- | 1,4k | 1,3k | \- | \- |
+| Khaibakh | Хайбах | 927 | \- | 661 | \- | \- | \- |
+| Khamkhi | Хамхи | 865 | \- | 537 | \- | \- | \- |
+| Kharachoy | Харачой | 927 | \- | 1,1k | 963 | \- | \- |
+| Khimoy | Химой | 1k | \- | 909 | \- | \- | \- |
+| Khoy | Хой | 1,3k | \- | 1,1k | 831 | \- | \- |
+| Kokadoi | Кокадой | 750 | \- | 661 | \- | \- | \- |
+| Kurchaloy | Курчалой | 1,5k | \- | 2,4k | 2,2k | \- | \- |
+| Kurdyukovskaya | Курдюковская | \- | 800 | 1,2k | 1,6k | \- | \- |
+| Lugovoye | Луговое, Мужичи, Muzichi | 441 | \- | 620 | \- | \- | \- |
+| Lyazhgi | Ляжги | 441 | \- | 314 | \- | \- | \- |
+| Makazhoy | Макажой | 1,2k | \- | 1k | \- | \- | \- |
+| Mayrtup | Майртуп | 1,3k | \- | 2,2k | 1,9k | \- | \- |
+| Mekenskaya | Мекенская | \- | 900 | 1,4k | 2k | \- | \- |
+| Mikhaylovskaya | Михайловская, Серноводская | \- | \- | 1,2k | 1,4k | \- | \- |
+| Motsaroy | Моцарой, Нашха | 1,4k | \- | 950 | \- | \- | \- |
+| Nasyr-Kort | Насыр-Корт | \- | 950 | 1,3k | 1,8k | \- | \- |
+| Naurskaya | Наурская | \- | 1,4k | 2,1k | 3,1k | \- | \- |
+| Nazran | Назрань, Наьсаре | \- | 900 | 1,3k | 2,1k | \- | \- |
+| Nesterovskaya | Нестеровская, Нестеровское | \- | \- | 785 | 1,6k | \- | \- |
+| Nikaroy | Никарой, Терлой | 1,1k | \- | 744 | \- | \- | \- |
+| Nikhaloy | Нихалой | 927 | \- | 785 | \- | \- | \- |
+| Niy | Ний | 477 | \- | 322 | \- | \- | \- |
+| Nizhniy Naur | Нижний Наур, Надтеречное | 1,3k | \- | 2,1k | 2,5k | \- | \- |
+| Novyye Atagi | Новые Атаги | \- | 1,1k | 1,5k | 1,4k | \- | \- |
+| Olgeti | Ольгети | 371 | \- | 273 | \- | \- | \- |
+| Ongusht | Онгушт, Ангушт, Тарское | 971 | 1,5k | 1,6k | 1,4k | \- | \- |
+| Petropavlovskaya | Петропавловская | \- | \- | 1k | 1,2k | \- | \- |
+| Plievo | Плиево | \- | 900 | 1,3k | 1,8k | \- | \- |
+| Pui | Пуй | 512 | \- | 347 | \- | \- | \- |
+| Pyaling | Пялинг | 450 | \- | 306 | \- | \- | \- |
+| Roshni-Chu | Рошни-Чу | 839 | \- | 1,4k | 1,3k | \- | \- |
+| Sagopshi | Сагопши | \- | \- | 868 | 1,4k | \- | \- |
+| Salgi | Салги | 397 | \- | 281 | \- | \- | \- |
+| Samashki | Самашки, Самашкинская | \- | 1,1k | 1,5k | 1,7k | \- | \- |
+| Serzhen-Yurt | Сержень-Юрт, Сержень-Юрт I-II | 839 | \- | 1,1k | 963 | \- | \- |
+| Shalazhi | Шалажи | 971 | \- | 1,6k | 1,4k | \- | \- |
+| Shali | Шали, Шела | 2,5k | 3,8k | 4,3k | 4k | \- | \- |
+| Sharo-Argun | Шаро-Аргун | 1k | \- | 909 | \- | \- | \- |
+| Sharoy | Шарой | 1,1k | \- | 992 | \- | \- | \- |
+| Shatoy | Шатой, Хакмадой | 1,6k | \- | 1,7k | 1,4k | \- | \- |
+| Shchedrinskaya | Щедринская | 750 | \- | 1,3k | 1,7k | \- | \- |
+| Shelkovskaya | Шелковская | \- | 750 | 1,1k | 1,5k | \- | \- |
+| Shoan | Шоан, Шоани | 459 | \- | 331 | \- | \- | \- |
+| Shuan | Шуани | 750 | \- | 950 | \- | \- | \- |
+| Sleptsovskaya | Слепцовская, Сунжа, Орджоникидзевская | \- | \- | 1,5k | 2,3k | \- | \- |
+| Starogladovskaya | Старогладовская | \- | 900 | 1,4k | 1,8k | \- | \- |
+| Staryy Yurt | Старый Юрт, Толстой-Юрт | 1,9k | \- | 2,6k | 2,5k | \- | \- |
+| Staryye Atagi | Старые Атаги, Большие Атаги | 1,9k | \- | 3,2k | 2,5k | \- | \- |
+| Surkhakhi | Сурхахи | \- | 1,1k | 1,4k | 2k | \- | \- |
+| Targim | Таргим | 927 | \- | 578 | \- | \- | \- |
+| Tazbichi | Тазбичи | 1,1k | \- | 950 | \- | \- | \- |
+| Troitskaya | Троицкая, Эбан | \- | \- | 1,1k | 2,1k | \- | \- |
+| Tsekaloy | Цекалой | 662 | \- | 430 | \- | \- | \- |
+| Tsentoroy | Центорой, Хоси-Юрт | 971 | \- | 1,3k | 1,2k | \- | \- |
+| Tsikaro | Цикарой, Малхиста | 1,2k | \- | 785 | \- | \- | \- |
+| Tsoi-Pede | Цой-Педе, City of the Dead, Malkhista Fort | 441 | 450 | 331 | 263 | \- | \- |
+| Tsori | Цори | 530 | \- | 372 | \- | \- | \- |
+| Tsotsi-Yurt | Цоци-Юрт | 1k | \- | 1,6k | 1,5k | \- | \- |
+| Tumgi | Тумги | 432 | \- | 297 | \- | \- | \- |
+| Urus-Martan | Урус-Мартан, МартантIи | 2k | 3,4k | 4k | 3,4k | \- | \- |
+| Ushkaloy | Ушкалой | 839 | \- | 744 | \- | \- | \- |
+| Valerik | Валерик | 794 | \- | 1,3k | 1,1k | \- | \- |
+| Varandy | Варанды | 927 | \- | 950 | \- | \- | \- |
+| Vaserkel | Васеркел, Майсты | 1,1k | \- | 702 | \- | \- | \- |
+| Vedeno | Ведено, Ведана | 971 | \- | 1,2k | 3,1k | \- | \- |
+| Vovnushki | Вовнушки, Оздик | 547 | \- | 372 | \- | \- | \- |
+| Vozdvizhenskaya | Воздвиженская, Чахкери | \- | \- | 1,3k | 1,6k | \- | \- |
+| Yalkhoroy | Ялхорой, Акки | 1,1k | \- | 785 | \- | \- | \- |
+| Yandare | Яндаре, Яндаре-Городище | \- | 850 | 1k | 1,4k | \- | \- |
+| Zakan-Yurt | Закан-Юрт, Закан-Юртовская | \- | 950 | 1,3k | 1,5k | \- | \- |
+| Zandak | Зандак, Зандакский комплекс | 1,2k | \- | 1,5k | 1,3k | \- | \- |
 
 Populations of major Chechen and Ingush lowland villages (Shali,
 Urus-Martan, Aldy, Chechen-Aul and Nazran), Terek and Sunzha Cossack

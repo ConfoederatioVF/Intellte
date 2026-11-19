@@ -6,7 +6,7 @@ authors_line: "Aust Kätzchen"
 emails:
   - austkaeztchen@confoederatio.org
 hero_figure: "figures/polotsk_turov_and_belarusian_principalities_fig4_urban_archaeology.png"
-hero_caption: "Excavated rampart and posad areas (in hectares) and estimated populations of the chief fortified towns across the 207,6k km² Belarusian river basins in 1200AD  -  led by Polotsk (190 ha, 25k), Turov (45 ha, 12k), Vitebsk (50 ha, 9,5k) and Minsk (38 ha, 9k)  -  alongside the contrasting urban trajectories of the sacked southern Pripyat-Sozh towns and the unstormed northern and western principalities to 1300AD."
+hero_caption: "Excavated rampart and posad areas (in hectares) and estimated populations of the chief fortified towns across the 207,6k km² Belarusian river basins in 1200AD  -  led by Polotsk (190 ha, 25k), Turov (45 ha, 12k), Vitebsk (50 ha, 9,5k) and Minsk (38 ha, 9k)  -  alongside the contrasting urban trajectories of the sacked southern Pripyat-Sozh towns and the unstormed northern and western principalities to 1400AD."
 hero_label: "fig:polotsk-turov-settlements-hero"
 bibliography: polotsk_turov_and_belarusian_principalities_literature_review.bib
 csl: ../../_shared/template/crd-mla-numeric.csl
@@ -194,71 +194,177 @@ local({
 })
 ```
 
+```{r load-stadester-json, include=FALSE}
+GAZETTEER_JSON_FILE <- "polotsk_turov_and_belarusian_principalities_settlements.json"
+gaz_map <- jsonlite::fromJSON(GAZETTEER_JSON_FILE, simplifyVector = FALSE)
+settlements_list <- unname(gaz_map)
+
+first_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(99999)
+  return(min(yrs))
+}
+
+last_year_num <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(-99999)
+  return(max(yrs))
+}
+
+ord_idx <- order(
+  vapply(settlements_list, first_year_num, numeric(1)),
+  vapply(settlements_list, function (s) as.character(s$name), character(1))
+)
+settlements_list <- settlements_list[ord_idx]
+
+fmt_other_names <- function (arg0_s) {
+  onames <- unlist(arg0_s$other_names)
+  if (length(onames) == 0) return("-")
+  clean_vec <- unique(as.character(onames))
+  clean_vec <- gsub("\u2116", "No.", clean_vec)
+  clean_vec <- clean_vec[nzchar(clean_vec) & tolower(clean_vec) != tolower(arg0_s$name)]
+  if (length(clean_vec) == 0) return("-")
+  out <- paste(head(clean_vec, 2L), collapse = "; ")
+  if (nchar(out) > 48L) out <- paste0(substr(out, 1L, 45L), "...")
+  return(out)
+}
+
+fmt_year_lbl <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_span <- function (arg0_s) {
+  y1 <- first_year_num(arg0_s)
+  y2 <- last_year_num(arg0_s)
+  if (y1 == y2) return(fmt_year_lbl(y1))
+  if (y1 < 0 && y2 < 0) return(paste0(abs(y1), "-", abs(y2), "BC"))
+  if (y1 > 0 && y2 > 0) return(paste0(y1, "-", y2, "AD"))
+  return(paste0(fmt_year_lbl(y1), " - ", fmt_year_lbl(y2)))
+}
+
+fmt_num_eu <- function (arg0_val) {
+  if (is.null(arg0_val) || is.na(arg0_val)) return("-")
+  v <- as.numeric(arg0_val)
+  if (v >= 1000000) {
+    s <- formatC(v / 1000000.0, format = "f", digits = 2L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "M"))
+  }
+  if (v >= 1000) {
+    s <- formatC(v / 1000.0, format = "f", digits = 1L, big.mark = ".", decimal.mark = ",")
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(paste0(s, "k"))
+  }
+  return(as.character(round(v)))
+}
+
+fmt_coord_pair <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  fmt_deg <- function (val) {
+    s <- gsub("\\.", ",", sprintf("%.2f", abs(val)))
+    s <- sub("(,[0-9]*?[1-9])0+$", "\\1", s, perl = TRUE)
+    s <- sub(",0+$", "", s, perl = TRUE)
+    return(s)
+  }
+  lat_s <- paste0(fmt_deg(lat), if (lat >= 0) "°N" else "°S")
+  lon_s <- paste0(fmt_deg(lon), if (lon >= 0) "°E" else "°W")
+  return(paste0(lat_s, ", ", lon_s))
+}
+
+fmt_pop_series <- function (arg0_s, arg1_ymin = -99999, arg2_ymax = 99999) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  keep <- which(yrs >= arg1_ymin & yrs <= arg2_ymax)
+  if (length(keep) == 0) return("-")
+  if (length(keep) > 5L) {
+    sel_idx <- unique(round(seq(1, length(keep), length.out = 5L)))
+    keep <- keep[sel_idx]
+  }
+  parts <- vapply(keep, function (idx) {
+    paste0(fmt_year_lbl(yrs[idx]), ": ", fmt_num_eu(vals[idx]))
+  }, character(1))
+  return(paste(parts, collapse = "; "))
+}
+```
+
 # Abstract
 
-This gazetteer compiles population estimates for 172 excavated settlements across the 207,6k km² river basins of Polotsk, Turov and Belarusian Rus from the Final Palaeolithic (10000BC) to the early Grand Duchy of Lithuania (1300AD) [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy]. The prehistoric and Iron Age series cover 24 representative sites, including the mammoth- and reindeer-hunter camps of Yurevichi and Berdizh (40 - 65 inhabitants in 10000BC), the waterlogged Neolithic pile dwellings of the Krivina peat basin at Asavets (160 - 340 inhabitants in 2500BC), the Milograd, Zarubintsy and Brushed Pottery hillforts (320 - 560 inhabitants in 500BC - 200AD) and the tenth-century craft complex on the Menka river (2,4k in 1000AD) [@charniauski1997arkhealogiya; @isaenko1999arkhealogiya; @zagorulsky1982vozniknovenie].
+This gazetteer compiles population estimates for `r format(length(settlements_list), big.mark = ".")` excavated settlements across the 207,6k km² river basins of Polotsk, Turov and Belarusian Rus from the Final Palaeolithic (10000BC) to the early Grand Duchy of Lithuania (1400AD) [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy]. The prehistoric and Iron Age series cover 24 representative sites, including the mammoth- and reindeer-hunter camps of Yurevichi and Berdizh (40 - 65 inhabitants in 10000BC), the waterlogged Neolithic pile dwellings of the Krivina peat basin at Asavets (160 - 340 inhabitants in 2500BC), the Milograd, Zarubintsy and Brushed Pottery hillforts (320 - 560 inhabitants in 500BC - 200AD) and the tenth-century craft complex on the Menka river (2,4k in 1000AD) [@charniauski1997arkhealogiya; @isaenko1999arkhealogiya; @zagorulsky1982vozniknovenie].
 
-Across the 148 medieval fortified towns (*gorodishcha*) occupied between 800AD and 1300AD, urban populations reached their pre-Mongol peak in 1200AD under the Izyaslavichi princes of Polotsk and the Rurikid rulers of Turov-Pinsk and Black Ruthenia, led by Polotsk (25k across 190 ha), Turov (12k), Vitebsk (9,5k), Minsk (9k), Grodno (8,5k), Pinsk (8k), Berestye (7,5k), Novogrudok (7,5k) and Gomel (6,5k) [@tarasov1998polotsk; @lysenko1985berestye; @gurevich1981drevniy]. While Batu Khan's columns of 1239-1241AD sacked Gomel (falling to 3,5k in 1250AD), Turov (7k), Mozyr (2,1k) and Berestye (5,2k) along the southern frontier, the northern and western capitals of Polotsk (22k in 1250AD, 23k in 1300AD), Vitebsk (9,5k in 1300AD), Minsk (8,8k), Grodno (8,5k) and Novogrudok (rising to 9k in 1300AD as Mindaugas's early seat) escaped destruction and anchored the early Lithuanian-Ruthenian realm.
+Across the medieval fortified towns (*gorodishcha*) and rural settlements occupied between 800AD and 1400AD, urban populations reached their pre-Mongol peak in 1200AD under the Izyaslavichi princes of Polotsk and the Rurikid rulers of Turov-Pinsk and Black Ruthenia, led by Polotsk (25k across 190 ha), Turov (12k), Vitebsk (9,5k), Minsk (9k), Grodno (8,5k), Pinsk (8k), Berestye (7,5k), Novogrudok (7,5k) and Gomel (6,5k) [@tarasov1998polotsk; @lysenko1985berestye; @gurevich1981drevniy]. While Batu Khan's columns of 1239-1241AD sacked Gomel (falling to 3,5k in 1250AD), Turov (7k), Mozyr (2,1k) and Berestye (5,2k) along the southern frontier, the northern and western capitals of Polotsk (22k in 1250AD, 23k in 1400AD), Vitebsk (9,5k in 1400AD), Minsk (8,8k), Grodno (8,5k) and Novogrudok (rising to 9k in 1300AD as Mindaugas's early seat) escaped destruction and anchored the early Lithuanian-Ruthenian realm.
 
 # Methodology
 
-Across the 207,6k km² river basins of Polotsk, Turov and Belarusian Rus, archaeological excavations and chronicle records document 172 principal settlements between the Final Palaeolithic (10000BC), the Mongol campaigns of 1238-1241 and the late thirteenth-century principalities (1240AD - 1300AD) [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy]. Table \ref{tab:auto-tab-1} summarises the distribution of these prehistoric camps, Iron Age hillforts and medieval towns across the five main river-basin groups.
+Across the 207,6k km² river basins of Polotsk, Turov and Belarusian Rus, archaeological excavations and chronicle records document `r format(length(settlements_list), big.mark = ".")` principal settlements between the Final Palaeolithic (10000BC), the Mongol campaigns of 1238-1241 and the late thirteenth-century principalities (1240AD - 1400AD) [@shtykhov1992goroda; @zagorulsky2001arkheologiya; @lysenko2004drevniy].
 
-```{r table-auto-1, echo=FALSE, results='asis'}
-df_tab_1 <- data.frame(
-  col_1 = c(
-    "Prehistoric, Bronze & Iron Age Sites",
-    "Polotsk, Vitebsk, Jersika & Koknese",
-    "Minsk, Drutsk & Borisov",
-    "Turov, Pinsk, Kletsk, Dubrovytsia & Berestye",
-    "Black Ruthenia: Grodno, Novogrudok & Volkovysk",
-    "Mstislavl, Western Smolensk & Upper Sozh",
-    "Total North-Western Rus"
+# Results
+
+## Summary by Chronological Horizon
+
+```{r tab-epoch-summary, echo=FALSE, results='asis'}
+cnt_prehist <- sum(vapply(settlements_list, function (s) first_year_num(s) <= -1000, logical(1)))
+cnt_classic <- sum(vapply(settlements_list, function (s) first_year_num(s) > -1000 && first_year_num(s) <= 400, logical(1)))
+cnt_med     <- sum(vapply(settlements_list, function (s) first_year_num(s) > 400 && first_year_num(s) <= 1240, logical(1)))
+cnt_late    <- sum(vapply(settlements_list, function (s) first_year_num(s) > 1240 && first_year_num(s) <= 1400, logical(1)))
+
+summary_df <- data.frame(
+  Horizon = c(
+    "I. Palaeolithic, Neolithic, Trypillia and Bronze Age (10000BC - 1000BC)",
+    "II. Early Iron Age, Scythian, Roman-Era and Antiquity (999BC - 400AD)",
+    "III. Early Slavonic and Pre-Mongol Kievan Rus (401AD - 1240AD)",
+    "IV. Post-Mongol Appanage and Early Lithuanian Transition (1241AD - 1400AD)",
+    "Total Gazetteer Settlements"
   ),
-  col_2 = c(
-    "24",
-    "34",
-    "24",
-    "38",
-    "28",
-    "24",
-    "172"
-  ),
-  col_3 = c(
-    "1 (Menka)",
-    "8",
-    "6",
-    "14",
-    "4",
-    "6",
-    "39"
-  ),
-  col_4 = c(
-    "23 (Palaeolithic - Early Slavic)",
-    "26",
-    "18",
-    "24",
-    "24",
-    "18",
-    "133"
-  ),
-  col_5 = c(
-    "Menka (2,4k in 1000AD)",
-    "Polotsk (25k / 23k)",
-    "Minsk (9k / 8,8k)",
-    "Turov (12k / 7,5k)",
-    "Grodno (8,5k) / Novogrudok (9k in 1300AD)",
-    "Gomel (6,5k / 4k), Mstislavl (5k / 4,5k)",
-    "Polotsk (25k at 1200AD; 23k at 1300AD)"
+  First_Attested_Count = c(
+    format(cnt_prehist, big.mark = "."),
+    format(cnt_classic, big.mark = "."),
+    format(cnt_med, big.mark = "."),
+    format(cnt_late, big.mark = "."),
+    format(length(settlements_list), big.mark = ".")
   ),
   stringsAsFactors = FALSE
 )
+
 render_table_template(
-  df_tab_1,
+  summary_df,
   list(
-    caption = "Breakdown of the 172 catalogued prehistoric camps, Iron Age hillforts and medieval fortified towns across the five river-basin groups of the Western Dvina, Pripyat, Neman and Sozh (207,6k km²), 10000BC - 1300AD, showing the number of major towns (>10 ha) and largest urban centre in each province.",
-    label = "tab:auto-tab-1",
-    col_names = c("Principality Group", "Total Sites", "Major Towns (>10 ha)", "Smaller Hillforts & Sites", "Largest Settlement (1200AD / 1300AD)"),
+    caption = paste0("Chronological distribution of the ", format(length(settlements_list), big.mark = "."), " catalogued settlements and archaeological habitation sites in ", "Polotsk, Turov and Belarusian Rus", " by horizon of earliest documented stratum (10000BC - 1400AD)."),
+    col_names = c("Chronological Horizon", "Attested Sites"),
+    label = "tab:epoch-summary",
+    font_size = "footnotesize"
+  )
+)
+```
+
+## Prehistoric, Classical and Early Slavonic Habitation Sites
+
+Table \ref{tab:prehistoric-classical} lists all `r format(sum(vapply(settlements_list, function (s) first_year_num(s) <= 400, logical(1))), big.mark = ".")` settlements and excavated habitation sites first attested between 10000BC and 400AD, giving geographic coordinates, occupied spans and up to five representative benchmark population estimates.
+
+```{r table-prehistoric-classical, echo=FALSE, results='asis'}
+sub_ancient <- Filter(function (s) first_year_num(s) <= 400, settlements_list)
+df_ancient <- data.frame(
+  col_1 = vapply(sub_ancient, function (s) as.character(s$name), character(1)),
+  col_2 = vapply(sub_ancient, fmt_other_names, character(1)),
+  col_3 = vapply(sub_ancient, function (s) fmt_coord_pair(s$coords), character(1)),
+  col_4 = vapply(sub_ancient, fmt_span, character(1)),
+  col_5 = vapply(sub_ancient, function (s) fmt_pop_series(s, -10000, 1400), character(1)),
+  stringsAsFactors = FALSE
+)
+render_table_template(
+  df_ancient,
+  list(
+    caption = paste0("Prehistoric, Eneolithic, Bronze Age, Iron Age and Roman-era settlements founded between 10000BC and 400AD in ", "Polotsk, Turov and Belarusian Rus", " (", format(length(sub_ancient), big.mark = "."), " entries)."),
+    label = "tab:prehistoric-classical",
+    col_names = c("Settlement / Site", "Alternative Names", "Coords", "Span", "Selected Benchmarks"),
     font_size = "footnotesize",
     scale_to_fit = FALSE,
     span_columns = TRUE
@@ -266,415 +372,26 @@ render_table_template(
 )
 ```
 
-# Results
+## Medieval Rus, Appanage and Fourteenth-Century Centres
 
-## Prehistoric, Neolithic, Bronze Age and Iron Age Sites
+Table \ref{tab:medieval-towns} lists all `r format(sum(vapply(settlements_list, function (s) first_year_num(s) > 400 || last_year_num(s) >= 500, logical(1))), big.mark = ".")` settlements active between 500AD and 1400AD, pairing archaeological hillforts and fortified principality capitals with post-1240AD continuation toward the fifteenth century.
 
-For the 24 prehistoric and Iron Age settlements across the period 10000BC - 500AD, population estimates are based on excavated house counts, settled areas and household sizes (5 - 7 persons per hearth or sunken dwelling) established by M. M. Charniauski, U. F. Isaenko, A. G. Mitrofanov and L. D. Pobol [@charniauski1997arkhealogiya; @mitrofanov1978zhelezny; @pobol1983arkheologicheskie; @isaenko1999arkhealogiya]. Among the Final Palaeolithic and Mesolithic camps (10000BC - 5000BC), *Yurevichi* (51,94°N, 29,53°E) on the Pripyat, *Berdizh* (52,83°N, 30,93°E) and *Grensk* (52,97°N, 30,89°E) on the Sozh, *Korma*, *Ankovichi* and *Borok* were reindeer- and mammoth-hunter camps of 40 - 65 people at 10000BC, growing to 70 - 110 inhabitants in Mesolithic lakeside camps at 5000BC. During the Neolithic pile-dwelling and flint-mining period (5000BC - 2500BC), the waterlogged pile-dwellings at Asavets (*Krivina peat bog*, 54,96°N, 29,42°E), Kryvina 1 and the Krasnoselsky flint-mining settlement (53,26°N, 24,43°E) housed communities of 160 - 340 inhabitants.
-
-In the Bronze Age and Iron Age hillfort era (1200BC - 500AD), the large lowland forts of the Milograd and Zarubintsy cultures in southern Belarus (*Milograd* with 480 in 500BC, *Chaplin* with 560 in 200AD, *Goroshkov* with 490 in 200AD and *Mokhov* with 450 in 500AD) were larger than the small cliff-top hillforts of the Brushed Pottery and Dnieper-Dvina cultures further north (*Malyshki* with 350 in 200AD, *Zazony* with 320 in 200AD and *Bancerovshchina* with 490 in 500AD). At the junction of the Menka and Dunai streams 16 km west of modern Minsk, the *Menka* settlement (a 1,5 ha ramparted hillfort and 40 ha open craft quarter excavated by E. M. Zagorulsky) served as the early centre of *Mensk* (850 in 800AD, 1,6k in 900AD and 2,4k in 1000AD) before the 1067AD Battle on the Nemiga River and the move of the fortress to the Svisloch-Nemiga *Zamchishche* at Minsk, after which the old site shrank to an open country village (950 in 1100AD, 500 in 1200AD and 420 in 1300AD) [@zagorulsky1982vozniknovenie].
-
-## Pre-Mongol Kievan Rus and Post-1240AD Principality Centres
-
-For the 148 fortified medieval towns (*gorodishcha*) occupied between 800AD and 1300AD, town populations are estimated from excavated rampart areas (*Detinets* or *Zamchishche* plus *Okolny Gorod*) and open craft suburbs (*Posady*), following the urban studies of G. V. Shtykhov (1975, 1992), S. V. Tarasov (1998), P. F. Lysenko (1974, 1985, 2004), E. M. Zagorulsky (1982, 2001), F. D. Gurevich (1981), Ya. G. Zverugo (1989) and A. V. Kuza (1989, 1996), which reckon 110 - 150 persons/ha inside the timber-street *detinets* and *okolny gorod* quarters and 60 - 90 persons/ha in the outer *posady* [@shtykhov1975drevniy; @shtykhov1992goroda; @tarasov1998polotsk; @lysenko1974goroda; @lysenko1985berestye; @kuza1989malye; @kuza1996drevnerusskie].
-
-```{r table-auto-2, echo=FALSE, results='asis'}
-df_tab_2 <- data.frame(
-  col_1 = c(
-    "Polotsk",
-    "Turov",
-    "Vitebsk",
-    "Minsk (Mensk)",
-    "Grodno (Goroden)",
-    "Pinsk (Pinesk)",
-    "Berestye (Brest)",
-    "Novogrudok",
-    "Gomel (Homiy)",
-    "Mstislavl",
-    "Slutsk (Sluchesk)",
-    "Volkovysk",
-    "Drutsk",
-    "Orsha (Rsha)",
-    "Zaslavl (Izyaslavl)",
-    "Borisov",
-    "Kletsk",
-    "Dubrovytsia",
-    "Mozyr",
-    "Lukoml",
-    "Logoisk (Logozhsk)",
-    "Slonim (Uslonim)",
-    "Braslav (Bryachislavl)",
-    "David-Gorodok",
-    "Rogachev",
-    "Krichev (Krechut)",
-    "Usvyaty",
-    "Kopys",
-    "Bragin",
-    "Propoisk (Slavgorod)",
-    "Jersika (Gerzike)",
-    "Svisloch-on-Berezina",
-    "Kopyl",
-    "Rechitsa",
-    "Stepan",
-    "Loev Gorodishche",
-    "Koknese (Kukenois)",
-    "Kobrin",
-    "Chechersk",
-    "Mogilev",
-    "Kamenets (Belaya Vezha)"
-  ),
-  col_2 = c(
-    "Polotsk",
-    "Turov",
-    "Vitebsk",
-    "Minsk",
-    "Grodno",
-    "Pinsk",
-    "Berestye Land",
-    "Novogrudok",
-    "Lower Sozh",
-    "Mstislavl",
-    "Turov & Slutsk",
-    "Volkovysk",
-    "Drutsk",
-    "Vitebsk",
-    "Polotsk & Minsk",
-    "Borisov",
-    "Kletsk",
-    "Dubrovytsia",
-    "Turov",
-    "Polotsk",
-    "Polotsk",
-    "Volkovysk",
-    "Polotsk",
-    "Turov & Pinsk",
-    "Turov",
-    "Smolensk & Mstislavl",
-    "Polotsk & Vitebsk",
-    "Vitebsk & Orsha",
-    "Turov",
-    "Smolensk & Mstislavl",
-    "Jersika",
-    "Minsk",
-    "Kletsk & Slutsk",
-    "Turov & Chernigov",
-    "Dubrovytsia",
-    "Turov & Chernigov",
-    "Koknese",
-    "Berestye Land",
-    "Sozh Corridor",
-    "Drutsk & Smolensk",
-    "Berestye & Volhynia"
-  ),
-  col_3 = c(
-    "55,49, 28,79",
-    "52,07, 27,74",
-    "55,19, 30,2",
-    "53,9, 27,56",
-    "53,69, 23,83",
-    "52,12, 26,1",
-    "52,1, 23,69",
-    "53,59, 25,82",
-    "52,43, 30,98",
-    "54,02, 31,73",
-    "53,03, 27,56",
-    "53,16, 24,45",
-    "54,34, 29,75",
-    "54,51, 30,42",
-    "54, 27,29",
-    "54,23, 28,5",
-    "53,06, 26,63",
-    "51,57, 26,57",
-    "52,05, 29,25",
-    "54,71, 29,15",
-    "54,2, 27,85",
-    "53,09, 25,32",
-    "55,64, 27,04",
-    "52,06, 27,21",
-    "53,08, 30,05",
-    "53,71, 31,71",
-    "55,75, 30,75",
-    "54,32, 30,29",
-    "51,79, 30,27",
-    "53,44, 31",
-    "56,25, 26,2",
-    "53,43, 28,98",
-    "53,15, 27,09",
-    "52,36, 30,39",
-    "51,13, 26,3",
-    "51,95, 30,8",
-    "56,64, 25,42",
-    "52,21, 24,36",
-    "52,92, 30,92",
-    "53,9, 30,33",
-    "52,4, 23,82"
-  ),
-  col_4 = c(
-    "190 ha",
-    "45 ha",
-    "50 ha",
-    "38 ha",
-    "35 ha",
-    "38 ha",
-    "34 ha",
-    "32 ha",
-    "30 ha",
-    "26 ha",
-    "25 ha",
-    "24 ha",
-    "35 ha",
-    "22 ha",
-    "20 ha",
-    "18 ha",
-    "18 ha",
-    "18 ha",
-    "16,5 ha",
-    "15 ha",
-    "15 ha",
-    "15 ha",
-    "13,5 ha",
-    "14 ha",
-    "14 ha",
-    "13,5 ha",
-    "13 ha",
-    "12,5 ha",
-    "12,5 ha",
-    "12,5 ha",
-    "13,5 ha",
-    "12 ha",
-    "11,5 ha",
-    "11 ha",
-    "10 ha",
-    "9,5 ha",
-    "10 ha",
-    "9,5 ha",
-    "9,5 ha",
-    "9 ha",
-    "12 ha"
-  ),
-  col_5 = c(
-    "10k",
-    "6,5k",
-    "4,2k",
-    "1,5k",
-    "2,8k",
-    "2,5k",
-    "2,8k",
-    "2,2k",
-    "3,2k",
-    "750",
-    "1,8k",
-    "1,8k",
-    "1,8k",
-    "1,5k",
-    "2,2k",
-    "-",
-    "1,2k",
-    "1,1k",
-    "1,2k",
-    "1,5k",
-    "1,3k",
-    "1,2k",
-    "1,1k",
-    "850",
-    "1k",
-    "950",
-    "1k",
-    "900",
-    "900",
-    "950",
-    "1,2k",
-    "900",
-    "850",
-    "850",
-    "800",
-    "980",
-    "950",
-    "750",
-    "720",
-    "850",
-    "-"
-  ),
-  col_6 = c(
-    "18k",
-    "9,2k",
-    "6,8k",
-    "5,2k",
-    "5,5k",
-    "5k",
-    "5k",
-    "4,8k",
-    "4,8k",
-    "1,8k",
-    "3,2k",
-    "3,3k",
-    "3,1k",
-    "2,7k",
-    "3,1k",
-    "1,8k",
-    "2,2k",
-    "2,2k",
-    "2,2k",
-    "2,5k",
-    "2,4k",
-    "2,3k",
-    "2k",
-    "1,8k",
-    "1,9k",
-    "1,9k",
-    "1,9k",
-    "1,8k",
-    "1,8k",
-    "1,8k",
-    "1,9k",
-    "1,6k",
-    "1,6k",
-    "1,6k",
-    "1,45k",
-    "1,5k",
-    "1,5k",
-    "1,35k",
-    "1,35k",
-    "1,35k",
-    "650"
-  ),
-  col_7 = c(
-    "25k",
-    "12k",
-    "9,5k",
-    "9k",
-    "8,5k",
-    "8k",
-    "7,5k",
-    "7,5k",
-    "6,5k",
-    "5k",
-    "5k",
-    "5k",
-    "4,5k",
-    "4k",
-    "4k",
-    "3,5k",
-    "3,5k",
-    "3,5k",
-    "3,5k",
-    "3,5k",
-    "3,5k",
-    "3,5k",
-    "3k",
-    "3k",
-    "3k",
-    "3k",
-    "2,8k",
-    "2,8k",
-    "2,8k",
-    "2,8k",
-    "2,5k",
-    "2,5k",
-    "2,5k",
-    "2,5k",
-    "2,2k",
-    "2,1k",
-    "2k",
-    "2k",
-    "2k",
-    "1,95k",
-    "1,2k"
-  ),
-  col_8 = c(
-    "22k",
-    "7k",
-    "8,8k",
-    "8,2k",
-    "8k",
-    "6,5k",
-    "5,2k",
-    "8,2k",
-    "3,5k",
-    "4k",
-    "4,3k",
-    "4,7k",
-    "4,1k",
-    "3,6k",
-    "3,6k",
-    "3,2k",
-    "3k",
-    "2,2k",
-    "2,1k",
-    "3,1k",
-    "3,1k",
-    "3,3k",
-    "2,7k",
-    "2,2k",
-    "2k",
-    "2,2k",
-    "2,5k",
-    "2,5k",
-    "1,5k",
-    "2k",
-    "1,2k",
-    "2,1k",
-    "2,2k",
-    "1,5k",
-    "1,5k",
-    "1,1k",
-    "1,2k",
-    "1,65k",
-    "1,3k",
-    "1,65k",
-    "1,8k"
-  ),
-  col_9 = c(
-    "23k",
-    "7,5k",
-    "9,5k",
-    "8,8k",
-    "8,5k",
-    "7,2k",
-    "6k",
-    "9k",
-    "4k",
-    "4,5k",
-    "4,8k",
-    "5,1k",
-    "4,3k",
-    "3,9k",
-    "3,8k",
-    "3,4k",
-    "3,3k",
-    "2,5k",
-    "2,5k",
-    "3,3k",
-    "3,3k",
-    "3,6k",
-    "2,9k",
-    "2,5k",
-    "2,3k",
-    "2,5k",
-    "2,6k",
-    "2,6k",
-    "1,8k",
-    "2,3k",
-    "1,1k",
-    "2,3k",
-    "2,4k",
-    "1,8k",
-    "1,75k",
-    "1,3k",
-    "1,3k",
-    "1,95k",
-    "1,55k",
-    "2,1k",
-    "3k"
-  ),
+```{r table-medieval-towns, echo=FALSE, results='asis'}
+sub_med <- Filter(function (s) first_year_num(s) > 400 || last_year_num(s) >= 500, settlements_list)
+df_med <- data.frame(
+  col_1 = vapply(sub_med, function (s) as.character(s$name), character(1)),
+  col_2 = vapply(sub_med, fmt_other_names, character(1)),
+  col_3 = vapply(sub_med, function (s) fmt_coord_pair(s$coords), character(1)),
+  col_4 = vapply(sub_med, fmt_span, character(1)),
+  col_5 = vapply(sub_med, function (s) fmt_pop_series(s, 401, 1400), character(1)),
   stringsAsFactors = FALSE
 )
 render_table_template(
-  df_tab_2,
+  df_med,
   list(
-    caption = "Excavated rampart and posad areas (in hectares at 1200AD) and estimated populations of the 41 chief fortified towns across Polotsk, Vitebsk, Minsk, Turov-Pinsk, Berestye, Black Ruthenia and the Upper Sozh from 1000AD to 1300AD.",
-    label = "tab:auto-tab-2",
-    col_names = c("Settlement", "Principality", "Coordinates (Lat, Lon)", "Area (1200AD)", "1000AD", "1100AD", "1200AD", "1250AD", "1300AD"),
+    caption = paste0("Medieval Rus, Golden Horde and Grand Duchy of Lithuania transition settlements active from 500AD to 1400AD in ", "Polotsk, Turov and Belarusian Rus", " (", format(length(sub_med), big.mark = "."), " entries)."),
+    label = "tab:medieval-towns",
+    col_names = c("Settlement / Site", "Alternative Names", "Coords", "Span", "Selected Benchmarks"),
     font_size = "footnotesize",
     scale_to_fit = FALSE,
     span_columns = TRUE
@@ -683,3 +400,10 @@ render_table_template(
 ```
 
 # Sources
+
+::: {#refs}
+:::
+
+```{r crd_footnotes, echo=FALSE, results='asis'}
+emit_crd_footnotes()
+```

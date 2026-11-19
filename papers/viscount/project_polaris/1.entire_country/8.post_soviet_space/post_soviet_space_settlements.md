@@ -5,15 +5,15 @@ of the full-scale Russo-Ukrainian war in late 2021, the total population
 across Belarus, Ukraine and the Russian Federation declined by 14,18M
 (-6,7%), falling from 212,26M to 198,08M. Beneath this overall
 contraction, however, the urban hierarchy of the post-Soviet space
-underwent a marked spatial polarisation. Across the 8.191 urban and
-large rural settlements catalogued in this gazetteer (totalling 186,57M
-inhabitants in 1991 and 182,5M at the 2021 census baselines, a -2,2%
-shift across the 8.184 continuous 1991-2021 cohort), migrants moved
+underwent a marked spatial polarisation. Across the 7.376 urban and
+large rural settlements catalogued in this gazetteer (totalling 163,62M
+inhabitants in 1991 and 162,65M at the 2021 census baselines, a -0,6%
+shift across the 7.369 continuous 1991-2021 cohort), migrants moved
 steadily from shrinking rural districts, mono-industrial towns and
 high-latitude settlements toward metropolitan, sunbelt and hydrocarbon
 growth poles.
 
-This gazetteer traces the population histories of those 8.191
+This gazetteer traces the population histories of those 7.376
 settlements across the 35 demographic regions of Belarus (Regions 1-3),
 Ukraine (Regions 4-11) and the Russian Federation (Regions 12-35) at
 five benchmark dates: 1991, 2002, 2010, 2014 and 2021. The regional
@@ -25,7 +25,7 @@ Chechnya and the Donbas.
 
 # Methodology
 
-This gazetteer covers 8.191 urban-type settlements and large rural
+This gazetteer covers 7.376 urban-type settlements and large rural
 centres across the 35 regions of Belarus (Regions 1-3), Ukraine within
 its 1991 borders (Regions 4-11, separating Government-Controlled Donbas
 in Region 9, Pre-2022 Occupied Donbas in Region 10 and Crimea and
@@ -66,13 +66,10 @@ surrounding industrial towns held steady (Table )
 | Bobr | Бобр | 54,34, 29,27 (Belarus) | 1,4k | 1,3k | 1,1k | 970 | 930 | -33,6% |
 | Borisov | Barysaw; Borisow | 54,22, 28,51 (Belarus) | 147k | 150k | 147k | 145k | 137,7k | -6,3% |
 | Cherven | Чэрвень; Červień | 53,71, 28,43 (Belarus) | 11,6k | 10,8k | 10,1k | 9,8k | 10,7k | -7,5% |
-| Derevno | Деревно | 54,51, 27,59 (Belarus) | 28,5k | 27,2k | 26,4k | 26,4k | 26,4k | -7,3% |
-| Doktorovichi | Докторовичи | 53,1, 27,21 (Belarus) | 22,5k | 21,5k | 20,8k | 20,8k | 20,8k | -7,3% |
 | Dzyarzhynsk | Дзяржынск; Dziaržynsk | 53,68, 27,13 (Belarus) | 23,7k | 24,2k | 25,3k | 26,3k | 29,7k | +25,5% |
 | Fanipol | Фаніпаль; Fanipal | 53,75, 27,33 (Belarus) | 9,2k | 11,7k | 12,8k | 13,8k | 17,5k | +90,3% |
 | Gorodeya | Гарадзея; Haradzieja | 53,31, 26,54 (Belarus) | 4,8k | 4,3k | 4k | 3,9k | 3,8k | -21,9% |
 | Hrozava | Грозава | 53,17, 27,33 (Belarus) | 487 | 429 | 393 | 382 | 368 | -24,4% |
-| Iliya | Илия | 54,42, 27,3 (Belarus) | 9,8k | 7,8k | 6,7k | 6,7k | 6,7k | -31,3% |
 | Ivyanyets | Івянец; Ivianiec | 53,89, 26,74 (Belarus) | 5k | 4,9k | 4,3k | 4,2k | 3,9k | -21,3% |
 | Kapyl | Капыль; Копыль | 53,15, 27,09 (Belarus) | 10,1k | 10,7k | 9,9k | 9,8k | 10,4k | +2,6% |
 | Kholopenichi | Халапенічы; Chałapieničy | 54,52, 28,96 (Belarus) | 2,2k | 1,9k | 1,5k | 1,4k | 1,4k | -34,5% |
@@ -84,7 +81,6 @@ surrounding industrial towns held steady (Table )
 | Lyuban | Любань; Lubań | 52,8, 28 (Belarus) | 11,6k | 11,8k | 11,2k | 11,2k | 11,7k | +0,5% |
 | Machulishchy | Мачулішчы; Mačuliščy | 53,78, 27,59 (Belarus) | 7k | 7,6k | 7,4k | 7,8k | 9,8k | +40% |
 | Mar’Ina Gorka | Мар’іна Горка; Marjina Horka | 53,51, 28,15 (Belarus) | 20,1k | 23,6k | 21,4k | 21,3k | 20,6k | +2,4% |
-| Milcha | Мильча | 54,68, 27,62 (Belarus) | 383,5k | 366,3k | 355,7k | 355,5k | 355,3k | -7,3% |
 | Minsk | Mensk; Miensk | 53,9, 27,56 (Belarus) | 1,63M | 1,73M | 1,84M | 1,92M | 2,01M | +23% |
 | Molodechno | Maladzyechna; Molodeczno | 54,31, 26,85 (Belarus) | 92k | 97k | 94k | 94k | 91,1k | -1% |
 | Myadzyel | Мядзель; Miadziel | 54,88, 26,94 (Belarus) | 7,5k | 7,6k | 7k | 6,9k | 7,1k | -4,7% |
@@ -95,7 +91,6 @@ surrounding industrial towns held steady (Table )
 | Pukhavichy | Пухавічы; Puchavičy | 53,53, 28,25 (Belarus) | 1,9k | 1,9k | 1,8k | 1,9k | 1,9k | +2,3% |
 | Radashkovichy | Радашковічы; Radaškovičy | 54,16, 27,24 (Belarus) | 5,1k | 5,7k | 5,5k | 5,7k | 6,3k | +24,3% |
 | Rakaw | Ракаў; Rakaŭ | 53,97, 27,06 (Belarus) | 2,8k | 2,7k | 2,6k | 2,7k | 2,9k | +2,5% |
-| Rechen | Речень | 52,75, 27,85 (Belarus) | 41,7k | 39,8k | 38,6k | 38,6k | 38,6k | -7,3% |
 | Rudzyensk | Рудзенск; Rudziensk | 53,6, 27,86 (Belarus) | 3,8k | 3k | 2,8k | 2,7k | 2,7k | -29,9% |
 | Samakhva-lavichy | Самахвалавічы; Samachvałavičy | 53,74, 27,5 (Belarus) | 1,9k | 2,2k | 2,6k | 2,9k | 3,2k | +73,7% |
 | Shatsk | Шацк; Šack | 53,43, 27,7 (Belarus) | 826 | 726 | 658 | 616 | 567 | -31,4% |
@@ -136,33 +131,27 @@ migration (Table ) [\[3\]](#ref-belstat2020perepis2019).
 | Antopal | Антопаль; Антополь | 52,2, 24,79 (Belarus) | 2,5k | 2k | 1,7k | 1,5k | 1,5k | -38,7% |
 | Ashmyany | Ашмяны; Ašmiany | 54,53, 26,08 (Belarus) | 15,2k | 15k | 14,9k | 15,8k | 17k | +11,6% |
 | Astraviec | Астравец; Островец | 54,61, 25,96 (Belarus) | 8,1k | 8,5k | 8,3k | 9k | 14,1k | +74,7% |
-| Azyory | Озеры | 53,72, 24,18 (Belarus) | 8,6k | 6,7k | 5,7k | 5,7k | 5,6k | -34,3% |
 | Baranovichi | Baranavichy; Baranowicze Junction | 53,13, 26,01 (Belarus) | 165k | 168k | 168k | 178k | 174,1k | +5,5% |
 | Brest-Litovsk | Brest; Brisk | 52,1, 23,73 (Belarus) | 269k | 294k | 310k | 331k | 340,3k | +26,5% |
 | Byaroza | Бяроза; Biaroza | 52,53, 24,98 (Belarus) | 26k | 29,8k | 29,4k | 29,4k | 28,6k | +10,1% |
 | Byarozawka | Бярозаўка; Biarozaŭka | 53,72, 25,5 (Belarus) | 12k | 12,1k | 10,8k | 10,5k | 10,1k | -16% |
 | Byelaazyorsk | Белаазёрск; Biełaaziorsk | 52,47, 25,18 (Belarus) | 11,4k | 13,2k | 12,5k | 12,5k | 11,1k | -2,5% |
-| Byten | Бытень | 52,88, 25,5 (Belarus) | 30,8k | 29,4k | 28,5k | 28,6k | 28,6k | -7,1% |
 | Damachava | Дамачава; Damačava | 51,74, 23,6 (Belarus) | 1,4k | 1,3k | 1,3k | 1,2k | 1,2k | -12,6% |
 | Davyd-Haradok | Давыд-Гарадок; Давид-Городок | 52,06, 27,22 (Belarus) | 7,7k | 7,1k | 6,5k | 6,2k | 5,9k | -23,1% |
 | Derechin | Деречинъ | 53,25, 24,92 (Belarus) | 6,4k | 6,1k | 6k | 5,9k | 5,9k | -8,6% |
 | Drogichin | Драгічын; Drahičyn | 52,19, 25,16 (Belarus) | 14,6k | 15,1k | 14,7k | 14,8k | 15k | +2,5% |
 | Dyatlovo | Дзятлава; Dziatłava | 53,46, 25,41 (Belarus) | 8,2k | 8,3k | 7,8k | 7,7k | 8,1k | -1,7% |
-| Gantsevichi | Ганцевичи | 52,94, 26,21 (Belarus) | 13,1k | 13,6k | 13,9k | 13,8k | 13,8k | +5,2% |
-| Gorelki | Горелки | 52,3, 24,07 (Belarus) | 13,7k | 13k | 12,7k | 12,7k | 12,7k | -7,1% |
 | Gorodishche | Гарадзішча; Haradzišča | 53,32, 26,01 (Belarus) | 2,9k | 2,5k | 2,2k | 2,1k | 1,8k | -36,4% |
-| Gorodishche Bolshoe | Городище Большое | 52,95, 26,12 (Belarus) | 13,4k | 12,8k | 12,5k | 12,5k | 12,5k | -7,1% |
 | Gorodok | Городок; Городокъ | 52,09, 24,23 (Belarus) | 11,8k | 11,2k | 10,9k | 10,9k | 10,9k | -7,1% |
 | Grodno | Hrodna; Gardinas | 53,67, 23,81 (Belarus) | 284k | 310k | 328k | 356k | 357,5k | +25,9% |
 | Hantsavichy | Ганцавічы; Hancavičy | 52,76, 26,43 (Belarus) | 14,5k | 14,8k | 13,9k | 14k | 13,8k | -5% |
-| Indura | Індура | 53,46, 23,88 (Belarus) | 1,6k | 1,4k | 1,3k | 1,3k | 1,2k | -23,3% |
 | Ivanovo | Іванава; Ivanava | 52,15, 25,53 (Belarus) | 14,6k | 16,1k | 16,2k | 16,6k | 16,5k | +13% |
 | Ivatsevichi | Івацэвічы; Ivacevičy | 52,71, 25,34 (Belarus) | 18,7k | 24k | 23k | 23,3k | 22,5k | +20,4% |
 | Iwye | Іўе; Iŭje | 53,93, 25,78 (Belarus) | 8,3k | 8,4k | 8,1k | 7,8k | 7,3k | -11,7% |
 | Kamenets | Камянец; Kamianiec | 52,4, 23,81 (Belarus) | 8,8k | 8,7k | 8,4k | 8,4k | 8,3k | -5,1% |
 | Kazhan-Haradok | Кожанъ-Городокъ | 52,21, 27,01 (Belarus) | 11,5k | 9,1k | 7,8k | 7,8k | 7,8k | -32,3% |
-| Khomsk | Хомск; Хомскъ | 52,33, 25,23 (Belarus) | 8,3k | 8k | 7,7k | 7,7k | 7,7k | -7,1% |
-| Khoroshcha | Хороща | 52,81, 25,25 (Belarus) | 9,1k | 8,6k | 8,4k | 8,4k | 8,4k | -7,1% |
+| Khomsk | Хомск; Хомскъ | 52,33, 25,23 (Belarus) | 1,2k | 1,1k | 1,1k | 1k | 1,1k | -8,7% |
+| Khoroshcha | Хороща | 52,81, 25,25 (Belarus) | 2,7k | 2,4k | 2,3k | 2,2k | 2k | -26% |
 | Kobryn | Кобрын; Кобрин | 52,21, 24,36 (Belarus) | 48,3k | 50,8k | 51,3k | 52,5k | 52,8k | +9,4% |
 | Korelichi | Карэлічы; Kareličy | 53,56, 26,14 (Belarus) | 7,1k | 7,6k | 6,8k | 6,7k | 6k | -15,3% |
 | Kosava | Косава; Коссово | 52,76, 25,16 (Belarus) | 2,8k | 2,4k | 2k | 1,9k | 1,9k | -31,5% |
@@ -173,23 +162,20 @@ migration (Table ) [\[3\]](#ref-belstat2020perepis2019).
 | Lida | Lida Vilna Gub; Lyda | 53,89, 25,3 (Belarus) | 93k | 99k | 98k | 100k | 103,2k | +11% |
 | Luninyets | Лунінец; Łuniniec | 52,25, 26,8 (Belarus) | 23,7k | 23,9k | 23,7k | 24k | 23,7k | +0,1% |
 | Lyakhovichi | Ляхавічы; Lachavičy | 53,04, 26,26 (Belarus) | 11,1k | 11,6k | 10,9k | 10,9k | 10,6k | -4,4% |
-| Lyakhovtsy | Ляховцы | 51,8, 24,2 (Belarus) | 19,6k | 18,7k | 18,1k | 18,1k | 18,2k | -7,1% |
 | Lyubcha | Любча; Lubča | 53,75, 26,06 (Belarus) | 1,7k | 1,5k | 1,1k | 1,1k | 1,1k | -37,9% |
 | Malorita | Маларыта; Małaryta | 51,79, 24,07 (Belarus) | 9,9k | 11,5k | 11,7k | 11,8k | 12,9k | +30,1% |
 | Mikashevichy | Мікашэвічы; Mikaševičy | 52,22, 27,48 (Belarus) | 13,1k | 13,7k | 13k | 12,9k | 12,8k | -2,5% |
 | Mir | Мір; Мир | 53,45, 26,47 (Belarus) | 2,6k | 2,6k | 2,3k | 2,3k | 2,1k | -19,3% |
 | Mosty | Масты; Masty | 53,41, 24,54 (Belarus) | 17,5k | 17,8k | 16,3k | 15,7k | 15,2k | -13,2% |
-| Motol | Мотоль | 52,31, 25,61 (Belarus) | 55,1k | 52,6k | 51,1k | 51,1k | 51,2k | -7,1% |
 | Navaelnya | Наваельня; Navajelnia | 53,46, 25,58 (Belarus) | 4,2k | 3,5k | 3k | 2,8k | 2,7k | -34,8% |
 | Novogrudok | Навагрудак; Navahrudak | 53,59, 25,82 (Belarus) | 30,5k | 30,5k | 29,3k | 28,8k | 28,2k | -7,5% |
 | Oshmyany | Ошмяны | 54,42, 25,94 (Belarus) | 13,2k | 14,2k | 15k | 15,7k | 16,5k | +24,7% |
 | Ostryna | Астрына; Astryna | 53,73, 24,53 (Belarus) | 2,7k | 2,4k | 2k | 1,9k | 1,6k | -39,6% |
-| Padbalotstsye | Подболотье | 53,24, 24,75 (Belarus) | 8,7k | 8,3k | 8k | 8k | 7,9k | -8,6% |
+| Padbalotstsye | Подболотье | 53,24, 24,75 (Belarus) | 560 | 429 | 297 | 362 | 512 | -8,6% |
 | Peski | Пески | 53,78, 25,4 (Belarus) | 6,5k | 6,2k | 6k | 6k | 5,9k | -8,6% |
 | Pinsk | Pinsk Polesia; Pinska | 52,11, 26,1 (Belarus) | 122k | 130k | 130k | 136k | 125,1k | +2,5% |
 | Pogranichnyy | Пагранічны; Pahraničny | 53,12, 23,97 (Belarus) | 1,5k | 1,5k | 1,4k | 1,4k | 1,4k | -7,1% |
 | Porazava | Поразава; Порозово | 52,94, 24,37 (Belarus) | 1,5k | 1,3k | 1,1k | 952 | 790 | -47,3% |
-| Prokopovichi | Прокоповичи | 53,45, 23,92 (Belarus) | 21,1k | 20,1k | 19,5k | 19,4k | 19,2k | -8,6% |
 | Pruzhany | Пружаны; Pružany | 52,55, 24,45 (Belarus) | 24,1k | 20k | 19k | 18,8k | 19k | -21% |
 | Putno | Путно | 53,52, 23,81 (Belarus) | 49,2k | 47k | 45,6k | 45,4k | 45k | -8,6% |
 | Pyershamayski | Першамайскі; Pieršamajski | 53,89, 25,41 (Belarus) | 1,5k | 1,3k | 1,2k | 1,3k | 1,3k | -15,9% |
@@ -208,9 +194,9 @@ migration (Table ) [\[3\]](#ref-belstat2020perepis2019).
 | Svislach | Свіслач; Svisłač | 53,03, 24,1 (Belarus) | 8,5k | 7,7k | 6,8k | 6,7k | 6,3k | -25,6% |
 | Tarnova | Тарново | 53,79, 25,15 (Belarus) | 11,4k | 10,9k | 10,6k | 10,5k | 10,4k | -8,6% |
 | Tsyelyakhany | Целяханы; Cielachany | 52,52, 25,84 (Belarus) | 4,7k | 4,6k | 4,2k | 4k | 3,7k | -20,5% |
-| Vasilishki | Василишки | 53,78, 24,85 (Belarus) | 9,1k | 8,7k | 8,4k | 8,4k | 8,3k | -8,6% |
+| Vasilishki | Василишки | 53,78, 24,85 (Belarus) | 2,8k | 1,6k | 1,7k | 1,6k | 2,7k | -3,7% |
 | Vaukavysk | Ваўкавыск; Vaŭkavysk | 53,16, 24,45 (Belarus) | 42k | 46,7k | 44k | 43,8k | 42,7k | +1,8% |
-| Vitchin | Вичинъ | 52,26, 26,94 (Belarus) | 118,5k | 113,2k | 109,9k | 110k | 110k | -7,1% |
+| Vitchin | Вичинъ | 52,26, 26,94 (Belarus) | 14,1k | 866 | 797 | 720 | 25,2k | +78,3% |
 | Voronovo | Воранава; Voranava | 54,15, 25,31 (Belarus) | 6,4k | 6,7k | 6,3k | 6,1k | 6,1k | -4,7% |
 | Vyalikaya Byerastavitsa | Вялікая Бераставіца; Vialikaja Bierastavica | 53,2, 24,02 (Belarus) | 5,4k | 6k | 5,7k | 5,6k | 5,6k | +3,9% |
 | Vysokaye | Высокае; Vysokaje | 52,37, 23,37 (Belarus) | 4,7k | 5,3k | 5,4k | 5,3k | 4,9k | +3,4% |
@@ -232,7 +218,6 @@ in Vitebsk reduced the population of Eastern and Southeastern Belarus
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Agarodnya Gomelskaya | Агародня Гомельская; Aharodnia Homielskaja | 52,33, 31,55 (Belarus) | 186 | 117 | 84 | 75 | 64 | -65,6% |
-| Aktsyabrski | Акцябрскі; Akciabrski | 54,87, 29,34 (Belarus) | 300 | 235 | 190 | 170 | 146 | -51,3% |
 | Aktsyabrski | Акцябрскі; Akciabrski | 52,65, 28,88 (Belarus) | 7,3k | 8,2k | 7,3k | 7k | 7,3k | +0,6% |
 | Asvieja | Асвея; Освея | 56,01, 28,11 (Belarus) | 1,9k | 1,5k | 1,3k | 1,2k | 1k | -46,9% |
 | Azarychy | Азарычы; Azaryčy | 52,46, 29,26 (Belarus) | 1,5k | 1,5k | 1,3k | 1,2k | 1,2k | -22,5% |
@@ -243,7 +228,6 @@ in Vitebsk reduced the population of Eastern and Southeastern Belarus
 | Belynichi | Бялынічы; Białyničy | 54, 29,71 (Belarus) | 10,7k | 10,6k | 10,7k | 10,4k | 9,9k | -7,4% |
 | Beshenkovichi | Бешанковічы; Biešankovičy | 55,04, 29,46 (Belarus) | 9,2k | 8,2k | 7,2k | 6,8k | 7k | -24% |
 | Bobruisk | Babruysk; Bobrujsk Fortress | 53,14, 29,22 (Belarus) | 233k | 221k | 215k | 218k | 209,7k | -10% |
-| Bocheykovo | Бочейково | 55,01, 29,15 (Belarus) | 23,1k | 22,1k | 21,4k | 21,3k | 21,1k | -8,6% |
 | Bolbasovo | Балбасава; Bałbasava | 54,42, 30,29 (Belarus) | 3,9k | 4,1k | 3,6k | 3,6k | 3,5k | -10,2% |
 | Borovukha Pervaya | Баравуха; Baravucha | 55,59, 28,59 (Belarus) | 5,1k | 5,4k | 5,4k | 5,4k | 5,3k | +4,4% |
 | Bragin | Брагін; Brahin | 51,79, 30,27 (Belarus) | 5,5k | 3,5k | 4k | 3,9k | 4,4k | -19,3% |
@@ -269,9 +253,7 @@ in Vitebsk reduced the population of Eastern and Southeastern Belarus
 | Filipovo | Филипово | 55,66, 28,22 (Belarus) | 3,8k | 3,7k | 3,6k | 3,5k | 3,5k | -8,6% |
 | Glusha | Глуша; Hłuša | 53,1, 28,82 (Belarus) | 1,8k | 1,6k | 1,3k | 1,3k | 1,3k | -29,6% |
 | Glusk | Глуск; Hłusk | 52,9, 28,68 (Belarus) | 8,3k | 8,1k | 7,4k | 7,2k | 7,2k | -13% |
-| Gogolev | Гоголев; Гоголевъ | 52,34, 29,66 (Belarus) | 20,1k | 19,2k | 18,7k | 18,7k | 18,6k | -7,6% |
 | Gomel | Homyel; Homel Mogilev Gub | 52,43, 30,98 (Belarus) | 506k | 481k | 484k | 512k | 504k | -0,4% |
-| Gorki | Горки | 53,71, 31,43 (Belarus) | 12,2k | 22,3k | 32,5k | 31,6k | 30,2k | +146,7% |
 | Gorodok | Гарадок; Haradok | 55,46, 29,98 (Belarus) | 14,5k | 14k | 12,8k | 12,3k | 11,8k | -18,5% |
 | Gorval | Горваль | 52,57, 30,19 (Belarus) | 6,9k | 6,6k | 6,4k | 6,4k | 6,4k | -7,6% |
 | Gory | Горы; Hory | 54,27, 31,2 (Belarus) | 1,1k | 796 | 633 | 607 | 572 | -49% |
@@ -280,26 +262,20 @@ in Vitebsk reduced the population of Eastern and Southeastern Belarus
 | Horki | Горкі | 54,29, 30,99 (Belarus) | 32,6k | 33,5k | 32,2k | 32k | 30,4k | -6,8% |
 | Hradzyanka | Градзянка; Hradzianka | 53,55, 28,74 (Belarus) | 800 | 532 | 388 | 339 | 285 | -64,4% |
 | Kalinkovichi | Калінкавічы; Kalinkavičy | 52,13, 29,33 (Belarus) | 40,6k | 38k | 38,4k | 39,3k | 37,6k | -7,3% |
-| Kamen | Камень; Kamień | 55,01, 28,88 (Belarus) | 728 | 457 | 340 | 339 | 334 | -54,1% |
 | Kapatkyevichy | Капаткевічы; Kapatkievičy | 52,32, 28,82 (Belarus) | 4,1k | 4k | 3,3k | 3,1k | 2,9k | -30,1% |
 | Kapitanovo | Свято-Дмитриевка | 55,2, 30,03 (Belarus) | 7,5k | 7,2k | 7k | 6,9k | 6,9k | -8,6% |
 | Kaptsevichy | Капцэвічы; Kapcevičy | 52,23, 28,32 (Belarus) | 1,7k | 1,6k | 1,4k | 1,3k | 1,2k | -29% |
-| Karpilovka | Карпиловка | 51,88, 30,12 (Belarus) | 7k | 6,7k | 6,5k | 6,5k | 6,5k | -7,6% |
 | Kastsyukowka | Касцюкоўка; Kasciukoŭka | 52,54, 30,92 (Belarus) | 10,6k | 10,5k | 9,5k | 9,7k | 9,9k | -6,9% |
-| Khalochcha | Холочье | 52,78, 30,76 (Belarus) | 23,9k | 22,8k | 22,2k | 22,1k | 22,1k | -7,6% |
-| Khoroshevka | Хорошевка | 52,36, 31,6 (Belarus) | 18,2k | 17,4k | 16,9k | 16,8k | 16,8k | -7,6% |
 | Khotimsk | Хоцімск; Chocimsk | 53,41, 32,58 (Belarus) | 7,9k | 7,4k | 7k | 6,7k | 6,3k | -20,9% |
 | Khoyniki | Хойнікі; Chojniki | 51,91, 29,98 (Belarus) | 15,1k | 14,5k | 13,9k | 13,1k | 13,4k | -11% |
 | Kirovsk | Кіраўск; Kiraŭsk | 53,27, 29,47 (Belarus) | 8,7k | 8,8k | 8,8k | 8,6k | 8,2k | -6% |
 | Klichau | Клічаў; Kličaŭ | 53,49, 29,34 (Belarus) | 8,2k | 7,9k | 7,5k | 7,4k | 7,3k | -10,9% |
 | Klimovichi | Клімавічы; Klimavičy | 53,6, 31,96 (Belarus) | 16,5k | 16,4k | 16,8k | 16,3k | 15,4k | -6,6% |
-| Knyazishchevo | Князищево | 54,15, 31,51 (Belarus) | 19,8k | 18,9k | 18,3k | 18,3k | 18,2k | -7,9% |
 | Kokhanovo | Коханава; Kochanava | 54,46, 30 (Belarus) | 5,2k | 4,8k | 4,3k | 4,3k | 3,8k | -26,4% |
 | Kolyshki | Колышки | 55,17, 30,96 (Belarus) | 4,7k | 4,5k | 4,4k | 4,3k | 4,3k | -8,6% |
 | Komarin | Камарын; Kamaryn | 51,44, 30,57 (Belarus) | 2,7k | 2,2k | 2k | 1,9k | 2,1k | -23,3% |
 | Kopys | Копысь; Kopyś | 54,32, 30,29 (Belarus) | 1,2k | 900 | 890 | 816 | 663 | -44,8% |
 | Korma | Карма; Karma | 53,13, 30,8 (Belarus) | 6,3k | 6,3k | 7,5k | 7,5k | 7,9k | +25,7% |
-| Korolevskaya Sloboda Vtoraya | Казимир | 52,93, 29,34 (Belarus) | 12,3k | 11,7k | 11,4k | 11,4k | 11,3k | -7,6% |
 | Kostyukovichi | Касцюковічы; Kasciukovičy | 53,35, 32,05 (Belarus) | 14,7k | 16,6k | 15,9k | 15,9k | 15,5k | +5,3% |
 | Krasnapollye | Краснаполле; Krasnapolle | 53,34, 31,4 (Belarus) | 6k | 6,5k | 6,1k | 5,9k | 5,8k | -2,5% |
 | Krucha | Круча; Kruča | 54,24, 29,55 (Belarus) | 401 | 378 | 359 | 339 | 314 | -21,7% |
@@ -309,13 +285,11 @@ in Vitebsk reduced the population of Eastern and Southeastern Belarus
 | Lapichy | Лапічы; Lapičy | 53,44, 28,54 (Belarus) | 1,5k | 1,7k | 1,8k | 1,7k | 1,6k | +6,6% |
 | Lelchytsy | Лельчыцы; Lelčycy | 51,79, 28,33 (Belarus) | 8,7k | 9,3k | 10,7k | 10,8k | 12,4k | +42,3% |
 | Lepel | Лепель; Lepiel | 54,88, 28,7 (Belarus) | 19,6k | 18,8k | 17,4k | 17,6k | 17,4k | -11,1% |
-| Lesnichevka | Лесничевка | 55,75, 27,39 (Belarus) | 9,9k | 9,5k | 9,2k | 9,2k | 9,1k | -8,6% |
 | Liozno | Лёзна; Lozna | 55,02, 30,8 (Belarus) | 7,8k | 7k | 6,7k | 6,6k | 6,7k | -14% |
 | Lipen | Ліпень; Lipień | 53,41, 28,82 (Belarus) | 755 | 775 | 784 | 770 | 747 | -1,1% |
 | Loyev | Лоеў; Łojeŭ | 51,94, 30,79 (Belarus) | 7,8k | 7,5k | 7k | 6,8k | 6,3k | -19,2% |
 | Lyady | Ляды; Lady | 54,6, 31,17 (Belarus) | 724 | 567 | 476 | 439 | 390 | -46,1% |
 | Lyntupy | Лынтупы; Łyntupy | 55,05, 26,31 (Belarus) | 2k | 1,9k | 1,6k | 1,6k | 1,3k | -36% |
-| Makovnya | Маковня | 53,99, 30,6 (Belarus) | 40,7k | 38,9k | 37,8k | 37,7k | 37,5k | -7,8% |
 | Miory | Миоры | 55,62, 27,63 (Belarus) | 8,7k | 8,4k | 8,1k | 8k | 7,7k | -11,9% |
 | Mogilev | Mahilyow; Mogilev Stavka | 53,9, 30,33 (Belarus) | 363k | 361k | 358k | 371k | 355,4k | -2,1% |
 | Mozyr | Mazyr; Mozyr Pripyat | 52,05, 29,25 (Belarus) | 103k | 110k | 109k | 112k | 105,2k | +2,2% |
@@ -334,23 +308,18 @@ in Vitebsk reduced the population of Eastern and Southeastern Belarus
 | Padsvillye | Падсвілле; Padsville | 55,15, 27,96 (Belarus) | 3k | 2,7k | 2,2k | 2k | 1,8k | -40,8% |
 | Parychy | Парычы; Paryčy | 52,8, 29,42 (Belarus) | 3k | 2,4k | 2,1k | 1,9k | 1,9k | -36,4% |
 | Pastavy | Паставы; Поставы | 55,12, 26,83 (Belarus) | 20,3k | 20,7k | 19,8k | 20,1k | 19,2k | -5,7% |
-| Peregon | Перегонъ | 53,33, 30,73 (Belarus) | 62k | 59,2k | 57,5k | 57,3k | 57,1k | -7,8% |
 | Petrikov | Петрыкаў; Pietrykaŭ | 52,13, 28,5 (Belarus) | 12,1k | 11,1k | 10,5k | 10,4k | 10k | -17,5% |
-| Poddobryanka | Поддобрянка | 52,08, 31,18 (Belarus) | 31,7k | 30,3k | 29,4k | 29,4k | 29,3k | -7,6% |
 | Polotsk | Polatsk; Polock | 55,49, 28,79 (Belarus) | 78k | 82k | 83k | 85k | 80,3k | +3% |
 | Pukhovichi | Пуховичи | 55,45, 30,72 (Belarus) | 4,7k | 4,5k | 4,3k | 4,3k | 4,3k | -8,6% |
 | Rahachow | Рагачоў; Rahačoŭ | 53,09, 30,05 (Belarus) | 37k | 35,2k | 33,8k | 34,7k | 32,9k | -11,1% |
 | Rechitsa | Rechytsa; Рэчыца | 52,37, 30,39 (Belarus) | 69,4k | 66,4k | 64,6k | 65,4k | 66,3k | -4,4% |
-| Rositsa | Росица | 55,92, 27,76 (Belarus) | 31,5k | 30,1k | 29,2k | 29k | 28,8k | -8,6% |
 | Rossony | Расоны; Rasony | 55,91, 28,81 (Belarus) | 5,6k | 5,6k | 5,4k | 5,1k | 4,8k | -14,1% |
 | Ruba | Руба | 55,3, 30,31 (Belarus) | 7,7k | 7,9k | 7,2k | 7,5k | 7,5k | -2,4% |
-| Rudnya | Рудня | 55,78, 29,13 (Belarus) | 5,6k | 5,3k | 5,2k | 5,2k | 5,1k | -8,6% |
 | Sasnovy Bor | Сасновы Бор; Сосновый Бор | 52,52, 29,6 (Belarus) | 2,7k | 2,6k | 2,4k | 2,2k | 1,9k | -28,4% |
-| Senkov | Сеньковъ | 53,76, 29,58 (Belarus) | 8,6k | 8,2k | 8k | 8k | 8k | -7,8% |
+| Senkov | Сеньковъ | 53,76, 29,58 (Belarus) | 3k | 2,7k | 2,5k | 2,4k | 2,2k | -26% |
 | Senno | Сянно; Sianno | 54,81, 29,7 (Belarus) | 9k | 8,6k | 7,9k | 7,6k | 7,4k | -18,1% |
 | Shamovo | Шамава; Šamava | 54,19, 31,36 (Belarus) | 144 | 109 | 87 | 71 | 55 | -61,8% |
 | Sharkovs-hchina | Шарковщина | 55,37, 27,47 (Belarus) | 5,6k | 6,4k | 6,9k | 6,7k | 6,4k | +14,4% |
-| Shirki | Ширки | 54,02, 31,39 (Belarus) | 13,8k | 13,2k | 12,8k | 12,8k | 12,8k | -7,9% |
 | Shklov | Шклоў; Škłoŭ | 54,21, 30,29 (Belarus) | 15k | 16,1k | 16,4k | 16,3k | 15,3k | +2,3% |
 | Shumilino | Шуміліна; Šumilina | 55,3, 29,61 (Belarus) | 8,9k | 7,9k | 7,4k | 7,3k | 7,4k | -17% |
 | Sirotino | Сиротино | 55,38, 29,62 (Belarus) | 6k | 5,7k | 5,6k | 5,5k | 5,5k | -8,6% |
@@ -370,21 +339,17 @@ in Vitebsk reduced the population of Eastern and Southeastern Belarus
 | Ushachi | Ушачы; Ušačy | 55,18, 28,62 (Belarus) | 6,3k | 6k | 5,5k | 6,1k | 5,8k | -7,7% |
 | Uvaravichy | Уваравічы; Uvaravičy | 52,6, 30,73 (Belarus) | 3,3k | 2,7k | 2,5k | 2,3k | 2,2k | -32% |
 | Vasilyevichy | Васілевічы; Vasilevičy | 52,25, 29,83 (Belarus) | 5k | 4,4k | 3,9k | 3,5k | 3,4k | -31,3% |
-| Velikoye Selo | Великое-Село | 54,94, 29,68 (Belarus) | 10,6k | 10,1k | 9,8k | 9,7k | 9,7k | -8,6% |
 | Verkhnedvinsk | Верхнядзвінск; Vierchni-adzvinsk | 55,78, 27,94 (Belarus) | 8,2k | 8k | 7,3k | 7,3k | 7k | -15,2% |
 | Verki | Верки | 55,49, 26,9 (Belarus) | 7,6k | 7,3k | 7k | 7k | 6,9k | -8,6% |
 | Vetka | Vietka Chernobyl Zone; Ветка | 52,56, 31,18 (Belarus) | 9,6k | 7,8k | 8k | 8,2k | 8,4k | -12,2% |
-| Vetka | Ветка; Vietka | 52,67, 30,63 (Belarus) | 9,6k | 7,8k | 8k | 8,2k | 8,4k | -12,2% |
 | Vidzy | Відзы; Видзы | 55,4, 26,63 (Belarus) | 2,2k | 2,1k | 1,8k | 1,7k | 1,5k | -30,9% |
 | Vitebsk | Vitsebsk; Witebsk | 55,19, 30,2 (Belarus) | 354k | 343k | 348k | 363k | 360,5k | +1,8% |
 | Volyntsy | Валынцы; Vałyncy | 55,71, 28,19 (Belarus) | 777 | 773 | 753 | 684 | 597 | -23,2% |
 | Voropayevo | Варапаева; Varapajeva | 55,14, 27,21 (Belarus) | 3,7k | 3,3k | 2,8k | 2,6k | 2,4k | -35,9% |
-| Vostochnyy | Усходні; Uschodni | 54,24, 29,82 (Belarus) | 19,6k | 18,6k | 18k | 18k | 17,9k | -8,6% |
 | Vyetryna | Ветрына; Vietryna | 55,41, 28,47 (Belarus) | 1,9k | 2,9k | 2,7k | 2,3k | 1,8k | -3,2% |
 | Vysochany | Высачаны; Vysačany | 54,98, 30,44 (Belarus) | 576 | 449 | 379 | 362 | 337 | -41,5% |
 | Yakovlevichi | Якаўлевічы; Jakaŭlevičy | 54,33, 30,52 (Belarus) | 388 | 367 | 349 | 331 | 304 | -21,6% |
 | Yalizava | Елизово | 53,4, 29 (Belarus) | 3,1k | 2,8k | 2,6k | 2,4k | 2,1k | -30,3% |
-| Yanov | Янов | 53,73, 31,35 (Belarus) | 25k | 23,9k | 23,2k | 23,1k | 23,1k | -7,8% |
 | Yanovichi | Янавічы; Janavičy | 55,29, 30,7 (Belarus) | 1,3k | 1,1k | 898 | 814 | 665 | -48,8% |
 | Yasen | Ясень; Jasień | 53,25, 28,93 (Belarus) | 507 | 443 | 410 | 420 | 431 | -15% |
 | Yezerishche | Езярышча; Jeziaryšča | 55,84, 29,99 (Belarus) | 2,4k | 1,9k | 1,5k | 1,4k | 1,1k | -53,5% |
@@ -405,9 +370,8 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Andrushivka | Андрушовка | 50,23, 26,17 (Ukraine) | 13,1k | 12,7k | 12,6k | 12,4k | 12,1k | -7,7% |
-| Banyliv | Банилив; Baniliv | 48,37, 25,35 (Ukraine) | 3,7k | 3,7k | 3,7k | 3,7k | 3,7k | -2,2% |
 | Banyliv-Pidhirnyi | Банилив-Пидгирний; Baniliv-Pidgirniy | 48,08, 25,48 (Ukraine) | 4,3k | 4,3k | 4,3k | 4,3k | 4,2k | -2,2% |
+| Banyliv | Банилив; Baniliv | 48,37, 25,35 (Ukraine) | 3,7k | 3,7k | 3,7k | 3,7k | 3,7k | -2,2% |
 | Batiovo | Батьово; Batjovo | 48,36, 22,4 (Ukraine) | 2,9k | 3k | 3k | 3,1k | 3k | +1,7% |
 | Bedevlya | Бедевля | 48,01, 23,66 (Ukraine) | 4,2k | 4,1k | 4,1k | 4,1k | 4,1k | -3% |
 | Belz | Белз; Belz | 50,38, 24,01 (Ukraine) | 2,5k | 2,5k | 2,4k | 2,4k | 2,2k | -9,4% |
@@ -483,7 +447,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Horokhiv | Горохів; Horochiv | 50,5, 24,76 (Ukraine) | 9,5k | 9k | 9,2k | 9,2k | 9k | -5,4% |
 | Horonda | Горонда; Goronda | 48,38, 22,57 (Ukraine) | 4k | 3,9k | 3,9k | 3,9k | 3,9k | -2,9% |
 | Hoshcha | Гоща; Hošča | 50,6, 26,68 (Ukraine) | 5,6k | 5,3k | 5,3k | 5,4k | 5,3k | -5,6% |
-| Hradysk | Градиск | 51,38, 25,34 (Ukraine) | 540 | 440 | 379 | 352 | 309 | -42,8% |
 | Hrushovo | Грушово; Grushovo | 48,01, 23,77 (Ukraine) | 6,2k | 6,1k | 6,1k | 6,1k | 6k | -2,9% |
 | Hrymailiv | Гримайлів; Hrymajliv | 49,33, 26,01 (Ukraine) | 2,6k | 2,1k | 2k | 1,9k | 1,8k | -31,1% |
 | Huszt | Khust; Maramaros Huszt | 48,18, 23,3 (Ukraine) | 32k | 28,9k | 28,4k | 28,6k | 28,2k | -11,9% |
@@ -499,9 +462,8 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Kalush | Kalush Galicia; Калуш | 49,01, 24,37 (Ukraine) | 69,6k | 67,7k | 67,3k | 67,6k | 65,1k | -6,4% |
 | Kalyny | Калини; Kalini | 48,14, 23,87 (Ukraine) | 6,2k | 6,1k | 6,1k | 6k | 6k | -3% |
 | Kamin-Kashyrskyi | Камінь-Каширський; Kamiń-Kašyrśkyj | 51,63, 24,96 (Ukraine) | 10,3k | 10,9k | 11,7k | 12,2k | 12,5k | +21,1% |
-| Kamyanka | Кам’янка; Kam’Yanka | 48,03, 25,9 (Ukraine) | 6,5k | 6,5k | 6,4k | 6,4k | 6,4k | -2,2% |
 | Kamyanka-Buzka | Кам’янка-Бузька; Kam’janka-Buźka | 50,11, 24,34 (Ukraine) | 11,5k | 11,6k | 10,9k | 10,8k | 10,5k | -8,2% |
-| Karpylivka | Карпиловка | 51,39, 25,03 (Ukraine) | 2,2k | 2k | 1,8k | 1,8k | 1,6k | -26% |
+| Kamyanka | Кам’янка; Kam’Yanka | 48,03, 25,9 (Ukraine) | 6,5k | 6,5k | 6,4k | 6,4k | 6,4k | -2,2% |
 | Kelmentsi | Кельменці; Keľmenci | 48,47, 26,83 (Ukraine) | 8,2k | 8,1k | 7,6k | 7,4k | 7,1k | -13,3% |
 | Keretsky | Керецьки; Keretski | 48,48, 23,22 (Ukraine) | 4,2k | 4,2k | 4,1k | 4,1k | 4,1k | -3% |
 | Khodoriv | Ходорів; Chodoriv | 49,41, 24,31 (Ukraine) | 12,6k | 10,5k | 9,9k | 9,8k | 9,1k | -27,8% |
@@ -520,11 +482,10 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Kolochava | Колочава; Koločava | 48,43, 23,7 (Ukraine) | 5k | 5k | 4,9k | 4,8k | 4,7k | -6,8% |
 | Kolomyia | Kolomea; Kolomyja | 48,53, 25,04 (Ukraine) | 66,1k | 61,9k | 61,2k | 61,4k | 60,8k | -8% |
 | Komariv | Комаров | 48,56, 26,99 (Ukraine) | 1,6k | 1,6k | 1,5k | 1,5k | 1,4k | -13,8% |
-| Komariv | Комаровъ | 51,19, 24,26 (Ukraine) | 23,2k | 23k | 22,7k | 22,6k | 22,3k | -3,9% |
 | Komarno | Комарно; Komarno | 49,63, 23,7 (Ukraine) | 3,9k | 4k | 3,9k | 3,8k | 3,7k | -5,6% |
 | Kopychyntsi | Копичинці; Kopyčynci | 49,1, 25,91 (Ukraine) | 7,3k | 7k | 6,9k | 6,9k | 6,6k | -9,9% |
 | Korets | Корець; Koreć | 50,62, 27,16 (Ukraine) | 9,6k | 8,6k | 7,5k | 7,3k | 7k | -27,4% |
-| Korneshty | Корнешты | 48,5, 26,18 (Ukraine) | 9,2k | 9k | 8,6k | 8,5k | 8,4k | -8,3% |
+| Korneshty | Корнешты | 48,5, 26,18 (Ukraine) | 180 | 173 | 168 | 166 | 162 | -10% |
 | Korolevo | Королево; smt Korolevo | 48,16, 23,14 (Ukraine) | 7,7k | 8,1k | 8,8k | 9,5k | 10,3k | +34,3% |
 | Koropets | Коропець; Koropeć | 48,93, 25,18 (Ukraine) | 3,7k | 3,8k | 3,5k | 3,4k | 3,1k | -17% |
 | Kosiv | Косів; Косив | 48,32, 25,09 (Ukraine) | 9,1k | 8,3k | 8,4k | 8,6k | 8,5k | -6,6% |
@@ -540,7 +501,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Krasne | Красне; smt Krasne | 49,91, 24,61 (Ukraine) | 6,4k | 6,5k | 6,3k | 6,4k | 6,4k | -0,4% |
 | Krasnoyilsk | Красноїльськ; Krasnojiľśk | 48,02, 25,56 (Ukraine) | 8k | 9,2k | 9,6k | 10k | 10,4k | +30,3% |
 | Kremenets | Krzemieniec; Kremenets Volhynia | 50,1, 25,73 (Ukraine) | 24,5k | 21,9k | 21,6k | 21,6k | 20,7k | -15,5% |
-| Kremenets | Кременец | 50,92, 25,2 (Ukraine) | 23,7k | 23,5k | 23,2k | 23k | 22,7k | -3,9% |
 | Krykhivtsi | Крихивци; Krikhivtsi | 48,9, 24,67 (Ukraine) | 7,5k | 7,4k | 7,4k | 7,3k | 7,3k | -2,6% |
 | Kulykiv | Куликів; Куликив | 49,99, 24,04 (Ukraine) | 3,6k | 3,9k | 3,9k | 4k | 4,1k | +14,4% |
 | Kushnytsia | Кушниця; Kushnitsya | 48,45, 23,26 (Ukraine) | 4,8k | 4,7k | 4,7k | 4,7k | 4,7k | -2,9% |
@@ -564,7 +524,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Lysets | Лисець; Lyseć | 48,87, 24,61 (Ukraine) | 3k | 2,8k | 2,9k | 2,9k | 2,9k | -2,1% |
 | Lyuboml | Любомль; Ljubomľ | 51,23, 24,03 (Ukraine) | 10,3k | 10,4k | 10,1k | 10,3k | 10,4k | +1,1% |
 | Maheriv | Магерів; Магерив | 50,11, 23,7 (Ukraine) | 1,9k | 2k | 2k | 2k | 2k | +4,6% |
-| Maidan | Майдан; Majdan | 48,6, 23,47 (Ukraine) | 1,7k | 1,7k | 1,7k | 1,7k | 1,7k | +0,5% |
 | Mamayvtsi | Мамаївци; Mamayivtsi | 48,35, 25,83 (Ukraine) | 5,5k | 5,5k | 5,5k | 5,4k | 5,4k | -2,2% |
 | Manevychi | Маневичі; Manevyči | 51,29, 25,53 (Ukraine) | 9,1k | 10,3k | 10,4k | 10,7k | 10,7k | +17,6% |
 | Marshyntsi | Маршинци; Marshintsi | 48,21, 26,3 (Ukraine) | 4,7k | 4,7k | 4,7k | 4,7k | 4,6k | -2,2% |
@@ -572,7 +531,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Medenychi | Меденичі; Medenyči | 49,43, 23,75 (Ukraine) | 3,6k | 3,4k | 3,3k | 3,4k | 3,3k | -7,7% |
 | Melnytsia | Мельница | 51,15, 25,1 (Ukraine) | 752 | 651 | 586 | 556 | 507 | -32,6% |
 | Melnytsya-Podilska | Мельниця-Подільська; Meľnycja-Podiľśka | 48,61, 26,17 (Ukraine) | 4,1k | 3,9k | 3,7k | 3,7k | 3,6k | -10,2% |
-| Mezhyrichchia | Межиречье | 49,41, 24,16 (Ukraine) | 19,5k | 19k | 18,6k | 18,6k | 18,5k | -4,8% |
 | Mizhhirya | Міжгір’я; Mižhir’ja | 48,52, 23,5 (Ukraine) | 10,2k | 9,6k | 9,5k | 9,6k | 9,5k | -7,2% |
 | Mizoch | Мізоч; Mizoč | 50,4, 26,14 (Ukraine) | 4,3k | 3,7k | 3,6k | 3,5k | 3,4k | -21,2% |
 | Mlyniv | Млинів; Млинив | 50,51, 25,62 (Ukraine) | 8,9k | 8,5k | 8,5k | 8,4k | 8,1k | -8,7% |
@@ -583,7 +541,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Mostyska | Мостиська; Mostyśka | 49,79, 23,15 (Ukraine) | 8,2k | 9,1k | 9k | 9,3k | 9,2k | +11,9% |
 | Munkacs | Mukachevo; Mukacheve | 48,44, 22,72 (Ukraine) | 86k | 82k | 84k | 85k | 85,6k | -0,5% |
 | Murovane | Муроване | 49,52, 22,94 (Ukraine) | 5k | 4,9k | 4,9k | 4,9k | 4,9k | -2% |
-| Mykolaiv | Миколаїв; Mykolajiv | 50,34, 24,98 (Ukraine) | 14,6k | 14,8k | 14,8k | 14,9k | 14,6k | +0,3% |
 | Mykulychyn | Микуличин; Mikulichin | 48,41, 24,61 (Ukraine) | 5,8k | 5,8k | 5,7k | 5,7k | 5,7k | -2,6% |
 | Mykulyntsi | Микулинці; Mykulynci | 49,39, 25,61 (Ukraine) | 3,8k | 3,6k | 3,7k | 3,7k | 3,6k | -5,9% |
 | Mykytyntsi | Микитинци; Mikitintsi | 48,91, 24,75 (Ukraine) | 5,9k | 5,9k | 5,8k | 5,8k | 5,8k | -2,6% |
@@ -611,7 +568,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Orzhiv | Оржів; Orživ | 50,75, 26,12 (Ukraine) | 4,2k | 4,2k | 4k | 3,9k | 3,8k | -9,6% |
 | Osii | Осий; Osiy | 48,36, 23,11 (Ukraine) | 3,6k | 3,6k | 3,6k | 3,6k | 3,5k | -2,9% |
 | Ostroh | Острог; Ostrog | 50,33, 26,52 (Ukraine) | 13,4k | 14,8k | 15,4k | 15,7k | 15,2k | +13,5% |
-| Ostrovets | Островец | 48,64, 25,3 (Ukraine) | 14,4k | 14,1k | 14k | 13,9k | 13,7k | -4,9% |
 | Ostrytsya | Остриця; Ostritsya | 48,26, 26,05 (Ukraine) | 3,9k | 3,8k | 3,8k | 3,8k | 3,8k | -2,2% |
 | Otyniia | Отинія; Otynija | 48,74, 24,86 (Ukraine) | 5,3k | 5,4k | 5,5k | 5,6k | 5,4k | +1,8% |
 | Ozerna | Озерна | 49,63, 25,33 (Ukraine) | 3,9k | 3,9k | 3,8k | 3,8k | 3,8k | -3,6% |
@@ -647,12 +603,10 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Ratne | Ратне; smt Ratne | 51,67, 24,53 (Ukraine) | 7,6k | 8,7k | 9,4k | 9,8k | 9,7k | +26,5% |
 | Rava-Ruska | Рава-Руська; Rava-Ruśka | 50,23, 23,62 (Ukraine) | 8,9k | 8,1k | 8,3k | 8,5k | 8,6k | -3,1% |
 | Ridkivtsi | Ридкивци | 48,34, 26,07 (Ukraine) | 3,7k | 3,7k | 3,6k | 3,6k | 3,6k | -2,2% |
-| Rivne | Ровно | 51,24, 23,82 (Ukraine) | 32,9k | 32,6k | 32,2k | 32k | 31,6k | -3,9% |
 | Rohatyn | Рогатин; Rogatin | 49,41, 24,61 (Ukraine) | 9,2k | 8,6k | 8,1k | 8k | 7,6k | -17,1% |
 | Rokosovo | Рокосово | 48,21, 23,18 (Ukraine) | 4,8k | 4,7k | 4,7k | 4,7k | 4,6k | -2,9% |
 | Rokyni | Рокині; Рокини | 50,83, 25,27 (Ukraine) | 1,3k | 1,4k | 1,5k | 1,5k | 1,5k | +11,6% |
 | Rokytne | Рокитне; smt Rokytne | 51,28, 27,22 (Ukraine) | 7,3k | 7,3k | 6,9k | 6,8k | 6,6k | -10,4% |
-| Romaniv | Романовъ | 50,74, 25,6 (Ukraine) | 1,5k | 1,2k | 1,1k | 1k | 947 | -35,1% |
 | Romankivtsi | Романкивци | 48,48, 27,21 (Ukraine) | 4,3k | 4,3k | 4,3k | 4,3k | 4,3k | -2,2% |
 | Ropcha | Ропча | 48,11, 25,77 (Ukraine) | 3,6k | 3,6k | 3,6k | 3,6k | 3,5k | -2,3% |
 | Rovno | Rivne; Rowne | 50,62, 26,25 (Ukraine) | 239k | 249k | 250k | 250k | 243,9k | +2% |
@@ -719,7 +673,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Torchyn | Торчин; Torčyn | 50,77, 25 (Ukraine) | 4,5k | 4,4k | 4,5k | 4,5k | 4,5k | +0,2% |
 | Torhovytsia | Торговица | 50,56, 25,4 (Ukraine) | 590 | 476 | 408 | 377 | 329 | -44,2% |
 | Tovste | Товсте; smt Tovste | 48,85, 25,73 (Ukraine) | 4,2k | 3,5k | 3,4k | 3,4k | 3,2k | -24,4% |
-| Trostianets | Тростянец; Тростянецъ | 49,55, 24,01 (Ukraine) | 875 | 718 | 622 | 578 | 510 | -41,7% |
 | Truskavets | Трускавець; Truskaveć | 49,28, 23,5 (Ukraine) | 33,7k | 30,9k | 29,8k | 29,4k | 28,5k | -15,4% |
 | Trybukhivtsi | Трибухивци; Tribukhivtsi | 49,05, 25,45 (Ukraine) | 4,2k | 4,2k | 4,1k | 4,1k | 4,1k | -3,6% |
 | Tsuman | Цумань; Cumań | 50,83, 25,88 (Ukraine) | 5,3k | 5,8k | 6,2k | 6,4k | 6,6k | +23% |
@@ -738,7 +691,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Ustyluh | Устилуг; Ustilug | 50,86, 24,15 (Ukraine) | 2,4k | 2,3k | 2,2k | 2,2k | 2,1k | -13,3% |
 | Varash | Вараш (Кузнецовськ); Varaš (Kuznecovśk) | 51,34, 25,86 (Ukraine) | 31,6k | 38,9k | 40,9k | 41,6k | 42,1k | +33,3% |
 | Vashkivtsi | Вашківці; Vaškivci | 48,38, 25,52 (Ukraine) | 5,9k | 6k | 5,5k | 5,4k | 5,3k | -9,5% |
-| Veliun | Велюнь; Велюн | 51,66, 26,66 (Ukraine) | 23,1k | 22,4k | 22,1k | 22,1k | 22k | -4,8% |
 | Velyatyno | Велятино; Velyatino | 48,11, 23,32 (Ukraine) | 4,5k | 4,5k | 4,5k | 4,4k | 4,4k | -2,9% |
 | Velyka Berezovytsya | Велика Березовиця; Velyka Berezovycja | 49,5, 25,61 (Ukraine) | 5,7k | 6,5k | 7,2k | 7,8k | 8,6k | +49,9% |
 | Velyka Dobron | Велика Добронь; Velika Dobron | 48,42, 22,39 (Ukraine) | 6,4k | 6,3k | 6,2k | 6,2k | 6,2k | -2,9% |
@@ -782,7 +734,6 @@ Union, limiting regional contraction to -9,1% (from 10,25M in 1991 to
 | Zahvizdia | Загвиздя; Zagvizdya | 48,92, 24,66 (Ukraine) | 3,6k | 3,6k | 3,5k | 3,5k | 3,5k | -2,6% |
 | Zalishchyky | Заліщики; Zališčyky | 48,64, 25,73 (Ukraine) | 11,5k | 10k | 9,4k | 9,4k | 9k | -21,2% |
 | Zaliztsi | Залізці; Zalizci | 49,8, 25,38 (Ukraine) | 2,8k | 2,7k | 2,7k | 2,7k | 2,5k | -8,5% |
-| Zamostia | Замостя; Zamostja | 48,35, 25,42 (Ukraine) | 2,7k | 2,4k | 2,2k | 2,1k | 2k | -26,3% |
 | Zapytiv | Запитів; Запитив | 49,92, 24,21 (Ukraine) | 2,7k | 2,8k | 2,7k | 2,8k | 3k | +9,6% |
 | Zarichchia | Зариччя; Zarichchya | 48,52, 24,65 (Ukraine) | 4k | 4k | 4k | 4k | 3,9k | -2,6% |
 | Zarichchia | Зариччя; Zarichchya | 48,28, 22,99 (Ukraine) | 4k | 4k | 4k | 3,9k | 3,9k | -3% |
@@ -821,24 +772,20 @@ absorbed internal migrants and displaced residents from the east (Table
 | Babyntsi | Бабинці; Babynci | 50,63, 30,02 (Ukraine) | 3,2k | 2,6k | 2,7k | 2,7k | 2,8k | -13,7% |
 | Barakhty | Барахты | 50,11, 30,37 (Ukraine) | 1,2k | 1,1k | 979 | 934 | 860 | -29,9% |
 | Baryshivka | Баришівка; Baryšivka | 50,36, 31,32 (Ukraine) | 11k | 11,2k | 10,9k | 11k | 10,4k | -5,1% |
-| Bendiuhivka | Бендюговка | 49,89, 30,65 (Ukraine) | 146,4k | 139k | 131,7k | 130,5k | 128,4k | -12,3% |
 | Berezan | Березань; Berezań | 50,31, 31,47 (Ukraine) | 15,2k | 17,3k | 16,6k | 16,6k | 16,2k | +6,4% |
 | Bila Tserkva | Belaya Tserkov; Biala Cerkiew | 49,8, 30,12 (Ukraine) | 204k | 200k | 209k | 211k | 207,3k | +1,6% |
 | Bilohorodka | Билогородка; Bilogorodka | 50,39, 30,23 (Ukraine) | 10,2k | 10k | 10k | 9,9k | 9,8k | -3,3% |
 | Bilychi | Біличі; Bilyči | 50,47, 30,35 (Ukraine) | 6,7k | 6,2k | 5,9k | 5,8k | 5,6k | -16,9% |
 | Bohuslav | Богуслав; Boguslav | 49,55, 30,87 (Ukraine) | 19,2k | 17,1k | 16,7k | 16,8k | 16k | -16,9% |
-| Borodani | Бородани | 49,55, 30,75 (Ukraine) | 17,5k | 16,6k | 15,8k | 15,6k | 15,4k | -12,3% |
 | Borodianka | Бородянка; Borodjanka | 50,64, 29,92 (Ukraine) | 13,1k | 12,5k | 12,9k | 13,2k | 13k | -0,4% |
 | Borova | Борова; smt Borova | 50,18, 30,1 (Ukraine) | 8,4k | 7,5k | 7,3k | 7,3k | 7,2k | -13,6% |
 | Bortnyky | Бертники | 50, 29,89 (Ukraine) | 11,2k | 10,7k | 10,1k | 10k | 9,8k | -12,3% |
 | Boryspil | Бориспіль; Boryspiľ | 50,35, 30,95 (Ukraine) | 51,8k | 54,4k | 57,6k | 60,2k | 63,7k | +22,9% |
-| Bovkun | Болкунъ | 49,58, 30,63 (Ukraine) | 41,6k | 39,6k | 37,5k | 37,1k | 36,5k | -12,3% |
 | Boyarka | Боярка; Bojarka | 50,32, 30,3 (Ukraine) | 39k | 35,8k | 34,9k | 35,6k | 35,3k | -9,4% |
 | Brovary | Brovari; Бровари | 50,51, 30,79 (Ukraine) | 85k | 87k | 96k | 99k | 109,5k | +28,8% |
 | Bucha | Bucha Kyiv Oblast; Буча | 50,54, 30,21 (Ukraine) | 26k | 28,5k | 27,5k | 30k | 37,3k | +43,5% |
 | Byshiv | Бышев | 50,27, 29,88 (Ukraine) | 2,5k | 2,3k | 2,1k | 2,1k | 2k | -21,5% |
 | Chabany | Чабани; Čabany | 50,34, 30,43 (Ukraine) | 3,3k | 3,6k | 3,6k | 4,2k | 5,1k | +54,8% |
-| Cherniakhiv | Черняховъ | 50,01, 30,78 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,1k | 1k | -35% |
 | Chernobyl | Chornobyl (Evacuated May 1986); Чорнобиль | 51,28, 30,22 (Ukraine) | 18,6k | 17,6k | 16,7k | 16,5k | 16,3k | -12,2% |
 | Dmytrivka | Дмитривка; Dmitrivka | 50,46, 30,17 (Ukraine) | 3,6k | 3,6k | 3,5k | 3,5k | 3,5k | -3,3% |
 | Doslidnytske | Дослідницьке; Doslidnyćke | 49,92, 30,14 (Ukraine) | 2,6k | 2,1k | 1,9k | 1,9k | 1,9k | -27% |
@@ -874,7 +821,6 @@ absorbed internal migrants and displaced residents from the east (Table
 | Krasiatychi | Красятичі; Krasjatyči | 51,08, 29,64 (Ukraine) | 749 | 701 | 668 | 647 | 645 | -13,9% |
 | Krasylivka | Красиловка | 51,12, 29,86 (Ukraine) | 2,8k | 2,9k | 2,9k | 3k | 3k | +8% |
 | Kryukivschina | Крюкивщина; Kryukivs-hchina | 50,37, 30,37 (Ukraine) | 6,1k | 6k | 5,9k | 5,9k | 5,9k | -3,3% |
-| Kydanivka | Кидановка | 49,45, 30,95 (Ukraine) | 18,2k | 17,3k | 16,4k | 16,2k | 16k | -12,3% |
 | Kyiv | Kiev; Kijow | 50,45, 30,52 (Ukraine) | 2,63M | 2,61M | 2,79M | 2,87M | 2,95M | +12% |
 | Lebedyn | Лебединъ | 50,36, 31,16 (Ukraine) | 1,7k | 1,5k | 1,3k | 1,2k | 1,1k | -34,6% |
 | Lekhnivka | Лехновка | 50,38, 31,54 (Ukraine) | 1,8k | 1,5k | 1,4k | 1,3k | 1,1k | -37,5% |
@@ -882,7 +828,6 @@ absorbed internal migrants and displaced residents from the east (Table
 | Liubartsi | Любарцы | 50,26, 31,17 (Ukraine) | 2,5k | 2,3k | 2,2k | 2,2k | 2,1k | -15,1% |
 | Luka | Лука | 49,48, 30,67 (Ukraine) | 2,2k | 2,1k | 1,9k | 1,9k | 1,8k | -19,2% |
 | Lukashevka | Лукашевка | 50,92, 29,67 (Ukraine) | 7,4k | 7k | 6,6k | 6,6k | 6,5k | -12,3% |
-| Lypovets | Липовец | 49,79, 30,89 (Ukraine) | 24,8k | 23,5k | 22,3k | 22,1k | 21,7k | -12,3% |
 | Makariv | Макарів; Макарив | 50,46, 29,81 (Ukraine) | 12,3k | 11,9k | 10,5k | 10,1k | 9,6k | -22% |
 | Malopolo-vetske | Мало-Половецкое | 49,92, 29,82 (Ukraine) | 1,5k | 1,3k | 1,1k | 1,1k | 965 | -34,5% |
 | Matviikha | Матвеиха | 49,48, 29,99 (Ukraine) | 604 | 490 | 421 | 390 | 342 | -43,4% |
@@ -896,14 +841,13 @@ absorbed internal migrants and displaced residents from the east (Table
 | Novi Petrivtsi | Нови Петривци | 50,63, 30,44 (Ukraine) | 7,3k | 7,2k | 7,1k | 7,1k | 7k | -3,3% |
 | Novosilky | Новосилки; Novosilki | 50,31, 30,08 (Ukraine) | 6,5k | 6,4k | 6,4k | 6,4k | 6,3k | -3,3% |
 | Obukhiv | Обухів; Obuchiv | 50,12, 30,63 (Ukraine) | 32,4k | 32,7k | 32,5k | 33,2k | 33,4k | +3,4% |
-| Ocheretiane | Очеретна | 49,83, 30,98 (Ukraine) | 10,1k | 9,6k | 9,1k | 9k | 8,9k | -12,3% |
 | Oleksandrivka | Александровка | 49,69, 30,78 (Ukraine) | 788 | 657 | 576 | 539 | 480 | -39,1% |
 | Osokorky | Осокорки | 50,38, 30,6 (Ukraine) | 6,2k | 4,5k | 3,2k | 3,1k | 3k | -51,6% |
 | Pereiaslav | Переяслав (Переяслав-Хмельницький); Perejaslav (Perejaslav-Chmeľnyćkyj) | 50,07, 31,45 (Ukraine) | 30,3k | 31,4k | 28,3k | 27,9k | 26,6k | -12,3% |
 | Petropav-livska Borshchahivka | Петропавливська Борщагивка; Petropav-livska Borshchagivka | 50,43, 30,33 (Ukraine) | 10,6k | 10,5k | 10,4k | 10,4k | 10,3k | -3,3% |
 | Piatyhory | Пятигоры | 49,34, 29,93 (Ukraine) | 2k | 1,9k | 1,8k | 1,7k | 1,6k | -21,5% |
 | Piskivka | Пісківка; Пискивка | 50,69, 29,62 (Ukraine) | 7,9k | 7,1k | 7,1k | 7k | 6,8k | -14,8% |
-| Poliske | Khabne (Resettled 1990-1993); Поліське | 51,24, 29,39 (Ukraine) | 9,5k | 376 | 357 | 354 | 348 | -96,3% |
+| Poliske | Khabne (Resettled 1990-1993); Поліське | 51,24, 29,39 (Ukraine) | 22 | 21 | 21 | 20 | 20 | -9,1% |
 | Polohy-Yanenky | Пологи Яненки | 49,96, 31,73 (Ukraine) | 823 | 676 | 586 | 545 | 481 | -41,6% |
 | Pomokli | Помокли | 50,11, 31,68 (Ukraine) | 1,3k | 1,1k | 1k | 955 | 871 | -32,5% |
 | Potik | Потокъ | 49,77, 31,05 (Ukraine) | 1,8k | 1,4k | 1,1k | 1k | 866 | -51,2% |
@@ -932,7 +876,6 @@ absorbed internal migrants and displaced residents from the east (Table
 | Velyka Dymerka | Велика Димерка; smt Velyka Dymerka | 50,59, 30,9 (Ukraine) | 10,4k | 10k | 9,6k | 9,6k | 9,5k | -9,2% |
 | Veselynivka | Скопцы | 50,24, 31,27 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,1k | 1k | -28% |
 | Vilcha | Вільча; Viľča | 51,36, 29,43 (Ukraine) | 1,9k | \- | \- | \- | \- | Abandoned |
-| Vilkhovets | Ольховецъ | 49,55, 31,01 (Ukraine) | 17,6k | 16,7k | 15,9k | 15,7k | 15,5k | -12,2% |
 | Volodarka | Володарка; smt Volodarka | 49,53, 29,91 (Ukraine) | 7,6k | 7,6k | 6,4k | 6,3k | 5,8k | -23,2% |
 | Voronkiv | Воронькив; Вороньков | 50,22, 30,9 (Ukraine) | 4,3k | 4,2k | 4,1k | 4,1k | 4k | -7,8% |
 | Vorzel | Ворзель; Vorzeľ | 50,54, 30,15 (Ukraine) | 9k | 6,1k | 5,6k | 5,8k | 6,8k | -24,6% |
@@ -984,7 +927,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Bilopillia | Білопілля; Bilopillja | 51,15, 34,31 (Ukraine) | 19,7k | 18,3k | 17k | 16,7k | 15,8k | -19,6% |
 | Bilotserkivka | Белоцерковка | 49,67, 33,79 (Ukraine) | 822 | 678 | 589 | 549 | 486 | -40,9% |
 | Bilotser-kivtsi | Белоцерковцы | 50,33, 32,73 (Ukraine) | 6,5k | 6k | 5,7k | 5,5k | 5,2k | -19,5% |
-| Bilousivka | Белоусовка | 50,36, 32,89 (Ukraine) | 5,3k | 4,9k | 4,7k | 4,5k | 4,3k | -19,5% |
 | Bilovod | Беловодъ | 50,67, 33,46 (Ukraine) | 1,2k | 943 | 813 | 755 | 663 | -42,7% |
 | Bilozirya | Билозир’я; Bilozir’Ya | 49,3, 31,89 (Ukraine) | 8,7k | 8,4k | 8,2k | 8,1k | 7,9k | -8,8% |
 | Bilsk | Глинск; Бельскъ | 50,09, 34,64 (Ukraine) | 1,5k | 1,2k | 1k | 929 | 798 | -47,9% |
@@ -1000,19 +942,16 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Borivka | Боровка | 48,5, 28,26 (Ukraine) | 3k | 2,8k | 2,6k | 2,6k | 2,4k | -19,3% |
 | Boromlia | Боромля | 50,62, 34,97 (Ukraine) | 4,1k | 3,6k | 3,4k | 3,2k | 3k | -27,3% |
 | Borovenka | Боровенька | 50,47, 34,41 (Ukraine) | 628 | 535 | 476 | 449 | 406 | -35,4% |
-| Bortniki | Бортники | 50,15, 27,5 (Ukraine) | 10,9k | 10,2k | 9,7k | 9,5k | 9,1k | -16,6% |
 | Borzna | Борзна; Borzna | 51,25, 32,43 (Ukraine) | 12,7k | 11,6k | 10,7k | 10,4k | 9,6k | -24,2% |
 | Branytsia | Браница | 50,83, 31,39 (Ukraine) | 1,2k | 1,1k | 961 | 915 | 839 | -30,9% |
 | Bratslav | Брацлав; Braclav | 48,82, 28,94 (Ukraine) | 6,5k | 6k | 5,6k | 5,6k | 5k | -23,5% |
 | Brayiliv | Браїлів; Brajiliv | 49,11, 28,16 (Ukraine) | 5,8k | 5,2k | 4,7k | 4,7k | 4,4k | -23% |
 | Brodetske | Бродецьке; Brodećke | 49,76, 28,62 (Ukraine) | 2,7k | 2,5k | 2,3k | 2,3k | 2,1k | -23,3% |
 | Bronytska Huta | Броницька Гута; Bronyćka Huta | 50,93, 27,32 (Ukraine) | 1,1k | 939 | 904 | 880 | 840 | -21,1% |
-| Brovky Pershi | Бровки | 49,93, 29,2 (Ukraine) | 27,4k | 25,2k | 24,3k | 23,7k | 22,6k | -17,5% |
 | Brusyliv | Брусилів; Брусилив | 50,28, 29,52 (Ukraine) | 3,5k | 5,4k | 5,1k | 4,9k | 4,7k | +35,2% |
 | Bubnivska Slobidka | Бубновская Слободка | 49,7, 31,71 (Ukraine) | 1,6k | 1,4k | 1,3k | 1,3k | 1,2k | -26,8% |
 | Buchmany | Бучмани; Bučmany | 51,07, 28,04 (Ukraine) | 956 | 815 | 734 | 720 | 640 | -33,1% |
 | Buky | Буки; smt Buky | 49,09, 30,41 (Ukraine) | 2,5k | 2,2k | 2k | 1,9k | 1,8k | -30,8% |
-| Buniakivka | Буняковка | 49,4, 33,91 (Ukraine) | 12,5k | 11,6k | 10,9k | 10,6k | 10,1k | -19,5% |
 | Buryn | Буринь; Buryń | 51,2, 33,83 (Ukraine) | 12,8k | 11,6k | 9,5k | 9k | 8,4k | -34,9% |
 | Buzhanka | Бужанка | 49,24, 30,74 (Ukraine) | 1,8k | 1,6k | 1,5k | 1,5k | 1,4k | -23% |
 | Bykivka | Биківка; Бикивка | 50,29, 27,98 (Ukraine) | 2,1k | 2k | 1,8k | 1,8k | 1,7k | -19,2% |
@@ -1021,7 +960,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Chemerivtsi | Чемерівці; Čemerivci | 49,01, 26,34 (Ukraine) | 5,5k | 5,4k | 5,3k | 5,3k | 5,1k | -6,8% |
 | Cherkassy | Cherkasy; Czerkasy | 49,44, 32,06 (Ukraine) | 302k | 295k | 287k | 285k | 269,8k | -10,7% |
 | Chernatske | Чернацкое | 52,18, 33,93 (Ukraine) | 766 | 636 | 555 | 519 | 461 | -39,8% |
-| Chernechchyna | Чернетчина | 49,12, 34,77 (Ukraine) | 1,6k | 1,3k | 1,1k | 1k | 910 | -41,3% |
 | Cherniakhiv | Черняхів; Černjachiv | 50,45, 28,67 (Ukraine) | 10,5k | 10,4k | 10,1k | 9,7k | 9,2k | -12,5% |
 | Chernigov | Chernihiv; Czernihow | 51,5, 31,29 (Ukraine) | 306k | 305k | 297k | 296k | 282,7k | -7,6% |
 | Chernivtsi | Чернівці; Černivci | 48,54, 28,12 (Ukraine) | 3,2k | 3,2k | 2,9k | 2,9k | 2,6k | -18,9% |
@@ -1046,7 +984,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Desna | Десна; smt Desna | 50,93, 30,77 (Ukraine) | 7,2k | 7,2k | 7,6k | 7,6k | 7,4k | +2% |
 | Dibrova | Діброва; Диброва | 51,16, 27,98 (Ukraine) | 884 | 188 | 140 | 131 | 121 | -86,3% |
 | Dihtiari | Дігтярі; Dihtjari | 50,58, 32,77 (Ukraine) | 1,5k | 1,3k | 1,3k | 1,2k | 1,2k | -20,9% |
-| Dmitrovka | Дмитровка | 49,73, 35,18 (Ukraine) | 19,1k | 17,6k | 16,6k | 16,1k | 15,3k | -19,5% |
 | Dmytrivka | Дмитрівка; Дмитривка | 50,94, 32,95 (Ukraine) | 3,9k | 2,8k | 2,5k | 2,4k | 2,1k | -45% |
 | Dobrianka | Добрянка; Dobrjanka | 52,06, 31,18 (Ukraine) | 3,9k | 3,3k | 3k | 2,9k | 2,7k | -32,8% |
 | Dobrovel-ychkivka | Добровеличківка; Dobrovelyčkivka | 48,39, 31,18 (Ukraine) | 7,5k | 7k | 6k | 5,7k | 5,5k | -27,1% |
@@ -1067,13 +1004,10 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Elisavetgrad | Kropyvnytskyi; Zinovievsk | 48,51, 32,26 (Ukraine) | 278k | 254k | 236k | 233k | 219,7k | -21% |
 | Esman | Есмань (Червоне); Esmań (Červone) | 51,77, 34,07 (Ukraine) | 2,3k | 1,8k | 1,6k | 1,5k | 1,3k | -41,1% |
 | Fastivtsi | Фастовцы | 51,04, 32,58 (Ukraine) | 1,1k | 900 | 799 | 753 | 678 | -36,1% |
-| Gaysin | Гайсин; Hajsyn | 49,23, 29,07 (Ukraine) | 26,5k | 25,6k | 25,8k | 25,9k | 25,9k | -2,1% |
-| Golubivka | Киселевка; Голубовка | 49,68, 29,16 (Ukraine) | 34,6k | 31,9k | 30,7k | 29,9k | 28,5k | -17,5% |
+| Gaysin | Гайсин; Hajsyn | 48,81, 29,38 (Ukraine) | 26,5k | 25,6k | 25,8k | 25,9k | 25,9k | -2,1% |
 | Hadyach | Гадяч; Hadjač | 50,37, 34 (Ukraine) | 24,7k | 22,8k | 24k | 24,2k | 23,2k | -6% |
 | Hai-Moshenka | Мошонка | 50,25, 34,83 (Ukraine) | 9,4k | 8,4k | 7,9k | 7,6k | 7,2k | -23,1% |
-| Halytsia | Галица | 50,76, 32,03 (Ukraine) | 1,6k | 1,4k | 1,3k | 1,3k | 1,2k | -25,5% |
 | Hayvoron | Гайворон; Hajvoron | 48,34, 29,87 (Ukraine) | 16,9k | 16k | 15,5k | 15,1k | 14,2k | -15,9% |
-| Hayvoron | Гайворон; Гайворонъ | 50,98, 32,92 (Ukraine) | 862 | 730 | 647 | 609 | 548 | -36,4% |
 | Helmiaziv | Гельмязив; Gelmyaziv | 49,82, 31,84 (Ukraine) | 4,5k | 4,4k | 4,3k | 4,2k | 4,1k | -9,7% |
 | Hlobyne | Глобине; Globine | 49,38, 33,28 (Ukraine) | 13,7k | 12,7k | 10,7k | 9,9k | 9,1k | -33,4% |
 | Hlukhiv | Glukhov; Глухів | 51,68, 33,92 (Ukraine) | 36,4k | 35,8k | 35,1k | 34,3k | 32,2k | -11,3% |
@@ -1090,10 +1024,8 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Horodkivka | Городкивка; Gorodkivka | 48,38, 28,69 (Ukraine) | 5,1k | 4,9k | 4,8k | 4,8k | 4,7k | -6,7% |
 | Horodnia | Городня; Horodnja | 51,89, 31,6 (Ukraine) | 15,4k | 13,9k | 12,9k | 12,4k | 11,7k | -24,1% |
 | Horodnytsia | Городниця; Horodnycja | 50,81, 27,31 (Ukraine) | 5,5k | 5,4k | 5,5k | 5,4k | 5,2k | -4,3% |
-| Horodok | Городок; Gorodok | 50,59, 29,46 (Ukraine) | 2,3k | 2,2k | 2,1k | 2,4k | 2,8k | +22,7% |
 | Horodok | Городок; Gorodok | 49,17, 26,56 (Ukraine) | 18,3k | 17,7k | 16,9k | 16,7k | 15,8k | -13,4% |
 | Horodyshche | Городище; Horodyšče | 49,29, 31,44 (Ukraine) | 17,3k | 15,5k | 14,6k | 14,2k | 13,3k | -23,1% |
-| Horodyshche | Городище | 51,63, 32,95 (Ukraine) | 1,2k | 1k | 923 | 878 | 804 | -31,5% |
 | Horoshyne | Горошинъ | 49,66, 32,75 (Ukraine) | 854 | 740 | 666 | 632 | 577 | -32,4% |
 | Horyshkivka | Горышковка | 48,64, 28,62 (Ukraine) | 636 | 526 | 458 | 428 | 379 | -40,4% |
 | Hovtva | Голтва | 49,42, 33,87 (Ukraine) | 506 | 414 | 357 | 332 | 292 | -42,3% |
@@ -1115,14 +1047,11 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Irdyn | Ірдинь; Irdyń | 49,37, 31,69 (Ukraine) | 1,4k | 1k | 892 | 846 | 750 | -45,9% |
 | Irshansk | Іршанськ; Iršanśk | 50,75, 28,72 (Ukraine) | 6k | 6,3k | 6,6k | 6,8k | 6,4k | +7,5% |
 | Iskorost | Искорость | 50,91, 28,66 (Ukraine) | 5,5k | 5k | 4,9k | 4,7k | 4,5k | -17,5% |
-| Ivanhorod | Ивангород; Ивангородъ | 51,03, 32,46 (Ukraine) | 1,2k | 971 | 848 | 793 | 704 | -39,8% |
 | Ivaniv | Иванив; Яновъ | 49,49, 28,34 (Ukraine) | 4,2k | 4k | 3,9k | 3,9k | 3,8k | -8,8% |
 | Ivanopil | Іванопіль; Ivanopiľ | 49,86, 28,22 (Ukraine) | 4,9k | 4k | 3,5k | 3,4k | 3k | -38,2% |
 | Ivanytsia | Иваница | 50,79, 32,64 (Ukraine) | 1,9k | 1,6k | 1,4k | 1,3k | 1,2k | -38% |
 | Ivashkivtsi | Ивашковцы | 48,8, 27,22 (Ukraine) | 1,3k | 1,1k | 1k | 968 | 892 | -29,5% |
 | Iziaslav | Ізяслав; Izjaslav | 50,12, 26,82 (Ukraine) | 18,2k | 18,4k | 17,3k | 17,2k | 16,2k | -11,1% |
-| Kalius | Калюсъ | 48,63, 27,32 (Ukraine) | 4,5k | 4,2k | 4k | 3,9k | 3,7k | -16,6% |
-| Kalna | Кувакъ Новый | 49,27, 27,54 (Ukraine) | 772 | 643 | 563 | 527 | 469 | -39,2% |
 | Kalynivka | Калинівка; Калинивка | 49,46, 28,52 (Ukraine) | 20,2k | 20k | 19,3k | 19,2k | 18,7k | -7,4% |
 | Kamenets-Podolsky | Kamianets-Podilskyi; Kamieniec Podolski | 48,68, 26,59 (Ukraine) | 105k | 99k | 103k | 102k | 96,9k | -7,7% |
 | Kamyanets | Кам’янець (Новгородка); Kam’janeć (Novhorodka) | 48,36, 32,65 (Ukraine) | 7k | 6,6k | 5,9k | 5,8k | 5,5k | -20,3% |
@@ -1135,7 +1064,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Katerynopil | Калинопіль (Катеринопіль); Kalynopiľ (Katerynopiľ) | 48,95, 30,97 (Ukraine) | 7,1k | 6,4k | 5,9k | 5,7k | 5,4k | -24,1% |
 | Khlystunivka | Хлыстуновка | 49,21, 31,45 (Ukraine) | 2,1k | 1,9k | 1,8k | 1,8k | 1,7k | -17,3% |
 | Khmeliv | Хмелев; Хмелевъ | 50,89, 33,48 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,1k | 1k | -30,2% |
-| Khmelivka | Хмелевка | 49,31, 26,63 (Ukraine) | 11,1k | 10,4k | 9,9k | 9,7k | 9,3k | -16,6% |
 | Khmelove | Хмелевое | 48,57, 31,4 (Ukraine) | 2,5k | 2,3k | 2,2k | 2,1k | 2k | -22,6% |
 | Khmilnyk | Хмільник; Chmiľnyk | 49,56, 27,96 (Ukraine) | 30,3k | 27,9k | 28,1k | 28,3k | 27,2k | -10,4% |
 | Khodorkiv | Ходорковъ | 50,1, 29,31 (Ukraine) | 1,3k | 1,2k | 1,2k | 1,1k | 1,1k | -19,5% |
@@ -1145,8 +1073,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Khorol | Хорол; Chorol | 49,78, 33,27 (Ukraine) | 16,7k | 14,7k | 13,8k | 13,5k | 12,7k | -23,8% |
 | Khoroshiv | Хорошів (Володарськ-Волинський); Chorošiv (Volodarśk-Volynśkyj) | 50,59, 28,44 (Ukraine) | 8,7k | 8k | 7,8k | 7,8k | 7,5k | -14,4% |
 | Khoruzhivka | Хоружовка | 49,99, 32,67 (Ukraine) | 7,7k | 7,1k | 6,7k | 6,5k | 6,2k | -19,5% |
-| Khotin | Хотінь; Chotiń | 51,08, 34,77 (Ukraine) | 3,8k | 2,6k | 2,5k | 2,5k | 2,3k | -38,4% |
-| Khrestyteleve | Крестителево | 49,73, 32,52 (Ukraine) | 1,6k | 1,3k | 1,1k | 1,1k | 929 | -41,4% |
 | Khrystynivka | Христинівка; Chrystynivka | 48,81, 29,97 (Ukraine) | 13,6k | 11,6k | 10,9k | 10,9k | 10,1k | -25,8% |
 | Khudoliivka | Худолеевка | 49,23, 32,34 (Ukraine) | 802 | 672 | 591 | 554 | 495 | -38,3% |
 | Khukhra | Хухра | 50,21, 34,82 (Ukraine) | 2k | 1,9k | 1,8k | 1,7k | 1,6k | -20,7% |
@@ -1163,7 +1089,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Kompaniyivka | Компаніївка; Kompanijivka | 48,25, 32,2 (Ukraine) | 5,2k | 5,1k | 4,6k | 4,5k | 4,4k | -16,6% |
 | Komyshnya | Комишня; Komyšnja | 50,19, 33,68 (Ukraine) | 3,2k | 2,7k | 2,4k | 2,3k | 2k | -37,7% |
 | Konotop | Konotop Rail Hub; Konotop Chernigov | 51,24, 33,2 (Ukraine) | 97k | 93k | 90k | 88k | 83,5k | -13,9% |
-| Konotop | Конотоп | 51,74, 31,7 (Ukraine) | 24,8k | 22,7k | 21,2k | 20,4k | 19k | -23,1% |
 | Kopaihorod | Копайгород; Kopajhorod | 48,85, 27,8 (Ukraine) | 1,9k | 1,5k | 1,3k | 1,3k | 1,2k | -35,8% |
 | Kornyn | Корнин; smt Kornyn | 50,1, 29,54 (Ukraine) | 2,8k | 2,7k | 2,4k | 2,3k | 2k | -30,6% |
 | Korobchyne | Коробчино | 48,77, 31,49 (Ukraine) | 1,1k | 954 | 846 | 797 | 718 | -36,1% |
@@ -1174,21 +1099,17 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Korsun-Shevchen-kivskyi | Корсунь-Шевченківський; Korsuń-Ševčenkivśkyj | 49,42, 31,25 (Ukraine) | 23,1k | 19,2k | 18,8k | 18,7k | 17,5k | -24,2% |
 | Koryukivka | Корюківка; Korjukivka | 51,77, 32,25 (Ukraine) | 14,5k | 14,2k | 13,4k | 13,1k | 12,4k | -14,7% |
 | Kosivka | Косовка | 48,81, 33,03 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,2k | 1,1k | -26,9% |
-| Koskiv | Коськовъ | 49,98, 27,13 (Ukraine) | 25k | 23,4k | 22,2k | 21,7k | 20,8k | -16,6% |
 | Kotelva | Котельва; Koteľva | 50,07, 34,75 (Ukraine) | 13,2k | 12,6k | 12,5k | 12,4k | 11,9k | -10,3% |
 | Kovalivka | Ковалевка | 49,61, 34,71 (Ukraine) | 2,5k | 2,4k | 2,3k | 2,3k | 2,2k | -13,4% |
 | Kozelets | Козелець; Kozeleć | 50,91, 31,12 (Ukraine) | 9,6k | 8,8k | 8,3k | 8,2k | 7,6k | -20,2% |
 | Kozelshchyna | Козельщина; Kozeľščyna | 49,22, 33,85 (Ukraine) | 4,9k | 4,4k | 3,9k | 3,8k | 3,5k | -27,4% |
 | Kozyatyn | Козятин; Kozjatyn | 49,72, 28,84 (Ukraine) | 29,2k | 26,5k | 24,5k | 24,2k | 22,6k | -22,4% |
-| Krasne | Красное | 51,29, 31,27 (Ukraine) | 2,1k | 1,5k | 1,2k | 1k | 834 | -60,4% |
 | Krasnohirka | Красногорка | 48,54, 28,91 (Ukraine) | 578 | 468 | 401 | 372 | 325 | -43,8% |
 | Krasnopillya | Краснопілля; Krasnopillja | 50,77, 35,26 (Ukraine) | 9,4k | 8,9k | 8,4k | 8,3k | 7,8k | -16,7% |
-| Krasnyi Koliadyn | Красный Колядинъ | 50,95, 33,04 (Ukraine) | 13,3k | 12,2k | 11,4k | 10,9k | 10,2k | -23,1% |
 | Krasyliv | Красилів; Красилив | 49,65, 26,97 (Ukraine) | 21,8k | 20,4k | 19,7k | 19,7k | 18,6k | -14,7% |
 | Kremenchug | Kremenchuk; Kremenchug Kryukov | 49,07, 33,42 (Ukraine) | 241k | 234k | 228k | 226k | 215,3k | -10,7% |
 | Krolevets | Кролевець; Kroleveć | 51,55, 33,38 (Ukraine) | 26,5k | 25k | 24k | 23,5k | 22,4k | -15,4% |
 | Krupoderyntsi | Круподеренцы | 49,92, 32,5 (Ukraine) | 1,1k | 976 | 876 | 829 | 754 | -33,5% |
-| Krutki | Крутьки | 50,32, 33,93 (Ukraine) | 18,3k | 17k | 16k | 15,5k | 14,8k | -19,5% |
 | Kryukiv | Крюков | 49,03, 33,44 (Ukraine) | 13,8k | 20,4k | 26,4k | 25,7k | 24,4k | +76,6% |
 | Kryzhopil | Крижопіль; Kryžopiľ | 48,38, 28,87 (Ukraine) | 10,1k | 9,5k | 9k | 8,9k | 8,6k | -14,7% |
 | Kukolivka | Куколовка | 48,64, 33,29 (Ukraine) | 1k | 897 | 807 | 766 | 699 | -32,5% |
@@ -1196,11 +1117,9 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Kulykivka | Куликівка; Куликивка | 51,37, 31,65 (Ukraine) | 6,2k | 5,9k | 5,6k | 5,5k | 5k | -18,2% |
 | Kupil | Купель | 49,61, 26,51 (Ukraine) | 927 | 781 | 689 | 647 | 580 | -37,4% |
 | Kupyn | Купинъ | 49,1, 26,58 (Ukraine) | 753 | 660 | 600 | 572 | 526 | -30,1% |
-| Kurin | Курень | 51,15, 32,78 (Ukraine) | 3,3k | 3,1k | 2,9k | 2,8k | 2,7k | -19,7% |
 | Kurinka | Куринька | 50,21, 32,74 (Ukraine) | 360 | 293 | 253 | 235 | 206 | -42,8% |
 | Kuzemyn | Куземинъ | 50,14, 34,65 (Ukraine) | 1,9k | 1,7k | 1,6k | 1,6k | 1,5k | -17,5% |
 | Kuzmyn | Кузьминъ | 49,26, 26,52 (Ukraine) | 1,8k | 1,7k | 1,6k | 1,6k | 1,5k | -17,3% |
-| Kvartsytne | Першотравневе; Peršotravneve | 51,39, 28,87 (Ukraine) | 3k | 2,6k | 2,5k | 2,5k | 2,4k | -21,1% |
 | Kvitneve | Миролюбів (Жовтневе); Myroljubiv (Žovtneve) | 49,99, 29,52 (Ukraine) | 804 | 627 | 622 | 623 | 581 | -27,7% |
 | Kykyshivka | Кикишовка | 49,82, 28,56 (Ukraine) | 16,4k | 15,1k | 14,6k | 14,2k | 13,5k | -17,5% |
 | Kyrnasivka | Кирнасівка; Кирнасивка | 48,59, 28,98 (Ukraine) | 6k | 5,5k | 5,4k | 5,3k | 4,9k | -17,9% |
@@ -1209,7 +1128,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Ladan | Ладан; smt Ladan | 50,52, 32,58 (Ukraine) | 7,5k | 7k | 6,5k | 6,3k | 5,8k | -23,1% |
 | Ladyzhyn | Ладижин; Ladyžyn | 48,68, 29,24 (Ukraine) | 20,6k | 22,2k | 22,5k | 22,8k | 22,6k | +9,9% |
 | Ladyzhynka | Ладыжинка | 48,54, 30,24 (Ukraine) | 2,6k | 2,4k | 2,2k | 2,1k | 2k | -23,9% |
-| Lanna | Ланна | 49,35, 35,26 (Ukraine) | 2k | 2k | 1,9k | 1,9k | 1,8k | -10,9% |
 | Lebedyn | Лебедин; Lebedin | 50,58, 34,48 (Ukraine) | 33k | 28,7k | 26,4k | 25,8k | 24,2k | -26,7% |
 | Lelekivka | Лелеківка; Лелековка | 48,24, 33,24 (Ukraine) | 7,5k | 6,9k | 6,2k | 6,1k | 5,8k | -23,2% |
 | Lesky | Леськи; Leski | 49,33, 32,22 (Ukraine) | 4,4k | 4,2k | 4,1k | 4k | 3,9k | -11,8% |
@@ -1218,18 +1136,15 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Lisove | Лісове; Лисове | 48,84, 32,33 (Ukraine) | 1,1k | 1,1k | 1k | 1,1k | 1,1k | -0,8% |
 | Lisovi Sorochyntsi | Сорочинцы | 50,69, 32,33 (Ukraine) | 8,2k | 7,5k | 7k | 6,7k | 6,3k | -23,1% |
 | Lityn | Літин; Литин | 49,33, 28,09 (Ukraine) | 7,4k | 7k | 6,8k | 6,8k | 6,6k | -10,8% |
-| Litynka | Литинка | 49,35, 27,93 (Ukraine) | 13,8k | 12,9k | 12,3k | 12,1k | 11,7k | -15,2% |
 | Liubar | Любар; Ljubar | 49,92, 27,75 (Ukraine) | 2,7k | 2,4k | 2,3k | 2,2k | 2k | -24,5% |
 | Liubech | Любеч; Ljubeč | 51,7, 30,66 (Ukraine) | 3,7k | 2,6k | 2,3k | 2,1k | 1,9k | -47,9% |
 | Liutenka | Лютенька | 50,21, 34,03 (Ukraine) | 3,2k | 2,9k | 2,7k | 2,6k | 2,4k | -24,9% |
 | Lokhvytsya | Лохвиця; Lochvycja | 50,36, 33,27 (Ukraine) | 13,7k | 12,4k | 12k | 11,8k | 11,1k | -18,9% |
-| Lomaky | Ломаки | 50,17, 33,29 (Ukraine) | 30,1k | 27,9k | 26,3k | 25,5k | 24,2k | -19,5% |
 | Losynivka | Лосинівка; Лосинивка | 50,84, 31,92 (Ukraine) | 4,8k | 4,5k | 4,2k | 4,1k | 3,7k | -24,1% |
 | Lozove | Лозове; smt Lozove | 49,29, 27,3 (Ukraine) | 1,9k | 1,6k | 1,6k | 1,6k | 1,5k | -20% |
 | Lubny | Lubny Poltava; Лубни | 50,02, 33 (Ukraine) | 60,6k | 52,1k | 48,5k | 47,4k | 44,1k | -27,2% |
 | Luhyny | Лугини; smt Luhyny | 51,08, 28,4 (Ukraine) | 5k | 4,7k | 4,3k | 4,1k | 3,9k | -21,2% |
 | Luka-Meleshkivska | Лука-Мелешкивська | 49,18, 28,49 (Ukraine) | 4,2k | 4,1k | 4k | 4k | 3,9k | -6,7% |
-| Lutava | Лутава | 50,96, 30,8 (Ukraine) | 12,3k | 11,3k | 10,6k | 10,2k | 9,5k | -23,1% |
 | Lyashchivka | Лящовка | 49,54, 32,68 (Ukraine) | 1,3k | 1,2k | 1,1k | 1,1k | 980 | -27,2% |
 | Lykhachiv | Лихачевъ | 51,13, 31,51 (Ukraine) | 1,1k | 949 | 826 | 770 | 682 | -40,6% |
 | Lynovytsia | Линовиця; Lynovycja | 50,47, 32,39 (Ukraine) | 3,4k | 3k | 2,8k | 2,7k | 2,6k | -22,6% |
@@ -1260,9 +1175,7 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Mohrytsia | Могрица | 51,03, 35,11 (Ukraine) | 1,2k | 1k | 938 | 895 | 824 | -29,8% |
 | Mokiivka | Мокиевка | 50,24, 32,77 (Ukraine) | 6,9k | 6,4k | 6,1k | 5,9k | 5,6k | -19,5% |
 | Mokra Kalyhirka | Мокра Калигірка | 48,84, 31,22 (Ukraine) | 2,1k | 2k | 1,8k | 1,8k | 1,7k | -19% |
-| Molodizhne | Молодіжне; Molodižne | 48,18, 32,66 (Ukraine) | 2,1k | 1,6k | 1,4k | 1,3k | 1,1k | -47,3% |
 | Monastyr-yshche | Монастирище; Monastyryšče | 48,99, 29,81 (Ukraine) | 16,7k | 9,4k | 9,2k | 9k | 8,4k | -49,6% |
-| Monastyr-yshche | Монастырище | 50,81, 32,16 (Ukraine) | 1,1k | 943 | 840 | 793 | 717 | -35,1% |
 | Moshny | Мошни; Moshni | 49,53, 31,74 (Ukraine) | 5k | 4,8k | 4,7k | 4,6k | 4,5k | -11,1% |
 | Moshoryne | Мошорино | 48,62, 32,72 (Ukraine) | 1,9k | 1,7k | 1,6k | 1,6k | 1,4k | -25,3% |
 | Moshuriv | Мошуровъ | 48,89, 30,58 (Ukraine) | 1,9k | 1,7k | 1,5k | 1,5k | 1,4k | -28,3% |
@@ -1270,9 +1183,7 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Murovani Kurylivtsi | Муровані Курилівці; Murovani Kurylivci | 48,72, 27,53 (Ukraine) | 6,9k | 6,2k | 6,1k | 6k | 5,7k | -16,6% |
 | Murzyntsi | Мурзинцы | 49,17, 30,92 (Ukraine) | 6,1k | 5,6k | 5,2k | 5,1k | 4,8k | -21,9% |
 | Mutyn | Мутин; Мутинъ | 51,42, 33,48 (Ukraine) | 1,2k | 1,1k | 999 | 955 | 881 | -29,1% |
-| Mykhailivka | Михалполь | 49,24, 27,15 (Ukraine) | 581 | 493 | 437 | 412 | 371 | -36,1% |
 | Mykhailo-Kotsiubynske | Михайло-Коцюбинське; Mychajlo-Kocjubynśke | 51,45, 31,08 (Ukraine) | 3,5k | 3k | 3k | 2,9k | 2,9k | -18,8% |
-| Mykolaiv | Николаевъ | 49,58, 26,84 (Ukraine) | 624 | 508 | 437 | 405 | 355 | -43,1% |
 | Mykolaivka | Миколаївка (Жовтневе); Mykolajivka (Žovtneve) | 50,94, 34,37 (Ukraine) | 4,7k | 4,4k | 4,4k | 4,3k | 4,2k | -12,1% |
 | Mynivka | Миновка | 49,5, 34,72 (Ukraine) | 16,4k | 15,2k | 14,3k | 13,9k | 13,2k | -19,5% |
 | Mynkivtsi | Миньковцы | 48,85, 27,11 (Ukraine) | 1,4k | 1,1k | 980 | 912 | 804 | -41,7% |
@@ -1318,8 +1229,8 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Obodivka | Ободовка | 48,41, 29,25 (Ukraine) | 4,2k | 3,5k | 3,2k | 3k | 2,7k | -35,1% |
 | Obolon | Оболонь | 49,6, 32,87 (Ukraine) | 2,1k | 1,9k | 1,7k | 1,6k | 1,5k | -28,9% |
 | Obolonnia | Оболонье | 51,62, 32,93 (Ukraine) | 8,6k | 7,9k | 7,4k | 7,1k | 6,6k | -23,1% |
-| Oleksandrivka | Олександрівка; Олександривка | 48,97, 32,24 (Ukraine) | 12,5k | 10,9k | 9,3k | 8,9k | 8,2k | -34,4% |
 | Oleksandrivka | Александровка | 52,19, 32,91 (Ukraine) | 784 | 654 | 573 | 536 | 478 | -39% |
+| Oleksandrivka | Олександрівка; Олександривка | 48,97, 32,24 (Ukraine) | 12,5k | 10,9k | 9,3k | 8,9k | 8,2k | -34,4% |
 | Oleksandriya | Олександрія; Oleksandrija | 48,67, 33,12 (Ukraine) | 104,7k | 92,6k | 83,4k | 82,6k | 77,3k | -26,1% |
 | Oleksand-riyske | Олександрійське (Димитрове); Oleksandrijśke (Dymytrove) | 48,6, 32,99 (Ukraine) | 6,8k | 5,6k | 4,9k | 4,9k | 4,7k | -31,3% |
 | Oleksandro-Hryhorivka | Олександро-Григорівка | 48,77, 33,82 (Ukraine) | 7,2k | 6,8k | 6,6k | 6,4k | 6,2k | -13,1% |
@@ -1347,19 +1258,15 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Pavoloch | Паволочь | 49,87, 29,46 (Ukraine) | 1,3k | 1,3k | 1,2k | 1,2k | 1,1k | -15,2% |
 | Pecheniuhy | Печенюги | 52,05, 33 (Ukraine) | 7,7k | 7,1k | 6,6k | 6,3k | 5,9k | -23,1% |
 | Perekopivka | Перекоповка | 49,63, 33,54 (Ukraine) | 6,4k | 5,9k | 5,6k | 5,4k | 5,2k | -19,5% |
-| Peschanoye | Песчаное | 49,47, 33,98 (Ukraine) | 8k | 7,4k | 7k | 6,8k | 6,5k | -19,5% |
 | Petrashivka | Петрашовка | 49,1, 27,19 (Ukraine) | 1,4k | 1,2k | 990 | 916 | 799 | -44,2% |
-| Petrikovtsy | Петриковцы | 49,46, 26,48 (Ukraine) | 33,1k | 31k | 29,5k | 28,8k | 27,6k | -16,6% |
 | Petrivka | Петровка | 49,74, 34,98 (Ukraine) | 1,6k | 1,4k | 1,3k | 1,3k | 1,2k | -27,1% |
 | Petrove | Петрове; smt Petrove | 48,34, 33,27 (Ukraine) | 9,7k | 8,5k | 7,7k | 7,5k | 7k | -27,9% |
 | Piatka | Пятка | 50,02, 28,37 (Ukraine) | 985 | 876 | 803 | 770 | 714 | -27,5% |
-| Pidlisne | Федварь | 48,78, 32,25 (Ukraine) | 1,1k | 921 | 795 | 739 | 650 | -42,3% |
 | Pidvysoke | Подвысокое | 48,58, 30,68 (Ukraine) | 2,2k | 2k | 1,8k | 1,7k | 1,6k | -29,6% |
 | Pishchane | Пищане | 49,12, 33,4 (Ukraine) | 4,7k | 4,6k | 4,5k | 4,4k | 4,3k | -7,5% |
 | Pishchanka | Піщанка; Piščanka | 48,21, 28,88 (Ukraine) | 6,4k | 5,6k | 5,4k | 5,3k | 5,2k | -18,9% |
 | Pishchanyi Brid | Песчаный Брод | 48,28, 31,31 (Ukraine) | 2,9k | 2,6k | 2,4k | 2,3k | 2,1k | -26,6% |
 | Pisky | Пески | 50,37, 33,45 (Ukraine) | 2,1k | 2k | 1,9k | 1,8k | 1,8k | -18,3% |
-| Pisky | Пески | 51,68, 32,15 (Ukraine) | 12,1k | 11,1k | 10,4k | 10k | 9,3k | -23,1% |
 | Pletenyi Tashlyk | Плетеный Ташлык; Плетеный Ташлыкъ | 48,48, 31,67 (Ukraine) | 1,7k | 1,5k | 1,4k | 1,3k | 1,2k | -33% |
 | Plishyvets | Плешивецъ | 50,44, 34,2 (Ukraine) | 897 | 733 | 634 | 589 | 518 | -42,3% |
 | Ploska | Плоска | 50,5, 27,02 (Ukraine) | 8,4k | 7,9k | 7,5k | 7,3k | 7k | -16,6% |
@@ -1368,7 +1275,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Pohoriltsi | Погорельцы | 52,04, 32,51 (Ukraine) | 883 | 769 | 695 | 661 | 605 | -31,5% |
 | Pohrebyshche | Погребище; Pohrebyšče | 49,49, 29,26 (Ukraine) | 11,7k | 10,7k | 10,1k | 9,8k | 9,4k | -19,8% |
 | Pokotylove | Покотилова | 48,47, 30,69 (Ukraine) | 716 | 605 | 535 | 503 | 452 | -36,9% |
-| Pokrovske | Баба | 51,52, 32,34 (Ukraine) | 1,1k | 934 | 835 | 790 | 717 | -34,1% |
 | Polianka | Полянка; Poljanka | 50,26, 27,69 (Ukraine) | 1,7k | 1,8k | 1,7k | 1,7k | 1,6k | -7,1% |
 | Polonne | Полонне; Polonne | 50,12, 27,51 (Ukraine) | 24,7k | 23,1k | 22,1k | 21,7k | 20,5k | -17,2% |
 | Poltava | Poltava Governorate; Pultawa | 49,59, 34,55 (Ukraine) | 320k | 318k | 300k | 296k | 283,4k | -11,4% |
@@ -1380,7 +1286,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Popivka | Поповка | 49,45, 35,18 (Ukraine) | 3,1k | 2,9k | 2,7k | 2,6k | 2,5k | -18,9% |
 | Popivka | Поповка | 51,23, 33,11 (Ukraine) | 3,8k | 3,4k | 3,2k | 3k | 2,8k | -24,7% |
 | Portselianove | Порцелянове (Першотравенськ); Porceljanove (Peršotravenśk) | 50,2, 27,64 (Ukraine) | 4,1k | 3,6k | 3,7k | 3,6k | 3,3k | -19,4% |
-| Pravoberezhna Sokilka | Соколка | 49,02, 34,14 (Ukraine) | 12,5k | 11,6k | 10,9k | 10,6k | 10,1k | -19,5% |
 | Prokhory | Прохоры | 51,16, 32,19 (Ukraine) | 837 | 687 | 596 | 554 | 489 | -41,6% |
 | Prorub | Прорубъ | 51,18, 34,32 (Ukraine) | 3,6k | 3,2k | 3k | 2,9k | 2,8k | -23,1% |
 | Proskurov | Khmelnytskyi; Ploskyriv | 49,42, 26,99 (Ukraine) | 245k | 254k | 261k | 266k | 274,5k | +12% |
@@ -1389,7 +1294,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Pulyny | Пулини (Червоноармійськ); Pulyny (Červonoarmijśk) | 50,47, 28,27 (Ukraine) | 5,6k | 5,4k | 5,5k | 5,4k | 5,2k | -6,6% |
 | Putyvl | Путивль; Putyvľ | 51,34, 33,87 (Ukraine) | 19,5k | 17,2k | 16,6k | 16,2k | 15,1k | -22,6% |
 | Pyryatyn | Пирятин; Pyrjatyn | 50,24, 32,52 (Ukraine) | 18,4k | 16,6k | 16,3k | 15,9k | 15,1k | -17,7% |
-| Radohoshch | Радогощ | 50,96, 28,32 (Ukraine) | 12,3k | 11,4k | 10,9k | 10,7k | 10,2k | -17,5% |
 | Radomyshl | Радомишль; Radomyšľ | 50,5, 29,23 (Ukraine) | 16,9k | 15,3k | 15k | 14,9k | 14k | -17,5% |
 | Radul | Радуль; Raduľ | 51,83, 30,72 (Ukraine) | 1,1k | 782 | 582 | 550 | 464 | -58,2% |
 | Raihorodok | Райгородокъ | 49,83, 28,38 (Ukraine) | 891 | 808 | 752 | 726 | 682 | -23,5% |
@@ -1408,13 +1312,10 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Rososha | Россоше | 49,25, 29,19 (Ukraine) | 2k | 2k | 1,9k | 1,9k | 1,9k | -6,6% |
 | Rotmistrivka | Ротмістрівка; Мястковка | 49,15, 31,71 (Ukraine) | 2,5k | 2,2k | 2k | 2k | 1,8k | -27,5% |
 | Rozsoshentsi | Розсошенци | 49,54, 34,51 (Ukraine) | 7,4k | 7,2k | 7k | 7k | 6,8k | -7,5% |
-| Ruchky | Ручки | 50,32, 33,75 (Ukraine) | 11,7k | 10,8k | 10,2k | 9,9k | 9,4k | -19,5% |
-| Rudka | Рудка | 50,01, 32,53 (Ukraine) | 6,8k | 6,3k | 5,9k | 5,7k | 5,5k | -19,5% |
 | Rudnytsya | Рудниця; Rudnycja | 48,26, 28,93 (Ukraine) | 1,9k | 1,3k | 1,2k | 1,2k | 1,1k | -41,8% |
 | Ruska Poliana | Руська Поляна; Ruśka Poljana | 49,42, 31,92 (Ukraine) | 8,2k | 8,1k | 7,8k | 7,7k | 7,5k | -7,6% |
 | Ruzhyn | Ружин; Ružyn | 49,72, 29,22 (Ukraine) | 5,5k | 5,2k | 4,8k | 4,6k | 4,3k | -20,7% |
 | Ryzhanivka | Рыжановка | 49,1, 30,72 (Ukraine) | 1,1k | 930 | 830 | 784 | 710 | -34,7% |
-| Sakhnivs-hchyna | Сахновщина | 49,45, 34,97 (Ukraine) | 757 | 595 | 499 | 457 | 392 | -48,2% |
 | Salkove | Салькове; Saľkove | 48,26, 29,98 (Ukraine) | 2,1k | 2k | 1,8k | 1,8k | 1,6k | -24,7% |
 | Salnytsia | Сальниця; Saľnycja | 49,74, 28,02 (Ukraine) | 2,8k | 2,5k | 2,4k | 2,3k | 2,2k | -19,1% |
 | Salohubivka | Салогубовка | 50,79, 33,33 (Ukraine) | 5,1k | 4,5k | 4,3k | 4,1k | 3,9k | -23,1% |
@@ -1436,7 +1337,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Shpola | Шпола; Špola | 49,01, 31,39 (Ukraine) | 22,7k | 19,4k | 18,3k | 17,5k | 16,6k | -26,9% |
 | Shpykiv | Шпиків; Špykiv | 48,78, 28,56 (Ukraine) | 4,3k | 3,7k | 3,4k | 3,3k | 3k | -30,8% |
 | Shramkivka | Шрамківка; Šramkivka | 50,14, 32,13 (Ukraine) | 3,7k | 3,2k | 2,9k | 2,8k | 2,4k | -36,6% |
-| Shyriaieve | Ширяєве; Šyrjajeve | 51,31, 33,98 (Ukraine) | 7,7k | 7,2k | 6,8k | 6,8k | 6,4k | -16,8% |
 | Shyshaky | Шишаки; Šyšaky | 49,88, 34,01 (Ukraine) | 5,6k | 5,3k | 4,7k | 4,6k | 4,3k | -23,2% |
 | Skorokhodove | Скороходове (Артемівка); Skorochodove (Artemivka) | 49,77, 35,07 (Ukraine) | 4,3k | 3,6k | 3,4k | 3,4k | 3,2k | -24,8% |
 | Slavuta | Славута; Slavuta | 50,3, 26,87 (Ukraine) | 36,5k | 34,4k | 35,4k | 35,9k | 35,1k | -3,9% |
@@ -1452,10 +1352,8 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Sobych | Собич; Собичъ | 51,86, 33,26 (Ukraine) | 1,4k | 1,2k | 1,1k | 1,1k | 1k | -27,4% |
 | Sokilets | Соколецъ | 49,68, 28,88 (Ukraine) | 876 | 766 | 695 | 662 | 608 | -30,6% |
 | Sokolivka | Соколовка | 49,16, 26,86 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,2k | 1,1k | -24,8% |
-| Sokyryntsi | Секиринцы | 48,95, 26,2 (Ukraine) | 10,4k | 10,1k | 10k | 9,9k | 9,6k | -7,7% |
 | Solobkivtsi | Солобковцы | 49,09, 26,92 (Ukraine) | 2,2k | 1,9k | 1,6k | 1,6k | 1,4k | -36,1% |
 | Soniachne | Сонячне; Sonjačne | 50,19, 35,05 (Ukraine) | 1,1k | 979 | 919 | 891 | 844 | -23,6% |
-| Sosnivka | Сосновка | 51,78, 32,11 (Ukraine) | 4,6k | 4,3k | 4k | 3,8k | 3,6k | -23,1% |
 | Sosnytsia | Сосниця; Sosnycja | 51,52, 32,5 (Ukraine) | 8,3k | 8,1k | 7,6k | 7,3k | 6,7k | -18,9% |
 | Sribne | Срібне; Срибне | 50,66, 32,92 (Ukraine) | 3,9k | 3,6k | 3,3k | 3,2k | 3,1k | -21,8% |
 | Stanislavchyk | Станиславчикъ; Станиславчик | 48,97, 28,11 (Ukraine) | 2,9k | 2,6k | 2,4k | 2,3k | 2,1k | -28,6% |
@@ -1474,7 +1372,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Subottsi | Субботец | 48,65, 32,52 (Ukraine) | 2,6k | 2,5k | 2,4k | 2,4k | 2,3k | -11,7% |
 | Sudylkiv | Судилкив; Sudilkiv | 50,17, 27,13 (Ukraine) | 4,9k | 4,8k | 4,8k | 4,8k | 4,7k | -3,8% |
 | Sumy | Sumy Sugar Hub; Sumy Sloboda | 50,91, 34,8 (Ukraine) | 298k | 293k | 272k | 269k | 255,8k | -14,1% |
-| Suprotyvna Balka | Супротивная Балка | 49,4, 34,09 (Ukraine) | 12,6k | 11,6k | 11k | 10,7k | 10,1k | -19,5% |
 | Suprunivka | Супрунивка | 49,58, 34,44 (Ukraine) | 4,4k | 4,3k | 4,2k | 4,2k | 4,1k | -7,6% |
 | Sutysky | Сутиски; smt Sutysky | 49,04, 28,42 (Ukraine) | 7k | 6,3k | 6,2k | 6,2k | 5,9k | -15,4% |
 | Svarkove | Сварковъ | 51,62, 34,03 (Ukraine) | 1,1k | 852 | 731 | 677 | 592 | -43,7% |
@@ -1487,11 +1384,9 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Talalaivka | Талалаївка; Talalajivka | 50,84, 33,14 (Ukraine) | 5,9k | 5,2k | 5,1k | 5,1k | 4,6k | -20,8% |
 | Talianky | Тальянки | 48,81, 30,55 (Ukraine) | 1,5k | 1,4k | 1,3k | 1,2k | 1,1k | -24,5% |
 | Talne | Тальне; Taľne | 48,89, 30,7 (Ukraine) | 17,1k | 16,3k | 14,5k | 14,2k | 13k | -23,7% |
-| Tarasivka | Тарасовка | 50,25, 34,35 (Ukraine) | 1,3k | 1,2k | 1k | 987 | 901 | -32,3% |
 | Tarnoruda | Тарноруда | 49,41, 26,23 (Ukraine) | 689 | 608 | 555 | 530 | 489 | -29% |
 | Tashlyk | Ташлыкъ | 49,07, 31,73 (Ukraine) | 2k | 1,8k | 1,7k | 1,7k | 1,6k | -24% |
 | Teofipol | Теофіполь; Teofipoľ | 49,84, 26,42 (Ukraine) | 8k | 7,1k | 6,8k | 6,7k | 6,4k | -20,4% |
-| Teolyn | Теолинъ | 49,02, 29,95 (Ukraine) | 10,4k | 9,5k | 9k | 8,6k | 8,1k | -21,9% |
 | Teplyk | Теплик; smt Teplyk | 48,67, 29,74 (Ukraine) | 7,5k | 6,8k | 6,6k | 6,4k | 6,2k | -18,2% |
 | Terlytsia | Терлица | 48,93, 29,68 (Ukraine) | 640 | 552 | 496 | 470 | 428 | -33,1% |
 | Ternivka | Терновка | 49,13, 31,84 (Ukraine) | 1,4k | 1,2k | 1,1k | 998 | 902 | -35% |
@@ -1500,7 +1395,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Troianiv | Трояновъ; Троянов | 50,11, 28,53 (Ukraine) | 2,9k | 2,5k | 2,3k | 2,2k | 2k | -28,5% |
 | Trostianets | Trostyanets Sumy; Тростянець | 50,48, 34,97 (Ukraine) | 26k | 23,1k | 21,7k | 21,2k | 19,5k | -24,7% |
 | Trostyanets | Тростянець; Trostjaneć | 48,51, 29,23 (Ukraine) | 8,4k | 8,3k | 7,9k | 7,8k | 7,4k | -11,7% |
-| Trubiivka | Трубиевка | 49,8, 29,38 (Ukraine) | 11,9k | 11k | 10,6k | 10,3k | 9,8k | -17,5% |
 | Tsekynivka | Цекиновка | 48,15, 28,32 (Ukraine) | 1,7k | 1,6k | 1,6k | 1,5k | 1,5k | -15,7% |
 | Tsvitkove | Цвіткове; Cvitkove | 49,15, 31,53 (Ukraine) | 1,5k | 1,3k | 1,3k | 1,3k | 1,2k | -21,1% |
 | Tsvitne | Цветна | 48,96, 32,5 (Ukraine) | 1,1k | 940 | 842 | 797 | 724 | -33,8% |
@@ -1513,7 +1407,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Tyvriv | Тиврів; Тиврив | 49,01, 28,5 (Ukraine) | 5k | 4,7k | 4,3k | 4,2k | 3,9k | -22,1% |
 | Uhroidy | Угроїди; Uhrojidy | 50,86, 35,28 (Ukraine) | 3,1k | 2,4k | 2,2k | 2,1k | 1,9k | -40% |
 | Ulaniv | Уланов; Улановъ | 49,7, 28,13 (Ukraine) | 2,5k | 2,5k | 2,4k | 2,4k | 2,4k | -5,4% |
-| Ulianivka | Улянівка; Uljanivka | 50,97, 34,3 (Ukraine) | 3,2k | 2,8k | 2,6k | 2,5k | 2,2k | -30,7% |
 | Uman | Human; Uman Kyiv Gub | 48,75, 30,22 (Ukraine) | 92k | 89k | 87k | 86k | 81,5k | -11,4% |
 | Ushomyr | Ушомир | 50,86, 28,47 (Ukraine) | 1,2k | 1,1k | 1k | 1k | 979 | -14,9% |
 | Ustynivka | Устинівка; Устинивка | 47,96, 32,54 (Ukraine) | 4,8k | 4,1k | 3,6k | 3,5k | 3,3k | -31,8% |
@@ -1531,7 +1424,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Velyki Korovyntsi | Великі Коровинці; Velyki Korovynci | 49,98, 28,3 (Ukraine) | 3,2k | 2,7k | 2,4k | 2,3k | 2,2k | -33,1% |
 | Vendychany | Вендичани; Vendyčany | 48,62, 27,79 (Ukraine) | 4,2k | 4,3k | 4k | 3,9k | 3,7k | -11,7% |
 | Vepryk | Веприк; Веприкъ | 50,37, 34,18 (Ukraine) | 2,6k | 2,3k | 2,1k | 2,1k | 1,9k | -25% |
-| Vepryk | Веприкъ | 50,68, 31,62 (Ukraine) | 20,9k | 19,2k | 17,9k | 17,2k | 16,1k | -23,1% |
 | Verbovets | Вербовець; Verboveć | 48,72, 27,43 (Ukraine) | 742 | 627 | 599 | 588 | 568 | -23,5% |
 | Verkhivka | Верховка | 48,9, 27,65 (Ukraine) | 1,3k | 1,2k | 1,1k | 1k | 969 | -24,3% |
 | Verkhnya Syrovatka | Верхня Сироватка; Verkhnya Sirovatka | 50,83, 34,96 (Ukraine) | 4,1k | 4k | 3,9k | 3,8k | 3,7k | -9,9% |
@@ -1547,11 +1439,8 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Vinkivtsi | Віньківці; Vińkivci | 49,03, 27,23 (Ukraine) | 7,1k | 6,9k | 6,5k | 6,4k | 6,1k | -15,1% |
 | Vinnitsa | Vinnytsia; Winnica | 49,23, 28,47 (Ukraine) | 381k | 357k | 369k | 372k | 370,6k | -2,7% |
 | Vinnytski Khutory | Винницьки Хутори; Vinnitski Khutori | 49,21, 28,55 (Ukraine) | 7,9k | 7,7k | 7,5k | 7,5k | 7,3k | -6,7% |
-| Vinozh | Виножъ | 48,69, 27,7 (Ukraine) | 11,5k | 10,7k | 10,2k | 10k | 9,7k | -15,3% |
 | Viytivtsi | Війтівці; Vijtivci | 49,49, 26,44 (Ukraine) | 1,2k | 932 | 914 | 870 | 816 | -30,5% |
 | Vlasivka | Власівка; Власивка | 49,12, 33,28 (Ukraine) | 7,4k | 7,5k | 7,7k | 7,7k | 7,4k | +0,1% |
-| Vlasivka | Власовка | 50,17, 34,32 (Ukraine) | 704 | 606 | 544 | 515 | 468 | -33,5% |
-| Vlasivka | Петрушовка | 50,84, 32,65 (Ukraine) | 20,3k | 18,6k | 17,4k | 16,7k | 15,6k | -23,1% |
 | Volochysk | Волочиськ; Voločyśk | 49,54, 26,21 (Ukraine) | 25k | 20,8k | 19,8k | 19,6k | 18,5k | -26,1% |
 | Voronizh | Вороніж; Voroniž | 51,78, 33,46 (Ukraine) | 9k | 7,5k | 7,2k | 7,2k | 6,7k | -26,2% |
 | Voronky | Вороньки | 50,21, 33,03 (Ukraine) | 1,2k | 1k | 910 | 861 | 783 | -33,5% |
@@ -1560,15 +1449,13 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Vorozhba | Ворожба; Vorožba | 51,17, 34,23 (Ukraine) | 9,8k | 8,3k | 7,7k | 7,4k | 6,8k | -30,5% |
 | Vovkovyntsi | Вовковинці; Vovkovynci | 49,21, 27,66 (Ukraine) | 3,3k | 2,9k | 2,6k | 2,5k | 2,4k | -27,6% |
 | Yablunets | Яблунець; Jabluneć | 50,81, 28,07 (Ukraine) | 1,4k | 1,3k | 1,1k | 1,2k | 1,1k | -24,4% |
-| Yablunivka | Яблоновка | 50,28, 33,25 (Ukraine) | 6,5k | 6,1k | 5,7k | 5,5k | 5,3k | -19,5% |
 | Yablunivka | Яблуновка | 50,46, 32,18 (Ukraine) | 1,8k | 1,5k | 1,3k | 1,3k | 1,1k | -39,3% |
 | Yaltushkiv | Ялтушковъ | 48,99, 27,51 (Ukraine) | 1,8k | 1,6k | 1,6k | 1,5k | 1,4k | -19,6% |
 | Yampil | Ямпіль; Jampiľ | 48,24, 28,28 (Ukraine) | 12,2k | 11,7k | 11,3k | 11,3k | 10,8k | -11,9% |
-| Yampil | Ямпіль; Jampiľ | 51,95, 33,79 (Ukraine) | 6k | 5,1k | 4,7k | 4,6k | 4,4k | -27,5% |
 | Yampil | Ямпіль; Jampiľ | 49,96, 26,24 (Ukraine) | 2,2k | 2,1k | 2k | 2k | 1,8k | -17,1% |
+| Yampil | Ямпіль; Jampiľ | 51,95, 33,79 (Ukraine) | 6k | 5,1k | 4,7k | 4,6k | 4,4k | -27,5% |
 | Yaresky | Яреськи | 49,84, 33,91 (Ukraine) | 2,9k | 3k | 3k | 3,1k | 3,1k | +9,7% |
 | Yarmolyntsi | Ярмолинці; Jarmolynci | 49,19, 26,83 (Ukraine) | 9,8k | 8,9k | 8k | 7,8k | 7,3k | -25,8% |
-| Yaroshi | Яроши | 49,32, 33,18 (Ukraine) | 13,2k | 12,2k | 11,5k | 11,2k | 10,6k | -19,5% |
 | Yaroslavka | Ярославка | 50,67, 31,29 (Ukraine) | 1,2k | 1k | 934 | 890 | 819 | -30% |
 | Yaruha | Яруга | 48,33, 28,05 (Ukraine) | 775 | 676 | 611 | 582 | 533 | -31,2% |
 | Yaryshiv | Ярышевъ | 48,51, 27,63 (Ukraine) | 1,6k | 1,5k | 1,4k | 1,3k | 1,2k | -23,1% |
@@ -1592,7 +1479,6 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Zhitomir | Zhytomyr; Zytomierz | 50,25, 28,66 (Ukraine) | 298k | 284k | 272k | 271k | 261,6k | -12,2% |
 | Zhmerynka | Жмеринка; Žmerynka | 49,04, 28,11 (Ukraine) | 41,8k | 37,2k | 35,5k | 35,4k | 34,1k | -18,3% |
 | Zhovti Vody | Жовті Води; Žovti Vody | 48,35, 33,5 (Ukraine) | 63,4k | 53k | 48,4k | 47,3k | 42,9k | -32,3% |
-| Zhovtneve | Жовтневе; Žovtneve | 49,88, 34,52 (Ukraine) | 2,6k | 2,3k | 2,2k | 2,1k | 2k | -23% |
 | Zhukivka | Жуковка | 51,33, 31,68 (Ukraine) | 1,1k | 979 | 888 | 846 | 777 | -30,5% |
 | Zhuravka | Журавка | 50,48, 32,59 (Ukraine) | 2,3k | 2,2k | 2,1k | 2k | 2k | -15,5% |
 | Zhvanets | Жванецъ; Жванец | 48,55, 26,49 (Ukraine) | 1,7k | 1,5k | 1,4k | 1,4k | 1,3k | -27,2% |
@@ -1601,8 +1487,8 @@ by -25,5%, from 12,12M in 1991 to 9,03M in 2021 (Table )
 | Zinkiv | Зиньковъ | 49,09, 27,08 (Ukraine) | 1,5k | 1,5k | 1,4k | 1,4k | 1,3k | -12,8% |
 | Zlatopil | Златопіль; Zlatopiľ | 48,82, 31,65 (Ukraine) | 5,2k | 4,9k | 4,8k | 4,7k | 4,5k | -14,3% |
 | Zlynka | Злинка; Zlinka | 48,48, 31,54 (Ukraine) | 4,1k | 4k | 3,9k | 3,9k | 3,8k | -8,5% |
-| Znamyanka | Знам’янка; Znam’janka | 48,72, 32,66 (Ukraine) | 2,8k | 2,6k | 2,3k | 2,3k | 2,2k | -23,2% |
 | Znamyanka Druha | Знам’янка Друга; Znam’janka Druha | 48,71, 32,6 (Ukraine) | 6,2k | 5,8k | 5,2k | 5,1k | 5,1k | -18,3% |
+| Znamyanka | Знам’янка; Znam’janka | 48,72, 32,66 (Ukraine) | 2,8k | 2,6k | 2,3k | 2,3k | 2,2k | -23,2% |
 | Znob Novhorodske | Зноб-Новгородське; Znob-Novhorodśke | 52,26, 33,6 (Ukraine) | 2,6k | 2,2k | 2k | 1,9k | 1,9k | -27,8% |
 | Zolotonosha | Золотоноша; Zolotonoša | 49,67, 32,04 (Ukraine) | 31,3k | 28,7k | 28,5k | 28,3k | 27,5k | -12,3% |
 | Zoziv | Зозовъ | 49,32, 29,01 (Ukraine) | 1,8k | 1,7k | 1,6k | 1,5k | 1,4k | -20,6% |
@@ -1623,12 +1509,7 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Aleksandrovka | Александровка | 48,93, 35,53 (Ukraine) | 7,8k | 7,4k | 7,1k | 7k | 6,7k | -13,1% |
-| Aleksandrovka | Александровка | 49,8, 35,75 (Ukraine) | 5k | 4,6k | 4,4k | 4,2k | 4k | -19,6% |
 | Aleksandrovsk | Zaporizhzhia; Alexandrovsk | 47,84, 35,14 (Ukraine) | 897k | 815k | 780k | 766k | 710,1k | -20,8% |
-| Alekseyevka | Алексеевка | 49,75, 37,09 (Ukraine) | 10,6k | 9,7k | 9,2k | 8,9k | 8,5k | -19,6% |
-| Alferovo | Алферово | 48,38, 33,97 (Ukraine) | 10,6k | 10k | 9,7k | 9,5k | 9,2k | -13,1% |
-| Andriyivka | Андріївка; Andrijivka | 47,09, 36,59 (Ukraine) | 4k | 3,4k | 3k | 2,9k | 2,7k | -33,5% |
 | Andriyivka | Андріївка; Andrijivka | 49,54, 36,63 (Ukraine) | 10,6k | 9,6k | 9,1k | 8,9k | 8,5k | -19,7% |
 | Annovka | Анновка | 48,77, 35,12 (Ukraine) | 3,7k | 3,5k | 3,4k | 3,4k | 3,2k | -13,1% |
 | Apostolove | Апостолове; Apostolove | 47,66, 33,72 (Ukraine) | 18,2k | 16,3k | 14,6k | 14,3k | 13,2k | -27,3% |
@@ -1640,16 +1521,13 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Balakliia | Balakleya; Балаклія | 49,46, 36,85 (Ukraine) | 36k | 32k | 29,8k | 29,4k | 26,3k | -26,9% |
 | Balky | Балки; Balki | 47,39, 34,93 (Ukraine) | 4,7k | 4,7k | 4,6k | 4,5k | 4,5k | -5,6% |
 | Barvinkove | Барвінкове; Барвинкове | 48,91, 37,02 (Ukraine) | 14,9k | 12,8k | 10,4k | 9,5k | 8,1k | -45,6% |
-| Basan | Басань | 47,39, 36,17 (Ukraine) | 1,6k | 1,4k | 1,2k | 1,2k | 1,1k | -32,9% |
 | Bazaliivka | Базалеевка | 49,83, 36,99 (Ukraine) | 806 | 707 | 642 | 612 | 563 | -30,1% |
-| Belitskoye | Белицкое | 47,67, 35,72 (Ukraine) | 9,6k | 8,8k | 8,3k | 8k | 7,6k | -20,1% |
 | Berdyansk | Berdiansk; Berdyansk Azov Port | 46,76, 36,8 (Ukraine) | 135k | 122k | 117k | 115k | 106k | -21,5% |
 | Bereka | Берека | 49,47, 36,21 (Ukraine) | 1,2k | 1k | 872 | 810 | 712 | -42,4% |
 | Berestove | Берестовое | 47,14, 36,8 (Ukraine) | 3,2k | 2,8k | 2,5k | 2,3k | 2,1k | -34,9% |
 | Berestovenka | Берестовенька | 49,49, 35,59 (Ukraine) | 1,2k | 1k | 953 | 907 | 833 | -30,6% |
 | Berestyn | Берестин (Красноград); Berestyn (Krasnohrad) | 49,38, 35,44 (Ukraine) | 26,7k | 22,5k | 21,5k | 21,2k | 20k | -24,9% |
 | Berezivka | Березівка; Березивка | 49,91, 36,07 (Ukraine) | 1,8k | 1,7k | 1,6k | 1,6k | 1,6k | -12,9% |
-| Berezivka | Танюшевка | 49,62, 37,48 (Ukraine) | 1,8k | 1,7k | 1,6k | 1,6k | 1,6k | -13,1% |
 | Bezliudivka | Безлюдівка; Bezljudivka | 49,87, 36,28 (Ukraine) | 10,5k | 9,6k | 9,6k | 9,7k | 9,3k | -11,1% |
 | Bilenke | Биленьке | 47,63, 35,04 (Ukraine) | 5,6k | 5,4k | 5,3k | 5,2k | 5,1k | -8,6% |
 | Bilmak | Куйбишеве; smt Kujbyševe | 47,36, 36,65 (Ukraine) | 8,7k | 8k | 7,4k | 7k | 6,5k | -25,5% |
@@ -1659,24 +1537,17 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Birky | Бірки; Бирки | 49,72, 36,06 (Ukraine) | 740 | 653 | 543 | 549 | 534 | -27,8% |
 | Blahovis-hchenka | Благовещенка | 47,46, 34,83 (Ukraine) | 2,8k | 2,7k | 2,6k | 2,5k | 2,4k | -13,8% |
 | Blyzniuky | Близнюки; Blyznjuky | 48,86, 36,55 (Ukraine) | 5,7k | 4,9k | 4k | 3,9k | 3,6k | -38,1% |
-| Bogdanovskiy | Богдановка | 47,68, 34,12 (Ukraine) | 10,3k | 9,7k | 9,4k | 9,3k | 8,9k | -13,2% |
 | Bohdanivka | Богданивка; Bogdanivka | 48,5, 36,12 (Ukraine) | 4,3k | 4,2k | 4,1k | 4,1k | 4k | -6,7% |
-| Bohodarove | Богодарово | 48,85, 36,96 (Ukraine) | 22,9k | 21k | 19,8k | 19,3k | 18,4k | -19,6% |
 | Bohodukhiv | Богодухів; Bohoduchiv | 50,16, 35,52 (Ukraine) | 19,1k | 18k | 15,9k | 15,7k | 14,9k | -22,2% |
 | Bohuslav | Богуслав; Богуславъ | 48,47, 36,02 (Ukraine) | 3,4k | 3,3k | 3,2k | 3,2k | 3,1k | -6,5% |
 | Bohynivka | Брагинивка; smt Brahynivka | 48,49, 36,35 (Ukraine) | 716 | 692 | 862 | 844 | 814 | +13,7% |
-| Boltyshka | Болтышка | 48,23, 34,18 (Ukraine) | 55,9k | 53k | 51,5k | 50,4k | 48,6k | -13,1% |
 | Borodaivka | Бородаевка | 48,75, 34,12 (Ukraine) | 1,2k | 975 | 861 | 809 | 725 | -37,4% |
 | Borova | Борова; smt Borova | 49,38, 37,62 (Ukraine) | 7,5k | 6,8k | 5,9k | 5,7k | 5,2k | -30,7% |
-| Borysivka | Борисовка | 46,94, 35,62 (Ukraine) | 1,4k | 1,2k | 1k | 964 | 867 | -36,5% |
-| Bozhedarivka | Божедарівка (Щорськ); Božedarivka (Ščorśk) | 48,36, 34,11 (Ukraine) | 3,7k | 3,1k | 2,8k | 2,7k | 2,7k | -28,1% |
 | Bryhadyrivka | Бригадировка | 49,56, 37,08 (Ukraine) | 1,2k | 1k | 920 | 878 | 808 | -29,8% |
 | Budy | Буди; smt Budy | 49,89, 36,02 (Ukraine) | 8k | 7k | 6,4k | 6,3k | 5,9k | -25,9% |
 | Bugayevka | Бугаевка | 49,78, 37,15 (Ukraine) | 5,2k | 4,8k | 4,5k | 4,4k | 4,2k | -19,6% |
-| Bunchuzhne | Григорьевка | 48,1, 36,11 (Ukraine) | 1,5k | 1,1k | 942 | 858 | 729 | -50,3% |
 | Chapli | Чаплі; Čapli | 48,42, 35,16 (Ukraine) | 5k | 4,8k | 4,7k | 4,6k | 4,4k | -11,8% |
 | Chaplyne | Чаплине; Čaplyne | 48,13, 36,23 (Ukraine) | 4,8k | 4,1k | 3,9k | 3,9k | 3,7k | -23,4% |
-| Chaplynka | Чаплинка | 48,73, 34,78 (Ukraine) | 2,8k | 2,4k | 2,2k | 2k | 1,9k | -33,5% |
 | Cherkaska Lozova | Черкаська Лозова | 50,11, 36,22 (Ukraine) | 4,1k | 4k | 3,9k | 3,9k | 3,8k | -8,6% |
 | Cherkaske | Черкаське; Čerkaśke | 48,71, 35,38 (Ukraine) | 3,9k | 3,7k | 4,1k | 4,3k | 4,2k | +7,1% |
 | Chernihivka | Чернігівка; Černihivka | 47,19, 36,22 (Ukraine) | 8,4k | 7,5k | 6,4k | 6,1k | 5,6k | -32,9% |
@@ -1687,7 +1558,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Derhachi | Дергачі; Derhači | 50,11, 36,12 (Ukraine) | 22,4k | 20,1k | 18,3k | 18,2k | 17,4k | -22,3% |
 | Devladove | Девладове | 48,1, 33,75 (Ukraine) | 1,1k | 942 | 914 | 895 | 863 | -21,4% |
 | Diyivka | Диевка | 48,47, 34,88 (Ukraine) | 9,7k | 9,2k | 8,9k | 8,7k | 8,4k | -13,1% |
-| Dneprovka | Днепровка | 47,38, 35,57 (Ukraine) | 14,7k | 13,5k | 12,8k | 12,4k | 11,8k | -20,1% |
 | Dniprodz-erzhynsk | Kamianske; Кам’янське (Дніпродзержинськ) | 48,52, 34,62 (Ukraine) | 284k | 256k | 244k | 241k | 226,8k | -20,1% |
 | Dniprorudne | Дніпрорудне; Днипрорудне | 47,39, 35 (Ukraine) | 23,6k | 20,9k | 19,7k | 19,4k | 18k | -23,7% |
 | Dniprove | Ямбургъ | 48,34, 35,15 (Ukraine) | 8,2k | 7,8k | 7,6k | 7,4k | 7,1k | -13,1% |
@@ -1701,11 +1571,10 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Ekaterinoslav | Dnipro; Dnipropet-rovsk | 48,46, 35,05 (Ukraine) | 1,19M | 1,06M | 1M | 993k | 968,5k | -18,5% |
 | Enerhodar | Zaporizhzhia NPP Energy City (Founded 1970); Енергодар | 47,5, 34,66 (Ukraine) | 51k | 55,9k | 54,4k | 54,5k | 52,2k | +2,4% |
 | Eskhar | Есхар; Eschar | 49,8, 36,59 (Ukraine) | 6,8k | 5,5k | 5,5k | 5,5k | 5,2k | -22,6% |
-| Fedorivka | Федоровка | 46,99, 35,27 (Ukraine) | 2,1k | 2k | 1,8k | 1,8k | 1,7k | -20,8% |
 | Fedorivka | Федоровка | 48,99, 36,16 (Ukraine) | 16,8k | 15,4k | 14,5k | 14,1k | 13,5k | -19,6% |
+| Fedorivka | Федоровка | 46,99, 35,27 (Ukraine) | 2,1k | 2k | 1,8k | 1,8k | 1,7k | -20,8% |
 | Grushevka | Грушевка | 47,07, 34,53 (Ukraine) | 7,2k | 6,8k | 6,4k | 6,2k | 6k | -16,9% |
 | Havrylivka | Гаврилівка | 49,41, 37,51 (Ukraine) | 1,1k | 838 | 673 | 603 | 498 | -56% |
-| Havrylivka | Гавриловка | 47,07, 34,71 (Ukraine) | 1,4k | 1,1k | 985 | 918 | 813 | -40,7% |
 | Heivka | Геевка | 49,5, 36,49 (Ukraine) | 7,3k | 6,7k | 6,3k | 6,1k | 5,9k | -19,6% |
 | Hirnytske | Гірницьке; Hirnyćke | 47,72, 34,15 (Ukraine) | 408 | 372 | 370 | 360 | 342 | -16,2% |
 | Hirsivka | Гирсовка | 46,64, 35,39 (Ukraine) | 1,6k | 1,3k | 1,2k | 1,1k | 990 | -36,8% |
@@ -1713,17 +1582,12 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Horokhovatka | Гороховатка | 49,34, 37,53 (Ukraine) | 688 | 565 | 490 | 456 | 402 | -41,6% |
 | Hubynykha | Губиниха; Hubynycha | 48,81, 35,26 (Ukraine) | 6,1k | 5,9k | 5,7k | 5,6k | 5,4k | -11,3% |
 | Huliaipole | Gulyaypole; Makhno HQ | 47,66, 36,26 (Ukraine) | 19,5k | 16,9k | 14,7k | 14,2k | 12,8k | -34,3% |
-| Huty | Гути; smt Huty | 50,13, 35,34 (Ukraine) | 2,2k | 2k | 1,8k | 1,8k | 1,7k | -23,9% |
 | Ihren | Ігрень; Ihreń | 48,47, 35,2 (Ukraine) | 23,3k | 22,1k | 21,4k | 21k | 20,3k | -13,1% |
 | Inhulets | Інгулець; Inhuleć | 47,73, 33,25 (Ukraine) | 38,9k | 40,1k | 49,9k | 48,9k | 47,2k | +21,3% |
 | Inzivka | Инзовка | 46,75, 36,08 (Ukraine) | 1,4k | 1,3k | 1,2k | 1,1k | 1k | -28,2% |
-| Ivanchukivka | Иванчуковка | 49,37, 37,19 (Ukraine) | 26,3k | 24,1k | 22,7k | 22,1k | 21,1k | -19,6% |
 | Ivanivka | Ивановка | 47,48, 34,76 (Ukraine) | 2,7k | 2,4k | 2,2k | 2,1k | 2k | -27% |
 | Izyum | Izium; Izyum Donets | 49,21, 37,26 (Ukraine) | 64k | 56k | 52k | 51k | 45k | -29,7% |
-| Kalynivske | Калиновское | 47,86, 36,46 (Ukraine) | 6k | 5,7k | 5,6k | 5,4k | 5,2k | -13,1% |
 | Kamiana Yaruha | Каменная Яруга | 49,89, 36,6 (Ukraine) | 2k | 1,9k | 1,9k | 1,8k | 1,8k | -7,5% |
-| Kamianka | Кам’янка (Куйбишеве, Більмак); Kam’janka (Kujbyševe, Biľmak) | 47,23, 36,02 (Ukraine) | 9,1k | 8,1k | 7,5k | 7,3k | 6,5k | -28,4% |
-| Kamianka | Камянка | 49,4, 36,41 (Ukraine) | 1,2k | 1,1k | 1k | 958 | 884 | -29,3% |
 | Kamianka | Каменка | 49,12, 37,29 (Ukraine) | 907 | 825 | 770 | 744 | 701 | -22,7% |
 | Kamyane | Кам’яне; Kam’jane | 47,88, 35,4 (Ukraine) | 1,6k | 1,3k | 1,2k | 1,2k | 1,1k | -29% |
 | Kamyanka-Dniprovska | Кам’янка-Дніпровська; Kam’janka-Dniprovśka | 47,5, 34,41 (Ukraine) | 17,8k | 15,4k | 13,7k | 13,4k | 12,3k | -30,6% |
@@ -1733,7 +1597,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Khorosheve | Хорошеве; Choroševe | 49,85, 36,23 (Ukraine) | 4,6k | 4,6k | 4,3k | 4,3k | 4,1k | -11,5% |
 | Khotimlia | Хотомля | 50,02, 36,88 (Ukraine) | 1,4k | 1,2k | 1,1k | 1,1k | 985 | -29,1% |
 | Khrystof-orivka | Христофорівка; Chrystof-orivka | 47,98, 33,09 (Ukraine) | 1,9k | 1,6k | 1,5k | 1,4k | 1,4k | -30,1% |
-| Khutor Dergachi | Деркачи | 49,96, 35,48 (Ukraine) | 14k | 15,2k | 16,1k | 16,6k | 17,4k | +24,3% |
 | Kinski Rozdory | Конские Раздоры | 47,41, 36,42 (Ukraine) | 3,2k | 2,8k | 2,6k | 2,5k | 2,4k | -25,1% |
 | Kivsharivka | Ківшарівка; Kivšarivka | 49,63, 37,68 (Ukraine) | 24,8k | 20,3k | 19,6k | 19,3k | 18,3k | -26,1% |
 | Kocherezhky | Кочережки | 48,67, 35,69 (Ukraine) | 1,8k | 1,6k | 1,5k | 1,4k | 1,3k | -25,9% |
@@ -1743,10 +1606,8 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Komarivka | Комарівка | 49,29, 37,48 (Ukraine) | 1,1k | 749 | 559 | 483 | 374 | -66,6% |
 | Komysh-Zorya | Комиш-Зоря; Komyš-Zorja | 47,33, 36,7 (Ukraine) | 2,8k | 2,4k | 2,3k | 2,3k | 2,1k | -24,4% |
 | Komyshuvakha | Комишуваха; Komyšuvacha | 47,71, 35,52 (Ukraine) | 6,5k | 5,4k | 5,4k | 5,4k | 5,2k | -20% |
-| Konstant-inovka | Константиновка; Камянка | 46,52, 34,84 (Ukraine) | 972 | 798 | 691 | 643 | 567 | -41,7% |
 | Korobchyne | Коробочкино | 49,78, 36,81 (Ukraine) | 2,6k | 2,6k | 2,6k | 2,6k | 2,6k | -2,9% |
 | Korotych | Коротич; Korotyč | 49,95, 36,04 (Ukraine) | 5,3k | 5,1k | 5,1k | 5,2k | 5k | -6,6% |
-| Kostyant-ynivka | Костянтинівка; Kostjant-ynivka | 49,95, 35,11 (Ukraine) | 2,3k | 1,9k | 1,5k | 1,3k | 1,1k | -51,6% |
 | Kostyant-ynivka | Костянтинивка; Kostyant-inivka | 46,82, 35,42 (Ukraine) | 11,1k | 10,7k | 10,5k | 10,3k | 10,1k | -8,6% |
 | Kotovka | Котовка | 49,13, 34,94 (Ukraine) | 2,9k | 2,7k | 2,5k | 2,4k | 2,3k | -21% |
 | Koviahy | Ков’яги; Kov’jahy | 49,9, 35,56 (Ukraine) | 3,9k | 3,5k | 3,2k | 3,1k | 3k | -22,7% |
@@ -1756,11 +1617,9 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Krasnopa-vlivka | Краснопавлівка; Краснопавливка | 49,14, 36,32 (Ukraine) | 8,6k | 7,7k | 7,4k | 7,3k | 6,8k | -21,5% |
 | Krinichki | Кринички; Krynyčky | 48,53, 36,2 (Ukraine) | 5k | 4,7k | 4,4k | 4,2k | 4k | -18,9% |
 | Krivoy Rog | Kryvyi Rih; Krivbass Iron | 47,91, 33,39 (Ukraine) | 724k | 669k | 670k | 652k | 603,9k | -16,6% |
-| Krynychuvate | Криничеватое | 47,91, 34,32 (Ukraine) | 10,4k | 9,8k | 9,6k | 9,4k | 9k | -13,1% |
 | Kulynychi | Кулиничі; Kulynyči | 49,98, 36,38 (Ukraine) | 3,5k | 3,1k | 3,1k | 3,1k | 3k | -14,6% |
 | Kunie | Кунье | 49,39, 37,25 (Ukraine) | 1k | 881 | 786 | 743 | 672 | -34,8% |
 | Kupiansk | Kupyansk; Куп’янськ | 49,71, 37,62 (Ukraine) | 35,3k | 32,1k | 30k | 29,2k | 26,6k | -24,5% |
-| Kupievakha | Купьеваха | 50,21, 35,26 (Ukraine) | 15,7k | 14,4k | 13,5k | 13,2k | 12,6k | -19,6% |
 | Kupyansk-Vuzlovyi | Куп’янськ-Вузловий; Kup’janśk-Vuzlovyj | 49,67, 37,64 (Ukraine) | 13,1k | 9,6k | 9,1k | 8,9k | 8,4k | -36,1% |
 | Kurylivka | Курилівка; Куриливка | 48,58, 34,61 (Ukraine) | 2,5k | 2,5k | 2,6k | 2,6k | 2,4k | -2,8% |
 | Kurylivka | Куриловка | 49,66, 37,7 (Ukraine) | 3,1k | 2,9k | 2,8k | 2,7k | 2,6k | -18,2% |
@@ -1769,7 +1628,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Kytayhorod | Китайгородъ | 48,9, 34,45 (Ukraine) | 2,1k | 2,1k | 2k | 2k | 2k | -6% |
 | Lageri | Лагері; Laheri | 49,47, 36,8 (Ukraine) | 4,4k | 4k | 3,8k | 3,7k | 3,5k | -19,6% |
 | Lenivka | Ленивка | 49,34, 36,01 (Ukraine) | 7,8k | 7,1k | 6,7k | 6,5k | 6,2k | -19,6% |
-| Lipetskoye | Липецкое | 50,28, 36,34 (Ukraine) | 10,6k | 9,7k | 9,2k | 8,9k | 8,5k | -19,6% |
 | Liubivka | Любовка | 50,02, 35,06 (Ukraine) | 916 | 825 | 765 | 737 | 690 | -24,7% |
 | Liubotyn | Люботин; Ljubotyn | 49,95, 35,93 (Ukraine) | 28,5k | 23,8k | 21,8k | 21,9k | 20,4k | -28,6% |
 | Loshkarivka | Лошкарівка; Loškarivka | 47,94, 34,16 (Ukraine) | 322 | 277 | 269 | 263 | 254 | -21,1% |
@@ -1798,7 +1656,7 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Merefa | Мерефа; Merefa | 49,82, 36,06 (Ukraine) | 28,7k | 24,7k | 22,4k | 22,4k | 21,4k | -25,4% |
 | Mezhova | Межова; Mežova | 48,25, 36,73 (Ukraine) | 8,9k | 8,1k | 7,5k | 7,5k | 7,2k | -19,8% |
 | Mezhyrich | Межеричь | 48,56, 35,77 (Ukraine) | 4k | 3,7k | 3,5k | 3,5k | 3,3k | -16,8% |
-| Mikhaylovka | Михайловка | 48,88, 35,35 (Ukraine) | 7,3k | 7k | 6,7k | 6,6k | 6,4k | -13,1% |
+| Mikhaylovka | Елисаветградовка; Михайловка | 47,27, 35,22 (Ukraine) | 15,2k | 14,3k | 13,5k | 13,2k | 12,6k | -16,9% |
 | Milova | Меловая | 49,45, 36,7 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,1k | 998 | -34,9% |
 | Mohyliv | Могилев; Могилевъ | 48,87, 34,49 (Ukraine) | 4k | 3,8k | 3,6k | 3,5k | 3,3k | -18,5% |
 | Molochansk | Молочанськ; Moločanśk | 47,2, 35,6 (Ukraine) | 9,1k | 7,9k | 7,2k | 6,9k | 6,2k | -31,6% |
@@ -1807,19 +1665,15 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Murafa | Мурафа | 50,05, 35,33 (Ukraine) | 2,8k | 2,6k | 2,5k | 2,4k | 2,3k | -17,6% |
 | Mykhailivka | Михайлівка; Mychajlivka | 47,95, 35,26 (Ukraine) | 15,2k | 13,6k | 12,7k | 12,5k | 11,7k | -22,9% |
 | Mykolaivka | Миколаївка; Mykolajivka | 48,36, 34,69 (Ukraine) | 1,5k | 1,3k | 1,3k | 1,3k | 1,2k | -22,3% |
-| Myrne | Мирне | 47,7, 33,01 (Ukraine) | 501 | 455 | 442 | 433 | 417 | -16,8% |
 | Myrne | Мирне; smt Myrne | 46,95, 35,44 (Ukraine) | 3,5k | 3,1k | 3,1k | 3,1k | 2,9k | -16% |
 | Myrove | Мирове | 47,77, 34,73 (Ukraine) | 997 | 1k | 1k | 990 | 955 | -4,2% |
 | Nadiyivka | Жданове; Ždanove | 48,23, 34,75 (Ukraine) | 1,3k | 1,2k | 1,1k | 1,1k | 1,1k | -20,5% |
-| Nelhivka | Нельговка | 47,05, 36,25 (Ukraine) | 16,2k | 14,8k | 14k | 13,6k | 12,9k | -20,1% |
 | Nikopol | Nikopol Manganese; Нікополь | 47,57, 34,4 (Ukraine) | 159k | 136k | 122k | 117k | 105,2k | -33,9% |
 | Nova Vodolaha | Нова Водолага; smt Nova Vodolaha | 49,72, 35,86 (Ukraine) | 15k | 13,5k | 12,1k | 11,6k | 10,6k | -29,1% |
-| Novo-Aleksandrovka | Ново-Александровка | 48,02, 35,11 (Ukraine) | 8,3k | 7,6k | 7,2k | 7k | 6,6k | -20,1% |
 | Novo-Nikolayevka | Ново Николаевка | 49,54, 36,8 (Ukraine) | 5,6k | 5,1k | 4,8k | 4,7k | 4,5k | -19,6% |
 | Novomyko-layivka | Новомиколаївка; Novomyko-lajivka | 48,56, 34,38 (Ukraine) | 4k | 4k | 4,1k | 4,2k | 3,9k | -4,3% |
 | Novomyko-layivka | Новомиколаївка; Novomyko-lajivka | 47,97, 35,9 (Ukraine) | 6,1k | 5,7k | 5,5k | 5,4k | 5,1k | -17,5% |
 | Novoolek-sandrivka | Новоолександривка | 48,35, 34,99 (Ukraine) | 4,8k | 4,7k | 4,6k | 4,6k | 4,5k | -6,7% |
-| Novopokrovka | Новопокровка; smt Novopokrovka | 48,06, 34,61 (Ukraine) | 2,6k | 2,2k | 2k | 1,9k | 1,7k | -32% |
 | Novopokrovka | Новопокровка; smt Novopokrovka | 49,84, 36,55 (Ukraine) | 5,2k | 5k | 4,8k | 4,8k | 4,7k | -9% |
 | Novoselovka | Новоселовка | 49,82, 37,76 (Ukraine) | 4,9k | 4,5k | 4,2k | 4,1k | 3,9k | -19,6% |
 | Novovasylivka | Нововасилівка; Нововасиливка | 46,83, 35,76 (Ukraine) | 3,3k | 2,8k | 2,6k | 2,4k | 2,2k | -33,4% |
@@ -1827,12 +1681,10 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Novovoro-ntsovka | Нововоронцовка; Novovoro-ncovka | 47,5, 33,92 (Ukraine) | 7,4k | 7,1k | 6,6k | 6,4k | 6,1k | -18,2% |
 | Obukhivka | Обухівка (Кіровське); Obuchivka (Kirovśke) | 48,55, 34,85 (Ukraine) | 8k | 8,3k | 9,1k | 9,3k | 9,2k | +14,3% |
 | Okhoche | Охочее | 49,56, 36,03 (Ukraine) | 1,8k | 1,6k | 1,4k | 1,4k | 1,3k | -28,5% |
-| Olshanka | Ольшанка | 49,65, 36,18 (Ukraine) | 18k | 16,5k | 15,6k | 15,2k | 14,5k | -19,6% |
 | Orikhiv | Orekhov; Оріхів | 47,57, 35,78 (Ukraine) | 21,4k | 17,8k | 15,7k | 15,2k | 13,9k | -34,9% |
 | Orilka | Орілька; Oriľka | 48,97, 36,02 (Ukraine) | 4,1k | 3,8k | 3,4k | 3,3k | 2,9k | -28,5% |
 | Orlivshchyna | Орливщина; Orlivshchina | 48,64, 35,33 (Ukraine) | 4,2k | 4,3k | 4,3k | 4,3k | 4,4k | +5,1% |
 | Parkhomivka | Пархомовка | 50,12, 35,01 (Ukraine) | 3,1k | 3k | 2,9k | 2,9k | 2,9k | -6,3% |
-| Pavlivka | Павловка | 49,78, 35,89 (Ukraine) | 1,2k | 1,1k | 988 | 945 | 873 | -28,7% |
 | Pavlohrad | Pavlograd Western Donbas; Павлоград | 48,53, 35,87 (Ukraine) | 134k | 119k | 111k | 110k | 101,4k | -24,3% |
 | Pechenihy | Печеніги; Pečenihy | 49,87, 36,94 (Ukraine) | 6,4k | 6k | 5,6k | 5,5k | 5,1k | -21,2% |
 | Perekip | Перекопъ | 49,88, 35,5 (Ukraine) | 772 | 664 | 595 | 563 | 511 | -33,8% |
@@ -1841,7 +1693,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Peresichna | Пересічне (Пересічна); Peresične (Peresična) | 50,02, 35,98 (Ukraine) | 8k | 7,1k | 7,1k | 7,1k | 6,9k | -13,6% |
 | Petrivske | Петровская; Петровское | 49,17, 36,9 (Ukraine) | 3,3k | 3k | 2,9k | 2,8k | 2,7k | -18,4% |
 | Petropavlivka | Петропавлівка; Петропавливка | 48,46, 36,43 (Ukraine) | 10,1k | 9,1k | 7,9k | 7,5k | 6,8k | -33,1% |
-| Petropavlivka | Петропавловка | 49,72, 37,71 (Ukraine) | 2,3k | 2,2k | 2k | 2k | 1,9k | -19,6% |
 | Petrykivka | Петриківка; Петрикивка | 48,73, 34,62 (Ukraine) | 5,2k | 5k | 4,8k | 4,7k | 4,5k | -12,5% |
 | Pidhorodnye | Підгороднє (Підгородне); Pidhorodnje (Pidhorodne) | 48,57, 35,1 (Ukraine) | 19,2k | 17,8k | 19,1k | 19,5k | 19,3k | +0,7% |
 | Pishchanka | Пищанка; Песчанка | 48,61, 35,33 (Ukraine) | 3,7k | 3,7k | 3,8k | 3,8k | 3,8k | +1,8% |
@@ -1872,7 +1723,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Rohan | Рогань; Rohań | 49,9, 36,48 (Ukraine) | 5,3k | 5k | 3,9k | 3,7k | 3,4k | -36,7% |
 | Rozdory | Роздори; smt Rozdory | 48,33, 35,71 (Ukraine) | 1,9k | 1,9k | 1,8k | 1,8k | 1,7k | -14,3% |
 | Rozivka | Розівка; Розивка | 47,4, 37,07 (Ukraine) | 4,9k | 4,3k | 3,6k | 3,4k | 3k | -38,2% |
-| Rubanovka | Рубановка | 49,87, 35,62 (Ukraine) | 18,1k | 16,6k | 15,7k | 15,3k | 14,6k | -19,6% |
 | Ruska Lozova | Руська Лозова | 50,14, 36,29 (Ukraine) | 5k | 4,9k | 4,7k | 4,7k | 4,6k | -8,6% |
 | Sad | Сад; smt Sad | 48,43, 35,25 (Ukraine) | 521 | 475 | 477 | 480 | 493 | -5,4% |
 | Sakhnovs-hchyna | Сахновщина; Sachnovščyna | 49,15, 35,87 (Ukraine) | 9,9k | 8,5k | 7,7k | 7,5k | 7k | -29,3% |
@@ -1880,14 +1730,12 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Samar | Самар (Новомосковськ); Samar (Novomoskovśk) | 48,63, 35,26 (Ukraine) | 76,5k | 72,2k | 70,1k | 71,3k | 70,2k | -8,2% |
 | Savyntsi | Савинці; Savynci | 49,4, 37,05 (Ukraine) | 5,9k | 5,5k | 5,2k | 5,1k | 5,3k | -10,7% |
 | Semenivka | Семеновское | 46,9, 35,41 (Ukraine) | 2,7k | 2,6k | 2,5k | 2,5k | 2,4k | -9,4% |
-| Seryy Khutor | Серые Хутора | 47,06, 34,98 (Ukraine) | 10,3k | 9,5k | 9k | 8,7k | 8,3k | -20,1% |
 | Shakhtarske | Шахтарське (Першотравенськ); Šachtarśke (Peršotravenśk) | 48,35, 36,4 (Ukraine) | 29,1k | 29k | 29,1k | 29k | 27,6k | -5,2% |
 | Sharivka | Шарівка; Šarivka | 50,02, 35,45 (Ukraine) | 2,1k | 1,9k | 1,7k | 1,7k | 1,6k | -23,4% |
 | Shebelynka | Шебелинка | 49,45, 36,52 (Ukraine) | 9,2k | 8,5k | 8k | 7,8k | 7,4k | -19,6% |
 | Sheludkivka | Шелудковка | 49,69, 36,54 (Ukraine) | 2,6k | 2,4k | 2,4k | 2,3k | 2,3k | -11,8% |
 | Shestakove | Непокрытое | 50,08, 36,62 (Ukraine) | 783 | 648 | 564 | 526 | 466 | -40,5% |
 | Shevchenkove | Шевченкове; Ševčenkove | 49,7, 37,18 (Ukraine) | 7,9k | 7,3k | 7,2k | 7,1k | 6,7k | -14,7% |
-| Shirokaya | Широкая | 47,03, 37,07 (Ukraine) | 11,2k | 10,3k | 9,7k | 9,4k | 8,9k | -20,1% |
 | Sholokhove | Шолохово | 47,69, 33,99 (Ukraine) | 3,2k | 3k | 2,9k | 2,8k | 2,7k | -14,4% |
 | Shulhivka | Шульговка | 48,75, 34,39 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,2k | 1,1k | -24,9% |
 | Shyroke | Широке; Šyroke | 47,69, 33,26 (Ukraine) | 11,8k | 11,3k | 10,3k | 10,4k | 9,8k | -16,9% |
@@ -1896,7 +1744,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Slavhorod | Славгород; smt Slavhorod | 48,1, 35,52 (Ukraine) | 2,8k | 2,5k | 2,3k | 2,3k | 2,1k | -23,7% |
 | Slobozhanske | Слобожанське (Ювілейне); Slobožanśke (Juvilejne) | 48,53, 35,07 (Ukraine) | 10,3k | 11,2k | 12,2k | 12,9k | 14,3k | +39,3% |
 | Slobozhanske | Слобожанське (Комсомольське); Slobožanśke (Komsomoľśke) | 49,59, 36,52 (Ukraine) | 16,2k | 15,9k | 15k | 14,7k | 13,9k | -14,5% |
-| Slobozhanske | Чапаєве; smt Čapajeve | 49,37, 35,87 (Ukraine) | 2,9k | 2,9k | 2,8k | 2,7k | 2,6k | -12,1% |
 | Slovyanka | Славянка | 48,4, 36,72 (Ukraine) | 2,3k | 2k | 1,9k | 1,8k | 1,7k | -25,4% |
 | Sofiyivka | Софіївка; Sofijivka | 48,05, 33,87 (Ukraine) | 8,7k | 8,3k | 7,2k | 7k | 6,5k | -25,7% |
 | Sokolove | Соколово | 49,71, 36,19 (Ukraine) | 1,5k | 1,4k | 1,3k | 1,3k | 1,2k | -19,6% |
@@ -1905,16 +1752,14 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Spaske | Спасское | 48,66, 35,05 (Ukraine) | 3k | 2,9k | 2,9k | 2,9k | 2,8k | -6,6% |
 | Starovirivka | Староверовка | 49,55, 35,75 (Ukraine) | 3,5k | 3,1k | 2,9k | 2,8k | 2,7k | -23,6% |
 | Staryi Saltiv | Старий Салтів; Staryj Saltiv | 50,07, 36,79 (Ukraine) | 4,5k | 3,9k | 3,7k | 3,6k | 3,4k | -24,4% |
-| Staryy | Городъ Старый | 50,4, 37,48 (Russia) | 7,4k | 7,8k | 7,9k | 7,8k | 7,6k | +3,2% |
 | Staryy Merchyk | Старий Мерчик; Staryj Merčyk | 49,98, 35,76 (Ukraine) | 1,9k | 1,8k | 1,8k | 1,8k | 1,8k | -7,2% |
+| Staryy | Городъ Старый | 50,4, 37,48 (Russia) | 7,4k | 7,8k | 7,9k | 7,8k | 7,6k | +3,2% |
 | Stepnohirsk | Степногірськ; Stepnohirśk | 47,59, 35,36 (Ukraine) | 6,2k | 4,7k | 4,5k | 4,5k | 4,3k | -30,3% |
 | Stetskivka | Стецковка | 49,92, 37,53 (Ukraine) | 8,3k | 7,6k | 7,1k | 7k | 6,6k | -19,6% |
-| Surske | Сурское | 48,31, 34,6 (Ukraine) | 5,6k | 5,3k | 5,2k | 5,1k | 4,9k | -13,1% |
 | Sursko-Lytovske | Сурсько-Литовське; Sursko-Litovske | 48,34, 34,94 (Ukraine) | 4,6k | 4,5k | 4,4k | 4,3k | 4,3k | -6,7% |
 | Sviatova-sylivka | Єлізарове; Jelizarove | 48,18, 34,56 (Ukraine) | 986 | 959 | 931 | 912 | 879 | -10,9% |
 | Synelnykove | Синельникове; Syneľnykove | 48,32, 35,53 (Ukraine) | 37,8k | 32,1k | 31,6k | 31,6k | 30k | -20,6% |
 | Taranivka | Таранивка; Тарановка | 49,63, 36,15 (Ukraine) | 4,5k | 4,4k | 4,3k | 4,3k | 4,2k | -7,7% |
-| Tarasovka | Тарасовка | 50, 35,62 (Ukraine) | 7,7k | 7,1k | 6,7k | 6,5k | 6,2k | -19,6% |
 | Taromske | Таромське; Taromśke | 48,44, 34,79 (Ukraine) | 14k | 15,7k | 14,3k | 14k | 13,5k | -3,7% |
 | Tavryiske | Жеребец; Жеребецъ | 47,65, 35,7 (Ukraine) | 3,5k | 3,2k | 3k | 2,9k | 2,7k | -23,2% |
 | Ternivka | Тернівка; Тернивка | 48,53, 36,07 (Ukraine) | 33,7k | 29,2k | 29k | 28,9k | 27,3k | -19% |
@@ -1922,7 +1767,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Ternovka | Терновка | 49,35, 37,39 (Ukraine) | 5,8k | 5,4k | 5,1k | 4,9k | 4,7k | -19,6% |
 | Ternuvate | Тернувате; smt Ternuvate | 47,83, 36,13 (Ukraine) | 1,7k | 1,6k | 1,5k | 1,4k | 1,3k | -25,9% |
 | Terny | Терни | 48,15, 33,56 (Ukraine) | 16k | 19,6k | 23,3k | 22,8k | 22k | +37,7% |
-| Terny | Терны | 49,89, 38,03 (Ukraine) | 14,2k | 13,1k | 12,3k | 12k | 11,4k | -19,6% |
 | Terpinnia | Терпиння; Terpinnya | 46,98, 35,42 (Ukraine) | 4,5k | 4,3k | 4,2k | 4,2k | 4,1k | -8,6% |
 | Tokivske | Токівське; Tokivśke | 47,66, 33,97 (Ukraine) | 1,9k | 1,7k | 1,7k | 1,6k | 1,6k | -17,8% |
 | Tokmak | Tokmak Zaporizhzhia; Токмак | 47,25, 35,71 (Ukraine) | 45,2k | 36k | 33,7k | 32,8k | 29,6k | -34,6% |
@@ -1931,9 +1775,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Tsarychanka | Царичанка; Caryčanka | 48,94, 34,49 (Ukraine) | 8,6k | 7,9k | 7,6k | 7,6k | 7,2k | -15,7% |
 | Tsyrkuny | Циркуни; Tsirkuni | 50,08, 36,39 (Ukraine) | 5,3k | 5,5k | 5,6k | 5,7k | 5,9k | +11,5% |
 | Tymoshivka | Тимошевка | 47,18, 35,11 (Ukraine) | 3,3k | 3k | 2,7k | 2,6k | 2,5k | -23,8% |
-| Udy | Уды | 50,39, 36,06 (Ukraine) | 1,5k | 1,3k | 1,2k | 1,1k | 1k | -30,9% |
-| Ulyanovka | Ульяновка | 49,59, 37,27 (Ukraine) | 8,7k | 7,9k | 7,5k | 7,3k | 7k | -19,6% |
-| Uspenskoye | Успенское | 47,08, 36,08 (Ukraine) | 9,5k | 8,7k | 8,2k | 8k | 7,6k | -20,2% |
 | Utkivka | Утківка; Уткивка | 49,79, 36,02 (Ukraine) | 1,4k | 1,3k | 1,3k | 1,2k | 1,2k | -15,8% |
 | Valky | Валки; Valki | 49,84, 35,61 (Ukraine) | 11,1k | 10,3k | 9,6k | 9,4k | 8,7k | -21,3% |
 | Varvarivka | Варварівка | 48,91, 35,48 (Ukraine) | 1,4k | 1,4k | 1,4k | 1,4k | 1,3k | -5,2% |
@@ -1952,8 +1793,7 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Verkhniy Rohachyk | Верхній Рогачик; Verchnij Rohačyk | 47,25, 34,34 (Ukraine) | 7,7k | 6,7k | 6,1k | 5,8k | 5,2k | -32,7% |
 | Verkhnod-niprovsk | Верхньодніпровськ; Verchnjo-dniprovśk | 48,66, 34,33 (Ukraine) | 21,1k | 16,9k | 16,9k | 16,8k | 15,7k | -25,5% |
 | Vesele | Веселе; smt Vesele | 47,01, 34,92 (Ukraine) | 12,5k | 11k | 10k | 10,1k | 9,5k | -23,7% |
-| Vesele | Злодеевка | 49,09, 36,25 (Ukraine) | 1,7k | 1,5k | 1,3k | 1,2k | 1,1k | -34,8% |
-| Veseli Terny | Веселые Терны | 48,1, 33,56 (Ukraine) | 12,4k | 8,3k | 5,3k | 5,2k | 5k | -59,9% |
+| Veseli Terny | Веселые Терны; Веселі Терни | 48,1, 33,56 (Ukraine) | 12,4k | 8,3k | 5,3k | 5,2k | 5k | -59,9% |
 | Vilcha | Вільча; Viľča | 50,25, 36,94 (Ukraine) | 1,7k | 1,7k | 1,8k | 1,8k | 1,7k | -3,5% |
 | Vilkhivka | Вільхівка; Viľchivka | 49,99, 36,51 (Ukraine) | 2,9k | 2,1k | 1,6k | 1,4k | 1,2k | -59,6% |
 | Vilkhuvatka | Ольховатка | 50,19, 37,52 (Ukraine) | 1,2k | 1,1k | 1k | 997 | 934 | -24,3% |
@@ -1971,8 +1811,6 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Voznesenka | Вознесенка | 46,87, 35,46 (Ukraine) | 4,4k | 4,4k | 4,3k | 4,3k | 4,3k | -2,2% |
 | Vsesviatske | Боброве | 48,74, 35,52 (Ukraine) | 918 | 754 | 654 | 609 | 537 | -41,5% |
 | Vvedenka | Введенка; smt Vvedenka | 49,82, 36,5 (Ukraine) | 2,5k | 2,7k | 2,5k | 2,5k | 2,4k | -7,5% |
-| Vyshneve | Вишневе; Vyšneve | 48,44, 33,91 (Ukraine) | 2,5k | 2,5k | 2,3k | 2,4k | 2,3k | -9,9% |
-| Vyshneve | Покровск; Покровскъ | 49,08, 35,44 (Ukraine) | 10k | 9,2k | 8,7k | 8,4k | 8,1k | -19,6% |
 | Vysokopillia | окополье | 49,92, 35,42 (Ukraine) | 1,9k | 1,8k | 1,7k | 1,6k | 1,6k | -18,6% |
 | Vysokyi | Високий; Vysokyj | 49,89, 36,12 (Ukraine) | 12,9k | 11,3k | 10,7k | 10,6k | 9,8k | -24,1% |
 | Yakymivka | Якимівка; Jakymivka | 46,7, 35,16 (Ukraine) | 13,3k | 12,7k | 12k | 11,9k | 11,3k | -15,1% |
@@ -1992,9 +1830,7 @@ population by -20,3% from 9,1M in 1991 to 7,25M in 2021 (Table )
 | Zlatopil | Pervomaiskyi Kharkiv; Златопіль (Первомайський) | 49,39, 36,22 (Ukraine) | 38,2k | 32,3k | 30,9k | 31k | 28,5k | -25,3% |
 | Zmiyiv | Зміїв; Zmijiv | 49,7, 36,36 (Ukraine) | 19,9k | 16,9k | 15,4k | 15,2k | 14,1k | -29,2% |
 | Znamenivka | Знаменивка | 48,63, 35,46 (Ukraine) | 4,2k | 4,1k | 4k | 4k | 3,9k | -6,7% |
-| Znamenka | Знаменовка | 48,74, 35,41 (Ukraine) | 9,1k | 8,6k | 8,4k | 8,2k | 7,9k | -13,1% |
 | Zolochiv | Золочів; Zoločiv | 50,27, 35,98 (Ukraine) | 12,8k | 11,4k | 9,4k | 9k | 7,9k | -38,2% |
-| Zolota Dolyna | Кайзерталь | 46,74, 35,1 (Ukraine) | 15,4k | 14,1k | 13,4k | 13k | 12,3k | -20,1% |
 
 Urban populations in Kharkiv, Dnipropetrovsk and Zaporizhzhia oblasts
 (Region 7), 1991-2021.
@@ -2010,24 +1846,18 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Akkerman | Bilhorod-Dnistrovskyi; Cetatea Alba | 46,2, 30,34 (Ukraine) | 56,7k | 51,6k | 50,3k | 50,1k | 47,7k | -15,9% |
-| Aleksandrovka | Александровка | 47,22, 33,73 (Ukraine) | 5,9k | 5,5k | 5,2k | 5,1k | 4,9k | -16,9% |
-| Alekseyevka | Алексеевка | 46,62, 33,98 (Ukraine) | 19,8k | 18,6k | 17,6k | 17,2k | 16,4k | -16,9% |
 | Ananyiv | Ананьїв; Anańjiv | 47,72, 29,96 (Ukraine) | 10,4k | 9,4k | 8,7k | 8,6k | 7,8k | -25,4% |
-| Andriivka | Андреевка | 46,26, 32,93 (Ukraine) | 25,6k | 24,1k | 22,8k | 22,3k | 21,3k | -16,9% |
 | Antonivka | Антонівка; Антонивка | 46,68, 32,73 (Ukraine) | 13,4k | 12,9k | 12,7k | 12,8k | 12,7k | -5,5% |
-| Antonivka | Антоновка | 47,55, 29,62 (Ukraine) | 1,1k | 941 | 817 | 761 | 672 | -41,2% |
 | Arbuzynka | Арбузинка; smt Arbuzynka | 47,91, 31,32 (Ukraine) | 8,1k | 7,4k | 6,5k | 6,4k | 6,1k | -25,1% |
 | Arkhanhelske | Архангельське; Archanheľśke | 47,43, 33,41 (Ukraine) | 2,1k | 2,2k | 1,9k | 1,9k | 1,8k | -15,6% |
 | Artsyz | Арциз; Arcyz | 45,99, 29,43 (Ukraine) | 20,7k | 16,3k | 15,2k | 15k | 14,5k | -30,2% |
 | Askaniya-Nova | Асканія-Нова; Askanija-Nova | 46,45, 33,87 (Ukraine) | 4,7k | 3,4k | 3,1k | 2,9k | 2,6k | -44,4% |
 | Avanhard | Авангард; smt Avanhard | 46,47, 30,62 (Ukraine) | 2,4k | 2,4k | 2,9k | 3,5k | 6,8k | +179,4% |
 | Azovske | Юзкуй | 46,26, 34,86 (Ukraine) | 2,8k | 2,6k | 2,5k | 2,4k | 2,3k | -16,7% |
-| Babyne | Бабина | 47,41, 34,05 (Ukraine) | 6,8k | 6,4k | 6,1k | 5,9k | 5,7k | -16,9% |
 | Bahate | Багате; Bagate | 45,41, 28,94 (Ukraine) | 3,9k | 3,8k | 3,7k | 3,7k | 3,6k | -6,6% |
 | Balta | Balta Podolia; Balta Fair Town | 47,94, 29,62 (Ukraine) | 23,7k | 19,9k | 19,4k | 19,1k | 18,1k | -23,7% |
 | Baraboi | Барабой | 46,29, 30,51 (Ukraine) | 3,7k | 3k | 2,6k | 2,5k | 2,2k | -41,2% |
 | Bashtanka | Баштанка; Baštanka | 47,41, 32,43 (Ukraine) | 13,5k | 13,1k | 12,7k | 12,7k | 12,3k | -8,6% |
-| Belyayevka | Беляевка | 46,62, 34,35 (Ukraine) | 9,2k | 8,7k | 8,2k | 8k | 7,7k | -16,9% |
 | Berezanka | Березанка; smt Berezanka | 46,85, 31,39 (Ukraine) | 4,2k | 4,2k | 4,1k | 4,1k | 4,1k | -3,7% |
 | Berezivka | Березівка; Березивка | 47,2, 30,91 (Ukraine) | 15,4k | 9,5k | 9,8k | 9,8k | 9,5k | -38,1% |
 | Bereznehuvate | Березнегувате; smt Bereznehuvate | 47,31, 32,85 (Ukraine) | 8,4k | 7,8k | 7,7k | 7,8k | 7,4k | -12,6% |
@@ -2044,24 +1874,20 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Budey | Будеи | 48,05, 29,28 (Ukraine) | 1,4k | 1,2k | 1,1k | 1,1k | 1k | -26,5% |
 | Budzhak | Буджак (Бородіно); Budžak (Borodino) | 46,3, 29,24 (Ukraine) | 2k | 1,8k | 1,7k | 1,6k | 1,5k | -24,1% |
 | Chaplynka | Чаплинка; Čaplynka | 46,36, 33,54 (Ukraine) | 10,7k | 10,5k | 10k | 9,9k | 9,5k | -11% |
-| Chervonyi Yar | Китай | 45,58, 29,21 (Ukraine) | 56,5k | 53,4k | 51,7k | 51,3k | 50,5k | -10,6% |
 | Chornobaivka | Чорнобаївка; Chornobayivka | 46,7, 32,55 (Ukraine) | 9,3k | 9,1k | 8,9k | 8,8k | 8,7k | -6,7% |
 | Chornomorsk | Чорноморськ (Іллічівськ); Čornomorśk (Illičivśk) | 46,3, 30,66 (Ukraine) | 56k | 54,6k | 58,9k | 59,8k | 58,5k | +4,5% |
 | Chornomorske | Чорноморське; Čornomorśke | 46,58, 30,93 (Ukraine) | 5k | 6k | 6,8k | 6,9k | 7,1k | +42,2% |
 | Chulakivka | Чулаковка | 46,36, 32,35 (Ukraine) | 3,4k | 3,1k | 3k | 2,9k | 2,8k | -17,5% |
 | Dachne | Дачне | 46,58, 30,55 (Ukraine) | 8,4k | 8,2k | 8k | 8k | 7,8k | -6,6% |
 | Delzhyler | Дельжилер; Delzhiler | 45,84, 29,49 (Ukraine) | 3,8k | 3,7k | 3,6k | 3,6k | 3,5k | -6,7% |
-| Dmytrivka | Дмитривка; Dmitrivka | 45,97, 28,99 (Ukraine) | 4,6k | 4,4k | 4,4k | 4,3k | 4,3k | -6,7% |
 | Dmytrivka | Дмитровка | 47,26, 34,17 (Ukraine) | 1,4k | 1,1k | 972 | 903 | 794 | -42,4% |
+| Dmytrivka | Дмитривка; Dmitrivka | 45,97, 28,99 (Ukraine) | 4,6k | 4,4k | 4,4k | 4,3k | 4,3k | -6,7% |
 | Dnipryany | Дніпряни; Dniprjany | 46,75, 33,27 (Ukraine) | 5,1k | 4,7k | 4,5k | 4,3k | 4k | -21,8% |
-| Dobrianka | Добрянка | 47,46, 33,62 (Ukraine) | 6k | 5,7k | 5,4k | 5,2k | 5k | -16,9% |
 | Dobroslav | Доброслав (Комінтернівське); Dobroslav (Kominternivśke) | 46,82, 30,95 (Ukraine) | 5,4k | 6,6k | 6,9k | 6,9k | 6,8k | +25,9% |
 | Dolynske | Валегоцулово | 47,53, 29,93 (Ukraine) | 4,6k | 3,9k | 3,4k | 3,2k | 2,9k | -37,6% |
 | Domanivka | Доманівка; Доманивка | 47,63, 30,99 (Ukraine) | 7,1k | 6,7k | 6,3k | 6,1k | 5,8k | -17,8% |
 | Doroshivka | Арнаутовка | 47,48, 31,46 (Ukraine) | 2k | 1,9k | 1,8k | 1,7k | 1,6k | -18,3% |
-| Fedorovka | Федоровка | 47,18, 33,37 (Ukraine) | 7,9k | 7,5k | 7,1k | 6,9k | 6,6k | -16,9% |
 | Fontanka | Фонтанка | 46,57, 30,86 (Ukraine) | 7,4k | 7,2k | 7,1k | 7k | 6,9k | -6,6% |
-| Furmanivka | Фурмановка | 45,64, 29,23 (Ukraine) | 148,1k | 140k | 135,5k | 134,4k | 132,4k | -10,6% |
 | Gurovka | Гуровка | 47,24, 33,66 (Ukraine) | 8,9k | 8,4k | 7,9k | 7,7k | 7,4k | -16,9% |
 | Handrabury | Гандрабуры | 47,72, 29,87 (Ukraine) | 2,5k | 2,3k | 2,2k | 2,1k | 2k | -18,9% |
 | Henichesk | Genichesk Azov; Генічеськ | 46,18, 34,8 (Ukraine) | 23,8k | 21,7k | 20,5k | 20,1k | 18,9k | -20,5% |
@@ -2072,16 +1898,14 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Hradenytsi | Граденици; Gradenitsi | 46,6, 30 (Ukraine) | 4,6k | 4,5k | 4,4k | 4,4k | 4,3k | -7,6% |
 | Inhulets | Ингулецъ | 46,79, 32,83 (Ukraine) | 2,5k | 2,3k | 2,1k | 2k | 1,9k | -23,4% |
 | Ismail | Izmail; Tuchkov | 45,35, 28,83 (Ukraine) | 94,5k | 84,2k | 75,8k | 72,5k | 69,9k | -26% |
-| Ivanivka | Іванівка; Иванивка | 46,97, 30,47 (Ukraine) | 3,5k | 3,1k | 2,7k | 2,5k | 2,4k | -31,5% |
 | Ivanivka | Іванівка; Иванивка | 46,71, 34,55 (Ukraine) | 5,6k | 5,2k | 4,7k | 4,6k | 4,4k | -21,8% |
+| Ivanivka | Іванівка; Иванивка | 46,97, 30,47 (Ukraine) | 3,5k | 3,1k | 2,7k | 2,5k | 2,4k | -31,5% |
 | Kachkarivka | Качкаровка | 47,1, 33,75 (Ukraine) | 2,1k | 1,9k | 1,8k | 1,7k | 1,6k | -22,5% |
 | Kairy | Каиры | 46,95, 33,71 (Ukraine) | 3,5k | 3,3k | 3,1k | 3k | 2,9k | -17,7% |
 | Kakhovka | Каховка; Kachovka | 46,82, 33,48 (Ukraine) | 44k | 38,2k | 37,3k | 37,3k | 35,4k | -19,6% |
 | Kalanchak | Каланчак; Kalančak | 46,25, 33,29 (Ukraine) | 11,6k | 11k | 9,5k | 9,3k | 9,1k | -21,6% |
-| Kalynivka | Калиновка | 46,16, 32,55 (Ukraine) | 746 | 612 | 529 | 492 | 434 | -41,8% |
 | Kalynivka | Калиновка | 47,05, 32,18 (Ukraine) | 3,2k | 3,2k | 3,1k | 3,1k | 3,1k | -2,1% |
 | Kalynivske | Калинівське (Калінінське); Kalynivśke (Kalininśke) | 47,12, 32,98 (Ukraine) | 1,9k | 1,6k | 1,3k | 1,2k | 1,1k | -44,4% |
-| Kamianka | Знаменка Малая; Камянка | 47,54, 33,16 (Ukraine) | 14,6k | 13,7k | 13k | 12,7k | 12,1k | -16,9% |
 | Karyerne | Кар’єрне; Kar’jerne | 47,34, 33,21 (Ukraine) | 598 | 481 | 382 | 382 | 329 | -45% |
 | Katlabuh | Катлабуг (Суворове); Katlabuh (Suvorove) | 45,58, 28,98 (Ukraine) | 5,8k | 4,8k | 4,7k | 4,6k | 4,6k | -21,5% |
 | Kazanka | Казанка; smt Kazanka | 47,83, 32,83 (Ukraine) | 9k | 8,2k | 7,4k | 7,2k | 6,7k | -25,5% |
@@ -2093,14 +1917,12 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Komyshany | Комишани; Komyšany | 46,64, 32,5 (Ukraine) | 7,9k | 7,2k | 7k | 7,1k | 6,8k | -14,6% |
 | Kontseba | Концеба | 48,12, 29,98 (Ukraine) | 2,1k | 1,9k | 1,8k | 1,8k | 1,7k | -17,2% |
 | Kopani | Варваровка | 47,75, 32,99 (Ukraine) | 9,4k | 8,7k | 7,9k | 7,7k | 7,4k | -21% |
-| Kostyant-ynivka | Костянтинівка; Kostjant-ynivka | 47,83, 31,15 (Ukraine) | 3,8k | 2,8k | 2,4k | 2,2k | 2,1k | -44,3% |
 | Kozachi Laheri | Козачи Лагери; Kozachi Lageri | 46,71, 32,98 (Ukraine) | 3,6k | 3,6k | 3,6k | 3,6k | 3,5k | -3% |
 | Kozatske | Козацьке; Kozaćke | 46,79, 33,35 (Ukraine) | 4,4k | 3,9k | 3,8k | 3,8k | 3,7k | -16,1% |
 | Krasnosilka | Красносилка; Красноселка | 46,62, 30,77 (Ukraine) | 4,7k | 4,8k | 4,9k | 5k | 5k | +7,6% |
 | Krizhanivka | Крижанивка | 47,24, 30,44 (Ukraine) | 3,8k | 3,7k | 3,6k | 3,6k | 3,5k | -6,7% |
 | Krynychne | Криничне; Krinichne | 45,54, 28,67 (Ukraine) | 4,2k | 4,1k | 4k | 4k | 3,9k | -6,6% |
 | Kryve Ozero | Криве Озеро; smt Kryve Ozero | 47,95, 30,35 (Ukraine) | 9,2k | 8,5k | 8k | 7,9k | 7,4k | -20% |
-| Kryvyi Rih | Кривой Рог; Кривой Рогъ | 46,43, 34,25 (Ukraine) | 24,3k | 22,9k | 21,7k | 21,1k | 20,2k | -16,9% |
 | Kubey | Кубей | 45,79, 28,74 (Ukraine) | 5,2k | 5,3k | 5,4k | 5,5k | 5,6k | +8,3% |
 | Kulevcha | Кулевча | 46,03, 29,94 (Ukraine) | 3,3k | 3,4k | 3,5k | 3,5k | 3,6k | +8,3% |
 | Kurisove | Курисове | 46,97, 30,96 (Ukraine) | 4,3k | 4,2k | 4,2k | 4,1k | 4,1k | -6,6% |
@@ -2111,19 +1933,14 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Lysa Hora | Лысая Гора | 48,17, 31,11 (Ukraine) | 4k | 3,8k | 3,6k | 3,5k | 3,4k | -15,1% |
 | Lyubashivka | Любашівка; Ljubašivka | 47,83, 30,25 (Ukraine) | 9,9k | 9,8k | 9,4k | 9,5k | 8,9k | -10,3% |
 | Lyubymivka | Любимівка; Ljubymivka | 46,81, 33,57 (Ukraine) | 5,6k | 6k | 5,6k | 5,6k | 5,5k | -2% |
-| Marianovka | Марьяновка | 46,6, 34,42 (Ukraine) | 12k | 11,3k | 10,7k | 10,4k | 10k | -16,9% |
 | Mayaky | Маяки; Majaky | 46,41, 30,27 (Ukraine) | 5,5k | 5,9k | 5,7k | 5,6k | 5,4k | -0,1% |
-| Mikhaylovka | Елисаветградовка; Михайловка | 46,88, 33,58 (Ukraine) | 15,2k | 14,3k | 13,5k | 13,2k | 12,6k | -16,9% |
 | Mishkovo-Pohorilove | Мишково-Погорилове; Mishkovo-Pogorilove | 46,99, 32,11 (Ukraine) | 5,3k | 5,1k | 5k | 5k | 4,9k | -6,9% |
-| Moldovanka | Первомайск | 46,65, 30,34 (Ukraine) | 60,2k | 56,9k | 55,1k | 54,6k | 53,8k | -10,6% |
 | Moloha | Молога | 46,22, 30,23 (Ukraine) | 2,5k | 2,3k | 2,1k | 2k | 1,9k | -21,9% |
-| Muravlivka | Муравлевка | 45,56, 29,16 (Ukraine) | 1,7k | 1,4k | 1,3k | 1,2k | 1,1k | -36% |
 | Mykolayivka | Миколаївка; Mykolajivka | 47,54, 30,76 (Ukraine) | 4,3k | 3,7k | 3k | 2,9k | 2,6k | -38,2% |
 | Myrne | Мирне; smt Myrne | 46,25, 33,47 (Ukraine) | 2,3k | 2,1k | 2k | 1,9k | 1,8k | -19,7% |
 | Naddnipr-yanske | Наддніпрянське; Naddniprjanśke | 46,74, 32,71 (Ukraine) | 1,3k | 1,2k | 1,1k | 1,1k | 1,1k | -18,3% |
 | Nerubayske | Нерубайське | 46,54, 30,63 (Ukraine) | 8,4k | 8,2k | 8k | 7,9k | 7,8k | -6,7% |
 | Nikolaev | Mykolaiv; Black Sea Shipyard | 46,98, 31,99 (Ukraine) | 512k | 514k | 501k | 495k | 470k | -8,2% |
-| Nikolayevka | Ново-Воронцовка | 46,55, 34,72 (Ukraine) | 8,4k | 8k | 7,5k | 7,3k | 7k | -16,9% |
 | Nova Dolyna | Нова Долина; Nova Dolina | 46,4, 30,58 (Ukraine) | 3,9k | 3,8k | 3,7k | 3,7k | 3,7k | -6,6% |
 | Nova Kakhovka | Kakhovka Hydroelectric Boomtown; Нова Каховка | 46,75, 33,36 (Ukraine) | 58k | 51,7k | 48,5k | 47,6k | 44,4k | -23,4% |
 | Nova Mayachka | Нова Маячка; Nova Majačka | 46,6, 33,22 (Ukraine) | 7,4k | 7,5k | 7,2k | 7,1k | 6,7k | -9,2% |
@@ -2135,9 +1952,7 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Novo-Odessa | Ново-Одесса | 47,32, 34,2 (Ukraine) | 9k | 8,4k | 8k | 7,8k | 7,4k | -16,9% |
 | Novo-Pavlovka | Ново-Павловка | 46,5, 33,51 (Ukraine) | 6,4k | 6k | 5,7k | 5,6k | 5,3k | -16,9% |
 | Novoolek-siyivka | Новоолексіївка; Novoolek-sijivka | 46,23, 34,65 (Ukraine) | 10,7k | 10,2k | 10,2k | 10,2k | 10,1k | -6,1% |
-| Novopokrovka | Ново-Покровка | 47,44, 30,8 (Ukraine) | 8,3k | 7,9k | 7,6k | 7,6k | 7,5k | -10,6% |
 | Novotroyitske | Новотроїцьке; Novotrojićke | 46,35, 34,33 (Ukraine) | 12,8k | 11,8k | 10,9k | 10,7k | 10,6k | -16,9% |
-| Novoukrainka | Павловск; Павловскъ | 46,16, 33,16 (Ukraine) | 26,1k | 24,6k | 23,3k | 22,7k | 21,7k | -16,9% |
 | Novyi Buh | Новий Буг; Novyj Buh | 47,69, 32,51 (Ukraine) | 17,7k | 16,2k | 15,8k | 15,6k | 15k | -15,3% |
 | Nyzhni Sirohozy | Нижні Сірогози; Nyžni Sirohozy | 46,85, 34,37 (Ukraine) | 6,8k | 5,9k | 5,2k | 5k | 4,5k | -33,7% |
 | Ochakiv | Очаків; Očakiv | 46,61, 31,55 (Ukraine) | 19,7k | 16,7k | 15k | 14,6k | 13,9k | -29,1% |
@@ -2150,14 +1965,9 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Ovidiopol | Овідіополь; Ovidiopoľ | 46,25, 30,44 (Ukraine) | 10,5k | 11,8k | 11,6k | 11,9k | 11,6k | +10,7% |
 | Ozerne | Озерне | 45,41, 28,67 (Ukraine) | 5,3k | 5,1k | 5k | 5k | 4,9k | -6,6% |
 | Partyzany | Партизани; smt Partyzany | 46,89, 34,69 (Ukraine) | 3,9k | 3,9k | 3,6k | 3,6k | 3,4k | -13,8% |
-| Pershopo-krovka | Покровка | 47,01, 34,49 (Ukraine) | 1,2k | 1,1k | 948 | 896 | 813 | -34,2% |
 | Pervomaisk | Olviopol-Bohopil; Первомайськ | 48,04, 30,85 (Ukraine) | 84k | 69,7k | 67,2k | 66,7k | 62,4k | -25,7% |
-| Pervomayske | Заводське (Первомайське); Zavodśke (Pervomajśke) | 47,04, 32,44 (Ukraine) | 3,8k | 3,5k | 3k | 2,9k | 2,7k | -29% |
-| Petrivka | Буялик (Петрівка); Bujalyk (Petrivka) | 46,31, 29,95 (Ukraine) | 5,5k | 4,7k | 4,6k | 4,7k | 4,5k | -17,9% |
-| Petrivka | Петровка | 46,24, 32,85 (Ukraine) | 2,5k | 2,1k | 1,9k | 1,8k | 1,7k | -32,2% |
 | Petrodolynske | Петродолинське; Petrodolinske | 46,43, 30,4 (Ukraine) | 4,6k | 4,5k | 4,4k | 4,4k | 4,3k | -6,6% |
 | Pidhorodna | Підгородна; Пидгородна | 48,11, 30,89 (Ukraine) | 2,9k | 2,5k | 2,2k | 2,2k | 2,2k | -25% |
-| Pischchanyy Brid | Шпейеръ | 47,21, 31,41 (Ukraine) | 855 | 690 | 590 | 546 | 476 | -44,3% |
 | Pivdenne | Південне (Южне); Pivdenne (Južne) | 46,62, 31,1 (Ukraine) | 17,5k | 24,2k | 27,9k | 31,8k | 32,7k | +87,4% |
 | Pivdenno-ukrainsk | Південноукраїнськ (Южноукраїнськ); Pivdenno-ukrajinśk (Južnoukrajinśk) | 47,83, 31,18 (Ukraine) | 39,1k | 38,2k | 40k | 40,4k | 39k | -0,2% |
 | Plakhtiyivka | Плахтиївка | 46,09, 29,72 (Ukraine) | 5k | 4,8k | 4,8k | 4,7k | 4,6k | -6,6% |
@@ -2167,25 +1977,21 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Prychorn-omorske | Першотравневе; Pershotr-avneve | 46,74, 30,91 (Ukraine) | 4,3k | 4,2k | 4,2k | 4,1k | 4,1k | -6,6% |
 | Prylymanske | Прилиманське; Prilimanske | 46,42, 30,61 (Ukraine) | 6,4k | 6,2k | 6,1k | 6,1k | 6k | -6,6% |
 | Pryvilne | Привольное | 46,56, 33,37 (Ukraine) | 779 | 662 | 619 | 598 | 563 | -27,7% |
-| Pryvilne | Привольное | 47,49, 32,3 (Ukraine) | 2,9k | 2,6k | 2,5k | 2,4k | 2,2k | -24,1% |
 | Radensk | Раденськ | 46,55, 32,93 (Ukraine) | 3,5k | 3,6k | 3,7k | 3,7k | 3,8k | +6,9% |
 | Radisne | Радісне; Радисне | 47, 30,34 (Ukraine) | 2,3k | 1,8k | 1,6k | 1,6k | 1,5k | -32,5% |
 | Raukhivka | Раухівка; Rauchivka | 47,17, 30,82 (Ukraine) | 2,6k | 2,3k | 2,6k | 2,7k | 2,6k | 0% |
 | Reni | Рені; Рени | 45,45, 28,28 (Ukraine) | 24,5k | 20,4k | 19,5k | 19,3k | 18k | -26,6% |
-| Rivne | Ровное | 46,36, 34,76 (Ukraine) | 24,6k | 23,2k | 21,9k | 21,4k | 20,4k | -16,9% |
 | Rozdilna | Роздільна; Rozdiľna | 46,85, 30,07 (Ukraine) | 18,5k | 17,6k | 17,8k | 17,9k | 17,6k | -5% |
 | Rubanivka | Рубановка | 47, 34,17 (Ukraine) | 4k | 3,5k | 3,2k | 3,1k | 2,8k | -28,9% |
 | Rykove | Рикове (Партизани); Rykove (Partyzany) | 46,33, 34,75 (Ukraine) | 4,1k | 3,9k | 3,6k | 3,6k | 3,5k | -14,9% |
 | Sarata | Сарата; smt Sarata | 46,02, 29,66 (Ukraine) | 6,3k | 5,2k | 4,6k | 4,4k | 4,2k | -33,2% |
 | Savran | Саврань; Savrań | 48,13, 30,08 (Ukraine) | 7,7k | 6,8k | 6,6k | 6,5k | 6,1k | -20,5% |
-| Semenivka | Семеновка | 46,61, 33,6 (Ukraine) | 1,5k | 1,4k | 1,3k | 1,2k | 1,1k | -25,3% |
 | Serhiyivka | Сергіївка; Serhijivka | 46,03, 30,37 (Ukraine) | 9,1k | 5,1k | 5,2k | 5,3k | 5,3k | -41,6% |
 | Serpneve | Серпневе; smt Serpneve | 46,3, 29,02 (Ukraine) | 2,3k | 1,8k | 1,8k | 1,8k | 1,8k | -23,6% |
 | Shabo | Шабо | 46,13, 30,39 (Ukraine) | 5,9k | 6,2k | 6,4k | 6,5k | 6,8k | +15,6% |
 | Shevchenkove | Шевченкове | 45,55, 29,33 (Ukraine) | 5,1k | 5k | 4,9k | 4,8k | 4,7k | -6,6% |
 | Shyroka Balka | Широка Балка; Šyroka Balka | 46,54, 30,35 (Ukraine) | 996 | 860 | 773 | 733 | 668 | -32,9% |
 | Skadovsk | Skadovsk Black Sea; Скадовськ | 46,12, 32,91 (Ukraine) | 22,1k | 19,6k | 19,1k | 18,8k | 17k | -23,2% |
-| Slavne | Березовка | 46,9, 34,13 (Ukraine) | 10k | 9,4k | 8,9k | 8,7k | 8,3k | -16,9% |
 | Slobidka | Слобідка; Слобидка | 47,88, 29,34 (Ukraine) | 2,7k | 2,6k | 2,4k | 2,4k | 2,3k | -15,9% |
 | Snihurivka | Снігурівка; Снигуривка | 47,08, 32,82 (Ukraine) | 17,6k | 15,3k | 13,6k | 13k | 12,3k | -30,2% |
 | Soborne | Соборне (Березине); Soborne (Berezyne) | 46,23, 29,2 (Ukraine) | 4,4k | 3,8k | 3,5k | 3,5k | 3,4k | -23,4% |
@@ -2198,12 +2004,10 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Tavriysk | Таврійськ; Tavrijśk | 46,75, 33,42 (Ukraine) | 12,2k | 11,4k | 11,1k | 10,9k | 10,2k | -15,8% |
 | Tayirove | Таїрове; Tajirove | 46,36, 30,65 (Ukraine) | 2,1k | 1,9k | 2,5k | 2,8k | 3,8k | +84% |
 | Teplodar | Теплодар; Teplodar | 46,5, 30,32 (Ukraine) | 8,7k | 8,9k | 10k | 10,2k | 10,1k | +15,7% |
-| Ternivka | Тернівка | 47,2, 33,01 (Ukraine) | 9,2k | 8,5k | 7,7k | 7,6k | 7,2k | -21% |
 | Ternove | Терновое | 47,92, 32,89 (Ukraine) | 8,2k | 7,6k | 6,9k | 6,7k | 6,5k | -21% |
 | Tokarivka | Токарівка (Кудрявцівка); Tokarivka (Kudrjavcivka) | 47,31, 31,02 (Ukraine) | 2,2k | 2,1k | 2,1k | 2k | 2k | -8,6% |
 | Troyitske | Троїцьке | 46,54, 30,02 (Ukraine) | 5,1k | 5k | 4,9k | 4,8k | 4,8k | -6,6% |
 | Tsebrykove | Цебрикове; Cebrykove | 47,15, 30,11 (Ukraine) | 3,2k | 2,9k | 2,8k | 2,8k | 2,8k | -13,1% |
-| Tsvitkove | Жовтневе; Žovtneve | 47,63, 31,18 (Ukraine) | 37k | 34,5k | 31,3k | 30,5k | 29,2k | -21% |
 | Tuzly | Тузли | 45,87, 30,1 (Ukraine) | 1,9k | 1,9k | 1,9k | 1,9k | 1,8k | -4,7% |
 | Usatove | Усатове | 46,53, 30,65 (Ukraine) | 7,9k | 7,7k | 7,6k | 7,5k | 7,4k | -6,6% |
 | Utkonosivka | Утконосивка | 45,5, 28,96 (Ukraine) | 4,2k | 4,1k | 4k | 4k | 3,9k | -6,6% |
@@ -2215,11 +2019,6 @@ on the Southern Bug and lower Dnieper shrank (Table )
 | Velykodo-lynske | Великодолинське; Velykodolynśke | 46,35, 30,58 (Ukraine) | 10,1k | 11,7k | 12,9k | 13,4k | 14k | +37,8% |
 | Velykyi Dalnyk | Великий Дальник; Velikiy Dalnik | 46,47, 30,56 (Ukraine) | 7,5k | 7,4k | 7,2k | 7,2k | 7k | -6,6% |
 | Veselynove | Веселинове; smt Veselynove | 47,36, 31,23 (Ukraine) | 8,2k | 7,2k | 6,4k | 6,1k | 5,6k | -31,5% |
-| Veselyy Kut | Парижъ | 46,05, 29,29 (Ukraine) | 1,8k | 1,7k | 1,6k | 1,5k | 1,4k | -20,2% |
-| Vladimirovka | Владимировка | 47,38, 33,77 (Ukraine) | 6,2k | 5,8k | 5,5k | 5,4k | 5,1k | -16,9% |
-| Vladychen | Импуцита | 45,56, 28,61 (Ukraine) | 257,9k | 243,7k | 236k | 234k | 230,5k | -10,6% |
-| Volna | Вольна | 47,58, 32,97 (Ukraine) | 24,3k | 22,7k | 20,6k | 20,1k | 19,2k | -21% |
-| Volodymyrivka | Владимировка | 47,52, 32,93 (Ukraine) | 2,6k | 2,3k | 2,1k | 2,1k | 1,9k | -25,1% |
 | Voskresenske | Воскресенське; Voskresenśke | 47,01, 32,15 (Ukraine) | 4,5k | 4,6k | 4,8k | 4,8k | 4,7k | +4,8% |
 | Voznesensk | Вознесенськ; Voznesenśk | 47,56, 31,34 (Ukraine) | 44,2k | 42,2k | 37,3k | 36,2k | 34k | -22,9% |
 | Vradiyivka | Врадіївка; Vradijivka | 47,86, 30,59 (Ukraine) | 10,5k | 9,9k | 8,8k | 8,4k | 8,2k | -22,3% |
@@ -2254,7 +2053,6 @@ coal-basin shrinkage and wartime displacement reduced the population by
 
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Alekseyevka | Алексеевка | 49,34, 37,94 (Ukraine) | 13,4k | 11,7k | 10,5k | 10,3k | 9,8k | -26,7% |
 | Andriyivka | Андріївка; Andrijivka | 48,62, 37,29 (Ukraine) | 3,7k | 3,3k | 3k | 2,8k | 2,6k | -30,3% |
 | Andriyivka | Карань | 47,46, 37,66 (Ukraine) | 3,6k | 3,3k | 3k | 2,8k | 2,6k | -28,1% |
 | Avdiivka | Avdeyevka; Авдіївка | 48,14, 37,75 (Ukraine) | 40,1k | 37,1k | 35,6k | 35,1k | 31,4k | -21,7% |
@@ -2278,35 +2076,27 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Cherkaske | Черкаське; Čerkaśke | 48,83, 37,39 (Ukraine) | 4,4k | 3,8k | 3,5k | 3,5k | 3,2k | -26,3% |
 | Chermalyk | Чермалыкъ | 47,31, 37,81 (Ukraine) | 1,9k | 1,7k | 1,6k | 1,6k | 1,5k | -21,1% |
 | Chertkovo | Чертково; Čertkovo | 49,38, 40,15 (Russia) | 10,8k | 11k | 10,8k | 10,2k | 9,2k | -14,3% |
-| Dmitriyevka | Дмитриевка | 48,75, 37,87 (Ukraine) | 19,2k | 17,3k | 16,1k | 15,7k | 14,9k | -22,1% |
 | Dobropillya | Добропілля; Dobropillja | 48,47, 37,09 (Ukraine) | 40,4k | 35,3k | 31,9k | 30,9k | 28,8k | -28,9% |
 | Donske | Донське; Donśke | 47,51, 37,54 (Ukraine) | 5,7k | 5,3k | 5,2k | 5k | 4,6k | -19,2% |
 | Drobysheve | Дробышево | 49,04, 37,73 (Ukraine) | 6,8k | 5,2k | 4,3k | 4,2k | 4k | -41% |
 | Druzhkivka | Druzhkovka; Дружківка | 48,62, 37,53 (Ukraine) | 74k | 64,3k | 61k | 59,6k | 54k | -27,1% |
-| Fedorivka | Федоровка | 47,95, 36,76 (Ukraine) | 675 | 577 | 515 | 486 | 440 | -34,8% |
-| Grodovka | Гродовка | 48,42, 37,48 (Ukraine) | 15,6k | 14,1k | 13,1k | 12,8k | 12,2k | -22,1% |
 | Hirnyk | Гірник; Гирник | 48,06, 37,37 (Ukraine) | 16,3k | 14k | 11,9k | 11,5k | 10,6k | -35,2% |
 | Hirske | Гірське; Hirśke | 48,74, 38,5 (Ukraine) | 13,4k | 11,4k | 10,4k | 10k | 9,3k | -30,7% |
-| Holubivka | Кировськ; smt Kirovśk | 48,7, 37,13 (Ukraine) | 3,3k | 2,9k | 2,7k | 2,6k | 2,5k | -24,1% |
 | Hostre | Гостре; smt Hostre | 47,99, 37,4 (Ukraine) | 1,2k | 930 | 719 | 660 | 570 | -53,4% |
 | Hrafs’ke | Графське (Комсомольський); Hrafśke (Komsomoľśkyj) | 47,67, 37,41 (Ukraine) | 688 | 522 | 426 | 389 | 387 | -43,8% |
 | Hranitne | Гранітне | 47,32, 37,55 (Ukraine) | 4,1k | 3,5k | 3,3k | 3,2k | 3,1k | -25,1% |
 | Hrodivka | Гродівка; Гродивка | 48,26, 37,38 (Ukraine) | 3,2k | 3,1k | 2,7k | 2,6k | 2,4k | -26,5% |
 | Huziyivka | Ново-Астрахань; Новая Астрахань | 49,13, 38,61 (Ukraine) | 2k | 1,7k | 1,6k | 1,5k | 1,4k | -30,1% |
-| Iverske | Иверское | 48,64, 36,96 (Ukraine) | 1,6k | 1,4k | 1,3k | 1,3k | 1,3k | -21,9% |
-| Kamianka | Каменка | 49,64, 39,36 (Ukraine) | 2k | 1,7k | 1,5k | 1,4k | 1,2k | -39,9% |
 | Keramik | Керамік; Керамик | 48,25, 37,68 (Ukraine) | 704 | 479 | 401 | 373 | 341 | -51,6% |
 | Koliadivka | Колядовка | 49,08, 39,19 (Ukraine) | 1k | 889 | 804 | 764 | 699 | -31,6% |
 | Komyshivka | Комишівка; Komyšivka | 48,18, 37,47 (Ukraine) | 621 | 531 | 453 | 430 | 365 | -41,2% |
 | Komyshuvakha | Комишуваха; Komyšuvacha | 48,64, 37,45 (Ukraine) | 495 | 527 | 496 | 490 | 501 | +1,2% |
 | Konstant-ynivka | Konstant-inovka; Костянтинівка | 48,53, 37,71 (Ukraine) | 108k | 95k | 80k | 76k | 67,3k | -37,6% |
-| Kostiant-ynopil | Константинополь | 48, 37,04 (Ukraine) | 88,7k | 79,9k | 74,4k | 72,4k | 69,1k | -22,1% |
 | Kramatorsk | Kramatorskaya; Краматорськ | 48,74, 37,58 (Ukraine) | 199k | 181k | 167k | 163k | 147,1k | -26,1% |
 | Krasna Hora | Красна Гора; smt Krasna Hora | 48,66, 38,02 (Ukraine) | 711 | 677 | 660 | 642 | 611 | -14,1% |
 | Krasnohorivka | Krasnogorovka; Красногорівка | 48,01, 37,51 (Ukraine) | 19,2k | 16,6k | 16,1k | 15,9k | 14,7k | -23,5% |
 | Krasnori-chenske | Красноріченське; Krasnoričenśke | 49,22, 38,21 (Ukraine) | 6,1k | 5,3k | 4,6k | 4,4k | 3,9k | -36,3% |
 | Krasnotorka | Красноторка; smt Krasnotorka | 48,69, 37,53 (Ukraine) | 2,7k | 3,2k | 3k | 3k | 2,9k | +6,3% |
-| Kremenivka | Чердаклы | 47,33, 37,48 (Ukraine) | 1,6k | 1,4k | 1,2k | 1,1k | 1k | -37,9% |
 | Kreminna | Кремінна; Креминна | 49,05, 38,22 (Ukraine) | 27,9k | 24,2k | 21k | 20,1k | 18,4k | -34% |
 | Krymske | Крымское | 48,75, 38,79 (Ukraine) | 1,7k | 1,5k | 1,4k | 1,4k | 1,3k | -23,5% |
 | Kurakhivka | Курахівка; Kurachivka | 48,03, 37,37 (Ukraine) | 5,3k | 4,1k | 3,2k | 3k | 2,7k | -49,6% |
@@ -2314,10 +2104,8 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Kurdyumivka | Курдюмівка; Kurdjumivka | 48,47, 37,96 (Ukraine) | 1,2k | 1,1k | 968 | 865 | 755 | -37,7% |
 | Kuriachivka | Курячевка | 49,65, 38,69 (Ukraine) | 917 | 792 | 713 | 676 | 616 | -32,8% |
 | Kuzemivka | Куземовка | 49,52, 37,98 (Ukraine) | 712 | 609 | 544 | 514 | 465 | -34,7% |
-| Lashinovka | Лашиновка | 48,92, 39,4 (Ukraine) | 55,9k | 48,6k | 43,9k | 42,8k | 41k | -26,7% |
 | Lisne | Лісне; Лисне | 47,17, 37,3 (Ukraine) | 205 | 167 | 138 | 136 | 132 | -35,6% |
 | Lozno-Oleksandrivka | Лозно-Олександрівка; Лозно-Олександривка | 49,84, 38,74 (Ukraine) | 1,5k | 1,2k | 1k | 953 | 856 | -42,9% |
-| Lozovaya | Лозовая | 49,26, 40,04 (Ukraine) | 15,4k | 13,4k | 12,1k | 11,8k | 11,3k | -26,7% |
 | Luhanske | Луганське; Luhanśke | 48,44, 38,26 (Ukraine) | 2,8k | 2,6k | 2,5k | 2,3k | 2,2k | -21,5% |
 | Lyman | Krasnyi Lyman; Лиман (Красний Лиман) | 48,99, 37,8 (Ukraine) | 31,2k | 27,8k | 22,7k | 22,4k | 20,1k | -35,7% |
 | Lysychansk | Lisichansk; Лисичанськ | 48,9, 38,43 (Ukraine) | 126k | 115k | 106k | 103k | 93,3k | -25,9% |
@@ -2332,16 +2120,11 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Metolkine | Метьолчине (Метьолкіне); Metjolčyne (Metjolkine) | 48,93, 38,56 (Ukraine) | 705 | 537 | 687 | 755 | 792 | +12,3% |
 | Milove | Мілове; Милове | 49,38, 40,14 (Ukraine) | 6,1k | 5,6k | 6k | 5,9k | 5,8k | -5,5% |
 | Mykilske | Микільське (Володарське, Нікольське); Mykiľśke (Volodarśke, Nikoľśke) | 48,92, 37,45 (Ukraine) | 9,4k | 8,8k | 8,6k | 8,4k | 7,9k | -16,2% |
-| Mykolaivka | Миколаївка; Mykolajivka | 47,65, 37,68 (Ukraine) | 16,3k | 16,5k | 15,9k | 15,6k | 14,4k | -11,5% |
 | Mykolaivka | Миколаївка; smt Mykolajivka | 48,86, 37,77 (Ukraine) | 16,3k | 16,5k | 15,6k | 15,2k | 14,4k | -11,2% |
 | Myrna Dolyna | Мирна Долина; smt Myrna Dolyna | 48,81, 38,48 (Ukraine) | 889 | 465 | 370 | 328 | 283 | -68,2% |
-| Myrne | Мирне; smt Myrne | 47,43, 37,73 (Ukraine) | 2,3k | 2,1k | 1,9k | 1,8k | 1,7k | -28% |
 | Myrnohrad | Dymytrov; Dimitrov | 48,3, 37,27 (Ukraine) | 63,6k | 54,4k | 50,6k | 49,5k | 46,1k | -27,5% |
-| Myronivskyi | Миронівський; Myronivśkyj | 48,46, 38,27 (Ukraine) | 10k | 8,7k | 8,1k | 8k | 7,3k | -26,5% |
+| Myronivskyi | Миронівський; Myronivśkyj | 48,46, 38,27 (Ukraine) | 63 | 61 | 60 | 59 | 58 | -7,9% |
 | Nelipivka | Неліпівка; Нелипивка | 48,35, 37,84 (Ukraine) | 1,3k | 1,3k | 1,2k | 1,1k | 999 | -24,1% |
-| Nikolayevka | Ново-Николаевское; Николаевка | 48,78, 37,22 (Ukraine) | 9,6k | 8,7k | 8,1k | 7,9k | 7,5k | -22,1% |
-| Novo-Pavlovka | Ново-Павловка; Ново Павловка | 48,58, 37,04 (Ukraine) | 11,4k | 10,3k | 9,5k | 9,3k | 8,9k | -22,1% |
-| Novo-Troitskoye | Ново-Троицкое | 48,42, 38,43 (Ukraine) | 11,2k | 10,1k | 9,4k | 9,1k | 8,7k | -22,1% |
 | Novoaidar | Новоайдар; Novoajdar | 48,96, 39 (Ukraine) | 8,5k | 9k | 8,6k | 8,5k | 7,9k | -7,5% |
 | Novodonetske | Новодонецьке; Novodonećke | 48,64, 36,98 (Ukraine) | 6,9k | 6,2k | 5,9k | 5,9k | 5,7k | -17,1% |
 | Novodruzhesk | Новодружеськ; Novodružeśk | 48,96, 38,35 (Ukraine) | 11,1k | 8,9k | 8k | 7,7k | 6,8k | -38,8% |
@@ -2351,7 +2134,6 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Novomyko-laivka | Новомиколаївка; Novomyko-lajivka | 48,19, 36,93 (Ukraine) | 191 | 120 | 100 | 97 | 79 | -58,6% |
 | Novoselivka | Новоселівка; Новоселивка | 49,07, 37,7 (Ukraine) | 1,7k | 1,4k | 1,2k | 1,3k | 1,3k | -25,5% |
 | Novotosh-kivske | Новотошківське; Novotoškivśke | 48,72, 38,63 (Ukraine) | 3,8k | 2,7k | 2,3k | 2,3k | 2,2k | -42,8% |
-| Novotroyitske | Новотроїцьке; Novotrojićke | 48,58, 37,22 (Ukraine) | 9,3k | 7,6k | 7,1k | 6,9k | 6,4k | -30,7% |
 | Novyi Donbas | Новий Донбас; Novyj Donbas | 48,45, 37,18 (Ukraine) | 14,3k | 12,8k | 12k | 11,6k | 11,1k | -22,1% |
 | Nyu-York | Нью-Йорк (Новгородське); Ńju-Jork (Novhorodśke) | 48,33, 37,84 (Ukraine) | 13,2k | 11,8k | 11k | 10,8k | 9,9k | -24,9% |
 | Nyzhnia Duvanka | Нижня Дуванка; Nyžnja Duvanka | 49,59, 38,17 (Ukraine) | 2,8k | 2,4k | 2,3k | 2,2k | 1,9k | -31,4% |
@@ -2361,9 +2143,6 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Oleksiyevo-Druzhkivka | Олексієво-Дружківка; Oleksijevo-Družkivka | 48,58, 37,61 (Ukraine) | 8,2k | 7,9k | 7,8k | 7,7k | 7k | -14,2% |
 | Olhynka | Ольгинка; Oľhynka | 47,7, 37,51 (Ukraine) | 4k | 3,5k | 3,3k | 3,2k | 3k | -26,4% |
 | Pavlivka | Павлівка; Павливка | 49,61, 38,7 (Ukraine) | 1,4k | 1,2k | 1,1k | 1k | 1k | -27,2% |
-| Petrivka | Петрівка; Петривка | 48,57, 37,2 (Ukraine) | 1,3k | 1,2k | 1,1k | 1,1k | 1k | -19,7% |
-| Petrivka | Петропавлівка (Петрівка); Petropavlivka (Petrivka) | 49,87, 38,8 (Ukraine) | 6,1k | 5,4k | 5k | 5k | 4,6k | -24,4% |
-| Petropavlivka | Петропавливка | 48,81, 39,27 (Ukraine) | 5,3k | 5,1k | 4,9k | 4,8k | 4,6k | -13,3% |
 | Pivdenne | Південне (Ленінське); Pivdnne (Leninśke) | 48,36, 37,93 (Ukraine) | 2,7k | 1,9k | 1,7k | 1,6k | 1,4k | -47,1% |
 | Pivnichne | Північне (Кірове); Pivnične (Kirove) | 48,4, 37,91 (Ukraine) | 11,2k | 11,6k | 10,4k | 10,1k | 9,2k | -17,5% |
 | Pokrovsk | Krasnoarmiisk; Покровськ (Красноармійськ) | 48,28, 37,18 (Ukraine) | 73k | 69k | 66k | 65k | 60,1k | -17,6% |
@@ -2387,7 +2166,6 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Sil | Сіль; Siľ | 48,72, 38,03 (Ukraine) | 1k | 798 | 704 | 685 | 654 | -35,2% |
 | Siversk | Сіверськ; Siverśk | 48,86, 38,1 (Ukraine) | 14,1k | 14,3k | 12,6k | 12k | 11,1k | -21,4% |
 | Slavyansk | Sloviansk; Tor Salt Works | 48,85, 37,61 (Ukraine) | 136k | 125k | 119k | 117k | 105,1k | -22,7% |
-| smt Volodarśke | Володарське; Никольське | 47,21, 37,32 (Ukraine) | 9,1k | 8,8k | 8,4k | 8,2k | 7,9k | -13,7% |
 | Soledar | Karlo-Libknekhtivsk; Соледар | 48,7, 38,07 (Ukraine) | 12,2k | 13,1k | 12,1k | 11,6k | 10,5k | -14,3% |
 | Sontsivka | Солнцевка | 48,05, 37,19 (Ukraine) | 932 | 795 | 708 | 668 | 604 | -35,2% |
 | Stanytsya-Luhanska | Станиця Луганська (Станично-Луганське); Stanycja Luhanśka (Stanyčno-Luhanśke) | 48,66, 39,48 (Ukraine) | 16,3k | 14,4k | 13,7k | 13,8k | 12,5k | -23,1% |
@@ -2400,13 +2178,11 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Svyatohirsk | Святогірськ (Слов’яногірськ); Svjatohirśk (Slov’janohirśk) | 49,04, 37,57 (Ukraine) | 5,8k | 5,1k | 4,8k | 4,6k | 4,3k | -25,7% |
 | Syrotyne | Сиротине; smt Syrotyne | 48,92, 38,51 (Ukraine) | 1,3k | 1,3k | 1,6k | 1,6k | 1,5k | +20,6% |
 | Talakivka | Талаківка; Талакивка | 47,18, 37,72 (Ukraine) | 3,9k | 4,2k | 4,2k | 4,1k | 3,9k | +0,1% |
-| Temriuk | Темрюк; Темрюкъ | 47,27, 36,98 (Ukraine) | 2,4k | 2,1k | 1,9k | 1,8k | 1,7k | -27,2% |
 | Toretsk | Dzerzhynsk; Торецьк (Дзержинськ) | 48,39, 37,85 (Ukraine) | 50,2k | 42,8k | 36,8k | 34,8k | 30,9k | -38,5% |
 | Torske | Торская | 49,02, 37,96 (Ukraine) | 1,6k | 1,5k | 1,4k | 1,3k | 1,2k | -24% |
 | Toshkivka | Тошківка; Toškivka | 48,78, 38,56 (Ukraine) | 5,7k | 5k | 4,4k | 4,3k | 3,9k | -32,3% |
 | Troitske | Троїцьке; Trojićke | 49,91, 38,28 (Ukraine) | 8,4k | 8,5k | 8k | 7,8k | 7,2k | -14,2% |
 | Tsukuryne | Цукурине; Cukuryne | 48,08, 37,31 (Ukraine) | 3,1k | 2,4k | 2k | 2k | 1,8k | -42,7% |
-| Tyshkivka | Тишковъ | 49,47, 39,49 (Ukraine) | 12,9k | 11,2k | 10,1k | 9,9k | 9,5k | -26,7% |
 | Udachne | Удачне; Udačne | 48,24, 36,99 (Ukraine) | 1,8k | 1,7k | 1,7k | 1,7k | 1,7k | -8,2% |
 | Ukrayinsk | Українськ; Ukrajinśk | 48,1, 37,37 (Ukraine) | 15,6k | 13k | 12,2k | 11,9k | 10,8k | -30,5% |
 | Velyka Novosilka | Велика Новосілка; Велика Новосилка | 47,84, 36,84 (Ukraine) | 8,3k | 7,4k | 6,4k | 6k | 5,4k | -35,2% |
@@ -2421,18 +2197,17 @@ coal-basin shrinkage and wartime displacement reduced the population by
 | Vrubivka | Врубівка; Врубивка | 48,76, 38,38 (Ukraine) | 1,3k | 1,2k | 1k | 993 | 889 | -32% |
 | Vuhledar | Ugledar; Вугледар | 47,78, 37,25 (Ukraine) | 19,9k | 17,2k | 15,6k | 15,3k | 14,1k | -28,8% |
 | Yalta | Ялта; Jalta | 46,96, 37,27 (Ukraine) | 5,8k | 5,7k | 5,4k | 5,3k | 4,8k | -17,4% |
-| Yampil | Ямпіль; Jampiľ | 48,94, 37,96 (Ukraine) | 2,6k | 2,3k | 1,8k | 2,1k | 1,9k | -25,3% |
 | Yarova | Ярова; Jarova | 49,06, 37,63 (Ukraine) | 2,5k | 2,2k | 1,8k | 2k | 1,9k | -25,3% |
 | Yasna Polyana | Ясна Поляна; Jasna Poljana | 48,74, 37,53 (Ukraine) | 1,4k | 2,2k | 2,1k | 2,1k | 2,2k | +58,8% |
 | Yasnohirka | Ясногірка; Jasnohirka | 48,77, 37,55 (Ukraine) | 9,5k | 8,5k | 8,4k | 8,3k | 8k | -15,3% |
 | Yevsuh | Евсуг | 49,21, 39,31 (Ukraine) | 2k | 1,8k | 1,6k | 1,5k | 1,4k | -32,6% |
 | Zaitseve | Зайцеве; Zajceve | 48,39, 38,03 (Ukraine) | 5k | 4k | 3,6k | 3,3k | 3,9k | -21,1% |
 | Zalizne | Залізне (Артемове); Zalizne (Artemove) | 48,37, 37,89 (Ukraine) | 7,6k | 6,6k | 5,8k | 5,6k | 5k | -34% |
-| Zarichne | Зарічне (Кіровськ); Zarične (Kirovśk) | 49,02, 37,93 (Ukraine) | 3,3k | 2,9k | 2,5k | 2,6k | 2,4k | -26,4% |
 | Zheleznoye | Железное | 48,32, 37,85 (Ukraine) | 5,4k | 4,9k | 4,6k | 4,4k | 4,2k | -22,1% |
 | Zolote | Золоте; Zolote | 48,7, 38,52 (Ukraine) | 22,4k | 17,6k | 15,2k | 14,4k | 13,2k | -41,1% |
 | Zolotoy Kolodez | Золотой Колодезь | 48,53, 37,24 (Ukraine) | 1,1k | 915 | 782 | 722 | 629 | -44,7% |
 | Zorykivka | Зориковка | 49,4, 39,84 (Ukraine) | 861 | 767 | 705 | 676 | 628 | -27,1% |
+| smt Volodarśke | Володарське; Никольське | 47,21, 37,32 (Ukraine) | 9,1k | 8,8k | 8,4k | 8,2k | 7,9k | -13,7% |
 
 Population of Mariupol, Kramatorsk, Sievierodonetsk and frontline towns
 in Government-Controlled Donbas (Region 9), 1991-2021.
@@ -2490,7 +2265,6 @@ to 2,47M in 2021 (Table )
 | Holubivka | Голубівка (Кіровськ); Holubivka (Kirovśk) | 48,64, 38,64 (Ukraine) | 41,6k | 34,7k | 29,6k | 28,2k | 22k | -47,2% |
 | Horbachevo-Mykhailivka | Горбачево-Михайлівка; Horbačevo-Mychajlivka | 47,85, 38,01 (Ukraine) | 1,2k | 838 | 933 | 919 | 754 | -36,7% |
 | Horlivka | Gorlovka; Горлівка | 48,31, 38,03 (Ukraine) | 338k | 292k | 263k | 254k | 239,8k | -29% |
-| Horodyshche | Городище; Horodyšče | 48,32, 38,64 (Ukraine) | 3,5k | 3,3k | 2,7k | 2,5k | 2k | -43,9% |
 | Hruzko-Lomivka | Грузько-Ломівка; Hruźko-Lomivka | 47,9, 38,11 (Ukraine) | 904 | 702 | 632 | 622 | 510 | -43,6% |
 | Hruzko-Zorianske | Грузько-Зорянське; Hruźko-Zorjanśke | 47,94, 38,09 (Ukraine) | 1,7k | 1,5k | 1,4k | 1,3k | 1,1k | -35,8% |
 | Huselske | Гусельське; Huseľśke | 47,99, 38,12 (Ukraine) | 502 | 495 | 465 | 459 | 376 | -25,1% |
@@ -2543,7 +2317,6 @@ to 2,47M in 2021 (Table )
 | Lyubymivka | Любимівка (Дзержинський); Ljubymivka (Dzeržynśkyj) | 48,05, 39,44 (Ukraine) | 9,9k | 8,7k | 8,6k | 8,7k | 7,1k | -27,9% |
 | Maiak | Маяк; Majak | 47,97, 38,03 (Ukraine) | 1,4k | 1,2k | 1,2k | 1,2k | 974 | -28,4% |
 | Makiivka | Makeyevka; Dmitrievsk | 48,05, 37,97 (Ukraine) | 427k | 390k | 360k | 352k | 339k | -20,6% |
-| Makiyivka | Макіївка; Makijivka | 48,05, 37,93 (Ukraine) | 8,7k | 7,9k | 7,3k | 7,2k | 5,7k | -35,2% |
 | Malomyko-layivka | Маломиколаївка; Malomyko-lajivka | 48,31, 39,03 (Ukraine) | 2,6k | 2k | 1,8k | 1,7k | 1,4k | -46,3% |
 | Mariia | Марія (Леніна); Marija (Lenina) | 48,43, 39,15 (Ukraine) | 1,8k | 1,3k | 1,1k | 1,1k | 864 | -51,6% |
 | Mezhove | Межове; Mežove | 47,97, 38,07 (Ukraine) | 1,7k | 1,3k | 1,2k | 1,2k | 986 | -41,9% |
@@ -2578,7 +2351,6 @@ to 2,47M in 2021 (Table )
 | Panteley-monivka | Пантелеймонівка; Pantelej-monivka | 48,2, 37,97 (Ukraine) | 8,8k | 8k | 7,8k | 7,9k | 6,1k | -29,9% |
 | Pelahiivka | Пелагіївка; Pelahijivka | 48,11, 38,61 (Ukraine) | 18,9k | 18,1k | 17,8k | 18k | 14,8k | -21,7% |
 | Perevalsk | Перевальськ; Perevaľśk | 48,44, 38,83 (Ukraine) | 31,7k | 29,3k | 26,3k | 25,7k | 21,1k | -33,3% |
-| Pervomayske | Первомайське; Pervomajśke | 47,99, 38,79 (Ukraine) | 813 | 619 | 551 | 511 | 419 | -48,5% |
 | Pervomayskyi | Первомайський; Pervomajśkyj | 47,97, 38,79 (Ukraine) | 3,4k | 3k | 2,8k | 2,8k | 2,3k | -31,9% |
 | Petrovo-Krasnosillya | Петрово-Красносілля (Петровське); Petrovo-Krasnosillja (Petrovśke) | 48,3, 38,88 (Ukraine) | 16,7k | 15,3k | 13,7k | 13,1k | 10,8k | -35,5% |
 | Pobyeda | Побєда; Pobjeda | 47,98, 38,81 (Ukraine) | 704 | 554 | 551 | 539 | 442 | -37,2% |
@@ -2597,7 +2369,7 @@ to 2,47M in 2021 (Table )
 | Shakhtarsk | Shakhtyorsk; Шахтарськ | 48,05, 38,47 (Ukraine) | 73,3k | 58,8k | 52,1k | 50,5k | 48,2k | -34,2% |
 | Shakhtarske | Шахтарське; Šachtarśke | 48,06, 39,55 (Ukraine) | 5,4k | 4,1k | 3,7k | 3,6k | 2,9k | -45,3% |
 | Shakhtne | Шахтне; Šachtne | 47,98, 38,28 (Ukraine) | 1k | 999 | 868 | 790 | 648 | -35,3% |
-| Shaposhnikova | Шапошникова | 47,75, 38,4 (Ukraine) | 8,1k | 7,3k | 6,8k | 6,7k | 5,5k | -32,6% |
+| Shaposhnikova | Шапошникова | 47,75, 38,4 (Ukraine) | 3,2k | 2,9k | 2,7k | 2,6k | 2,4k | -26% |
 | Shchotove | Щотове; Ščotove | 48,18, 39,11 (Ukraine) | 5,7k | 4,5k | 3,9k | 3,6k | 3k | -47,3% |
 | Shterivka | Штерівка; Šterivka | 48,31, 38,94 (Ukraine) | 1,9k | 1,7k | 1,3k | 1,2k | 1k | -46,4% |
 | Shyroke | Широке; Šyroke | 47,96, 38,23 (Ukraine) | 1,3k | 1k | 847 | 760 | 623 | -52,5% |
@@ -2635,7 +2407,7 @@ to 2,47M in 2021 (Table )
 | Velykyi Loh | Великий Лог; Velykyj Loh | 48,26, 39,55 (Ukraine) | 785 | 738 | 656 | 609 | 499 | -36,4% |
 | Verhulivka | Вергулівка; Вергуливка | 48,4, 38,49 (Ukraine) | 1,7k | 1,4k | 1,3k | 1,3k | 1k | -39,8% |
 | Verkhnii Naholchyk | Верхній Нагольчик; Verchnij Nahoľčyk | 48,09, 39,09 (Ukraine) | 2,2k | 2k | 1,8k | 1,7k | 1,4k | -35,2% |
-| Vil’khivchyk | Вільхівчик; Viľchivčyk | 47,85, 38,81 (Ukraine) | 8,3k | 7,5k | 7k | 6,8k | 5,6k | -32,6% |
+| Vil’khivchyk | Вільхівчик; Viľchivčyk | 47,85, 38,81 (Ukraine) | 139 | 134 | 130 | 128 | 125 | -10,1% |
 | Vilkhivka | Вільхівка; Viľchivka | 48,11, 38,31 (Ukraine) | 910 | 930 | 783 | 746 | 609 | -33,1% |
 | Voznesenivka | Вознесенівка (Червонопартизанськ); Voznesenivka (Červonopa-rtyzanśk) | 48,08, 39,79 (Ukraine) | 20,3k | 17,6k | 15,9k | 15,6k | 12,8k | -37% |
 | Vuhlehirsk | Вуглегірськ; Vuhlehirśk | 48,31, 38,27 (Ukraine) | 12,5k | 10,2k | 8,4k | 7,7k | 5,8k | -53% |
@@ -2651,7 +2423,6 @@ to 2,47M in 2021 (Table )
 | Yurivka | Юріївка (Юр’ївка); Jurijivka (Jur’jivka) | 48,5, 38,98 (Ukraine) | 4,5k | 3,4k | 3,1k | 3k | 2,4k | -45,2% |
 | Yuzhna Lomuvatka | Южна Ломуватка; Južna Lomuvatka | 48,44, 38,53 (Ukraine) | 3,9k | 3,5k | 3,4k | 3,4k | 2,7k | -30,1% |
 | Yuzovka | Donetsk; Hughesovka | 48,02, 37,8 (Ukraine) | 1,12M | 1,02M | 968k | 950k | 901,6k | -19,6% |
-| Zaporizhzhya | Запоріжжя; Zaporižžja | 48,27, 38,72 (Ukraine) | 1,5k | 1,2k | 977 | 866 | 710 | -52,7% |
 | Zemlianky | Землянки; Zemljanky | 48,13, 37,91 (Ukraine) | 2,7k | 2,2k | 1,8k | 1,7k | 1,3k | -50,6% |
 | Zhdanivka | Жданівка; Ždanivka | 48,15, 38,26 (Ukraine) | 14,6k | 13,6k | 12,6k | 12,3k | 9,9k | -32,2% |
 | Zorynsk | Зоринськ; Zorynśk | 48,41, 38,62 (Ukraine) | 9,9k | 8,7k | 7,6k | 7,3k | 5,9k | -40,7% |
@@ -2674,9 +2445,7 @@ in 2014 to 548k in 2021 (Table )
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Aeroflotskyi | Аерофлотський; Aeroflotśkyj | 45,02, 34 (Ukraine) | 2,9k | 2k | 2,2k | 2,4k | 1,7k | -43,4% |
 | Ahrarne | Аграрне; smt Ahrarne | 45,02, 34,06 (Ukraine) | 3,7k | 3,6k | 5,7k | 6,1k | 3,5k | -6,5% |
-| Akimovka | Акимовка | 45,52, 34,82 (Ukraine) | 51,6k | 46,4k | 45,3k | 44,7k | 43,6k | -15,6% |
 | Albat | Куйбишеве; Kujbyševe | 44,63, 33,87 (Ukraine) | 2,9k | 2,4k | 2,4k | 2,4k | 2,7k | -7% |
-| Aleksandrovka | Александровка | 45,58, 34,1 (Ukraine) | 327k | 293,9k | 287,2k | 283k | 275,9k | -15,6% |
 | Alupka | Алупка | 44,42, 34,04 (Ukraine) | 10,9k | 9k | 8,4k | 8,5k | 8,1k | -26,1% |
 | Alushta | Алушта; Alušta | 44,68, 34,41 (Ukraine) | 37,6k | 31,1k | 29,2k | 28,3k | 30,2k | -19,7% |
 | Armyansk | Армянськ; Armjanśk | 46,11, 33,69 (Ukraine) | 25,7k | 23,7k | 22,7k | 22,3k | 21,2k | -17,5% |
@@ -2686,27 +2455,20 @@ in 2014 to 548k in 2021 (Table )
 | Balaklava | Балаклава | 44,51, 33,6 (Ukraine) | 19,8k | 25,1k | 20,6k | 18,6k | 35,9k | +81,1% |
 | Berehove | Берегове; smt Berehove | 45,1, 35,44 (Ukraine) | 803 | 520 | 502 | 489 | 426 | -46,9% |
 | Bilohirsk | Білогірськ; Bilohirśk | 45,06, 34,6 (Ukraine) | 16,3k | 18,7k | 18,2k | 18,3k | 16,3k | -0,2% |
-| Bulganak | Булганакъ | 44,94, 33,79 (Ukraine) | 212,5k | 191k | 186,6k | 183,9k | 179,3k | -15,6% |
-| Chaykino | Чайкино | 45,81, 34,6 (Ukraine) | 19k | 17k | 16,7k | 16,4k | 16k | -15,6% |
 | Chekhovo | Чехове; Čechove | 45,55, 33,41 (Ukraine) | 5,8k | 5,2k | 5,1k | 5k | 4,9k | -15,6% |
-| Chervonoye | Червонное | 45,12, 33,69 (Ukraine) | 32,4k | 29,1k | 28,5k | 28,1k | 27,3k | -15,6% |
 | Chornomorske | Чорноморське; Čornomorśke | 45,51, 32,7 (Ukraine) | 12,5k | 11,6k | 11k | 11,1k | 11,6k | -7,5% |
 | Dmitriyevka | Дмитриевка | 45,7, 34,36 (Ukraine) | 56,1k | 50,4k | 49,2k | 48,5k | 47,3k | -15,6% |
 | Dzhankoy | Джанкой; Džankoj | 45,71, 34,39 (Ukraine) | 54,3k | 42,9k | 37,3k | 35,7k | 37,4k | -31,1% |
 | Feodosiya | Theodosia; Kefe | 45,03, 35,38 (Ukraine) | 85,6k | 74,1k | 70,4k | 69k | 67,8k | -20,8% |
 | Foros | Форос; smt Foros | 44,39, 33,79 (Ukraine) | 2,8k | 2,1k | 2k | 2k | 2k | -29,2% |
 | Goluboy Zaliv | Голуба Затока; Holuba Zatoka | 44,41, 33,99 (Ukraine) | 493 | 419 | 421 | 443 | 642 | +30,2% |
-| Gornostayevka | Горностаевка | 45,28, 36,19 (Ukraine) | 11,4k | 7,4k | 4,9k | 4,8k | 4,7k | -59% |
-| Grigorevka | Григорьевка | 45,42, 34,12 (Ukraine) | 55,1k | 49,6k | 48,4k | 47,7k | 46,5k | -15,6% |
 | Haspra | Гаспра; smt Haspra | 44,44, 34,11 (Ukraine) | 14,1k | 11k | 11,3k | 11,4k | 12,3k | -12,8% |
 | Hresivskyi | Гресівський; Hresivśkyj | 45,01, 34,03 (Ukraine) | 10k | 10,1k | 11,1k | 11,5k | 10,2k | +1,3% |
 | Hurzuf | Гурзуф; smt Hurzuf | 44,55, 34,29 (Ukraine) | 11,6k | 9,1k | 9,1k | 9,2k | 9,4k | -19% |
 | Hvardiyske | Гвардійське; Hvardijśke | 45,12, 34,02 (Ukraine) | 14,5k | 12,8k | 12,7k | 12,7k | 12,2k | -15,6% |
 | Ichki | Совєтський; Sovjetśkyj | 45,34, 34,92 (Ukraine) | 10,7k | 10,8k | 9,9k | 10,1k | 9,5k | -11,3% |
-| Ilychyovo | Рождественское | 45,28, 35,74 (Ukraine) | 57,1k | 51,3k | 50,1k | 49,4k | 48,2k | -15,6% |
 | Inkerman | Інкерман | 44,61, 33,61 (Ukraine) | 12,4k | 10,7k | 11,9k | 12k | 10k | -19,2% |
 | Islyam-Terek | Кіровське; Kirovśke | 45,23, 35,2 (Ukraine) | 8,1k | 7,4k | 7k | 7,1k | 6,5k | -19,4% |
-| Ivanovka | Ивановка | 45,07, 33,66 (Ukraine) | 58,7k | 52,8k | 51,6k | 50,8k | 49,6k | -15,6% |
 | Kacha | Кача; Kača | 44,78, 33,54 (Ukraine) | 6k | 5k | 5,2k | 5,1k | 5k | -16,3% |
 | Katsiveli | Кацівелі; Kaciveli | 44,4, 33,97 (Ukraine) | 613 | 651 | 617 | 625 | 586 | -4,4% |
 | Kayhador | Орджонікідзе; Ordžonikidze | 44,96, 35,36 (Ukraine) | 4,2k | 2,9k | 2,7k | 2,6k | 2,6k | -38,5% |
@@ -2716,15 +2478,11 @@ in 2014 to 548k in 2021 (Table )
 | Komyshova Bukhta | Комишова Бухта; Komyšova Buchta | 44,58, 33,44 (Ukraine) | 11,2k | 10,3k | 10k | 9,8k | 9,4k | -15,7% |
 | Konstant-inovka | Константиновка | 44,86, 34,12 (Ukraine) | 53,4k | 48k | 46,9k | 46,2k | 45k | -15,6% |
 | Koreyiz | Кореїз; Korejiz | 44,43, 34,08 (Ukraine) | 8,1k | 6,5k | 6,2k | 6,3k | 6k | -26,2% |
-| Krasnogv-ardeyskoye | Красногвардійське; Krasnohvardijśke | 45,18, 34,95 (Ukraine) | 12k | 11k | 10,7k | 10,8k | 11,1k | -7,8% |
 | Krasnoka-myanka | Краснокам’янка; Krasnokam’janka | 44,92, 35,08 (Ukraine) | 995 | 1,1k | 1k | 1k | 974 | -2,1% |
 | Kurortnoye | Курортне; Kurortne | 45, 34,36 (Ukraine) | 402 | 316 | 326 | 337 | 417 | +3,7% |
 | Kurpaty | Курпати; smt Kurpaty | 44,44, 34,13 (Ukraine) | 1,3k | 413 | 412 | 415 | 161 | -87,6% |
 | Livadiya | Лівадія; Livadija | 44,47, 34,14 (Ukraine) | 1,9k | 1,6k | 1,6k | 1,6k | 1,3k | -31,2% |
-| Luzhki | Лужки | 45,54, 34,85 (Ukraine) | 33,7k | 30,3k | 29,6k | 29,2k | 28,4k | -15,6% |
-| Maryevka | Марьевка | 45,11, 36,24 (Ukraine) | 68,7k | 61,8k | 60,4k | 59,5k | 58k | -15,6% |
 | Masandra | Масандра; smt Masandra | 44,52, 34,18 (Ukraine) | 6,3k | 7,3k | 8,3k | 8,6k | 7,8k | +23,2% |
-| Mikhaylovka | Михайловка | 45,53, 34,64 (Ukraine) | 223,8k | 201,2k | 196,5k | 193,7k | 188,8k | -15,6% |
 | Myrnyi | Мирний; Myrnyj | 45,31, 33,04 (Ukraine) | 5,4k | 4,1k | 4,2k | 4,2k | 3,9k | -28,8% |
 | Nauchnyi | Научний; Naučnyj | 44,73, 34,01 (Ukraine) | 1,2k | 860 | 810 | 780 | 612 | -48,4% |
 | Nikita | Нікіта; Никита | 44,51, 34,24 (Ukraine) | 2,2k | 2,4k | 2,5k | 2,5k | 2,5k | +13,4% |
@@ -2740,16 +2498,11 @@ in 2014 to 548k in 2021 (Table )
 | Otradnoye | Відрадне; Vidradne | 44,86, 33,73 (Ukraine) | 690 | 586 | 651 | 694 | 787 | +14,1% |
 | Parkovoye | Паркове; Parkove | 44,4, 33,91 (Ukraine) | 587 | 477 | 483 | 500 | 475 | -19,1% |
 | Partenit | Партеніт; Партенит | 44,58, 34,34 (Ukraine) | 9,4k | 6,2k | 6,1k | 6,1k | 6,5k | -31,2% |
-| Perekop | Перекоп | 46,16, 33,69 (Ukraine) | 64,9k | 58,3k | 57k | 56,1k | 54,7k | -15,6% |
 | Pervomayskoye | Первомайське; Pervomajśke | 45,06, 35,16 (Ukraine) | 9,2k | 9,3k | 9,1k | 9k | 7,5k | -18,6% |
-| Peschanoye | Песчаное | 44,84, 33,61 (Ukraine) | 46k | 41,3k | 40,4k | 39,8k | 38,8k | -15,6% |
 | Petropavlovka | Петропавловка | 44,9, 34,15 (Ukraine) | 92,9k | 83,5k | 81,5k | 80,4k | 78,3k | -15,6% |
 | Petrovka | Петровка | 45,5, 34,29 (Ukraine) | 8,9k | 7,6k | 7,1k | 7k | 6,8k | -23,8% |
-| Poliana | Маркуръ | 44,55, 33,9 (Ukraine) | 53,9k | 48,4k | 47,3k | 46,6k | 45,5k | -15,6% |
-| Popivka | Поповка | 46,04, 34,5 (Ukraine) | 13k | 12,3k | 11,6k | 11,3k | 10,8k | -16,9% |
 | Poshtove | Поштове; Poštove | 44,84, 33,96 (Ukraine) | 3,2k | 3k | 3,1k | 3,2k | 3,1k | -3,3% |
 | Prymorskyi | Приморський; Prymorśkyj | 45,11, 35,48 (Ukraine) | 15k | 14,1k | 14,8k | 15k | 13,3k | -11,2% |
-| Pyatikhatka | Пятихатка | 45,32, 34,26 (Ukraine) | 40k | 35,9k | 35,1k | 34,6k | 33,7k | -15,6% |
 | Rozdolne | Роздольне; Rozdoľne | 45,77, 33,49 (Ukraine) | 8,3k | 8,1k | 7,3k | 7,3k | 7,2k | -12,6% |
 | Sakharna Holovka | \- | 44,58, 33,64 (Ukraine) | 4,5k | 4,3k | 4,2k | 4,1k | 6,2k | +38,8% |
 | Saky | Саки | 45,13, 33,6 (Ukraine) | 39,2k | 29k | 24,6k | 23,4k | 24,3k | -38,1% |
@@ -2757,15 +2510,11 @@ in 2014 to 548k in 2021 (Table )
 | Sevastopol | Sebastopol; Akhtiar Naval Base | 44,62, 33,53 (Ukraine) | 366k | 342k | 340k | 393k | 510k | +39,3% |
 | Shchebetovka | Щебетовка; Ščebetovka | 44,94, 35,16 (Ukraine) | 3k | 3,3k | 3,4k | 3,6k | 3,5k | +16,4% |
 | Shcholkine | Щолкіне; Ščolkine | 45,43, 35,82 (Ukraine) | 15,1k | 11,7k | 11,2k | 11,2k | 10,1k | -33,5% |
-| Shirokoye | Широкое | 45,2, 34,05 (Ukraine) | 94,9k | 85,3k | 83,3k | 82,1k | 80,1k | -15,6% |
 | Simeyiz | Сімеїз; Simejiz | 44,41, 34,01 (Ukraine) | 4,7k | 4k | 3,9k | 3,9k | 2,8k | -40,8% |
 | Simferopol | Aqmescit; Taurida Capital | 44,95, 34,1 (Ukraine) | 353k | 344k | 336k | 332k | 340,5k | -3,5% |
-| Snezhnoye | Снежное | 45,53, 32,84 (Ukraine) | 50,5k | 45,4k | 44,4k | 43,7k | 42,6k | -15,6% |
 | Sovetskoye | Совєтське; Sovjetśke | 45,57, 34,5 (Ukraine) | 709 | 543 | 574 | 579 | 718 | +1,3% |
 | Staryi Krym | Старий Крим; Staryj Krym | 45,03, 35,09 (Ukraine) | 10,6k | 10k | 9,5k | 9,5k | 9,4k | -11,1% |
-| Storozhevoe | Сторожевое | 45,18, 33,91 (Ukraine) | 52k | 46,7k | 45,6k | 45k | 43,8k | -15,6% |
 | Sudak | Судак | 44,85, 34,97 (Ukraine) | 16,7k | 14,5k | 15,2k | 15,5k | 16,2k | -2,8% |
-| Vesele | Кутлакъ | 44,86, 34,88 (Ukraine) | 58,8k | 52,9k | 51,6k | 50,9k | 49,6k | -15,6% |
 | Vilne | Вільне; Viľne | 45,57, 34,3 (Ukraine) | 3,6k | 1,8k | 2k | 2,1k | 2k | -43,5% |
 | Voskhod | Восход; Voschod | 45,51, 34,39 (Ukraine) | 609 | 475 | 448 | 456 | 495 | -18,7% |
 | Voykovo | Войково | 45,38, 36,44 (Ukraine) | 28,6k | 18,2k | 11,5k | 11,4k | 11,1k | -61,3% |
@@ -2776,8 +2525,6 @@ in 2014 to 548k in 2021 (Table )
 | Yevpatoria | Evpatoria Resort; Євпаторія | 45,19, 33,37 (Ukraine) | 111k | 106k | 107k | 106k | 108,1k | -2,6% |
 | Zalesnoye | Залісне; Zalisne | 44,62, 33,79 (Ukraine) | 3,1k | 2,6k | 2,5k | 2,4k | 2,4k | -23,1% |
 | Zaozerne | Заозерне; smt Zaozerne | 45,16, 33,28 (Ukraine) | 6,4k | 4,6k | 4,9k | 5k | 4,8k | -25% |
-| Zaytsevo | Зайцево | 45,54, 32,88 (Ukraine) | 22k | 19,7k | 19,3k | 19k | 18,5k | -15,6% |
-| Zhuravlyovka | Журавлівка; Žuravlivka | 45,18, 34 (Ukraine) | 9,5k | 6k | 3,8k | 3,7k | 3,6k | -61,7% |
 | Zuya | Зуя; Zuja | 45,05, 34,32 (Ukraine) | 6k | 6,9k | 7k | 7,2k | 6,6k | +9,7% |
 
 Population of Sevastopol, Simferopol, Kerch and Yevpatoria in Crimea
@@ -2800,7 +2547,7 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Andreyevka | Андреевка; Andrejevka | 55,98, 37,13 (Russia) | 6,4k | 8,5k | 10k | 10,7k | 10,4k | +62,1% |
 | Aniskino | Анискино | 55,91, 38,1 (Russia) | 596 | 548 | 836 | 976 | 1,3k | +114,8% |
 | Aprelevka | Апрелевка | 55,55, 37,08 (Russia) | 20,7k | 18,4k | 18,3k | 22,9k | 35,5k | +71,4% |
-| Aristovo | Аристово | 55,18, 39,89 (Russia) | 9,5k | 8,5k | 7,8k | 7,6k | 7,1k | -25,4% |
+| Aristovo | Аристово | 55,18, 39,89 (Russia) | 4,7k | 4,2k | 3,9k | 3,7k | 3,5k | -26% |
 | Arkhangelskoe | Архангельское | 55,85, 35,33 (Russia) | 3,9k | 3,6k | 4,4k | 4,1k | 3,7k | -5,1% |
 | Ashukino | Ашукино; Ašukino | 56,17, 37,95 (Russia) | 4,8k | 6,4k | 9,9k | 9,7k | 8,9k | +83,6% |
 | Avsyunino | Авсюнино | 55,57, 39,12 (Russia) | 4,2k | 5,2k | 4,9k | 5,2k | 5,5k | +31% |
@@ -2833,7 +2580,7 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Dedinovo | Дединово | 55,06, 39,13 (Russia) | 2,1k | 2k | 1,9k | 1,9k | 1,9k | -9,5% |
 | Dedovsk | Дедовск; Дедовский | 55,87, 37,12 (Russia) | 30,2k | 27,7k | 29,1k | 29,5k | 30,7k | +1,6% |
 | Demikhovo | Демихово | 55,8, 38,88 (Russia) | 5,9k | 5,5k | 5,6k | 6k | 6,8k | +14,9% |
-| Dmitrov | Дмитров | 56,34, 37,52 (Russia) | 64,8k | 62,2k | 61,3k | 64,9k | 65,6k | +1,3% |
+| Dmitrov | Дмитров; Dmitrov Yakhroma | 56,34, 37,52 (Russia) | 64,8k | 62,2k | 61,3k | 64,9k | 65,6k | +1,3% |
 | Dmitrovskoye | Дмитровское | 55,75, 37,12 (Russia) | 715 | 569 | 602 | 587 | 561 | -21,5% |
 | Dolgoprudnyy | Долгопрудный; Dolgoprudnyj | 55,95, 37,5 (Russia) | 70,4k | 68,8k | 91k | 97,5k | 120,9k | +71,6% |
 | Domodedovo | Domodedovo Moscow Oblast; Домодедово | 55,44, 37,77 (Russia) | 56k | 56k | 96k | 108k | 152,4k | +172,2% |
@@ -2896,11 +2643,10 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kupavna | Купавна | 55,75, 38,13 (Russia) | 5,2k | 6,7k | 9,1k | 9,5k | 10,2k | +96,9% |
 | Kurovskoye | Куровское; Kurovskoje | 55,58, 38,92 (Russia) | 20,9k | 19,5k | 21,8k | 21,4k | 19,9k | -4,9% |
 | L’vovskij | Львовский | 55,32, 37,52 (Russia) | 12,7k | 11,9k | 10,9k | 10,9k | 11,6k | -8,9% |
-| Lesnoy | Лесной; Lesnoj | 56,07, 37,92 (Russia) | 9,2k | 8,8k | 8,6k | 8,4k | 10,1k | +9,4% |
-| Lesnoy Gorodok | Лесной Городок; Lesnoj Gorodok | 55,64, 37,21 (Russia) | 4,4k | 5,1k | 7,2k | 8,6k | 14,8k | +234,7% |
-| Lesnyye Polyany | Лесные Поляны | 55,97, 37,87 (Russia) | 4k | 3,7k | 4,1k | 4,3k | 4,8k | +22,1% |
-| Lishnyagi | Лишняги | 54,42, 38,52 (Russia) | 14,6k | 13,6k | 14k | 14,6k | 15,8k | +8,4% |
 | LMS | ЛМС | 55,31, 37,19 (Russia) | 4,9k | 5,4k | 5,2k | 6,3k | 8,8k | +78,2% |
+| Lesnoy Gorodok | Лесной Городок; Lesnoj Gorodok | 55,64, 37,21 (Russia) | 4,4k | 5,1k | 7,2k | 8,6k | 14,8k | +234,7% |
+| Lesnoy | Лесной; Lesnoj | 56,07, 37,92 (Russia) | 9,2k | 8,8k | 8,6k | 8,4k | 10,1k | +9,4% |
+| Lesnyye Polyany | Лесные Поляны | 55,97, 37,87 (Russia) | 4k | 3,7k | 4,1k | 4,3k | 4,8k | +22,1% |
 | Lobnya | Лобня; Lobnja | 56,03, 37,47 (Russia) | 60,6k | 61,6k | 74,3k | 82,1k | 82,8k | +36,5% |
 | Lopatino | Лопатино | 55,53, 37,65 (Russia) | 118 | 108 | 222 | 880 | 9,8k | +8,22k% |
 | Lopatinskiy | Лопатинский; Lopatinskij | 55,34, 38,72 (Russia) | 14,2k | 14,3k | 14,5k | 15,1k | 16,3k | +14,3% |
@@ -2941,8 +2687,6 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Nemchinovka | Немчиновка; Nemčinovka | 55,72, 37,36 (Russia) | 1,4k | 1,7k | 2,5k | 4,6k | 12,6k | +823,2% |
 | Nemchinovo | Немчиново | 55,68, 37,36 (Russia) | 462 | 357 | 329 | 493 | 1k | +116,7% |
 | Nikol’sko-Arhangel’skij | Никольско-Архангельский | 55,74, 37,97 (Russia) | 11,7k | 18,6k | 19,2k | 20k | 21,6k | +85% |
-| Novo-Arkhangelsk | Ново-Архангельск | 55,45, 36,4 (Russia) | 10,9k | 10,2k | 10,5k | 11k | 11,9k | +8,4% |
-| Novo-Mikhaylo-vskoye | Ново-Михайловское | 55,45, 36,28 (Russia) | 28,3k | 26,5k | 27,2k | 28,4k | 30,7k | +8,4% |
 | Novobrat-tsevskiy | Новобратцевский; Novobrat-cevskij | 55,85, 37,36 (Russia) | 2,8k | 3,1k | 3,5k | 4,3k | 5,9k | +110,4% |
 | Novoivan-ovskoye | Новоивановское; Novoivan-ovskoje | 55,7, 37,37 (Russia) | 759 | 712 | 6k | 5,9k | 12,3k | +1,53k% |
 | Novopetr-ovskoye | Новопетровское | 55,99, 36,47 (Russia) | 4,3k | 5,2k | 4,9k | 5,4k | 6,4k | +48,5% |
@@ -2954,7 +2698,6 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Oktjabr’skij | Октябрьский | 55,61, 37,98 (Russia) | 8,8k | 10,1k | 13,2k | 16,4k | 24,7k | +179,1% |
 | Opalikha | Опалиха; Opaliha | 55,83, 37,25 (Russia) | 5k | 5,1k | 5,2k | 5,4k | 5,8k | +16% |
 | Orekhovo-Zuevo | Morozov Mills; Nikolskoe-Orekhovo | 55,81, 38,96 (Russia) | 134,8k | 122,2k | 120,7k | 120,7k | 105,7k | -21,5% |
-| Orekhovo-Zuyevo | Никольское | 55,81, 38,99 (Russia) | 965 | 763 | 613 | 662 | 756 | -21,7% |
 | Ostrov | Островъ | 55,59, 37,84 (Russia) | 65,5k | 61,4k | 63,1k | 65,9k | 71,1k | +8,4% |
 | Ostrovtsy | Островцы | 55,59, 38,01 (Russia) | 3,1k | 3,7k | 5,5k | 8,1k | 15,8k | +406,7% |
 | Otradnoye | Отрадное | 55,88, 37,31 (Russia) | 10,1k | 9,9k | 9,7k | 9,6k | 9,4k | -6,8% |
@@ -2996,11 +2739,9 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Rzhavki | Ржавки; Ržavki | 56,02, 37,23 (Russia) | 4,4k | 4,1k | 4k | 5k | 4,8k | +10,3% |
 | Saburovo | Сабурово | 56, 38,05 (Russia) | 8,4k | 8,2k | 8k | 7,9k | 7,8k | -6,8% |
 | Saltykovka | Салтыковка | 55,77, 37,94 (Russia) | 5k | 4,6k | 4,7k | 4,9k | 5,2k | +4,7% |
-| Sapronovo | Сапроново | 55,22, 38,43 (Russia) | 18,1k | 17,6k | 17,3k | 17,1k | 16,8k | -6,8% |
 | Selyatino | Селятино; Seljatino | 55,52, 36,98 (Russia) | 13,9k | 13,1k | 12,6k | 12,9k | 14,5k | +4,3% |
 | Semkhoz | Семхоз; Semhoz | 56,28, 38,07 (Russia) | 3k | 2,9k | 2,9k | 3k | 3,2k | +6,2% |
 | Serebryanyye Prudy | Серебряные Пруды; Serebrjanyje Prudy | 54,47, 38,73 (Russia) | 9k | 9k | 9,7k | 9,5k | 9k | -0,2% |
-| Sereda | Середа | 55,9, 35,5 (Russia) | 190,3k | 178,3k | 183,3k | 191,4k | 206,4k | +8,4% |
 | Sergiyev Posad | Сергиев Посад; Sergijev Posad | 56,31, 38,14 (Russia) | 114,5k | 113,6k | 111,2k | 106,7k | 101,8k | -11,1% |
 | Serpukhov | Serpukhov Textile; Serpukhov Oka | 54,92, 37,41 (Russia) | 141,6k | 131,1k | 127k | 127,1k | 133,8k | -5,5% |
 | Severnyy | Северный; Severnyj | 56,73, 37,65 (Russia) | 4k | 3,8k | 4,1k | 3,9k | 3,9k | -3,1% |
@@ -3017,7 +2758,6 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Skoropus-kovskiy | Скоропусковский; Skoropus-kovskij | 56,37, 38,17 (Russia) | 6,1k | 5,5k | 6,7k | 6,8k | 6,6k | +8,2% |
 | Snegiri | Снегири | 55,89, 37,02 (Russia) | 4,1k | 3,5k | 3,2k | 3,1k | 5,6k | +34,7% |
 | Sofino | Софьино | 55,51, 38,18 (Russia) | 1,9k | 2k | 2,3k | 2,8k | 4,1k | +114,3% |
-| Sofiyskoye | Софийское | 56,26, 35,54 (Russia) | 28,7k | 26,9k | 27,6k | 28,8k | 31,1k | +8,4% |
 | Sofrino | Софрино | 56,15, 37,93 (Russia) | 12,4k | 15,5k | 15,8k | 15,3k | 15,1k | +22,4% |
 | Solnechn-ogorsk | Солнечногорск; Solnečnogorsk | 56,18, 36,97 (Russia) | 56k | 58,4k | 52,9k | 52,8k | 48,4k | -13,5% |
 | Staraya Kupavna | Старая Купавна; Staraja Kupavna | 55,81, 38,18 (Russia) | 24,5k | 21,4k | 21,8k | 22k | 22,9k | -6,4% |
@@ -3044,7 +2784,6 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Verzilovo | Верзилово | 55,02, 38,09 (Russia) | 6,4k | 6,3k | 6,1k | 6,1k | 6k | -6,9% |
 | Vidnoye | Видное; Vidnoje | 55,55, 37,71 (Russia) | 55,3k | 52,2k | 56,8k | 57,4k | 101,5k | +83,7% |
 | Vishnyak-ovskiye Dachi | Вишняковские Дачи; Višnjakovskije Dači | 55,76, 38,13 (Russia) | 1,9k | 1,8k | 2,6k | 2,8k | 3k | +54% |
-| Vladychino | Владычино | 56,09, 35,88 (Russia) | 61,5k | 57,6k | 59,2k | 61,8k | 66,7k | +8,4% |
 | Vlasikha | Власиха; Vlasiha | 55,68, 37,2 (Russia) | 28,2k | 27,1k | 26,4k | 25,9k | 28,2k | +0,1% |
 | Vnukovo | Внуково | 55,61, 37,3 (Russia) | 14,5k | 20,1k | 21k | 23,5k | 27,5k | +90,1% |
 | Volodarskogo | Володарского | 55,5, 37,94 (Russia) | 3,7k | 3,5k | 4,5k | 5,9k | 9,3k | +151,9% |
@@ -3069,7 +2808,6 @@ and Mytishchi (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Zhukovsky | TsAGI Aviation Naukograd; Жуковский | 55,6, 38,12 (Russia) | 101k | 101,3k | 104,7k | 107,6k | 111,2k | +10,1% |
 | Znamya Oktyabrya | Знамя Октября | 55,48, 37,54 (Russia) | 5,9k | 6,5k | 7,4k | 8,9k | 12,4k | +110,3% |
 | Zubovo | Зубово | 56,38, 36,93 (Russia) | 1,2k | 1,2k | 1,1k | 1,1k | 1,1k | -7,5% |
-| Zuyevo | Зуево | 56,39, 37,1 (Russia) | 63,1k | 59,1k | 60,7k | 63,4k | 68,4k | +8,4% |
 | Zvenigorod | Звенигород | 55,73, 36,86 (Russia) | 15,2k | 12,2k | 16,4k | 18,2k | 35,8k | +136,1% |
 | Zvjozdnyj Gorodok | Звёздный Городок; Звездный городок | 55,88, 38,11 (Russia) | 6,8k | 6,5k | 6,3k | 5,8k | 7,7k | +14,1% |
 | Êlektrostal’ | Электросталь; Затишье | 55,79, 38,46 (Russia) | 151,5k | 146,3k | 155,2k | 157,4k | 146,4k | -3,4% |
@@ -3108,7 +2846,6 @@ of Saint Petersburg (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Druzhba | Дружба; Družba | 54,49, 21,19 (Russia) | 688 | 515 | 440 | 454 | 481 | -30,1% |
 | Druzhnaya Gorka | Дружная Горка; Družnaja Gorka | 59,28, 30,13 (Russia) | 4,1k | 3,7k | 3,5k | 3,6k | 3,4k | -16,5% |
 | Dubrovka | Дубровка | 59,84, 30,93 (Russia) | 6k | 5,4k | 6,7k | 7,1k | 7,5k | +26% |
-| Dubrovy | Дубровы; Новодашково | 59,33, 31,45 (Russia) | 23,9k | 22,9k | 23,2k | 23,4k | 23,9k | +0,1% |
 | Fjodorovskoje | Фёдоровское; Федоровское | 59,66, 30,53 (Russia) | 3,2k | 3k | 2,9k | 3,1k | 4,8k | +48,8% |
 | Fornosovo | Форносово | 59,57, 30,55 (Russia) | 3k | 4,9k | 6,4k | 6,4k | 4,7k | +56,1% |
 | Garbolovo | Гарболово | 60,34, 30,5 (Russia) | 4k | 3,8k | 4k | 4,2k | 4,5k | +13,3% |
@@ -3135,12 +2872,9 @@ of Saint Petersburg (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kommunar | Коммунар | 59,62, 30,39 (Russia) | 17,7k | 17,2k | 20,2k | 21,3k | 25,8k | +45,8% |
 | Kornevo | Корнево; Zinten | 54,44, 20,29 (Russia) | 2,3k | 1,9k | 1,9k | 1,9k | 1,8k | -23% |
 | Koshevoye | Кошевое; Koševoje | 54,71, 20,75 (Russia) | 119 | 50 | 20 | 18 | 14 | -88,2% |
-| Koshkovo | Буялык Большой | 59,78, 33,92 (Russia) | 25,3k | 24,3k | 24,6k | 24,9k | 25,4k | +0,1% |
-| Koverino | Коверино | 61, 29,76 (Russia) | 25,7k | 24,7k | 25k | 25,2k | 25,7k | +0,1% |
 | Krasnozn-amensk | Краснознаменск; Lasdehnen | 54,94, 22,49 (Russia) | 3,9k | 3,8k | 3,5k | 3,4k | 3,4k | -11,7% |
 | Krasnyy Bor | Красный Бор; Krasnyj Bor | 59,68, 30,67 (Russia) | 5,6k | 4,9k | 5k | 5,4k | 4,6k | -17,6% |
 | Kronstadt | Kronshtadt; Baltic Fleet Base | 59,99, 29,77 (Russia) | 44,8k | 43,4k | 43k | 43,7k | 44,4k | -0,9% |
-| Krylovo | Крылово; Nordenburg | 54,33, 21,55 (Russia) | 971 | 756 | 785 | 795 | 814 | -16,2% |
 | Kudrovo | Кудрово | 59,9, 30,51 (Russia) | 143 | 140 | 137 | 1,5k | 60,8k | +42,41k% |
 | Kutuzovo | Кутузово; Schirwindt | 54,78, 22,84 (Russia) | 37 | 18 | 54 | 51 | 46 | +24,3% |
 | Kuz’molovskij | Кузьмоловский | 60,11, 30,49 (Russia) | 10,3k | 9,7k | 9,7k | 10,1k | 12,8k | +24,2% |
@@ -3162,12 +2896,10 @@ of Saint Petersburg (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Metallostroy | Металлострой; Metallostroj | 59,8, 30,55 (Russia) | 23,3k | 25,7k | 26,4k | 27,9k | 26,9k | +15,4% |
 | Mga | Мга | 59,75, 31,07 (Russia) | 9,8k | 9,6k | 10,2k | 10,3k | 11,2k | +13,6% |
 | Molodezhnoye | Молодежное; Molodežnoje | 60,2, 29,52 (Russia) | 1,6k | 1,4k | 1,6k | 1,7k | 1,7k | +9% |
-| Mozyr | Мозырь | 54,44, 21,48 (Russia) | 20,8k | 22,3k | 21,9k | 21,8k | 21,6k | +3,7% |
 | Murino | Murino Vsevolozhsky; Мурино | 60,05, 30,45 (Russia) | 5,4k | 5k | 7k | 13k | 89,1k | +1,55k% |
-| Naziya | Назия; Nazija | 59,9, 31,34 (Russia) | 7,4k | 5,8k | 4,9k | 4,9k | 6,3k | -14,4% |
+| Naziya | Назия; Nazija | 59,9, 31,34 (Russia) | 3,3k | 3k | 2,8k | 2,7k | 2,5k | -26% |
 | Neman | Неман; Ragnit | 55,03, 22,03 (Russia) | 13,6k | 12,7k | 11,8k | 11,5k | 9,3k | -32,2% |
 | Nesterov | Нестеров; Stallup | 54,63, 22,57 (Russia) | 4,9k | 5k | 4,6k | 4,4k | 3,3k | -31,4% |
-| Nikol’skij | Никольский | 60,92, 34,06 (Russia) | 3k | 2,9k | 3k | 2,9k | 2,5k | -15,1% |
 | Nikol’skoje | Никольское | 59,7, 30,78 (Russia) | 17,2k | 17,3k | 19,3k | 20,5k | 22,4k | +29,8% |
 | Novaya Ladoga | Новая Ладога; Novaja Ladoga | 60,1, 32,3 (Russia) | 11,1k | 9,9k | 8,8k | 8,8k | 7,4k | -32,9% |
 | Novoselje | Новоселье | 59,81, 30,07 (Russia) | 2,5k | 2,4k | 2,8k | 3,3k | 7,6k | +210,6% |
@@ -3186,12 +2918,10 @@ of Saint Petersburg (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Pikaljovo | Пикалёво; Пикалево | 59,52, 34,17 (Russia) | 24,3k | 23,3k | 21,6k | 20,9k | 20,4k | -16,2% |
 | Pionerskiy | Пионерский; Pionerskij | 54,95, 20,23 (Russia) | 11,7k | 11,8k | 11k | 11,6k | 12,8k | +9,7% |
 | Podgorovka | Подгоровка | 54,6, 22,32 (Russia) | 8,5k | 9k | 8,9k | 8,9k | 8,8k | +3,7% |
-| Podlipnoye | Подлипное | 54,84, 21,46 (Russia) | 11,4k | 12,2k | 12k | 12k | 11,9k | +3,7% |
 | Podporož’je | Подпорожье | 60,91, 34,16 (Russia) | 22,8k | 20,3k | 18,7k | 18,2k | 16,1k | -29,3% |
 | Polessk | Полесск; Labiau | 54,86, 21,1 (Russia) | 7k | 7,7k | 7,6k | 7,3k | 6,9k | -0,8% |
 | Pontonnyy | Понтонный; Pontonnyj | 59,79, 30,62 (Russia) | 10,6k | 9,2k | 8,3k | 8,7k | 8,6k | -19% |
 | Pravdinsk | Правдинск; Friedland | 54,44, 21,02 (Russia) | 4,2k | 4,5k | 4,3k | 4,3k | 4k | -4,9% |
-| Preobraz-henskoye | Преображенское | 58,88, 28,43 (Russia) | 39,2k | 37,5k | 38k | 38,4k | 39,2k | +0,1% |
 | Priladozhskiy | Приладожский; Priladožskij | 59,87, 31,32 (Russia) | 5,3k | 5,2k | 5,8k | 5,7k | 5,8k | +9,5% |
 | Primor’je | Приморье; Gro | 54,94, 20,04 (Russia) | 725 | 848 | 954 | 1k | 777 | +7,2% |
 | Primorsk | Приморск; Fischhausen | 54,74, 20,01 (Russia) | 1,8k | 2,1k | 2k | 1,9k | 1,4k | -22,1% |
@@ -3243,8 +2973,6 @@ of Saint Petersburg (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Tsarskoe Selo | Pushkin; Detskoe Selo | 59,72, 30,4 (Russia) | 93,7k | 84,6k | 92,9k | 100,8k | 107,2k | +14,5% |
 | Tyarlevo | Тярлево; Tjarlevo | 59,71, 30,45 (Russia) | 826 | 1,6k | 1,9k | 1,8k | 1,7k | +104,8% |
 | Ul’janovka | Ульяновка; Саблино | 59,64, 30,76 (Russia) | 9,5k | 9,2k | 11,6k | 12,6k | 11,7k | +22,4% |
-| Ulyanino | Ульянино | 60,11, 33,26 (Russia) | 60,6k | 58,1k | 58,8k | 59,5k | 60,7k | +0,1% |
-| Ushkovo | Ушково; Uškovo | 60,2, 29,63 (Russia) | 4,1k | 482 | 618 | 640 | 808 | -80,2% |
 | Ust’-Ižora | Усть-Ижора | 59,81, 30,58 (Russia) | 1,3k | 1,2k | 1,4k | 1,6k | 2,6k | +91,5% |
 | Vasilkovo | Васильково | 54,89, 20,4 (Russia) | 4k | 4,2k | 4,5k | 5,7k | 8,7k | +117,1% |
 | Vazhiny | Важины; Važiny | 60,96, 34,02 (Russia) | 3,8k | 2,9k | 2,8k | 2,7k | 2,5k | -34,3% |
@@ -3280,22 +3008,15 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Aleshnya | Алешня | 57,64, 30,06 (Russia) | 16,2k | 14,3k | 12,4k | 11,7k | 10,7k | -34,1% |
 | Ambarnyy | Амбарный; Ambarnyj | 65,9, 33,71 (Russia) | 1,3k | 1k | 675 | 544 | 373 | -71,8% |
 | Antsiferovo | Анциферово; Anciferovo | 58,97, 34,01 (Russia) | 1,2k | 934 | 865 | 832 | 776 | -34,7% |
 | Babayevo | Бабаево; Babajevo | 59,39, 35,94 (Russia) | 14k | 12,6k | 12,1k | 11,6k | 11,7k | -15,9% |
-| Belka | Белка | 58,32, 32,22 (Russia) | 14,1k | 13k | 11,4k | 10,8k | 9,8k | -30,1% |
 | Belomorsk | Soroka; White Sea-Baltic Canal Terminus | 64,52, 34,77 (Russia) | 17,9k | 13,1k | 11,2k | 10,4k | 7,7k | -56,9% |
 | Belozersk | Белозерск | 60,03, 37,81 (Russia) | 12,1k | 11k | 9,6k | 9,4k | 8,4k | -31% |
-| Bereg | Берегъ | 63,13, 33,17 (Russia) | 15,5k | 13,4k | 11,1k | 10k | 8,2k | -47% |
 | Bezhanitsy | Бежаницы; Bežanicy | 56,98, 29,88 (Russia) | 6,4k | 4,8k | 4,3k | 3,9k | 3,7k | -42,1% |
 | Bol’šaja Višera | Большая Вишера | 58,91, 32,09 (Russia) | 2,3k | 1,9k | 1,5k | 1,3k | 956 | -58,7% |
-| Borisogl-ebskoye | Борисоглебское | 59,47, 39,16 (Russia) | 38,6k | 36,1k | 33,9k | 32,4k | 30k | -22,2% |
 | Borovichi | Боровичи; Boroviči | 58,39, 33,92 (Russia) | 62,2k | 57,8k | 53,7k | 52,7k | 47,9k | -23% |
-| Borovno | Боровно | 56,04, 30,45 (Russia) | 15,3k | 13,6k | 11,7k | 11,1k | 10,1k | -34,1% |
 | Borovoy | Боровой; Borovoj | 64,61, 32,25 (Russia) | 3k | 2,4k | 1,9k | 1,7k | 1,3k | -54,6% |
-| Borovskaya | Боровская | 66,28, 30,86 (Russia) | 13,4k | 11,6k | 9,6k | 8,6k | 7,1k | -47% |
-| Buylovo | Буйловка | 58,24, 33,01 (Russia) | 22,4k | 20,6k | 18,2k | 17,2k | 15,7k | -30,1% |
 | Chagoda | Чагода; Čagoda | 59,16, 35,33 (Russia) | 8,1k | 7,4k | 6,9k | 6,5k | 5,7k | -29,3% |
 | Chalna | Чална; Čalna | 61,88, 34,06 (Russia) | 4,6k | 2,8k | 2,4k | 2,5k | 2,7k | -40,5% |
 | Chebsara | Чёбсара; Čjobsara | 59,2, 38,84 (Russia) | 2,6k | 1,8k | 1,4k | 1,3k | 1k | -59,2% |
@@ -3307,21 +3028,19 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Demyansk | Демянск; Demjansk | 57,64, 32,47 (Russia) | 6k | 5,8k | 5,4k | 4,9k | 4,5k | -24,6% |
 | Derevyanka | Деревянка; Derevjanka | 61,57, 34,45 (Russia) | 2k | 1,9k | 1,6k | 1,7k | 1,7k | -14,1% |
 | Dno | Дно | 57,83, 29,97 (Russia) | 12k | 10k | 9,1k | 8,3k | 7,8k | -34,6% |
-| Dubovo | Дубово | 61,77, 37,73 (Russia) | 9,7k | 8,3k | 6,9k | 6,2k | 5,1k | -46,9% |
-| Dubrovy | Дубровы | 56,98, 29,2 (Russia) | 22,1k | 19,5k | 16,9k | 16k | 14,6k | -34,1% |
+| Dubovo | Дубово | 61,77, 37,73 (Russia) | 3k | 2,7k | 2,5k | 2,4k | 2,2k | -26% |
 | Elisenvaara | Элисенваара; Êlisenvaara | 61,41, 29,76 (Russia) | 877 | 827 | 720 | 664 | 576 | -34,3% |
 | Fedotovo | Федотово | 60,1, 42,8 (Russia) | 5,2k | 4,8k | 5,3k | 4,9k | 4,2k | -18% |
 | Gdov | Гдов | 58,74, 27,82 (Russia) | 5,9k | 5,2k | 4,4k | 3,8k | 3,5k | -41,2% |
 | Girvas | Гирвас | 62,48, 33,68 (Russia) | 1,5k | 1,2k | 1,1k | 974 | 804 | -47,6% |
-| Gorodno | Городно | 57,53, 29,58 (Russia) | 8,7k | 7,7k | 6,6k | 6,3k | 5,7k | -34,1% |
-| Govorovo | Говорово | 58,23, 31,95 (Russia) | 9k | 8,3k | 7,3k | 6,9k | 6,3k | -30,1% |
+| Gorodno | Городно | 57,53, 29,58 (Russia) | 2,5k | 2,2k | 2,1k | 2k | 1,8k | -26% |
+| Govorovo | Говорово | 58,23, 31,95 (Russia) | 2,3k | 2,1k | 1,9k | 1,9k | 1,7k | -26% |
 | Grigorovo | Григорово | 58,55, 31,21 (Russia) | 2,6k | 2,4k | 3,3k | 3,8k | 4,9k | +87,7% |
 | Gruzino | Грузино | 59,15, 31,89 (Russia) | 1,2k | 946 | 815 | 746 | 638 | -48,4% |
 | Gryazovets | Грязовец; Grjazovec | 58,88, 40,25 (Russia) | 16,4k | 16,2k | 15,5k | 15,1k | 14,5k | -11,5% |
 | Idel’ | Идель | 64,13, 34,24 (Russia) | 838 | 712 | 454 | 390 | 298 | -64,4% |
 | Idritsa | Идрица; Idrica | 56,33, 28,89 (Russia) | 5,5k | 5,8k | 5k | 4,9k | 4k | -27,8% |
 | Il’inskij | Ильинский | 61,01, 32,67 (Russia) | 3,3k | 3,2k | 2,9k | 2,6k | 2,1k | -37,9% |
-| Ilyushkino | Илюшкино | 58,7, 40,98 (Russia) | 18,6k | 17,4k | 16,3k | 15,6k | 14,4k | -22,2% |
 | Imeni Zhelyabova | им. Желябова; im. Željabova | 58,95, 36,6 (Russia) | 1,3k | 1,1k | 962 | 801 | 581 | -56,5% |
 | Impilakhti | Импилахти; Impilahti | 61,67, 31,16 (Russia) | 927 | 818 | 703 | 651 | 568 | -38,7% |
 | Kadnikov | Кадников | 59,5, 40,34 (Russia) | 5,3k | 5,4k | 4,8k | 4,7k | 4,1k | -22,8% |
@@ -3336,12 +3055,10 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Khetolambina | Хетоламбина; Hetolambina | 66,36, 33,28 (Russia) | 271 | 139 | 72 | 73 | 74 | -72,7% |
 | Khokhlovo | Хохлово; Hohlovo | 59,15, 37,4 (Russia) | 2,8k | 2,5k | 2,5k | 2,4k | 2,1k | -23,2% |
 | Kholm | Холм; Holm | 57,15, 31,18 (Russia) | 4,8k | 4,3k | 3,8k | 3,6k | 3,2k | -32,5% |
-| Kholm | Холм | 55,88, 31,13 (Russia) | 22,3k | 19,7k | 17,1k | 16,1k | 14,7k | -34,1% |
 | Khvoynaya | Хвойная; Hvojnaja | 58,9, 34,51 (Russia) | 7,5k | 6,8k | 6,4k | 6,1k | 6,1k | -18,3% |
 | Kichmengskiy Gorodok | Кичменгский Городок | 59,98, 45,79 (Russia) | 7,2k | 6,8k | 6,4k | 6,3k | 6,1k | -15,5% |
 | Kirillov | Кириллов | 59,86, 38,38 (Russia) | 8,7k | 8,2k | 7,7k | 7,5k | 7,1k | -18,1% |
 | Komarovo | Комарово | 58,88, 34,9 (Russia) | 339 | 225 | 156 | 121 | 78 | -77% |
-| Komarovo | Коморово | 58,33, 32,72 (Russia) | 26,9k | 24,8k | 21,9k | 20,7k | 18,8k | -30,1% |
 | Kondopoga | Кондопога | 62,2, 34,27 (Russia) | 36,1k | 34,9k | 33k | 31,6k | 25,9k | -28,5% |
 | Kostomuksha | Finnish-Soviet Karelian Iron-Ore Boomtown (Founded 1977); Костомукша | 64,57, 30,58 (Russia) | 31,5k | 29,7k | 28,4k | 29k | 26k | -17,3% |
 | Krasavino | Красавино | 60,96, 46,48 (Russia) | 9,3k | 8,2k | 7k | 6,4k | 5,6k | -39,9% |
@@ -3351,21 +3068,16 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Krechevitsy | Кречевицы; Krečevicy | 58,62, 31,4 (Russia) | 3,6k | 3,4k | 3,1k | 3k | 2,7k | -24,4% |
 | Kresttsy | Крестцы; Krestcy | 58,25, 32,52 (Russia) | 10,4k | 10k | 8,7k | 8,2k | 8,2k | -20,8% |
 | Krivoy Porog | Кривой Порог; Krivoj Porog | 65,04, 33,67 (Russia) | 1,3k | 1,1k | 893 | 775 | 604 | -52,4% |
-| Krokhino | Крохино | 60,05, 38,06 (Russia) | 17,3k | 16,2k | 15,2k | 14,6k | 13,5k | -22,2% |
 | Kulotino | Кулотино | 58,45, 33,38 (Russia) | 4,2k | 3,4k | 2,9k | 2,7k | 2,1k | -49,6% |
 | Kun’ja | Кунья | 56,29, 30,98 (Russia) | 3,9k | 3,5k | 3,1k | 2,8k | 2,9k | -26,4% |
 | Kuzino | Кузино | 59,78, 38,31 (Russia) | 1,9k | 1,5k | 1,1k | 1,1k | 869 | -55,1% |
-| Ladva-Vetka | Ладва; Ladva | 61,36, 34,45 (Russia) | 3,2k | 2,6k | 2,1k | 2,1k | 1,9k | -40% |
 | Lahdenpoh’ja | Лахденпохья; Сиеклахти | 61,52, 30,2 (Russia) | 10,2k | 8,8k | 7,8k | 7,5k | 6k | -41,4% |
 | Ledmozero | Ледмозеро | 64,25, 32,03 (Russia) | 2,9k | 2,6k | 2,1k | 1,9k | 1,5k | -47,4% |
 | Letnerec-henskiy | Летнереченский; Letnerečenskij | 64,28, 34,38 (Russia) | 2,8k | 2,3k | 1,8k | 1,5k | 1,1k | -60,7% |
 | Loknya | Локня; Loknja | 56,83, 30,14 (Russia) | 5,9k | 4,9k | 3,9k | 3,7k | 3,5k | -39,6% |
-| Lositsy | Лосицы | 58,55, 28,73 (Russia) | 12,6k | 11,2k | 9,7k | 9,1k | 8,3k | -34,1% |
 | Loukhi | Лоухи; Louhi | 66,08, 33,05 (Russia) | 6,3k | 5,9k | 4,8k | 4,2k | 3,7k | -41,4% |
-| Luzhno | Лужно | 57,81, 32,55 (Russia) | 39,6k | 36,4k | 32,2k | 30,4k | 27,7k | -30,1% |
 | Lyaskelya | Ляскеля; Ljaskelja | 61,76, 31,01 (Russia) | 4,3k | 3,7k | 3k | 2,2k | 1,2k | -72,8% |
 | Lychkovo | Лычково; Lyčkovo | 57,92, 32,4 (Russia) | 2,3k | 2k | 1,6k | 1,4k | 1,1k | -50,7% |
-| Lychno | Лычно | 58,3, 28,71 (Russia) | 18,3k | 16,2k | 14k | 13,3k | 12,1k | -34,1% |
 | Lyubytino | Любытино; Ljubytino | 58,81, 33,39 (Russia) | 3,4k | 3,3k | 2,8k | 2,6k | 2,5k | -28,3% |
 | Malaya Vishera | Малая Вишера; Malaja Višera | 58,85, 32,22 (Russia) | 15,4k | 14,2k | 12,5k | 11,8k | 10k | -35,1% |
 | Malenga | Маленга | 63,84, 36,44 (Russia) | 448 | 238 | 160 | 113 | 61 | -86,4% |
@@ -3373,8 +3085,6 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Masel’gskaja | Масельгская | 63,15, 34,31 (Russia) | 72 | 29 | 20 | 17 | 12 | -83,3% |
 | Medvezhy-egorsk | Medvezhya Gora; Belbaltlag BBK HQ (Karelia) | 62,92, 34,46 (Russia) | 19,9k | 17,3k | 15,5k | 14,8k | 12k | -39,8% |
 | Meliorativnyy | Мелиоративный; Meliorativnyj | 61,86, 34,25 (Russia) | 2,4k | 2,5k | 2,5k | 2,4k | 2,2k | -5,8% |
-| Menyusha | Менюша | 58,38, 30,7 (Russia) | 18,4k | 16,9k | 15k | 14,2k | 12,9k | -30,1% |
-| Mikhalkino | Михалкино | 57,07, 29,61 (Russia) | 60,8k | 53,8k | 46,5k | 44k | 40k | -34,1% |
 | Molochnoye | Молочное; Moločnoje | 59,29, 39,68 (Russia) | 8,1k | 8,6k | 7,5k | 7,2k | 6,6k | -18,4% |
 | Mostki | Мостки | 58,88, 31,48 (Russia) | 5,4k | 5k | 4,4k | 4,2k | 3,8k | -30,1% |
 | Muyezerskiy | Муезерский; Mujezerskij | 63,96, 31,99 (Russia) | 4,3k | 4k | 3,3k | 3k | 2,6k | -40% |
@@ -3382,7 +3092,6 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Najstenjarvi | Найстенъярви | 62,28, 32,68 (Russia) | 3,2k | 1,7k | 1,3k | 1,2k | 1k | -67,5% |
 | Nebolchi | Неболчи; Nebolči | 59,12, 33,35 (Russia) | 2,4k | 2,2k | 2k | 2,1k | 1,8k | -24,4% |
 | Nevel’ | Невель | 56,02, 29,93 (Russia) | 21,8k | 18,5k | 16,3k | 15,4k | 14k | -35,9% |
-| Nevskaya | Невская | 58,33, 32,32 (Russia) | 27,3k | 25,1k | 22,2k | 21k | 19,1k | -30,1% |
 | Nigino | Нигино | 59,65, 45,28 (Russia) | 508 | 399 | 286 | 265 | 231 | -54,5% |
 | Nikol’sk | Никольск | 59,54, 45,46 (Russia) | 8,6k | 8,6k | 8,5k | 8,1k | 7,7k | -10,8% |
 | Novgorod | Veliky Novgorod; Novgorod Governorate | 58,52, 31,28 (Russia) | 234k | 217k | 219k | 220k | 224,3k | -4,2% |
@@ -3391,29 +3100,21 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Novyy Izborsk | Новый Изборск; Novyj Izborsk | 57,77, 27,97 (Russia) | 1,6k | 1,4k | 1,3k | 1,2k | 1k | -34,6% |
 | Nyuksenitsa | Нюксеница | 60,41, 44,23 (Russia) | 4,7k | 4,4k | 4,3k | 4,3k | 4,3k | -8,1% |
 | Okulovka | Окуловка | 58,41, 33,29 (Russia) | 16,7k | 14,5k | 12,5k | 11,3k | 9,9k | -40,6% |
-| Olkhovets | Ольховецъ | 55,97, 29,51 (Russia) | 14,4k | 12,7k | 11k | 10,4k | 9,5k | -34,1% |
 | Olonets | Олонец; Olonec | 60,98, 32,97 (Russia) | 11,6k | 10,2k | 9,1k | 8,4k | 7,7k | -34% |
 | Opechenskiy Posad | Опеченский Посад; Opecenskij Posad | 58,28, 34,12 (Russia) | 1,1k | 1,2k | 958 | 953 | 945 | -16,6% |
 | Opochka | Опочка; Opočka | 56,71, 28,66 (Russia) | 15,8k | 14k | 11,6k | 10,6k | 9,9k | -37,3% |
-| Orlova | Орлова | 59,55, 42,43 (Russia) | 30,5k | 28,5k | 26,8k | 25,7k | 23,7k | -22,2% |
-| Ostraya Luka | Острая Лука | 57,6, 30,07 (Russia) | 13,3k | 11,8k | 10,2k | 9,7k | 8,8k | -34,1% |
 | Ostrov | Остров | 57,34, 28,35 (Russia) | 28,4k | 25,1k | 21,7k | 20,6k | 20,9k | -26,4% |
 | Ozerniy | Озёрный; Ozjornyj | 57,87, 33,66 (Russia) | 11,9k | 10,7k | 10,9k | 10,5k | 10k | -16,2% |
 | Palkino | Палкино | 57,54, 28,01 (Russia) | 3,4k | 3,2k | 2,9k | 2,8k | 2,9k | -14,9% |
 | Pankovka | Панковка | 58,5, 31,2 (Russia) | 7,3k | 10,1k | 9,6k | 9,4k | 10,1k | +37,6% |
 | Parfino | Парфино; Жересло | 57,97, 31,65 (Russia) | 8,3k | 8,4k | 7,5k | 7,1k | 6,5k | -22,1% |
-| Pay | Пай; Paj | 61,21, 34,43 (Russia) | 1k | 729 | 498 | 510 | 531 | -47,4% |
 | Pechory | Печоры; Pečory | 57,82, 27,61 (Russia) | 12,1k | 13,1k | 11,2k | 10,3k | 10,2k | -15,3% |
-| Pes’ | Песь | 58,92, 34,33 (Russia) | 2k | 1,8k | 1,7k | 1,5k | 1,3k | -34,2% |
 | Pestovo | Пестово | 58,59, 35,8 (Russia) | 15,9k | 16k | 15,9k | 15,8k | 14k | -12% |
 | Petrozavodsk | Olonets Capital; Petrovskaya Sloboda | 61,78, 34,35 (Russia) | 271k | 266k | 262k | 272k | 234,9k | -13,3% |
 | Pindushi | Пиндуши; Pinduši | 62,92, 34,58 (Russia) | 6,4k | 5,2k | 4,6k | 4,5k | 3,9k | -38,2% |
 | Pitkyaranta | Питкяранта; Pitkjaranta | 61,57, 31,48 (Russia) | 14,2k | 13,3k | 11,4k | 10,9k | 8,3k | -41,3% |
-| Pjal’ma | Пяльма | 62,4, 35,89 (Russia) | 2,1k | 1,8k | 1,5k | 1,3k | 1,2k | -43,2% |
 | Pjažijeva Sel’ga | Пяжиева Сельга | 61,48, 34,5 (Russia) | 208 | 83 | 48 | 56 | 74 | -64,4% |
 | Plyussa | Плюсса; Pljussa | 58,43, 29,37 (Russia) | 4,2k | 3,9k | 3,5k | 3k | 2,4k | -42,9% |
-| Podgorishche | Подгорище | 58,68, 28,29 (Russia) | 20,3k | 18k | 15,6k | 14,7k | 13,4k | -34,1% |
-| Pogrebishche | Погребище | 58,53, 29,1 (Russia) | 13,6k | 12k | 10,4k | 9,8k | 9k | -34,1% |
 | Porkhov | Порхов; Porhov | 57,77, 29,56 (Russia) | 13,9k | 12,3k | 10,6k | 9,6k | 7,3k | -47,3% |
 | Porosozero | Поросозеро | 62,72, 32,73 (Russia) | 4,3k | 3,5k | 2,9k | 2,5k | 2k | -53,7% |
 | Povenets | Повенец; Povenec | 62,85, 34,83 (Russia) | 3,9k | 2,6k | 2,2k | 2k | 1,8k | -53,6% |
@@ -3423,29 +3124,23 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Pudozh | Пудож; Pudož | 61,8, 36,53 (Russia) | 10,9k | 10,6k | 9,7k | 9,3k | 7,4k | -32,7% |
 | Pushkinskiye Gory | Пушкинские Горы; Puškinskije Gory | 57,02, 28,92 (Russia) | 6,9k | 6,1k | 5,2k | 4,9k | 4,4k | -36,7% |
 | Pustoshka | Пустошка; Pustoška | 56,34, 29,37 (Russia) | 6,2k | 5,5k | 4,6k | 4,3k | 4,1k | -34,3% |
-| Putilovo | Путилово | 62,29, 37 (Russia) | 12,3k | 10,6k | 8,8k | 7,9k | 6,5k | -47% |
 | Pyaozerskiy | Пяозерский; Pjaozerskij | 65,77, 31,09 (Russia) | 2,6k | 2,6k | 2,1k | 1,9k | 1,6k | -40% |
 | Pytalovo | Пыталово | 57,07, 27,92 (Russia) | 7,1k | 6,8k | 5,8k | 5,4k | 5,3k | -26% |
 | Rabocheo-strovsk | Рабочеостровск; Rabočeostrovsk | 64,99, 34,78 (Russia) | 3k | 2,5k | 2,1k | 1,9k | 1,5k | -49,5% |
-| Rechki | Речки | 58,01, 30,94 (Russia) | 33,7k | 31k | 27,4k | 25,9k | 23,6k | -30,1% |
 | Rodina | Родина | 57,83, 28,26 (Russia) | 2,8k | 2,4k | 3,4k | 4,6k | 7,8k | +181,6% |
 | Salmi | Салми | 61,37, 31,85 (Russia) | 3,3k | 2,8k | 2,2k | 1,8k | 1,3k | -61% |
 | Sazonovo | Сазоново; Белые | 59,09, 35,23 (Russia) | 4,2k | 3,6k | 3,2k | 3,1k | 2,7k | -36,1% |
 | Sebezh | Себеж; Sebež | 56,29, 28,48 (Russia) | 9,1k | 7,1k | 6,4k | 5,7k | 6,2k | -31,3% |
 | Segezha | Сегежа; Segeža | 63,75, 34,32 (Russia) | 37,6k | 34,2k | 29,6k | 28,1k | 23,5k | -37,3% |
 | Sheksna | Шексна; Šeksna | 59,21, 38,51 (Russia) | 16,7k | 21,6k | 21k | 21,1k | 16,2k | -2,7% |
-| Shesternya | Шестерня | 58,8, 34,9 (Russia) | 17,5k | 16,1k | 14,2k | 13,5k | 12,2k | -30,1% |
 | Shimsk | Шимск; Šimsk | 58,21, 30,72 (Russia) | 4k | 3,8k | 3,9k | 3,7k | 3,3k | -15,6% |
 | Shuya | Шуя; Šuja | 61,95, 34,23 (Russia) | 3,6k | 3,3k | 3,1k | 2,8k | 2,2k | -37,2% |
-| Sloboda | Слободское | 60,37, 36,38 (Russia) | 1,5k | 1,2k | 1,2k | 1,1k | 1,1k | -27,4% |
 | Smerdomskiy | Смердомский; Smerdomskij | 59,18, 35,06 (Russia) | 780 | 751 | 570 | 515 | 431 | -44,7% |
 | Sokol | Сокол | 59,46, 40,12 (Russia) | 46k | 43k | 38,5k | 37,7k | 34,7k | -24,5% |
 | Sol’cy | Сольцы | 58,12, 30,32 (Russia) | 11,7k | 11,3k | 10,1k | 9,3k | 8,4k | -27,8% |
 | Solomennoye | Соломенное; Solomennoje | 61,84, 34,37 (Russia) | 7k | 6k | 5k | 4,5k | 3,7k | -46,9% |
 | Sortavala | Serdobol; Sordavala | 61,7, 30,69 (Russia) | 22,4k | 21,1k | 19,2k | 18,9k | 14,9k | -33,5% |
-| Sosnovets | Сосновец; Sosnovec | 64,43, 34,47 (Russia) | 2,6k | 2k | 1,6k | 1,4k | 1,2k | -53,6% |
 | Staraya Russa | Russa; Staraya Russa Spa | 57,98, 31,37 (Russia) | 40,5k | 35,5k | 31,8k | 30k | 27,5k | -32,2% |
-| Staroye Selo | Старое Село | 57,91, 30,12 (Russia) | 15,7k | 13,9k | 12k | 11,4k | 10,3k | -34,1% |
 | Strugi-Krasnyye | Струги Красные; Strugi Krasnyje | 58,27, 29,11 (Russia) | 7,3k | 8,8k | 8,4k | 7,2k | 4,9k | -33,3% |
 | Suda | Суда | 59,15, 37,56 (Russia) | 6,3k | 5,7k | 5,9k | 5,8k | 5,6k | -11,3% |
 | Sukkozero | Суккозеро | 63,17, 32,34 (Russia) | 1,8k | 1,6k | 1,1k | 968 | 732 | -59,4% |
@@ -3453,36 +3148,28 @@ reduced the population of Pskov, Novgorod, Vologda and Karelia (Region
 | Suoyarvi | Суоярви; Suojarvi | 62,09, 32,37 (Russia) | 11,7k | 11,6k | 9,8k | 9,3k | 7,2k | -38,8% |
 | Tarnogskiy Gorodok | Тарногский Городок | 60,5, 43,58 (Russia) | 5,9k | 5,5k | 5,4k | 5,2k | 4,9k | -16,8% |
 | Tesovskiy | Тёсовский; Tjosovskij | 58,83, 30,83 (Russia) | 1,3k | 1k | 934 | 811 | 633 | -49,7% |
-| Tjosovo-Netyl’skij | Тёсово-Нетыльский | 58,95, 31,07 (Russia) | 3,8k | 3k | 2,4k | 2,3k | 2,2k | -43,2% |
+| Tjosovo-Netyl’skij | Тёсово-Нетыльский | 58,95, 31,07 (Russia) | 2,6k | 2,3k | 2,1k | 2,1k | 1,9k | -26% |
 | Tonshalovo | Тоншалово; Tonšalovo | 59,19, 37,95 (Russia) | 4,4k | 4,1k | 4,5k | 4,4k | 4,1k | -6,1% |
-| Tot’ma | Тотьма | 59,97, 42,76 (Russia) | 10,6k | 10,5k | 9,8k | 9,9k | 8,7k | -18,3% |
+| Tot’ma | Тотьма; Totma Saltworks | 59,97, 42,76 (Russia) | 10,6k | 10,5k | 9,8k | 9,9k | 8,7k | -18,3% |
 | Uglovka | Угловка | 58,24, 33,51 (Russia) | 4k | 3,6k | 3,1k | 2,7k | 2,3k | -41,5% |
-| Ukhtoma | Ухтома | 60,17, 38,04 (Russia) | 14,6k | 13,7k | 12,8k | 12,3k | 11,4k | -22,2% |
 | Ust’je | Устье | 59,63, 39,74 (Russia) | 4,5k | 4,1k | 3,9k | 4k | 4,2k | -6,6% |
 | Ustyuzhna | Устюжна; Ustjužna | 58,84, 36,43 (Russia) | 10,1k | 10,5k | 9,5k | 8,9k | 7,8k | -22,4% |
 | Usvyaty | Усвяты; Usvjaty | 55,74, 30,75 (Russia) | 3,6k | 3,1k | 3k | 2,8k | 2,7k | -24,9% |
 | Valaam | Валаам | 61,39, 30,95 (Russia) | 492 | 522 | 447 | 405 | 340 | -30,9% |
 | Valday | Валдай; Valdaj | 57,98, 33,25 (Russia) | 19,1k | 18,7k | 16,1k | 14,8k | 14,1k | -26,3% |
-| Vasilevskaya | Васильевская | 60,22, 41,31 (Russia) | 15k | 14k | 13,2k | 12,6k | 11,7k | -22,2% |
 | Velikie Luki | Velikiye Luki; Luki on Lovat | 56,34, 30,55 (Russia) | 114,9k | 105k | 98,8k | 96,5k | 86,7k | -24,5% |
-| Velikoye Selo | Великое Село | 57,02, 28,8 (Russia) | 263,4k | 233k | 201,6k | 190,9k | 173,6k | -34,1% |
 | Veliky Ustyug | Ustyug Veliky; Sukhona Port | 60,76, 46,3 (Russia) | 35,8k | 33,4k | 31,7k | 32k | 28,7k | -19,8% |
 | Vereb’je | Веребье | 58,68, 32,7 (Russia) | 522 | 468 | 295 | 253 | 194 | -62,8% |
 | Verhovaž’je | Верховажье | 60,75, 42,05 (Russia) | 4,8k | 5,2k | 5k | 5k | 4,8k | +1,7% |
-| Vetka | Ветка | 58,75, 35,26 (Russia) | 3,5k | 3,3k | 2,9k | 2,7k | 2,5k | -30,1% |
 | Virandozero | Вирандозеро | 64,02, 36,01 (Russia) | 1,2k | 825 | 519 | 437 | 323 | -71,9% |
-| Viry | Виры | 56,65, 28,4 (Russia) | 18,7k | 16,5k | 14,3k | 13,5k | 12,3k | -34,1% |
 | Vokhtoga | Вохтога; Vohtoga | 58,81, 41,06 (Russia) | 7,6k | 7,2k | 6,4k | 5,9k | 5,5k | -27,1% |
 | Volkhovskiy | Волховский; Volhovskij | 58,58, 31,32 (Russia) | 3,3k | 3k | 2,8k | 2,7k | 2,4k | -26,9% |
 | Vologda | Vologda Governorate; Vologda Rail Junction | 59,22, 39,89 (Russia) | 289k | 293k | 302k | 308k | 313,9k | +8,6% |
-| Vozdvizh-enskoye | Воздвиженское | 58,8, 39,91 (Russia) | 14,3k | 13,4k | 12,6k | 12k | 11,1k | -22,2% |
 | Vozhega | Вожега; Vožega | 60,47, 40,22 (Russia) | 7,3k | 6,8k | 6,7k | 6,3k | 6,1k | -16% |
 | Vyartsilya | Вяртсиля; Vjartsilja | 62,18, 30,69 (Russia) | 3k | 3,2k | 3,1k | 3k | 2,1k | -28,9% |
 | Vyazhishchi | Вяжищи | 58,62, 31,17 (Russia) | 100,2k | 92,2k | 81,5k | 77,1k | 70k | -30,1% |
 | Vypolzovo | Выползово | 57,88, 33,7 (Russia) | 10,1k | 2k | 1,7k | 1,6k | 1,4k | -86,1% |
 | Vytegra | Вытегра | 61,01, 36,45 (Russia) | 12,7k | 11,4k | 10,5k | 10,3k | 10,4k | -18% |
-| Yeremeye-vskaya | Еремеевская | 60,62, 36,78 (Russia) | 45,8k | 42,9k | 40,3k | 38,5k | 35,7k | -22,2% |
-| Yesipovo | Есипово | 60,02, 38,02 (Russia) | 40k | 37,4k | 35,1k | 33,6k | 31,1k | -22,2% |
 | Zarubino | Зарубино | 58,74, 33,48 (Russia) | 2,2k | 1,6k | 1,2k | 1,1k | 846 | -62,2% |
 | Černjovo | Чернёво | 58,65, 28,24 (Russia) | 676 | 547 | 414 | 391 | 354 | -47,6% |
 | Čjornyj Porog | Чёрный Порог | 64, 33,67 (Russia) | 1k | 813 | 557 | 379 | 193 | -81,5% |
@@ -3508,10 +3195,8 @@ losing more than half their residents (Table )
 | Amderma | Амдерма | 69,76, 61,67 (Russia) | 4k | 650 | 541 | 506 | 451 | -88,6% |
 | Apatity | Khibiny Apatite-Nepheline Mining Hub; Апатиты | 67,56, 33,4 (Russia) | 88k | 64k | 59k | 57k | 49,6k | -43,6% |
 | Arkhangelsk | Archangel; Pomorye Port | 64,54, 40,52 (Russia) | 419k | 356k | 349k | 350k | 301,2k | -28,1% |
-| Baza | Югыдъяг; Jugyd’jag | 61,63, 54,94 (Russia) | 2,2k | 1,9k | 1,7k | 1,6k | 1,4k | -34,7% |
 | Beluš’ja Guba | Белушья Губа | 71,54, 52,33 (Russia) | 3,1k | 2,6k | 2k | 2,1k | 2k | -36,5% |
 | Bereznik | Березник | 62,86, 42,7 (Russia) | 6,9k | 6,5k | 6k | 5,7k | 5,6k | -18,7% |
-| Berjozovka | Берёзовка | 65,01, 56,58 (Russia) | 1,4k | 530 | 352 | 318 | 266 | -81,4% |
 | Blagoyevo | Благоево; Blagojevo | 63,42, 47,96 (Russia) | 4,3k | 2,6k | 2,2k | 2,1k | 1,9k | -55,4% |
 | Borovoy | Боровой; Borovoj | 63,23, 52,89 (Russia) | 2,5k | 1,9k | 1,6k | 1,5k | 760 | -69,2% |
 | Cheremushskiy | Черёмушский; Čerjomušskij | 61,27, 47,26 (Russia) | 1,6k | 1,1k | 1,1k | 1k | 986 | -37,2% |
@@ -3527,25 +3212,22 @@ losing more than half their residents (Table )
 | Kadzherom | Каджером; Kadžerom | 64,69, 55,92 (Russia) | 2,9k | 2,1k | 1,8k | 1,6k | 1,2k | -57% |
 | Kamenka | Каменка | 65,88, 44,13 (Russia) | 4,8k | 3,4k | 2,6k | 2,3k | 1,7k | -64,5% |
 | Kandalaksha | Кандалакша; Kandalakša | 67,15, 32,41 (Russia) | 51,7k | 40,6k | 35,7k | 33,5k | 29,1k | -43,7% |
-| Kargopol’ | Каргополь | 61,5, 38,95 (Russia) | 12,3k | 11,2k | 10,2k | 10,1k | 8,8k | -28% |
+| Kargopol’ | Каргополь; Onega Portage Town | 61,5, 38,95 (Russia) | 12,3k | 11,2k | 10,2k | 10,1k | 8,8k | -28% |
 | Karpogory | Карпогоры | 64, 44,45 (Russia) | 5,5k | 4,6k | 4,4k | 4k | 3,4k | -37,7% |
 | Kazhym | Кажым; Kažym | 60,33, 51,54 (Russia) | 1,3k | 1,1k | 940 | 957 | 988 | -25,7% |
 | Khanovey | Хановей; Hanovej | 67,33, 64,4 (Russia) | 113 | 36 | 4 | 5 | 7 | -93,8% |
 | Kharitonovo | Харитоново; Haritonovo | 61,4, 47,5 (Russia) | 2k | 1,5k | 1,2k | 1,1k | 927 | -54,3% |
-| Khmelevoye | Хмелевое | 61,25, 40,83 (Russia) | 16,7k | 14,1k | 12,8k | 11,8k | 10,2k | -39,1% |
 | Kholmogory | Холмогоры; Holmogory | 64,23, 41,65 (Russia) | 5,1k | 4,6k | 4,2k | 3,9k | 3,4k | -33,5% |
 | Kil’dinstroj | Кильдинстрой | 68,8, 33,1 (Russia) | 3,6k | 2,9k | 2,1k | 1,9k | 2,2k | -37,4% |
 | Kirovsk | Кировск; Хибиногорск | 67,61, 33,67 (Russia) | 41,4k | 31,6k | 28,6k | 27,7k | 24,9k | -40% |
 | Kizema | Кизема | 61,11, 44,83 (Russia) | 4,9k | 3,8k | 3k | 2,7k | 2,2k | -54,5% |
 | Knyazhaya Guba | Княжая Губа; Knjazaja Guba | 66,87, 32,39 (Russia) | 228 | 186 | 127 | 113 | 91 | -60,1% |
 | Kodino | Кодино | 63,72, 39,64 (Russia) | 2,6k | 1,8k | 1,5k | 1,2k | 859 | -66,5% |
-| Kola | Кола | 68,88, 33,02 (Russia) | 15,5k | 11,1k | 10,4k | 10,1k | 9k | -42% |
+| Kola | Кола; Kola Ostrog | 68,88, 33,02 (Russia) | 15,5k | 11,1k | 10,4k | 10,1k | 9k | -42% |
 | Komsomol’skij | Комсомольский | 67,55, 63,78 (Russia) | 12,1k | 4k | 1k | 797 | 128 | -98,9% |
 | Konosha | Коноша; Konoša | 60,97, 40,26 (Russia) | 16,4k | 12,9k | 12,4k | 11,5k | 10,5k | -36,2% |
-| Korovina | Коровина | 62,14, 38,55 (Russia) | 34,2k | 28,9k | 26,1k | 24k | 20,8k | -39,1% |
 | Kortkeros | Корткерос | 61,81, 51,58 (Russia) | 6,3k | 4,7k | 4,6k | 4,7k | 4,7k | -24,7% |
 | Koryazhma | Коряжма; Korjažma | 61,31, 47,15 (Russia) | 42k | 42,8k | 39,6k | 38k | 34,5k | -17,7% |
-| Kos’ju | Косью | 65,67, 59,18 (Russia) | 219 | 195 | 153 | 138 | 115 | -47,5% |
 | Kotlas | Kulak Exile & Sevzheldorlag Transit Hub; Котлас | 61,26, 46,65 (Russia) | 66,8k | 60,6k | 60,6k | 60,5k | 56,1k | -16,1% |
 | Kovda | Ковда | 66,69, 32,87 (Russia) | 81 | 45 | 20 | 22 | 27 | -66,7% |
 | Kovdor | Ковдор | 67,57, 30,48 (Russia) | 28,8k | 20,9k | 18,8k | 17,6k | 15,8k | -45,2% |
@@ -3560,14 +3242,12 @@ losing more than half their residents (Table )
 | Loyga | Лойга; Lojga | 61,08, 44,61 (Russia) | 2,2k | 1,7k | 1,3k | 947 | 542 | -75% |
 | Lukovetskiy | Луковецкий; Lukoveckij | 64,3, 41,92 (Russia) | 3k | 2,8k | 2,5k | 2,3k | 2k | -31,5% |
 | Maloshuyka | Малошуйка; Malošujka | 63,71, 37,45 (Russia) | 3,8k | 3,2k | 2,9k | 2,8k | 2k | -47,9% |
-| Mankovka Malaya | Маньковка Малая | 63,07, 42,07 (Russia) | 12,3k | 10,4k | 9,4k | 8,6k | 7,5k | -39,1% |
 | Mezen’ | Мезень | 65,84, 44,25 (Russia) | 4,8k | 3,9k | 3,6k | 3,4k | 2,9k | -39,9% |
 | Mezhdure-chensk | Междуреченск; Meždurečensk | 63,25, 48,55 (Russia) | 3k | 2k | 1,4k | 1,2k | 1,1k | -64,7% |
 | Mikun’ | Микунь | 62,35, 50,08 (Russia) | 12,4k | 11,7k | 10,7k | 10,2k | 8,5k | -31,1% |
 | Mirnyy | Мирный; Mirnyj | 62,76, 40,34 (Russia) | 36,1k | 30,5k | 30,3k | 31,4k | 27,3k | -24,5% |
 | Molochnyy | Молочный; Moločnyj | 68,85, 33,02 (Russia) | 5,8k | 5,6k | 5,2k | 5,1k | 4,2k | -28,2% |
 | Monchegorsk | Severonikel Kola Gulag Combine; Мончегорск | 67,94, 32,9 (Russia) | 65,8k | 52,2k | 45,4k | 43,5k | 40k | -39,3% |
-| Morozovskaya | Морозовская | 61,17, 50,3 (Russia) | 19,3k | 14,2k | 11,9k | 10,7k | 8,9k | -53,5% |
 | Mud’juga | Мудьюга | 63,78, 39,24 (Russia) | 1k | 748 | 573 | 461 | 316 | -68,8% |
 | Mul’da | Мульда | 67,5, 63,85 (Russia) | 914 | 183 | 82 | 41 | 12 | -98,7% |
 | Murmashi | Мурмаши; Murmaši | 68,82, 32,81 (Russia) | 14,6k | 16,3k | 14,2k | 13,8k | 9,6k | -34,5% |
@@ -3580,7 +3260,7 @@ losing more than half their residents (Table )
 | Novodvinsk | Новодвинск; Первомайский | 64,42, 40,82 (Russia) | 49,1k | 43,4k | 40,6k | 39,6k | 33,3k | -32,2% |
 | Nyandoma | Няндома; Njandoma | 61,67, 40,21 (Russia) | 24,5k | 22,6k | 22,4k | 21,1k | 18,5k | -24,5% |
 | Nyuvchim | Нювчим; Njuvčim | 61,4, 50,74 (Russia) | 961 | 619 | 511 | 519 | 533 | -44,5% |
-| Objatschewo | Объячево | 60,34, 49,61 (Russia) | 7,8k | 5,8k | 5,7k | 5,7k | 5,6k | -28,3% |
+| Objatschewo | Объячево | 60,34, 49,61 (Russia) | 2k | 1,8k | 1,6k | 1,6k | 1,5k | -26% |
 | Obozerskij | Обозерский | 63,45, 40,3 (Russia) | 5,4k | 3,7k | 3,6k | 3,4k | 3,4k | -36,9% |
 | Oksovskiy | Оксовский; Oksovskij | 62,61, 39,9 (Russia) | 2,8k | 2,2k | 2,1k | 1,9k | 1,6k | -41,9% |
 | Oktjabr’skij | Октябрьский | 67,57, 64,13 (Russia) | 2,9k | 660 | 280 | 253 | 211 | -92,6% |
@@ -3595,10 +3275,8 @@ losing more than half their residents (Table )
 | Pinega | Пинега | 64,7, 43,39 (Russia) | 4,3k | 3,8k | 3,2k | 2,9k | 2,5k | -41,8% |
 | Plesetsk | Плесецк; Pleseck | 62,71, 40,29 (Russia) | 13,6k | 11,3k | 11k | 10,5k | 9,1k | -33% |
 | Podyuga | Подюга; Podjuga | 61,09, 40,86 (Russia) | 3,5k | 3,1k | 2,6k | 2,3k | 1,7k | -50,7% |
-| Pokrovskaya | Покровская | 62,27, 45,03 (Russia) | 70,6k | 59,6k | 53,9k | 49,6k | 43k | -39,1% |
 | Polyarnyy | Полярный; Poljarnyj | 69,2, 33,44 (Russia) | 26k | 18,6k | 17,3k | 17,1k | 12,3k | -52,7% |
 | Polyarnyye Zori | Полярные Зори; Poljarnyje Zori | 67,37, 32,5 (Russia) | 18,8k | 15,9k | 15,1k | 14,9k | 14,1k | -24,9% |
-| Priluki | Прилуки | 63,23, 39,13 (Russia) | 77,4k | 65,4k | 59,1k | 54,4k | 47,1k | -39,1% |
 | Prirechnyy | Приречный; Prirečnyj | 69,01, 30,29 (Russia) | 511 | 109 | 45 | 30 | 15 | -97,1% |
 | Privodino | Приводино | 61,08, 46,5 (Russia) | 3,2k | 3,3k | 3,2k | 3,1k | 3,2k | -0,3% |
 | Promyshlennyy | Промышленный; Promyšlennyj | 67,58, 63,92 (Russia) | 6,2k | 1,2k | 438 | 395 | 330 | -94,7% |
@@ -3608,7 +3286,6 @@ losing more than half their residents (Table )
 | Rochegda | Рочегда; Ročegda | 62,67, 43,41 (Russia) | 2,9k | 2,5k | 2k | 1,7k | 1,3k | -56,9% |
 | Romanov-on-Murman | Murmansk; Murman Terminus | 68,97, 33,07 (Russia) | 472k | 336k | 307k | 299k | 270,4k | -42,7% |
 | Roslyakovo | Росляково; Rosljakovo | 69,04, 33,2 (Russia) | 11,6k | 9,5k | 8,7k | 8,9k | 7,6k | -33,8% |
-| Rusanova | Русановская | 69,6, 63,53 (Russia) | 20,8k | 19,3k | 18,3k | 17,8k | 16,9k | -18,6% |
 | Rusanovo | Русаново | 62,93, 56,17 (Russia) | 542 | 424 | 262 | 193 | 113 | -79,2% |
 | Safonovo | Сафоново | 69,06, 33,3 (Russia) | 7,1k | 4,9k | 5,3k | 5,1k | 4,3k | -39,7% |
 | Samoded | Самодед | 63,61, 40,51 (Russia) | 2,9k | 2k | 1,5k | 1,4k | 917 | -68,1% |
@@ -3631,15 +3308,12 @@ losing more than half their residents (Table )
 | Solombala | Соломбала | 64,58, 40,53 (Russia) | 29,4k | 24,8k | 22,4k | 20,7k | 17,9k | -39,1% |
 | Sosnogorsk | Сосногорск; Ижма | 63,6, 53,89 (Russia) | 30,3k | 29,6k | 27,8k | 27,1k | 22,2k | -26,8% |
 | Sovetskiy | Советский; Sovetskij | 67,48, 64,42 (Russia) | 5k | 2,5k | 2,3k | 2k | 1,7k | -65,9% |
-| Sulskiy | Сульский | 64,8, 48,42 (Russia) | 87,5k | 73,9k | 66,8k | 61,5k | 53,3k | -39,1% |
-| Synya | Сыня; Synja | 65,37, 58,04 (Russia) | 1,4k | 571 | 375 | 233 | 101 | -92,8% |
 | Taezhniy | Таежный | 64,04, 44,03 (Russia) | 3k | 2,5k | 2,4k | 2,1k | 1,7k | -44,2% |
 | Teriberka | Териберка | 69,16, 35,15 (Russia) | 2,2k | 1,4k | 957 | 782 | 550 | -74,5% |
 | Trakt | Тракт | 62,7, 51,29 (Russia) | 2,1k | 1,1k | 764 | 562 | 329 | -84,6% |
 | Troitsko-Pechorsk | Троицко-Печорск; Troicko-Pečorsk | 62,72, 56,17 (Russia) | 10,4k | 8,9k | 7,3k | 6,6k | 6,1k | -41,8% |
 | Tsementn-ozavodskiy | Цементнозаводский; Cementno-zavodskij | 67,63, 64,09 (Russia) | 3,8k | 2,2k | 2k | 1,8k | 1,5k | -60,1% |
 | Tumannyy | Туманный; Tumannyj | 68,88, 35,69 (Russia) | 1,7k | 950 | 685 | 600 | 404 | -76,5% |
-| Turya | Турья | 62,82, 50,64 (Russia) | 9,1k | 6,7k | 5,6k | 5k | 4,2k | -53,5% |
 | Udimskiy | Удимский; Udimskij | 61,14, 45,91 (Russia) | 3,3k | 2,7k | 2,1k | 1,9k | 1,6k | -53,5% |
 | Ukhta | Chibyu; Ukhtpechlag | 63,57, 53,68 (Russia) | 113k | 103k | 100k | 99k | 79,9k | -29,3% |
 | Umba | Умба; Лесной | 66,69, 34,34 (Russia) | 8k | 6,5k | 5,5k | 5k | 4,1k | -48,5% |
@@ -3674,7 +3348,6 @@ losing more than half their residents (Table )
 | Yemtsa | Емца; Jemca | 63,07, 40,33 (Russia) | 2,1k | 1,5k | 1,1k | 925 | 572 | -73,1% |
 | Yemva | Емва; Jemva | 62,59, 50,86 (Russia) | 18,5k | 16,7k | 14,6k | 13,6k | 11k | -40,4% |
 | Yertsevo | Ерцево; Jercevo | 60,8, 40,09 (Russia) | 4,6k | 4k | 4,2k | 3,5k | 2,6k | -43,6% |
-| Zabore | Заборье | 62,74, 42,85 (Russia) | 12,2k | 10,3k | 9,3k | 8,6k | 7,4k | -39,1% |
 | Zaozjorsk | Заозёрск; Заозерный | 69,4, 32,45 (Russia) | 16,6k | 12,7k | 11,2k | 9,9k | 7,8k | -53,3% |
 | Zapolyarnyy | Заполярный; Zapoljarnyj | 67,5, 63,73 (Russia) | 7,2k | 4,7k | 1,9k | 1,7k | 483 | -93,3% |
 | Zapolyarnyy | Заполярный; Zapoljarnyj | 69,43, 30,81 (Russia) | 22,7k | 18,6k | 15,8k | 15,4k | 14,8k | -34,9% |
@@ -3711,11 +3384,9 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Ardon’ | Ардонь | 52,74, 32,31 (Russia) | 2,9k | 2,8k | 2,5k | 2,5k | 2,3k | -20,8% |
 | Arkhipovka | Архиповка; Arhipovka | 56,66, 41,25 (Russia) | 2,2k | 1,8k | 1,6k | 1,5k | 1,4k | -37,6% |
 | Arsen’jevo | Арсеньево | 53,74, 36,67 (Russia) | 5,8k | 6k | 4,8k | 4,8k | 4,7k | -19,4% |
-| Avdotino | Авдотьино | 56,31, 39,82 (Russia) | 6k | 5,6k | 5,2k | 5k | 4,7k | -21,9% |
 | Babynino | Бабынино | 54,39, 35,74 (Russia) | 3,8k | 4,1k | 3,7k | 3,8k | 3,8k | +0,8% |
 | Balabanovo | Балабаново | 55,18, 36,66 (Russia) | 19,7k | 23,3k | 26,3k | 25,7k | 29k | +47,1% |
 | Balakirevo | Балакирево | 56,51, 38,84 (Russia) | 9,4k | 9,1k | 10,1k | 9,9k | 9,5k | +0,6% |
-| Balandino | Баландино | 55,89, 42,37 (Russia) | 25,4k | 23,4k | 21,7k | 21k | 19,8k | -21,9% |
 | Barsuki | Барсуки | 54,27, 37,49 (Russia) | 4,3k | 3,6k | 3,3k | 3,2k | 3,1k | -29% |
 | Baturino | Батурино | 59,25, 42,54 (Russia) | 2,9k | 2,1k | 1,8k | 1,5k | 1,2k | -58,8% |
 | Bavleny | Бавлены | 56,39, 39,57 (Russia) | 3,4k | 3,3k | 2,5k | 2,7k | 2,9k | -14,5% |
@@ -3725,15 +3396,12 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Beljov | Белёв; Белев | 53,81, 36,13 (Russia) | 18k | 16,1k | 13,9k | 13,4k | 12,8k | -28,5% |
 | Belopole | Белополье | 54,35, 37,58 (Russia) | 30k | 27k | 24,8k | 24,2k | 23,4k | -22,2% |
 | Belousovo | Белоусово | 55,09, 36,67 (Russia) | 11,3k | 8,5k | 8,4k | 8,5k | 10,9k | -3,1% |
-| Belyy | Белый; Belyj | 55,84, 32,94 (Russia) | 5,1k | 4,3k | 3,8k | 3,4k | 3,1k | -38,5% |
 | Belyy Gorodok | Белый Городок; Belyj Gorodok | 56,97, 37,51 (Russia) | 3,5k | 2,8k | 2,4k | 2,2k | 2k | -41,8% |
+| Belyy | Белый; Belyj | 55,84, 32,94 (Russia) | 5,1k | 4,3k | 3,8k | 3,4k | 3,1k | -38,5% |
 | Belyye Berega | Белые Берега; Belyje Berega | 53,21, 34,66 (Russia) | 10,7k | 10,6k | 9,6k | 9,2k | 7,4k | -31% |
 | Berendeyevo | Берендеево; Berendejevo | 56,6, 39,02 (Russia) | 2,4k | 1,7k | 1,5k | 1,4k | 1,2k | -48,7% |
 | Berezayka | Березайка; Berezajka | 57,99, 33,9 (Russia) | 2,7k | 2,5k | 2,2k | 2,1k | 1,9k | -29,3% |
-| Berezino | Березино | 57,31, 34,59 (Russia) | 703 | 468 | 485 | 444 | 380 | -45,9% |
 | Bezhetsk | Бежецк; Bežeck | 57,78, 36,7 (Russia) | 30,1k | 28,6k | 24,5k | 23,1k | 21,5k | -28,7% |
-| Bobrova | Боброва | 57,73, 34,78 (Russia) | 10k | 9k | 8,1k | 7,6k | 6,8k | -32,3% |
-| Bobrovitsa | Бобровицы | 54,27, 35,02 (Russia) | 15,1k | 14,6k | 14,2k | 14k | 13,6k | -9,8% |
 | Bogolyubovo | Боголюбово; Bogoljubovo | 56,19, 40,52 (Russia) | 4,2k | 4,2k | 4,5k | 4,6k | 4,7k | +13,8% |
 | Bogoroditsk | Богородицк; Bogorodick | 53,77, 38,12 (Russia) | 33,1k | 30,9k | 31,9k | 31,4k | 29,6k | -10,8% |
 | Bol’šoje Polpino | Большое Полпино | 53,24, 34,5 (Russia) | 6,1k | 4,6k | 6,4k | 6,2k | 5,9k | -3,4% |
@@ -3741,7 +3409,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Bolkhov | Болхов; Bolhov | 53,44, 36,01 (Russia) | 12,9k | 12,1k | 11,4k | 11,4k | 9,5k | -26,5% |
 | Bologoye | Бологое; Bologoje | 57,89, 34,05 (Russia) | 34,3k | 26,6k | 23,5k | 22,2k | 20,2k | -41% |
 | Bolokhovo | Болохово; Bolohovo | 54,08, 37,83 (Russia) | 11,6k | 10,4k | 9,6k | 9,2k | 9,3k | -19,2% |
-| Bondareva | Бондарева | 56,13, 32,46 (Russia) | 11,7k | 10,5k | 9,4k | 8,8k | 7,9k | -32,3% |
 | Borets | Борецъ | 54,45, 41,8 (Russia) | 888 | 746 | 625 | 560 | 463 | -47,9% |
 | Borisogl-ebskiy | Борисоглебский; Borisogl-ebskij | 57,26, 39,15 (Russia) | 6,3k | 6k | 5,6k | 5,6k | 5,5k | -13% |
 | Borodinskiy | Бородинский; Borodinskij | 54, 37,82 (Russia) | 7,8k | 6,6k | 6,1k | 6k | 5,3k | -31,4% |
@@ -3749,16 +3416,11 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Breytovo | Брейтово; Brejtovo | 58,3, 37,86 (Russia) | 4k | 3,7k | 3,3k | 3,2k | 3k | -24,6% |
 | Brusyanka | Брусянский; Brusjanskij | 53,98, 38,04 (Russia) | 4,2k | 3,4k | 3,5k | 3,5k | 3,1k | -26,3% |
 | Bryansk | Bryansk Works; Bezhitsa-Bryansk | 53,24, 34,36 (Russia) | 456k | 432k | 416k | 408k | 379,2k | -16,9% |
-| Budovo | Будово | 57,25, 34,91 (Russia) | 43,9k | 39,6k | 35,4k | 33,2k | 29,7k | -32,3% |
 | Burmakino | Бурмакино | 57,42, 40,24 (Russia) | 3,7k | 3,4k | 2,9k | 2,6k | 2,6k | -30,1% |
 | Buy | Буй; Buj | 58,48, 41,54 (Russia) | 31,8k | 27,4k | 25,8k | 24,5k | 20,6k | -35,4% |
-| Bykova | Быкова | 56,48, 31,18 (Russia) | 10k | 9k | 8,1k | 7,6k | 6,8k | -32,3% |
 | Bytoš’ | Бытошь | 53,82, 34,09 (Russia) | 5,2k | 4,5k | 4,3k | 4,6k | 4k | -23,3% |
-| Central’nyj | Центральный | 53,68, 39,63 (Russia) | 2,5k | 2k | 2,2k | 2,2k | 1,2k | -53,1% |
-| Charykova | Златоустовка | 53,68, 41,11 (Russia) | 23,8k | 21,3k | 19,7k | 18,9k | 17,8k | -25,4% |
 | Chekalin | Чекалин; Čekalin | 54,1, 36,24 (Russia) | 1,3k | 1,2k | 994 | 975 | 935 | -27,6% |
 | Chernava | Чернава | 53,81, 40,18 (Russia) | 1,3k | 1,2k | 846 | 787 | 693 | -47,9% |
-| Chernaya Rechka | Черная Речка | 53,86, 40,74 (Russia) | 477 | 373 | 251 | 245 | 236 | -50,5% |
 | Chernousovo | Черноусово | 53,39, 36,9 (Russia) | 9,1k | 8,2k | 7,5k | 7,3k | 7,1k | -22,2% |
 | Chuchkovo | Чучково; Čučkovo | 54,27, 41,45 (Russia) | 3,9k | 4,5k | 3,1k | 2,9k | 2,6k | -32% |
 | Chukhloma | Чухлома; Čuhloma | 58,75, 42,69 (Russia) | 5,6k | 5,5k | 5,4k | 5,1k | 4,3k | -23,7% |
@@ -3767,7 +3429,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Dedilovo | Дедилово | 53,98, 37,93 (Russia) | 1,8k | 1,4k | 1,6k | 1,7k | 1,8k | +3,8% |
 | Degtyanoye | Дегтяное | 54,44, 40,66 (Russia) | 852 | 721 | 703 | 692 | 672 | -21,1% |
 | Demidov | Демидов; Поречье | 55,27, 31,52 (Russia) | 10k | 8,8k | 7,3k | 6,7k | 6,3k | -36,5% |
-| Deniskovichi | Денисковичи | 52,31, 31,71 (Russia) | 833 | 651 | 518 | 460 | 373 | -55,2% |
 | Desnogorsk | Десногорск | 54,15, 33,28 (Russia) | 32,3k | 32,1k | 29,7k | 28,7k | 25,3k | -21,4% |
 | Detchino | Детчино | 54,81, 36,31 (Russia) | 4,2k | 4,9k | 5k | 5k | 4,9k | +17,3% |
 | Djat’kovo | Дятьково; Дятково | 53,6, 34,34 (Russia) | 34,3k | 33,6k | 29,4k | 27,8k | 25,3k | -26,3% |
@@ -3780,11 +3441,8 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Dorogobuzh | Дорогобуж; Dorogobuž | 54,92, 33,3 (Russia) | 12,3k | 12,2k | 10,7k | 10,2k | 9,5k | -22,2% |
 | Doschatoye | Досчатое; Dosčatoje | 55,39, 42,1 (Russia) | 5,1k | 5,1k | 5,2k | 5,2k | 4,6k | -8,7% |
 | Dragunskaya | Драгунская | 52,69, 35,75 (Russia) | 5,8k | 5,7k | 5,3k | 5k | 4,5k | -22,6% |
-| Dubenka | Дубенка | 57,26, 33,26 (Russia) | 19,4k | 17,5k | 15,6k | 14,7k | 13,1k | -32,3% |
-| Dubinovka | Ново-Красная | 52,92, 32,5 (Russia) | 10,5k | 10,2k | 9,6k | 9,2k | 8,6k | -17,6% |
 | Dubna | Дубна | 54,15, 36,96 (Russia) | 6,2k | 6,2k | 6k | 5,9k | 6k | -3,6% |
 | Dubovka | Дубовка | 53,95, 38,06 (Russia) | 10,3k | 9,2k | 8,9k | 8,8k | 8,2k | -20,8% |
-| Dubovoye | Дубовое | 54,01, 39,7 (Russia) | 10,3k | 9,3k | 8,5k | 8,2k | 7,7k | -25,4% |
 | Dubovoye | Дубовое | 53,98, 38,4 (Russia) | 19,1k | 17,2k | 15,7k | 15,4k | 14,8k | -22,2% |
 | Dubrovka | Дубровка | 53,69, 33,51 (Russia) | 8,5k | 8,6k | 8k | 7,7k | 6,8k | -20,3% |
 | Dudorovskiy | Дудоровский; Dudorovskij | 53,66, 35,37 (Russia) | 1,3k | 930 | 833 | 814 | 783 | -38,2% |
@@ -3798,7 +3456,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Ferzikovo | Ферзиково | 54,52, 36,76 (Russia) | 4,6k | 4,4k | 4,7k | 4,6k | 4,5k | -1,9% |
 | Firovo | Фирово | 57,48, 33,7 (Russia) | 3k | 2,8k | 2,4k | 2,2k | 2k | -33,7% |
 | Fokino | Фокино; Цементный | 53,45, 34,41 (Russia) | 15,2k | 15,5k | 13,9k | 13,3k | 12,5k | -17,7% |
-| Frolovo | Фролова | 53,57, 35,08 (Russia) | 301 | 236 | 186 | 192 | 202 | -32,9% |
 | Furmanov | Фурманов; Середа | 57,25, 41,11 (Russia) | 45,1k | 39,7k | 36,1k | 35,4k | 29,7k | -34,1% |
 | Gagarin | Гагарин; Гжатск | 55,55, 35 (Russia) | 28,9k | 28,8k | 31,7k | 30,2k | 26,5k | -8,2% |
 | Galich | Галич; Galič | 58,38, 42,35 (Russia) | 21,2k | 19,2k | 17,3k | 16,9k | 12,9k | -39,5% |
@@ -3806,22 +3463,16 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Gavrilov Posad | Гаврилов Посад | 56,56, 40,12 (Russia) | 8,3k | 7,2k | 6,4k | 6k | 5,4k | -34,4% |
 | Gavrilov-Yam | Гаврилов-Ям; Gavrilov-Jam | 57,3, 39,85 (Russia) | 21k | 19,1k | 17,8k | 17,5k | 16,1k | -23,4% |
 | Gavrilovskoye | Гавриловское | 54,43, 40,38 (Russia) | 1,3k | 1,1k | 1,5k | 1,6k | 1,9k | +48,8% |
-| Gerasimovka | Герасимовка | 52,83, 36,23 (Russia) | 14,3k | 14,1k | 13k | 12,3k | 11,1k | -22,6% |
 | Glazunovka | Глазуновка | 52,5, 36,32 (Russia) | 7k | 6,8k | 5,9k | 5,6k | 4,8k | -31,7% |
-| Glebovskiy | Глебовский | 52,5, 36,22 (Russia) | 8,7k | 8,6k | 9,3k | 10,1k | 11,7k | +33,5% |
 | Glebovskoe | Глебовское | 56,65, 38,7 (Russia) | 1,1k | 904 | 887 | 805 | 679 | -36% |
 | Glinishchevo | Глинищево | 53,3, 34,07 (Russia) | 4,4k | 4,2k | 4,4k | 4,4k | 4,3k | -0,8% |
-| Glinki | Глинки | 52,99, 35,2 (Russia) | 17,9k | 17,6k | 16,2k | 15,3k | 13,9k | -22,6% |
-| Glinnoye | Глинное | 55,85, 34,37 (Russia) | 12,2k | 11,3k | 10,3k | 9,7k | 8,7k | -28,8% |
 | Gnezdovo | Гнёздово; Gnjozdovo | 54,78, 31,85 (Russia) | 10k | 9,2k | 8,4k | 7,9k | 7,1k | -28,8% |
 | Golovino | Головино | 55,96, 40,43 (Russia) | 3,3k | 3,1k | 4,4k | 3,8k | 3k | -11,2% |
 | Golynki | Голынки | 54,87, 31,39 (Russia) | 4,5k | 3,9k | 3,6k | 3,4k | 2,9k | -35,9% |
 | Gorchukha | Горчуха; Gorčuha | 57,7, 43,72 (Russia) | 2,1k | 1,6k | 1,2k | 1k | 749 | -64,1% |
 | Gorelki | Горелки | 54,26, 37,61 (Russia) | 6,7k | 7,9k | 7,4k | 7,3k | 7k | +5,2% |
 | Gorlovo | Горлово | 53,83, 39,04 (Russia) | 1,1k | 927 | 790 | 743 | 667 | -39,1% |
-| Gornyak | Горняк; Gornjak | 53,6, 39,49 (Russia) | 577 | 261 | 266 | 269 | 273 | -52,7% |
 | Gorokhovets | Гороховец; Gorohovec | 56,2, 42,69 (Russia) | 15,6k | 14,5k | 14k | 13,3k | 12,7k | -18,7% |
-| Granitsa | Граница | 57,63, 34,9 (Russia) | 20,2k | 18,2k | 16,3k | 15,3k | 13,7k | -32,3% |
 | Granki | Гранки | 54,85, 31,44 (Russia) | 602 | 434 | 342 | 304 | 247 | -59% |
 | Gritsovskiy | Грицовский; Gricovskij | 54,14, 38,16 (Russia) | 7,6k | 6,8k | 6,2k | 5,9k | 5,6k | -25,6% |
 | Gryaznoye | Грязное | 54,04, 39,12 (Russia) | 1,1k | 1,1k | 989 | 951 | 888 | -16,8% |
@@ -3829,10 +3480,8 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Gus’-Železnyj | Гусь-Железный | 55,06, 41,17 (Russia) | 2,7k | 2,4k | 2,1k | 2k | 1,9k | -30,8% |
 | Gusevskiy | Гусевский; Gusevskij | 55,66, 40,56 (Russia) | 4,3k | 3,6k | 3,1k | 3k | 1,9k | -55,8% |
 | Gusino | Гусино | 54,73, 31,37 (Russia) | 2,6k | 3,3k | 2,8k | 2,9k | 3,1k | +17,2% |
-| Gvozdovka | Гвоздовка | 54,32, 32,61 (Russia) | 12,1k | 11,2k | 10,3k | 9,6k | 8,6k | -28,8% |
 | Il’ino | Ильино | 58,2, 34,85 (Russia) | 866 | 698 | 561 | 470 | 345 | -60,2% |
 | Il’inskoje-Hovanskoje | Ильинское-Хованское | 56,97, 39,77 (Russia) | 4,2k | 3,8k | 3,4k | 3,2k | 3,1k | -26,8% |
-| Ilinskoe | Ильинское | 54,98, 36,17 (Russia) | 136,4k | 131,4k | 127,6k | 125,9k | 123k | -9,8% |
 | Imeni Vorovskogo | им. Воровского; im. Vorovskogo | 55,72, 41,12 (Russia) | 2,3k | 2,2k | 2k | 1,9k | 1,7k | -29% |
 | Ishnya | Ишня; Išnja | 57,19, 39,36 (Russia) | 3,8k | 3,4k | 3,1k | 3k | 2,7k | -28,2% |
 | Ivan’kovskij | Иваньковский | 56,68, 40,11 (Russia) | 573 | 467 | 387 | 296 | 186 | -67,5% |
@@ -3846,7 +3495,7 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Jepifan’ | Епифань | 53,83, 38,55 (Russia) | 2,4k | 2,4k | 2,2k | 2,2k | 2,1k | -14,8% |
 | Jermiš’ | Ермишь | 54,77, 42,27 (Russia) | 5k | 4,7k | 4,3k | 4k | 3,4k | -31,4% |
 | Jur’jev-Pol’skij | Юрьев-Польский | 56,5, 39,68 (Russia) | 21,9k | 19,9k | 19,6k | 19,1k | 17,3k | -21% |
-| Jur’jevec | Юрьевец | 56,1, 40,27 (Russia) | 15,7k | 11,6k | 10,8k | 10,4k | 9,8k | -37,6% |
+| Yuryevets (Vladimir) | Юрьевец | 56,1, 40,27 (Russia) | 15,7k | 11,6k | 10,8k | 10,4k | 9,8k | -37,6% |
 | Jur’jevec | Юрьевец | 57,31, 43,1 (Russia) | 15,9k | 12,7k | 10,2k | 9,1k | 7,9k | -50,2% |
 | Kabitsyno | Кабицыно | 55,14, 36,63 (Russia) | 4,4k | 4,3k | 4,3k | 4,2k | 4,2k | -4% |
 | Kadom | Кадом | 54,56, 42,47 (Russia) | 7,1k | 6,2k | 5,5k | 5,3k | 5,2k | -27% |
@@ -3858,17 +3507,16 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kamenka | Каменка | 57,39, 41,79 (Russia) | 4,3k | 4,3k | 4k | 3,8k | 3,7k | -14,7% |
 | Kameshkovo | Камешково; Kameškovo | 56,35, 41 (Russia) | 14,9k | 14,2k | 13,1k | 12,7k | 12k | -19,4% |
 | Kaminskiy | Каминский; Kaminskij | 57,15, 41,47 (Russia) | 2,3k | 1,7k | 1,5k | 1,3k | 1,1k | -50,5% |
-| Kandaurovka | Кондауровка | 53,81, 39,81 (Russia) | 9,3k | 8,3k | 7,7k | 7,4k | 6,9k | -25,4% |
+| Kandaurovka | Кондауровка | 53,81, 39,81 (Russia) | 4,6k | 4,1k | 3,8k | 3,6k | 3,4k | -26% |
 | Kanino | Канино | 53,94, 40,49 (Russia) | 556 | 442 | 381 | 373 | 360 | -35,3% |
 | Karabanovo | Карабаново | 56,31, 38,7 (Russia) | 17,2k | 16k | 14,9k | 15k | 13,2k | -23,7% |
 | Karachev | Карачев; Karačev | 53,12, 34,98 (Russia) | 22,1k | 20,2k | 19,7k | 18,7k | 17,4k | -21% |
 | Karavayevo | Караваево; Karavajevo | 57,74, 41,07 (Russia) | 8,3k | 7,7k | 7,5k | 7,3k | 6,9k | -16,9% |
 | Kardymovo | Кардымово | 54,89, 32,43 (Russia) | 4,9k | 5,1k | 4,7k | 4,5k | 4,4k | -10% |
 | Kashin | Кашин; Kašin | 57,36, 37,61 (Russia) | 20,5k | 17,3k | 16,2k | 15,2k | 14,1k | -31,3% |
-| Kasimov | Касимов | 54,94, 41,4 (Russia) | 37,3k | 35,8k | 33,5k | 31,9k | 28,4k | -23,7% |
+| Kasimov | Касимов; Gorodets Meshchersky | 54,94, 41,4 (Russia) | 37,3k | 35,8k | 33,5k | 31,9k | 28,4k | -23,7% |
 | Kazachka | Казачка; Kazačka | 53,36, 38,07 (Russia) | 1,2k | 1,1k | 1k | 1k | 1k | -14,9% |
 | Kazanovka | Казановка | 53,76, 38,57 (Russia) | 1,1k | 804 | 643 | 497 | 316 | -70,8% |
-| Kazilovka | Казиловка | 52,66, 33,34 (Russia) | 10,8k | 10,5k | 9,9k | 9,5k | 8,9k | -17,6% |
 | Kazinka | Казинка | 53,9, 39,4 (Russia) | 815 | 679 | 570 | 490 | 377 | -53,7% |
 | Kazinki | Казинки | 53,6, 38,63 (Russia) | 3,9k | 3,5k | 3,2k | 3,1k | 3k | -22,2% |
 | Kaznacheyevka | Казначеевка | 53,63, 39,48 (Russia) | 6,2k | 5,6k | 5,1k | 4,9k | 4,6k | -25,4% |
@@ -3890,18 +3538,14 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kireyevsk | Киреевск; Kirejevsk | 53,93, 37,92 (Russia) | 29,8k | 26,3k | 25,6k | 25,1k | 25,6k | -14,3% |
 | Kirov | Киров; Песочня | 54,07, 34,3 (Russia) | 36,4k | 38,9k | 31,9k | 31,2k | 28,1k | -22,8% |
 | Kirzhach | Киржач; Kiržač | 56,15, 38,86 (Russia) | 25k | 22,7k | 30k | 28,2k | 27,3k | +9,3% |
-| Kiselevo | Киселево | 56,99, 34,14 (Russia) | 17,3k | 15,6k | 13,9k | 13,1k | 11,7k | -32,3% |
 | Kletnya | Клетня; Kletnja | 53,39, 33,22 (Russia) | 14,2k | 13,9k | 13,3k | 13k | 11,9k | -15,9% |
 | Klimovo | Климово; Климов | 52,38, 32,2 (Russia) | 14,7k | 14,8k | 13,9k | 13,6k | 13,6k | -7,5% |
-| Klimovo | Климово | 56,9, 37,85 (Russia) | 36,4k | 34,1k | 35k | 36,6k | 39,4k | +8,4% |
 | Klintsy | Western Bryansk Chernobyl Zone; Клинцы | 52,75, 32,24 (Russia) | 71k | 67,3k | 62,5k | 61,9k | 63,1k | -11,2% |
 | Knjaž’ji Gory | Княжьи Горы | 56,08, 35,23 (Russia) | 1,1k | 1,1k | 989 | 920 | 810 | -25,4% |
-| Knyaginino | Княгинино | 53,83, 37,04 (Russia) | 14,2k | 12,8k | 11,7k | 11,5k | 11,1k | -22,1% |
 | Kokhma | Кохма; Kohma | 56,93, 41,09 (Russia) | 27,2k | 28,8k | 29,4k | 29,4k | 30,9k | +13,6% |
 | Kokino | Кокино | 52,5, 34,78 (Russia) | 4,1k | 4,7k | 3,9k | 3,5k | 3k | -27,1% |
 | Kokorevka | Кокоревка | 52,59, 34,28 (Russia) | 2,7k | 2,5k | 2k | 1,8k | 1,8k | -35,6% |
 | Kol’čugino | Кольчугино | 56,3, 39,38 (Russia) | 45,8k | 47,1k | 45,8k | 44,4k | 39,4k | -14% |
-| Kolobovka | Колобовка | 53,74, 40,45 (Russia) | 15,7k | 14,1k | 13k | 12,5k | 11,7k | -25,4% |
 | Kolobovo | Колобово | 56,7, 41,34 (Russia) | 3,1k | 3k | 2,5k | 2,5k | 2,4k | -24,2% |
 | Kolodezi | Колодези | 54,13, 41,47 (Russia) | 5,7k | 5,1k | 4,7k | 4,5k | 4,2k | -25,4% |
 | Kolodnya | Колодня; Kolodnja | 54,81, 32,19 (Russia) | 18,1k | 16,7k | 15,3k | 14,4k | 12,9k | -28,8% |
@@ -3921,34 +3565,29 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kosmynino | Космынино | 57,58, 40,76 (Russia) | 2,1k | 1,7k | 1,5k | 1,5k | 1,6k | -27,6% |
 | Kosterevo | Костерёво; Kosterjovo | 55,93, 39,61 (Russia) | 11,4k | 9,6k | 9,1k | 8,7k | 7,1k | -37,7% |
 | Kostroma | Kostroma Textile; Kostroma Governorate | 57,77, 40,93 (Russia) | 281k | 279k | 269k | 273k | 267,5k | -4,8% |
-| Kotova | Котова | 52,99, 35,73 (Russia) | 9,8k | 9,6k | 8,8k | 8,4k | 7,6k | -22,5% |
+| Kotova | Котова | 52,99, 35,73 (Russia) | 3,9k | 3,5k | 3,3k | 3,1k | 2,9k | -26% |
 | Kovrov | Ковров | 56,36, 41,32 (Russia) | 159,2k | 155,5k | 145,2k | 141k | 132,4k | -16,8% |
 | Kozel’sk | Козельск | 54,04, 35,77 (Russia) | 19,8k | 19,9k | 18,2k | 16,7k | 16,8k | -15,2% |
 | Kozlovo | Козлово; Нечаянное | 56,51, 36,27 (Russia) | 4,4k | 4,4k | 3,9k | 3,9k | 3k | -30,9% |
-| Kozyrevka | Козыревка | 52,9, 35,13 (Russia) | 14k | 13,8k | 12,7k | 12k | 10,9k | -22,6% |
 | Krainka | Краинка | 54,12, 36,35 (Russia) | 591 | 669 | 576 | 569 | 557 | -5,8% |
 | Krapivna | Крапивна | 53,94, 37,16 (Russia) | 1,4k | 1,3k | 1,1k | 985 | 854 | -40,2% |
-| Krasnaya | Красная | 53,48, 33,61 (Russia) | 381 | 302 | 299 | 272 | 231 | -39,4% |
 | Krasnaya Gora | Красная Гора; Krasnaja Gora | 53, 31,6 (Russia) | 6,9k | 6,6k | 5,9k | 5,8k | 5,5k | -19,8% |
 | Krasnaya Gorbatka | Красная Горбатка; Krasnaja Gorbatka | 55,88, 41,76 (Russia) | 10,3k | 9,4k | 8,9k | 8,4k | 8k | -22,5% |
-| Krasnaya Slobodka | Красная Слободка | 53,35, 37,42 (Russia) | 5,8k | 5,2k | 4,8k | 4,7k | 4,5k | -22,2% |
+| Krasnaya | Красная | 53,48, 33,61 (Russia) | 381 | 302 | 299 | 272 | 231 | -39,4% |
 | Krasnomayskiy | Красномайский; Krasnomajskij | 57,62, 34,41 (Russia) | 6,7k | 5,8k | 5k | 5k | 4,4k | -34,2% |
-| Krasnosele | Красноселье | 57,88, 34,58 (Russia) | 20,6k | 18,5k | 16,6k | 15,6k | 13,9k | -32,3% |
 | Krasnoye Ekho | Красное Эхо; Krasnoje Êho | 55,79, 40,71 (Russia) | 2,2k | 2,3k | 2k | 2k | 2k | -9,9% |
 | Krasnoye Znamya | Красное Знамя | 57,43, 35,21 (Russia) | 770 | 636 | 537 | 412 | 259 | -66,4% |
 | Krasnoye-na-Volge | Красное-на-Волге; Krasnoje-na-Volge | 57,51, 41,24 (Russia) | 8,5k | 8,2k | 7,7k | 7,8k | 7k | -18,5% |
 | Krasnyj Bogatyr’ | Красный Богатырь | 56,01, 41,13 (Russia) | 1k | 1k | 966 | 953 | 930 | -9,1% |
 | Krasnyj Oktjabr’ | Красный Октябрь | 56,12, 38,88 (Russia) | 11,3k | 10,2k | 9,7k | 9,4k | 8,8k | -21,6% |
-| Krasnyy | Красный; Krasnyj | 54,57, 31,43 (Russia) | 5k | 4,7k | 4,3k | 4,2k | 3,6k | -28% |
 | Krasnyy Bor | Красный Бор | 58,11, 40,86 (Russia) | 7,3k | 7,1k | 6,9k | 6,8k | 6,6k | -9,6% |
 | Krasnyy Kholm | Красный Холм; Krasnyj Holm | 58,06, 37,12 (Russia) | 7,6k | 6,4k | 5,6k | 5,4k | 5k | -34,5% |
 | Krasnyy Mayak | Красный Маяк; Krasnyj Majak | 56,05, 41,37 (Russia) | 840 | 876 | 623 | 607 | 579 | -31,1% |
 | Krasnyy Profintern | Красный Профинтерн; Krasnyj Profintern | 57,74, 40,44 (Russia) | 1,9k | 1,5k | 1,3k | 1,2k | 1,1k | -41,2% |
+| Krasnyy | Красный; Krasnyj | 54,57, 31,43 (Russia) | 5k | 4,7k | 4,3k | 4,2k | 3,6k | -28% |
 | Krasnyye Tkachi | Красные Ткачи; Krasnyje Tkači | 57,49, 39,76 (Russia) | 4,4k | 4,1k | 3,9k | 4,2k | 4,2k | -4,4% |
 | Kremenki | Кремёнки; Kremjonki | 54,89, 37,12 (Russia) | 12,6k | 12,1k | 11,6k | 11k | 11,7k | -6,7% |
-| Krivtsovo | Кривцово | 53,48, 36,27 (Russia) | 16,4k | 16,1k | 14,9k | 14k | 12,7k | -22,6% |
 | Kromy | Кромы | 52,69, 35,77 (Russia) | 7,1k | 7,2k | 6,7k | 6,8k | 7,1k | -0,2% |
-| Kryukov | Крюков | 52,58, 32,61 (Russia) | 13,2k | 12,9k | 12,1k | 11,6k | 10,9k | -17,6% |
 | Kryukovo | Крюково; Krjukovo | 57,12, 34,94 (Russia) | 13,4k | 12,1k | 10,8k | 10,1k | 9,1k | -32,3% |
 | Kupanskoye | Купанское; Kupanskoje | 56,82, 38,67 (Russia) | 2k | 1,7k | 1,5k | 1,5k | 1,6k | -21,8% |
 | Kurkino | Куркино | 53,43, 38,66 (Russia) | 6,8k | 6,1k | 5,4k | 5,1k | 5,5k | -20,3% |
@@ -3959,7 +3598,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kuznechikha | Кузнечиха | 58,4, 39,82 (Russia) | 3,6k | 3,3k | 3,2k | 3,5k | 4,2k | +16,6% |
 | Lakinsk | Лакинск; Лакинский | 56,02, 39,95 (Russia) | 18,6k | 17,1k | 15,7k | 15k | 12,9k | -30,9% |
 | Lashma | Лашма; Lašma | 54,93, 41,14 (Russia) | 2k | 1,8k | 1,6k | 1,6k | 1,5k | -23,1% |
-| Lebyazhe | Лебяжье | 53,49, 37,87 (Russia) | 8,8k | 8k | 7,3k | 7,1k | 6,9k | -22,2% |
 | Leninskiy | Ленинский; Leninskij | 54,29, 37,46 (Russia) | 10,7k | 10,1k | 7,1k | 6,8k | 7,4k | -30,2% |
 | Lesnaya Polyana | Лесная Поляна; Lesnaja Poljana | 57,69, 39,89 (Russia) | 3,3k | 3,2k | 3k | 2,8k | 2,5k | -24,2% |
 | Lesnoy | Лесной; Lesnoj | 54,21, 40,47 (Russia) | 8,3k | 7,5k | 15,7k | 7,7k | 7,7k | -6,5% |
@@ -3967,7 +3605,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Lezhnevo | Лежнево; Ležnevo | 56,78, 40,89 (Russia) | 8,7k | 8,3k | 8k | 7,9k | 7,3k | -15,8% |
 | Lihoslavl’ | Лихославль | 57,13, 35,46 (Russia) | 13,3k | 12,5k | 12,3k | 12,1k | 11k | -17,2% |
 | Lipki | Липки | 54,33, 37,52 (Russia) | 10,3k | 9,8k | 8,7k | 8,9k | 8,3k | -19% |
-| Lipovets | Липовец | 57,14, 33,5 (Russia) | 25,8k | 23,2k | 20,8k | 19,5k | 17,4k | -32,3% |
 | Livny | Ливны | 52,42, 37,6 (Russia) | 51,9k | 52,8k | 50,3k | 49k | 43,5k | -16% |
 | Lokot’ | Локоть | 52,57, 34,58 (Russia) | 11,3k | 12,1k | 10k | 9,7k | 8,5k | -25,2% |
 | Lomintsevskiy | Ломинцевский; Lomincevskij | 53,99, 37,66 (Russia) | 4,2k | 4,8k | 2,2k | 2,3k | 2,4k | -42,5% |
@@ -3979,18 +3616,13 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Lyudinovo | Людиново; Ljudinovo | 53,87, 34,45 (Russia) | 43,4k | 41,8k | 40,5k | 39,5k | 35,9k | -17,3% |
 | Magnitnyy | Магнитный; Magnitnyj | 52,43, 35,55 (Russia) | 2,2k | 2,4k | 2k | 1,8k | 1,5k | -31,2% |
 | Makar’jev | Макарьев | 57,89, 43,81 (Russia) | 8,9k | 7,8k | 7,3k | 6,9k | 5,5k | -38,2% |
-| Maklaki | Маклаки | 54,03, 34,87 (Russia) | 15,5k | 14,9k | 14,5k | 14,3k | 14k | -9,9% |
 | Maksatikha | Максатиха; Maksatiha | 57,8, 35,88 (Russia) | 10,1k | 9,8k | 8,7k | 7,9k | 7,6k | -24,9% |
-| Malinovo | Малиново | 53,21, 37,3 (Russia) | 28,5k | 28k | 25,8k | 24,3k | 22k | -22,6% |
 | Maloarhangel’sk | Малоархангельск | 52,4, 36,5 (Russia) | 4,2k | 4k | 3,6k | 3,5k | 3,6k | -14,9% |
 | Maloyaro-slavets | Малоярославец; Malojaro-slavec | 55,01, 36,47 (Russia) | 27,3k | 31,6k | 30,4k | 29k | 41,8k | +53,3% |
 | Manturovo | Мантурово | 58,33, 44,76 (Russia) | 22k | 19,5k | 17,5k | 16,4k | 13k | -40,6% |
 | Marinki | Маринки | 55,09, 37,03 (Russia) | 4,3k | 4,2k | 4,1k | 3,9k | 3,5k | -19% |
-| Markovo | Марково | 57,02, 40,49 (Russia) | 1,9k | 1,3k | 1,2k | 1,2k | 1,1k | -40,4% |
-| Maslovka | Масловка | 52,7, 35,52 (Russia) | 8k | 7,9k | 7,3k | 6,9k | 6,2k | -22,6% |
 | Mayskiy | Майский; Majskij | 53,96, 38,21 (Russia) | 2,5k | 2,1k | 2,3k | 2,2k | 2k | -18,3% |
 | Medvedevo | Медведево | 57,29, 34,08 (Russia) | 422 | 334 | 321 | 300 | 267 | -36,7% |
-| Medvezhe | Медвежье | 57,02, 34,41 (Russia) | 15,5k | 14k | 12,5k | 11,8k | 10,5k | -32,3% |
 | Medyn | Медынь; Medyn’ | 54,97, 35,86 (Russia) | 8,3k | 7,9k | 8,3k | 7,8k | 8,2k | -1,2% |
 | Melekhovo | Мелехово; Melehovo | 56,28, 41,29 (Russia) | 6,3k | 7,1k | 7k | 7k | 6,6k | +3,9% |
 | Melenki | Меленки | 55,34, 41,63 (Russia) | 18k | 16,3k | 15,2k | 14,5k | 13,4k | -25,6% |
@@ -4004,9 +3636,7 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Mileyevo | Милеево | 54,02, 33,82 (Russia) | 292 | 230 | 206 | 192 | 169 | -42,1% |
 | Miloslavskoye | Милославское; Miloslavskoje | 53,58, 39,45 (Russia) | 5k | 4,8k | 4,5k | 4,4k | 4,2k | -15% |
 | Mirnyy | Мирный; Mirnyj | 53,23, 34,45 (Russia) | 2k | 1,6k | 1,5k | 1,4k | 1,4k | -31,8% |
-| Miropole | Мирополье | 55,39, 32,94 (Russia) | 27,7k | 25,6k | 23,4k | 22k | 19,7k | -28,8% |
 | Mit’kovka | Митьковка | 52,43, 32,16 (Russia) | 653 | 541 | 417 | 371 | 303 | -53,6% |
-| Mogilki | Могилки | 57,33, 35,88 (Russia) | 14,2k | 12,8k | 11,4k | 10,7k | 9,6k | -32,3% |
 | Molokovo | Молоково | 58,17, 36,77 (Russia) | 2,8k | 2,6k | 2,3k | 2,1k | 1,8k | -35% |
 | Monastyr-shchina | Монастырщина; Monastyrščina | 54,35, 31,84 (Russia) | 5,1k | 4,6k | 4,1k | 3,8k | 3,2k | -36,5% |
 | Mosal’sk | Мосальск | 54,49, 34,98 (Russia) | 4,6k | 4,4k | 4,3k | 4,2k | 4,2k | -7,4% |
@@ -4014,7 +3644,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Mstera | Мстёра; Mstjora | 56,38, 41,92 (Russia) | 6,2k | 5,6k | 4,9k | 4,5k | 4,5k | -27,1% |
 | Mtsensk | Мценск; Mcensk | 53,28, 36,58 (Russia) | 48,3k | 47,8k | 43,2k | 39,8k | 37k | -23,5% |
 | Mugreyevskiy | Мугреевский; Mugrejevskij | 56,6, 42,35 (Russia) | 4k | 949 | 789 | 720 | 613 | -84,5% |
-| Muravlevo | Муравлево | 52,94, 35,47 (Russia) | 178,9k | 175,8k | 162,1k | 153,1k | 138,6k | -22,6% |
 | Murmino | Мурмино | 54,6, 40,05 (Russia) | 4,2k | 3,6k | 3,5k | 3,4k | 3,3k | -21,4% |
 | Murom | Муром; Муромъ | 55,57, 42,02 (Russia) | 124,6k | 126,9k | 116,1k | 111,5k | 107,5k | -13,8% |
 | Myatlevo | Мятлево; Mjatlevo | 54,9, 35,68 (Russia) | 1,9k | 1,6k | 1,6k | 1,7k | 1,8k | -8,8% |
@@ -4028,12 +3657,9 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Nerekhta | Нерехта; Nerehta | 57,46, 40,57 (Russia) | 28,8k | 26k | 22,8k | 21,8k | 20k | -30,5% |
 | Nerl’ | Нерль | 56,66, 40,39 (Russia) | 3k | 2,4k | 2,1k | 2k | 2k | -33,7% |
 | Neya | Нея; Neja | 58,3, 43,87 (Russia) | 13k | 11,5k | 9,8k | 9,2k | 7,8k | -39,9% |
-| Nikitskoye | Никитское | 53,54, 38,16 (Russia) | 10,8k | 9,7k | 8,9k | 8,7k | 8,4k | -22,1% |
 | Nikologory | Никологоры | 56,14, 41,99 (Russia) | 6,7k | 6,4k | 5,5k | 5,2k | 5k | -26,3% |
 | Nikolskoe | Никольское | 58,01, 44,05 (Russia) | 4k | 5k | 5k | 4,6k | 4k | +0,6% |
-| Novaya | Новая | 55,17, 35,97 (Russia) | 14,1k | 13,6k | 13,2k | 13k | 12,7k | -9,8% |
 | Novaya Slobodka | Новая Слободка; Novaja Slobodka | 53,99, 36,2 (Russia) | 6,2k | 5,5k | 5,1k | 5k | 4,8k | -22,1% |
-| Novgorodka | Новгородка | 57,35, 35,3 (Russia) | 33,2k | 29,9k | 26,8k | 25,1k | 22,5k | -32,3% |
 | Novki | Новки | 56,36, 41,09 (Russia) | 1,9k | 1,7k | 1,6k | 1,6k | 1,5k | -20,8% |
 | Novo-Talitsy | Ново-Талицы | 57, 40,86 (Russia) | 10,3k | 8,8k | 8,6k | 8,3k | 8k | -22,7% |
 | Novodugino | Новодугино | 55,63, 34,3 (Russia) | 4,1k | 4k | 3,8k | 3,6k | 3,3k | -21,2% |
@@ -4056,17 +3682,9 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Obraztsovo | Образцово | 53,1, 35,4 (Russia) | 4,2k | 4,1k | 4,1k | 4,1k | 4,1k | -1,9% |
 | Odoyev | Одоев; Odojev | 53,94, 36,69 (Russia) | 6,9k | 6,6k | 6,1k | 5,7k | 5,4k | -21,1% |
 | Ogarjovka | Огарёвка | 54,06, 38,05 (Russia) | 4,1k | 3,9k | 2,8k | 2,8k | 2,6k | -36,3% |
-| Oktjabr’ | Октябрь | 57,83, 37,5 (Russia) | 2,9k | 1,7k | 1,3k | 1,2k | 1k | -64,1% |
-| Oktjabr’skij | Октябрьский; Лосево | 56,22, 42,04 (Russia) | 2,4k | 2,1k | 2k | 2k | 1,9k | -21,8% |
-| Oktjabr’skij | Октябрьский | 57,13, 40,33 (Russia) | 1,7k | 1,3k | 1,2k | 1,2k | 1,2k | -32,6% |
-| Oktjabr’skij | Октябрьский; Брантовка | 58,32, 44,32 (Russia) | 2,1k | 1,6k | 1,1k | 918 | 672 | -68,4% |
 | Oktjabr’skij | Октябрьский; Oktjabr’skij | 54,23, 38,89 (Russia) | 5,5k | 4,9k | 6,1k | 5,6k | 5,8k | +5,8% |
-| Oktjabr’skij | Октябрьский; Комсомольский | 53,2, 38,45 (Russia) | 2,2k | 3k | 3,3k | 3,2k | 3,2k | +41,4% |
 | Olenino | Оленино | 56,21, 33,49 (Russia) | 5,8k | 5,2k | 4,9k | 4,9k | 4,7k | -18,6% |
-| Olshanka | Ольшанка | 55,61, 33,44 (Russia) | 15,1k | 14k | 12,8k | 12k | 10,8k | -28,8% |
-| Orekhovo | Орехово | 55,8, 41,03 (Russia) | 25,3k | 23,4k | 21,7k | 21k | 19,8k | -21,9% |
 | Orgtrud | Оргтруд | 56,18, 40,61 (Russia) | 5,1k | 4,5k | 4,3k | 4,1k | 3,9k | -23,8% |
-| Orsha | Орша; Orša | 56,91, 36,23 (Russia) | 2,6k | 2,3k | 2,3k | 2,2k | 2k | -25,2% |
 | Oryol | Orel; Oryol Governorate | 52,97, 36,08 (Russia) | 345k | 333k | 318k | 317k | 303k | -12,2% |
 | Ostashkov | Осташков; Ostaškov | 57,15, 33,11 (Russia) | 26,2k | 20,7k | 18,1k | 17,1k | 16,7k | -36,4% |
 | Oster | Остёр; Ostjor | 54,02, 32,8 (Russia) | 2,2k | 1,9k | 1,8k | 1,7k | 1,5k | -30,1% |
@@ -4082,11 +3700,10 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Pavelets | Павелец; Pavelec | 53,79, 39,25 (Russia) | 5k | 2,2k | 2k | 1,8k | 2,1k | -57,4% |
 | Pechersk | Печерск | 54,85, 32,03 (Russia) | 4,1k | 3,8k | 3,9k | 4,5k | 5,8k | +42% |
 | Peno | Пено | 56,93, 32,74 (Russia) | 6,1k | 5,4k | 4,2k | 3,9k | 3,4k | -44,7% |
-| Pereborovo | Переборово | 56,38, 40,56 (Russia) | 41k | 37,9k | 35,2k | 34k | 32k | -21,9% |
+| Pereborovo | Переборово | 56,38, 40,56 (Russia) | 13,5k | 12,9k | 12,6k | 12,4k | 12,1k | -10,1% |
 | Perelazy | Перелазы | 53,04, 31,47 (Russia) | 1,3k | 1,1k | 878 | 777 | 628 | -49,8% |
 | Peremyšl’ | Перемышль | 54,26, 36,16 (Russia) | 3,2k | 3,2k | 3,3k | 3,4k | 3,6k | +13,4% |
 | Pereslavl’-Zalesskij | Переславль-Залесский | 56,74, 38,86 (Russia) | 42,5k | 43,4k | 41,9k | 40,3k | 37,7k | -11,2% |
-| Pervomayskiy | Первомайский; Pervomajskij | 54,1, 37,11 (Russia) | 12,3k | 11,3k | 10,1k | 9,6k | 10,2k | -17% |
 | Pesochenskiy | Песоченский; Pesočenskij | 54,17, 36,11 (Russia) | 769 | 563 | 394 | 406 | 429 | -44,2% |
 | Pesochnoye | Песочное; Pesočnoje | 58,01, 39,18 (Russia) | 3,6k | 3,1k | 2,6k | 2,6k | 2,6k | -26,7% |
 | Pestyaki | Пестяки; Pestjaki | 56,71, 42,67 (Russia) | 4,8k | 4,3k | 4k | 3,8k | 3,1k | -35,6% |
@@ -4095,7 +3712,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Petushki | Петушки; Petuški | 55,93, 39,46 (Russia) | 19,5k | 16,5k | 15,1k | 14,1k | 13,3k | -31,8% |
 | Pistsovo | Писцово; Piscovo | 57,18, 40,53 (Russia) | 3,9k | 2,9k | 3,6k | 3,7k | 3,7k | -5,4% |
 | Pitelino | Пителино | 54,58, 41,81 (Russia) | 2,7k | 2,4k | 2,3k | 2,1k | 1,9k | -28,2% |
-| Plavna | Плавна | 52,45, 32,43 (Russia) | 93,6k | 91,3k | 85,6k | 82,4k | 77,1k | -17,6% |
 | Plavsk | Плавск | 53,71, 37,29 (Russia) | 16,6k | 16,8k | 16,2k | 16k | 16,9k | +1,8% |
 | Plekhanovo | Плеханово; Plehanovo | 54,25, 37,55 (Russia) | 8,4k | 9,1k | 9,2k | 9,2k | 8,7k | +3% |
 | Plyos | Плёс; Pljos | 57,46, 41,52 (Russia) | 3,8k | 2,8k | 2,3k | 2,1k | 1,9k | -50,5% |
@@ -4107,7 +3723,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Podozjorskij | Подозёрский | 57,22, 40,34 (Russia) | 1,3k | 1,2k | 1,1k | 1,1k | 1k | -22,2% |
 | Pogar | Погар | 52,55, 33,26 (Russia) | 10,2k | 11,5k | 10k | 9,2k | 9,5k | -6,8% |
 | Pogoreloye Gorodishche | Погорелое Городище | 56,14, 34,94 (Russia) | 1,6k | 1,5k | 1,4k | 1,3k | 1,1k | -31,7% |
-| Pogost | Погостъ | 58,16, 43,75 (Russia) | 11,4k | 10,3k | 9,5k | 8,7k | 7,5k | -34,1% |
 | Pokrov | Покров | 55,92, 39,17 (Russia) | 16k | 15,9k | 17,8k | 17,7k | 17,7k | +11,1% |
 | Pokrovskoye | Покровское; Pokrovskoje | 52,61, 36,87 (Russia) | 4,3k | 4,6k | 4,4k | 4,3k | 3,8k | -13,7% |
 | Poldnevitsa | Полдневица; Poldnevica | 58,61, 46,61 (Russia) | 2,3k | 1,6k | 1k | 745 | 421 | -81,9% |
@@ -4118,11 +3733,9 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Poplevinskiy | Поплевинский; Poplevinskij | 53,68, 39,54 (Russia) | 2,8k | 684 | 485 | 520 | 587 | -79,1% |
 | Popova Sloboda | Попова-Слобода | 53,58, 38,88 (Russia) | 9,6k | 8,7k | 7,9k | 7,8k | 7,5k | -22,2% |
 | Poreč’je-Rybnoje | Поречье-Рыбное | 57,1, 39,38 (Russia) | 2,4k | 1,9k | 1,7k | 1,7k | 1,4k | -39,6% |
-| Pozdnyakovo | Поздняково | 56,19, 41,82 (Russia) | 15k | 13,9k | 12,9k | 12,4k | 11,7k | -21,9% |
 | Pošehon’je | Пошехонье; Пертома | 58,5, 39,14 (Russia) | 7,9k | 7k | 6,1k | 5,9k | 5,2k | -34,5% |
 | Prechistoye | Пречистое; Prečistoje | 58,42, 40,33 (Russia) | 5,2k | 5,1k | 4,8k | 4,7k | 4,5k | -13,9% |
 | Priupskiy | Приупский; Priupskij | 53,91, 37,74 (Russia) | 4,5k | 3,4k | 2,1k | 2k | 1,9k | -58,1% |
-| Privalnoe | Привальное | 54,5, 38,32 (Russia) | 10k | 9k | 8,3k | 8,1k | 7,8k | -22,1% |
 | Privolzhsk | Приволжск; Privolžsk | 57,38, 41,29 (Russia) | 20,3k | 18,4k | 16,7k | 16,4k | 14,3k | -29,4% |
 | Pronsk | Пронск | 54,11, 39,6 (Russia) | 5k | 4,3k | 3,9k | 4,6k | 4,8k | -4,5% |
 | Protva | Протва | 55,02, 36,7 (Russia) | 7,4k | 7,2k | 7k | 6,9k | 6,7k | -9,8% |
@@ -4132,7 +3745,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Putyatino | Путятино | 54,16, 41,12 (Russia) | 3,2k | 3,1k | 3k | 3,1k | 3,2k | -1,4% |
 | Pyatovskiy | Пятовский; Pjatovskij | 54,69, 36,06 (Russia) | 3k | 3k | 3k | 2,8k | 2,6k | -11,6% |
 | Radchenko | Радченко; Radčenko | 56,68, 36,37 (Russia) | 2,5k | 2,1k | 1,5k | 1,4k | 1,2k | -52,8% |
-| Radin | Радин | 52,38, 33,12 (Russia) | 17,1k | 16,7k | 15,6k | 15k | 14,1k | -17,6% |
 | Raditsa-Krylovka | Радица-Крыловка; Radica-Krylovka | 53,32, 34,36 (Russia) | 3,8k | 3,5k | 3,5k | 3,5k | 3,2k | -16,4% |
 | Radovitskiy | Радовицкий; Radovickij | 55,13, 39,8 (Russia) | 2,3k | 1,9k | 1,9k | 1,9k | 1,9k | -14,7% |
 | Raduzhnyy | Радужный; Radužnyj | 56, 40,34 (Russia) | 19,1k | 17,5k | 18,2k | 18,4k | 17,6k | -7,9% |
@@ -4142,14 +3754,11 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Redkino | Редкино | 56,65, 36,3 (Russia) | 13,2k | 11,9k | 11,7k | 11,5k | 9,6k | -27% |
 | Revyakino | Ревякино; Revjakino | 54,37, 37,66 (Russia) | 3,2k | 3,3k | 3k | 3k | 3,4k | +7,6% |
 | Rodniki | Родники | 57,11, 41,74 (Russia) | 31,5k | 28,4k | 26,3k | 25,4k | 24,1k | -23,5% |
-| Rodniki | Родники | 58,28, 43,88 (Russia) | 12,7k | 11,4k | 10,5k | 9,7k | 8,3k | -34,1% |
 | Rognedino | Рогнедино | 53,8, 33,56 (Russia) | 3,4k | 3,4k | 3,2k | 3k | 2,8k | -19,3% |
 | Roslavl’ | Рославль | 53,95, 32,86 (Russia) | 60k | 57,7k | 54,9k | 52,1k | 45,4k | -24,4% |
 | Rostov Veliky | Ростов Великий; Rostov Velikij | 57,19, 39,41 (Russia) | 35,5k | 34,1k | 31,8k | 30,9k | 28,1k | -20,7% |
-| Rovnaya | Ровная | 56,52, 33,36 (Russia) | 27,5k | 24,8k | 22,2k | 20,8k | 18,6k | -32,3% |
 | Rudnev | Руднев | 53,94, 38,41 (Russia) | 2,6k | 2,2k | 2k | 1,9k | 1,8k | -29,4% |
 | Rudnya | Рудня; Rudnja | 54,95, 31,09 (Russia) | 10,8k | 9,9k | 10k | 9,8k | 8,9k | -17,8% |
-| Rusanovka | Русановка | 54,46, 41,72 (Russia) | 9,1k | 8,1k | 7,5k | 7,2k | 6,8k | -25,4% |
 | Ryazan | Pereyaslavl-Ryazansky; Ryazan Governorate | 54,63, 39,69 (Russia) | 525k | 522k | 525k | 530k | 528,6k | +0,7% |
 | Ryazhsk | Ряжск; Rjažsk | 53,71, 40,08 (Russia) | 26,5k | 22,9k | 21,7k | 21,7k | 20,6k | -22,1% |
 | Rybinsk | Rybinsk Grain Port; Rybinsk Yaroslavl | 58,05, 38,86 (Russia) | 252k | 223k | 201k | 195k | 177,3k | -29,6% |
@@ -4160,7 +3769,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Sakharovo | Сахарово; Saharovo | 56,9, 36,05 (Russia) | 4,2k | 3,9k | 3,6k | 3,4k | 3k | -27,6% |
 | Sandovo | Сандово | 58,46, 36,42 (Russia) | 4,5k | 3,9k | 3,5k | 3,4k | 3,1k | -30,9% |
 | Sanskoye | Санское | 54,38, 40,77 (Russia) | 730 | 589 | 442 | 439 | 433 | -40,7% |
-| Sapkovo | Сапково | 54,57, 39,17 (Russia) | 18,8k | 16,9k | 15,6k | 15k | 14k | -25,4% |
 | Sapozhok | Сапожок; Sapožok | 53,94, 40,68 (Russia) | 5,2k | 4,4k | 3,9k | 3,4k | 3,1k | -40,5% |
 | Sarayi | Сараи; Sarai | 53,73, 41 (Russia) | 7,8k | 6,6k | 5,8k | 5,5k | 5k | -35,5% |
 | Sasovo | Сасово | 54,35, 41,92 (Russia) | 35k | 30,7k | 28,1k | 27,3k | 21,6k | -38,3% |
@@ -4169,7 +3777,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Selishche | Селище; Selišče | 56,89, 33,27 (Russia) | 1,5k | 1,1k | 792 | 736 | 647 | -55,6% |
 | Selizharovo | Селижарово; Seližarovo | 56,85, 33,45 (Russia) | 7,6k | 7,3k | 6,7k | 6,3k | 5,9k | -22,1% |
 | Semibratovo | Семибратово | 57,3, 39,54 (Russia) | 8,4k | 7,7k | 7,1k | 7k | 6,5k | -22,1% |
-| Sennaya | Сенная | 54,86, 33,71 (Russia) | 16,2k | 15k | 13,7k | 12,9k | 11,5k | -28,8% |
 | Seredeyskiy | Середейский; Seredejskij | 54,05, 35,23 (Russia) | 2,4k | 1,9k | 1,8k | 1,7k | 1,8k | -27,1% |
 | Sergiyevskoye | Сергиевское | 54,11, 37,75 (Russia) | 8,1k | 7,3k | 6,7k | 6,5k | 6,3k | -22,2% |
 | Serpeysk | Серпейск; Serpejsk | 54,34, 34,99 (Russia) | 779 | 743 | 658 | 642 | 615 | -21,1% |
@@ -4185,7 +3792,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Shvartsevskiy | Шварцевский; Švarcevskij | 54,09, 37,99 (Russia) | 5,8k | 5,2k | 4,9k | 4,7k | 4,3k | -25,5% |
 | Sknyatinovo | Скнятиново | 57,08, 39,34 (Russia) | 15,8k | 14,4k | 13,3k | 12,9k | 12,2k | -22,9% |
 | Skopin | Скопин | 53,82, 39,55 (Russia) | 28,3k | 25,1k | 30,4k | 28,1k | 25,2k | -10,8% |
-| Skorodnoye | Скородное | 53,49, 37,28 (Russia) | 12,5k | 11,3k | 10,3k | 10,1k | 9,7k | -22,2% |
 | Skuratovskiy | Скуратовский; Skuratovskij | 54,1, 37,6 (Russia) | 13,7k | 13,7k | 12,9k | 12,7k | 12,2k | -10,5% |
 | Slavniy | Славный; Slavnyj | 53,55, 36,47 (Russia) | 2,1k | 1,9k | 1,9k | 1,9k | 1,9k | -8,4% |
 | Smolensk | Smolensk Dnieper; Smolensk Governorate | 54,78, 32,05 (Russia) | 346k | 325k | 327k | 331k | 316,6k | -8,5% |
@@ -4200,31 +3806,26 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Solotcha | Солотча; Solotča | 54,79, 39,83 (Russia) | 3,8k | 2,5k | 2,4k | 2,3k | 2,2k | -43,8% |
 | Sonkovo | Сонково | 57,78, 37,16 (Russia) | 5,7k | 4,6k | 4,2k | 4k | 3,6k | -38,2% |
 | Sortirov-ochnaya | Сортировочная; Sortirovočnaja | 54,16, 36,49 (Russia) | 994 | 895 | 820 | 803 | 774 | -22,1% |
-| Sos | Сосъ | 54,61, 33,55 (Russia) | 17,4k | 16,1k | 14,7k | 13,8k | 12,4k | -28,8% |
 | Sosenskiy | Сосенский; Sosenskij | 54,06, 35,96 (Russia) | 13,2k | 12,6k | 12,4k | 11,5k | 11,4k | -13,4% |
-| Sosnovitsy | Сосновицы | 57,22, 35,47 (Russia) | 20,2k | 18,2k | 16,3k | 15,3k | 13,7k | -32,3% |
 | Sotnitsyno | Сотницыно; Sotnicyno | 54,27, 41,8 (Russia) | 3,2k | 2,7k | 2,6k | 2,4k | 2,1k | -34,9% |
 | Sovetsk | Советск | 53,94, 37,63 (Russia) | 9,9k | 8,8k | 7,5k | 7,4k | 7,9k | -20% |
 | Spas-Demensk | Спас-Деменск | 54,41, 34,02 (Russia) | 6,1k | 5,3k | 4,9k | 4,5k | 4,6k | -24,9% |
 | Spas-Klepiki | Спас-Клепики | 55,14, 40,18 (Russia) | 7k | 6,2k | 5,9k | 5,7k | 4,7k | -32,6% |
 | Spassk-Ryazanskiy | Спасск-Рязанский; Spassk-Rjazanskij | 54,41, 40,38 (Russia) | 9,7k | 8,9k | 7,7k | 7k | 5,8k | -40,1% |
 | Spirovo | Спирово | 57,42, 34,98 (Russia) | 6,9k | 6,9k | 6,3k | 6k | 5,2k | -24,6% |
-| Stanishino | Станишино | 56,67, 35,19 (Russia) | 36k | 32,4k | 29k | 27,2k | 24,3k | -32,3% |
-| Stanovaya | Становая | 53,13, 36,89 (Russia) | 27,8k | 27,3k | 25,2k | 23,8k | 21,5k | -22,6% |
 | Star’ | Старь | 53,62, 34,15 (Russia) | 5,6k | 5,1k | 5k | 4,8k | 4,2k | -24,9% |
 | Staraya Toropa | Старая Торопа; Staraja Toropa | 56,28, 31,67 (Russia) | 2,7k | 2,3k | 2k | 1,8k | 1,6k | -41% |
 | Staraya Vichuga | Старая Вичуга; Staraja Vičuga | 57,27, 41,88 (Russia) | 6,1k | 5,8k | 5,3k | 5,1k | 4,6k | -25,5% |
 | Staritsa | Старица; Starica | 56,51, 34,93 (Russia) | 9,1k | 9,1k | 8,6k | 8,3k | 6,9k | -23,9% |
-| Starodub | Стародуб | 52,59, 32,76 (Russia) | 18,9k | 18,6k | 19k | 18,9k | 17,7k | -6,2% |
-| Staropochepe | Старопочепье | 52,99, 33,28 (Russia) | 12,4k | 12,1k | 11,4k | 10,9k | 10,2k | -17,6% |
+| Starodub | Стародуб; Starodub Regiment Center | 52,59, 32,76 (Russia) | 18,9k | 18,6k | 19k | 18,9k | 17,7k | -6,2% |
 | Starozhilovo | Старожилово; Starožilovo | 54,23, 39,91 (Russia) | 5,3k | 5,3k | 5,1k | 5,1k | 5k | -7% |
-| Staryy Gorodok | Старый Городок | 52,17, 32,15 (Russia) | 6,6k | 6,4k | 6,1k | 6,8k | 8,3k | +25,2% |
+| Staryy Gorodok | Старый Городок | 52,17, 32,15 (Russia) | 2,3k | 2,1k | 1,9k | 1,8k | 1,7k | -26% |
 | Stavrovo | Ставрово | 56,13, 40,01 (Russia) | 8k | 8k | 7,8k | 7,7k | 6,9k | -13,2% |
 | Steklyannaya Raditsa | Стеклянная Радица; Stekljannaja Radica | 53,37, 34,49 (Russia) | 1,5k | 1,5k | 1,4k | 1,3k | 1,2k | -20,3% |
 | Stepantsevo | Стёпанцево; Stjopancevo | 56,13, 41,7 (Russia) | 3,3k | 2,8k | 2,2k | 2,2k | 2,3k | -32% |
 | Stodolishche | Стодолище; Stodolišče | 54,19, 32,65 (Russia) | 3,1k | 3,3k | 3k | 2,8k | 2,5k | -19,5% |
 | Strunino | Струнино | 56,37, 38,58 (Russia) | 18,2k | 16,1k | 14,4k | 14k | 11,8k | -35,4% |
-| Strykovo | Стрыково | 53,3, 35,49 (Russia) | 8,3k | 8,1k | 7,5k | 7,1k | 6,4k | -22,6% |
+| Strykovo | Стрыково | 53,3, 35,49 (Russia) | 3,3k | 3k | 2,8k | 2,6k | 2,4k | -26% |
 | Sudislavl’ | Судиславль | 57,88, 41,71 (Russia) | 5,7k | 5,4k | 4,9k | 4,7k | 4,2k | -27,3% |
 | Sudogda | Судогда | 55,95, 40,87 (Russia) | 14,1k | 13,3k | 11,8k | 11k | 10,4k | -25,9% |
 | Suhodol’skij | Суходольский | 53,72, 38,27 (Russia) | 958 | 863 | 791 | 774 | 746 | -22,1% |
@@ -4235,23 +3836,19 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Surazh | Сураж; Suraž | 53,02, 32,39 (Russia) | 12,5k | 12k | 11,6k | 11,2k | 11,2k | -10,4% |
 | Susanino | Сусанино; Молвитино | 58,15, 41,59 (Russia) | 5,1k | 4,1k | 3,4k | 3,2k | 3k | -40,8% |
 | Suvorov | Суворов; Суворовский | 54,12, 36,5 (Russia) | 21,8k | 21,2k | 19k | 18k | 17,6k | -19,2% |
-| Suzdal’ | Суздаль | 56,42, 40,45 (Russia) | 12k | 11,4k | 10,5k | 10,1k | 9,3k | -22,3% |
+| Suzdal’ | Суздаль; Suzdal Opolye | 56,42, 40,45 (Russia) | 12k | 11,4k | 10,5k | 10,1k | 9,3k | -22,3% |
 | Suzemka | Суземка | 52,32, 34,08 (Russia) | 9,5k | 9,7k | 9,1k | 8,9k | 8,7k | -8,4% |
 | Sven’ | Свень | 53,18, 34,55 (Russia) | 4k | 3,6k | 1,2k | 1,3k | 1,4k | -65% |
 | Svyatsk | Святск; Svjatsk | 52,67, 31,56 (Russia) | 3 | 1 | 40 | 40 | 40 | +1,23k% |
 | Syntul | Сынтул | 55, 41,3 (Russia) | 2,2k | 1,9k | 1,7k | 1,6k | 1,6k | -27,8% |
-| Syrova | Сырова | 55,83, 31,81 (Russia) | 18,9k | 17,1k | 15,3k | 14,3k | 12,8k | -32,3% |
 | Syčjovka | Сычёвка; Сычевка | 55,83, 34,28 (Russia) | 9,5k | 8,7k | 8,1k | 8,2k | 7,5k | -20,5% |
 | Talitsy | Талицы; Talicy | 56,53, 42,33 (Russia) | 7,2k | 6,2k | 5,7k | 4,4k | 2,8k | -61,5% |
 | Tarusa | Таруса | 54,72, 37,17 (Russia) | 9k | 9,9k | 9,7k | 9,4k | 9,9k | +10,7% |
 | Tatarsk | Татарск | 54,25, 31,56 (Russia) | 421 | 357 | 301 | 265 | 212 | -49,6% |
-| Telepino | Телепино | 58,53, 39,25 (Russia) | 9,3k | 8,5k | 7,8k | 7,6k | 7,2k | -22,9% |
+| Telepino | Телепино | 58,53, 39,25 (Russia) | 3,5k | 3,1k | 2,9k | 2,8k | 2,6k | -26% |
 | Teykovo | Тейково; Tejkovo | 56,86, 40,54 (Russia) | 37,9k | 36,7k | 35k | 33,8k | 31,3k | -17,4% |
 | Tikhmenevo | Тихменево; Tihmenevo | 57,99, 38,61 (Russia) | 2,4k | 2,1k | 1,8k | 1,8k | 1,8k | -23,9% |
-| Tishkovka | Тишковка | 54,31, 31,37 (Russia) | 18,1k | 16,7k | 15,3k | 14,4k | 12,9k | -28,8% |
 | Tjoploje | Тёплое; Теплое | 53,62, 37,59 (Russia) | 5,7k | 5,5k | 5,1k | 4,9k | 4,8k | -14,9% |
-| Tolmachi | Толмачи | 57,43, 35,69 (Russia) | 52,4k | 47,2k | 42,2k | 39,6k | 35,4k | -32,3% |
-| Tolstoye | Толстое | 52,6, 36,67 (Russia) | 10,5k | 10,3k | 9,5k | 9k | 8,2k | -22,6% |
 | Toropets | Торопец; Toropec | 56,5, 31,64 (Russia) | 17k | 14,6k | 13k | 12,3k | 11,4k | -32,8% |
 | Torzhok | Торжок; Toržok | 57,04, 34,96 (Russia) | 49,8k | 49k | 47,6k | 47k | 41,1k | -17,5% |
 | Tovarkovo | Товарково | 54,68, 35,94 (Russia) | 13k | 14,5k | 14,5k | 14,3k | 15,6k | +20,2% |
@@ -4259,12 +3856,10 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Trekhovitsy | Треховицы | 55,65, 41,95 (Russia) | 30,4k | 28,1k | 26,1k | 25,2k | 23,7k | -21,9% |
 | Trubchevsk | Трубчевск; Trubčevsk | 52,58, 33,77 (Russia) | 16,3k | 16,3k | 15k | 14,1k | 13,3k | -18,5% |
 | Trud | Труд | 57,61, 33,96 (Russia) | 719 | 625 | 415 | 376 | 316 | -56,1% |
-| Tsentralnyy | Центральный | 53,76, 36,42 (Russia) | 5k | 4,6k | 4,4k | 4,2k | 3,8k | -23,1% |
 | Tula | Tula Imperial Arsenal; Tula Governorate | 54,2, 37,62 (Russia) | 541k | 481k | 501k | 491k | 473,6k | -12,5% |
 | Tuma | Тума | 55,15, 40,55 (Russia) | 7k | 6,6k | 6,2k | 6k | 5,4k | -22,9% |
 | Tutayev | Тутаев; Tutajev | 57,87, 39,53 (Russia) | 40,2k | 42,6k | 41k | 40,4k | 39,6k | -1,5% |
 | Tver | Kalinin; Tver Governorate | 56,86, 35,92 (Russia) | 455k | 409k | 404k | 411k | 416,2k | -8,5% |
-| Tverdilovo | Твердилово | 57,04, 38,23 (Russia) | 209k | 188,2k | 168,5k | 158,1k | 141,5k | -32,3% |
 | Udomlya | Удомля; Udomlja | 57,88, 35,01 (Russia) | 30,9k | 32k | 31,1k | 29,4k | 26k | -16,1% |
 | Uglich | Углич; Uglič | 57,52, 38,32 (Russia) | 39,7k | 38,3k | 34,5k | 32,8k | 32,7k | -17,6% |
 | Ugra | Угра | 54,78, 34,33 (Russia) | 5k | 4,8k | 4,3k | 4k | 3,5k | -31,3% |
@@ -4274,11 +3869,7 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Unzha | Унжа; Unža | 58,02, 44,01 (Russia) | 484 | 415 | 355 | 295 | 214 | -55,8% |
 | Uršel’skij | Уршельский; Уршель | 55,68, 40,22 (Russia) | 5,8k | 4,7k | 3,8k | 3,6k | 3,4k | -41,8% |
 | Ushcherpe | Ущерпье | 52,71, 31,89 (Russia) | 1,2k | 1k | 1k | 943 | 845 | -30,7% |
-| Uspenskoye | Успенское | 52,7, 36,81 (Russia) | 1,8k | 1,7k | 1,6k | 1,5k | 1,4k | -22,6% |
-| Utekhovo Vtoroye | Утехово | 54,1, 33,04 (Russia) | 44,5k | 41,1k | 37,6k | 35,3k | 31,7k | -28,8% |
-| Utkina | Уткина | 57,09, 32,42 (Russia) | 17,2k | 15,5k | 13,8k | 13k | 11,6k | -32,3% |
 | Uzlovaya | Узловая; Uzlovaja | 53,98, 38,16 (Russia) | 64,1k | 59,8k | 55,3k | 53,3k | 49,4k | -22,9% |
-| Vakhrameyevo | Вахрамеево | 58,7, 38,52 (Russia) | 16,4k | 15k | 13,8k | 13,4k | 12,7k | -22,9% |
 | Varegovo | Варегово | 57,78, 39,28 (Russia) | 1,9k | 1,1k | 967 | 941 | 896 | -52,9% |
 | Vasil’jevskij Moh | Васильевский Мох | 57,01, 35,92 (Russia) | 3,3k | 2,6k | 2,1k | 2,2k | 2,3k | -31% |
 | Vasilevka | Васильевка | 54,11, 38,29 (Russia) | 9,8k | 8,9k | 8,1k | 7,9k | 7,7k | -22,1% |
@@ -4298,7 +3889,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Veski | Вески | 57,07, 35,46 (Russia) | 814 | 675 | 625 | 615 | 599 | -26,4% |
 | Vetluzhskiy | Ветлужский; Vetlužskij | 58,39, 45,47 (Russia) | 14,8k | 13,6k | 12,2k | 12,2k | 9,5k | -35,5% |
 | Vichuga | Вичуга; Vičuga | 57,21, 41,93 (Russia) | 48,3k | 40,9k | 37,6k | 36,1k | 30,7k | -36,4% |
-| Vishenki | Вишенки | 56,46, 40,29 (Russia) | 100,6k | 92,9k | 86,3k | 83,4k | 78,6k | -21,9% |
 | Vjaz’ma | Вязьма | 55,21, 34,3 (Russia) | 58,8k | 57,5k | 57,1k | 54,8k | 52k | -11,6% |
 | Vladimir | Vladimir Klyazma; Vladimir Governorate | 56,13, 40,41 (Russia) | 353k | 316k | 345k | 350k | 350k | -0,9% |
 | Vnukovichi | Родонежское | 53,83, 32,9 (Russia) | 38,8k | 35,9k | 32,8k | 30,8k | 27,6k | -28,8% |
@@ -4311,8 +3901,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Vorga | Ворга | 53,76, 32,75 (Russia) | 1,5k | 1,2k | 1,1k | 980 | 773 | -48,8% |
 | Voronok | Воронок | 52,36, 32,67 (Russia) | 1,6k | 1,3k | 1,1k | 1,1k | 990 | -36,3% |
 | Vorotynsk | Воротынск | 54,43, 36,05 (Russia) | 205 | 158 | 168 | 146 | 114 | -44,4% |
-| Voskresenka | Воскресенка | 54,23, 39,46 (Russia) | 7,8k | 7k | 6,4k | 6,2k | 5,8k | -25,4% |
-| Vyatskoye | Вятское | 57,87, 40,26 (Russia) | 118,8k | 108,4k | 99,9k | 96,8k | 91,7k | -22,9% |
 | Vyazma-Bryanskaya | Вязьма-Брянская | 55,16, 34,37 (Russia) | 5k | 4,8k | 4,6k | 4,3k | 3,8k | -24,1% |
 | Vyazniki | Вязники; Vjazniki | 56,24, 42,15 (Russia) | 44,6k | 40,4k | 41,2k | 38,7k | 36,2k | -18,9% |
 | Vyazovenka | Вязовенка | 53,78, 39,32 (Russia) | 5,4k | 4,8k | 4,4k | 4,3k | 4k | -25,4% |
@@ -4320,13 +3908,9 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Vypolzovo | Выползово | 54,59, 35,61 (Russia) | 4,9k | 4,8k | 4,7k | 4,6k | 4,2k | -14% |
 | Vysha | Выша; Vyša | 53,85, 42,38 (Russia) | 1,1k | 768 | 614 | 591 | 553 | -47,9% |
 | Vyshkov | Вышков; Vyškov | 52,48, 31,69 (Russia) | 3,5k | 2,9k | 2,7k | 2,6k | 2,5k | -27,9% |
-| Vysokovo | оково | 57,32, 36 (Russia) | 67,7k | 61k | 54,6k | 51,3k | 45,9k | -32,3% |
 | Vyšnij Voločjok | Вышний Волочёк; Вышний Волочек | 57,59, 34,57 (Russia) | 63,4k | 56,4k | 52,4k | 49,4k | 45,8k | -27,7% |
 | Yakshanga | Якшанга; Jakšanga | 58,36, 45,92 (Russia) | 3,1k | 2,1k | 1,4k | 1,2k | 870 | -71,6% |
-| Yamnoye | Ямное | 54,13, 33,79 (Russia) | 11,1k | 10,7k | 10,3k | 10,2k | 10k | -9,8% |
-| Yaroslavets | Ярославецъ | 57,15, 36,97 (Russia) | 17,4k | 15,6k | 14k | 13,1k | 11,8k | -32,3% |
 | Yaroslavl | Yaroslavl Volga; Yaroslavl Governorate | 57,63, 39,88 (Russia) | 636k | 613k | 592k | 602k | 577,3k | -9,2% |
-| Yartsevo | Ярцево; Jarcevo | 55,79, 41,56 (Russia) | 4,2k | 3,9k | 3,6k | 3,5k | 3,3k | -21,9% |
 | Yartsevo | Ярцево; Jarcevo | 55,06, 32,7 (Russia) | 52,4k | 52,6k | 47,8k | 46,3k | 41,5k | -20,8% |
 | Yasnogorsk | Ясногорск; Jasnogorsk | 54,48, 37,7 (Russia) | 20,9k | 18,6k | 16,8k | 16,1k | 15,3k | -26,8% |
 | Yefremov | Ефремов; Jefremov | 53,14, 38,12 (Russia) | 55,2k | 47,3k | 42,4k | 37,6k | 36,5k | -33,8% |
@@ -4337,25 +3921,19 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Yermolino | Ермолино; Jermolino | 55,19, 36,6 (Russia) | 10,4k | 9,5k | 10,4k | 10,4k | 10,8k | +4% |
 | Yukhnov | Юхнов; Juhnov | 54,74, 35,23 (Russia) | 6,3k | 7,7k | 7,1k | 6,5k | 6,6k | +5,2% |
 | Yuzha | Южа; Juža | 56,58, 42,01 (Russia) | 20k | 15,6k | 14,2k | 13,4k | 13k | -35,2% |
-| Zaborovo | Заборово | 53,54, 40,52 (Russia) | 50,5k | 45,2k | 41,7k | 40,2k | 37,6k | -25,4% |
 | Zadon’je | Задонье | 54,01, 38,4 (Russia) | 2,2k | 1,5k | 1,3k | 1,2k | 1,2k | -44,4% |
 | Zalegošč’ | Залегощь | 52,9, 36,89 (Russia) | 5,8k | 6k | 5,3k | 5,1k | 4,4k | -24,4% |
-| Zamlyne | Замлыне | 52,52, 32,22 (Russia) | 35,1k | 34,3k | 32,1k | 30,9k | 29k | -17,6% |
 | Zaokskiy | Заокский; Zaokskij | 54,73, 37,4 (Russia) | 6,5k | 6,7k | 7,1k | 7k | 6,5k | -1,1% |
 | Zapadnaya Dvina | Западная Двина; Zapadnaja Dvina | 56,26, 32,07 (Russia) | 11,3k | 10,2k | 9,4k | 8,6k | 7,9k | -30,6% |
 | Zarechnyy | Заречный; Zarečnyj | 57,47, 42,28 (Russia) | 1,7k | 1,4k | 1,2k | 1k | 822 | -52,5% |
 | Zarechnyy | Заречный; Zarečnyj | 53,73, 39,59 (Russia) | 3,7k | 3,1k | 3k | 2,9k | 2,7k | -27,5% |
 | Zasetskoye | Старохоперская | 54, 38,19 (Russia) | 5,8k | 5,2k | 4,8k | 4,7k | 4,5k | -22,2% |
-| Zatvornoye | Затворное | 53,76, 39,07 (Russia) | 10,5k | 9,4k | 8,7k | 8,3k | 7,8k | -25,4% |
 | Zavolzhsk | Заволжск; Zavolžsk | 57,48, 42,14 (Russia) | 16k | 13,5k | 12k | 11,2k | 8,9k | -44,5% |
 | Zaymishche | Займище; Zajmišče | 52,73, 32,23 (Russia) | 4,4k | 5k | 5,3k | 5,2k | 5k | +13,2% |
 | Zaytsevo | Зайцево | 53,65, 36,05 (Russia) | 797 | 660 | 713 | 695 | 664 | -16,7% |
 | Zeblyaki | Зебляки; Zebljaki | 58,42, 45,65 (Russia) | 2,9k | 2,4k | 2,2k | 2k | 1,8k | -39,5% |
-| Zgudovo | Згудово | 58,15, 34,21 (Russia) | 14,8k | 13,3k | 11,9k | 11,2k | 10k | -32,3% |
-| Zharki | Жарки | 57,93, 41,4 (Russia) | 10,1k | 9,1k | 8,3k | 7,7k | 6,6k | -34,1% |
 | Zharkovskiy | Жарковский; Žarkovskij | 55,85, 32,27 (Russia) | 6,2k | 5k | 4k | 3,7k | 3k | -52,6% |
 | Zhdankovskiy | Жданковский; Ždankovskij | 53,75, 38,18 (Russia) | 4,8k | 3,1k | 2,9k | 2,8k | 2,7k | -43,3% |
-| Zheremino | Жеремино | 54,03, 36,32 (Russia) | 13,2k | 11,9k | 10,9k | 10,7k | 10,3k | -22,2% |
 | Zhilina | Жилина | 53, 36,07 (Russia) | 2,9k | 2,9k | 2,8k | 3,9k | 6,9k | +136,8% |
 | Zhizdra | Жиздра; Žizdra | 53,75, 34,74 (Russia) | 5,5k | 5,7k | 5,6k | 5,4k | 5,5k | +1,2% |
 | Zhukov | Жуков; Žukov | 55,02, 36,74 (Russia) | 3,6k | 12,3k | 12,1k | 12k | 16,2k | +349,5% |
@@ -4366,8 +3944,6 @@ Ivanovo, Tula and Rybinsk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Zneber | Знеберь; Zneber’ | 53,58, 34,21 (Russia) | 1,5k | 1,4k | 1,3k | 1,3k | 1,2k | -17,6% |
 | Zolotkovo | Золотково | 55,53, 41,11 (Russia) | 4,2k | 3,7k | 2,7k | 2,7k | 2,6k | -37,7% |
 | Zubtsov | Зубцов; Zubcov | 56,18, 34,59 (Russia) | 7,6k | 7,4k | 6,9k | 6,6k | 6,2k | -18,2% |
-| Zverevo | Зверево | 54,4, 39,78 (Russia) | 11k | 9,9k | 9,1k | 8,8k | 8,2k | -25,4% |
-| Zybino | Николаевское | 53, 36,47 (Russia) | 6k | 5,9k | 5,4k | 5,1k | 4,6k | -22,6% |
 | Čerepet’ | Черепеть | 54,12, 36,38 (Russia) | 2,5k | 2,1k | 1,3k | 1,3k | 1,3k | -45,7% |
 | Čern’ | Чернь | 53,45, 36,91 (Russia) | 6,3k | 6,9k | 6,4k | 6,4k | 6,2k | -2,1% |
 | Šahtjorskij | Шахтёрский; Шахтерский | 53,77, 38,17 (Russia) | 3,2k | 4k | 3,6k | 3,5k | 3,4k | +6,2% |
@@ -4387,26 +3963,20 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Akhtyrka | Ахтырка | 52,54, 41,64 (Russia) | 56k | 52,1k | 47,8k | 45,5k | 41,7k | -25,7% |
 | Aleksandrovka | Александровка | 51,6, 39,32 (Russia) | 1,7k | 1,5k | 1,4k | 1,3k | 1,2k | -27,6% |
-| Alekseyevka | Алексеевка | 51,68, 40,23 (Russia) | 25,6k | 24,8k | 23,2k | 22,2k | 20,5k | -20,1% |
 | Alexeyevka | Алексеевка; Aleksejevka | 50,63, 38,69 (Russia) | 37k | 39,3k | 39k | 38,9k | 36,6k | -1,2% |
 | Alferovka | Алферовка | 51,2, 41,67 (Russia) | 969 | 829 | 713 | 670 | 601 | -38% |
 | Algasovo | Алгасово | 53,68, 41,66 (Russia) | 2,8k | 2,4k | 2,2k | 2,2k | 2k | -27,4% |
 | Anna | Анна | 51,49, 40,42 (Russia) | 19,1k | 19,4k | 18k | 17k | 15,3k | -19,9% |
 | Annovka | Анновка | 50,77, 37,45 (Russia) | 937 | 856 | 724 | 676 | 600 | -36% |
-| Arkhangelskoe | Архангельское | 51,84, 41,02 (Russia) | 20,2k | 18,8k | 17,3k | 16,4k | 15k | -25,7% |
 | Banishchi | Банищи | 51,7, 35,07 (Russia) | 1,2k | 1k | 717 | 662 | 575 | -50,4% |
 | Bekhteyevka | Бехтеевка | 50,81, 37,22 (Russia) | 3,6k | 3,3k | 3,3k | 3,3k | 3,3k | -9,1% |
 | Belaya | Белая | 51,06, 35,71 (Russia) | 3,1k | 2,9k | 2,6k | 2,5k | 2,3k | -25,2% |
-| Belenkoe | Беленькое | 50,58, 35,92 (Russia) | 1,7k | 1,5k | 1,5k | 1,5k | 1,4k | -16,3% |
 | Belgorod | Belgorod Kursk Gub; Belgorod Chalk | 50,6, 36,59 (Russia) | 311k | 337k | 356k | 379k | 340k | +9,3% |
 | Belogore | Белогорье | 50,49, 40,01 (Russia) | 2,6k | 2,3k | 2,2k | 2k | 1,8k | -31,2% |
-| Belyy Kolodez | Белый Колодезь | 49,99, 40,23 (Russia) | 14k | 13,5k | 12,6k | 12,1k | 11,1k | -20,1% |
 | Bereznyagi | Березняги | 51,65, 40,05 (Russia) | 1,3k | 1,1k | 773 | 672 | 526 | -58,2% |
 | Berezovka | Березовка | 53,4, 41,51 (Russia) | 777 | 619 | 506 | 502 | 494 | -36,4% |
 | Biruch | Бирюч; Birjuč | 50,65, 38,4 (Russia) | 8,5k | 8,1k | 7,8k | 7,3k | 7,1k | -15,9% |
-| Biryuch | Бирюч | 51,34, 40,71 (Russia) | 27,3k | 26,4k | 24,7k | 23,6k | 21,8k | -20,1% |
 | Blagodatnoye | Благодатное | 51,6, 35,28 (Russia) | 647 | 522 | 451 | 434 | 405 | -37,4% |
 | Blizhnyaya Igumenka | Ближняя Игуменка | 50,62, 36,71 (Russia) | 4,6k | 4,7k | 4,8k | 4,8k | 4,9k | +7% |
 | Bobrov | Бобров; Бобровская слобода | 51,1, 40,03 (Russia) | 21,2k | 20,8k | 19,7k | 19,2k | 20,9k | -1,5% |
@@ -4425,37 +3995,28 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Chaplygin | Чаплыгин; Čaplygin | 53,23, 39,96 (Russia) | 14,2k | 13,7k | 12,7k | 12,1k | 11,6k | -18,7% |
 | Cheremisinovo | Черемисиново; Čeremisinovo | 51,89, 37,26 (Russia) | 4,7k | 4,1k | 3,8k | 3,5k | 3,4k | -28,1% |
 | Chernyanka | Чернянка; Černjanka | 50,94, 37,82 (Russia) | 13,7k | 15,1k | 15,2k | 15k | 14,9k | +8,7% |
-| Chernyanka | Чернянка | 51,91, 37,33 (Russia) | 13k | 12,2k | 11k | 10,6k | 9,9k | -23,8% |
 | Chesmenka | Чесменка | 51,29, 40,17 (Russia) | 1,4k | 1,2k | 1,1k | 1,1k | 1,1k | -21% |
 | Chulok | Чулокъ | 50,94, 40,65 (Russia) | 751 | 596 | 610 | 592 | 561 | -25,3% |
-| Churilovo | Чурилова | 51,96, 36,57 (Russia) | 18,3k | 17,1k | 15,5k | 14,9k | 13,9k | -23,8% |
-| Churyukovo | Чурюково | 53,39, 40,68 (Russia) | 18,4k | 17,1k | 15,7k | 14,9k | 13,7k | -25,7% |
 | Dankov | Данков | 53,25, 39,14 (Russia) | 24,4k | 23,2k | 21,1k | 19,9k | 19,7k | -19,3% |
-| Dankovo | Данково | 51,3, 39,53 (Russia) | 167,9k | 162,5k | 152,2k | 145,3k | 134,1k | -20,1% |
 | Davydovka | Давыдовка | 51,16, 39,43 (Russia) | 6,2k | 5,9k | 5,6k | 5,4k | 5,2k | -16,1% |
 | Dedovka | Дедовка | 49,89, 40,94 (Russia) | 474 | 396 | 342 | 326 | 299 | -36,9% |
 | Derezovka | Дерезовка | 50,08, 40,31 (Russia) | 1,1k | 961 | 825 | 774 | 693 | -38% |
-| Derkunskiy | Деркунский | 50,35, 38,65 (Russia) | 12k | 12,7k | 12,8k | 12,7k | 12,4k | +3,2% |
 | Devitsa | Девица; Салтыково | 51,64, 38,96 (Russia) | 4,1k | 4,5k | 4,6k | 4,8k | 5,2k | +27,2% |
 | Dmitriyev | Дмитриев-Льговский; Dmitrijev-L’govskij | 52,13, 35,08 (Russia) | 10,8k | 8,8k | 7,7k | 7,1k | 6,3k | -41,4% |
 | Dmitriyevka | Дмитриевка; Dmitrijevka | 52,88, 40,79 (Russia) | 9,5k | 9,3k | 8,4k | 8,1k | 6,9k | -27,4% |
-| Dmitriyevka | Дмитриевка | 51,51, 38,93 (Russia) | 509 | 399 | 356 | 330 | 288 | -43,4% |
 | Dmitryashevka | Дмитряшевка | 52,15, 39,08 (Russia) | 1,8k | 1,6k | 1,6k | 1,5k | 1,5k | -18,5% |
 | Dobrinka | Добринка | 52,17, 40,47 (Russia) | 9,7k | 10,2k | 9,6k | 9,3k | 9k | -8% |
 | Dobroye | Доброе | 52,86, 39,81 (Russia) | 5,7k | 5,6k | 5,4k | 5,8k | 6,5k | +12,9% |
 | Dolgorukovo | Долгоруково | 52,32, 38,35 (Russia) | 5,7k | 5,6k | 5,3k | 5,3k | 5,2k | -8,2% |
 | Donskoye | Донское | 52,77, 41,48 (Russia) | 4,8k | 4,4k | 4,3k | 4,4k | 4,7k | -2,3% |
-| Dubovka | Макарово | 51,45, 41,44 (Russia) | 18,3k | 17,8k | 16,6k | 15,9k | 14,7k | -20,1% |
 | Dubovoye | Дубовое | 50,54, 36,59 (Russia) | 4,9k | 5,2k | 8,6k | 10,8k | 16,1k | +228,9% |
 | Dyachenkova | Дьяченкова | 49,91, 40,6 (Russia) | 2,7k | 2,6k | 2,3k | 2,3k | 2,3k | -16,5% |
 | Dyakonovo | Дьяконово | 51,62, 35,9 (Russia) | 3,3k | 4,1k | 3,9k | 4,1k | 4,3k | +30% |
-| Dyakovka | Дьяковка | 51,52, 35,13 (Russia) | 11,9k | 11,1k | 10,1k | 9,7k | 9k | -23,8% |
-| Elan-Koleno | Елань-Колено | 51,15, 41,23 (Russia) | 4,8k | 4,5k | 4,7k | 4,6k | 4,4k | -8,5% |
+| Elan-Koleno | Елань-Колено; Jelan’-Kolenovskij | 51,15, 41,23 (Russia) | 4,8k | 4,5k | 4,7k | 4,6k | 4,4k | -8,5% |
 | Fatezh | Фатеж; Fatež | 52,09, 35,86 (Russia) | 5,7k | 5,7k | 5,4k | 5,8k | 4,7k | -17,9% |
 | Galiyevka | Галиевка | 49,98, 40,63 (Russia) | 760 | 614 | 603 | 584 | 552 | -27,4% |
 | Glushkovo | Глушково; Gluškovo | 51,34, 34,64 (Russia) | 6,3k | 5,7k | 5,3k | 4,9k | 4,8k | -24,1% |
 | Gniloye | Гнилая | 50,81, 39,07 (Russia) | 1,1k | 973 | 1k | 1k | 985 | -6,3% |
-| Gnilusha | Гнилуша | 51,9, 40,51 (Russia) | 17k | 16,5k | 15,4k | 14,7k | 13,6k | -20,1% |
 | Golovchino | Головчино | 50,53, 35,81 (Russia) | 2,2k | 2k | 4,7k | 4,7k | 4,6k | +114,3% |
 | Goncharovka | Гончаровка | 50,52, 39,47 (Russia) | 1,1k | 917 | 907 | 822 | 692 | -35,5% |
 | Goreloye | Горелое | 52,94, 41,5 (Russia) | 4,1k | 4,1k | 4,2k | 4,1k | 4k | -3,3% |
@@ -4469,33 +4030,23 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Gryazi | Грязи; Grjazi | 52,5, 39,94 (Russia) | 47,5k | 47,5k | 46,8k | 46,2k | 43,9k | -7,5% |
 | Gubari | Губари | 51,51, 42,55 (Russia) | 1,3k | 1,1k | 1k | 946 | 817 | -37% |
 | Gubkin | Губкин | 51,28, 37,54 (Russia) | 75,6k | 86,1k | 88,6k | 87,9k | 85,2k | +12,7% |
-| Gubovka | Губовка | 51,74, 38,2 (Russia) | 11,7k | 11k | 10k | 9,6k | 8,9k | -23,8% |
 | Gvazda | Гвазда | 50,74, 40,45 (Russia) | 3,1k | 2,9k | 2,5k | 2,3k | 2,1k | -33,1% |
 | Gvozdevka Russkaya | Гвоздевка Русская | 51,81, 39,07 (Russia) | 982 | 842 | 892 | 1,1k | 1,4k | +45,9% |
 | Hohol’skij | Хохольский; Хохолъ | 51,57, 38,77 (Russia) | 8,5k | 7,9k | 7,5k | 7,5k | 8k | -6,3% |
-| Ilinka | Ильинка | 51,26, 40,85 (Russia) | 778 | 686 | 531 | 434 | 304 | -60,9% |
 | Ilovay-Dmitriye-vskoye | Иловай-Дмитриевское | 53,2, 40,35 (Russia) | 1,9k | 1,7k | 1,6k | 1,6k | 1,5k | -20,1% |
-| Inokovka | Иноковка | 52,55, 42,57 (Russia) | 21,4k | 19,9k | 18,2k | 17,3k | 15,9k | -25,7% |
 | Inzhavino | Инжавино; Inžavino | 52,32, 42,49 (Russia) | 12,3k | 10,6k | 9,6k | 9k | 7,7k | -37% |
 | Istobnoye | Истобное | 51,26, 38,66 (Russia) | 2k | 1,6k | 1,4k | 1,4k | 1,5k | -27,2% |
 | Ivanino | Иванино | 51,64, 35,58 (Russia) | 2,7k | 2,4k | 2,4k | 2,6k | 2,3k | -16,8% |
-| Ivanovka | Ивановка | 51,2, 38,85 (Russia) | 498 | 423 | 353 | 281 | 188 | -62,2% |
 | Ivanovskoye | Ивановское | 51,61, 34,95 (Russia) | 2,5k | 2,3k | 1,9k | 1,9k | 1,7k | -31% |
 | Ivnitsa | Ивница | 51,42, 35,3 (Russia) | 6,9k | 6,4k | 5,8k | 5,6k | 5,2k | -23,8% |
 | Ivnya | Ивня; Ivnja | 51,06, 36,15 (Russia) | 7,3k | 7,7k | 7,9k | 7,6k | 7,1k | -2,4% |
-| Izbishche | Избище | 51,72, 38,59 (Russia) | 11k | 10,7k | 10k | 9,5k | 8,8k | -20,1% |
 | Izmalkovo | Измалково | 52,69, 37,97 (Russia) | 3,8k | 4,1k | 4k | 3,9k | 3,6k | -4,4% |
-| Jelan’-Kolenovskij | Елань-Коленовский | 51,16, 41,15 (Russia) | 4,9k | 4,2k | 3,9k | 3,7k | 3,3k | -33,6% |
 | Kalach | Калач; Kalač | 50,42, 41,02 (Russia) | 22,8k | 21k | 20k | 19,5k | 17,6k | -22,8% |
-| Kalikino | Каликино | 52,03, 41,09 (Russia) | 17,7k | 16,5k | 15,1k | 14,4k | 13,2k | -25,7% |
-| Kalinin | Тверь | 52,84, 40,98 (Russia) | 156,7k | 145,7k | 133,6k | 127,1k | 116,5k | -25,7% |
 | Kamenka | Каменка | 50,71, 39,42 (Russia) | 9,5k | 9,6k | 9,2k | 8,6k | 8,1k | -15,1% |
 | Kantemirovka | Кантемировка | 49,7, 39,86 (Russia) | 13,4k | 12,9k | 11,9k | 11,2k | 10,7k | -19,9% |
-| Karayashnik | Караяшникъ | 50,42, 39,21 (Russia) | 19,6k | 18,9k | 17,7k | 17k | 15,6k | -20,1% |
 | Kashirskoye | Каширское | 51,41, 39,59 (Russia) | 4,3k | 4,6k | 4,3k | 4,3k | 4,2k | -3,6% |
 | Kastornoye | Касторное; Kastornoje | 51,83, 38,13 (Russia) | 4,6k | 4,5k | 3,8k | 3,6k | 3,5k | -24% |
 | Kazaki | Казаки | 52,62, 38,26 (Russia) | 3,5k | 3,3k | 3,4k | 3,3k | 3,2k | -6,7% |
-| Kazatskaya | Казацкая | 51,22, 36,25 (Russia) | 16,2k | 15,2k | 13,8k | 13,2k | 12,4k | -23,8% |
 | Kazatskoye | Казацкое | 50,74, 36,24 (Russia) | 1,7k | 1,4k | 1,4k | 1,2k | 1k | -38,2% |
 | Kazinka | Казинка | 52,54, 39,82 (Russia) | 8,8k | 6,9k | 4,8k | 4,8k | 4,7k | -46,6% |
 | Kazinka | Казинка | 51,92, 38,62 (Russia) | 9,2k | 8,9k | 8,3k | 8k | 7,4k | -20,1% |
@@ -4506,13 +4057,10 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Kirovskiy | Кировский; Kirovskij | 51,42, 36,67 (Russia) | 3,8k | 3,1k | 2,8k | 2,6k | 2,4k | -35,8% |
 | Kirsanov | Кирсанов | 52,65, 42,73 (Russia) | 20,4k | 18,5k | 17,2k | 17,3k | 16,2k | -20,7% |
 | Klepovka | Клеповка | 50,71, 40,45 (Russia) | 3,1k | 3k | 2,5k | 2,2k | 1,9k | -38,8% |
-| Klimov | Климов | 50,47, 35,94 (Russia) | 7,7k | 8,2k | 8,3k | 8,1k | 7,9k | +3,1% |
-| Klyuchi | Ключи | 51,27, 38,57 (Russia) | 8,1k | 7,9k | 7,4k | 7k | 6,5k | -20,1% |
 | Kobylki | Кобылки | 51,33, 34,68 (Russia) | 1,4k | 1,3k | 1,2k | 1,2k | 1,2k | -18,8% |
 | Kochetovka | Кочетовка; Kočetovka | 53,04, 40,53 (Russia) | 15,1k | 14,1k | 12,9k | 12,3k | 11,2k | -25,7% |
 | Kolodeznyy | Колодезный | 51,33, 39,18 (Russia) | 6,2k | 5,9k | 5,7k | 5,6k | 5,3k | -14,6% |
 | Kolybelka | Колыбелка | 50,84, 39,82 (Russia) | 1,5k | 1,4k | 1,3k | 1,2k | 977 | -33,4% |
-| Komsomolskiy | Комсомольский | 50,99, 36,61 (Russia) | 1,6k | 1,7k | 2,2k | 2,8k | 4,4k | +181,4% |
 | Kon-Kolodez | Конь-Колодезь | 52,14, 39,16 (Russia) | 2,2k | 2,1k | 1,9k | 1,9k | 1,9k | -14,8% |
 | Konyšjovka | Конышёвка; Конышевка | 51,84, 35,29 (Russia) | 4,3k | 4,1k | 3,7k | 3,5k | 3,6k | -16,2% |
 | Korenevo | Коренево | 51,41, 34,9 (Russia) | 7,1k | 6,6k | 6,1k | 5,7k | 5,6k | -21,7% |
@@ -4524,40 +4072,29 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Kotovsk | Котовск; Ударный | 52,59, 41,5 (Russia) | 37,8k | 34,1k | 31,9k | 31,2k | 26,7k | -29,4% |
 | Kozlov | Michurinsk; Kozlov Rail Hub | 52,9, 40,49 (Russia) | 107k | 96,1k | 98,8k | 96,6k | 90,5k | -15,4% |
 | Kozlovka | Козловка | 50,86, 40,45 (Russia) | 3,9k | 3,4k | 3,1k | 2,9k | 2,5k | -35,1% |
-| Kozlovka | Козловка | 52,16, 42,67 (Russia) | 21,9k | 20,4k | 18,7k | 17,8k | 16,3k | -25,7% |
 | Krasnaya Yaruga | Красная Яруга; Krasnaja Jaruga | 50,8, 35,66 (Russia) | 7,3k | 7,8k | 8k | 7,9k | 8k | +8,8% |
 | Krasnenkaya | Красненькая | 52,76, 41,45 (Russia) | 5k | 4,6k | 4,9k | 5,5k | 6,6k | +32,8% |
 | Krasnolesnyy | Краснолесный; Krasnolesnyj | 51,88, 39,58 (Russia) | 6,8k | 5,4k | 5,4k | 5,2k | 4,8k | -30,4% |
 | Krasnoselovka | Красноселовка | 50,18, 40,86 (Russia) | 1,9k | 1,7k | 1,5k | 1,4k | 1,2k | -33,3% |
 | Krasnoye | Красное | 52,86, 38,78 (Russia) | 3,7k | 4,1k | 3,8k | 3,8k | 3,6k | -1,3% |
 | Krasnyy | Красная | 51,86, 40,92 (Russia) | 595 | 505 | 417 | 392 | 353 | -40,7% |
-| Krasnyy Kholm | Красный Холм | 53,1, 42,14 (Russia) | 9,2k | 8,6k | 7,8k | 7,5k | 6,8k | -25,7% |
-| Krasnyy Kurgan | Курган | 51,73, 41,83 (Russia) | 63,7k | 59,2k | 54,3k | 51,7k | 47,3k | -25,7% |
-| Krasnyye Kholmy | Красные Холмы | 51,62, 39,92 (Russia) | 13,5k | 13,1k | 12,2k | 11,7k | 10,8k | -20,1% |
 | Krinichnoye | Криничная | 50,01, 39,84 (Russia) | 771 | 678 | 606 | 546 | 454 | -41,1% |
-| Krinitsa | Криница | 50,89, 39,24 (Russia) | 560 | 474 | 509 | 499 | 482 | -13,9% |
 | Krivopolyane | Кривополянье | 53,23, 39,93 (Russia) | 5,5k | 5,1k | 5,1k | 5,1k | 5,2k | -5,7% |
 | Kshenskiy | Кшенский; Kšenskij | 51,84, 37,71 (Russia) | 7,4k | 6,7k | 6,1k | 5,8k | 5,6k | -24,2% |
-| Kuleshovka | Кулешовка | 51,93, 39,18 (Russia) | 9,9k | 9,6k | 9k | 8,6k | 7,9k | -20,1% |
 | Kupyanka | Купянка | 49,9, 40,55 (Russia) | 1,2k | 1,1k | 1,1k | 1,1k | 1k | -10,2% |
 | Kurchatov | Курчатов; Kurčatov | 51,65, 35,69 (Russia) | 41,7k | 45,6k | 42,7k | 40k | 40,3k | -3,4% |
 | Kursk | Kursk Governorate; Kursk Fair | 51,74, 36,19 (Russia) | 433k | 412k | 415k | 431k | 440,1k | +1,6% |
-| L’gov | Льгов | 51,69, 35,28 (Russia) | 25,3k | 23,8k | 21,5k | 20,2k | 17,6k | -30,7% |
 | Latnaya | Латная; Latnaja | 51,65, 38,9 (Russia) | 7,5k | 7,3k | 7,5k | 7,2k | 7,3k | -2,5% |
 | Lebedjan’ | Лебедянь | 53,02, 39,14 (Russia) | 22,9k | 23k | 21k | 20,2k | 20k | -12,3% |
 | Lev Tolstoy | Лев Толстой; Lev Tolstoj | 53,21, 39,45 (Russia) | 9,1k | 9k | 8,7k | 8,7k | 8,9k | -2,7% |
 | Levaya Rossosh | Левая Россошь | 51,33, 39,41 (Russia) | 1,4k | 1,3k | 1,2k | 1,1k | 1k | -28,5% |
 | Lipetsk | Lipetsk Ironworks; Lipetsk Spa | 52,6, 39,57 (Russia) | 460k | 506k | 509k | 510k | 496,4k | +7,9% |
 | Liski | Лиски; Новая | 50,98, 39,5 (Russia) | 54,3k | 55,9k | 55,9k | 55,1k | 54,1k | -0,3% |
-| Liski | Лыски | 50,94, 39,49 (Russia) | 2,6k | 2,6k | 2,5k | 2,4k | 2,4k | -9,8% |
 | Livenka | Ливенка | 50,45, 38,3 (Russia) | 4,2k | 4,1k | 3,9k | 3,7k | 3,5k | -16,8% |
-| Livenka | Ливенка; Троицкая | 51,95, 38,6 (Russia) | 1,4k | 1,3k | 1k | 946 | 790 | -45,4% |
-| Livenskaya | Ливенская | 52,46, 38,83 (Russia) | 42,5k | 42,1k | 40,5k | 40k | 39,1k | -7,9% |
 | Lizinovka | Лизиновка | 50,12, 39,46 (Russia) | 1,4k | 1,2k | 1,2k | 1,2k | 1k | -27,4% |
-| Log | Логъ | 51,58, 38,37 (Russia) | 12,4k | 12k | 11,2k | 10,7k | 9,9k | -20,1% |
 | Losevo | Лосево | 50,68, 40,05 (Russia) | 3,9k | 4,5k | 4,4k | 4,2k | 4k | +1,3% |
 | Lugovoye | Загребайловка; Расковка | 49,91, 40,33 (Russia) | 922 | 833 | 841 | 833 | 819 | -11,2% |
-| Lyubitskoye | Любитское | 51,53, 36,41 (Russia) | 9,6k | 8,9k | 8,1k | 7,8k | 7,3k | -23,8% |
+| Lyubitskoye | Любитское | 51,53, 36,41 (Russia) | 4,7k | 4,2k | 3,9k | 3,7k | 3,4k | -26% |
 | Makashevka | Макашевка | 51,49, 42,62 (Russia) | 1,5k | 1,3k | 1,1k | 972 | 804 | -47,5% |
 | Makhrovka | Махровка | 51,54, 42,4 (Russia) | 803 | 646 | 541 | 442 | 310 | -61,4% |
 | Malaya Vereyka | Верейка; Verejka | 51,97, 38,71 (Russia) | 569 | 477 | 615 | 597 | 567 | -0,4% |
@@ -4571,21 +4108,14 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Mazurka | Мазурка | 51,28, 42,58 (Russia) | 1,1k | 948 | 786 | 740 | 667 | -41,5% |
 | Medvenka | Медвенка | 51,42, 36,11 (Russia) | 4,5k | 4,6k | 4,4k | 4,4k | 4,5k | +0,6% |
 | Melovatka | Меловатка | 51,84, 38,66 (Russia) | 580 | 458 | 349 | 309 | 250 | -56,9% |
-| Mikhaylovka | Михайловка | 52,05, 39,27 (Russia) | 1,1k | 1k | 928 | 837 | 699 | -38,4% |
 | Mikhaylovka | Михайловка | 52,23, 35,38 (Russia) | 2,7k | 2,5k | 2,6k | 2,7k | 3k | +13,5% |
 | Mitrofanovka | Митрофановка | 49,97, 39,69 (Russia) | 5,9k | 5,7k | 5,4k | 5,2k | 4,8k | -18,4% |
 | Monayenki | Монаенки | 53,05, 38,7 (Russia) | 7,9k | 7,8k | 7,5k | 7,4k | 7,3k | -7,9% |
 | Mordovo | Мордово | 52,09, 40,77 (Russia) | 8,3k | 7,3k | 6,5k | 6,1k | 5,5k | -34% |
 | Morozovka | Морозовка | 51,93, 40,72 (Russia) | 1,5k | 1,4k | 1,4k | 1,3k | 1,2k | -21,3% |
 | Morshansk | Morshansk Tsna Port; Morshansk Tambov | 53,44, 41,81 (Russia) | 49,2k | 44,5k | 41,6k | 40k | 39k | -20,6% |
-| Mozdok | Моздок | 51,96, 41,94 (Russia) | 26,4k | 24,6k | 22,5k | 21,4k | 19,7k | -25,7% |
 | Muchkapskiy | Мучкапский; Mučkapskij | 51,85, 42,48 (Russia) | 8,5k | 8,1k | 7,1k | 6,7k | 5,9k | -30,1% |
 | Muzhiche | Мужичье | 50,75, 41,07 (Russia) | 1,1k | 977 | 909 | 838 | 728 | -31,2% |
-| Nikitovka | Никитовка | 51,52, 42,44 (Russia) | 13,3k | 12,9k | 12,1k | 11,5k | 10,7k | -20,1% |
-| Nikolaevka | Николаевка | 50,07, 39,37 (Russia) | 702 | 600 | 561 | 532 | 486 | -30,8% |
-| Nikolayevka | Николаевка | 51,73, 41,23 (Russia) | 1,4k | 1,3k | 1,2k | 1,1k | 992 | -29% |
-| Nikolayevka | Орликъ | 52,1, 36,46 (Russia) | 8,9k | 8,3k | 7,5k | 7,3k | 6,8k | -23,8% |
-| Nikolskoe | Никольское | 50,89, 38,08 (Russia) | 2,1k | 2,2k | 2,8k | 4k | 7,4k | +258,7% |
 | Nikolskoe | Никольское | 51,86, 39,74 (Russia) | 4,3k | 5,4k | 5,5k | 5,3k | 4,9k | +14,4% |
 | Nizhnedevitsk | Нижнедевицк; Nižnedevick | 51,54, 38,36 (Russia) | 6,7k | 6,4k | 5,8k | 5,7k | 5,5k | -18,3% |
 | Nizhniy Byk | Бычекъ | 50,7, 41,17 (Russia) | 9,7k | 9,4k | 8,8k | 8,4k | 7,8k | -20,1% |
@@ -4605,7 +4135,6 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Oktjabr’skij | Октябрьский; Микояновка | 50,45, 36,36 (Russia) | 6,5k | 6,9k | 7,5k | 7,1k | 8,8k | +35,3% |
 | Ol’hovatka | Ольховатка | 50,28, 39,29 (Russia) | 4,3k | 4,4k | 3,8k | 3,6k | 3,3k | -24,6% |
 | Olym | Олымский; Olymskij | 51,68, 38,18 (Russia) | 5,7k | 3,2k | 2,6k | 2,3k | 2,3k | -60,6% |
-| Orlovka | Орловка | 51,03, 40,53 (Russia) | 1,4k | 1,2k | 996 | 909 | 774 | -45,3% |
 | Orlovo | Орлово | 51,76, 39,59 (Russia) | 4,3k | 4,1k | 4,1k | 4,2k | 4,4k | +1,9% |
 | Ostrogozhsk | Острогожск; Ostrogožsk | 50,87, 39,08 (Russia) | 34,5k | 34,6k | 33,8k | 32,8k | 31,7k | -8,1% |
 | Ostrovki | Островки | 52,94, 38,03 (Russia) | 8,8k | 8,7k | 8,4k | 8,3k | 8,1k | -7,9% |
@@ -4614,7 +4143,6 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Ozerki | Озерки | 52,98, 42,47 (Russia) | 1,2k | 1k | 918 | 849 | 741 | -40% |
 | Panino | Панино | 51,65, 40,13 (Russia) | 7,8k | 7,3k | 6,7k | 6,3k | 6k | -23,3% |
 | Parevka | Паревка | 52,43, 42,58 (Russia) | 744 | 588 | 514 | 464 | 389 | -47,7% |
-| Pavlodar | Павлодар | 53,03, 41,61 (Russia) | 34,4k | 31,9k | 29,3k | 27,9k | 25,5k | -25,7% |
 | Pavlovsk | Павловск; Осеред | 50,45, 40,12 (Russia) | 26k | 26,4k | 25,1k | 25,1k | 22,4k | -13,8% |
 | Pereljošinskij | Перелёшинский | 51,72, 40,2 (Russia) | 3,6k | 3,3k | 3,1k | 2,9k | 2,6k | -27,7% |
 | Peresypkino Pervoye | Пересыпкино | 52,91, 42,91 (Russia) | 2,1k | 1,8k | 1,7k | 1,6k | 1,5k | -31,8% |
@@ -4628,12 +4156,8 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Petropavlovka | Петропавловка | 50,1, 40,88 (Russia) | 5,4k | 5,5k | 5,2k | 5,1k | 4,8k | -10,1% |
 | Plotovka | Плотовка | 50,32, 37,76 (Russia) | 5,4k | 5,7k | 5,8k | 5,7k | 5,6k | +3,2% |
 | Podgorenskiy | Подгоренский; Podgorenskij | 50,41, 39,64 (Russia) | 7k | 6,7k | 6,1k | 5,8k | 5,7k | -18,5% |
-| Podgornaya | Подгорная | 50,47, 41,19 (Russia) | 16,6k | 16,1k | 15,1k | 14,4k | 13,3k | -20,1% |
 | Podgornoye | Подгорное | 51,74, 39,15 (Russia) | 7,6k | 7,8k | 9,3k | 6,5k | 3,5k | -54% |
-| Podgornoye | Подгорное | 53,26, 40,74 (Russia) | 1,3k | 1,1k | 825 | 744 | 620 | -52,2% |
-| Podkolodnovka | Подколодновка | 50, 40,66 (Russia) | 47,9k | 46,4k | 43,4k | 41,5k | 38,3k | -20,1% |
 | Pogorelovka | Погореловка | 51,65, 35,47 (Russia) | 22,1k | 20,7k | 18,7k | 18k | 16,8k | -23,8% |
-| Pokrovka | Покровка | 51,3, 42,56 (Russia) | 2,4k | 2,1k | 1,7k | 1,7k | 1,6k | -32,1% |
 | Pokrovo-Prigorodnoye | Покрово-Пригородное | 52,68, 41,42 (Russia) | 5,6k | 5,2k | 5,5k | 5,2k | 4,8k | -13,8% |
 | Polkovoye | Полковая | 52,82, 41,42 (Russia) | 5,6k | 5,2k | 4,8k | 4,6k | 4,2k | -25,7% |
 | Poltavka | Полтавская | 49,88, 40,55 (Russia) | 702 | 602 | 523 | 518 | 509 | -27,5% |
@@ -4643,7 +4167,6 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Pridonskoy | Придонской; Pridonskoj | 51,68, 39,07 (Russia) | 13,4k | 17,1k | 18,3k | 17,5k | 16,1k | +20,8% |
 | Prigorodnyy | Пригородный | 50,36, 41,01 (Russia) | 4,2k | 4k | 4,2k | 3,9k | 3,4k | -17,7% |
 | Pristen’ | Пристень | 51,24, 36,7 (Russia) | 5,7k | 5,6k | 5,3k | 5,1k | 4,9k | -13,5% |
-| Progoreloye | Роговатое | 49,95, 40,88 (Russia) | 14,2k | 13,7k | 12,8k | 12,3k | 11,3k | -20,1% |
 | Prokhorovka | Прохоровка; Prohorovka | 51,04, 36,73 (Russia) | 8,4k | 10k | 9,8k | 9,3k | 9,8k | +17,1% |
 | Proletarskiy | Пролетарский; Proletarskij | 50,79, 35,77 (Russia) | 8,2k | 8,7k | 8,7k | 8,9k | 9k | +9,7% |
 | Pryamitsyno | Прямицыно; Prjamicyno | 51,66, 35,94 (Russia) | 5,7k | 5,2k | 5,1k | 5,2k | 5,2k | -9,6% |
@@ -4658,15 +4181,12 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Repevka | Репьёвка | 51,08, 38,64 (Russia) | 5,7k | 5,9k | 5,3k | 5,4k | 5,4k | -5,6% |
 | Repnoye | Репное | 51,89, 39,08 (Russia) | 2,5k | 2,3k | 2,7k | 2,6k | 2,4k | -4,8% |
 | Rogachevka | Рогачевка | 51,52, 39,54 (Russia) | 2k | 1,8k | 1,8k | 1,9k | 2,1k | +3,6% |
-| Romanovskiy | Романовский | 52,2, 41,82 (Russia) | 75,7k | 70,3k | 64,5k | 61,4k | 56,2k | -25,7% |
 | Rossoshi | Россоши | 51,12, 38,51 (Russia) | 1,3k | 970 | 858 | 854 | 848 | -32,2% |
 | Rossoš’ | Россошь | 50,2, 39,57 (Russia) | 57,9k | 62,9k | 62,9k | 62,5k | 60,9k | +5,1% |
 | Roven’ki | Ровеньки | 49,92, 38,91 (Russia) | 8,6k | 9,7k | 10,3k | 10,5k | 10,9k | +27,3% |
 | Rozhdest-venskaya Khava | Рождественская Хава | 51,66, 39,7 (Russia) | 2,9k | 2,5k | 2,6k | 2,6k | 2,5k | -15,1% |
 | Rozhdest-venskoye | Рождественское | 51,24, 42,18 (Russia) | 3k | 2,7k | 2,6k | 2,5k | 2,4k | -20,9% |
 | Rozhdest-venskoye | Рождественское | 51,44, 36,24 (Russia) | 585 | 469 | 425 | 409 | 382 | -34,7% |
-| Rublevka | Рублевка | 52,28, 38,77 (Russia) | 13,8k | 13,6k | 13,1k | 12,9k | 12,7k | -7,9% |
-| Rudnya | Рудня | 50,56, 40,95 (Russia) | 1,6k | 1,4k | 1,1k | 1,1k | 970 | -37,8% |
 | Rudovka | Рудовка | 53,1, 42,4 (Russia) | 1,6k | 1,4k | 1,3k | 1,2k | 1k | -35,2% |
 | Rykan | Рыкань | 51,62, 39,57 (Russia) | 1,1k | 899 | 847 | 934 | 1,1k | +4,9% |
 | Ryl’sk | Рыльск | 51,57, 34,68 (Russia) | 19,2k | 17,6k | 15,7k | 16,2k | 15,1k | -21,4% |
@@ -4681,23 +4201,16 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Severnyy | Северный; Severnyj | 50,68, 36,56 (Russia) | 4,1k | 7,7k | 9,8k | 9,8k | 24,1k | +484,6% |
 | Seym | Сейм; Sejm | 51,36, 37,04 (Russia) | 3,1k | 2,7k | 2,6k | 2,3k | 1,9k | -38,3% |
 | Shapkino | Шапкино | 51,71, 42,39 (Russia) | 2,1k | 1,8k | 1,5k | 1,2k | 930 | -55,4% |
-| Shcherba-chevka | Щербачевка | 51,4, 35,48 (Russia) | 15,2k | 14,2k | 12,9k | 12,4k | 11,6k | -23,8% |
 | Shchigry | Щигры; Ščigry | 51,88, 36,91 (Russia) | 20,9k | 19,6k | 17k | 16,2k | 14,9k | -28,7% |
-| Shchuche | Щучье | 51,76, 40,49 (Russia) | 1,7k | 1,6k | 1,3k | 1,2k | 1k | -42% |
-| Shebekino | Shebekino Belgorod; Шебекино | 50,41, 36,89 (Russia) | 23,4k | 28,4k | 32,7k | 35,1k | 39,7k | +69,4% |
 | Shebekino | Шебекино; Šebekino | 50,41, 36,93 (Russia) | 44,6k | 45,1k | 44,3k | 43,6k | 39,7k | -11,1% |
 | Shestakovo | Шестаково | 50,79, 40,06 (Russia) | 2,7k | 2,4k | 1,9k | 1,9k | 1,7k | -34,2% |
 | Shevchenkovo | Голая | 49,85, 39,78 (Russia) | 579 | 489 | 355 | 334 | 300 | -48,2% |
-| Shipy | Шипы | 51,13, 36,41 (Russia) | 15,8k | 14,8k | 13,4k | 12,9k | 12,1k | -23,8% |
-| Shiryayevo | Ширяева | 50,33, 40,95 (Russia) | 2,7k | 2,4k | 2,4k | 2,2k | 2k | -25,7% |
-| Shmarovka | Шмаровка | 52,03, 40,64 (Russia) | 14,1k | 13,1k | 12,1k | 11,5k | 10,5k | -25,7% |
 | Shuklino | Шуклино | 51,96, 35,66 (Russia) | 4,9k | 4,6k | 4,1k | 4k | 3,7k | -23,8% |
 | Siniye Lipyagi | Синие Липяги | 51,38, 38,47 (Russia) | 2,4k | 2,1k | 1,8k | 1,6k | 1,3k | -48% |
 | Sinyavka | Сенявка | 52,55, 38,93 (Russia) | 1k | 813 | 835 | 807 | 760 | -26% |
 | Skorodnoye | Скородное | 51,36, 35,62 (Russia) | 734 | 604 | 476 | 420 | 338 | -54% |
 | Sloboda | Слобода | 51,14, 40,3 (Russia) | 4,2k | 3,6k | 3,7k | 3,8k | 3,9k | -5,9% |
 | Smagleyevka | Смаглеевка | 49,8, 39,89 (Russia) | 1,2k | 1,1k | 1k | 994 | 907 | -25,6% |
-| Smorodino | Смородино | 51,9, 34,65 (Russia) | 14,2k | 13,3k | 12,1k | 11,6k | 10,8k | -23,8% |
 | Snagost | Снагость | 51,32, 34,89 (Russia) | 812 | 672 | 494 | 488 | 479 | -41% |
 | Sokovoye | Соковое | 51,28, 37,79 (Russia) | 24,2k | 25,7k | 25,9k | 25,6k | 24,9k | +3,2% |
 | Solntsevo | Солнцево; Solncevo | 51,42, 36,76 (Russia) | 4,9k | 4,5k | 4,3k | 4,2k | 3,6k | -26,2% |
@@ -4706,16 +4219,13 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Sosnovka | Сосновка | 53,23, 41,37 (Russia) | 11,7k | 10,8k | 9,2k | 8,9k | 7,5k | -35,5% |
 | Sredniy Ikorets | Средний Икорец | 51,07, 39,76 (Russia) | 3,4k | 3,3k | 4,9k | 4,7k | 4,4k | +28,2% |
 | Stanovoye | Становое | 52,76, 38,34 (Russia) | 4,4k | 5,3k | 5,3k | 5,2k | 5k | +15,1% |
-| Staritsa | Старица | 52,61, 42,81 (Russia) | 9,6k | 8,9k | 8,2k | 7,8k | 7,1k | -25,7% |
 | Staroklenskoe | Старокленское | 53,21, 40,17 (Russia) | 1k | 846 | 710 | 591 | 429 | -57,4% |
 | Staroyurevo | Староюрьево | 53,32, 40,7 (Russia) | 7,4k | 6,9k | 6,1k | 5,8k | 5,4k | -28% |
 | Stary Oskol | OEMK Electrom-etallurgical Boomtown; Старый Оскол | 51,3, 37,84 (Russia) | 181k | 216k | 221k | 221k | 221,7k | +22,5% |
 | Stezhki | Стежки | 53,11, 41,22 (Russia) | 1,4k | 1,2k | 887 | 820 | 714 | -47,1% |
-| Streletskoye | Стрелецкое | 50,74, 36,32 (Russia) | 5,3k | 5,7k | 6,9k | 8,8k | 13,8k | +159,2% |
 | Strelitsa | Стрелица; Strelica | 51,61, 38,91 (Russia) | 4,6k | 4,8k | 3,9k | 4k | 4k | -13% |
 | Stroitel | Строитель; Stroitel’ | 50,79, 36,48 (Russia) | 14,8k | 18,4k | 23,9k | 24,2k | 23,8k | +60,2% |
 | Stroitel | Строитель | 52,65, 41,44 (Russia) | 19,1k | 17,7k | 18,4k | 18,9k | 19,6k | +2,8% |
-| Suchkino | Сучкино | 51,85, 34,42 (Russia) | 14,8k | 13,8k | 12,6k | 12,1k | 11,3k | -23,8% |
 | Sudzha | Sudzha Kursk; Суджа | 51,19, 35,27 (Russia) | 5,8k | 7k | 6k | 5,7k | 5,1k | -10,9% |
 | Sukhaya Berezovka | Сухая Березовка | 51,18, 40 (Russia) | 1,5k | 1,3k | 1,2k | 1,1k | 1,1k | -27,3% |
 | Sukmanovka | Сукмановка | 51,79, 41,57 (Russia) | 1,3k | 1k | 939 | 845 | 703 | -44% |
@@ -4734,7 +4244,6 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Tomarovka | Томаровка | 50,68, 36,23 (Russia) | 7,3k | 7,8k | 8,1k | 8k | 7,4k | +1,8% |
 | Tretyaki | Третьяки | 51,35, 42,48 (Russia) | 1,6k | 1,4k | 1,3k | 1,2k | 1k | -36,7% |
 | Troitskiy | Троицкий; Troickij | 51,36, 37,53 (Russia) | 6,1k | 6,2k | 6,2k | 5,9k | 5,4k | -10,4% |
-| Troitskoye | Троицкое | 51,97, 38,41 (Russia) | 1,6k | 1,3k | 1,2k | 1,2k | 1,1k | -33,9% |
 | Tugolukovo | Туголуково | 51,94, 41,66 (Russia) | 1,3k | 1,1k | 1,1k | 989 | 837 | -36,2% |
 | Tulinovka | Тулиновка | 52,81, 41,57 (Russia) | 1,9k | 2k | 1,8k | 1,7k | 1,5k | -19,3% |
 | Tverdokh-lebovka | Твердохлебова | 49,94, 40,35 (Russia) | 849 | 731 | 726 | 685 | 618 | -27,2% |
@@ -4753,7 +4262,6 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Verkhnyaya Tishanka | Верхо-Тишанка | 51,32, 40,53 (Russia) | 3,9k | 3,7k | 3,2k | 3k | 2,7k | -31,5% |
 | Veydelevka | Вейделевка; Vejdelevka | 50,15, 38,45 (Russia) | 7,1k | 7,2k | 7k | 6,6k | 7,3k | +3,8% |
 | Volokonovka | Волоконовка | 50,49, 37,86 (Russia) | 12,5k | 12,3k | 11,6k | 11,1k | 10,4k | -16,5% |
-| Volokonovka | Волоконовка | 49,84, 39,39 (Russia) | 927 | 735 | 638 | 566 | 460 | -50,4% |
 | Volotovo | Волотово | 52,97, 39,09 (Russia) | 777 | 632 | 596 | 596 | 596 | -23,3% |
 | Volovo | Волово | 52,03, 37,88 (Russia) | 4,1k | 4,1k | 3,7k | 3,6k | 3,4k | -17,1% |
 | Volya | Воля | 51,77, 39,54 (Russia) | 8,3k | 8k | 7,8k | 7,8k | 7,7k | -6,9% |
@@ -4764,21 +4272,19 @@ decline to -9,4%, from 7,75M in 1991 to 7,02M in 2021 (Table )
 | Yablonovets | Яблоновецъ | 52,47, 40,45 (Russia) | 897 | 741 | 657 | 561 | 426 | -52,5% |
 | Yakovlevo | Яковлево; Jakovlevo | 50,85, 36,45 (Russia) | 2,6k | 2,6k | 2,9k | 2,9k | 2,7k | +4,8% |
 | Yamnoye | Ямное | 51,79, 39,14 (Russia) | 1,7k | 1,9k | 2,3k | 3,3k | 6,1k | +252,9% |
-| Yamnyy | Ямный | 52,35, 34,96 (Russia) | 8,2k | 7,7k | 7k | 6,7k | 6,3k | -23,8% |
+| Yamnyy | Ямный | 52,35, 34,96 (Russia) | 4k | 3,6k | 3,3k | 3,2k | 3k | -26% |
 | Yaroslavka | Ярославка | 52,91, 40,87 (Russia) | 1,3k | 1,1k | 1k | 992 | 938 | -27,5% |
 | Yasenki | Ясенки | 51,5, 38,67 (Russia) | 2,2k | 2k | 1,9k | 1,9k | 1,8k | -18,5% |
 | Yasinovo | Ясиново | 50,8, 39,4 (Russia) | 9k | 8,7k | 8,2k | 7,8k | 7,2k | -20,1% |
 | Yelets | Elets; Yelets Grain Hub | 52,62, 38,5 (Russia) | 119,7k | 116,7k | 108,4k | 106,4k | 99,9k | -16,6% |
 | Yurasovka | Юрасовка | 50,49, 39,19 (Russia) | 889 | 809 | 764 | 694 | 587 | -34% |
-| Zabrody | Заброды | 50,4, 41,03 (Russia) | 9,4k | 9k | 9,2k | 9k | 8,6k | -7,9% |
+| Zabrody | Заброды | 50,4, 41,03 (Russia) | 4,5k | 4k | 3,7k | 3,6k | 3,3k | -26% |
 | Zadonsk | Задонск; Тешевка | 52,39, 38,93 (Russia) | 11,1k | 10,5k | 9,7k | 9,6k | 9,9k | -10,7% |
-| Zamoste | Замостье | 51,18, 35,3 (Russia) | 2,2k | 2,2k | 2,1k | 2,2k | 2,3k | +2,9% |
 | Zasosna | Засосна | 50,63, 38,4 (Russia) | 4k | 4,2k | 4,2k | 4,1k | 3,8k | -4,5% |
 | Zavorone-zhskoye | Заворонежское | 52,88, 40,55 (Russia) | 6,3k | 5,8k | 6k | 6,1k | 6,2k | -0,7% |
 | Zayache | Заячье | 50,77, 36,98 (Russia) | 810 | 669 | 685 | 666 | 635 | -21,6% |
 | Zaytsevka | Зайцевка | 49,69, 39,97 (Russia) | 720 | 624 | 545 | 492 | 411 | -42,9% |
 | Zemlyansk | Землянск; Zemljansk | 51,9, 38,73 (Russia) | 2,5k | 3,2k | 3k | 3,1k | 3,3k | +33,4% |
-| Zemyatchino | Земетчино | 52,91, 41,85 (Russia) | 8,5k | 7,9k | 7,3k | 6,9k | 6,3k | -25,7% |
 | Zheleznogorsk | Железногорск; Železnogorsk | 52,34, 35,36 (Russia) | 86,7k | 95,5k | 95k | 97,6k | 97k | +11,9% |
 | Zherdevka | Жердевка; Žerdevka | 51,85, 41,45 (Russia) | 18,8k | 16,6k | 15,2k | 14,7k | 13,9k | -26,1% |
 | Zhigaylovka | Жигайловка | 50,72, 37,38 (Russia) | 700 | 578 | 590 | 539 | 461 | -34,1% |
@@ -4823,7 +4329,6 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Askarovo | Аскарово | 53,33, 58,52 (Russia) | 6,6k | 7,1k | 7,6k | 8,2k | 9,2k | +38,5% |
 | Askino | Аскино | 56,09, 56,58 (Russia) | 6k | 6,9k | 6,9k | 7,2k | 7,7k | +28,2% |
 | Avdon | Авдон | 54,67, 55,72 (Russia) | 4,7k | 5k | 5,2k | 5,4k | 5,7k | +21,3% |
-| Azeyevo | Азеево | 55,2, 51,1 (Russia) | 20,7k | 23,1k | 23,1k | 23k | 22,8k | +10,1% |
 | Aznakayevo | Азнакаево; Aznakajevo | 54,86, 53,08 (Russia) | 32,6k | 35,4k | 34,9k | 34,7k | 34,8k | +6,4% |
 | Bakaly | Бакалы | 55,18, 53,8 (Russia) | 7,6k | 9,5k | 9,6k | 9,8k | 10,3k | +34,7% |
 | Baltasi | Балтаси | 56,35, 50,21 (Russia) | 5,3k | 7k | 7,7k | 8,1k | 8,2k | +54,2% |
@@ -4833,16 +4338,14 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Bazarnyye Mataki | Базарные Матаки | 54,91, 49,93 (Russia) | 4,8k | 5,3k | 5,9k | 6k | 6,3k | +31% |
 | Belebey | Белебей; Belebej | 54,11, 54,12 (Russia) | 54,5k | 60,9k | 60,2k | 59,5k | 59,2k | +8,6% |
 | Beloretsk | Белорецк; Beloreck | 53,96, 58,4 (Russia) | 72,2k | 71,1k | 68,8k | 66,9k | 64,5k | -10,7% |
-| Birsk | Бирск | 55,42, 55,54 (Russia) | 35,6k | 40k | 41,6k | 44,7k | 44,3k | +24,3% |
+| Birsk | Бирск; Birsky Ostrog | 55,42, 55,54 (Russia) | 35,6k | 40k | 41,6k | 44,7k | 44,3k | +24,3% |
 | Bizhbulyak | Бижбуляк | 53,7, 54,26 (Russia) | 4,9k | 5,6k | 6,4k | 6,5k | 6,6k | +34,5% |
 | Blagovesh-chensk | Благовещенск; Blagoveščensk | 55,04, 55,98 (Russia) | 28,5k | 33k | 34,2k | 34,9k | 35,5k | +24,7% |
-| Blagovesh-chenskiy | Благовещенский | 53,15, 56,15 (Russia) | 28,5k | 30,4k | 30,6k | 30,4k | 30,1k | +5,7% |
 | Bogatyye Saby | Богатые Сабы; Bogatyje Saby | 56,01, 50,45 (Russia) | 5,8k | 7,2k | 7,7k | 8,3k | 8,8k | +53% |
 | Bolgar | Болгар; Спасск | 54,97, 49,03 (Russia) | 8,4k | 8,7k | 8,7k | 8,6k | 8,3k | -1,8% |
 | Bolsheus-tikinskoe | Большеустьикинское | 55,94, 58,26 (Russia) | 6,2k | 7,6k | 7,8k | 8,1k | 8,6k | +37,7% |
 | Bugulma | Бугульма; Bugul’ma | 54,54, 52,8 (Russia) | 90,1k | 93k | 89,2k | 87,2k | 81,7k | -9,4% |
 | Buinsk | Буинск | 54,97, 48,29 (Russia) | 17,2k | 19,7k | 20,4k | 20,7k | 20k | +16% |
-| Bulanovka | Булановка | 54,07, 54,43 (Russia) | 23k | 24,5k | 24,7k | 24,6k | 24,3k | +5,7% |
 | Bulgakovo | Булгаково | 54,5, 55,88 (Russia) | 2,6k | 2,8k | 3,6k | 4,5k | 6,7k | +154,9% |
 | Burayevo | Бураево | 55,84, 55,41 (Russia) | 7,8k | 8,9k | 9,5k | 10k | 10,8k | +38,5% |
 | Buribay | Бурибай; Buribaj | 51,96, 58,16 (Russia) | 4,3k | 4,5k | 4,6k | 4,5k | 4,3k | +0,9% |
@@ -4855,10 +4358,8 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Dmitriyevka | Дмитриевка | 54,75, 55,33 (Russia) | 3,1k | 3,8k | 4,4k | 4,6k | 5,1k | +61,3% |
 | Dyurtyuli | Дюртюли; Djurtjuli | 55,49, 54,86 (Russia) | 25,9k | 30k | 31,3k | 31,2k | 31,2k | +20,2% |
 | Džalil’ | Джалиль | 55,02, 52,74 (Russia) | 11,8k | 14,8k | 13,9k | 13,8k | 13,6k | +15,2% |
-| Fedorovka | Федоровка | 53,18, 55,19 (Russia) | 3,9k | 4,1k | 4,3k | 4,3k | 4,2k | +7% |
 | Gabishevo | Габишево | 55,61, 49,14 (Russia) | 2,2k | 2,5k | 2,5k | 3,1k | 4,2k | +90,5% |
 | Gorodishche | Городище | 55,3, 51,16 (Russia) | 1,1k | 869 | 771 | 707 | 607 | -44,3% |
-| Gorodok | Городок | 55,29, 49,92 (Russia) | 23k | 25,6k | 25,7k | 25,5k | 25,3k | +10,1% |
 | Iglino | Иглино | 54,83, 56,41 (Russia) | 13k | 13,9k | 16,8k | 21k | 31,2k | +139,1% |
 | Innopolis | Иннополис | 55,75, 48,75 (Russia) | \- | \- | \- | 17 | 4k | Abandoned |
 | Inzer | Инзер | 54,22, 57,56 (Russia) | 4,9k | 4,4k | 4,3k | 4,2k | 4,1k | -15,4% |
@@ -4871,9 +4372,8 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kananikol’skoje | Кананикольское | 52,78, 57,48 (Russia) | 1,3k | 990 | 805 | 708 | 565 | -55,9% |
 | Kandry | Кандры | 54,57, 54,12 (Russia) | 10,9k | 12,1k | 10,9k | 10,6k | 10,1k | -7,3% |
 | Karabash | Карабаш; Karabaš | 54,69, 52,58 (Russia) | 4,4k | 5,1k | 5k | 5k | 4,7k | +7% |
-| Karaidel | Караидель | 55,84, 56,9 (Russia) | 4,3k | 5,2k | 6k | 6k | 6,2k | +43,5% |
 | Karaidel’skij | Караидельский | 55,82, 57,11 (Russia) | 198 | 203 | 152 | 144 | 130 | -34,3% |
-| Karan | Карань | 55,13, 54,37 (Russia) | 321,3k | 342,4k | 345,2k | 343,1k | 339,5k | +5,7% |
+| Karaidel | Караидель | 55,84, 56,9 (Russia) | 4,3k | 5,2k | 6k | 6k | 6,2k | +43,5% |
 | Karmaskaly | Кармаскалы | 54,37, 56,17 (Russia) | 6,8k | 7,8k | 8,5k | 9,4k | 11,1k | +62,3% |
 | Kazan | Qazan; Kazan University Hub | 55,79, 49,12 (Russia) | 1,1M | 1,1M | 1,14M | 1,19M | 1,31M | +18,5% |
 | Khryashchevka | Хрящевка | 53,81, 49,09 (Russia) | 3,2k | 3,2k | 3,2k | 3,3k | 3,5k | +7,3% |
@@ -4884,7 +4384,6 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Krasnousol’skij | Красноусольский; Красноусольский завод | 53,89, 56,47 (Russia) | 10,8k | 11,8k | 12k | 11,7k | 11,2k | +3,8% |
 | Krasnyy Klyuch | Красный Ключ; Krasnyj Ključ | 55,39, 56,65 (Russia) | 2,6k | 2,3k | 2,3k | 2,3k | 2,3k | -12,1% |
 | Kriushi | Криуши | 54,1, 48,53 (Russia) | 3,1k | 3k | 2,7k | 2,5k | 2,1k | -31,1% |
-| Krivoye Ozero | Кривое Озеро | 54,53, 50,55 (Russia) | 15,6k | 17,4k | 17,4k | 17,3k | 17,1k | +10,1% |
 | Kudeyevskiy | Кудеевский; Kudejevskij | 54,88, 56,76 (Russia) | 2,8k | 2,9k | 3,1k | 3,1k | 3k | +9,9% |
 | Kukmor | Кукмор | 56,19, 50,89 (Russia) | 15k | 16,8k | 16,9k | 17,4k | 17,9k | +19% |
 | Kumertau | Кумертау | 52,76, 55,79 (Russia) | 64,4k | 65k | 62,9k | 61,9k | 57,9k | -10% |
@@ -4902,22 +4401,19 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Mamadysh | Мамадыш; Mamadyš | 55,7, 51,4 (Russia) | 12,1k | 13,5k | 14,4k | 15,3k | 15,7k | +30,2% |
 | Mariyets | Мариец; Marijec | 56,51, 49,84 (Russia) | 1,1k | 977 | 728 | 646 | 525 | -53,6% |
 | Mayachnyy | Маячный; Majačnyj | 52,68, 55,69 (Russia) | 3,4k | 3,5k | 3,1k | 3k | 2,9k | -15,7% |
-| Melekes | Мелекес; Мелекесъ | 55,59, 52,18 (Russia) | 64,7k | 72,2k | 72,3k | 71,9k | 71,3k | +10,1% |
 | Meleuz | Мелеуз | 52,96, 55,93 (Russia) | 54,8k | 62,9k | 61,4k | 60k | 56,5k | +3,1% |
 | Mendeleyevsk | Менделеевск; Mendelejevsk | 55,9, 52,31 (Russia) | 18,6k | 22k | 22,1k | 22,1k | 22,9k | +22,7% |
-| Menzelinsk | Мензелинск | 55,73, 53,1 (Russia) | 15,4k | 16,7k | 16,5k | 17k | 16k | +3,6% |
+| Menzelinsk | Мензелинск; Menzelinskiy Ostrog | 55,73, 53,1 (Russia) | 15,4k | 16,7k | 16,5k | 17k | 16k | +3,6% |
 | Mesyagutovo | Месягутово; Mesjagutovo | 55,53, 58,25 (Russia) | 8,5k | 9,8k | 10,9k | 11,3k | 12k | +41,7% |
-| Mežgor’je | Межгорье | 54,24, 57,96 (Russia) | 17,9k | 19,1k | 17,4k | 16,4k | 15,7k | -12,5% |
+| Mežgor’je | Межгорье; Mezgor’e | 54,05, 57,82 (Russia) | 17,9k | 19,1k | 17,4k | 16,4k | 15,7k | -12,5% |
 | Mikhaylovka | Михайловка | 54,8, 55,89 (Russia) | 3,8k | 4,3k | 5,4k | 7,1k | 11,4k | +200,8% |
 | Milovka | Миловка | 54,78, 55,83 (Russia) | 2,3k | 2,5k | 2,8k | 3,7k | 6k | +156,3% |
 | Mindyak | Миндяк; Mindjak | 54,02, 58,79 (Russia) | 3,1k | 2,9k | 2,3k | 2,3k | 2,2k | -27,4% |
-| Mishkino | Мишкино | 55,53, 55,96 (Russia) | 4,9k | 5,8k | 6k | 6,2k | 6,4k | +31,5% |
 | Mrakovo | Мраково | 52,72, 56,62 (Russia) | 7,6k | 8,4k | 8,7k | 8,8k | 9,1k | +19,2% |
 | Mursalimkino | Мурсалимкино | 55,04, 58,56 (Russia) | 2,4k | 2,5k | 2,2k | 2,1k | 1,9k | -19,9% |
 | Muslyumovo | Муслюмово; Musljumovo | 55,31, 53,19 (Russia) | 6,4k | 7,4k | 7,3k | 7,6k | 8k | +26,2% |
 | Naberezhnye Chelny | Brezhnev (1982-1988); KAMAZ Truck Boomtown | 55,74, 52,4 (Russia) | 512k | 510k | 513k | 522k | 548,4k | +7,1% |
 | Nagayevo | Нагаево | 54,62, 56,11 (Russia) | 9,2k | 9,4k | 9,6k | 9,7k | 9,8k | +7% |
-| Neforosh-chanka | Нефороща | 53,97, 55,45 (Russia) | 42,8k | 45,6k | 46k | 45,7k | 45,2k | +5,7% |
 | Neftekamsk | Нефтекамск | 56,09, 54,26 (Russia) | 109k | 122,3k | 121,7k | 124k | 131,9k | +21% |
 | Nikolo-Berjozovka | Николо-Берёзовка; Николо-Березовка | 56,12, 54,16 (Russia) | 5,4k | 6k | 6,1k | 6,1k | 6,1k | +12,8% |
 | Nizhnekamsk | Nizhneka-mskneftekhim Boomtown (Founded 1961); Нижнекамск | 55,64, 51,82 (Russia) | 197k | 226k | 234k | 235k | 241,5k | +22,6% |
@@ -4930,15 +4426,12 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Novoye Shigaleyevo | Новое Шигалеево | 55,81, 49,46 (Russia) | 6,8k | 7,1k | 7,4k | 7,5k | 7,7k | +12,8% |
 | Nurlat | Нурлат | 54,43, 50,81 (Russia) | 24,7k | 32,5k | 32,6k | 33,3k | 34k | +37,6% |
 | Oktyabrsky | Октябрьский; Oktjabr’skij | 54,48, 53,47 (Russia) | 105,3k | 108,6k | 109,5k | 112,2k | 115,6k | +9,7% |
-| Orel | Орел | 55,57, 49,07 (Russia) | 224,5k | 250,5k | 251,1k | 249,7k | 247,3k | +10,1% |
 | Osinovo | Осиново | 55,88, 48,88 (Russia) | 7k | 7,8k | 8,7k | 11,1k | 17k | +142,6% |
 | Pavlovka | Павловка | 55,42, 56,55 (Russia) | 3,7k | 4,3k | 4,1k | 4,1k | 3,9k | +5% |
-| Pervomayskiy | Первомайский; Pervomajskij | 55,65, 57,62 (Russia) | 512 | 510 | 395 | 363 | 314 | -38,7% |
 | Pestretsy | Пестрецы | 55,75, 49,65 (Russia) | 6,7k | 7,3k | 8,1k | 9,2k | 11,6k | +74,1% |
 | Pribel’skij | Прибельский | 54,38, 56,45 (Russia) | 4,2k | 5k | 4,9k | 4,6k | 4,2k | +0,2% |
 | Priyutovo | Приютово; Prijutovo | 53,9, 53,93 (Russia) | 19,6k | 20,8k | 20,9k | 20,2k | 19,6k | +0,1% |
 | Rayevskiy | Раевский; Rajevskij | 54,06, 54,93 (Russia) | 18,1k | 20k | 19,6k | 19,2k | 18,7k | +3,4% |
-| Rodniki | Родники | 55,14, 50,25 (Russia) | 17,1k | 19,1k | 19,1k | 19k | 18,9k | +10,1% |
 | Russkiy Aktash | Русский Акташ; Russkij Aktaš | 55,04, 52,12 (Russia) | 3,5k | 4,2k | 4,2k | 4,1k | 3,8k | +9,1% |
 | Rybnaya Sloboda | Рыбная Слобода; Rybnaja Sloboda | 55,46, 50,14 (Russia) | 7,2k | 7,2k | 7,7k | 7,8k | 7,6k | +5,3% |
 | Salavat | Bashkir Petrochemical Monocity (Founded 1948); Салават | 53,36, 55,92 (Russia) | 152k | 158,6k | 156,1k | 154,6k | 148,6k | -2,3% |
@@ -4953,7 +4446,6 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Shilovka | Шиловка | 54,05, 48,65 (Russia) | 1,2k | 1k | 978 | 859 | 685 | -42,9% |
 | Shugurovo | Шугурово; Šugurovo | 54,51, 52,13 (Russia) | 2,1k | 2,2k | 2,1k | 2k | 1,8k | -12,3% |
 | Sibay | Сибай; Sibaj | 52,72, 58,67 (Russia) | 48,9k | 59,1k | 62,8k | 62,6k | 56,5k | +15,5% |
-| Simskiy | Симский | 54,49, 56,45 (Russia) | 25,6k | 27,3k | 27,6k | 27,4k | 27,1k | +5,7% |
 | Slak | Слакъ | 53,95, 54,72 (Russia) | 1,3k | 1,2k | 956 | 861 | 716 | -46,3% |
 | Sloboda Yekateri-ninskaya | Екатерининская | 55,01, 51,07 (Russia) | 627 | 536 | 468 | 441 | 397 | -36,7% |
 | Staraya Mayna | Старая Майна; Staraja Majna | 54,61, 48,92 (Russia) | 6,7k | 7k | 6,5k | 6,3k | 5,9k | -12,5% |
@@ -4964,7 +4456,6 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Stolbishchi | Столбище | 55,65, 49,22 (Russia) | 3,3k | 3,6k | 4k | 5,2k | 8,3k | +153,7% |
 | Subkhankulovo | Субханкулово; Subhankulovo | 54,56, 53,81 (Russia) | 5,3k | 5,7k | 5,6k | 5,6k | 5,6k | +5,3% |
 | Sviyazhsk | Свияжск; Svijažsk | 55,77, 48,66 (Russia) | 372 | 268 | 276 | 279 | 285 | -23,4% |
-| Tashkent | ТАШКЕНТ | 56,31, 55,41 (Russia) | 822,4k | 876,4k | 883,7k | 878,3k | 869k | +5,7% |
 | Tenishevo | Тенишево; Teniševo | 55,25, 49,21 (Russia) | 903 | 866 | 809 | 789 | 708 | -21,6% |
 | Tetyushi | Тетюши; Tetjuši | 54,94, 48,83 (Russia) | 10,7k | 11,9k | 11,6k | 11,4k | 10,5k | -1,5% |
 | Tirlyanskiy | Тирлянский; Tirljanskij | 54,21, 58,58 (Russia) | 7,7k | 5,7k | 4,4k | 4,3k | 4,1k | -46,5% |
@@ -4980,7 +4471,6 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Urman | Урман | 54,88, 56,87 (Russia) | 2,7k | 2,5k | 2,9k | 2,5k | 2k | -24% |
 | Urussu | Уруссу | 54,6, 53,46 (Russia) | 10,8k | 11,3k | 10,7k | 10,6k | 10,5k | -2,2% |
 | Usady | Усады | 55,99, 49,31 (Russia) | 4,2k | 5,2k | 6k | 6,5k | 7,4k | +76,3% |
-| Usole | Усолье | 53,39, 49,06 (Russia) | 4,9k | 4,8k | 1,9k | 1,8k | 1,6k | -67,2% |
 | Uzyan | Узянъ | 53,7, 57,85 (Russia) | 1,7k | 1,4k | 1,1k | 1,1k | 996 | -40,7% |
 | Vasil’jevo | Васильево | 55,83, 48,72 (Russia) | 18,5k | 16,8k | 17k | 17,3k | 17,3k | -6,4% |
 | Verkhnea-rshinskiy | Верхнеаршинский; Verhnearšinskij | 54,36, 58,53 (Russia) | 263 | 167 | 119 | 108 | 92 | -65% |
@@ -5001,7 +4491,6 @@ Kazan and Ufa (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Yermekeyevo | Ермекеево | 54,07, 53,67 (Russia) | 3,8k | 4,2k | 3,9k | 4k | 4,1k | +7,8% |
 | Yermolayevo | Ермолаево; Jermolajevo | 52,7, 55,82 (Russia) | 5,7k | 6,3k | 6,4k | 6,2k | 6k | +5,6% |
 | Yumaguzino | Юмагузино; Jumaguzino | 52,9, 56,39 (Russia) | 5,2k | 5,3k | 4,6k | 4,6k | 4,6k | -10,8% |
-| Zainsk | Заинск; Новый | 55,28, 52 (Russia) | 37,3k | 41,1k | 41,8k | 41,2k | 39,7k | +6,6% |
 | Zelenodolsk | Зеленодольск; Zelenodol’sk | 55,84, 48,52 (Russia) | 95k | 100,1k | 97,7k | 98,1k | 99,1k | +4,4% |
 | Zeljonaja Rošča | Зелёная Роща | 54,49, 52,05 (Russia) | 693 | 822 | 709 | 664 | 593 | -14,4% |
 | Zhukovo | Жуково | 54,65, 55,78 (Russia) | 1,3k | 1,4k | 1,7k | 2,4k | 4,3k | +234,6% |
@@ -5027,24 +4516,20 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Abaimovo | Абаимово | 55,35, 45,28 (Russia) | 13k | 12,4k | 11,8k | 11,5k | 10,9k | -15,9% |
 | Afanas’jevo | Афанасьево | 58,87, 53,26 (Russia) | 4,7k | 3,5k | 3,4k | 3,4k | 3,4k | -27,2% |
 | Afonino | Афонино | 56,26, 44,1 (Russia) | 3,4k | 3,2k | 3,4k | 4,2k | 6k | +77,5% |
 | Alatyr’ | Алатырь | 54,84, 46,58 (Russia) | 46k | 43,2k | 38,2k | 36,6k | 32,3k | -29,9% |
-| Aleksand-rovskiy | Александровский | 56,98, 47,11 (Russia) | 19,4k | 17,3k | 15,4k | 14,4k | 12,6k | -35,1% |
-| Alekseyevka | Алексеевка; Aleksejevka | 52,58, 51,27 (Russia) | 9,3k | 9,7k | 10,4k | 10,7k | 10,9k | +17,5% |
+| Alekseyevka | Алексеевка; Aleksejevka | 53,25, 50,49 (Russia) | 9,3k | 9,7k | 10,4k | 10,7k | 10,9k | +17,5% |
 | Alnashi | Алнаши | 56,19, 52,48 (Russia) | 5,1k | 6,3k | 6,3k | 6,5k | 6,8k | +35,2% |
-| Anayevo | Анаево | 54,24, 42,57 (Russia) | 28,4k | 27,5k | 26,4k | 25,3k | 23,5k | -17,1% |
 | Ankudinovka | Анкудиновка | 56,24, 44,05 (Russia) | 5,5k | 5,4k | 5,3k | 5,3k | 5,2k | -5,1% |
 | Antonovo | Антоново | 55,87, 45,81 (Russia) | 488 | 381 | 317 | 288 | 244 | -50% |
-| Anyutino | Анютино | 54,84, 45,88 (Russia) | 67k | 65k | 62,4k | 59,8k | 55,6k | -17,1% |
 | Ar’ja | Арья | 57,49, 45,97 (Russia) | 5,4k | 5k | 5k | 4,9k | 4,9k | -9,7% |
 | Arbazh | Арбаж; Arbaž | 57,68, 48,31 (Russia) | 4,8k | 4,1k | 3,6k | 3,4k | 2,8k | -40,6% |
 | Arbuzovka | Арбузовка | 54,55, 48,24 (Russia) | 658 | 536 | 506 | 456 | 380 | -42,2% |
 | Ardatov | Ардатов | 54,84, 46,24 (Russia) | 10k | 9,6k | 9,4k | 9k | 8,9k | -11,1% |
 | Ardatov | Ардатов | 55,24, 43,1 (Russia) | 9,5k | 10,1k | 9,6k | 9k | 9,2k | -2,9% |
 | Arkul’ | Аркуль | 57,28, 50,04 (Russia) | 3,1k | 2,6k | 2,1k | 1,9k | 1,4k | -54,3% |
-| Arzamas | Арзамас | 55,4, 43,84 (Russia) | 109k | 109,4k | 106,4k | 105,1k | 104,9k | -3,8% |
+| Arzamas | Арзамас; Mordovian Borderland Town | 55,4, 43,84 (Russia) | 109k | 109,4k | 106,4k | 105,1k | 104,9k | -3,8% |
 | Atemar | Атемар; Атемаръ | 54,18, 45,41 (Russia) | 4,2k | 4,1k | 4,1k | 4,1k | 4,2k | +0,4% |
 | Atmis | Атмис | 53,48, 43,92 (Russia) | 872 | 746 | 683 | 632 | 551 | -36,8% |
 | Atyashevo | Атяшево; Atjaševo | 54,59, 46,12 (Russia) | 6,3k | 6,1k | 6,2k | 6,1k | 6k | -3,5% |
@@ -5065,7 +4550,7 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Berezovka | Березовка | 56,44, 44,75 (Russia) | 1,6k | 1,7k | 2,4k | 3k | 4,4k | +177,6% |
 | Berjoza | Берёза; Береза | 53,52, 50,14 (Russia) | 6,5k | 5,9k | 5,8k | 5,7k | 5,5k | -15,5% |
 | Bessonovka | Бессоновка | 53,31, 45,04 (Russia) | 9,8k | 10k | 11,4k | 12,2k | 13,8k | +41% |
-| Bestuzhevka | Бестужевка | 53,72, 47,74 (Russia) | 8,3k | 7,9k | 7,3k | 6,9k | 6,2k | -24,9% |
+| Bestuzhevka | Бестужевка | 53,72, 47,74 (Russia) | 2,9k | 2,6k | 2,4k | 2,3k | 2,1k | -26% |
 | Bezenchuk | Безенчук; Bezenčuk | 52,98, 49,43 (Russia) | 23,7k | 23,9k | 23k | 22,5k | 20,5k | -13,4% |
 | Bezvodnoye | Безводное; Bezvodnoje | 56,83, 44,7 (Russia) | 1,3k | 1,1k | 1,1k | 1,1k | 1k | -19,7% |
 | Blizhne-Pesochnoye | Ближне-Песочное; Bližne-Pesočnoje | 55,35, 42,1 (Russia) | 3k | 2,7k | 2,9k | 3,2k | 2,9k | -4,4% |
@@ -5073,46 +4558,35 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Bogatoye | Богатое | 53,06, 51,33 (Russia) | 5,1k | 6,4k | 5,9k | 5,8k | 5,6k | +9,1% |
 | Bogatyr’ | Богатырь | 53,43, 49,96 (Russia) | 1,2k | 1,1k | 987 | 845 | 643 | -48,5% |
 | Bogdashkino | Богдашкино | 54,61, 47,67 (Russia) | 1,1k | 971 | 968 | 880 | 745 | -33,8% |
-| Bogodukhovka | Богодуховка | 54,03, 50,73 (Russia) | 19,4k | 19,6k | 19,4k | 19k | 18,3k | -5,9% |
 | Bogorodsk | Богородск | 56,1, 43,51 (Russia) | 38,2k | 37,1k | 35,5k | 35k | 35,1k | -8,2% |
 | Bogorodskoye | Богородское; Bogorodskoje | 57,83, 50,75 (Russia) | 3,6k | 3,2k | 2,9k | 2,7k | 2,3k | -37,6% |
-| Bogorodskoye | Богородское | 57,36, 45,01 (Russia) | 32,5k | 31,1k | 29,5k | 28,7k | 27,3k | -15,9% |
-| Bogorodskoye | Богородское | 53,63, 51,17 (Russia) | 44,5k | 44,9k | 44,5k | 43,5k | 41,9k | -5,9% |
 | Bogoslovka | Богословка | 53,21, 44,8 (Russia) | 5k | 4,7k | 5,3k | 5,2k | 5k | +0,4% |
 | Bol’šaja Jelhovka | Большая Елховка | 54,28, 45,32 (Russia) | 4k | 4,1k | 4,2k | 4,1k | 4k | -0,8% |
 | Bol’šoje Kozino | Большое Козино | 56,4, 43,71 (Russia) | 6,6k | 5,7k | 5,9k | 6,3k | 6,7k | +1,6% |
 | Bol’šoje Muraškino | Большое Мурашкино | 55,78, 44,78 (Russia) | 6,7k | 6,4k | 5,6k | 5,4k | 5,6k | -16,4% |
 | Bol’šoje Pikino | Большое Пикино | 56,35, 44,19 (Russia) | 2,5k | 2,7k | 2,6k | 2,5k | 2,4k | -6,8% |
 | Bolshaya Chernigovka | Большая Черниговка | 52,09, 50,87 (Russia) | 6,3k | 6,3k | 6,4k | 6,3k | 6,2k | -1,1% |
-| Bolshaya Glushitsa | Большая Глушица | 52,39, 50,47 (Russia) | 10k | 10,1k | 9,7k | 9,6k | 9,6k | -4,6% |
 | Bolshie Berezniki | Большие Березники | 54,17, 45,97 (Russia) | 6k | 6,4k | 6,4k | 6,3k | 6,1k | +1,4% |
 | Bolshoe Boldino | Большое Болдино | 55,01, 45,31 (Russia) | 5,2k | 4,9k | 5,1k | 5,1k | 5,1k | -0,9% |
 | Bolshoe Nagatkino | Большое Нагаткино | 54,52, 47,97 (Russia) | 5,5k | 5,2k | 5,5k | 5,3k | 4,9k | -10,3% |
 | Bor | Бор | 56,36, 44,07 (Russia) | 64k | 61,5k | 78,1k | 77,9k | 78,4k | +22,4% |
 | Borisovka | Борисовка | 54,32, 49,38 (Russia) | 59,6k | 56,6k | 52,5k | 49,5k | 44,7k | -24,9% |
-| Borovitsa | Боровица | 56,7, 44,12 (Russia) | 29,7k | 28,4k | 26,9k | 26,2k | 25k | -15,9% |
 | Borovoy | Боровой; Borovoj | 59,96, 51,69 (Russia) | 1,3k | 264 | 137 | 127 | 112 | -91,6% |
 | Borskoye | Борское | 53,03, 51,7 (Russia) | 8,9k | 9,2k | 9k | 8,9k | 8,9k | -0,1% |
 | Buinsk | Буинск | 55,2, 47,06 (Russia) | 1,9k | 1,6k | 1,2k | 1,1k | 973 | -49,9% |
 | Buturlino | Бутурлино | 55,57, 44,9 (Russia) | 6,5k | 7k | 6,4k | 6,4k | 6,9k | +5,8% |
-| Buturlino | Я гановка | 53,9, 45,07 (Russia) | 9,8k | 9,3k | 8,9k | 8,5k | 7,8k | -19,7% |
-| Butyrskiy | Бутырский | 53,03, 47,92 (Russia) | 51,1k | 48,5k | 45k | 42,4k | 38,3k | -24,9% |
-| Buzayevo | Бузаево | 54,33, 46,16 (Russia) | 18,9k | 18,3k | 17,6k | 16,9k | 15,7k | -17,1% |
 | Central’nyj | Центральный | 56,3, 42,79 (Russia) | 2,6k | 3,9k | 3k | 2,8k | 1,6k | -39,9% |
 | Chaadayevka | Чаадаевка; Čaadajevka | 53,14, 45,91 (Russia) | 8,5k | 7,2k | 7,6k | 7,6k | 6,7k | -20,7% |
 | Chamzinka | Чамзинка; Čamzinka | 54,41, 45,79 (Russia) | 9,9k | 9,9k | 9,5k | 9,5k | 9,5k | -4% |
 | Chapayevsk | Ivashchenkovo; Trotsky (1927-29); Munitions Hub | 52,98, 49,71 (Russia) | 93,8k | 73,9k | 72,7k | 72,4k | 70,2k | -25,2% |
 | Cheboksary | Shupashkar; Chuvash Capital | 56,14, 47,25 (Russia) | 436k | 441k | 454k | 469k | 497,8k | +14,2% |
 | Chekalino | Чекалино | 53,87, 50,92 (Russia) | 627 | 510 | 537 | 480 | 394 | -37,2% |
-| Chelmode-yevskiy Maydan | Челмодеевский Майданъ | 53,89, 44,22 (Russia) | 36,5k | 35,4k | 33,9k | 32,5k | 30,2k | -17,1% |
 | Chelno-Vershiny | Челно-Вершины | 54,41, 51,09 (Russia) | 6k | 6,1k | 5,7k | 5,7k | 5,5k | -8,1% |
 | Chemodanovka | Чемодановка | 53,23, 45,25 (Russia) | 4,7k | 5,1k | 6,1k | 6k | 5,7k | +21,7% |
 | Chepetskiy | Чепецкий; Čepeckij | 58,5, 51,2 (Russia) | 1,5k | 986 | 459 | 319 | 169 | -88,8% |
 | Cherdakly | Чердаклы; Čerdakly | 54,35, 48,85 (Russia) | 11,2k | 12k | 11,4k | 11,4k | 12,1k | +7,6% |
 | Chernoe Ozero | Черное Озеро | 56,36, 47,41 (Russia) | 297 | 211 | 193 | 168 | 132 | -55,6% |
-| Chernogay | Черногай | 53,04, 42,98 (Russia) | 13,5k | 12,8k | 12,2k | 11,7k | 10,8k | -19,7% |
 | Chernovka | Черновка | 53,71, 50,77 (Russia) | 1,6k | 1,4k | 1,4k | 1,3k | 1,2k | -20,8% |
-| Chernyayevka | Черняевка | 53,74, 45,68 (Russia) | 14,8k | 14,1k | 13,4k | 12,9k | 11,9k | -19,6% |
 | Chistoye | Чистое; Čistoje | 56,54, 43 (Russia) | 1,5k | 1,1k | 768 | 658 | 714 | -51,7% |
 | Chkalovsk | Чкаловск; Čkalovsk | 56,76, 43,25 (Russia) | 14,9k | 13,9k | 12,4k | 11,9k | 11,5k | -22,4% |
 | Chkalovskoye | Шыгырдан | 55,05, 47,56 (Russia) | 4,9k | 5,1k | 5,4k | 5,4k | 5,3k | +6,8% |
@@ -5125,7 +4599,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Darovskoy | Даровской; Darovskoj | 58,77, 47,96 (Russia) | 7,3k | 7,5k | 7,1k | 6,8k | 6,1k | -15,7% |
 | Debesy | Дебесы | 57,65, 53,81 (Russia) | 6k | 5,8k | 5,7k | 5,7k | 5,7k | -6,1% |
 | Dem’janovo | Демьяново | 60,35, 47,08 (Russia) | 6,9k | 6,4k | 5,6k | 5,2k | 4,4k | -35,8% |
-| Dergachi | Дергачи | 52,9, 50,04 (Russia) | 31,3k | 31,6k | 31,3k | 30,6k | 29,5k | -5,9% |
 | Dergunovka | Дергуновка | 52,49, 50,33 (Russia) | 843 | 683 | 656 | 577 | 460 | -45,4% |
 | Dimitrovgrad | Димитровград; Мелекесс | 54,21, 49,62 (Russia) | 124,7k | 130,9k | 122,6k | 118,5k | 111k | -11% |
 | Diveyevo | Дивеево | 55,04, 43,25 (Russia) | 6,8k | 6,5k | 6,4k | 6,6k | 6,9k | +2% |
@@ -5140,20 +4613,14 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Frolishchi | Фролищи; Frolišči | 56,42, 42,65 (Russia) | 2k | 1,7k | 1,6k | 1,5k | 1,2k | -38,8% |
 | Gagino | Гагино | 55,23, 45,02 (Russia) | 3,6k | 4k | 3,9k | 3,8k | 3,6k | +0,8% |
 | Gavrilovka | Гавриловка | 56,23, 43,72 (Russia) | 727 | 712 | 803 | 790 | 800 | +10% |
-| Gavrilovka | Горюшка | 53,56, 48,35 (Russia) | 558 | 447 | 488 | 432 | 349 | -37,5% |
 | Georgiyevka | Зимовенька; Георгиевка | 53,27, 51 (Russia) | 4k | 3,7k | 4k | 3,9k | 3,9k | -2,4% |
 | Gidrotorf | Гидроторф | 56,48, 43,54 (Russia) | 7,6k | 7,7k | 7,6k | 7,6k | 6,6k | -13,1% |
 | Glazov | Глазов | 58,14, 52,66 (Russia) | 103,6k | 100,9k | 95,9k | 94,9k | 87,8k | -15,3% |
 | Glotovka | Глотовка | 53,95, 46,7 (Russia) | 3,4k | 3,1k | 2,4k | 2,2k | 1,8k | -46,5% |
 | Golovins-hchino | Головинщина | 53,31, 44 (Russia) | 1k | 888 | 849 | 793 | 704 | -30% |
-| Gondyrvay | Гондырвай | 57,27, 54,11 (Russia) | 287,3k | 279,8k | 270,4k | 262,8k | 250k | -13% |
 | Gorbatov | Горбатов | 56,13, 43,06 (Russia) | 3,4k | 2,7k | 2,3k | 2,1k | 2k | -40,9% |
 | Gorbatovka | Горбатовка | 56,26, 43,75 (Russia) | 4,3k | 3,3k | 3,4k | 3,4k | 3,2k | -24,6% |
-| Gorbunovka | Горбуновка | 54,51, 45,83 (Russia) | 14k | 13,6k | 13,1k | 12,5k | 11,6k | -17,1% |
-| Gordeyevka | Гордеевка | 57,31, 44,34 (Russia) | 22,9k | 21,8k | 20,7k | 20,2k | 19,2k | -15,9% |
-| Gorki | Горки | 54, 50,93 (Russia) | 17,8k | 18k | 17,8k | 17,4k | 16,8k | -5,9% |
 | Gorodets | Городец; Gorodec | 56,65, 43,47 (Russia) | 33,9k | 32,4k | 30,7k | 30,5k | 28,7k | -15,5% |
-| Gorodets | Городец | 54,43, 47,22 (Russia) | 17,2k | 16,3k | 15,1k | 14,3k | 12,9k | -24,9% |
 | Gorodishche | Городище; Gorodišče | 53,28, 45,7 (Russia) | 8k | 8,3k | 8,1k | 8,1k | 7,8k | -2,3% |
 | Grabovo | Грабово | 53,39, 45,06 (Russia) | 5,3k | 7,4k | 8k | 8k | 7,8k | +47,8% |
 | Gremyachevo | Гремячево; Gremjačevo | 55,39, 43,03 (Russia) | 5,3k | 5,3k | 5,3k | 5,2k | 4,5k | -16,3% |
@@ -5162,23 +4629,18 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Ichalki | Ичалки | 55,44, 44,5 (Russia) | 1,1k | 934 | 757 | 767 | 784 | -28,3% |
 | Ignatovka | Игнатовка | 53,95, 47,65 (Russia) | 3,2k | 2,9k | 2,3k | 2,2k | 1,9k | -40% |
 | Igra | Игра | 57,55, 53,05 (Russia) | 22,8k | 22,3k | 20,7k | 20,3k | 19,3k | -15,2% |
-| Illarionovo | Илларионово | 55,05, 45,15 (Russia) | 47k | 45k | 42,7k | 41,5k | 39,6k | -15,9% |
 | Ilmino | Ильмино | 53,79, 45,66 (Russia) | 1,1k | 917 | 765 | 683 | 559 | -48% |
 | Ilyinogorsk | Ильиногорск; Il’inogorsk | 56,23, 42,95 (Russia) | 8,1k | 8,4k | 8k | 7,6k | 6,2k | -24,1% |
 | Imeni Stepana Razina | им. Степана Разина; im. Stepana Razina | 54,89, 44,3 (Russia) | 3,6k | 3,2k | 2,8k | 2,5k | 2,1k | -41,4% |
 | Inderka | Индерка | 53,25, 46,26 (Russia) | 4k | 4,1k | 4k | 3,9k | 3,6k | -10,1% |
-| Ingener-Pyatina | Ингенеръ-Пятина | 54,39, 44,84 (Russia) | 18,9k | 18,3k | 17,6k | 16,9k | 15,7k | -17,1% |
 | Insar | Инсар | 53,87, 44,37 (Russia) | 9,2k | 9k | 8,7k | 8,6k | 7,9k | -14,1% |
 | Inza | Инза | 53,85, 46,35 (Russia) | 23k | 20,3k | 18,8k | 18,1k | 16,3k | -29,1% |
 | Isakly | Исаклы | 54,13, 51,54 (Russia) | 4,4k | 4,5k | 4,3k | 4,3k | 4,4k | -1,2% |
 | Isheyevka | Ишеевка; Išejevka | 54,43, 48,27 (Russia) | 9,4k | 10k | 10,4k | 10,5k | 10,4k | +10,8% |
 | Issa | Исса | 53,87, 44,86 (Russia) | 5,9k | 5,6k | 5,4k | 5,3k | 4,9k | -16,1% |
-| Ivanovka | Ивановка | 53,88, 50,6 (Russia) | 18,8k | 19k | 18,8k | 18,4k | 17,7k | -5,9% |
-| Ivanovka | Ивановка | 52,46, 44,56 (Russia) | 1,5k | 1,3k | 1,3k | 1,2k | 1,1k | -23,2% |
 | Ivanovskoye Pervoye | Ивановское | 55,9, 44,88 (Russia) | 681 | 553 | 509 | 459 | 383 | -43,8% |
 | Izhevsky Zavod | Izhevsk; Izhevsk Rifle Arsenal | 56,85, 53,21 (Russia) | 647k | 632k | 628k | 637k | 623,5k | -3,6% |
 | Izmaylovo | Измайлово; Izmajlovo | 53,72, 47,25 (Russia) | 3,8k | 3,1k | 2,5k | 2,3k | 2k | -46,8% |
-| Jur’ja | Юрья | 59,04, 49,28 (Russia) | 13k | 6,2k | 5,7k | 5,4k | 5,1k | -61% |
 | Kadoshkino | Кадошкино; Kadoškino | 54,03, 44,42 (Russia) | 5,1k | 4,9k | 4,7k | 4,5k | 4k | -22,3% |
 | Kama | Кама; Бутыш | 56,31, 54,09 (Russia) | 3,8k | 3,5k | 2,1k | 1,9k | 1,8k | -53,3% |
 | Kambarka | Камбарка | 56,27, 54,21 (Russia) | 13,2k | 12,6k | 11k | 10,7k | 10,1k | -23,4% |
@@ -5188,19 +4650,15 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Kanadey | Канадей; Kanadej | 53,17, 47,53 (Russia) | 2,3k | 2,1k | 2k | 1,9k | 1,7k | -28% |
 | Kanash | Канаш; Kanaš | 55,51, 47,49 (Russia) | 54k | 50,6k | 45,6k | 45,8k | 44,4k | -17,8% |
 | Karakulino | Каракулино | 56,01, 53,71 (Russia) | 4,7k | 5,1k | 4,8k | 4,7k | 4,4k | -7% |
-| Karaseva | Карасева | 56,1, 53,6 (Russia) | 36,8k | 35,8k | 34,6k | 33,6k | 32k | -13% |
 | Karintorf | Каринторф | 58,55, 50,19 (Russia) | 2,7k | 2k | 1,4k | 1,3k | 1,1k | -58,3% |
 | Karsun | Карсун | 54,2, 46,98 (Russia) | 8k | 8,2k | 7,7k | 7,6k | 7,1k | -10,5% |
-| Kashinka | Кашинка | 54,63, 48,14 (Russia) | 15,9k | 15,1k | 14k | 13,2k | 11,9k | -24,9% |
 | Katunki | Катунки | 56,83, 43,22 (Russia) | 1,1k | 829 | 806 | 809 | 610 | -46,7% |
 | Kemlya | Кемля; Kemlja | 54,69, 45,26 (Russia) | 4,9k | 4,9k | 4,8k | 4,7k | 4,4k | -11,8% |
 | Kerzhenets | Керженец; Kerženec | 56,47, 44,42 (Russia) | 898 | 679 | 520 | 523 | 529 | -41,1% |
 | Kevdo-Melsitovo | Кевдо-Мельситово | 53,16, 43,89 (Russia) | 2k | 1,8k | 1,9k | 1,7k | 1,5k | -22,4% |
 | Kez | Кез | 57,9, 53,71 (Russia) | 10,2k | 10,9k | 11,1k | 10,7k | 10,1k | -0,3% |
-| Khmelevka | Хмелевка | 54, 52,37 (Russia) | 16,6k | 16,7k | 16,6k | 16,2k | 15,6k | -5,9% |
 | Khokhryaki | Хохряки | 56,92, 53,32 (Russia) | 3,7k | 3,6k | 5,1k | 5,5k | 6,3k | +69,4% |
 | Khristoforovo | Христофорово; Hristoforovo | 60,9, 47,25 (Russia) | 1,2k | 843 | 412 | 277 | 138 | -88,6% |
-| Khudyaki | Худяки | 57,62, 48,16 (Russia) | 25k | 22,3k | 19,9k | 18,5k | 16,2k | -35,1% |
 | Khvorostyanka | Хворостянка | 52,61, 48,96 (Russia) | 5,1k | 4,9k | 5,2k | 5,2k | 5,2k | +1% |
 | Kiknur | Кикнур | 57,3, 47,2 (Russia) | 6,4k | 5,4k | 5k | 4,6k | 4,2k | -35,6% |
 | Kil’mez’ | Кильмезь | 57,01, 51,34 (Russia) | 3,7k | 3,1k | 2,6k | 2,4k | 2k | -45,3% |
@@ -5208,18 +4666,13 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Kilemary | Килемары | 56,78, 46,86 (Russia) | 4,1k | 4k | 4,1k | 4k | 3,9k | -3,6% |
 | Kinel’ | Кинель | 53,23, 50,63 (Russia) | 33,6k | 34,4k | 34,5k | 34,3k | 36,7k | +9,4% |
 | Kinel-Cherkassy | Кинель-Черкассы | 53,47, 51,49 (Russia) | 6,4k | 6,5k | 17,3k | 17k | 16,7k | +160,3% |
-| Kirillovo | Кирилово | 56,05, 53,7 (Russia) | 28,2k | 27,4k | 26,5k | 25,8k | 24,5k | -13% |
 | Kirovo-Chepetsk | Кирово-Чепецк; Kirovo-Čepeck | 58,55, 50,03 (Russia) | 92,1k | 90,3k | 80,9k | 76k | 66,7k | -27,6% |
 | Kirs | Кирс | 59,34, 52,24 (Russia) | 13,8k | 11,8k | 10,4k | 9,9k | 8,5k | -38,3% |
 | Kirya | Киря; Kirja | 55,08, 46,86 (Russia) | 2,9k | 2,4k | 1,8k | 1,7k | 1,5k | -49,1% |
-| Kiselevka | Киселевка | 53,9, 42,7 (Russia) | 32,9k | 31,9k | 30,7k | 29,4k | 27,3k | -17,1% |
-| Kisha | Киша | 55,08, 46,03 (Russia) | 12,8k | 12,3k | 11,7k | 11,3k | 10,8k | -15,9% |
 | Kivat | Кивать | 54,44, 47,04 (Russia) | 1,6k | 1,4k | 1,2k | 1,1k | 1k | -36,4% |
 | Kizhevatovo | Селикса | 53,21, 45,29 (Russia) | 2,8k | 2,7k | 3,2k | 3,4k | 3,7k | +29,6% |
 | Kizner | Кизнер | 56,27, 51,51 (Russia) | 9,9k | 10k | 9,5k | 9,4k | 9,3k | -6,3% |
 | Klimkovka | Климковка | 58,89, 51,24 (Russia) | 1,4k | 1,4k | 1,2k | 1,1k | 894 | -36,5% |
-| Klin | Клин | 54,22, 51,5 (Russia) | 16,4k | 16,5k | 16,4k | 16k | 15,4k | -5,9% |
-| Klyuchevo | Ключево | 55,55, 45,43 (Russia) | 12,9k | 12,4k | 11,7k | 11,4k | 10,9k | -15,9% |
 | Klyuchishchi | Ключищи | 55,85, 43,56 (Russia) | 662 | 543 | 417 | 403 | 379 | -42,7% |
 | Klyuchishchi | Ключищи | 54,14, 48,24 (Russia) | 3,8k | 3,7k | 3,9k | 3,9k | 3,8k | -0,3% |
 | Knyaginino | Княгинино; Knjaginino | 55,82, 45,03 (Russia) | 6,4k | 6,8k | 6,7k | 7k | 6,4k | +0,1% |
@@ -5231,7 +4684,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Komsomol’skoye | Комсомольское | 55,26, 47,55 (Russia) | 4,7k | 4,8k | 4,9k | 4,8k | 4,6k | -2,1% |
 | Konovalovka | Коноваловка | 53,1, 51,55 (Russia) | 1,2k | 1,1k | 939 | 962 | 1k | -18,6% |
 | Kopovka | Коповка | 53,57, 43,15 (Russia) | 479 | 376 | 244 | 167 | 86 | -82% |
-| Korzhevka | Коржевка | 54,18, 46,37 (Russia) | 34,5k | 32,8k | 30,4k | 28,7k | 25,9k | -24,9% |
 | Koshki | Кошки | 54,21, 50,47 (Russia) | 7,4k | 8,1k | 8k | 7,7k | 7,3k | -1,1% |
 | Kosino | Косино | 58,41, 51,28 (Russia) | 2,9k | 2,4k | 1,8k | 1,6k | 1,3k | -54,1% |
 | Kotel’nič | Котельнич | 58,3, 48,34 (Russia) | 35,4k | 28,2k | 25k | 24,5k | 20,1k | -43% |
@@ -5246,7 +4698,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Krasnogorskiy | Красногорский; Krasnogorskij | 56,15, 48,33 (Russia) | 8,4k | 7,2k | 6,7k | 6,4k | 6,1k | -27% |
 | Krasnogo-rskoye | Красногорское | 57,7, 52,5 (Russia) | 4,7k | 4,6k | 4,4k | 4,2k | 3,9k | -18,3% |
 | Krasnooktjabr’skij | Краснооктябрьский | 56,68, 47,66 (Russia) | 4,5k | 4,3k | 4,6k | 4,7k | 3,6k | -19,3% |
-| Krasnosa-marskoye | Моча | 53,06, 50,81 (Russia) | 1,6k | 1,4k | 1,6k | 1,5k | 1,3k | -17,6% |
 | Krasnosl-obodsk | Краснослободск | 54,43, 43,79 (Russia) | 11,2k | 10,8k | 10,2k | 9,7k | 8,9k | -20,4% |
 | Krasnoye | Красное | 59,2, 47,88 (Russia) | 803 | 601 | 552 | 493 | 404 | -49,7% |
 | Krasnye Baki | Красные Баки; Krasnyje Baki | 57,13, 45,16 (Russia) | 8,4k | 7,9k | 7,3k | 7,4k | 7,3k | -12,3% |
@@ -5275,9 +4726,7 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Letki | Летки | 54,31, 44,57 (Russia) | 501 | 401 | 360 | 333 | 291 | -41,9% |
 | Levintsy | Лёвинцы; Ljovincy | 58,45, 50,96 (Russia) | 2,7k | 2,5k | 2,1k | 2,3k | 1,9k | -31,4% |
 | Linda | Линда | 56,62, 44,1 (Russia) | 5,9k | 5,6k | 5,4k | 5,2k | 4,8k | -18,3% |
-| Lipovka | Липовка | 54,12, 51,03 (Russia) | 20,3k | 20,5k | 20,3k | 19,9k | 19,1k | -5,9% |
 | Lopatino | Лопатино | 52,62, 45,81 (Russia) | 3,9k | 4,4k | 4,4k | 4,2k | 3,8k | -3,3% |
-| Luchiny | Лучины | 59,63, 50,52 (Russia) | 15,8k | 14,1k | 12,6k | 11,7k | 10,3k | -35,1% |
 | Lukhovka | Луховка; Luhovka | 54,15, 45,26 (Russia) | 9,9k | 9,1k | 8,6k | 8,3k | 9k | -8,4% |
 | Lukino | Лукино | 56,44, 43,63 (Russia) | 3,9k | 3,7k | 3,5k | 3,7k | 3,5k | -9,7% |
 | Lukoyanov | Лукоянов; Lukojanov | 55,03, 44,48 (Russia) | 12,4k | 12,9k | 15k | 14,3k | 12,7k | +2,3% |
@@ -5299,19 +4748,16 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Maromitsa | Маромица; Maromica | 59,87, 48,01 (Russia) | 2,3k | 1,9k | 1,5k | 1,2k | 771 | -66% |
 | Matveyevka | Матвеевка | 53,1, 49,65 (Russia) | 18,8k | 18,9k | 18,8k | 18,4k | 17,7k | -5,9% |
 | Mayna | Майна; Majna | 54,12, 47,62 (Russia) | 8,2k | 8k | 7,1k | 6,8k | 6,7k | -18,5% |
-| Mayskoye | Майское | 52,27, 50,03 (Russia) | 5,1k | 5,1k | 7,3k | 7,2k | 7k | +37,6% |
 | Medvedevo | Медведево | 56,63, 47,8 (Russia) | 14k | 16,6k | 16,8k | 17,4k | 21,8k | +55,2% |
 | Medvedok | Медведок | 57,39, 50,04 (Russia) | 2,5k | 2,1k | 1,8k | 1,6k | 1,3k | -49,4% |
 | Melovoy | Меловой; Melovoj | 54,12, 48,33 (Russia) | 818 | 778 | 767 | 692 | 579 | -29,2% |
 | Mezhdure-chensk | Междуреченск; Meždurečensk | 53,27, 49,11 (Russia) | 4k | 3,5k | 3k | 2,9k | 2,7k | -32,3% |
 | Mikhaylovka | Михайловка | 53,85, 45,33 (Russia) | 381 | 360 | 299 | 265 | 214 | -43,8% |
-| Mikhaylovka | Подъемъ | 54,07, 51,15 (Russia) | 15,6k | 15,8k | 15,6k | 15,3k | 14,7k | -5,9% |
 | Mirnyy | Мирный; Mirnyj | 58,49, 47,65 (Russia) | 3,9k | 3,6k | 3,9k | 4,5k | 3,3k | -16% |
 | Mirnyy | Мирный; Mirnyj | 53,51, 50,28 (Russia) | 7,2k | 7,5k | 7,3k | 7,2k | 7,2k | -0,1% |
 | Mochalishche | Мочалище; Močališče | 56,33, 48,35 (Russia) | 2,5k | 2,3k | 2k | 1,8k | 1,5k | -39,9% |
 | Moksha | Мокша | 52,67, 50,4 (Russia) | 791 | 649 | 662 | 582 | 465 | -41,2% |
 | Mokshan | Мокшан; Mokšan | 53,44, 44,61 (Russia) | 11,4k | 11,8k | 11,6k | 11,7k | 11k | -3,4% |
-| Morets | Морецъ | 52,43, 50,32 (Russia) | 20,2k | 20,4k | 20,3k | 19,8k | 19k | -5,9% |
 | Morki | Морки | 56,43, 49 (Russia) | 9,6k | 9,7k | 9,9k | 9,3k | 8,7k | -9,9% |
 | Morsha | Морша | 52,4, 50,75 (Russia) | 810 | 666 | 606 | 563 | 494 | -39% |
 | Mozhga | Можга; Možga | 56,45, 52,22 (Russia) | 46,2k | 47,1k | 48k | 49,8k | 44,3k | -4% |
@@ -5323,7 +4769,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Nagorsk | Нагорск | 59,32, 50,81 (Russia) | 5,7k | 5,1k | 4,9k | 4,6k | 4,1k | -28,1% |
 | Narovchat | Наровчат; Narovčat | 53,88, 43,69 (Russia) | 4,4k | 4,4k | 4,2k | 4,1k | 4,1k | -7,4% |
 | Navashino | Навашино; Navašino | 55,54, 42,19 (Russia) | 18,8k | 17,8k | 16,4k | 15,5k | 14,7k | -21,9% |
-| Nazarevka | Назарьевка | 53,61, 44,98 (Russia) | 13,1k | 12,5k | 11,9k | 11,4k | 10,5k | -19,6% |
 | Nechayevka | Нечаевка | 53,78, 45,72 (Russia) | 2k | 2,3k | 2k | 1,9k | 1,8k | -11,2% |
 | Neftegorsk | Нефтегорск | 52,8, 51,17 (Russia) | 19k | 19,4k | 19,3k | 18,5k | 18,1k | -4,7% |
 | Neklyudovo | Неклюдово; Nekljudovo | 56,41, 43,98 (Russia) | 9,8k | 9,2k | 8,8k | 8,6k | 8,2k | -16,2% |
@@ -5342,7 +4787,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Nolinsk | Нолинск | 57,56, 49,93 (Russia) | 10,8k | 10,5k | 9,6k | 9,8k | 8,3k | -23,7% |
 | Novaya Balakhna | Балахна; Balahna | 56,49, 43,6 (Russia) | 35,1k | 57,3k | 51,5k | 50,1k | 48,6k | +38,3% |
 | Novaya Mayna | Новая Майна; Novaja Majna | 54,15, 49,75 (Russia) | 5,8k | 6,5k | 5,9k | 5,9k | 5,1k | -12,5% |
-| Novinki | Новинки | 56,75, 43,05 (Russia) | 10,1k | 9,9k | 9,8k | 9,7k | 9,6k | -5,1% |
 | Novocheb-oksarsk | Cheboksary Hydro-Chemical Satellite; Новочебоксарск | 56,11, 47,48 (Russia) | 119k | 125,9k | 124,1k | 124k | 120,4k | +1,2% |
 | Novocher-emshansk | Новочеремшанск; Novočeremšansk | 54,36, 50,17 (Russia) | 3,8k | 3,3k | 2,9k | 2,6k | 2k | -46,1% |
 | Novodeviche | Новодевичье | 54,57, 43,97 (Russia) | 375 | 294 | 268 | 243 | 204 | -45,6% |
@@ -5357,7 +4801,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Novyye Klyuchi | Новоключевка | 53,31, 51,88 (Russia) | 615 | 501 | 444 | 390 | 311 | -49,4% |
 | Novyye Lapsary | Новые Лапсары; Novyje Lapsary | 56,07, 47,21 (Russia) | 6k | 7,7k | 7k | 6,6k | 5,9k | -0,7% |
 | Obsharovka | Обшаровка | 53,12, 48,85 (Russia) | 5,5k | 5,7k | 5,7k | 5,4k | 5k | -9% |
-| Oktjabr’skij | Октябрьский | 59,44, 48,91 (Russia) | 2,4k | 2k | 1,6k | 1,3k | 1k | -58% |
 | Oktjabr’skij | Октябрьский | 56,28, 44,19 (Russia) | 6,9k | 7,4k | 6,8k | 6,6k | 6,3k | -8,4% |
 | Oktjabr’skij | Октябрьский | 54,34, 48,71 (Russia) | 5,7k | 6,7k | 5,7k | 5,4k | 5k | -11,5% |
 | Oktyabrskiy | Октябрьский | 58,09, 52,87 (Russia) | 3k | 2,9k | 3,4k | 4,4k | 7k | +132,2% |
@@ -5369,10 +4812,8 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Orshanka | Оршанка; Oršanka | 56,92, 47,9 (Russia) | 6,9k | 6,8k | 6,6k | 6,2k | 5,6k | -19,2% |
 | Osinki | Осинки | 52,84, 49,51 (Russia) | 3,1k | 3,1k | 3,1k | 3,1k | 2,9k | -7,8% |
 | Otradnyy | Отрадный; Otradnyj | 53,38, 51,35 (Russia) | 49k | 50k | 48,4k | 47,6k | 47k | -4% |
-| Oykino | Ойкино | 54,42, 51,83 (Russia) | 16k | 16,1k | 16k | 15,6k | 15k | -5,9% |
 | Pachelma | Пачелма; Pačelma | 53,24, 43,35 (Russia) | 9,3k | 8,7k | 8,1k | 8k | 7k | -25,2% |
 | Pamjat’ Parižskoj Kommuny | Память Парижской Коммуны | 56,1, 44,5 (Russia) | 4,8k | 4,1k | 3,8k | 3,7k | 3,5k | -27% |
-| Panshino | Паньшино | 52,92, 48,45 (Russia) | 12,7k | 12,1k | 11,2k | 10,6k | 9,5k | -24,9% |
 | Paran’ga | Параньга | 56,7, 49,4 (Russia) | 6,8k | 6,7k | 6k | 5,6k | 5,4k | -21,4% |
 | Parapino | Парапино | 53,99, 43,9 (Russia) | 1,5k | 1,5k | 1,6k | 1,5k | 1,4k | -8,8% |
 | Pavlovka | Павловка | 52,69, 47,14 (Russia) | 5,8k | 5,9k | 5,6k | 5,4k | 5k | -14% |
@@ -5383,16 +4824,13 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Perevoz | Перевоз | 55,6, 44,55 (Russia) | 8,5k | 9,4k | 9,2k | 8,9k | 9k | +6,2% |
 | Pervomaysk | Первомайск; Pervomajsk | 54,87, 43,8 (Russia) | 16,2k | 15,1k | 14,6k | 14k | 13,2k | -18,5% |
 | Pervomayskiy | Первомайский; Pervomajskij | 59,06, 49,29 (Russia) | 4,1k | 3,8k | 6,1k | 6,5k | 5,1k | +23% |
-| Pervomayskiy | Первомайский; Pervomajskij | 56,61, 43,36 (Russia) | 1,1k | 1,1k | 1,5k | 1,6k | 1,3k | +19,2% |
 | Pervomayskiy | Первомайский; Pervomajskij | 53,35, 51,59 (Russia) | 803 | 447 | 301 | 230 | 144 | -82,1% |
 | Pervomayskiy | Первомайский | 57,07, 54,13 (Russia) | 2,6k | 2,5k | 2,8k | 3,4k | 4,4k | +73,5% |
 | Pervoye Maya | Первое Мая; Pervoje Maja | 56,42, 43,65 (Russia) | 2,3k | 2,2k | 2,1k | 2,2k | 1,9k | -17,6% |
 | Peskovka | Песковка | 59,04, 52,36 (Russia) | 7,7k | 7k | 4,7k | 4,4k | 3,5k | -54,4% |
 | Pestravka | Пестравка | 52,4, 49,96 (Russia) | 6,6k | 6,7k | 6,6k | 6,4k | 6,1k | -8,8% |
 | Petrova Dubrava | Петра Дубрава; Petra Dubrava | 53,3, 50,37 (Russia) | 6,4k | 6,1k | 6,5k | 6,6k | 6,7k | +5,2% |
-| Petrovskiy | Петровский | 52,9, 48,92 (Russia) | 60k | 60,5k | 60k | 58,7k | 56,4k | -5,9% |
 | Pil’na | Пильна | 55,55, 45,92 (Russia) | 7,5k | 7,9k | 7,3k | 6,9k | 6,5k | -14,2% |
-| Pilnya | Пильня | 54,52, 43 (Russia) | 8,1k | 7,8k | 7,5k | 7,2k | 6,7k | -17,1% |
 | Pinyug | Пинюг; Pinjug | 60,25, 47,78 (Russia) | 3,8k | 3k | 2,3k | 2,2k | 1,4k | -62,6% |
 | Piskaly | Пискалы | 53,63, 49,82 (Russia) | 1,7k | 1,6k | 1,7k | 1,6k | 1,6k | -9,3% |
 | Pizhanka | Пижанка; Pižanka | 57,46, 48,54 (Russia) | 4,1k | 4k | 3,9k | 3,7k | 3,6k | -12,3% |
@@ -5409,7 +4847,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Potma | Потьма | 53,51, 44,09 (Russia) | 3,9k | 3,7k | 3,6k | 3,4k | 3,2k | -19,6% |
 | Povodimovo | Поводимово | 54,46, 46,31 (Russia) | 2,7k | 2,6k | 2,3k | 2,1k | 1,8k | -31,2% |
 | Povolzhskiy | Поволжский; Povolžskij | 53,59, 49,76 (Russia) | 7,6k | 9k | 9,2k | 9k | 8,7k | +13,9% |
-| Pravdinsk | Правдинск | 56,52, 43,56 (Russia) | 32,1k | 30,7k | 29,1k | 28,4k | 27k | -15,9% |
 | Pribrezhnyy | Прибрежный; Pribrežnyj | 53,49, 49,86 (Russia) | 11,9k | 11,6k | 11,5k | 11,2k | 10,8k | -8,9% |
 | Pridorozhnyy | Придорожный | 53,09, 50,16 (Russia) | 27,2k | 27,3k | 27,4k | 27,5k | 27,5k | +1% |
 | Prigorodnoye | Пригородное | 52,44, 44,21 (Russia) | 5k | 5,5k | 5,3k | 5k | 4,4k | -11,8% |
@@ -5446,7 +4883,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Selty | Селты | 57,31, 52,13 (Russia) | 4,4k | 5,6k | 5,3k | 5,3k | 5,2k | +18,8% |
 | Semenovka | Семеновка | 56,65, 47,98 (Russia) | 7,3k | 7k | 6,5k | 6,7k | 7k | -3,8% |
 | Semenovka | Семеновка | 53, 49,88 (Russia) | 929 | 776 | 739 | 649 | 518 | -44,2% |
-| Semenovskoe | Семеновское | 55,11, 46,2 (Russia) | 296,6k | 292,5k | 263,7k | 250,1k | 227,8k | -23,2% |
 | Semjonov | Семёнов; Семенов | 56,79, 44,5 (Russia) | 26,1k | 25,3k | 24,5k | 24,5k | 25,1k | -4% |
 | Serdobsk | Сердобск | 52,46, 44,22 (Russia) | 42,6k | 37,7k | 35,4k | 34k | 30,2k | -29% |
 | Sergach | Сергач; Sergač | 55,53, 45,46 (Russia) | 24,9k | 22,9k | 21,4k | 20,7k | 20,3k | -18,5% |
@@ -5487,7 +4923,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Sovetskiy | Советский; Sovetskij | 56,76, 48,48 (Russia) | 11,3k | 10,8k | 10,7k | 10,4k | 10,6k | -6,4% |
 | Sozimskiy | Созимский; Sozimskij | 59,74, 52,25 (Russia) | 3,1k | 2k | 1,5k | 1,1k | 649 | -78,8% |
 | Spassk | Спасск; Беднодемьяновск | 53,93, 43,18 (Russia) | 8,2k | 7,6k | 7,4k | 7,2k | 6,9k | -15,3% |
-| Spasskaya | Спасская | 58,08, 49,9 (Russia) | 25,5k | 22,7k | 20,3k | 18,8k | 16,6k | -35,1% |
 | Spasskoye | Спасское | 55,86, 45,7 (Russia) | 3,9k | 4,1k | 3,9k | 4k | 4k | +2,1% |
 | Spiridonovka | Спиридоновка | 53,09, 50,65 (Russia) | 4k | 4,4k | 4,9k | 4,1k | 3,1k | -23,6% |
 | Srednyaya Elyuzan | Средняя Елюзань | 53,02, 45,95 (Russia) | 7,4k | 8,4k | 8,8k | 9k | 9,5k | +28,7% |
@@ -5495,7 +4930,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Starotim-oshkino | Старотимошкино; Starotimoškino | 53,72, 47,53 (Russia) | 4,5k | 4,1k | 3,9k | 3,7k | 3,3k | -25,9% |
 | Staroye Shaygovo | Старое Шайгово | 54,31, 44,47 (Russia) | 5,4k | 5,2k | 5,2k | 5k | 4,8k | -10,2% |
 | Strizhi | Стрижи; Striži | 58,47, 49,26 (Russia) | 4,6k | 4k | 3,7k | 3,5k | 3,1k | -32% |
-| Studenets | Студенецъ | 55,13, 46,35 (Russia) | 23,7k | 23,4k | 21,1k | 20k | 18,2k | -23,2% |
 | Sukhobez-vodnoye | Сухобезводное; Suhobezv-odnoje | 57,05, 44,89 (Russia) | 4,8k | 6,7k | 6,4k | 6,1k | 4,7k | -3% |
 | Sukhodol | Суходол; Suhodol | 53,9, 51,21 (Russia) | 12,6k | 14,4k | 13,4k | 13,5k | 13,3k | +6,3% |
 | Suna | Суна | 57,83, 50,06 (Russia) | 144 | 82 | 54 | 44 | 31 | -78,5% |
@@ -5511,7 +4945,7 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Syumsi | Сюмси | 57,11, 51,61 (Russia) | 4,8k | 5,6k | 5,3k | 5,1k | 4,8k | +0,3% |
 | Syzran | Syzran Rail Bridge; Syzran Simbirsk Gub | 53,16, 48,47 (Russia) | 176,4k | 188,1k | 178,8k | 176,1k | 165,7k | -6% |
 | Tamala | Тамала | 52,54, 43,25 (Russia) | 8,5k | 8,1k | 7,5k | 6,9k | 6,3k | -25,8% |
-| Temnikov | Темников | 54,63, 43,22 (Russia) | 9k | 8,4k | 7,2k | 6,7k | 6,5k | -28,7% |
+| Temnikov | Темников; Temnikov Principality | 54,63, 43,22 (Russia) | 9k | 8,4k | 7,2k | 6,7k | 6,5k | -28,7% |
 | Tengushevo | Теньгушево | 54,77, 42,72 (Russia) | 4,2k | 4,1k | 4,2k | 4k | 3,7k | -11,8% |
 | Teren’ga | Тереньга | 53,72, 48,37 (Russia) | 5,9k | 5,5k | 5,3k | 5,1k | 5,2k | -11,7% |
 | Timaševo | Тимашево | 53,35, 51,17 (Russia) | 5,8k | 5,6k | 5,7k | 5,6k | 5,4k | -6,4% |
@@ -5522,7 +4956,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Tonshayevo | Тоншаево; Tonšajevo | 57,74, 47,01 (Russia) | 4,4k | 4,4k | 4,6k | 4,5k | 4,4k | -0,1% |
 | Torbeyevo | Торбеево; Torbejevo | 54,08, 43,25 (Russia) | 9k | 9,4k | 9,4k | 9,1k | 9k | -0,2% |
 | Torfyanoy | Торфяной; Torfjanoj | 58,49, 49,2 (Russia) | 2,6k | 1,8k | 1,7k | 1,5k | 1,3k | -51,2% |
-| Troitsk | Троицк; Troick | 54,09, 43,82 (Russia) | 2,1k | 1,7k | 1,6k | 1,5k | 1,4k | -34% |
 | Tumbotino | Тумботино | 56, 43,02 (Russia) | 7,9k | 7,7k | 7,3k | 7,1k | 7,1k | -10,7% |
 | Turgenevo | Тургенево | 54,85, 46,33 (Russia) | 5,6k | 5,3k | 5,3k | 5k | 4,5k | -20% |
 | Tushna | Тушна | 54,03, 48,52 (Russia) | 1,4k | 1,2k | 1,1k | 1,1k | 1,1k | -22% |
@@ -5530,13 +4963,11 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Umet | Умёт; Umjot | 54,12, 42,7 (Russia) | 3,3k | 3k | 2,8k | 2,7k | 2,5k | -25,9% |
 | Undory | Ундоры | 54,61, 48,39 (Russia) | 3,2k | 3,4k | 3,7k | 3,5k | 3,3k | +1,5% |
 | Uni | Уни | 57,76, 51,49 (Russia) | 5k | 4,9k | 4,6k | 4,4k | 3,7k | -26,2% |
-| Urakovo | Ураково | 57,92, 52,7 (Russia) | 34,7k | 33,8k | 32,7k | 31,7k | 30,2k | -13% |
 | Uren’ | Урень | 57,46, 45,79 (Russia) | 13,4k | 12,6k | 12,3k | 12,1k | 12,4k | -7,1% |
 | Urmary | Урмары | 55,68, 47,94 (Russia) | 6,1k | 6,3k | 5,7k | 5,5k | 5,3k | -12,7% |
 | Urzhum | Уржум; Uržum | 57,11, 50 (Russia) | 12k | 11,5k | 10,2k | 10,1k | 8,4k | -29,7% |
 | Ushinka | Ушинка | 53,47, 42,81 (Russia) | 2k | 1,8k | 1,4k | 1,2k | 893 | -56% |
 | Ust’-Kinel’skij | Усть-Кинельский | 53,27, 50,58 (Russia) | 7,5k | 9k | 10k | 11,2k | 10,5k | +40,6% |
-| Ust-Atmis | Усть-Атмисъ | 53,06, 44,15 (Russia) | 11,7k | 11,1k | 10,6k | 10,2k | 9,4k | -19,6% |
 | Ust-Uza | Усть-Уза | 52,97, 45,3 (Russia) | 1,6k | 1,4k | 1,5k | 1,3k | 1,1k | -31% |
 | Utevka | Утевка | 52,9, 50,95 (Russia) | 4,7k | 4,6k | 6,1k | 5,9k | 5,7k | +21,2% |
 | Uva | Ува | 56,99, 52,19 (Russia) | 18,4k | 19,4k | 20k | 19,7k | 19,1k | +3,5% |
@@ -5549,7 +4980,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Valamaz | Валамаз | 57,54, 52,1 (Russia) | 1,6k | 1,1k | 851 | 701 | 499 | -69,2% |
 | Varnavino | Варнавино | 57,4, 45,09 (Russia) | 3,9k | 3,7k | 3,5k | 3,4k | 3,2k | -17,4% |
 | Vasil’sursk | Васильсурск; Васильгород | 56,13, 46,02 (Russia) | 1,8k | 1,3k | 1,1k | 1,2k | 676 | -61,9% |
-| Vasilevka | Васильевка | 55,25, 45,69 (Russia) | 23,3k | 22,3k | 21,1k | 20,6k | 19,6k | -15,9% |
 | Vavozh | Вавож | 56,78, 51,93 (Russia) | 5,8k | 5,6k | 5,8k | 5,7k | 5,5k | -4,9% |
 | Vechkusy | Вечкусы | 54,69, 45,61 (Russia) | 477 | 368 | 298 | 264 | 214 | -55,1% |
 | Velet’ma | Велетьма | 55,33, 42,42 (Russia) | 1,4k | 1,2k | 1k | 1k | 878 | -38,7% |
@@ -5577,8 +5007,6 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Vurnary | Вурнары | 55,49, 46,96 (Russia) | 12,2k | 10,9k | 10,1k | 10,2k | 10,5k | -14% |
 | Vyatka | Kirov; Khlynov | 58,6, 49,67 (Russia) | 445k | 458k | 474k | 487k | 468,2k | +5,2% |
 | Vyatskiye Polyany | Вятские Поляны; Vjatskije Poljany | 56,23, 51,06 (Russia) | 43,8k | 40,3k | 35,2k | 33,6k | 29,7k | -32,1% |
-| Vyazniki | Вязники | 53,36, 51,67 (Russia) | 44,5k | 44,9k | 44,5k | 43,5k | 41,8k | -5,9% |
-| Vyazovka | инцовка | 54,33, 51,68 (Russia) | 15,6k | 15,7k | 15,6k | 15,2k | 14,7k | -5,9% |
 | Vyazovka | Вязовка | 54,07, 47,23 (Russia) | 590 | 474 | 356 | 308 | 238 | -59,7% |
 | Vyksa | Выкса | 55,32, 42,17 (Russia) | 61,2k | 61,7k | 56,2k | 54,2k | 45,2k | -26,1% |
 | Vyyezdnoye | Выездное; Vyjezdnoje | 55,38, 43,79 (Russia) | 8,3k | 8k | 8,1k | 7,8k | 7,8k | -5% |
@@ -5586,27 +5014,20 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Yagul | Ягул | 58,24, 52,67 (Russia) | 2,7k | 2,6k | 3k | 3,5k | 4,6k | +70% |
 | Yakshur-Bodya | Якшур-Бодья | 57,18, 53,16 (Russia) | 7,2k | 6,9k | 7,3k | 7,4k | 7,6k | +6,3% |
 | Yalga | Ялга; Jalga | 54,13, 45,13 (Russia) | 3,9k | 5,1k | 5,7k | 7,2k | 6,4k | +63,3% |
-| Yanguzhinskiy Maydan | Янгуженский Майданъ | 53,82, 44,01 (Russia) | 13,8k | 13,4k | 12,8k | 12,3k | 11,4k | -17,1% |
 | Yar | Яр; Jar | 58,25, 52,11 (Russia) | 7k | 7,2k | 6,6k | 6,2k | 5,5k | -20,8% |
 | Yaransk | Яранск; Jaransk | 57,3, 47,87 (Russia) | 20,4k | 19,7k | 17,3k | 16,6k | 14,3k | -29,8% |
 | Yavas | Явас; Javas | 54,42, 42,85 (Russia) | 8,3k | 8k | 7,9k | 7,7k | 5,8k | -29,4% |
 | Yazykovo | Языково; Jazykovo | 54,29, 47,39 (Russia) | 5,4k | 5k | 4,2k | 3,9k | 3,3k | -38,9% |
-| Yekaterinovka | Екатериновка; Jekaterinovka | 53,96, 48,02 (Russia) | 763 | 706 | 584 | 527 | 441 | -42,2% |
-| Yekaterinovka | Екатериновка | 54,07, 51,22 (Russia) | 2,1k | 1,9k | 1,6k | 1,5k | 1,4k | -34,7% |
 | Yelaur | Елауръ | 53,84, 48,8 (Russia) | 1,3k | 1,2k | 1k | 914 | 763 | -42,8% |
 | Yelshanka | Елшанка | 53,83, 50,85 (Russia) | 667 | 533 | 515 | 487 | 441 | -33,9% |
-| Yepifanovka | Епифановка | 53,6, 48,41 (Russia) | 11,4k | 11,5k | 11,4k | 11,2k | 10,8k | -5,9% |
 | Yevlashevo | Евлашево; Jevlaševo | 53,11, 46,83 (Russia) | 4,7k | 4,6k | 5k | 5k | 4,5k | -3,8% |
-| Yezhovo | Ежово | 58,71, 52,33 (Russia) | 63,1k | 56,1k | 50,1k | 46,5k | 40,9k | -35,1% |
 | Yoshkar-Ola | Tsarevok-okshaysk; Krasnoko-kshaysk | 56,63, 47,9 (Russia) | 249k | 257k | 249k | 260k | 281,2k | +13% |
 | Yuganets | Юганец; Juganec | 56,25, 43,23 (Russia) | 3,4k | 3k | 2,9k | 2,8k | 2,7k | -22,4% |
 | Yukamenskoye | Юкаменское | 57,89, 52,24 (Russia) | 4,5k | 4,3k | 4,1k | 3,9k | 3,5k | -21,9% |
 | Yulovo | Юлово | 53,62, 44,6 (Russia) | 695 | 641 | 522 | 470 | 392 | -43,6% |
 | Yurino | Юрино; Jurino | 56,29, 46,3 (Russia) | 5k | 4,3k | 3,5k | 3,2k | 2,6k | -47,3% |
-| Yuzhnyy | Южный; Južnyj | 57,61, 47,44 (Russia) | 335 | 320 | 304 | 296 | 282 | -15,8% |
 | Zaplavnoye | Заплавное | 52,98, 51,7 (Russia) | 967 | 825 | 892 | 825 | 720 | -25,5% |
 | Zarechnyy | Заречный; Zarečnyj | 53,2, 45,19 (Russia) | 35,2k | 63k | 63,6k | 64,1k | 58,5k | +66,4% |
-| Zarya | Заря; Zarja | 60,01, 48,03 (Russia) | 1,5k | 1,2k | 1,1k | 897 | 666 | -56,4% |
 | Zasechnoye | Засечное | 53,11, 45,08 (Russia) | 9k | 13,5k | 18k | 20,8k | 26,9k | +198,1% |
 | Zavolž’je | Заволжье | 56,64, 43,39 (Russia) | 44,5k | 44k | 40,5k | 39,3k | 36,8k | -17,4% |
 | Zavyalovo | Завьялово | 56,79, 53,38 (Russia) | 6,3k | 7,5k | 9k | 9,7k | 11,1k | +75,6% |
@@ -5615,14 +5036,13 @@ population by -13,5%, from 15,4M in 1991 to 13,31M in 2021 (Table )
 | Zhadovka | Жадовка; Žadovka | 53,57, 46,95 (Russia) | 2,3k | 2,1k | 1,8k | 1,7k | 1,5k | -35,7% |
 | Zhdanovskiy | Ждановский | 56,21, 44,11 (Russia) | 5,8k | 5,5k | 5,3k | 6,1k | 7,7k | +33,6% |
 | Zhelnino | Желнино; Želnino | 56,2, 43,37 (Russia) | 1k | 696 | 896 | 868 | 1k | -1,1% |
-| Zol’noje | Зольное | 53,44, 49,8 (Russia) | 3,6k | 1,8k | 1,6k | 1,6k | 1,6k | -56,1% |
+| Zol’noje | Зольное | 53,44, 49,8 (Russia) | 1,8k | 1,7k | 1,7k | 1,7k | 1,6k | -10,1% |
 | Zolotaryovka | Золотарёвка; Zolotarjovka | 53,08, 45,32 (Russia) | 3,2k | 2,9k | 2,6k | 2,5k | 2,9k | -8,2% |
 | Zubova Polyana | Зубова Поляна; Zubova Poljana | 54,08, 42,84 (Russia) | 10,7k | 10,4k | 10,3k | 10,1k | 11k | +3,2% |
-| Zubovo | Зубово | 53,72, 43,38 (Russia) | 8,4k | 7,9k | 7,6k | 7,3k | 6,7k | -19,7% |
+| Zubovo | Зубово | 53,72, 43,38 (Russia) | 3,9k | 3,5k | 3,3k | 3,1k | 2,9k | -26% |
 | Zuyevka | Зуевка; Zujevka | 58,4, 51,13 (Russia) | 15,5k | 12,6k | 11,2k | 10,9k | 9,8k | -37% |
 | Zvenigovo | Звенигово | 55,97, 48,02 (Russia) | 14k | 12,7k | 11,9k | 11,7k | 11k | -21,4% |
 | Zykovo | Зыково | 54,07, 45,09 (Russia) | 1,2k | 1,1k | 981 | 1k | 1,1k | -5% |
-| Zyuzino | Зюзино | 57,47, 54,02 (Russia) | 727 | 592 | 504 | 459 | 389 | -46,5% |
 | Černaja Holunica | Черная Холуница | 58,85, 51,72 (Russia) | 2k | 1,6k | 1,2k | 1,1k | 863 | -57% |
 | Šahun’ja | Шахунья | 57,68, 46,61 (Russia) | 22,2k | 21,7k | 20,9k | 20,5k | 17,6k | -20,8% |
 
@@ -5640,8 +5060,6 @@ followed by post-2000 natural decline, reducing the regional total by
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Akhtubinsk | Ахтубинск; Ahtubinsk | 48,28, 46,17 (Russia) | 49,5k | 45,5k | 41,9k | 38,9k | 35,6k | -28% |
-| Alabuga | Алабуга | 45,35, 47,02 (Russia) | 41,2k | 38,4k | 40,8k | 39k | 36,1k | -12,5% |
-| Aleksandrov | Александров | 51,98, 49,52 (Russia) | 22,3k | 22,2k | 20,8k | 19,9k | 18,5k | -17,2% |
 | Aleksandrov Gay | Александров Гай; Aleksandrov Gaj | 50,14, 48,57 (Russia) | 9,7k | 10k | 9,7k | 9,4k | 8,8k | -9,3% |
 | Alekseyevka | Алексеевка; Aleksejevka | 52,31, 48,03 (Russia) | 2,4k | 2,1k | 1,9k | 1,9k | 1,8k | -26,3% |
 | Alekseye-vskaya | Алексеевская; Alekseje-vskaja | 50,29, 42,18 (Russia) | 4,1k | 4,2k | 4,2k | 4k | 3,7k | -9,7% |
@@ -5657,7 +5075,6 @@ followed by post-2000 natural decline, reducing the regional total by
 | Belogornoye | Самодуровка | 52,4, 47,58 (Russia) | 876 | 721 | 750 | 709 | 643 | -26,6% |
 | Bereslavka | Береславка | 48,63, 44,04 (Russia) | 4,6k | 4,8k | 4,6k | 4,4k | 3,9k | -14,4% |
 | Bereznyaki | Березники | 51,74, 46,7 (Russia) | 545 | 434 | 505 | 395 | 257 | -52,8% |
-| Bogorodskiy | Богородский | 52,3, 48,95 (Russia) | 15,6k | 15,5k | 14,5k | 13,9k | 12,9k | -17,2% |
 | Bolkhuny | Болхунское | 47,99, 46,42 (Russia) | 2,7k | 2,3k | 2,2k | 1,8k | 1,3k | -49,9% |
 | Bolshevik | Большевик | 50,64, 43,75 (Russia) | 5k | 5,3k | 5,7k | 6,3k | 7,7k | +52,4% |
 | Bolshoy Tsaryn | Большой Царын | 47,85, 45,43 (Russia) | 5,4k | 5,1k | 5,5k | 5,1k | 4,4k | -18,3% |
@@ -5671,17 +5088,12 @@ followed by post-2000 natural decline, reducing the regional total by
 | Chervlenoe | Червленое | 48,44, 44,38 (Russia) | 2,6k | 2,6k | 2,3k | 2,3k | 2,3k | -11,9% |
 | Danilovka | Даниловка | 50,36, 44,11 (Russia) | 5,6k | 5,9k | 5,3k | 5k | 4,3k | -22,8% |
 | Dergachi | Дергачи; Dergači | 51,23, 48,77 (Russia) | 10,2k | 9,6k | 8,3k | 8,1k | 7,4k | -27,6% |
-| Dmitriyevka | Дмитриевка | 49,69, 44,31 (Russia) | 11,9k | 12,5k | 12,3k | 11,9k | 11,3k | -5,5% |
 | Donguz | Донгузъ | 52,49, 46,81 (Russia) | 1,4k | 1,3k | 1,1k | 1k | 844 | -41,5% |
 | Dubki | Дубки | 51,66, 46,06 (Russia) | 4,1k | 4k | 4,4k | 4,5k | 4,6k | +12,9% |
 | Dubovka | Дубовка | 49,06, 44,83 (Russia) | 13,9k | 15,1k | 14,3k | 14,2k | 14,8k | +6,5% |
-| Dubovka | Дубовка | 51,37, 43,06 (Russia) | 32k | 31,8k | 29,9k | 28,6k | 26,5k | -17,2% |
 | Dukhovni-tskoye | Духовницкое; Duhovnickoje | 52,48, 48,21 (Russia) | 6,5k | 6k | 5,3k | 5,3k | 4,6k | -28,3% |
-| Elan | Елань | 52,21, 44,18 (Russia) | 24,6k | 24,5k | 23k | 22k | 20,4k | -17,2% |
 | Elista | Kalmyk Steppe; Kalmyk AO | 46,31, 44,26 (Russia) | 93k | 104k | 104k | 104k | 102,6k | +10,3% |
-| Frolov | Нинское | 48,03, 44,65 (Russia) | 19,2k | 17,8k | 19k | 18,1k | 16,8k | -12,5% |
 | Frolovo | Фролово; Фроловский | 49,77, 43,65 (Russia) | 41,6k | 41,1k | 39,4k | 38,6k | 35,7k | -14,3% |
-| Glukhov | Глухов | 49,07, 45,38 (Russia) | 29,8k | 31,2k | 30,5k | 29,6k | 28,1k | -5,5% |
 | Gor’kovskij | Горьковский | 48,68, 44,33 (Russia) | 10,3k | 15,3k | 16,6k | 16,1k | 15,3k | +48,4% |
 | Gornyy | Горный; Gornyj | 51,76, 48,54 (Russia) | 4,9k | 7,1k | 5,1k | 4,9k | 4,5k | -7,3% |
 | Gorodishche | Городище; Gorodišče | 48,8, 44,47 (Russia) | 15,7k | 19,5k | 21,4k | 21,8k | 22,9k | +46,3% |
@@ -5699,35 +5111,27 @@ followed by post-2000 natural decline, reducing the regional total by
 | Jaškul’ | Яшкуль | 46,17, 45,34 (Russia) | 6,8k | 7,4k | 7,9k | 7,8k | 7,8k | +14,7% |
 | Jelan’ | Елань | 50,95, 43,74 (Russia) | 15k | 15,1k | 14,8k | 14,3k | 14,1k | -5,8% |
 | Jerzovka | Ерзовка | 48,94, 44,65 (Russia) | 4,5k | 5,6k | 6,1k | 6,3k | 6,3k | +41,4% |
-| Kalach | Калач | 51,85, 48,57 (Russia) | 13,1k | 13,1k | 12,3k | 11,8k | 10,9k | -17,2% |
 | Kalach-na-Donu | Калач-на-Дону; Kalač-na-Donu | 48,69, 43,53 (Russia) | 23,5k | 26,9k | 26,9k | 25,6k | 24,3k | +3,1% |
 | Kalininsk | Калининск; Баланда | 51,5, 44,48 (Russia) | 19,3k | 18,9k | 16,4k | 16,1k | 14,9k | -22,4% |
-| Kaluga | Калуга | 51,37, 47,17 (Russia) | 80,5k | 79,9k | 75,2k | 71,9k | 66,6k | -17,2% |
 | Kamennyy Yar | Каменный-Яръ | 48,45, 45,57 (Russia) | 1,3k | 1,1k | 988 | 1,1k | 1,3k | +2,8% |
 | Kamenskiy | Каменский; Kamenskij | 50,89, 45,49 (Russia) | 2,5k | 3,6k | 2,9k | 2,8k | 2,5k | +0,3% |
 | Kamyshin | Dmitrievsk; Kamyshin Saratov | 50,1, 45,42 (Russia) | 123,3k | 127,9k | 119,6k | 115,1k | 107,9k | -12,5% |
-| Kamyshinka | Камышинка | 52,18, 44,95 (Russia) | 29k | 28,8k | 27,1k | 26k | 24k | -17,2% |
 | Kamyzyak | Камызяк; Kamyzjak | 46,11, 48,08 (Russia) | 15,2k | 16,1k | 16,3k | 16,2k | 16,2k | +6,1% |
 | Kapustin Yar | Капустин Яр; Kapustin Jar | 48,4, 45,71 (Russia) | 7,5k | 6,5k | 5,7k | 5,1k | 4,1k | -45,5% |
 | Karamysh | Карамышъ | 51,03, 45,54 (Russia) | 381 | 294 | 232 | 220 | 200 | -47,5% |
-| Kepinskiy | Кепинская | 49,84, 43,06 (Russia) | 33,1k | 34,7k | 34k | 33k | 31,3k | -5,5% |
 | Ketchenery | Кетченеры; Ketčenery | 47,31, 44,52 (Russia) | 4,8k | 3,9k | 3,9k | 3,7k | 3,2k | -32% |
-| Khanenevka | Ханеневка | 51,57, 45,32 (Russia) | 24k | 23,8k | 22,4k | 21,4k | 19,8k | -17,2% |
 | Kharabali | Харабали; Harabali | 47,41, 47,25 (Russia) | 18,5k | 18,3k | 18,1k | 18,1k | 18,5k | 0% |
 | Khmelinka | Хмелинка | 52,14, 42,89 (Russia) | 8,6k | 8,6k | 8,1k | 7,7k | 7,1k | -17,2% |
-| Khrushchevka | Хрущевка | 51,2, 43,99 (Russia) | 102,6k | 101,9k | 95,8k | 91,7k | 84,9k | -17,2% |
 | Khvalynsk | Хвалынск; Hvalynsk | 52,49, 48,11 (Russia) | 14,8k | 13,8k | 13,1k | 13k | 12k | -18,4% |
 | Khvatovka | Хватовка; Hvatovka | 52,35, 46,56 (Russia) | 2,2k | 2,3k | 1,7k | 1,5k | 1,2k | -44,9% |
 | Kirovskiy | Кировский; Kirovskij | 45,85, 48,12 (Russia) | 2,4k | 2,3k | 2,2k | 2,2k | 2k | -15,8% |
 | Kirovskoye | Чаусы | 50,81, 46,7 (Russia) | 964 | 863 | 782 | 724 | 633 | -34,3% |
-| Kista | Кистинское | 47,41, 44,56 (Russia) | 21,3k | 19,9k | 21,1k | 20,2k | 18,7k | -12,5% |
 | Kleny | Клёны; Kljony | 52,09, 47,47 (Russia) | 2,3k | 2,2k | 2,2k | 2,2k | 2,2k | -0,7% |
 | Kletskaya | Клетская; Kletskaja | 49,31, 43,06 (Russia) | 5,2k | 5,3k | 5,3k | 5,2k | 5k | -3,6% |
 | Komsomol’skij | Комсомольский | 45,33, 46,04 (Russia) | 4k | 4k | 4,5k | 4,4k | 4,3k | +5,5% |
 | Koshary | Верхне - Ольховая | 48,37, 44,29 (Russia) | 4,3k | 4,5k | 4,4k | 4,3k | 4k | -5,5% |
 | Kotel’nikovo | Котельниково | 47,63, 43,14 (Russia) | 20,2k | 19,7k | 20,4k | 20,5k | 22k | +8,9% |
 | Kotovo | Котово | 50,32, 44,81 (Russia) | 25,6k | 26,8k | 24,1k | 23,3k | 21k | -17,8% |
-| Kozlovka | Козловка | 52,65, 46,63 (Russia) | 828 | 682 | 604 | 578 | 536 | -35,3% |
 | Kraishevo | Краишевка | 50,84, 43,93 (Russia) | 1,6k | 1,4k | 1,2k | 1,1k | 930 | -42,4% |
 | Krasnoarmeysk-Volga | Balzer (Volga German ASSR Canton, Aug 1941 Deportation) | 51,02, 45,7 (Russia) | 19,6k | 18,2k | 17,3k | 16,8k | 15,9k | -18,6% |
 | Krasnooktjabr’skij | Краснооктябрьский | 48,87, 44,76 (Russia) | 8,8k | 11,1k | 12,8k | 12,7k | 12k | +36,7% |
@@ -5735,7 +5139,6 @@ followed by post-2000 natural decline, reducing the regional total by
 | Krasny Yar | Krasny Yar Delta; Buzan Fortress | 46,53, 48,35 (Russia) | 10,9k | 10,9k | 11,8k | 6,5k | 12,3k | +12,6% |
 | Krasnyj Oktjabr’ | Красный Октябрь | 51,54, 45,7 (Russia) | 3,4k | 3,3k | 3,3k | 3,4k | 3,7k | +8,9% |
 | Krasnyj Tekstil’ščik | Красный Текстильщик | 51,36, 45,83 (Russia) | 3,5k | 3,3k | 3,4k | 3,4k | 3,4k | -2,6% |
-| Krasnyy | Красный | 51,45, 43,56 (Russia) | 10,3k | 10,3k | 9,7k | 9,3k | 8,6k | -17,2% |
 | Krasnyy Kut | Красный Кут; Krasnyj Kut | 50,95, 46,97 (Russia) | 17,1k | 15,3k | 14,4k | 14,5k | 14,3k | -16,6% |
 | Krasnyy Yar | Красный Яр; Krasnyj Jar | 50,7, 44,73 (Russia) | 7,5k | 7,7k | 7k | 6,5k | 5,7k | -23,5% |
 | Krasnyy Yar | Красный Яръ | 51,63, 46,42 (Russia) | 3,3k | 3,1k | 3,3k | 3,2k | 3,2k | -3,3% |
@@ -5743,7 +5146,6 @@ followed by post-2000 natural decline, reducing the regional total by
 | Kumylzhe-nskaya | Кумылженская; Kumylženskaja | 49,88, 42,59 (Russia) | 7k | 8k | 8k | 7,7k | 7,3k | +4,6% |
 | Lagan | Kaspiysky (1944-91); Kalmyk ASSR Caspian Fishery Port; Лагань | 45,39, 47,36 (Russia) | 15,6k | 14,3k | 14,3k | 13,5k | 13,8k | -11,2% |
 | Leninsk | Ленинск; Пришиб | 48,7, 45,2 (Russia) | 13,4k | 14,9k | 15,5k | 15,4k | 13,4k | +0,2% |
-| Lesnoye | Свинуха | 51,58, 42,76 (Russia) | 983 | 825 | 632 | 584 | 509 | -48,2% |
 | Liman | Лиман | 45,78, 47,22 (Russia) | 9,1k | 8,9k | 9k | 8,8k | 9k | -1,4% |
 | Lineynoye | Линейное | 46,25, 47,41 (Russia) | 1,6k | 1,4k | 832 | 987 | 1,3k | -17,3% |
 | Linjovo | Линёво; Гуссенбах | 50,89, 44,83 (Russia) | 6,8k | 6,7k | 6k | 5,9k | 5,4k | -19,8% |
@@ -5765,13 +5167,11 @@ followed by post-2000 natural decline, reducing the regional total by
 | Nekhayevskaya | Нехаевская; Nehajevskaja | 50,41, 41,75 (Russia) | 4,4k | 4,7k | 4,7k | 4,4k | 4k | -8,7% |
 | Nekrasovo | Норка | 51,16, 45,31 (Russia) | 1,2k | 1k | 964 | 732 | 452 | -63,5% |
 | Nikol’skoje | Никольское | 47,76, 46,41 (Russia) | 5,7k | 5,3k | 5,2k | 5,3k | 5,3k | -6,4% |
-| Nikolayevka | Николаевская | 47,29, 47,03 (Russia) | 74,7k | 71k | 70,3k | 70k | 69,5k | -6,9% |
 | Nikolayevsk | Николаевск; Nikolajevsk | 50,03, 45,46 (Russia) | 16,4k | 16,1k | 15,1k | 14,4k | 13,5k | -18% |
 | Nizhniy Baskunchak | Нижний Баскунчак; Nižnij Baskunčak | 48,22, 46,83 (Russia) | 3,3k | 3,2k | 2,8k | 2,6k | 2,1k | -36,8% |
 | Nizhniy Chir | Нижний Чир; Nižnij Čir | 48,36, 43,09 (Russia) | 4,8k | 4,8k | 4k | 3,7k | 3,2k | -33,5% |
 | Novo-Pokrovskoye | Ново-Покровское | 46,3, 47,98 (Russia) | 18,1k | 17,2k | 17,1k | 17k | 16,9k | -6,9% |
 | Novoanninskiy | Новоаннинский; Novoanninskij | 50,53, 42,67 (Russia) | 20,7k | 19,5k | 17,9k | 17k | 15,4k | -25,8% |
-| Novogeor-giyevskiy | Новогеоргиевск | 45,87, 47,46 (Russia) | 13,2k | 12,6k | 12,5k | 12,4k | 12,3k | -6,9% |
 | Novoniko-layevskiy | Новониколаевский; Novoniko-lajevskij | 50,97, 42,36 (Russia) | 10,7k | 10,2k | 9,9k | 9,4k | 9,1k | -15,4% |
 | Novorepnoye | Новорепное | 51,07, 48,42 (Russia) | 1,3k | 1,1k | 828 | 704 | 530 | -60,5% |
 | Novouzensk | Новоузенск | 50,46, 48,14 (Russia) | 16,6k | 16,9k | 17k | 16,4k | 15,2k | -8,5% |
@@ -5782,24 +5182,20 @@ followed by post-2000 natural decline, reducing the regional total by
 | Ol’hovka | Ольховка | 49,86, 44,56 (Russia) | 4,6k | 5,3k | 5,4k | 5,4k | 5,4k | +19,6% |
 | Oleynikov | Олейниковъ | 49,88, 45,6 (Russia) | 8,9k | 9,4k | 9,2k | 8,9k | 8,5k | -5,5% |
 | Oranzherei | Оранжереи; Oranžerei | 45,85, 47,57 (Russia) | 5,1k | 4,4k | 4,5k | 4,4k | 4,4k | -14,3% |
-| Orlov | Орлов | 51,91, 46,08 (Russia) | 7,2k | 7,2k | 6,8k | 6,5k | 6k | -17,2% |
 | Orlovka | Орловка | 48,85, 44,53 (Russia) | 1,4k | 1,3k | 1,5k | 1,5k | 1,5k | +5,2% |
 | Osypnoy Bugor | Осыпной Бугор | 46,29, 48,05 (Russia) | 3k | 2,9k | 3,4k | 3,7k | 4,5k | +50,4% |
 | Ozinki | Озинки | 51,2, 49,73 (Russia) | 12,6k | 9,8k | 9,2k | 9,1k | 7,7k | -38,7% |
 | Palatovka | Палатовка | 52,04, 45,08 (Russia) | 9,4k | 9,3k | 8,8k | 8,4k | 7,8k | -17,2% |
 | Pallasovka | Палласовка | 50,05, 46,89 (Russia) | 17,6k | 17,2k | 16,1k | 15,5k | 15k | -15,1% |
 | Perelyub | Перелюб; Перелюбъ | 51,86, 50,35 (Russia) | 4,8k | 5,6k | 4,8k | 4,7k | 4,6k | -5,5% |
-| Pervomayskoye | Линево - Озеро | 50,93, 46,76 (Russia) | 1,2k | 1,1k | 951 | 907 | 836 | -31,9% |
 | Peschanka | Песчанка | 48,68, 44,59 (Russia) | 719 | 582 | 542 | 643 | 866 | +20,4% |
 | Peschanka | Песчанка | 52,28, 43,96 (Russia) | 1k | 869 | 704 | 619 | 494 | -52,9% |
 | Petrov Val | Петров Вал | 50,14, 45,21 (Russia) | 13,9k | 14,7k | 13,2k | 12,7k | 12,5k | -9,9% |
 | Petrovsk | Петровск | 52,31, 45,39 (Russia) | 34,6k | 34k | 31,2k | 30,1k | 26,3k | -24% |
 | Pinerovka | Пинеровка | 51,56, 43,07 (Russia) | 3,7k | 3,6k | 3,4k | 3,5k | 3,3k | -8,7% |
 | Piterka | Питерка | 50,68, 47,44 (Russia) | 5,4k | 5,5k | 5,4k | 5,2k | 4,8k | -10,3% |
-| Ples | Плес | 51,29, 47,78 (Russia) | 419 | 346 | 335 | 324 | 306 | -27% |
 | Podchinnyy | Подчинный; Podčinnyj | 50,88, 45,22 (Russia) | 287 | 187 | 145 | 139 | 129 | -55,1% |
 | Podgorinskiy | Подгорный | 50,66, 41,82 (Russia) | 7,2k | 7,6k | 7,4k | 7,2k | 6,8k | -5,5% |
-| Podgornoye | Дурникино | 51,67, 42,81 (Russia) | 1,5k | 1,2k | 1,1k | 1k | 851 | -43,5% |
 | Podlesnoye | Подлесное; Podlesnoje | 51,82, 47,01 (Russia) | 3,9k | 4,2k | 3,8k | 3,8k | 3,8k | -3,7% |
 | Potapov | Потаповъ | 49,94, 42,37 (Russia) | 8k | 8,3k | 8,2k | 7,9k | 7,5k | -5,5% |
 | Preobraz-henskaya | Преображенская; Preobraženskaja | 50,74, 43,05 (Russia) | 5,2k | 5,5k | 5,5k | 5,3k | 4,9k | -5,7% |
@@ -5810,7 +5206,6 @@ followed by post-2000 natural decline, reducing the regional total by
 | Promyslovoye | Промысловка | 45,72, 47,17 (Russia) | 1,8k | 1,6k | 1,5k | 1,5k | 1,5k | -17,4% |
 | Pugačjov | Пугачёв; Николаевск | 52,02, 48,8 (Russia) | 41k | 41,4k | 41,7k | 41,4k | 40,1k | -2,2% |
 | Pushkino | Пушкино; Puškino | 51,24, 46,97 (Russia) | 2,6k | 2,7k | 2,5k | 2,4k | 2,3k | -9,3% |
-| Pyatiizb-yanskiy | Пятиизбянская | 48,59, 43,46 (Russia) | 26,9k | 28,2k | 27,6k | 26,8k | 25,4k | -5,5% |
 | Rakhinka | Рахинка | 49,02, 44,92 (Russia) | 2,5k | 2,4k | 2,5k | 2,4k | 2,2k | -12% |
 | Raspopinskaya | Распопинская | 49,4, 42,87 (Russia) | 1,8k | 1,4k | 1,3k | 1,2k | 1k | -42,4% |
 | Repnoye | Репное | 51,59, 43,19 (Russia) | 3,2k | 3,2k | 3k | 3k | 3k | -7,9% |
@@ -5818,10 +5213,7 @@ followed by post-2000 natural decline, reducing the regional total by
 | Rovnoye | Ровное; Rovnoje | 50,78, 46,05 (Russia) | 5,5k | 5,3k | 4,5k | 4,5k | 4,6k | -17,5% |
 | Rtishchevo | Ртищево; Rtiščevo | 52,26, 43,79 (Russia) | 44,3k | 44,2k | 41,3k | 40,2k | 37,9k | -14,6% |
 | Rudnya | Рудня; Rudnja | 50,81, 44,56 (Russia) | 8,9k | 8k | 7,4k | 7k | 6,1k | -31,6% |
-| Rudnya | Рудня | 51,77, 44,62 (Russia) | 12,6k | 12,5k | 11,8k | 11,3k | 10,5k | -17,2% |
-| Ruzayevka | Рузаевка | 52,33, 45,48 (Russia) | 13,5k | 13,4k | 12,6k | 12,1k | 11,2k | -17,2% |
 | Rybushka | Рыбушка | 51,27, 45,44 (Russia) | 1,5k | 1,4k | 1,3k | 1,2k | 1,1k | -25,5% |
-| Sadki | Садки | 49,18, 44,42 (Russia) | 10,9k | 11,5k | 11,2k | 10,9k | 10,3k | -5,5% |
 | Sadovoye | Садовое | 47,77, 44,51 (Russia) | 5,8k | 6,5k | 6,5k | 6,2k | 5,8k | 0% |
 | Salomatino | Саламатино | 50,02, 44,84 (Russia) | 1,8k | 1,6k | 1,6k | 1,4k | 1,2k | -32,3% |
 | Samoylovka | Самойловка; Samojlovka | 51,19, 43,71 (Russia) | 8,5k | 8,6k | 7,6k | 7,1k | 6,6k | -22,6% |
@@ -5830,13 +5222,10 @@ followed by post-2000 natural decline, reducing the regional total by
 | Sebrovo | Себрово | 50,1, 43,3 (Russia) | 5k | 4,5k | 4,9k | 4,9k | 4,8k | -3,8% |
 | Sennoy | Сенной; Sennoj | 52,15, 46,96 (Russia) | 6,4k | 7k | 6,7k | 6,6k | 5,9k | -8,6% |
 | Serafimovich | Серафимович; Serafimovič | 49,58, 42,73 (Russia) | 10k | 9,9k | 9,4k | 9,2k | 8,6k | -13,9% |
-| Sergiyevka | Бакуръ Большой; Камешкиръ Русский | 45,97, 47,62 (Russia) | 17,3k | 16,5k | 16,3k | 16,3k | 16,1k | -6,9% |
-| Shchigry | Щигры | 52,29, 49,36 (Russia) | 9,2k | 9,1k | 8,6k | 8,2k | 7,6k | -17,2% |
 | Shikhany | Шиханы; Šihany | 52,12, 47,2 (Russia) | 11,6k | 6,7k | 6,1k | 5,8k | 5,2k | -55,4% |
 | Shumeyka | Шумейковка | 51,56, 46,25 (Russia) | 1,6k | 1,4k | 1,4k | 1,6k | 2k | +29,1% |
 | Sizov | Сизовъ | 48,14, 42,29 (Russia) | 702 | 577 | 498 | 490 | 476 | -32,2% |
 | Skurishe-nskaya | Скуришенская | 49,84, 42,93 (Russia) | 1k | 847 | 799 | 741 | 649 | -36,4% |
-| Sokolov | Соколов | 48,27, 42,3 (Russia) | 14,6k | 15,3k | 15k | 14,5k | 13,8k | -5,5% |
 | Sokolovyy | Соколовый; Sokolovyj | 51,57, 45,83 (Russia) | 6,3k | 6,2k | 6k | 6,1k | 4,9k | -21,2% |
 | Sokrutovka | Сокрутовка | 47,9, 46,54 (Russia) | 1,1k | 889 | 826 | 663 | 451 | -57,5% |
 | Solenoe-Zaymishche | Соленое-Займище; Соленое Займище | 47,92, 46,14 (Russia) | 2,3k | 2,2k | 2,3k | 2,2k | 2,2k | -3,2% |
@@ -5845,25 +5234,20 @@ followed by post-2000 natural decline, reducing the regional total by
 | Splavnukha | Сплавнуха | 51,07, 45,38 (Russia) | 1k | 828 | 819 | 730 | 597 | -40,4% |
 | Srednyaya Akhtuba | Средняя Ахтуба; Srednjaja Ahtuba | 48,71, 44,87 (Russia) | 11,8k | 13,9k | 14,4k | 14,3k | 14,2k | +20,8% |
 | Staraya Poltavka | Старая Полтавка; Staraja Poltavka | 50,48, 46,48 (Russia) | 3,7k | 4,1k | 4,1k | 4,1k | 4k | +10,1% |
-| Staritsa | Старицкое | 48,22, 45,95 (Russia) | 2,7k | 2,3k | 2,1k | 2k | 1,7k | -35,4% |
 | Starokuc-herganovka | Старокучергановка | 46,32, 47,96 (Russia) | 5,8k | 5,7k | 6k | 6,3k | 6,8k | +17% |
 | Stepnoye | Степное; Stepnoje | 51,38, 46,85 (Russia) | 14,1k | 14,1k | 13,1k | 12,5k | 12,4k | -12,3% |
-| Sudache | Судачье | 45,83, 47,42 (Russia) | 13,6k | 13k | 12,8k | 12,8k | 12,7k | -6,9% |
 | Surovikino | Суровикино | 48,61, 42,86 (Russia) | 18,6k | 20,3k | 20,5k | 19,6k | 18,2k | -2,2% |
-| Svetlyy | Светлый; Svetlyj | 51,67, 45,63 (Russia) | 12,4k | 12,3k | 12,5k | 12,2k | 12,7k | +2,5% |
 | Svetlyy Yar | Светлый Яр; Svetlyj Jar | 48,47, 44,79 (Russia) | 11,6k | 13,1k | 12,5k | 12,1k | 11,3k | -2,1% |
+| Svetlyy | Светлый; Svetlyj | 51,67, 45,63 (Russia) | 12,4k | 12,3k | 12,5k | 12,2k | 12,7k | +2,5% |
 | Svobodnyy | Свободный; Svobodnyj | 52,33, 46,37 (Russia) | 2,3k | 2,3k | 2,2k | 2k | 1,8k | -21,1% |
 | Talalikhino | Талалихино; Talalihino | 52,11, 47,65 (Russia) | 994 | 988 | 938 | 1k | 1,2k | +22,9% |
 | Tatishchevo | Татищево; Tatiščevo | 51,67, 45,59 (Russia) | 14,6k | 7,4k | 7,5k | 7,2k | 7,2k | -50,4% |
-| Ternovka | Терновка | 51,33, 42,93 (Russia) | 1,4k | 1,2k | 1k | 960 | 823 | -40,5% |
 | Tersa | Терса | 52,09, 47,54 (Russia) | 2,9k | 2,7k | 2,6k | 2,4k | 2,2k | -23,8% |
-| Trekhizbenka | Трехизбенка | 46,15, 48,36 (Russia) | 14,8k | 14,1k | 13,9k | 13,9k | 13,8k | -6,9% |
 | Tri Protoka | Три Протока | 46,33, 48,12 (Russia) | 2,1k | 2k | 2,6k | 3,1k | 4,4k | +115,3% |
 | Troitskoye | Троицкое | 46,41, 44,26 (Russia) | 10,5k | 10,3k | 11,9k | 12,3k | 13k | +23% |
 | Trostyanka | Тростянка | 51,52, 43,08 (Russia) | 2,1k | 2k | 1,9k | 2k | 2k | -5,8% |
 | Trudfront | Трудфронт | 45,93, 47,67 (Russia) | 3,2k | 2,6k | 2,7k | 2,6k | 2,4k | -22,8% |
 | Tsagan Aman | Цаган Аман; Cagan Aman | 47,56, 46,72 (Russia) | 6,4k | 5,9k | 6k | 5,9k | 5,6k | -13,5% |
-| Tsarev | Tsarev Akhtuba; Sarai-Berke | 48,66, 45,37 (Russia) | 2,1k | 1,7k | 1,5k | 1,5k | 1,4k | -35,9% |
 | Tsaritsyn | Volgograd; Stalingrad | 48,71, 44,51 (Russia) | 1,01M | 1,01M | 1,02M | 1,02M | 1,03M | +2,1% |
 | Tumak | Тумак | 46,23, 48,51 (Russia) | 2,6k | 2,5k | 2,5k | 2,5k | 2,4k | -8,1% |
 | Turki | Турки | 51,99, 43,27 (Russia) | 7,3k | 6,9k | 6,1k | 6k | 5,3k | -28,1% |
@@ -5872,7 +5256,6 @@ followed by post-2000 natural decline, reducing the regional total by
 | Ushakovka | Ушаковка | 48,43, 45,12 (Russia) | 1,8k | 1,6k | 1,6k | 1,5k | 1,5k | -17% |
 | Ust-Zalikha | Усть-Залиха | 50,97, 45,55 (Russia) | 1,3k | 1,1k | 1,5k | 1,3k | 941 | -25,1% |
 | Verkhniy Baskunchak | Верхний Баскунчак; Verhnij Baskunčak | 48,23, 46,72 (Russia) | 9,5k | 8,8k | 8,4k | 8,1k | 7,3k | -23,5% |
-| Vetka | Ветка | 51,81, 48,16 (Russia) | 11,6k | 11,5k | 10,8k | 10,4k | 9,6k | -17,2% |
 | Vodstroy | Водстрой; Vodstroj | 48,84, 44,56 (Russia) | 4k | 4,2k | 4,5k | 4,4k | 4,1k | +2,5% |
 | Volgo-Kaspiyskiy | Волго-Каспийский; Volgo-Kaspijskij | 46,2, 47,92 (Russia) | 3k | 2,7k | 2,6k | 2,5k | 2,8k | -8,7% |
 | Volodarskiy | Володарский; Volodarskij | 46,4, 48,54 (Russia) | 9,4k | 9,6k | 10k | 10,4k | 11,2k | +19,6% |
@@ -5885,19 +5268,16 @@ followed by post-2000 natural decline, reducing the regional total by
 | Vysokoye | Гололобовка | 51, 45,47 (Russia) | 1k | 860 | 822 | 761 | 664 | -35,5% |
 | Yashalta | Яшалта; Jašalta | 46,34, 42,27 (Russia) | 5k | 4,9k | 4,7k | 4,6k | 4,5k | -10,4% |
 | Yekaterinovka | Екатериновка; Jekaterinovka | 52,05, 44,35 (Russia) | 6,7k | 6,5k | 6,4k | 6,1k | 5,8k | -13% |
-| Yekaterinovka | Екатериновка | 49,2, 44,87 (Russia) | 15,9k | 16,6k | 16,3k | 15,8k | 15k | -5,5% |
 | Yelovatka | Еловатка | 51,12, 43,66 (Russia) | 830 | 713 | 606 | 529 | 417 | -49,8% |
 | Yelshanka | Елшанка | 51,81, 46,4 (Russia) | 2,3k | 2,1k | 2k | 2,1k | 2,3k | -0,3% |
 | Yenotayevka | Енотаевка; Jenotajevka | 47,24, 47,03 (Russia) | 7,9k | 8k | 7,6k | 7,8k | 8,1k | +3,5% |
 | Yershov | Ершов; Jeršov | 51,36, 48,27 (Russia) | 24,4k | 23,8k | 21,4k | 20,8k | 18,1k | -25,8% |
-| Yusupovka | Юсуповка | 52,2, 44,26 (Russia) | 305k | 302,9k | 284,9k | 272,7k | 252,5k | -17,2% |
 | Yuzhnyy | Южный; Južnyj | 48,42, 44,49 (Russia) | 1,8k | 1,9k | 1,9k | 1,9k | 1,8k | -2,1% |
 | Zalesyanka | Залесянка | 51,21, 43,68 (Russia) | 894 | 786 | 583 | 529 | 447 | -50% |
 | Zaplavnoye | Заплавное | 48,7, 45,02 (Russia) | 4k | 3,7k | 3,7k | 3,7k | 3,7k | -7,3% |
 | Zhirnovsk | Жирновск; Žirnovsk | 50,98, 44,78 (Russia) | 16,9k | 17,8k | 16,9k | 16,4k | 15,6k | -8,2% |
 | Znamensk | Знаменск; Капустин | 48,58, 45,73 (Russia) | 32,9k | 32,1k | 29,4k | 27k | 24,6k | -25,2% |
 | Zolotovka | Золотурнъ | 51,89, 47,15 (Russia) | 4,8k | 4,8k | 4,5k | 4,3k | 4k | -17,2% |
-| Zolotoye | Золотое | 50,83, 45,9 (Russia) | 2,3k | 2k | 2,2k | 2,1k | 2k | -12,6% |
 | Êl’ton | Эльтон | 49,13, 46,85 (Russia) | 2,5k | 2,5k | 2,7k | 2,7k | 2,5k | +0,1% |
 
 Population of Volgograd, Saratov, Astrakhan and Elista in the Lower
@@ -5919,7 +5299,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Abrau-Dyurso | Абрау-Дюрсо; Abrau-Djurso | 44,7, 37,6 (Russia) | 2,8k | 3k | 3,5k | 3,6k | 3,8k | +33% |
 | Achikulak | Ачикулак | 44,55, 44,84 (Russia) | 6,5k | 6,9k | 6,1k | 5,9k | 5,7k | -13% |
 | Achuyevo | Ачуево; Ačujevo | 45,71, 37,77 (Russia) | 493 | 479 | 456 | 444 | 424 | -14% |
-| Adamov | Адамовъ | 48,63, 41,34 (Russia) | 33,6k | 34,3k | 33,6k | 33,1k | 32,3k | -4% |
 | Adygeysk | Адыгейск; Adygejsk | 44,89, 39,19 (Russia) | 12,5k | 12,2k | 12,2k | 12,5k | 13,2k | +5,4% |
 | Afipsip | Афипсипъ | 45, 38,78 (Russia) | 2,1k | 2k | 2,1k | 2,1k | 2,1k | +0,2% |
 | Afipskiy | Афипский; Afipskij | 44,9, 38,84 (Russia) | 16,3k | 18k | 19k | 19,8k | 23,6k | +44,9% |
@@ -5927,42 +5306,36 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Akhtarskiy | Ахтарский | 46,01, 38,35 (Russia) | 3,9k | 4,3k | 3,3k | 2,9k | 2,2k | -43% |
 | Akhtyrskiy | Ахтырский; Ahtyrskij | 44,85, 38,3 (Russia) | 18,7k | 19,2k | 20,1k | 20,6k | 21,5k | +15,3% |
 | Aksay | Аксай; Aksaj | 47,26, 39,87 (Russia) | 34,1k | 38k | 42k | 43,2k | 48,4k | +42% |
-| Aleksandriya | Александрия | 45,09, 43,25 (Russia) | 4,5k | 4,1k | 3,6k | 3,5k | 3,4k | -24,9% |
 | Aleksand-riyskaya | Александрийская | 44,23, 43,35 (Russia) | 9,4k | 10,1k | 11,8k | 11,3k | 10,5k | +11,8% |
 | Aleksandrovsk-Grushevsky | Shakhty; Grushevsky Anthracite | 47,71, 40,21 (Russia) | 227k | 223k | 240k | 237k | 226k | -0,4% |
 | Aleksand-rovskoye | Александровское; Aleksand-rovskoje | 44,71, 43 (Russia) | 26,7k | 27,5k | 27,5k | 26,7k | 25,5k | -4,4% |
 | Aleksandrowka | Александровка | 46,8, 39 (Russia) | 5k | 4,7k | 4,7k | 4,7k | 4,7k | -5,2% |
 | Almaznyy | Алмазный; Almaznyj | 48,04, 40,05 (Russia) | 5,6k | 3,1k | 3,1k | 3k | 2,9k | -47,1% |
-| Anapa | Анапа | 44,89, 37,32 (Russia) | 54,7k | 53,5k | 59k | 66,8k | 81,9k | +49,5% |
+| Anapa | Анапа; Ottoman Circassian Port | 44,89, 37,32 (Russia) | 54,7k | 53,5k | 59k | 66,8k | 81,9k | +49,5% |
 | Anapskaya | Анапская | 44,9, 37,39 (Russia) | 12,6k | 13,8k | 16,1k | 15,9k | 15,6k | +23,5% |
 | Anastasi-yevskaya | Анастасиевская | 45,22, 37,89 (Russia) | 10,5k | 11,1k | 10,6k | 10,6k | 10,7k | +1,4% |
-| Andreyev | Андреев; Андреевъ | 49,02, 41,35 (Russia) | 28,3k | 28,9k | 28,3k | 27,9k | 27,2k | -4% |
 | Andzhiyevskiy | Анджиевский; Andžijevskij | 44,24, 43,09 (Russia) | 5,5k | 6,6k | 6,7k | 6,5k | 6,1k | +11,2% |
 | Apsheronsk | Апшеронск; Apšeronsk | 44,46, 39,73 (Russia) | 35,2k | 39,6k | 40,2k | 40,2k | 40,3k | +14,3% |
-| Arkhange-lskaya | Архангельская | 45,68, 40,28 (Russia) | 9k | 9k | 8,7k | 8,5k | 8,2k | -9,5% |
+| Arkhange-lskaya | Архангельская | 45,68, 40,28 (Russia) | 3k | 2,7k | 2,5k | 2,4k | 2,2k | -26% |
 | Arkhangelskoe | Архангельское | 44,61, 44,09 (Russia) | 5,3k | 5,1k | 4,9k | 4,9k | 5k | -5% |
 | Arkhipo-Osipovka | Архипо-Осиповка; Arhipo-Osipovka | 44,37, 38,53 (Russia) | 7,4k | 8,1k | 7,9k | 7,5k | 7k | -5,1% |
 | Armavir | Armavirskiy Aul; Armavir Kuban Rail | 44,99, 41,12 (Russia) | 162k | 194k | 189k | 192k | 187,2k | +15,5% |
 | Arzgir | Арзгир | 45,37, 44,22 (Russia) | 14,7k | 15,6k | 14,7k | 14,1k | 13,2k | -10,2% |
-| Avramovka | Стародуб Новый; Стародубъ Новый | 48,81, 42,46 (Russia) | 27,8k | 28,3k | 27,8k | 27,4k | 26,7k | -4% |
 | Ayutinskiy | Аютинский; Ajutinskij | 47,78, 40,15 (Russia) | 11,4k | 10,6k | 10,5k | 10,3k | 10k | -12% |
-| Azov | Азов | 47,11, 39,41 (Russia) | 80,6k | 82,1k | 82,9k | 82,5k | 81,9k | +1,7% |
+| Azov | Азов; Azaq | 47,11, 39,41 (Russia) | 80,6k | 82,1k | 82,9k | 82,5k | 81,9k | +1,7% |
 | Azovskaya | Азовская | 44,79, 38,63 (Russia) | 3,6k | 3,9k | 4,3k | 4,2k | 4,1k | +14,7% |
 | Bagayevskaya | Багаевская; Bagajevskaja | 47,32, 40,38 (Russia) | 13,9k | 15,3k | 15,5k | 14,8k | 13,6k | -1,9% |
-| Balabanovka | Балабановка | 49,04, 40,71 (Russia) | 29,2k | 29,8k | 29,2k | 28,8k | 28,1k | -4% |
 | Balakhon-ovskoye | Балахоновское | 44,78, 41,78 (Russia) | 3,9k | 4,3k | 4,4k | 4,4k | 4,3k | +12,1% |
 | Barsukovskaya | Барсуковская | 44,76, 41,82 (Russia) | 5,2k | 5,4k | 4,7k | 4,7k | 4,5k | -12,3% |
 | Bataysk | Батайск; Batajsk | 47,14, 39,76 (Russia) | 94,2k | 107,4k | 111,8k | 117,4k | 127k | +34,9% |
 | Belaya Glina | Белая Глина | 46,08, 40,87 (Russia) | 19k | 17,8k | 17,3k | 17,4k | 17,5k | -7,9% |
 | Belaya Kalitva | Белая Калитва; Belaja Kalitva | 48,18, 40,78 (Russia) | 47,7k | 47,3k | 43,7k | 42,2k | 40,4k | -15,3% |
 | Belorechensk | Белореченск; Belorečensk | 44,77, 39,87 (Russia) | 51,6k | 54k | 53,9k | 52,6k | 55,9k | +8,3% |
-| Beloyarovka | Белояровка | 48,45, 41,81 (Russia) | 13,1k | 13,3k | 13,1k | 12,9k | 12,6k | -4% |
 | Beloye | Белое | 45,05, 39,65 (Russia) | 3,2k | 3,1k | 2,9k | 2,9k | 2,9k | -11,1% |
 | Belozernyy | Белозерный | 45,07, 38,73 (Russia) | 3,9k | 4,3k | 4,3k | 4,7k | 5,3k | +36,3% |
 | Benokovo | Беноково | 44,42, 40,68 (Russia) | 2,4k | 1,9k | 1,8k | 1,8k | 1,8k | -24,4% |
 | Benoy-Yurt | Бено-Юрт | 43,69, 45,05 (Russia) | 5k | 5,6k | 7,1k | 7,3k | 7,8k | +56,2% |
 | Berezanskaya | Березанская | 45,71, 39,59 (Russia) | 5,9k | 6,5k | 7k | 6,7k | 6,3k | +5,6% |
-| Berezovskoe | Березовское | 44,2, 44,65 (Russia) | 12,4k | 14,1k | 14,1k | 14k | 13,7k | +10,2% |
 | Berezovyy | Березовый | 45,15, 38,99 (Russia) | 5,8k | 6,3k | 6,7k | 7k | 7,6k | +31,4% |
 | Beshpagir | Бешпагир | 45,02, 42,38 (Russia) | 4,5k | 4,1k | 3,9k | 4k | 4,1k | -8,4% |
 | Besskorbnaya | Бесскорбная | 44,64, 41,31 (Russia) | 5,3k | 5,8k | 5,9k | 5,9k | 5,8k | +9,5% |
@@ -5976,7 +5349,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Bolshinskaya | Большинская | 48,65, 41,08 (Russia) | 1,8k | 1,7k | 1,5k | 1,4k | 1,3k | -27,7% |
 | Bolshoy Log | Большой Лог | 47,3, 39,92 (Russia) | 3,5k | 3,7k | 4,3k | 5k | 6,3k | +81,9% |
 | Borgusta-nskaya | Боргустанская | 44,05, 42,53 (Russia) | 4,6k | 4,2k | 4k | 4k | 4k | -12,9% |
-| Borisov | Борисов | 48,31, 41,93 (Russia) | 98k | 99,9k | 98,1k | 96,6k | 94,2k | -4% |
 | Borisovka | Борисовка | 44,76, 37,7 (Russia) | 2,1k | 2,3k | 3,2k | 3,8k | 5k | +142,4% |
 | Brinkovskaya | Бриньковская | 46,03, 38,59 (Russia) | 4,4k | 4,8k | 5,1k | 5,1k | 5,2k | +19,6% |
 | Bryukhov-etskaya | Брюховецкая | 45,8, 39 (Russia) | 24,5k | 22k | 22,1k | 21k | 19,2k | -21,9% |
@@ -5993,7 +5365,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Divnomorskoye | Дивноморское | 44,5, 38,13 (Russia) | 5,3k | 5,8k | 6,4k | 6,5k | 6,8k | +28,2% |
 | Divnoye | Дивное | 45,91, 43,35 (Russia) | 13,8k | 15,4k | 14,1k | 13,7k | 13,1k | -5,1% |
 | Dmitriye-vskoye | Дмитриевская; Городъ Старый | 45,81, 41,9 (Russia) | 3,4k | 3,4k | 3,2k | 3,1k | 2,9k | -14,2% |
-| Dolgiy | Долгий | 45,69, 37,92 (Russia) | 72,4k | 79,1k | 80,5k | 80,9k | 81,6k | +12,6% |
 | Dolzhanskaya | Должанская | 46,63, 37,8 (Russia) | 7,1k | 7,1k | 7k | 6,9k | 6,7k | -6,8% |
 | Dondukovskaya | Дондуковская | 44,88, 40,36 (Russia) | 6,6k | 6,6k | 6,6k | 6,6k | 6,5k | -1,7% |
 | Donetsk | Донецк; Doneck | 48,34, 39,95 (Russia) | 48,6k | 48k | 50,1k | 49,2k | 46,6k | -4% |
@@ -6004,7 +5375,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Dvubratskiy | Двубратский | 45,24, 39,8 (Russia) | 9,3k | 10,1k | 8,5k | 7k | 5k | -45,8% |
 | Dyadkovskaya | Дядьковская | 45,55, 39,19 (Russia) | 4,1k | 4,5k | 4,4k | 4,3k | 4,2k | +2,4% |
 | Dyakov | Дьяковъ | 44,66, 40,15 (Russia) | 20,4k | 20,4k | 20,8k | 21k | 21,3k | +4,5% |
-| Dzhidzhikhabl | Джиджихабль | 44,95, 39,41 (Russia) | 49,2k | 49,4k | 50,4k | 50,8k | 51,5k | +4,5% |
 | Dzhiginka | Джигинка | 45,13, 37,34 (Russia) | 3,5k | 4k | 4,4k | 4,8k | 5,5k | +59% |
 | Dzhubga | Джубга; Džubga | 44,32, 38,71 (Russia) | 4,7k | 5,2k | 5,2k | 5,4k | 7,1k | +49,9% |
 | Edissiya | Эдиссия | 44,05, 44,54 (Russia) | 5,4k | 5,7k | 5,8k | 5,8k | 5,8k | +6,7% |
@@ -6041,7 +5411,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Il’skij | Ильский | 44,84, 38,57 (Russia) | 19,5k | 22,3k | 23,8k | 24,5k | 24,9k | +27,6% |
 | Ilinka | Ильинка | 48,54, 41,09 (Russia) | 1,3k | 1,2k | 1,2k | 1,1k | 1k | -21,9% |
 | Ilinskaya | Ильинская | 45,72, 40,72 (Russia) | 5,1k | 4,8k | 4,2k | 4,1k | 3,9k | -23% |
-| Imeni Kirova | им. Кирова | 45,5, 42,25 (Russia) | 2,3k | 1,6k | 1,7k | 1,6k | 1,4k | -38,3% |
 | Industrialnyy | Индустриальный | 45,1, 39,11 (Russia) | 3,5k | 3,9k | 4,8k | 4,5k | 4k | +11,8% |
 | Inozemtsevo | Иноземцево; Inozemcevo | 44,09, 43,09 (Russia) | 22,2k | 27,1k | 28,4k | 28,1k | 27,5k | +24,1% |
 | Ipatovo | Ипатово; Чемрек | 45,72, 42,91 (Russia) | 26,7k | 28,6k | 26,1k | 25,2k | 26,1k | -2,3% |
@@ -6050,12 +5419,10 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Ivanovskaya | Ивановская | 45,28, 38,46 (Russia) | 7,1k | 9,3k | 9,5k | 9,5k | 9,7k | +36,6% |
 | Ivanovskoye | Ивановское | 44,58, 41,88 (Russia) | 5,3k | 6,9k | 7,5k | 7,8k | 8,4k | +57,8% |
 | Izobil’nyj | Изобильный; Изобильное | 45,37, 41,71 (Russia) | 33,8k | 38,9k | 40,6k | 39k | 38,6k | +14,4% |
-| Izobilnyy | Изобильный | 46,21, 39,18 (Russia) | 151,9k | 166k | 168,9k | 169,7k | 171,1k | +12,6% |
 | Kabardinka | Кабардинка | 44,65, 37,94 (Russia) | 7,6k | 7,3k | 7,6k | 7,9k | 8,7k | +14,5% |
 | Kagalnik | Кагальник | 47,08, 39,32 (Russia) | 8,4k | 8k | 8,1k | 8,5k | 9,2k | +9,3% |
 | Kagalnitskaya | Кагальницкая | 46,88, 40,15 (Russia) | 6,8k | 6,8k | 6,8k | 6,6k | 6,1k | -9,7% |
 | Kalinin | Калинин | 47,25, 39,51 (Russia) | 3,4k | 3,4k | 3,8k | 4,1k | 4,8k | +42% |
-| Kalinino | Калинино | 45,97, 39,22 (Russia) | 24,2k | 34,2k | 34,8k | 34,9k | 35,2k | +45,7% |
 | Kalininskaya | Калининская | 45,48, 38,66 (Russia) | 15,1k | 13,2k | 13,4k | 13,7k | 14,1k | -6,6% |
 | Kalinovskoye | Калиновское | 44,86, 42,96 (Russia) | 4,2k | 3,9k | 4k | 3,8k | 3,4k | -17,3% |
 | Kalnibol-otskaya | Калниболотская | 46,01, 40,46 (Russia) | 6,4k | 6,5k | 5,7k | 5,6k | 5,4k | -15,8% |
@@ -6082,7 +5449,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Kholmskiy | Холмская; Holmskaja | 44,85, 38,38 (Russia) | 15,8k | 17,3k | 17,6k | 18k | 18,7k | +18,3% |
 | Kirovskaya | Кировская | 46,97, 40,04 (Russia) | 5,9k | 5,9k | 5,8k | 5,8k | 6k | +1,1% |
 | Kirpilskaya | Кирпильская | 45,37, 39,7 (Russia) | 5,7k | 5,7k | 5,5k | 5,3k | 5k | -11,7% |
-| Kirpilskiy | Кирпильский | 45,54, 38,9 (Russia) | 25,7k | 28k | 28,5k | 28,7k | 28,9k | +12,6% |
 | Kislyako-vskaya | Кисляковская | 46,44, 39,67 (Russia) | 6,4k | 5,4k | 5,1k | 5k | 4,7k | -26,4% |
 | Kitayevskoye | Китаевское | 44,79, 43,32 (Russia) | 2,9k | 2,7k | 2,8k | 2,9k | 3k | +3,6% |
 | Kiyevskoye | Киевское | 45,04, 37,89 (Russia) | 4,3k | 4,7k | 5,5k | 5,6k | 5,8k | +34,9% |
@@ -6100,7 +5466,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Koysug | Койсугъ | 47,12, 39,69 (Russia) | 3,2k | 2,8k | 2,5k | 2,4k | 2,2k | -32% |
 | Kozet | Козетъ | 44,99, 39 (Russia) | 1,9k | 1,7k | 1,8k | 2,1k | 2,9k | +50,1% |
 | Krasnaya Polyana | Красная Поляна; Krasnaja Poljana | 43,68, 40,2 (Russia) | 3,4k | 4k | 4,6k | 5k | 9,2k | +171,1% |
-| Krasnaya Polyana | Красная Поляна | 45,82, 42,08 (Russia) | 35,5k | 40,2k | 40,3k | 39,9k | 39,1k | +10,2% |
 | Krasnogv-ardeyskoye | Красногвардейское | 45,13, 39,57 (Russia) | 9k | 9,1k | 9,5k | 9,5k | 9,5k | +5,4% |
 | Krasnogv-ardeyskoye | Красногвардейское | 45,84, 41,52 (Russia) | 14,7k | 15,9k | 16k | 15,3k | 14,2k | -3,2% |
 | Krasnoku-mskoye | Краснокумское | 44,18, 43,5 (Russia) | 12k | 13,4k | 17,1k | 17k | 16,7k | +39% |
@@ -6109,11 +5474,11 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Krasnoselskoe | Красносельское | 45,29, 39,16 (Russia) | 2,6k | 2,8k | 3,1k | 3,6k | 4,7k | +81,9% |
 | Krasnoya-rskaya | Красноярская | 47,65, 42,04 (Russia) | 3,9k | 3,9k | 5k | 5,1k | 5,3k | +37,5% |
 | Krasnoye | Красное; Krasnoje | 46,74, 39,57 (Russia) | 3,2k | 3,5k | 3,6k | 3,3k | 3k | -7,1% |
-| Krasnyy | Красный; Krasnyj | 47,39, 39,88 (Russia) | 1,7k | 1,7k | 1,6k | 1,5k | 1,5k | -11,6% |
 | Krasnyy Kurgan | Красный Курган | 43,94, 42,61 (Russia) | 3,8k | 3,2k | 3,8k | 3,9k | 4k | +7,1% |
 | Krasnyy Pakhar | Красный Пахарь | 44,2, 43,1 (Russia) | 2,4k | 2,7k | 3,1k | 3,4k | 4,2k | +73,9% |
 | Krasnyy Sad | Красный Сад | 47,1, 39,73 (Russia) | 2,1k | 2,1k | 2,9k | 3,4k | 4,7k | +123,9% |
 | Krasnyy Sulin | Красный Сулин; Krasnyj Sulin | 47,89, 40,07 (Russia) | 43,3k | 44,2k | 40,9k | 39,5k | 35,7k | -17,5% |
+| Krasnyy | Красный; Krasnyj | 47,39, 39,88 (Russia) | 1,7k | 1,7k | 1,6k | 1,5k | 1,5k | -11,6% |
 | Krasyuko-vskaya | Красюковская | 47,52, 40,08 (Russia) | 4,3k | 4,3k | 4,2k | 4,4k | 4,6k | +7,9% |
 | Krivorozhe | Криворожье | 48,85, 40,77 (Russia) | 1,6k | 1,6k | 1,5k | 1,6k | 1,6k | -1,8% |
 | Krivyanskaya | Кривянская | 47,4, 40,17 (Russia) | 10,2k | 10,2k | 10,4k | 10,5k | 10,7k | +5,6% |
@@ -6124,7 +5489,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Krylovskaya | Крыловская | 46,32, 39,97 (Russia) | 16,4k | 14,4k | 13,6k | 13,3k | 12,8k | -22,1% |
 | Krym | Крым | 47,3, 39,52 (Russia) | 4,5k | 4,5k | 4,9k | 5,4k | 6,4k | +42,8% |
 | Krymsk | Крымск; Крымская | 44,93, 37,99 (Russia) | 51,7k | 56,6k | 57,4k | 57,1k | 54,6k | +5,5% |
-| Kuba | Куба | 43,86, 43,46 (Russia) | 4,5k | 5k | 5,1k | 5,1k | 5,2k | +14,6% |
 | Kugulta | Кугульта | 45,36, 42,39 (Russia) | 5,9k | 5,5k | 5,6k | 5,8k | 6,2k | +4,9% |
 | Kuleshovka | Кулешовка | 47,08, 39,56 (Russia) | 14,6k | 14,7k | 13,7k | 14k | 14,6k | -0,2% |
 | Kurchanskaya | Курчанская | 45,22, 37,57 (Russia) | 5,7k | 6,3k | 6,6k | 6,6k | 6,7k | +16,6% |
@@ -6133,7 +5497,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Kursavka | Курсавка | 44,46, 42,5 (Russia) | 12,9k | 10,8k | 11,8k | 11,7k | 11,5k | -11% |
 | Kurskaya | Курская | 44,04, 44,45 (Russia) | 12,9k | 11,8k | 12k | 11,9k | 11,7k | -9,2% |
 | Kushchyo-vskaya | Кущевская | 46,56, 39,63 (Russia) | 25,4k | 22,7k | 28,4k | 29,1k | 30,4k | +19,8% |
-| Kutais | Кутаис | 44,52, 39,3 (Russia) | 1,2k | 1,1k | 1,1k | 1,1k | 1,1k | -6,8% |
 | Kuteynikovo | Кутейниково | 47,55, 39,77 (Russia) | 1,4k | 1,2k | 1,1k | 1,1k | 1,1k | -22,7% |
 | Kuteynik-ovskaya | Кутейниковская | 47,24, 42,13 (Russia) | 1,4k | 1,2k | 1,2k | 1,2k | 1,1k | -19,2% |
 | Kuybyshevo | Куйбышево | 47,81, 38,91 (Russia) | 5,8k | 5,8k | 6,1k | 5,9k | 5,5k | -4,6% |
@@ -6149,8 +5512,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Levokumka | Левокумка | 44,23, 43,15 (Russia) | 5k | 5,6k | 6,7k | 6,6k | 6,5k | +30,6% |
 | Levokumskoye | Левокумское | 44,82, 44,66 (Russia) | 10k | 11,2k | 10,3k | 9,8k | 8,9k | -11,2% |
 | Likhovskoy | Лиховской; Lihovskoj | 48,15, 40,18 (Russia) | 14,7k | 13,6k | 13,5k | 13,3k | 12,9k | -11,8% |
-| Lomovtsev | Ломовцевъ | 47,83, 41,75 (Russia) | 33,1k | 33,7k | 33,1k | 32,6k | 31,8k | -4% |
-| Lvovskoe | Львовское | 45,01, 38,6 (Russia) | 4,3k | 4,7k | 5,2k | 5,3k | 5,5k | +26,5% |
 | Lysogorka | Лысогорка | 48,95, 40,94 (Russia) | 1,5k | 1,4k | 1,3k | 1,3k | 1,2k | -14,9% |
 | Lysogorskaya | Лысогорская | 44,11, 43,28 (Russia) | 9,4k | 10k | 11,2k | 11,2k | 11,2k | +19% |
 | Mankovo-Kalitvenskoe | Маньково-Калитвенское | 49,4, 40,28 (Russia) | 4,2k | 4,2k | 3,8k | 3,6k | 3,3k | -21,2% |
@@ -6167,13 +5528,12 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Medvedovskaya | Медведовская | 45,45, 39,02 (Russia) | 16,2k | 16,7k | 16,8k | 17k | 17,4k | +7,6% |
 | Mefodiyevka | Мефодиевский , пслк | 44,75, 37,78 (Russia) | 25,9k | 28,3k | 28,8k | 29k | 29,2k | +12,6% |
 | Merkulovskiy | Меркуловъ | 49,61, 41,54 (Russia) | 1,7k | 1,5k | 1,3k | 1,3k | 1,2k | -30% |
-| Migulinskaya | Мигулинская | 49,69, 41,26 (Russia) | 168,2k | 171,4k | 168,3k | 165,8k | 161,5k | -4% |
 | Mikhaylovsk | Михайловск; Mihajlovsk | 45,13, 42,03 (Russia) | 39,1k | 58,2k | 71k | 79,6k | 114,1k | +192,1% |
 | Mikhaylo-vskaya | Михайловская | 44,99, 40,6 (Russia) | 8,1k | 7,9k | 8,2k | 8,3k | 8,3k | +2% |
 | Mikhaylovskiy | Михайлов; Mihajlov | 47,67, 40,96 (Russia) | 3,1k | 2,9k | 2,7k | 2,5k | 2,1k | -32,5% |
 | Millerovo | Миллерово | 48,93, 40,4 (Russia) | 37,5k | 38,5k | 36,5k | 36,1k | 34,8k | -7,1% |
 | Mineralnye Vody | Минеральные Воды; Mineral’nyje Vody | 44,21, 43,14 (Russia) | 71,7k | 75,6k | 76,7k | 76,2k | 70,5k | -1,6% |
-| Mingrelskaya | Мингрельская | 45,01, 38,34 (Russia) | 6k | 5,5k | 5,1k | 5,2k | 5,4k | -9,5% |
+| Mingrelskaya | Мингрельская | 45,01, 38,34 (Russia) | 3,1k | 2,8k | 2,6k | 2,5k | 2,3k | -26% |
 | Mityakinskaya | Митякинская | 48,61, 39,78 (Russia) | 2,5k | 1,9k | 2,1k | 2,1k | 2,1k | -15,9% |
 | Morozovsk | Морозовск | 48,35, 41,83 (Russia) | 27,3k | 29,2k | 27,6k | 26,7k | 24,3k | -11,3% |
 | Moskovskoye | Московское | 45,28, 41,91 (Russia) | 5,5k | 5,4k | 5,6k | 6,1k | 7k | +27% |
@@ -6187,8 +5547,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Nekrasovskaya | Некрасовская | 45,14, 39,75 (Russia) | 4,4k | 4,8k | 4,8k | 4,8k | 4,7k | +8,6% |
 | Nevinnomyssk | Невинномысск | 44,63, 41,94 (Russia) | 123k | 132,1k | 118,4k | 117,6k | 117,6k | -4,4% |
 | Nezlobnaya | Незлобная | 44,12, 43,4 (Russia) | 15,6k | 18,1k | 19,7k | 19,5k | 19,1k | +22,2% |
-| Nikolayev | Николаев; Николаевъ | 48,02, 41,74 (Russia) | 552,7k | 563,1k | 553k | 544,8k | 530,8k | -4% |
-| Nikolayevka | Николаевка | 47,62, 40,48 (Russia) | 4,7k | 5,2k | 6,4k | 6,8k | 7,4k | +56% |
 | Nikolskaya | Никольская | 48,96, 40,67 (Russia) | 856 | 769 | 660 | 662 | 665 | -22,3% |
 | Niny | Нины | 44,49, 43,95 (Russia) | 5k | 4,8k | 4,1k | 4k | 3,8k | -22,4% |
 | Nizhneba-kanskiy | Нижнебаканская; Nižnebakanskaja | 44,86, 37,87 (Russia) | 6,7k | 8,5k | 8,3k | 8,4k | 8,6k | +29,1% |
@@ -6206,7 +5564,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Novoleus-hkovskaya | Новолеушковская | 46, 39,99 (Russia) | 6,9k | 6,8k | 6,5k | 6,3k | 6k | -13,2% |
 | Novomalo-rossiyskaya | Новомалороссийская | 45,63, 39,89 (Russia) | 5,7k | 5,8k | 5,8k | 5,5k | 5k | -12,3% |
 | Novomikh-aylovskiy | Новомихайловский; Novomiha-jlovskij | 44,26, 38,86 (Russia) | 10,4k | 10,2k | 10,2k | 10,6k | 10,2k | -2,1% |
-| Novomikh-aylovskoye | Новомихайловское | 46,55, 39,85 (Russia) | 2,2k | 2k | 1,6k | 1,6k | 1,6k | -29,8% |
 | Novominskaya | Новоминская | 46,32, 38,96 (Russia) | 11,3k | 11,9k | 12k | 11,8k | 11,6k | +2,5% |
 | Novomysh-astovskaya | Новомышастовская | 45,2, 38,58 (Russia) | 9,1k | 9,8k | 10k | 10,4k | 11,2k | +23,1% |
 | Novopavlovsk | Новопавловск; Новопавловская | 43,96, 43,63 (Russia) | 19,2k | 23,2k | 26,6k | 26,3k | 20,8k | +8% |
@@ -6223,11 +5580,9 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Novoveli-chkovskaya | Нововеличковская | 45,28, 38,84 (Russia) | 8,6k | 8,7k | 9,2k | 9,7k | 10,7k | +24,3% |
 | Novozave-dennoye | Новозаведенное | 44,26, 43,64 (Russia) | 5,3k | 5,2k | 5,1k | 5,1k | 5,1k | -4,7% |
 | Obilnoe | Обильное | 44,24, 43,56 (Russia) | 6,5k | 6,6k | 6,6k | 6,4k | 6,1k | -7% |
-| Oktyabrskaya | Октябрьская | 46,28, 39,82 (Russia) | 10,5k | 11,5k | 11,3k | 11,3k | 11,3k | +7,9% |
 | Olginskaya | Ольгинская | 45,95, 38,55 (Russia) | 4k | 4,4k | 4,9k | 4,9k | 4,9k | +21,8% |
 | Olginskaya | Ольгинская | 47,19, 39,95 (Russia) | 5,2k | 5,3k | 5,6k | 5,9k | 6,4k | +22,4% |
 | Olkhovyy Rog | Ольховый Рог | 49,01, 40,69 (Russia) | 1,3k | 1k | 893 | 932 | 1k | -24,9% |
-| Orekhovka | Орехова | 48,97, 40,52 (Russia) | 18k | 18,3k | 18k | 17,7k | 17,3k | -4% |
 | Orel-Izumrud | Орел-Изумруд | 43,46, 39,92 (Russia) | 4,2k | 4,6k | 5,7k | 6,4k | 7,9k | +88,8% |
 | Orlovskiy | Орловский; Orlovskij | 46,87, 42,05 (Russia) | 17,9k | 19,4k | 20k | 18,4k | 15,9k | -10,7% |
 | Otkaznoye | Отказное | 44,33, 43,86 (Russia) | 4,2k | 4k | 3k | 2,9k | 2,7k | -34,5% |
@@ -6236,15 +5591,12 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Parkovyy | Парковый | 45,83, 40,15 (Russia) | 4,1k | 4,5k | 4,5k | 4,5k | 4,4k | +8,6% |
 | Pashkovskiy | Пашковский; Paškovskij | 45,02, 39,1 (Russia) | 35k | 43,1k | 43,7k | 43,9k | 44,3k | +26,5% |
 | Pavlodolskaya | Павлодольская | 43,72, 44,48 (Russia) | 5,5k | 5,7k | 5,5k | 5,4k | 5,3k | -4,3% |
-| Pavlovka | Павловка | 44,66, 42,3 (Russia) | 19k | 21,6k | 21,6k | 21,4k | 21k | +10,2% |
 | Pavlovskaya | Павловская | 46,14, 39,79 (Russia) | 22,8k | 30,7k | 31,3k | 30,7k | 29,5k | +29,4% |
 | Pelagiada | Пелагиада | 45,21, 42,02 (Russia) | 6,7k | 6,8k | 6,8k | 6,9k | 7,1k | +5,8% |
 | Peredovaya | Передовая | 44,12, 41,48 (Russia) | 4,4k | 4,2k | 3,9k | 4k | 4,1k | -7% |
 | Pereyasl-ovskaya | Переясловская | 45,84, 39,02 (Russia) | 7,7k | 8,4k | 8,4k | 8,1k | 7,6k | -1,3% |
 | Persianovka | Персиановский | 47,53, 39,42 (Russia) | 15,7k | 15,8k | 7,6k | 7,8k | 8k | -48,6% |
-| Pervomayskiy | Первомайский | 45,48, 42,53 (Russia) | 3k | 3,3k | 4k | 4,2k | 4,6k | +54,9% |
 | Peschano-kopskoye | Песчанокопское | 46,19, 41,08 (Russia) | 10,8k | 11,4k | 10,6k | 9,9k | 8,8k | -18,6% |
-| Peschanyy Brod | Песчаный Брод; Песчаный Бродъ | 46,87, 40,02 (Russia) | 35,2k | 35,9k | 35,3k | 34,7k | 33,8k | -4% |
 | Peshkovo | Пешково | 47,02, 39,39 (Russia) | 3,6k | 3,6k | 4k | 4,4k | 5,3k | +46,1% |
 | Petropav-lovskaya | Петропавловская | 45,08, 40,45 (Russia) | 5,3k | 6,5k | 6,7k | 6,5k | 6,1k | +16% |
 | Petrovskaya | Петровская | 45,43, 37,95 (Russia) | 12,7k | 13,2k | 13,6k | 13,4k | 13,1k | +3% |
@@ -6257,7 +5609,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Poputnaya | Попутная | 44,51, 41,44 (Russia) | 5,7k | 6,2k | 5,8k | 5,8k | 5,8k | +2,9% |
 | Praskoveya | Прасковея; Praskoveja | 44,74, 44,2 (Russia) | 10,3k | 11,2k | 10,9k | 10,8k | 10,7k | +4,3% |
 | Pravokumskoye | Правокумское | 44,77, 44,65 (Russia) | 5,4k | 5k | 4,4k | 4,1k | 3,6k | -32,7% |
-| Pridorozhnyy | Придорожный | 46,45, 38,79 (Russia) | 30,8k | 33,6k | 34,2k | 34,4k | 34,7k | +12,6% |
 | Primorsko-Akhtarsk | Приморско-Ахтарск; Primorsko-Ahtarsk | 46,05, 38,18 (Russia) | 30,4k | 32,7k | 32,3k | 31,7k | 31,1k | +2,1% |
 | Privokzal’nyj | Привокзальный | 45,76, 38,77 (Russia) | 5,4k | 3,6k | 3,7k | 3,7k | 3,8k | -30,4% |
 | Privolnaya | Привольная | 46,14, 38,69 (Russia) | 5,9k | 6,5k | 6,5k | 6,5k | 6,5k | +10% |
@@ -6270,11 +5621,9 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Pyatigorsk | Konstant-inogorsk; Caucasian Mineral Waters | 44,05, 43,06 (Russia) | 131k | 141k | 143k | 146k | 146,5k | +11,8% |
 | Pyatigorskiy | Пятигорский | 43,97, 43,26 (Russia) | 4,4k | 4,9k | 4,9k | 5k | 5,1k | +15,1% |
 | Raguli | Рагули | 45,64, 43,72 (Russia) | 3k | 2,6k | 2,5k | 2,5k | 2,4k | -18,6% |
-| Rakov | Ново-Батайское | 46, 38,91 (Russia) | 39,9k | 43,6k | 44,4k | 44,6k | 45k | +12,6% |
 | Rassheva-tskaya | Расшеватская | 45,57, 41,03 (Russia) | 5,8k | 5,6k | 5,3k | 5,4k | 5,5k | -4,3% |
 | Rassvet | Рассвет | 46,83, 40,75 (Russia) | 4,7k | 4,8k | 5k | 5,3k | 6,1k | +27,9% |
 | Rayevskaya | Раевская | 44,84, 37,56 (Russia) | 7,7k | 8,4k | 10k | 11,9k | 15,9k | +106,5% |
-| Razdolnoe | Раздольное | 46,71, 39,67 (Russia) | 1,8k | 2k | 2,2k | 3,1k | 5,5k | +199,8% |
 | Razvilnoe | Развильное | 46,24, 41,3 (Russia) | 5,5k | 5,9k | 5,5k | 5,3k | 5k | -8,1% |
 | Remontnoye | Ремонтное | 46,56, 43,65 (Russia) | 7,1k | 7,4k | 7,2k | 6,8k | 6,1k | -14,2% |
 | Rodionovo-Nesvetayskaya | Родионово-Несветайская | 47,61, 39,71 (Russia) | 6,2k | 6,2k | 6,4k | 6,3k | 6,2k | +0,8% |
@@ -6284,7 +5633,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Romanovskaya | Романовская | 47,54, 42,02 (Russia) | 6,9k | 6,9k | 8,2k | 8,6k | 9,1k | +33,1% |
 | Rossiyskiy | Российский | 45,12, 39,04 (Russia) | 6,2k | 6,4k | 6,6k | 6,7k | 6,9k | +10,3% |
 | Rostov-on-Don | Rostov & Nakhichevan; Don Grain Port | 47,24, 39,7 (Russia) | 1,03M | 1,07M | 1,09M | 1,11M | 1,14M | +11,1% |
-| Rostov-on-Don | Ростов | 47,22, 39,71 (Russia) | 101,5k | 103,4k | 101,6k | 100,1k | 97,5k | -4% |
 | Rubashkin | Мариновский | 49,41, 42,05 (Russia) | 7,3k | 7,7k | 7,5k | 7,3k | 6,9k | -5,5% |
 | Russkoye | Русское | 43,84, 44,62 (Russia) | 4k | 4,4k | 4,7k | 4,7k | 4,8k | +21,3% |
 | Ryazanskaya | Рязанская | 44,96, 39,59 (Russia) | 5k | 5,1k | 5,4k | 5,3k | 5,1k | +3% |
@@ -6296,7 +5644,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Saratovskaya | Саратовская | 44,71, 39,22 (Russia) | 5,5k | 6k | 6,6k | 6,8k | 7,1k | +28,1% |
 | Semibalki | Семибалки | 47,01, 39,05 (Russia) | 2,1k | 1,8k | 1,7k | 1,7k | 1,6k | -20,4% |
 | Semikarakorsk | Семикаракорск | 47,52, 40,81 (Russia) | 22,8k | 23,5k | 23,9k | 22,7k | 21,7k | -4,8% |
-| Sennoy | Сенной | 45,3, 37 (Russia) | 3,8k | 4,1k | 3,7k | 3,8k | 4k | +6,6% |
 | Sergiyevskoye | Сергиевское | 44,95, 42,7 (Russia) | 2,9k | 2,7k | 2,4k | 2,5k | 2,6k | -9,5% |
 | Severnoye | Северное | 44,83, 42,86 (Russia) | 3,7k | 3,5k | 3,4k | 3,4k | 3,3k | -11,6% |
 | Severskaya | Северская | 44,85, 38,68 (Russia) | 26,1k | 22,6k | 24,9k | 25,6k | 27k | +3,2% |
@@ -6307,7 +5654,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Shovgenovskiy | Хакуринохабль | 45,02, 40,23 (Russia) | 3,8k | 3,8k | 4k | 4k | 3,9k | +1,4% |
 | Shturbino | Штурбино | 45,06, 39,91 (Russia) | 638 | 522 | 474 | 484 | 502 | -21,3% |
 | Sinegorskiy | Синегорский; Sinegorskij | 48,01, 40,84 (Russia) | 9,2k | 6,7k | 5,8k | 5,5k | 5,1k | -44,7% |
-| Sinyavskiy | Синявский | 47,57, 39,48 (Russia) | 21,3k | 21,7k | 21,3k | 21k | 20,4k | -4% |
 | Sinyavskoye | Синявское | 47,28, 39,28 (Russia) | 3,7k | 3,7k | 3,8k | 3,9k | 4,1k | +10,4% |
 | Sirius | Сириус | 43,41, 39,96 (Russia) | 11,9k | 12,3k | 12,7k | 12,8k | 13,1k | +10,2% |
 | Slavyansk-na-Kubani | Славянск-на-Кубани; Slavjansk-na-Kubani | 45,25, 38,12 (Russia) | 58,7k | 64,1k | 63,8k | 65,1k | 63k | +7,3% |
@@ -6317,17 +5663,16 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Soldato-Aleksand-rovskoye | Солдато-Александровское | 44,27, 43,75 (Russia) | 10,7k | 10,9k | 9,5k | 9,2k | 8,7k | -18,2% |
 | Soldatskaya | Солдатская | 43,82, 43,82 (Russia) | 4,4k | 4,5k | 4,3k | 4,4k | 4,6k | +5,5% |
 | Solnečnodol’sk | Солнечнодольск | 45,32, 41,54 (Russia) | 11,4k | 12,9k | 12,1k | 11,8k | 13,2k | +16,3% |
-| Solonetskiy | Солонецкий | 48,54, 42,28 (Russia) | 717,7k | 731,2k | 718k | 707,4k | 689,2k | -4% |
 | Sotnikovskoye | Сотниковское | 45, 43,78 (Russia) | 5,5k | 5k | 4,5k | 4,3k | 3,9k | -28,1% |
 | Sovetskaya | Советская | 44,78, 41,17 (Russia) | 9,7k | 10k | 9k | 9,3k | 9,9k | +1,5% |
-| Sovetskaya | Советская | 44,03, 44,05 (Russia) | 7,3k | 7,7k | 8k | 8,4k | 9,2k | +25,5% |
 | Sovetskaya | Чернышевская | 49,01, 42,12 (Russia) | 2,2k | 2,3k | 2,3k | 2,3k | 2,3k | +3,9% |
+| Sovetskaya | Советская | 44,03, 44,05 (Russia) | 7,3k | 7,7k | 8k | 8,4k | 9,2k | +25,5% |
 | Sovkhoznyy | Совхозный | 45,29, 38,11 (Russia) | 3,5k | 3,9k | 4,2k | 4,4k | 4,8k | +36,9% |
 | Spasskoye | Спасское | 45,07, 43,69 (Russia) | 2,8k | 2,6k | 2,5k | 2,4k | 2,4k | -14,4% |
 | Spokoynaya | Спокойная | 44,25, 41,4 (Russia) | 5,3k | 5,2k | 5,5k | 5,5k | 5,5k | +3,3% |
 | Staraya Stanitsa | Старая Станица | 45,01, 41,15 (Russia) | 6,5k | 7,1k | 7,6k | 7,2k | 6,4k | -0,2% |
 | Staraya Stanitsa | Старая Станица | 48,35, 40,29 (Russia) | 6,4k | 8,3k | 8,5k | 8,2k | 7,6k | +18,4% |
-| Staroche-rkasskaya | Старочеркасская | 47,24, 40,04 (Russia) | 2,1k | 1,9k | 2,4k | 2,4k | 2,3k | +10,9% |
+| Staroche-rkasskaya | Старочеркасская; Don Cossack Capital | 47,24, 40,04 (Russia) | 2,1k | 1,9k | 2,4k | 2,4k | 2,3k | +10,9% |
 | Staroder-evyankovskaya | Стародеревянковская | 46,13, 38,97 (Russia) | 10,9k | 12,8k | 13k | 13,2k | 13,5k | +23,8% |
 | Starodubskoye | Стародубское | 44,56, 44,02 (Russia) | 3,7k | 4k | 4,4k | 4,4k | 4,3k | +16,2% |
 | Starokor-sunskaya | Старокорсунская | 45,06, 39,32 (Russia) | 10,3k | 10,8k | 12,2k | 12,1k | 11,9k | +15,7% |
@@ -6357,7 +5702,6 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Temizhbe-kskaya | Темижбекская | 45,45, 40,84 (Russia) | 5,5k | 6k | 5,8k | 5,6k | 5,2k | -6,3% |
 | Temryuk | Темрюк; Temrjuk | 45,27, 37,4 (Russia) | 33,6k | 36,1k | 38k | 38,8k | 41,6k | +23,8% |
 | Ternevskaya | Терновская | 45,85, 40,41 (Russia) | 6,4k | 6,6k | 6,1k | 5,9k | 5,6k | -12,8% |
-| Ternovka | Ново-Георгиевское | 44,79, 43,01 (Russia) | 32,6k | 37k | 37k | 36,6k | 35,9k | +10,2% |
 | Tikhoretsk | Тихорецк; Tihoreck | 45,85, 40,12 (Russia) | 66,8k | 65k | 61,8k | 60k | 55,7k | -16,6% |
 | Tikhoretskiy | Тихорецкий | 45,82, 40,24 (Russia) | 88,6k | 96,7k | 98,5k | 98,9k | 99,8k | +12,6% |
 | Timashyovsk | Тимашевск; Timaševsk | 45,62, 38,95 (Russia) | 46,8k | 54,1k | 53,9k | 53k | 51,9k | +10,9% |
@@ -6397,7 +5741,7 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Vityazevo | Витязево; Vitjazevo | 45, 37,28 (Russia) | 5,4k | 6k | 7,9k | 9,7k | 13,7k | +155% |
 | Vladimirskaya | Владимирская | 44,55, 40,79 (Russia) | 7,3k | 7,2k | 7,2k | 6,9k | 6,4k | -12,9% |
 | Volgodonsk | Volga-Don Canal & Atommash Boomtown; Волгодонск | 47,51, 42,15 (Russia) | 181k | 166k | 171k | 170k | 168k | -7,2% |
-| Voronezhskaya | Воронежская | 45,21, 39,57 (Russia) | 7,3k | 7,9k | 8,6k | 8,3k | 8k | +9,8% |
+| Voronezhskaya | Воронежская | 45,21, 39,57 (Russia) | 1,2k | 1,1k | 1k | 998 | 922 | -26% |
 | Voskhod | Восход; Voshod | 47,41, 41,85 (Russia) | 487 | 632 | 591 | 599 | 612 | +25,7% |
 | Vozdvizh-enskoye | Воздвиженское | 45,83, 43,66 (Russia) | 2,5k | 2,4k | 2,2k | 2,1k | 1,9k | -23,9% |
 | Voznesenskaya | Вознесенская | 44,55, 41,03 (Russia) | 7,3k | 6,9k | 6,5k | 6,2k | 5,8k | -20,9% |
@@ -6411,14 +5755,12 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Yefremovo-Stepanovka | Ефремово-Степановка | 48,71, 40,84 (Russia) | 1,3k | 1,1k | 969 | 905 | 804 | -38,5% |
 | Yegorlykskaya | Егорлыкская | 46,57, 40,66 (Russia) | 16,5k | 18k | 17,7k | 16,5k | 14,6k | -11,5% |
 | Yelizave-tinskaya | Елизаветинская | 45,05, 38,79 (Russia) | 17k | 19,1k | 24,8k | 24,4k | 23,8k | +40,6% |
-| Yermakovskaya | Ермаковская | 48,04, 41,26 (Russia) | 70,9k | 72,2k | 70,9k | 69,9k | 68,1k | -4% |
 | Yessentuki | Ессентуки; Jessentuki | 44,05, 42,86 (Russia) | 84,6k | 81,8k | 101k | 103,1k | 119,7k | +41,5% |
 | Yessentu-kskaya | Ессентукская | 44,03, 42,87 (Russia) | 18,4k | 19,6k | 20,2k | 21,7k | 24,7k | +34,6% |
 | Yeysk | Eisk; Yeysk Azov Grain Port | 46,71, 38,27 (Russia) | 79,4k | 86,3k | 87,8k | 85,9k | 82,9k | +4,5% |
 | Yeyskoye Ukrepleniye | Ейское Укрепление | 46,71, 38,61 (Russia) | 2,4k | 2,3k | 2,2k | 2,1k | 2k | -15,8% |
 | Yurovka | Юровка | 45,11, 37,42 (Russia) | 3,2k | 3,5k | 3,5k | 3,8k | 4,4k | +39,6% |
 | Yutsa | Юца | 43,96, 43,01 (Russia) | 7,7k | 8,5k | 9,4k | 9,5k | 9,7k | +26,9% |
-| Yuzhnyy | Южный; Južnyj | 47,34, 41,86 (Russia) | 3,5k | 2,8k | 2,5k | 2,5k | 2,4k | -31,7% |
 | Yuzhnyy | Южный | 45, 40,47 (Russia) | 4,1k | 4,4k | 5,1k | 6,8k | 11,1k | +173,1% |
 | Zagorskiy | Загорский; Zagorskij | 44,25, 43,13 (Russia) | 798 | 1,3k | 1,6k | 1,6k | 1,6k | +100% |
 | Zalukokoazhe | Залукокоаже; Zalukokoaže | 43,9, 43,21 (Russia) | 6,5k | 9,3k | 9,9k | 9,9k | 9,8k | +51,2% |
@@ -6432,9 +5774,7 @@ threshold alongside booming Sochi and Stavropol (Table )
 | Zhirnov | Жирнов; Žirnov | 48,17, 41,13 (Russia) | 6,6k | 6,1k | 5,6k | 5,5k | 5,3k | -20,3% |
 | Zhuravskoye | Журавское | 44,84, 43,3 (Russia) | 3,2k | 3k | 3k | 2,9k | 2,7k | -15,9% |
 | Zimovniki | Зимовники | 47,15, 42,47 (Russia) | 17k | 17,7k | 18,1k | 17,2k | 15,7k | -8% |
-| Znamenskiy | Знаменский | 45,62, 40,52 (Russia) | 2,7k | 2,9k | 6,2k | 7,5k | 10,2k | +283,1% |
 | Zolskaya | Зольская | 43,91, 43,3 (Russia) | 8,1k | 8,7k | 9,3k | 9,3k | 9,2k | +13,4% |
-| Zuyevo | Орехово | 44,8, 41,19 (Russia) | 43,3k | 47,3k | 48,1k | 48,4k | 48,8k | +12,6% |
 | Zverevo | Зверево | 48,03, 40,12 (Russia) | 27,7k | 25,4k | 22,4k | 21k | 19,4k | -30,3% |
 
 Population of Rostov-on-Don, Krasnodar, Sochi, Stavropol and sunbelt
@@ -6452,8 +5792,7 @@ Chechnya and Ingushetia (Region 22) by +54,5% from 1,32M in 1991 to
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Achkhoy-Martan | Ачхой-Мартан; Ačhoj-Martan | 43,19, 45,28 (Russia) | 15k | 16,7k | 20,2k | 23,5k | 30,7k | +105,2% |
-| Ahmat-Jurt | Ахмат-Юрт | 43,22, 46,26 (Russia) | 8,1k | 8,3k | 8,5k | 8,6k | 8,8k | +8,9% |
-| Aki-Yurt | Аки-Юрт | 43,53, 44,85 (Russia) | 4,7k | 4,4k | 3,6k | 3,8k | 4,2k | -9,6% |
+| Ahmat-Jurt | Ахмат-Юрт | 43,22, 46,26 (Russia) | 2,2k | 2k | 1,8k | 1,7k | 1,6k | -26% |
 | Ali-Yurt | Али-Юрт | 43,14, 44,85 (Russia) | 6k | 6,9k | 5,6k | 5,9k | 6,4k | +5,3% |
 | Alkhan-Churtskiy | Алхан-Чурт | 43,37, 45,72 (Russia) | 7,1k | 7,6k | 8,6k | 9,1k | 10,2k | +43,4% |
 | Alkhan-Kala | Алхан-Кала | 43,26, 45,54 (Russia) | 9,4k | 10,1k | 11,4k | 12,4k | 14,4k | +53,5% |
@@ -6556,7 +5895,6 @@ Chechnya and Ingushetia (Region 22) by +54,5% from 1,32M in 1991 to
 | Verkhniy Naur | Верхний Наур | 43,61, 45,25 (Russia) | 4,7k | 5k | 5,4k | 5,8k | 6,5k | +38,6% |
 | Verkhniye Achaluki | Верхние Ачалуки | 43,35, 44,7 (Russia) | 7,3k | 8,5k | 7,5k | 7,8k | 8,5k | +17% |
 | Yalkhoy-Mokhk | Ялхой-Мохк | 43,11, 46,19 (Russia) | 3,7k | 4k | 4,5k | 4,2k | 3,8k | +1,9% |
-| Yangi-Yurt | Аднмъ-Юртъ | 43,75, 46,03 (Russia) | 28k | 30,8k | 34,5k | 36,7k | 40,9k | +46,2% |
 | Zakan-Yurt | Закан-Юрт | 43,26, 45,42 (Russia) | 4,6k | 4,9k | 5,8k | 6,1k | 6,5k | +42,6% |
 | Zandak | Зандак | 43,06, 46,46 (Russia) | 3,2k | 3,5k | 5k | 5,3k | 5,9k | +83,5% |
 | Znamenskoye | Знаменское | 43,68, 45,13 (Russia) | 8,9k | 9,6k | 10,3k | 11,3k | 13,4k | +50,2% |
@@ -6589,11 +5927,10 @@ ethnic Russian out-migration, lifting the regional total by +9,9% from
 | Baksanenok | Баксаненок | 43,69, 43,65 (Russia) | 6k | 6,9k | 7,2k | 7,7k | 8,5k | +43,3% |
 | Belaya Rechka | Белая Речка; Belaja Rečka | 43,44, 43,53 (Russia) | 3,1k | 3,3k | 3,4k | 3,6k | 3,8k | +22,4% |
 | Beslan | Беслан; Prigorodny District | 43,18, 44,53 (Russia) | 33k | 35,5k | 36,7k | 37k | 35,9k | +8,9% |
-| Buron | Бурон | 42,79, 44 (Russia) | 416 | 487 | 548 | 468 | 355 | -14,7% |
 | Bylym | Былым; Угольный | 43,46, 43,04 (Russia) | 1,8k | 2k | 2,1k | 2,1k | 2,2k | +20,3% |
 | Chapayevskoye | Чапаевское | 44,29, 42,07 (Russia) | 5,3k | 4,6k | 5,2k | 5,3k | 5,5k | +2,9% |
-| Chegem | Чегем; Čegem | 43,57, 43,59 (Russia) | 13,9k | 17,9k | 18k | 17,8k | 20,7k | +49,7% |
 | Chegem Vtoroy | Чегем Второй | 43,6, 43,6 (Russia) | 9,2k | 10,6k | 10,8k | 10,7k | 10,7k | +15,7% |
+| Chegem | Чегем; Čegem | 43,57, 43,59 (Russia) | 13,9k | 17,9k | 18k | 17,8k | 20,7k | +49,7% |
 | Cherkessk | Batalpashinsk; Yezhovo-Cherkessk (1937-39); Cherkess AO Capital | 44,23, 42,06 (Russia) | 115k | 116k | 129k | 124k | 113,2k | -1,5% |
 | Chermen | Чермен | 43,15, 44,71 (Russia) | 8,2k | 8,4k | 8,5k | 8,4k | 8,2k | -0,8% |
 | Chikola | Чикола | 43,2, 43,92 (Russia) | 8,5k | 7k | 7k | 7,1k | 7,4k | -13,1% |
@@ -6603,11 +5940,9 @@ ethnic Russian out-migration, lifting the regional total by +9,9% from
 | Digora | Дигора | 43,16, 44,16 (Russia) | 11k | 11,8k | 10,9k | 10,4k | 9,9k | -9,9% |
 | Dombay | Домбай; Dombaj | 43,29, 41,63 (Russia) | 1,3k | 403 | 657 | 645 | 665 | -48,6% |
 | Dugulubgey | Дугулубгей | 43,66, 43,54 (Russia) | 17,7k | 20,4k | 20,7k | 21,3k | 22,4k | +26,9% |
-| Elkhotovo | Эльхотово | 43,34, 44,2 (Russia) | 11,1k | 12,2k | 12,6k | 12,7k | 12,7k | +14,3% |
 | Erken-Shakhar | Эркен-Шахар; Êrken-Šahar | 44,38, 41,96 (Russia) | 4,8k | 4,2k | 4,2k | 3k | 1,6k | -66,2% |
 | Germenchik | Герменчик | 43,59, 43,77 (Russia) | 3,5k | 4k | 3,8k | 3,9k | 4,1k | +16,5% |
 | Gizel | Гизель | 43,04, 44,57 (Russia) | 6,6k | 7,1k | 7,8k | 8k | 8,2k | +25% |
-| Grabovets | Грабовец; Грабовецъ | 43,68, 43,73 (Russia) | 21,3k | 25,3k | 25,3k | 26k | 27,5k | +28,7% |
 | Hasan’ja | Хасанья | 43,43, 43,58 (Russia) | 7k | 10,2k | 10,8k | 10,4k | 9,8k | +39,9% |
 | Ikon-Khalk | Икон-Халк | 44,31, 41,91 (Russia) | 3,7k | 4,2k | 4,4k | 4,4k | 4,6k | +22,8% |
 | Inarki | Инарки | 43,47, 44,54 (Russia) | 7,7k | 7,2k | 5,9k | 6,4k | 7,4k | -3,6% |
@@ -6625,7 +5960,6 @@ ethnic Russian out-migration, lifting the regional total by +9,9% from
 | Kholst | Холст; Holst | 42,83, 44,15 (Russia) | 207 | 44 | 21 | 19 | 16 | -92,3% |
 | Kishpek | Кишпек | 43,66, 43,64 (Russia) | 3,6k | 4,2k | 4,6k | 4,7k | 4,9k | +34,7% |
 | Kislovodsk | Narzan Spa; Кисловодск | 43,91, 42,72 (Russia) | 116k | 130k | 129k | 130k | 127,5k | +9,9% |
-| Kislovodskaya | Кисловодская | 43,93, 42,73 (Russia) | 14,2k | 16,1k | 16,1k | 15,9k | 15,6k | +10,2% |
 | Kizlyar | Кизляр | 43,7, 44,59 (Russia) | 8k | 8,4k | 10,8k | 10,9k | 10,9k | +35,9% |
 | Kuchmazukino | Кучмазукино | 43,69, 43,55 (Russia) | 11,7k | 13,8k | 13,8k | 14,2k | 15k | +28,7% |
 | Kumysh | Кумыш | 43,88, 41,89 (Russia) | 5k | 4,3k | 4,9k | 5k | 5,1k | +2,6% |
@@ -6682,7 +6016,6 @@ ethnic Russian out-migration, lifting the regional total by +9,9% from
 | Zavodskoy | Заводской; Zavodskoj | 42,98, 44,69 (Russia) | 11,7k | 14,6k | 16,8k | 16,7k | 15,5k | +32,4% |
 | Zayukovo | Заюково | 43,62, 43,33 (Russia) | 9,4k | 10,3k | 11,2k | 11,5k | 12k | +26,8% |
 | Zelenchu-kskaya | Зеленчукская | 43,85, 41,59 (Russia) | 18,5k | 21k | 19,4k | 19,7k | 20k | +8,1% |
-| Zilga | Зильги | 43,23, 44,52 (Russia) | 21,8k | 22,1k | 22,5k | 22,4k | 22,2k | +2% |
 | Zmeyskaya | Змейская | 43,34, 44,16 (Russia) | 6,5k | 6,4k | 6,9k | 6,9k | 7k | +7,6% |
 | Êl’brus | Эльбрус | 43,26, 42,64 (Russia) | 2,2k | 3,4k | 3,1k | 3,4k | 3,8k | +69,8% |
 | Êl’brusskij | Эльбрусский | 43,56, 42,13 (Russia) | 313 | 242 | 320 | 286 | 291 | -7% |
@@ -6718,7 +6051,6 @@ nearly doubling the population of Makhachkala, Kaspiysk and Khasavyurt
 | Bogatyrevka | Богатыревка | 43,12, 47,37 (Russia) | 1,7k | 2,1k | 3,2k | 3,7k | 4,7k | +182,1% |
 | Botashyurt | Баташюрт | 43,31, 46,51 (Russia) | 2,7k | 3,5k | 3,3k | 3,6k | 4,3k | +56,2% |
 | Botayurt | Батаюрт | 43,32, 46,68 (Russia) | 3,3k | 3,8k | 4,1k | 4,8k | 6,5k | +98,9% |
-| Botlikh | Ботлих | 42,67, 46,22 (Russia) | 7,8k | 10,4k | 12,2k | 12,1k | 11,9k | +54% |
 | Burtunay | Буртунай | 42,99, 46,63 (Russia) | 3,3k | 3,7k | 4k | 4,3k | 4,7k | +43,1% |
 | Chinar | Чинар | 42,11, 48,14 (Russia) | 3,4k | 4,4k | 5,2k | 5k | 4,7k | +40,1% |
 | Chirkey | Чиркей | 42,96, 46,98 (Russia) | 5,7k | 7,4k | 8,7k | 9,2k | 10,1k | +75,8% |
@@ -6729,19 +6061,18 @@ nearly doubling the population of Makhachkala, Kaspiysk and Khasavyurt
 | Druzhba | Дружба; Družba | 42,24, 48 (Russia) | 4,5k | 3,4k | 3,7k | 3,8k | 4k | -11,9% |
 | Dubki | Дубки | 43,02, 46,84 (Russia) | 6,3k | 5,2k | 5,2k | 5,3k | 5,6k | -10,6% |
 | Dylym | Дылым | 43,07, 46,63 (Russia) | 5,9k | 7,5k | 8,6k | 9k | 9,7k | +65% |
-| Endirey | Эндирей | 43,16, 46,65 (Russia) | 5,3k | 6,5k | 7,4k | 8,1k | 9,4k | +76,2% |
+| Endirey | Эндирей; Andrey-Aul | 43,16, 46,65 (Russia) | 5,3k | 6,5k | 7,4k | 8,1k | 9,4k | +76,2% |
 | Erpeli | Эрпели | 42,81, 46,98 (Russia) | 3,1k | 3,4k | 3,4k | 3,7k | 4,4k | +38,5% |
 | Gamiyakh | Гамиях | 43,21, 46,49 (Russia) | 1,6k | 2,1k | 2,5k | 3k | 4,2k | +154,9% |
 | Gedzhukh | Геджух | 42,13, 48,06 (Russia) | 4,9k | 6,4k | 6,8k | 6,8k | 6,8k | +37,3% |
 | Gerga | Герга | 42,35, 47,96 (Russia) | 3k | 3,5k | 3,9k | 4k | 4,1k | +37,8% |
 | Gergebil | Гергебиль | 42,5, 47,07 (Russia) | 4,1k | 4,8k | 5,2k | 5,1k | 4,8k | +16,7% |
 | Gimry | Гимры | 42,76, 46,84 (Russia) | 2,9k | 3,4k | 4,7k | 4,8k | 5,2k | +77,2% |
-| Gochob | Гочобъ | 42,24, 46,66 (Russia) | 99,5k | 132k | 146,4k | 153,6k | 167,2k | +68% |
 | Gubden | Губден | 42,57, 47,57 (Russia) | 7k | 7,5k | 8,6k | 9,1k | 10,1k | +44% |
 | Gurbuki | Гурбуки | 42,61, 47,6 (Russia) | 3,3k | 4,3k | 5,3k | 5,9k | 7k | +111,8% |
 | Izberbash | Избербаш; Izberbaš | 42,57, 47,88 (Russia) | 29,6k | 39,4k | 55,6k | 56,3k | 56k | +89,1% |
 | Kafyr-Kumukh | Кафыр-Кумух | 42,84, 47,15 (Russia) | 3,1k | 4k | 5,1k | 5,4k | 6k | +89,7% |
-| Kakashura | Кака-Шура | 42,65, 47,39 (Russia) | 4,8k | 5,2k | 6k | 6,7k | 8k | +67,7% |
+| Kakashura | Кака-Шура | 42,65, 47,39 (Russia) | 3,4k | 3k | 2,8k | 2,7k | 2,5k | -26% |
 | Kalininaul | Калининаул | 43,07, 46,57 (Russia) | 3,7k | 4,4k | 4,5k | 4,9k | 5,8k | +55,6% |
 | Karabuda-khkent | Карабудахкент | 42,71, 47,56 (Russia) | 9,5k | 12,3k | 15,4k | 17,1k | 20,7k | +117,2% |
 | Karamakhi | Карамахи | 42,62, 47,26 (Russia) | 2,8k | 3,6k | 4,5k | 4,3k | 3,9k | +38,9% |
@@ -6812,7 +6143,7 @@ nearly doubling the population of Makhachkala, Kaspiysk and Khasavyurt
 | Stalskoe | Стальское | 43,19, 46,97 (Russia) | 4,7k | 6,1k | 5,7k | 5,9k | 6,3k | +32,5% |
 | Sulak | Сулак; Сулакъ | 43,27, 47,51 (Russia) | 4k | 6,4k | 8,6k | 8,6k | 9,8k | +147,7% |
 | Talovka | Таловское | 44,25, 46,61 (Russia) | 1,5k | 1,4k | 1,5k | 1,6k | 1,6k | +7,3% |
-| Tarki | Тарки | 42,94, 47,5 (Russia) | 4,3k | 9,9k | 15,4k | 15,4k | 18,2k | +319,7% |
+| Tarki | Тарки; Shamkhalate of Tarki Capital | 42,94, 47,5 (Russia) | 4,3k | 9,9k | 15,4k | 15,4k | 18,2k | +319,7% |
 | Tarumovka | Тарумовка | 44,08, 46,54 (Russia) | 4,1k | 4,9k | 5,4k | 5,8k | 6,5k | +58,4% |
 | Temir-Khan-Shura | Buynaksk; Dagestan Oblast Capital | 42,82, 47,12 (Russia) | 57,5k | 61,4k | 62,6k | 62,9k | 68,1k | +18,5% |
 | Temiraul | Темираул; Темиръ-Аулъ | 43,25, 46,83 (Russia) | 2,6k | 3,1k | 3,8k | 3,9k | 4,2k | +60,4% |
@@ -6853,13 +6184,10 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Agapovka | Агаповка | 53,3, 59,13 (Russia) | 6,1k | 6,4k | 6,6k | 6,7k | 6,9k | +12,7% |
 | Ajat’ | Аять | 57,03, 60,23 (Russia) | 1,2k | 875 | 904 | 857 | 781 | -32,5% |
 | Akbasheva | Акбашева | 55,29, 60,85 (Russia) | 1,4k | 1,2k | 1,3k | 1,3k | 1,4k | -1,7% |
-| Akbulak | Акбулак | 51, 55,62 (Russia) | 13,4k | 14,8k | 13,9k | 12,6k | 10,7k | -20,2% |
 | Akkermanovka | Аккермановка | 51,19, 58,21 (Russia) | 1,1k | 1,3k | 1,6k | 1,5k | 1,2k | +10,3% |
 | Alapayevsk | Алапаевск; Alapajevsk | 57,85, 61,69 (Russia) | 49,1k | 44,3k | 38,2k | 37,9k | 36,2k | -26,3% |
 | Aleksandrovka | Александровка | 52,68, 54,41 (Russia) | 3,6k | 4,2k | 4k | 4,1k | 4,2k | +15,7% |
 | Aleksandrovsk | Александровск | 59,16, 57,57 (Russia) | 19,4k | 16,2k | 14,5k | 13,6k | 10,8k | -44,5% |
-| Aleksand-rovskiy | Александровский | 54,13, 59,32 (Russia) | 380 | 302 | 269 | 241 | 198 | -47,9% |
-| Alekseyevskiy | Алексеевский | 52,75, 54,73 (Russia) | 60,7k | 60,5k | 56,8k | 55,2k | 52,6k | -13,3% |
 | Almenevo | Альменево | 54,94, 63,58 (Russia) | 4k | 4,6k | 4,3k | 4,1k | 3,7k | -8,4% |
 | Alnyash | Альняшъ | 56,73, 54,74 (Russia) | 1,1k | 902 | 805 | 683 | 512 | -52,8% |
 | Altynay | Алтынай; Altynaj | 57,07, 61,99 (Russia) | 1,7k | 1,5k | 1,4k | 1,4k | 1,4k | -15,2% |
@@ -6872,13 +6200,11 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Asbest | Асбест; Куделька | 57,01, 61,46 (Russia) | 83,2k | 76,3k | 68,9k | 66,9k | 57,3k | -31,1% |
 | Asbestovskiy | Асбестовский; Asbestovskij | 57,76, 61,4 (Russia) | 1,5k | 1,2k | 1,3k | 1,2k | 1k | -32,2% |
 | Asekeyevo | Асекеево | 53,58, 52,82 (Russia) | 5,5k | 5,3k | 5,2k | 5,1k | 4,9k | -11,1% |
-| Askarovo | Аскарова | 51,56, 57,16 (Russia) | 19,9k | 19,8k | 18,6k | 18,1k | 17,2k | -13,3% |
 | Atig | Атиг | 56,69, 59,42 (Russia) | 4,4k | 3,9k | 3,4k | 3,3k | 3k | -32,9% |
 | Ayatskoye | Аятское | 57,41, 60,69 (Russia) | 1k | 876 | 746 | 676 | 568 | -44,9% |
 | Aydyrlinskiy | Айдырлинский; Ajdyrlinskij | 52,05, 59,77 (Russia) | 790 | 758 | 665 | 658 | 646 | -18,2% |
 | Bakal | Бакал | 54,94, 58,81 (Russia) | 23,8k | 22,3k | 20,9k | 20,3k | 16,3k | -31,4% |
 | Balkany | Балканы | 53,44, 59,61 (Russia) | 1,1k | 656 | 507 | 487 | 453 | -57,6% |
-| Baraba | Бараба | 56,75, 61,77 (Russia) | 1,6k | 1,3k | 1,2k | 1,1k | 903 | -42,7% |
 | Baranchinskiy | Баранчинский; Barančinskij | 58,16, 59,7 (Russia) | 13k | 11,2k | 9,5k | 9,2k | 8,7k | -32,8% |
 | Barda | Барда | 56,93, 55,59 (Russia) | 7,3k | 8,5k | 8,8k | 9,2k | 10k | +36,2% |
 | Bas’janovskij | Басьяновский | 58,47, 60,73 (Russia) | 2,2k | 1,8k | 1,5k | 1,2k | 783 | -64% |
@@ -6897,8 +6223,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Bisert’ | Бисерть; Бисертский завод | 56,86, 59,05 (Russia) | 12,4k | 11,3k | 10,2k | 9,8k | 9,4k | -24,6% |
 | Bobrovskiy | Бобровский; Bobrovskij | 56,67, 60,98 (Russia) | 5,3k | 5,3k | 5,2k | 5,5k | 5,9k | +12,7% |
 | Bogdanovich | Богданович; Bogdanovič | 56,78, 62,05 (Russia) | 35,5k | 32,9k | 30,7k | 29,7k | 30,1k | -15,1% |
-| Bogorodskoye | Богородск | 52,73, 55,05 (Russia) | 33k | 32,9k | 30,8k | 30k | 28,6k | -13,3% |
-| Bogoyavlensk | Богоявленск; Богоявленскъ | 58,38, 55,26 (Russia) | 19,2k | 17,2k | 15,7k | 15,2k | 14,2k | -25,8% |
 | Bol’šoj Istok | Большой Исток | 56,72, 60,78 (Russia) | 6,7k | 6,7k | 7,3k | 8,1k | 9,9k | +47,4% |
 | Bolshaya Sosnova | Большая Соснова | 57,67, 54,6 (Russia) | 4,9k | 4,4k | 4,4k | 4,5k | 4,8k | -3,1% |
 | Bredy | Бреды | 52,42, 60,34 (Russia) | 10,2k | 10,5k | 9,5k | 9,2k | 8,8k | -13,5% |
@@ -6920,7 +6244,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Chusovoy | Чусовой; Čusovoj | 58,29, 57,81 (Russia) | 56,9k | 51,6k | 46,7k | 45,9k | 45,5k | -20% |
 | Dalmatovo | Далматово | 56,26, 62,93 (Russia) | 17,1k | 15k | 13,9k | 13,5k | 11,6k | -32,2% |
 | Degtyarsk | Дегтярск; Degtjarsk | 56,7, 60,09 (Russia) | 18k | 15,9k | 15,5k | 15,9k | 15,5k | -13,8% |
-| Div’ja | Дивья | 58,53, 56,28 (Russia) | 1,7k | 1,4k | 1,4k | 1,3k | 1,1k | -34,7% |
 | Dmitriyevka | Дмитриевка | 53,89, 52,44 (Russia) | 561 | 436 | 291 | 248 | 188 | -66,5% |
 | Dobryanka | Добрянка; Dobrjanka | 58,46, 56,41 (Russia) | 35,5k | 36,4k | 33,7k | 33,4k | 28,8k | -18,9% |
 | Dolgoder-evenskoye | Долгодеревенское | 55,35, 61,34 (Russia) | 7,4k | 7k | 7,7k | 8,3k | 9,4k | +26,7% |
@@ -6937,7 +6260,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Gari | Гари | 59,43, 62,35 (Russia) | 3,4k | 3,2k | 2,5k | 2,3k | 2k | -40,9% |
 | Gay | Гай; Gaj | 51,47, 58,45 (Russia) | 41,7k | 41,6k | 38,3k | 36,5k | 33,3k | -20,1% |
 | Gayny | Гайны; Gajny | 60,3, 54,32 (Russia) | 4,8k | 4,5k | 4k | 4k | 3,9k | -18,5% |
-| Glubokaya | Глубокая; Glubokaja | 58,77, 59,82 (Russia) | 77 | 30 | 20 | 18 | 15 | -80,5% |
 | Glyadyanskoye | Глядянское | 54,91, 65,09 (Russia) | 3,8k | 4,3k | 4k | 3,6k | 3,1k | -17,9% |
 | Gornoural’skij | Горноуральский | 58,06, 59,9 (Russia) | 5,8k | 4,3k | 4k | 3,7k | 2,9k | -50% |
 | Gornozavodsk | Горнозаводск; Новопашийский | 58,37, 58,33 (Russia) | 14,6k | 13,1k | 12,1k | 11,6k | 11,1k | -24% |
@@ -6955,8 +6277,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Iset’ | Исеть | 56,98, 60,37 (Russia) | 3,6k | 3,2k | 3,2k | 3,2k | 3,1k | -13,1% |
 | Istok | Исток | 56,79, 60,78 (Russia) | 6,5k | 5,8k | 6k | 6,1k | 6,4k | -1,7% |
 | Ivaka | Ивака | 59,29, 57,52 (Russia) | 15 | 6 | 40 | 40 | 40 | +166,7% |
-| Ivankova | Иванькова | 58,74, 54,8 (Russia) | 14k | 12,6k | 11,5k | 11,1k | 10,4k | -25,8% |
-| Ivanovka | Ивановка | 53,55, 53,23 (Russia) | 9,8k | 10,5k | 11k | 11,3k | 11,8k | +20,3% |
 | Ivdel’ | Ивдель | 60,69, 60,42 (Russia) | 19,1k | 19,3k | 17,8k | 16,6k | 14,3k | -24,9% |
 | Izumrud | Изумруд | 57,08, 61,4 (Russia) | 2,1k | 1,3k | 1,4k | 1,3k | 1,2k | -45,5% |
 | Jetkul’ | Еткуль | 54,82, 61,58 (Russia) | 5,8k | 6,2k | 6,8k | 6,6k | 6,3k | +10% |
@@ -6964,17 +6284,13 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Jurjuzan’ | Юрюзань | 54,86, 58,42 (Russia) | 17,6k | 14,2k | 12,6k | 12,2k | 10,3k | -41,5% |
 | Južnoural’sk | Южноуральск; Южноуральский | 54,45, 61,26 (Russia) | 41k | 39,3k | 37,9k | 37,6k | 37,5k | -8,6% |
 | Kachkanar | Качканар; Kačkanar | 58,7, 59,48 (Russia) | 47,7k | 44,7k | 41,4k | 40,3k | 37,3k | -21,8% |
-| Kal’ja | Калья | 60,24, 59,99 (Russia) | 7k | 6,8k | 5,6k | 5,2k | 4,5k | -36,7% |
 | Kalino | Калино | 58,25, 57,61 (Russia) | 3,2k | 2,5k | 2,1k | 2,1k | 1,7k | -46,8% |
 | Kalinovo | Калиново | 57,13, 60,15 (Russia) | 3,3k | 2,9k | 2,6k | 2,2k | 1,7k | -47,7% |
 | Kamensk-Ural’skij | Каменск-Уральский; Каменский завод | 56,41, 61,93 (Russia) | 204,3k | 186,2k | 174,7k | 171,5k | 164,2k | -19,6% |
-| Kamenskiy | Каменский | 59,25, 61,22 (Russia) | 20,8k | 18,5k | 17,2k | 16,5k | 15,3k | -26,7% |
-| Kamyshin | Камышин | 51,95, 51,22 (Russia) | 111,1k | 110,7k | 103,9k | 101,1k | 96,2k | -13,3% |
 | Kamyshlov | Камышлов; Kamyšlov | 56,85, 62,71 (Russia) | 32,7k | 28,9k | 26,9k | 26,7k | 27,1k | -17,1% |
 | Karabash | Карабаш; Karabaš | 55,49, 60,21 (Russia) | 16,8k | 15,9k | 13,2k | 11,9k | 10,5k | -37,6% |
 | Karagay | Карагай | 58,27, 54,93 (Russia) | 5,2k | 6,8k | 6,7k | 6,7k | 6,7k | +29,4% |
 | Kargala | Каргала | 51,89, 54,87 (Russia) | 3,4k | 2k | 1,9k | 1,8k | 1,5k | -55,2% |
-| Kargalinskiy | Каргалинский | 51,95, 54,73 (Russia) | 20,6k | 20,5k | 19,2k | 18,7k | 17,8k | -13,3% |
 | Kargapol’je | Каргаполье | 55,95, 64,43 (Russia) | 9,8k | 8,7k | 8,4k | 8k | 8,3k | -15,9% |
 | Karpinsk | Карпинск; Богословский | 59,77, 60,01 (Russia) | 36k | 31,2k | 29,1k | 28,1k | 25,9k | -28,2% |
 | Karpuninskiy | Карпунинский; Karpuninskij | 58,72, 61,8 (Russia) | 998 | 598 | 402 | 346 | 267 | -73,2% |
@@ -6983,20 +6299,15 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Kasli | Касли; Каслинский завод | 55,89, 60,75 (Russia) | 21,1k | 19,1k | 17k | 16,7k | 15,4k | -27,2% |
 | Katav-Ivanovsk | Катав-Ивановск; Катавъ-Ивановский | 54,75, 58,2 (Russia) | 24,2k | 20,2k | 17,6k | 16,7k | 14,7k | -39,3% |
 | Kataysk | Катайск; Katajsk | 56,29, 62,58 (Russia) | 16,6k | 15,8k | 14k | 13,2k | 11,9k | -28,6% |
-| Kazanka | Казанка | 53,36, 52,58 (Russia) | 660 | 535 | 468 | 361 | 230 | -65,2% |
 | Kazantsevo | Казанцево | 55,27, 61,35 (Russia) | 2,7k | 3,2k | 3,6k | 3,8k | 4,3k | +60,1% |
-| Kedrovka | Кедровка | 58,18, 59,37 (Russia) | 2,7k | 2,4k | 2,5k | 2,4k | 2,3k | -14,4% |
 | Kedrovoye | Кедровое; Kedrovoje | 57,16, 60,57 (Russia) | 2,5k | 2,2k | 2,3k | 2,4k | 2,5k | -0,4% |
 | Kerchevskiy | Керчевский; Kerčevskij | 59,95, 56,3 (Russia) | 5,2k | 3,1k | 2,3k | 2k | 1,7k | -67,8% |
 | Ketovo | Кетово | 55,35, 65,33 (Russia) | 7,6k | 7,1k | 7,3k | 7,7k | 8,4k | +11,7% |
 | Khalilovo | Халилово; Halilovo | 51,4, 58,12 (Russia) | 912 | 797 | 649 | 577 | 470 | -48,5% |
-| Khersonka | Херсонка | 51,43, 57,67 (Russia) | 46k | 45,9k | 43,1k | 41,9k | 39,9k | -13,3% |
 | Khimmash | Нижнеисетский; Nižneisetskij | 56,76, 60,7 (Russia) | 10,8k | 9,6k | 8,9k | 8,5k | 7,9k | -26,7% |
 | Kirovgrad | Кировград; Калата | 57,43, 60,06 (Russia) | 25,2k | 23,2k | 21k | 20,3k | 18,7k | -25,8% |
-| Kisla | Кислянское | 53,65, 52,85 (Russia) | 68,1k | 67,9k | 63,8k | 62k | 59k | -13,3% |
 | Kizel | Кизел | 59,05, 57,65 (Russia) | 34,4k | 23,8k | 19,6k | 17,2k | 15,6k | -54,6% |
 | Kizilskoe | Кизильское | 52,72, 58,9 (Russia) | 6,9k | 6,5k | 6,7k | 6,4k | 5,9k | -13,3% |
-| Klintsy | Клинцы | 53,09, 52,8 (Russia) | 100,6k | 100,2k | 94,1k | 91,5k | 87,1k | -13,3% |
 | Klyuchevsk | Ключевск; Ključevsk | 57,12, 60,94 (Russia) | 2,1k | 2k | 2k | 1,9k | 1,7k | -18,8% |
 | Koltsovo | Кольцово; Kol’covo | 56,76, 60,82 (Russia) | 14,5k | 14,7k | 14k | 13,4k | 12,4k | -14% |
 | Koltuban-ovskiy | Колтубановский; Koltuban-ovskij | 52,94, 52,03 (Russia) | 4,1k | 3,9k | 3,5k | 3,3k | 3,2k | -23,4% |
@@ -7007,11 +6318,9 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Kordon | Кордон | 59,95, 55,04 (Russia) | 2,1k | 1,6k | 1,1k | 1,1k | 1,1k | -50,2% |
 | Korkino | Коркино | 54,89, 61,39 (Russia) | 44,6k | 41,5k | 38,6k | 36,2k | 37,2k | -16,6% |
 | Kos’ja | Косья | 58,8, 59,35 (Russia) | 767 | 512 | 325 | 277 | 209 | -72,8% |
-| Kostroma | Кострома | 52,03, 53,52 (Russia) | 211,4k | 210,7k | 197,8k | 192,4k | 183,2k | -13,3% |
 | Koyelga | Коелга | 54,65, 60,9 (Russia) | 4,3k | 4,1k | 4k | 4k | 4k | -6,1% |
 | Krasnogorskiy | Красногорский; Krasnogorskij | 54,6, 61,23 (Russia) | 15,1k | 13,7k | 13,6k | 13,3k | 12k | -20,5% |
 | Krasnogv-ardeyskiy | Красногвардейский; Krasnogv-ardejskij | 57,38, 62,32 (Russia) | 5,6k | 4,8k | 4,4k | 4,1k | 3,8k | -33,2% |
-| Krasnokamenka | Красно-каменский | 54,6, 60,22 (Russia) | 16,6k | 15,7k | 15k | 14,5k | 13,7k | -17,7% |
 | Krasnokamsk | Краснокамск | 58,08, 55,76 (Russia) | 57,1k | 53,7k | 51,9k | 53,7k | 48,8k | -14,5% |
 | Krasnokholm | Краснохолм | 51,6, 54,16 (Russia) | 6,3k | 6,1k | 5,8k | 5,5k | 5k | -20,5% |
 | Krasnoturinsk | Краснотурьинск; Krasnotur’insk | 59,77, 60,21 (Russia) | 66,9k | 64,9k | 59,6k | 58,9k | 55,9k | -16,5% |
@@ -7019,7 +6328,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Krasnoural’sk | Красноуральск | 58,36, 60,04 (Russia) | 34,2k | 29k | 25k | 23,9k | 21,5k | -37,2% |
 | Krasnovi-shersk | Красновишерск; Krasnovišersk | 60,41, 57,08 (Russia) | 18,6k | 18,3k | 16,1k | 15,9k | 14,5k | -22,2% |
 | Krasnoyarskiy | Красноярский; Krasnojarskij | 51,97, 59,9 (Russia) | 3,6k | 3,2k | 2,8k | 2,5k | 2,2k | -38,4% |
-| Krasnoye | Краснослободское | 58,89, 56,62 (Russia) | 18,6k | 16,7k | 15,2k | 14,7k | 13,8k | -25,8% |
 | Krasnyj Oktjabr’ | Красный Октябрь | 55,66, 64,81 (Russia) | 4,5k | 4,2k | 4,2k | 4,4k | 3,5k | -22,5% |
 | Krasnyy Kommunar | Красный Коммунар; Krasnyj Kommunar | 51,96, 55,37 (Russia) | 3,4k | 4,2k | 4,1k | 4,1k | 4,1k | +21,6% |
 | Kropačevo | Кропачево | 55,01, 57,99 (Russia) | 5,6k | 5,3k | 5k | 4,7k | 4,3k | -22,9% |
@@ -7028,15 +6336,13 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Kultayevo | Култаево | 57,89, 55,94 (Russia) | 4,8k | 4,3k | 5,1k | 6,1k | 8,5k | +75% |
 | Kumak | Кумак | 51,53, 56 (Russia) | 594 | 511 | 301 | 202 | 100 | -83,2% |
 | Kunashak | Кунашак | 55,7, 61,55 (Russia) | 5,7k | 6k | 6,3k | 6,5k | 6,8k | +19,8% |
-| Kungur | Кунгур | 57,41, 56,97 (Russia) | 79,3k | 68,9k | 66,1k | 66,8k | 62,7k | -21% |
+| Kungur | Кунгур; Sylva Agricultural Center | 57,41, 56,97 (Russia) | 79,3k | 68,9k | 66,1k | 66,8k | 62,7k | -21% |
 | Kurgan | Tsaryovo Gorodishche; Kurgan Butter Hub | 55,45, 65,33 (Russia) | 363k | 346k | 334k | 326k | 310,9k | -14,3% |
-| Kuri | Курьи | 56,92, 62,12 (Russia) | 4,8k | 4,2k | 4,8k | 4,7k | 4,6k | -3% |
 | Kurmanayevka | Курманаевка | 52,51, 52,07 (Russia) | 4,8k | 4,6k | 4,3k | 4,2k | 4,1k | -13,6% |
 | Kurtamysh | Куртамыш; Kurtamyš | 54,91, 64,43 (Russia) | 19k | 18,2k | 17,1k | 16,9k | 14,8k | -22,1% |
 | Kus’je-Aleksand-rovskij | Кусье-Александровский | 58,28, 58,38 (Russia) | 2,5k | 1,9k | 1,8k | 2,1k | 1,6k | -37,1% |
 | Kusa | Куса | 55,35, 59,44 (Russia) | 22,2k | 20,3k | 18,8k | 17,9k | 17,1k | -22,9% |
 | Kushva | Кушва; Kušva | 58,29, 59,75 (Russia) | 41,8k | 35,6k | 30,2k | 29,3k | 27,3k | -34,7% |
-| Kusinskiy Zavod | Кусинский Заводъ; Кусинский завод | 55,35, 59,4 (Russia) | 32,1k | 30,4k | 28,9k | 28k | 26,4k | -17,7% |
 | Kuvandyk | Кувандык; Покровка | 51,48, 57,36 (Russia) | 28,4k | 28,7k | 26,2k | 25k | 26,6k | -6,3% |
 | Kuzino | Кузино | 57,02, 59,44 (Russia) | 3,7k | 3,3k | 2,9k | 2,6k | 2,1k | -41,8% |
 | Kvarkeno | Кваркено | 52,08, 59,73 (Russia) | 4,4k | 4,2k | 3,9k | 4k | 4,1k | -5,8% |
@@ -7048,7 +6354,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Leninsk | Ленинск | 54,9, 59,87 (Russia) | 1,7k | 1,7k | 1,9k | 1,8k | 1,6k | -5,5% |
 | Lesnikovo | Лесниково | 55,28, 65,32 (Russia) | 6,4k | 6k | 5,1k | 4,5k | 3,8k | -40,8% |
 | Lesnoy | Лесной | 58,64, 59,79 (Russia) | 59,7k | 53,2k | 50,4k | 49,6k | 48,3k | -19,2% |
-| Letyagino | Бабинова | 54,4, 61,13 (Russia) | 19,4k | 18,4k | 17,5k | 16,9k | 16k | -17,7% |
 | Levikha | Лёвиха; Ljoviha | 57,58, 59,9 (Russia) | 4,2k | 3,5k | 2,9k | 2,6k | 2,2k | -48,6% |
 | Lobanovo | Лобаново | 57,86, 56,3 (Russia) | 4,1k | 3,7k | 4,3k | 4,9k | 6,3k | +55% |
 | Lobva | Лобва | 59,19, 60,52 (Russia) | 9,7k | 8,5k | 8,4k | 7,9k | 7,2k | -25,9% |
@@ -7071,7 +6376,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Marsyaty | Марсяты; Marsjaty | 60,04, 60,48 (Russia) | 929 | 657 | 497 | 383 | 242 | -74% |
 | Martyush | Мартюш; Martjuš | 56,4, 61,88 (Russia) | 4,7k | 4,2k | 4k | 4k | 3,9k | -16,8% |
 | Maslovo | Маслово | 60,11, 60,48 (Russia) | 921 | 710 | 509 | 388 | 242 | -73,7% |
-| Maslyanka | Маслянка | 57,7, 60,93 (Russia) | 51,5k | 45,8k | 42,5k | 40,7k | 37,7k | -26,7% |
 | Maykor | Майкор; Majkor | 59, 55,88 (Russia) | 4,1k | 3,4k | 2,8k | 2,6k | 2,4k | -41,8% |
 | Mayskiy | Майский; Majskij | 58,1, 55,58 (Russia) | 5,2k | 5,4k | 5,2k | 4,8k | 4,1k | -20% |
 | Mednogorsk | Медногорск | 51,41, 57,59 (Russia) | 33,7k | 31,4k | 27,3k | 26,5k | 23,7k | -29,6% |
@@ -7102,7 +6406,7 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Novaya Lyalya | Новая Ляля; Novaja Ljalja | 59,05, 60,59 (Russia) | 15,5k | 14,6k | 12,7k | 12,1k | 10,7k | -31,1% |
 | Novoasbest | Новоасбест | 57,74, 60,29 (Russia) | 3,1k | 2,4k | 2,2k | 2,1k | 2k | -34,4% |
 | Novogornyy | Новогорный; Novogornyj | 55,63, 60,79 (Russia) | 7,8k | 8,2k | 6,7k | 6,6k | 6,3k | -18,9% |
-| Novoil’inskij | Новоильинский | 57,89, 55,48 (Russia) | 4,7k | 3,8k | 3,6k | 3,5k | 3k | -37% |
+| Novoil’inskij | Новоильинский | 57,89, 55,48 (Russia) | 3k | 2,7k | 2,5k | 2,4k | 2,2k | -26% |
 | Novoorsk | Новоорск | 51,38, 58,99 (Russia) | 10,5k | 11,3k | 11,3k | 11,2k | 11,1k | +5% |
 | Novorudnyy | Новорудный; Novorudnyj | 51,5, 58,19 (Russia) | 2k | 1,9k | 1,5k | 1,2k | 818 | -59,6% |
 | Novoserg-iyevka | Новосергиевка; Novoserg-ijevka | 52,09, 53,65 (Russia) | 12,7k | 13,3k | 13,7k | 13,6k | 13,4k | +5,6% |
@@ -7118,45 +6422,31 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Nytva | Нытва | 57,94, 55,34 (Russia) | 21,7k | 20,7k | 19k | 18,8k | 16,7k | -23,1% |
 | Okhansk | Оханск; Ohansk | 57,71, 55,39 (Russia) | 8,3k | 8k | 7,2k | 7,1k | 6,4k | -23% |
 | Oktjabr’skij | Октябрьский | 56,52, 57,2 (Russia) | 9,1k | 10k | 9,8k | 9,8k | 9k | -0,9% |
-| Oktjabr’skij | Октябрьский | 56,69, 58,95 (Russia) | 1,5k | 118 | 127 | 152 | 209 | -85,8% |
-| Oktjabr’skij | Октябрьский | 54,88, 59,78 (Russia) | 8,3k | 10,3k | 9,8k | 9,5k | 9k | +7,8% |
-| Oktjabr’skoje | Октябрьское; Исаево- | 52,35, 55,5 (Russia) | 7,3k | 7,6k | 7,7k | 7,5k | 7,1k | -2,8% |
-| Oktyabrskoe | Октябрьское | 54,41, 62,73 (Russia) | 8k | 7,6k | 6,8k | 6,7k | 6,5k | -19,1% |
 | Orda | Орда | 57,19, 56,9 (Russia) | 4,6k | 5,4k | 5,4k | 5,4k | 5,4k | +17,6% |
 | Orenburg | Orenburg Steppe Gateway; Chkalov | 51,77, 55,1 (Russia) | 552k | 549k | 548k | 560k | 543,7k | -1,5% |
 | Orjol | Орёл | 59,34, 56,59 (Russia) | 2,3k | 1,9k | 1,8k | 1,7k | 1,6k | -31,5% |
-| Orlovskiy | Орловский | 51,18, 56,23 (Russia) | 62,5k | 62,3k | 58,5k | 56,9k | 54,2k | -13,3% |
 | Orsk | Orenburg Fortress; Орск | 51,23, 58,48 (Russia) | 273k | 251k | 239k | 233k | 225k | -17,6% |
 | Orsk | Yuzhuralnikel & Evacuated Refinery Hub (Chkalov Oblast); Орск | 51,2, 58,56 (Russia) | 273k | 251k | 239,8k | 220k | 189,2k | -30,7% |
 | Osa | Оса | 57,28, 55,46 (Russia) | 24k | 23,5k | 21,2k | 21k | 19,5k | -18,7% |
-| Ous | Оус | 60,91, 61,52 (Russia) | 2,7k | 1,7k | 1,2k | 893 | 540 | -80% |
 | Overyata | Оверята; Overjata | 58,08, 55,87 (Russia) | 4,9k | 4,6k | 4,6k | 4,8k | 4,6k | -6,4% |
-| Ozernyy | Озерный | 52,98, 54,82 (Russia) | 307,2k | 306,2k | 287,5k | 279,6k | 266,2k | -13,3% |
 | Ozersk | Chelyabinsk-40 / Chelyabinsk-65 Mayak ZATO; Озёрск | 55,76, 60,7 (Russia) | 84k | 91,8k | 82,2k | 80,2k | 76,9k | -8,5% |
-| Ozjornyj | Озёрный | 57,3, 61,21 (Russia) | 1,2k | 899 | 896 | 790 | 634 | -48% |
 | Očjor | Очёр; Очер | 57,88, 54,72 (Russia) | 16,2k | 15,6k | 14,2k | 14,1k | 14,4k | -11,4% |
 | Palimovka | Палимовка | 52,84, 52,2 (Russia) | 1,9k | 1,7k | 1,9k | 2,2k | 2,9k | +52% |
-| Parkany | Парканы | 57,8, 57,87 (Russia) | 9,7k | 8,7k | 7,9k | 7,7k | 7,2k | -25,8% |
+| Parkany | Парканы | 57,8, 57,87 (Russia) | 4k | 3,6k | 3,4k | 3,2k | 3k | -26% |
 | Pashiya | Пашия; Pašija | 58,43, 58,26 (Russia) | 5,1k | 4,2k | 3,9k | 3,7k | 3,4k | -33,3% |
 | Patrushi | Патруши | 56,69, 60,8 (Russia) | 3k | 2,9k | 3,3k | 3,6k | 4,1k | +36,9% |
 | Pavda | Павда | 59,25, 59,52 (Russia) | 857 | 688 | 478 | 363 | 225 | -73,7% |
 | Pavlovskiy | Павловский; Pavlovskij | 57,84, 54,84 (Russia) | 3,8k | 3,4k | 3,2k | 3,3k | 3,1k | -16,4% |
-| Pavlovskiy | Павловский | 52,67, 51,98 (Russia) | 25,6k | 25,5k | 23,9k | 23,3k | 22,2k | -13,3% |
 | Peles | Пелес | 60,63, 51,99 (Russia) | 1,2k | 1,1k | 994 | 958 | 899 | -25,9% |
-| Pelym | Пелым | 61,02, 61,99 (Russia) | 4,2k | 3,7k | 3,4k | 3,3k | 2,9k | -31,1% |
+| Pelym | Пелым; Pelym Ostrog | 61,02, 61,99 (Russia) | 4,2k | 3,7k | 3,4k | 3,3k | 2,9k | -31,1% |
 | Perevolotskiy | Переволоцкий; Perevolockij | 51,88, 54,19 (Russia) | 10,2k | 9,7k | 9,6k | 9,2k | 8,5k | -16,9% |
 | Perm | Perm Kama; Motovilikha Cannon Works | 58,01, 56,25 (Russia) | 1,09M | 1M | 991k | 1,03M | 1,03M | -5,5% |
-| Pervomayskiy | Первомайский; Pervomajskij | 51,9, 51,65 (Russia) | 9k | 7,1k | 7,6k | 7,4k | 7,2k | -20% |
 | Pervomayskiy | Первомайский; Pervomajskij | 54,87, 61,17 (Russia) | 10,2k | 10,8k | 10,6k | 10,9k | 9,7k | -5% |
 | Pervouralsk | Первоуральск; Pervoural’sk | 56,91, 59,94 (Russia) | 140,6k | 132,3k | 124,5k | 125,6k | 114,4k | -18,6% |
-| Petropavlovsk | Петропавловск | 57,65, 54,29 (Russia) | 94,4k | 84,7k | 77,5k | 74,7k | 70,1k | -25,8% |
 | Petukhovo | Петухово; Petuhovo | 55,07, 67,9 (Russia) | 14,3k | 12,7k | 11,3k | 10,6k | 8,5k | -40,4% |
-| Pionerskiy | Пионерский; Pionerskij | 57,11, 63,75 (Russia) | 3,6k | 3,2k | 3,1k | 3k | 3,1k | -11,9% |
 | Plast | Пласт | 54,37, 60,81 (Russia) | 18,6k | 17,4k | 17,3k | 17,3k | 18,4k | -1,4% |
 | Pleshanovo | Плешаново; Plešanovo | 52,85, 53,49 (Russia) | 4,1k | 3,8k | 3,5k | 3,5k | 3,4k | -15,4% |
 | Podgorodnyaya Pokrovka | Подгородняя Покровка | 51,83, 54,99 (Russia) | 3,3k | 3,1k | 4,4k | 5,3k | 7,5k | +130,4% |
-| Podolsk | Подольск | 52,82, 53,58 (Russia) | 53,2k | 53k | 49,8k | 48,4k | 46,1k | -13,3% |
-| Pokrovsk-Ural’skij | Покровск-Уральский; Покровск | 60,14, 59,82 (Russia) | 2k | 1,6k | 1,2k | 1k | 842 | -57,2% |
 | Pokrovskoye | Покровское | 56,47, 61,61 (Russia) | 3,2k | 3,6k | 2,7k | 2,6k | 2,4k | -27,3% |
 | Polazna | Полазна | 58,29, 56,42 (Russia) | 12,3k | 13,3k | 12,8k | 12,8k | 11,2k | -8,9% |
 | Poletayevo | Полетаево; Poletajevo | 55,03, 61,11 (Russia) | 6k | 6,6k | 6,5k | 6,5k | 6,6k | +9,2% |
@@ -7168,16 +6458,15 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Potanino | Потанино | 55,18, 61,62 (Russia) | 6,9k | 8,8k | 8,5k | 8,2k | 7,8k | +13% |
 | Pozhva | Пожва; Požva | 59,09, 56,09 (Russia) | 4,8k | 3,8k | 3,1k | 2,9k | 2,4k | -49,1% |
 | Prigorodnyy | Пригородный | 51,77, 55,27 (Russia) | 3,4k | 3,2k | 4,2k | 5,6k | 9,3k | +174,6% |
-| Privokzal’nyj | Привокзальный | 58,88, 60,73 (Russia) | 5,6k | 6,2k | 4k | 4,1k | 4,3k | -23,1% |
+| Privokzal’nyj | Привокзальный | 58,88, 60,73 (Russia) | 2,4k | 2,2k | 2k | 2k | 1,8k | -26% |
 | Promysla | Промысла | 58,56, 59,15 (Russia) | 1,1k | 747 | 558 | 481 | 390 | -63,2% |
-| Putilova | Путилова | 58,98, 64,2 (Russia) | 7,7k | 6,8k | 6,3k | 6,1k | 5,6k | -26,7% |
+| Putilova | Путилова | 58,98, 64,2 (Russia) | 2,5k | 2,2k | 2,1k | 2k | 1,8k | -26% |
 | Pyshma | Пышма; Pyšma | 56,95, 63,25 (Russia) | 11,3k | 10,3k | 9,8k | 9,8k | 9,2k | -18,5% |
 | Rakityanka | Ракитянка; Rakitjanka | 51,47, 57,65 (Russia) | 3,2k | 3,1k | 2,9k | 2,9k | 2,7k | -13,3% |
 | Ratchino | Ратчино | 53,07, 54,45 (Russia) | 1,1k | 946 | 729 | 632 | 493 | -54,9% |
 | Rechnoy | Речной; Rečnoj | 51,22, 59,76 (Russia) | 814 | 734 | 440 | 316 | 177 | -78,3% |
 | Reftinskiy | Рефтинский; Reftinskij | 57,09, 61,68 (Russia) | 17,3k | 18k | 16,5k | 16,1k | 15,2k | -12,1% |
 | Revda | Ревда | 56,8, 59,94 (Russia) | 65,3k | 62,7k | 61,9k | 62k | 60,2k | -7,8% |
-| Revdinskiy | Ревдинский | 56,46, 59,53 (Russia) | 25k | 22,3k | 20,7k | 19,8k | 18,4k | -26,7% |
 | Rezh | Реж; Rež | 57,37, 61,4 (Russia) | 42,9k | 39,9k | 38,2k | 37,6k | 36,6k | -14,6% |
 | Roshchino | Рощино | 55,31, 61,26 (Russia) | 5,6k | 5,3k | 5,7k | 6,3k | 7,4k | +32,9% |
 | Roza | Роза | 54,92, 61,46 (Russia) | 15,4k | 14,6k | 13,1k | 13,6k | 8,8k | -43,1% |
@@ -7196,10 +6485,9 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Serov | Серов; Надеждинск | 59,6, 60,59 (Russia) | 103,5k | 99,8k | 99,4k | 98,3k | 94,2k | -9% |
 | Severka | Северка | 56,87, 60,3 (Russia) | 3,2k | 3,4k | 3,5k | 3,3k | 2,9k | -9,2% |
 | Severnoye | Северное | 54,09, 52,54 (Russia) | 4,9k | 4,7k | 4,4k | 4,3k | 4,2k | -14,2% |
-| Severnyy | Северный; Severnyj | 60,98, 60,39 (Russia) | 320 | 239 | 145 | 109 | 66 | -79,4% |
-| Severnyy | Северный; Severnyj | 55,85, 60,48 (Russia) | 444 | 266 | 311 | 259 | 188 | -57,7% |
 | Severnyy Kommunar | Северный Коммунар; Severnyj Kommunar | 58,38, 54,02 (Russia) | 2,2k | 2k | 1,6k | 1,5k | 1,2k | -45,5% |
 | Severnyy-Kospashskiy | Северный-Коспашский; Severnyj-Kospašskij | 59,09, 57,8 (Russia) | 4,1k | 2,3k | 1,4k | 1k | 607 | -85,1% |
+| Severnyy | Северный; Severnyj | 55,85, 60,48 (Russia) | 444 | 266 | 311 | 259 | 188 | -57,7% |
 | Severoural’sk | Североуральск; Петропавловский | 60,15, 59,95 (Russia) | 35,9k | 34,7k | 29,3k | 27,6k | 24,4k | -32% |
 | Shabrovskiy | Шабровский; Šabrovskij | 56,64, 60,58 (Russia) | 4k | 3,9k | 4,5k | 4,4k | 4,3k | +6,4% |
 | Shadrinsk | Шадринск; Šadrinsk | 56,09, 63,64 (Russia) | 85,8k | 80,9k | 77,8k | 77,2k | 68,6k | -20% |
@@ -7209,19 +6497,15 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Shamary | Шамары; Šamary | 57,34, 58,22 (Russia) | 4,5k | 3,7k | 3,4k | 3k | 2,4k | -46% |
 | Sharlyk | Шарлык | 52,93, 54,74 (Russia) | 8,5k | 8,1k | 7,6k | 7,4k | 7,1k | -15,9% |
 | Shatrovo | Шатрово | 56,52, 64,63 (Russia) | 5,8k | 6,4k | 5,7k | 5,4k | 4,9k | -15,9% |
-| Shaytanka | Шайтанка | 59,45, 60,02 (Russia) | 31,6k | 28,1k | 26,1k | 25k | 23,1k | -26,7% |
 | Shirokaya Rechka | Широкая Речка; Širokaja Rečka | 56,8, 60,49 (Russia) | 1,7k | 1,1k | 1,1k | 1k | 955 | -45,3% |
 | Shirokovskiy | Широковский; Širokovskij | 58,84, 57,78 (Russia) | 1,6k | 1,9k | 3,3k | 3,3k | 1,1k | -36,1% |
 | Shumikha | Шумиха; Šumiha | 55,23, 63,29 (Russia) | 21,5k | 19,1k | 17,8k | 17,6k | 16,3k | -24,4% |
 | Shumikhinskiy | Шумихинский; Šumihinskij | 58,74, 57,69 (Russia) | 4k | 2,2k | 1,3k | 1k | 634 | -84,1% |
-| Shurala | Шурала; Šurala | 57,44, 60,18 (Russia) | 722 | 590 | 459 | 465 | 477 | -33,9% |
 | Sim | Сим | 54,99, 57,7 (Russia) | 19,5k | 16,4k | 14,5k | 13,7k | 12,9k | -34,2% |
-| Sinegorskiy | Синегорский; Sinegorskij | 57,89, 59,52 (Russia) | 1,2k | 895 | 603 | 552 | 473 | -59,9% |
 | Siva | Сива | 58,38, 54,37 (Russia) | 5,4k | 4,9k | 4,7k | 4,7k | 4,8k | -11,1% |
 | Skal’nyj | Скальный | 58,36, 57,97 (Russia) | 5,1k | 2,1k | 1,9k | 1,7k | 1,6k | -68,2% |
 | Slonovka | Слоновка | 52,8, 55,32 (Russia) | 527 | 414 | 292 | 245 | 180 | -65,8% |
 | Snezhinsk | Chelyabinsk-70 Nuclear Weapons Design ZATO; Снежинск | 56,08, 60,73 (Russia) | 47k | 50,5k | 48,8k | 49,5k | 50,6k | +7,7% |
-| Sokolova | Соколова | 57,92, 62,6 (Russia) | 19,3k | 17,2k | 16k | 15,3k | 14,2k | -26,7% |
 | Sol’-Ileck | Соль-Илецк; Илецк | 51,16, 54,99 (Russia) | 24,3k | 26,9k | 28,4k | 27,3k | 26,1k | +7,7% |
 | Solikamsk | Sol Kamskaya; Usollag | 59,64, 56,77 (Russia) | 108,9k | 102,5k | 97,4k | 95,8k | 89,5k | -17,8% |
 | Sorochinsk | Сорочинск; Soročinsk | 52,43, 53,15 (Russia) | 27,2k | 30,1k | 29,2k | 28,5k | 28,5k | +4,6% |
@@ -7250,34 +6534,29 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Tatarskaya Kargala | Татарская Каргала | 51,95, 55,17 (Russia) | 3,6k | 3,5k | 3,8k | 4,2k | 5k | +36,4% |
 | Tavatuy | Таватуй; Tavatuj | 57,15, 60,21 (Russia) | 684 | 568 | 385 | 335 | 263 | -61,5% |
 | Tavda | Тавда | 58,04, 65,27 (Russia) | 44,9k | 40,7k | 35,4k | 34,3k | 32,7k | -27,1% |
-| Tavolozhka | Таволожка | 58,04, 63,99 (Russia) | 12,3k | 11k | 10,2k | 9,8k | 9k | -26,7% |
 | Tayginka | Тайгинка; Tajginka | 55,62, 60,51 (Russia) | 1,6k | 1,4k | 1,5k | 1,3k | 1k | -32,9% |
 | Timiryaz-evskiy | Тимирязевское; Timirjaz-evskoje | 54,93, 60,76 (Russia) | 7,6k | 6,2k | 6,4k | 6,4k | 6,4k | -15,9% |
 | Tjoplaja Gora | Тёплая Гора; Теплая Гора | 58,52, 59,07 (Russia) | 4,4k | 3,9k | 3,3k | 3k | 2,8k | -37,7% |
 | Tjul’gan | Тюльган | 52,34, 56,16 (Russia) | 10,6k | 10,2k | 9k | 9,1k | 9,3k | -12,3% |
 | Tjul’kino | Тюлькино | 59,84, 56,53 (Russia) | 1,6k | 1,4k | 1,3k | 1,2k | 977 | -40,6% |
+| Totskoye Vtoroye | Тоцкое Второе | 52,54, 52,83 (Russia) | 7,1k | 7,2k | 6,9k | 7,2k | 7,9k | +11% |
 | Totskoye | Тоцкое | 52,53, 52,75 (Russia) | 7,1k | 7,2k | 6,9k | 7,2k | 7,9k | +11,5% |
-| Totskoye Vtoroye | Тоцкое Второе | 52,54, 52,83 (Russia) | 18,3k | 17,5k | 13,2k | 13,1k | 12,8k | -29,8% |
 | Trekhgornyy | Трехгорный | 54,82, 58,45 (Russia) | 36,2k | 34,3k | 33,7k | 33,2k | 32,5k | -10,4% |
 | Tretiy Severnyy | Третий Северный; Tretij Severnyj | 60,21, 59,96 (Russia) | 2,4k | 2,2k | 1,8k | 1,6k | 1,3k | -45,8% |
 | Troitsk | Troitsk Caravan Mart; Troitsk Orenburg | 54,1, 61,57 (Russia) | 89,1k | 83,9k | 78,4k | 77,2k | 70,3k | -21,1% |
-| Troitsk | Троицк | 50,7, 54,62 (Russia) | 101,6k | 101,3k | 95,1k | 92,5k | 88k | -13,3% |
 | Troitskiy | Троицкий; Troickij | 57,06, 63,75 (Russia) | 12,3k | 11,3k | 10,5k | 10,3k | 10k | -18,3% |
 | Trudovoy | Трудовой; Trudovoj | 55,99, 61,75 (Russia) | 446 | 383 | 343 | 318 | 278 | -37,7% |
 | Tselinnoye | Целинное | 54,5, 63,68 (Russia) | 6,2k | 5,8k | 5,1k | 4,9k | 4,6k | -25,5% |
 | Tsementnyy | Цементный; Cementnyj | 57,47, 60,15 (Russia) | 6,3k | 6,1k | 5,8k | 5,5k | 5k | -19,8% |
 | Tugulym | Тугулым | 57,06, 64,65 (Russia) | 6,8k | 6,2k | 6k | 5,8k | 5,4k | -20,3% |
 | Turgoyak | Тургояк; Turgojak | 55,15, 60,12 (Russia) | 3,3k | 2,3k | 2,6k | 2,7k | 2,8k | -15,4% |
-| Turinsk | Туринск | 58,05, 63,7 (Russia) | 22,5k | 19,3k | 17,9k | 17,3k | 16,6k | -26,5% |
+| Turinsk | Туринск; Yepanchin-Yurt | 58,05, 63,7 (Russia) | 22,5k | 19,3k | 17,9k | 17,3k | 16,6k | -26,5% |
 | Turinskaya Sloboda | Туринская Слобода | 57,62, 64,38 (Russia) | 6,9k | 6,1k | 6k | 5,6k | 5k | -27,6% |
-| Tyush | Тюшъ | 56,8, 58,35 (Russia) | 39,8k | 35,4k | 32,9k | 31,5k | 29,2k | -26,7% |
 | Ufimskiy | Уфимский; Ufimskij | 56,71, 58,05 (Russia) | 3,7k | 3,3k | 3k | 2,8k | 2,4k | -35% |
 | Ugleural’skij | Углеуральский | 58,94, 57,59 (Russia) | 11k | 10,4k | 5,4k | 9,4k | 8,7k | -21,2% |
 | Uinskoye | Уинское | 56,88, 56,58 (Russia) | 4,1k | 4,4k | 4,3k | 4,3k | 4,2k | +2,5% |
 | Ural’skij | Уральский | 57,93, 55,55 (Russia) | 9k | 8,9k | 8k | 7,9k | 6,7k | -25,4% |
-| Ural’skij | Уральский | 56,68, 61,08 (Russia) | 2,6k | 2,3k | 2,4k | 2,4k | 2,1k | -17,1% |
 | Uralets | Уралец; Uralec | 57,66, 59,65 (Russia) | 1,9k | 1,6k | 1,4k | 1,3k | 1k | -47,4% |
-| Us’va | Усьва | 58,68, 57,64 (Russia) | 1,2k | 758 | 535 | 428 | 304 | -75,4% |
 | Usol’je | Усолье | 59,42, 56,68 (Russia) | 6,4k | 6,1k | 5,7k | 5,8k | 6,6k | +3,4% |
 | Ust’-Katav | Усть-Катав; Усть- | 54,94, 58,18 (Russia) | 30,3k | 25,9k | 23,6k | 23,1k | 21,4k | -29,3% |
 | Ust-Kachka | Усть-Качка | 58, 55,67 (Russia) | 4,6k | 4,1k | 4,1k | 4k | 3,7k | -18,1% |
@@ -7309,7 +6588,6 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Visimo-Utkinsk | Висимо-Уткинск; Висимо-Уткинский | 57,68, 59,36 (Russia) | 1,1k | 857 | 606 | 571 | 515 | -54,9% |
 | Višnevogorsk | Вишневогорск | 55,99, 60,66 (Russia) | 6,1k | 5,1k | 4,6k | 4,5k | 4,2k | -30,7% |
 | Volchansk | Волчанск; Volčansk | 59,94, 60,08 (Russia) | 14,2k | 11k | 10k | 9,5k | 8,6k | -39,5% |
-| Voronezhskiy | Воронеж | 51,4, 58,02 (Russia) | 404,6k | 403,3k | 378,6k | 368,2k | 350,6k | -13,3% |
 | Vorontsovka | Воронцовка; Voroncovka | 59,66, 60,24 (Russia) | 1,2k | 999 | 870 | 821 | 743 | -35,9% |
 | Vostochnyy | Восточный; Vostočnyj | 58,8, 61,81 (Russia) | 6,9k | 5,7k | 4,7k | 4,5k | 4,3k | -37,6% |
 | Vsevolodo-Vil’va | Всеволодо-Вильва | 59,22, 57,44 (Russia) | 4,3k | 3,6k | 2,8k | 2,6k | 2k | -53,6% |
@@ -7317,11 +6595,9 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Vyazovaya | Вязовая; Vjazovaja | 54,91, 58,36 (Russia) | 2,4k | 2,1k | 1,7k | 1,6k | 1,3k | -44,9% |
 | Yasnyy | Ясный; Jasnyj | 51,04, 59,87 (Russia) | 25,2k | 18,5k | 17,4k | 15,6k | 15,5k | -38,5% |
 | Yayva | Яйва; Jajva | 59,33, 57,26 (Russia) | 11,7k | 10,9k | 10,3k | 10,1k | 8,3k | -29,4% |
-| Yekaterinburg | Лесной; Lesnoj | 56,86, 60,62 (Russia) | 59,7k | 53,2k | 50,4k | 49,4k | 48,3k | -19,2% |
 | Yelanskiy | Еланский | 56,84, 62,5 (Russia) | 9,9k | 8,8k | 10k | 8,7k | 6,9k | -30,6% |
 | Yelovo | Елово | 57,05, 54,92 (Russia) | 4,6k | 5,7k | 5,3k | 5,2k | 4,8k | +6,4% |
 | Yemanzhelinsk | Еманжелинск; Jemanželinsk | 54,75, 61,32 (Russia) | 31k | 30,2k | 30,2k | 29,9k | 27,6k | -10,9% |
-| Yeremeyevka | Еремеевка | 57,01, 58,03 (Russia) | 31,8k | 28,3k | 26,2k | 25,1k | 23,3k | -26,7% |
 | Yertarskiy | Ертарский; Jertarskij | 56,79, 64,3 (Russia) | 2,3k | 1,6k | 1,2k | 1k | 805 | -64,3% |
 | Yubileynyy | Юбилейный; Jubilejnyj | 58,78, 57,78 (Russia) | 3,5k | 1,7k | 1,3k | 964 | 591 | -83% |
 | Yug | Юг; Jug | 57,73, 56,17 (Russia) | 2,7k | 2,5k | 2,7k | 2,9k | 3,2k | +15,5% |
@@ -7330,10 +6606,8 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Yurla | Юрла | 59,32, 54,32 (Russia) | 3,4k | 4,2k | 4,1k | 4,2k | 4,4k | +30,2% |
 | Yushala | Юшала; Jušala | 57,08, 64,26 (Russia) | 4,7k | 4,2k | 3,8k | 3,5k | 3k | -35,8% |
 | Yusva | Юсьва | 58,97, 54,96 (Russia) | 3,8k | 4,7k | 4,7k | 4,8k | 5k | +29% |
-| Yuzhnyy | Южный; Južnyj | 53,12, 59,45 (Russia) | 2,6k | 2,2k | 2k | 1,8k | 1,5k | -41,7% |
 | Yuzhnyy Ural | Южный Урал | 51,73, 55,04 (Russia) | 1,3k | 1,2k | 2k | 2,7k | 4,6k | +267% |
 | Yuzhnyy-Kospashskiy | Южный-Коспашский; Južnyj-Kospašskij | 58,97, 57,76 (Russia) | 4,2k | 2,3k | 1,5k | 1,1k | 728 | -82,8% |
-| Zakharova | Захарова | 59,25, 54,64 (Russia) | 33,9k | 30,4k | 27,8k | 26,8k | 25,1k | -25,8% |
 | Zakoulovo | Закоулово | 54,83, 64,89 (Russia) | 672 | 538 | 305 | 266 | 209 | -68,9% |
 | Zapadnyy | Западный | 55,11, 61,28 (Russia) | 8,4k | 8,2k | 8,1k | 8k | 7,9k | -5,9% |
 | Zarechnyy | Заречный; Zarečnyj | 56,81, 61,33 (Russia) | 756 | 674 | 620 | 566 | 483 | -36,1% |
@@ -7341,13 +6615,9 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Zavod Mikhaylovskiy | Завод Михайловский; Zavod Mihajlovskij | 56,52, 54,28 (Russia) | 269 | 232 | 173 | 155 | 127 | -52,8% |
 | Zavodous-penskoye | Заводоуспенское; Zavodous-penskoje | 56,86, 65,02 (Russia) | 2,3k | 1,5k | 1,3k | 1,1k | 789 | -66,1% |
 | Zaykovo | Зайково; Zajkovo | 57,56, 62,76 (Russia) | 5,9k | 4,8k | 4,3k | 4,1k | 3,8k | -34,8% |
-| Zaytsev Khutor | Зайцевъ Хуторъ | 56,92, 56,65 (Russia) | 13,1k | 11,7k | 10,7k | 10,3k | 9,7k | -25,8% |
 | Zhelezno-dorozhnyy | Железнодорожный; Železnodorožnyj | 55,1, 61,55 (Russia) | 6,1k | 7,4k | 7,2k | 7k | 6,6k | +8,6% |
 | Zjuzel’skij | Зюзельский | 56,49, 60,13 (Russia) | 1,6k | 1,3k | 1,4k | 1,3k | 1,1k | -27,8% |
-| Zlatogorova | Златогорова | 56,57, 61,36 (Russia) | 26k | 23,1k | 21,4k | 20,5k | 19k | -26,7% |
 | Zlatoust | Zlatoustovsky Zavod; Zlatoust Steel | 55,17, 59,65 (Russia) | 208k | 195k | 175k | 171k | 161,8k | -22,2% |
-| Zobovo | Зобово | 53,2, 54,67 (Russia) | 27,1k | 27k | 25,4k | 24,7k | 23,5k | -13,3% |
-| Zvereva | Зверева | 59,47, 62,62 (Russia) | 13,5k | 12k | 11,1k | 10,7k | 9,9k | -26,7% |
 | Zverinog-olovskoye | Звериноголовское | 54,45, 64,85 (Russia) | 4,8k | 4,5k | 4,1k | 3,7k | 3,2k | -33,7% |
 | Zvjozdnyj | Звёздный | 57,73, 56,31 (Russia) | 1,9k | 1,7k | 1,8k | 1,7k | 1,7k | -11% |
 | Zyryanovskiy | Зыряновский; Zyrjanovskij | 57,73, 61,7 (Russia) | 1,3k | 911 | 876 | 778 | 633 | -51% |
@@ -7356,8 +6626,8 @@ decline to -3,8% (from 16,32M in 1991 to 15,7M in 2021; Table )
 | Čerdyn’ | Чердынь | 60,4, 56,48 (Russia) | 6,4k | 5,8k | 4,9k | 4,6k | 4,6k | -28,4% |
 | Čerjomuhovo | Черёмухово | 60,35, 59,99 (Russia) | 7,9k | 7,4k | 6k | 5,4k | 4,5k | -43,6% |
 | Šil’da | Шильда | 51,81, 59,77 (Russia) | 2,8k | 2,6k | 2,2k | 1,9k | 1,5k | -46,3% |
-| Ščuč’je | Щучье | 55,21, 62,75 (Russia) | 11k | 10,6k | 11k | 10,6k | 8,3k | -25,1% |
 | Ščuč’je Ozero | Щучье Озеро | 56,47, 56,65 (Russia) | 2,8k | 2,1k | 1,7k | 1,5k | 1,3k | -54,4% |
+| Ščuč’je | Щучье | 55,21, 62,75 (Russia) | 11k | 10,6k | 11k | 10,6k | 8,3k | -25,1% |
 
 Population of Yekaterinburg, Chelyabinsk, Perm and industrial centres in
 the Urals (Region 25), 1991-2021.
@@ -7374,7 +6644,6 @@ in 2021, led by Surgut, Nizhnevartovsk, Novy Urengoy and Khanty-Mansiysk
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Agirish | Агириш; Agiriš | 61,92, 63,02 (Russia) | 3,5k | 2,8k | 2,9k | 2,5k | 1,6k | -52,7% |
 | Aksarka | Аксарка | 66,56, 67,8 (Russia) | 3k | 2,6k | 3,1k | 3,5k | 4,4k | +44,4% |
-| Andra | Андра | 62,51, 65,89 (Russia) | 2,6k | 2k | 1,8k | 1,6k | 2k | -21,6% |
 | Barsovo | Барсово | 61,25, 73,19 (Russia) | 12k | 5,6k | 5k | 5,5k | 6,2k | -48,3% |
 | Beloyarskiy | Белоярский; Belojarskij | 63,71, 66,67 (Russia) | 20,2k | 18,7k | 20,3k | 20,2k | 20k | -1,2% |
 | Belyy Yar | Белый Яр; Belyj Jar | 61,26, 73,24 (Russia) | 13,2k | 14,4k | 14,6k | 16,9k | 16,1k | +22,2% |
@@ -7395,7 +6664,6 @@ in 2021, led by Surgut, Nizhnevartovsk, Novy Urengoy and Khanty-Mansiysk
 | Kuminskiy | Куминский; Kuminskij | 58,67, 66,57 (Russia) | 3,3k | 2,8k | 3,1k | 2,9k | 2,5k | -23,7% |
 | Labytnangi | Лабытнанги | 66,66, 66,42 (Russia) | 30,8k | 27,3k | 26,9k | 26,4k | 25,5k | -17,2% |
 | Langepas | Лангепас | 61,25, 75,21 (Russia) | 27,1k | 37,2k | 41,7k | 42,8k | 42,7k | +57,4% |
-| Lugovoy | Луговой; Lugovoj | 61,07, 68,47 (Russia) | 2,5k | 2k | 1,8k | 1,6k | 1,6k | -35,6% |
 | Lyantor | Лянтор; Ljantor | 61,62, 72,16 (Russia) | 23,5k | 33k | 39k | 40k | 41k | +74,5% |
 | Malinovskiy | Малиновский; Malinovskij | 61,2, 62,81 (Russia) | 2,9k | 2,6k | 2,8k | 2,6k | 2,2k | -24,1% |
 | Megion | Мегион | 61,03, 76,11 (Russia) | 40,8k | 46,6k | 49,4k | 48,9k | 52,9k | +29,8% |
@@ -7411,7 +6679,6 @@ in 2021, led by Surgut, Nizhnevartovsk, Novy Urengoy and Khanty-Mansiysk
 | Noyabrsk | Kholmogory Oil/Gas Boomtown (Founded 1976); Ноябрьск | 63,2, 75,45 (Russia) | 90k | 96,4k | 110,6k | 107,4k | 100,2k | +11,3% |
 | Nyagan | Krasnole-ninsky Oil Boomtown; Нягань | 62,14, 65,39 (Russia) | 59k | 52,6k | 54,9k | 55,9k | 63k | +6,8% |
 | Obdorsk | Salekhard; Poluy Yamal Fair | 66,53, 66,6 (Russia) | 32,3k | 36,8k | 42,5k | 47,9k | 47,9k | +48,3% |
-| Oktjabr’skoje | Октябрьское | 62,46, 66,03 (Russia) | 3,9k | 3,9k | 3,6k | 3,2k | 3,8k | -2% |
 | Pangody | Пангоды | 65,85, 74,49 (Russia) | 12,3k | 10,9k | 11k | 10,9k | 11,1k | -9,8% |
 | Pionerskiy | Пионерский; Pionerskij | 61,19, 62,87 (Russia) | 6,5k | 5,2k | 5,4k | 5,2k | 4,3k | -34,6% |
 | Pokachi | Покачи; Pokači | 61,72, 75,37 (Russia) | 12,2k | 17k | 17,2k | 17,5k | 16k | +31% |
@@ -7451,13 +6718,11 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Abatskoye | Абатское; Abatskoje | 56,29, 70,45 (Russia) | 8,5k | 8,2k | 8k | 8k | 8,1k | -5,1% |
 | Akutikha | Акутиха; Akutiha | 52,43, 84,47 (Russia) | 1,7k | 1,5k | 1,1k | 968 | 759 | -55,6% |
-| Aleksand-rovskoye | Александровское | 60,43, 77,86 (Russia) | 6,6k | 8k | 7,1k | 6,9k | 6,6k | -0,1% |
 | Aleysk | Алейск; Alejsk | 52,5, 82,77 (Russia) | 30k | 28,6k | 29,5k | 28,5k | 25,4k | -15,5% |
 | Altayskoye | Алтайское; Altajskoje | 51,95, 85,34 (Russia) | 12,9k | 14k | 13,7k | 13,8k | 14,1k | +8,6% |
 | Antipino | Антипино | 57,11, 65,76 (Russia) | 5,3k | 5,2k | 5,2k | 5,2k | 5,3k | +1% |
 | Armizonskoye | Армизонское | 55,95, 67,68 (Russia) | 4k | 4,7k | 4,8k | 4,8k | 4,9k | +23,3% |
 | Aromashevo | Аромашево | 56,87, 68,65 (Russia) | 5,7k | 5,6k | 5,4k | 5,4k | 5,4k | -5,3% |
-| Asino | Асино; Ксеньевка | 54,72, 71,64 (Russia) | 32,6k | 28,1k | 25,6k | 24,6k | 24,9k | -23,5% |
 | Asino | Асино | 57, 86,16 (Russia) | 30,5k | 28,1k | 25,6k | 25,4k | 24,9k | -18,2% |
 | Azovo | Азово | 54,7, 73,02 (Russia) | 5,5k | 5,4k | 6k | 6,5k | 7,5k | +37,4% |
 | Bagan | Баган | 54,1, 77,67 (Russia) | 6,1k | 5,9k | 5,5k | 5,5k | 5,5k | -9,9% |
@@ -7469,13 +6734,10 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Belmesevo | Бельмесёво | 53,2, 83,71 (Russia) | 854 | 843 | 1,5k | 2,2k | 4,3k | +408,3% |
 | Belokurikha | Белокуриха; Belokuriha | 52, 85 (Russia) | 14,4k | 14,5k | 14,7k | 14,5k | 14,7k | +2% |
 | Beloyarsk | Белоярск; Belojarsk | 53,45, 83,9 (Russia) | 10,7k | 10,8k | 10,4k | 10k | 9,2k | -13,7% |
-| Belyy Yar | Белый Яр; Belyj Jar | 57,59, 72,39 (Russia) | 8,8k | 8,2k | 8k | 8,1k | 7,9k | -9,5% |
 | Belyy Yar | Белый Яр | 58,44, 85,05 (Russia) | 8,9k | 8,2k | 7,8k | 7,7k | 7,5k | -15,9% |
 | Berdsk | Бердск; Бердский острог | 54,75, 83,1 (Russia) | 80,6k | 88,4k | 97,3k | 101,7k | 102,8k | +27,6% |
 | Berdyuzhe | Бердюжье | 55,8, 68,32 (Russia) | 5,4k | 5,3k | 5,2k | 5,4k | 5,8k | +8,6% |
 | Beregovoy | Береговой; Beregovoj | 55,17, 73,22 (Russia) | 7,2k | 8,1k | 7,8k | 7,6k | 7,2k | -1% |
-| Berezovka | Берёзовка | 52,35, 85,83 (Russia) | 4k | 3,9k | 4,6k | 4,7k | 5k | +25,4% |
-| Berezovye Luki | Березовые Луки | 53,63, 78,02 (Russia) | 19,8k | 19,4k | 19k | 18,7k | 18,2k | -8,5% |
 | Biysk | Bikatunskaya Krepost; Chuysky Trakt Terminus | 52,54, 85,21 (Russia) | 234k | 219k | 210k | 204k | 183,9k | -21,4% |
 | Blagoves-hchenka | Благовещенка; Blagoveščenka | 52,83, 79,88 (Russia) | 13,4k | 12,4k | 11,6k | 11,5k | 10,6k | -21,3% |
 | Bogandinskiy | Богандинский; Bogandinskij | 56,89, 65,89 (Russia) | 8,9k | 9,6k | 9,9k | 10,5k | 11,6k | +29,9% |
@@ -7487,17 +6749,15 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Bolshoe Sorokino | Большое Сорокино | 56,64, 69,82 (Russia) | 5,6k | 5,5k | 5,3k | 5,4k | 5,5k | -2,2% |
 | Borisovskoye | Борисовское; Borisovskoje | 54,62, 72,59 (Russia) | 1,5k | 1,3k | 979 | 894 | 762 | -49,3% |
 | Borovikha | Боровиха; Boroviha | 53,51, 83,84 (Russia) | 7,4k | 6,8k | 7k | 6,8k | 6,4k | -13,5% |
-| Borovlyanka | Боровлянка; Borovljanka | 53,87, 85,47 (Russia) | 2,7k | 2k | 1,6k | 1,4k | 1,1k | -59,7% |
+| Borovlyanka | Боровлянка; Borovljanka | 53,87, 85,47 (Russia) | 2,6k | 2,4k | 2,2k | 2,1k | 2k | -26% |
 | Borovskiy | Боровский; Borovskij | 57,04, 65,72 (Russia) | 15,4k | 15,5k | 17,5k | 18,4k | 20k | +29,3% |
 | Burla | Бурла | 53,34, 78,33 (Russia) | 4,8k | 4,7k | 4,3k | 3,9k | 3,3k | -31,5% |
 | Bursol’ | Бурсоль | 53,17, 78,44 (Russia) | 992 | 986 | 653 | 630 | 591 | -40,4% |
 | Bystryy Istok | Быстрый Исток; Bystryj Istok | 52,37, 84,39 (Russia) | 5,9k | 4,5k | 3,9k | 3,4k | 2,7k | -55,1% |
 | Chany | Чаны; Čany | 55,31, 76,76 (Russia) | 9,5k | 9k | 8,5k | 8,3k | 8k | -15,9% |
-| Chaunino | Чаунина | 57,15, 73,08 (Russia) | 122,8k | 120k | 114,1k | 110,8k | 105,1k | -14,4% |
 | Cheremnoye | Черёмное; Čerjomnoje | 53,17, 83,21 (Russia) | 4,2k | 4,5k | 4,5k | 4,3k | 4,1k | -2,1% |
 | Cherepanovo | Черепаново; Čerepanovo | 54,22, 83,38 (Russia) | 21,9k | 20,5k | 19,8k | 19,5k | 19,9k | -9% |
 | Cherlak | Черлак; Čerlak | 54,15, 74,81 (Russia) | 11,9k | 12,3k | 11k | 10,7k | 10,1k | -15,2% |
-| Chernaya | Черная | 56,34, 66,33 (Russia) | 175,2k | 171,2k | 172,2k | 174,2k | 177,8k | +1,5% |
 | Chernolu-chinskiy | Чернолучинский; Černolučinskij | 55,28, 73,03 (Russia) | 3,9k | 2,7k | 1,7k | 1,8k | 1,5k | -60% |
 | Chervishevo | Червишево | 56,95, 65,43 (Russia) | 3,2k | 3,1k | 3,9k | 4k | 4,1k | +27,7% |
 | Chik | Чик; Čik | 54,99, 82,43 (Russia) | 5k | 5,1k | 5k | 5,2k | 5,1k | +1,3% |
@@ -7518,11 +6778,8 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Isil’kul’ | Исилькуль | 54,91, 71,27 (Russia) | 26,4k | 26,5k | 24,5k | 24,1k | 20,5k | -22,4% |
 | Iskitim | Искитим | 54,64, 83,3 (Russia) | 67k | 62,8k | 60,1k | 57,9k | 57,1k | -14,8% |
 | Itatka | Итатка | 56,83, 85,6 (Russia) | 2,9k | 1,5k | 1,4k | 1,3k | 1,1k | -62,1% |
-| Kabane | Кабанье | 56,15, 71,49 (Russia) | 1k | 818 | 656 | 594 | 500 | -50,3% |
 | Kalachinsk | Калачинск; Kalačinsk | 55,05, 74,58 (Russia) | 24,9k | 24,2k | 23,6k | 22,5k | 21,4k | -14,1% |
-| Kalugino | Калугина | 56,05, 71,87 (Russia) | 372,2k | 363,7k | 345,7k | 335,6k | 318,6k | -14,4% |
 | Kamen’-na-Obi | Камень-на-Оби; Камень | 53,79, 81,33 (Russia) | 42,8k | 44,4k | 43,9k | 42,2k | 32,4k | -24,3% |
-| Kamenka | Каменка | 55,15, 79,67 (Russia) | 1,9k | 1,9k | 2,2k | 3,2k | 6,5k | +240,2% |
 | Karasuk | Карасук | 53,74, 78,04 (Russia) | 29,3k | 28,7k | 28,6k | 28,1k | 24,9k | -15% |
 | Kargasok | Каргасок | 59,06, 80,86 (Russia) | 8,5k | 8,5k | 8,1k | 7,9k | 7,4k | -12,5% |
 | Kargat | Каргат | 55,19, 80,28 (Russia) | 12,3k | 11,2k | 10k | 9,7k | 8,3k | -32,6% |
@@ -7533,7 +6790,6 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Khabary | Хабары | 53,63, 79,54 (Russia) | 5,1k | 5,9k | 5,6k | 5,3k | 5k | -3,3% |
 | Kislovka | Кисловка | 56,42, 84,87 (Russia) | 2,8k | 2,6k | 2,9k | 4,5k | 9,5k | +233,1% |
 | Klyuchi | Ключи | 52,25, 79,17 (Russia) | 8,3k | 9,3k | 8,9k | 8,2k | 7,1k | -14,1% |
-| Klyuchi | Ключи | 55,15, 73,21 (Russia) | 4,1k | 4k | 3,7k | 3,5k | 3,3k | -19,2% |
 | Kochki | Кочки | 54,33, 80,49 (Russia) | 4,3k | 4,2k | 4,1k | 3,9k | 3,7k | -14,6% |
 | Kol’covo | Кольцово | 54,94, 83,19 (Russia) | 8,2k | 9,6k | 12,3k | 14,6k | 20,9k | +155,1% |
 | Kolosovka | Колосовка | 56,47, 73,62 (Russia) | 4,9k | 5,8k | 5,3k | 5,1k | 4,8k | -1,2% |
@@ -7558,17 +6814,13 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Krutinka | Крутинка | 56,01, 71,51 (Russia) | 8k | 7,8k | 7,3k | 6,9k | 6,7k | -17% |
 | Kulunda | Кулунда | 52,56, 78,94 (Russia) | 16,3k | 15,5k | 14,5k | 14,6k | 14,7k | -9,9% |
 | Kupino | Купино | 54,37, 77,31 (Russia) | 19,1k | 16,9k | 14,9k | 14,2k | 15,1k | -21,1% |
-| Kurganskaya | Курганская | 55,02, 72,65 (Russia) | 67,6k | 66k | 62,8k | 60,9k | 57,9k | -14,4% |
-| Kurya | Курья | 51,6, 82,29 (Russia) | 4,3k | 4,3k | 3,8k | 3,7k | 3,4k | -21,2% |
 | Kuybyshev | Куйбышев; Kujbyšev | 55,45, 78,32 (Russia) | 50,8k | 48,8k | 45,3k | 44,5k | 41,9k | -17,4% |
 | Kyshtovka | Кыштовка | 56,56, 76,63 (Russia) | 6k | 5,8k | 5,3k | 5,2k | 5k | -17,1% |
 | Kytmanovo | Кытманово | 53,46, 85,45 (Russia) | 3,8k | 4,2k | 3,9k | 3,7k | 3,3k | -14,1% |
 | Lebedevka | Лебедёвка; Lebedjovka | 56,79, 66,95 (Russia) | 1,8k | 1,6k | 1,4k | 1,4k | 1,3k | -25,3% |
 | Lebyazhe | Лебяжье | 53,24, 83,65 (Russia) | 4,7k | 4,6k | 5,2k | 5k | 4,6k | -1,9% |
-| Lesnoye | Лесное; Lesnoje | 56,93, 67,25 (Russia) | 1,8k | 1,6k | 1,5k | 1,5k | 1,3k | -26,2% |
 | Linjovo | Линёво; Линево | 54,46, 83,38 (Russia) | 22,2k | 21,8k | 20,7k | 19,3k | 17,8k | -20% |
 | Listvyanskiy | Листвянский; Listvjanskij | 54,44, 83,5 (Russia) | 3k | 2,7k | 2,5k | 2,5k | 2,7k | -10% |
-| Lugovoy | Луговой | 56,67, 66,3 (Russia) | 2k | 2k | 1,8k | 1,7k | 1,6k | -20,4% |
 | Luzino | Лузино | 54,95, 73,04 (Russia) | 7,9k | 10k | 9k | 8,6k | 8k | +1,3% |
 | Lyubinskiy | Любинский; Ljubinskij | 55,16, 72,69 (Russia) | 10,8k | 10,6k | 10,2k | 10,3k | 10,8k | -0,3% |
 | Malinovoye Ozero | Малиновое Озеро; Malinovoje Ozero | 51,68, 79,78 (Russia) | 4,9k | 4,1k | 3,6k | 3,4k | 2,7k | -44,9% |
@@ -7579,7 +6831,7 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Melnikovo | Мельниково | 56,56, 84,08 (Russia) | 10,5k | 9,7k | 8,4k | 8,3k | 8,3k | -21,5% |
 | Mendeleyevo | Менделеево; Mendelejevo | 58,17, 68,3 (Russia) | 4,8k | 4,3k | 4,3k | 4,3k | 4,4k | -7,2% |
 | Mikhaylo-vskoye | Михайловское; Mihajlovskoje | 51,82, 79,72 (Russia) | 10,8k | 11,6k | 11k | 10,2k | 8,9k | -17,7% |
-| Mogochin | Могочино; Mogočino | 57,71, 83,58 (Russia) | 4,1k | 3,2k | 2,6k | 2,5k | 2,4k | -41% |
+| Mogochin | Могочино; Mogočino | 57,71, 83,58 (Russia) | 3,6k | 3,2k | 3k | 2,9k | 2,6k | -26% |
 | Molchanovo | Молчаново | 57,58, 83,76 (Russia) | 6,9k | 6,1k | 5,7k | 5,8k | 5,8k | -16,2% |
 | Moryakovskiy Zaton | Моряковский Затон; Morjakovskij Zaton | 56,69, 84,65 (Russia) | 5,2k | 4,7k | 5,2k | 4,9k | 4,5k | -13,1% |
 | Moshkovo | Мошково; Moškovo | 55,31, 83,61 (Russia) | 9,7k | 10,7k | 10,2k | 9,6k | 9,7k | -0,4% |
@@ -7610,23 +6862,14 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Odesskoye | Одесское | 54,22, 72,97 (Russia) | 6,2k | 6,1k | 6,1k | 6,1k | 6k | -3% |
 | Okoneshnikovo | Оконешниково; Okonešnikovo | 54,84, 75,08 (Russia) | 6,1k | 5,6k | 5,2k | 4,9k | 4,7k | -22% |
 | Oktjabr’skoje | Октябрьское | 53,27, 85,28 (Russia) | 370 | 365 | 400 | 399 | 398 | +7,6% |
-| Oktjabr’skoje | Октябрьское | 55,55, 73,6 (Russia) | 2k | 2k | 2,1k | 2k | 1,7k | -14,7% |
-| Oktyabrskiy | Октябрьский | 55,94, 76,14 (Russia) | 7,7k | 7,6k | 7,6k | 7,5k | 7,4k | -3,7% |
-| Oltar | Олтарь | 54,54, 76,65 (Russia) | 16,7k | 16,3k | 16k | 15,7k | 15,2k | -8,5% |
-| Olviopol | Ольвиополь | 54,52, 71,26 (Russia) | 44,8k | 43,7k | 41,6k | 40,4k | 38,3k | -14,4% |
 | Omsk | Omskaya Krepost; Steppe & Rail Capital | 54,99, 73,32 (Russia) | 1,17M | 1,13M | 1,15M | 1,17M | 1,13M | -3,5% |
 | Omskiy | Омский | 55,1, 73,35 (Russia) | 1,6k | 1,5k | 1,6k | 2,3k | 4,3k | +178,6% |
 | Omutinskoye | Омутинское; Omutinskoje | 56,47, 67,64 (Russia) | 10,3k | 9,7k | 9,2k | 9,2k | 9,1k | -11,3% |
 | Onokhino | Онохино | 56,93, 65,54 (Russia) | 3,1k | 3k | 4,1k | 4,2k | 4,4k | +43,7% |
 | Ordynskoye | Ордынское; Ordynskoje | 54,36, 81,89 (Russia) | 9,6k | 10,4k | 10,3k | 9,7k | 9,5k | -2% |
-| Osinova | Осинова | 55,47, 70,73 (Russia) | 21,1k | 20,6k | 19,6k | 19k | 18k | -14,4% |
-| Ozerki | станция Озёрки | 53,67, 83,69 (Russia) | 3,8k | 3,7k | 4,2k | 4,2k | 4,2k | +10,2% |
-| Ozerki | Озёрки | 51,52, 83,43 (Russia) | 4,4k | 4,4k | 5,1k | 4,9k | 4,5k | +2,5% |
 | Ozero-Karachi | Озеро-Карачи | 55,34, 76,95 (Russia) | 1,8k | 1,8k | 1,5k | 1,4k | 1,4k | -24,8% |
 | Pankrushikha | Панкрушиха | 53,83, 80,35 (Russia) | 4,9k | 5,2k | 4,9k | 4,6k | 4,1k | -16,7% |
 | Parabel | Парабель | 58,7, 81,49 (Russia) | 6,7k | 6,2k | 6,1k | 6k | 5,9k | -12,3% |
-| Parizhskaya Kommuna | Парижская Коммуна | 52,81, 84,84 (Russia) | 30,7k | 30,6k | 28,7k | 27,4k | 25,3k | -17,6% |
-| Pashino | Пашино; Pašino | 55,16, 82,97 (Russia) | 28,4k | 27,8k | 27,2k | 26,8k | 26k | -8,5% |
 | Pavlogradka | Павлоградка | 54,2, 73,56 (Russia) | 7,7k | 6,2k | 7,6k | 7,2k | 7,2k | -6,2% |
 | Pavlovsk | Павловск | 53,32, 82,99 (Russia) | 13,8k | 14,9k | 14,5k | 14,3k | 13,8k | 0% |
 | Pervomayskoye | Первомайское | 53,72, 84,02 (Russia) | 5,3k | 5,3k | 5,3k | 5,3k | 5,3k | -1,3% |
@@ -7634,7 +6877,7 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Peshcherka | Пещерка | 54,09, 84,77 (Russia) | 1,6k | 1,4k | 1,3k | 1,1k | 927 | -42,8% |
 | Podgornoye | Подгорное | 57,79, 82,65 (Russia) | 4,4k | 5k | 5k | 4,9k | 4,8k | +9% |
 | Poltavka | Полтавка | 54,36, 71,76 (Russia) | 7,4k | 7,2k | 7k | 7k | 6,4k | -13% |
-| Posevnaya | Посевная; Posevnaja | 54,3, 83,33 (Russia) | 4,8k | 4,3k | 4,3k | 4,4k | 4,7k | -3,5% |
+| Posevnaya | Посевная; Posevnaja | 54,3, 83,33 (Russia) | 2,9k | 2,6k | 2,4k | 2,3k | 2,2k | -26% |
 | Pospelikha | Поспелиха; Pospeliha | 51,95, 81,77 (Russia) | 13,2k | 13,7k | 12,5k | 11,7k | 10,4k | -21,1% |
 | Prokudskoye | Прокудское | 55,01, 82,46 (Russia) | 5,5k | 6,1k | 6k | 6k | 6k | +7,7% |
 | Razdolnoe | Раздольное | 55,06, 83,12 (Russia) | 2,8k | 2,8k | 4,9k | 4,6k | 4,2k | +48,2% |
@@ -7650,12 +6893,10 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Sedelnikovo | Седельниково | 56,95, 75,31 (Russia) | 4,3k | 5,1k | 5,3k | 5,2k | 5k | +17,2% |
 | Severnoye | Северное | 56,35, 78,36 (Russia) | 5,6k | 5,4k | 5,3k | 5,1k | 4,7k | -16,7% |
 | Seversk | Tomsk-7 Closed Nuclear Complex ZATO; Северск | 56,6, 84,88 (Russia) | 109k | 109,1k | 108,6k | 109k | 106,6k | -2,2% |
-| Shchuchya | Щучья | 57,2, 66,7 (Russia) | 28,2k | 27,6k | 27,8k | 28,1k | 28,7k | +1,5% |
 | Shelabolikha | Шелаболиха | 53,42, 82,61 (Russia) | 4,4k | 4,3k | 4k | 3,8k | 3,4k | -22,6% |
 | Shipunovo | Шипуново; Šipunovo | 52,22, 82,27 (Russia) | 10,6k | 11,5k | 12,1k | 11,2k | 9,8k | -7,3% |
 | Sibirskiy | Сибирский; Sibirskij | 53,58, 83,77 (Russia) | 12,2k | 12k | 11,3k | 11,5k | 10,5k | -13,8% |
 | Slavgorod | Kulunda Steppe Volga German & Kalmyk Deportee Centre; Славгород | 53, 78,65 (Russia) | 34,8k | 34,3k | 32,4k | 31k | 27,9k | -19,8% |
-| Smeloye | Смелое | 54,5, 71,41 (Russia) | 43,9k | 42,9k | 40,8k | 39,6k | 37,6k | -14,4% |
 | Smolenskoye | Смоленское | 52,3, 85,08 (Russia) | 9k | 9,5k | 9k | 8,6k | 8k | -10,9% |
 | Sokolovo | Соколово | 52,53, 84,79 (Russia) | 3k | 3,3k | 3,2k | 3k | 2,7k | -11,4% |
 | Sokur | Сокур | 55,21, 83,32 (Russia) | 6k | 5,8k | 5,8k | 5,7k | 5,7k | -5,5% |
@@ -7692,7 +6933,7 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Tselinnoye | Целинное | 53,08, 85,66 (Russia) | 5,8k | 5,9k | 5,3k | 5,1k | 4,7k | -18,3% |
 | Tsentralnyy | Центральный | 53,22, 83,61 (Russia) | 1,9k | 1,8k | 2k | 2,6k | 4,5k | +140,5% |
 | Turtas | Туртас | 58,94, 69,13 (Russia) | 5,2k | 5,1k | 5,4k | 5,3k | 5,1k | -1,3% |
-| Tyagun | Тягун; Tjagun | 53,95, 85,66 (Russia) | 2,8k | 2,2k | 2k | 1,6k | 1,2k | -58,3% |
+| Tyagun | Тягун; Tjagun | 53,95, 85,66 (Russia) | 2,3k | 2,1k | 1,9k | 1,9k | 1,7k | -26% |
 | Tyukalinsk | Тюкалинск; Tjukalinsk | 55,87, 72,2 (Russia) | 12,2k | 12k | 11,3k | 10,7k | 9,9k | -18,7% |
 | Tyumen | Chimgi-Tura; Siberian Gateway | 57,15, 65,53 (Russia) | 491k | 511k | 582k | 679k | 847,5k | +72,6% |
 | Tyumentsevo | Тюменцево | 53,32, 81,5 (Russia) | 5,6k | 5,8k | 5,6k | 5,1k | 4,4k | -20,1% |
@@ -7718,19 +6959,16 @@ industrial losses elsewhere, holding overall contraction to -5,9% (from
 | Yarkovo | Ярково | 54,81, 82,6 (Russia) | 5,4k | 5,2k | 5,4k | 4,6k | 3,5k | -35,5% |
 | Yarkovo | Ярково | 57,4, 67,07 (Russia) | 7,1k | 7k | 7k | 7,2k | 7,5k | +4,8% |
 | Yarovoye | Яровое; Jarovoje | 52,93, 78,58 (Russia) | 21,7k | 21,4k | 18,6k | 18,2k | 16,4k | -24,4% |
-| Yurga | Юрга; Jurga | 56,5, 70,84 (Russia) | 92k | 85,6k | 81,5k | 81,4k | 79,7k | -13,4% |
 | Yurginskoye | Юргинское | 56,82, 67,39 (Russia) | 4,7k | 4,6k | 4,5k | 4,7k | 5,1k | +7,7% |
-| Yushkova | Юшкова | 56,88, 70,57 (Russia) | 27,5k | 26,9k | 27k | 27,4k | 27,9k | +1,5% |
 | Yuzhnyy | Южный; Južnyj | 53,25, 83,69 (Russia) | 23k | 19,7k | 19,2k | 20,1k | 18,1k | -21,3% |
 | Zalesovo | Залесово | 53,99, 84,74 (Russia) | 7,4k | 8k | 7,3k | 7k | 6,5k | -11,6% |
-| Zaozernaya | Заозерная | 56,84, 67,34 (Russia) | 36k | 35,2k | 35,4k | 35,8k | 36,5k | +1,5% |
 | Zarinsk | Заринск; Заринский | 53,71, 84,94 (Russia) | 50,3k | 50,4k | 48,5k | 47,6k | 41,3k | -17,9% |
 | Zaton | Затон | 53,29, 83,81 (Russia) | 3,3k | 3,2k | 3,1k | 2,9k | 2,7k | -18,1% |
 | Zavodope-trovskiy | Заводопетровское; Zavodope-trovskoje | 56,84, 66,73 (Russia) | 1,1k | 895 | 743 | 643 | 499 | -54,8% |
 | Zavodoukovsk | Заводоуковск; Заводоуковский | 56,5, 66,55 (Russia) | 25,8k | 25,7k | 25,6k | 25,3k | 27,1k | +5% |
 | Zavyalovo | Завьялово | 52,84, 80,92 (Russia) | 6,9k | 7,5k | 6,9k | 6,7k | 6,3k | -8,9% |
 | Zdvinsk | Здвинск | 54,7, 78,67 (Russia) | 5,8k | 5,6k | 5,6k | 5,4k | 5k | -14,5% |
-| Zmeinogorsk | Змеиногорск | 51,16, 82,19 (Russia) | 12,1k | 11,6k | 11k | 10,6k | 9,4k | -22,5% |
+| Zmeinogorsk | Змеиногорск; Zmeinogorskiy Rudnik | 51,16, 82,19 (Russia) | 12,1k | 11,6k | 11k | 10,6k | 9,4k | -22,5% |
 | Znamenskoye | Знаменское | 57,13, 73,83 (Russia) | 5,6k | 5,5k | 5,3k | 5,3k | 5,2k | -6,3% |
 | Zonalnaya Stantsiya | Зональная Станция | 56,43, 85,02 (Russia) | 5,5k | 5k | 5,8k | 8,3k | 15,4k | +182,3% |
 | Zudilovo | Зудилово | 53,49, 83,89 (Russia) | 3,2k | 3,2k | 4k | 4,4k | 5,2k | +60,6% |
@@ -7755,13 +6993,11 @@ and Kemerovo (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Artyshta | Артышта; Artyšta | 54,12, 86,29 (Russia) | 3,5k | 3,2k | 2,8k | 2,6k | 2,3k | -33,5% |
 | Bachatskiy | Бачатский; Bačatskij | 54,29, 86,13 (Russia) | 13,6k | 15k | 14,4k | 14k | 12,7k | -6,4% |
 | Barzas | Барзас | 55,73, 86,32 (Russia) | 2,7k | 2,3k | 2,1k | 2,1k | 2k | -26,2% |
-| Belogorodka | Белогородка | 56,29, 87,16 (Russia) | 921 | 755 | 681 | 531 | 343 | -62,8% |
 | Belogorsk | Белогорск | 55,02, 88,49 (Russia) | 3,7k | 3,5k | 3,3k | 2,9k | 2,3k | -38,8% |
 | Belovo | Белово | 54,42, 86,3 (Russia) | 91,4k | 82,4k | 76,8k | 74,3k | 68,5k | -25% |
 | Berikul’skij | Берикульский | 55,53, 88,14 (Russia) | 1,9k | 956 | 694 | 521 | 315 | -83,3% |
 | Berjozovskij | Берёзовский; Березовский | 55,67, 86,27 (Russia) | 50,8k | 48,3k | 47,3k | 47,2k | 44,1k | -13,2% |
 | Borovoy | Боровой; Borovoj | 55,43, 86,08 (Russia) | 5,7k | 6,1k | 5,8k | 5,5k | 5,1k | -10,7% |
-| Central’nyj | Центральный | 55,24, 85,34 (Russia) | 1,6k | 793 | 445 | 339 | 211 | -86,9% |
 | Chistogorskiy | Чистогорский; Čistogorskij | 53,98, 87,38 (Russia) | 4,6k | 4,3k | 4,6k | 4,5k | 4,4k | -4% |
 | Chugunash | Чугунаш; Čugunaš | 52,87, 87,78 (Russia) | 1k | 674 | 639 | 655 | 685 | -31,9% |
 | Gramoteino | Грамотеино | 54,54, 86,38 (Russia) | 16,4k | 14,4k | 13k | 12,6k | 11,2k | -31,5% |
@@ -7775,8 +7011,6 @@ and Kemerovo (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Kedrovka | Кедровка | 55,52, 86,1 (Russia) | 12,7k | 18,2k | 17,4k | 16,6k | 15,4k | +21% |
 | Kemerovo | Shcheglovsk; Кемерово | 55,35, 86,09 (Russia) | 521k | 485k | 533k | 544k | 557,1k | +6,9% |
 | Kiselevsk | Kiselevsk Kuzbass Coal; Киселёвск | 53,99, 86,64 (Russia) | 128k | 106k | 98k | 93k | 83,4k | -34,8% |
-| Kolmakovo | Колмакова | 55,69, 85,49 (Russia) | 11,2k | 10,6k | 9,9k | 9,5k | 8,7k | -22,3% |
-| Komsomol’sk | Комсомольск | 55,65, 88,18 (Russia) | 3,3k | 2,6k | 2,3k | 2,1k | 1,6k | -52,2% |
 | Krapivinskiy | Крапивинский; Krapivinskij | 55, 86,8 (Russia) | 8,2k | 8,1k | 7,4k | 7,3k | 7,4k | -9,2% |
 | Krasnobr-odskiy | Краснобродский; Krasnobr-odskij | 54,16, 86,45 (Russia) | 12,5k | 11,9k | 11,9k | 11,8k | 11,4k | -9% |
 | Krasnogorskiy | Красногорский; Krasnogorskij | 54,55, 86,28 (Russia) | 3,8k | 3,1k | 3k | 2,8k | 2,6k | -32,6% |
@@ -7791,11 +7025,8 @@ and Kemerovo (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Mundybash | Мундыбаш; Mundybaš | 53,21, 87,3 (Russia) | 6,8k | 6k | 5,1k | 4,8k | 4,2k | -38,1% |
 | Myski | Мыски | 53,72, 87,8 (Russia) | 45,7k | 44,4k | 43k | 42,6k | 40,1k | -12,3% |
 | Nikitinskiy | Никитинский; Nikitinskij | 54,58, 86,01 (Russia) | 3,4k | 2,5k | 2,3k | 1,9k | 1,3k | -60,8% |
-| Novokuznetsk | Кузнецк | 53,76, 87,14 (Russia) | 109,9k | 103,9k | 96,5k | 92,3k | 85,3k | -22,3% |
-| Novyy | Новый; Novyj | 55,65, 86,65 (Russia) | 811 | 619 | 544 | 515 | 468 | -42,3% |
 | Novyy Gorodok | Новый Городок; Novyj Gorodok | 54,31, 86,29 (Russia) | 19,7k | 16,8k | 15,8k | 15,6k | 14,7k | -25,4% |
 | Osinniki | Осинники | 53,6, 87,33 (Russia) | 60,7k | 51,1k | 46k | 44,2k | 40,4k | -33,5% |
-| Pervomayskiy | Первомайский; Pervomajskij | 55,35, 87,87 (Russia) | 1,1k | 757 | 751 | 614 | 432 | -62,3% |
 | Pioner | Пионер | 55,32, 85,95 (Russia) | 6,8k | 6,2k | 5,9k | 5,7k | 5,2k | -22,5% |
 | Plotnikovo | Плотниково | 55,02, 85,94 (Russia) | 5,4k | 5,1k | 5,2k | 5,2k | 5,2k | -5% |
 | Polysayevo | Полысаево; Polysajevo | 54,6, 86,28 (Russia) | 27,2k | 28,2k | 27,6k | 27,3k | 25,6k | -5,8% |
@@ -7806,7 +7037,6 @@ and Kemerovo (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Rudnichnyy | Рудничный; Rudničnyj | 56,08, 86,25 (Russia) | 4,6k | 4,4k | 3,9k | 3,8k | 3,4k | -25,8% |
 | Salair | Салаир | 54,23, 85,8 (Russia) | 11,1k | 9,5k | 8,3k | 8k | 7,1k | -36,3% |
 | Sheregesh | Шерегеш; Šeregeš | 52,92, 87,99 (Russia) | 9,7k | 10,4k | 10,2k | 10,2k | 9,9k | +2,4% |
-| Spassk | Спасск | 52,75, 87,75 (Russia) | 1,7k | 1,6k | 1,7k | 1,7k | 1,6k | -5% |
 | Starobachaty | Старобачаты; Starobačaty | 54,24, 86,21 (Russia) | 5,4k | 4,7k | 4,4k | 4,2k | 3,9k | -28,3% |
 | Tashtagol | Таштагол; Taštagol | 52,77, 87,89 (Russia) | 25,8k | 23,4k | 23,1k | 23k | 22k | -14,8% |
 | Tayga | Тайга; Tajga | 56,07, 85,62 (Russia) | 26k | 24,7k | 25,3k | 25,1k | 22,4k | -13,9% |
@@ -7841,11 +7071,11 @@ Gorno-Altaysk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Ak-Dovurak | Ak-Dovurak Tuva; Ак-Довурак | 51,18, 90,6 (Russia) | 14,8k | 13k | 13,5k | 13,6k | 13,8k | -7,1% |
 | Aktash | Акташ; Aktaš | 50,31, 87,6 (Russia) | 3,5k | 3,4k | 2,8k | 2,5k | 2,1k | -40% |
 | Askiz | Аскиз | 53,13, 90,53 (Russia) | 4,6k | 5k | 5,2k | 4,9k | 5,4k | +15,4% |
-| Balyksa | Балыкса | 53,41, 89,13 (Russia) | 3,7k | 2,2k | 2k | 1,9k | 1,7k | -52,5% |
+| Balyksa | Балыкса | 53,41, 89,13 (Russia) | 4,5k | 4k | 3,7k | 3,6k | 3,3k | -26% |
 | Belotsarsk | Kyzyl; Uriankhai 1914 Protectorate | 51,72, 94,44 (Russia) | 87k | 104k | 110k | 114k | 125,2k | +44% |
 | Belyy Yar | Белый Яр | 53,59, 91,38 (Russia) | 7k | 9,1k | 10k | 10k | 10,1k | +43,9% |
 | Beya | Бея | 53,05, 90,92 (Russia) | 5,3k | 5,4k | 5,2k | 5k | 4,6k | -12% |
-| Birikčul’ | Бирикчуль | 53,33, 89,88 (Russia) | 4k | 2,7k | 2,5k | 2,5k | 2,3k | -41,8% |
+| Birikčul’ | Бирикчуль | 53,33, 89,88 (Russia) | 4,9k | 4,5k | 4,1k | 3,9k | 3,6k | -26% |
 | Biskamzha | Бискамжа; Biskamža | 53,45, 89,53 (Russia) | 1,9k | 2k | 1,3k | 1,1k | 1,2k | -37,6% |
 | Bograd | Боград | 54,23, 90,85 (Russia) | 4,1k | 4,7k | 4,7k | 4,3k | 3,7k | -10,3% |
 | Chadan | Чадан; Čadan | 51,29, 91,57 (Russia) | 10,6k | 9,5k | 9k | 8,9k | 9,7k | -7,8% |
@@ -7856,19 +7086,15 @@ Gorno-Altaysk (Table ) [\[9\]](#ref-rosstat2022perepis2021).
 | Khovu-Aksy | Хову-Аксы; Hovu-Aksy | 51,13, 93,71 (Russia) | 5,5k | 3,7k | 3,7k | 3,6k | 3,6k | -34,5% |
 | Kommunar | Коммунар | 54,35, 89,28 (Russia) | 3,4k | 2,8k | 2,3k | 2k | 1,5k | -54,9% |
 | Kop’jovo | Копьёво | 54,99, 89,82 (Russia) | 5,6k | 4,9k | 4,4k | 4,2k | 3,9k | -30,2% |
-| Korchin | Корчин | 54,05, 90,33 (Russia) | 17k | 14,2k | 13,4k | 12,8k | 11,8k | -30,9% |
 | Kosh-Agach | Кош-Агач | 49,99, 88,68 (Russia) | 4,4k | 5,7k | 7,9k | 8,1k | 8,3k | +87,7% |
 | Kyzyl-Mazhalyk | Кызыл-Мажалык; Kyzyl-Mažalyk | 51,15, 90,58 (Russia) | 5,6k | 5k | 5,1k | 4,9k | 4,5k | -19,4% |
 | Kyzylozek | Кызыл-Озек | 51,89, 86 (Russia) | 3,4k | 3,2k | 4,1k | 4,2k | 4,5k | +31,8% |
 | Mayma | Майма | 52, 85,9 (Russia) | 16,4k | 15,3k | 16,2k | 16,4k | 16,9k | +2,8% |
-| Meny | Мены | 50,28, 87,68 (Russia) | 19,5k | 18,1k | 19,9k | 20,3k | 21k | +7,6% |
 | Mugur-Aksy | Мугур-Аксы | 50,38, 90,44 (Russia) | 4,5k | 4k | 4,2k | 4,3k | 4,5k | -0,2% |
 | Onguday | Онгудай | 50,75, 86,13 (Russia) | 4,9k | 5,4k | 5,7k | 5,7k | 5,8k | +17,6% |
-| Ordzhoni-kidzevskiy | Орджоникидзевское; Ordžonikidze-vskoje | 54,78, 88,96 (Russia) | 1,4k | 744 | 522 | 432 | 310 | -77,8% |
 | Priiskovoe | Приисковое; Priiskovoje | 54,65, 88,69 (Russia) | 1,4k | 690 | 470 | 430 | 369 | -73,4% |
-| Sarala | Сарала | 54,87, 89,25 (Russia) | 1,9k | 1,3k | 918 | 847 | 736 | -62% |
+| Sarala | Сарала | 54,87, 89,25 (Russia) | 5,7k | 5,2k | 4,8k | 4,6k | 4,2k | -26,3% |
 | Saryg-Sep | Сарыг-Сеп | 51,49, 95,56 (Russia) | 5,2k | 4,6k | 4,4k | 4,3k | 4,2k | -19,1% |
-| Seyka | Сёйка; Sjojka | 51,88, 86,74 (Russia) | 2k | 1,8k | 1,5k | 1,4k | 1,3k | -35,4% |
 | Shagonar | Шагонар; Šagonar | 51,53, 92,93 (Russia) | 10,2k | 11k | 11k | 10,9k | 11,8k | +15,2% |
 | Shebalino | Шебалино | 51,3, 85,68 (Russia) | 4,4k | 4,9k | 4,9k | 4,8k | 4,7k | +6,3% |
 | Shira | Шира; Šira | 54,49, 89,97 (Russia) | 10,5k | 9,5k | 9,4k | 9,5k | 9,5k | -9,1% |
@@ -7903,13 +7129,11 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Aban | Абан | 56,68, 96,07 (Russia) | 10,3k | 9,8k | 9,2k | 8,8k | 8,2k | -20,3% |
 | Achinsk | Achinsky Ostrog; Chulym Crossing | 56,27, 90,5 (Russia) | 121,1k | 118,7k | 109,2k | 106,5k | 100,6k | -16,9% |
 | Aginskoye | Агинское | 55,26, 94,91 (Russia) | 5,2k | 6,2k | 5,6k | 5,2k | 4,6k | -11,6% |
-| Aleksandrovka | Александровка | 54,79, 100,71 (Russia) | 49,6k | 43,1k | 39,8k | 38,7k | 36,8k | -25,9% |
 | Alekseye-vskaya | Алексеевск; Aleksejevsk | 57,85, 108,4 (Russia) | 3,6k | 3,2k | 2,5k | 2,3k | 1,9k | -48,6% |
 | Alzamay | Алзамай; Alzamaj | 55,56, 98,66 (Russia) | 8,8k | 7,4k | 6,7k | 6,3k | 5,4k | -38,6% |
 | Angarsk | Angara Petrochemical & Uranium Enrichment Hub; Ангарск | 52,54, 103,89 (Russia) | 269k | 247k | 234k | 229k | 221,3k | -17,7% |
-| Aprel’sk | Апрельск | 58,18, 114,54 (Russia) | 305 | 148 | 96 | 65 | 33 | -89,2% |
+| Aprel’sk | Апрельск | 58,18, 114,54 (Russia) | 1,6k | 1,5k | 1,3k | 1,3k | 1,2k | -26% |
 | Artemovsk | Артёмовск; Artjomovsk | 54,35, 93,44 (Russia) | 4,3k | 2,9k | 2,2k | 1,9k | 1,5k | -64,9% |
-| Artjomovskij | Артёмовский; Артемовский | 58,21, 114,64 (Russia) | 3,5k | 2,2k | 1,5k | 1,4k | 910 | -73,8% |
 | Atagay | Атагай; Atagaj | 55,1, 99,39 (Russia) | 3,7k | 1,9k | 1,7k | 1,7k | 1,3k | -63,8% |
 | Bajkal’sk | Байкальск | 51,52, 104,14 (Russia) | 16,3k | 15,7k | 13,6k | 13,1k | 13,2k | -19% |
 | Baklashi | Баклаши | 52,23, 104,04 (Russia) | 2,6k | 2,3k | 3,7k | 5,1k | 8,9k | +235,2% |
@@ -7925,7 +7149,7 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Bokhan | Бохан; Bohan | 53,15, 103,77 (Russia) | 5,1k | 5,4k | 5,2k | 5,2k | 5,1k | +0,6% |
 | Bol’šaja Irba | Большая Ирба | 54,08, 92,93 (Russia) | 4,9k | 5k | 4,5k | 4,3k | 3,5k | -28% |
 | Bol’šaja Murta | Большая Мурта | 56,9, 93,15 (Russia) | 8,8k | 8,4k | 7,9k | 7,8k | 7,1k | -19,2% |
-| Bol’šoj Lug | Большой Луг | 54,6, 105,6 (Russia) | 5,2k | 4,5k | 5k | 5,2k | 4,5k | -13,9% |
+| Bol’šoj Lug | Большой Луг | 54,6, 105,6 (Russia) | 1k | 940 | 868 | 832 | 769 | -26% |
 | Borodino | Бородино | 55,91, 94,91 (Russia) | 18,5k | 19,2k | 17,4k | 16,5k | 15,2k | -18,2% |
 | Bratsk | Bratsk Hydroelectric & Aluminium Boomtown; Братск | 56,15, 101,63 (Russia) | 259k | 259k | 246k | 239k | 224,1k | -13,5% |
 | Chekanovskiy | Чекановский; Čekanovskij | 56,16, 101,46 (Russia) | 7,6k | 6,6k | 6,1k | 5,9k | 5,6k | -25,9% |
@@ -7964,9 +7188,8 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Koshurnikovo | Кошурниково; Košurnikovo | 54,17, 93,3 (Russia) | 4,9k | 3,8k | 3,5k | 3,4k | 2,8k | -43,5% |
 | Kozul’ka | Козулька | 56,16, 91,39 (Russia) | 8,9k | 8,8k | 8k | 7,9k | 6,4k | -28% |
 | Krasnokamensk | Красно-каменск | 54,33, 93,26 (Russia) | 5,2k | 4,8k | 4,7k | 4,4k | 3,2k | -38,1% |
-| Krasnoturansk | Краснотуранск | 54,32, 91,57 (Russia) | 5,6k | 5,9k | 5,8k | 5,6k | 5,3k | -6,4% |
+| Krasnoturansk | Краснотуранск; Abakan Fortress | 54,32, 91,57 (Russia) | 5,6k | 5,9k | 5,8k | 5,6k | 5,3k | -6,4% |
 | Krasnoyarsk | Krasny Yar on Yenisei; Yeniseysk Capital | 56,02, 92,89 (Russia) | 924k | 909k | 974k | 1,03M | 1,19M | +28,5% |
-| Kropotkin | Кропоткин | 58,51, 115,32 (Russia) | 2,6k | 1,8k | 1,3k | 1,4k | 1k | -60,1% |
 | Kuda | Куда | 52,44, 104,41 (Russia) | 2k | 1,8k | 2,4k | 3,1k | 4,8k | +138,5% |
 | Kultuk | Култук | 51,72, 103,7 (Russia) | 5,2k | 4,3k | 3,7k | 3,7k | 3,4k | -34,2% |
 | Kunerma | Кунерма | 55,77, 108,42 (Russia) | 480 | 161 | 59 | 39 | 25 | -94,8% |
@@ -7974,11 +7197,9 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Kutulik | Кутулик | 53,35, 102,79 (Russia) | 5,2k | 5,4k | 4,9k | 5k | 5,1k | -2,8% |
 | Kuytun | Куйтун; Kujtun | 54,34, 101,51 (Russia) | 11,1k | 10,8k | 10,1k | 9,7k | 9,8k | -11,3% |
 | Kvitok | Квиток | 56,07, 98,48 (Russia) | 4,3k | 3,2k | 2,9k | 2,8k | 2,7k | -38,4% |
-| Lenino | Ленино | 53,66, 103,74 (Russia) | 1,9k | 1,5k | 1,2k | 1,1k | 911 | -52,1% |
 | Lesogorsk | Лесогорск | 56,05, 99,51 (Russia) | 8,3k | 6k | 5,5k | 5,2k | 4,3k | -48,8% |
 | Lugovskiy | Луговский; Lugovskij | 58,06, 112,89 (Russia) | 2,3k | 633 | 503 | 437 | 397 | -82,9% |
 | Magistral’nyj | Магистральный | 56,17, 107,44 (Russia) | 8,5k | 7,6k | 7,1k | 6,6k | 5,8k | -32% |
-| Makrushina | Макрушина | 53,88, 106,27 (Russia) | 10k | 8,7k | 8,1k | 7,8k | 7,4k | -25,9% |
 | Maksimov-shchina | Максимовщина | 52,27, 104,12 (Russia) | 1,3k | 1,1k | 1,7k | 2,4k | 4,2k | +227,8% |
 | Mama | Мама | 58,31, 112,9 (Russia) | 6,4k | 4,4k | 3,6k | 3,3k | 2,6k | -60,3% |
 | Mamakan | Мамакан | 57,82, 114 (Russia) | 3,1k | 2,3k | 2,1k | 1,8k | 1,8k | -43% |
@@ -8001,8 +7222,6 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Novocher-norechenskiy | Новочернореченский; Novočernorečenskij | 56,27, 91,09 (Russia) | 4,3k | 3,8k | 3,8k | 3,8k | 3k | -30% |
 | Novokamala | Новокамала | 55,97, 95,01 (Russia) | 2k | 1,5k | 1,1k | 1,1k | 1,1k | -42% |
 | Novosjolovo | Новосёлово; Новоселово | 55, 90,97 (Russia) | 6,6k | 6,3k | 6k | 5,7k | 5,2k | -20,7% |
-| Novotroi-tskoye | Новотроицкое | 56,66, 93,03 (Russia) | 938 | 787 | 781 | 714 | 610 | -35% |
-| Oktjabr’skij | Октябрьский | 56,07, 99,41 (Russia) | 8,1k | 5,9k | 5,4k | 5,1k | 3,2k | -60,5% |
 | Osa | Оса | 53,39, 103,87 (Russia) | 3,8k | 4,5k | 4,5k | 4,7k | 4,9k | +31,1% |
 | Osinovka | Осиновка | 56,27, 101,9 (Russia) | 15,5k | 13,4k | 12,4k | 12,1k | 11,5k | -25,9% |
 | Ovsyanka | Овсянка; Ovsjanka | 55,96, 92,57 (Russia) | 4,4k | 3,8k | 2,2k | 2,1k | 2k | -55,4% |
@@ -8028,12 +7247,10 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Slyudyanka | Слюдянка; Sljudjanka | 51,66, 103,71 (Russia) | 19,8k | 19,1k | 18,6k | 18,6k | 18,1k | -8,6% |
 | Smolenshchina | Смоленщина | 52,26, 104,12 (Russia) | 2,7k | 2,4k | 3,2k | 4k | 5,9k | +115,3% |
 | Sogdiondon | Согдиондон | 57,69, 112,16 (Russia) | 1,7k | 581 | 275 | 203 | 40 | -97,7% |
-| Solnechnyy | Солнечный; Solnečnyj | 55,29, 89,83 (Russia) | 11,9k | 10,8k | 10,4k | 9,8k | 8,4k | -29,3% |
 | Solontsy | Солонцы | 56,07, 92,85 (Russia) | 3k | 2,7k | 3,8k | 4,7k | 6,7k | +126,8% |
 | Sosnovoborsk | Сосновоборск | 56,12, 93,34 (Russia) | 29,8k | 30,6k | 33,1k | 35,5k | 40,4k | +35,6% |
 | Sredniy | Средний; Srednij | 52,89, 103,49 (Russia) | 6,6k | 5,3k | 5,4k | 5,3k | 4,9k | -25,3% |
 | Sukhobuz-imskoye | Сухобузимское | 56,5, 93,27 (Russia) | 4k | 4,6k | 4,4k | 4,3k | 4,2k | +5,2% |
-| Svetlyy | Светлый; Svetlyj | 58,44, 115,97 (Russia) | 132 | 73 | 41 | 20 | 6 | -95,5% |
 | Svirsk | Свирск | 53,09, 103,34 (Russia) | 18,6k | 15,5k | 13,7k | 13,1k | 15,5k | -16,7% |
 | Taseyevo | Тасеево | 57,22, 94,89 (Russia) | 7,6k | 8,6k | 8k | 7,5k | 6,7k | -12,4% |
 | Tayshet | Ozerlag (Special Camp No. 7) & Angarstroy Western BAM HQ; Тайшет | 55,94, 98 (Russia) | 41,8k | 38,5k | 35,5k | 33,8k | 34,5k | -17,4% |
@@ -8044,7 +7261,7 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Tyret’ Pervaja | Тыреть 1-я | 53,67, 102,31 (Russia) | 4,4k | 4,2k | 3,9k | 3,9k | 3,6k | -18,6% |
 | Tyukhtet | Тюхтет | 56,54, 89,32 (Russia) | 4,7k | 5,2k | 4,8k | 4,8k | 4,7k | +1% |
 | Uk | Ук | 55,08, 98,86 (Russia) | 4,4k | 2,4k | 1,8k | 1,7k | 1,3k | -70,1% |
-| Ul’kan | Улькан | 57,24, 107,32 (Russia) | 8,5k | 5,9k | 5,4k | 5k | 4,1k | -52,3% |
+| Ul’kan | Улькан | 57,24, 107,32 (Russia) | 581 | 526 | 485 | 465 | 430 | -26% |
 | Ural | Урал | 55,91, 94,75 (Russia) | 2,5k | 2,1k | 1,8k | 1,7k | 1,7k | -30,2% |
 | Uralo-Klyuchi | Урало-Ключи; Uralo-Ključi | 56,07, 97,46 (Russia) | 506 | 439 | 406 | 394 | 375 | -25,9% |
 | Usol’je-Sibirskoje | Усолье-Сибирское; Усолье | 52,75, 103,65 (Russia) | 103,8k | 90,2k | 83,3k | 80,3k | 74,8k | -28% |
@@ -8072,8 +7289,8 @@ such as Bratsk and Angarsk, reducing the regional total by -14,3% from
 | Zelenogorsk | Зеленогорск | 56,11, 94,59 (Russia) | 76,5k | 69,4k | 66,1k | 64,3k | 54,3k | -29% |
 | Zeljonyj Bor | Зелёный Бор; Зеленый Бор | 53,62, 91,62 (Russia) | 2,5k | 2,6k | 2,8k | 2,8k | 2,7k | +9% |
 | Zhelezno-dorozhnyy | Железнодорожный; Železnodorožnyj | 57,91, 102,78 (Russia) | 8,9k | 7,8k | 7k | 7k | 6k | -33% |
-| Zheleznogorsk | Krasnoyarsk-26 Underground Plutonium ZATO; Железногорск | 56,25, 93,53 (Russia) | 97k | 93,9k | 84,8k | 84,9k | 82,7k | -14,7% |
 | Zheleznogorsk-Ilimskiy | Железногорск-Илимский; Železnogorsk-Ilimskij | 56,58, 104,13 (Russia) | 31,8k | 29,1k | 26,1k | 24,5k | 21,6k | -32% |
+| Zheleznogorsk | Krasnoyarsk-26 Underground Plutonium ZATO; Железногорск | 56,25, 93,53 (Russia) | 97k | 93,9k | 84,8k | 84,9k | 82,7k | -14,7% |
 | Zhigalovo | Жигалово; Žigalovo | 54,81, 105,16 (Russia) | 5,6k | 5,4k | 5,4k | 5,1k | 5,5k | -2,3% |
 | Zima | Зима | 53,92, 102,04 (Russia) | 40,7k | 34,9k | 32,5k | 31,5k | 30,6k | -24,7% |
 | Znamenka | Знаменка | 53,54, 91,92 (Russia) | 2,1k | 2,4k | 2,3k | 2,2k | 2k | -1,9% |
@@ -8106,7 +7323,6 @@ labour subsidies reduced the regional population by -42,1%, from 380k in
 | Motygino | Мотыгино | 58,18, 94,69 (Russia) | 7,8k | 6,7k | 5,9k | 5,6k | 4,6k | -41,5% |
 | Norilsk | Norillag; Норильск | 69,36, 88,19 (Russia) | 265k | 213k | 175k | 177k | 174,5k | -34,2% |
 | Novoyeru-dinskiy | Новоерудинский; Novojeru-dinskij | 59,78, 93,48 (Russia) | 123 | 57 | 47 | 29 | 12 | -90,2% |
-| Oktjabr’skij | Октябрьский | 57,44, 97,52 (Russia) | 4,2k | 6,2k | 5,9k | 5,2k | 4,2k | -1,3% |
 | Podtjosovo | Подтёсово; Подтесово | 58,6, 92,09 (Russia) | 6,4k | 5,7k | 4,7k | 4,3k | 3,7k | -42,8% |
 | Razdolinsk | Раздолинск | 58,42, 94,62 (Russia) | 3,6k | 2,8k | 2,5k | 2,4k | 2,3k | -35,9% |
 | Severo-Yeniseyskiy | Северо-Енисейский; Severo-Jenisejskij | 60,38, 93,03 (Russia) | 9,5k | 6,7k | 7k | 6,9k | 6,2k | -35,1% |
@@ -8151,14 +7367,14 @@ population by -17,2%, from 2,41M in 1991 to 2M in 2021 (Table )
 | Bichura | Бичура | 50,59, 107,6 (Russia) | 5,1k | 4,9k | 4,6k | 5,8k | 8,7k | +69,9% |
 | Bol’šaja Rečka | Большая Речка | 51,95, 104,73 (Russia) | 2,3k | 2,4k | 2,6k | 2,8k | 2,7k | +20,3% |
 | Borzya | Borzya 36th Motor Rifle Brigade; Борзя | 50,38, 116,52 (Russia) | 35,6k | 31,5k | 31,4k | 29,8k | 29,6k | -16,8% |
-| Bukachacha | Букачача; Bukačača | 52,98, 116,9 (Russia) | 7k | 3,5k | 2,4k | 2,1k | 1,3k | -80,8% |
+| Bukachacha | Букачача; Bukačača | 52,98, 116,9 (Russia) | 3,5k | 2,7k | 2,2k | 2k | 3,4k | -3% |
 | Chernyshevsk | Чернышевск; Černyševsk | 52,52, 117,02 (Russia) | 15,7k | 13k | 13,4k | 13,1k | 13,7k | -12,8% |
 | Chikoy | Чикой; Čikoj | 50,27, 106,92 (Russia) | 900 | 718 | 733 | 649 | 525 | -41,7% |
 | Chita | Transbaikal Capital; Chita Rail Hub | 52,05, 113,47 (Russia) | 376k | 317k | 324k | 336k | 334,4k | -11,1% |
 | Darasun | Дарасун | 51,66, 113,97 (Russia) | 9,4k | 8,1k | 7,3k | 7,1k | 6,4k | -32,3% |
 | Davenda | Давенда | 53,55, 119,32 (Russia) | 1,8k | 1k | 812 | 772 | 583 | -67,9% |
 | Domna | Домна | 51,89, 113,15 (Russia) | 8,8k | 6,9k | 6,7k | 6,5k | 6,1k | -30,7% |
-| Drovyanaya | Дровяная; Drovjanaja | 51,58, 113,04 (Russia) | 10,3k | 3,2k | 2,9k | 2,9k | 3k | -71% |
+| Drovyanaya | Дровяная; Drovjanaja | 51,58, 113,04 (Russia) | 3,3k | 3,2k | 3,1k | 3k | 3,1k | -6,6% |
 | Duldurga | Дульдурга | 50,67, 113,59 (Russia) | 8,1k | 6,4k | 6,7k | 6,7k | 6,9k | -15,6% |
 | Dzhida | Джида; Džida | 50,68, 106,18 (Russia) | 5,1k | 5k | 5,4k | 3,1k | 1,6k | -68% |
 | Erkhirik | Эрхирик | 51,89, 107,82 (Russia) | 1,8k | 1,6k | 2,3k | 3,1k | 5,2k | +198,9% |
@@ -8177,7 +7393,7 @@ population by -17,2%, from 2,41M in 1991 to 2M in 2021 (Table )
 | Kamensk | Каменск | 51,98, 106,58 (Russia) | 8,9k | 8,1k | 7,2k | 6,9k | 6,3k | -29,1% |
 | Karymskoye | Карымское; Karymskoje | 51,63, 114,34 (Russia) | 15,1k | 12,4k | 13k | 12,9k | 12,1k | -19,9% |
 | Kazanovo | Казаново | 51,77, 115,86 (Russia) | 3k | 2,4k | 2,1k | 2k | 1,7k | -44,6% |
-| Khapcheranga | Хапчеранга; Hapčeranga | 49,7, 112,39 (Russia) | 1,7k | 1,1k | 839 | 765 | 652 | -61,3% |
+| Khapcheranga | Хапчеранга; Hapčeranga | 49,7, 112,39 (Russia) | 1,6k | 1,5k | 1,4k | 1,3k | 1,2k | -26% |
 | Khilok | Хилок; Hilok | 51,36, 110,46 (Russia) | 13,4k | 11,2k | 11,5k | 11,1k | 9,9k | -25,8% |
 | Kholbon | Холбон; Holbon | 51,9, 116,25 (Russia) | 3,3k | 2,7k | 2,6k | 2,5k | 2k | -39,1% |
 | Kholtoson | Холтосон; Holtoson | 50,3, 103,31 (Russia) | 1,4k | 1,1k | 877 | 749 | 568 | -60% |
@@ -8190,7 +7406,6 @@ population by -17,2%, from 2,41M in 1991 to 2M in 2021 (Table )
 | Krasnokamensk | Красно-каменск; Priargunsky Uranium Combine | 50,1, 118,04 (Russia) | 67k | 55,9k | 55,7k | 54,3k | 51,1k | -23,7% |
 | Krasnyy Chikoy | Красный Чикой | 50,36, 108,76 (Russia) | 9,1k | 7,1k | 7,1k | 6,8k | 6,5k | -29,1% |
 | Ksen’jevka | Ксеньевка | 53,56, 118,73 (Russia) | 4,8k | 3,5k | 3k | 2,8k | 2,4k | -49,5% |
-| Kulli | Кулли | 54,25, 121,42 (Russia) | 9,2k | 7,2k | 6,6k | 6,1k | 5,5k | -40,9% |
 | Kurleya | Курлея; Kurleja | 52,19, 119,12 (Russia) | 27 | 10 | 6 | 5 | 3 | -88,9% |
 | Kurort-Darasun | Курорт-Дарасун; Курорт Дарасун | 51,2, 113,71 (Russia) | 4,8k | 3,4k | 3,1k | 3k | 2,6k | -45,9% |
 | Kurumkan | Курумкан | 54,32, 110,31 (Russia) | 6,7k | 6k | 5,5k | 5,5k | 5,6k | -16,9% |
@@ -8223,11 +7438,9 @@ population by -17,2%, from 2,41M in 1991 to 2M in 2021 (Table )
 | Olovyannaya | Оловянная; Olovjannaja | 50,95, 115,58 (Russia) | 11,3k | 8,6k | 8,4k | 8k | 7,6k | -32,3% |
 | Onokhoy | Онохой; Onohoj | 51,93, 108,06 (Russia) | 10,7k | 10,7k | 10,7k | 10,7k | 9,3k | -12,9% |
 | Orlovskiy | Орловский; Orlovskij | 51,04, 114,85 (Russia) | 3,2k | 2,3k | 2,2k | 2,1k | 1,8k | -42,7% |
-| Pashki | Пашковская | 52,08, 104,57 (Russia) | 74,6k | 64,8k | 59,9k | 58,2k | 55,3k | -25,9% |
 | Pervomayskiy | Первомайский; Pervomajskij | 51,66, 115,62 (Russia) | 15,8k | 13,1k | 12,2k | 11,6k | 11,1k | -29,5% |
 | Petropavlovka | Петропавловка | 50,61, 105,32 (Russia) | 8,3k | 7,7k | 7,5k | 7,4k | 7,4k | -10,8% |
 | Petrovsk-Zabajkal’skij | Петровск-Забайкальский; Петровский | 51,28, 108,85 (Russia) | 27,1k | 21,2k | 18,5k | 17,5k | 15k | -44,5% |
-| Posele | Поселье | 50,61, 107,89 (Russia) | 17,8k | 17k | 16,4k | 16,1k | 15,6k | -12,5% |
 | Priargunsk | Приаргунск; Цурухайтуй | 50,36, 119,1 (Russia) | 8k | 8,3k | 7,4k | 7,4k | 7,1k | -11,7% |
 | Priiskovyy | Приисковый; Priiskovyj | 51,92, 116,62 (Russia) | 2k | 1,6k | 1,5k | 1,4k | 1,5k | -26,9% |
 | Sagan-Nur | Саган-Нур | 51,34, 108,44 (Russia) | 5k | 4,4k | 4,1k | 4,1k | 4,1k | -18% |
@@ -8245,11 +7458,9 @@ population by -17,2%, from 2,41M in 1991 to 2M in 2021 (Table )
 | Taksimo | Таксимо | 56,35, 114,89 (Russia) | 12,1k | 10,6k | 9,4k | 8,5k | 7,4k | -38,5% |
 | Tal’cy | Тальцы | 51,99, 104,67 (Russia) | 42 | 14 | 9 | 11 | 15 | -64,3% |
 | Tankhoy | Танхой; Tanhoj | 51,56, 105,13 (Russia) | 1,1k | 1k | 964 | 927 | 840 | -24,6% |
-| Tarbagatay | Тарбагатай; Tarbagataj | 51,18, 109,1 (Russia) | 3,2k | 2,5k | 2,2k | 2,2k | 1,3k | -60,8% |
 | Tarbagatay | Тарбагатай | 51,48, 107,36 (Russia) | 4,8k | 4,3k | 4,3k | 4,3k | 4,2k | -11,4% |
 | Tonnel’nyj | Тоннельный | 56,29, 113,35 (Russia) | 3k | 441 | 321 | 312 | 297 | -90,2% |
 | Troitskosavsk | Kyakhta Tea Entrepot; Troitskosavsk-Kyakhta | 50,35, 106,45 (Russia) | 18,3k | 18,4k | 20k | 20,1k | 17,9k | -2,4% |
-| Turka | Турка | 52,95, 108,22 (Russia) | 1,7k | 1,5k | 1,5k | 1,4k | 1,3k | -20,1% |
 | Turuntayevo | Турунтаево | 52,2, 107,64 (Russia) | 7,2k | 6,4k | 5,9k | 5,8k | 5,6k | -21,7% |
 | Ulety | Улеты | 51,36, 112,48 (Russia) | 8,1k | 6,3k | 6,1k | 6,2k | 6,6k | -19% |
 | Urul’ga | Урульга | 51,77, 114,8 (Russia) | 4k | 3,2k | 3,1k | 3,3k | 3,5k | -12,3% |
@@ -8287,11 +7498,9 @@ held overall regional contraction to -11,3% (from 1,11M to 985k; Table )
 | Settlement | Other Names | Coords | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|
 | Aldan | Nezametny (until 1939); Yakut ASSR Goldfields Centre | 58,61, 125,39 (Russia) | 26,7k | 24,7k | 21,3k | 21,4k | 21,6k | -19,2% |
-| Aleksand-rovskiy | Александровск-Сахалинский; Aleksandrovsk-Sahalinskij | 62,23, 117,72 (Russia) | 18k | 12,8k | 10,6k | 9,7k | 8,9k | -50,9% |
 | Allah-Jun’ | Аллах-Юнь | 61,14, 138,05 (Russia) | 1,6k | 306 | 96 | 67 | 35 | -97,8% |
 | Almaznyy | Алмазный; Almaznyj | 62,45, 114,33 (Russia) | 1,9k | 1,8k | 1,5k | 1,5k | 1,6k | -15% |
 | Amga | Амга | 60,9, 131,98 (Russia) | 8,6k | 6,4k | 6,5k | 6,5k | 6,4k | -25,8% |
-| Artyk | Артык | 64,18, 145,13 (Russia) | 2k | 633 | 509 | 511 | 352 | -82,1% |
 | Aykhal | Айхал; Ajhal | 65,93, 111,48 (Russia) | 12,1k | 15,8k | 13,7k | 13,4k | 13,4k | +10,3% |
 | Batagay | Батагай; Batagaj | 67,66, 134,64 (Russia) | 7,6k | 4,6k | 4,4k | 3,8k | 3,8k | -50,9% |
 | Belaya Gora | Белая Гора; Belaja Gora | 68,54, 146,19 (Russia) | 3,3k | 2,5k | 2,2k | 2,1k | 1,9k | -42,1% |
@@ -8315,7 +7524,6 @@ held overall regional contraction to -11,3% (from 1,11M to 985k; Table )
 | Kangalassy | Кангалассы | 62,35, 129,96 (Russia) | 2,1k | 1,8k | 1,6k | 1,6k | 1,4k | -32,5% |
 | Kankunskiy | Канкунский; Kankunskij | 57,62, 126,03 (Russia) | 951 | 681 | 623 | 589 | 535 | -43,7% |
 | Khandyga | Хандыга; Handyga | 62,65, 135,57 (Russia) | 9,1k | 7k | 6,6k | 6,4k | 5,3k | -42% |
-| Khani | Хани; Hani | 57,04, 121 (Russia) | 2k | 933 | 764 | 723 | 651 | -68,2% |
 | Khatassy | Хатассы | 61,91, 129,63 (Russia) | 5,1k | 3,8k | 5k | 5,2k | 5,5k | +6,5% |
 | Kysyl-Syr | Кысыл-Сыр | 63,89, 122,77 (Russia) | 6,5k | 3,6k | 3,1k | 2,8k | 2,8k | -57,5% |
 | Lebedinyy | Лебединый; Lebedinyj | 58,49, 125,49 (Russia) | 2,1k | 1,3k | 1,1k | 1k | 935 | -56,1% |
@@ -8339,23 +7547,19 @@ held overall regional contraction to -11,3% (from 1,11M to 985k; Table )
 | Orochen Pervyy | Орочён Первый; Oročjon Pervyj | 58,5, 125,41 (Russia) | 185 | 42 | 16 | 16 | 17 | -90,8% |
 | Peleduy | Пеледуй; Peleduj | 59,63, 112,74 (Russia) | 5k | 4,7k | 5,2k | 5,2k | 3,6k | -29,1% |
 | Pokrovsk | Покровск | 61,48, 129,14 (Russia) | 9,4k | 10,1k | 9,5k | 9k | 12k | +27,8% |
-| Polyarnyy | Александровск | 71,13, 149,28 (Russia) | 561 | 429 | 392 | 371 | 336 | -40,1% |
 | Predporozhnyy | Предпорожный; Predporožnyj | 65,17, 143,2 (Russia) | 967 | 247 | 202 | 191 | 173 | -82,1% |
 | Sangar | Сангар | 63,92, 127,47 (Russia) | 9k | 4,8k | 4,4k | 4k | 3,3k | -63,5% |
 | Sarylakh | Сарылах; Sarylah | 64,35, 142,53 (Russia) | 734 | 107 | 144 | 136 | 124 | -83,1% |
 | Serebryanyy Bor | Серебряный Бор; Serebrjanyj Bor | 56,67, 124,84 (Russia) | 9,8k | 4,4k | 4,2k | 4,1k | 2k | -79,2% |
-| Severnyy | Северный; Severnyj | 66,32, 138,02 (Russia) | 3,7k | 2,6k | 2,4k | 2,3k | 2,1k | -43,8% |
 | Solnechnyy | Солнечный; Solnečnyj | 60,3, 137,56 (Russia) | 2k | 1,3k | 1k | 937 | 877 | -56,5% |
 | Srednekolymsk | Среднеколымск | 67,46, 153,7 (Russia) | 4,3k | 3,6k | 3,5k | 3,5k | 3,1k | -27,8% |
 | Suntar | Сунтар | 62,16, 117,66 (Russia) | 12,1k | 8,9k | 10k | 10,1k | 10,3k | -14,7% |
-| Svetlyy | Светлый; Svetlyj | 61,36, 137,15 (Russia) | 4,4k | 3,5k | 3,1k | 3k | 3,1k | -28,2% |
 | Tabaga | Табага | 61,86, 129,6 (Russia) | 3k | 3,7k | 3,3k | 3,1k | 2,9k | -4,9% |
 | Tiksi | Тикси; Arctic Lena Port | 71,64, 128,87 (Russia) | 11,6k | 5,9k | 5,1k | 4,6k | 4,2k | -64% |
 | Tit-Ary | Тит-Ары | 71,99, 127,09 (Russia) | 435 | 418 | 478 | 456 | 421 | -3,2% |
 | Tommot | Томмот | 58,96, 126,29 (Russia) | 9,4k | 9k | 8,1k | 7,5k | 6,4k | -31,4% |
 | Torgo | Торго | 58,46, 119,52 (Russia) | 1k | 97 | 23 | 28 | 40 | -96,1% |
 | Udachny | Yakutian Arctic Diamond Pipe Boomtown; Удачный | 66,42, 112,4 (Russia) | 20k | 15,7k | 12,6k | 11,6k | 12,9k | -35,4% |
-| Urey | Урей | 68,3, 134,98 (Russia) | 17,4k | 12,4k | 11,4k | 10,7k | 9,8k | -43,8% |
 | Ust-Kuyga | Усть-Куйга; Ust’-Kujga | 70, 135,55 (Russia) | 4,4k | 1,6k | 979 | 796 | 668 | -84,9% |
 | Ust-Maya | Усть-Мая; Ust’-Maja | 60,42, 134,54 (Russia) | 3,5k | 3,2k | 2,9k | 2,7k | 2,5k | -26,5% |
 | Ust-Nera | Усть-Нера; Ust’-Nera | 64,57, 143,24 (Russia) | 12k | 9,5k | 6,5k | 5,6k | 4,2k | -64,8% |
@@ -8397,7 +7601,6 @@ settlements such as Kadykchan completely abandoned (Table )
 | Atka | Атка | 60,83, 151,79 (Russia) | 2,1k | 604 | 485 | 425 | 20 | -99,1% |
 | Atlasovo | Атласово | 55,61, 159,64 (Russia) | 1,4k | 921 | 790 | 735 | 648 | -54,3% |
 | Baranikha | Бараниха; Baraniha | 68,5, 168,27 (Russia) | 1,8k | 898 | 783 | 785 | 789 | -55,3% |
-| Berezkina | Березкина | 66,38, 159,42 (Russia) | 22,1k | 11,3k | 9,8k | 9,9k | 9,9k | -55,3% |
 | Beringovskiy | Беринговский; Beringovskij | 63,06, 179,35 (Russia) | 2,9k | 2k | 1,4k | 1k | 1,1k | -61,3% |
 | Bilibino | Билибино | 68,05, 166,44 (Russia) | 13,5k | 6,2k | 5,5k | 5,6k | 5,5k | -58,9% |
 | Bol’ševik | Большевик | 62,69, 147,58 (Russia) | 829 | 371 | 96 | 62 | 8 | -99% |
@@ -8425,7 +7628,6 @@ settlements such as Kadykchan completely abandoned (Table )
 | Myaundzha | Мяунджа; Mjaundža | 63,04, 147,18 (Russia) | 4,5k | 2,1k | 1,7k | 1,7k | 1,1k | -76% |
 | Mys Shmidta | Мыс Шмидта; Mys Šmidta | 68,89, -179,41 (Russia) | 3,4k | 705 | 492 | 238 | 37 | -98,9% |
 | Neksikan | Нексикан | 62,67, 147,76 (Russia) | 1,5k | 788 | 633 | 574 | 484 | -68,8% |
-| Oktjabr’skij | Октябрьский | 52,66, 156,24 (Russia) | 3,5k | 2,3k | 1,7k | 1,5k | 1,2k | -64,6% |
 | Ola | Ола | 59,58, 151,3 (Russia) | 9,5k | 6,8k | 6,2k | 6,2k | 5,7k | -40,1% |
 | Omchak | Омчак; Omčak | 61,64, 147,88 (Russia) | 2,8k | 1,6k | 956 | 722 | 442 | -84% |
 | Omsukchan | Омсукчан; Omsukčan | 62,52, 155,79 (Russia) | 8,8k | 4,5k | 4,2k | 3,8k | 3,5k | -60,1% |
@@ -8445,10 +7647,9 @@ settlements such as Kadykchan completely abandoned (Table )
 | Spornoye | Спорное; Spornoje | 62,34, 151,1 (Russia) | 2,2k | 921 | \- | \- | \- | Abandoned |
 | Stekol’nyj | Стекольный | 60,04, 150,74 (Russia) | 4,3k | 2,3k | 2k | 2k | 2,1k | -50,7% |
 | Susuman | Zavodskoy; Dalstroy West Kolyma Gold Mining Lagpunkt HQ | 62,78, 148,15 (Russia) | 17k | 7,8k | 5,8k | 5,1k | 4,4k | -73,9% |
-| Talaya | Талая; Talaja | 61,13, 152,39 (Russia) | 3,6k | 1,1k | 422 | 311 | 364 | -89,8% |
 | Ugol’nyje Kopi | Угольные Копи | 64,75, 177,69 (Russia) | 10,3k | 3,9k | 3,4k | 3,6k | 3,2k | -68,7% |
 | Uptar | Уптар | 59,9, 150,87 (Russia) | 3,7k | 2,3k | 2k | 2k | 1,7k | -53,6% |
-| Ust’-Kamčatsk | Усть-Камчатск | 56,24, 162,53 (Russia) | 11,7k | 5,2k | 4,4k | 4k | 3,5k | -69,8% |
+| Ust’-Kamčatsk | Усть-Камчатск | 56,24, 162,53 (Russia) | 5,3k | 5,2k | 5,1k | 5k | 4,9k | -7% |
 | Ust’-Omčug | Усть-Омчуг | 61,14, 149,63 (Russia) | 10k | 4,9k | 3,9k | 3,5k | 2,6k | -74,2% |
 | Verkhniy At-Uryakh | Верхний Ат-Урях; Verhnij At-Urjah | 62,65, 150,11 (Russia) | 790 | 61 | 14 | \- | \- | Abandoned |
 | Vilyuchinsk | Вилючинск; Viljučinsk | 52,93, 158,41 (Russia) | 34,1k | 24,2k | 22,9k | 21,6k | 21,8k | -36,1% |
@@ -8477,7 +7678,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Altynovka | Алтыновка | 44,4, 132,53 (Russia) | 661 | 522 | 397 | 304 | 190 | -71,3% |
 | Amursk | Амурск | 50,23, 136,9 (Russia) | 56,6k | 47,8k | 43k | 41,1k | 38,6k | -31,8% |
 | Amurzet | Амурзет | 47,69, 131,1 (Russia) | 5,7k | 5,4k | 5,1k | 4,6k | 4k | -30,1% |
-| Andrusovka | Андрусовка | 43,07, 131,3 (Russia) | 21k | 18,6k | 16,8k | 15,7k | 13,9k | -33,9% |
 | Aniva | Анива; Лютога | 46,72, 142,53 (Russia) | 8,8k | 8,1k | 9,1k | 9,2k | 9,6k | +9,9% |
 | Anuchino | Анучино | 43,96, 133,06 (Russia) | 4,3k | 4,8k | 4,5k | 4,4k | 4,2k | -1,6% |
 | Arkhara | Архара; Arhara | 49,42, 130,08 (Russia) | 12,8k | 10,8k | 9,6k | 9,1k | 7,8k | -39% |
@@ -8489,7 +7689,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Barabash | Барабаш | 43,2, 131,49 (Russia) | 3k | 3,7k | 5,7k | 4,1k | 2,3k | -23,7% |
 | Belogorsk | Белогорск; Александровское | 50,91, 128,51 (Russia) | 72,5k | 67,4k | 68,2k | 67,6k | 61,4k | -15,2% |
 | Berezovyy | Березовый | 51,67, 135,68 (Russia) | 6,9k | 5,8k | 5,5k | 5,1k | 4,4k | -35,4% |
-| Berjozovka | Берёзовка | 53,47, 126,96 (Russia) | 4k | 3,6k | 3,4k | 3,2k | 2,8k | -28,8% |
 | Bikin | Бикин | 46,81, 134,25 (Russia) | 19,2k | 19,6k | 17,2k | 16,5k | 16,2k | -15,4% |
 | Bira | Бира | 49, 132,46 (Russia) | 4,1k | 4,3k | 3,2k | 2,9k | 2,8k | -31,2% |
 | Birakan | Биракан | 48,99, 131,72 (Russia) | 3k | 2,5k | 2,2k | 2k | 1,8k | -41,3% |
@@ -8500,7 +7699,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Bolon’ | Болонь | 49,9, 136,14 (Russia) | 1,2k | 1,1k | 946 | 680 | 381 | -68% |
 | Boshnyakovo | Бошняково; Bošnjakovo | 49,65, 142,18 (Russia) | 3,2k | 1,6k | 1,1k | 982 | 777 | -75,7% |
 | Bureya | Бурея; Bureja | 49,81, 129,81 (Russia) | 6,5k | 5,6k | 4,8k | 4,5k | 3,5k | -46,8% |
-| Buyukly | Буюклы; Bujukly | 49,54, 142,87 (Russia) | 2,9k | 2k | 1,5k | 1,2k | 824 | -71,6% |
 | Bykov | Быков; Найбути | 47,32, 142,57 (Russia) | 7,1k | 5k | 4,1k | 3,7k | 3,1k | -57,1% |
 | Chegdomyn | Чегдомын; Čegdomyn | 51,13, 133 (Russia) | 19,5k | 15,3k | 13k | 12,4k | 11,9k | -38,9% |
 | Chekhov | Чехов | 47,45, 141,99 (Russia) | 6,8k | 4,9k | 4,4k | 4,1k | 3,8k | -43,7% |
@@ -8520,7 +7718,7 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Fokino | Фокино; Тихоокеанский | 42,97, 132,41 (Russia) | 20,3k | 26,5k | 23,7k | 23,1k | 19,7k | -2,9% |
 | Galenki | Галёнки | 44,04, 131,76 (Russia) | 6,1k | 5,4k | 4,3k | 3,8k | 3,1k | -49% |
 | Gastello | Гастелло; Найро | 49,1, 142,94 (Russia) | 1,7k | 1,1k | 865 | 714 | 511 | -69,2% |
-| Goluboye | Голубое | 51,79, 127,97 (Russia) | 9,6k | 9k | 8,6k | 8,4k | 8k | -15,9% |
+| Goluboye | Голубое | 51,79, 127,97 (Russia) | 1,7k | 1,5k | 1,4k | 1,4k | 1,3k | -26% |
 | Gorin | Горин | 51,2, 136,66 (Russia) | 4,5k | 3,8k | 4,2k | 3,8k | 3,2k | -28,9% |
 | Gornorec-henskiy | Горнореченский; Gornorečenskij | 44,26, 135,11 (Russia) | 4k | 3,5k | 3,2k | 3k | 2,6k | -34,6% |
 | Gornozavodsk | Горнозаводск | 46,56, 141,84 (Russia) | 6,1k | 6,1k | 4,4k | 4,1k | 3,7k | -39,6% |
@@ -8528,7 +7726,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Gornyye Klyuchi | Горные Ключи; Gornyje Ključi | 45,24, 133,5 (Russia) | 7k | 5,3k | 4,6k | 4,4k | 4,3k | -38,6% |
 | Gurskoye | Гурское; Gurskoje | 50,31, 138,09 (Russia) | 923 | 847 | 777 | 729 | 632 | -31,5% |
 | Hrustal’nyj | Хрустальный | 44,35, 135,1 (Russia) | 5,2k | 3,7k | 3,1k | 3,1k | 2,6k | -50,3% |
-| Ilinskiy | Ильинский | 47,99, 142,2 (Russia) | 1,1k | 904 | 744 | 708 | 649 | -39,7% |
 | Innokent’jevka | Иннокентьевка | 49,68, 136,9 (Russia) | 1,5k | 1,4k | 1,1k | 951 | 726 | -52,5% |
 | Innokent’jevskij | Иннокентьевский | 48,6, 140,17 (Russia) | 36 | 11 | 5 | 11 | 40 | +11,1% |
 | Ivanovka | Ивановка | 50,36, 128 (Russia) | 5,7k | 6,8k | 6,6k | 6,6k | 6,5k | +13,8% |
@@ -8539,7 +7736,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Katangli | Катангли | 51,71, 143,23 (Russia) | 1,6k | 903 | 426 | 406 | 372 | -77% |
 | Kavalerovo | Кавалерово | 44,27, 135,05 (Russia) | 19k | 17,4k | 15,4k | 14,9k | 13,5k | -29% |
 | Khabarovsk | Khabarovka; Priamurye Seat | 48,48, 135,08 (Russia) | 613k | 583k | 577k | 601k | 617,4k | +0,7% |
-| Khasan | Хасан; Hasan | 42,42, 130,65 (Russia) | 1,1k | 795 | 742 | 675 | 492 | -55,9% |
 | Khingansk | Хинганск; Hingansk | 49,13, 131,2 (Russia) | 3k | 2,2k | 1,5k | 1,3k | 909 | -69,5% |
 | Kholmsk | Холмск; Holmsk | 47,05, 142,05 (Russia) | 48,5k | 35,1k | 30,9k | 29k | 25,7k | -47% |
 | Khor | Хор; Hor | 47,88, 134,96 (Russia) | 13k | 11,8k | 10,3k | 10,1k | 10k | -23,5% |
@@ -8558,8 +7754,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Krasnogorsk | Красногорск | 48,41, 142,09 (Russia) | 3,5k | 3,6k | 3,1k | 3k | 2,7k | -22,7% |
 | Krasnore-chenskiy | Краснореченский; Krasnorečenskij | 44,63, 135,35 (Russia) | 5,3k | 3,9k | 3,3k | 2,9k | 2,4k | -55,4% |
 | Kul’dur | Кульдур | 49,2, 131,64 (Russia) | 3,7k | 2k | 1,6k | 1,5k | 1,4k | -63,2% |
-| Kuril’sk | Курильск; Сяна | 45,23, 147,88 (Russia) | 2,6k | 2,2k | 2,1k | 1,8k | 2,5k | -3,5% |
-| Kustanay | Кустанай | 45,82, 134,68 (Russia) | 107,5k | 94,9k | 85,8k | 80,1k | 71k | -33,9% |
 | Lazarev | Лазарев | 52,23, 141,51 (Russia) | 2,6k | 2k | 1,3k | 1,2k | 912 | -64,5% |
 | Leninskoye | Ленинское | 47,94, 132,62 (Russia) | 5,7k | 7k | 6,1k | 5,6k | 4,8k | -16,5% |
 | Leonidovo | Леонидово; Камисикука | 49,29, 142,87 (Russia) | 2,5k | 1,4k | 1,1k | 960 | 763 | -68,9% |
@@ -8569,15 +7763,15 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Lipovtsy | Липовцы; Lipovcy | 44,2, 131,72 (Russia) | 8,2k | 6,7k | 6,4k | 6,3k | 5,3k | -35,4% |
 | Litovko | Литовко | 49,24, 135,18 (Russia) | 3,3k | 2,8k | 2k | 1,9k | 1,7k | -49,1% |
 | Livadiya | Ливадия; Livadija | 42,87, 132,67 (Russia) | 12,4k | 13k | 12,2k | 11,4k | 10,1k | -18,9% |
-| Londoko | Лондоко | 49,02, 131,99 (Russia) | 1,5k | 1,3k | 1,1k | 993 | 876 | -40,9% |
 | Londoko Zavod | Лондоко-завод; Londoko-zavod | 49,02, 131,93 (Russia) | 1,8k | 1,3k | 1,1k | 964 | 1k | -42,8% |
+| Londoko | Лондоко | 49,02, 131,99 (Russia) | 1,5k | 1,3k | 1,1k | 993 | 876 | -40,9% |
 | Lososina | Лососина | 49, 140,32 (Russia) | 5,2k | 3,2k | 3,2k | 3,2k | 2,6k | -50,7% |
 | Luchegorsk | Лучегорск; Lučegorsk | 46,44, 134,29 (Russia) | 21,9k | 22,4k | 21k | 19,9k | 17,4k | -20,4% |
 | Magdagachi | Магдагачи; Magdagači | 53,45, 125,81 (Russia) | 15k | 12,2k | 10,9k | 10,3k | 9,3k | -38,1% |
 | Mago | Маго | 53,26, 140,18 (Russia) | 3,6k | 2,3k | 1,5k | 1,2k | 854 | -76,1% |
 | Makarov | Макаров; Селютора | 48,63, 142,78 (Russia) | 10,6k | 7,3k | 6,7k | 6,5k | 5,8k | -44,8% |
-| Mayskiy | Майский; Majskij | 49, 140,21 (Russia) | 4k | 3k | 2,6k | 2,5k | 2k | -51% |
 | Mayskiy | Майский; Majskij | 54,2, 124,48 (Russia) | 184 | 42 | 134 | 23 | 1 | -99,5% |
+| Mayskiy | Майский; Majskij | 49, 140,21 (Russia) | 4k | 3k | 2,6k | 2,5k | 2k | -51% |
 | Mgachi | Мгачи; Mgači | 51,05, 142,27 (Russia) | 3,3k | 1,7k | 1k | 866 | 634 | -80,7% |
 | Mikhaylovka | Михайловка | 43,93, 132,01 (Russia) | 9,1k | 9,3k | 9,2k | 9k | 8,6k | -5,1% |
 | Mnogover-shinnyy | Многовершинный; Mnogoveršinnyj | 53,93, 139,93 (Russia) | 3,1k | 2,8k | 2,3k | 2,5k | 1,6k | -49,1% |
@@ -8591,10 +7785,8 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Never | Невер; Ларинское | 53,98, 124,16 (Russia) | 3k | 2,1k | 1,6k | 1,4k | 1,2k | -61,4% |
 | Nikolaevsk-on-Amur | Nikolaevsky Post; Amur Estuary | 53,14, 140,73 (Russia) | 35k | 28,5k | 22,8k | 20,8k | 18,6k | -46,7% |
 | Nikolayevka | Николаевка; Nikolajevka | 48,56, 134,78 (Russia) | 8,1k | 7,7k | 7,9k | 7,3k | 6,3k | -22,6% |
-| Nikolayevka | Николаевка | 43,89, 132,45 (Russia) | 4,7k | 4,2k | 3,4k | 3,3k | 3k | -35,2% |
 | Nikolsk-Ussuriysky | Ussuriysk; Nikolskoe Green Wedge | 43,8, 131,95 (Russia) | 162k | 158k | 158k | 167k | 180,4k | +11,4% |
 | Nogliki | Ноглики | 51,8, 143,14 (Russia) | 11,4k | 10,7k | 10,2k | 10,1k | 11,1k | -3,1% |
-| Novo-Troitskoye | Ново-Троицкое | 50,5, 127,55 (Russia) | 1,1k | 817 | 878 | 874 | 866 | -22,7% |
 | Novobureyskiy | Новобурейский; Novoburejskij | 49,8, 129,88 (Russia) | 9k | 8,9k | 8,3k | 7,7k | 6,8k | -23,9% |
 | Novokiyevskiy Uval | Новокиевский Увал | 51,66, 128,92 (Russia) | 3,7k | 4,7k | 4,3k | 4k | 3,5k | -6,3% |
 | Novonikolsk | Новоникольск | 43,86, 131,86 (Russia) | 4,7k | 4,2k | 4,4k | 4,3k | 4k | -15% |
@@ -8602,17 +7794,15 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Novorayc-hikhinsk | Новорайчихинск; Novorajčihinsk | 49,79, 129,59 (Russia) | 3,6k | 2,9k | 2,1k | 2k | 1,2k | -66,5% |
 | Novoshak-htinskiy | Новошахтинский; Novošahtinskij | 44,03, 132,17 (Russia) | 8,8k | 8,3k | 7,8k | 7,7k | 7,1k | -19,2% |
 | Novosysoyevka | Новосысоевка | 44,23, 133,37 (Russia) | 5,7k | 5k | 4,9k | 4,5k | 4k | -30,2% |
-| Novyy | Новый; Novyj | 43,37, 132,02 (Russia) | 6k | 4,6k | 5,7k | 5,9k | 6k | -0,7% |
 | Novyy Urgal | Новый Ургал; Novyj Urgal | 51,07, 132,6 (Russia) | 8,8k | 7,3k | 6,8k | 6,5k | 7,2k | -18% |
+| Novyy | Новый; Novyj | 43,37, 132,02 (Russia) | 6k | 4,6k | 5,7k | 5,9k | 6k | -0,7% |
 | Obluč’je | Облучье | 49,02, 131,05 (Russia) | 11,9k | 11,1k | 9,4k | 8,9k | 8k | -32,9% |
 | Ogodzha | Огоджа; Ogodža | 52,77, 132,54 (Russia) | 768 | 484 | 395 | 331 | 207 | -73% |
 | Okha | Оха; Oha | 53,59, 142,95 (Russia) | 34,7k | 28k | 23k | 21,5k | 20,4k | -41,4% |
 | Okhotsk | Охотск; Ohotsk | 59,36, 143,21 (Russia) | 8,6k | 5,7k | 4,2k | 3,8k | 3,3k | -61,4% |
 | Oktjabr’skij | Октябрьский | 49,06, 140,25 (Russia) | 7,7k | 6,5k | 6,2k | 6k | 6,1k | -20,7% |
-| Oktjabr’skij | Октябрьский | 53,02, 128,65 (Russia) | 3k | 2k | 1,3k | 1,1k | 825 | -72,7% |
 | Ol’ga | Ольга | 43,75, 135,29 (Russia) | 4,7k | 4,5k | 4k | 3,8k | 3,2k | -33,3% |
 | Ozerskiy | Озерский | 46,61, 143,13 (Russia) | 1,8k | 1,8k | 1,5k | 1,4k | 1,3k | -30,5% |
-| Ozeryane | Озеряне | 50,64, 128,74 (Russia) | 11,5k | 9,9k | 8,8k | 8,1k | 7k | -39% |
 | Partizansk | Партизанск; Сучанский | 43,12, 133,12 (Russia) | 48,6k | 43,7k | 38,7k | 37,8k | 33,8k | -30,4% |
 | Pereyaslavka | Переяславка; Perejaslavka | 47,97, 135,06 (Russia) | 11,6k | 10,5k | 8,9k | 8,1k | 7,9k | -32,1% |
 | Pivan’ | Пивань | 50,48, 137,09 (Russia) | 1,7k | 1,7k | 1,8k | 1,7k | 1,7k | +0,8% |
@@ -8633,7 +7823,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Razdol’noje | Раздольное | 43,54, 131,9 (Russia) | 9,3k | 7,8k | 8,2k | 7,2k | 5,7k | -38,8% |
 | Rettikhovka | Реттиховка; Rettihovka | 44,17, 132,77 (Russia) | 3,5k | 2,8k | 2,1k | 1,8k | 1,3k | -62,1% |
 | Reyneke | Рейнеке; Rejneke | 42,92, 131,73 (Russia) | 77 | 39 | 22 | 28 | 44 | -42,9% |
-| Roshchino | Рощино | 45,9, 134,89 (Russia) | 4,9k | 4,3k | 3,9k | 3,6k | 3,2k | -34,6% |
 | Rudnyy | Рудный; Rudnyj | 44,28, 134,96 (Russia) | 3,7k | 2,6k | 2,4k | 2,2k | 1,8k | -50,1% |
 | Russkiy | Русский; Russkij | 43,02, 131,86 (Russia) | 5,9k | 5,2k | 4,7k | 6,3k | 10,4k | +77,1% |
 | Selikhino | Селихино | 50,37, 137,5 (Russia) | 5,8k | 4,9k | 4,3k | 4k | 3,6k | -37,2% |
@@ -8679,7 +7868,6 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Tokur | Токур | 53,14, 132,89 (Russia) | 2,2k | 1,2k | 1,1k | 974 | 595 | -72,8% |
 | Tomari | Томари; Томариору | 47,77, 142,07 (Russia) | 7,6k | 5,3k | 4,5k | 4k | 4,3k | -43,3% |
 | Topolevo | Тополево | 48,51, 135,18 (Russia) | 5k | 4,2k | 4,4k | 4,9k | 6k | +19,8% |
-| Troitskoye | Троицкое; Troickoje | 49,44, 136,55 (Russia) | 6k | 5,7k | 5,1k | 5k | 4,7k | -21,5% |
 | Troitskoye | Троицкое | 46,92, 142,64 (Russia) | 2,9k | 3,4k | 4,7k | 5k | 5,4k | +88,8% |
 | Trudovoye | Трудовое; Trudovoje | 43,3, 132,08 (Russia) | 17,5k | 18,9k | 18,5k | 18,9k | 19,5k | +11,5% |
 | Tsiolkovskiy | Циолковский; Ciolkovskij | 51,77, 128,12 (Russia) | 5,9k | 5k | 5,9k | 6,1k | 7,2k | +21,8% |
@@ -8704,10 +7892,9 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Vladivostok | Golden Horn Fortress; Primorskaya Capital | 43,12, 131,89 (Russia) | 648k | 595k | 592k | 603k | 603,5k | -6,9% |
 | Volchanets | Волчанец | 42,91, 132,76 (Russia) | 4,7k | 4,1k | 4,5k | 3,6k | 2,5k | -45,7% |
 | Volno-Nadezhdinskoe | Вольно-Надеждинское | 43,37, 132 (Russia) | 8k | 6,8k | 6,7k | 7,3k | 8,4k | +5,1% |
-| Vostochnyy | Восточный | 48,27, 142,62 (Russia) | 1,1k | 994 | 877 | 834 | 765 | -32,9% |
 | Vostok | Восток; Vostok | 46,45, 135,83 (Russia) | 5,6k | 3,5k | 4,1k | 3,9k | 3,3k | -41% |
 | Vozdvizhenka | Воздвиженка | 43,89, 131,95 (Russia) | 6,1k | 7,3k | 6,5k | 6,4k | 6,4k | +4,3% |
-| Vozzhayevka | Возжаевка; Vozžajevka | 50,73, 128,72 (Russia) | 7,8k | 7,3k | 6k | 5,8k | 5,6k | -29,2% |
+| Vozzhayevka | Возжаевка; Vozžajevka | 50,73, 128,72 (Russia) | 1,4k | 1,3k | 1,2k | 1,1k | 1k | -26% |
 | Vrangel’ | Врангель | 42,73, 133,08 (Russia) | 13,2k | 15,3k | 17k | 15,8k | 14k | +6,6% |
 | Vyazemskiy | Вяземский; Vjazemskij | 47,53, 134,76 (Russia) | 18k | 15,8k | 14,6k | 13,9k | 12,8k | -29% |
 | Vysokogornyy | Высокогорный; Vysokogornyj | 50,1, 139,12 (Russia) | 4,2k | 4k | 3,4k | 3,2k | 2,5k | -40,4% |
@@ -8716,9 +7903,7 @@ Komsomolsk-on-Amur and Nakhodka contracted (Table )
 | Yakovlevka | Яковлевка | 44,43, 133,48 (Russia) | 4,5k | 5,1k | 4,5k | 4,2k | 3,6k | -19,2% |
 | Yaroslavskiy | Ярославский; Jaroslavskij | 44,19, 132,23 (Russia) | 11,5k | 10,3k | 9,1k | 8,7k | 8,3k | -28% |
 | Yasnomorskiy | Ясноморское; Jasnomorskoje | 46,75, 141,91 (Russia) | 211 | 182 | 161 | 116 | 65 | -69,2% |
-| Yasnyy | Ясный; Jasnyj | 55,53, 127,02 (Russia) | 141 | 62 | 15 | 21 | 40 | -71,6% |
 | Yekateri-noslavka | Екатеринославка; Jekateri-noslavka | 50,37, 129,11 (Russia) | 9,4k | 10,6k | 9,7k | 9,6k | 9,3k | -1,1% |
-| Yerkovtsy | Ерковцы | 50,48, 128,42 (Russia) | 39,8k | 34,1k | 30,4k | 28k | 24,3k | -39% |
 | Yerofey Pavlovich | Ерофей Павлович; Jerofej Pavlovič | 53,96, 121,96 (Russia) | 6,6k | 5,6k | 5,2k | 4,8k | 4,4k | -33,5% |
 | Yuzhno-Kurilsk | Южно-Курильск; Južno-Kuril’sk | 44,03, 145,86 (Russia) | 6,2k | 5,8k | 5,8k | 7k | 7k | +11,9% |
 | Yuzhno-Sakhalinsk | Toyohara; Vladimirovka | 46,96, 142,74 (Russia) | 164k | 175k | 182k | 193k | 181,6k | +10,7% |
@@ -8740,9 +7925,9 @@ littoral cities (Region 35), 1991-2021.
 
 Table summarises the number of urban settlements covered in each of the
 35 regions and their combined urban population from 1991 to 2021. Across
-all 8.191 settlements, catalogued totals stand at 186,57M in 1991,
-181,18M at the 2001-2002 census round and 182,5M in 2021 (-2,2% across
-the 8.184 continuous 1991-2021 settlement cohort), reflecting
+all 7.376 settlements, catalogued totals stand at 163,62M in 1991,
+159,09M at the 2001-2002 census round and 162,65M in 2021 (-0,6% across
+the 7.369 continuous 1991-2021 settlement cohort), reflecting
 demographic concentration into metropolitan agglomerations (Regions 1,
 5, 12, 13, 18, 21, 24 and 26) even as rural districts, conflict zones
 (Regions 9, 10 and 22) and northern or coal-mining *monogoroda* (Regions
@@ -8750,44 +7935,44 @@ demographic concentration into metropolitan agglomerations (Regions 1,
 
 | Region (Cities) | 1991 | 2002 | 2010 | 2014 | 2021 | Change |
 |:---|:---|:---|:---|:---|:---|:---|
-| 1\. Minsk City & Minsk Oblast Metropolitan Magnet (59) | 2,98M | 3,08M | 3,15M | 3,25M | 3,35M | +12,4% |
-| 2\. Western Belarus: Brest & Grodno Oblasts (86) | 2,04M | 2,11M | 2,1M | 2,17M | 2,16M | +6,2% |
-| 3\. Eastern & Southeastern Belarus: Vitebsk, Mogilev & Gomel Oblasts (161) | 3,4M | 3,33M | 3,28M | 3,33M | 3,24M | -4,6% |
-| 4\. Western Ukraine (398) | 5,44M | 5,24M | 5,23M | 5,25M | 5,21M | -4,3% |
-| 5\. Kyiv City & Kyiv Metropolitan Oblast (123) | 4,25M | 4,17M | 4,31M | 4,41M | 4,53M | +6,6% |
-| 6\. Central & Northern Ukraine Depopulation Belt (656) | 8,02M | 7,5M | 7,19M | 7,1M | 6,76M | -15,6% |
-| 7\. Kharkiv, Dnipro-petrovsk & Zaporizhzhia Industrial East (372) | 8,3M | 7,56M | 7,29M | 7,19M | 6,85M | -17,4% |
-| 8\. Ukrainian Black Sea Littoral (231) | 4,6M | 4,3M | 4,15M | 4,13M | 4M | -12,9% |
-| 9\. Government-Controlled Donbas (179) | 3,11M | 2,82M | 2,62M | 2,55M | 2,36M | -24,1% |
-| 10\. Occupied Donbas / ORDLO (211) | 4,86M | 4,3M | 3,96M | 3,86M | 3,45M | -29,1% |
-| 11\. Crimea & Sevastopol (107) | 3,77M | 3,41M | 3,32M | 3,34M | 3,42M | -9,3% |
-| 12\. Moscow City & Moscow Oblast Post-Soviet Hyper-Centralisation Core (282) | 15,47M | 16,76M | 18,42M | 19,36M | 21,65M | +40% |
-| 13\. Saint Petersburg, Leningrad Oblast & Kaliningrad Exclave (179) | 7,86M | 7,5M | 7,78M | 8,15M | 9,07M | +15,5% |
-| 14\. Depopulating Northwest: Pskov, Novgorod, Vologda & Republic of Karelia (207) | 3,82M | 3,58M | 3,34M | 3,27M | 3,03M | -20,8% |
-| 15\. European Arctic Exodus Zone: Murmansk, Arkhan-gelsk, Komi & Nenets AO (181) | 3,73M | 3,05M | 2,81M | 2,72M | 2,37M | -36,4% |
-| 16\. Central Non-Black-Earth Mortality & Shrinkage Ring (676) | 13,66M | 12,8M | 12,23M | 11,98M | 11,37M | -16,8% |
-| 17\. Central Black-Earth Belt (400) | 6,61M | 6,54M | 6,42M | 6,5M | 6,36M | -3,7% |
-| 18\. Republics of Tatarstan & Bashkortostan (213) | 7,47M | 7,79M | 7,89M | 8,01M | 8,22M | +10,1% |
-| 19\. Middle Volga Oblasts (598) | 14,08M | 13,69M | 13,34M | 13,25M | 12,8M | -9,1% |
-| 20\. Lower Volga (260) | 6,1M | 6,1M | 5,97M | 5,9M | 5,75M | -5,8% |
-| 21\. Southern Russian Sunbelt Magnet (522) | 12,24M | 12,76M | 13,01M | 13,18M | 13,73M | +12,2% |
-| 22\. Chechnya & Ingushetia (109) | 1,24M | 1,32M | 1,43M | 1,52M | 1,73M | +38,3% |
-| 23\. North Ossetia (111) | 1,76M | 1,9M | 1,86M | 1,86M | 1,88M | +7,2% |
-| 24\. Republic of Dagestan (132) | 1,36M | 1,74M | 2,03M | 2,08M | 2,27M | +66,3% |
-| 25\. Ural Industrial Belt (511) | 14,85M | 13,99M | 13,54M | 13,5M | 13,18M | -11,3% |
-| 26\. Khanty-Mansi (62) | 1,65M | 1,76M | 1,9M | 1,99M | 2,08M | +26,2% |
-| 27\. West Siberian Trans-Siberian Belt (288) | 7,04M | 6,93M | 6,97M | 7,09M | 7,11M | +0,9% |
-| 28\. Kuzbass Coal-Metallurgical Basin (72) | 2,72M | 2,47M | 2,42M | 2,39M | 2,3M | -15,4% |
-| 29\. Southern Siberian Republics: Altai, Khakassia & Tuva (48) | 495,4k | 498,9k | 512,1k | 519,9k | 538,4k | +8,7% |
-| 30\. East Siberian Trans-Siberian & Angara-Yenisei Corridor (181) | 4,65M | 4,38M | 4,27M | 4,32M | 4,39M | -5,6% |
-| 31\. Norilsk, Taymyr & Evenkia Polar De-Population Zone (26) | 610,6k | 516,3k | 458,1k | 452,8k | 424,4k | -30,5% |
-| 32\. Republic of Buryatia (137) | 1,81M | 1,58M | 1,6M | 1,61M | 1,6M | -11,5% |
-| 33\. Sakha Republic (89) | 819,2k | 709,2k | 735,7k | 741,6k | 784,4k | -4,2% |
-| 34\. Extreme Northeast Arctic Exodus Zone (67) | 837,9k | 532,8k | 478,8k | 472,2k | 434,2k | -47,8% |
-| 35\. Southern Far East & Pacific Corridor (257) | 4,94M | 4,47M | 4,29M | 4,25M | 4,09M | -17,1% |
-| Total Gazetteer Sample (8191) | 186,57M | 181,18M | 180,33M | 181,68M | 182,5M | -2,2% |
+| 1\. Minsk City & Minsk Oblast Metropolitan Magnet (54) | 2,49M | 2,62M | 2,7M | 2,8M | 2,9M | +16,3% |
+| 2\. Western Belarus: Brest & Grodno Oblasts (77) | 1,73M | 1,8M | 1,8M | 1,87M | 1,89M | +9,3% |
+| 3\. Eastern & Southeastern Belarus: Vitebsk, Mogilev & Gomel Oblasts (140) | 2,99M | 2,94M | 2,88M | 2,94M | 2,85M | -4,7% |
+| 4\. Western Ukraine (384) | 5,26M | 5,06M | 5,05M | 5,08M | 5,03M | -4,3% |
+| 5\. Kyiv City & Kyiv Metropolitan Oblast (115) | 3,96M | 3,9M | 4,06M | 4,16M | 4,28M | +8,2% |
+| 6\. Central & Northern Ukraine Depopulation Belt (599) | 7,49M | 7,01M | 6,73M | 6,65M | 6,34M | -15,3% |
+| 7\. Kharkiv, Dnipro-petrovsk & Zaporizhzhia Industrial East (322) | 7,86M | 7,16M | 6,91M | 6,82M | 6,49M | -17,4% |
+| 8\. Ukrainian Black Sea Littoral (194) | 3,75M | 3,5M | 3,39M | 3,37M | 3,27M | -12,7% |
+| 9\. Government-Controlled Donbas (155) | 2,79M | 2,53M | 2,35M | 2,29M | 2,12M | -24,1% |
+| 10\. Occupied Donbas / ORDLO (207) | 4,83M | 4,27M | 3,94M | 3,84M | 3,43M | -29% |
+| 11\. Crimea & Sevastopol (83) | 2,1M | 1,92M | 1,86M | 1,9M | 2,02M | -3,8% |
+| 12\. Moscow City & Moscow Oblast Post-Soviet Hyper-Centralisation Core (273) | 15,05M | 16,36M | 18,01M | 18,93M | 21,2M | +40,9% |
+| 13\. Saint Petersburg, Leningrad Oblast & Kaliningrad Exclave (169) | 7,64M | 7,29M | 7,57M | 7,94M | 8,85M | +16% |
+| 14\. Depopulating Northwest: Pskov, Novgorod, Vologda & Republic of Karelia (166) | 2,78M | 2,64M | 2,52M | 2,49M | 2,32M | -16,8% |
+| 15\. European Arctic Exodus Zone: Murmansk, Arkhan-gelsk, Komi & Nenets AO (167) | 3,36M | 2,74M | 2,53M | 2,46M | 2,15M | -36,1% |
+| 16\. Central Non-Black-Earth Mortality & Shrinkage Ring (579) | 11,35M | 10,65M | 10,25M | 10,08M | 9,62M | -15,3% |
+| 17\. Central Black-Earth Belt (330) | 5,3M | 5,29M | 5,26M | 5,38M | 5,31M | +0,2% |
+| 18\. Republics of Tatarstan & Bashkortostan (196) | 5,79M | 5,98M | 6,07M | 6,2M | 6,43M | +11,1% |
+| 19\. Middle Volga Oblasts (529) | 12,13M | 11,8M | 11,56M | 11,53M | 11,19M | -7,7% |
+| 20\. Lower Volga (220) | 5,02M | 5,03M | 4,94M | 4,91M | 4,82M | -4% |
+| 21\. Southern Russian Sunbelt Magnet (482) | 9,69M | 10,11M | 10,38M | 10,58M | 11,17M | +15,3% |
+| 22\. Chechnya & Ingushetia (107) | 1,2M | 1,28M | 1,38M | 1,48M | 1,68M | +38,4% |
+| 23\. North Ossetia (106) | 1,69M | 1,82M | 1,78M | 1,78M | 1,8M | +6,9% |
+| 24\. Republic of Dagestan (130) | 1,26M | 1,6M | 1,87M | 1,91M | 2,08M | +66% |
+| 25\. Ural Industrial Belt (450) | 12,48M | 11,7M | 11,4M | 11,42M | 11,2M | -10,2% |
+| 26\. Khanty-Mansi (59) | 1,64M | 1,76M | 1,9M | 1,98M | 2,07M | +26,5% |
+| 27\. West Siberian Trans-Siberian Belt (259) | 5,83M | 5,76M | 5,83M | 5,97M | 6,02M | +3,3% |
+| 28\. Kuzbass Coal-Metallurgical Basin (64) | 2,59M | 2,34M | 2,31M | 2,28M | 2,2M | -14,9% |
+| 29\. Southern Siberian Republics: Altai, Khakassia & Tuva (44) | 461k | 471,5k | 484k | 491,9k | 510,4k | +10,7% |
+| 30\. East Siberian Trans-Siberian & Angara-Yenisei Corridor (172) | 4,55M | 4,3M | 4,2M | 4,24M | 4,32M | -5% |
+| 31\. Norilsk, Taymyr & Evenkia Polar De-Population Zone (25) | 606,4k | 510,1k | 452,2k | 447,6k | 420,2k | -30,7% |
+| 32\. Republic of Buryatia (132) | 1,69M | 1,48M | 1,51M | 1,53M | 1,52M | -9,9% |
+| 33\. Sakha Republic (82) | 771,2k | 675,7k | 706,5k | 714,2k | 759,2k | -1,5% |
+| 34\. Extreme Northeast Arctic Exodus Zone (64) | 802,2k | 518k | 467,6k | 461,5k | 424k | -46,7% |
+| 35\. Southern Far East & Pacific Corridor (241) | 4,71M | 4,27M | 4,11M | 4,08M | 3,95M | -16,3% |
+| Total Gazetteer Sample (7376) | 163,62M | 159,09M | 159,17M | 161,01M | 162,65M | -0,6% |
 
-Combined urban population across all 8.191 catalogued settlements by
+Combined urban population across all 7.376 catalogued settlements by
 region from 1991 to 2021.
 
 # Sources

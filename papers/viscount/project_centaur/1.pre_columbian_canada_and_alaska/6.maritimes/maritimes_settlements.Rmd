@@ -1,0 +1,215 @@
+---
+title: "Settlement Gazetteer of the Pre-Columbian Atlantic Maritimes, Newfoundland and Labrador"
+subtitle: "CENTAUR-II: Coordinates, Toponymy and Demographic Trajectories, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: maritimes_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_maritimes_spatial.png"
+hero_caption: "Spatial distribution of 159 Palaeoindian, Maritime Archaic, Woodland, Dorset, Inuit and Norse settlements across the Atlantic Maritimes, Newfoundland and Labrador from 10000BC to 1600AD."
+hero_label: "fig:hero-maritimes"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("maritimes.json5")
+set_data <- read_json_file("maritimes_settlements.json")
+led_data <- read_json_file("maritimes_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("#", "No. ", s, fixed = TRUE)
+  s <- gsub("%", "pct", s, fixed = TRUE)
+  s <- gsub("Existing Verified ", "", s, fixed = TRUE)
+  s <- gsub("coordinate/alias", "coordinate or alias", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 6L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 6L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+peak_vals <- vapply(set_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+set_names <- vapply(set_list, function (s) as.character(s$name), character(1))
+set_list_ranked <- set_list[order(-peak_vals, set_names)]
+top_set_list <- head(set_list_ranked, 45L)
+
+reg_short <- list(
+  mar_mikmaki_ns_pei_cape_breton = "Mi'kma'ki",
+  mar_wolastoq_new_brunswick_fundy = "Wolastoq-NB",
+  mar_newfoundland_beothuk_st_pierre = "Newfoundland",
+  mar_labrador_innu_nunatsiavut = "Labrador"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+exc_top <- head(exc_list, 30L)
+```
+
+# Abstract
+
+This gazetteer compiles WGS84 coordinates, Indigenous, Norse and French toponymy, occupation spans and population trajectories for `r length(set_list)` pre-contact settlements across the Atlantic Maritimes, Newfoundland and Labrador (545,83k km²) from 10000BC to 1600AD. Entries span from the 9000BC Debert Palaeoindian aggregation (90 peak) and 8000BC St. Peter's Bay (260 peak) through the 6000BC Maritime Archaic complex at L'Anse Amour (180) to major estuarine, riverine and coastal centres at Saint John Reversing Falls Capital (890), Truro Cobequid Capital (810), Annapolis Royal Equille Capital (760), Fredericton Saint John River Town (740), Bridgewater LaHave Capital (730), Metepenagiag (620), Kejimkujik-Merigomish (580), Meductic (480), Port au Choix (420), Beaubassin (380), Okak (290) and Sheshatshiu (290), alongside the 1000AD Norse Vinland wintering station at L'Anse aux Meadows (110). All 159 included settlements reconcile with zero discrepancies against 332 ledger candidates in the regional source ledger following 173 duplicate-alias exclusions within 2 km of retained sites.
+
+# Background
+
+Coastal, tidal and estuarine resource concentrations structured residential persistence across Atlantic Canada [@prins1996; @renouf1999]. In New Brunswick, Nova Scotia and Prince Edward Island, stratified salmon-fishing terraces, dykeland tidal flats and shell middens along the Saint John, Cobequid, Annapolis, LaHave and Miramichi systems at Saint John Reversing Falls Capital, Truro Cobequid Capital, Annapolis Royal Equille Capital, Fredericton Saint John River Town, Metepenagiag, Meductic, Kejimkujik-Merigomish and Beaubassin sustained multi-century Wolastoqiyik and Mi'kmaq centres [@allen1981; @prins1996]. Across the Strait of Belle Isle, western Newfoundland and northern Labrador, Maritime Archaic, Groswater, Dorset, Recent Indian, Beothuk, Innu, Inuit and Norse sites anchored harp-seal hunting, soapstone and Ramah chert extraction and North Atlantic crossings [@tuck1976; @tuck1976b; @wallace2003; @fitzhugh1972].
+
+# Methodology
+
+Candidates enter the regional source ledger when excavated hearth floors, shell-midden volumes, burial complexes or Norse hall capacities permit bounded population estimates [@macdonald1968; @ingstad1985]. Overlapping close-pair records within 2 km of a canonical settlement are excluded as duplicate-alias records rather than retained twice. Coordinates follow latitude and longitude decimal degrees in WGS84, and Table \ref{tab:summary} summarises site distribution across the four sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) sub_sets[[which.max(peaks)]]$name else "-"
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Included = viscount_fmt_number(length(sub_sets), 0L),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of included settlements and peak populations across the Atlantic Maritimes, Newfoundland and Labrador.",
+  c("Sub-Region", "Included Sites", "Sum of Site Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "footnotesize")
+)
+```
+
+# Testing and Validation
+
+Ledger reconciliation passes with 159 included sites, 173 excluded duplicate-alias entries, zero unaccounted candidates and zero coordinate or schema faults. Site latitudes extend from 43,57 to 60,33 N and longitudes from 52,88 to 68,32 W, with bibliographic provenance logged on every entry. Figure \ref{fig:settlements} charts the rank-size curve across all 159 catalogued settlements alongside the fifteen highest-peaking sites led by Saint John Reversing Falls Capital (890), Truro Cobequid Capital (810) and Annapolis Royal Equille Capital (760).
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_maritimes_settlements.png",
+  "Rank-size distribution and peak populations across the 159 catalogued settlements of the Atlantic Maritimes, Newfoundland and Labrador.",
+  "fig:settlements"
+)
+```
+
+# Results
+
+## Leading Settlement Trajectories
+
+Table \ref{tab:gazetteer} lists the top `r length(top_set_list)` settlements by peak population descending out of the `r length(set_list)` catalogued settlements.
+
+```{r tbl-gazetteer, results='asis'}
+gaz_rows <- lapply(top_set_list, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " to ", fmt_yr(y_max))
+  onames <- unlist(s$other_names)
+  oname_s <- if (length(onames) > 0) paste(head(as.character(onames), 2L), collapse = "; ") else "-"
+  pk <- max(as.numeric(unlist(s$population)))
+  data.frame(
+    Settlement = clean_text(s$name),
+    AltNames = clean_text(oname_s),
+    SubRegion = reg_short[[s$region]],
+    Coords = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    Series = fmt_pop_series(s$population),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+rownames(df_gaz) <- NULL
+viscount_table(
+  df_gaz,
+  "Top 45 settlements by peak population descending in the Atlantic Maritimes, Newfoundland and Labrador (10000BC to 1600AD).",
+  c("Settlement", "Alternative Names", "Sub-Region", "Coordinates", "Span", "Peak", "Benchmark Series"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:excluded} displays 30 of the 173 excluded duplicate-alias records from the regional source ledger, capped at 30 rows for display.
+
+```{r tbl-excluded, results='asis'}
+exc_rows <- lapply(exc_top, function (c) {
+  data.frame(
+    Candidate = clean_text(c$name),
+    Reason = clean_text(c$reason),
+    Justification = clean_text(c$justification),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+rownames(df_exc) <- NULL
+viscount_table(
+  df_exc,
+  "Representative 30 of 173 excluded candidate entries in the Maritimes source ledger.",
+  c("Candidate Entry", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "footnotesize")
+)
+```
+
+## Sub-Regional Settlement Summaries
+
+In Mi'kma'ki (61 entries, peak sum 27.230), the 9000BC to 8000BC caribou-intercept camp at Debert (90) and 8000BC St. Peter's Bay (260) precede late Holocene coastal and estuarine hubs at Truro Cobequid Capital (810), Annapolis Royal Equille Capital (760), Bridgewater LaHave Capital (730), Halifax Bedford Basin Village (690), Windsor Avon River Capital (680), Kejimkujik-Merigomish (580), Beaubassin (380), Grand-Pré (340), Melanson (310), Malpeque Bay Capital (380) and Malpeque (310) [@macdonald1968; @prins1996]. Across the Wolastoq-Miramichi basin (65 entries, peak sum 28.390), Saint John Reversing Falls Capital (890), Fredericton Saint John River Town (740), Moncton Petitcodiac Bend Town (680), Perth-Andover Tobique Mouth Capital (680), Edmundston Madawaska Capital (650), Burnt Church Esgenoopetitj Capital (640), Oromocto River Confluence Capital (630) and Metepenagiag (620) lead Passamaquoddy and Saint John Valley centres including Meductic (480), Minister's Island (260), Weir (220), Carson (210) and Skull Island (210) [@allen1981; @prins1996].
+
+On the Island of Newfoundland (15 entries, peak sum 3.475), Maritime Archaic, Dorset and Beothuk hubs at Port au Choix (420), Boyd's Cove Beothuk Capital (380), Beaches Caribou House Town (360), Russell's Point Winter Town (290), Boyd's Cove (260), Beaches (220), Cape Cove Fogo Town (220), Gould (190), Pointe Riche (190), Cow Head (180) and Ferryland Pre-Contact (180) flank the brief 1000AD Norse base at L'Anse aux Meadows (110) [@tuck1976; @tuck1976b; @wallace2003; @ingstad1985; @renouf1999]. Northward in Labrador (18 entries, peak sum 3.320), Innu interior-estuarine aggregations at Sheshatshiu (290) pair with Inuit and Archaic coastal centres at Okak (290), Blanc-Sablon (260), Nain (260), Hamilton Inlet (Groswater Bay) (210), Nunaingok 1 (195), Rose Island (190), L'Anse Amour (180), Rattlers Bight 1 (180), Saint-Augustin (Québec) (180), Nukasusutok (170), Ramah Bay (130) and Pinware Hill (75) [@fitzhugh1972].
+
+# Limitations
+
+Submerged coastal shell middens in the Bay of Fundy and along southern Nova Scotia skew surviving archaeological sites toward interior river terraces and isostatically uplifted northern beaches [@tuck1976; @renouf1999].
+
+# Conclusion
+
+Cataloguing 159 coastal, estuarine and riverine settlements across 545,83k km² documents the archaeological hierarchy of pre-contact Atlantic Canada from 9000BC caribou stations to sixteenth-century coastal confederacies.
+
+# Sources
+
+<div id="refs"></div>

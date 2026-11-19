@@ -1,0 +1,402 @@
+---
+title: "Settlement Gazetteer of Paraguay after Independence"
+subtitle: "Toponymy, Geographic Coordinates and Municipal Trajectories across Eighteen Administrative Divisions, 1811AD to 2026AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: paraguay_after_independence_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_paraguay_after_independence_spatial.png"
+hero_caption: "Spatial distribution of 260 catalogued settlements and eighteen administrative divisions across Paraguay (415,3k km²) from 1811AD to 2026AD, illustrating the demographic contrast between the central agricultural heartland, the eastern frontier and the western Gran Chaco."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("paraguay_after_independence.json5")
+set_data <- read_json_file("paraguay_after_independence_settlements.json")
+led_data <- read_json_file("paraguay_after_independence_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("\"", "", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+get_val <- function (arg0_pop, arg1_year) {
+  y_str <- as.character(arg1_year)
+  if (!is.null(arg0_pop[[y_str]])) {
+    v <- as.numeric(arg0_pop[[y_str]])
+    if (!is.na(v) && is.finite(v)) return(viscount_fmt_pop(v))
+  }
+  return("-")
+}
+
+reg_keys <- names(mod_data$regions)
+set_list <- unname(set_data)
+
+# Sort settlements by 2022 population descending
+get_p22 <- function (s) {
+  if (!is.null(s$population[["2022"]])) as.numeric(s$population[["2022"]]) else 0
+}
+p22_vec <- vapply(set_list, get_p22, numeric(1))
+set_list <- set_list[order(-p22_vec)]
+```
+
+# Abstract
+
+This settlement gazetteer compiles geographic coordinates, administrative affiliations and longitudinal population series for 260 catalogued urban settlements, municipal districts and historical parish centres across the eighteen administrative divisions of Paraguay from 1811AD to 2026AD. The dataset integrates the official national censuses and historical registers from the early republican era under José Gaspar Rodríguez de Francia and Carlos Antonio López, the municipal reconstruction surveys following the War of the Triple Alliance (1864-1870AD), and the modern census series of 1950, 1962, 1972, 1982, 1992, 2002, 2012 and 2022, directed by the Dirección General de Estadística, Encuestas y Censos (now the Instituto Nacional de Estadística, INE) [@dgeec1952censo; @dgeec2015atlas; @ine2022censo; @whigham1999rosetta; @kleinpenning2003thematic].
+
+The spatial coverage of the gazetteer reflects the profound geographical reorganisation that transformed the republic over more than two centuries. In the nineteenth century, sedentary municipal units were confined almost entirely to the historic central depression around Asunción, the serranías of Cordillera and Paraguarí, and the riverine mission settlements along the Paraná and Paraguay rivers. Following the catastrophic losses of the War of the Triple Alliance, the municipal network expanded slowly through agrarian repopulation and European colonisation schemes in Cordillera, Guairá, San Pedro and Itapúa [@cooney1980southwestern; @kleinpenning1992rural].
+
+Across the second half of the twentieth century, state-directed colonisation along the *Marcha al Este*, the construction of the Itaipú hydroelectric dam and substantial Brazilian agricultural immigration produced rapid urbanisation in Eastern Paraguay, establishing major economic hubs including Ciudad del Este, Hernandarias, Presidente Franco, Santa Rita, Pedro Juan Caballero and Salto del Guairá [@nickson1981brazilian; @folch2019hydropolitics; @santos2023memories]. Concurrently, metropolitan suburbanisation around Asunción fostered the growth of populous secondary cities in the Central department—notably San Lorenzo, Luque, Capiatá, Lambaré, Fernando de la Mora, Limpio and Ñemby—which collectively accommodate over 30% of the national populace [@ine2022censo].
+
+Every catalogued locality is anchored to precise WGS84 geographic coordinates, assigned to its canonical administrative department and reconciled against 420 candidate records evaluated in the project source ledger (260 included municipal units and 160 documented secondary toponymic variants). By subtracting nucleated municipal populations from departmental census totals, the gazetteer supplies the urban component of the Operation Viscount demographic model, preventing artificial concentration in rural raster cells and providing a continuous accounting of Paraguayan settlement history.
+
+# Methodology and Source Ledger Audit
+
+Settlement inclusion in the gazetteer follows three rigorous archival and demographic criteria:
+1. **Administrative Autonomy and Census Continuity**: All 260 official Paraguayan municipal districts (*municipios*) recognized in modern national censuses (2002, 2012 and 2022) are included as autonomous spatial entities, supplemented by historical parish centres, yerba mate river ports and military fortresses that possessed independent demographic significance prior to mid-twentieth-century municipal consolidations [@dgeec2015atlas; @ine2022censo].
+2. **Geographic Coordinate Validation**: All settlement coordinates are verified against Instituto Geográfico Militar (IGM) cartography, high-resolution satellite imagery and official municipal boundary registers from the Dirección del Servicio Geográfico Militar (DISERGEMIL), ensuring that every coordinate pair falls strictly within its respective departmental boundaries.
+3. **Reconciliation against Excluded Candidates**: Among the 420 candidates evaluated in the source ledger, 160 records are documented as excluded. These comprise duplicate toponymic aliases, alternative Guaraní-Spanish orthographic variants within two kilometres of canonical centres, and dependent rural company hamlets that lacked independent municipal status.
+
+```{r tbl-dept-summary, results='asis'}
+sum_rows <- lapply(reg_keys, function (rk) {
+  r <- mod_data$regions[[rk]]
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  n_sets <- length(sub_sets)
+  
+  get_sum_yr <- function (yr) {
+    vals <- vapply(sub_sets, function (s) {
+      if (!is.null(s$population[[yr]])) as.numeric(s$population[[yr]]) else 0
+    }, numeric(1))
+    sum(vals)
+  }
+  
+  data.frame(
+    Department = clean_text(r$name),
+    Districts = as.character(n_sets),
+    Sum1850 = viscount_fmt_pop(get_sum_yr("1850")),
+    Sum1899 = viscount_fmt_pop(get_sum_yr("1899")),
+    Sum1950 = viscount_fmt_pop(get_sum_yr("1950")),
+    Sum1982 = viscount_fmt_pop(get_sum_yr("1982")),
+    Sum2002 = viscount_fmt_pop(get_sum_yr("2002")),
+    Sum2022 = viscount_fmt_pop(get_sum_yr("2022")),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+
+tot_sets <- length(set_list)
+get_tot_yr <- function (yr) {
+  vals <- vapply(set_list, function (s) {
+    if (!is.null(s$population[[yr]])) as.numeric(s$population[[yr]]) else 0
+  }, numeric(1))
+  sum(vals)
+}
+
+df_tot <- data.frame(
+  Department = "National Total",
+  Districts = as.character(tot_sets),
+  Sum1850 = viscount_fmt_pop(get_tot_yr("1850")),
+  Sum1899 = viscount_fmt_pop(get_tot_yr("1899")),
+  Sum1950 = viscount_fmt_pop(get_tot_yr("1950")),
+  Sum1982 = viscount_fmt_pop(get_tot_yr("1982")),
+  Sum2002 = viscount_fmt_pop(get_tot_yr("2002")),
+  Sum2022 = viscount_fmt_pop(get_tot_yr("2022")),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot)
+
+viscount_table(
+  df_sum,
+  "Departmental distribution of 260 catalogued settlements and aggregate urban population sums across key benchmarks from 1850AD to 2022AD.",
+  c("Department", "Districts", "1850AD Sum", "1899AD Sum", "1950AD Sum", "1982AD Sum", "2002AD Sum", "2022AD Sum"),
+  list(label = "tab:dept-summary", font_size = "scriptsize")
+)
+```
+
+# Macro-Zone Settlement Trajectories
+
+## Gran Asunción and Central Depression
+
+The Gran Asunción metropolitan core and the surrounding central depression—comprising the Distrito Capital of Asunción, Central, Cordillera and Paraguarí—constitute the historic heart of Paraguayan settlement [@dgeec2015atlas; @rivarola1970poblacion].
+
+Asunción, founded in 1537AD, was the administrative centre from which Spanish colonisation radiated across the Río de la Plata basin. In the modern era, municipal boundary constraints have capped the capital city at approximately 477k residents in 2022AD, while industrial and residential decentralisation has propelled the growth of Central department municipalities into large urban centres [@ine2022censo].
+
+San Lorenzo (225k residents in 2022AD), Luque (259k), Capiatá (236k), Lambaré (127k), Fernando de la Mora (110k), Limpio (139k) and Ñemby (116k) form an integrated conurbation served by radial road corridors [@dgeec2015atlas].
+
+Cordillera and Paraguarí preserve the older agrarian and artisanal fabric of the central valley: Caacupé serves as the spiritual capital of the nation hosting the Basilica of Our Lady of Miracles, Piribebuy and Eusebio Ayala recall critical battle sites of the War of the Triple Alliance, and Yaguarón houses monumental eighteenth-century Franciscan baroque architecture [@kleinpenning2003thematic].
+
+Table \ref{tab:gaz-central} documents the leading thirty-five settlements across the Gran Asunción and Central Depression zone, ordered by 2022 population.
+
+```{r tbl-gaz-central, results='asis'}
+sub_cen <- Filter(function (s) s$region_id %in% c("pry_asuncion", "pry_central", "pry_cordillera", "pry_paraguari"), set_list)
+sub_cen <- head(sub_cen, 35L)
+
+cen_rows <- lapply(sub_cen, function (s) {
+  data.frame(
+    District = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1899 = get_val(s$population, "1899"),
+    P1950 = get_val(s$population, "1950"),
+    P1982 = get_val(s$population, "1982"),
+    P2002 = get_val(s$population, "2002"),
+    P2022 = get_val(s$population, "2022"),
+    stringsAsFactors = FALSE
+  )
+})
+df_cen <- do.call(rbind, cen_rows)
+
+viscount_table(
+  df_cen,
+  "Leading thirty-five catalogued settlements in the Gran Asuncion and Central Depression zone ordered by 2022AD population.",
+  c("District", "Coordinates", "1850AD", "1899AD", "1950AD", "1982AD", "2002AD", "2022AD"),
+  list(label = "tab:gaz-central", font_size = "scriptsize")
+)
+```
+
+## Southern Paraná and Mission Corridor
+
+The Southern Paraná and Mission Corridor—encompassing the departments of Itapúa, Misiones and Ñeembucú—represents the historic territory of the Jesuit Reductions established among the Guaraní in the seventeenth and eighteenth centuries [@kleinpenning2003thematic].
+
+Following the expulsion of the Jesuits in 1767AD and the devastation of the War of the Triple Alliance, this region underwent dramatic agrarian restructuring [@cooney1980southwestern].
+
+Itapúa emerged as a prominent recipient of European agricultural immigrants: German, Ukrainian, Polish, Russian and Japanese colonists founded dynamic agricultural cooperatives in Hohenau (1900AD), Obligado (1912AD), Bella Vista (1918AD), Fram (1927AD) and Pirapó (1960AD), creating a prosperous grain, dairy and yerba mate belt [@kleinpenning1992rural].
+
+The departmental capital of Encarnación, situated on the Paraná opposite the Argentine city of Posadas, expanded into a major commercial and logistics port, further stimulated by the construction of the Yacyretá hydroelectric reservoir and modern riverfront infrastructure [@dgeec2015atlas].
+
+In Misiones, traditional cattle ranching and Jesuit heritage towns—including San Juan Bautista, San Ignacio Guazú, Santa Rosa and Santiago—contrast with the modern hydroelectric service city of Ayolas [@nickson2015dictionary].
+
+In Ñeembucú, situated at the confluence of the Paraguay and Paraná rivers, Pilar anchors a historic textile and commercial river port, while Humaitá preserves the monumental ruins of the nineteenth-century riverine fortress that withstood allied siege for over two years [@kleinpenning2003thematic].
+
+Table \ref{tab:gaz-south} documents thirty leading settlements across the Southern Paraná and Mission Corridor.
+
+```{r tbl-gaz-south, results='asis'}
+sub_sth <- Filter(function (s) s$region_id %in% c("pry_itapua", "pry_misiones", "pry_neembucu"), set_list)
+sub_sth <- head(sub_sth, 30L)
+
+sth_rows <- lapply(sub_sth, function (s) {
+  data.frame(
+    District = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1899 = get_val(s$population, "1899"),
+    P1950 = get_val(s$population, "1950"),
+    P1982 = get_val(s$population, "1982"),
+    P2002 = get_val(s$population, "2002"),
+    P2022 = get_val(s$population, "2022"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sth <- do.call(rbind, sth_rows)
+
+viscount_table(
+  df_sth,
+  "Leading thirty catalogued settlements in the Southern Parana and Mission Corridor ordered by 2022AD population.",
+  c("District", "Coordinates", "1850AD", "1899AD", "1950AD", "1982AD", "2002AD", "2022AD"),
+  list(label = "tab:gaz-south", font_size = "scriptsize")
+)
+```
+
+## Central Agricultural and Sierra Belt
+
+The Central Agricultural and Sierra Belt—comprising Caaguazú, Guairá and Caazapá—spans the rolling Cordillera de Ybytyruzú and the fertile central plateau between the Tebicuary and Manduvirá drainage basins [@kleinpenning2003thematic].
+
+Villarrica in Guairá, established originally in 1570AD and relocated several times before settling at the foot of the Ybytyruzú mountains, served historically as the cultural and intellectual capital of the interior, sustained by sugarcane milling, viticulture and artisanal manufacturing [@nickson2015dictionary].
+
+Guairá also accommodated German winegrowers and farmers at Colonia Independencia, founded in 1919AD [@kleinpenning1992rural].
+
+In Caaguazú, the completion of paved Route 7 transformed Coronel Oviedo and Caaguazú into bustling agro-commercial crossroads connecting Asunción with the eastern border [@palau1986agricultura].
+
+The region absorbed tens of thousands of peasant colonisation beneficiaries during the agrarian programs of the 1960s and 1970s, establishing thriving smallholder communities in Repatriación, Doctor Juan Manuel Frutos and Yhú [@pastore1972lucha; @fletschner2002efficiency].
+
+Caazapá retains a strong colonial rural character anchored by historic Franciscan foundations: Caazapá, San Juan Nepomuceno and Yuty, the latter serving as a major agricultural marketing centre on the Tebicuary River [@dgeec2015atlas].
+
+Table \ref{tab:gaz-central-belt} presents thirty leading settlements across the Central Agricultural and Sierra Belt.
+
+```{r tbl-gaz-central-belt, results='asis'}
+sub_cbl <- Filter(function (s) s$region_id %in% c("pry_caaguazu", "pry_guaira", "pry_caazapa"), set_list)
+sub_cbl <- head(sub_cbl, 30L)
+
+cbl_rows <- lapply(sub_cbl, function (s) {
+  data.frame(
+    District = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1899 = get_val(s$population, "1899"),
+    P1950 = get_val(s$population, "1950"),
+    P1982 = get_val(s$population, "1982"),
+    P2002 = get_val(s$population, "2002"),
+    P2022 = get_val(s$population, "2022"),
+    stringsAsFactors = FALSE
+  )
+})
+df_cbl <- do.call(rbind, cbl_rows)
+
+viscount_table(
+  df_cbl,
+  "Leading thirty catalogued settlements in the Central Agricultural and Sierra Belt ordered by 2022AD population.",
+  c("District", "Coordinates", "1850AD", "1899AD", "1950AD", "1982AD", "2002AD", "2022AD"),
+  list(label = "tab:gaz-central-belt", font_size = "scriptsize")
+)
+```
+
+## Eastern Agro-Industrial Frontier
+
+The Eastern Agro-Industrial Frontier—encompassing the departments of Alto Paraná, Canindeyú and Amambay—has experienced the most rapid demographic and economic expansion in modern Paraguayan history [@nickson1981brazilian; @santos2023memories].
+
+Prior to the 1960s, this expansive region of dense subtropical Atlantic forest was virtually uninhabited by sedentary populations, utilized only by indigenous Aché and Ava Guaraní communities and itinerant yerba mate gatherers operating under foreign corporate concessions [@pastore1972lucha].
+
+The construction of the Friendship Bridge (1965AD) and the Itaipú hydroelectric dam (1975-1982AD) initiated a demographic transformation [@folch2019hydropolitics].
+
+Ciudad del Este expanded from an isolated jungle military post into the second largest urban centre in the republic (327k residents in 2022AD), serving as a global commercial hub for re-export trade with Brazil and Argentina [@dgeec2015atlas; @ine2022censo].
+
+Surrounding cities—including Hernandarias, Presidente Franco and Minga Guazú—formed a continuous metropolitan area of over 550k inhabitants [@ine2022censo].
+
+Southward and northward along the Paraná basin, Brazilian immigrant farmers established mechanised agricultural centres in Santa Rita, Naranjal, San Cristóbal, Katueté and Nueva Esperanza, converting the region into an agro-industrial granary [@nickson1981brazilian; @fletschner2002efficiency].
+
+In Canindeyú, Salto del Guairá emerged as a commercial centre near the submerged Guairá Falls, while Curuguaty anchors the historic agricultural interior [@nickson2015dictionary].
+
+In Amambay, Pedro Juan Caballero on the dry border with Ponta Porã (Brazil) constitutes a vital commercial gateway and regional urban centre, flanked by the historic site of Cerro Corá where the War of the Triple Alliance terminated [@whigham2002refining].
+
+Table \ref{tab:gaz-east} presents thirty leading settlements across the Eastern Agro-Industrial Frontier.
+
+```{r tbl-gaz-east, results='asis'}
+sub_est <- Filter(function (s) s$region_id %in% c("pry_alto_parana", "pry_canindeyu", "pry_amambay"), set_list)
+sub_est <- head(sub_est, 30L)
+
+est_rows <- lapply(sub_est, function (s) {
+  data.frame(
+    District = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1899 = get_val(s$population, "1899"),
+    P1950 = get_val(s$population, "1950"),
+    P1982 = get_val(s$population, "1982"),
+    P2002 = get_val(s$population, "2002"),
+    P2022 = get_val(s$population, "2022"),
+    stringsAsFactors = FALSE
+  )
+})
+df_est <- do.call(rbind, est_rows)
+
+viscount_table(
+  df_est,
+  "Leading thirty catalogued settlements in the Eastern Agro-Industrial Frontier ordered by 2022AD population.",
+  c("District", "Coordinates", "1850AD", "1899AD", "1950AD", "1982AD", "2002AD", "2022AD"),
+  list(label = "tab:gaz-east", font_size = "scriptsize")
+)
+```
+
+## Northern Orient
+
+The Northern Orient—comprising the departments of Concepción and San Pedro—occupies the transition zone between the central agricultural valley and the Chaco riverine corridor [@kleinpenning2003thematic].
+
+Concepción, founded in 1773AD on the eastern bank of the Paraguay River, functioned throughout the nineteenth and early twentieth centuries as the maritime gateway to northern Paraguay and southern Mato Grosso, handling river steamer traffic, timber exports, cattle and yerba mate [@williams1979rise].
+
+San Pedro de Ycuamandiyú, established in 1786AD near the Jejuy River, anchors an extensive cattle and peasant agriculture province that saw intensive peasant colonisation in the late twentieth century [@palau1986agricultura].
+
+San Estanislao (Santaní), originally a Jesuit reduction founded in 1749AD, evolved into the primary commercial and transport junction of San Pedro, connecting northern river routes with the capital [@pastore1972lucha].
+
+More recently, Santa Rosa del Aguaray and Guayaibí have expanded rapidly as commercial agricultural centres along Route PY08, while Horqueta and Yby Yaú in Concepción serve as regional livestock and agricultural marketing centres [@dgeec2015atlas].
+
+Table \ref{tab:gaz-north} presents twenty-five leading settlements across the Northern Orient.
+
+```{r tbl-gaz-north, results='asis'}
+sub_nth <- Filter(function (s) s$region_id %in% c("pry_concepcion", "pry_san_pedro"), set_list)
+sub_nth <- head(sub_nth, 25L)
+
+nth_rows <- lapply(sub_nth, function (s) {
+  data.frame(
+    District = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1899 = get_val(s$population, "1899"),
+    P1950 = get_val(s$population, "1950"),
+    P1982 = get_val(s$population, "1982"),
+    P2002 = get_val(s$population, "2002"),
+    P2022 = get_val(s$population, "2022"),
+    stringsAsFactors = FALSE
+  )
+})
+df_nth <- do.call(rbind, nth_rows)
+
+viscount_table(
+  df_nth,
+  "Leading twenty-five catalogued settlements in the Northern Orient ordered by 2022AD population.",
+  c("District", "Coordinates", "1850AD", "1899AD", "1950AD", "1982AD", "2002AD", "2022AD"),
+  list(label = "tab:gaz-north", font_size = "scriptsize")
+)
+```
+
+## Western Gran Chaco
+
+The Western Gran Chaco—encompassing the vast departments of Presidente Hayes, Boquerón and Alto Paraguay—spans 246.685 km² of semi-arid plain, thorn-forest and riverine wetlands, representing nearly 60% of the sovereign territory of the republic [@gonzalez2018ecosystem; @oyhantcabal2025foreign].
+
+Throughout the nineteenth century, European settlement was limited to riverine military outposts such as Fuerte Olimpo (founded 1792AD) and Villa Hayes (originally Villa Occidental, awarded to Paraguay in 1878AD following the arbitration of US President Rutherford B. Hayes) [@nickson2015dictionary].
+
+The late nineteenth century saw the establishment of industrial quebracho tannin ports along the western bank of the Paraguay River—notably Puerto Casado, Puerto Pinasco and Puerto Sastre—operated by Argentine and international concessionaires [@pastore1972lucha; @oyhantcabal2025foreign].
+
+In the 1920s and 1930s, Mennonite agricultural colonists established cooperative farming colonies in the central Chaco around Filadelfia (Colony Fernheim), Loma Plata (Colony Menno) and Neuland, creating advanced dairy and livestock production systems [@redekop1980strangers; @oleaga2011ethnic].
+
+Following the Chaco War (1932-1935AD), military posts such as Mariscal Estigarribia were incorporated into the administrative network [@dunkerley1984rebellion].
+
+In the contemporary era, large-scale mechanized cattle ranching and the construction of the Bioceanic Corridor have linked Carmelo Peralta on the Paraguay River across Boquerón to the Argentine border at Pozo Hondo, stimulating urban growth across these isolated desert centres [@oyhantcabal2025foreign; @santos2023memories].
+
+All twenty-one catalogued settlements in the Western Gran Chaco are documented in Table \ref{tab:gaz-chaco}.
+
+```{r tbl-gaz-chaco, results='asis'}
+sub_chk <- Filter(function (s) s$region_id %in% c("pry_presidente_hayes", "pry_boqueron", "pry_alto_paraguay"), set_list)
+
+chk_rows <- lapply(sub_chk, function (s) {
+  data.frame(
+    District = clean_text(s$name),
+    Coordinates = fmt_coord(s$coords),
+    P1850 = get_val(s$population, "1850"),
+    P1899 = get_val(s$population, "1899"),
+    P1950 = get_val(s$population, "1950"),
+    P1982 = get_val(s$population, "1982"),
+    P2002 = get_val(s$population, "2002"),
+    P2022 = get_val(s$population, "2022"),
+    stringsAsFactors = FALSE
+  )
+})
+df_chk <- do.call(rbind, chk_rows)
+
+viscount_table(
+  df_chk,
+  "All twenty-one catalogued settlements in the Western Gran Chaco ordered by 2022AD population.",
+  c("District", "Coordinates", "1850AD", "1899AD", "1950AD", "1982AD", "2002AD", "2022AD"),
+  list(label = "tab:gaz-chaco", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+<div id="refs"></div>

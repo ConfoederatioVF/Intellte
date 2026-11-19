@@ -1,47 +1,3 @@
----
-title: "Settlements and Towns of the Yenisei, Baikal, Lena, Kolyma and Pacific Basins"
-subtitle: "From Prehistoric Pit-House Villages and Steppe and Jurchen Fortresses to the Russian Ostrogs and Cities"
-date: "8 November 2026"
-authors_line: "Aust Kätzchen"
-emails:
-  - austkaeztchen@confoederatio.org
-hero_figure: "figures/fig1_eastern_siberia_basins_map.png"
-hero_caption: "The nine drainage regions of Eastern and Pacific Siberia (10,11M km²), showing the locations of the 231 prehistoric camps, walled steppe and Jurchen towns, Russian ostrogs and Imperial cities compiled in this gazetteer."
-hero_label: "fig:hero"
-bibliography: siberia_yenisei_lena_kolyma_pacific_literature_review.bib
-csl: ../../_shared/template/crd-mla-numeric.csl
-link-citations: true
-output:
-  pdf_document:
-    template: ../../_shared/template/template.tex
-    latex_engine: xelatex
-    keep_tex: false
-  md_document:
-    variant: gfm
-    preserve_yaml: true
-    toc: true
-    toc_depth: 3
----
-
-- [Abstract](#abstract)
-- [Methodology](#methodology)
-- [Results](#results)
-  - [Yenisei and Baikal Region](#yenisei-and-baikal-region)
-    - [Baikal and Selenga Basin](#baikal-and-selenga-basin)
-    - [Sayan, Minusinsk and Tuva](#sayan-minusinsk-and-tuva)
-    - [Middle and Lower Yenisei](#middle-and-lower-yenisei)
-  - [Lena and Kolyma Region](#lena-and-kolyma-region)
-    - [Vitim, Olekma and Aldan](#vitim-olekma-and-aldan)
-    - [Central Yakutia and Lower Lena](#central-yakutia-and-lower-lena)
-    - [Yana, Indigirka and Kolyma](#yana-indigirka-and-kolyma)
-  - [Pacific Region](#pacific-region)
-    - [Amur Basin and Primorye](#amur-basin-and-primorye)
-    - [Kamchatka, Sakhalin and Kuril
-      Islands](#kamchatka-sakhalin-and-kuril-islands)
-    - [Chukotka, Anadyr and Bering
-      Strait](#chukotka-anadyr-and-bering-strait)
-- [Sources](#sources)
-
 # Abstract
 
 Across the 10,11M km² of Eastern and Pacific Siberia, early settlement
@@ -77,7 +33,7 @@ Krasnoyarsk (26,7k), Khabarovsk (15k), Chita (11,5k) and Yeniseysk
 # Methodology
 
 This gazetteer presents the coordinates, native and historical names,
-dates of occupation and population estimates for 231 settlements across
+dates of occupation and population estimates for 414 settlements across
 Eastern and Pacific Siberia from 10000BC to 1900AD (Figure ; Tables to
 ). Occupation spans correspond to the earliest and latest benchmark
 dates recorded for each settlement.
@@ -105,47 +61,46 @@ and the First All-Russian Census of 1897
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Shamanka II | Шаманка II; Kultuk Cemetery | 51,68°N 103,7°E | 5600BC - 2000BC | 55 (5200BC) | \- | \- | \- | \- | \- |
-| Lokomotiv | Локомотив; Irkut-Angara Cemetery | 52,28°N 104,28°E | 5700BC - 5000BC | 70 (5400BC) | \- | \- | \- | \- | \- |
-| Ust-Ida I | Усть-Ида I | 53,18°N 103,37°E | 4000BC - 2200BC | 55 (3500BC) | \- | \- | \- | \- | \- |
-| Khuzhir-Nuge XIV | Хужир-Нугэ XIV | 53,08°N 106,75°E | 2700BC - 2000BC | 60 (2400BC) | \- | \- | \- | \- | \- |
-| Kurma XI | Курма XI | 53,18°N 106,95°E | 3000BC - 2000BC | 45 (2500BC) | \- | \- | \- | \- | \- |
-| Sagan-Zaba II | Саган-Заба II | 52,67°N 106,47°E | 800AD | 60 (800AD) | \- | \- | \- | \- | \- |
-| Gorelyi Les | Горелый Лес | 52,53°N 103,9°E | 8000BC - 2000BC | 45 (2000BC) | \- | \- | \- | \- | \- |
-| Ust-Belaia | Усть-Белая | 52,83°N 103,55°E | 8000BC - 2000BC | 50 (2000BC) | \- | \- | \- | \- | \- |
-| Studenoe | Студеное-1/2 | 50,08°N 108,25°E | 10000BC - 4000BC | 50 (4000BC) | \- | \- | \- | \- | \- |
-| Ivolga Fortress | Иволгинское городище; Ivolginskoye Gorodishche | 51,75°N 107,45°E | 150BC - 50AD | 2,8k (50BC) | \- | \- | \- | \- | \- |
-| Nizhnyaya Ivolga | Нижняя Иволга | 51,76°N 107,48°E | 120BC - 1AD | 480 (50BC) | \- | \- | \- | \- | \- |
+| Aksha | Акша; Akshinskaya Krepost | 50,28°N 113,28°E | 1756AD - 1850AD | \- | \- | 480 | 850 | \- | \- |
+| Balagansk | Балаганск; Balaganskiy Ostrog | 53,98°N 103,3°E | 1654AD - 1850AD | \- | 480 | 980 | 1,1k | \- | \- |
+| Barguzin | Баргузин; Barguzinskiy Ostrog | 53,62°N 109,63°E | 1648AD - 1850AD | \- | 380 | 880 | 1,1k | \- | \- |
 | Bayangol | Баянгол; Bayangol Settlement | 50,62°N 103,45°E | 120BC - 50AD | 1,5k (1AD) | \- | \- | \- | \- | \- |
-| Dyrestui | Дырестуйский Култук; Derestuy | 50,63°N 106,12°E | 150BC - 50AD | 700 (1AD) | \- | \- | \- | \- | \- |
-| Ilmovaya Pad | Ильмовая падь | 50,55°N 106,32°E | 120BC - 50AD | 850 (1AD) | \- | \- | \- | \- | \- |
-| Cheremukhovaya Pad | Черемуховая падь | 50,58°N 106,35°E | 100BC - 50AD | 450 (1AD) | \- | \- | \- | \- | \- |
 | Burkhan-Tolgoi | Бурхан-Толгой | 50,42°N 106,45°E | 120BC - 1AD | 550 (1AD) | \- | \- | \- | \- | \- |
+| Cheremkhovo | Черемхово; Cheremkhovskoye | 53,15°N 103,07°E | 1772AD - 1850AD | \- | \- | 350 | 850 | \- | \- |
+| Cheremukhovaya Pad | Черемуховая падь | 50,58°N 106,35°E | 100BC - 50AD | 450 (1AD) | \- | \- | \- | \- | \- |
+| Chita | Чита; Chitinskiy Ostrog | 52,03°N 113,5°E | 1653AD - 1850AD | \- | 250 | 480 | 1,2k | \- | \- |
 | Dureny I | Дурены I-II; Dureny | 50,33°N 106,85°E | 100BC - 50AD | 700 (1AD) | \- | \- | \- | \- | \- |
-| Nizhnemangirtuyskoe | Нижнемангиртуйское поселение | 50,73°N 107,18°E | 100BC - 50AD | 350 (1AD) | \- | \- | \- | \- | \- |
+| Dyrestui | Дырестуйский Култук; Derestuy | 50,63°N 106,12°E | 150BC - 50AD | 700 (1AD) | \- | \- | \- | \- | \- |
+| Gorelyi Les | Горелый Лес | 52,53°N 103,9°E | 8000BC - 2000BC | 45 (2000BC) | \- | \- | \- | \- | \- |
+| Ilmovaya Pad | Ильмовая падь | 50,55°N 106,32°E | 120BC - 50AD | 850 (1AD) | \- | \- | \- | \- | \- |
+| Irkutsk | Иркутск; Irkutskiy Ostrog | 52,29°N 104,31°E | 1661AD - 1850AD | \- | 1,2k | 11,3k | 19,8k | \- | \- |
+| Ivolga Fortress | Иволгинское городище; Ivolginskoye Gorodishche | 51,75°N 107,45°E | 150BC - 50AD | 2,8k (50BC) | \- | \- | \- | \- | \- |
+| Kabansk | Кабанск; Kabanskiy Ostrog | 52,05°N 106,65°E | 1678AD - 1850AD | \- | 150 | 750 | 1,2k | \- | \- |
+| Khura-Khobok | Хура-Хобок | 51,8°N 102,55°E | 650AD - 1050AD | 360 (850AD) | \- | \- | \- | \- | \- |
+| Khuzhir-Nuge XIV | Хужир-Нугэ XIV | 53,08°N 106,75°E | 2700BC - 2000BC | 60 (2400BC) | \- | \- | \- | \- | \- |
+| Kultuk | Култук; Kultukskoye | 51,72°N 103,72°E | 1647AD - 1850AD | \- | 180 | 420 | 680 | \- | \- |
+| Kurma XI | Курма XI | 53,18°N 106,95°E | 3000BC - 2000BC | 45 (2500BC) | \- | \- | \- | \- | \- |
+| Listvyanka | Листвянка; Listvennichnoye | 51,85°N 104,87°E | 1725AD - 1850AD | \- | 110 | 280 | 550 | \- | \- |
+| Lokomotiv | Локомотив; Lokomotiv Habitation and Camp Site | 52,28°N 104,28°E | 5700BC - 5000BC | 70 (5400BC) | \- | \- | \- | \- | \- |
 | Mankhay I | Манхай I; Mankhayskoye Gorodishche | 52,78°N 104,93°E | 600AD - 1000AD | 480 (800AD) | \- | \- | \- | \- | \- |
 | Mankhay II | Манхай II | 52,79°N 104,95°E | 650AD - 1000AD | 320 (850AD) | \- | \- | \- | \- | \- |
-| Khura-Khobok | Хура-Хобок | 51,8°N 102,55°E | 650AD - 1050AD | 360 (850AD) | \- | \- | \- | \- | \- |
-| Ulan-Bor | Улан-Бор | 53,15°N 107,3°E | 650AD - 1050AD | 310 (850AD) | \- | \- | \- | \- | \- |
+| Nizhnemangirtuyskoe | Нижнемангиртуйское поселение | 50,73°N 107,18°E | 100BC - 50AD | 350 (1AD) | \- | \- | \- | \- | \- |
+| Nizhneudinsk | Нижнеудинск; Nizhneudinskiy Ostrog | 54,9°N 99,03°E | 1648AD - 1850AD | \- | 400 | 1,3k | 2,8k | \- | \- |
+| Nizhnyaya Ivolga | Нижняя Иволга | 51,76°N 107,48°E | 120BC - 1AD | 480 (50BC) | \- | \- | \- | \- | \- |
+| Petrovskiy Zavod | Петровский Завод; Petrovsk-Zabaykalskiy | 51,28°N 108,83°E | 1789AD - 1850AD | \- | \- | 1,4k | 2,9k | \- | \- |
+| Sagan-Zaba II | Саган-Заба II | 52,67°N 106,47°E | 700AD - 900AD | 60 (800AD) | \- | \- | \- | \- | \- |
+| Selenginsk | Селенгинск; Selenginskiy Ostrog | 51,1°N 106,68°E | 1665AD - 1850AD | \- | 1,1k | 2,2k | 1,4k | \- | \- |
 | Shga-Toyon | Шэбэ-Тойон; Olkhon Shibe | 53,05°N 106,9°E | 700AD - 1100AD | 260 (900AD) | \- | \- | \- | \- | \- |
-| Irkutsk | Иркутск; Irkutskiy Ostrog | 52,29°N 104,31°E | 1661AD - 1900AD | \- | 1,2k | 11,3k | 19,8k | 51,5k | 54,5k |
-| Verkholensk | Верхоленск; Verkholenskiy Ostrog | 54,1°N 105,52°E | 1641AD - 1900AD | \- | 420 | 950 | 1,2k | 1,4k | 1,4k |
-| Balagansk | Балаганск; Balaganskiy Ostrog | 53,98°N 103,3°E | 1654AD - 1900AD | \- | 480 | 980 | 1,1k | 1,3k | 1,4k |
-| Nizhneudinsk | Нижнеудинск; Nizhneudinskiy Ostrog | 54,9°N 99,03°E | 1648AD - 1900AD | \- | 400 | 1,3k | 2,8k | 5,8k | 6,2k |
-| Cheremkhovo | Черемхово; Cheremkhovskoye | 53,15°N 103,07°E | 1772AD - 1900AD | \- | \- | 350 | 850 | 2,1k | 3,4k |
-| Zima | Зима; Ziminskoye | 53,92°N 102,05°E | 1743AD - 1900AD | \- | 140 | 320 | 720 | 2,4k | 3,1k |
-| Tulun | Тулун; Tulunovskoye | 54,57°N 100,58°E | 1735AD - 1900AD | \- | 150 | 380 | 920 | 2,3k | 2,8k |
-| Kultuk | Култук; Kultukskoye | 51,72°N 103,72°E | 1647AD - 1900AD | \- | 180 | 420 | 680 | 1k | 1,2k |
-| Listvyanka | Листвянка; Listvennichnoye | 51,85°N 104,87°E | 1725AD - 1900AD | \- | 110 | 280 | 550 | 1,1k | 1,4k |
-| Verkhneudinsk | Верхнеудинск; Ulan-Ude | 51,83°N 107,6°E | 1666AD - 1900AD | \- | 850 | 2,9k | 3,8k | 8,1k | 9,5k |
-| Selenginsk | Селенгинск; Selenginskiy Ostrog | 51,1°N 106,68°E | 1665AD - 1900AD | \- | 1,1k | 2,2k | 1,4k | 1,1k | 1,1k |
-| Troitskosavsk | Троицкосавск; Kyakhta | 50,35°N 106,45°E | 1727AD - 1900AD | \- | 450 | 2,8k | 5,4k | 8,8k | 9,3k |
-| Petrovskiy Zavod | Петровский Завод; Petrovsk-Zabaykalskiy | 51,28°N 108,83°E | 1789AD - 1900AD | \- | \- | 1,4k | 2,9k | 4,2k | 4,6k |
-| Kabansk | Кабанск; Kabanskiy Ostrog | 52,05°N 106,65°E | 1678AD - 1900AD | \- | 150 | 750 | 1,2k | 1,8k | 1,9k |
-| Barguzin | Баргузин; Barguzinskiy Ostrog | 53,62°N 109,63°E | 1648AD - 1900AD | \- | 380 | 880 | 1,1k | 1,4k | 1,5k |
-| Tunka | Тунка; Tunkinskiy Ostrog | 51,73°N 102,53°E | 1709AD - 1900AD | \- | 150 | 620 | 1,1k | 1,7k | 1,8k |
-| Chita | Чита; Chitinskiy Ostrog | 52,03°N 113,5°E | 1653AD - 1900AD | \- | 250 | 480 | 1,2k | 11,5k | 16,6k |
-| Aksha | Акша; Akshinskaya Krepost | 50,28°N 113,28°E | 1756AD - 1900AD | \- | \- | 480 | 850 | 1,6k | 1,8k |
+| Studenoe | Студеное-1/2 | 50,08°N 108,25°E | 10000BC - 4000BC | 50 (4000BC) | \- | \- | \- | \- | \- |
+| Troitskosavsk | Троицкосавск; Kyakhta | 50,35°N 106,45°E | 1727AD - 1850AD | \- | 450 | 2,8k | 5,4k | \- | \- |
+| Tulun | Тулун; Tulunovskoye | 54,57°N 100,58°E | 1735AD - 1850AD | \- | 150 | 380 | 920 | \- | \- |
+| Tunka | Тунка; Tunkinskiy Ostrog | 51,73°N 102,53°E | 1709AD - 1850AD | \- | 150 | 620 | 1,1k | \- | \- |
+| Ulan-Bor | Улан-Бор | 53,15°N 107,3°E | 650AD - 1050AD | 310 (850AD) | \- | \- | \- | \- | \- |
+| Ust-Belaia | Усть-Белая | 52,83°N 103,55°E | 8000BC - 2000BC | 50 (2000BC) | \- | \- | \- | \- | \- |
+| Ust-Ida I | Усть-Ида I | 53,18°N 103,37°E | 4000BC - 2200BC | 55 (3500BC) | \- | \- | \- | \- | \- |
+| Verkhneudinsk | Верхнеудинск; Ulan-Ude | 51,83°N 107,6°E | 1666AD - 1850AD | \- | 850 | 2,9k | 3,8k | \- | \- |
+| Verkholensk | Верхоленск; Verkholenskiy Ostrog | 54,1°N 105,52°E | 1641AD - 1850AD | \- | 420 | 950 | 1,2k | \- | \- |
+| Zima | Зима; Ziminskoye | 53,92°N 102,05°E | 1743AD - 1850AD | \- | 140 | 320 | 720 | \- | \- |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 41
 settlements in the Baikal and Selenga Basin, from Cis-Baikal Neolithic
@@ -156,41 +111,38 @@ Chita and Kyakhta.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Afontova Gora | Афонтова Гора | 56°N 92,85°E | 10000BC - 6000BC | 45 (6000BC) | \- | \- | \- | \- | \- |
-| Toora-Dash | Тоора-Даш | 52,25°N 95,8°E | 6000BC - 1500BC | 80 (1500BC) | \- | \- | \- | \- | \- |
+| Abakan | Абакан; Abakanskiy Ostrog | 53,72°N 91,42°E | 1707AD - 1850AD | \- | 450 | 850 | 1,4k | \- | \- |
+| Achinsk | Ачинск; Achinskiy Ostrog | 56,27°N 90,5°E | 1641AD - 1850AD | \- | 450 | 1,4k | 2,6k | \- | \- |
 | Afanasyevo Gora | Афанасьева Гора; Bateni | 54,52°N 91,03°E | 3000BC - 2500BC | 110 (2500BC) | \- | \- | \- | \- | \- |
-| Okunev Ulus | Окунев Улус; Chernovaya VIII | 53,37°N 90,6°E | 2400BC - 1800BC | 140 (2000BC) | \- | \- | \- | \- | \- |
-| Sukhanikha | Суханиха | 53,95°N 91,48°E | 2500BC - 1200BC | 170 (1200BC) | \- | \- | \- | \- | \- |
-| Kamenny Log | Каменный Лог | 53,5°N 91,2°E | 1300BC - 1000BC | 180 (1000BC) | \- | \- | \- | \- | \- |
-| Karasuk I | Карасук I | 54,4°N 90,95°E | 1400BC - 900BC | 210 (1100BC) | \- | \- | \- | \- | \- |
-| Torgazhak | Торгажак | 53,15°N 90,4°E | 1200BC - 900BC | 165 (1050BC) | \- | \- | \- | \- | \- |
-| Lugavskoye | Лугавское | 53,45°N 91,75°E | 1200BC - 900BC | 160 (900BC) | \- | \- | \- | \- | \- |
-| Tagar Island | Тагарский Остров | 53,68°N 91,65°E | 750BC - 200BC | 380 (500BC) | \- | \- | \- | \- | \- |
-| Salbyk | Салбык; Bolshoy Salbykskiy Kurgan | 53,89°N 90,75°E | 700BC - 200BC | 850 (500BC) | \- | \- | \- | \- | \- |
-| Erbek | Эрбек; Sukhaya Erba | 54,15°N 90,9°E | 1200BC - 400BC | 450 (400BC) | \- | \- | \- | \- | \- |
-| Bidzha | Биджа; Bidzhinskiy | 54°N 91,15°E | 700BC - 100BC | 420 (400BC) | \- | \- | \- | \- | \- |
-| Oglakhty | Оглахты; Oglakhtinskiy Mogilnik | 54,05°N 91,45°E | 500AD | 520 (500AD) | \- | \- | \- | \- | \- |
+| Afontova Gora | Афонтова Гора | 56°N 92,85°E | 10000BC - 6000BC | 45 (6000BC) | \- | \- | \- | \- | \- |
 | Arzhan-1 | Аржан-1 | 52,07°N 93,63°E | 820BC - 750BC | 750 (820BC) | \- | \- | \- | \- | \- |
 | Arzhan-2 | Аржан-2 | 52,08°N 93,7°E | 650BC - 550BC | 850 (650BC) | \- | \- | \- | \- | \- |
-| Tunnug-1 | Туннуг-1; Arzhan-0 | 52,02°N 93,8°E | 880BC - 800BC | 650 (880BC) | \- | \- | \- | \- | \- |
+| Askiz | Аскиз; Askizskoye | 53,13°N 90,52°E | 1771AD - 1850AD | \- | \- | 420 | 780 | \- | \- |
+| Bazhyn-Alaak | Бажын-Алаак; Chadaana Fortress | 51,28°N 91,58°E | 750AD - 840AD | 1,7k (800AD) | \- | \- | \- | \- | \- |
+| Bidzha | Биджа; Bidzhinskiy | 54°N 91,15°E | 700BC - 100BC | 420 (400BC) | \- | \- | \- | \- | \- |
 | Chinge-Tei | Чинге-Тей I | 52,05°N 93,55°E | 650BC - 450BC | 620 (450BC) | \- | \- | \- | \- | \- |
+| Erbek | Эрбек; Sukhaya Erba | 54,15°N 90,9°E | 1200BC - 400BC | 450 (400BC) | \- | \- | \- | \- | \- |
+| Kamenny Log | Каменный Лог | 53,5°N 91,2°E | 1300BC - 1000BC | 180 (1000BC) | \- | \- | \- | \- | \- |
+| Kansk | Канск; Kanskiy Ostrog | 56,2°N 95,7°E | 1636AD - 1850AD | \- | 450 | 1,1k | 2,4k | \- | \- |
+| Karasuk I | Карасук I | 54,4°N 90,95°E | 1400BC - 900BC | 210 (1100BC) | \- | \- | \- | \- | \- |
+| Karatuzskoye | Каратузское | 53,6°N 92,87°E | 1765AD - 1850AD | \- | \- | 380 | 950 | \- | \- |
+| Kopensky Chaatas | Копенский чаатас; Kopeny | 54,45°N 91,35°E | 700AD - 1200AD | 1,1k (850AD) | \- | \- | \- | \- | \- |
+| Krasnoyarsk | Красноярск; Krasny Yar | 56,02°N 92,89°E | 1628AD - 1850AD | \- | 1,7k | 3,4k | 7,8k | \- | \- |
+| Kuragino | Курагино; Kuraginskoye | 53,88°N 92,67°E | 1626AD - 1850AD | \- | 280 | 750 | 1,4k | \- | \- |
+| Lugavskoye | Лугавское | 53,45°N 91,75°E | 1200BC - 900BC | 160 (900BC) | \- | \- | \- | \- | \- |
+| Minusinsk | Минусинск; Minusinskoye | 53,71°N 91,69°E | 1739AD - 1850AD | \- | 280 | 1,1k | 3,2k | \- | \- |
+| Oglakhty | Оглахты; Oglakhtinskoye Gorodishche | 54,05°N 91,45°E | 400AD - 600AD | 520 (500AD) | \- | \- | \- | \- | \- |
+| Okunev Ulus | Окунев Улус; Chernovaya VIII | 53,37°N 90,6°E | 2400BC - 1800BC | 140 (2000BC) | \- | \- | \- | \- | \- |
 | Por-Bajin | Пор-Бажын; Por-Bazhyn | 50,62°N 97,39°E | 777AD - 840AD | 650 (777AD) | \- | \- | \- | \- | \- |
 | Shagonar I | Шагонар I | 51,53°N 92,78°E | 750AD - 840AD | 1,1k (800AD) | \- | \- | \- | \- | \- |
 | Shagonar III | Шагонар III | 51,53°N 92,81°E | 750AD - 840AD | 2,6k (800AD) | \- | \- | \- | \- | \- |
-| Bazhyn-Alaak | Бажын-Алаак; Chadaana Fortress | 51,28°N 91,58°E | 750AD - 840AD | 1,7k (800AD) | \- | \- | \- | \- | \- |
+| Shushenskoye | Шушенское | 53,33°N 91,93°E | 1744AD - 1850AD | \- | 180 | 450 | 920 | \- | \- |
+| Sukhanikha | Суханиха | 53,95°N 91,48°E | 2500BC - 1200BC | 170 (1200BC) | \- | \- | \- | \- | \- |
+| Tagar Island | Тагарский Остров | 53,68°N 91,65°E | 750BC - 200BC | 380 (500BC) | \- | \- | \- | \- | \- |
+| Toora-Dash | Тоора-Даш | 52,25°N 95,8°E | 6000BC - 1500BC | 80 (1500BC) | \- | \- | \- | \- | \- |
+| Torgazhak | Торгажак | 53,15°N 90,4°E | 1200BC - 900BC | 165 (1050BC) | \- | \- | \- | \- | \- |
+| Tunnug-1 | Туннуг-1; Arzhan-0 | 52,02°N 93,8°E | 880BC - 800BC | 650 (880BC) | \- | \- | \- | \- | \- |
 | Uybatsky Gorodok | Уйбатский городок; Uybatskiy Chaatas | 53,75°N 90,25°E | 650AD - 1200AD | 1,2k (850AD) | \- | \- | \- | \- | \- |
-| Kopensky Chaatas | Копенский чаатас; Kopeny | 54,45°N 91,35°E | 700AD - 1200AD | 1,1k (850AD) | \- | \- | \- | \- | \- |
-| Krasnoyarsk | Красноярск; Krasny Yar | 56,02°N 92,89°E | 1628AD - 1900AD | \- | 1,7k | 3,4k | 7,8k | 26,7k | 33k |
-| Minusinsk | Минусинск; Minusinskoye | 53,71°N 91,69°E | 1739AD - 1900AD | \- | 280 | 1,1k | 3,2k | 10,2k | 10,8k |
-| Abakan | Абакан; Abakanskiy Ostrog | 53,72°N 91,42°E | 1707AD - 1900AD | \- | 450 | 850 | 1,4k | 2,1k | 2,4k |
-| Askiz | Аскиз; Askizskoye | 53,13°N 90,52°E | 1771AD - 1900AD | \- | \- | 420 | 780 | 1,3k | 1,4k |
-| Achinsk | Ачинск; Achinskiy Ostrog | 56,27°N 90,5°E | 1641AD - 1900AD | \- | 450 | 1,4k | 2,6k | 6,7k | 7,2k |
-| Kansk | Канск; Kanskiy Ostrog | 56,2°N 95,7°E | 1636AD - 1900AD | \- | 450 | 1,1k | 2,4k | 7,5k | 8,1k |
-| Shushenskoye | Шушенское | 53,33°N 91,93°E | 1744AD - 1900AD | \- | 180 | 450 | 920 | 1,4k | 1,5k |
-| Karatuzskoye | Каратузское | 53,6°N 92,87°E | 1765AD - 1900AD | \- | \- | 380 | 950 | 1,9k | 2,2k |
-| Kuragino | Курагино; Kuraginskoye | 53,88°N 92,67°E | 1626AD - 1900AD | \- | 280 | 750 | 1,4k | 2,1k | 2,4k |
-| Usinskoye | Усинское; Verchnye-Usinskoye | 52,23°N 92,85°E | 1862AD - 1900AD | \- | \- | \- | 220 | 1,1k | 1,4k |
-| Turan | Туран | 52,15°N 93,92°E | 1885AD - 1900AD | \- | \- | \- | \- | 780 | 950 |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 35
 settlements in Sayan, Minusinsk and Tuva, covering Afanasievo to
@@ -201,22 +153,22 @@ Shagonar) and Russian towns led by Krasnoyarsk and Minusinsk.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Tagenar VI | Тагенар VI | 70,85°N 93,4°E | 6000BC - 2000BC | 35 (2000BC) | \- | \- | \- | \- | \- |
 | Abylaakh-1 | Абылаах-1; Kheta Bronze Foundry | 71,1°N 102,5°E | 1300BC - 1000BC | 40 (1150BC) | \- | \- | \- | \- | \- |
+| Bratsk | Братск; Bratskiy Ostrog | 56,15°N 101,63°E | 1631AD - 1850AD | \- | 650 | 1,2k | 1,6k | \- | \- |
+| Dudinka | Дудинка; Dudinskoye | 69,4°N 86,18°E | 1667AD - 1850AD | \- | 40 | \- | 120 | \- | \- |
+| Ilimsk | Илимск; Ilimskiy Ostrog | 56,77°N 103,82°E | 1630AD - 1850AD | \- | 950 | 1,4k | 1,5k | \- | \- |
+| Kazachinskoye | Казачинское; Kazachiy Lug | 57,7°N 93,28°E | 1636AD - 1850AD | \- | 280 | 780 | 1,4k | \- | \- |
+| Kazachka | Казачка; Kan-Yenisei Camp | 57,7°N 93,25°E | 1200BC - 800BC | 65 (1000BC) | \- | \- | \- | \- | \- |
+| Khatanga | Хатанга; Khatangskiy Pogost | 71,98°N 102,47°E | 1626AD - 1850AD | \- | \- | \- | 110 | \- | \- |
+| Kirensk | Киренск; Ust-Kirenskiy Ostrog | 57,78°N 108,1°E | 1630AD - 1850AD | \- | 350 | 850 | 1,4k | \- | \- |
 | Maimecha-1 | Маймеча-1 | 71,25°N 99,6°E | 2000BC - 500BC | 40 (1200BC) | \- | \- | \- | \- | \- |
 | Pyasina Foundry | Пясина-1; Pyasina | 70,1°N 88,2°E | 1200BC - 900BC | 35 (900BC) | \- | \- | \- | \- | \- |
-| Ust-Kova | Усть-Кова | 58,3°N 100,32°E | 200AD | 75 (200AD) | \- | \- | \- | \- | \- |
-| Tsepan | Цепань; Tsepanskaya | 58,05°N 99,45°E | 500AD | 80 (500AD) | \- | \- | \- | \- | \- |
-| Kazachka | Казачка; Kan-Yenisei Camp | 57,7°N 93,25°E | 1000BC | 65 (1000BC) | \- | \- | \- | \- | \- |
-| Yeniseysk | Енисейск; Yeniseyskiy Ostrog | 58,45°N 92,17°E | 1619AD - 1900AD | \- | 3,1k | 5,9k | 8,2k | 11,5k | 11,8k |
-| Turukhansk | Туруханск; Novaya Mangazeya | 65,79°N 87,96°E | 1607AD - 1900AD | \- | 950 | 650 | 420 | 212 | 230 |
-| Dudinka | Дудинка; Dudinskoye | 69,4°N 86,18°E | 1667AD - 1900AD | \- | 40 | \- | 120 | 180 | 210 |
-| Khatanga | Хатанга; Khatangskiy Pogost | 71,98°N 102,47°E | 1626AD - 1900AD | \- | \- | \- | 110 | 150 | 165 |
-| Kazachinskoye | Казачинское; Kazachiy Lug | 57,7°N 93,28°E | 1636AD - 1900AD | \- | 280 | 780 | 1,4k | 2k | 2,2k |
-| Bratsk | Братск; Bratskiy Ostrog | 56,15°N 101,63°E | 1631AD - 1900AD | \- | 650 | 1,2k | 1,6k | 2,1k | 2,3k |
-| Ilimsk | Илимск; Ilimskiy Ostrog | 56,77°N 103,82°E | 1630AD - 1900AD | \- | 950 | 1,4k | 1,5k | 1,6k | 1,7k |
-| Ust-Kut | Усть-Кут; Ust-Kutskiy Ostrog | 56,78°N 105,78°E | 1631AD - 1900AD | \- | 280 | 550 | 680 | 850 | 920 |
-| Kirensk | Киренск; Ust-Kirenskiy Ostrog | 57,78°N 108,1°E | 1630AD - 1900AD | \- | 350 | 850 | 1,4k | 2,3k | 2,5k |
+| Tagenar VI | Тагенар VI | 70,85°N 93,4°E | 6000BC - 2000BC | 35 (2000BC) | \- | \- | \- | \- | \- |
+| Tsepan | Цепань; Tsepanskaya | 58,05°N 99,45°E | 400AD - 600AD | 80 (500AD) | \- | \- | \- | \- | \- |
+| Turukhansk | Туруханск; Novaya Mangazeya | 65,79°N 87,96°E | 1607AD - 1850AD | \- | 950 | 650 | 420 | \- | \- |
+| Ust-Kova | Усть-Кова | 58,3°N 100,32°E | 100AD - 300AD | 75 (200AD) | \- | \- | \- | \- | \- |
+| Ust-Kut | Усть-Кут; Ust-Kutskiy Ostrog | 56,78°N 105,78°E | 1631AD - 1850AD | \- | 280 | 550 | 680 | \- | \- |
+| Yeniseysk | Енисейск; Yeniseyskiy Ostrog | 58,45°N 92,17°E | 1619AD - 1850AD | \- | 3,1k | 5,9k | 8,2k | \- | \- |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 16
 settlements along the Middle and Lower Yenisei, Lower Angara and Taimyr
@@ -229,16 +181,14 @@ Yeniseysk, Bratsk, Ilimsk and Turukhansk.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Dyuktai Cave | Дюктайская пещера | 59,25°N 132,6°E | 10000BC - 6000BC | 35 (6000BC) | \- | \- | \- | \- | \- |
-| Belkachi I | Белькачи I | 59,15°N 131,9°E | 500BC | 45 (500BC) | \- | \- | \- | \- | \- |
-| Sumnagin I | Сумнагин I | 58,78°N 130,65°E | 1200BC | 40 (1200BC) | \- | \- | \- | \- | \- |
-| Ust-Timpton | Усть-Тимптон | 58,65°N 127,08°E | 1000BC | 45 (1000BC) | \- | \- | \- | \- | \- |
+| Amga | Амга; Amginskaya Sloboda | 60,89°N 131,98°E | 1652AD - 1850AD | \- | 250 | 720 | 1,1k | \- | \- |
+| Belkachi I | Белькачи I | 59,15°N 131,9°E | 700BC - 300BC | 45 (500BC) | \- | \- | \- | \- | \- |
+| Sumnagin I | Сумнагин I | 58,78°N 130,65°E | 1400BC - 1000BC | 40 (1200BC) | \- | \- | \- | \- | \- |
+| Tommot | Томмот; Ust-Uchur | 58,97°N 126,27°E | 1639AD - 1850AD | \- | \- | \- | 220 | \- | \- |
+| Ust-Maya | Усть-Мая; Ust-Mayskaya Pristan | 60,42°N 134,53°E | 1675AD - 1850AD | \- | 75 | 280 | 450 | \- | \- |
 | Ust-Mil II | Усть-Миль II | 59,63°N 133,1°E | 1200BC - 500BC | 55 (1200BC) | \- | \- | \- | \- | \- |
-| Bodaibo | Бодайбо; Bodaibinskaya Rezidentsiya | 57,85°N 114,19°E | 1864AD - 1900AD | \- | \- | \- | 650 | 5,4k | 6,2k |
-| Vitim | Витим; Vitimskaya Sloboda | 59,45°N 112,55°E | 1621AD - 1900AD | \- | 220 | 520 | 950 | 1,6k | 1,8k |
-| Amga | Амга; Amginskaya Sloboda | 60,89°N 131,98°E | 1652AD - 1900AD | \- | 250 | 720 | 1,1k | 1,6k | 1,7k |
-| Ust-Maya | Усть-Мая; Ust-Mayskaya Pristan | 60,42°N 134,53°E | 1675AD - 1900AD | \- | 75 | 280 | 450 | 680 | 750 |
-| Tommot | Томмот; Ust-Uchur | 58,97°N 126,27°E | 1639AD - 1900AD | \- | \- | \- | 220 | 380 | 420 |
+| Ust-Timpton | Усть-Тимптон | 58,65°N 127,08°E | 1200BC - 800BC | 45 (1000BC) | \- | \- | \- | \- | \- |
+| Vitim | Витим; Vitimskaya Sloboda | 59,45°N 112,55°E | 1621AD - 1850AD | \- | 220 | 520 | 950 | \- | \- |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 10
 settlements in the Vitim, Olekma and Aldan basins, from multi-layered
@@ -249,20 +199,20 @@ Bodaibo goldfields.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Ymyyakhtakh | Ымыяхтах | 62,35°N 129,95°E | 2200BC - 1000BC | 60 (1600BC) | \- | \- | \- | \- | \- |
-| Kullaty | Куллаты | 61,75°N 129,45°E | 1400AD | 120 (1400AD) | \- | \- | \- | \- | \- |
-| Siktyakh | Сиктях | 69,9°N 125,1°E | 1650AD - 1897AD | \- | \- | \- | \- | 140 | \- |
-| Sayylyk | Сайылык | 62,02°N 129,68°E | 1350AD - 1630AD | 220 (1500AD) | \- | \- | \- | \- | \- |
 | Ayyy-Taybyt | Айыы-Тайбыт | 62,01°N 129,66°E | 1400AD - 1630AD | 190 (1550AD) | \- | \- | \- | \- | \- |
+| Churapcha | Чурапча; Boturus Ulus | 62°N 132,43°E | 1650AD - 1850AD | \- | \- | 1,4k | 1,9k | \- | \- |
+| Kullaty | Куллаты | 61,75°N 129,45°E | 1250AD - 1580AD | 140 (1580AD) | \- | \- | \- | \- | \- |
 | Kulun-Atakh | Кулун-Атах | 62,3°N 130,4°E | 1350AD - 1630AD | 160 (1500AD) | \- | \- | \- | \- | \- |
+| Nyurba | Нюрба; Nyurbinskoye | 63,28°N 118,33°E | 1750AD - 1850AD | \- | \- | 750 | 1,4k | \- | \- |
+| Olekminsk | Олёкминск; Olekminskiy Ostrog | 60,37°N 120,43°E | 1635AD - 1850AD | \- | 240 | 540 | 820 | \- | \- |
+| Pokrovsk | Покровск; Pokrovskoye | 61,48°N 129,15°E | 1682AD - 1850AD | \- | 140 | 550 | 850 | \- | \- |
+| Sayylyk | Сайылык | 62,02°N 129,68°E | 1350AD - 1630AD | 220 (1500AD) | \- | \- | \- | \- | \- |
+| Siktyakh | Сиктях | 69,9°N 125,1°E | 1650AD - 1858AD | \- | \- | \- | 131 | \- | \- |
+| Suntar | Сунтар; Suntarskoye | 62,15°N 117,63°E | 1764AD - 1850AD | \- | \- | 680 | 1,3k | \- | \- |
 | Sytygan-Sysy | Сытыган-Сысы | 62,15°N 130,85°E | 1450AD - 1650AD | 110 (1450AD) | \- | \- | \- | \- | \- |
-| Yakutsk | Якутск; Lenskiy Ostrog | 62,03°N 129,73°E | 1632AD - 1900AD | \- | 1,4k | 2,7k | 4,8k | 6,5k | 6,8k |
-| Olekminsk | Олёкминск; Olekminskiy Ostrog | 60,37°N 120,43°E | 1635AD - 1900AD | \- | 240 | 540 | 820 | 1,1k | 1,2k |
-| Vilyuysk | Вилюйск; Verkhnevilyuyskoye | 63,76°N 121,62°E | 1634AD - 1900AD | \- | 150 | 320 | 450 | 609 | 650 |
-| Nyurba | Нюрба; Nyurbinskoye | 63,28°N 118,33°E | 1750AD - 1900AD | \- | \- | 750 | 1,4k | 2,1k | 2,3k |
-| Suntar | Сунтар; Suntarskoye | 62,15°N 117,63°E | 1764AD - 1900AD | \- | \- | 680 | 1,3k | 1,9k | 2,1k |
-| Churapcha | Чурапча; Boturus Ulus | 62°N 132,43°E | 1650AD - 1900AD | \- | \- | 1,4k | 1,9k | 2,4k | 2,6k |
-| Pokrovsk | Покровск; Pokrovskoye | 61,48°N 129,15°E | 1682AD - 1900AD | \- | 140 | 550 | 850 | 1,2k | 1,2k |
+| Vilyuysk | Вилюйск; Verkhnevilyuyskoye | 63,76°N 121,62°E | 1634AD - 1850AD | \- | 150 | 320 | 450 | \- | \- |
+| Yakutsk | Якутск; Lenskiy Ostrog | 62,03°N 129,73°E | 1632AD - 1850AD | \- | 1,4k | 2,7k | 4,8k | \- | \- |
+| Ymyyakhtakh | Ымыяхтах | 62,35°N 129,95°E | 2200BC - 1000BC | 60 (1600BC) | \- | \- | \- | \- | \- |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 14
 settlements in Central Yakutia and the Vilyuy-Lower Lena basin, covering
@@ -273,16 +223,15 @@ administrative centres of Yakutsk, Vilyuysk and Olekminsk.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Zhokhov | Жоховская стоянка; Zhokhov Island Site | 76,1°N 152,72°E | 6800BC - 6000BC | 45 (6400BC) | \- | \- | \- | \- | \- |
+| Bulun | Булун; Bulunskoye | 70,72°N 127,38°E | 1780AD - 1850AD | \- | \- | 85 | 150 | \- | \- |
 | Burkhala | Бурхала | 62,65°N 149,1°E | 6500BC - 4000BC | 35 (5500BC) | \- | \- | \- | \- | \- |
+| Nizhnekolymsk | Нижнеколымск; Nizhnekolymskiy Ostrog | 68,52°N 160,98°E | 1644AD - 1850AD | \- | 190 | 290 | 240 | \- | \- |
+| Oymyakon | Оймякон; Oymyakonskoye | 63,46°N 142,78°E | 1750AD - 1850AD | \- | \- | 210 | 310 | \- | \- |
 | Rodinka II | Родинка II; Pokhodsk Neolithic | 69,08°N 160,95°E | 3000BC - 1500BC | 45 (2200BC) | \- | \- | \- | \- | \- |
-| Verkhoyansk | Верхоянск; Verkhoyanskiy Ostrog | 67,55°N 133,39°E | 1638AD - 1900AD | \- | 150 | 260 | 310 | 354 | 370 |
+| Srednekolymsk | Среднеколымск; Srednekolymskiy Ostrog | 67,45°N 153,7°E | 1643AD - 1850AD | \- | 180 | 340 | 440 | \- | \- |
+| Ust-Yansk | Усть-Янск; Ust-Yanskoye | 70,92°N 136,43°E | 1642AD - 1850AD | \- | \- | 140 | 170 | \- | \- |
+| Verkhoyansk | Верхоянск; Verkhoyanskiy Ostrog | 67,55°N 133,39°E | 1638AD - 1850AD | \- | 150 | 260 | 310 | \- | \- |
 | Zashiversk | Зашиверск; Zashiverskiy Ostrog | 67,45°N 142,62°E | 1639AD - 1850AD | \- | 220 | 500 | 140 | \- | \- |
-| Srednekolymsk | Среднеколымск; Srednekolymskiy Ostrog | 67,45°N 153,7°E | 1643AD - 1900AD | \- | 180 | 340 | 440 | 538 | 560 |
-| Nizhnekolymsk | Нижнеколымск; Nizhnekolymskiy Ostrog | 68,52°N 160,98°E | 1644AD - 1900AD | \- | 190 | 290 | 240 | 210 | 220 |
-| Ust-Yansk | Усть-Янск; Ust-Yanskoye | 70,92°N 136,43°E | 1642AD - 1900AD | \- | \- | 140 | 170 | 205 | 220 |
-| Bulun | Булун; Bulunskoye | 70,72°N 127,38°E | 1780AD - 1900AD | \- | \- | 85 | 150 | 240 | 260 |
-| Oymyakon | Оймякон; Oymyakonskoye | 63,46°N 142,78°E | 1750AD - 1900AD | \- | \- | 210 | 310 | 420 | 450 |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 10
 settlements in the Yana, Indigirka, Kolyma and High Arctic basins, from
@@ -295,69 +244,59 @@ Verkhoyansk, Zashiversk and Srednekolymsk.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Gasya | Гася; Sikachi-Alyan Gasya | 48,75°N 135,65°E | 10000BC - 2000BC | 60 (2000BC) | \- | \- | \- | \- | \- |
-| Khummi | Хумми | 50,57°N 137,07°E | 10000BC - 5000BC | 40 (5000BC) | \- | \- | \- | \- | \- |
-| Goncharka-1 | Гончарка-1 | 48,35°N 134,95°E | 10000BC - 6000BC | 45 (6000BC) | \- | \- | \- | \- | \- |
-| Suchu Island | Остров Сучу; Mariinskoye Pit-Village | 51,72°N 140,18°E | 5500BC - 2500BC | 380 (3500BC) | \- | \- | \- | \- | \- |
-| Kondon-Pochtovoye | Кондон-Почтовое; Kondon | 51,27°N 136,58°E | 4500BC - 2500BC | 220 (3500BC) | \- | \- | \- | \- | \- |
-| Voznesenovka | Вознесеновка; Voznesenovskoye | 49,9°N 136,85°E | 4000BC - 2000BC | 180 (3000BC) | \- | \- | \- | \- | \- |
-| Malyshevo | Малышево | 48,68°N 135,58°E | 5000BC - 3000BC | 110 (4000BC) | \- | \- | \- | \- | \- |
-| Kalinovka | Калиновка | 51,15°N 138,8°E | 4000BC - 2000BC | 130 (3000BC) | \- | \- | \- | \- | \- |
-| Osinovoye Ozero | Осиновое Озеро | 50,25°N 127,6°E | 3500BC - 1500BC | 110 (1500BC) | \- | \- | \- | \- | \- |
-| Uritskoye | Урицкое; Uritskoye Settlement | 49,8°N 128,1°E | 1100BC - 500BC | 260 (800BC) | \- | \- | \- | \- | \- |
-| Kukelevo | Кукелево; Poltse Kukelevo | 47,88°N 132,65°E | 700BC - 100BC | 350 (400BC) | \- | \- | \- | \- | \- |
-| Poltse I | Польце I; Poltse Settlement | 48,05°N 132,85°E | 600BC - 1AD | 320 (300BC) | \- | \- | \- | \- | \- |
-| Troitskoye | Троицкое; Mohe Troitskoye | 49,45°N 136,55°E | 400AD - 1000AD | 480 (850AD) | \- | \- | \- | \- | \- |
-| Naifeld | Найфельд; Mohe Naifeld | 48,5°N 133,1°E | 450AD - 900AD | 340 (700AD) | \- | \- | \- | \- | \- |
+| Albazin | Албазин; Albazinskiy Ostrog | 53,38°N 124,08°E | 1651AD - 1858AD | \- | 820 | \- | 320 | \- | \- |
+| Ananyevskoye | Ананьевское городище | 43,42°N 131,78°E | 1160AD - 1233AD | 2,8k (1215AD) | \- | \- | \- | \- | \- |
+| Blagoveshchensk | Благовещенск; Ust-Zeyskaya Stanitsa | 50,27°N 127,53°E | 1806AD - 1856AD | \- | \- | 450 | 500 | \- | \- |
+| Bogolyubovka-1 | Боголюбовка-1 | 43,82°N 131,83°E | 400BC - 100AD | 250 (100BC) | \- | \- | \- | \- | \- |
 | Boisman-1 | Бойсман-1 | 42,78°N 131,27°E | 4200BC - 2800BC | 75 (3500BC) | \- | \- | \- | \- | \- |
 | Boisman-2 | Бойсман-2; Boisman Shell Midden | 42,78°N 131,27°E | 4000BC - 2800BC | 90 (3500BC) | \- | \- | \- | \- | \- |
-| Chertovy Vorota | Чертовы Ворота | 44,48°N 135,43°E | 5200BC - 4500BC | 40 (4800BC) | \- | \- | \- | \- | \- |
-| Rudnaya Pristan | Рудная Пристань | 44,37°N 135,82°E | 5000BC - 3500BC | 80 (4200BC) | \- | \- | \- | \- | \- |
-| Zaisanovka-1 | Зайсановка-1; Gladkaya | 42,62°N 130,83°E | 3200BC - 1800BC | 150 (2500BC) | \- | \- | \- | \- | \- |
-| Valentin-Peresheyek | Валентин-Перешеек | 43,12°N 134,3°E | 500BC | 140 (500BC) | \- | \- | \- | \- | \- |
-| Siniy Gai | Синий Гай | 44,3°N 132,58°E | 1500BC - 700BC | 240 (1000BC) | \- | \- | \- | \- | \- |
-| Krounovka-1 | Кроуновка-1 | 43,73°N 131,72°E | 600BC - 1AD | 310 (1AD) | \- | \- | \- | \- | \- |
-| Bogolyubovka-1 | Боголюбовка-1 | 43,82°N 131,83°E | 400BC - 100AD | 250 (100BC) | \- | \- | \- | \- | \- |
-| Peschany-1 | Песчаный-1; Yankovskiy Shell Midden | 43,17°N 131,73°E | 800BC - 200BC | 340 (500BC) | \- | \- | \- | \- | \- |
-| Malaya Podushechka | Малая Подушечка | 43,25°N 132,35°E | 600BC - 300BC | 190 (300BC) | \- | \- | \- | \- | \- |
-| Slavyanka-1 | Славянка-1 | 42,87°N 131,38°E | 700BC - 400BC | 220 (400BC) | \- | \- | \- | \- | \- |
 | Bulochka | Сопка Булочка; Olga Culture Site | 42,98°N 132,88°E | 1AD - 500AD | 260 (250AD) | \- | \- | \- | \- | \- |
-| Kraskinskoye | Краскинское городище; Yanzhou | 42,71°N 130,78°E | 710AD - 1000AD | 4,5k (850AD) | \- | \- | \- | \- | \- |
-| Koksharovka-1 | Кокшаровка-1; Bohai Koksharovka | 44,52°N 134,05°E | 750AD - 926AD | 1,8k (850AD) | \- | \- | \- | \- | \- |
-| Maryanovka | Марьяновское городище; Bohai Maryanovka | 45,15°N 133,68°E | 740AD - 926AD | 1,6k (850AD) | \- | \- | \- | \- | \- |
-| Novogordeyevskoye | Новогордеевское городище | 44,13°N 133,27°E | 750AD - 1150AD | 1,3k (1150AD) | \- | \- | \- | \- | \- |
-| Gorbatka | Горбатка; Bohai Gorbatka | 43,95°N 132,4°E | 750AD - 926AD | 950 (850AD) | \- | \- | \- | \- | \- |
-| Nikolayevskoye-1 | Николаевское-I городище | 44,02°N 132,48°E | 750AD - 926AD | 1,3k (850AD) | \- | \- | \- | \- | \- |
-| Yuzhno-Ussuriyskoye | Южно-Уссурийское городище; Suifunzhou | 43,79°N 131,94°E | 750AD - 1220AD | 6,5k (1220AD) | \- | \- | \- | \- | \- |
-| Krasnoyarovskoye | Краснояровское городище; Upper Capital of Dongxia | 43,68°N 131,97°E | 800AD - 1233AD | 18k (1230AD) | \- | \- | \- | \- | \- |
-| Shayginskoye | Шайгинское городище; Jurchen Shayga | 43,35°N 133,15°E | 1150AD - 1233AD | 3,8k (1225AD) | \- | \- | \- | \- | \- |
-| Ananyevskoye | Ананьевское городище | 43,42°N 131,78°E | 1160AD - 1233AD | 2,8k (1215AD) | \- | \- | \- | \- | \- |
-| Lazovskoye | Лазовское городище | 43,38°N 133,12°E | 1160AD - 1233AD | 1,9k (1215AD) | \- | \- | \- | \- | \- |
-| Ekaterinovskoye | Екатериновское городище | 42,93°N 133,05°E | 1150AD - 1233AD | 2,2k (1215AD) | \- | \- | \- | \- | \- |
-| Skalistoye | Скалистое городище | 43,65°N 132,35°E | 1160AD - 1233AD | 1,4k (1215AD) | \- | \- | \- | \- | \- |
+| Chertovy Vorota | Чертовы Ворота | 44,48°N 135,43°E | 5200BC - 4500BC | 40 (4800BC) | \- | \- | \- | \- | \- |
 | Chuguyevskoye | Чугуевское городище | 44,17°N 133,87°E | 1150AD - 1233AD | 1,6k (1215AD) | \- | \- | \- | \- | \- |
-| Novopokrovskoye | Новопокровское городище | 45,85°N 134,5°E | 850AD - 1225AD | 1,5k (1225AD) | \- | \- | \- | \- | \- |
-| Albazin | Албазин; Albazinskiy Ostrog | 53,38°N 124,08°E | 1651AD - 1900AD | \- | 820 | \- | 320 | 680 | 750 |
+| Ekaterinovskoye | Екатериновское городище | 42,93°N 133,05°E | 1150AD - 1233AD | 2,2k (1215AD) | \- | \- | \- | \- | \- |
+| Gasya | Гася; Sikachi-Alyan Gasya | 48,75°N 135,65°E | 10000BC - 2000BC | 60 (2000BC) | \- | \- | \- | \- | \- |
+| Goncharka-1 | Гончарка-1 | 48,35°N 134,95°E | 10000BC - 6000BC | 45 (6000BC) | \- | \- | \- | \- | \- |
+| Gorbatka | Горбатка; Bohai Gorbatka | 43,95°N 132,4°E | 750AD - 926AD | 950 (850AD) | \- | \- | \- | \- | \- |
 | Guigudar | Гуйгудар; Daur Fortified Town | 50,15°N 127,65°E | 1640AD - 1652AD | \- | \- | \- | \- | \- | \- |
-| Kumarsky Ostrog | Кумарский острог; Kumara | 51,57°N 126,7°E | 1654AD - 1900AD | \- | \- | \- | 250 | 520 | 580 |
-| Nerchinsk | Нерчинск; Nerchinskiy Ostrog | 51,98°N 116,58°E | 1654AD - 1900AD | \- | 1,1k | 2,8k | 4,1k | 6,6k | 7,1k |
-| Nerchinskiy Zavod | Нерчинский Завод; Argunskiy Zavod | 51,3°N 119,62°E | 1704AD - 1900AD | \- | 350 | 2,3k | 3,2k | 3k | 3,1k |
-| Sretensk | Сретенск; Sretenskiy Ostrog | 52,25°N 117,72°E | 1689AD - 1900AD | \- | 120 | 750 | 1,4k | 6,4k | 8,2k |
-| Shilka | Шилка; Shilkinskiy Zavod | 51,85°N 116,03°E | 1765AD - 1900AD | \- | \- | 620 | 1,1k | 1,8k | 2,2k |
-| Blagoveshchensk | Благовещенск; Ust-Zeyskaya Stanitsa | 50,27°N 127,53°E | 1856AD - 1900AD | \- | \- | \- | 500 | 32,8k | 37,5k |
-| Zeya | Зея; Zeyskaya Pristan | 53,73°N 127,27°E | 1879AD - 1900AD | \- | \- | \- | \- | 4,5k | 5,4k |
-| Khabarovsk | Хабаровск; Khabarovka | 48,48°N 135,07°E | 1858AD - 1900AD | \- | \- | \- | 250 | 15k | 16,8k |
-| Sofiysk | Софийск; Sofiysk-na-Amure | 51,55°N 139,78°E | 1856AD - 1900AD | \- | \- | \- | 380 | 920 | 950 |
-| Mariinsk-na-Amure | Мариинск; Mariinskiy Post | 51,72°N 140,17°E | 1853AD - 1900AD | \- | \- | \- | 250 | 1,1k | 1,2k |
-| Nikolayevsk-on-Amur | Николаевск-на-Амуре; Nikolayevskiy Post | 53,15°N 140,73°E | 1850AD - 1900AD | \- | \- | \- | 150 | 5,7k | 6,4k |
-| Bikin | Бикин; Bikinskaya Stanitsa | 46,82°N 134,25°E | 1885AD - 1900AD | \- | \- | \- | \- | 1,1k | 1,4k |
-| Iman | Иман; Dalnerechensk | 45,93°N 133,73°E | 1859AD - 1900AD | \- | \- | \- | 180 | 2,1k | 2,8k |
-| Spasskoye | Спасское; Spassk-Dalniy | 44,6°N 132,82°E | 1886AD - 1900AD | \- | \- | \- | \- | 2,4k | 3,2k |
-| Nikolsk-Ussuriyskiy | Никольск-Уссурийский; Ussuriysk | 43,8°N 131,95°E | 1866AD - 1900AD | \- | \- | \- | 260 | 10,9k | 15,2k |
-| Razdolnoye | Раздольное | 43,55°N 131,9°E | 1865AD - 1900AD | \- | \- | \- | 220 | 1,8k | 2,1k |
-| Posyet | Посьет; Novgorodskiy Post | 42,65°N 130,8°E | 1860AD - 1900AD | \- | \- | \- | 240 | 950 | 1,1k |
-| Olga | Ольга; Post Svyatoy Olgi | 43,75°N 135,28°E | 1858AD - 1900AD | \- | \- | \- | 140 | 850 | 980 |
-| Vladivostok | Владивосток; Post Vladivostok | 43,12°N 131,88°E | 1860AD - 1900AD | \- | \- | \- | 120 | 28,9k | 38k |
+| Kalinovka | Калиновка | 51,15°N 138,8°E | 4000BC - 2000BC | 130 (3000BC) | \- | \- | \- | \- | \- |
+| Khabarovsk | Хабаровск; Khabarovka | 48,48°N 135,07°E | 1808AD - 1858AD | \- | \- | 225 | 250 | \- | \- |
+| Khummi | Хумми | 50,57°N 137,07°E | 10000BC - 5000BC | 40 (5000BC) | \- | \- | \- | \- | \- |
+| Koksharovka-1 | Кокшаровка-1; Bohai Koksharovka | 44,52°N 134,05°E | 750AD - 926AD | 1,8k (850AD) | \- | \- | \- | \- | \- |
+| Kondon-Pochtovoye | Кондон-Почтовое; Kondon | 51,27°N 136,58°E | 4500BC - 2500BC | 220 (3500BC) | \- | \- | \- | \- | \- |
+| Kraskinskoye | Краскинское городище; Yanzhou | 42,71°N 130,78°E | 710AD - 1000AD | 4,5k (850AD) | \- | \- | \- | \- | \- |
+| Krasnoyarovskoye | Краснояровское городище; Upper Capital of Dongxia | 43,68°N 131,97°E | 800AD - 1450AD | 1k (1218AD) | \- | \- | \- | \- | \- |
+| Krounovka-1 | Кроуновка-1 | 43,73°N 131,72°E | 600BC - 1AD | 310 (1AD) | \- | \- | \- | \- | \- |
+| Lazovskoye | Лазовское городище | 43,38°N 133,12°E | 1160AD - 1233AD | 1,9k (1215AD) | \- | \- | \- | \- | \- |
+| Malaya Podushechka | Малая Подушечка | 43,25°N 132,35°E | 600BC - 300BC | 190 (300BC) | \- | \- | \- | \- | \- |
+| Malyshevo | Малышево | 48,68°N 135,58°E | 5000BC - 3000BC | 110 (4000BC) | \- | \- | \- | \- | \- |
+| Mariinsk-na-Amure | Мариинск; Mariinskiy Post | 51,72°N 140,17°E | 1803AD - 1853AD | \- | \- | 225 | 250 | \- | \- |
+| Maryanovka | Марьяновское городище; Bohai Maryanovka | 45,15°N 133,68°E | 740AD - 926AD | 1,6k (850AD) | \- | \- | \- | \- | \- |
+| Naifeld | Найфельд; Mohe Naifeld | 48,5°N 133,1°E | 450AD - 900AD | 340 (700AD) | \- | \- | \- | \- | \- |
+| Nerchinsk | Нерчинск; Nerchinskiy Ostrog | 51,98°N 116,58°E | 1654AD - 1850AD | \- | 1,1k | 2,8k | 4,1k | \- | \- |
+| Nerchinskiy Zavod | Нерчинский Завод; Argunskiy Zavod | 51,3°N 119,62°E | 1704AD - 1850AD | \- | 350 | 2,3k | 3,2k | \- | \- |
+| Nikolayevsk-on-Amur | Николаевск-на-Амуре; Nikolayevskiy Post | 53,15°N 140,73°E | 1800AD - 1850AD | \- | \- | 135 | 150 | \- | \- |
+| Nikolayevskoye-1 | Николаевское-I городище | 44,02°N 132,48°E | 750AD - 926AD | 1,3k (850AD) | \- | \- | \- | \- | \- |
+| Novogordeyevskoye | Новогордеевское городище | 44,13°N 133,27°E | 926AD - 1473AD | 450 (1218AD) | \- | \- | \- | \- | \- |
+| Novopokrovskoye | Новопокровское городище | 45,85°N 134,5°E | 850AD - 1473AD | 380 (1218AD) | \- | \- | \- | \- | \- |
+| Olga | Ольга; Post Svyatoy Olgi | 43,75°N 135,28°E | 1808AD - 1858AD | \- | \- | 126 | 140 | \- | \- |
+| Osinovoye Ozero | Осиновое Озеро | 50,25°N 127,6°E | 3500BC - 1500BC | 110 (1500BC) | \- | \- | \- | \- | \- |
+| Peschany-1 | Песчаный-1; Yankovskiy Shell Midden | 43,17°N 131,73°E | 800BC - 200BC | 340 (500BC) | \- | \- | \- | \- | \- |
+| Poltse I | Польце I; Poltse Settlement | 48,05°N 132,85°E | 600BC - 1AD | 320 (300BC) | \- | \- | \- | \- | \- |
+| Rudnaya Pristan | Рудная Пристань | 44,37°N 135,82°E | 5000BC - 3500BC | 80 (4200BC) | \- | \- | \- | \- | \- |
+| Shayginskoye | Шайгинское городище; Jurchen Shayga | 43,35°N 133,15°E | 1150AD - 1233AD | 3,8k (1225AD) | \- | \- | \- | \- | \- |
+| Shilka | Шилка; Shilkinskiy Zavod | 51,85°N 116,03°E | 1765AD - 1850AD | \- | \- | 620 | 1,1k | \- | \- |
+| Siniy Gai | Синий Гай | 44,3°N 132,58°E | 1500BC - 700BC | 240 (1000BC) | \- | \- | \- | \- | \- |
+| Skalistoye | Скалистое городище | 43,65°N 132,35°E | 1160AD - 1233AD | 1,4k (1215AD) | \- | \- | \- | \- | \- |
+| Slavyanka-1 | Славянка-1 | 42,87°N 131,38°E | 700BC - 400BC | 220 (400BC) | \- | \- | \- | \- | \- |
+| Sofiysk | Софийск; Sofiysk-na-Amure | 51,55°N 139,78°E | 1806AD - 1856AD | \- | \- | 342 | 380 | \- | \- |
+| Sretensk | Сретенск; Sretenskiy Ostrog | 52,25°N 117,72°E | 1689AD - 1850AD | \- | 120 | 750 | 1,4k | \- | \- |
+| Suchu Island | Остров Сучу; Mariinskoye Pit-Village | 51,72°N 140,18°E | 5500BC - 2500BC | 380 (3500BC) | \- | \- | \- | \- | \- |
+| Troitskoye | Троицкое; Mohe Troitskoye | 49,45°N 136,55°E | 400AD - 1000AD | 480 (850AD) | \- | \- | \- | \- | \- |
+| Uritskoye | Урицкое; Uritskoye Settlement | 49,8°N 128,1°E | 1100BC - 500BC | 260 (800BC) | \- | \- | \- | \- | \- |
+| Valentin-Peresheyek | Валентин-Перешеек | 43,12°N 134,3°E | 700BC - 300BC | 140 (500BC) | \- | \- | \- | \- | \- |
+| Voznesenovka | Вознесеновка; Voznesenovskoye | 49,9°N 136,85°E | 4000BC - 2000BC | 180 (3000BC) | \- | \- | \- | \- | \- |
+| Yuzhno-Ussuriyskoye | Южно-Уссурийское городище; Suifunzhou | 43,79°N 131,94°E | 926AD - 1473AD | 500 (1218AD) | \- | \- | \- | \- | \- |
+| Zaisanovka-1 | Зайсановка-1; Gladkaya | 42,62°N 130,83°E | 3200BC - 1800BC | 150 (2500BC) | \- | \- | \- | \- | \- |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 63
 settlements in the Amur, Ussuri and Primorye basin, spanning early
@@ -369,32 +308,27 @@ cities led by Blagoveshchensk, Vladivostok and Khabarovsk.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Ushki I | Ушки I; Ushki Lake | 56,17°N 159,95°E | 1000AD | 130 (1000AD) | \- | \- | \- | \- | \- |
-| Ushki V | Ушки V | 56,17°N 159,96°E | 10000BC - 2000BC | 60 (2000BC) | \- | \- | \- | \- | \- |
-| Avacha | Авача; Avachinskaya | 53,05°N 158,65°E | 1500AD | 220 (1500AD) | \- | \- | \- | \- | \- |
-| Targay | Таргай; Tarya Pit-Village | 52,95°N 158,4°E | 1000AD | 160 (1000AD) | \- | \- | \- | \- | \- |
-| Zhupanovo | Жупаново; Kronotsky Bay Settlement | 54,08°N 159,98°E | 1500AD | 180 (1500AD) | \- | \- | \- | \- | \- |
-| Kamaki | Камаки; Kamaki Ostrog | 56,3°N 160,8°E | 1200AD - 1697AD | 280 (1500AD) | 320 | \- | \- | \- | \- |
+| Avacha | Авача; Avachinskaya | 53,05°N 158,65°E | 1350AD - 1650AD | 220 (1500AD) | \- | \- | \- | \- | \- |
+| Bolsheretsk | Большерецк; Bolsheretskiy Ostrog | 52,9°N 156,55°E | 1703AD - 1850AD | \- | 90 | 310 | 210 | \- | \- |
 | Imchin | Имчин I-II | 51,8°N 143,15°E | 5000BC - 1500BC | 80 (1500BC) | \- | \- | \- | \- | \- |
-| Starodubskoye-2 | Стародубское-2 | 47,42°N 142,8°E | 500BC | 120 (500BC) | \- | \- | \- | \- | \- |
+| Kamaki | Камаки; Kamaki Ostrog | 56,3°N 160,8°E | 1200AD - 1650AD | 180 (1500AD) | \- | \- | \- | \- | \- |
+| Korsakov | Корсаков; Korsakovskiy Post | 46,63°N 142,77°E | 1803AD - 1853AD | \- | \- | 126 | 140 | \- | \- |
+| Kurilskoe Ozero | Курильское озеро; Lopatka Site | 51,45°N 157,1°E | 1350AD - 1650AD | 150 (1473AD) | \- | \- | \- | \- | \- |
+| Nikolskoye | Никольское; Bering Island | 55,2°N 165,98°E | 1826AD - 1850AD | \- | \- | 110 | 280 | \- | \- |
+| Nizhnekamchatsk | Нижнекамчатск; Nizhnekamchatskiy Ostrog | 56,25°N 162°E | 1703AD - 1850AD | \- | 110 | 480 | 260 | \- | \- |
+| Okhotsk | Охотск; Okhotskiy Ostrog | 59,37°N 143,25°E | 1647AD - 1850AD | \- | 140 | 980 | 850 | \- | \- |
+| Petropavlovsk-Kamchatskiy | Петропавловск-Камчатский; Petropavlovskiy Port | 53,02°N 158,65°E | 1740AD - 1850AD | \- | 80 | 320 | 1,6k | \- | \- |
+| Promyslovoye | Промысловое; Poronaysk Okhotsk Site | 49,22°N 143,1°E | 600AD - 1200AD | 230 (900AD) | \- | \- | \- | \- | \- |
+| Starodubskoye-2 | Стародубское-2 | 47,42°N 142,8°E | 700BC - 300BC | 120 (500BC) | \- | \- | \- | \- | \- |
 | Susuya | Сусуйская стоянка; Susuya Shell Midden | 46,85°N 142,73°E | 1AD - 400AD | 260 (400AD) | \- | \- | \- | \- | \- |
 | Svobodnoye | Свободное; Okhotsk Fortified Site | 46,75°N 142,85°E | 500AD - 1100AD | 280 (800AD) | \- | \- | \- | \- | \- |
-| Promyslovoye | Промысловое; Poronaysk Okhotsk Site | 49,22°N 143,1°E | 600AD - 1200AD | 230 (900AD) | \- | \- | \- | \- | \- |
-| Yuzhno-Kurilsk Midden | Южно-Курильская стоянка; Kunashir Site | 44,03°N 145,85°E | 1500AD | 160 (1500AD) | \- | \- | \- | \- | \- |
-| Kurilskoe Ozero | Курильское озеро; Lopatka Site | 51,45°N 157,1°E | 1650AD | \- | \- | \- | \- | \- | \- |
-| Okhotsk | Охотск; Okhotskiy Ostrog | 59,37°N 143,25°E | 1647AD - 1900AD | \- | 140 | 980 | 850 | 308 | 340 |
-| Udskoye | Удское; Udskiy Ostrog | 54,53°N 134,42°E | 1679AD - 1900AD | \- | 65 | 210 | 280 | 310 | 320 |
-| Ayan | Аян; Ayanskiy Port | 56,45°N 138,17°E | 1843AD - 1900AD | \- | \- | \- | 420 | 180 | 210 |
-| Verkhnekamchatsk | Верхнекамчатск; Verkhnekamchatskiy Ostrog | 54,6°N 158,45°E | 1697AD - 1900AD | \- | 85 | 160 | 140 | 185 | 195 |
-| Nizhnekamchatsk | Нижнекамчатск; Nizhnekamchatskiy Ostrog | 56,25°N 162°E | 1703AD - 1900AD | \- | 110 | 480 | 260 | 190 | 210 |
-| Bolsheretsk | Большерецк; Bolsheretskiy Ostrog | 52,9°N 156,55°E | 1703AD - 1900AD | \- | 90 | 310 | 210 | 165 | 180 |
-| Tigil | Тигиль; Tigilskaya Krepost | 57,77°N 158,68°E | 1752AD - 1900AD | \- | \- | 240 | 290 | 315 | 340 |
-| Petropavlovsk-Kamchatskiy | Петропавловск-Камчатский; Petropavlovskiy Port | 53,02°N 158,65°E | 1740AD - 1900AD | \- | 80 | 320 | 1,6k | 395 | 480 |
-| Nikolskoye | Никольское; Bering Island | 55,2°N 165,98°E | 1826AD - 1900AD | \- | \- | 110 | 280 | 360 | 390 |
-| Aleksandrovskiy Post | Александровский Пост; Aleksandrovsk-Sakhalinskiy | 50,9°N 142,15°E | 1869AD - 1900AD | \- | \- | \- | 180 | 3,9k | 4,2k |
-| Rykovskoye | Рыковское; Kirovskoye | 50,73°N 142,72°E | 1878AD - 1900AD | \- | \- | \- | \- | 3,3k | 3,5k |
-| Korsakov | Корсаков; Korsakovskiy Post | 46,63°N 142,77°E | 1853AD - 1900AD | \- | \- | \- | 140 | 1,7k | 1,9k |
-| Vladimirovka | Владимировка; Yuzhno-Sakhalinsk | 46,95°N 142,73°E | 1882AD - 1900AD | \- | \- | \- | \- | 910 | 1,1k |
+| Targay | Таргай; Tarya Pit-Village | 52,95°N 158,4°E | 1AD - 1473AD | 180 (1350AD) | \- | \- | \- | \- | \- |
+| Tigil | Тигиль; Tigilskaya Krepost | 57,77°N 158,68°E | 1752AD - 1850AD | \- | \- | 240 | 290 | \- | \- |
+| Udskoye | Удское; Udskiy Ostrog | 54,53°N 134,42°E | 1679AD - 1850AD | \- | 65 | 210 | 280 | \- | \- |
+| Ushki I | Ушки I; Ushki Lake | 56,17°N 159,95°E | 900AD - 1100AD | 130 (1000AD) | \- | \- | \- | \- | \- |
+| Ushki V | Ушки V | 56,17°N 159,96°E | 10000BC - 2000BC | 60 (2000BC) | \- | \- | \- | \- | \- |
+| Verkhnekamchatsk | Верхнекамчатск; Verkhnekamchatskiy Ostrog | 54,6°N 158,45°E | 1697AD - 1850AD | \- | 85 | 160 | 140 | \- | \- |
+| Zhupanovo | Жупаново; Kronotsky Bay Settlement | 54,08°N 159,98°E | 1350AD - 1650AD | 180 (1500AD) | \- | \- | \- | \- | \- |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 26
 settlements across Kamchatka, the Okhotsk coast, Sakhalin and the Kuril
@@ -405,22 +339,18 @@ to Okhotsk, Petropavlovsk and the Sakhalin penal settlements.
 
 | Settlement | Native / Alternate Names | Coords | Active Span | Pre-1600 Peak | 1700 | 1800 | 1850 | 1897 | 1900 |
 |:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|
-| Ust-Belaia Chukotka | Усть-Белая (Чукотка); Anadyr Ust-Belaia | 65,48°N 173,28°E | 2500BC - 800BC | 65 (1500BC) | \- | \- | \- | \- | \- |
-| Chirovoe | Чировое | 64,9°N 172,5°E | 1800BC - 1000BC | 50 (1000BC) | \- | \- | \- | \- | \- |
-| Pegtymel | Пегтымель; Pegtymel Petroglyph Camp | 69,55°N 174,9°E | 800AD | 50 (800AD) | \- | \- | \- | \- | \- |
-| Uelen | Уэлен; Old Bering Sea Uelen | 66,16°N 169,81°W | 1650AD - 1900AD | \- | \- | 240 | \- | 255 | 260 |
-| Ekven | Эквен | 66,02°N 170,12°W | 1650AD | \- | \- | \- | \- | \- | \- |
-| Enmynytnyn | Энмынытнын | 66,35°N 170,5°W | 500AD - 1200AD | 160 (850AD) | \- | \- | \- | \- | \- |
-| Chini | Чини | 66,08°N 170,05°W | 100AD - 900AD | 140 (500AD) | \- | \- | \- | \- | \- |
-| Birnirk | Мыс Баранова / Бирнирк-стоянки; Cape Dezhnev Thule | 66,05°N 169,68°W | 700AD - 1400AD | 180 (1000AD) | \- | \- | \- | \- | \- |
-| Sireniki | Сиреники; Sighinek | 64,4°N 173,9°W | 1500AD - 1900AD | 210 (1500AD) | \- | 190 | \- | 185 | 190 |
-| Naukan | Наукан; Nuvuqaq | 66,02°N 169,72°W | 1650AD - 1900AD | \- | \- | 280 | \- | 295 | 300 |
-| Chaplino | Уназик; Ungaziq | 64,42°N 172,23°W | 1650AD - 1900AD | \- | \- | 260 | \- | 310 | 320 |
 | Anadyrsk | Анадырск; Anadyrskiy Ostrog | 64,87°N 171,6°E | 1649AD - 1764AD | \- | 180 | \- | \- | \- | \- |
-| Markovo | Марково | 64,68°N 170,42°E | 1840AD - 1900AD | \- | \- | \- | 140 | 388 | 410 |
-| Gizhiginsk | Гижигинск; Gizhiginskaya Krepost | 61,95°N 160,38°E | 1752AD - 1900AD | \- | \- | 420 | 510 | 472 | 480 |
-| Penzhino | Пенжино; Penzhinskoye | 62,45°N 165,1°E | 1760AD - 1900AD | \- | \- | 140 | 190 | 225 | 240 |
-| Novo-Mariinsk | Ново-Мариинск; Anadyr | 64,73°N 177,52°E | 1889AD - 1900AD | \- | \- | \- | \- | 185 | 220 |
+| Birnirk | Мыс Баранова / Бирнирк-стоянки; Cape Dezhnev Thule | 66,05°N 169,68°W | 700AD - 1600AD | 220 (1400AD) | \- | \- | \- | \- | \- |
+| Chini | Чини | 66,08°N 170,05°W | 100AD - 900AD | 140 (500AD) | \- | \- | \- | \- | \- |
+| Chirovoe | Чировое | 64,9°N 172,5°E | 1800BC - 1000BC | 50 (1000BC) | \- | \- | \- | \- | \- |
+| Ekven | Эквен | 66,02°N 170,12°W | 1550AD - 1750AD | 153 (1550AD) | \- | \- | \- | \- | \- |
+| Gizhiginsk | Гижигинск; Gizhiginskaya Krepost | 61,95°N 160,38°E | 1752AD - 1850AD | \- | \- | 420 | 510 | \- | \- |
+| Markovo | Марково | 64,68°N 170,42°E | 1790AD - 1840AD | \- | \- | 126 | 140 | \- | \- |
+| Naukan | Наукан; Nuvuqaq | 66,02°N 169,72°W | 1650AD - 1800AD | \- | \- | 280 | \- | \- | \- |
+| Penzhino | Пенжино; Penzhinskoye | 62,45°N 165,1°E | 1760AD - 1850AD | \- | \- | 140 | 190 | \- | \- |
+| Sireniki | Сиреники; Sighinek | 64,4°N 173,9°W | 1500AD - 1800AD | 210 (1500AD) | \- | 190 | \- | \- | \- |
+| Uelen | Уэлен; Old Bering Sea Uelen | 66,16°N 169,81°W | 1650AD - 1800AD | \- | \- | 240 | \- | \- | \- |
+| Ust-Belaia Chukotka | Усть-Белая (Чукотка); Anadyr Ust-Belaia | 65,48°N 173,28°E | 2500BC - 800BC | 65 (1500BC) | \- | \- | \- | \- | \- |
 
 Pre-1600 peak populations and 1700-1900AD benchmark counts for 16
 settlements in Chukotka, the Anadyr basin and the Bering Strait,

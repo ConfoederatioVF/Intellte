@@ -96,7 +96,7 @@ get_occupied_span <- function(entry) {
 }
 
 hyphenate_settlement_name <- function(nm) {
-  s <- as.character(nm)
+  s <- gsub("#", "No. ", as.character(nm), fixed = TRUE)
   exact_map <- c(
     "Kuznetsovskoye" = "Kuznetsov-skoye",
     "Dmitrievskoye" = "Dmitriev-skoye",
@@ -131,7 +131,7 @@ hyphenate_settlement_name <- function(nm) {
 }
 
 hyphenate_cyrillic_oth <- function(s) {
-  out <- as.character(s)
+  out <- gsub("#", "No. ", as.character(s), fixed = TRUE)
   out <- gsub("\u0441\u043a\u043e\u0435", "-\u0441\u043a\u043e\u0435", out, fixed = TRUE)
   out <- gsub("\u0441\u043a\u0438\u0439", "-\u0441\u043a\u0438\u0439", out, fixed = TRUE)
   out <- gsub("\u0435\u0432\u043a\u0430", "-\u0435\u0432\u043a\u0430", out, fixed = TRUE)
@@ -146,8 +146,7 @@ hyphenate_cyrillic_oth <- function(s) {
   out
 }
 
-build_slice_df <- function(idx_vec) {
-  sub_list <- all_entries[idx_vec]
+build_slice_df <- function(sub_list) {
   rows <- lapply(sub_list, function(e) {
     raw_oth <- if (length(e$other_names) > 0) unlist(e$other_names) else character(0)
     if (length(raw_oth) > 1) {
@@ -190,11 +189,11 @@ build_slice_df <- function(idx_vec) {
 
 # Abstract
 
-This gazetteer compiles population estimates for 198 excavated settlements across Belarus, Ukraine and Russia (excluding the Baltic provinces) from the Late Roman period (250AD) to the First All-Russian Census of 1897 (1900AD). Arranged across six ecological zones - the European forest-steppe, the mixed and boreal forests, the Middle Volga and Kama-Urals, the open Pontic-Caspian steppe, the North Caucasus and Siberia - the tables trace how village life shifted when the Huns broke up the eastern Chernyakhov and Late Sarmatian settlements in the 370s AD. While open steppe camps and exposed southern border villages shrank or moved between 350AD and 450AD, fortified hillforts (*gorodishcha*), woodland river villages (*selishcha*) and terraced mountain strongholds grew steadily from the fifth to the tenth centuries AD, laying the urban foundations of early medieval Rus', Volga Bulgaria and the Caucasian frontier.
+This gazetteer compiles population estimates for `r length(all_entries)` excavated settlements across Belarus, Ukraine and Russia (excluding the Baltic provinces) from the Late Roman period (250AD) to the First All-Russian Census of 1897 (1900AD). Arranged across six ecological zones - the European forest-steppe, the mixed and boreal forests, the Middle Volga and Kama-Urals, the open Pontic-Caspian steppe, the North Caucasus and Siberia - the tables trace how village life shifted when the Huns broke up the eastern Chernyakhov and Late Sarmatian settlements in the 370s AD. While open steppe camps and exposed southern border villages shrank or moved between 350AD and 450AD, fortified hillforts (*gorodishcha*), woodland river villages (*selishcha*) and terraced mountain strongholds grew steadily from the fifth to the tenth centuries AD, laying the urban foundations of early medieval Rus', Volga Bulgaria and the Caucasian frontier.
 
 # Methodology
 
-This gazetteer brings together 198 excavated Migration Period (c. 250-750AD) and early medieval settlements - promontory hillforts (*gorodishcha*), river-terrace villages (*selishcha*) and steppe strongholds - across the six regions of Belarus, Ukraine and Russia (excluding the Baltic provinces). Together they trace the shift of population from the open Pontic-Caspian steppe into the woodland valleys of the Dnieper, Oka, Upper and Middle Volga, Kama and North Caucasus.
+This gazetteer brings together `r length(all_entries)` excavated Migration Period (c. 250-750AD) and early medieval settlements - promontory hillforts (*gorodishcha*), river-terrace villages (*selishcha*) and steppe strongholds - across the six regions of Belarus, Ukraine and Russia (excluding the Baltic provinces). Together they trace the shift of population from the open Pontic-Caspian steppe into the woodland valleys of the Dnieper, Oka, Upper and Middle Volga, Kama and North Caucasus.
 
 For each site, population estimates across the Migration Period (250, 350, 450, 600 and 750AD) and the early medieval transition (900AD) are worked out from excavated house counts, fortified and open settlement areas and cemetery grave totals [@oblomskiy2016kolochinskaya; @krenke2019moskvorechye; @goldina1999drevnyaya; @gadzhiev2002derbent]. Dates before a settlement was founded or after it was abandoned are marked with a hyphen (-). Where an ancient hillfort or village grew into a lasting town or village on the same spot, its population at the First All-Russian Census of 1897 (1900AD) is given in the final column [@troinitsky1905perepis].
 
@@ -213,12 +212,27 @@ if (!knitr::is_latex_output()) {
 
 # Results
 
+```{r classify-regions, include=FALSE}
+classify_mp_region <- function(e) {
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  if (lon >= 59.5) return(6L)
+  if (lat <= 45.2 && lon >= 36.0 && lon <= 52.0) return(5L)
+  if (lon >= 45.0 && lat >= 49.5) return(3L)
+  if (lon >= 35.0 && lat < 49.5) return(4L)
+  if (lat >= 53.5) return(2L)
+  return(1L)
+}
+mp_reg_ids <- vapply(all_entries, classify_mp_region, integer(1))
+reg_entries <- lapply(1:6, function(r) all_entries[mp_reg_ids == r])
+```
+
 ## European Forest-Steppe Settlements
 
-Table \ref{tab:reg1-sites} lists 38 excavated settlements across the Seim, Psel, Upper Don, Oskol and Desna forest-steppe valleys, covering the Kiev, Eastern Chernyakhov, Kolochin, Penkovka, Volyntsevo-Romny, Borshevo and Saltovo-Mayaki cultures [@shchukin2005gotskiy; @oblomskiy2002dneprovskoe; @oblomskiy2016kolochinskaya; @sedov1999drevnerusskaya].
+Table \ref{tab:reg1-sites} lists `r length(reg_entries[[1]])` excavated settlements across the Seim, Psel, Upper Don, Oskol and Desna forest-steppe valleys, covering the Kiev, Eastern Chernyakhov, Kolochin, Penkovka, Volyntsevo-Romny, Borshevo and Saltovo-Mayaki cultures [@shchukin2005gotskiy; @oblomskiy2002dneprovskoe; @oblomskiy2016kolochinskaya; @sedov1999drevnerusskaya].
 
 ```{r table-reg1, echo=FALSE, results='asis'}
-df_reg1 <- build_slice_df(1:38)
+df_reg1 <- build_slice_df(reg_entries[[1]])
 render_table_template(
   df_reg1,
   list(
@@ -230,10 +244,10 @@ render_table_template(
 
 ## Mixed and Boreal Forest Zone Settlements
 
-Table \ref{tab:reg2-sites} lists 55 excavated hillforts, river villages and early towns across the Moskva, Upper and Middle Oka, Upper Volga, Ilmen-Volkhov, Pskov and Upper Dnieper forest basins, spanning the Late Dyakovo, Moshchiny, Ryazan-Oka, Tushemlya, Pskov Long Barrows, Merya, Muroma and Early Rus' traditions [@krenke2011dyakovo; @mayorov2016moschiny; @akhmedov2018ryazan; @lopatin2007severnye; @islanova2012ozero].
+Table \ref{tab:reg2-sites} lists `r length(reg_entries[[2]])` excavated hillforts, river villages and early towns across the Moskva, Upper and Middle Oka, Upper Volga, Ilmen-Volkhov, Pskov and Upper Dnieper forest basins, spanning the Late Dyakovo, Moshchiny, Ryazan-Oka, Tushemlya, Pskov Long Barrows, Merya, Muroma and Early Rus' traditions [@krenke2011dyakovo; @mayorov2016moschiny; @akhmedov2018ryazan; @lopatin2007severnye; @islanova2012ozero].
 
 ```{r table-reg2, echo=FALSE, results='asis'}
-df_reg2 <- build_slice_df(39:93)
+df_reg2 <- build_slice_df(reg_entries[[2]])
 render_table_template(
   df_reg2,
   list(
@@ -245,10 +259,10 @@ render_table_template(
 
 ## Middle Volga, Kama-Vyatka and Cis-Ural Settlements
 
-Table \ref{tab:reg3-sites} lists 44 excavated hillforts and villages across the Samara Bend, Middle Volga, Kama, Vyatka, Belaya and Sylva basins, covering the Imenkovo, Azelino, Mazunino, Turaevo, Bakhmutino, Turbasly, Kushnarenkovo, Nevolino, Lomovatovo and Polom cultures [@vyazov2019middle; @goldina1999drevnyaya; @goldina2012nevolino; @bakhshiev2017bakhmutino; @nazarov2025lomovatovo].
+Table \ref{tab:reg3-sites} lists `r length(reg_entries[[3]])` excavated hillforts and villages across the Samara Bend, Middle Volga, Kama, Vyatka, Belaya and Sylva basins, covering the Imenkovo, Azelino, Mazunino, Turaevo, Bakhmutino, Turbasly, Kushnarenkovo, Nevolino, Lomovatovo and Polom cultures [@vyazov2019middle; @goldina1999drevnyaya; @goldina2012nevolino; @bakhshiev2017bakhmutino; @nazarov2025lomovatovo].
 
 ```{r table-reg3, echo=FALSE, results='asis'}
-df_reg3 <- build_slice_df(94:137)
+df_reg3 <- build_slice_df(reg_entries[[3]])
 render_table_template(
   df_reg3,
   list(
@@ -260,10 +274,10 @@ render_table_template(
 
 ## Open Pontic-Caspian Steppe Settlements
 
-Table \ref{tab:reg4-sites} lists 16 excavated trading ports, winter camps, river-delta towns and Khazar brick and stone forts across the Lower Don, Lower Volga and Southern Trans-Ural steppe [@shchukin2005gotskiy; @botalov2009gunny; @kazanski2020steppe].
+Table \ref{tab:reg4-sites} lists `r length(reg_entries[[4]])` excavated trading ports, winter camps, river-delta towns and Khazar brick and stone forts across the Lower Don, Lower Volga and Southern Trans-Ural steppe [@shchukin2005gotskiy; @botalov2009gunny; @kazanski2020steppe].
 
 ```{r table-reg4, echo=FALSE, results='asis'}
-df_reg4 <- build_slice_df(138:153)
+df_reg4 <- build_slice_df(reg_entries[[4]])
 render_table_template(
   df_reg4,
   list(
@@ -275,10 +289,10 @@ render_table_template(
 
 ## North Caucasus and Caspian Corridor Settlements
 
-Table \ref{tab:reg5-sites} lists 22 excavated fortress towns, mountain strongholds and coastal settlements across Dagestan, the Central Caucasus (Alanian Kislovodsk and Kuban valleys) and the Taman-Black Sea coast [@gadzhiev2002derbent; @gmyrya2022palasa; @korobov2013terraced; @mastykova2009kuban].
+Table \ref{tab:reg5-sites} lists `r length(reg_entries[[5]])` excavated fortress towns, mountain strongholds and coastal settlements across Dagestan, the Central Caucasus (Alanian Kislovodsk and Kuban valleys) and the Taman-Black Sea coast [@gadzhiev2002derbent; @gmyrya2022palasa; @korobov2013terraced; @mastykova2009kuban].
 
 ```{r table-reg5, echo=FALSE, results='asis'}
-df_reg5 <- build_slice_df(154:175)
+df_reg5 <- build_slice_df(reg_entries[[5]])
 render_table_template(
   df_reg5,
   list(
@@ -290,10 +304,10 @@ render_table_template(
 
 ## Western and Southern Siberian Settlements
 
-Table \ref{tab:reg6-sites} lists 23 excavated hillforts, iron-working villages and herding settlements across the Tobol-Irtysh, Middle and Lower Ob, Minusinsk Basin, Russian Altai and Lake Baikal regions, covering the Sargat, Potchevash, Relka, Tashtyk, Bulan-Koby, Early Turkic and Kurykan traditions [@matveeva2000sargat; @zelenkov2025potchevash; @azbelev2007oglakhty; @seregin2021altai; @kharinsky2005baikal].
+Table \ref{tab:reg6-sites} lists `r length(reg_entries[[6]])` excavated hillforts, iron-working villages and herding settlements across the Tobol-Irtysh, Middle and Lower Ob, Minusinsk Basin, Russian Altai and Lake Baikal regions, covering the Sargat, Potchevash, Relka, Tashtyk, Bulan-Koby, Early Turkic and Kurykan traditions [@matveeva2000sargat; @zelenkov2025potchevash; @azbelev2007oglakhty; @seregin2021altai; @kharinsky2005baikal].
 
 ```{r table-reg6, echo=FALSE, results='asis'}
-df_reg6 <- build_slice_df(176:198)
+df_reg6 <- build_slice_df(reg_entries[[6]])
 render_table_template(
   df_reg6,
   list(
@@ -311,17 +325,17 @@ Table \ref{tab:regional-summary} sums the catalogued settlements and their combi
 
 ```{r table-summary, echo=FALSE, results='asis'}
 reg_defs <- list(
-  list(name = "1. European Forest-Steppe", idx = 1:38),
-  list(name = "2. Mixed and Boreal Forest Zone", idx = 39:93),
-  list(name = "3. Middle Volga, Kama-Vyatka and Cis-Urals", idx = 94:137),
-  list(name = "4. Open Pontic-Caspian Steppe", idx = 138:153),
-  list(name = "5. North Caucasus and Caspian Corridor", idx = 154:175),
-  list(name = "6. Western and Southern Siberia", idx = 176:198)
+  list(name = "1. European Forest-Steppe", idx = 1),
+  list(name = "2. Mixed and Boreal Forest Zone", idx = 2),
+  list(name = "3. Middle Volga, Kama-Vyatka and Cis-Urals", idx = 3),
+  list(name = "4. Open Pontic-Caspian Steppe", idx = 4),
+  list(name = "5. North Caucasus and Caspian Corridor", idx = 5),
+  list(name = "6. Western and Southern Siberia", idx = 6)
 )
 bench_yrs <- c("250", "350", "450", "600", "750", "900", "1900")
 
 sum_rows <- lapply(reg_defs, function(rd) {
-  sub_e <- all_entries[rd$idx]
+  sub_e <- reg_entries[[rd$idx]]
   sums <- sapply(bench_yrs, function(y) {
     vals <- sapply(sub_e, function(e) {
       v <- get_entry_pop(e, y)
@@ -330,7 +344,7 @@ sum_rows <- lapply(reg_defs, function(rd) {
     fmt_eu_pop(sum(vals))
   })
   data.frame(
-    `Region (Sites)` = paste0(rd$name, " (", length(rd$idx), " sites)"),
+    `Region (Sites)` = paste0(rd$name, " (", length(sub_e), " sites)"),
     `250AD` = sums[["250"]],
     `350AD` = sums[["350"]],
     `450AD` = sums[["450"]],
@@ -368,7 +382,7 @@ df_sum <- rbind(df_sum, tot_row)
 render_table_template(
   df_sum,
   list(
-    caption = "Combined population of the 198 excavated settlements across the six ecological zones from 250AD to the 1897 census.",
+    caption = paste0("Combined population of the ", length(all_entries), " excavated settlements across the six ecological zones from 250AD to the 1897 census."),
     label = "tab:regional-summary"
   )
 )

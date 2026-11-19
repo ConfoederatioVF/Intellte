@@ -1,0 +1,162 @@
+---
+title: "Settlement Gazetteer of the Southern Plains Hydrological Unit (HU 12)"
+subtitle: "CENTAUR-II: Caddoan Mound Towns, Balcones Spring Camps and Gulf Estuarine Villages, 10000BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: southern_plains_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_southern_plains_spatial.png"
+hero_caption: "Locations of 102 catalogued settlements across the three divisions of the Southern Plains Hydrological Unit (462,01k km²) from 10000BC to 1600AD."
+hero_label: "fig:hero-southern-plains-gaz"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("southern_plains.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("southern_plains_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("southern_plains_source_ledger.json5", simplifyVector = FALSE)
+
+short_region <- function (rid) {
+  if (identical(rid, "sp_neches_sabine_trinity_caddo")) return("Sabine-Neches Caddo")
+  if (identical(rid, "sp_brazos_colorado_edwards")) return("Brazos-Edwards")
+  if (identical(rid, "sp_gulf_coast_nueces_karankawa")) return("Gulf Coast-Nueces")
+  return(rid)
+}
+
+fmt_yr_label <- function (y) {
+  if (y < 0) paste0(abs(y), "BC") else paste0(y, "AD")
+}
+
+fmt_span_pop <- function (pop_list) {
+  yrs <- as.integer(names(pop_list))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vapply(yrs, function (y) as.numeric(pop_list[[as.character(y)]]), numeric(1))
+  pk_idx <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[pk_idx]), " (", fmt_yr_label(yrs[pk_idx]), ")")
+}
+
+fmt_period_span <- function (pop_list) {
+  yrs <- sort(as.integer(names(pop_list)))
+  if (min(yrs) == max(yrs)) return(fmt_yr_label(min(yrs)))
+  paste0(fmt_yr_label(min(yrs)), "-", fmt_yr_label(max(yrs)))
+}
+```
+
+# Abstract
+
+This gazetteer compiles settlement population series for the Southern Plains Hydrological Unit (HU 12) from 10000BC to 1600AD. Out of 205 candidates evaluated in the regional source ledger, 102 persistent mound centres, Balcones spring camps, High Plains hunter-gatherer sites and estuarine base settlements (337 benchmark observations, averaging 3,3 per site, spanning 26,23 to 34,28 N and 93,51 to 103,42 W; Texas 97, New Mexico 3, Louisiana 2) enter the active settlement inventory, while 103 entries are excluded (102 duplicate-alias consolidations within 2 km and 1 unquantified non-habitation feature exclusion). Catalogued settlements span from the Palaeoindian-Archaic Balcones spring complex at Gault (65 to 210) and High Plains sites at Lubbock Lake (30 to 85) and Blackwater Draw Locality 1 (50 to 65) through Caddoan centres George C. Davis (1,65k at 1200AD), Washington Square Mound (950 at 1300AD), Pine Tree Mound (640 at 1450AD), Deshazo Caddo Village (600 at 1600AD), Hudnall-Pirtle (480 at 1100AD) and Oak Hill Village (460 at 1350AD) to protohistoric Waco-Wichita Village (780 at 1600AD), Harrell Henrietta Town (550 at 1450AD), San Gabriel River Village (550 at 1400AD) and coastal-inland hubs at Oso Dune Karankawa Village (750 at 1500AD), Barton Springs Village (700 at 1400AD), Nueces Bay Town (700 at 1500AD), Guadalupe River Mouth Village (650 at 1500AD), Copano Bay Village (600 at 1500AD) and Oso Creek-Corpus Christi (460 at 1500AD).
+
+# Background
+
+Unlike densely nucleated Mississippian alluvial corridors to the east, HU 12 exhibits a sharp contrast between fixed Caddoan mound towns in the Neches-Sabine pineywoods [@newell1949; @perttula2012] and seasonally mobile foraging or semi-sedentary prairie communities across the Edwards Plateau and Texas Gulf barrier bays [@perttula2004; @ricklis1996]. Kelly et al. [@kelly2025] radiocarbon summed probability curves (N = 2.347, peak 1287AD) reflect this dual structure, cresting during Middle Caddoan civic construction and late Holocene coastal intensification.
+
+# Methodology
+
+## Inclusion Criteria and Schema Audit
+
+All 205 candidates in the regional source ledger were checked for exact WGS84 coordinates, multi-phase residential footprints and distinct spatial bounds. Included entries carry regional attribution linked directly to their hydrological sub-region and primary archaeological monographs documented in the supporting bibliography.
+
+## Settlement Size Calibration
+
+East Texas Caddoan populations at George C. Davis, Washington Square Mound, Pine Tree Mound, Deshazo Caddo Village, Oak Hill Village and Deshazo derive from excavated circular-post-structure zones and plaza-mound precincts [@newell1949; @perttula2012]. Central Texas spring camps, High Plains hunting camps, prairie river towns and coastal aggregates including Gault, Barton Springs Village, Mitchell Ridge, Oso Dune Karankawa Village, Oso Creek-Corpus Christi and Waco-Wichita Village reflect multi-season base-camp midden extents and mortuary counts [@waters2011; @ricklis1994; @ricklis1996; @vehik2002].
+
+# Testing and Validation
+
+Ledger reconciliation and spatial containment checks across all 205 candidates returned 0 errors at GMT+0:
+
+1. **Included Settlements**: 102 habitation sites (24 in Sabine-Neches Caddo with 81 observations, 32 in Brazos-Edwards with 103 observations and 46 in Gulf Coast-Nueces with 153 observations; 85 sites holding 3 or more observations, median peak 175).
+2. **Excluded Entries**: 103 excluded candidates (102 duplicate-alias consolidations within 2 km and 1 unquantified non-habitation feature exclusion).
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_southern_plains_settlements.png",
+  "Rank-size distribution and leading fifteen settlements by peak population across the 102 catalogued sites of Southern Plains (HU 12).",
+  "fig:sp-settlements"
+)
+```
+
+# Results
+
+## Top 45 Caddoan, Balcones and Coastal Settlements
+
+Table \ref{tab:sp-included} presents the top 45 settlements by peak population descending out of the 102 catalogued sites in HU 12. Earliest documented occupations anchor along the Balcones spring line at Gault (65 at 10000BC to 210 at 0AD), Kincaid Shelter (40 at 8600BC to 120 at 1400AD) and Spring Lake San Marcos (55 at 7500BC to 230 at 1400AD) alongside High Plains hunting sites at Lubbock Lake (30 at 9800BC), Blackwater Draw Locality 1 (55 at 9500BC), Aubrey (35 at 9500BC), Siren (25 at 9500BC) and Plainview (35 to 45 around 8000BC) [@waters2011; @perttula2004].
+
+In East Texas, George C. Davis grows from 450 in 800AD to 1,65k in 1200AD before easing to 1,2k in 1300AD [@newell1949; @perttula2012], complemented by Washington Square Mound (520 to 950 across 1200AD to 1400AD), Pine Tree Mound (640 at 1450AD), Deshazo Caddo Village (600 at 1600AD), Hudnall-Pirtle (480 at 1100AD), Oak Hill Village (460 at 1350AD), Deshazo (380 at 1600AD), Whitesboro Red River Village (340), Gilbert (320 at 1600AD), Lang Pasture (310 at 1250AD) and Burr's Ferry Earthworks (280 at 1200AD). Across the Brazos-Edwards prairies and Gulf-Nueces zone, Waco-Wichita Village reaches 780 by 1600AD [@vehik2002] alongside Harrell Henrietta Town (550 at 1450AD), San Gabriel River Village (550 at 1400AD), Harrell (295 at 1400AD) and Merchant (265 at 1350AD), while Oso Dune Karankawa Village (750 at 1500AD), Barton Springs Village (700 at 1400AD), Nueces Bay Town (700 at 1500AD), Guadalupe River Mouth Village (650 at 1500AD), Copano Bay Village (600 at 1500AD), Oso Creek-Corpus Christi (460 at 1500AD), Mitchell Ridge (440 at 1500AD) and Cayo del Oso (340 at 1450AD) sustain dense regional aggregations [@ricklis1994; @ricklis1996].
+
+```{r tbl-included, results='asis'}
+keys_inc <- names(sett_data)
+peak_vals <- vapply(keys_inc, function (k) {
+  vals <- as.numeric(unlist(sett_data[[k]]$population))
+  if (length(vals) == 0) 0 else max(vals, na.rm = TRUE)
+}, numeric(1))
+ord_top <- order(-peak_vals, keys_inc)
+keys_top45 <- keys_inc[ord_top[seq_len(min(45L, length(ord_top)))]]
+rows_inc <- lapply(keys_top45, function (k) {
+  sv <- sett_data[[k]]
+  data.frame(
+    Region = paste0(sv$name, " (", short_region(sv$region_id), ")"),
+    Period = fmt_period_span(sv$population),
+    Population = fmt_span_pop(sv$population),
+    Bounds = paste0(viscount_fmt_number(sv$coords[[1]], 2L), ", ", viscount_fmt_number(sv$coords[[2]], 2L)),
+    stringsAsFactors = FALSE
+  )
+})
+df_inc <- do.call(rbind, rows_inc)
+rownames(df_inc) <- NULL
+viscount_table(
+  df_inc,
+  "Top 45 settlements by peak population in Southern Plains (HU 12) out of 102 catalogued sites, showing occupied spans and WGS84 coordinates.",
+  c("Settlement (Division)", "Span", "Peak (Year)", "Coordinates"),
+  list(label = "tab:sp-included", font_size = "scriptsize")
+)
+```
+
+## Excluded Ledger Candidates
+
+Table \ref{tab:sp-excluded} lists the first 30 of 102 duplicate-alias consolidations within 2 km (alongside 1 unquantified non-habitation feature exclusion for 103 total exclusions across 205 candidates) in the regional source ledger, preventing spatial double-counting across overlapping monument records [@newell1949; @perttula2012].
+
+```{r tbl-excluded, results='asis'}
+exc_list <- Filter(function (c) identical(c$status, "excluded") && identical(c$reason, "duplicate_alias"), ledger_data$candidates)
+exc_show <- exc_list[seq_len(min(30L, length(exc_list)))]
+rows_exc <- lapply(exc_show, function (c) {
+  clean_just <- gsub("CENTAUR Existing [^ ]+ Monument Inventory", "CENTAUR Monument Inventory", c$justification)
+  clean_just <- gsub("coordinate/alias", "coordinate and alias", clean_just, fixed = TRUE)
+  clean_just <- gsub(" & ", " and ", clean_just, fixed = TRUE)
+  data.frame(
+    Region = paste0(c$name, " (", c$country, ")"),
+    Period = "Excluded",
+    Population = gsub("_", " ", c$reason, fixed = TRUE),
+    Bounds = clean_just,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, rows_exc)
+rownames(df_exc) <- NULL
+viscount_table(
+  df_exc,
+  "Representative consolidated duplicate-alias candidate records (first 30 of 102) in the Southern Plains (HU 12) source ledger.",
+  c("Candidate", "Status", "Reason", "Disposition"),
+  list(label = "tab:sp-excluded", font_size = "footnotesize")
+)
+```
+
+# Limitations
+
+Dispersed Caddoan farmstead hamlets across the Upper Neches, Angelina and Sulphur valleys outnumbered large mound centres in total population yet lack discrete nucleated town bounds, so they remain represented in sub-regional rural density rasters rather than individual gazetteer rows [@perttula2012]. The remaining 57 catalogued sites below rank 45 (primarily Balcones spring camps, burnt-rock midden stations and High Plains hunting camps peaking between 45 and 180 occupants) remain active in the spatial subtraction layer despite Table \ref{tab:sp-included} displaying only the leading 45 centres [@perttula2004].
+
+# Sources
+
+<div id="refs"></div>

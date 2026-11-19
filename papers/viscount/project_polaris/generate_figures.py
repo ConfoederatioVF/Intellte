@@ -9,6 +9,8 @@ from PIL import Image
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+plt.rcdefaults()
+plt.style.use("default")
 from matplotlib.patches import Polygon as MplPolygon, Patch
 from matplotlib.collections import PatchCollection
 from matplotlib.lines import Line2D
@@ -1014,7 +1016,7 @@ axD.tick_params(axis="y", labelsize=7.8)
 lines1, labels1 = axD.get_legend_handles_labels()
 lines2, labels2 = axD2.get_legend_handles_labels()
 axD.legend(lines1 + lines2, labels1 + labels2, loc="upper left", fontsize=6.8, frameon=True, facecolor="white", edgecolor="#cbd5e1")
-axD.set_title("D. Long-Run Urbanisation and Settlement Trajectories (1000BC-2026AD)\n29.100 settlement trajectories across 10.175 geo-referenced historical centres", fontsize=8.6, fontweight="bold", pad=6)
+axD.set_title("D. Long-Run Urbanisation and Settlement Trajectories (1000BC-2026AD)\n64.103 settlement entries across 14.844 geo-referenced historical centres", fontsize=8.6, fontweight="bold", pad=6)
 
 out_fig3 = fig_dir / "polaris_holocene_trajectories.png"
 fig.savefig(out_fig3, dpi=300)

@@ -1,0 +1,468 @@
+---
+title: "Settlement Gazetteer of Colonial Brazil"
+subtitle: "PRETA: Coordinates, Toponymy and Demographic Trajectories across Six Captaincy Macro-Regions (1500AD to 1822AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/fig1_colonial_brazil_spatial.png"
+hero_caption: "Spatial distribution of 189 catalogued colonial settlements across the six captaincy macro-regions of Brazil (~8,54M km²) from 1500AD to 1822AD."
+hero_label: "fig:hero-settlements"
+bibliography: colonial_brazil_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("colonial_brazil.json5")
+set_data <- read_json_file("colonial_brazil_settlements.json")
+led_data <- read_json_file("colonial_brazil_source_ledger.json5")
+
+clean_str <- function (arg0_text) {
+  s <- as.character(arg0_text)
+  if (length(s) == 0 || is.na(s)) return("-")
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- suppressWarnings(as.numeric(arg0_y))
+  if (is.na(y)) return("-")
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  paste0(round(y), "AD")
+}
+
+fmt_lat <- function (arg0_lat) {
+  lat <- suppressWarnings(as.numeric(arg0_lat))
+  if (is.na(lat)) return("-")
+  paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+}
+
+fmt_lon <- function (arg0_lon) {
+  lon <- suppressWarnings(as.numeric(arg0_lon))
+  if (is.na(lon)) return("-")
+  paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+}
+
+fmt_pop_val <- function (arg0_pop, arg1_yr) {
+  if (is.null(arg0_pop)) return("-")
+  yr_str <- as.character(arg1_yr)
+  val <- arg0_pop[[yr_str]]
+  if (is.null(val) || is.na(val)) return("-")
+  viscount_fmt_pop(val)
+}
+
+extract_state_code <- function (arg0_settlement) {
+  onames <- arg0_settlement$other_names
+  if (length(onames) > 0) {
+    m <- regmatches(onames[[1]], regexec("\\(([A-Z]{2})\\)", onames[[1]]))[[1]]
+    if (length(m) >= 2) return(m[2])
+  }
+  "-"
+}
+
+set_list <- unname(set_data)
+set_order <- order(vapply(set_list, function (s) clean_str(s$name), character(1)))
+set_list <- set_list[set_order]
+```
+
+# Abstract
+
+This gazetteer compiles geographic coordinates, administrative captaincy
+affiliations, foundation dates and longitudinal population estimates for 189
+catalogued colonial settlements across Brazil (~8,54M km²) between 1500AD and
+1822AD. The gazetteer links coastal administrative capitals, maritime sugar
+ports, interior mining municipalities (*vilas*) and expansive rural parish
+seats (*freguesias*) into a coherent spatial network. Each catalogued locality
+reconciles against official colonial censuses (*mapas de população*),
+ecclesiastical parish rolls and regional historical monographs, providing an
+unbroken baseline for spatial demographic modelling from the initial sugar
+plantation era to Brazilian political independence.
+
+The catalogued settlements reflect three centuries of territorial integration
+across six macro-regions: Bahia and Sergipe (23 settlements); Pernambuco,
+Paraíba, Rio Grande do Norte, Alagoas and Ceará (56 settlements); Maranhão and
+Piauí (16 settlements); Grão-Pará and Rio Negro (14 settlements); Minas Gerais,
+Goiás and Mato Grosso (29 settlements); and Rio de Janeiro, Espírito Santo, São
+Paulo and the southern captaincies (51 settlements). While primary port cities
+such as Rio de Janeiro (112k inhabitants at 1822AD), Salvador (65k) and Recife
+(42k) anchored Atlantic mercantile networks, the demographic weight of
+Portuguese America resided predominantly within expansive agro-pastoral parish
+jurisdictions including Santo Amaro (77,9k), Serro (74,4k), Itambé (67,5k) and
+Ponte Nova (63,1k).
+
+Every catalogued entry satisfies strict spatial and demographic inclusion
+criteria. Localities possess documented geographic coordinates in the WGS84
+system, historical toponyms cross-referenced against seventeenth and eighteenth
+century cartography, and validated population benchmarks derived from parish
+sacramental registers and captaincy census returns. All 189 entries reconcile
+cleanly against the 189 candidates in the source ledger without unaccounted
+records or geographic duplicates, documenting the spatial distribution of the
+4,54M inhabitants of Brazil at the close of colonial rule.
+
+# Macro-Regional Distribution and Ledger Reconciliation
+
+Table \ref{tab:macro-summary} summarises the geographic distribution of the 189
+catalogued settlements across the six captaincy macro-regions, detailing land
+areas, included settlement counts, aggregate benchmark populations at 1822AD
+and leading urban centres.
+
+```{r tbl-macro-summary, results='asis'}
+reg_ids <- c(
+  "cbr_bahia_sergipe",
+  "cbr_pernambuco_northeast",
+  "cbr_maranhao_piaui",
+  "cbr_grao_para_rio_negro",
+  "cbr_minas_goias_mato_grosso",
+  "cbr_rio_sao_paulo_sul"
+)
+
+reg_names <- c(
+  "Bahia and Sergipe",
+  "Pernambuco and North-East",
+  "Maranhão and Piauí",
+  "Grão-Pará and Rio Negro",
+  "Minas Gerais, Goiás and MT",
+  "Rio de Janeiro, SP and South"
+)
+
+sum_rows <- lapply(seq_along(reg_ids), function (i) {
+  rid <- reg_ids[i]
+  r_info <- mod_data$regions[[rid]]
+  sub_sets <- Filter(function (s) identical(s$region_id, rid), set_list)
+  p1822_vals <- vapply(sub_sets, function (s) {
+    p <- s$population[["1822"]]
+    if (is.null(p) || is.na(p)) 0 else as.numeric(p)
+  }, numeric(1))
+  top_idx <- if (length(p1822_vals) > 0) which.max(p1822_vals) else 1
+  top_name <- if (length(sub_sets) > 0) clean_str(sub_sets[[top_idx]]$name) else "-"
+  top_pop <- if (length(sub_sets) > 0) viscount_fmt_pop(p1822_vals[top_idx]) else "-"
+  data.frame(
+    Region = reg_names[i],
+    Area = viscount_fmt_number(r_info$area_km2, 0L),
+    Sites = as.character(length(sub_sets)),
+    Pop1822 = viscount_fmt_pop(sum(p1822_vals)),
+    LeadingSite = paste0(top_name, " (", top_pop, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+
+tot_sub_sets <- length(set_list)
+tot_p1822 <- sum(vapply(set_list, function (s) {
+  p <- s$population[["1822"]]
+  if (is.null(p) || is.na(p)) 0 else as.numeric(p)
+}, numeric(1)))
+
+tot_row <- data.frame(
+  Region = "Total Colonial Brazil",
+  Area = viscount_fmt_number(mod_data$total_area_km2, 0L),
+  Sites = as.character(tot_sub_sets),
+  Pop1822 = viscount_fmt_pop(tot_p1822),
+  LeadingSite = "Rio de Janeiro (112,0k)",
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, tot_row)
+
+viscount_table(
+  df_sum,
+  "Geographic distribution of 189 catalogued settlements across the six macro-regions of Colonial Brazil at 1822AD.",
+  c("Macro-Region", "Area (km²)", "Sites", "Summed 1822 Pop.", "Leading Centre (1822)"),
+  list(label = "tab:macro-summary", font_size = "footnotesize")
+)
+```
+
+The source ledger audit confirms that all 189 catalogued settlements derive from
+authentic archival corpora. Fifty primary entries were drawn from official
+captaincy censuses and royal statistical surveys compiled between 1776AD and
+1819AD [@alden1963population; @marcilio1984colonial], while 139 secondary parish
+localities were drawn from regional demographic monographs, municipal charters
+and ecclesiastical rolls [@schwartz1985sugar; @boxer1962golden;
+@botelho1998populacao; @versiani2003posse]. A terminal gap-hunter verification
+audit across historical maps and geographic gazetteers confirmed zero unaccounted
+settlements within the territorial bounds.
+
+# Leading Colonial Urban and Parish Centres
+
+Table \ref{tab:leading-centres} catalogues the leading 25 settlements across
+Colonial Brazil ranked by aggregate population at 1822AD. The listing includes
+administrative captaincy seats, maritime sugar ports and expansive rural parish
+districts.
+
+```{r tbl-leading-centres, results='asis'}
+p1822_all <- vapply(set_list, function (s) {
+  p <- s$population[["1822"]]
+  if (is.null(p) || is.na(p)) 0 else as.numeric(p)
+}, numeric(1))
+
+top25_indices <- order(-p1822_all, vapply(set_list, function (s) clean_str(s$name), character(1)))[1:25]
+top25_sets <- set_list[top25_indices]
+
+top25_rows <- lapply(top25_sets, function (s) {
+  st <- extract_state_code(s)
+  data.frame(
+    Settlement = clean_str(s$name),
+    State = st,
+    Foundation = fmt_yr(s$foundation_year),
+    Lat = fmt_lat(s$coords[[1]]),
+    Lon = fmt_lon(s$coords[[2]]),
+    P1750 = fmt_pop_val(s$population, "1750"),
+    P1800 = fmt_pop_val(s$population, "1800"),
+    P1822 = fmt_pop_val(s$population, "1822"),
+    stringsAsFactors = FALSE
+  )
+})
+df_top25 <- do.call(rbind, top25_rows)
+
+viscount_table(
+  df_top25,
+  "Leading twenty-five colonial settlements in Brazil ordered by 1822AD population.",
+  c("Settlement", "Captaincy", "Foundation", "Latitude", "Longitude", "1750AD", "1800AD", "1822AD"),
+  list(label = "tab:leading-centres", font_size = "scriptsize")
+)
+```
+
+# Bahia and Sergipe Gazetteer
+
+Bahia and Sergipe contain 23 catalogued colonial settlements, reflecting the
+early development of the Recôncavo sugar agro-industry, the municipal hub of
+Salvador and pastoral expansion across the Rio Paraguaçu and Rio São Francisco
+hinterlands [@schwartz1985sugar]. Table \ref{tab:bahia-sergipe} documents all 23
+settlements in the macro-region.
+
+```{r tbl-bahia-sergipe, results='asis'}
+bahia_sets <- Filter(function (s) identical(s$region_id, "cbr_bahia_sergipe"), set_list)
+bahia_rows <- lapply(bahia_sets, function (s) {
+  data.frame(
+    Settlement = clean_str(s$name),
+    State = extract_state_code(s),
+    Foundation = fmt_yr(s$foundation_year),
+    Lat = fmt_lat(s$coords[[1]]),
+    Lon = fmt_lon(s$coords[[2]]),
+    P1750 = fmt_pop_val(s$population, "1750"),
+    P1800 = fmt_pop_val(s$population, "1800"),
+    P1822 = fmt_pop_val(s$population, "1822"),
+    stringsAsFactors = FALSE
+  )
+})
+df_bahia <- do.call(rbind, bahia_rows)
+
+viscount_table(
+  df_bahia,
+  "Catalogued colonial settlements of Bahia and Sergipe (n=23).",
+  c("Settlement", "Captaincy", "Foundation", "Latitude", "Longitude", "1750AD", "1800AD", "1822AD"),
+  list(label = "tab:bahia-sergipe", font_size = "scriptsize")
+)
+```
+
+# Pernambuco and the North-East Gazetteer
+
+The north-eastern macro-region encompasses 56 catalogued colonial settlements
+spanning Pernambuco, Paraíba, Rio Grande do Norte, Alagoas and Ceará. The
+network includes coastal sugar capitals (Recife, Olinda, Igarassu), agro-pastoral
+parishes across the agreste (Itambé, Bom Jardim, Limoeiro) and dry sertão
+cattle junctions [@versiani2003posse; @marengo2021drought]. Table
+\ref{tab:pernambuco-ne} catalogues all 56 settlements.
+
+```{r tbl-pernambuco-ne, results='asis'}
+ne_sets <- Filter(function (s) identical(s$region_id, "cbr_pernambuco_northeast"), set_list)
+ne_rows <- lapply(ne_sets, function (s) {
+  data.frame(
+    Settlement = clean_str(s$name),
+    State = extract_state_code(s),
+    Foundation = fmt_yr(s$foundation_year),
+    Lat = fmt_lat(s$coords[[1]]),
+    Lon = fmt_lon(s$coords[[2]]),
+    P1750 = fmt_pop_val(s$population, "1750"),
+    P1800 = fmt_pop_val(s$population, "1800"),
+    P1822 = fmt_pop_val(s$population, "1822"),
+    stringsAsFactors = FALSE
+  )
+})
+df_ne <- do.call(rbind, ne_rows)
+
+viscount_table(
+  df_ne,
+  "Catalogued colonial settlements of Pernambuco, Paraíba, RN, Alagoas and Ceará (n=56).",
+  c("Settlement", "Captaincy", "Foundation", "Latitude", "Longitude", "1750AD", "1800AD", "1822AD"),
+  list(label = "tab:pernambuco-ne", font_size = "scriptsize")
+)
+```
+
+# Estado do Maranhão and Piauí Gazetteer
+
+Maranhão and Piauí comprise 16 catalogued colonial settlements, linking the
+maritime port of São Luís and the plantation districts of the Itapecuru valley
+with interior pastoral cattle centres in Piauí [@macnicoll1978seventeenth].
+Table \ref{tab:maranhao-piaui} catalogues all 16 settlements.
+
+```{r tbl-maranhao-piaui, results='asis'}
+ma_sets <- Filter(function (s) identical(s$region_id, "cbr_maranhao_piaui"), set_list)
+ma_rows <- lapply(ma_sets, function (s) {
+  data.frame(
+    Settlement = clean_str(s$name),
+    State = extract_state_code(s),
+    Foundation = fmt_yr(s$foundation_year),
+    Lat = fmt_lat(s$coords[[1]]),
+    Lon = fmt_lon(s$coords[[2]]),
+    P1750 = fmt_pop_val(s$population, "1750"),
+    P1800 = fmt_pop_val(s$population, "1800"),
+    P1822 = fmt_pop_val(s$population, "1822"),
+    stringsAsFactors = FALSE
+  )
+})
+df_ma <- do.call(rbind, ma_rows)
+
+viscount_table(
+  df_ma,
+  "Catalogued colonial settlements of Maranhão and Piauí (n=16).",
+  c("Settlement", "Captaincy", "Foundation", "Latitude", "Longitude", "1750AD", "1800AD", "1822AD"),
+  list(label = "tab:maranhao-piaui", font_size = "scriptsize")
+)
+```
+
+# Grão-Pará and Rio Negro Gazetteer
+
+Grão-Pará and the Rio Negro basin comprise 14 catalogued colonial settlements,
+anchored by the port of Belém and extending along the Amazon, Tapajós and Rio
+Negro riverine corridors [@sweet1974rich; @hemming1987amazon]. Table
+\ref{tab:grao-para} catalogues all 14 settlements.
+
+```{r tbl-grao-para, results='asis'}
+para_sets <- Filter(function (s) identical(s$region_id, "cbr_grao_para_rio_negro"), set_list)
+para_rows <- lapply(para_sets, function (s) {
+  data.frame(
+    Settlement = clean_str(s$name),
+    State = extract_state_code(s),
+    Foundation = fmt_yr(s$foundation_year),
+    Lat = fmt_lat(s$coords[[1]]),
+    Lon = fmt_lon(s$coords[[2]]),
+    P1750 = fmt_pop_val(s$population, "1750"),
+    P1800 = fmt_pop_val(s$population, "1800"),
+    P1822 = fmt_pop_val(s$population, "1822"),
+    stringsAsFactors = FALSE
+  )
+})
+df_para <- do.call(rbind, para_rows)
+
+viscount_table(
+  df_para,
+  "Catalogued colonial settlements of Grão-Pará and Rio Negro (n=14).",
+  c("Settlement", "Captaincy", "Foundation", "Latitude", "Longitude", "1750AD", "1800AD", "1822AD"),
+  list(label = "tab:grao-para", font_size = "scriptsize")
+)
+```
+
+# Minas Gerais, Goiás and Mato Grosso Gazetteer
+
+Minas Gerais, Goiás and Mato Grosso comprise 29 catalogued colonial
+settlements, representing the urban municipalities, mining encampments and
+agricultural parish jurisdictions founded during the eighteenth century gold and
+diamond rushes [@boxer1962golden; @botelho1998populacao; @paiva2001escravidao].
+Table \ref{tab:minas-interior} catalogues all 29 settlements.
+
+```{r tbl-minas-interior, results='asis'}
+minas_sets <- Filter(function (s) identical(s$region_id, "cbr_minas_goias_mato_grosso"), set_list)
+minas_rows <- lapply(minas_sets, function (s) {
+  data.frame(
+    Settlement = clean_str(s$name),
+    State = extract_state_code(s),
+    Foundation = fmt_yr(s$foundation_year),
+    Lat = fmt_lat(s$coords[[1]]),
+    Lon = fmt_lon(s$coords[[2]]),
+    P1750 = fmt_pop_val(s$population, "1750"),
+    P1800 = fmt_pop_val(s$population, "1800"),
+    P1822 = fmt_pop_val(s$population, "1822"),
+    stringsAsFactors = FALSE
+  )
+})
+df_minas <- do.call(rbind, minas_rows)
+
+viscount_table(
+  df_minas,
+  "Catalogued colonial settlements of Minas Gerais, Goiás and Mato Grosso (n=29).",
+  c("Settlement", "Captaincy", "Foundation", "Latitude", "Longitude", "1750AD", "1800AD", "1822AD"),
+  list(label = "tab:minas-interior", font_size = "scriptsize")
+)
+```
+
+# Rio de Janeiro, São Paulo and Southern Captaincies Gazetteer
+
+The south-eastern and southern macro-region contains 51 catalogued colonial
+settlements across Rio de Janeiro, Espírito Santo, São Paulo, Paraná, Santa
+Catarina and Rio Grande do Sul [@marcilio1986crescimento; @luna2003slavery].
+Table \ref{tab:rio-south} catalogues all 51 settlements.
+
+```{r tbl-rio-south, results='asis'}
+rio_sets <- Filter(function (s) identical(s$region_id, "cbr_rio_sao_paulo_sul"), set_list)
+rio_rows <- lapply(rio_sets, function (s) {
+  data.frame(
+    Settlement = clean_str(s$name),
+    State = extract_state_code(s),
+    Foundation = fmt_yr(s$foundation_year),
+    Lat = fmt_lat(s$coords[[1]]),
+    Lon = fmt_lon(s$coords[[2]]),
+    P1750 = fmt_pop_val(s$population, "1750"),
+    P1800 = fmt_pop_val(s$population, "1800"),
+    P1822 = fmt_pop_val(s$population, "1822"),
+    stringsAsFactors = FALSE
+  )
+})
+df_rio <- do.call(rbind, rio_rows)
+
+viscount_table(
+  df_rio,
+  "Catalogued colonial settlements of Rio de Janeiro, São Paulo and Southern Captaincies (n=51).",
+  c("Settlement", "Captaincy", "Foundation", "Latitude", "Longitude", "1750AD", "1800AD", "1822AD"),
+  list(label = "tab:rio-south", font_size = "scriptsize")
+)
+```
+
+# Methodological Considerations and Archival Provenance
+
+The interpretation of colonial Brazilian settlement populations requires careful
+distinction between nuclear urban cores and ecclesiastical parish territories
+[@domingues2021como; @marcilio1984colonial]. In metropolitan Europe, municipal
+counts typically enumerated nucleated urban residents residing within defensive
+walls or contiguous street grids. In Colonial Brazil, however, the primary
+demographic recording unit was the ecclesiastical parish (*freguesia* or
+*paróquia*) administered by a parish priest (*pároco* or *vigário*) under the
+direction of the bishopric [@alden1963population; @schwartz1985sugar].
+
+A parish jurisdiction frequently covered several hundred square kilometres of
+rural countryside. Large rural estates, sugar engenhos, cattle corrals and
+subsidiary hamlets were enumerated under the parish seat (*matriz*), explaining
+why interior agro-pastoral parishes such as Serro (74,4k), Itambé (67,5k) and
+Ponte Nova (63,1k) recorded populations exceeding major Atlantic port capitals.
+Town centres themselves remained relatively modest in permanent resident counts,
+serving primarily as sacramental, judicial and market meeting points where
+dispersed planters and rural families assembled on religious feast days and
+municipal elections [@boxer1965portuguese; @domingues2021como].
+
+Censuses compiled during the late colonial period under royal instructions
+systematically omitted unassimilated indigenous populations (*índios bravos*)
+inhabiting uncharted interior serras and autonomous communities of escaped
+slaves (*quilombos*) living beyond captaincy administrative borders
+[@hemming1978red; @schwartz1992slaves]. Consequently, the catalogued figures
+represent the effective settled population subject to colonial civil and
+ecclesiastical taxation, serving as the benchmark framework for regional
+spatial interpolation.
+
+# Sources
+
+<div id="refs"></div>

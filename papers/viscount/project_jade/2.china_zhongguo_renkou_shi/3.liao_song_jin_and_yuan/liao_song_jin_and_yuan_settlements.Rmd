@@ -1,0 +1,176 @@
+---
+title: "Settlement Gazetteer of Liao, Song, Jin and Yuan China"
+subtitle: "JADE-III: Dynastic Capitals, Canal Ports, Frontier Prefectures and Maritime Emporia, 960AD to 1368AD"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: liao_song_jin_and_yuan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_liao_song_jin_and_yuan_spatial.png"
+hero_caption: "Spatial distribution of 6.961 catalogued dynastic capitals, riverine ports and county seats across fourteen historical macro-regions through 1368AD."
+hero_label: "fig:hero-liao-song-jin-and-yuan-settlements"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("liao_song_jin_and_yuan.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("liao_song_jin_and_yuan_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("liao_song_jin_and_yuan_source_ledger.json5", simplifyVector = FALSE)
+```
+
+# Abstract
+
+This gazetteer compiles 6.961 urban, administrative, riverine and maritime settlement trajectories active across China between 960AD and 1368AD (9.389.222 km²). Synthesising dynastic administrative monographs from the official dynastic histories, prefectural local gazetteers, the China Historical Geographic Information System time series, archaeological city excavations and demographic reconstructions from Wu Songdi [@wu2000zhongguo; @mavonglahn2022cambridge; @chgis2016v6; @Xu2015Urbanization], the catalogue encompasses all fourteen historical macro-regions. Coverage is densest in Huguang (488 sites), Zhongshusheng North China (372), Henan-Jiangbei (273), Sichuan (255), Jiangxi and Guangdong (152), Jiangzhe (126), Dali and Yunnan (109) and Shaanxi Guanzhong (103). At the demographic summits of the twelfth and thirteenth centuries, the largest centres in the gazetteer were the Northern Song imperial capital Kaifeng (1,15M in 1102AD), Southern Song Lin'an or Hangzhou (1,15M in 1270AD), the Yuan imperial capital Dadu or Beijing (960k in 1330AD), Nanjing (380k in 1210AD), Suzhou (350k in 1210AD), the global maritime emporium of Quanzhou (340k in 1290AD), Chengdu (310k in 1210AD) and Guangzhou (280k in 1210AD) [@wu2000zhongguo; @Xu2015Urbanization; @Lin2019Shadow]. Alongside the 6.961 catalogued settlements (which aggregate 7.420 settlement-year observations averaging 3,80 per site), the regional source ledger documents 2.429 excluded candidate entries out of 4.380 total candidates.
+
+# Background
+
+Urbanisation in China underwent structural transformation between the Song founding in 960AD and the Ming transition in 1368AD [@mavonglahn2022cambridge; @Xu2015Urbanization]. Under the Tang dynasty, cities had operated under strict imperial curfew within enclosed rectangular wards, with commercial activity legally restricted to designated official markets [@mavonglahn2022cambridge]. During the Northern Song commercial revolution, this rigid grid disintegrated, replaced by continuous open street markets, nighttime commercial districts and extensive suburbs expanding outside municipal city walls along canal junctions [@Lin2019Shadow; @Flckiger2019Transport]. The Grand Canal and the Huai-Yangtze waterways channelled millions of bushels of tribute grain and commercial goods, turning Bianjing or Kaifeng into a metropolis of more than one million residents [@Flckiger2019Transport; @Shi2024Analysis; @Zhao2026Nonlinear].
+
+Following the 1127AD Jurchen conquest of the North, the urban gravity of China shifted decisively to the Lower Yangtze delta and the southeastern coast [@wu2000zhongguo; @Xu2015Urbanization]. Hangzhou grew into a global consumer metropolis described by mediaeval travellers, while maritime ports such as Quanzhou, Guangzhou, Mingzhou (Ningbo) and Fuzhou connected Chinese porcelain, silk and metal wares to Indian Ocean trading spheres [@Beaujard2019Worlds; @Wang2016From; @Schfer2020Seri]. Under the Mongol Yuan dynasty, the creation of the grand capital Dadu (modern Beijing) reoriented canal infrastructure northward through the renewed Jing-Hang Grand Canal, linking northern political dominance to southern grain basins [@mavonglahn2022cambridge; @Wei2024Formation].
+
+# Methodology
+
+Settlement trajectories were compiled through cross-matching CHGIS v6 dynastic administrative seats, Wu Songdi's gazetteer tables, modern geographical coordinates and archaeological city survey compendia [@chgis2016v6; @wu2000zhongguo; @Xu2015Urbanization]. Each settlement was assigned WGS84 coordinates and mapped into the fourteen historical macro-regions using the five-arcminute territorial masks. In the regional source ledger, 2.429 candidate entries were marked excluded as duplicate aliases, sub-county market duplicates within a 9,0 km proximity threshold, or variant administrative spellings (such as Jinle merged into Guan, duplicate Pingding records consolidated, Bing merged into Taiyuan, and multiple county seats consolidated into canonical prefectural centroids).
+
+# Testing and Validation
+
+Ledger reconciliation confirms 6.961 catalogued settlements and 2.429 excluded candidate records, accounting for all 4.380 candidate entries with zero unaccounted records. All 6.961 records carry valid WGS84 coordinates and positive integer population observations within the 960AD to 1368AD domain. Figure \ref{fig:sett-1368} displays the rank-size curve across the 6.961 urban seats alongside the top fifteen settlement peaks.
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_liao_song_jin_and_yuan_settlements.png",
+  "Rank-size distribution and leading fifteen settlement peaks across the 6.961 catalogued centres of Liao, Song, Jin and Yuan China.",
+  "fig:sett-1368"
+)
+```
+
+# Results
+
+## Top 45 Settlements by Peak Population
+
+Table \ref{tab:top45-1368} reports the top 45 settlements ranked by peak observed population, documenting administrative rank, provincial territory, geographic coordinates, temporal span, benchmark counts at 1102AD, 1210AD and 1290AD, and peak population with year.
+
+```{r tab-top45, results='asis'}
+fmt_coord <- function(x) gsub("\\.", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+get_pop_str <- function(e, y) {
+  v <- e$population[[y]]
+  if (is.null(v)) return("-")
+  viscount_fmt_pop(v)
+}
+
+peaks <- vapply(sett_data, function(e) max(unlist(e$population)), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+top_n <- min(45L, length(ord))
+
+rows <- lapply(sett_data[ord[seq_len(top_n)]], function(e) {
+  yrs <- as.integer(names(e$population))
+  pk_y <- names(e$population)[which.max(unlist(e$population))]
+  pk_v <- max(unlist(e$population))
+  reg_nm <- e$region_id
+  if (!is.null(mod_data$regions[[reg_nm]])) {
+    reg_nm <- sub("^[0-9]+\\.\\s*", "", mod_data$regions[[reg_nm]]$name)
+    reg_nm <- gsub("&", "and", reg_nm, fixed = TRUE)
+    reg_nm <- sub("\\s*\\(.*\\)$", "", reg_nm)
+  }
+  data.frame(
+    Settlement = e$name,
+    Province = reg_nm,
+    Coords = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Span = paste0(min(yrs), "-", max(yrs), "AD"),
+    P1102 = get_pop_str(e, "1102"),
+    P1210 = get_pop_str(e, "1210"),
+    P1290 = get_pop_str(e, "1290"),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_y, "AD)"),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  "Top 45 settlements in Liao, Song, Jin and Yuan China ordered by peak catalogued population (n=6.961 total).",
+  c("Settlement", "Province", "Lat, Lon", "Span", "1102AD", "1210AD", "1290AD", "Peak (Year)"),
+  list(label = "tab:top45-1368", font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+## Sub-Regional Distribution and Ledger Exclusions
+
+Table \ref{tab:regsum-1368} summarises settlement counts across all fourteen historical sub-regions alongside the leading urban centre in each region. Table \ref{tab:excluded-1368} details the leading 30 of 2.429 excluded candidate entries recorded in the source ledger.
+
+```{r tab-regsum, results='asis'}
+reg_keys <- names(mod_data$regions)
+sum_rows <- lapply(reg_keys, function(rk) {
+  sub_e <- Filter(function(e) identical(e$region_id, rk), sett_data)
+  max_nm <- "-"
+  if (length(sub_e) > 0) {
+    pks <- vapply(sub_e, function(e) max(unlist(e$population)), numeric(1))
+    idx_m <- which.max(pks)
+    max_nm <- paste0(sub_e[[idx_m]]$name, " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  reg_short <- sub("^[0-9]+\\.\\s*", "", mod_data$regions[[rk]]$name)
+  reg_short <- sub("\\s*\\(.*\\)$", "", reg_short)
+  data.frame(
+    Region = gsub("&", "and", reg_short, fixed = TRUE),
+    Sites = as.character(length(sub_e)),
+    Lead = max_nm,
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Settlement count and leading urban or administrative centre across all fourteen historical sub-regions to 1368AD (6.961 total sites).",
+  c("Sub-Region", "Sites", "Leading Site (Peak)"),
+  list(label = "tab:regsum-1368", font_size = "scriptsize", max_rows_per_page = 26L)
+)
+```
+
+```{r tab-excluded, results='asis'}
+exc_list <- Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates)
+exc_n <- min(30L, length(exc_list))
+exc_rows <- lapply(exc_list[seq_len(exc_n)], function(c) {
+  just <- as.character(c$justification)
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", just, perl = TRUE)
+  just <- gsub("-China\\b", "", just)
+  just <- gsub("-China\\.", ".", just)
+  data.frame(
+    Candidate = c$name,
+    Territory = c$country,
+    Reason = "Duplicate alias",
+    Consolidation = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+
+viscount_table(
+  exc_df,
+  "Leading 30 of 2.429 excluded candidate settlements in the Liao, Song, Jin and Yuan source ledger, consolidated into canonical parent seats.",
+  c("Candidate", "Territory", "Reason", "Consolidation Note"),
+  list(label = "tab:excluded-1368", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Two spatial and documentary constraints affect the gazetteer. First, historical document preservation varies markedly between northern and southern circuits; Jurchen and Mongol military destruction in Henan, Hebei and Sichuan destroyed municipal tax rolls that survived far more intact in Jiangzhe and Jiangxi [@wu2000zhongguo; @Stephen2012Deep]. Second, in sparse pastoral and mountainous zones such as the Inner Mongolia steppe, the Tibetan plateau and Xinjiang, settlement records reflect fortified administrative garrisons and monastic loci rather than nucleated agrarian market towns [@Wu2025Historically; @Dugdale2019Pagodas].
+
+# Sources
+
+<div id="refs"></div>

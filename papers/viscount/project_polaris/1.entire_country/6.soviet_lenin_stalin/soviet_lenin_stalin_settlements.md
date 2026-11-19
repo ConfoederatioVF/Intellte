@@ -3,11 +3,11 @@
 Between the First All-Union Census of December 1926 and the death of
 Joseph Stalin in March 1953, the urban network of the European and Asian
 Soviet Union was transformed by Five-Year-Plan industrialisation,
-wartime devastation and the expansion of the Gulag. Across the 8.674
+wartime devastation and the expansion of the Gulag. Across the 7.826
 towns, republic capitals, industrial centres and forced-labour camp
 settlements covered in this gazetteer, the combined catalogued
-population rose from 53,34M in 1926 to 88,39M at the 1939 census and
-106,69M across the 1953 benchmarks. Rapid industrial construction in the
+population rose from 44,42M in 1926 to 74,62M at the 1939 census and
+90,41M across the 1953 benchmarks. Rapid industrial construction in the
 1930s and factory evacuations during the Second World War multiplied the
 size of Moscow, Gorky and the coal and steel cities of the Donbas, the
 Urals, the Kuzbass and Western Siberia, while creating entirely new
@@ -24,13 +24,13 @@ Klaipeda and Yuzhno-Sakhalinsk.
 
 # Methodology
 
-This gazetteer traces the population of 8.674 towns, republic capitals,
+This gazetteer traces the population of 7.826 towns, republic capitals,
 Five-Year-Plan industrial boomtowns and Gulag camp centres across the 45
-Stalin-era regions of Estonia (64 settlements), Latvia (97 settlements),
+Stalin-era regions of Estonia (63 settlements), Latvia (96 settlements),
 Lithuania (113 settlements), Moldova (62 settlements), Belarus (Regions
-6-7, 306 settlements), Ukraine including Crimea (Regions 8-15, 2.296
+6-7, 270 settlements), Ukraine including Crimea (Regions 8-15, 2.074
 settlements) and Russia including Kaliningrad Oblast and Karelia (Region
-5 and Regions 16-45, 5.736 settlements) between 1926 and 1953.
+5 and Regions 16-45, 5.148 settlements) between 1926 and 1953.
 
 Population figures for 1926 and 1939 come from the All-Union Censuses of
 17 December 1926 and 17 January 1939, supplemented for the borderland
@@ -61,7 +61,7 @@ a hyphen (`-`).
 
 ## Regions 1 - 5: Baltic SSRs, Moldavian SSR and Kaliningrad Oblast
 
-Table gives the population of 379 settlements across Estonia (Region 1),
+Table gives the population of 375 settlements across Estonia (Region 1),
 Latvia (Region 2), Lithuania (Region 3), Moldova (Region 4) and
 Kaliningrad Oblast (Region 5)
 [\[6\]](#ref-balkelis2005vilnius)[\[12\]](#ref-casu2014moldova)[\[13\]](#ref-mertelsmann2009estonia)[\[14\]](#ref-strods2002priboi)[\[15\]](#ref-kostyashov2022kaliningrad).
@@ -143,7 +143,7 @@ Kaliningrad Oblast (Region 5)
 | Dusetos (Reg. 3) | Dusetos; Дусяты | 55,75, 25,85 (1926-1953) | 1,2k | 1,3k | 1,4k | 1,5k | 1,7k |
 | Dvinsk (Reg. 2) | Daugavpils; Dinaburg | 55,87, 26,54 (1926-1953) | 40,6k | 44,5k | 45,2k | 22k | 55k |
 | Edinet (Reg. 4) | Edineț; Edineţ | 48,17, 27,3 (1926-1953) | 11k | 10,9k | 10,4k | 9,9k | 9,3k |
-| Eishishkes (Reg. 3) | Eišiškės; Ejsk | 54,17, 25 (1926-1953) | 17,2k | 11,3k | 3,2k | 3k | 2,7k |
+| Eishishkes (Reg. 3) | Eišiškės; Ejsk | 54,17, 25 (1926-1953) | 3,4k | 3,4k | 3,2k | 3k | 2,7k |
 | Eleja (Reg. 2) | Eleja | 56,42, 23,68 (1926-1953) | 833 | 854 | 873 | 987 | 1,2k |
 | Elektrenai (Reg. 3) | Elektrėnai; Elektrènai | 54,79, 24,66 (1926-1953) | 81 | 96 | 110 | 121 | 139 |
 | Elva (Reg. 1) | Elwa; Elva | 58,22, 26,42 (1926-1953) | 1,4k | 1,7k | 1,8k | 2,2k | 3,5k |
@@ -260,7 +260,6 @@ Kaliningrad Oblast (Region 5)
 | Mitau (Reg. 2) | Jelgava; Mitava | 56,65, 23,72 (1926-1953) | 28,3k | 33,4k | 34,1k | 15,5k | 31k |
 | Moisakula (Reg. 1) | Mõisaküla; Moiseküll | 58,09, 25,19 (1926-1953) | 2k | 2,2k | 2,2k | 2,2k | 2,2k |
 | Moletai (Reg. 3) | Molėtai; Molètai | 55,22, 25,42 (1926-1953) | 1,8k | 1,8k | 1,8k | 1,9k | 1,9k |
-| Mozyr (Reg. 5) | Мозырь | 54,44, 21,48 (1926-1953) | 10,1k | 13,2k | 16,7k | 15,8k | 14,7k |
 | Mustla (Reg. 1) | Mustla | 58,13, 25,1 (1926-1953) | 756 | 917 | 832 | 835 | 932 |
 | Mustvee (Reg. 1) | Tschorna; Tschernoje | 58,85, 26,94 (1926-1953) | 2,8k | 2,8k | 2,1k | 2k | 2,2k |
 | Narva-Joesuu (Reg. 1) | Narva-Jõesuu; Hungerburg | 59,46, 28,04 (1926-1953) | 2,1k | 1,7k | 1,8k | 2,1k | 2,4k |
@@ -296,7 +295,6 @@ Kaliningrad Oblast (Region 5)
 | Plavinas (Reg. 2) | Pļaviņas; Stockmannshof | 56,62, 25,73 (1926-1953) | 1,6k | 1,9k | 1,8k | 2,3k | 3,2k |
 | Plunge (Reg. 3) | Plungė; Plungè | 55,91, 21,84 (1926-1953) | 4,5k | 5,2k | 5,8k | 6,6k | 7,7k |
 | Podgorovka (Reg. 5) | Подгоровка | 54,6, 22,32 (1926-1953) | 4,1k | 5,4k | 6,8k | 6,4k | 6k |
-| Podlipnoye (Reg. 5) | Подлипное | 54,84, 21,46 (1926-1953) | 5,5k | 7,3k | 9,2k | 8,7k | 8,1k |
 | Polessk (Reg. 5) | Полесск; Labiau | 54,86, 21,1 (1926-1953) | 5k | 5,9k | 6,5k | 6,2k | 5,7k |
 | Poltsamaa (Reg. 1) | Põltsamaa; Oberpahlen | 58,65, 25,97 (1926-1953) | 2,3k | 2,6k | 2,8k | 3k | 3,4k |
 | Polva (Reg. 1) | Põlva; Pölwe | 58,06, 27,07 (1926-1953) | 311 | 399 | 533 | 722 | 1,1k |
@@ -321,7 +319,6 @@ Kaliningrad Oblast (Region 5)
 | Rietavas (Reg. 3) | Retovo; Retowo | 55,73, 21,92 (1926-1953) | 1,8k | 2k | 2,2k | 2,4k | 2,6k |
 | Riga (Reg. 2) | Riia; Livland Capital | 56,95, 24,11 (1926-1953) | 339k | 378k | 385k | 228k | 520k |
 | Riscani (Reg. 4) | Rîșcani; Rîşcani | 47,95, 27,57 (1926-1953) | 3,4k | 3,5k | 3,5k | 3,6k | 3,7k |
-| Roja (Reg. 2) | Roja | 57,5, 22,81 (1926-1953) | 1,4k | 1,4k | 1,4k | 1,6k | 1,9k |
 | Rokishkis (Reg. 3) | Rokiškis; Rakishki | 55,96, 25,59 (1926-1953) | 4,4k | 4,8k | 5,5k | 5,5k | 5,5k |
 | Rudishkes (Reg. 3) | Rūdiškės | 54,52, 24,83 (1926-1953) | 942 | 1k | 1,1k | 1,2k | 1,4k |
 | Rujiena (Reg. 2) | Rūjiena; Rújiena | 57,9, 25,33 (1926-1953) | 4,8k | 4,4k | 4,2k | 4k | 3,7k |
@@ -401,7 +398,7 @@ Kaliningrad Oblast (Region 5)
 | Vainode (Reg. 2) | Vaiņode | 56,42, 21,85 (1926-1953) | 769 | 1k | 1,3k | 1,6k | 2,2k |
 | Valdemarpils (Reg. 2) | Valdemārpils; Sasmaka | 57,37, 22,59 (1926-1953) | 1,1k | 1,1k | 1,1k | 1,1k | 1,1k |
 | Valga (Reg. 1) | \- | 57,78, 26,05 (1926-1953) | 3,8k | 9,5k | 6,4k | 9,8k | 11,7k |
-| Valka (Reg. 2) | \- | 57,78, 26,01 (1926-1953) | 3,3k | 3,3k | 3,2k | 3,6k | 4,3k |
+| Valka (Reg. 2) | Walk; Valga | 57,78, 26,01 (1926-1953) | 3,3k | 3,3k | 3,2k | 3,6k | 4,3k |
 | Valmiera (Reg. 2) | Wolmar; Valmera | 57,54, 25,43 (1926-1953) | 8,2k | 8,4k | 8,3k | 9,2k | 10,5k |
 | Vandra (Reg. 1) | Vändra; (Alt)-Fennern | 58,65, 25,04 (1926-1953) | 663 | 898 | 1,1k | 1,2k | 1,5k |
 | Vangazhi (Reg. 2) | Vangaži | 57,09, 24,54 (1926-1953) | 1,4k | 1,5k | 1,5k | 1,7k | 2k |
@@ -432,7 +429,6 @@ Kaliningrad Oblast (Region 5)
 | Vosu (Reg. 1) | Võsu | 59,57, 25,98 (1926-1953) | 310 | 388 | 422 | 448 | 486 |
 | Vulcanesti (Reg. 4) | Vulcănești; Vulcăneşti | 45,68, 28,41 (1926-1953) | 6,2k | 6,9k | 7,7k | 8,6k | 10k |
 | Vzmorye (Reg. 5) | Взморье; Vzmor’je | 54,7, 20,24 (1926-1953) | 1,5k | 1,8k | 2k | 2,3k | 2,7k |
-| Walk (Reg. 1) | Valka; Valga | 57,78, 26,05 (1926-1953) | 14,5k | 11,2k | 9,4k | 9,9k | 12k |
 | Weissenstein (Reg. 1) | Paide; Veysenshteyn | 58,89, 25,54 (1926-1953) | 3,2k | 3,3k | 2,9k | 3,3k | 4,6k |
 | Wenden (Reg. 2) | Cesis; Venden | 57,31, 25,27 (1926-1953) | 7,8k | 8,3k | 8,5k | 9,8k | 12k |
 | Wesenberg (Reg. 1) | Rakvere; Vezenberg | 59,35, 26,36 (1926-1953) | 8,1k | 9,8k | 8,9k | 9,8k | 13k |
@@ -456,7 +452,7 @@ and uranium towns.
 
 ## Regions 6 - 7: Western and Eastern Belarus
 
-Table covers 306 settlements across Western Belarus (Region 6, led by
+Table covers 270 settlements across Western Belarus (Region 6, led by
 Brest, Grodno, Baranovichi, Molodechno, Pinsk and Lida) and Eastern
 Belarus (Region 7, led by Minsk, Vitebsk, Gomel, Mogilev, Bobruisk,
 Polotsk, Orsha, Borisov, Mozyr, Slutsk, Rechitsa and the razed village
@@ -466,7 +462,6 @@ of Khatyn)
 | Settlement | Other Names | Coords | 1926 | 1933 | 1939 | 1945 | 1953 |
 |:---|:---|:---|:---|:---|:---|:---|:---|
 | Agarodnya Gomelskaya (Reg. 7) | Агародня Гомельская; Aharodnia Homielskaja | 52,33, 31,55 (1926-1953) | 2,9k | 2,2k | 1,7k | 1,3k | 932 |
-| Aktsyabrski (Reg. 7) | Акцябрскі; Akciabrski | 54,87, 29,34 (1926-1953) | 321 | 388 | 457 | 467 | 480 |
 | Aktsyabrski (Reg. 7) | Акцябрскі; Akciabrski | 52,65, 28,88 (1926-1953) | 1,9k | 2,2k | 2,5k | 2,6k | 2,8k |
 | Albertyn (Reg. 6) | Альбертын; Albiertyn | 53,08, 25,4 (1926-1953) | 756 | 1k | 1,3k | 1,6k | 2,3k |
 | Antopal (Reg. 6) | Антопаль; Антополь | 52,2, 24,79 (1926-1953) | 4,9k | 9,8k | 7k | 5k | 3,2k |
@@ -475,7 +470,6 @@ of Khatyn)
 | Astraviec (Reg. 6) | Астравец; Островец | 54,61, 25,96 (1926-1953) | 459 | 737 | 1,1k | 1,7k | 2,9k |
 | Asvieja (Reg. 7) | Асвея; Освея | 56,01, 28,11 (1926-1953) | 1,8k | 2k | 2,3k | 2,3k | 2,2k |
 | Azarychy (Reg. 7) | Азарычы; Azaryčy | 52,46, 29,26 (1926-1953) | 1,7k | 2k | 2,3k | 2,6k | 3,1k |
-| Azyory (Reg. 6) | Озеры | 53,72, 24,18 (1926-1953) | 3,3k | 3,9k | 4,5k | 4,7k | 5,1k |
 | Babinovichi (Reg. 7) | Бабінавічы; Babinavičy | 54,83, 30,57 (1926-1953) | 1k | 967 | 912 | 860 | 796 |
 | Bahushewsk (Reg. 7) | Багушэўск; Bahušeŭsk | 54,84, 30,21 (1926-1953) | 1,2k | 2k | 3,3k | 4,1k | 5,5k |
 | Balshavik (Reg. 7) | Бальшавік; Balšavik | 52,56, 30,88 (1926-1953) | 1,5k | 1,8k | 2k | 2,1k | 2,3k |
@@ -486,7 +480,6 @@ of Khatyn)
 | Bierazino (Reg. 7) | Беразіно | 53,84, 28,99 (1926-1953) | 3k | 3,9k | 4,8k | 4,8k | 4,8k |
 | Bobr (Reg. 7) | Бобр | 54,34, 29,27 (1926-1953) | 2,5k | 2,5k | 2,6k | 2,7k | 2,7k |
 | Bobruisk (Reg. 7) | Babruysk; Bobrujsk Fortress | 53,14, 29,22 (1926-1953) | 51,3k | 68k | 84,1k | 52k | 84k |
-| Bocheykovo (Reg. 7) | Бочейково | 55,01, 29,15 (1926-1953) | 10,7k | 13k | 15,3k | 15,6k | 16,1k |
 | Bolbasovo (Reg. 7) | Балбасава; Bałbasava | 54,42, 30,29 (1926-1953) | 1,8k | 2,1k | 2,5k | 2,6k | 2,6k |
 | Borisov (Reg. 7) | Barysaw; Borisow | 54,22, 28,51 (1926-1953) | 25,8k | 32,5k | 33,4k | 23k | 48k |
 | Borovukha Pervaya (Reg. 7) | Баравуха; Baravucha | 55,59, 28,59 (1926-1953) | 2,3k | 2,8k | 3,3k | 3,4k | 3,5k |
@@ -500,7 +493,6 @@ of Khatyn)
 | Byarozawka (Reg. 6) | Бярозаўка; Biarozaŭka | 53,72, 25,5 (1926-1953) | 1,3k | 1,6k | 2k | 2,4k | 3,1k |
 | Byelitsk (Reg. 7) | Беліцк; Bielick | 52,94, 30,41 (1926-1953) | 640 | 753 | 865 | 906 | 964 |
 | Bykhov (Reg. 7) | Быхаў; Bychaŭ | 53,52, 30,23 (1926-1953) | 7,9k | 9,5k | 11k | 11,6k | 12,5k |
-| Byten (Reg. 6) | Бытень | 52,88, 25,5 (1926-1953) | 5,7k | 9,2k | 11,7k | 12,3k | 13,2k |
 | Chachersk (Reg. 7) | Чачэрск; Čačersk | 52,92, 30,92 (1926-1953) | 3,7k | 4,4k | 5,1k | 4,3k | 3,4k |
 | Chashniki (Reg. 7) | Чашнікі; Čašniki | 54,85, 29,17 (1926-1953) | 3k | 3,2k | 3,5k | 3,4k | 3,2k |
 | Chausy (Reg. 7) | Чавусы; Čavusy | 53,81, 30,97 (1926-1953) | 5,4k | 6,3k | 7,2k | 6,9k | 6,6k |
@@ -510,10 +502,8 @@ of Khatyn)
 | Damachava (Reg. 6) | Дамачава; Damačava | 51,74, 23,6 (1926-1953) | 1,7k | 2,1k | 2,5k | 2,9k | 3,6k |
 | Davyd-Haradok (Reg. 6) | Давыд-Гарадок; Давид-Городок | 52,06, 27,22 (1926-1953) | 10,6k | 11,4k | 11,7k | 10,9k | 9,9k |
 | Derechin (Reg. 6) | Деречинъ | 53,25, 24,92 (1926-1953) | 2,4k | 2,8k | 3,3k | 3,4k | 3,7k |
-| Derevno (Reg. 7) | Деревно | 54,51, 27,59 (1926-1953) | 7,3k | 9,3k | 11,5k | 12,3k | 13,4k |
 | Dobrush (Reg. 7) | Добруш; Dobruš | 52,41, 31,31 (1926-1953) | 6,1k | 9,5k | 13,8k | 13,9k | 14,1k |
 | Dokshytsy (Reg. 6) | Докшыцы; Dokšycy | 54,89, 27,77 (1926-1953) | 3,1k | 3,1k | 2,9k | 2,7k | 2,4k |
-| Doktorovichi (Reg. 7) | Докторовичи | 53,1, 27,21 (1926-1953) | 5,7k | 7,4k | 9,1k | 9,7k | 10,6k |
 | Dolginovo (Reg. 6) | Долгинов | 55,74, 27,79 (1926-1953) | 3,1k | 3,8k | 4,5k | 4,5k | 4,7k |
 | Drogichin (Reg. 6) | Драгічын; Drahičyn | 52,19, 25,16 (1926-1953) | 2,1k | 2,4k | 2,6k | 2,8k | 3,2k |
 | Druja (Reg. 6) | Друя | 55,79, 27,45 (1926-1953) | 4,9k | 9,3k | 8,3k | 7,4k | 6,4k |
@@ -525,16 +515,11 @@ of Khatyn)
 | Elsk (Reg. 7) | Ельск; Jelsk | 51,81, 29,15 (1926-1953) | 1,7k | 2,7k | 3,9k | 4,4k | 5,3k |
 | Fanipol (Reg. 7) | Фаніпаль; Fanipal | 53,75, 27,33 (1926-1953) | 2,4k | 2,9k | 3,4k | 3,7k | 4k |
 | Filipovo (Reg. 7) | Филипово | 55,66, 28,22 (1926-1953) | 1,8k | 2,2k | 2,5k | 2,6k | 2,7k |
-| Gantsevichi (Reg. 6) | Ганцевичи | 52,94, 26,21 (1926-1953) | 3,7k | 4,4k | 5,1k | 5,3k | 5,6k |
 | Glusha (Reg. 7) | Глуша; Hłuša | 53,1, 28,82 (1926-1953) | 791 | 1,3k | 1,9k | 1,9k | 1,9k |
 | Glusk (Reg. 7) | Глуск; Hłusk | 52,9, 28,68 (1926-1953) | 4,4k | 5,7k | 5,1k | 4,9k | 4,6k |
-| Gogolev (Reg. 7) | Гоголев; Гоголевъ | 52,34, 29,66 (1926-1953) | 7,1k | 8,4k | 9,6k | 10,2k | 11,1k |
 | Gomel (Reg. 7) | Homyel; Homel Mogilev Gub | 52,43, 30,98 (1926-1953) | 86,4k | 120,5k | 144,2k | 65k | 145k |
-| Gorelki (Reg. 6) | Горелки | 52,3, 24,07 (1926-1953) | 3,7k | 4,5k | 5,2k | 5,5k | 5,8k |
-| Gorki (Reg. 7) | Горки | 53,71, 31,43 (1926-1953) | 1,4k | 510 | 708 | 984 | 1,5k |
 | Gorodeya (Reg. 6) | Гарадзея; Haradzieja | 53,31, 26,54 (1926-1953) | 1,3k | 1,5k | 1,7k | 2k | 2,5k |
 | Gorodishche (Reg. 6) | Гарадзішча; Haradzišča | 53,32, 26,01 (1926-1953) | 1,1k | 1,4k | 1,6k | 1,6k | 1,7k |
-| Gorodishche Bolshoe (Reg. 6) | Городище Большое | 52,95, 26,12 (1926-1953) | 3,7k | 4,4k | 5,1k | 5,4k | 5,7k |
 | Gorodok (Reg. 7) | Гарадок; Haradok | 55,46, 29,98 (1926-1953) | 5,5k | 6,4k | 7,3k | 7,4k | 7,5k |
 | Gorodok (Reg. 6) | Городок; Городокъ | 52,09, 24,23 (1926-1953) | 3,2k | 3,8k | 4,5k | 4,7k | 5k |
 | Gorval (Reg. 7) | Горваль | 52,57, 30,19 (1926-1953) | 2,4k | 2,9k | 3,3k | 3,5k | 3,8k |
@@ -546,35 +531,28 @@ of Khatyn)
 | Horki (Reg. 7) | Горкі | 54,29, 30,99 (1926-1953) | 8,4k | 1k | 12,5k | 13,2k | 14,3k |
 | Hradzyanka (Reg. 7) | Градзянка; Hradzianka | 53,55, 28,74 (1926-1953) | 907 | 1,1k | 1,2k | 1,3k | 1,3k |
 | Hrozava (Reg. 7) | Грозава | 53,17, 27,33 (1926-1953) | 1k | 946 | 883 | 824 | 752 |
-| Iliya (Reg. 6) | Илия | 54,42, 27,3 (1926-1953) | 2,6k | 3,3k | 4,1k | 4,4k | 4,8k |
-| Indura (Reg. 6) | Індура | 53,46, 23,88 (1926-1953) | 2,5k | 2,6k | 2,5k | 2,4k | 2,2k |
 | Ivanovo (Reg. 6) | Іванава; Ivanava | 52,15, 25,53 (1926-1953) | 3,2k | 3,3k | 3,4k | 3,6k | 3,7k |
 | Ivatsevichi (Reg. 6) | Івацэвічы; Ivacevičy | 52,71, 25,34 (1926-1953) | 3,3k | 3,9k | 4,6k | 4,7k | 5k |
 | Ivyanyets (Reg. 6) | Івянец; Ivianiec | 53,89, 26,74 (1926-1953) | 2,3k | 2,4k | 2,5k | 2,6k | 2,8k |
 | Iwye (Reg. 6) | Іўе; Iŭje | 53,93, 25,78 (1926-1953) | 3k | 3,3k | 3,6k | 4k | 4,5k |
 | Kalinkovichi (Reg. 7) | Калінкавічы; Kalinkavičy | 52,13, 29,33 (1926-1953) | 6,2k | 7,9k | 9,8k | 11,1k | 13,2k |
-| Kamen (Reg. 7) | Камень; Kamień | 55,01, 28,88 (1926-1953) | 532 | 8,5k | 6,6k | 5,1k | 3,6k |
 | Kamenets (Reg. 6) | Камянец; Kamianiec | 52,4, 23,81 (1926-1953) | 2,7k | 3,1k | 3,2k | 3,3k | 3,5k |
 | Kapatkyevichy (Reg. 7) | Капаткевічы; Kapatkievičy | 52,32, 28,82 (1926-1953) | 2,6k | 2,5k | 2,4k | 2,2k | 2k |
 | Kapitanovo (Reg. 7) | Свято-Дмитриевка | 55,2, 30,03 (1926-1953) | 3,5k | 4,2k | 5k | 5,1k | 5,2k |
 | Kaptsevichy (Reg. 7) | Капцэвічы; Kapcevičy | 52,23, 28,32 (1926-1953) | 1,1k | 1,7k | 2,6k | 2,5k | 2,3k |
 | Kapyl (Reg. 7) | Капыль; Копыль | 53,15, 27,09 (1926-1953) | 3,9k | 4,5k | 5,1k | 5,2k | 5,3k |
-| Karpilovka (Reg. 7) | Карпиловка | 51,88, 30,12 (1926-1953) | 2,5k | 2,9k | 3,3k | 3,6k | 3,9k |
 | Kastsyukowka (Reg. 7) | Касцюкоўка; Kasciukoŭka | 52,54, 30,92 (1926-1953) | 4,5k | 5,3k | 6,1k | 6,2k | 6,3k |
 | Kazhan-Haradok (Reg. 6) | Кожанъ-Городокъ | 52,21, 27,01 (1926-1953) | 3,3k | 3,9k | 4,5k | 4,8k | 5,1k |
-| Khalochcha (Reg. 7) | Холочье | 52,78, 30,76 (1926-1953) | 8,4k | 9,9k | 11,4k | 12,1k | 13,2k |
 | Khatyn (Reg. 7) | Khatyn Logoisk | 54,33, 27,94 (1926-1939) | 140 | 155 | 156 | \- | \- |
 | Kholopenichi (Reg. 7) | Халапенічы; Chałapieničy | 54,52, 28,96 (1926-1953) | 2k | 2,3k | 2,5k | 2,5k | 2,6k |
-| Khomsk (Reg. 6) | Хомск; Хомскъ | 52,33, 25,23 (1926-1953) | 2,3k | 2,7k | 3,2k | 3,3k | 3,6k |
-| Khoroshcha (Reg. 6) | Хороща | 52,81, 25,25 (1926-1953) | 2,5k | 3k | 3,4k | 3,6k | 3,9k |
-| Khoroshevka (Reg. 7) | Хорошевка | 52,36, 31,6 (1926-1953) | 6,4k | 7,5k | 8,7k | 9,2k | 10,1k |
+| Khomsk (Reg. 6) | Хомск; Хомскъ | 52,33, 25,23 (1926-1953) | 1,6k | 1,5k | 1,4k | 1,4k | 1,4k |
+| Khoroshcha (Reg. 6) | Хороща | 52,81, 25,25 (1926-1953) | 2,8k | 2,8k | 2,8k | 2,8k | 2,8k |
 | Khotimsk (Reg. 7) | Хоцімск; Chocimsk | 53,41, 32,58 (1926-1953) | 2,9k | 3,1k | 3,2k | 3,6k | 4,2k |
 | Khoyniki (Reg. 7) | Хойнікі; Chojniki | 51,91, 29,98 (1926-1953) | 4,9k | 4k | 3,4k | 4,8k | 7,3k |
 | Kirovsk (Reg. 7) | Кіраўск; Kiraŭsk | 53,27, 29,47 (1926-1953) | 389 | 462 | 535 | 1,2k | 3,4k |
 | Kletsk (Reg. 6) | Клецк; Kleck | 53,06, 26,64 (1926-1953) | 5,8k | 5,7k | 5,3k | 4,9k | 4,4k |
 | Klichau (Reg. 7) | Клічаў; Kličaŭ | 53,49, 29,34 (1926-1953) | 1,7k | 2k | 2,3k | 2,6k | 3k |
 | Klimovichi (Reg. 7) | Клімавічы; Klimavičy | 53,6, 31,96 (1926-1953) | 7,6k | 8,6k | 9,6k | 10,1k | 10,9k |
-| Knyazishchevo (Reg. 7) | Князищево | 54,15, 31,51 (1926-1953) | 6,8k | 8,1k | 9,3k | 9,9k | 10,6k |
 | Kobryn (Reg. 6) | Кобрын; Кобрин | 52,21, 24,36 (1926-1953) | 9,1k | 11,2k | 15,3k | 14,8k | 14,2k |
 | Kokhanovo (Reg. 7) | Коханава; Kochanava | 54,46, 30 (1926-1953) | 1,2k | 1,3k | 1,4k | 1,5k | 1,6k |
 | Kolyshki (Reg. 7) | Колышки | 55,17, 30,96 (1926-1953) | 2,2k | 2,6k | 3,1k | 3,2k | 3,3k |
@@ -582,10 +560,8 @@ of Khatyn)
 | Kopys (Reg. 7) | Копысь; Kopyś | 54,32, 30,29 (1926-1953) | 3,6k | 3,8k | 4,1k | 902 | 1,3k |
 | Korelichi (Reg. 6) | Карэлічы; Kareličy | 53,56, 26,14 (1926-1953) | 985 | 1,3k | 1,7k | 2,2k | 3,1k |
 | Korma (Reg. 7) | Карма; Karma | 53,13, 30,8 (1926-1953) | 1,7k | 2,1k | 2,4k | 2,6k | 2,8k |
-| Korolevskaya Sloboda Vtoraya (Reg. 7) | Казимир | 52,93, 29,34 (1926-1953) | 4,3k | 5,1k | 5,8k | 6,2k | 6,8k |
 | Kosava (Reg. 6) | Косава; Коссово | 52,76, 25,16 (1926-1953) | 2,8k | 3,2k | 3,1k | 2,9k | 2,7k |
 | Kostyukovichi (Reg. 7) | Касцюковічы; Kasciukovičy | 53,35, 32,05 (1926-1953) | 3,2k | 4,6k | 6,1k | 6,6k | 7,4k |
-| Kostyukovka (Reg. 7) | Костюковка | 53,25, 30,95 (1926-1939) | 4,5k | 5,3k | 6,1k | \- | \- |
 | Kozlovshchina (Reg. 6) | Казлоўшчына; Kazłoŭščyna | 53,32, 25,28 (1926-1953) | 631 | 960 | 1,4k | 2k | 3,2k |
 | Krasnapollye (Reg. 7) | Краснаполле; Krasnapolle | 53,34, 31,4 (1926-1953) | 2,5k | 3,1k | 3,6k | 4k | 4,6k |
 | Krasnaselski (Reg. 6) | Краснасельскі; Krasnasielski | 53,26, 24,42 (1926-1953) | 2,7k | 3,2k | 3,8k | 3,9k | 4k |
@@ -601,7 +577,6 @@ of Khatyn)
 | Lapichy (Reg. 7) | Лапічы; Lapičy | 53,44, 28,54 (1926-1953) | 821 | 876 | 927 | 980 | 1,1k |
 | Lelchytsy (Reg. 7) | Лельчыцы; Lelčycy | 51,79, 28,33 (1926-1953) | 1,5k | 2k | 2,6k | 2,8k | 3,1k |
 | Lepel (Reg. 7) | Лепель; Lepiel | 54,88, 28,7 (1926-1953) | 6,7k | 9,9k | 13,8k | 12,4k | 10,8k |
-| Lesnichevka (Reg. 6) | Лесничевка | 55,75, 27,39 (1926-1953) | 4,6k | 5,6k | 6,6k | 6,7k | 6,9k |
 | Lida (Reg. 6) | Lida Vilna Gub; Lyda | 53,89, 25,3 (1926-1953) | 17,2k | 19,4k | 23,5k | 17k | 24k |
 | Liozno (Reg. 7) | Лёзна; Lozna | 55,02, 30,8 (1926-1953) | 2,6k | 3,3k | 4,1k | 4,2k | 4,3k |
 | Lipen (Reg. 7) | Ліпень; Lipień | 53,41, 28,82 (1926-1953) | 648 | 658 | 668 | 677 | 690 |
@@ -610,23 +585,19 @@ of Khatyn)
 | Luninyets (Reg. 6) | Лунінец; Łuniniec | 52,25, 26,8 (1926-1953) | 8,5k | 8,6k | 8,3k | 8,9k | 9,7k |
 | Lyady (Reg. 7) | Ляды; Lady | 54,6, 31,17 (1926-1953) | 3,6k | 2,8k | 2,3k | 2k | 1,7k |
 | Lyakhovichi (Reg. 6) | Ляхавічы; Lachavičy | 53,04, 26,26 (1926-1953) | 3,6k | 4,5k | 4,5k | 4,5k | 4,5k |
-| Lyakhovtsy (Reg. 6) | Ляховцы | 51,8, 24,2 (1926-1953) | 5,4k | 6,4k | 7,4k | 7,8k | 8,4k |
 | Lyntupy (Reg. 6) | Лынтупы; Łyntupy | 55,05, 26,31 (1926-1953) | 3,6k | 10k | 7,9k | 6,2k | 4,5k |
 | Lyuban (Reg. 7) | Любань; Lubań | 52,8, 28 (1926-1953) | 2,2k | 2,6k | 3k | 3,2k | 3,5k |
 | Lyubcha (Reg. 6) | Любча; Lubča | 53,75, 26,06 (1926-1953) | 1,1k | 1,5k | 1,9k | 2,5k | 3,4k |
 | Machulishchy (Reg. 7) | Мачулішчы; Mačuliščy | 53,78, 27,59 (1926-1953) | 1,9k | 2,3k | 2,7k | 2,9k | 3,2k |
-| Makovnya (Reg. 7) | Маковня | 53,99, 30,6 (1926-1953) | 14,1k | 16,6k | 19,2k | 20,3k | 21,8k |
 | Malorita (Reg. 6) | Маларыта; Małaryta | 51,79, 24,07 (1926-1953) | 2k | 2,4k | 2,8k | 3,3k | 4k |
 | Mar’Ina Gorka (Reg. 7) | Мар’іна Горка; Marjina Horka | 53,51, 28,15 (1926-1953) | 4,5k | 5,5k | 6,5k | 7,3k | 8,3k |
 | Mikashevichy (Reg. 6) | Мікашэвічы; Mikaševičy | 52,22, 27,48 (1926-1953) | 1,2k | 1,5k | 1,8k | 2,2k | 2,8k |
-| Milcha (Reg. 6) | Мильча | 54,68, 27,62 (1926-1953) | 98,1k | 125,6k | 155,4k | 165,6k | 180,2k |
 | Minsk (Reg. 7) | Mensk; Miensk | 53,9, 27,56 (1926-1953) | 131,8k | 180,9k | 238,9k | 110k | 390k |
 | Miory (Reg. 6) | Миоры | 55,62, 27,63 (1926-1953) | 10,1k | 10,7k | 10,5k | 10,3k | 10k |
 | Mir (Reg. 6) | Мір; Мир | 53,45, 26,47 (1926-1953) | 7,4k | 12,9k | 9k | 6,3k | 3,9k |
 | Mogilev (Reg. 7) | Mahilyow; Mogilev Stavka | 53,9, 30,33 (1926-1953) | 50,2k | 76k | 99,4k | 54k | 105k |
 | Molodechno (Reg. 6) | Maladzyechna; Molodeczno | 54,31, 26,85 (1926-1953) | 5,2k | 6,1k | 7,5k | 11k | 20k |
 | Mosty (Reg. 6) | Масты; Masty | 53,41, 24,54 (1926-1953) | 3,5k | 8k | 8k | 8k | 7,9k |
-| Motol (Reg. 6) | Мотоль | 52,31, 25,61 (1926-1953) | 13,4k | 16,4k | 20,9k | 22k | 23,6k |
 | Mozyr (Reg. 7) | Mazyr; Mozyr Pripyat | 52,05, 29,25 (1926-1953) | 14,3k | 16,2k | 17,5k | 13,5k | 21k |
 | Mscislau (Reg. 7) | Мсціслаў; Mscisłaŭ | 54,02, 31,72 (1926-1953) | 8k | 9,3k | 10,5k | 9,7k | 8,7k |
 | Myadzyel (Reg. 6) | Мядзель; Miadziel | 54,88, 26,94 (1926-1953) | 839 | 1,2k | 1,7k | 2,4k | 3,8k |
@@ -644,51 +615,44 @@ of Khatyn)
 | Oshmyany (Reg. 6) | Ошмяны | 54,42, 25,94 (1926-1953) | 8,7k | 9,1k | 9,4k | 9,8k | 10,3k |
 | Osintorf (Reg. 7) | Асінторф; Asintorf | 54,71, 30,66 (1926-1953) | 2,9k | 3,5k | 4,1k | 4,1k | 4,2k |
 | Osipovichi (Reg. 7) | Асіповічы; Asipovičy | 53,31, 28,63 (1926-1953) | 4k | 7,8k | 13,7k | 14,3k | 15,1k |
-| Ostryna (Reg. 6) | Астрына; Astryna | 53,73, 24,53 (1926-1953) | 8,8k | 9,7k | 6,8k | 4,8k | 3k |
-| Padbalotstsye (Reg. 6) | Подболотье | 53,24, 24,75 (1926-1953) | 3,2k | 3,8k | 4,4k | 4,6k | 5k |
+| Ostryna (Reg. 6) | Астрына; Astryna | 53,73, 24,53 (1926-1953) | 2,5k | 2,5k | 2,5k | 4,8k | 3k |
+| Padbalotstsye (Reg. 6) | Подболотье | 53,24, 24,75 (1926-1953) | 716 | 676 | 644 | 631 | 614 |
 | Padsvillye (Reg. 6) | Падсвілле; Padsville | 55,15, 27,96 (1926-1953) | 2,2k | 2,7k | 3,1k | 3,2k | 3,3k |
 | Parychy (Reg. 7) | Парычы; Paryčy | 52,8, 29,42 (1926-1953) | 3,5k | 3,6k | 3,7k | 3,2k | 2,6k |
 | Pastavy (Reg. 6) | Паставы; Поставы | 55,12, 26,83 (1926-1953) | 1,4k | 2,2k | 3,4k | 4,8k | 7,5k |
-| Peregon (Reg. 7) | Перегонъ | 53,33, 30,73 (1926-1953) | 21,4k | 25,3k | 29,2k | 30,9k | 33,2k |
 | Peski (Reg. 6) | Пески | 53,78, 25,4 (1926-1953) | 2,4k | 2,8k | 3,3k | 3,5k | 3,7k |
 | Petrikov (Reg. 7) | Петрыкаў; Pietrykaŭ | 52,13, 28,5 (1926-1953) | 5,7k | 5,7k | 5,8k | 6,2k | 6,7k |
 | Pinsk (Reg. 6) | Pinsk Polesia; Pinska | 52,11, 26,1 (1926-1953) | 28,5k | 31,9k | 36,4k | 21k | 34k |
 | Plyeshch-anitsy (Reg. 7) | Плешчаніцы; Pleščanicy | 54,42, 27,83 (1926-1953) | 1,7k | 2,6k | 3,7k | 4k | 4,4k |
-| Poddobryanka (Reg. 7) | Поддобрянка | 52,08, 31,18 (1926-1953) | 11,2k | 13,2k | 15,1k | 16,1k | 17,5k |
 | Pogranichnyy (Reg. 6) | Пагранічны; Pahraničny | 53,12, 23,97 (1926-1953) | 678 | 807 | 936 | 962 | 997 |
 | Polotsk (Reg. 7) | Polatsk; Polock | 55,49, 28,79 (1926-1953) | 21,5k | 25,8k | 29,6k | 16,5k | 38k |
 | Porazava (Reg. 6) | Поразава; Порозово | 52,94, 24,37 (1926-1953) | 2k | 2,3k | 2,7k | 3,1k | 3,7k |
 | Prawdzinski (Reg. 7) | Праўдзінскі; Praŭdzinski | 53,52, 27,83 (1926-1953) | 1,2k | 1,5k | 1,8k | 1,9k | 2,1k |
-| Prokopovichi (Reg. 6) | Прокоповичи | 53,45, 23,92 (1926-1953) | 7,7k | 9,2k | 10,7k | 11,2k | 12k |
 | Pruzhany (Reg. 6) | Пружаны; Pružany | 52,55, 24,45 (1926-1953) | 7,1k | 7,9k | 7,7k | 7,6k | 7,3k |
 | Pukhavichy (Reg. 7) | Пухавічы; Puchavičy | 53,53, 28,25 (1926-1953) | 2,2k | 2,1k | 2,1k | 2,1k | 2k |
 | Pukhovichi (Reg. 7) | Пуховичи | 55,45, 30,72 (1926-1953) | 2,2k | 2,6k | 3,1k | 3,1k | 3,2k |
 | Putno (Reg. 6) | Путно | 53,52, 23,81 (1926-1953) | 18k | 21,4k | 24,9k | 26,2k | 28,1k |
 | Pyershamayski (Reg. 6) | Першамайскі; Pieršamajski | 53,89, 25,41 (1926-1953) | 882 | 1k | 1,2k | 1,3k | 1,3k |
 | Radashkovichy (Reg. 6) | Радашковічы; Radaškovičy | 54,16, 27,24 (1926-1953) | 2,5k | 2,6k | 2,6k | 2,7k | 2,7k |
-| Radun (Reg. 6) | Радунь; Raduń | 54,05, 25 (1926-1953) | 13,3k | 13,5k | 10,2k | 7,6k | 5,2k |
+| Radun (Reg. 6) | Радунь; Raduń | 54,05, 25 (1926-1953) | 1,9k | 2k | 2,1k | 7,6k | 5,2k |
 | Rahachow (Reg. 7) | Рагачоў; Rahačoŭ | 53,09, 30,05 (1926-1953) | 11,2k | 13,2k | 15,2k | 13,4k | 11,5k |
 | Rakaw (Reg. 6) | Ракаў; Rakaŭ | 53,97, 27,06 (1926-1953) | 3,4k | 3,5k | 3,4k | 3,3k | 3,2k |
-| Rechen (Reg. 7) | Речень | 52,75, 27,85 (1926-1953) | 10,7k | 13,7k | 16,9k | 18k | 19,6k |
 | Rechitsa (Reg. 7) | Rechytsa; Рэчыца | 52,37, 30,39 (1926-1953) | 16,5k | 22k | 29,8k | 19,5k | 26k |
 | Rechytsa (Reg. 6) | Рэчыца; Rečyca | 51,86, 26,78 (1926-1953) | 1,5k | 1,8k | 2,1k | 2,2k | 2,3k |
 | Ros (Reg. 6) | Рось; Roś | 53,28, 24,41 (1926-1953) | 2,8k | 8,9k | 8,1k | 7,3k | 6,3k |
-| Rositsa (Reg. 7) | Росица | 55,92, 27,76 (1926-1953) | 14,6k | 17,7k | 20,8k | 21,2k | 21,9k |
 | Rossony (Reg. 7) | Расоны; Rasony | 55,91, 28,81 (1926-1953) | 919 | 1,1k | 1,3k | 1,8k | 2,8k |
 | Ruba (Reg. 7) | Руба | 55,3, 30,31 (1926-1953) | 2,4k | 2,9k | 3,4k | 3,5k | 3,6k |
-| Rudnya (Reg. 7) | Рудня | 55,78, 29,13 (1926-1953) | 2,6k | 3,1k | 3,7k | 3,8k | 3,9k |
 | Rudzyensk (Reg. 7) | Рудзенск; Rudziensk | 53,6, 27,86 (1926-1953) | 603 | 845 | 1,1k | 1,9k | 3,6k |
 | Ruzhany (Reg. 6) | Ружаны; Ružany | 52,87, 24,89 (1926-1953) | 3,8k | 3,9k | 3,7k | 3,4k | 3,1k |
 | Samakhva-lavichy (Reg. 7) | Самахвалавічы; Samachvałavičy | 53,74, 27,5 (1926-1953) | 594 | 671 | 746 | 828 | 953 |
 | Sasnovy Bor (Reg. 7) | Сасновы Бор; Сосновый Бор | 52,52, 29,6 (1926-1953) | 1,2k | 1,4k | 1,6k | 1,7k | 1,8k |
-| Senkov (Reg. 7) | Сеньковъ | 53,76, 29,58 (1926-1953) | 3k | 3,5k | 4,1k | 4,3k | 4,6k |
+| Senkov (Reg. 7) | Сеньковъ | 53,76, 29,58 (1926-1953) | 3k | 3k | 3k | 3k | 3k |
 | Senno (Reg. 7) | Сянно; Sianno | 54,81, 29,7 (1926-1953) | 3,5k | 3,9k | 4,3k | 4,6k | 5k |
 | Shamovo (Reg. 7) | Шамава; Šamava | 54,19, 31,36 (1926-1953) | 744 | 623 | 535 | 460 | 376 |
 | Sharashova (Reg. 6) | Шарашова; Šarašova | 52,56, 24,22 (1926-1953) | 3,4k | 3,6k | 3,6k | 3,6k | 3,6k |
 | Sharkovs-hchina (Reg. 6) | Шарковщина | 55,37, 27,47 (1926-1953) | 2,5k | 2,7k | 2,9k | 3,1k | 3,5k |
 | Shatsk (Reg. 7) | Шацк; Šack | 53,43, 27,7 (1926-1953) | 1,8k | 1,6k | 1,5k | 1,4k | 1,3k |
 | Shchuchyn (Reg. 6) | Шчучын; Ščučyn | 53,6, 24,75 (1926-1953) | 1,9k | 2,4k | 3,1k | 3,8k | 5,2k |
-| Shirki (Reg. 7) | Ширки | 54,02, 31,39 (1926-1953) | 4,8k | 5,7k | 6,5k | 6,9k | 7,4k |
 | Shklov (Reg. 7) | Шклоў; Škłoŭ | 54,21, 30,29 (1926-1953) | 8,3k | 8,2k | 8,1k | 8k | 7,9k |
 | Shumilino (Reg. 7) | Шуміліна; Šumilina | 55,3, 29,61 (1926-1953) | 1k | 1,6k | 2,3k | 2,8k | 3,8k |
 | Sirotino (Reg. 7) | Сиротино | 55,38, 29,62 (1926-1953) | 2,8k | 3,4k | 4k | 4,1k | 4,2k |
@@ -730,23 +694,20 @@ of Khatyn)
 | Ushachi (Reg. 7) | Ушачы; Ušačy | 55,18, 28,62 (1926-1953) | 1,2k | 1,6k | 2k | 2,1k | 2,2k |
 | Uvaravichy (Reg. 7) | Уваравічы; Uvaravičy | 52,6, 30,73 (1926-1953) | 2,7k | 3,3k | 3,9k | 3,9k | 3,8k |
 | Uzda (Reg. 7) | Узда | 53,46, 27,21 (1926-1953) | 2,5k | 3k | 3,5k | 3,6k | 3,8k |
-| Vasilishki (Reg. 6) | Василишки | 53,78, 24,85 (1926-1953) | 3,3k | 4k | 4,6k | 4,8k | 5,2k |
+| Vasilishki (Reg. 6) | Василишки | 53,78, 24,85 (1926-1953) | 3,7k | 3,5k | 3,4k | 3,3k | 3,2k |
 | Vasilyevichy (Reg. 7) | Васілевічы; Vasilevičy | 52,25, 29,83 (1926-1953) | 2,2k | 3,2k | 4,4k | 5,7k | 8k |
 | Vaukavysk (Reg. 6) | Ваўкавыск; Vaŭkavysk | 53,16, 24,45 (1926-1953) | 12,9k | 15,3k | 16,7k | 17,2k | 17,8k |
-| Velikoye Selo (Reg. 7) | Великое-Село | 54,94, 29,68 (1926-1953) | 4,9k | 5,9k | 7k | 7,1k | 7,3k |
 | Verkhnedvinsk (Reg. 7) | Верхнядзвінск; Vierchni-adzvinsk | 55,78, 27,94 (1926-1953) | 2,5k | 2,6k | 2,7k | 3k | 3,3k |
 | Verki (Reg. 6) | Верки | 55,49, 26,9 (1926-1953) | 3,5k | 4,3k | 5k | 5,1k | 5,3k |
 | Vetka (Reg. 7) | Vietka Chernobyl Zone; Ветка | 52,56, 31,18 (1926-1953) | 5,9k | 6k | 6k | 5,5k | 5k |
-| Vetka (Reg. 7) | Ветка; Vietka | 52,67, 30,63 (1926-1953) | 5,9k | 6k | 6k | 5,7k | 5,4k |
 | Vidzy (Reg. 6) | Відзы; Видзы | 55,4, 26,63 (1926-1953) | 982 | 1,2k | 1,4k | 1,7k | 2,1k |
 | Vileyka (Reg. 6) | Вілейка; Vilejka | 54,49, 26,91 (1926-1953) | 4,4k | 5,7k | 6,2k | 6,8k | 7,6k |
-| Vitchin (Reg. 6) | Вичинъ | 52,26, 26,94 (1926-1953) | 32,5k | 38,7k | 44,9k | 47,3k | 50,7k |
+| Vitchin (Reg. 6) | Вичинъ | 52,26, 26,94 (1926-1953) | 35,3k | 33,3k | 31,8k | 31,1k | 30,3k |
 | Vitebsk (Reg. 7) | Vitsebsk; Witebsk | 55,19, 30,2 (1926-1953) | 98,9k | 127k | 167,3k | 42k | 120k |
 | Volozhin (Reg. 6) | Валожын; Vałožyn | 54,09, 26,53 (1926-1953) | 3,9k | 5,6k | 5,4k | 5,2k | 5k |
 | Volyntsy (Reg. 7) | Валынцы; Vałyncy | 55,71, 28,19 (1926-1953) | 798 | 796 | 794 | 792 | 789 |
 | Voronovo (Reg. 6) | Воранава; Voranava | 54,15, 25,31 (1926-1953) | 1,3k | 1,4k | 1,4k | 1,5k | 1,6k |
 | Voropayevo (Reg. 6) | Варапаева; Varapajeva | 55,14, 27,21 (1926-1953) | 1,9k | 2,3k | 2,7k | 2,8k | 2,9k |
-| Vostochnyy (Reg. 7) | Усходні; Uschodni | 54,24, 29,82 (1926-1953) | 5,4k | 6,4k | 7,4k | 7,8k | 8,4k |
 | Vyalikaya Byerastavitsa (Reg. 6) | Вялікая Бераставіца; Vialikaja Bierastavica | 53,2, 24,02 (1926-1953) | 1,5k | 1,7k | 1,8k | 2k | 2,3k |
 | Vyetryna (Reg. 7) | Ветрына; Vietryna | 55,41, 28,47 (1926-1953) | 448 | 542 | 639 | 1,2k | 2,5k |
 | Vysochany (Reg. 7) | Высачаны; Vysačany | 54,98, 30,44 (1926-1953) | 880 | 1,3k | 1,9k | 1,6k | 1,4k |
@@ -754,7 +715,6 @@ of Khatyn)
 | Yakovlevichi (Reg. 7) | Якаўлевічы; Jakaŭlevičy | 54,33, 30,52 (1926-1953) | 354 | 428 | 504 | 489 | 470 |
 | Yalizava (Reg. 7) | Елизово | 53,4, 29 (1926-1953) | 3,3k | 3,9k | 4,5k | 4,3k | 4,1k |
 | Yampol (Reg. 7) | Ямполь | 52,25, 30,41 (1926-1926) | 6,3k | \- | \- | \- | \- |
-| Yanov (Reg. 7) | Янов | 53,73, 31,35 (1926-1953) | 8,6k | 10,2k | 11,8k | 12,5k | 13,4k |
 | Yanovichi (Reg. 7) | Янавічы; Janavičy | 55,29, 30,7 (1926-1953) | 2,2k | 2,1k | 2k | 1,7k | 1,3k |
 | Yasen (Reg. 7) | Ясень; Jasień | 53,25, 28,93 (1926-1953) | 701 | 2,5k | 958 | 890 | 807 |
 | Yezerishche (Reg. 7) | Езярышча; Jeziaryšča | 55,84, 29,99 (1926-1953) | 808 | 978 | 1,2k | 1,8k | 3,1k |
@@ -779,7 +739,7 @@ industrial rebuilding.
 
 ## Regions 8 - 11: Western, Right-Bank and Left-Bank Ukraine
 
-Table presents 1.331 settlements across Galicia and Volhynia (Region 8),
+Table presents 1.224 settlements across Galicia and Volhynia (Region 8),
 Northern Bukovina, Budjak and Transcarpathia (Region 9), Right-Bank
 Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 [\[9\]](#ref-rudnytskyi2015holodomor)[\[18\]](#ref-wolowyna2020holodomor)[\[19\]](#ref-polian2001against).
@@ -789,14 +749,10 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Ahronomichne (Reg. 10) | Агрономичне; Agronomichne | 49,19, 28,37 (1926-1953) | 3,1k | 3,1k | 3,1k | 3,1k | 3,1k |
 | Akhtyrka (Reg. 11) | Okhtyrka; Akhtyrka Sloboda | 50,31, 34,9 (1926-1953) | 27k | 27,8k | 28,4k | 29,5k | 30,9k |
 | Akkerman (Reg. 9) | Bilhorod-Dnistrovskyi; Cetatea Alba | 46,2, 30,34 (1926-1953) | 33,5k | 31k | 33,5k | 18,5k | 26k |
-| Aleksandrovka (Reg. 11) | Александровка | 49,8, 35,75 (1926-1953) | 3,5k | 4,1k | 4,6k | 4,8k | 5,1k |
-| Alekseyevka (Reg. 11) | Алексеевка | 49,75, 37,09 (1926-1953) | 7,5k | 8,6k | 9,7k | 10,2k | 10,8k |
 | Ananyiv (Reg. 10) | Ананьїв; Anańjiv | 47,72, 29,96 (1926-1953) | 18,2k | 9,9k | 5,9k | 6,5k | 7,3k |
 | Andriyivka (Reg. 11) | Андріївка; Andrijivka | 49,54, 36,63 (1926-1953) | 9,8k | 10,6k | 11,3k | 11,8k | 12,5k |
 | Andrushivka (Reg. 10) | Андрушівка; Andrušivka | 50,02, 29,02 (1926-1953) | 4,2k | 5,3k | 6,4k | 7,1k | 8,1k |
-| Andrushivka (Reg. 8) | Андрушовка | 50,23, 26,17 (1926-1953) | 5,8k | 6,1k | 6,4k | 6,8k | 7,3k |
 | Antoniny (Reg. 10) | Антоніни; Антонини | 49,81, 26,87 (1926-1953) | 3,3k | 3,2k | 3,1k | 3,5k | 4,2k |
-| Antonivka (Reg. 10) | Антоновка | 47,55, 29,62 (1926-1953) | 3,6k | 3,2k | 2,9k | 2,6k | 2,2k |
 | Artsyz (Reg. 9) | Арциз; Arcyz | 45,99, 29,43 (1926-1953) | 3k | 2,9k | 2,7k | 4,2k | 7,4k |
 | Atiusha (Reg. 11) | Атюша | 51,42, 32,99 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,2k | 2k |
 | Babanka (Reg. 10) | Бабанка; smt Babanka | 48,71, 30,44 (1926-1953) | 4,5k | 4,2k | 4k | 3,9k | 3,8k |
@@ -812,8 +768,8 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Balakliia (Reg. 11) | Balakleya; Балаклія | 49,46, 36,85 (1926-1953) | 8,5k | 10,9k | 13,6k | 15,6k | 18,6k |
 | Balanivka (Reg. 10) | Балановка | 48,4, 29,39 (1926-1953) | 4,5k | 4,3k | 4,2k | 4k | 3,9k |
 | Balta (Reg. 10) | Balta Podolia; Balta Fair Town | 47,94, 29,62 (1926-1953) | 23k | 18,2k | 21,1k | 14,5k | 19,5k |
-| Banyliv (Reg. 9) | Банилив; Baniliv | 48,37, 25,35 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,3k | 2,5k |
 | Banyliv-Pidhirnyi (Reg. 9) | Банилив-Пидгирний; Baniliv-Pidgirniy | 48,08, 25,48 (1926-1953) | 2k | 2,2k | 2,5k | 2,6k | 2,9k |
+| Banyliv (Reg. 9) | Банилив; Baniliv | 48,37, 25,35 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,3k | 2,5k |
 | Bar (Reg. 10) | Бар; Bar | 49,07, 27,67 (1926-1953) | 9,4k | 9,4k | 9,4k | 9,2k | 8,9k |
 | Barakhty (Reg. 10) | Барахты | 50,11, 30,37 (1926-1953) | 2,6k | 2,4k | 2,3k | 2,1k | 1,9k |
 | Baranivka (Reg. 10) | Баранівка; Баранивка | 50,3, 27,66 (1926-1953) | 5,4k | 5,9k | 6,3k | 6,3k | 6,2k |
@@ -827,7 +783,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Bazylivs-hchyna (Reg. 11) | Тагамлыкъ Мокрый | 49,48, 34,88 (1926-1953) | 3,4k | 3,1k | 2,8k | 2,5k | 2,2k |
 | Bedevlya (Reg. 9) | Бедевля | 48,01, 23,66 (1926-1953) | 1,6k | 1,8k | 2k | 2,2k | 2,5k |
 | Belz (Reg. 8) | Белз; Belz | 50,38, 24,01 (1926-1953) | 4,5k | 5,2k | 6,2k | 4,6k | 3k |
-| Bendiuhivka (Reg. 10) | Бендюговка | 49,89, 30,65 (1926-1953) | 66,2k | 65,3k | 64,6k | 70,6k | 79,5k |
 | Berdichev (Reg. 10) | Berdychiv; Berdyczow | 49,89, 28,6 (1926-1953) | 55,6k | 54k | 62k | 31k | 46k |
 | Beregszasz (Reg. 9) | Berehove; Beregovo | 48,21, 22,64 (1926-1953) | 15,4k | 19,6k | 20,9k | 22,2k | 24,2k |
 | Berehomet (Reg. 9) | Берегомет; smt Berehomet | 48,17, 25,33 (1926-1953) | 5,9k | 7,3k | 7,3k | 7,3k | 7,2k |
@@ -839,7 +794,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Berezhany (Reg. 8) | Бережани; Berežany | 49,45, 24,94 (1926-1953) | 10,8k | 11,6k | 11,5k | 11,4k | 11,3k |
 | Berezivka (Reg. 11) | Березівка; Березивка | 49,91, 36,07 (1926-1953) | 2,2k | 2,6k | 2,9k | 2,9k | 2,9k |
 | Berezivka (Reg. 11) | Березовка | 50,07, 32,47 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,7k | 1,4k |
-| Berezivka (Reg. 11) | Танюшевка | 49,62, 37,48 (1926-1953) | 2,1k | 2,1k | 2,1k | 2,1k | 2k |
 | Berezna (Reg. 11) | Березна; smt Berezna | 51,58, 31,79 (1926-1953) | 9,9k | 8,7k | 7,7k | 7,4k | 6,9k |
 | Berezne (Reg. 8) | Березне; Berezne | 51, 26,75 (1926-1953) | 8,5k | 2,9k | 3,2k | 3,4k | 3,8k |
 | Berkozivka (Reg. 10) | Беркозовка | 49,61, 31,24 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,4k |
@@ -847,9 +801,9 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Bessarabske (Reg. 9) | Бессарабське (Тарутине); Bessarabśke (Tarutyne) | 46,19, 29,15 (1926-1953) | 5,7k | 5,5k | 4,8k | 4,3k | 3,7k |
 | Bezliudivka (Reg. 11) | Безлюдівка; Bezljudivka | 49,87, 36,28 (1926-1953) | 5,7k | 7,2k | 8,8k | 8,3k | 7,8k |
 | Bibrka (Reg. 8) | Бібрка; Бибрка | 49,64, 24,29 (1926-1953) | 4,9k | 5,4k | 5,5k | 4,6k | 3,7k |
-| Bila (Reg. 8) | Била | 49,59, 25,58 (1926-1953) | 1,8k | 2,1k | 2,3k | 2,3k | 2,2k |
 | Bila Krynytsia (Reg. 10) | Біла Криниця; Bila Krynycja | 50,64, 29,47 (1926-1953) | 1,3k | 1,7k | 2,2k | 1,9k | 1,7k |
 | Bila Tserkva (Reg. 10) | Belaya Tserkov; Biala Cerkiew | 49,8, 30,12 (1926-1953) | 42,1k | 36,5k | 47,4k | 35k | 58k |
+| Bila (Reg. 8) | Била | 49,59, 25,58 (1926-1953) | 1,8k | 2,1k | 2,3k | 2,3k | 2,2k |
 | Bili Oslavy (Reg. 8) | Били Ослави; Bili Oslavi | 48,48, 24,7 (1926-1953) | 3,1k | 3,5k | 3,9k | 3,7k | 3,4k |
 | Biliaky (Reg. 11) | Беляки | 49,58, 33,43 (1926-1953) | 2,4k | 2,1k | 2k | 1,8k | 1,6k |
 | Bilky (Reg. 9) | Билки; Bilki | 48,31, 23,13 (1926-1953) | 3,2k | 3,6k | 3,9k | 4,3k | 4,8k |
@@ -859,7 +813,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Bilopillia (Reg. 11) | Білопілля; Bilopillja | 51,15, 34,31 (1926-1953) | 17,9k | 17,6k | 17,4k | 17,4k | 17,3k |
 | Bilotserkivka (Reg. 11) | Белоцерковка | 49,67, 33,79 (1926-1953) | 2,6k | 2,3k | 2k | 1,8k | 1,6k |
 | Bilotser-kivtsi (Reg. 11) | Белоцерковцы | 50,33, 32,73 (1926-1953) | 5,2k | 4,7k | 4,3k | 4,5k | 4,7k |
-| Bilousivka (Reg. 11) | Белоусовка | 50,36, 32,89 (1926-1953) | 4,3k | 3,9k | 3,6k | 3,7k | 3,9k |
 | Bilovod (Reg. 11) | Беловодъ | 50,67, 33,46 (1926-1953) | 3,9k | 3,4k | 3k | 2,7k | 2,3k |
 | Bilozirya (Reg. 10) | Билозир’я; Bilozir’Ya | 49,3, 31,89 (1926-1953) | 6,4k | 6,1k | 5,8k | 6k | 6,2k |
 | Bilshivtsi (Reg. 8) | Більшівці; Biľšivci | 49,18, 24,74 (1926-1953) | 2,8k | 3,6k | 3,3k | 3,1k | 2,8k |
@@ -868,14 +821,13 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Bilyi Kolodiaz (Reg. 11) | Білий Колодязь; Bilyj Kolodjaź | 50,2, 37,11 (1926-1953) | 4,2k | 4,8k | 5,4k | 5,7k | 6,1k |
 | Bilyky (Reg. 11) | Білики; Билики | 49,25, 34,27 (1926-1953) | 6,8k | 6,4k | 6,2k | 6,4k | 6,6k |
 | Birky (Reg. 11) | Бірки; Бирки | 49,72, 36,06 (1926-1953) | 2,2k | 2,5k | 2,8k | 2,7k | 2,6k |
-| Birky (Reg. 11) | Борки | 50,12, 34,17 (1926-1953) | 14,7k | 14,8k | 12,2k | 10k | 7,7k |
+| Birky (Reg. 11) | Борки | 50,12, 34,17 (1926-1953) | 3,2k | 3,1k | 3k | 2,9k | 7,7k |
 | Blahodatne (Reg. 8) | Благодатне (Жовтневе); Blahodatne (Žovtneve) | 50,66, 24,25 (1926-1953) | 5,6k | 6,4k | 7,1k | 6,5k | 5,8k |
 | Blyzniuky (Reg. 11) | Близнюки; Blyznjuky | 48,86, 36,55 (1926-1953) | 1,7k | 2k | 2,2k | 3,1k | 4,8k |
 | Bobrovytsia (Reg. 11) | Бобровиця; Bobrovycja | 50,75, 31,38 (1926-1953) | 7k | 7,2k | 7,3k | 7,9k | 8,7k |
 | Bobryk (Reg. 11) | Бобрик | 50,41, 34,24 (1926-1953) | 2,3k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Bochechky (Reg. 11) | Бочечки | 51,3, 33,41 (1926-1953) | 3,6k | 3,3k | 3,1k | 2,8k | 2,6k |
 | Bohdan (Reg. 9) | Богдан | 48,04, 24,34 (1926-1953) | 3,8k | 4,2k | 4k | 3,8k | 3,6k |
-| Bohodarove (Reg. 11) | Богодарово | 48,85, 36,96 (1926-1953) | 16,1k | 18,6k | 21k | 21,9k | 23,3k |
 | Bohodukhiv (Reg. 11) | Богодухів; Bohoduchiv | 50,16, 35,52 (1926-1953) | 16k | 16k | 16k | 16,5k | 17,2k |
 | Bohorodchany (Reg. 8) | Богородчани; Bohorodčany | 48,81, 24,54 (1926-1953) | 2,9k | 3,1k | 3,1k | 3k | 2,9k |
 | Bohuslav (Reg. 10) | Богуслав; Boguslav | 49,55, 30,87 (1926-1953) | 12,1k | 10,2k | 8,7k | 8,9k | 9,2k |
@@ -885,20 +837,17 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Bondurivka (Reg. 10) | Бондуровка | 49,04, 29,05 (1926-1953) | 2,7k | 2,4k | 2,2k | 2k | 1,8k |
 | Bondury (Reg. 11) | Бондури | 49,44, 34,35 (1926-1953) | 5,9k | 5,3k | 4,9k | 5,1k | 5,3k |
 | Borivka (Reg. 10) | Боровка | 48,5, 28,26 (1926-1953) | 4,8k | 4,6k | 4,4k | 4,2k | 4k |
-| Borodani (Reg. 10) | Бородани | 49,55, 30,75 (1926-1953) | 7,9k | 7,8k | 7,7k | 8,5k | 9,5k |
 | Borodianka (Reg. 10) | Бородянка; Borodjanka | 50,64, 29,92 (1926-1953) | 2,9k | 3,6k | 4,2k | 4,2k | 4,2k |
 | Boromlia (Reg. 11) | Боромля | 50,62, 34,97 (1926-1953) | 8,2k | 7,6k | 7,1k | 6,7k | 6,1k |
 | Borova (Reg. 10) | Борова; smt Borova | 50,18, 30,1 (1926-1953) | 2k | 2,9k | 4,1k | 4,8k | 6,1k |
 | Borova (Reg. 11) | Борова; smt Borova | 49,38, 37,62 (1926-1953) | 3,2k | 3,2k | 3,3k | 3,6k | 4,2k |
 | Borovenka (Reg. 11) | Боровенька | 50,47, 34,41 (1926-1953) | 1,6k | 1,5k | 1,3k | 1,2k | 1,1k |
 | Borshchiv (Reg. 8) | Борщів; Borščiv | 48,8, 26,03 (1926-1953) | 5,5k | 6k | 5,8k | 5,5k | 5,2k |
-| Bortniki (Reg. 10) | Бортники | 50,15, 27,5 (1926-1953) | 6,9k | 7,6k | 7,2k | 7,5k | 7,9k |
 | Bortnyky (Reg. 10) | Бертники | 50, 29,89 (1926-1953) | 5,1k | 5k | 4,9k | 5,4k | 6,1k |
 | Borynia (Reg. 8) | Бориня; Borynja | 49,07, 23,01 (1926-1953) | 5,3k | 6,3k | 5,4k | 4,7k | 3,8k |
 | Boryslav (Reg. 8) | Boryslaw; Tustanowice Oilfield | 49,29, 23,42 (1926-1953) | 19,6k | 42,7k | 46,1k | 40k | 33k |
 | Boryspil (Reg. 10) | Бориспіль; Boryspiľ | 50,35, 30,95 (1926-1953) | 11,6k | 12,5k | 13,3k | 14,3k | 15,9k |
 | Borzna (Reg. 11) | Борзна; Borzna | 51,25, 32,43 (1926-1953) | 10,9k | 10,7k | 10,5k | 10,4k | 10,2k |
-| Bovkun (Reg. 10) | Болкунъ | 49,58, 30,63 (1926-1953) | 18,8k | 18,6k | 18,4k | 20,1k | 22,6k |
 | Boyarka (Reg. 10) | Боярка; Bojarka | 50,32, 30,3 (1926-1953) | 4,4k | 6,3k | 8,6k | 11k | 15,3k |
 | Branytsia (Reg. 11) | Браница | 50,83, 31,39 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
 | Bratslav (Reg. 10) | Брацлав; Braclav | 48,82, 28,94 (1926-1953) | 7,8k | 5,4k | 4k | 4k | 4k |
@@ -908,7 +857,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Bronytska Huta (Reg. 10) | Броницька Гута; Bronyćka Huta | 50,93, 27,32 (1926-1953) | 1,1k | 1,3k | 1,4k | 1,6k | 1,8k |
 | Broshniv-Osada (Reg. 8) | Брошнів-Осада; Brošniv-Osada | 49, 24,19 (1926-1953) | 4,2k | 4,7k | 5,2k | 4,9k | 4,6k |
 | Brovary (Reg. 10) | Brovari; Бровари | 50,51, 30,79 (1926-1953) | 5,3k | 7k | 8,9k | 11k | 14,5k |
-| Brovky Pershi (Reg. 10) | Бровки | 49,93, 29,2 (1926-1953) | 17,9k | 19,5k | 21k | 21,3k | 21,7k |
 | Brusyliv (Reg. 10) | Брусилів; Брусилив | 50,28, 29,52 (1926-1953) | 5,1k | 5k | 4,9k | 4,7k | 4,4k |
 | Bryhadyrivka (Reg. 11) | Бригадировка | 49,56, 37,08 (1926-1953) | 2,5k | 2,3k | 2,1k | 2k | 1,8k |
 | Bryukhovychi (Reg. 8) | Брюховичі; Brjuchovyči | 49,9, 23,96 (1926-1953) | 4,2k | 4,7k | 5,2k | 5k | 4,8k |
@@ -922,7 +870,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Bugayevka (Reg. 11) | Бугаевка | 49,78, 37,15 (1926-1953) | 3,7k | 4,3k | 4,8k | 5k | 5,3k |
 | Bukachivtsi (Reg. 8) | Букачівці; Bukačivci | 49,25, 24,5 (1926-1953) | 2,3k | 2,5k | 2,6k | 2,7k | 2,9k |
 | Buky (Reg. 10) | Буки; smt Buky | 49,09, 30,41 (1926-1953) | 2,3k | 2,7k | 3,1k | 3,3k | 3,5k |
-| Buniakivka (Reg. 11) | Буняковка | 49,4, 33,91 (1926-1953) | 10,1k | 9,1k | 8,3k | 8,6k | 9,1k |
 | Burshtyn (Reg. 8) | Бурштин; Burštyn | 49,25, 24,63 (1926-1953) | 3,9k | 4,2k | 3,9k | 3,6k | 3,3k |
 | Buryn (Reg. 11) | Буринь; Buryń | 51,2, 33,83 (1926-1953) | 1,3k | 3,4k | 7,7k | 8k | 8,3k |
 | Bushtyno (Reg. 9) | Буштино; Buštyno | 48,05, 23,49 (1926-1953) | 2,5k | 2,9k | 3,2k | 3,6k | 4,1k |
@@ -940,17 +887,14 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Cherkassy (Reg. 10) | Cherkasy; Czerkasy | 49,44, 32,06 (1926-1953) | 39,5k | 37k | 51,7k | 38k | 68k |
 | Cherna (Reg. 9) | Черна | 48,14, 23,19 (1926-1953) | 2,9k | 3,3k | 3,7k | 3,5k | 3,4k |
 | Chernatske (Reg. 11) | Чернацкое | 52,18, 33,93 (1926-1953) | 2,3k | 2k | 1,9k | 1,7k | 1,5k |
-| Chernechchyna (Reg. 11) | Чернетчина | 49,12, 34,77 (1926-1953) | 4,9k | 4,3k | 3,9k | 3,5k | 3k |
 | Chernelytsia (Reg. 8) | Чернелиця; Černelycja | 48,81, 25,43 (1926-1953) | 3,1k | 2,9k | 2,8k | 2,6k | 2,4k |
 | Cherniakhiv (Reg. 10) | Черняхів; Černjachiv | 50,45, 28,67 (1926-1953) | 5,5k | 6,3k | 7,2k | 7k | 6,7k |
-| Cherniakhiv (Reg. 10) | Черняховъ | 50,01, 30,78 (1926-1953) | 3,9k | 3,6k | 3,3k | 3k | 2,7k |
 | Chernigov (Reg. 11) | Chernihiv; Czernihow | 51,5, 31,29 (1926-1953) | 35,2k | 42k | 68,6k | 36k | 72k |
 | Cherniiv (Reg. 8) | Черниїв; Cherniyiv | 48,86, 24,72 (1926-1953) | 2,6k | 3k | 3,3k | 3,1k | 2,9k |
 | Chernivtsi (Reg. 10) | Чернівці; Černivci | 48,54, 28,12 (1926-1953) | 2,5k | 4,7k | 7,8k | 6,5k | 5k |
 | Chernobyl (Reg. 10) | Chornobyl (Evacuated May 1986); Чорнобиль | 51,28, 30,22 (1926-1953) | 8,1k | 8,3k | 8,5k | 8k | 7,5k |
 | Chervone (Reg. 10) | Червоне; Červone | 49,96, 28,87 (1926-1953) | 3,3k | 3,7k | 4,1k | 4,2k | 4,3k |
 | Chervone (Reg. 11) | Червоне; smt Červone | 52,27, 33,45 (1926-1953) | 1,7k | 1,7k | 1,8k | 1,8k | 1,9k |
-| Chervonyi Yar (Reg. 9) | Китай | 45,58, 29,21 (1926-1953) | 25,9k | 28,5k | 31k | 33k | 36k |
 | Chetvert-ynivka (Reg. 10) | Четвертиновка | 48,59, 29,29 (1926-1953) | 2,8k | 2,6k | 2,5k | 2,4k | 2,2k |
 | Chop (Reg. 9) | Чоп; Čop | 48,43, 22,2 (1926-1953) | 3,4k | 3,5k | 3,4k | 3,8k | 4,4k |
 | Chopovychi (Reg. 10) | Чоповичі; Čopovyči | 50,83, 28,95 (1926-1953) | 2,4k | 1,9k | 1,5k | 1,5k | 1,4k |
@@ -982,7 +926,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Desna (Reg. 11) | Десна; smt Desna | 50,93, 30,77 (1926-1953) | 2,7k | 2,7k | 2,8k | 2,8k | 2,8k |
 | Dibrova (Reg. 10) | Діброва; Диброва | 51,16, 27,98 (1926-1953) | 922 | 1k | 1,1k | 1,2k | 1,2k |
 | Dihtiari (Reg. 11) | Дігтярі; Dihtjari | 50,58, 32,77 (1926-1953) | 1,9k | 1,9k | 2k | 2k | 2k |
-| Dmitrovka (Reg. 11) | Дмитровка | 49,73, 35,18 (1926-1953) | 15,3k | 13,9k | 12,7k | 13,2k | 13,9k |
 | Dmytrivka (Reg. 11) | Дмитрівка; Дмитривка | 50,94, 32,95 (1926-1953) | 4k | 4,1k | 4,1k | 4,3k | 4,6k |
 | Dmytrivka (Reg. 10) | Дмитривка; Dmitrivka | 50,46, 30,17 (1926-1953) | 1,4k | 1,4k | 1,4k | 1,6k | 1,8k |
 | Dmytrivka (Reg. 9) | Дмитривка; Dmitrivka | 45,97, 28,99 (1926-1953) | 2,6k | 2,6k | 2,6k | 2,8k | 2,9k |
@@ -1003,9 +946,9 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Drahovo (Reg. 9) | Драгово; Dragovo | 48,24, 23,55 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,3k | 2,6k |
 | Drohobych (Reg. 8) | Drogobych; Drohobycz | 49,35, 23,51 (1926-1953) | 29,5k | 32,6k | 37,2k | 25k | 36k |
 | Druzhba (Reg. 10) | Дружба; Družba | 51,19, 27,97 (1926-1953) | 414 | 465 | 513 | 522 | 534 |
-| Druzhba (Reg. 8) | Дружба; Družba | 49,37, 25,64 (1926-1953) | 603 | 680 | 753 | 739 | 720 |
 | Druzhba (Reg. 11) | Дружба; Družba | 50,8, 32,36 (1926-1953) | 348 | 355 | 361 | 364 | 369 |
 | Druzhba (Reg. 11) | Дружба | 50,49, 35,34 (1926-1953) | 3,6k | 3,7k | 3,8k | 4k | 4,1k |
+| Druzhba (Reg. 8) | Дружба; Družba | 49,37, 25,64 (1926-1953) | 603 | 680 | 753 | 739 | 720 |
 | Dubliany (Reg. 8) | Дубляни; Dubljany | 49,9, 24,09 (1926-1953) | 4,3k | 4,9k | 5,4k | 5,2k | 5k |
 | Dubno (Reg. 8) | Дубно; Dubno | 50,41, 25,76 (1926-1953) | 13,5k | 13,9k | 20k | 19,6k | 19k |
 | Dubove (Reg. 9) | Дубове; smt Dubove | 48,17, 23,89 (1926-1953) | 4,3k | 4,6k | 5k | 5,5k | 6,1k |
@@ -1027,18 +970,14 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Fastivets (Reg. 10) | Фастовецъ | 50,06, 30,04 (1926-1953) | 2,7k | 2,4k | 2,2k | 2,1k | 1,9k |
 | Fastivtsi (Reg. 11) | Фастовцы | 51,04, 32,58 (1926-1953) | 2,8k | 2,5k | 2,3k | 2,1k | 1,9k |
 | Fedorivka (Reg. 11) | Федоровка | 48,99, 36,16 (1926-1953) | 11,8k | 13,6k | 15,4k | 16,1k | 17,1k |
-| Furmanivka (Reg. 9) | Фурмановка | 45,64, 29,23 (1926-1953) | 67,9k | 74,7k | 81,1k | 86,5k | 94,3k |
-| Gaysin (Reg. 10) | Гайсин; Hajsyn | 49,23, 29,07 (1926-1953) | 15,3k | 15,1k | 14,8k | 15,6k | 16,8k |
-| Golubivka (Reg. 10) | Киселевка; Голубовка | 49,68, 29,16 (1926-1953) | 1,7k | 7,4k | 26,6k | 27k | 27,4k |
+| Gaysin (Reg. 10) | Гайсин; Hajsyn | 48,81, 29,38 (1926-1953) | 15,3k | 15,1k | 14,8k | 15,6k | 16,8k |
 | Hadyach (Reg. 11) | Гадяч; Hadjač | 50,37, 34 (1926-1953) | 10,2k | 10,5k | 10,7k | 11k | 11,4k |
 | Hai-Moshenka (Reg. 11) | Мошонка | 50,25, 34,83 (1926-1953) | 8,1k | 8,4k | 8,6k | 8,8k | 9k |
 | Halych (Reg. 8) | Галич; Halyč | 49,12, 24,73 (1926-1953) | 3,9k | 4,4k | 4,3k | 4,2k | 4,1k |
-| Halytsia (Reg. 11) | Галица | 50,76, 32,03 (1926-1953) | 3k | 2,8k | 2,7k | 2,5k | 2,3k |
 | Handrabury (Reg. 10) | Гандрабуры | 47,72, 29,87 (1926-1953) | 4k | 3,8k | 3,6k | 3,5k | 3,3k |
 | Hanychi (Reg. 9) | Ганичи; Ganichi | 48,13, 23,82 (1926-1953) | 2,1k | 2,4k | 2,7k | 2,9k | 3,3k |
 | Hatne (Reg. 10) | Гатне; Gatne | 50,36, 30,41 (1926-1953) | 2k | 2,1k | 2,1k | 2,4k | 2,8k |
 | Havrylivka (Reg. 11) | Гаврилівка | 49,41, 37,51 (1926-1953) | 2k | 2,3k | 2,6k | 2,5k | 2,3k |
-| Hayvoron (Reg. 11) | Гайворон; Гайворонъ | 50,98, 32,92 (1926-1953) | 2,3k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Heivka (Reg. 11) | Геевка | 49,5, 36,49 (1926-1953) | 5,1k | 5,9k | 6,7k | 7k | 7,4k |
 | Helmiaziv (Reg. 10) | Гельмязив; Gelmyaziv | 49,82, 31,84 (1926-1953) | 5,6k | 5,5k | 5,4k | 5,3k | 5,2k |
 | Hermanivka (Reg. 10) | Германовка | 49,99, 30,56 (1926-1953) | 2,8k | 2,7k | 2,5k | 2,4k | 2,3k |
@@ -1071,13 +1010,11 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Horodnia (Reg. 11) | Городня; Horodnja | 51,89, 31,6 (1926-1953) | 5k | 6k | 7,1k | 7,6k | 8,3k |
 | Horodnye (Reg. 9) | Городнє; Gorodnye | 45,89, 28,85 (1926-1953) | 4,4k | 4,4k | 4,4k | 4,4k | 4,4k |
 | Horodnytsia (Reg. 10) | Городниця; Horodnycja | 50,81, 27,31 (1926-1953) | 2,7k | 3,8k | 5,1k | 5,2k | 5,3k |
-| Horodok (Reg. 10) | Городок; Gorodok | 50,59, 29,46 (1926-1953) | 1,3k | 1,5k | 1,6k | 1,6k | 1,7k |
-| Horodok (Reg. 8) | Городок; Gorodok | 49,78, 23,65 (1926-1953) | 11,6k | 12,6k | 12k | 11,3k | 10,6k |
 | Horodok (Reg. 10) | Городок; Gorodok | 49,17, 26,56 (1926-1953) | 7,8k | 7,6k | 7,4k | 7,7k | 8,1k |
+| Horodok (Reg. 8) | Городок; Gorodok | 49,78, 23,65 (1926-1953) | 11,6k | 12,6k | 12k | 11,3k | 10,6k |
 | Horodyshche (Reg. 10) | Городище; Horodyšče | 49,29, 31,44 (1926-1953) | 13,5k | 14k | 14,5k | 14,9k | 15,6k |
-| Horodyshche (Reg. 8) | Городище; Gorodishche | 50,64, 26,37 (1926-1953) | 1,3k | 1,5k | 1,6k | 1,8k | 2k |
-| Horodyshche (Reg. 11) | Городище | 51,63, 32,95 (1926-1953) | 2,7k | 2,4k | 2,3k | 2,1k | 1,9k |
 | Horodyshche (Reg. 10) | Городище | 50,27, 31 (1926-1953) | 18,9k | 18,7k | 18,5k | 20,2k | 22,7k |
+| Horodyshche (Reg. 8) | Городище; Gorodishche | 50,64, 26,37 (1926-1953) | 1,3k | 1,5k | 1,6k | 1,8k | 2k |
 | Horokhiv (Reg. 8) | Горохів; Horochiv | 50,5, 24,76 (1926-1953) | 5,1k | 6,2k | 6,9k | 6k | 5,1k |
 | Horokhovatka (Reg. 11) | Гороховатка | 49,34, 37,53 (1926-1953) | 2,2k | 1,9k | 1,7k | 1,6k | 1,4k |
 | Horonda (Reg. 9) | Горонда; Goronda | 48,38, 22,57 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,3k |
@@ -1087,7 +1024,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Hostomel (Reg. 10) | Gostomel; Гостомель | 50,57, 30,27 (1926-1953) | 2,2k | 3,3k | 4,7k | 5,1k | 5,6k |
 | Hovtva (Reg. 11) | Голтва | 49,42, 33,87 (1926-1953) | 1,7k | 1,5k | 1,3k | 1,2k | 1k |
 | Hrabove (Reg. 10) | Грабова | 48,02, 29,04 (1926-1953) | 3,2k | 3k | 2,8k | 2,6k | 2,3k |
-| Hradysk (Reg. 8) | Градиск | 51,38, 25,34 (1926-1953) | 1,8k | 1,6k | 1,4k | 1,3k | 1,1k |
 | Hradyzk (Reg. 11) | Градизьк; Hradyźk | 49,24, 33,14 (1926-1953) | 12k | 10,5k | 9,3k | 9,3k | 9,3k |
 | Hranitne (Reg. 10) | Гранітне; Гранитне | 50,58, 28,55 (1926-1953) | 1,1k | 1,2k | 1,4k | 1,4k | 1,4k |
 | Hraniv (Reg. 10) | Грановъ | 48,87, 29,56 (1926-1953) | 5,3k | 5k | 4,7k | 4,4k | 4k |
@@ -1103,7 +1039,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Hupalivka (Reg. 11) | Гупаловка | 49,11, 34,74 (1926-1953) | 3,5k | 3,2k | 3k | 2,8k | 2,6k |
 | Husiatyn (Reg. 10) | Гусятин; Husjatyn | 49,07, 26,2 (1926-1953) | 2,4k | 2,6k | 2,4k | 2,3k | 2,1k |
 | Huszt (Reg. 9) | Khust; Maramaros Huszt | 48,18, 23,3 (1926-1953) | 14,2k | 18,1k | 18,7k | 19,4k | 20,2k |
-| Huty (Reg. 11) | Гути; smt Huty | 50,13, 35,34 (1926-1953) | 2,4k | 2,8k | 3,2k | 4k | 5,3k |
 | Hvardiiske (Reg. 10) | Фельштинъ | 49,34, 26,7 (1926-1953) | 2,1k | 2,1k | 2,1k | 2,1k | 2,1k |
 | Hvizdets (Reg. 8) | Гвіздець; Hvizdeć | 48,58, 25,28 (1926-1953) | 1,9k | 1,8k | 1,6k | 1,6k | 1,4k |
 | Ichnia (Reg. 11) | Ічня; Ičnja | 50,86, 32,39 (1926-1953) | 12k | 13,2k | 14,3k | 14k | 13,5k |
@@ -1117,8 +1052,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Iskorost (Reg. 10) | Искорость | 50,91, 28,66 (1926-1953) | 3,6k | 3,9k | 4,2k | 4,3k | 4,3k |
 | Ismail (Reg. 9) | Izmail; Tuchkov | 45,35, 28,83 (1926-1953) | 37k | 26,4k | 28k | 24k | 41k |
 | Ispas (Reg. 9) | Испас | 48,3, 25,27 (1926-1953) | 1,9k | 2,2k | 2,4k | 2,6k | 2,8k |
-| Ivanchukivka (Reg. 11) | Иванчуковка | 49,37, 37,19 (1926-1953) | 18,5k | 21,3k | 24,1k | 25,2k | 26,7k |
-| Ivanhorod (Reg. 11) | Ивангород; Ивангородъ | 51,03, 32,46 (1926-1953) | 3,5k | 3,1k | 2,8k | 2,5k | 2,2k |
 | Ivaniv (Reg. 10) | Иванив; Яновъ | 49,49, 28,34 (1926-1953) | 5,1k | 5k | 4,9k | 4,8k | 4,7k |
 | Ivankiv (Reg. 10) | Іванків; Иванкив | 50,94, 29,9 (1926-1953) | 2,7k | 3,2k | 3,7k | 4k | 4,5k |
 | Ivankivtsi (Reg. 9) | Иванковцы | 48,45, 25,67 (1926-1953) | 3,4k | 3,2k | 3k | 2,8k | 2,6k |
@@ -1131,8 +1064,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Iziaslav (Reg. 10) | Ізяслав; Izjaslav | 50,12, 26,82 (1926-1953) | 11,7k | 11,6k | 11,6k | 11,6k | 11,6k |
 | Izyum (Reg. 11) | Izium; Izyum Donets | 49,21, 37,26 (1926-1953) | 12,5k | 21k | 34,9k | 21k | 34k |
 | Kaharlyk (Reg. 10) | Кагарлик; Kagarlik | 49,86, 30,82 (1926-1953) | 8,1k | 8,6k | 9,1k | 9,1k | 9k |
-| Kalius (Reg. 10) | Калюсъ | 48,63, 27,32 (1926-1953) | 3,1k | 3k | 2,9k | 3,1k | 3,2k |
-| Kalna (Reg. 10) | Кувакъ Новый | 49,27, 27,54 (1926-1953) | 2,3k | 2k | 1,8k | 1,7k | 1,5k |
 | Kalush (Reg. 8) | Kalush Galicia; Калуш | 49,01, 24,37 (1926-1953) | 9k | 12,5k | 13,8k | 13,5k | 13,1k |
 | Kalynivka (Reg. 10) | Калинівка; Калинивка | 49,46, 28,52 (1926-1953) | 2,4k | 3,6k | 5k | 5,9k | 7,4k |
 | Kalynivka (Reg. 10) | Калинівка; Kalynivka | 50,56, 30,82 (1926-1953) | 1,6k | 1,7k | 1,7k | 1,9k | 2,2k |
@@ -1140,17 +1071,15 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Kalyta (Reg. 10) | Калита; smt Kalyta | 50,75, 31,02 (1926-1953) | 12,7k | 11,2k | 10,1k | 9,1k | 8k |
 | Kamenets-Podolsky (Reg. 10) | Kamianets-Podilskyi; Kamieniec Podolski | 48,68, 26,59 (1926-1953) | 32,1k | 29,5k | 35,1k | 21k | 34k |
 | Kamiana Yaruha (Reg. 11) | Каменная Яруга | 49,89, 36,6 (1926-1953) | 2,3k | 2,3k | 2,2k | 2,2k | 2,2k |
-| Kamianka (Reg. 11) | Камянка | 49,4, 36,41 (1926-1953) | 2,6k | 2,4k | 2,3k | 2,1k | 1,9k |
 | Kamianka (Reg. 11) | Каменка | 49,12, 37,29 (1926-1953) | 1,6k | 1,5k | 1,4k | 1,3k | 1,3k |
 | Kamin-Kashyrskyi (Reg. 8) | Камінь-Каширський; Kamiń-Kašyrśkyj | 51,63, 24,96 (1926-1953) | 1,5k | 2k | 2,5k | 3,2k | 4,3k |
+| Kamyanka-Buzka (Reg. 8) | Кам’янка-Бузька; Kam’janka-Buźka | 50,11, 24,34 (1926-1953) | 7,2k | 7,9k | 7,9k | 7,9k | 7,9k |
 | Kamyanka (Reg. 10) | Кам’янка; Kam’janka | 49,04, 32,1 (1926-1953) | 7,1k | 7,5k | 7,8k | 8,8k | 10,3k |
 | Kamyanka (Reg. 9) | Кам’янка; Kam’Yanka | 48,03, 25,9 (1926-1953) | 2,9k | 3,3k | 3,7k | 3,9k | 4,3k |
-| Kamyanka-Buzka (Reg. 8) | Кам’янка-Бузька; Kam’janka-Buźka | 50,11, 24,34 (1926-1953) | 7,2k | 7,9k | 7,9k | 7,9k | 7,9k |
 | Kamyanyi Brid (Reg. 10) | Кам’яний Брід; Kam’janyj Brid | 50,42, 27,84 (1926-1953) | 2,1k | 1,6k | 2,3k | 2,7k | 3,2k |
 | Kaniv (Reg. 10) | Канів; Канив | 49,75, 31,47 (1926-1953) | 8,1k | 8,1k | 8k | 7,8k | 7,6k |
 | Kapitanivka (Reg. 10) | Капітанівка; Капитанивка | 48,92, 31,72 (1926-1953) | 3,3k | 3k | 2,7k | 2,9k | 3,3k |
 | Karlivka (Reg. 11) | Карлівка; Карливка | 49,46, 35,13 (1926-1953) | 6,1k | 8,1k | 10,3k | 11,4k | 13,1k |
-| Karpylivka (Reg. 8) | Карпиловка | 51,39, 25,03 (1926-1953) | 4,3k | 4k | 3,8k | 3,5k | 3,3k |
 | Katerynopil (Reg. 10) | Калинопіль (Катеринопіль); Kalynopiľ (Katerynopiľ) | 48,95, 30,97 (1926-1953) | 7,6k | 7k | 6,5k | 6,2k | 5,8k |
 | Katiuzhanka (Reg. 10) | Катюжанка; Katyuzhanka | 50,81, 30,14 (1926-1953) | 1,6k | 1,7k | 1,8k | 1,9k | 2k |
 | Katlabuh (Reg. 9) | Катлабуг (Суворове); Katlabuh (Suvorove) | 45,58, 28,98 (1926-1953) | 4,3k | 4,4k | 4,7k | 5k | 5,5k |
@@ -1160,7 +1089,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Kharkov (Reg. 11) | Kharkiv; Sloboda Capital | 49,99, 36,23 (1926-1953) | 417,3k | 654k | 832,9k | 455k | 810k |
 | Khlystunivka (Reg. 10) | Хлыстуновка | 49,21, 31,45 (1926-1953) | 3,1k | 3k | 2,9k | 2,8k | 2,6k |
 | Khmeliv (Reg. 11) | Хмелев; Хмелевъ | 50,89, 33,48 (1926-1953) | 3,2k | 2,9k | 2,7k | 2,5k | 2,3k |
-| Khmelivka (Reg. 10) | Хмелевка | 49,31, 26,63 (1926-1953) | 7,8k | 7,5k | 7,3k | 7,6k | 8,1k |
 | Khmilnyk (Reg. 10) | Хмільник; Chmiľnyk | 49,56, 27,96 (1926-1953) | 10,8k | 8,9k | 7,5k | 8,9k | 11,2k |
 | Khodoriv (Reg. 8) | Ходорів; Chodoriv | 49,41, 24,31 (1926-1953) | 5,7k | 7,6k | 7,3k | 7,8k | 8,4k |
 | Khodorkiv (Reg. 10) | Ходорковъ | 50,1, 29,31 (1926-1953) | 2,1k | 2k | 2k | 1,9k | 1,8k |
@@ -1174,15 +1102,12 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Khoruzhivka (Reg. 11) | Хоружовка | 49,99, 32,67 (1926-1953) | 6,2k | 5,6k | 5,1k | 5,3k | 5,6k |
 | Khotimlia (Reg. 11) | Хотомля | 50,02, 36,88 (1926-1953) | 2,9k | 2,7k | 2,5k | 2,4k | 2,1k |
 | Khotin (Reg. 9) | Khotyn; Hotin | 48,51, 26,49 (1926-1953) | 16,6k | 15,1k | 14,5k | 13,1k | 11,4k |
-| Khotin (Reg. 11) | Хотінь; Chotiń | 51,08, 34,77 (1926-1953) | 3,1k | 3,2k | 3,3k | 3,1k | 2,9k |
 | Khotiv (Reg. 10) | Хотив | 50,33, 30,47 (1926-1953) | 3,1k | 3,2k | 3,2k | 3,6k | 4,2k |
 | Khotsky (Reg. 10) | Хоцки | 49,91, 31,65 (1926-1953) | 3k | 2,8k | 2,6k | 2,5k | 2,3k |
-| Khrestyteleve (Reg. 10) | Крестителево | 49,73, 32,52 (1926-1953) | 5k | 4,5k | 4k | 3,6k | 3,1k |
 | Khrystynivka (Reg. 10) | Христинівка; Chrystynivka | 48,81, 29,97 (1926-1953) | 2,6k | 3,9k | 5,5k | 6,2k | 7,5k |
 | Khudoliivka (Reg. 10) | Худолеевка | 49,23, 32,34 (1926-1953) | 2,3k | 2k | 1,9k | 1,7k | 1,5k |
 | Khukhra (Reg. 11) | Хухра | 50,21, 34,82 (1926-1953) | 3,4k | 3,2k | 3k | 2,9k | 2,7k |
 | Khutir-Mykhaylivskyi (Reg. 11) | Хутір-Михайлівський (Дружба); Chutir-Mychajlivśkyj (Družba) | 52,05, 33,95 (1926-1953) | 2,8k | 4k | 5,4k | 6,4k | 8,1k |
-| Khutor Dergachi (Reg. 11) | Деркачи | 49,96, 35,48 (1926-1953) | 8,7k | 9,2k | 9,6k | 10k | 10,6k |
 | Khyriv (Reg. 8) | Хирів; Chyriv | 49,53, 22,85 (1926-1953) | 3,2k | 3,8k | 3,6k | 3,5k | 3,2k |
 | Khyttsi (Reg. 11) | Хитцы | 50,4, 34 (1926-1953) | 2,6k | 2,3k | 2,1k | 1,9k | 1,6k |
 | Kiliya (Reg. 9) | Кілія; Kilija | 45,44, 29,26 (1926-1953) | 16,4k | 17k | 16,6k | 17,6k | 19,1k |
@@ -1208,24 +1133,22 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Kodyma (Reg. 10) | Кодима; Kodima | 48,1, 29,13 (1926-1953) | 5,3k | 5,9k | 6,4k | 6,5k | 6,7k |
 | Kolchyno (Reg. 9) | Кольчино; Koľčyno | 48,47, 22,76 (1926-1953) | 650 | 807 | 997 | 1,2k | 1,6k |
 | Kolinkivtsy (Reg. 9) | Колинкивци; Kolinkivtsi | 48,41, 26,12 (1926-1953) | 2k | 2,3k | 2,5k | 2,7k | 2,9k |
-| Kolky (Reg. 8) | Колки; smt Kolky | 51,1, 25,67 (1926-1953) | 7,1k | 20,4k | 12,7k | 8k | 4,2k |
+| Kolky (Reg. 8) | Колки; smt Kolky | 51,1, 25,67 (1926-1953) | 7,1k | 2,1k | 2,2k | 8k | 4,2k |
 | Kolochava (Reg. 9) | Колочава; Koločava | 48,43, 23,7 (1926-1953) | 3,2k | 3,6k | 3,7k | 3,9k | 4,1k |
 | Kolomak (Reg. 11) | Коломак; smt Kolomak | 49,84, 35,3 (1926-1953) | 5,7k | 3,6k | 2,5k | 3,4k | 5,2k |
 | Kolomyia (Reg. 8) | Kolomea; Kolomyja | 48,53, 25,04 (1926-1953) | 34,4k | 34,9k | 38,3k | 36,1k | 33,3k |
 | Kolontayiv (Reg. 11) | Колонтаев; Колонтаевъ | 49,98, 34,96 (1926-1953) | 3,8k | 3,4k | 3,1k | 2,9k | 2,6k |
 | Komariv (Reg. 9) | Комаров | 48,56, 26,99 (1926-1953) | 2,3k | 2,2k | 2,1k | 2,1k | 2k |
-| Komariv (Reg. 8) | Комаровъ | 51,19, 24,26 (1926-1953) | 20,2k | 21,4k | 22,5k | 20,2k | 17,5k |
 | Komarivka (Reg. 11) | Комарівка | 49,29, 37,48 (1926-1953) | 2,5k | 2,8k | 3,2k | 3,3k | 3,5k |
 | Komarivka (Reg. 11) | Комаровка | 51,24, 32,14 (1926-1953) | 4,1k | 4,1k | 4,2k | 3,8k | 3,4k |
 | Komarno (Reg. 8) | Комарно; Komarno | 49,63, 23,7 (1926-1953) | 5,3k | 5,6k | 5,6k | 4,7k | 3,8k |
 | Komyshnya (Reg. 11) | Комишня; Komyšnja | 50,19, 33,68 (1926-1953) | 7,3k | 6,1k | 5,2k | 4,9k | 4,7k |
 | Konotop (Reg. 11) | Konotop Rail Hub; Konotop Chernigov | 51,24, 33,2 (1926-1953) | 33,6k | 36k | 45,9k | 34k | 48k |
-| Konotop (Reg. 11) | Конотоп | 51,74, 31,7 (1926-1953) | 21,7k | 22,1k | 22,5k | 22,5k | 22,6k |
 | Konstanti-novka (Reg. 11) | Константиновка | 50,04, 37,65 (1939-1939) | \- | \- | 3,8k | \- | \- |
 | Kopaihorod (Reg. 10) | Копайгород; Kopajhorod | 48,85, 27,8 (1926-1953) | 1,2k | 2k | 2,9k | 3,4k | 4,2k |
 | Kopychyntsi (Reg. 8) | Копичинці; Kopyčynci | 49,1, 25,91 (1926-1953) | 8,2k | 7,9k | 6,2k | 4,9k | 3,6k |
 | Korets (Reg. 8) | Корець; Koreć | 50,62, 27,16 (1926-1953) | 4,4k | 4k | 4,3k | 4,6k | 5k |
-| Korneshty (Reg. 9) | Корнешты | 48,5, 26,18 (1926-1953) | 4,3k | 4,6k | 4,8k | 5,2k | 5,8k |
+| Korneshty (Reg. 9) | Корнешты | 48,5, 26,18 (1926-1953) | 226 | 214 | 204 | 200 | 194 |
 | Kornyn (Reg. 10) | Корнин; smt Kornyn | 50,1, 29,54 (1926-1953) | 3,3k | 3,7k | 4,1k | 4,3k | 4,5k |
 | Korobchyne (Reg. 11) | Коробочкино | 49,78, 36,81 (1926-1953) | 2,8k | 2,8k | 2,8k | 2,8k | 2,7k |
 | Korolevo (Reg. 9) | Королево; smt Korolevo | 48,16, 23,14 (1926-1953) | 4,1k | 4,7k | 4,9k | 5k | 5,3k |
@@ -1240,11 +1163,9 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Koryukivka (Reg. 11) | Корюківка; Korjukivka | 51,77, 32,25 (1926-1953) | 6,6k | 8,2k | 9,7k | 9,7k | 9,7k |
 | Kosiv (Reg. 8) | Косів; Косив | 48,32, 25,09 (1926-1953) | 4,9k | 5,6k | 5,7k | 5,8k | 5,9k |
 | Kosivska Poliana (Reg. 9) | Косивська Поляна; Kosivska Polyana | 48, 24,11 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,3k | 2,6k |
-| Koskiv (Reg. 10) | Коськовъ | 49,98, 27,13 (1926-1953) | 17,5k | 16,9k | 16,4k | 17,1k | 18,1k |
 | Kosmach (Reg. 8) | Космач | 48,33, 24,81 (1926-1953) | 4k | 4,5k | 5k | 4,7k | 4,4k |
 | Kostopil (Reg. 8) | Костопіль; Kostopiľ | 50,88, 26,45 (1926-1953) | 4,6k | 6,7k | 7,2k | 8,3k | 10,2k |
 | Kostryzhivka (Reg. 9) | Кострижівка; Kostryživka | 48,65, 25,71 (1926-1953) | 660 | 915 | 1,1k | 1,4k | 1,8k |
-| Kostyant-ynivka (Reg. 11) | Костянтинівка; Kostjant-ynivka | 49,95, 35,11 (1926-1953) | 2,9k | 3,4k | 3,8k | 3,9k | 3,9k |
 | Kotelva (Reg. 11) | Котельва; Koteľva | 50,07, 34,75 (1926-1953) | 20,3k | 16,3k | 13,6k | 13,1k | 12,4k |
 | Kotsyubynske (Reg. 10) | Коцюбинське; Kocjubynśke | 50,49, 30,33 (1926-1953) | 3,8k | 3,9k | 3,9k | 4,4k | 5,1k |
 | Kovalivka (Reg. 11) | Ковалевка | 49,61, 34,71 (1926-1953) | 3,5k | 3,3k | 3,3k | 3,2k | 3k |
@@ -1263,22 +1184,18 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Krasiatychi (Reg. 10) | Красятичі; Krasjatyči | 51,08, 29,64 (1926-1953) | 1,1k | 1,1k | 1k | 991 | 944 |
 | Krasna (Reg. 8) | Красна | 48,57, 24,7 (1926-1953) | 531 | 548 | 618 | 697 | 818 |
 | Krasne (Reg. 8) | Красне; smt Krasne | 49,91, 24,61 (1926-1953) | 11,3k | 12,4k | 9,6k | 7,4k | 5,3k |
-| Krasne (Reg. 11) | Красное | 51,29, 31,27 (1926-1953) | 11,3k | 12,7k | 10,5k | 8,7k | 6,8k |
 | Krasnohirka (Reg. 10) | Красногорка | 48,54, 28,91 (1926-1953) | 2k | 1,8k | 1,6k | 1,4k | 1,2k |
 | Krasnokutsk (Reg. 11) | Краснокутськ; Krasnokutśk | 50,07, 35,16 (1926-1953) | 9,9k | 8,3k | 7,1k | 7,5k | 8,2k |
 | Krasnopa-vlivka (Reg. 11) | Краснопавлівка; Краснопавливка | 49,14, 36,32 (1926-1953) | 5,7k | 6,5k | 7,4k | 7,7k | 8,2k |
 | Krasnopillia (Reg. 11) | Краснопілля; Krasnopillja | 49,16, 34,84 (1926-1939) | 5,1k | 5,9k | 6,7k | \- | \- |
 | Krasnopillya (Reg. 11) | Краснопілля; Krasnopillja | 50,77, 35,26 (1926-1953) | 8,2k | 5,3k | 3,7k | 5k | 7,5k |
 | Krasnoyilsk (Reg. 9) | Красноїльськ; Krasnojiľśk | 48,02, 25,56 (1926-1953) | 2,6k | 3,4k | 3,8k | 4,2k | 4,8k |
-| Krasnyi Koliadyn (Reg. 11) | Красный Колядинъ | 50,95, 33,04 (1926-1953) | 11,6k | 11,9k | 12,1k | 12,1k | 12,1k |
 | Krasyliv (Reg. 10) | Красилів; Красилив | 49,65, 26,97 (1926-1953) | 6,4k | 6,8k | 7,3k | 8,1k | 9,4k |
 | Krasylivka (Reg. 10) | Красиловка | 51,12, 29,86 (1926-1953) | 2,4k | 2,4k | 2,4k | 2,5k | 2,5k |
 | Kremenchug (Reg. 11) | Kremenchuk; Kremenchug Kryukov | 49,07, 33,42 (1926-1953) | 58,8k | 59,5k | 89,7k | 42k | 72k |
 | Kremenets (Reg. 8) | Krzemieniec; Kremenets Volhynia | 50,1, 25,73 (1926-1953) | 19,2k | 22,5k | 32,1k | 26,3k | 20,1k |
-| Kremenets (Reg. 8) | Кременец | 50,92, 25,2 (1926-1953) | 20,6k | 21,8k | 23k | 20,6k | 17,8k |
 | Krolevets (Reg. 11) | Кролевець; Kroleveć | 51,55, 33,38 (1926-1953) | 12,6k | 13,1k | 13,6k | 13,7k | 13,9k |
 | Krupoderyntsi (Reg. 11) | Круподеренцы | 49,92, 32,5 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
-| Krutki (Reg. 11) | Крутьки | 50,32, 33,93 (1926-1953) | 14,8k | 13,3k | 12,2k | 12,7k | 13,3k |
 | Krykhivtsi (Reg. 8) | Крихивци; Krikhivtsi | 48,9, 24,67 (1926-1953) | 5,1k | 5,8k | 6,4k | 6k | 5,6k |
 | Krynychne (Reg. 9) | Криничне; Krinichne | 45,54, 28,67 (1926-1953) | 2,4k | 2,4k | 2,4k | 2,5k | 2,7k |
 | Kryukiv (Reg. 11) | Крюков | 49,03, 33,44 (1926-1953) | 10,2k | 9,2k | 8,5k | 8,8k | 9,2k |
@@ -1292,21 +1209,17 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Kulynychi (Reg. 11) | Кулиничі; Kulynyči | 49,98, 36,38 (1926-1953) | 2,4k | 2,7k | 3,1k | 3,2k | 3,4k |
 | Kunie (Reg. 11) | Кунье | 49,39, 37,25 (1926-1953) | 2,6k | 2,4k | 2,2k | 2k | 1,8k |
 | Kupiansk (Reg. 11) | Kupyansk; Куп’янськ | 49,71, 37,62 (1926-1953) | 15,2k | 19,5k | 21k | 16k | 24k |
-| Kupievakha (Reg. 11) | Купьеваха | 50,21, 35,26 (1926-1953) | 11k | 12,7k | 14,3k | 15k | 15,9k |
 | Kupil (Reg. 10) | Купель | 49,61, 26,51 (1926-1953) | 2,6k | 2,3k | 2,1k | 1,9k | 1,7k |
 | Kupyansk-Vuzlovyi (Reg. 11) | Куп’янськ-Вузловий; Kup’janśk-Vuzlovyj | 49,67, 37,64 (1926-1953) | 3,2k | 4,7k | 6,7k | 7,4k | 8,4k |
 | Kupyn (Reg. 10) | Купинъ | 49,1, 26,58 (1926-1953) | 1,6k | 1,5k | 1,4k | 1,3k | 1,2k |
-| Kurin (Reg. 11) | Курень | 51,15, 32,78 (1926-1953) | 5,3k | 5,1k | 4,8k | 4,6k | 4,4k |
 | Kurinka (Reg. 11) | Куринька | 50,21, 32,74 (1926-1953) | 1,2k | 1,1k | 948 | 848 | 731 |
 | Kurylivka (Reg. 11) | Куриловка | 49,66, 37,7 (1926-1953) | 4,9k | 4,6k | 4,5k | 4,3k | 4,1k |
 | Kushnytsia (Reg. 9) | Кушниця; Kushnitsya | 48,45, 23,26 (1926-1953) | 1,8k | 2,1k | 2,3k | 2,5k | 2,8k |
 | Kuty (Reg. 9) | Кути; smt Kuty | 48,26, 25,18 (1926-1953) | 5,4k | 5,2k | 4,7k | 4,2k | 3,7k |
 | Kuzemyn (Reg. 11) | Куземинъ | 50,14, 34,65 (1926-1953) | 2,8k | 2,7k | 2,6k | 2,5k | 2,4k |
 | Kuzmyn (Reg. 10) | Кузьминъ | 49,26, 26,52 (1926-1953) | 2,7k | 2,6k | 2,5k | 2,4k | 2,3k |
-| Kvartsytne (Reg. 10) | Першотравневе; Peršotravneve | 51,39, 28,87 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,1k | 2,2k |
 | Kvasyliv (Reg. 8) | Квасилів; Квасилив | 50,56, 26,26 (1926-1953) | 1,7k | 1,9k | 2,2k | 2,3k | 2,6k |
 | Kvitneve (Reg. 10) | Миролюбів (Жовтневе); Myroljubiv (Žovtneve) | 49,99, 29,52 (1926-1953) | 178 | 200 | 221 | 225 | 230 |
-| Kydanivka (Reg. 10) | Кидановка | 49,45, 30,95 (1926-1953) | 8,2k | 8,1k | 8k | 8,8k | 9,9k |
 | Kyiv (Reg. 10) | Kiev; Kijow | 50,45, 30,52 (1926-1953) | 513,6k | 608k | 846,7k | 472k | 880k |
 | Kykyshivka (Reg. 10) | Кикишовка | 49,82, 28,56 (1926-1953) | 10,7k | 11,7k | 12,6k | 12,8k | 13k |
 | Kyrnasivka (Reg. 10) | Кирнасівка; Кирнасивка | 48,59, 28,98 (1926-1953) | 4,7k | 4,8k | 4,9k | 5,1k | 5,3k |
@@ -1318,7 +1231,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Lageri (Reg. 11) | Лагері; Laheri | 49,47, 36,8 (1926-1953) | 3,4k | 3,7k | 4k | 4,2k | 4,4k |
 | Lanchyn (Reg. 8) | Ланчин; Lančyn | 48,55, 24,75 (1926-1953) | 6,3k | 7,1k | 7,9k | 7,4k | 6,9k |
 | Lanivtsi (Reg. 8) | Ланівці; Lanivci | 49,86, 26,09 (1926-1953) | 947 | 1,4k | 1,9k | 2,6k | 4k |
-| Lanna (Reg. 11) | Ланна | 49,35, 35,26 (1926-1953) | 1,8k | 1,7k | 1,6k | 1,7k | 1,8k |
 | Lazeshchyna (Reg. 9) | Лазещина; Lazeshchina | 48,27, 24,42 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,3k | 2,5k |
 | Lazy (Reg. 9) | Лази; Lazi | 48,06, 23,62 (1926-1953) | 336 | 419 | 487 | 567 | 695 |
 | Lebedyn (Reg. 11) | Лебедин; Lebedin | 50,58, 34,48 (1926-1953) | 19,3k | 20k | 20,6k | 21,7k | 23,4k |
@@ -1330,13 +1242,11 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Lesky (Reg. 10) | Леськи; Leski | 49,33, 32,22 (1926-1953) | 5,8k | 5,6k | 5,5k | 5,3k | 5,2k |
 | Letychiv (Reg. 10) | Летичів; Letyčiv | 49,38, 27,62 (1926-1953) | 7,2k | 6,1k | 5,3k | 5,2k | 4,9k |
 | Levkiv (Reg. 10) | Левковъ | 50,24, 28,85 (1926-1953) | 5k | 4,8k | 4,7k | 4,5k | 4,3k |
-| Lipetskoye (Reg. 11) | Липецкое | 50,28, 36,34 (1926-1953) | 7,5k | 8,6k | 9,7k | 10,2k | 10,8k |
 | Lisniaky (Reg. 8) | Лисняки | 51,35, 24,42 (1939-1939) | \- | \- | 7,2k | \- | \- |
 | Lisnyaki (Reg. 10) | Лісняки; Lisnjaky | 50,27, 31,8 (1939-1939) | \- | \- | 7,2k | \- | \- |
 | Lisovi Sorochyntsi (Reg. 11) | Сорочинцы | 50,69, 32,33 (1926-1953) | 7,2k | 7,3k | 7,4k | 7,4k | 7,5k |
 | Lisovychi (Reg. 10) | Лисовичи | 49,52, 30,48 (1926-1953) | 2,9k | 2,7k | 2,5k | 2,4k | 2,2k |
 | Lityn (Reg. 10) | Літин; Литин | 49,33, 28,09 (1926-1953) | 8,4k | 6,4k | 5,1k | 5k | 4,8k |
-| Litynka (Reg. 10) | Литинка | 49,35, 27,93 (1926-1953) | 9,4k | 9,4k | 9,3k | 9,5k | 9,6k |
 | Liubar (Reg. 10) | Любар; Ljubar | 49,92, 27,75 (1926-1953) | 11,8k | 5,3k | 2,6k | 2,1k | 1,6k |
 | Liubartsi (Reg. 10) | Любарцы | 50,26, 31,17 (1926-1953) | 3,5k | 3,4k | 3,3k | 3,2k | 3k |
 | Liubech (Reg. 11) | Любеч; Ljubeč | 51,7, 30,66 (1926-1953) | 3,5k | 3,6k | 3,7k | 3,7k | 3,8k |
@@ -1347,7 +1257,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Liutenka (Reg. 11) | Лютенька | 50,21, 34,03 (1926-1953) | 5,9k | 5,6k | 5,3k | 5k | 4,6k |
 | Lokachi (Reg. 8) | Локачі; Lokači | 50,74, 24,65 (1926-1953) | 1,9k | 2,1k | 2,2k | 2,4k | 2,6k |
 | Lokhvytsya (Reg. 11) | Лохвиця; Lochvycja | 50,36, 33,27 (1926-1953) | 10,8k | 9,5k | 8,6k | 8,7k | 8,8k |
-| Lomaky (Reg. 11) | Ломаки | 50,17, 33,29 (1926-1953) | 24,2k | 21,9k | 20k | 20,8k | 21,9k |
 | Lopatyn (Reg. 8) | Лопатин; smt Lopatyn | 50,22, 24,85 (1926-1953) | 3,3k | 3,4k | 3,3k | 3,2k | 3k |
 | Losynivka (Reg. 11) | Лосинівка; Лосинивка | 50,84, 31,92 (1926-1953) | 9,8k | 7,6k | 6,2k | 6,2k | 6,2k |
 | Lozova (Reg. 11) | Lozovaya; Лозова | 48,89, 36,31 (1926-1953) | 13,2k | 17,4k | 22k | 23,8k | 26,5k |
@@ -1355,11 +1264,10 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Lozovenka (Reg. 11) | Лозовенька | 49,27, 36,64 (1926-1953) | 2,1k | 1,9k | 1,7k | 1,5k | 1,4k |
 | Lubny (Reg. 11) | Lubny Poltava; Лубни | 50,02, 33 (1926-1953) | 21,3k | 19,5k | 27,2k | 19k | 27,5k |
 | Luhyny (Reg. 10) | Лугини; smt Luhyny | 51,08, 28,4 (1926-1953) | 3,8k | 4,3k | 4,7k | 4k | 3,2k |
-| Luka (Reg. 10) | Лука | 49,48, 30,67 (1926-1953) | 3,5k | 3,4k | 3,2k | 3,1k | 2,9k |
 | Luka-Meleshkivska (Reg. 10) | Лука-Мелешкивська | 49,18, 28,49 (1926-1953) | 2,9k | 2,9k | 2,9k | 2,9k | 2,9k |
+| Luka (Reg. 10) | Лука | 49,48, 30,67 (1926-1953) | 3,5k | 3,4k | 3,2k | 3,1k | 2,9k |
 | Lukashevka (Reg. 10) | Лукашевка | 50,92, 29,67 (1926-1953) | 3,3k | 3,3k | 3,3k | 3,6k | 4k |
 | Lukiv (Reg. 8) | Луків; Лукив | 51,23, 24,34 (1926-1953) | 3,4k | 3,2k | 3,1k | 3k | 2,9k |
-| Lutava (Reg. 11) | Лутава | 50,96, 30,8 (1926-1953) | 10,8k | 11k | 11,2k | 11,2k | 11,3k |
 | Lutsk (Reg. 8) | Luck; Lutsk Volhynia | 50,75, 25,33 (1926-1953) | 29,5k | 35,6k | 39k | 26k | 42k |
 | Luzhany (Reg. 9) | Лужани; Lužany | 48,36, 25,78 (1926-1953) | 2,9k | 3,6k | 3,7k | 3,8k | 3,9k |
 | Lyashchivka (Reg. 10) | Лящовка | 49,54, 32,68 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,2k | 2k |
@@ -1370,7 +1278,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Lypcha (Reg. 9) | Липча; Lipcha | 48,26, 23,38 (1926-1953) | 1,5k | 1,6k | 1,8k | 2k | 2,2k |
 | Lypianka (Reg. 11) | Липянка | 49,38, 35,01 (1926-1953) | 2,5k | 2,3k | 2,1k | 1,9k | 1,7k |
 | Lypova Dolyna (Reg. 11) | Липова Долина; smt Lypova Dolyna | 50,56, 33,79 (1926-1953) | 3,8k | 3,6k | 3,4k | 3,5k | 3,6k |
-| Lypovets (Reg. 10) | Липовец | 49,79, 30,89 (1926-1953) | 11,2k | 11k | 10,9k | 11,9k | 13,4k |
 | Lyptsi (Reg. 11) | Липци; Liptsi | 50,21, 36,42 (1926-1953) | 5,2k | 4,9k | 4,6k | 4,5k | 4,5k |
 | Lypyny (Reg. 8) | Липини; Lipini | 50,76, 25,41 (1926-1953) | 2,7k | 3k | 3,3k | 3,1k | 2,7k |
 | Lysets (Reg. 8) | Лисець; Lyseć | 48,87, 24,61 (1926-1953) | 1,6k | 1,6k | 1,6k | 1,6k | 1,7k |
@@ -1380,7 +1287,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Machukhy (Reg. 11) | Мачехи | 49,52, 34,43 (1926-1953) | 4,8k | 4,7k | 4,6k | 4,5k | 4,4k |
 | Maheriv (Reg. 8) | Магерів; Магерив | 50,11, 23,7 (1926-1953) | 2,4k | 2,4k | 2,3k | 2,3k | 2,2k |
 | Maiachka (Reg. 11) | Маячка | 49,11, 34,52 (1926-1953) | 2,8k | 2,5k | 2,2k | 2k | 1,8k |
-| Maidan (Reg. 9) | Майдан; Majdan | 48,6, 23,47 (1926-1953) | 2,6k | 8,3k | 6,7k | 5,4k | 4,1k |
 | Makariv (Reg. 10) | Макарів; Макарив | 50,46, 29,81 (1926-1953) | 2,3k | 2,8k | 3,4k | 4k | 4,9k |
 | Makhnivka (Reg. 10) | Махновка; Комсомольское | 49,72, 28,67 (1926-1953) | 4k | 4,7k | 5,4k | 5,1k | 4,8k |
 | Makiv (Reg. 10) | Маков | 48,79, 26,68 (1926-1953) | 5,8k | 5,5k | 5,3k | 5k | 4,7k |
@@ -1412,7 +1318,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Melnytsya-Podilska (Reg. 8) | Мельниця-Подільська; Meľnycja-Podiľśka | 48,61, 26,17 (1926-1953) | 3,6k | 3,5k | 3,4k | 3,2k | 3,1k |
 | Mena (Reg. 11) | Мена; Mena | 51,52, 32,21 (1926-1953) | 7,2k | 7,4k | 7,5k | 7,5k | 7,4k |
 | Merefa (Reg. 11) | Мерефа; Merefa | 49,82, 36,06 (1926-1953) | 11,7k | 16,7k | 22,6k | 23,7k | 25,1k |
-| Mezhyrichchia (Reg. 8) | Межиречье | 49,41, 24,16 (1926-1953) | 16k | 17k | 17,8k | 16,4k | 14,6k |
 | Mezhyriv (Reg. 10) | Межировъ | 49,07, 28,01 (1926-1953) | 1,4k | 1,2k | 1,1k | 1k | 879 |
 | Milova (Reg. 11) | Меловая | 49,45, 36,7 (1926-1953) | 3,9k | 3,5k | 3,2k | 3k | 2,6k |
 | Mizhhirya (Reg. 9) | Міжгір’я; Mižhir’ja | 48,52, 23,5 (1926-1953) | 4,1k | 4,6k | 5k | 5,4k | 6k |
@@ -1426,7 +1331,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Molodiia (Reg. 9) | Молодия; Molodiya | 48,22, 26,02 (1926-1953) | 1,8k | 2k | 2,3k | 2,4k | 2,6k |
 | Moloha (Reg. 9) | Молога | 46,22, 30,23 (1926-1953) | 4,2k | 4k | 3,8k | 3,6k | 3,4k |
 | Monastyr-yshche (Reg. 10) | Монастирище; Monastyryšče | 48,99, 29,81 (1926-1953) | 7,2k | 3,5k | 1,9k | 2k | 2,2k |
-| Monastyr-yshche (Reg. 11) | Монастырище | 50,81, 32,16 (1926-1953) | 2,8k | 2,5k | 2,3k | 2,1k | 1,9k |
 | Monastyryska (Reg. 8) | Монастириська; Monastyryśka | 49,09, 25,17 (1926-1953) | 4,6k | 7k | 6,2k | 5,5k | 4,7k |
 | Morozivka (Reg. 11) | Морозовка | 49,42, 37,03 (1926-1953) | 2,5k | 2,3k | 2,2k | 2k | 1,8k |
 | Morshyn (Reg. 8) | Моршин; Moršyn | 49,16, 23,87 (1926-1953) | 3k | 3,4k | 3,8k | 3,6k | 3,5k |
@@ -1438,16 +1342,12 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Mryn (Reg. 11) | Мринъ | 51,05, 31,55 (1926-1953) | 2,5k | 2,4k | 2,3k | 2,3k | 2,2k |
 | Munkacs (Reg. 9) | Mukachevo; Mukacheve | 48,44, 22,72 (1926-1953) | 22,9k | 26,1k | 31,6k | 27k | 39k |
 | Murafa (Reg. 11) | Мурафа | 50,05, 35,33 (1926-1953) | 4,2k | 4k | 3,9k | 3,7k | 3,6k |
-| Muravlivka (Reg. 9) | Муравлевка | 45,56, 29,16 (1926-1953) | 4,5k | 4k | 3,7k | 3,4k | 3k |
 | Murovane (Reg. 8) | Муроване | 49,52, 22,94 (1926-1953) | 3k | 3,4k | 3,8k | 3,6k | 3,5k |
 | Murovani Kurylivtsi (Reg. 10) | Муровані Курилівці; Murovani Kurylivci | 48,72, 27,53 (1926-1953) | 1,2k | 2,3k | 4k | 4k | 3,9k |
 | Murzyntsi (Reg. 10) | Мурзинцы | 49,17, 30,92 (1926-1953) | 4,7k | 4,4k | 4,1k | 4,3k | 4,4k |
 | Mutyn (Reg. 11) | Мутин; Мутинъ | 51,42, 33,48 (1926-1953) | 2,6k | 2,4k | 2,3k | 2,1k | 1,9k |
-| Mykhailivka (Reg. 10) | Михалполь | 49,24, 27,15 (1926-1953) | 1,5k | 1,4k | 1,3k | 1,2k | 1k |
 | Mykhailivka-Rubezhivka (Reg. 10) | Михайливка-Рубеживка; Mikhaylivka-Rubezhivka | 50,52, 30,14 (1926-1953) | 2,2k | 2,3k | 2,3k | 2,6k | 3k |
 | Mykhailo-Kotsiubynske (Reg. 11) | Михайло-Коцюбинське; Mychajlo-Kocjubynśke | 51,45, 31,08 (1926-1953) | 3,2k | 3,2k | 3,3k | 3,2k | 3k |
-| Mykolaiv (Reg. 8) | Миколаїв; Mykolajiv | 50,34, 24,98 (1926-1953) | 3,4k | 3,6k | 3,7k | 4,5k | 5,7k |
-| Mykolaiv (Reg. 10) | Николаевъ | 49,58, 26,84 (1926-1953) | 2,1k | 1,9k | 1,7k | 1,5k | 1,3k |
 | Mykolaivka (Reg. 11) | Миколаївка (Жовтневе); Mykolajivka (Žovtneve) | 50,94, 34,37 (1926-1953) | 6,3k | 6,5k | 6,7k | 7k | 7,3k |
 | Mykulychyn (Reg. 8) | Микуличин; Mikulichin | 48,41, 24,61 (1926-1953) | 4k | 4,5k | 5k | 4,7k | 4,4k |
 | Mykulyntsi (Reg. 8) | Микулинці; Mykulynci | 49,39, 25,61 (1926-1953) | 3,2k | 3,2k | 3,3k | 3,4k | 3,6k |
@@ -1511,23 +1411,21 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Nyzhnia Apsha (Reg. 9) | Нижня Апша; Nizhnya Apsha | 48, 23,83 (1926-1953) | 2,9k | 3,3k | 3,6k | 4k | 4,5k |
 | Nyzhnya Syrovatka (Reg. 11) | Нижня Сироватка; Nizhnya Sirovatka | 50,77, 34,83 (1926-1953) | 2,8k | 2,9k | 3k | 3,1k | 3,3k |
 | Nyzy (Reg. 11) | Низи; smt Nyzy | 50,78, 34,78 (1926-1953) | 3,5k | 3,7k | 3,8k | 3,9k | 4,1k |
-| Obertyn (Reg. 8) | Обертин; smt Obertyn | 48,7, 25,17 (1926-1953) | 7,8k | 11,9k | 9,5k | 7,6k | 5,6k |
+| Obertyn (Reg. 8) | Обертин; smt Obertyn | 48,7, 25,17 (1926-1953) | 7,8k | 3,6k | 3,6k | 7,6k | 5,6k |
 | Obodivka (Reg. 10) | Ободовка | 48,41, 29,25 (1926-1953) | 8,4k | 8,6k | 8,8k | 8,1k | 7,2k |
 | Obolon (Reg. 11) | Оболонь | 49,6, 32,87 (1926-1953) | 4k | 3,9k | 3,8k | 3,6k | 3,3k |
 | Obolonnia (Reg. 11) | Оболонье | 51,62, 32,93 (1926-1953) | 7,5k | 7,7k | 7,8k | 7,8k | 7,8k |
 | Obroshyne (Reg. 8) | Оброшине; Obroshine | 49,78, 23,87 (1926-1953) | 2,8k | 3,2k | 3,6k | 3,4k | 3,3k |
 | Obukhiv (Reg. 10) | Обухів; Obuchiv | 50,12, 30,63 (1926-1953) | 9,8k | 8,2k | 7,1k | 7,6k | 8,2k |
-| Ocheretiane (Reg. 10) | Очеретна | 49,83, 30,98 (1926-1953) | 4,6k | 4,5k | 4,5k | 4,9k | 5,5k |
 | Okhoche (Reg. 11) | Охочее | 49,56, 36,03 (1926-1953) | 3,7k | 3,4k | 3,2k | 3k | 2,7k |
 | Okny (Reg. 10) | Окни (Красні Окни); Okny (Krasni Okny) | 47,54, 29,46 (1926-1953) | 3k | 3,8k | 4,6k | 5,3k | 6,5k |
-| Oleksandrivka (Reg. 10) | Александровка | 49,69, 30,78 (1926-1953) | 2,3k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Oleksandrivka (Reg. 11) | Александровка | 52,19, 32,91 (1926-1953) | 2,3k | 2k | 1,8k | 1,7k | 1,5k |
+| Oleksandrivka (Reg. 10) | Александровка | 49,69, 30,78 (1926-1953) | 2,3k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Olenivka (Reg. 11) | Оленовка | 51,25, 32,3 (1926-1953) | 2,9k | 2,6k | 2,4k | 2,2k | 2k |
 | Oleshnyk (Reg. 9) | Олешник; Oleshnik | 48,17, 22,96 (1926-1953) | 1,8k | 2,1k | 2,3k | 2,5k | 2,8k |
 | Olesko (Reg. 8) | Олесько; Oleśko | 49,96, 24,89 (1926-1953) | 3,7k | 3,7k | 3,4k | 3,1k | 2,7k |
 | Olevsk (Reg. 10) | Олевськ; Olevśk | 51,22, 27,65 (1926-1953) | 5,1k | 5,9k | 6,8k | 7,1k | 7,6k |
 | Olhopil (Reg. 10) | Ольгопіль; Oľhopiľ | 48,18, 29,49 (1926-1953) | 5,7k | 5,8k | 5,8k | 5,9k | 5,9k |
-| Olshanka (Reg. 11) | Ольшанка | 49,65, 36,18 (1926-1953) | 12,7k | 14,6k | 16,5k | 17,3k | 18,3k |
 | Olyka (Reg. 8) | Олика; smt Olyka | 50,72, 25,81 (1926-1953) | 5k | 5,6k | 5,2k | 4,8k | 4,2k |
 | Olyshivka (Reg. 11) | Олишівка; Olyšivka | 51,22, 31,34 (1926-1953) | 4,9k | 5,1k | 5,3k | 4,9k | 4,4k |
 | Omelnyk (Reg. 11) | Омельникъ | 49,21, 33,55 (1926-1953) | 2,2k | 2,1k | 2,1k | 2k | 2k |
@@ -1544,7 +1442,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Ostapie (Reg. 11) | Остапье | 49,55, 33,76 (1926-1953) | 8,3k | 8,9k | 7,5k | 6,3k | 5k |
 | Oster (Reg. 11) | Остер; Oster | 50,95, 30,88 (1926-1953) | 6,8k | 6,6k | 6,3k | 6,5k | 6,8k |
 | Ostroh (Reg. 8) | Острог; Ostrog | 50,33, 26,52 (1926-1953) | 13k | 12,4k | 11,3k | 10,3k | 9,2k |
-| Ostrovets (Reg. 8) | Островец | 48,64, 25,3 (1926-1953) | 11,4k | 12k | 12,7k | 12k | 11,1k |
 | Ostrytsya (Reg. 9) | Остриця; Ostritsya | 48,26, 26,05 (1926-1953) | 1,8k | 2k | 2,2k | 2,3k | 2,5k |
 | Otaci (Reg. 10) | Otaci; Атаки | 48,44, 27,79 (1926-1953) | 5,8k | 5,5k | 5,2k | 5k | 4,7k |
 | Otyniia (Reg. 8) | Отинія; Otynija | 48,74, 24,86 (1926-1953) | 4,6k | 4,6k | 4,3k | 4k | 3,7k |
@@ -1558,7 +1455,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Parafiivka (Reg. 11) | Парафіївка; Parafijivka | 50,88, 32,65 (1926-1953) | 5,2k | 5k | 4,9k | 4,8k | 4,6k |
 | Parkhomivka (Reg. 11) | Пархомовка | 50,12, 35,01 (1926-1953) | 3,5k | 3,5k | 3,4k | 3,4k | 3,3k |
 | Pasichna (Reg. 8) | Пасична | 48,57, 24,42 (1926-1953) | 3,3k | 3,7k | 4,1k | 3,8k | 3,6k |
-| Pavlivka (Reg. 11) | Павловка | 49,78, 35,89 (1926-1953) | 2,5k | 2,4k | 2,2k | 2,1k | 1,9k |
 | Pavoloch (Reg. 10) | Паволочь | 49,87, 29,46 (1926-1953) | 2,1k | 1,8k | 1,8k | 1,7k | 1,6k |
 | Pechenihy (Reg. 11) | Печеніги; Pečenihy | 49,87, 36,94 (1926-1953) | 7,3k | 6,4k | 5,6k | 6,2k | 6,9k |
 | Pecheniuhy (Reg. 11) | Печенюги | 52,05, 33 (1926-1953) | 6,7k | 6,9k | 7k | 7k | 7k |
@@ -1570,13 +1466,9 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Perekopivka (Reg. 11) | Перекоповка | 49,63, 33,54 (1926-1953) | 5,2k | 4,7k | 4,3k | 4,4k | 4,7k |
 | Peremyshliany (Reg. 8) | Перемишляни; Peremyšljany | 49,67, 24,56 (1926-1953) | 4,7k | 5,5k | 5,9k | 5,1k | 4,2k |
 | Peresichna (Reg. 11) | Пересічне (Пересічна); Peresične (Peresična) | 50,02, 35,98 (1926-1953) | 5,9k | 7k | 8,2k | 8,6k | 9,2k |
-| Peschanoye (Reg. 11) | Песчаное | 49,47, 33,98 (1926-1953) | 6,5k | 5,8k | 5,4k | 5,6k | 5,8k |
 | Petrashivka (Reg. 10) | Петрашовка | 49,1, 27,19 (1926-1953) | 5,1k | 4,4k | 3,9k | 3,5k | 3k |
-| Petrikovtsy (Reg. 10) | Петриковцы | 49,46, 26,48 (1926-1953) | 23,3k | 22,4k | 21,7k | 22,7k | 24k |
-| Petrivka (Reg. 9) | Буялик (Петрівка); Bujalyk (Petrivka) | 46,31, 29,95 (1926-1953) | 3k | 3k | 3k | 3,1k | 3,3k |
 | Petrivka (Reg. 11) | Петровка | 49,74, 34,98 (1926-1953) | 3,2k | 3k | 2,8k | 2,6k | 2,4k |
 | Petrivske (Reg. 11) | Петровская; Петровское | 49,17, 36,9 (1926-1953) | 4,7k | 4,7k | 4,6k | 4,5k | 4,2k |
-| Petropavlivka (Reg. 11) | Петропавловка | 49,72, 37,71 (1926-1953) | 3,8k | 3,6k | 3,4k | 3,3k | 3,1k |
 | Petropav-livska Borshchahivka (Reg. 10) | Петропавливська Борщагивка; Petropav-livska Borshchagivka | 50,43, 30,33 (1926-1953) | 4k | 4,1k | 4,2k | 4,7k | 5,4k |
 | Petrovskiy (Reg. 11) | Петровський; Petrovśkyj | 50,01, 35,73 (1939-1939) | \- | \- | 5,8k | \- | \- |
 | Petrykiv (Reg. 8) | Петрикив; Petrikiv | 49,53, 25,58 (1926-1953) | 2,2k | 2,5k | 2,8k | 2,7k | 2,7k |
@@ -1593,9 +1485,8 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Pishchanka (Reg. 10) | Піщанка; Piščanka | 48,21, 28,88 (1926-1953) | 3,4k | 4,8k | 6,5k | 6,2k | 5,9k |
 | Pishchanka (Reg. 11) | Пищанка | 49,96, 37,98 (1926-1953) | 3,3k | 3,8k | 4,3k | 4,5k | 4,8k |
 | Piskivka (Reg. 10) | Пісківка; Пискивка | 50,69, 29,62 (1926-1953) | 4,6k | 4,7k | 4,8k | 5,2k | 5,8k |
-| Pisky (Reg. 11) | Пески | 50,37, 33,45 (1926-1953) | 3,3k | 3,2k | 3k | 2,9k | 2,8k |
-| Pisky (Reg. 11) | Пески | 51,68, 32,15 (1926-1953) | 10,6k | 10,8k | 11k | 11k | 11k |
 | Pisky-Radkivski (Reg. 11) | Пески Радьковские | 49,27, 37,61 (1926-1953) | 2,5k | 2,5k | 2,4k | 2,4k | 2,3k |
+| Pisky (Reg. 11) | Пески | 50,37, 33,45 (1926-1953) | 3,3k | 3,2k | 3k | 2,9k | 2,8k |
 | Pisochyn (Reg. 11) | Пісочин; Pisočyn | 49,95, 36,1 (1926-1953) | 4,2k | 6,6k | 9,9k | 10,3k | 10,9k |
 | Pistyn (Reg. 8) | Пистинь; Pistin | 48,36, 25,03 (1926-1953) | 9k | 11k | 10,2k | 9,5k | 8,6k |
 | Plakhtiyivka (Reg. 9) | Плахтиївка | 46,09, 29,72 (1926-1953) | 2,9k | 2,9k | 2,9k | 3k | 3,2k |
@@ -1609,10 +1500,9 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Pohoriltsi (Reg. 11) | Погорельцы | 52,04, 32,51 (1926-1953) | 2k | 1,8k | 1,7k | 1,6k | 1,4k |
 | Pohrebyshche (Reg. 10) | Погребище; Pohrebyšče | 49,49, 29,26 (1926-1953) | 9,6k | 9,6k | 9,5k | 9,3k | 9,1k |
 | Pokotylivka (Reg. 11) | Покотилівка; Покотиливка | 49,91, 36,18 (1926-1953) | 1,6k | 2,9k | 5k | 5,8k | 7k |
-| Pokrovske (Reg. 11) | Баба | 51,52, 32,34 (1926-1953) | 2,7k | 2,4k | 2,2k | 2,1k | 1,8k |
 | Poliana (Reg. 9) | Поляна; Poljana | 48,62, 22,97 (1926-1953) | 1,1k | 1,4k | 1,5k | 1,7k | 2k |
 | Polianka (Reg. 10) | Полянка; Poljanka | 50,26, 27,69 (1926-1953) | 1,3k | 1,4k | 1,6k | 1,6k | 1,6k |
-| Poliske (Reg. 10) | Khabne (Resettled 1990-1993); Поліське | 51,24, 29,39 (1926-1953) | 3,2k | 3,6k | 4,1k | 4,6k | 5,4k |
+| Poliske (Reg. 10) | Khabne (Resettled 1990-1993); Поліське | 51,24, 29,39 (1926-1953) | 28 | 26 | 25 | 24 | 24 |
 | Polohy-Yanenky (Reg. 10) | Пологи Яненки | 49,96, 31,73 (1926-1953) | 2,6k | 2,3k | 2,1k | 1,9k | 1,6k |
 | Polonne (Reg. 10) | Полонне; Polonne | 50,12, 27,51 (1926-1953) | 16,4k | 14,9k | 13,8k | 15,4k | 17,8k |
 | Polova (Reg. 11) | Польова; Poljova | 50,09, 36,01 (1926-1953) | 2k | 2,3k | 2,6k | 2,4k | 2,1k |
@@ -1629,7 +1519,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Poroshkovo (Reg. 9) | Порошково | 48,67, 22,75 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,3k |
 | Portselianove (Reg. 10) | Порцелянове (Першотравенськ); Porceljanove (Peršotravenśk) | 50,2, 27,64 (1926-1953) | 2,9k | 3,2k | 3,6k | 3,9k | 4,2k |
 | Potik (Reg. 10) | Потокъ | 49,77, 31,05 (1926-1953) | 7,2k | 7,1k | 6,2k | 5,3k | 4,4k |
-| Pravoberezhna Sokilka (Reg. 11) | Соколка | 49,02, 34,14 (1926-1953) | 9,5k | 9,6k | 8,3k | 8,6k | 9,1k |
 | Prokhory (Reg. 11) | Прохоры | 51,16, 32,19 (1926-1953) | 2,7k | 2,4k | 2,1k | 1,9k | 1,7k |
 | Prolisne (Reg. 11) | Пролісне (Чкаловське); Prolisne (Čkalovśke) | 49,72, 36,93 (1926-1953) | 2,5k | 2,9k | 3,2k | 3,4k | 3,6k |
 | Prorub (Reg. 11) | Прорубъ | 51,18, 34,32 (1926-1953) | 3,1k | 3,2k | 3,3k | 3,4k | 3,5k |
@@ -1649,7 +1538,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Pyryatyn (Reg. 11) | Пирятин; Pyrjatyn | 50,24, 32,52 (1926-1953) | 12,2k | 13k | 13,8k | 14,2k | 14,8k |
 | Pyshchyky (Reg. 10) | Пищики | 49,82, 29,96 (1926-1953) | 3,6k | 3,3k | 3,1k | 2,9k | 2,6k |
 | Radekhiv (Reg. 8) | Радехів; Radechiv | 50,28, 24,64 (1926-1953) | 4,9k | 5,4k | 5,4k | 5,2k | 5k |
-| Radohoshch (Reg. 10) | Радогощ | 50,96, 28,32 (1926-1953) | 8,1k | 8,8k | 9,5k | 9,6k | 9,8k |
 | Radomyshl (Reg. 10) | Радомишль; Radomyšľ | 50,5, 29,23 (1926-1953) | 12,9k | 12,2k | 11,7k | 11,6k | 11,5k |
 | Radul (Reg. 11) | Радуль; Raduľ | 51,83, 30,72 (1926-1953) | 4,7k | 4,3k | 4k | 4,1k | 4,1k |
 | Radyvyliv (Reg. 8) | Радивилів (Червоноармійськ); Radyvyliv (Červonoarmijśk) | 50,13, 25,25 (1926-1953) | 4,8k | 5,3k | 5k | 4,8k | 4,4k |
@@ -1668,7 +1556,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Riaske (Reg. 11) | Рясское | 49,18, 34,91 (1926-1953) | 3,5k | 3,2k | 2,9k | 2,7k | 2,4k |
 | Ridkivtsi (Reg. 9) | Ридкивци | 48,34, 26,07 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,2k | 2,4k |
 | Ripky (Reg. 11) | Ріпки; Рипки | 51,8, 31,09 (1926-1953) | 5,9k | 5,6k | 4,2k | 4,5k | 4,9k |
-| Rivne (Reg. 8) | Ровно | 51,24, 23,82 (1926-1953) | 28,6k | 30,3k | 31,9k | 28,6k | 24,7k |
 | Rohan (Reg. 11) | Рогань; Rohań | 49,9, 36,48 (1926-1953) | 3,1k | 4,4k | 5,8k | 6,2k | 6,8k |
 | Rohatyn (Reg. 8) | Рогатин; Rogatin | 49,41, 24,61 (1926-1953) | 6,6k | 7,6k | 7,7k | 6,4k | 4,9k |
 | Rokosovo (Reg. 9) | Рокосово | 48,21, 23,18 (1926-1953) | 1,8k | 2k | 2,3k | 2,5k | 2,8k |
@@ -1676,7 +1563,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Rokytne (Reg. 10) | Рокитне; smt Rokytne | 49,69, 30,47 (1926-1953) | 7,3k | 3k | 1,4k | 2k | 3,3k |
 | Rokytne (Reg. 8) | Рокитне; smt Rokytne | 51,28, 27,22 (1926-1953) | 2,5k | 4k | 3,9k | 3,8k | 3,8k |
 | Romaniv (Reg. 10) | Романів (Дзержинськ); Romaniv (Dzeržynśk) | 50,15, 27,93 (1926-1953) | 7,6k | 7,3k | 7,1k | 6,9k | 6,7k |
-| Romaniv (Reg. 8) | Романовъ | 50,74, 25,6 (1926-1953) | 3,7k | 3,4k | 3,1k | 2,8k | 2,5k |
 | Romankivtsi (Reg. 9) | Романкивци | 48,48, 27,21 (1926-1953) | 2k | 2,2k | 2,5k | 2,6k | 2,9k |
 | Romny (Reg. 11) | Romny Fair; Romen | 50,75, 33,47 (1926-1953) | 25,8k | 22,5k | 26k | 21k | 31k |
 | Romodan (Reg. 11) | Ромодан; smt Romodan | 49,99, 33,33 (1926-1953) | 1,2k | 2,1k | 3,5k | 4,4k | 5,9k |
@@ -1691,9 +1577,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Rozhniv (Reg. 8) | Рожнив | 48,37, 25,23 (1926-1953) | 3,7k | 4,1k | 4,6k | 4,3k | 4k |
 | Rozhyshche (Reg. 8) | Рожище; Rožyšče | 50,92, 25,27 (1926-1953) | 3,8k | 4,6k | 4,9k | 5,2k | 5,6k |
 | Rozsoshentsi (Reg. 11) | Розсошенци | 49,54, 34,51 (1926-1953) | 5,1k | 4,9k | 4,6k | 4,8k | 5k |
-| Rubanovka (Reg. 11) | Рубановка | 49,87, 35,62 (1926-1953) | 12,8k | 14,7k | 16,6k | 17,4k | 18,5k |
-| Ruchky (Reg. 11) | Ручки | 50,32, 33,75 (1926-1953) | 9,4k | 8,5k | 7,8k | 8,1k | 8,5k |
-| Rudka (Reg. 11) | Рудка | 50,01, 32,53 (1926-1953) | 5k | 5,2k | 4,5k | 4,7k | 4,9k |
 | Rudky (Reg. 8) | Рудки; Rudki | 49,65, 23,49 (1926-1953) | 3,5k | 3,6k | 3,3k | 3k | 2,7k |
 | Rudne (Reg. 8) | Рудно (Рудне); Rudno (Rudne) | 49,83, 23,9 (1926-1953) | 5k | 5,1k | 4,7k | 4,3k | 3,8k |
 | Rudnytsya (Reg. 10) | Рудниця; Rudnycja | 48,26, 28,93 (1926-1953) | 706 | 983 | 1,3k | 1,5k | 1,8k |
@@ -1704,7 +1587,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Ruzhyn (Reg. 10) | Ружин; Ružyn | 49,72, 29,22 (1926-1953) | 4,6k | 4,4k | 4,3k | 3,9k | 3,5k |
 | Ryzhanivka (Reg. 10) | Рыжановка | 49,1, 30,72 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
 | Rzhyshchiv (Reg. 10) | Ржищів; Ržyščiv | 49,97, 31,04 (1926-1953) | 8,5k | 7,7k | 7,1k | 7,1k | 7k |
-| Sakhnivs-hchyna (Reg. 11) | Сахновщина | 49,45, 34,97 (1926-1953) | 3,2k | 2,7k | 2,4k | 2,1k | 1,7k |
 | Sakhnovs-hchyna (Reg. 11) | Сахновщина; Sachnovščyna | 49,15, 35,87 (1926-1953) | 3,2k | 5k | 7,4k | 7,8k | 8,3k |
 | Salnytsia (Reg. 10) | Сальниця; Saľnycja | 49,74, 28,02 (1926-1953) | 4,5k | 4,3k | 4,1k | 3,9k | 3,7k |
 | Salohubivka (Reg. 11) | Салогубовка | 50,79, 33,33 (1926-1953) | 4,4k | 4,5k | 4,7k | 4,8k | 4,9k |
@@ -1750,7 +1632,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Shpytky (Reg. 10) | Шпитьки; Shpitki | 50,42, 30,13 (1926-1953) | 1,4k | 1,5k | 1,6k | 1,7k | 1,8k |
 | Shramkivka (Reg. 10) | Шрамківка; Šramkivka | 50,14, 32,13 (1926-1953) | 5,2k | 4,9k | 4,7k | 4,8k | 5k |
 | Shumsk (Reg. 8) | Шумськ; Šumśk | 50,12, 26,12 (1926-1953) | 2,3k | 2,2k | 2,2k | 2,1k | 2k |
-| Shyriaieve (Reg. 11) | Ширяєве; Šyrjajeve | 51,31, 33,98 (1926-1953) | 2,6k | 2,7k | 2,8k | 3,4k | 4,4k |
 | Shyshaky (Reg. 11) | Шишаки; Šyšaky | 49,88, 34,01 (1926-1953) | 4,1k | 4k | 4k | 3,9k | 3,7k |
 | Sinne (Reg. 11) | Сенное | 50,21, 35,64 (1926-1953) | 2,8k | 2,5k | 2,2k | 2k | 1,7k |
 | Skala-Podilska (Reg. 8) | Скала-Подільська; Skala-Podiľśka | 48,85, 26,2 (1926-1953) | 4,5k | 5k | 4,7k | 4,4k | 4k |
@@ -1765,7 +1646,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Slobidka (Reg. 10) | Слобідка; Слобидка | 47,88, 29,34 (1926-1953) | 9,8k | 7,1k | 2,6k | 2,9k | 3,4k |
 | Sloboda (Reg. 10) | Червона Слобода; Chervona Sloboda | 49,37, 32,16 (1926-1953) | 7,3k | 6,9k | 6,6k | 6,8k | 7,1k |
 | Slobozhanske (Reg. 11) | Слобожанське (Комсомольське); Slobožanśke (Komsomoľśke) | 49,59, 36,52 (1926-1953) | 7,3k | 8,4k | 9,5k | 10k | 10,6k |
-| Slobozhanske (Reg. 11) | Чапаєве; smt Čapajeve | 49,37, 35,87 (1926-1953) | 1,9k | 2,2k | 2,5k | 2,6k | 2,8k |
 | Smeloye (Reg. 11) | Смелое | 52,11, 33,96 (1939-1939) | \- | \- | 5,5k | \- | \- |
 | Smila (Reg. 10) | Smela; Сміла | 49,22, 31,87 (1926-1953) | 23,3k | 28,5k | 33,9k | 36,8k | 41k |
 | Smolianka (Reg. 11) | Смолянка | 51,25, 31,46 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
@@ -1785,7 +1665,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Sokolove (Reg. 11) | Соколово | 49,71, 36,19 (1926-1953) | 2,4k | 2,3k | 2,2k | 2,1k | 2k |
 | Sokyrnytsia (Reg. 9) | Сокирниця; Sokirnitsya | 48,12, 23,4 (1926-1953) | 2k | 2,2k | 2,5k | 2,7k | 3k |
 | Sokyryany (Reg. 9) | Сокиряни; Sokyrjany | 48,45, 27,41 (1926-1953) | 10,2k | 8,3k | 5,3k | 5,9k | 6,9k |
-| Sokyryntsi (Reg. 10) | Секиринцы | 48,95, 26,2 (1926-1953) | 4,6k | 4,8k | 5,1k | 5,4k | 5,8k |
 | Solobkivtsi (Reg. 10) | Солобковцы | 49,09, 26,92 (1926-1953) | 4,3k | 4,5k | 4,8k | 4,4k | 3,9k |
 | Solonka (Reg. 8) | Солонка | 49,76, 24,01 (1926-1953) | 2,3k | 2,6k | 2,9k | 2,8k | 2,7k |
 | Solonytsivka (Reg. 11) | Солоницівка; Solonycivka | 50, 36,03 (1926-1953) | 2k | 2,3k | 2,5k | 3,3k | 4,5k |
@@ -1793,7 +1672,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Solotvyno (Reg. 9) | Солотвино; smt Solotvyno | 47,95, 23,87 (1926-1953) | 7k | 7,4k | 7,3k | 7,2k | 7k |
 | Soniachne (Reg. 11) | Сонячне; Sonjačne | 50,19, 35,05 (1926-1953) | 789 | 816 | 840 | 869 | 908 |
 | Sosnivka (Reg. 8) | Соснівка; Соснивка | 50,29, 24,25 (1926-1953) | 2,2k | 2,4k | 2,7k | 2,6k | 2,5k |
-| Sosnivka (Reg. 11) | Сосновка | 51,78, 32,11 (1926-1953) | 4,1k | 4,1k | 4,2k | 4,2k | 4,2k |
 | Sosnove (Reg. 8) | Соснове; smt Sosnove | 50,82, 27 (1926-1953) | 2,8k | 3,2k | 3,5k | 3,8k | 4,3k |
 | Sosnytsia (Reg. 11) | Сосниця; Sosnycja | 51,52, 32,5 (1926-1953) | 6,9k | 5,6k | 4,6k | 4,5k | 4,4k |
 | Sribne (Reg. 11) | Срібне; Срибне | 50,66, 32,92 (1926-1953) | 1,7k | 1,7k | 1,8k | 2k | 2,3k |
@@ -1812,12 +1690,12 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Staryi Lysets (Reg. 8) | Старий Лисець; Stariy Lisets | 48,88, 24,58 (1926-1953) | 2,5k | 2,8k | 3,1k | 3k | 2,7k |
 | Staryi Saltiv (Reg. 11) | Старий Салтів; Staryj Saltiv | 50,07, 36,79 (1926-1953) | 2,6k | 2,9k | 3,3k | 3,2k | 3,2k |
 | Staryi Sambir (Reg. 8) | Старий Самбір; Staryj Sambir | 49,44, 23 (1926-1953) | 4,6k | 5k | 5,3k | 4,7k | 4,1k |
-| Staryy (Reg. 11) | Городъ Старый | 50,4, 37,48 (1926-1953) | 4,8k | 4,4k | 4,1k | 4,2k | 4,5k |
 | Staryy Merchyk (Reg. 11) | Старий Мерчик; Staryj Merčyk | 49,98, 35,76 (1926-1953) | 4k | 4,6k | 5,2k | 5k | 4,7k |
+| Staryy (Reg. 11) | Городъ Старый | 50,4, 37,48 (1926-1953) | 4,8k | 4,4k | 4,1k | 4,2k | 4,5k |
 | Stavyshche (Reg. 10) | Ставище; Stavyšče | 49,39, 30,19 (1926-1953) | 5k | 5,1k | 5,2k | 5k | 4,8k |
 | Stebliv (Reg. 10) | Стеблів; Стеблив | 49,4, 31,1 (1926-1953) | 6,1k | 5,9k | 5,9k | 5,8k | 5,6k |
 | Stebnyk (Reg. 8) | Стебник; Stebnik | 49,3, 23,55 (1926-1953) | 14,1k | 10,6k | 2,3k | 2,8k | 3,5k |
-| Stepan (Reg. 8) | Степань; Stepań | 51,13, 26,31 (1926-1953) | 18k | 17,8k | 12,5k | 8,8k | 5,5k |
+| Stepan (Reg. 8) | Степань; Stepań | 51,13, 26,31 (1926-1953) | 2,6k | 2,7k | 2,9k | 8,8k | 5,5k |
 | Stepanivka (Reg. 11) | Степанівка; Степанивка | 50,95, 34,61 (1926-1953) | 3,2k | 3,3k | 3,4k | 3,5k | 3,6k |
 | Stepantsi (Reg. 10) | Степанцы | 49,7, 31,3 (1926-1953) | 5,1k | 4,7k | 4,3k | 4k | 3,6k |
 | Stetsivka (Reg. 10) | Стецовка | 49,03, 32,77 (1926-1953) | 3,6k | 3,3k | 3,2k | 3k | 2,8k |
@@ -1832,7 +1710,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Sudova Vyshnia (Reg. 8) | Судова Вишня; Sudova Vyšnja | 49,79, 23,37 (1926-1953) | 4,5k | 4,8k | 4,7k | 4,7k | 4,7k |
 | Sudylkiv (Reg. 10) | Судилкив; Sudilkiv | 50,17, 27,13 (1926-1953) | 5,3k | 5,3k | 5,3k | 5,2k | 5,2k |
 | Sumy (Reg. 11) | Sumy Sugar Hub; Sumy Sloboda | 50,91, 34,8 (1926-1953) | 44,2k | 46,5k | 64k | 48k | 82k |
-| Suprotyvna Balka (Reg. 11) | Супротивная Балка | 49,4, 34,09 (1926-1953) | 10,1k | 9,1k | 8,4k | 8,7k | 9,1k |
 | Suprunivka (Reg. 11) | Супрунивка | 49,58, 34,44 (1926-1953) | 3,1k | 2,9k | 2,8k | 2,9k | 3k |
 | Sutysky (Reg. 10) | Сутиски; smt Sutysky | 49,04, 28,42 (1926-1953) | 5,5k | 5,4k | 5,4k | 5,4k | 5,5k |
 | Svalyava (Reg. 9) | Свалява; Svaljava | 48,55, 22,99 (1926-1953) | 5,2k | 6,1k | 6,8k | 7,5k | 8,5k |
@@ -1851,15 +1728,12 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Taranivka (Reg. 11) | Таранивка; Тарановка | 49,63, 36,15 (1926-1953) | 5,4k | 5,3k | 5,2k | 5,1k | 5k |
 | Tarashcha (Reg. 10) | Тараща; Tarašča | 49,56, 30,5 (1926-1953) | 10,7k | 9,6k | 8,8k | 9k | 9,4k |
 | Tarasivka (Reg. 10) | Тарасивка; Тарасовка | 50,34, 30,32 (1926-1953) | 4,4k | 4,6k | 4,8k | 5k | 5,3k |
-| Tarasivka (Reg. 11) | Тарасовка | 50,25, 34,35 (1926-1953) | 3,1k | 2,8k | 2,6k | 2,4k | 2,2k |
 | Tarasivtsi (Reg. 9) | Тарасивци | 48,21, 26,36 (1926-1953) | 2,1k | 2,4k | 2,7k | 2,8k | 3,1k |
-| Tarasovka (Reg. 11) | Тарасовка | 50, 35,62 (1926-1953) | 5,4k | 6,3k | 7,1k | 7,4k | 7,9k |
 | Tarnopol (Reg. 8) | Ternopil; Tarnopol Galicia | 49,55, 25,59 (1926-1953) | 34,6k | 35,7k | 38,5k | 24k | 40k |
 | Tarnoruda (Reg. 10) | Тарноруда | 49,41, 26,23 (1926-1953) | 1,5k | 1,3k | 1,3k | 1,2k | 1,1k |
 | Tashlyk (Reg. 10) | Ташлыкъ | 49,07, 31,73 (1926-1953) | 3,7k | 3,5k | 3,3k | 3,1k | 2,9k |
 | Tatarbunary (Reg. 9) | Tatar-Bunar; 1924 Uprising | 45,84, 29,61 (1926-1953) | 11,9k | 7,7k | 7,7k | 7,7k | 7,8k |
 | Teofipol (Reg. 10) | Теофіполь; Teofipoľ | 49,84, 26,42 (1926-1953) | 3,7k | 3,5k | 3,4k | 3,6k | 3,8k |
-| Teolyn (Reg. 10) | Теолинъ | 49,02, 29,95 (1926-1953) | 8k | 7,5k | 7,1k | 7,3k | 7,5k |
 | Teplyk (Reg. 10) | Теплик; smt Teplyk | 48,67, 29,74 (1926-1953) | 7k | 6k | 5,2k | 4,9k | 4,6k |
 | Tereblia (Reg. 9) | Теребля; Tereblya | 48,11, 23,6 (1926-1953) | 1,5k | 1,7k | 1,9k | 2k | 2,3k |
 | Terebovlia (Reg. 8) | Теребовля; Terebovlja | 49,3, 25,69 (1926-1953) | 7,4k | 7,6k | 7,3k | 7k | 6,6k |
@@ -1870,7 +1744,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Ternovka (Reg. 11) | Терновка | 49,35, 37,39 (1926-1953) | 4,1k | 4,7k | 5,4k | 5,6k | 5,9k |
 | Ternovo (Reg. 9) | Терново | 48,08, 23,74 (1926-1953) | 1,7k | 2k | 2,2k | 2,4k | 2,7k |
 | Terny (Reg. 11) | Терни; smt Terny | 50,99, 33,97 (1926-1953) | 7k | 7,3k | 7,5k | 7,7k | 8k |
-| Terny (Reg. 11) | Терны | 49,89, 38,03 (1926-1953) | 10k | 11,6k | 13,1k | 13,7k | 14,5k |
 | Tetiiv (Reg. 10) | Тетіїв; Tetijiv | 49,37, 29,67 (1926-1953) | 3,1k | 3,1k | 3k | 4k | 5,7k |
 | Tlumach (Reg. 8) | Тлумач; Tlumač | 48,87, 25 (1926-1953) | 6,3k | 5,7k | 3,3k | 3,6k | 4k |
 | Tomashhorod (Reg. 8) | Томашгород; Tomašhorod | 51,37, 27,07 (1926-1953) | 918 | 1,1k | 1,2k | 1,4k | 1,7k |
@@ -1883,9 +1756,7 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Trebukhiv (Reg. 10) | Требухив | 50,48, 30,9 (1926-1953) | 2,2k | 2,2k | 2,3k | 2,5k | 2,9k |
 | Troianiv (Reg. 10) | Трояновъ; Троянов | 50,11, 28,53 (1926-1953) | 2,7k | 1,2k | 5,1k | 4,8k | 4,4k |
 | Trostianets (Reg. 11) | Trostyanets Sumy; Тростянець | 50,48, 34,97 (1926-1953) | 8,7k | 10,4k | 12,1k | 13,6k | 16k |
-| Trostianets (Reg. 8) | Тростянец; Тростянецъ | 49,55, 24,01 (1926-1953) | 2,8k | 2,5k | 2,2k | 2k | 1,7k |
 | Trostyanets (Reg. 10) | Тростянець; Trostjaneć | 48,51, 29,23 (1926-1953) | 1,6k | 3,1k | 5,4k | 5,6k | 6k |
-| Trubiivka (Reg. 10) | Трубиевка | 49,8, 29,38 (1926-1953) | 7,8k | 8,5k | 9,2k | 9,3k | 9,4k |
 | Truskavets (Reg. 8) | Трускавець; Truskaveć | 49,28, 23,5 (1926-1953) | 2,2k | 2,7k | 3,4k | 4,5k | 6,4k |
 | Trybukhivtsi (Reg. 8) | Трибухивци; Tribukhivtsi | 49,05, 25,45 (1926-1953) | 2,1k | 2,4k | 2,7k | 2,6k | 2,6k |
 | Trypillia (Reg. 10) | Триполье | 50,12, 30,78 (1926-1953) | 4,5k | 4,3k | 4,1k | 3,9k | 3,7k |
@@ -1905,14 +1776,11 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Tysmenytsia (Reg. 8) | Тисмениця; Tysmenycja | 48,9, 24,85 (1926-1953) | 7,2k | 7,3k | 7,3k | 6,9k | 6,4k |
 | Tysovets (Reg. 9) | Тисовець; Tisovets | 48,17, 25,9 (1926-1953) | 1,7k | 2k | 2,2k | 2,3k | 2,5k |
 | Tyvriv (Reg. 10) | Тиврів; Тиврив | 49,01, 28,5 (1926-1953) | 1,1k | 2k | 3,3k | 3,1k | 2,9k |
-| Udy (Reg. 11) | Уды | 50,39, 36,06 (1926-1953) | 3,3k | 3k | 2,8k | 2,6k | 2,3k |
 | Uhniv (Reg. 8) | Угнів; Угнив | 50,37, 23,75 (1926-1953) | 3,6k | 3,4k | 2,9k | 2,4k | 1,9k |
 | Uhornyky (Reg. 8) | Угорники; Ugorniki | 48,92, 24,76 (1926-1953) | 4k | 4,5k | 5k | 4,7k | 4,4k |
 | Uhroidy (Reg. 11) | Угроїди; Uhrojidy | 50,86, 35,28 (1926-1953) | 4,3k | 4,5k | 4,6k | 4,8k | 5k |
 | Ukrayinka (Reg. 10) | Українка; Ukrajinka | 50,14, 30,75 (1926-1953) | 5,6k | 6,2k | 6,7k | 7,3k | 8,1k |
 | Ulaniv (Reg. 10) | Уланов; Улановъ | 49,7, 28,13 (1926-1953) | 2,8k | 2,8k | 2,8k | 2,7k | 2,7k |
-| Ulianivka (Reg. 11) | Улянівка; Uljanivka | 50,97, 34,3 (1926-1953) | 5,1k | 4,8k | 4,5k | 4,6k | 4,7k |
-| Ulyanovka (Reg. 11) | Ульяновка | 49,59, 37,27 (1926-1953) | 6,1k | 7k | 7,9k | 8,3k | 8,8k |
 | Ulychne (Reg. 8) | Уличне; Ulichne | 49,23, 23,65 (1926-1953) | 2,3k | 2,5k | 2,8k | 2,7k | 2,6k |
 | Uman (Reg. 10) | Human; Uman Kyiv Gub | 48,75, 30,22 (1926-1953) | 44,8k | 36k | 40,5k | 26k | 38k |
 | Ungvar (Reg. 9) | Uzhhorod; Uzhgorod | 48,62, 22,29 (1926-1953) | 24,1k | 26,7k | 35,2k | 29k | 40k |
@@ -1930,14 +1798,13 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Vashkivtsi (Reg. 9) | Вашківці; Vaškivci | 48,38, 25,52 (1926-1953) | 5,1k | 6,4k | 6,5k | 6,4k | 6,3k |
 | Vasiutyntsi (Reg. 10) | Васютинцы | 49,45, 32,46 (1926-1953) | 3,3k | 3,1k | 2,9k | 2,7k | 2,5k |
 | Vasylenkove (Reg. 11) | Василенково | 49,77, 37,04 (1926-1953) | 2,3k | 2,1k | 1,9k | 1,8k | 1,6k |
-| Vasylivka (Reg. 9) | Василивка; Vasilivka | 45,64, 28,83 (1926-1953) | 2,2k | 2,2k | 2,2k | 2,3k | 2,5k |
 | Vasylivka (Reg. 11) | Васильевка | 50,24, 37,31 (1926-1953) | 1,4k | 1,3k | 1,2k | 1,1k | 948 |
+| Vasylivka (Reg. 9) | Василивка; Vasilivka | 45,64, 28,83 (1926-1953) | 2,2k | 2,2k | 2,2k | 2,3k | 2,5k |
 | Vasylkiv (Reg. 10) | Васильків; Vasyľkiv | 50,18, 30,31 (1926-1953) | 21,3k | 6,4k | 15,2k | 16,6k | 18,7k |
 | Vasyshcheve (Reg. 11) | Васищеве; Vasyščeve | 49,83, 36,33 (1926-1953) | 2,9k | 3,3k | 3,8k | 3,8k | 3,7k |
 | Vchoraishe (Reg. 10) | Вчерайше | 49,86, 29,14 (1926-1953) | 1,2k | 1,5k | 3,8k | 3,5k | 3k |
 | Vedmedivka (Reg. 10) | Медведовка | 49,88, 31,17 (1926-1953) | 1,3k | 1,2k | 1k | 925 | 793 |
 | Velikiy Zhvanchik (Reg. 10) | Жванчикъ | 48,77, 26,98 (1926-1953) | 2,4k | 2,2k | 2,1k | 2,1k | 1,9k |
-| Veliun (Reg. 8) | Велюнь; Велюн | 51,66, 26,66 (1926-1953) | 9,1k | 9,7k | 10,2k | 10,8k | 11,6k |
 | Velyatyno (Reg. 9) | Велятино; Velyatino | 48,11, 23,32 (1926-1953) | 1,7k | 2k | 2,2k | 2,4k | 2,7k |
 | Velyka Bahachka (Reg. 11) | Велика Багачка; Velyka Bahačka | 49,8, 33,72 (1926-1953) | 3,8k | 3,6k | 3,4k | 3,7k | 4k |
 | Velyka Berezovytsya (Reg. 8) | Велика Березовиця; Velyka Berezovycja | 49,5, 25,61 (1926-1953) | 2,7k | 3k | 3,4k | 3,3k | 3,2k |
@@ -1961,25 +1828,20 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Velykyy Kuchuriv (Reg. 9) | Великий Кучурив; Velikiy Kuchuriv | 48,19, 25,9 (1926-1953) | 3k | 3,4k | 3,7k | 4k | 4,3k |
 | Vendychany (Reg. 10) | Вендичани; Vendyčany | 48,62, 27,79 (1926-1953) | 3,4k | 3,4k | 3,4k | 3,4k | 3,4k |
 | Vepryk (Reg. 11) | Веприк; Веприкъ | 50,37, 34,18 (1926-1953) | 4,8k | 4,5k | 4,2k | 4k | 3,7k |
-| Vepryk (Reg. 11) | Веприкъ | 50,68, 31,62 (1926-1953) | 18,3k | 18,6k | 19k | 19k | 19k |
 | Verbovets (Reg. 10) | Вербовець; Verboveć | 48,72, 27,43 (1926-1953) | 184 | 216 | 247 | 283 | 339 |
 | Verkhivka (Reg. 10) | Верховка | 48,9, 27,65 (1926-1953) | 2,3k | 2,2k | 2,1k | 2k | 1,8k |
 | Verkhni Petrivtsi (Reg. 9) | Верхни Петривци | 48,07, 25,7 (1926-1953) | 1,9k | 2,1k | 2,3k | 2,5k | 2,7k |
-| Verkhnie (Reg. 8) | Верхнє; Verchnje | 49,05, 22,95 (1926-1953) | 11,2k | 20,4k | 34,2k | 35,9k | 38,3k |
 | Verkhnie Synevydne (Reg. 8) | Верхнє Синьовидне; Verchnje Synjovydne | 49,1, 23,59 (1926-1953) | 4,1k | 4,6k | 5,1k | 4,9k | 4,7k |
 | Verkhnya Syrovatka (Reg. 11) | Верхня Сироватка; Verkhnya Sirovatka | 50,83, 34,96 (1926-1953) | 2,9k | 3k | 3,1k | 3,2k | 3,3k |
 | Verkhnyachka (Reg. 10) | Верхнячка; Verchnjačka | 48,83, 30,04 (1926-1953) | 5,3k | 5k | 4,8k | 4,9k | 5,1k |
 | Verkhnye Vodyane (Reg. 9) | Верхнє Водяне | 48, 23,96 (1926-1953) | 2,1k | 2,3k | 2,6k | 2,8k | 3,2k |
 | Verkhovyna (Reg. 8) | Верховина; Verchovyna | 48,16, 24,83 (1926-1953) | 5,6k | 6,3k | 7k | 6,6k | 6,2k |
 | Vertiyivka (Reg. 11) | Вертіївка; Vertijivka | 51,17, 31,86 (1926-1953) | 8,4k | 7,7k | 7,2k | 6,9k | 6,5k |
-| Vesele (Reg. 11) | Злодеевка | 49,09, 36,25 (1926-1953) | 4,3k | 3,9k | 3,6k | 3,3k | 3k |
 | Veselynivka (Reg. 10) | Скопцы | 50,24, 31,27 (1926-1953) | 3k | 2,7k | 2,6k | 2,4k | 2,2k |
-| Veselyy Kut (Reg. 9) | Парижъ | 46,05, 29,29 (1926-1953) | 2,9k | 2,8k | 2,7k | 2,5k | 2,4k |
 | Viitivka (Reg. 10) | Войтовка | 48,42, 29,54 (1926-1953) | 3,8k | 3,8k | 3,8k | 3,7k | 3,7k |
 | Vilcha (Reg. 10) | Вільча; Viľča | 51,36, 29,43 (1926-1953) | 1,6k | 1,6k | 1,6k | 1,8k | 2,1k |
 | Vilcha (Reg. 11) | Вільча; Viľča | 50,25, 36,94 (1926-1953) | 1,2k | 1,3k | 1,5k | 1,6k | 1,7k |
 | Vilkhivka (Reg. 11) | Вільхівка; Viľchivka | 49,99, 36,51 (1926-1953) | 5,1k | 5,9k | 6,6k | 6,9k | 7,2k |
-| Vilkhovets (Reg. 10) | Ольховецъ | 49,55, 31,01 (1926-1953) | 8k | 7,9k | 7,8k | 8,5k | 9,6k |
 | Vilkhovets (Reg. 10) | Ольховецъ | 49,04, 30,89 (1926-1953) | 2,3k | 2,3k | 2,3k | 2,3k | 2,3k |
 | Vilkhuvatka (Reg. 11) | Ольховатка | 48,95, 34,19 (1926-1953) | 3,2k | 2,8k | 2,5k | 2,2k | 1,9k |
 | Vilkhuvatka (Reg. 11) | Ольховатка | 50,19, 37,52 (1926-1953) | 2,3k | 2,1k | 2k | 1,9k | 1,8k |
@@ -1990,11 +1852,7 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Vinkivtsi (Reg. 10) | Віньківці; Vińkivci | 49,03, 27,23 (1926-1953) | 2k | 3k | 4,4k | 5,2k | 6,4k |
 | Vinnitsa (Reg. 10) | Vinnytsia; Winnica | 49,23, 28,47 (1926-1953) | 58k | 68k | 93k | 58k | 102k |
 | Vinnytski Khutory (Reg. 10) | Винницьки Хутори; Vinnitski Khutori | 49,21, 28,55 (1926-1953) | 5,4k | 5,4k | 5,4k | 5,4k | 5,4k |
-| Vinozh (Reg. 10) | Виножъ | 48,69, 27,7 (1926-1953) | 7,8k | 7,8k | 7,7k | 7,8k | 8k |
 | Viytivtsi (Reg. 10) | Війтівці; Vijtivci | 49,49, 26,44 (1926-1953) | 889 | 864 | 843 | 879 | 930 |
-| Vladychen (Reg. 9) | Импуцита | 45,56, 28,61 (1926-1953) | 118,2k | 130,1k | 141,2k | 150,6k | 164,1k |
-| Vlasivka (Reg. 11) | Власовка | 50,17, 34,32 (1926-1953) | 1,7k | 1,6k | 1,4k | 1,3k | 1,2k |
-| Vlasivka (Reg. 11) | Петрушовка | 50,84, 32,65 (1926-1953) | 17,7k | 18,1k | 18,4k | 18,4k | 18,5k |
 | Voinyliv (Reg. 8) | Войнилів; Vojnyliv | 49,13, 24,49 (1926-1953) | 3k | 2,8k | 2,6k | 2,4k | 2,2k |
 | Volnoe (Reg. 11) | Вольное | 50,16, 37,31 (1926-1953) | 5,1k | 5,9k | 6,6k | 6,9k | 7,4k |
 | Volochysk (Reg. 10) | Волочиськ; Voločyśk | 49,54, 26,21 (1926-1953) | 7,3k | 4,9k | 3,5k | 4,5k | 6,3k |
@@ -2024,7 +1882,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Vyshhorod (Reg. 10) | Вишгород; Vyšhorod | 50,58, 30,49 (1926-1953) | 5,8k | 5,9k | 6k | 6,7k | 7,8k |
 | Vyshkovo (Reg. 9) | Вишково; Vyškovo | 48,05, 23,42 (1926-1953) | 5,5k | 6,3k | 6,8k | 7,2k | 7,9k |
 | Vyshneve (Reg. 10) | Вишневе; Vyšneve | 50,39, 30,37 (1926-1953) | 5,5k | 5,6k | 5,7k | 6,3k | 7,4k |
-| Vyshneve (Reg. 11) | Покровск; Покровскъ | 49,08, 35,44 (1926-1953) | 7,1k | 8,1k | 9,2k | 9,6k | 10,2k |
 | Vyshnivets (Reg. 8) | Вишнівець; Vyšniveć | 49,9, 25,74 (1926-1953) | 1,3k | 1,5k | 1,7k | 1,6k | 1,6k |
 | Vysokopillia (Reg. 11) | окополье | 49,92, 35,42 (1926-1953) | 3k | 2,9k | 2,7k | 2,6k | 2,5k |
 | Vysokyi (Reg. 11) | Високий; Vysokyj | 49,89, 36,12 (1926-1953) | 1,6k | 3,1k | 5,5k | 6,4k | 7,7k |
@@ -2032,17 +1889,15 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Vyzhnytsya (Reg. 9) | Вижниця; Vyžnycja | 48,24, 25,18 (1926-1953) | 3k | 3,8k | 3,8k | 3,8k | 3,8k |
 | Yablunets (Reg. 10) | Яблунець; Jabluneć | 50,81, 28,07 (1926-1953) | 1,1k | 1,3k | 1,4k | 1,4k | 1,4k |
 | Yabluniv (Reg. 8) | Яблунів; Jabluniv | 48,4, 24,94 (1926-1953) | 1,9k | 2k | 2,2k | 2,3k | 2,6k |
-| Yablunivka (Reg. 11) | Яблоновка | 50,28, 33,25 (1926-1953) | 5,3k | 4,8k | 4,4k | 4,5k | 4,8k |
 | Yablunivka (Reg. 11) | Яблуновка | 50,46, 32,18 (1926-1953) | 4,2k | 4,3k | 4,4k | 3,9k | 3,5k |
 | Yahotyn (Reg. 10) | Яготин; Jahotyn | 50,28, 31,76 (1926-1953) | 6,2k | 5,4k | 4,8k | 6,6k | 10,1k |
 | Yaltushkiv (Reg. 10) | Ялтушковъ | 48,99, 27,51 (1926-1953) | 2,9k | 2,7k | 2,6k | 2,5k | 2,4k |
 | Yampil (Reg. 10) | Ямпіль; Jampiľ | 48,24, 28,28 (1926-1953) | 6,3k | 6,8k | 7,2k | 6,8k | 6,3k |
-| Yampil (Reg. 11) | Ямпіль; Jampiľ | 51,95, 33,79 (1926-1953) | 4,7k | 4,9k | 5k | 5k | 4,9k |
 | Yampil (Reg. 10) | Ямпіль; Jampiľ | 49,96, 26,24 (1926-1953) | 2,8k | 3k | 3,3k | 3,4k | 3,6k |
+| Yampil (Reg. 11) | Ямпіль; Jampiľ | 51,95, 33,79 (1926-1953) | 4,7k | 4,9k | 5k | 5k | 4,9k |
 | Yaremche (Reg. 8) | Яремче (Яремча); Jaremče (Jaremča) | 48,45, 24,55 (1926-1953) | 3,7k | 4,2k | 4,6k | 4,6k | 4,5k |
 | Yaresky (Reg. 11) | Яреськи | 49,84, 33,91 (1926-1953) | 2,3k | 2,4k | 2,4k | 2,5k | 2,5k |
 | Yarmolyntsi (Reg. 10) | Ярмолинці; Jarmolynci | 49,19, 26,83 (1926-1953) | 1,3k | 1,7k | 2,1k | 3k | 4,8k |
-| Yaroshi (Reg. 11) | Яроши | 49,32, 33,18 (1926-1953) | 10,6k | 9,6k | 8,8k | 9,1k | 9,6k |
 | Yaroslavka (Reg. 11) | Ярославка | 50,67, 31,29 (1926-1953) | 2,5k | 2,3k | 2,2k | 2k | 1,8k |
 | Yaruha (Reg. 10) | Яруга | 48,33, 28,05 (1926-1953) | 1,7k | 1,6k | 1,5k | 1,4k | 1,2k |
 | Yaryshiv (Reg. 10) | Ярышевъ | 48,51, 27,63 (1926-1953) | 2,8k | 2,7k | 2,5k | 2,4k | 2,2k |
@@ -2067,7 +1922,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Zaliztsi (Reg. 8) | Залізці; Zalizci | 49,8, 25,38 (1926-1953) | 5,3k | 5,2k | 3,4k | 2,3k | 1,3k |
 | Zamhlai (Reg. 11) | Замглай; Zamhlaj | 51,82, 31,16 (1926-1953) | 1,5k | 1,5k | 1,5k | 1,5k | 1,6k |
 | Zamikhiv (Reg. 10) | Замеховъ | 48,86, 27,37 (1926-1953) | 1,5k | 1,4k | 1,3k | 1,2k | 1,1k |
-| Zamostia (Reg. 9) | Замостя; Zamostja | 48,35, 25,42 (1926-1953) | 3,7k | 4,1k | 4,6k | 4,3k | 4k |
 | Zapytiv (Reg. 8) | Запитів; Запитив | 49,92, 24,21 (1926-1953) | 1,5k | 1,7k | 1,9k | 1,8k | 1,7k |
 | Zarichchia (Reg. 8) | Зариччя; Zarichchya | 48,52, 24,65 (1926-1953) | 2,8k | 3,1k | 3,4k | 3,3k | 3k |
 | Zarichchia (Reg. 9) | Зариччя; Zarichchya | 48,28, 22,99 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,4k |
@@ -2089,7 +1943,6 @@ Ukraine (Region 10) and Left-Bank Ukraine (Region 11)
 | Zhmerynka (Reg. 10) | Жмеринка; Žmerynka | 49,04, 28,11 (1926-1953) | 22,2k | 24,2k | 26k | 27k | 28,3k |
 | Zhornyshche (Reg. 8) | Жорнище | 50,71, 25,75 (1926-1953) | 2,6k | 2,4k | 2,2k | 2,1k | 1,9k |
 | Zhovkva (Reg. 8) | Жовква (Нестеров); Žovkva (Nesterov) | 50,06, 23,97 (1926-1953) | 9k | 10,2k | 10,3k | 9,5k | 8,4k |
-| Zhovtneve (Reg. 11) | Жовтневе; Žovtneve | 49,88, 34,52 (1926-1953) | 2,2k | 2,1k | 2k | 2,1k | 2,1k |
 | Zhukivka (Reg. 11) | Жуковка | 51,33, 31,68 (1926-1953) | 2,5k | 2,3k | 2,1k | 2k | 1,8k |
 | Zhuravka (Reg. 11) | Журавка | 50,48, 32,59 (1926-1953) | 3,3k | 3,2k | 3,1k | 3k | 2,9k |
 | Zhuravno (Reg. 8) | Журавно; Žuravno | 49,26, 24,28 (1926-1953) | 2,8k | 3,9k | 3,9k | 3,9k | 3,8k |
@@ -2125,7 +1978,7 @@ Polish-Ukrainian population exchanges.
 
 ## Regions 12 - 15: Dnieper Bend, Donbas, Black Sea Steppe and Crimea
 
-Table covers 965 settlements across the Dnieper Industrial Bend (Region
+Table covers 850 settlements across the Dnieper Industrial Bend (Region
 12), the Donbas Coal-Metallurgical Basin (Region 13), the Ukrainian
 Black Sea Steppe (Region 14) and Crimea (Region 15)
 [\[2\]](#ref-polyakov1992perepis1939)[\[20\]](#ref-senyavsky2019urbanisation)[\[21\]](#ref-bugai1995deportatsiya).
@@ -2135,25 +1988,16 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Adzhamka (Reg. 12) | Аджамка | 48,54, 32,54 (1926-1953) | 6,9k | 6,4k | 5,9k | 5,7k | 5,5k |
 | Aeroflotskyi (Reg. 15) | Аерофлотський; Aeroflotśkyj | 45,02, 34 (1926-1953) | 363 | 527 | 725 | 808 | 933 |
 | Ahrarne (Reg. 15) | Аграрне; smt Ahrarne | 45,02, 34,06 (1926-1953) | 642 | 931 | 1,3k | 1,4k | 1,6k |
-| Akimovka (Reg. 15) | Акимовка | 45,52, 34,82 (1926-1953) | 7,5k | 11,5k | 16,5k | 19,4k | 24,1k |
 | Albat (Reg. 15) | Куйбишеве; Kujbyševe | 44,63, 33,87 (1926-1953) | 1k | 1,1k | 1,3k | 1,4k | 1,6k |
 | Alchevsk (Reg. 13) | Voroshilovsk; Kommunarsk (1961-1992) | 48,47, 38,8 (1926-1953) | 16k | 31k | 54,5k | 63,6k | 78k |
-| Aleksandrovka (Reg. 14) | Александровка | 47,22, 33,73 (1926-1953) | 4,2k | 4k | 3,8k | 3,9k | 4,1k |
-| Aleksandrovka (Reg. 12) | Александровка | 48,93, 35,53 (1926-1953) | 5,5k | 5,4k | 5,3k | 5,7k | 6,3k |
-| Aleksandrovka (Reg. 15) | Александровка | 45,58, 34,1 (1926-1953) | 47,7k | 72,8k | 104,6k | 123k | 152,7k |
 | Aleksandrovsk (Reg. 12) | Zaporizhzhia; Alexandrovsk | 47,84, 35,14 (1926-1953) | 55,7k | 192k | 289,2k | 185k | 360k |
-| Alekseyevka (Reg. 13) | Алексеевка | 49,34, 37,94 (1926-1953) | 5,2k | 7,9k | 11,4k | 12,8k | 14,8k |
-| Alekseyevka (Reg. 14) | Алексеевка | 46,62, 33,98 (1926-1953) | 14,1k | 13,3k | 12,7k | 13,2k | 13,9k |
 | Alekseyevo-Orlovka (Reg. 13) | Алексеево-Орловка | 48,07, 38,42 (1939-1939) | \- | \- | 10,4k | \- | \- |
-| Alferovo (Reg. 12) | Алферово | 48,38, 33,97 (1926-1953) | 7,4k | 7,3k | 7,2k | 7,8k | 8,5k |
 | Almazna (Reg. 13) | Алмазна; Almazna | 48,52, 38,58 (1926-1953) | 3k | 5,4k | 8,9k | 9,4k | 10,1k |
 | Almazovka (Reg. 13) | Казабелло-Алмазнянка | 48,06, 39,32 (1939-1939) | \- | \- | 7,5k | \- | \- |
 | Alupka (Reg. 15) | Алупка | 44,42, 34,04 (1926-1953) | 3k | 5k | 7,8k | 8,1k | 8,6k |
 | Alushta (Reg. 15) | Алушта; Alušta | 44,68, 34,41 (1926-1953) | 4,8k | 6,9k | 9,6k | 10,6k | 12k |
 | Amvrosiyivka (Reg. 13) | Амвросіївка; Amvrosijivka | 47,79, 38,48 (1926-1953) | 2,8k | 7k | 15k | 16,4k | 18,4k |
-| Andriivka (Reg. 14) | Андреевка | 46,26, 32,93 (1926-1953) | 18,3k | 17,3k | 16,4k | 17,1k | 18k |
 | Andriyivka (Reg. 13) | Андріївка; Andrijivka | 48,62, 37,29 (1926-1953) | 1k | 1,8k | 2,8k | 3,5k | 4,7k |
-| Andriyivka (Reg. 12) | Андріївка; Andrijivka | 47,09, 36,59 (1926-1953) | 5,8k | 5,2k | 4,7k | 5,4k | 6,4k |
 | Andriyivka (Reg. 13) | Карань | 47,46, 37,66 (1926-1953) | 3,6k | 3,6k | 3,6k | 3,6k | 3,6k |
 | Annovka (Reg. 12) | Анновка | 48,77, 35,12 (1926-1953) | 2,6k | 2,6k | 2,5k | 2,7k | 3k |
 | Antonivka (Reg. 14) | Антонівка; Антонивка | 46,68, 32,73 (1926-1953) | 7,6k | 7,7k | 7,7k | 8k | 8,5k |
@@ -2172,7 +2016,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Azovske (Reg. 15) | Азовське; Azovśke | 45,59, 34,57 (1926-1953) | 773 | 1,1k | 1,5k | 1,9k | 2,5k |
 | Azovske (Reg. 14) | Юзкуй | 46,26, 34,86 (1926-1953) | 4,1k | 3,9k | 3,8k | 3,7k | 3,5k |
 | Babaikivka (Reg. 12) | Бабайковка | 49,02, 34,53 (1926-1953) | 4,2k | 3,8k | 3,5k | 3,2k | 2,9k |
-| Babyne (Reg. 14) | Бабина | 47,41, 34,05 (1926-1953) | 4,9k | 4,6k | 4,4k | 4,6k | 4,8k |
 | Baherove (Reg. 15) | Багерове; smt Baherove | 45,37, 36,3 (1926-1953) | 1,8k | 2,6k | 3,6k | 4k | 4,6k |
 | Baidivka (Reg. 13) | Байдовка | 49,18, 38,92 (1926-1953) | 1,8k | 1,7k | 1,6k | 1,6k | 1,5k |
 | Bairachky (Reg. 13) | Байрачки; Bajračky | 48,39, 38,6 (1926-1953) | 374 | 724 | 1,3k | 1,4k | 1,7k |
@@ -2184,10 +2027,7 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Balky (Reg. 12) | Балки; Balki | 47,39, 34,93 (1926-1953) | 5,4k | 5,3k | 5,2k | 5,2k | 5,1k |
 | Baraboi (Reg. 14) | Барабой | 46,29, 30,51 (1926-1953) | 11,7k | 10,3k | 9,3k | 8,3k | 7,2k |
 | Baranykivka (Reg. 13) | Бараниковка | 49,23, 38,3 (1926-1953) | 2,9k | 2,8k | 2,7k | 2,6k | 2,5k |
-| Basan (Reg. 12) | Басань | 47,39, 36,17 (1926-1953) | 3,8k | 3,5k | 3,2k | 3k | 2,7k |
 | Bashtanka (Reg. 14) | Баштанка; Baštanka | 47,41, 32,43 (1926-1953) | 6,6k | 6,7k | 6,7k | 6,2k | 5,5k |
-| Belitskoye (Reg. 12) | Белицкое | 47,67, 35,72 (1926-1953) | 5,5k | 5,8k | 6,1k | 6,6k | 7,3k |
-| Belyayevka (Reg. 14) | Беляевка | 46,62, 34,35 (1926-1953) | 6,6k | 6,2k | 5,9k | 6,2k | 6,5k |
 | Berdyansk (Reg. 12) | Berdiansk; Berdyansk Azov Port | 46,76, 36,8 (1926-1953) | 26,4k | 38k | 51,7k | 38k | 55k |
 | Berehove (Reg. 15) | Берегове; smt Berehove | 45,1, 35,44 (1926-1953) | 231 | 335 | 461 | 514 | 593 |
 | Berestove (Reg. 12) | Берестовое | 47,14, 36,8 (1926-1953) | 8,2k | 7,4k | 6,8k | 6,3k | 5,6k |
@@ -2220,19 +2060,15 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Blahovis-hchenske (Reg. 12) | Благовіщенське (Ульяновка); Blahoviščenśke (Uľjanovka) | 48,33, 30,24 (1926-1953) | 912 | 1,9k | 3,5k | 4,7k | 6,9k |
 | Blakytne (Reg. 14) | Блакитная | 47,41, 33,44 (1926-1953) | 4,2k | 4k | 3,8k | 3,9k | 4,2k |
 | Bobrynets (Reg. 12) | Бобринець; Bobryneć | 48,06, 32,17 (1926-1953) | 11,1k | 10k | 9,1k | 10,1k | 11,7k |
-| Bogdanovskiy (Reg. 12) | Богдановка | 47,68, 34,12 (1926-1953) | 7,2k | 7,1k | 7k | 7,5k | 8,3k |
 | Bohdanivka (Reg. 12) | Богданивка; Bogdanivka | 48,5, 36,12 (1926-1953) | 2,1k | 2,4k | 2,7k | 2,9k | 3,3k |
 | Bohoiavlenka (Reg. 13) | Доброволье | 47,86, 37,21 (1926-1953) | 2,9k | 2,7k | 2,6k | 2,5k | 2,3k |
 | Bohuslav (Reg. 12) | Богуслав; Богуславъ | 48,47, 36,02 (1926-1953) | 3,9k | 3,8k | 3,8k | 3,7k | 3,6k |
 | Bohynivka (Reg. 12) | Брагинивка; smt Brahynivka | 48,49, 36,35 (1926-1953) | 342 | 396 | 450 | 488 | 545 |
 | Bokove-Platove (Reg. 13) | Боково-Платово | 48,12, 39,02 (1939-1939) | \- | \- | 5,1k | \- | \- |
 | Bokovo-Khrustalne (Reg. 13) | Боково-Хрустальне (Вахрушеве); Bokovo-Chrustaľne (Vachruševe) | 48,15, 38,78 (1926-1953) | 1,5k | 2,9k | 5,1k | 6,5k | 9k |
-| Boltyshka (Reg. 12) | Болтышка | 48,23, 34,18 (1926-1953) | 39,3k | 38,6k | 38,1k | 41k | 45,1k |
 | Borivske (Reg. 13) | Борівське; Borivśke | 48,87, 38,57 (1926-1953) | 5,1k | 5,7k | 6,1k | 6,5k | 7,1k |
 | Borodaivka (Reg. 12) | Бородаевка | 48,75, 34,12 (1926-1953) | 3,2k | 2,9k | 2,6k | 2,4k | 2,1k |
-| Borysivka (Reg. 12) | Борисовка | 46,94, 35,62 (1926-1953) | 3,7k | 3,3k | 3k | 2,7k | 2,4k |
 | Boykivske (Reg. 13) | Бойківське (Тельманове); Bojkivśke (Teľmanove) | 47,41, 38,02 (1926-1953) | 575 | 976 | 1,5k | 1,7k | 2k |
-| Bozhedarivka (Reg. 12) | Божедарівка (Щорськ); Božedarivka (Ščorśk) | 48,36, 34,11 (1926-1953) | 2k | 2,3k | 2,7k | 3,3k | 4,4k |
 | Bratske (Reg. 14) | Братське; Bratśke | 47,87, 31,58 (1926-1953) | 2,9k | 2,9k | 2,9k | 3,6k | 4,7k |
 | Brazhyne (Reg. 13) | Бражине; Bražyne | 48, 38,84 (1926-1953) | 269 | 456 | 718 | 779 | 868 |
 | Brusivka (Reg. 13) | Брусовка | 48,91, 37,78 (1926-1953) | 2,9k | 4,5k | 6,4k | 7k | 7,8k |
@@ -2240,17 +2076,13 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Brylivka (Reg. 14) | Брилівка; Бриливка | 46,42, 33,14 (1926-1953) | 2,2k | 2,3k | 2,3k | 2,4k | 2,5k |
 | Buhayivka (Reg. 13) | Бугаївка; Buhajivka | 48,42, 38,86 (1926-1953) | 2k | 3,8k | 6,7k | 7,5k | 8,8k |
 | Bulavynske (Reg. 13) | Булавинське; Bulavynśke | 48,26, 38,33 (1926-1953) | 2,5k | 4,3k | 6,7k | 7,3k | 8,1k |
-| Bulganak (Reg. 15) | Булганакъ | 44,94, 33,79 (1926-1953) | 31k | 47,3k | 67,9k | 79,9k | 99,2k |
-| Bunchuzhne (Reg. 12) | Григорьевка | 48,1, 36,11 (1926-1953) | 3,7k | 4,3k | 4,9k | 4,3k | 3,6k |
 | Bunhe (Reg. 13) | Бунге (Юнокомунарівськ); Bunhe (Junokomunarivśk) | 48,22, 38,28 (1926-1953) | 5,2k | 7,6k | 10,7k | 12,4k | 15,2k |
 | Buran (Reg. 13) | Буран (Енгельсове); Buran (Enheľsove) | 48,3, 39,62 (1926-1953) | 1k | 2k | 3,5k | 3,6k | 3,8k |
 | Bylbasivka (Reg. 13) | Билбасівка; Билбасивка | 48,84, 37,5 (1926-1953) | 5,2k | 5,9k | 6,5k | 7,1k | 7,9k |
 | Chapli (Reg. 12) | Чаплі; Čapli | 48,42, 35,16 (1926-1953) | 2,8k | 2,9k | 3k | 3,1k | 3,2k |
 | Chaplyne (Reg. 12) | Чаплине; Čaplyne | 48,13, 36,23 (1926-1953) | 2k | 3,5k | 5,7k | 6,5k | 7,7k |
 | Chaplynka (Reg. 14) | Чаплинка; Čaplynka | 46,36, 33,54 (1926-1953) | 5,4k | 5,1k | 4,9k | 4,8k | 4,6k |
-| Chaplynka (Reg. 12) | Чаплинка | 48,73, 34,78 (1926-1953) | 6,8k | 6,1k | 5,7k | 5,2k | 4,7k |
 | Chasiv Yar (Reg. 13) | Chasov Yar; Часів Яр | 48,59, 37,84 (1926-1953) | 1,1k | 5,7k | 24,2k | 23,9k | 23,6k |
-| Chaykino (Reg. 15) | Чайкино | 45,81, 34,6 (1926-1953) | 2,8k | 4,2k | 6,1k | 7,1k | 8,9k |
 | Chekhovo (Reg. 15) | Чехове; Čechove | 45,55, 33,41 (1926-1953) | 1,5k | 2,1k | 2,9k | 3,2k | 3,7k |
 | Cherevkivka (Reg. 13) | Черевківка; Čerevkivka | 48,83, 37,64 (1939-1953) | \- | \- | 2,9k | 4,7k | 9,2k |
 | Cherkaske (Reg. 12) | Черкаське; Čerkaśke | 48,71, 35,38 (1926-1953) | 565 | 655 | 744 | 807 | 900 |
@@ -2259,7 +2091,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Chernihivka (Reg. 12) | Чернігівка; Černihivka | 47,19, 36,22 (1926-1953) | 6,7k | 6,1k | 5,6k | 6,1k | 6,9k |
 | Chertkovo (Reg. 13) | Чертково; Čertkovo | 49,38, 40,15 (1926-1953) | 2,3k | 4k | 6,5k | 7,2k | 8,2k |
 | Chervono-hryhorivka (Reg. 12) | Червоногригорівка; Červonohr-yhorivka | 47,62, 34,54 (1926-1953) | 5,7k | 6k | 6,3k | 6,4k | 6,6k |
-| Chervonoye (Reg. 15) | Червонное | 45,12, 33,69 (1926-1953) | 4,7k | 7,2k | 10,4k | 12,2k | 15,1k |
 | Chornobaivka (Reg. 14) | Чорнобаївка; Chornobayivka | 46,7, 32,55 (1926-1953) | 5,5k | 5,5k | 5,5k | 5,8k | 6,1k |
 | Chornomorsk (Reg. 14) | Чорноморськ (Іллічівськ); Čornomorśk (Illičivśk) | 46,3, 30,66 (1926-1953) | 3,7k | 3,7k | 3,7k | 3,9k | 4,1k |
 | Chornomorske (Reg. 14) | Чорноморське; Čornomorśke | 46,58, 30,93 (1926-1953) | 2,3k | 2,3k | 2,3k | 2,4k | 2,6k |
@@ -2274,15 +2105,12 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Devladove (Reg. 12) | Девладове | 48,1, 33,75 (1926-1953) | 725 | 841 | 955 | 1k | 1,2k |
 | Diakove (Reg. 13) | Дьяково | 47,94, 39,14 (1926-1953) | 4,5k | 4,2k | 4k | 3,8k | 3,6k |
 | Diyivka (Reg. 12) | Диевка | 48,47, 34,88 (1926-1953) | 6,8k | 6,7k | 6,6k | 7,1k | 7,8k |
-| Dmitriyevka (Reg. 13) | Дмитриевка | 48,75, 37,87 (1926-1953) | 7,6k | 11,6k | 16,7k | 18,1k | 20,2k |
 | Dmitriyevka (Reg. 15) | Дмитриевка | 45,7, 34,36 (1926-1953) | 8,2k | 12,5k | 17,9k | 21,1k | 26,2k |
 | Dmytrivka (Reg. 14) | Дмитровка | 47,26, 34,17 (1926-1953) | 4,5k | 4k | 3,6k | 3,2k | 2,8k |
-| Dneprovka (Reg. 12) | Днепровка | 47,38, 35,57 (1926-1953) | 8,4k | 8,9k | 9,4k | 10,2k | 11,3k |
 | Dniprodzer-zhynsk (Reg. 12) | Kamianske; Кам’янське (Дніпродзержинськ) | 48,52, 34,62 (1926-1953) | 34,1k | 75,2k | 148k | 155k | 165k |
 | Dniprove (Reg. 12) | Ямбургъ | 48,34, 35,15 (1926-1953) | 5,8k | 5,7k | 5,6k | 6k | 6,6k |
 | Dniprovske (Reg. 12) | Дніпровське; Dniprovśke | 48,59, 34,41 (1926-1953) | 721 | 836 | 949 | 1k | 1,1k |
 | Dnipryany (Reg. 14) | Дніпряни; Dniprjany | 46,75, 33,27 (1926-1953) | 4,5k | 4,6k | 4,6k | 4,8k | 5k |
-| Dobrianka (Reg. 14) | Добрянка | 47,46, 33,62 (1926-1953) | 4,3k | 4,1k | 3,9k | 4k | 4,2k |
 | Dobropillya (Reg. 13) | Добропілля; Dobropillja | 48,47, 37,09 (1926-1953) | 570 | 2k | 5,9k | 9k | 15,6k |
 | Dobroslav (Reg. 14) | Доброслав (Комінтернівське); Dobroslav (Kominternivśke) | 46,82, 30,95 (1926-1953) | 1,7k | 1,7k | 1,7k | 1,8k | 1,9k |
 | Dobrovel-ychkivka (Reg. 12) | Добровеличківка; Dobrovelyčkivka | 48,39, 31,18 (1926-1953) | 4k | 3,8k | 3,6k | 3,8k | 4,2k |
@@ -2307,22 +2135,16 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Fashchivka (Reg. 13) | Фащівка; Faščivka | 48,27, 38,62 (1926-1953) | 5,1k | 5,4k | 5,6k | 5,9k | 6,3k |
 | Fedorivka (Reg. 13) | Федорівка; Федоривка | 48,32, 38,85 (1926-1953) | 137 | 265 | 467 | 522 | 605 |
 | Fedorivka (Reg. 12) | Федоровка | 46,99, 35,27 (1926-1953) | 3,5k | 3,3k | 3,2k | 3k | 2,9k |
-| Fedorivka (Reg. 13) | Федоровка | 47,95, 36,76 (1926-1953) | 1,7k | 1,5k | 1,4k | 1,3k | 1,2k |
-| Fedorovka (Reg. 14) | Федоровка | 47,18, 33,37 (1926-1953) | 5,7k | 5,4k | 5,1k | 5,3k | 5,6k |
 | Feodosiya (Reg. 15) | Theodosia; Kefe | 45,03, 35,38 (1926-1953) | 28,7k | 36,5k | 45k | 45,4k | 45,9k |
 | Fontanka (Reg. 14) | Фонтанка | 46,57, 30,86 (1926-1953) | 4,3k | 4,3k | 4,3k | 4,5k | 4,8k |
 | Foros (Reg. 15) | Форос; smt Foros | 44,39, 33,79 (1926-1953) | 324 | 470 | 647 | 721 | 832 |
 | Frunzenskyi (Reg. 12) | Фрунзенский | 48,54, 34,96 (1939-1939) | \- | \- | 10,1k | \- | \- |
 | Golubovka (Reg. 13) | Голубовка | 48,54, 39,14 (1926-1953) | 5,3k | 8,1k | 11,7k | 13,1k | 15,2k |
 | Goluboy Zaliv (Reg. 15) | Голуба Затока; Holuba Zatoka | 44,41, 33,99 (1926-1953) | 622 | 621 | 620 | 619 | 618 |
-| Gornostayevka (Reg. 15) | Горностаевка | 45,28, 36,19 (1926-1953) | 4,5k | 4,1k | 3,8k | 4,5k | 5,6k |
-| Grigorevka (Reg. 15) | Григорьевка | 45,42, 34,12 (1926-1953) | 8k | 12,3k | 17,6k | 20,7k | 25,7k |
-| Grodovka (Reg. 13) | Гродовка | 48,42, 37,48 (1926-1953) | 6,2k | 9,4k | 13,6k | 14,8k | 16,4k |
 | Grushevka (Reg. 12) | Грушевка | 47,07, 34,53 (1926-1953) | 5,1k | 4,8k | 4,6k | 4,8k | 5k |
 | Gurovka (Reg. 14) | Гуровка | 47,24, 33,66 (1926-1953) | 6,4k | 6k | 5,7k | 5,9k | 6,3k |
 | Hannivka (Reg. 13) | Ганнівка; Ганнивка | 48,48, 38,55 (1926-1953) | 176 | 340 | 599 | 669 | 775 |
 | Haspra (Reg. 15) | Гаспра; smt Haspra | 44,44, 34,11 (1926-1953) | 696 | 1,3k | 2,1k | 3k | 4,6k |
-| Havrylivka (Reg. 12) | Гавриловка | 47,07, 34,71 (1926-1953) | 4,2k | 3,8k | 3,4k | 3,1k | 2,7k |
 | Hayvoron (Reg. 12) | Гайворон; Hajvoron | 48,34, 29,87 (1926-1953) | 1,3k | 3,7k | 9,3k | 10,3k | 11,8k |
 | Henichesk (Reg. 14) | Genichesk Azov; Генічеськ | 46,18, 34,8 (1926-1953) | 9,9k | 12,9k | 16k | 15,5k | 14,9k |
 | Heorhiivka (Reg. 13) | Георгіївка; Heorhijivka | 48,42, 39,25 (1926-1953) | 1,7k | 3,2k | 5,6k | 6,1k | 6,8k |
@@ -2339,11 +2161,9 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Holovanivsk (Reg. 12) | Голованівськ; Holovanivśk | 48,39, 30,46 (1926-1953) | 4k | 5,3k | 6,6k | 6,6k | 6,6k |
 | Holovkivka (Reg. 12) | Головковка | 48,58, 33,07 (1926-1953) | 3,9k | 3,7k | 3,5k | 3,3k | 3,1k |
 | Holubivka (Reg. 13) | Голубівка (Кіровськ); Holubivka (Kirovśk) | 48,64, 38,64 (1926-1953) | 8,3k | 15,6k | 26,6k | 29,4k | 33,6k |
-| Holubivka (Reg. 13) | Кировськ; smt Kirovśk | 48,7, 37,13 (1926-1953) | 1k | 1,7k | 2,7k | 2,9k | 3,3k |
 | Horbachevo-Mykhailivka (Reg. 13) | Горбачево-Михайлівка; Horbačevo-Mychajlivka | 47,85, 38,01 (1926-1953) | 716 | 1,2k | 1,9k | 2,1k | 2,3k |
 | Horlivka (Reg. 13) | Gorlovka; Горлівка | 48,31, 38,03 (1926-1953) | 23,1k | 102k | 181,4k | 122k | 250k |
 | Hornostayivka (Reg. 14) | Горностаївка; Hornostajivka | 47,01, 33,73 (1926-1953) | 3,8k | 3,8k | 3,8k | 4k | 4,2k |
-| Horodyshche (Reg. 13) | Городище; Horodyšče | 48,32, 38,64 (1926-1953) | 5k | 5,2k | 5,3k | 5,5k | 5,7k |
 | Hostre (Reg. 13) | Гостре; smt Hostre | 47,99, 37,4 (1926-1953) | 373 | 633 | 996 | 1,1k | 1,2k |
 | Hradenytsi (Reg. 14) | Граденици; Gradenitsi | 46,6, 30 (1926-1953) | 5,5k | 5,4k | 5,3k | 5,2k | 5,1k |
 | Hrafs’ke (Reg. 13) | Графське (Комсомольський); Hrafśke (Komsomoľśkyj) | 47,67, 37,41 (1926-1953) | 186 | 316 | 498 | 540 | 602 |
@@ -2363,7 +2183,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Ihren (Reg. 12) | Ігрень; Ihreń | 48,47, 35,2 (1926-1953) | 1,1k | 2k | 3,3k | 5,5k | 10,9k |
 | Illinka (Reg. 13) | Іллінка; Иллинка | 48,27, 38,42 (1926-1953) | 334 | 567 | 892 | 968 | 1,1k |
 | Ilovaysk (Reg. 13) | Іловайськ; Ilovajśk | 47,92, 38,2 (1926-1953) | 6,2k | 10k | 15,2k | 17k | 19,7k |
-| Ilychyovo (Reg. 15) | Рождественское | 45,28, 35,74 (1926-1953) | 8,3k | 12,7k | 18,3k | 21,5k | 26,6k |
 | Inhulets (Reg. 12) | Інгулець; Inhuleć | 47,73, 33,25 (1926-1953) | 1,1k | 1,2k | 1,4k | 2,7k | 6,4k |
 | Inhulets (Reg. 14) | Ингулецъ | 46,79, 32,83 (1926-1953) | 4,5k | 4,2k | 4k | 3,8k | 3,5k |
 | Inhuletske (Reg. 12) | Інгулецьке (Балахівка); Inhulećke (Balachivka) | 48,46, 33,18 (1926-1953) | 1,2k | 1,1k | 1k | 1,1k | 1,2k |
@@ -2372,12 +2191,10 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Irmino (Reg. 13) | Ірміно (Теплогірськ); Irmino (Teplohirśk) | 48,6, 38,59 (1926-1953) | 5,3k | 9,4k | 15,3k | 17k | 19,4k |
 | Islyam-Terek (Reg. 15) | Кіровське; Kirovśke | 45,23, 35,2 (1926-1953) | 948 | 1,4k | 1,9k | 2,6k | 4k |
 | Ivanivka (Reg. 13) | Іванівка; Иванивка | 48,24, 38,94 (1926-1953) | 6,9k | 7k | 7,1k | 6,8k | 6,4k |
-| Ivanivka (Reg. 14) | Іванівка; Иванивка | 46,97, 30,47 (1926-1953) | 2,3k | 2k | 1,8k | 1,8k | 1,8k |
 | Ivanivka (Reg. 14) | Іванівка; Иванивка | 46,71, 34,55 (1926-1953) | 5,2k | 4,9k | 4,6k | 4,8k | 5k |
+| Ivanivka (Reg. 14) | Іванівка; Иванивка | 46,97, 30,47 (1926-1953) | 2,3k | 2k | 1,8k | 1,8k | 1,8k |
 | Ivanivka (Reg. 12) | Ивановка | 47,48, 34,76 (1926-1953) | 3,6k | 4,1k | 4,6k | 4,4k | 4k |
 | Ivanivske (Reg. 13) | Іванівське (Лотикове); Ivanivśke (Lotykove) | 48,53, 38,92 (1926-1953) | 1,6k | 2,8k | 4,5k | 5,1k | 6k |
-| Ivanovka (Reg. 15) | Ивановка | 45,07, 33,66 (1926-1953) | 8,6k | 13,1k | 18,8k | 22,1k | 27,4k |
-| Iverske (Reg. 13) | Иверское | 48,64, 36,96 (1926-1953) | 5,7k | 4,9k | 4,4k | 3,9k | 3,3k |
 | Izvaryne (Reg. 13) | Ізварине; Изварине | 48,29, 39,9 (1926-1953) | 1,8k | 2,8k | 4,2k | 4,5k | 5k |
 | Kacha (Reg. 15) | Кача; Kača | 44,78, 33,54 (1926-1953) | 2,3k | 2,6k | 2,8k | 2,7k | 2,6k |
 | Kachkarivka (Reg. 14) | Качкаровка | 47,1, 33,75 (1926-1953) | 3,6k | 3,4k | 3,2k | 3,1k | 2,9k |
@@ -2386,14 +2203,9 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Kakhovka (Reg. 14) | Каховка; Kachovka | 46,82, 33,48 (1926-1953) | 7,5k | 9,9k | 12,6k | 14,2k | 16,6k |
 | Kal’mius’ke (Reg. 13) | Кальміуське (Комсомольське); Kaľmiuśke (Komsomoľśke) | 47,66, 38,08 (1926-1953) | 2,1k | 3,5k | 5,5k | 7,5k | 11,3k |
 | Kalanchak (Reg. 14) | Каланчак; Kalančak | 46,25, 33,29 (1926-1953) | 7,9k | 6,5k | 5,5k | 5,6k | 5,7k |
-| Kalynivka (Reg. 14) | Калиновка | 46,16, 32,55 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Kalynivka (Reg. 14) | Калиновка | 47,05, 32,18 (1926-1953) | 3,3k | 3,3k | 3,3k | 3,3k | 3,3k |
 | Kalynivske (Reg. 14) | Калинівське (Калінінське); Kalynivśke (Kalininśke) | 47,12, 32,98 (1926-1953) | 3,1k | 3,1k | 3,1k | 2,9k | 2,7k |
-| Kalynivske (Reg. 12) | Калиновское | 47,86, 36,46 (1926-1953) | 4,2k | 4,2k | 4,1k | 4,4k | 4,9k |
 | Kalynove (Reg. 13) | Калинове; smt Kalynove | 48,57, 38,52 (1926-1953) | 1,5k | 2,9k | 5,1k | 5,1k | 5,1k |
-| Kamianka (Reg. 12) | Кам’янка (Куйбишеве, Більмак); Kam’janka (Kujbyševe, Biľmak) | 47,23, 36,02 (1926-1953) | 5,7k | 5,5k | 5,4k | 5,8k | 6,5k |
-| Kamianka (Reg. 13) | Каменка | 49,64, 39,36 (1926-1953) | 6k | 5,4k | 4,9k | 4,4k | 3,8k |
-| Kamianka (Reg. 14) | Знаменка Малая; Камянка | 47,54, 33,16 (1926-1953) | 10,4k | 9,8k | 9,4k | 9,7k | 10,3k |
 | Kamyane (Reg. 12) | Кам’яне; Kam’jane | 47,88, 35,4 (1926-1953) | 536 | 617 | 696 | 748 | 822 |
 | Kamyane (Reg. 13) | Кам’яне; Kam’jane | 48,17, 39,17 (1926-1953) | 671 | 1,3k | 2,3k | 2,8k | 3,8k |
 | Kamyanets (Reg. 12) | Кам’янець (Новгородка); Kam’janeć (Novhorodka) | 48,36, 32,65 (1926-1953) | 9,6k | 5,8k | 3,8k | 4,2k | 4,9k |
@@ -2438,10 +2250,9 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Komyshivka (Reg. 13) | Комишівка; Komyšivka | 48,18, 37,47 (1926-1953) | 180 | 306 | 481 | 522 | 582 |
 | Komyshova Bukhta (Reg. 15) | Комишова Бухта; Komyšova Buchta | 44,58, 33,44 (1926-1953) | 5,9k | 6,6k | 7,3k | 7,8k | 8,4k |
 | Komyshuvakha (Reg. 13) | Комишуваха; Komyšuvacha | 48,64, 37,45 (1926-1953) | 174 | 295 | 464 | 503 | 561 |
-| Komyshuvakha (Reg. 12) | Комишуваха; Komyšuvacha | 47,71, 35,52 (1926-1953) | 4,7k | 4,8k | 5k | 5,1k | 5,4k |
 | Komyshuvakha (Reg. 13) | Комишуваха; Komyšuvacha | 48,45, 39,03 (1926-1953) | 457 | 885 | 1,6k | 2,1k | 3k |
+| Komyshuvakha (Reg. 12) | Комишуваха; Komyšuvacha | 47,71, 35,52 (1926-1953) | 4,7k | 4,8k | 5k | 5,1k | 5,4k |
 | Kondryuche (Reg. 13) | Кундрюче (Калінінський); Kundrjuče (Kalininśkyj) | 48,02, 39,59 (1926-1953) | 1,3k | 2,5k | 4,4k | 4,9k | 5,7k |
-| Konstanti-novka (Reg. 12) | Константиновка; Камянка | 46,52, 34,84 (1926-1953) | 3,1k | 2,8k | 2,5k | 2,2k | 1,9k |
 | Konstanti-novka (Reg. 15) | Константиновка | 44,86, 34,12 (1926-1953) | 7,8k | 11,9k | 17,1k | 20,1k | 24,9k |
 | Konstant-ynivka (Reg. 13) | Konstanti-novka; Костянтинівка | 48,53, 37,71 (1926-1953) | 25,3k | 62k | 95,8k | 58k | 82k |
 | Kontarne (Reg. 13) | Контарне; smt Kontarne | 48,09, 38,51 (1926-1953) | 1,2k | 2,1k | 3,3k | 3,5k | 3,9k |
@@ -2452,8 +2263,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Korobchyne (Reg. 12) | Коробчино | 48,77, 31,49 (1926-1953) | 3k | 2,7k | 2,4k | 2,2k | 2k |
 | Korsun (Reg. 13) | Корсунь; Korsuń | 48,2, 38,08 (1926-1953) | 4,8k | 5,3k | 5,8k | 6k | 6,2k |
 | Kosivka (Reg. 12) | Косовка | 48,81, 33,03 (1926-1953) | 2,9k | 2,7k | 2,6k | 2,4k | 2,2k |
-| Kostiant-ynopil (Reg. 13) | Константинополь | 48, 37,04 (1926-1953) | 35k | 53,6k | 77,1k | 83,6k | 93,2k |
-| Kostyant-ynivka (Reg. 14) | Костянтинівка; Kostjant-ynivka | 47,83, 31,15 (1926-1953) | 6,7k | 7,2k | 7,7k | 8,3k | 9,1k |
 | Kostyant-ynivka (Reg. 12) | Костянтинивка; Kostyant-inivka | 46,82, 35,42 (1926-1953) | 5,2k | 6k | 6,7k | 7,2k | 8k |
 | Kotovka (Reg. 12) | Котовка | 49,13, 34,94 (1926-1953) | 4,4k | 4,4k | 4,4k | 4,2k | 3,9k |
 | Kozachi Laheri (Reg. 14) | Козачи Лагери; Kozachi Lageri | 46,71, 32,98 (1926-1953) | 3,9k | 3,9k | 3,9k | 3,8k | 3,8k |
@@ -2461,7 +2270,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Kramatorsk (Reg. 13) | Kramatorskaya; Краматорськ | 48,74, 37,58 (1926-1953) | 12,3k | 58k | 94,1k | 62k | 100k |
 | Krasna Hora (Reg. 13) | Красна Гора; smt Krasna Hora | 48,66, 38,02 (1926-1953) | 225 | 382 | 601 | 652 | 726 |
 | Krasniy Oktyabr (Reg. 13) | Красний Октябр; Krasnyj Oktjabr | 48,25, 38,2 (1926-1953) | 662 | 2,9k | 10,2k | 10,5k | 10,9k |
-| Krasnogv-ardeyskoye (Reg. 15) | Красногвардійське; Krasnohvardijśke | 45,18, 34,95 (1926-1953) | 1,4k | 2,1k | 2,9k | 3,2k | 3,8k |
 | Krasnohorivka (Reg. 13) | Krasnogorovka; Красногорівка | 48,01, 37,51 (1926-1953) | 5,1k | 8,6k | 13,6k | 14,7k | 16,2k |
 | Krasnoka-myanka (Reg. 15) | Краснокам’янка; Krasnokam’janka | 44,92, 35,08 (1926-1953) | 293 | 425 | 584 | 651 | 751 |
 | Krasnopole (Reg. 12) | Краснополье | 47,92, 36,58 (1939-1939) | \- | \- | 6,7k | \- | \- |
@@ -2471,7 +2279,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Krasnyi Kut (Reg. 13) | Красний Кут; Krasnyj Kut | 48,2, 38,8 (1926-1953) | 1,6k | 3,2k | 5,6k | 6,1k | 6,8k |
 | Krasnyi Yar (Reg. 13) | Красний Яр; Krasnyj Jar | 48,3, 39,48 (1926-1953) | 1,2k | 2,4k | 4,2k | 4,7k | 5,5k |
 | Krasnyy Profintern (Reg. 13) | Красний Профінтерн; Krasnyj Profintern | 48,27, 38,18 (1926-1953) | 4,1k | 6,5k | 9,7k | 10,3k | 11,2k |
-| Kremenivka (Reg. 13) | Чердаклы | 47,33, 37,48 (1926-1953) | 4,6k | 4,1k | 3,8k | 3,4k | 3k |
 | Kreminna (Reg. 13) | Кремінна; Креминна | 49,05, 38,22 (1926-1953) | 8,9k | 11,7k | 14,8k | 17,5k | 21,9k |
 | Krinichki (Reg. 12) | Кринички; Krynyčky | 48,53, 36,2 (1926-1953) | 8,5k | 7,8k | 7,3k | 6,9k | 6,4k |
 | Kripenskyi (Reg. 13) | Кріпенський; Kripenśkyj | 48,08, 39,06 (1926-1953) | 1,8k | 3,5k | 6,2k | 7,7k | 10,2k |
@@ -2481,10 +2288,8 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Krynychanske (Reg. 13) | Криничанське (Червоногвардійське); Krynyčanśke (Červonohvardijśke) | 48,59, 38,75 (1926-1953) | 682 | 1,3k | 2,3k | 2,6k | 3k |
 | Krynychna (Reg. 13) | Кринична; Krynyčna | 48,13, 38,03 (1926-1953) | 2,9k | 2,8k | 2,6k | 3,1k | 3,7k |
 | Krynychne (Reg. 13) | Криничне (Бірюкове); Krynyčne (Birjukove) | 47,96, 39,74 (1926-1953) | 5,8k | 5,7k | 5,6k | 5,6k | 5,5k |
-| Krynychuvate (Reg. 12) | Криничеватое | 47,91, 34,32 (1926-1953) | 7,3k | 7,2k | 7,1k | 7,6k | 8,4k |
 | Kryve Ozero (Reg. 14) | Криве Озеро; smt Kryve Ozero | 47,95, 30,35 (1926-1953) | 4,2k | 6,3k | 9,1k | 9,2k | 9,5k |
 | Kryvorizhzhya (Reg. 13) | Криворіжжя; Kryvorižžja | 48,55, 38,84 (1926-1953) | 4,8k | 10k | 18,8k | 17,4k | 15,6k |
-| Kryvyi Rih (Reg. 14) | Кривой Рог; Кривой Рогъ | 46,43, 34,25 (1926-1953) | 17,4k | 16,4k | 15,6k | 16,2k | 17,1k |
 | Kukolivka (Reg. 12) | Куколовка | 48,64, 33,29 (1926-1953) | 2,4k | 2,2k | 2k | 1,9k | 1,7k |
 | Kulebivka (Reg. 12) | Кулебівка; Кулебовка | 48,63, 35,19 (1926-1939) | 5,2k | 6,5k | 8k | \- | \- |
 | Kulykivske (Reg. 13) | Куликівське (Московське); Kulykivśke (Moskovśke) | 48,11, 38,54 (1926-1953) | 479 | 814 | 1,3k | 1,4k | 1,5k |
@@ -2503,7 +2308,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Kyselivka (Reg. 14) | Киселевка | 46,76, 32,41 (1926-1953) | 4,3k | 4,1k | 3,9k | 3,8k | 3,6k |
 | Kytayhorod (Reg. 12) | Китайгородъ | 48,9, 34,45 (1926-1953) | 2,4k | 2,4k | 2,3k | 2,3k | 2,3k |
 | Laryne (Reg. 13) | Ларине; smt Laryne | 47,89, 37,93 (1926-1953) | 865 | 1,5k | 2,3k | 2,4k | 2,6k |
-| Lashinovka (Reg. 13) | Лашиновка | 48,92, 39,4 (1926-1953) | 21,6k | 32,9k | 47,4k | 53,1k | 61,8k |
 | Lazurne (Reg. 14) | Лазурне; smt Lazurne | 46,08, 32,53 (1926-1953) | 2k | 2k | 2k | 2,1k | 2,2k |
 | Lelekivka (Reg. 12) | Лелеківка; Лелековка | 48,24, 33,24 (1926-1953) | 3,5k | 3,4k | 3,4k | 4,1k | 5,1k |
 | Lisne (Reg. 13) | Лісне; Лисне | 47,17, 37,3 (1926-1953) | 116 | 197 | 309 | 335 | 373 |
@@ -2513,13 +2317,11 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Loshkarivka (Reg. 12) | Лошкарівка; Loškarivka | 47,94, 34,16 (1926-1953) | 276 | 320 | 364 | 395 | 440 |
 | Lozivskyi (Reg. 13) | Лозівський; Lozivśkyj | 48,56, 38,88 (1926-1953) | 1,2k | 2,3k | 4k | 4,5k | 5,2k |
 | Lozno-Oleksandrivka (Reg. 13) | Лозно-Олександрівка; Лозно-Олександривка | 49,84, 38,74 (1926-1953) | 422 | 816 | 1,4k | 1,6k | 1,9k |
-| Lozovaya (Reg. 13) | Лозовая | 49,26, 40,04 (1926-1953) | 6k | 9,1k | 13,1k | 14,7k | 17,1k |
 | Lozovaya Pavlovka (Reg. 13) | Лозовая Павловка | 48,48, 38,7 (1926-1926) | 6,4k | \- | \- | \- | \- |
 | Lozuvatka (Reg. 12) | Лозуватка; Лозоватка | 48,06, 33,28 (1926-1953) | 7,2k | 7,2k | 7,1k | 7,1k | 7k |
 | Lugansk (Reg. 13) | Luhansk; Lugansky Zavod | 48,57, 39,31 (1926-1953) | 71,8k | 138k | 214,6k | 148k | 238k |
 | Luhanske (Reg. 13) | Луганське; Luhanśke | 48,44, 38,26 (1926-1953) | 6,6k | 5,7k | 5,1k | 5k | 5k |
 | Lutuhyne (Reg. 13) | Лутугине; Lutugine | 48,4, 39,21 (1926-1953) | 1,2k | 2,4k | 4,2k | 5,6k | 8,4k |
-| Luzhki (Reg. 15) | Лужки | 45,54, 34,85 (1926-1953) | 4,9k | 7,5k | 10,8k | 12,7k | 15,7k |
 | Lykhivka (Reg. 12) | Лихівка; Lychivka | 48,68, 33,93 (1926-1953) | 6,2k | 6,2k | 6,2k | 6,2k | 6,2k |
 | Lyman (Reg. 13) | Krasnyi Lyman; Лиман (Красний Лиман) | 48,99, 37,8 (1926-1953) | 4,8k | 11,8k | 25,2k | 26,3k | 27,7k |
 | Lymanchuk (Reg. 13) | Лиманчук; Lymančuk | 48,02, 38,82 (1926-1953) | 397 | 674 | 1,1k | 1,2k | 1,3k |
@@ -2534,7 +2336,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Mahdalynivka (Reg. 12) | Магдалинівка; Магдалинивка | 48,91, 34,91 (1926-1953) | 1,5k | 1,8k | 2k | 2,6k | 3,6k |
 | Maiak (Reg. 13) | Маяк; Majak | 47,97, 38,03 (1926-1953) | 427 | 725 | 1,1k | 1,2k | 1,4k |
 | Makiivka (Reg. 13) | Makeyevka; Dmitrievsk | 48,05, 37,97 (1926-1953) | 79,4k | 165k | 241,9k | 170k | 310k |
-| Makiyivka (Reg. 13) | Макіївка; Makijivka | 48,05, 37,93 (1926-1953) | 3,2k | 5,4k | 8,5k | 8,9k | 9,5k |
 | Mala Bilozerka (Reg. 12) | Мала Билозерка | 47,24, 34,93 (1926-1953) | 2,3k | 2,6k | 3k | 3,2k | 3,5k |
 | Mala Vyska (Reg. 12) | Мала Виска; Mala Viska | 48,65, 31,63 (1926-1953) | 5,9k | 7k | 8,1k | 9k | 10,3k |
 | Maloianysol (Reg. 13) | Мало-Янисоль | 47,38, 37,33 (1926-1953) | 4k | 3,8k | 3,7k | 3,5k | 3,3k |
@@ -2546,12 +2347,10 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Manhush (Reg. 13) | Мангуш; Manhuš | 47,06, 37,31 (1926-1953) | 5,7k | 5,1k | 4,7k | 5k | 5,3k |
 | Mar’yinka (Reg. 13) | Мар’їнка; Mar’jinka | 47,95, 37,51 (1926-1953) | 2,3k | 4k | 6,2k | 6,7k | 7,3k |
 | Marhanets (Reg. 12) | Marganets; Марганець | 47,64, 34,6 (1926-1953) | 15,7k | 18,2k | 20,7k | 24,1k | 29,6k |
-| Marianovka (Reg. 14) | Марьяновка | 46,6, 34,42 (1926-1953) | 8,6k | 8,1k | 7,7k | 8k | 8,4k |
 | Mariia (Reg. 13) | Марія (Леніна); Marija (Lenina) | 48,43, 39,15 (1926-1953) | 425 | 823 | 1,4k | 1,6k | 1,9k |
 | Mariupol (Reg. 13) | Mariupol Azov Port; Mariupol Metallurgical | 47,1, 37,54 (1926-1953) | 63,9k | 152k | 221,5k | 140k | 240k |
 | Markivka (Reg. 13) | Марківка; Маркивка | 49,53, 39,57 (1926-1953) | 6,3k | 6k | 5,7k | 5,4k | 5,1k |
 | Martonosha (Reg. 12) | Мартоноша | 48,76, 31,79 (1926-1953) | 3,3k | 3k | 2,8k | 2,6k | 2,4k |
-| Maryevka (Reg. 15) | Марьевка | 45,11, 36,24 (1926-1953) | 10k | 15,3k | 22k | 25,9k | 32,1k |
 | Maryivka (Reg. 12) | Мар’ївка; Mar’jivka | 47,61, 34,62 (1926-1953) | 345 | 400 | 454 | 493 | 549 |
 | Marynivka (Reg. 13) | Мариновка | 48,18, 37,35 (1926-1953) | 18,5k | 28,3k | 40,7k | 44,1k | 49,2k |
 | Masandra (Reg. 15) | Масандра; smt Masandra | 44,52, 34,18 (1926-1953) | 470 | 682 | 938 | 1,3k | 1,9k |
@@ -2563,16 +2362,12 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Mezhova (Reg. 12) | Межова; Mežova | 48,25, 36,73 (1926-1953) | 3,7k | 4,3k | 4,9k | 5,7k | 7k |
 | Mezhove (Reg. 13) | Межове; Mežove | 47,97, 38,07 (1926-1953) | 690 | 1,2k | 1,8k | 2k | 2,2k |
 | Mezhyrich (Reg. 12) | Межеричь | 48,56, 35,77 (1926-1953) | 5,9k | 5,7k | 5,5k | 5,3k | 5k |
-| Mikhaylovka (Reg. 14) | Елисаветградовка; Михайловка | 46,88, 33,58 (1926-1953) | 10,8k | 10,2k | 9,7k | 10,1k | 10,7k |
-| Mikhaylovka (Reg. 15) | Михайловка | 45,53, 34,64 (1926-1953) | 32,6k | 49,8k | 71,6k | 84,2k | 104,5k |
-| Mikhaylovka (Reg. 12) | Михайловка | 48,88, 35,35 (1926-1953) | 5,1k | 5,1k | 5k | 5,4k | 5,9k |
+| Mikhaylovka (Reg. 12) | Елисаветградовка; Михайловка | 47,27, 35,22 (1926-1953) | 10,8k | 10,2k | 9,7k | 10,1k | 10,7k |
 | Milove (Reg. 13) | Мілове; Милове | 49,38, 40,14 (1926-1953) | 1,4k | 2,7k | 4,8k | 4,7k | 4,7k |
 | Mishkovo-Pohorilove (Reg. 14) | Мишково-Погорилове; Mishkovo-Pogorilove | 46,99, 32,11 (1926-1953) | 3k | 2,9k | 2,8k | 3k | 3,4k |
 | Miusynsk (Reg. 13) | Міусинськ; Miusynśk | 48,08, 38,9 (1926-1953) | 1,3k | 2,5k | 4,4k | 4,3k | 4,2k |
 | Mohyliv (Reg. 12) | Могилев; Могилевъ | 48,87, 34,49 (1926-1953) | 6,3k | 6k | 5,8k | 5,5k | 5,2k |
-| Moldovanka (Reg. 14) | Первомайск | 46,65, 30,34 (1926-1953) | 33k | 33k | 33k | 35,2k | 38,3k |
 | Molochansk (Reg. 12) | Молочанськ; Moločanśk | 47,2, 35,6 (1926-1953) | 8,8k | 10,2k | 11,5k | 11,3k | 11k |
-| Molodizhne (Reg. 12) | Молодіжне; Molodižne | 48,18, 32,66 (1926-1953) | 1,9k | 1,7k | 1,5k | 1,7k | 1,8k |
 | Monakhove (Reg. 13) | Монахове; Monachove | 48,15, 38,11 (1926-1953) | 156 | 265 | 416 | 451 | 503 |
 | Moshoryne (Reg. 12) | Мошорино | 48,62, 32,72 (1926-1953) | 3,7k | 3,4k | 3,2k | 3k | 2,8k |
 | Mospyne (Reg. 13) | Моспине; Mospine | 47,89, 38,06 (1926-1953) | 5,6k | 9,5k | 15k | 15,8k | 17k |
@@ -2581,35 +2376,29 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Mykhailivka (Reg. 13) | Михайлівка; Mychajlivka | 48,5, 38,9 (1926-1953) | 1,1k | 2,1k | 3,7k | 4,4k | 5,6k |
 | Mykilske (Reg. 13) | Микільське (Володарське, Нікольське); Mykiľśke (Volodarśke, Nikoľśke) | 48,92, 37,45 (1926-1953) | 1,3k | 2,3k | 3,6k | 3,9k | 4,4k |
 | Mykolaivka (Reg. 12) | Миколаївка; Mykolajivka | 48,36, 34,69 (1926-1953) | 1,8k | 2,1k | 2,4k | 2,4k | 2,4k |
-| Mykolaivka (Reg. 13) | Миколаївка; Mykolajivka | 47,65, 37,68 (1926-1953) | 2k | 3,4k | 5,3k | 5,8k | 6,5k |
-| Mykolaivka (Reg. 13) | Миколаївка; Mykolajivka | 48,59, 39,52 (1926-1953) | 618 | 1,2k | 2,1k | 1,9k | 1,6k |
 | Mykolaivka (Reg. 13) | Миколаївка; smt Mykolajivka | 48,86, 37,77 (1926-1953) | 4,8k | 8,2k | 12,9k | 14k | 15,6k |
+| Mykolaivka (Reg. 13) | Миколаївка; Mykolajivka | 48,59, 39,52 (1926-1953) | 618 | 1,2k | 2,1k | 1,9k | 1,6k |
 | Mykolayivka (Reg. 14) | Миколаївка; Mykolajivka | 47,54, 30,76 (1926-1953) | 1,6k | 1,6k | 1,6k | 1,6k | 1,8k |
 | Mykytivka (Reg. 13) | Микитівка | 48,37, 38,04 (1926-1953) | 5,1k | 8,8k | 14k | 15,2k | 17k |
 | Myrna Dolyna (Reg. 13) | Мирна Долина; smt Myrna Dolyna | 48,81, 38,48 (1926-1953) | 202 | 391 | 689 | 770 | 892 |
-| Myrne (Reg. 12) | Мирне | 47,7, 33,01 (1926-1953) | 549 | 637 | 723 | 784 | 875 |
-| Myrne (Reg. 13) | Мирне; smt Myrne | 47,43, 37,73 (1926-1953) | 389 | 661 | 1k | 1,1k | 1,3k |
-| Myrne (Reg. 12) | Мирне; smt Myrne | 46,95, 35,44 (1926-1953) | 823 | 948 | 1,1k | 1,1k | 1,3k |
-| Myrne (Reg. 13) | Мирне; smt Myrne | 48,29, 39,65 (1926-1953) | 601 | 1,2k | 2k | 1,8k | 1,5k |
 | Myrne (Reg. 14) | Мирне; smt Myrne | 46,25, 33,47 (1926-1953) | 1,3k | 1,3k | 1,3k | 1,4k | 1,4k |
+| Myrne (Reg. 13) | Мирне; smt Myrne | 48,29, 39,65 (1926-1953) | 601 | 1,2k | 2k | 1,8k | 1,5k |
+| Myrne (Reg. 12) | Мирне; smt Myrne | 46,95, 35,44 (1926-1953) | 823 | 948 | 1,1k | 1,1k | 1,3k |
 | Myrnohrad (Reg. 13) | Dymytrov; Dimitrov | 48,3, 37,27 (1926-1953) | 5,5k | 7,5k | 9,6k | 11,1k | 13,3k |
 | Myrnyi (Reg. 15) | Мирний; Myrnyj | 45,31, 33,04 (1926-1953) | 863 | 1,3k | 1,7k | 1,9k | 2,2k |
-| Myronivskyi (Reg. 13) | Миронівський; Myronivśkyj | 48,46, 38,27 (1926-1953) | 1,5k | 2,5k | 4k | 4,3k | 4,8k |
+| Myronivskyi (Reg. 13) | Миронівський; Myronivśkyj | 48,46, 38,27 (1926-1953) | 79 | 75 | 71 | 69 | 67 |
 | Myrove (Reg. 12) | Мирове | 47,77, 34,73 (1926-1953) | 392 | 455 | 516 | 560 | 624 |
 | Naddnipr-yanske (Reg. 14) | Наддніпрянське; Naddniprjanśke | 46,74, 32,71 (1926-1953) | 672 | 676 | 680 | 707 | 746 |
 | Nadiyivka (Reg. 12) | Жданове; Ždanove | 48,23, 34,75 (1926-1953) | 383 | 444 | 504 | 547 | 610 |
 | Naholno-Tarasivka (Reg. 13) | Нагольно-Тарасівка; Nahoľno-Tarasivka | 48, 39,48 (1926-1953) | 936 | 1,8k | 3,2k | 3,3k | 3,4k |
 | Nauchnyi (Reg. 15) | Научний; Naučnyj | 44,73, 34,01 (1926-1953) | 184 | 267 | 368 | 410 | 474 |
 | Nebelivka (Reg. 12) | Небелевка | 48,63, 30,58 (1926-1953) | 4,9k | 4,6k | 4,4k | 4,5k | 4,6k |
-| Nelhivka (Reg. 12) | Нельговка | 47,05, 36,25 (1926-1953) | 9,3k | 9,8k | 10,4k | 11,2k | 12,4k |
 | Nelipivka (Reg. 13) | Неліпівка; Нелипивка | 48,35, 37,84 (1926-1953) | 572 | 971 | 1,5k | 1,7k | 1,8k |
 | Nerubaika (Reg. 12) | Нерубайка | 48,66, 30,69 (1926-1953) | 2,9k | 2,7k | 2,5k | 2,3k | 2,1k |
 | Nerubayske (Reg. 14) | Нерубайське | 46,54, 30,63 (1926-1953) | 4,8k | 4,8k | 4,8k | 5,1k | 5,4k |
 | Nikita (Reg. 15) | Нікіта; Никита | 44,51, 34,24 (1926-1953) | 710 | 845 | 980 | 1,1k | 1,3k |
 | Nikolaev (Reg. 14) | Mykolaiv; Black Sea Shipyard | 46,98, 31,99 (1926-1953) | 104,9k | 132k | 168,7k | 115k | 195k |
 | Nikolayevka (Reg. 15) | Миколаївка; Mykolajivka | 44,96, 33,61 (1926-1953) | 5,3k | 4,7k | 4,3k | 3,9k | 3,4k |
-| Nikolayevka (Reg. 14) | Ново-Воронцовка | 46,55, 34,72 (1926-1953) | 6k | 5,7k | 5,4k | 5,6k | 5,9k |
-| Nikolayevka (Reg. 13) | Ново-Николаевское; Николаевка | 48,78, 37,22 (1926-1953) | 3,8k | 5,8k | 8,4k | 9,1k | 10,1k |
 | Nikopol (Reg. 12) | Nikopol Manganese; Нікополь | 47,57, 34,4 (1926-1953) | 14,2k | 36k | 57,9k | 42k | 70k |
 | Nizhnegorskiy (Reg. 15) | Нижньогірський; Nyžnjohirśkyj | 45,45, 34,74 (1926-1953) | 1,6k | 2,3k | 3,2k | 3,4k | 3,9k |
 | Nova Dolyna (Reg. 14) | Нова Долина; Nova Dolina | 46,4, 30,58 (1926-1953) | 2,3k | 2,3k | 2,3k | 2,4k | 2,5k |
@@ -2618,15 +2407,12 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Nova Odesa (Reg. 14) | Нова Одеса; Nova Odesa | 47,31, 31,77 (1926-1953) | 6,4k | 6,1k | 5,9k | 6,1k | 6,3k |
 | Nova Praha (Reg. 12) | Нова Прага; smt Nova Praha | 48,57, 32,9 (1926-1953) | 13,1k | 11k | 9,5k | 9,8k | 10,3k |
 | Nova Zburivka (Reg. 14) | Нова Збур’ївка; Nova Zbur’Yivka | 46,45, 32,45 (1926-1953) | 4,3k | 4,3k | 4,4k | 4,5k | 4,8k |
-| Nove (Reg. 12) | Нове; smt Nove | 48,53, 32,12 (1926-1953) | 2,5k | 2,2k | 2k | 2,2k | 2,4k |
 | Nove Zhittya (Reg. 15) | Нове Життя; Nove Žyttja | 45,66, 34,5 (1926-1953) | 710 | 1k | 1,4k | 1,6k | 1,8k |
+| Nove (Reg. 12) | Нове; smt Nove | 48,53, 32,12 (1926-1953) | 2,5k | 2,2k | 2k | 2,2k | 2,4k |
 | Novi Bilyari (Reg. 14) | Нові Білярі; Novi Biljari | 46,64, 31,01 (1926-1953) | 3,1k | 3,1k | 3,1k | 3,3k | 3,5k |
-| Novo-Aleksandrovka (Reg. 12) | Ново-Александровка | 48,02, 35,11 (1926-1953) | 4,7k | 5k | 5,3k | 5,7k | 6,4k |
 | Novo-Nikolayevka (Reg. 14) | Ново-Николаевка | 46,92, 33,2 (1926-1953) | 5k | 4,7k | 4,5k | 4,7k | 4,9k |
 | Novo-Odessa (Reg. 14) | Ново-Одесса | 47,32, 34,2 (1926-1953) | 6,4k | 6k | 5,7k | 6k | 6,3k |
-| Novo-Pavlovka (Reg. 13) | Ново-Павловка; Ново Павловка | 48,58, 37,04 (1926-1953) | 4,5k | 6,9k | 9,9k | 10,7k | 12k |
 | Novo-Pavlovka (Reg. 14) | Ново-Павловка | 46,5, 33,51 (1926-1953) | 4,6k | 4,3k | 4,1k | 4,3k | 4,5k |
-| Novo-Troitskoye (Reg. 13) | Ново-Троицкое | 48,42, 38,43 (1926-1953) | 4,4k | 6,8k | 9,7k | 10,5k | 11,8k |
 | Novo-Ukrainka (Reg. 12) | Ново-Украинка | 47,95, 33,37 (1939-1939) | \- | \- | 15,6k | \- | \- |
 | Novoaidar (Reg. 13) | Новоайдар; Novoajdar | 48,96, 39 (1926-1953) | 5,2k | 4,9k | 4,6k | 4,7k | 4,9k |
 | Novoamvr-osiivske (Reg. 13) | Новоамвросіївське; Novoamvr-osijivśke | 47,83, 38,5 (1926-1953) | 806 | 1,4k | 2,2k | 2,3k | 2,6k |
@@ -2650,15 +2436,11 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Novoolek-siyivka (Reg. 14) | Новоолексіївка; Novoolek-sijivka | 46,23, 34,65 (1926-1953) | 3,4k | 3,4k | 3,4k | 4,1k | 5,2k |
 | Novoozerne (Reg. 15) | Новоозерне; smt Novoozerne | 45,38, 33,12 (1926-1953) | 866 | 1,3k | 1,7k | 1,9k | 2,2k |
 | Novopavlivka (Reg. 13) | Новопавлівка | 48,41, 39,07 (1926-1953) | 6,1k | 6,2k | 6,3k | 6,4k | 6,4k |
-| Novopokrovka (Reg. 12) | Новопокровка; smt Novopokrovka | 48,06, 34,61 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,4k |
-| Novopokrovka (Reg. 14) | Ново-Покровка | 47,44, 30,8 (1926-1953) | 4,6k | 4,6k | 4,6k | 4,9k | 5,3k |
 | Novoselivka (Reg. 13) | Новоселівка; Новоселивка | 49,07, 37,7 (1926-1953) | 1,3k | 2,1k | 3,4k | 3,2k | 2,9k |
 | Novoselo-vskoye (Reg. 15) | Новоселівське; Novoselivśke | 45,44, 33,6 (1926-1953) | 544 | 789 | 1,1k | 1,3k | 1,7k |
 | Novosvitlivka (Reg. 13) | Новосвітлівка; Новосвитливка | 48,49, 39,51 (1926-1953) | 576 | 1,1k | 2k | 1,9k | 1,9k |
 | Novotosh-kivske (Reg. 13) | Новотошківське; Novotoškivśke | 48,72, 38,63 (1926-1953) | 710 | 1,4k | 2,4k | 2,7k | 3,1k |
-| Novotroyitske (Reg. 13) | Новотроїцьке; Novotrojićke | 48,58, 37,22 (1926-1953) | 2,6k | 4,4k | 6,9k | 7,5k | 8,4k |
 | Novotroyitske (Reg. 14) | Новотроїцьке; Novotrojićke | 46,35, 34,33 (1926-1953) | 4,9k | 5k | 5k | 5,5k | 6,4k |
-| Novoukrainka (Reg. 14) | Павловск; Павловскъ | 46,16, 33,16 (1926-1953) | 18,6k | 17,6k | 16,7k | 17,4k | 18,4k |
 | Novoukrayinka (Reg. 12) | Новоукраїнка; Novoukrajinka | 48,32, 31,52 (1926-1953) | 16,4k | 16k | 15,6k | 16k | 16,5k |
 | Novovasylivka (Reg. 12) | Нововасилівка; Нововасиливка | 46,83, 35,76 (1926-1953) | 3k | 3,4k | 3,9k | 4,2k | 4,6k |
 | Novoviazivske (Reg. 12) | Вязовка | 48,76, 35,82 (1926-1953) | 4,1k | 3,8k | 3,5k | 3,3k | 3k |
@@ -2681,7 +2463,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Ocheretyne (Reg. 13) | Очеретине; Očeretyne | 48,24, 37,62 (1926-1953) | 1,5k | 2,5k | 4k | 4,3k | 4,8k |
 | Odessa (Reg. 14) | Odesa; Khadzhibey | 46,48, 30,72 (1926-1953) | 420,9k | 475k | 601,7k | 380k | 580k |
 | Oktyabr’skoye (Reg. 15) | Октябрське; Oktjabrśke | 45,36, 36,37 (1926-1953) | 1k | 1,5k | 2,1k | 3,1k | 5,1k |
-| Oktyabrskiy (Reg. 12) | Октябрьский | 47,67, 33,62 (1939-1939) | \- | \- | 13,3k | \- | \- |
 | Oleksandrivka (Reg. 13) | Олександрівка; Олександривка | 48,71, 36,91 (1926-1953) | 591 | 1k | 1,6k | 1,6k | 1,7k |
 | Oleksandrivka (Reg. 12) | Олександрівка; Олександривка | 48,97, 32,24 (1926-1953) | 5,1k | 5,4k | 5,6k | 6,7k | 8,4k |
 | Oleksandrivka (Reg. 14) | Олександрівка; Олександривка | 47,69, 31,28 (1926-1953) | 4k | 3,9k | 3,8k | 4,1k | 4,6k |
@@ -2717,24 +2498,15 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Pavlohrad (Reg. 12) | Pavlograd Western Donbas; Павлоград | 48,53, 35,87 (1926-1953) | 18,8k | 25,7k | 33,7k | 35,5k | 38k |
 | Pavlysh (Reg. 12) | Павлиш; Pavlyš | 48,92, 33,36 (1926-1953) | 5,5k | 4,9k | 4,5k | 4,6k | 4,9k |
 | Pelahiivka (Reg. 13) | Пелагіївка; Pelahijivka | 48,11, 38,61 (1926-1953) | 2k | 3,3k | 5,3k | 7k | 10,4k |
-| Perekop (Reg. 15) | Перекоп | 46,16, 33,69 (1926-1953) | 9,5k | 14,4k | 20,7k | 24,4k | 30,3k |
 | Peremoha (Reg. 12) | Лоцманская Каменка; Лоцмано-Каменка | 48,4, 35,09 (1926-1953) | 4,9k | 5,3k | 5,6k | 6k | 6,6k |
 | Pereshchepyne (Reg. 12) | Перещепине; Pereščepyne | 49,03, 35,37 (1926-1953) | 9,2k | 7,4k | 6,2k | 6,7k | 7,3k |
 | Perevalsk (Reg. 13) | Перевальськ; Perevaľśk | 48,44, 38,83 (1926-1953) | 3,4k | 9,1k | 21,1k | 24k | 28,5k |
-| Pershopo-krovka (Reg. 14) | Покровка | 47,01, 34,49 (1926-1953) | 3,1k | 2,8k | 2,5k | 2,3k | 2,1k |
 | Pervomaisk (Reg. 14) | Olviopol-Bohopil; Первомайськ | 48,04, 30,85 (1926-1953) | 31,8k | 27,5k | 33k | 24k | 37k |
 | Pervomayka (Reg. 13) | Первомайка; Pervomajka | 48,29, 39,78 (1926-1953) | 777 | 1,9k | 3,9k | 4,7k | 6k |
-| Pervomayske (Reg. 13) | Первомайське; Pervomajśke | 47,99, 38,79 (1926-1953) | 397 | 674 | 1,1k | 1,2k | 1,3k |
-| Pervomayske (Reg. 14) | Заводське (Первомайське); Zavodśke (Pervomajśke) | 47,04, 32,44 (1926-1953) | 2,4k | 2,3k | 2,2k | 2,4k | 2,7k |
 | Pervomayskoye (Reg. 15) | Первомайське; Pervomajśke | 45,06, 35,16 (1926-1953) | 440 | 638 | 878 | 1,3k | 2k |
 | Pervomayskyi (Reg. 13) | Первомайський; Pervomajśkyj | 47,97, 38,79 (1926-1953) | 2,1k | 3,6k | 5,6k | 5,5k | 5,3k |
-| Peschanoye (Reg. 15) | Песчаное | 44,84, 33,61 (1926-1953) | 6,7k | 10,2k | 14,7k | 17,3k | 21,5k |
-| Petrivka (Reg. 13) | Петрівка; Петривка | 48,57, 37,2 (1926-1953) | 430 | 730 | 1,1k | 1,2k | 1,4k |
-| Petrivka (Reg. 13) | Петропавлівка (Петрівка); Petropavlivka (Petrivka) | 49,87, 38,8 (1926-1953) | 1,2k | 2,2k | 3,9k | 4,4k | 5,1k |
-| Petrivka (Reg. 14) | Петровка | 46,24, 32,85 (1926-1953) | 5,7k | 5,2k | 4,8k | 4,5k | 4k |
 | Petrodolynske (Reg. 14) | Петродолинське; Petrodolinske | 46,43, 30,4 (1926-1953) | 2,6k | 2,6k | 2,6k | 2,8k | 3k |
 | Petropavlivka (Reg. 12) | Петропавлівка; Петропавливка | 48,46, 36,43 (1926-1953) | 9,9k | 8,2k | 7k | 7,2k | 7,4k |
-| Petropavlivka (Reg. 13) | Петропавливка | 48,81, 39,27 (1926-1953) | 1,3k | 2,5k | 4,4k | 4,9k | 5,7k |
 | Petropavlovka (Reg. 15) | Петропавловка | 44,9, 34,15 (1926-1953) | 13,5k | 20,7k | 29,7k | 34,9k | 43,3k |
 | Petrove (Reg. 12) | Петрове; smt Petrove | 48,34, 33,27 (1926-1953) | 8k | 6,5k | 5,5k | 5,2k | 4,8k |
 | Petrovka (Reg. 15) | Петровка | 45,5, 34,29 (1926-1953) | 3,3k | 3,1k | 2,9k | 3,4k | 4,2k |
@@ -2742,9 +2514,7 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Petrykivka (Reg. 12) | Петриківка; Петрикивка | 48,73, 34,62 (1926-1953) | 26k | 20k | 16k | 12,9k | 9,6k |
 | Pidhorodna (Reg. 14) | Підгородна; Пидгородна | 48,11, 30,89 (1926-1953) | 1,8k | 1,8k | 1,7k | 1,9k | 2,1k |
 | Pidhorodnye (Reg. 12) | Підгороднє (Підгородне); Pidhorodnje (Pidhorodne) | 48,57, 35,1 (1926-1953) | 8,5k | 10,5k | 12,5k | 12,8k | 13k |
-| Pidlisne (Reg. 12) | Федварь | 48,78, 32,25 (1926-1953) | 3,7k | 3,3k | 2,9k | 2,6k | 2,3k |
 | Pidvysoke (Reg. 12) | Подвысокое | 48,58, 30,68 (1926-1953) | 5k | 4,5k | 4,1k | 3,8k | 3,5k |
-| Pischchanyy Brid (Reg. 14) | Шпейеръ | 47,21, 31,41 (1926-1953) | 3k | 2,7k | 2,4k | 2,1k | 1,8k |
 | Pishchanka (Reg. 12) | Пищанка; Песчанка | 48,61, 35,33 (1926-1953) | 3,6k | 3,6k | 3,6k | 3,6k | 3,6k |
 | Pishchanyi Brid (Reg. 12) | Песчаный Брод | 48,28, 31,31 (1926-1953) | 6k | 5,4k | 4,9k | 4,6k | 4,2k |
 | Pivnichne (Reg. 13) | Північне (Кірове); Pivnične (Kirove) | 48,4, 37,91 (1926-1953) | 4,7k | 8k | 12,6k | 13,8k | 15,7k |
@@ -2756,11 +2526,9 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Pokrovka (Reg. 13) | Покровка; smt Pokrovka | 47,91, 38,33 (1926-1953) | 635 | 629 | 624 | 619 | 613 |
 | Pokrovsk (Reg. 13) | Krasnoarmiisk; Покровськ (Красноармійськ) | 48,28, 37,18 (1926-1953) | 11,4k | 19k | 29,6k | 34,2k | 41,5k |
 | Pokrovske (Reg. 12) | Покровське; Pokrovśke | 47,55, 34,15 (1926-1953) | 8,2k | 7,3k | 6,6k | 7,4k | 8,7k |
-| Poliana (Reg. 15) | Маркуръ | 44,55, 33,9 (1926-1953) | 7,9k | 12k | 17,2k | 20,3k | 25,2k |
 | Polohy (Reg. 12) | Пологи; Pologi | 47,48, 36,25 (1926-1953) | 7,6k | 10,1k | 12,9k | 13,9k | 15,3k |
 | Pomichna (Reg. 12) | Помічна; Pomična | 48,24, 31,41 (1926-1953) | 6,3k | 5,7k | 5,2k | 6,6k | 9,2k |
 | Popasna (Reg. 13) | Popasnaya; Попасна | 48,63, 38,38 (1926-1953) | 7,7k | 15k | 26,4k | 27,7k | 29,5k |
-| Popivka (Reg. 15) | Поповка | 46,04, 34,5 (1926-1953) | 9,3k | 8,8k | 8,4k | 8,7k | 9,2k |
 | Popova Balka (Reg. 13) | Попова Балка (Кутейникове); Popova Balka (Kutejnykove) | 47,81, 38,29 (1926-1953) | 1,2k | 2,2k | 3,5k | 4k | 4,7k |
 | Poshtove (Reg. 15) | Поштове; Poštove | 44,84, 33,96 (1926-1953) | 600 | 870 | 1,2k | 1,3k | 1,5k |
 | Preobrazhenka (Reg. 12) | Преображенка | 47,58, 35,8 (1926-1953) | 3,5k | 3,4k | 3,4k | 3,4k | 3,3k |
@@ -2777,10 +2545,8 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Prymorskyi (Reg. 15) | Приморський; Prymorśkyj | 45,11, 35,48 (1926-1953) | 991 | 1,4k | 2k | 2,2k | 2,5k |
 | Pryvillia (Reg. 13) | Привілля; Pryvillja | 49,01, 38,3 (1926-1953) | 1,2k | 2,4k | 4,2k | 5,3k | 7,2k |
 | Pryvilne (Reg. 14) | Привольное | 46,56, 33,37 (1926-1953) | 3,4k | 2,9k | 2,5k | 2,2k | 1,8k |
-| Pryvilne (Reg. 14) | Привольное | 47,49, 32,3 (1926-1953) | 5k | 4,8k | 4,7k | 4,5k | 4,1k |
 | Pryyutivka (Reg. 12) | Приютівка; Pryjutivka | 48,73, 33,07 (1926-1953) | 3,3k | 2,9k | 2,7k | 2,9k | 3,2k |
 | Pushkarivka (Reg. 12) | Пушкаровка | 48,65, 34,3 (1926-1953) | 4,2k | 4,1k | 4k | 3,8k | 3,7k |
-| Pyatikhatka (Reg. 15) | Пятихатка | 45,32, 34,26 (1926-1953) | 6,4k | 9,3k | 12,8k | 15k | 18,7k |
 | Pyatykhatky (Reg. 12) | П’ятихатки; P’jatychatky | 48,41, 33,71 (1926-1953) | 5,8k | 8,8k | 12,8k | 14,9k | 18,3k |
 | Pysmenne (Reg. 12) | Письменне; Pyśmenne | 48,2, 35,8 (1926-1953) | 2,3k | 2,7k | 3k | 3,3k | 3,7k |
 | Radensk (Reg. 14) | Раденськ | 46,55, 32,93 (1926-1953) | 3k | 3,1k | 3,1k | 3,2k | 3,2k |
@@ -2790,7 +2556,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Raukhivka (Reg. 14) | Раухівка; Rauchivka | 47,17, 30,82 (1926-1953) | 1,5k | 1,5k | 1,5k | 1,6k | 1,7k |
 | Rayske (Reg. 13) | Райське; Rajśke | 48,57, 37,46 (1926-1953) | 710 | 1,2k | 1,9k | 1,8k | 1,8k |
 | Rivne (Reg. 12) | Ривне | 48,24, 31,76 (1926-1953) | 3,6k | 3,2k | 3k | 3,2k | 3,5k |
-| Rivne (Reg. 14) | Ровное | 46,36, 34,76 (1926-1953) | 17,5k | 16,6k | 15,8k | 16,4k | 17,3k |
 | Rodakove (Reg. 13) | Родакове; smt Rodakove | 48,56, 39,03 (1926-1953) | 1,5k | 2,9k | 5,2k | 6,2k | 7,7k |
 | Rodnykivka (Reg. 12) | Сентово | 48,75, 32,08 (1926-1953) | 2,5k | 2,2k | 2k | 1,8k | 1,6k |
 | Rodynske (Reg. 13) | Родинське; Rodynśke | 48,35, 37,21 (1926-1953) | 3,4k | 5,7k | 9k | 9,8k | 10,9k |
@@ -2819,20 +2584,18 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Savran (Reg. 14) | Саврань; Savrań | 48,13, 30,08 (1926-1953) | 8,2k | 6,4k | 5,2k | 6,1k | 7,5k |
 | Seleznivka (Reg. 13) | Селезнівка; Селезнивка | 48,39, 38,79 (1926-1953) | 873 | 1,7k | 3k | 3,3k | 3,9k |
 | Selydove (Reg. 13) | Selidovo; Селидове | 48,15, 37,3 (1926-1953) | 6,1k | 6,3k | 6,5k | 8k | 10,5k |
-| Semenivka (Reg. 14) | Семеновка | 46,61, 33,6 (1926-1953) | 2,8k | 2,7k | 2,5k | 2,4k | 2,2k |
-| Semenivka (Reg. 12) | Семеновское | 46,9, 35,41 (1926-1953) | 3,3k | 3,2k | 3,1k | 3,1k | 3k |
 | Semenivka (Reg. 13) | Семеновка | 48,67, 37,65 (1926-1953) | 1,9k | 1,6k | 1,5k | 1,3k | 1,1k |
+| Semenivka (Reg. 12) | Семеновское | 46,9, 35,41 (1926-1953) | 3,3k | 3,2k | 3,1k | 3,1k | 3k |
 | Sentyanivka (Reg. 13) | Сентянівка (Фрунзе); Sentjanivka (Frunze) | 48,67, 38,75 (1926-1953) | 680 | 1,3k | 2,3k | 3k | 4,2k |
 | Serdyte (Reg. 13) | Сердите; smt Serdyte | 48,04, 38,39 (1926-1953) | 930 | 1,6k | 2,5k | 3,2k | 4,4k |
 | Serebrianka (Reg. 13) | Серебрянка | 48,92, 38,14 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
 | Serhiyivka (Reg. 13) | Сергеевка | 48,67, 37,37 (1926-1953) | 4k | 3,7k | 3,5k | 3,3k | 3k |
-| Seryy Khutor (Reg. 12) | Серые Хутора | 47,06, 34,98 (1926-1953) | 5,9k | 6,3k | 6,6k | 7,1k | 7,9k |
 | Sevastopol (Reg. 15) | Sebastopol; Akhtiar Naval Base | 44,62, 33,53 (1926-1953) | 74,6k | 86k | 109,1k | 35k | 115k |
 | Severodonetsk (Reg. 13) | Sieviero-donetsk Azot Chemical City; Сіверськодонецьк (Сєвєродонецьк) | 48,95, 38,49 (1934-1953) | \- | \- | 5,2k | 8,9k | 18k |
 | Shabelkivka (Reg. 13) | Шабельківка; Šabeľkivka | 48,75, 37,49 (1926-1953) | 1,2k | 2k | 3,2k | 3,9k | 5,2k |
 | Shakhtarsk (Reg. 13) | Shakhtyorsk; Шахтарськ | 48,05, 38,47 (1926-1953) | 3,6k | 6,1k | 9,5k | 14,4k | 25k |
 | Shakhtne (Reg. 13) | Шахтне; Šachtne | 47,98, 38,28 (1926-1953) | 489 | 831 | 1,3k | 1,4k | 1,6k |
-| Shaposhnikova (Reg. 13) | Шапошникова | 47,75, 38,4 (1926-1953) | 3,2k | 4,9k | 7k | 7,6k | 8,5k |
+| Shaposhnikova (Reg. 13) | Шапошникова | 47,75, 38,4 (1926-1953) | 3,3k | 3,3k | 3,3k | 3,3k | 3,3k |
 | Shchastya (Reg. 13) | Щастя; Ščastja | 48,74, 39,23 (1926-1953) | 1,7k | 3,4k | 5,9k | 6,6k | 7,7k |
 | Shchebetovka (Reg. 15) | Щебетовка; Ščebetovka | 44,94, 35,16 (1926-1953) | 654 | 948 | 1,3k | 1,5k | 1,7k |
 | Shcherbynivka (Reg. 13) | Щербинівка; Ščerbynivka | 48,39, 37,79 (1926-1953) | 2,6k | 4,5k | 7,1k | 6,9k | 6,7k |
@@ -2840,8 +2603,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Shchotove (Reg. 13) | Щотове; Ščotove | 48,18, 39,11 (1926-1953) | 1,2k | 2,8k | 5,8k | 6,8k | 8,3k |
 | Shestakovka (Reg. 12) | Шостаківка; Šostakivka | 48,52, 31,98 (1926-1953) | 429 | 386 | 352 | 379 | 419 |
 | Shevchenko (Reg. 13) | Шевченко; Ševčenko | 48,22, 37,14 (1926-1953) | 1,6k | 2,6k | 4k | 4,4k | 5k |
-| Shirokaya (Reg. 12) | Широкая | 47,03, 37,07 (1926-1953) | 6,4k | 6,8k | 7,2k | 7,7k | 8,6k |
-| Shirokoye (Reg. 15) | Широкое | 45,2, 34,05 (1926-1953) | 13,8k | 21,1k | 30,3k | 35,7k | 44,3k |
 | Sholokhove (Reg. 12) | Шолохово | 47,69, 33,99 (1926-1953) | 4,5k | 4,3k | 4,2k | 4,1k | 3,9k |
 | Shterivka (Reg. 13) | Штерівка; Šterivka | 48,31, 38,94 (1926-1953) | 674 | 1,3k | 2,3k | 2,4k | 2,7k |
 | Shulhivka (Reg. 12) | Шульговка | 48,75, 34,39 (1926-1953) | 2,8k | 2,6k | 2,5k | 2,3k | 2,1k |
@@ -2859,15 +2620,12 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Siversk (Reg. 13) | Сіверськ; Siverśk | 48,86, 38,1 (1926-1953) | 2k | 3,5k | 5,5k | 6,9k | 9,5k |
 | Skadovsk (Reg. 14) | Skadovsk Black Sea; Скадовськ | 46,12, 32,91 (1926-1953) | 3,9k | 5,2k | 6,6k | 7,2k | 8,1k |
 | Slavhorod (Reg. 12) | Славгород; smt Slavhorod | 48,1, 35,52 (1926-1953) | 2k | 2,6k | 3,1k | 3,6k | 4,3k |
-| Slavne (Reg. 14) | Березовка | 46,9, 34,13 (1926-1953) | 7,2k | 6,8k | 6,4k | 6,7k | 7k |
 | Slavyano-serbsk (Reg. 13) | Славяносербск | 48,55, 38,91 (1926-1953) | 4,3k | 6,6k | 9,5k | 10,7k | 12,4k |
 | Slavyansk (Reg. 13) | Sloviansk; Tor Salt Works | 48,85, 37,61 (1926-1953) | 28,8k | 46k | 75,5k | 52k | 78k |
 | Slobozhanske (Reg. 12) | Слобожанське (Ювілейне); Slobožanśke (Juvilejne) | 48,53, 35,07 (1926-1953) | 4,9k | 5,6k | 6,4k | 7k | 7,8k |
 | Slov’Yanoserbsk (Reg. 13) | Слов’яносербськ; Slov’janoserbśk | 48,7, 38,98 (1926-1953) | 2,7k | 2,5k | 2,4k | 2,7k | 3,1k |
 | Slovyanka (Reg. 12) | Славянка | 48,4, 36,72 (1926-1953) | 4,3k | 4k | 3,8k | 3,6k | 3,3k |
 | Smoline (Reg. 12) | Смоліне; Смолине | 48,6, 31,31 (1926-1953) | 4,1k | 3,7k | 3,4k | 3,6k | 4k |
-| smt Volodarśke (Reg. 13) | Володарське; Никольське | 47,21, 37,32 (1926-1953) | 2,7k | 4,7k | 7,3k | 8k | 8,9k |
-| Snezhnoye (Reg. 15) | Снежное | 45,53, 32,84 (1926-1953) | 8,1k | 11,7k | 16,2k | 19k | 23,6k |
 | Snihurivka (Reg. 14) | Снігурівка; Снигуривка | 47,08, 32,82 (1926-1953) | 5,3k | 5,2k | 5,1k | 6,8k | 10,1k |
 | Snizhne (Reg. 13) | Сніжне; Snižne | 48,02, 38,76 (1926-1953) | 2,6k | 7k | 16,2k | 18,6k | 22,3k |
 | Sofiivskyi (Reg. 13) | Софіївський; Sofijivśkyj | 48,22, 38,87 (1926-1953) | 1,7k | 3,3k | 5,8k | 6,3k | 7,1k |
@@ -2892,14 +2650,12 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Stepanivka (Reg. 14) | Степанивка | 46,7, 32,58 (1926-1953) | 2,8k | 2,9k | 2,9k | 3k | 3,2k |
 | Stepnohirsk (Reg. 12) | Степногірськ; Stepnohirśk | 47,59, 35,36 (1926-1953) | 685 | 789 | 890 | 956 | 1,1k |
 | Stizhkivske (Reg. 13) | Стіжківське; Stižkivśke | 48,12, 38,47 (1926-1953) | 2k | 3,5k | 5,5k | 5,9k | 6,6k |
-| Storozhevoe (Reg. 15) | Сторожевое | 45,18, 33,91 (1926-1953) | 7,6k | 11,6k | 16,6k | 19,5k | 24,3k |
 | Stroitel (Reg. 13) | Строїтель; Strojiteľ | 47,72, 38,22 (1926-1953) | 153 | 260 | 410 | 445 | 496 |
 | Styla (Reg. 13) | Стыла | 47,7, 37,85 (1926-1953) | 3k | 2,9k | 2,8k | 2,7k | 2,6k |
 | Subottsi (Reg. 12) | Субботец | 48,65, 32,52 (1926-1953) | 3,4k | 3,3k | 3,2k | 3,1k | 3k |
 | Sudak (Reg. 15) | Судак | 44,85, 34,97 (1926-1953) | 1,9k | 2,5k | 3,2k | 3,4k | 3,5k |
 | Sukhachivka (Reg. 12) | Сухачівка; Suchačivka | 48,48, 34,85 (1939-1939) | \- | \- | 4k | \- | \- |
 | Sukhodilsk (Reg. 13) | Суходільськ; Suchodiľśk | 48,35, 39,73 (1926-1953) | 2,6k | 5,1k | 9k | 10,1k | 11,7k |
-| Surske (Reg. 12) | Сурское | 48,31, 34,6 (1926-1953) | 3,9k | 3,9k | 3,8k | 4,1k | 4,5k |
 | Sursko-Lytovske (Reg. 12) | Сурсько-Литовське; Sursko-Litovske | 48,34, 34,94 (1926-1953) | 2,2k | 2,5k | 2,9k | 3,1k | 3,5k |
 | Svatove (Reg. 13) | Svatovo Luhansk; Сватове | 49,41, 38,16 (1926-1953) | 16,7k | 18,8k | 20,8k | 21k | 21,3k |
 | Sviatohorivka (Reg. 13) | Святогорівка; Svjatohorivka | 48,49, 37,04 (1926-1953) | 711 | 1,2k | 1,9k | 2,1k | 2,3k |
@@ -2915,12 +2671,10 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Tavriysk (Reg. 14) | Таврійськ; Tavrijśk | 46,75, 33,42 (1926-1953) | 6,1k | 6,2k | 6,2k | 6,5k | 6,8k |
 | Tavryiske (Reg. 12) | Жеребец; Жеребецъ | 47,65, 35,7 (1926-1953) | 6,2k | 5,8k | 5,5k | 5,2k | 4,9k |
 | Tayirove (Reg. 14) | Таїрове; Tajirove | 46,36, 30,65 (1926-1953) | 995 | 995 | 995 | 1k | 1,1k |
-| Temriuk (Reg. 13) | Темрюк; Темрюкъ | 47,27, 36,98 (1926-1953) | 4,7k | 4,3k | 4,1k | 3,8k | 3,5k |
 | Teple (Reg. 13) | Тепле | 48,31, 39,56 (1926-1953) | 1,5k | 2,8k | 5k | 5,6k | 6,4k |
 | Teplinskoye (Reg. 13) | Теплинское | 48,14, 39,48 (1926-1953) | 6,7k | 10,2k | 14,7k | 16,5k | 19,2k |
 | Teplychne (Reg. 13) | Тепличне; Teplyčne | 48,58, 39,23 (1926-1953) | 673 | 1,3k | 2,3k | 2,6k | 3k |
 | Ternivka (Reg. 12) | Тернівка; Тернивка | 48,53, 36,07 (1926-1953) | 8k | 8,8k | 9,6k | 10,5k | 11,8k |
-| Ternivka (Reg. 14) | Тернівка | 47,2, 33,01 (1926-1953) | 5,4k | 5,3k | 5,1k | 5,5k | 6,1k |
 | Ternove (Reg. 14) | Терновое | 47,92, 32,89 (1926-1953) | 5,2k | 5,1k | 5k | 5,2k | 5,6k |
 | Ternuvate (Reg. 12) | Тернувате; smt Ternuvate | 47,83, 36,13 (1926-1953) | 1,8k | 2,1k | 2,4k | 2,6k | 2,8k |
 | Terny (Reg. 12) | Терни | 48,15, 33,56 (1926-1953) | 2,2k | 2,5k | 2,9k | 4,5k | 8,4k |
@@ -2935,17 +2689,14 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Troitske (Reg. 13) | Троїцьке; Trojićke | 49,91, 38,28 (1926-1953) | 4,4k | 4k | 3,7k | 4,2k | 4,8k |
 | Troitsko-Khartsyzk (Reg. 13) | Троїцько-Харцизьк; Trojićko-Charcyźk | 47,97, 38,27 (1926-1953) | 1,2k | 2k | 3,1k | 3,4k | 3,8k |
 | Troyitske (Reg. 14) | Троїцьке | 46,54, 30,02 (1926-1953) | 2,9k | 2,9k | 2,9k | 3,1k | 3,3k |
-| Trudove (Reg. 12) | Ленінський; Leninśkyj | 47,92, 33,72 (1939-1939) | \- | \- | 8,9k | \- | \- |
 | Tsarychanka (Reg. 12) | Царичанка; Caryčanka | 48,94, 34,49 (1926-1953) | 5,8k | 5,3k | 4,9k | 5,1k | 5,4k |
 | Tsebrykove (Reg. 14) | Цебрикове; Cebrykove | 47,15, 30,11 (1926-1953) | 3k | 3k | 3k | 2,9k | 2,7k |
 | Tsentralno-Bokovskoy (Reg. 13) | Центрально-Боковской | 48,13, 39,07 (1939-1939) | \- | \- | 7,7k | \- | \- |
 | Tsentralnyi (Reg. 13) | Центральний; Centraľnyj | 48,35, 38,57 (1926-1953) | 277 | 536 | 943 | 1,1k | 1,2k |
 | Tsukuryne (Reg. 13) | Цукурине; Cukuryne | 48,08, 37,31 (1926-1953) | 748 | 1,3k | 2k | 2,2k | 2,4k |
-| Tsvitkove (Reg. 14) | Жовтневе; Žovtneve | 47,63, 31,18 (1926-1953) | 7,2k | 8,5k | 9,8k | 11,3k | 13,7k |
 | Tsvitne (Reg. 12) | Цветна | 48,96, 32,5 (1926-1953) | 2,7k | 2,4k | 2,2k | 2,1k | 1,8k |
 | Tsybuleve (Reg. 12) | Цыбулево | 48,81, 32,49 (1926-1953) | 4,4k | 4k | 3,7k | 3,5k | 3,1k |
 | Tymoshivka (Reg. 12) | Тимошевка | 47,18, 35,11 (1926-1953) | 5,9k | 5,5k | 5,2k | 4,9k | 4,6k |
-| Tyshkivka (Reg. 13) | Тишковъ | 49,47, 39,49 (1926-1953) | 5k | 7,6k | 10,9k | 12,3k | 14,3k |
 | Tyshkivka (Reg. 12) | Тишковка | 48,5, 30,94 (1926-1953) | 7,5k | 6,7k | 6,1k | 5,7k | 5,2k |
 | Tytarenkove (Reg. 13) | Титаренкове (Челюскінець); Tytarenkove (Čeljuskineć) | 48,43, 39,2 (1926-1953) | 368 | 712 | 1,3k | 1,4k | 1,6k |
 | Udachne (Reg. 13) | Удачне; Udačne | 48,24, 36,99 (1926-1953) | 499 | 847 | 1,3k | 1,4k | 1,6k |
@@ -2953,7 +2704,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Uralo-Kavkaz (Reg. 13) | Урало-Кавказ; smt Uralo-Kavkaz | 48,32, 39,8 (1926-1953) | 538 | 1,2k | 2,3k | 3,1k | 4,6k |
 | Usatove (Reg. 14) | Усатове | 46,53, 30,65 (1926-1953) | 4,5k | 4,5k | 4,5k | 4,8k | 5,1k |
 | Uspenka (Reg. 13) | Успенка; smt Uspenka | 48,39, 39,16 (1926-1953) | 2,5k | 4,7k | 8,3k | 8,8k | 9,6k |
-| Uspenskoye (Reg. 12) | Успенское | 47,08, 36,08 (1926-1953) | 5,4k | 5,8k | 6,1k | 6,6k | 7,3k |
 | Ustynivka (Reg. 12) | Устинівка; Устинивка | 47,96, 32,54 (1926-1953) | 6k | 5k | 4,3k | 4,3k | 4,3k |
 | Valyanivske (Reg. 13) | Вальянівське (Ленінське); Vaľjanivśke (Leninśke) | 48,07, 39,55 (1926-1953) | 2,3k | 4,5k | 7,8k | 10k | 13,8k |
 | Varvarivka (Reg. 12) | Варварівка | 48,91, 35,48 (1926-1953) | 853 | 990 | 1,1k | 1,2k | 1,4k |
@@ -2984,25 +2734,20 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Verkhnot-oretske (Reg. 13) | Верхньоторецьке; Verchnjotorećke | 48,22, 37,87 (1926-1953) | 2,1k | 3,6k | 5,7k | 5,4k | 5k |
 | Vershyno-Kamianka (Reg. 12) | Вершино-Каменка; Вёршино-Каменка | 48,43, 32,73 (1926-1953) | 3,9k | 3,5k | 3,2k | 2,9k | 2,6k |
 | Vesele (Reg. 12) | Веселе; smt Vesele | 47,01, 34,92 (1926-1953) | 7,5k | 6,7k | 6,2k | 6,5k | 7,1k |
-| Vesele (Reg. 15) | Кутлакъ | 44,86, 34,88 (1926-1953) | 8,6k | 13,1k | 18,8k | 22,1k | 27,5k |
-| Veseli Terny (Reg. 12) | Веселі Терни | 48,09, 33,51 (1939-1953) | \- | \- | 9k | 9,3k | 9,7k |
-| Veseli Terny (Reg. 12) | Веселые Терны | 48,1, 33,56 (1926-1953) | 6,8k | 7,9k | 9k | 9,6k | 10,6k |
+| Veseli Terny (Reg. 12) | Веселые Терны; Веселі Терни | 48,1, 33,56 (1926-1953) | 6,8k | 7,9k | 9k | 9,6k | 10,6k |
 | Veselynove (Reg. 14) | Веселинове; smt Veselynove | 47,36, 31,23 (1926-1953) | 2k | 2k | 1,9k | 2,3k | 2,9k |
-| Vil’khivchyk (Reg. 13) | Вільхівчик; Viľchivčyk | 47,85, 38,81 (1926-1953) | 3,5k | 6k | 9,4k | 9,4k | 9,4k |
+| Vil’khivchyk (Reg. 13) | Вільхівчик; Viľchivčyk | 47,85, 38,81 (1926-1953) | 175 | 166 | 158 | 155 | 150 |
 | Vilkhivka (Reg. 13) | Вільхівка; Viľchivka | 48,11, 38,31 (1926-1953) | 374 | 635 | 1k | 1,1k | 1,2k |
 | Vilne (Reg. 15) | Вільне; Viľne | 45,57, 34,3 (1926-1953) | 701 | 1k | 1,4k | 1,6k | 1,8k |
 | Vilni Khutory (Reg. 12) | Вольные Хутора | 48,53, 34,05 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,3k |
 | Vilnyansk (Reg. 12) | Вільнянськ; Viľnjanśk | 47,95, 35,44 (1926-1953) | 4,5k | 5,2k | 5,8k | 6,4k | 7,4k |
 | Vilshanka (Reg. 12) | Вільшанка; Viľšanka | 48,23, 30,87 (1926-1953) | 5,7k | 3,3k | 2k | 1,8k | 1,5k |
 | Virivka (Reg. 13) | Вірівка | 48,48, 36,98 (1926-1953) | 994 | 1,7k | 2,7k | 2,7k | 2,7k |
-| Vladimirovka (Reg. 14) | Владимировка | 47,38, 33,77 (1926-1953) | 4,4k | 4,2k | 4k | 4,1k | 4,3k |
 | Vlasivka (Reg. 12) | Власівка; Власивка | 49,12, 33,28 (1926-1953) | 3,2k | 2,9k | 2,6k | 2,8k | 3,1k |
 | Vodiane (Reg. 12) | Водяне; Vodyane | 47,49, 34,5 (1926-1953) | 6,6k | 6,5k | 6,4k | 6,2k | 6,1k |
 | Vodyanske (Reg. 13) | Водянське; Vodjanśke | 48,41, 37,11 (1926-1953) | 638 | 1,1k | 1,7k | 1,8k | 2,1k |
-| Volna (Reg. 14) | Вольна | 47,58, 32,97 (1926-1953) | 15,6k | 15,2k | 14,9k | 15,6k | 16,6k |
 | Volnovakha (Reg. 13) | Volnovakha Rail Hub; Волноваха | 47,6, 37,5 (1926-1953) | 3k | 7,2k | 15,3k | 16,6k | 18,6k |
 | Volodymyrivka (Reg. 13) | Володимирівка; Володимиривка | 47,73, 37,39 (1926-1953) | 1,4k | 2,4k | 3,7k | 4,1k | 4,7k |
-| Volodymyrivka (Reg. 14) | Владимировка | 47,52, 32,93 (1926-1953) | 4,5k | 4,3k | 4,3k | 4k | 3,7k |
 | Voloske (Reg. 12) | Волосское | 48,31, 35,14 (1926-1953) | 3,6k | 3,4k | 3,2k | 3k | 2,7k |
 | Voronove (Reg. 13) | Воронове; smt Voronove | 48,9, 38,57 (1926-1953) | 229 | 443 | 780 | 871 | 1k |
 | Voskhod (Reg. 15) | Восход; Voschod | 45,51, 34,39 (1926-1953) | 212 | 308 | 423 | 471 | 544 |
@@ -3021,7 +2766,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Vyhoda (Reg. 14) | Вигода; Vigoda | 46,62, 30,4 (1926-1953) | 2,3k | 2,3k | 2,3k | 2,4k | 2,5k |
 | Vynohradne (Reg. 15) | Виноградне; smt Vynohradne | 45,29, 35,84 (1926-1953) | 369 | 535 | 736 | 820 | 947 |
 | Vynohradove (Reg. 14) | Виноградове; Vinogradove | 46,37, 32,94 (1926-1953) | 2,7k | 2,8k | 2,8k | 2,9k | 3k |
-| Vyshneve (Reg. 12) | Вишневе; Vyšneve | 48,44, 33,91 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,3k |
 | Vyshneve (Reg. 13) | Вишневе; Vyšneve | 47,67, 38,27 (1926-1953) | 133 | 226 | 355 | 385 | 429 |
 | Vysoke (Reg. 13) | Високе; smt Vysoke | 47,95, 38,06 (1926-1953) | 473 | 803 | 1,3k | 1,4k | 1,5k |
 | Vysokopillya (Reg. 14) | Високопілля; Vysokopillja | 47,49, 33,53 (1926-1953) | 4,6k | 4,7k | 4,7k | 4,9k | 5,1k |
@@ -3029,7 +2773,6 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Yakymivka (Reg. 12) | Якимівка; Jakymivka | 46,7, 35,16 (1926-1953) | 5,6k | 5,9k | 6,2k | 6,8k | 7,7k |
 | Yalta (Reg. 15) | All-Union Crimean Health Resort; Ялта | 44,5, 34,17 (1926-1953) | 28,8k | 30,8k | 32,7k | 34,5k | 37k |
 | Yalta (Reg. 13) | Ялта; Jalta | 46,96, 37,27 (1926-1953) | 6k | 5,8k | 5,5k | 5,4k | 5,3k |
-| Yampil (Reg. 13) | Ямпіль; Jampiľ | 48,94, 37,96 (1926-1953) | 2,8k | 3,4k | 4k | 3,8k | 3,6k |
 | Yanovka (Reg. 14) | Яновка | 47,78, 30,29 (1926-1953) | 2,3k | 2,4k | 2,5k | 2,6k | 2,7k |
 | Yany Kapu (Reg. 15) | Красноперекопськ; Krasnoperekopśk | 45,96, 33,79 (1926-1953) | 939 | 1,4k | 1,9k | 2,4k | 3,3k |
 | Yarova (Reg. 13) | Ярова; Jarova | 49,06, 37,63 (1926-1953) | 995 | 1,7k | 2,7k | 2,7k | 2,9k |
@@ -3062,12 +2805,9 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Zaliznychne (Reg. 12) | Залізничне; Zaliznyčne | 48,43, 36,49 (1926-1953) | 2,3k | 2,6k | 3k | 3,2k | 3,6k |
 | Zaliznychne (Reg. 12) | Залізничне; Zaliznyčne | 47,65, 36,17 (1926-1953) | 808 | 930 | 1k | 1,1k | 1,2k |
 | Zaozerne (Reg. 15) | Заозерне; smt Zaozerne | 45,16, 33,28 (1926-1953) | 831 | 1,2k | 1,7k | 1,8k | 2,1k |
-| Zaporizhzhya (Reg. 13) | Запоріжжя; Zaporižžja | 48,27, 38,72 (1926-1953) | 417 | 807 | 1,4k | 1,6k | 1,8k |
 | Zarichne (Reg. 12) | Зарічне (Гвардійське); Zarične (Hvardijśke) | 48,73, 35,31 (1926-1953) | 594 | 689 | 782 | 848 | 946 |
-| Zarichne (Reg. 13) | Зарічне (Кіровськ); Zarične (Kirovśk) | 49,02, 37,93 (1926-1953) | 2,3k | 3,9k | 6,2k | 5,7k | 5k |
 | Zatyshshya (Reg. 14) | Затишшя; Zatyššja | 47,33, 29,88 (1926-1953) | 2,6k | 2,6k | 2,6k | 2,7k | 2,9k |
 | Zavallya (Reg. 12) | Завалля; Zavallja | 48,22, 30,02 (1926-1953) | 4,4k | 4k | 3,6k | 3,9k | 4,3k |
-| Zaytsevo (Reg. 15) | Зайцево | 45,54, 32,88 (1926-1953) | 3,5k | 5,1k | 7k | 8,3k | 10,2k |
 | Zelene (Reg. 12) | Зелене; smt Zelene | 47,72, 33,23 (1926-1953) | 7,2k | 7,2k | 7,2k | 3,9k | 1,7k |
 | Zelene (Reg. 12) | Зеленое | 47,93, 34,26 (1926-1953) | 3,1k | 2,8k | 2,6k | 2,4k | 2,1k |
 | Zelenivka (Reg. 14) | Зеленівка; Зеленивка | 46,72, 32,66 (1926-1953) | 2,4k | 2,4k | 2,4k | 2,5k | 2,6k |
@@ -3079,16 +2819,13 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Zhovte (Reg. 12) | Жовте; Žovte | 48,5, 33,54 (1926-1953) | 2,6k | 2,1k | 1,8k | 1,5k | 1,2k |
 | Zhovti Vody (Reg. 12) | Жовті Води; Žovti Vody | 48,35, 33,5 (1926-1953) | 5k | 5,7k | 6,5k | 10,6k | 20k |
 | Zhovtnevyi (Reg. 13) | Жовтневий; Žovtnevyj | 48,28, 38,1 (1939-1939) | \- | \- | 13,3k | \- | \- |
-| Zhuravlyovka (Reg. 15) | Журавлівка; Žuravlivka | 45,18, 34 (1926-1953) | 1,9k | 2,8k | 3,9k | 4,3k | 5k |
 | Zlatopil (Reg. 12) | Златопіль; Zlatopiľ | 48,82, 31,65 (1926-1953) | 6,3k | 4,9k | 4k | 4,1k | 4,2k |
 | Zlynka (Reg. 12) | Злинка; Zlinka | 48,48, 31,54 (1926-1953) | 3,2k | 2,8k | 2,6k | 2,8k | 3,1k |
 | Znamenivka (Reg. 12) | Знаменивка | 48,63, 35,46 (1926-1953) | 2k | 2,3k | 2,6k | 2,9k | 3,2k |
-| Znamenka (Reg. 12) | Знаменовка | 48,74, 35,41 (1926-1953) | 6,4k | 6,3k | 6,2k | 6,7k | 7,4k |
 | Znamianka (Reg. 14) | Знаменка | 46,71, 32,39 (1926-1953) | 5k | 4,7k | 4,5k | 4,7k | 4,9k |
+| Znamyanka Druha (Reg. 12) | Знам’янка Друга; Znam’janka Druha | 48,71, 32,6 (1926-1953) | 6,4k | 6,3k | 6,1k | 6,2k | 6,3k |
 | Znamyanka (Reg. 12) | Знам’янка; Znam’janka | 48,72, 32,66 (1926-1953) | 2,2k | 2k | 1,8k | 1,9k | 2,1k |
 | Znamyanka (Reg. 14) | Знам’янка; Znam’Yanka | 47,02, 30,29 (1926-1953) | 2,2k | 2,2k | 2,2k | 2,3k | 2,5k |
-| Znamyanka Druha (Reg. 12) | Знам’янка Друга; Znam’janka Druha | 48,71, 32,6 (1926-1953) | 6,4k | 6,3k | 6,1k | 6,2k | 6,3k |
-| Zolota Dolyna (Reg. 12) | Кайзерталь | 46,74, 35,1 (1926-1953) | 8,8k | 9,4k | 9,9k | 10,7k | 11,8k |
 | Zolote (Reg. 13) | Золоте; Zolote | 48,7, 38,52 (1926-1953) | 3k | 6,6k | 13,1k | 16,4k | 22,1k |
 | Zolotoy Kolodez (Reg. 13) | Золотой Колодезь | 48,53, 37,24 (1926-1953) | 4,1k | 3,6k | 3,2k | 2,8k | 2,4k |
 | Zorykivka (Reg. 13) | Зориковка | 49,4, 39,84 (1926-1953) | 1,7k | 1,6k | 1,5k | 1,4k | 1,3k |
@@ -3097,6 +2834,7 @@ Black Sea Steppe (Region 14) and Crimea (Region 15)
 | Zuya (Reg. 15) | Зуя; Zuja | 45,05, 34,32 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,8k | 4,2k |
 | Zuyivka (Reg. 13) | Зуївка; Zujivka | 48,06, 38,25 (1926-1953) | 2,1k | 3,5k | 5,5k | 6k | 6,8k |
 | Zymohirya (Reg. 13) | Зимогір’я; Zymohir’ja | 48,59, 38,94 (1926-1953) | 1,5k | 3k | 5,2k | 7k | 10,4k |
+| smt Volodarśke (Reg. 13) | Володарське; Никольське | 47,21, 37,32 (1926-1953) | 2,7k | 4,7k | 7,3k | 8k | 8,9k |
 
 Town populations across the Dnieper Bend, Donbas, Black Sea Steppe and
 Crimea (Regions 12 to 15) from 1926 to 1953, contrasting rapid
@@ -3105,7 +2843,7 @@ wartime ruin and the 1944 Crimean Tatar deportation.
 
 ## Regions 16 - 22: Karelia, Leningrad, Komi, Moscow and Central Russia
 
-Table lists 1.954 settlements across Karelia and Murmansk (Region 16),
+Table lists 1.703 settlements across Karelia and Murmansk (Region 16),
 Leningrad, Novgorod and Pskov (Region 17), the Komi ASSR and Nenets
 Okrug (Region 18), Arkhangelsk and Vologda (Region 19), Moscow (Region
 20), the Upper Volga and Western Front (Region 21) and the Central
@@ -3121,7 +2859,6 @@ Black-Earth Belt (Region 22)
 | Agalatovo (Reg. 17) | Агалатово | 60,22, 30,27 (1926-1953) | 903 | 1k | 1,2k | 1,3k | 1,6k |
 | Ageyevka (Reg. 22) | Агеевка | 52,78, 35,8 (1926-1953) | 2,4k | 2,5k | 2,6k | 2,7k | 2,9k |
 | Ageyevo (Reg. 22) | Агеево; Agejevo | 54,16, 36,47 (1926-1953) | 6,5k | 8,2k | 10,1k | 10,3k | 10,6k |
-| Akhtyrka (Reg. 22) | Ахтырка | 52,54, 41,64 (1926-1953) | 29,2k | 29,8k | 30,3k | 31,2k | 32,4k |
 | Alabino (Reg. 20) | Алабино | 55,53, 37,01 (1926-1953) | 140 | 238 | 374 | 418 | 484 |
 | Alabushevo (Reg. 20) | Алабушево; Alabuševo | 56,02, 37,15 (1926-1953) | 658 | 1,1k | 1,6k | 2,5k | 4,3k |
 | Alachkovo (Reg. 20) | Алачково | 55,21, 37,56 (1926-1953) | 1,9k | 3,1k | 4,9k | 5,5k | 6,4k |
@@ -3130,10 +2867,8 @@ Black-Earth Belt (Region 22)
 | Aleksandrov (Reg. 21) | Александров; Александровская слобода | 56,4, 38,71 (1926-1953) | 12,7k | 17,7k | 27,7k | 30,2k | 33,8k |
 | Aleksandrovka (Reg. 22) | Александровка | 51,6, 39,32 (1926-1953) | 3,5k | 3,2k | 3k | 2,8k | 2,6k |
 | Aleksand-rovskaya (Reg. 17) | Александровская; Aleksand-rovskaja | 59,73, 30,33 (1926-1953) | 1,6k | 2,1k | 2,5k | 3,1k | 4,1k |
-| Alekseyevka (Reg. 22) | Алексеевка | 51,68, 40,23 (1926-1953) | 14,5k | 14,9k | 15,3k | 16,6k | 18,7k |
 | Alekseyevskiy (Reg. 21) | Алексеевский; Aleksejevskij | 53,18, 33,03 (1926-1926) | 2,7k | \- | \- | \- | \- |
 | Aleksin (Reg. 22) | Алексин | 54,5, 37,07 (1926-1953) | 3,9k | 4k | 6,5k | 11,7k | 25,7k |
-| Aleshnya (Reg. 17) | Алешня | 57,64, 30,06 (1926-1953) | 5,9k | 7,5k | 9,3k | 9,4k | 9,6k |
 | Alexeyevka (Reg. 22) | Алексеевка; Aleksejevka | 50,63, 38,69 (1926-1953) | 11,7k | 10,7k | 9,9k | 12,3k | 16,3k |
 | Alferovka (Reg. 22) | Алферовка | 51,2, 41,67 (1926-1953) | 2,4k | 2,2k | 2k | 1,9k | 1,7k |
 | Algasovo (Reg. 22) | Алгасово | 53,68, 41,66 (1926-1953) | 6,6k | 6k | 5,6k | 5,1k | 4,6k |
@@ -3153,22 +2888,18 @@ Black-Earth Belt (Region 22)
 | Apatity (Reg. 16) | Khibiny Apatite-Nepheline Mining Hub; Апатиты | 67,56, 33,4 (1926-1953) | 1,5k | 2,7k | 4,4k | 7,2k | 14k |
 | Aprelevka (Reg. 20) | Апрелевка | 55,55, 37,08 (1926-1953) | 2,2k | 3,7k | 5,7k | 7,6k | 11,2k |
 | Ardon’ (Reg. 21) | Ардонь | 52,74, 32,31 (1926-1953) | 984 | 1,1k | 1,2k | 1,4k | 1,6k |
-| Aristovo (Reg. 20) | Аристово | 55,18, 39,89 (1926-1953) | 4,7k | 5,4k | 6k | 6,5k | 7,1k |
+| Aristovo (Reg. 20) | Аристово | 55,18, 39,89 (1926-1953) | 4,7k | 4,7k | 4,7k | 4,7k | 4,7k |
 | Arkhangelsk (Reg. 19) | Archangel; Pomorye Port | 64,54, 40,52 (1926-1953) | 76,8k | 195k | 281,1k | 218k | 235k |
 | Arkhangelskoe (Reg. 20) | Архангельское | 55,85, 35,33 (1926-1953) | 684 | 1,2k | 1,8k | 2k | 2,4k |
-| Arkhangelskoe (Reg. 22) | Архангельское | 51,84, 41,02 (1926-1953) | 10,5k | 10,8k | 11k | 11,3k | 11,7k |
 | Arkhipovka (Reg. 21) | Архиповка; Arhipovka | 56,66, 41,25 (1926-1953) | 1,1k | 1,5k | 2k | 2,1k | 2,2k |
 | Arsen’jevo (Reg. 22) | Арсеньево | 53,74, 36,67 (1926-1953) | 867 | 1,1k | 1,3k | 1,3k | 1,4k |
-| Artemovskiy (Reg. 22) | Артёмовский; Artjomovskij | 49,62, 40,21 (1939-1939) | \- | \- | 29,2k | \- | \- |
 | Ashukino (Reg. 20) | Ашукино; Ašukino | 56,17, 37,95 (1926-1953) | 2,5k | 4,3k | 6,8k | 7,6k | 8,8k |
-| Avdotino (Reg. 21) | Авдотьино | 56,31, 39,82 (1926-1953) | 2,3k | 3,2k | 4,1k | 4,5k | 4,9k |
 | Avsyunino (Reg. 20) | Авсюнино | 55,57, 39,12 (1926-1953) | 1,2k | 1,4k | 1,6k | 1,8k | 2,1k |
 | Babayevo (Reg. 19) | Бабаево; Babajevo | 59,39, 35,94 (1926-1953) | 3,2k | 4,2k | 8,3k | 9,3k | 10,8k |
 | Babynino (Reg. 21) | Бабынино | 54,39, 35,74 (1926-1953) | 1,6k | 2,1k | 2,8k | 2,9k | 3k |
 | Baksheyevo (Reg. 20) | Бакшеево; Bakšejevo | 55,71, 39,88 (1926-1953) | 1,4k | 2,4k | 3,8k | 4,1k | 4,5k |
 | Balabanovo (Reg. 21) | Балабаново | 55,18, 36,66 (1926-1953) | 1,5k | 2k | 2,6k | 2,8k | 3,1k |
 | Balakirevo (Reg. 21) | Балакирево | 56,51, 38,84 (1926-1953) | 1,6k | 2,2k | 2,9k | 3,1k | 3,4k |
-| Balandino (Reg. 21) | Баландино | 55,89, 42,37 (1926-1953) | 9,7k | 13,3k | 17,5k | 18,8k | 20,8k |
 | Balashikha (Reg. 20) | Balashikha-Zhelezno-dorozhny; Балашиха | 55,81, 37,96 (1926-1953) | 7,7k | 11,6k | 28,8k | 35,4k | 46,8k |
 | Banishchi (Reg. 22) | Банищи | 51,7, 35,07 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
 | Barsuki (Reg. 22) | Барсуки | 54,27, 37,49 (1926-1953) | 1,4k | 1,7k | 2k | 2,3k | 2,7k |
@@ -3176,17 +2907,14 @@ Black-Earth Belt (Region 22)
 | Barybino (Reg. 20) | Барыбино | 55,27, 37,89 (1926-1953) | 1,4k | 2,5k | 3,9k | 4,3k | 5k |
 | Baturino (Reg. 21) | Батурино | 59,25, 42,54 (1926-1953) | 4,9k | 6,3k | 7,8k | 8,2k | 8,9k |
 | Bavleny (Reg. 21) | Бавлены | 56,39, 39,57 (1926-1953) | 1,3k | 1,8k | 2,4k | 2,5k | 2,8k |
-| Baza (Reg. 18) | Югыдъяг; Jugyd’jag | 61,63, 54,94 (1926-1953) | 2,3k | 2,3k | 2,2k | 2,2k | 2,1k |
 | Begichevskiy (Reg. 22) | Бегичевский; Begičevskij | 53,8, 38,25 (1926-1953) | 5,5k | 6,9k | 8,5k | 8,7k | 8,9k |
 | Bekhteyevka (Reg. 22) | Бехтеевка | 50,81, 37,22 (1926-1953) | 4,4k | 4,9k | 5,4k | 5,2k | 4,8k |
 | Belaja Berjozka (Reg. 21) | Белая Берёзка; Белая Березка | 52,38, 33,48 (1926-1953) | 2,9k | 3,6k | 4,5k | 4,7k | 4,9k |
-| Belaya (Reg. 22) | Белая | 51,06, 35,71 (1926-1953) | 4,4k | 4,3k | 4,3k | 4,1k | 3,9k |
 | Belaya Rechka (Reg. 21) | Белая Речка; Belaja Rečka | 56,28, 39,41 (1926-1953) | 922 | 1,3k | 1,6k | 1,8k | 1,9k |
-| Belenkoe (Reg. 22) | Беленькое | 50,58, 35,92 (1926-1953) | 5,3k | 4,4k | 3,7k | 3,4k | 3k |
+| Belaya (Reg. 22) | Белая | 51,06, 35,71 (1926-1953) | 4,4k | 4,3k | 4,3k | 4,1k | 3,9k |
 | Belgorod (Reg. 22) | Belgorod Kursk Gub; Belgorod Chalk | 50,6, 36,59 (1926-1953) | 31k | 30k | 34,4k | 24k | 52k |
 | Belichi (Reg. 19) | Беличи | 63,39, 41,59 (1939-1939) | \- | \- | 3,8k | \- | \- |
 | Beljov (Reg. 22) | Белёв; Белев | 53,81, 36,13 (1926-1953) | 13,6k | 14,7k | 17,6k | 17,5k | 17,3k |
-| Belka (Reg. 17) | Белка | 58,32, 32,22 (1926-1953) | 6,7k | 9,6k | 13,1k | 13,8k | 14,8k |
 | Belogore (Reg. 22) | Белогорье | 50,49, 40,01 (1926-1953) | 5,3k | 4,9k | 4,6k | 4,3k | 4k |
 | Belomorsk (Reg. 16) | Soroka; White Sea-Baltic Canal Terminus | 64,52, 34,77 (1926-1953) | 3,4k | 10,8k | 12,2k | 11,5k | 14,1k |
 | Beloomut (Reg. 20) | Белоомут | 54,94, 39,34 (1926-1953) | 2,5k | 4,3k | 6,7k | 7,5k | 8,7k |
@@ -3196,30 +2924,23 @@ Black-Earth Belt (Region 22)
 | Belousovo (Reg. 21) | Белоусово | 55,09, 36,67 (1926-1953) | 2,5k | 3,3k | 4,3k | 4,6k | 4,9k |
 | Belozersk (Reg. 19) | Белозерск | 60,03, 37,81 (1926-1953) | 7k | 7,9k | 10,3k | 10,3k | 10,4k |
 | Beluš’ja Guba (Reg. 19) | Белушья Губа | 71,54, 52,33 (1926-1953) | 1,3k | 1,9k | 2,6k | 2,7k | 3k |
-| Belyy (Reg. 21) | Белый; Belyj | 55,84, 32,94 (1926-1953) | 6,9k | 6,3k | 8,3k | 6,7k | 5,1k |
 | Belyy Gorodok (Reg. 21) | Белый Городок; Belyj Gorodok | 56,97, 37,51 (1926-1953) | 1,2k | 1,7k | 2,4k | 2,5k | 2,7k |
-| Belyy Kolodez (Reg. 22) | Белый Колодезь | 49,99, 40,23 (1926-1953) | 7,9k | 8,1k | 8,3k | 9,1k | 10,2k |
+| Belyy (Reg. 21) | Белый; Belyj | 55,84, 32,94 (1926-1953) | 6,9k | 6,3k | 8,3k | 6,7k | 5,1k |
 | Belyye Berega (Reg. 21) | Белые Берега; Belyje Berega | 53,21, 34,66 (1926-1953) | 3,1k | 4k | 4,9k | 5,7k | 6,8k |
 | Belyye Stolby (Reg. 20) | Белые Столбы; Belyje Stolby | 55,33, 37,85 (1926-1953) | 1,6k | 2,8k | 4,3k | 4,9k | 5,6k |
-| Bereg (Reg. 16) | Берегъ | 63,13, 33,17 (1926-1953) | 5,6k | 8,5k | 12,3k | 13,5k | 15,5k |
 | Berendeyevo (Reg. 21) | Берендеево; Berendejevo | 56,6, 39,02 (1926-1953) | 2,6k | 3,6k | 4,9k | 5,2k | 5,5k |
 | Berezayka (Reg. 21) | Березайка; Berezajka | 57,99, 33,9 (1926-1953) | 1,3k | 2k | 3k | 3,2k | 3,4k |
-| Berezino (Reg. 21) | Березино | 57,31, 34,59 (1926-1953) | 3k | 3,9k | 4,8k | 3,9k | 2,9k |
 | Bereznik (Reg. 19) | Березник | 62,86, 42,7 (1926-1953) | 2,1k | 3k | 4,1k | 4,3k | 4,6k |
 | Bereznyagi (Reg. 22) | Березняги | 51,65, 40,05 (1926-1953) | 2,8k | 2,6k | 2,4k | 2,2k | 2k |
 | Berezovka (Reg. 22) | Березовка | 53,4, 41,51 (1926-1953) | 3k | 2,6k | 2,3k | 2k | 1,7k |
-| Berjozovka (Reg. 18) | Берёзовка | 65,01, 56,58 (1926-1953) | 910 | 1,2k | 1,6k | 2,1k | 3k |
 | Bezhanitsy (Reg. 17) | Бежаницы; Bežanicy | 56,98, 29,88 (1926-1953) | 994 | 1,2k | 1,4k | 1,4k | 1,3k |
 | Bezhetsk (Reg. 21) | Бежецк; Bežeck | 57,78, 36,7 (1926-1953) | 12,8k | 14,3k | 17,5k | 20k | 23,7k |
 | Birjuljovo (Reg. 20) | Бирюлёво | 55,59, 37,68 (1926-1953) | 2k | 5,3k | 12k | 14,2k | 18k |
 | Biruch (Reg. 22) | Бирюч; Birjuč | 50,65, 38,4 (1926-1953) | 8k | 4,3k | 2,5k | 2,5k | 2,4k |
-| Biryuch (Reg. 22) | Бирюч | 51,34, 40,71 (1926-1953) | 15,4k | 15,8k | 16,2k | 17,7k | 19,9k |
 | Blagodatnoye (Reg. 22) | Благодатное | 51,6, 35,28 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,4k |
 | Blagoyevo (Reg. 18) | Благоево; Blagojevo | 63,42, 47,96 (1926-1953) | 1,5k | 2k | 2,6k | 3,4k | 4,9k |
 | Blizhnyaya Igumenka (Reg. 22) | Ближняя Игуменка | 50,62, 36,71 (1926-1953) | 3,6k | 3k | 2,5k | 2,6k | 2,7k |
 | Bobrov (Reg. 22) | Бобров; Бобровская слобода | 51,1, 40,03 (1926-1953) | 17,4k | 10,6k | 7k | 7,1k | 7,4k |
-| Bobrova (Reg. 21) | Боброва | 57,73, 34,78 (1926-1953) | 3,4k | 5k | 7k | 7,4k | 7,9k |
-| Bobrovitsa (Reg. 21) | Бобровицы | 54,27, 35,02 (1926-1953) | 6,1k | 8,1k | 10,3k | 10,9k | 11,8k |
 | Bobrovo (Reg. 20) | Боброво | 55,53, 37,62 (1926-1953) | 80 | 85 | 90 | 93 | 97 |
 | Bogana (Reg. 22) | Богана | 51,48, 42,19 (1926-1953) | 3,4k | 3,1k | 2,8k | 2,6k | 2,3k |
 | Bogatyy (Reg. 22) | Богатое; Bogatoje | 50,65, 37,89 (1926-1953) | 551 | 556 | 560 | 564 | 569 |
@@ -3240,21 +2961,17 @@ Black-Earth Belt (Region 22)
 | Bolokhovo (Reg. 22) | Болохово; Bolohovo | 54,08, 37,83 (1926-1953) | 8,2k | 10,4k | 12,7k | 11,2k | 9,4k |
 | Bolshie Kolpany (Reg. 17) | Большие Колпаны | 59,52, 30,07 (1926-1953) | 1,2k | 2k | 3k | 3,2k | 3,4k |
 | Bolshoe Bunkovo (Reg. 20) | Большое Буньково | 55,85, 38,6 (1926-1953) | 1,6k | 1,8k | 1,9k | 2k | 2,1k |
-| Bondareva (Reg. 21) | Бондарева | 56,13, 32,46 (1926-1953) | 3,9k | 5,8k | 8,1k | 8,6k | 9,2k |
 | Bondari (Reg. 22) | Бондари | 52,95, 42,06 (1926-1953) | 2,1k | 2,3k | 2,5k | 2,6k | 2,8k |
 | Borets (Reg. 22) | Борецъ | 54,45, 41,8 (1926-1953) | 2,5k | 2,2k | 2k | 1,8k | 1,6k |
 | Borinskoye (Reg. 22) | Боринское | 52,46, 39,37 (1926-1953) | 3,8k | 3,6k | 3,4k | 3,6k | 3,9k |
 | Borisoglebsk (Reg. 22) | Борисоглебск | 51,37, 42,1 (1926-1953) | 39,8k | 46,4k | 52,9k | 53,3k | 53,9k |
 | Borisogl-ebskiy (Reg. 21) | Борисоглебский; Borisogl-ebskij | 57,26, 39,15 (1926-1953) | 1,6k | 2,3k | 3,1k | 3,2k | 3,5k |
-| Borisogl-ebskoye (Reg. 19) | Борисоглебское | 59,47, 39,16 (1926-1953) | 15,8k | 20,6k | 25,9k | 27,7k | 30,3k |
 | Borisovka (Reg. 22) | Борисовка | 50,6, 36,02 (1926-1953) | 20,7k | 13,2k | 9k | 9,4k | 9,9k |
 | Borodinskiy (Reg. 22) | Бородинский; Borodinskij | 54, 37,82 (1926-1953) | 4,9k | 6,2k | 7,5k | 7,7k | 7,9k |
 | Borovichi (Reg. 17) | Боровичи; Boroviči | 58,39, 33,92 (1926-1953) | 18,8k | 26,3k | 37,1k | 39,1k | 41,9k |
-| Borovno (Reg. 17) | Боровно | 56,04, 30,45 (1926-1953) | 5,6k | 7,1k | 8,8k | 8,9k | 9k |
 | Borovoy (Reg. 16) | Боровой; Borovoj | 64,61, 32,25 (1926-1953) | 572 | 940 | 1,4k | 1,6k | 1,8k |
 | Borovoy (Reg. 18) | Боровой; Borovoj | 63,23, 52,89 (1926-1953) | 604 | 814 | 1,1k | 1,4k | 2k |
 | Borovsk (Reg. 21) | Боровск | 55,2, 36,49 (1926-1953) | 5,8k | 8,8k | 10,3k | 10,4k | 10,7k |
-| Borovskaya (Reg. 16) | Боровская | 66,28, 30,86 (1926-1953) | 4,8k | 7,4k | 10,6k | 11,7k | 13,4k |
 | Boyevo (Reg. 22) | Боево | 51,4, 39,33 (1926-1953) | 4k | 3,8k | 3,6k | 3,4k | 3,2k |
 | Bratki (Reg. 22) | Братки | 51,59, 41,49 (1926-1953) | 2,9k | 2,7k | 2,6k | 2,5k | 2,3k |
 | Brekhovo (Reg. 20) | Брёхово | 55,93, 37,19 (1926-1953) | 1,1k | 1,9k | 3k | 3,3k | 3,9k |
@@ -3263,7 +2980,6 @@ Black-Earth Belt (Region 22)
 | Brusyanka (Reg. 22) | Брусянский; Brusjanskij | 53,98, 38,04 (1926-1953) | 5,5k | 6,9k | 8,5k | 8,7k | 8,9k |
 | Bryansk (Reg. 21) | Bryansk Works; Bezhitsa-Bryansk | 53,24, 34,36 (1926-1953) | 86k | 125k | 174,2k | 98k | 170k |
 | Budogošč’ (Reg. 17) | Будогощь | 59,28, 32,47 (1926-1953) | 570 | 1,5k | 2,1k | 2,4k | 3,7k |
-| Budovo (Reg. 21) | Будово | 57,25, 34,91 (1926-1953) | 14,7k | 21,8k | 30,6k | 32,3k | 34,7k |
 | Bugayevka (Reg. 21) | Бугаевка | 52,56, 33,37 (1939-1939) | \- | \- | 6,7k | \- | \- |
 | Bugry (Reg. 17) | Бугры | 60,07, 30,39 (1926-1953) | 1,4k | 2,2k | 3,4k | 3,6k | 3,8k |
 | Burmakino (Reg. 21) | Бурмакино | 57,42, 40,24 (1926-1953) | 1,5k | 1,9k | 2,4k | 3k | 3,9k |
@@ -3271,15 +2987,11 @@ Black-Earth Belt (Region 22)
 | Butovo (Reg. 20) | Бутово | 55,54, 37,59 (1926-1953) | 2,3k | 3,9k | 6,2k | 6,9k | 8k |
 | Buturlinovka (Reg. 22) | Бутурлиновка | 50,83, 40,6 (1926-1953) | 27,5k | 20,7k | 11,4k | 11,9k | 12,7k |
 | Buy (Reg. 21) | Буй; Buj | 58,48, 41,54 (1926-1953) | 9,9k | 14,6k | 20,4k | 22,2k | 24,9k |
-| Buylovo (Reg. 17) | Буйловка | 58,24, 33,01 (1926-1953) | 10,6k | 15,3k | 20,9k | 22k | 23,6k |
-| Bykova (Reg. 21) | Быкова | 56,48, 31,18 (1926-1953) | 3,4k | 5k | 7k | 7,4k | 7,9k |
 | Bykovo (Reg. 20) | Быково | 55,64, 38,08 (1926-1953) | 1,7k | 3,9k | 7,9k | 9,4k | 11,8k |
 | Bytoš’ (Reg. 21) | Бытошь | 53,82, 34,09 (1926-1953) | 3,8k | 5k | 6,3k | 6,6k | 7k |
-| Central’nyj (Reg. 22) | Центральный | 53,68, 39,63 (1926-1953) | 2,9k | 3,3k | 3,7k | 3,9k | 4,3k |
 | Chagoda (Reg. 19) | Чагода; Čagoda | 59,16, 35,33 (1926-1953) | 4,9k | 6,4k | 8k | 8,8k | 9,9k |
 | Chalna (Reg. 16) | Чална; Čalna | 61,88, 34,06 (1926-1953) | 2,1k | 3,5k | 5,4k | 6k | 6,8k |
 | Chaplygin (Reg. 22) | Чаплыгин; Čaplygin | 53,23, 39,96 (1926-1953) | 9,6k | 7,3k | 6,1k | 7,2k | 9k |
-| Charykova (Reg. 22) | Златоустовка | 53,68, 41,11 (1926-1953) | 11,8k | 13,5k | 15,1k | 16,2k | 17,7k |
 | Chastsy (Reg. 20) | Часцы | 55,62, 36,86 (1926-1953) | 284 | 481 | 757 | 845 | 980 |
 | Chebsara (Reg. 19) | Чёбсара; Čjobsara | 59,2, 38,84 (1926-1953) | 676 | 1,6k | 3,3k | 3,5k | 3,9k |
 | Chekalin (Reg. 22) | Чекалин; Čekalin | 54,1, 36,24 (1926-1953) | 1,8k | 1,7k | 2,4k | 2,3k | 2,3k |
@@ -3290,12 +3002,10 @@ Black-Earth Belt (Region 22)
 | Cherkizovo (Reg. 20) | Черкизово; Čerkizovo | 55,98, 37,79 (1926-1953) | 1,9k | 3,2k | 5,1k | 5,5k | 6,1k |
 | Chernava (Reg. 22) | Чернава | 53,81, 40,18 (1926-1953) | 2,9k | 2,7k | 2,5k | 2,3k | 2,1k |
 | Chernaya (Reg. 20) | Чёрная | 56,13, 37,52 (1926-1953) | 892 | 1,5k | 2,4k | 2,7k | 3,1k |
-| Chernaya Rechka (Reg. 22) | Черная Речка | 53,86, 40,74 (1926-1953) | 2k | 1,8k | 1,5k | 1,3k | 1,1k |
 | Chernogolovka (Reg. 20) | Черноголовка; Černogolovka | 56, 38,36 (1926-1953) | 2,6k | 4,4k | 6,9k | 7,7k | 8,9k |
 | Chernousovo (Reg. 22) | Черноусово | 53,39, 36,9 (1926-1953) | 5,4k | 6,9k | 8,4k | 8,6k | 8,8k |
 | Chernukhino (Reg. 19) | Чернухино | 60,03, 40,09 (1939-1939) | \- | \- | 5,3k | \- | \- |
 | Chernyanka (Reg. 22) | Чернянка; Černjanka | 50,94, 37,82 (1926-1953) | 7,7k | 8,3k | 8,1k | 8,3k | 8,6k |
-| Chernyanka (Reg. 22) | Чернянка | 51,91, 37,33 (1926-1953) | 5,6k | 6k | 6,3k | 6,9k | 7,8k |
 | Cherusti (Reg. 20) | Черусти; Čerusti | 55,55, 40,01 (1926-1953) | 2,5k | 4,2k | 6,6k | 7k | 7,5k |
 | Chesmenka (Reg. 22) | Чесменка | 51,29, 40,17 (1926-1953) | 2,8k | 2,6k | 2,4k | 2,3k | 2,1k |
 | Chkalovskiy (Reg. 16) | Чкаловский; Čkalovskij | 66,3, 33,4 (1926-1953) | 142 | 234 | 358 | 395 | 451 |
@@ -3305,13 +3015,10 @@ Black-Earth Belt (Region 22)
 | Chukhloma (Reg. 21) | Чухлома; Čuhloma | 58,75, 42,69 (1926-1953) | 2,3k | 2,5k | 3,6k | 3,8k | 4,1k |
 | Chulok (Reg. 22) | Чулокъ | 50,94, 40,65 (1926-1953) | 2,9k | 2,5k | 2,2k | 2k | 1,7k |
 | Chupa (Reg. 16) | Чупа; Čupa | 66,27, 33,05 (1926-1953) | 1,2k | 1,9k | 2,9k | 3,2k | 3,7k |
-| Churilovo (Reg. 22) | Чурилова | 51,96, 36,57 (1926-1953) | 7,9k | 8,4k | 8,8k | 9,7k | 11k |
 | Churovichi (Reg. 21) | Чуровичи; Čuroviči | 52,17, 31,99 (1926-1953) | 4,1k | 3,7k | 3,4k | 3,2k | 2,8k |
-| Churyukovo (Reg. 22) | Чурюково | 53,39, 40,68 (1926-1953) | 9,6k | 9,8k | 10k | 10,2k | 10,6k |
 | Danilov (Reg. 21) | Данилов | 58,19, 40,17 (1926-1953) | 8k | 11,4k | 15,5k | 15,9k | 16,5k |
 | Danilovo (Reg. 20) | Данилово | 55,67, 38,77 (1926-1953) | 6,9k | 10,5k | 15,2k | 16,9k | 19,4k |
 | Dankov (Reg. 22) | Данков | 53,25, 39,14 (1926-1953) | 9,3k | 4,9k | 2,9k | 4,5k | 8,1k |
-| Dankovo (Reg. 22) | Данково | 51,3, 39,53 (1926-1953) | 94,8k | 97,6k | 100k | 109,1k | 122,4k |
 | Davydovka (Reg. 22) | Давыдовка | 51,16, 39,43 (1926-1953) | 5,5k | 6k | 6,4k | 6,2k | 5,8k |
 | Davydovo (Reg. 20) | Давыдово | 55,61, 38,86 (1926-1953) | 2k | 3,4k | 5,4k | 6k | 7k |
 | Dedenevo (Reg. 20) | Деденево | 56,24, 37,52 (1926-1953) | 1,4k | 2,4k | 3,8k | 4,3k | 4,9k |
@@ -3325,17 +3032,14 @@ Black-Earth Belt (Region 22)
 | Demidov (Reg. 21) | Демидов; Поречье | 55,27, 31,52 (1926-1953) | 6,4k | 5,9k | 7,9k | 7,6k | 7,2k |
 | Demikhovo (Reg. 20) | Демихово | 55,8, 38,88 (1926-1953) | 1k | 1,8k | 2,8k | 3,1k | 3,6k |
 | Demyansk (Reg. 17) | Демянск; Demjansk | 57,64, 32,47 (1926-1953) | 2,5k | 2,9k | 3,4k | 3,5k | 3,6k |
-| Deniskovichi (Reg. 21) | Денисковичи | 52,31, 31,71 (1926-1953) | 3,6k | 3,1k | 2,7k | 2,3k | 2k |
 | Derevyanka (Reg. 16) | Деревянка; Derevjanka | 61,57, 34,45 (1926-1953) | 1,3k | 2,1k | 3,2k | 3,5k | 4k |
 | Derezovka (Reg. 22) | Дерезовка | 50,08, 40,31 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
-| Derkunskiy (Reg. 22) | Деркунский | 50,35, 38,65 (1926-1953) | 7,9k | 7,2k | 6,7k | 6,9k | 7,3k |
 | Detchino (Reg. 21) | Детчино | 54,81, 36,31 (1926-1953) | 1,1k | 1,5k | 1,9k | 2,1k | 2,4k |
 | Devitsa (Reg. 22) | Девица; Салтыково | 51,64, 38,96 (1926-1953) | 2,5k | 2,7k | 2,8k | 2,9k | 3,1k |
 | Djat’kovo (Reg. 21) | Дятьково; Дятково | 53,6, 34,34 (1926-1953) | 7,2k | 11,6k | 17,3k | 18k | 18,8k |
 | Dmitriyev (Reg. 22) | Дмитриев-Льговский; Dmitrijev-L’govskij | 52,13, 35,08 (1926-1953) | 4,7k | 6,1k | 7,5k | 7,8k | 8,1k |
 | Dmitriyevka (Reg. 22) | Дмитриевка; Dmitrijevka | 52,88, 40,79 (1926-1953) | 955 | 1,1k | 1,2k | 1,4k | 1,8k |
-| Dmitriyevka (Reg. 22) | Дмитриевка | 51,51, 38,93 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,2k |
-| Dmitrov (Reg. 20) | Дмитров | 56,34, 37,52 (1926-1953) | 6,4k | 9,1k | 25k | 27,6k | 31,3k |
+| Dmitrov (Reg. 20) | Дмитров; Dmitrov Yakhroma | 56,34, 37,52 (1926-1953) | 6,4k | 9,1k | 25k | 27,6k | 31,3k |
 | Dmitrovsk (Reg. 22) | Дмитровск; Дмитровка | 52,51, 35,15 (1926-1953) | 5k | 4,9k | 5,4k | 5,5k | 5,5k |
 | Dmitrovskoye (Reg. 20) | Дмитровское | 55,75, 37,12 (1926-1953) | 2,7k | 2,4k | 2,1k | 1,9k | 1,6k |
 | Dmitryashevka (Reg. 22) | Дмитряшевка | 52,15, 39,08 (1926-1953) | 3,3k | 3,1k | 2,9k | 2,8k | 2,6k |
@@ -3359,19 +3063,13 @@ Black-Earth Belt (Region 22)
 | Drozhzhino (Reg. 20) | Дрожжино; Drožžino | 55,52, 37,59 (1926-1953) | 5,5k | 9,3k | 14,7k | 16,4k | 19k |
 | Druzhba (Reg. 20) | Дружба | 55,89, 37,74 (1926-1953) | 775 | 1,3k | 2,1k | 2,3k | 2,7k |
 | Druzhnaya Gorka (Reg. 17) | Дружная Горка; Družnaja Gorka | 59,28, 30,13 (1926-1953) | 1k | 2k | 2,7k | 670 | 1,6k |
-| Dubenka (Reg. 21) | Дубенка | 57,26, 33,26 (1926-1953) | 6,5k | 9,6k | 13,5k | 14,2k | 15,3k |
-| Dubinovka (Reg. 21) | Ново-Красная | 52,92, 32,5 (1926-1953) | 4,1k | 5,2k | 6,4k | 6,7k | 7,1k |
 | Dubki (Reg. 20) | Дубки | 55,67, 37,21 (1926-1953) | 106 | 180 | 283 | 316 | 366 |
 | Dubovka (Reg. 22) | Дубовка | 53,95, 38,06 (1926-1953) | 8,9k | 11,2k | 13,7k | 14k | 14,5k |
-| Dubovka (Reg. 22) | Макарово | 51,45, 41,44 (1926-1953) | 10,4k | 10,7k | 10,9k | 11,9k | 13,4k |
-| Dubovo (Reg. 16) | Дубово | 61,77, 37,73 (1926-1953) | 3,5k | 5,3k | 7,6k | 8,4k | 9,6k |
+| Dubovo (Reg. 16) | Дубово | 61,77, 37,73 (1926-1953) | 3,1k | 3,1k | 3,1k | 3,1k | 3,1k |
 | Dubovoye (Reg. 22) | Дубовое | 50,54, 36,59 (1926-1953) | 3,9k | 3,1k | 2,7k | 2,8k | 2,9k |
-| Dubovoye (Reg. 22) | Дубовое | 54,01, 39,7 (1926-1953) | 5,1k | 5,9k | 6,6k | 7k | 7,7k |
 | Dubovoye (Reg. 22) | Дубовое | 53,98, 38,4 (1926-1953) | 11,4k | 14,4k | 17,7k | 18k | 18,6k |
 | Dubrovka (Reg. 21) | Дубровка | 53,69, 33,51 (1926-1953) | 1,5k | 2,6k | 4,2k | 4,3k | 4,4k |
 | Dubrovka (Reg. 17) | Дубровка | 59,84, 30,93 (1926-1953) | 2,1k | 4,7k | 9,5k | 8,2k | 6,7k |
-| Dubrovy (Reg. 17) | Дубровы | 56,98, 29,2 (1926-1953) | 8,1k | 10,3k | 12,6k | 12,8k | 13k |
-| Dubrovy (Reg. 17) | Дубровы; Новодашково | 59,33, 31,45 (1926-1953) | 7k | 10,8k | 15,5k | 16,6k | 18,3k |
 | Dudorovskiy (Reg. 21) | Дудоровский; Dudorovskij | 53,66, 35,37 (1926-1953) | 1,3k | 2k | 2,9k | 2,8k | 2,7k |
 | Dugna (Reg. 21) | Дугна | 54,41, 36,85 (1926-1953) | 1,4k | 1,6k | 1,7k | 1,7k | 1,6k |
 | Dukhovshchina (Reg. 21) | Духовщина; Duhovščina | 55,19, 32,41 (1926-1953) | 2,9k | 3k | 3,9k | 3,7k | 3,5k |
@@ -3382,9 +3080,8 @@ Black-Earth Belt (Region 22)
 | Dyachenkova (Reg. 22) | Дьяченкова | 49,91, 40,6 (1926-1953) | 3,6k | 3,5k | 3,4k | 3,3k | 3,2k |
 | Dyadkovo (Reg. 22) | Дядьково | 54,61, 39,83 (1926-1953) | 10,3k | 8,8k | 7,7k | 6,8k | 5,7k |
 | Dyakonovo (Reg. 22) | Дьяконово | 51,62, 35,9 (1926-1953) | 928 | 1,1k | 1,2k | 1,3k | 1,6k |
-| Dyakovka (Reg. 22) | Дьяковка | 51,52, 35,13 (1926-1953) | 5,1k | 5,4k | 5,7k | 6,3k | 7,1k |
 | Dzerzhinskiy (Reg. 20) | Дзержинский; Dzeržinskij | 55,63, 37,84 (1926-1953) | 2,9k | 4,9k | 7,6k | 9,4k | 12,5k |
-| Elan-Koleno (Reg. 22) | Елань-Колено | 51,15, 41,23 (1926-1953) | 6,6k | 6,4k | 6,2k | 6k | 5,8k |
+| Elan-Koleno (Reg. 22) | Елань-Колено; Jelan’-Kolenovskij | 51,15, 41,23 (1926-1953) | 6,6k | 6,4k | 6,2k | 6k | 5,8k |
 | Elektrogorsk (Reg. 20) | Электрогорск; Êlektrogorsk | 55,88, 38,79 (1926-1953) | 4,3k | 9,8k | 12,4k | 12,1k | 11,7k |
 | Elektrougli (Reg. 20) | Электроугли; Êlektrougli | 55,72, 38,21 (1926-1953) | 3,2k | 5,4k | 8,5k | 9,9k | 12,1k |
 | Elisenvaara (Reg. 16) | Элисенваара; Êlisenvaara | 61,41, 29,76 (1926-1953) | 898 | 1,5k | 2,3k | 2,5k | 2,8k |
@@ -3401,7 +3098,6 @@ Black-Earth Belt (Region 22)
 | Fornosovo (Reg. 17) | Форносово | 59,57, 30,55 (1926-1953) | 884 | 1,4k | 2,2k | 2,3k | 2,4k |
 | Fortnite Battle Pass (Reg. 16) | Порт-Владимир; Port-Vladimir | 69,42, 33,11 (1926-1953) | 610 | 822 | 1,1k | 1,2k | 1,5k |
 | Fosforitnyy (Reg. 20) | Фосфоритный; Fosforitnyj | 55,33, 38,9 (1926-1953) | 706 | 1,2k | 1,9k | 2,2k | 2,8k |
-| Frolovo (Reg. 21) | Фролова | 53,57, 35,08 (1926-1953) | 1,3k | 1,1k | 948 | 830 | 696 |
 | Fryanovo (Reg. 20) | Фряново; Frjanovo | 56,13, 38,45 (1926-1953) | 2,6k | 3,5k | 4,6k | 5,1k | 5,8k |
 | Fryazino (Reg. 20) | Фрязино; Frjazino | 55,96, 38,05 (1926-1953) | 600 | 2,1k | 5,9k | 8,4k | 13,4k |
 | Furmanov (Reg. 21) | Фурманов; Середа | 57,25, 41,11 (1926-1953) | 21k | 28,2k | 36,1k | 36,7k | 37,6k |
@@ -3416,19 +3112,14 @@ Black-Earth Belt (Region 22)
 | Gavrilov-Yam (Reg. 21) | Гаврилов-Ям; Gavrilov-Jam | 57,3, 39,85 (1926-1953) | 9,7k | 13,7k | 18,6k | 19,4k | 20,4k |
 | Gavrilovskoye (Reg. 22) | Гавриловское | 54,43, 40,38 (1926-1953) | 2,6k | 2,4k | 2,3k | 2,1k | 1,9k |
 | Gdov (Reg. 17) | Гдов | 58,74, 27,82 (1926-1953) | 3,8k | 4,1k | 4,6k | 4,3k | 3,9k |
-| Gerasimovka (Reg. 22) | Герасимовка | 52,83, 36,23 (1926-1953) | 5k | 5,2k | 5,4k | 5,7k | 6k |
 | Girvas (Reg. 16) | Гирвас | 62,48, 33,68 (1926-1953) | 614 | 1k | 1,5k | 1,7k | 1,9k |
 | Glazunovka (Reg. 22) | Глазуновка | 52,5, 36,32 (1926-1953) | 790 | 825 | 857 | 1,2k | 1,9k |
-| Glebovskiy (Reg. 22) | Глебовский | 52,5, 36,22 (1926-1953) | 3,1k | 3,2k | 3,4k | 3,5k | 3,7k |
 | Glebovskoe (Reg. 21) | Глебовское | 56,65, 38,7 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,8k |
 | Glinishchevo (Reg. 21) | Глинищево | 53,3, 34,07 (1926-1953) | 1,7k | 2,1k | 2,6k | 2,7k | 2,9k |
-| Glinki (Reg. 22) | Глинки | 52,99, 35,2 (1926-1953) | 6,2k | 6,5k | 6,7k | 7,1k | 7,5k |
-| Glinnoye (Reg. 21) | Глинное | 55,85, 34,37 (1926-1953) | 5,9k | 7,2k | 8,5k | 8,3k | 7,9k |
 | Glukhovo (Reg. 20) | Глухово | 56,24, 37,19 (1926-1953) | 5,4k | 4,9k | 4,5k | 4,1k | 3,7k |
 | Glushkovo (Reg. 22) | Глушково; Gluškovo | 51,34, 34,64 (1926-1953) | 7,6k | 7,3k | 7,1k | 6,6k | 5,9k |
 | Gnezdovo (Reg. 21) | Гнёздово; Gnjozdovo | 54,78, 31,85 (1926-1953) | 3,1k | 3,7k | 4,4k | 4,3k | 4,1k |
 | Gniloye (Reg. 22) | Гнилая | 50,81, 39,07 (1926-1953) | 1,7k | 1,6k | 1,5k | 1,4k | 1,4k |
-| Gnilusha (Reg. 22) | Гнилуша | 51,9, 40,51 (1926-1953) | 9,6k | 9,9k | 10,1k | 11,1k | 12,4k |
 | Golitsyno (Reg. 20) | Голицыно; Golicyno | 55,61, 36,98 (1926-1953) | 1,5k | 3,7k | 7,9k | 8,8k | 10,3k |
 | Golovchino (Reg. 22) | Головчино | 50,53, 35,81 (1926-1953) | 3,6k | 3,4k | 3,3k | 3,1k | 2,9k |
 | Golovino (Reg. 21) | Головино | 55,96, 40,43 (1926-1953) | 1,3k | 1,8k | 2,3k | 2,5k | 2,7k |
@@ -3443,19 +3134,16 @@ Black-Earth Belt (Region 22)
 | Gorki-10 (Reg. 20) | Горки-10 | 55,7, 37,02 (1926-1953) | 1,2k | 2k | 3,2k | 3,5k | 4,1k |
 | Gorki-Leninskiye (Reg. 20) | Горки Ленинские; Gorki Leninskije | 55,51, 37,78 (1926-1953) | 300 | 509 | 801 | 895 | 1k |
 | Gorlovo (Reg. 22) | Горлово | 53,83, 39,04 (1926-1953) | 3k | 2,7k | 2,4k | 2,2k | 2k |
-| Gornyak (Reg. 22) | Горняк; Gornjak | 53,6, 39,49 (1926-1953) | 1,6k | 1,8k | 2,1k | 2,2k | 2,4k |
 | Gornyatskiy (Reg. 18) | Горняцкий; Gornjackij | 67,52, 64,09 (1926-1953) | 6,7k | 9k | 11,6k | 15,2k | 21,8k |
-| Gornyy (Reg. 16) | Горный; Gornyj | 69,4, 30,87 (1926-1953) | 851 | 1,1k | 1,5k | 1,7k | 2,1k |
 | Gorodishche-Yushkovo (Reg. 20) | Городищи; Gorodišči | 55,19, 38,54 (1926-1953) | 757 | 1,2k | 1,7k | 1,9k | 2,1k |
 | Gorodishchi (Reg. 20) | Городищи; Gorodišči | 55,87, 39,08 (1926-1953) | 2,9k | 3,4k | 3,9k | 4,3k | 4,9k |
-| Gorodno (Reg. 17) | Городно | 57,53, 29,58 (1926-1953) | 3,2k | 4k | 4,9k | 5k | 5,1k |
+| Gorodno (Reg. 17) | Городно | 57,53, 29,58 (1926-1953) | 2,5k | 2,5k | 2,5k | 2,5k | 2,5k |
 | Gorokhovets (Reg. 21) | Гороховец; Gorohovec | 56,2, 42,69 (1926-1953) | 4k | 4,8k | 5,8k | 6,8k | 8,4k |
 | Gorokhovka (Reg. 22) | Гороховка | 51,82, 40,47 (1926-1953) | 4,9k | 4,4k | 4k | 3,7k | 3,2k |
 | Gorshechnoye (Reg. 22) | Горшечное; Goršečnoje | 51,52, 38,04 (1926-1953) | 3,6k | 3,6k | 3,6k | 3,6k | 3,6k |
 | Gostilitsy (Reg. 17) | Гостилицы | 59,75, 29,62 (1926-1953) | 1k | 1,7k | 2,6k | 2,7k | 2,9k |
-| Govorovo (Reg. 17) | Говорово | 58,23, 31,95 (1926-1953) | 4,2k | 6,1k | 8,4k | 8,8k | 9,5k |
+| Govorovo (Reg. 17) | Говорово | 58,23, 31,95 (1926-1953) | 2,4k | 2,4k | 2,4k | 2,4k | 2,4k |
 | Grachevka (Reg. 22) | Краснореченс.кое | 51,27, 40,87 (1926-1953) | 4,8k | 4,9k | 5k | 5,5k | 6,2k |
-| Granitsa (Reg. 21) | Граница | 57,63, 34,9 (1926-1953) | 6,8k | 10k | 14k | 14,8k | 15,9k |
 | Granki (Reg. 21) | Гранки | 54,85, 31,44 (1926-1953) | 1,2k | 1,5k | 1,7k | 1,7k | 1,6k |
 | Grayvoron (Reg. 22) | Грайворон; Grajvoron | 50,48, 35,68 (1926-1953) | 8,9k | 6,6k | 4,6k | 4,7k | 5k |
 | Gribanovskiy (Reg. 22) | Грибановский; Gribanovskij | 51,45, 41,96 (1926-1953) | 10,4k | 11,2k | 11,9k | 13k | 14,6k |
@@ -3470,7 +3158,6 @@ Black-Earth Belt (Region 22)
 | Gubari (Reg. 22) | Губари | 51,51, 42,55 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,2k | 2k |
 | Gubino (Reg. 20) | Губино | 56,4, 36,8 (1926-1953) | 3,4k | 3,3k | 3,2k | 3,2k | 3,1k |
 | Gubkin (Reg. 22) | Губкин | 51,28, 37,54 (1926-1953) | 27,3k | 22,3k | 18,8k | 19,5k | 20,5k |
-| Gubovka (Reg. 22) | Губовка | 51,74, 38,2 (1926-1953) | 5k | 5,4k | 5,7k | 6,2k | 7k |
 | Gulyayevo (Reg. 19) | Гуляево | 64,52, 40,57 (1926-1953) | 5,2k | 7,3k | 9,9k | 10,5k | 11,4k |
 | Gus’-Hrustal’nyj (Reg. 21) | Гусь-Хрустальный | 55,61, 40,65 (1926-1953) | 17,9k | 27,7k | 40,2k | 44k | 49,5k |
 | Gus’-Železnyj (Reg. 22) | Гусь-Железный | 55,06, 41,17 (1926-1953) | 2,4k | 3k | 3,6k | 3,5k | 3,3k |
@@ -3478,7 +3165,6 @@ Black-Earth Belt (Region 22)
 | Gusino (Reg. 21) | Гусино | 54,73, 31,37 (1926-1953) | 705 | 813 | 918 | 1k | 1,2k |
 | Gvazda (Reg. 22) | Гвазда | 50,74, 40,45 (1926-1953) | 4,4k | 4,3k | 4,1k | 4k | 3,8k |
 | Gvozdevka Russkaya (Reg. 22) | Гвоздевка Русская | 51,81, 39,07 (1926-1953) | 2,4k | 2,2k | 2k | 1,9k | 1,7k |
-| Gvozdovka (Reg. 21) | Гвоздовка | 54,32, 32,61 (1926-1953) | 5,9k | 7,1k | 8,4k | 8,2k | 7,9k |
 | Hohol’skij (Reg. 22) | Хохольский; Хохолъ | 51,57, 38,77 (1926-1953) | 8,6k | 8,2k | 7,8k | 7,5k | 7k |
 | Horošjovskij Serebrjanyj Bor (Reg. 20) | Хорошёвский Серебряный Бор | 55,78, 37,44 (1926-1926) | 1,5k | \- | \- | \- | \- |
 | Idel’ (Reg. 16) | Идель | 64,13, 34,24 (1926-1953) | 924 | 1,5k | 2,3k | 2,6k | 2,9k |
@@ -3489,16 +3175,11 @@ Black-Earth Belt (Region 22)
 | Il’inskij (Reg. 20) | Ильинский | 55,62, 38,12 (1926-1953) | 2,5k | 4,2k | 6,6k | 8k | 10,3k |
 | Il’inskoje-Hovanskoje (Reg. 21) | Ильинское-Хованское | 56,97, 39,77 (1926-1953) | 1,7k | 1,8k | 1,9k | 2k | 2,1k |
 | Ileza (Reg. 19) | Илеза | 61,05, 43,9 (1926-1953) | 1,3k | 1,8k | 2,5k | 2,6k | 2,9k |
-| Ilinka (Reg. 22) | Ильинка | 51,26, 40,85 (1926-1953) | 1,6k | 1,5k | 1,4k | 1,3k | 1,2k |
 | Ilinskoe (Reg. 20) | Ильинское | 55,25, 37,96 (1926-1953) | 1,1k | 1,8k | 2,9k | 3,2k | 3,7k |
-| Ilinskoe (Reg. 21) | Ильинское | 54,98, 36,17 (1926-1953) | 54,8k | 72,7k | 92,7k | 98,4k | 106,7k |
-| Ilintsy (Reg. 19) | Ильинцы | 61,39, 36,75 (1926-1926) | 11,6k | \- | \- | \- | \- |
 | Ilovay-Dmitriye-vskoye (Reg. 22) | Иловай-Дмитриевское | 53,2, 40,35 (1926-1953) | 3,6k | 3,4k | 3,2k | 3k | 2,7k |
-| Ilyushkino (Reg. 19) | Илюшкино | 58,7, 40,98 (1926-1953) | 7,6k | 9,9k | 12,4k | 13,3k | 14,6k |
 | Imeni Vorovskogo (Reg. 21) | им. Воровского; im. Vorovskogo | 55,72, 41,12 (1926-1953) | 1,2k | 1,6k | 2,1k | 2,1k | 2,2k |
 | Imeni Zhelyabova (Reg. 19) | им. Желябова; im. Željabova | 58,95, 36,6 (1926-1953) | 1k | 1,3k | 1,7k | 1,8k | 1,9k |
 | Impilakhti (Reg. 16) | Импилахти; Impilahti | 61,67, 31,16 (1926-1953) | 560 | 920 | 1,4k | 1,6k | 1,8k |
-| Inokovka (Reg. 22) | Иноковка | 52,55, 42,57 (1926-1953) | 11,1k | 11,4k | 11,6k | 11,9k | 12,3k |
 | Inta (Reg. 18) | Intalag & Minlag Arctic Coal Camp (Komi ASSR); Инта | 66,03, 60,17 (1940-1953) | \- | \- | \- | 12k | 38k |
 | Inzhavino (Reg. 22) | Инжавино; Inžavino | 52,32, 42,49 (1926-1953) | 3,4k | 3,8k | 4,2k | 4,4k | 4,6k |
 | Irajol’ (Reg. 18) | Ираёль | 64,41, 55,2 (1926-1953) | 843 | 1,1k | 1,5k | 1,9k | 2,7k |
@@ -3506,20 +3187,17 @@ Black-Earth Belt (Region 22)
 | Ishnya (Reg. 21) | Ишня; Išnja | 57,19, 39,36 (1926-1953) | 1,6k | 2,3k | 3,1k | 3,2k | 3,4k |
 | Iskateley (Reg. 18) | Искателей; Iskatelej | 67,68, 53,15 (1926-1953) | 2,9k | 4k | 5,1k | 5,6k | 6,3k |
 | Istobnoye (Reg. 22) | Истобное | 51,26, 38,66 (1926-1953) | 6,9k | 6k | 5,4k | 4,8k | 4,1k |
-| Ivan’kovo (Reg. 20) | Иваньково | 56,63, 37,97 (1926-1939) | 3,7k | 6,3k | 9,9k | \- | \- |
+| Ivan’kovo (Reg. 20) | Иваньково | 56,63, 37,97 (1926-1939) | 2,6k | 2,6k | 2,6k | \- | \- |
 | Ivan’kovskij (Reg. 21) | Иваньковский | 56,68, 40,11 (1926-1953) | 674 | 922 | 1,2k | 1,3k | 1,3k |
 | Ivangorod (Reg. 17) | Ивангород | 59,37, 28,22 (1926-1953) | 4,9k | 8k | 12,1k | 12,8k | 13,7k |
 | Ivanino (Reg. 22) | Иванино | 51,64, 35,58 (1926-1953) | 1,7k | 1,8k | 1,9k | 2k | 2,2k |
 | Ivanishchi (Reg. 21) | Иванищи; Ivanišči | 55,77, 40,43 (1926-1953) | 1,1k | 1,2k | 1,3k | 1,4k | 1,6k |
-| Ivanovka (Reg. 22) | Ивановка | 51,2, 38,85 (1926-1953) | 1,3k | 1,2k | 1,1k | 991 | 879 |
 | Ivanovo-Voznesensk (Reg. 21) | Ivanovo; Russian Manchester | 57, 40,97 (1926-1953) | 111,5k | 195k | 285,1k | 265k | 305k |
-| Ivanovskoye (Reg. 17) | Ивановское; Ivanovskoje | 59,7, 29 (1926-1953) | 2,4k | 3,9k | 5,9k | 6,2k | 6,7k |
 | Ivanovskoye (Reg. 22) | Ивановское | 51,61, 34,95 (1926-1953) | 4,2k | 4k | 3,8k | 3,6k | 3,4k |
 | Ivanteyevka (Reg. 20) | Ивантеевка; Ivantejevka | 55,97, 37,92 (1926-1953) | 4,1k | 10,2k | 22,2k | 24,5k | 28k |
 | Ivnitsa (Reg. 22) | Ивница | 51,42, 35,3 (1926-1953) | 3k | 3,1k | 3,3k | 3,6k | 4,1k |
 | Ivnya (Reg. 22) | Ивня; Ivnja | 51,06, 36,15 (1926-1953) | 2k | 2,8k | 2,5k | 2,4k | 2,2k |
 | Ivot (Reg. 21) | Ивот | 53,67, 34,19 (1926-1953) | 3,7k | 4,2k | 4,7k | 5,2k | 5,8k |
-| Izbishche (Reg. 22) | Избище | 51,72, 38,59 (1926-1953) | 6,2k | 6,4k | 6,6k | 7,2k | 8k |
 | Izdeškovo (Reg. 21) | Издешково | 55,14, 33,62 (1926-1953) | 707 | 1,5k | 2,9k | 3,1k | 3,3k |
 | Izjaju (Reg. 18) | Изъяю | 65,11, 56,99 (1926-1953) | 750 | 1k | 1,3k | 1,7k | 2,4k |
 | Izmalkovo (Reg. 22) | Измалково | 52,69, 37,97 (1926-1953) | 2,4k | 2,5k | 2,7k | 2,8k | 2,9k |
@@ -3528,12 +3206,11 @@ Black-Earth Belt (Region 22)
 | Janino-1 (Reg. 17) | Янино-1 | 59,95, 30,56 (1926-1953) | 1,3k | 2k | 3,1k | 3,2k | 3,5k |
 | Jegor’jevsk (Reg. 20) | Егорьевск | 55,38, 39,04 (1926-1953) | 30,1k | 42,2k | 56,3k | 57,2k | 58,4k |
 | Jel’nja (Reg. 21) | Ельня | 54,58, 33,18 (1926-1953) | 4,5k | 4,9k | 7,1k | 7,1k | 7k |
-| Jelan’-Kolenovskij (Reg. 22) | Елань-Коленовский | 51,16, 41,15 (1926-1953) | 3,7k | 3,9k | 4,2k | 4,9k | 6k |
 | Jelat’ma (Reg. 22) | Елатьма | 54,97, 41,75 (1926-1953) | 4,2k | 4,8k | 5,4k | 5,5k | 5,6k |
 | Jepifan’ (Reg. 22) | Епифань | 53,83, 38,55 (1926-1953) | 2,6k | 3,2k | 4k | 3,8k | 3,6k |
 | Jermiš’ (Reg. 22) | Ермишь | 54,77, 42,27 (1926-1953) | 2,3k | 2,8k | 3,3k | 3,2k | 3,1k |
 | Jur’jev-Pol’skij (Reg. 21) | Юрьев-Польский | 56,5, 39,68 (1926-1953) | 8,1k | 11,4k | 15,2k | 15,6k | 16,3k |
-| Jur’jevec (Reg. 21) | Юрьевец | 56,1, 40,27 (1926-1953) | 1,5k | 2k | 2,7k | 2,9k | 3,2k |
+| Yuryevets (Vladimir) (Reg. 21) | Юрьевец | 56,1, 40,27 (1926-1953) | 1,5k | 2k | 2,7k | 2,9k | 3,2k |
 | Jur’jevec (Reg. 21) | Юрьевец | 57,31, 43,1 (1926-1953) | 9,3k | 11,8k | 15,5k | 16,7k | 18,4k |
 | Kabitsyno (Reg. 21) | Кабицыно | 55,14, 36,63 (1926-1953) | 1,7k | 2,2k | 2,9k | 3,1k | 3,3k |
 | Kadnikov (Reg. 19) | Кадников | 59,5, 40,34 (1926-1953) | 2,3k | 2,3k | 3,2k | 3,2k | 3,2k |
@@ -3544,46 +3221,40 @@ Black-Earth Belt (Region 22)
 | Kalach (Reg. 22) | Калач; Kalač | 50,42, 41,02 (1926-1953) | 15,8k | 17,2k | 18,6k | 18,1k | 17,4k |
 | Kalashnikovo (Reg. 21) | Калашниково; Kalašnikovo | 57,28, 35,23 (1926-1953) | 1,8k | 3k | 4,5k | 4,8k | 5,2k |
 | Kalevala (Reg. 16) | Калевала | 65,2, 31,19 (1926-1953) | 1,3k | 2,2k | 3,4k | 3,5k | 3,8k |
-| Kalikino (Reg. 22) | Каликино | 52,03, 41,09 (1926-1953) | 9,2k | 9,4k | 9,6k | 9,9k | 10,2k |
-| Kalinin (Reg. 22) | Тверь | 52,84, 40,98 (1926-1953) | 81,5k | 83,3k | 84,8k | 87,2k | 90,5k |
-| Kaloshino (Reg. 20) | Калошино; Kalošino | 56,67, 38,07 (1926-1939) | 6,2k | 10,6k | 16,6k | \- | \- |
 | Kaluga (Reg. 21) | Kaluga Oka; Kaluga Governorate | 54,53, 36,28 (1926-1953) | 51,6k | 68k | 89,5k | 75k | 110k |
 | Kalyazin (Reg. 21) | Калязин; Kaljazin | 57,24, 37,83 (1926-1953) | 5k | 7,6k | 10,3k | 10,5k | 10,8k |
 | Kamenetskiy (Reg. 22) | Каменецкий; Kameneckij | 54,01, 38,22 (1926-1953) | 4,2k | 5,3k | 6,5k | 6,6k | 6,8k |
 | Kamenka (Reg. 19) | Каменка | 65,88, 44,13 (1926-1953) | 2,7k | 3,9k | 5,2k | 5,5k | 5,8k |
-| Kamenka (Reg. 22) | Каменка | 50,71, 39,42 (1926-1953) | 4k | 4,7k | 5,3k | 5,8k | 6,5k |
 | Kamenka (Reg. 21) | Каменка | 57,39, 41,79 (1926-1953) | 1,8k | 2,4k | 3,1k | 3,3k | 3,5k |
 | Kamenka (Reg. 16) | Каменка | 60,45, 29,08 (1926-1953) | 2,4k | 3,9k | 5,8k | 6,1k | 6,6k |
+| Kamenka (Reg. 22) | Каменка | 50,71, 39,42 (1926-1953) | 4k | 4,7k | 5,3k | 5,8k | 6,5k |
 | Kamennogorsk (Reg. 16) | Каменногорск; Antrea | 60,95, 29,13 (1926-1953) | 1k | 1,7k | 2,5k | 2,7k | 2,9k |
 | Kameshkovo (Reg. 21) | Камешково; Kameškovo | 56,35, 41 (1926-1953) | 4k | 6,3k | 9,3k | 10k | 11k |
 | Kaminskiy (Reg. 21) | Каминский; Kaminskij | 57,15, 41,47 (1926-1953) | 904 | 1,1k | 1,3k | 1,5k | 1,8k |
 | Kandalaksha (Reg. 16) | Кандалакша; Kandalakša | 67,15, 32,41 (1926-1953) | 4,2k | 10,3k | 22,2k | 26,1k | 32,5k |
-| Kandaurovka (Reg. 22) | Кондауровка | 53,81, 39,81 (1926-1953) | 4,6k | 5,3k | 5,9k | 6,3k | 6,9k |
+| Kandaurovka (Reg. 22) | Кондауровка | 53,81, 39,81 (1926-1953) | 4,6k | 4,6k | 4,6k | 4,6k | 4,6k |
 | Kanino (Reg. 22) | Канино | 53,94, 40,49 (1926-1953) | 2,2k | 1,9k | 1,7k | 1,5k | 1,2k |
 | Kantemirovka (Reg. 22) | Кантемировка | 49,7, 39,86 (1926-1953) | 11,3k | 10,3k | 9,5k | 9,1k | 8,7k |
 | Kapotnya (Reg. 20) | Капотня; Kapotnja | 55,64, 37,79 (1926-1953) | 1,8k | 3,4k | 5,9k | 7k | 8,9k |
 | Karabanovo (Reg. 21) | Карабаново | 56,31, 38,7 (1926-1953) | 11,2k | 13,6k | 16,1k | 16,7k | 17,5k |
 | Karachev (Reg. 21) | Карачев; Karačev | 53,12, 34,98 (1926-1953) | 13,1k | 14,9k | 17,9k | 15,6k | 12,9k |
 | Karavayevo (Reg. 21) | Караваево; Karavajevo | 57,74, 41,07 (1926-1953) | 2,9k | 3,7k | 4,6k | 4,9k | 5,3k |
-| Karayashnik (Reg. 22) | Караяшникъ | 50,42, 39,21 (1926-1953) | 11,1k | 11,4k | 11,7k | 12,7k | 14,3k |
 | Kardymovo (Reg. 21) | Кардымово | 54,89, 32,43 (1926-1953) | 1,4k | 1,8k | 2,1k | 2k | 1,9k |
-| Kargopol’ (Reg. 19) | Каргополь | 61,5, 38,95 (1926-1953) | 3,4k | 4,4k | 6,3k | 7k | 7,9k |
+| Kargopol’ (Reg. 19) | Каргополь; Onega Portage Town | 61,5, 38,95 (1926-1953) | 3,4k | 4,4k | 6,3k | 7k | 7,9k |
 | Karpogory (Reg. 19) | Карпогоры | 64, 44,45 (1926-1953) | 2,4k | 3,4k | 4,5k | 4,8k | 5,2k |
 | Kashin (Reg. 21) | Кашин; Kašin | 57,36, 37,61 (1926-1953) | 7,8k | 10,4k | 12,4k | 13,4k | 14,9k |
 | Kashira (Reg. 20) | Кашира; Kašira | 54,85, 38,18 (1926-1953) | 7,5k | 11,8k | 17,4k | 18,7k | 20,6k |
 | Kashirskoye (Reg. 22) | Каширское | 51,41, 39,59 (1926-1953) | 2,9k | 3k | 3,1k | 3,2k | 3,4k |
-| Kasimov (Reg. 22) | Касимов | 54,94, 41,4 (1926-1953) | 13k | 17,7k | 22,2k | 23,8k | 26k |
+| Kasimov (Reg. 22) | Касимов; Gorodets Meshchersky | 54,94, 41,4 (1926-1953) | 13k | 17,7k | 22,2k | 23,8k | 26k |
 | Kastornoye (Reg. 22) | Касторное; Kastornoje | 51,83, 38,13 (1926-1953) | 2,7k | 3k | 3,4k | 3,4k | 3,4k |
 | Kazachka (Reg. 22) | Казачка; Kazačka | 53,36, 38,07 (1926-1953) | 709 | 898 | 1,1k | 1,1k | 1,2k |
 | Kazaki (Reg. 22) | Казаки | 52,62, 38,26 (1926-1953) | 5k | 4,8k | 4,6k | 4,5k | 4,3k |
 | Kazanovka (Reg. 22) | Казановка | 53,76, 38,57 (1926-1953) | 3,7k | 4,7k | 5,7k | 5,2k | 4,6k |
-| Kazatskaya (Reg. 22) | Казацкая | 51,22, 36,25 (1926-1953) | 5,7k | 6,8k | 7,8k | 8,6k | 9,7k |
 | Kazatskoye (Reg. 22) | Казацкое | 50,74, 36,24 (1926-1953) | 4,2k | 3,8k | 3,5k | 3,2k | 2,9k |
 | Kazhym (Reg. 18) | Кажым; Kažym | 60,33, 51,54 (1926-1953) | 982 | 1,3k | 1,7k | 2,1k | 2,9k |
-| Kazilovka (Reg. 21) | Казиловка | 52,66, 33,34 (1926-1953) | 4,3k | 5,4k | 6,6k | 6,9k | 7,3k |
 | Kazinka (Reg. 22) | Казинка | 52,54, 39,82 (1926-1953) | 5,4k | 5,5k | 5,6k | 5,7k | 5,8k |
-| Kazinka (Reg. 22) | Казинка | 51,92, 38,62 (1926-1953) | 5,2k | 5,4k | 5,5k | 6k | 6,7k |
 | Kazinka (Reg. 22) | Казинка | 53,9, 39,4 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,8k | 1,5k |
+| Kazinka (Reg. 22) | Казинка | 51,92, 38,62 (1926-1953) | 5,2k | 5,4k | 5,5k | 6k | 6,7k |
 | Kazinki (Reg. 22) | Казинки | 53,6, 38,63 (1926-1953) | 2,3k | 2,9k | 3,6k | 3,7k | 3,8k |
 | Kaznacheyevka (Reg. 22) | Казначеевка | 53,63, 39,48 (1926-1953) | 3,1k | 3,5k | 3,9k | 4,2k | 4,6k |
 | Kaznache-yevskiy (Reg. 22) | Казначеевский; Kaznačejevskij | 54,03, 37,56 (1926-1953) | 1,7k | 2,2k | 2,7k | 2,8k | 2,8k |
@@ -3602,10 +3273,8 @@ Black-Earth Belt (Region 22)
 | Khimki (Reg. 20) | Khimki Moscow Ring; Химки | 55,9, 37,43 (1926-1953) | 2,9k | 8,8k | 23,1k | 28,7k | 38,4k |
 | Khislavichi (Reg. 21) | Хиславичи; Hislaviči | 54,19, 32,16 (1926-1953) | 3,6k | 4,3k | 5,1k | 4,7k | 4,1k |
 | Khlevnoye (Reg. 22) | Хлевное | 52,19, 39,09 (1926-1953) | 4,4k | 4,4k | 4,4k | 4,6k | 4,8k |
-| Khmelevoye (Reg. 19) | Хмелевое | 61,25, 40,83 (1926-1953) | 7,5k | 10,7k | 14,5k | 15,4k | 16,6k |
 | Khokhlovo (Reg. 19) | Хохлово; Hohlovo | 59,15, 37,4 (1926-1953) | 1,2k | 1,5k | 1,9k | 2k | 2,2k |
 | Kholm (Reg. 17) | Холм; Holm | 57,15, 31,18 (1926-1953) | 5,5k | 4,6k | 6,1k | 4,9k | 3,7k |
-| Kholm (Reg. 17) | Холм | 55,88, 31,13 (1926-1953) | 8,1k | 10,4k | 12,7k | 12,9k | 13,2k |
 | Kholm-Zhirkovskiy (Reg. 21) | Холм-Жирковский; Holm-Žirkovskij | 55,51, 33,49 (1926-1953) | 1k | 1,2k | 1,4k | 1,4k | 1,4k |
 | Kholmech (Reg. 21) | Холмечъ | 52,54, 34,32 (1926-1953) | 2,6k | 3,3k | 4,1k | 4,2k | 4,5k |
 | Kholmogory (Reg. 19) | Холмогоры; Holmogory | 64,23, 41,65 (1926-1953) | 1k | 1,7k | 2,8k | 3,1k | 3,6k |
@@ -3640,20 +3309,15 @@ Black-Earth Belt (Region 22)
 | Kirovskiy (Reg. 22) | Кировский; Kirovskij | 51,42, 36,67 (1926-1953) | 2,4k | 2,6k | 2,7k | 2,9k | 3,1k |
 | Kirsanov (Reg. 22) | Кирсанов | 52,65, 42,73 (1926-1953) | 26k | 20,2k | 12,8k | 13,6k | 14,7k |
 | Kirzhach (Reg. 21) | Киржач; Kiržač | 56,15, 38,86 (1926-1953) | 5k | 7,1k | 11,6k | 13,3k | 15,9k |
-| Kiselevo (Reg. 21) | Киселево | 56,99, 34,14 (1926-1953) | 5,8k | 8,6k | 12k | 12,7k | 13,6k |
 | Kizema (Reg. 19) | Кизема | 61,11, 44,83 (1926-1953) | 4,8k | 6,9k | 9,3k | 9,8k | 10,6k |
 | Klepovka (Reg. 22) | Клеповка | 50,71, 40,45 (1926-1953) | 4,1k | 3,9k | 3,8k | 3,8k | 3,6k |
 | Kletnya (Reg. 21) | Клетня; Kletnja | 53,39, 33,22 (1926-1953) | 2k | 3,8k | 6,5k | 7,3k | 8,5k |
-| Klimov (Reg. 22) | Климов | 50,47, 35,94 (1926-1953) | 5,1k | 4,6k | 4,3k | 4,4k | 4,7k |
 | Klimovo (Reg. 21) | Климово; Климов | 52,38, 32,2 (1926-1953) | 5,1k | 5,4k | 5,7k | 6,1k | 6,6k |
-| Klimovo (Reg. 21) | Климово | 56,9, 37,85 (1926-1953) | 8,1k | 12,5k | 17,9k | 19,9k | 23k |
 | Klimovsk (Reg. 20) | Климовск | 55,36, 37,53 (1926-1939) | 4,1k | 6,9k | 10,9k | \- | \- |
 | Klin (Reg. 20) | Клин | 56,33, 36,73 (1926-1953) | 8,7k | 15,8k | 27,7k | 33,7k | 43,8k |
 | Klintsy (Reg. 21) | Western Bryansk Chernobyl Zone; Клинцы | 52,75, 32,24 (1926-1953) | 22,3k | 29,9k | 40,5k | 39,4k | 38k |
 | Kljaz’ma (Reg. 20) | Клязьма | 55,98, 37,85 (1926-1953) | 1,6k | 4,2k | 9,8k | 10,7k | 12,1k |
-| Klyuchi (Reg. 22) | Ключи | 51,27, 38,57 (1926-1953) | 4,6k | 4,7k | 4,8k | 5,3k | 5,9k |
 | Knjaž’ji Gory (Reg. 21) | Княжьи Горы | 56,08, 35,23 (1926-1953) | 889 | 908 | 925 | 943 | 966 |
-| Knyaginino (Reg. 22) | Княгинино | 53,83, 37,04 (1926-1953) | 8,5k | 10,8k | 13,2k | 13,4k | 13,8k |
 | Knyazevka (Reg. 22) | Князевка; Knjazevka | 52,09, 42,77 (1926-1926) | 1,9k | \- | \- | \- | \- |
 | Knyazhaya Guba (Reg. 16) | Княжая Губа; Knjazaja Guba | 66,87, 32,39 (1926-1953) | 752 | 661 | 592 | 530 | 458 |
 | Kobrinskoye (Reg. 17) | Кобринское; Kobrinskoje | 59,42, 30,12 (1926-1953) | 1,1k | 1,7k | 2,6k | 2,7k | 2,9k |
@@ -3665,8 +3329,7 @@ Black-Earth Belt (Region 22)
 | Kokorevka (Reg. 21) | Кокоревка | 52,59, 34,28 (1926-1953) | 2,1k | 2,7k | 3,3k | 3,5k | 3,7k |
 | Kokoshkino (Reg. 20) | Кокошкино; Kokoškino | 55,6, 37,17 (1926-1953) | 1,5k | 2,9k | 5,1k | 6,1k | 7,7k |
 | Kol’čugino (Reg. 21) | Кольчугино | 56,3, 39,38 (1926-1953) | 11,6k | 19,2k | 29,6k | 31,9k | 35,2k |
-| Kola (Reg. 16) | Кола | 68,88, 33,02 (1926-1953) | 614 | 2,5k | 8,4k | 9,4k | 10,9k |
-| Kolobovka (Reg. 22) | Колобовка | 53,74, 40,45 (1926-1953) | 7,8k | 8,9k | 10k | 10,7k | 11,7k |
+| Kola (Reg. 16) | Кола; Kola Ostrog | 68,88, 33,02 (1926-1953) | 614 | 2,5k | 8,4k | 9,4k | 10,9k |
 | Kolobovo (Reg. 21) | Колобово | 56,7, 41,34 (1926-1953) | 1,7k | 2,4k | 3,1k | 3,3k | 3,5k |
 | Kolodezi (Reg. 22) | Колодези | 54,13, 41,47 (1926-1953) | 2,8k | 3,2k | 3,6k | 3,9k | 4,2k |
 | Kolodeznyy (Reg. 22) | Колодезный | 51,33, 39,18 (1926-1953) | 3,2k | 3,4k | 3,7k | 4k | 4,5k |
@@ -3683,12 +3346,10 @@ Black-Earth Belt (Region 22)
 | Komarichi (Reg. 21) | Комаричи; Komariči | 52,42, 34,8 (1926-1953) | 1,5k | 2,1k | 2,8k | 3,4k | 4,4k |
 | Komarovo (Reg. 17) | Комарово | 60,19, 29,81 (1926-1953) | 498 | 826 | 1,3k | 1,3k | 1,3k |
 | Komarovo (Reg. 17) | Комарово | 58,88, 34,9 (1926-1953) | 472 | 664 | 889 | 937 | 1k |
-| Komarovo (Reg. 17) | Коморово | 58,33, 32,72 (1926-1953) | 12,7k | 18,4k | 25,2k | 26,5k | 28,4k |
 | Kommunar (Reg. 17) | Коммунар | 59,62, 30,39 (1926-1953) | 1,8k | 2,9k | 4,5k | 4,7k | 5k |
 | Kommunarka (Reg. 20) | Коммунарка | 55,57, 37,49 (1926-1953) | 465 | 888 | 1,5k | 1,8k | 2,3k |
 | Komsomol’sk (Reg. 21) | Комсомольск | 57,03, 40,38 (1926-1953) | 8,8k | 12k | 15,7k | 14,2k | 12,3k |
 | Komsomol’skij (Reg. 18) | Комсомольский | 67,55, 63,78 (1926-1953) | 4,4k | 5,9k | 7,7k | 10k | 14,4k |
-| Komsomolskiy (Reg. 22) | Комсомольский | 50,99, 36,61 (1926-1953) | 1,2k | 1k | 844 | 877 | 922 |
 | Komsomolskiy (Reg. 22) | Комсомольский | 53,9, 38,26 (1926-1953) | 2k | 2,5k | 3,1k | 3,1k | 3,2k |
 | Kon-Kolodez (Reg. 22) | Конь-Колодезь | 52,14, 39,16 (1926-1953) | 2,6k | 2,5k | 2,5k | 2,5k | 2,4k |
 | Konakovo (Reg. 21) | Конаково; Кузнецово | 56,7, 36,77 (1926-1953) | 3,8k | 6,3k | 11,9k | 12,5k | 13,2k |
@@ -3707,48 +3368,40 @@ Black-Earth Belt (Region 22)
 | Korolev (Reg. 20) | Kaliningrad (Moscow Obl.); RKK Energiya Space Naukograd | 55,92, 37,83 (1926-1953) | 2,5k | 5k | 28,1k | 37,5k | 55k |
 | Korotoyak (Reg. 22) | Коротояк; Korotojak | 50,99, 39,18 (1926-1953) | 6,1k | 3,2k | 1,9k | 1,7k | 1,4k |
 | Korotysh (Reg. 22) | Коротышъ | 52,37, 37,46 (1926-1953) | 3k | 2,8k | 2,7k | 2,6k | 2,4k |
-| Korovina (Reg. 19) | Коровина | 62,14, 38,55 (1926-1953) | 15,4k | 21,9k | 29,6k | 31,4k | 33,9k |
 | Korshevo (Reg. 22) | Коршево | 51,18, 40,11 (1926-1953) | 5,1k | 4,7k | 4,4k | 4,1k | 3,8k |
 | Kortkeros (Reg. 18) | Корткерос | 61,81, 51,58 (1926-1953) | 1,9k | 2,6k | 3,3k | 4,4k | 6,2k |
 | Koryazhma (Reg. 19) | Коряжма; Korjažma | 61,31, 47,15 (1926-1953) | 4,8k | 6,8k | 9,2k | 9,8k | 10,6k |
-| Kos’ju (Reg. 18) | Косью | 65,67, 59,18 (1926-1953) | 616 | 831 | 1,1k | 1,4k | 2k |
 | Kosaya Gora (Reg. 22) | Косая Гора; Kosaja Gora | 54,12, 37,54 (1926-1953) | 2,3k | 5,5k | 11,4k | 13,1k | 15,8k |
-| Koshkovo (Reg. 17) | Буялык Большой | 59,78, 33,92 (1926-1953) | 7,5k | 11,4k | 16,5k | 17,7k | 19,5k |
 | Kosino (Reg. 20) | Косино | 55,72, 37,86 (1926-1953) | 1,6k | 3k | 5,2k | 6,4k | 8,5k |
 | Kosmynino (Reg. 21) | Космынино | 57,58, 40,76 (1926-1953) | 2,4k | 3k | 3,8k | 3,8k | 3,8k |
 | Kostenki (Reg. 22) | Костенки | 51,4, 39,04 (1926-1953) | 4,4k | 4k | 3,7k | 3,4k | 3k |
 | Kosterevo (Reg. 21) | Костерёво; Kosterjovo | 55,93, 39,61 (1926-1953) | 3,5k | 4,8k | 6,3k | 6,6k | 7,1k |
-| Kostino (Reg. 20) | Костино | 56,03, 37,92 (1926-1939) | 6,2k | 10,3k | 15,9k | \- | \- |
 | Kostino-Otdelets (Reg. 22) | Костино-Отделецъ | 51,54, 41,45 (1926-1953) | 5k | 4,5k | 4,1k | 3,8k | 3,4k |
+| Kostino (Reg. 20) | Костино | 56,03, 37,92 (1926-1939) | 6,2k | 10,3k | 15,9k | \- | \- |
 | Kostroma (Reg. 21) | Kostroma Textile; Kostroma Governorate | 57,77, 40,93 (1926-1953) | 73,7k | 98k | 121,2k | 125k | 150k |
 | Kotel’niki (Reg. 20) | Котельники | 55,65, 37,86 (1926-1953) | 700 | 2,3k | 6,6k | 8,2k | 11,1k |
 | Kotlas (Reg. 19) | Kulak Exile & Sevzheldorlag Transit Hub; Котлас | 61,26, 46,65 (1926-1953) | 4,1k | 14,5k | 17,3k | 24k | 34,5k |
-| Kotova (Reg. 22) | Котова | 52,99, 35,73 (1926-1953) | 3,4k | 3,5k | 3,7k | 3,8k | 4,1k |
+| Kotova (Reg. 22) | Котова | 52,99, 35,73 (1926-1953) | 4k | 4k | 4k | 4k | 4k |
 | Kotovsk (Reg. 22) | Котовск; Ударный | 52,59, 41,5 (1926-1953) | 2,2k | 4,4k | 17k | 19,2k | 22,6k |
 | Kovda (Reg. 16) | Ковда | 66,69, 32,87 (1926-1953) | 2,5k | 1,8k | 1,3k | 927 | 606 |
 | Kovdor (Reg. 16) | Ковдор | 67,57, 30,48 (1953-1953) | \- | \- | \- | \- | 1,9k |
-| Koverino (Reg. 16) | Коверино | 61, 29,76 (1926-1953) | 7,6k | 11,6k | 16,7k | 17,9k | 19,7k |
 | Kovrov (Reg. 21) | Ковров | 56,36, 41,32 (1926-1953) | 26,6k | 43,8k | 67,1k | 75,3k | 87,8k |
 | Kozel’sk (Reg. 21) | Козельск | 54,04, 35,77 (1926-1953) | 5,7k | 6,3k | 8,2k | 9,2k | 10,8k |
 | Kozhva (Reg. 18) | Кожва; Kožva | 65,11, 57,05 (1926-1953) | 1,3k | 1,8k | 2,3k | 3,1k | 4,4k |
 | Kozhym (Reg. 18) | Кожым; Kožym | 65,73, 59,52 (1926-1953) | 1k | 1,4k | 1,8k | 2,3k | 3,3k |
 | Kozlov (Reg. 22) | Michurinsk; Kozlov Rail Hub | 52,9, 40,49 (1926-1953) | 54,2k | 63k | 71,5k | 74,1k | 77,8k |
 | Kozlovka (Reg. 22) | Козловка | 50,86, 40,45 (1926-1953) | 8,7k | 8k | 7,4k | 6,9k | 6,2k |
-| Kozlovka (Reg. 22) | Козловка | 52,16, 42,67 (1926-1953) | 11,4k | 11,6k | 11,9k | 12,2k | 12,6k |
 | Kozlovo (Reg. 21) | Козлово; Нечаянное | 56,51, 36,27 (1926-1953) | 936 | 714 | 567 | 958 | 1,9k |
-| Kozyrevka (Reg. 22) | Козыревка | 52,9, 35,13 (1926-1953) | 4,9k | 5,1k | 5,3k | 5,5k | 5,9k |
 | Krainka (Reg. 22) | Краинка | 54,12, 36,35 (1926-1953) | 385 | 487 | 596 | 534 | 460 |
 | Krapivna (Reg. 22) | Крапивна | 53,94, 37,16 (1926-1953) | 6,1k | 3,8k | 2,6k | 2,4k | 2,2k |
 | Krasavino (Reg. 19) | Красавино | 60,96, 46,48 (1926-1953) | 3k | 5,4k | 9,1k | 9,7k | 10,5k |
 | Kraskovo (Reg. 20) | Красково | 55,66, 37,98 (1926-1953) | 2,6k | 4,4k | 6,9k | 7,8k | 9k |
-| Krasnaya (Reg. 21) | Красная | 53,48, 33,61 (1926-1953) | 1,5k | 1,3k | 1,1k | 1k | 850 |
 | Krasnaya Gora (Reg. 21) | Красная Гора; Krasnaja Gora | 53, 31,6 (1926-1953) | 1,7k | 2,2k | 2,7k | 2,5k | 2,4k |
 | Krasnaya Gorbatka (Reg. 21) | Красная Горбатка; Krasnaja Gorbatka | 55,88, 41,76 (1926-1953) | 1,2k | 1,6k | 2,1k | 2,9k | 4,6k |
 | Krasnaya Polyana (Reg. 20) | Красная Поляна; Krasnaja Poljana | 56,02, 37,42 (1926-1953) | 4,4k | 5,1k | 5,8k | 5,9k | 6,2k |
-| Krasnaya Slobodka (Reg. 22) | Красная Слободка | 53,35, 37,42 (1926-1953) | 3,5k | 4,4k | 5,3k | 5,5k | 5,6k |
 | Krasnaya Yaruga (Reg. 22) | Красная Яруга; Krasnaja Jaruga | 50,8, 35,66 (1926-1953) | 512 | 1,9k | 6k | 6,6k | 7,6k |
+| Krasnaya (Reg. 21) | Красная | 53,48, 33,61 (1926-1953) | 1,5k | 1,3k | 1,1k | 1k | 850 |
 | Krasnenkaya (Reg. 22) | Красненькая | 52,76, 41,45 (1926-1953) | 2,4k | 2,6k | 2,9k | 3k | 3,1k |
-| Krasno-Oktyabrskoye (Reg. 22) | Красно-Октябрьское | 51,08, 36,27 (1939-1939) | \- | \- | 10,2k | \- | \- |
 | Krasnoarmeysk (Reg. 20) | Красноармейск; Krasnoarmejsk | 56,1, 38,13 (1926-1953) | 4,4k | 6k | 8,9k | 11,1k | 14,7k |
 | Krasnoborsk (Reg. 19) | Красноборск | 61,56, 45,93 (1926-1953) | 989 | 1,4k | 1,9k | 2,1k | 2,5k |
 | Krasnofa-rfornyy (Reg. 17) | Краснофарфорный; Krasnofa-rfornyj | 59,14, 31,85 (1926-1953) | 2,4k | 3,1k | 3,8k | 3,2k | 2,7k |
@@ -3756,43 +3409,35 @@ Black-Earth Belt (Region 22)
 | Krasnogorsk (Reg. 20) | Krasnogorsk Moscow Oblast; Красногорск | 55,83, 37,33 (1926-1926) | 1,7k | \- | \- | \- | \- |
 | Krasnolesnyy (Reg. 22) | Краснолесный; Krasnolesnyj | 51,88, 39,58 (1926-1953) | 5,9k | 6,3k | 6,8k | 7,5k | 8,6k |
 | Krasnomayskiy (Reg. 21) | Красномайский; Krasnomajskij | 57,62, 34,41 (1926-1953) | 1,3k | 2,9k | 5,7k | 5,8k | 6k |
-| Krasnosele (Reg. 21) | Красноселье | 57,88, 34,58 (1926-1953) | 6,9k | 10,2k | 14,3k | 15,1k | 16,2k |
 | Krasnoselovka (Reg. 22) | Красноселовка | 50,18, 40,86 (1926-1953) | 3,3k | 3,1k | 3k | 2,8k | 2,6k |
-| Krasnoye (Reg. 22) | Красное | 52,86, 38,78 (1926-1953) | 2,6k | 2,4k | 2,3k | 2,5k | 2,6k |
 | Krasnoye Ekho (Reg. 21) | Красное Эхо; Krasnoje Êho | 55,79, 40,71 (1926-1953) | 1,1k | 1,3k | 1,5k | 1,7k | 2k |
 | Krasnoye Znamya (Reg. 21) | Красное Знамя | 57,43, 35,21 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Krasnoye-na-Volge (Reg. 21) | Красное-на-Волге; Krasnoje-na-Volge | 57,51, 41,24 (1926-1953) | 4,5k | 4,8k | 5,2k | 5,4k | 5,6k |
+| Krasnoye (Reg. 22) | Красное | 52,86, 38,78 (1926-1953) | 2,6k | 2,4k | 2,3k | 2,5k | 2,6k |
 | Krasnoza-tonskiy (Reg. 18) | Краснозатонский; Krasnoza-tonskij | 61,68, 50,98 (1926-1953) | 1,3k | 1,8k | 2,3k | 3k | 4,3k |
 | Krasnozavodsk (Reg. 20) | Краснозаводск | 56,45, 38,22 (1926-1953) | 5k | 8,5k | 13,4k | 15k | 17,4k |
 | Krasnozn-amensk (Reg. 20) | Краснознаменск | 55,6, 37,05 (1926-1953) | 5,3k | 9k | 14,2k | 15,8k | 18,3k |
 | Krasnyj Bogatyr’ (Reg. 21) | Красный Богатырь | 56,01, 41,13 (1926-1953) | 545 | 707 | 883 | 1,1k | 1,5k |
 | Krasnyj Oktjabr’ (Reg. 21) | Красный Октябрь | 56,12, 38,88 (1926-1953) | 860 | 1,2k | 1,7k | 2,2k | 3,3k |
 | Krasnyj Stroitel’ (Reg. 20) | Красный Строитель | 55,59, 37,65 (1926-1953) | 2,2k | 4,3k | 7,4k | 8,8k | 11,1k |
-| Krasnyy (Reg. 21) | Красный; Krasnyj | 54,57, 31,43 (1926-1953) | 2,8k | 3k | 3,1k | 2,9k | 2,7k |
-| Krasnyy (Reg. 22) | Красная | 51,86, 40,92 (1926-1953) | 1,6k | 1,4k | 1,3k | 1,2k | 1k |
 | Krasnyy Bor (Reg. 17) | Красный Бор; Krasnyj Bor | 59,68, 30,67 (1926-1953) | 3,6k | 6,9k | 12,1k | 10,5k | 8,7k |
 | Krasnyy Bor (Reg. 21) | Красный Бор | 58,11, 40,86 (1926-1953) | 3k | 4,3k | 5,8k | 6,1k | 6,5k |
 | Krasnyy Kholm (Reg. 21) | Красный Холм; Krasnyj Holm | 58,06, 37,12 (1926-1953) | 4,7k | 5,7k | 6,8k | 6,8k | 6,9k |
-| Krasnyy Kholm (Reg. 22) | Красный Холм | 53,1, 42,14 (1926-1953) | 4,8k | 4,9k | 5k | 5,1k | 5,3k |
-| Krasnyy Kurgan (Reg. 22) | Курган | 51,73, 41,83 (1926-1953) | 33,1k | 33,9k | 34,5k | 35,5k | 36,8k |
 | Krasnyy Luch (Reg. 17) | Красный Луч; Krasnyj Luč | 57,07, 30,09 (1926-1953) | 2,6k | 3,1k | 3,6k | 3,7k | 3,7k |
 | Krasnyy Mayak (Reg. 21) | Красный Маяк; Krasnyj Majak | 56,05, 41,37 (1926-1953) | 684 | 751 | 814 | 883 | 983 |
 | Krasnyy Profintern (Reg. 21) | Красный Профинтерн; Krasnyj Profintern | 57,74, 40,44 (1926-1953) | 1,7k | 2,5k | 3,4k | 3,3k | 3,1k |
-| Krasnyye Kholmy (Reg. 22) | Красные Холмы | 51,62, 39,92 (1926-1953) | 7,6k | 7,9k | 8,1k | 8,8k | 9,8k |
+| Krasnyy (Reg. 21) | Красный; Krasnyj | 54,57, 31,43 (1926-1953) | 2,8k | 3k | 3,1k | 2,9k | 2,7k |
+| Krasnyy (Reg. 22) | Красная | 51,86, 40,92 (1926-1953) | 1,6k | 1,4k | 1,3k | 1,2k | 1k |
 | Krasnyye Tkachi (Reg. 21) | Красные Ткачи; Krasnyje Tkači | 57,49, 39,76 (1926-1953) | 1,4k | 2,6k | 4,4k | 4,5k | 4,6k |
 | Kratovo (Reg. 20) | Кратово | 55,6, 38,18 (1926-1953) | 3,8k | 6,4k | 10,1k | 11k | 12,2k |
 | Krechevitsy (Reg. 17) | Кречевицы; Krečevicy | 58,62, 31,4 (1926-1953) | 986 | 1,4k | 1,9k | 2k | 2,1k |
 | Kremenki (Reg. 21) | Кремёнки; Kremjonki | 54,89, 37,12 (1926-1953) | 4,8k | 6,4k | 8,3k | 8,8k | 9,6k |
 | Kresttsy (Reg. 17) | Крестцы; Krestcy | 58,25, 32,52 (1926-1953) | 3,2k | 4,2k | 5,2k | 3,8k | 6k |
 | Krinichnoye (Reg. 22) | Криничная | 50,01, 39,84 (1926-1953) | 1,6k | 1,5k | 1,4k | 1,3k | 1,2k |
-| Krinitsa (Reg. 22) | Криница | 50,89, 39,24 (1926-1953) | 1,5k | 1,3k | 1,2k | 1,1k | 993 |
 | Krivopolyane (Reg. 22) | Кривополянье | 53,23, 39,93 (1926-1953) | 7,8k | 7,9k | 8k | 7,6k | 7,2k |
 | Krivoy Porog (Reg. 16) | Кривой Порог; Krivoj Porog | 65,04, 33,67 (1926-1953) | 377 | 620 | 949 | 1k | 1,2k |
-| Krivtsovo (Reg. 22) | Кривцово | 53,48, 36,27 (1926-1953) | 5,7k | 5,9k | 6,2k | 6,5k | 6,9k |
-| Krokhino (Reg. 19) | Крохино | 60,05, 38,06 (1926-1953) | 7,1k | 9,2k | 11,6k | 12,4k | 13,6k |
 | Kromy (Reg. 22) | Кромы | 52,69, 35,77 (1926-1953) | 5,1k | 3,2k | 2,2k | 2,4k | 2,8k |
 | Kronstadt (Reg. 17) | Kronshtadt; Baltic Fleet Base | 59,99, 29,77 (1926-1953) | 31,2k | 34,7k | 38,1k | 38,7k | 39,6k |
-| Kryukov (Reg. 21) | Крюков | 52,58, 32,61 (1926-1953) | 5,2k | 6,6k | 8,1k | 8,5k | 9k |
 | Kryukovo (Reg. 21) | Крюково; Krjukovo | 57,12, 34,94 (1926-1953) | 957 | 2,3k | 4,7k | 6,1k | 8,6k |
 | Kryukovo (Reg. 20) | Крюково | 55,87, 36,99 (1926-1953) | 957 | 1,1k | 1,1k | 1,3k | 1,4k |
 | Kshenskiy (Reg. 22) | Кшенский; Kšenskij | 51,84, 37,71 (1926-1953) | 898 | 1,2k | 1,7k | 2,2k | 3,2k |
@@ -3802,7 +3447,6 @@ Black-Earth Belt (Region 22)
 | Kudinovo (Reg. 20) | Кудиново | 55,76, 38,21 (1926-1953) | 4,7k | 4,6k | 4,4k | 4,3k | 4,2k |
 | Kudrovo (Reg. 17) | Кудрово | 59,9, 30,51 (1926-1953) | 80 | 89 | 98 | 103 | 111 |
 | Kukisvumchorr (Reg. 16) | Кукисвумчорр; Kukisvumčorr | 67,66, 33,72 (1926-1939) | 5,1k | 6,9k | 8,9k | \- | \- |
-| Kuleshovka (Reg. 22) | Кулешовка | 51,93, 39,18 (1926-1953) | 5,6k | 5,8k | 5,9k | 6,5k | 7,2k |
 | Kulikovo (Reg. 20) | Куликово | 56,45, 37,29 (1926-1953) | 1,3k | 1,3k | 1,3k | 1,3k | 1,3k |
 | Kulikovo (Reg. 19) | Куликово | 61,71, 46,68 (1926-1953) | 3,2k | 2,8k | 2,6k | 2,3k | 2k |
 | Kulotino (Reg. 17) | Кулотино | 58,45, 33,38 (1926-1953) | 3k | 4,8k | 7,1k | 6,8k | 6,4k |
@@ -3822,9 +3466,8 @@ Black-Earth Belt (Region 22)
 | Kuzino (Reg. 19) | Кузино | 59,78, 38,31 (1926-1953) | 844 | 1,1k | 1,4k | 1,5k | 1,6k |
 | Kuznechikha (Reg. 21) | Кузнечиха | 58,4, 39,82 (1926-1953) | 1,5k | 2,2k | 2,9k | 3k | 3,2k |
 | Kuznechnoye (Reg. 16) | Кузнечное; Kuznečnoje | 61,12, 29,88 (1926-1953) | 1,1k | 1,7k | 2,6k | 2,7k | 2,9k |
-| L’gov (Reg. 22) | Льгов | 51,69, 35,28 (1926-1953) | 7,3k | 7,5k | 7,7k | 10,5k | 15,7k |
 | L’vovskij (Reg. 20) | Львовский | 55,32, 37,52 (1926-1953) | 2,2k | 3,7k | 5,8k | 6,5k | 7,5k |
-| Ladva-Vetka (Reg. 16) | Ладва; Ladva | 61,36, 34,45 (1926-1953) | 1,2k | 2k | 3k | 3,3k | 3,8k |
+| LMS (Reg. 20) | ЛМС | 55,31, 37,19 (1926-1953) | 533 | 1k | 1,8k | 2,1k | 2,7k |
 | Lahdenpoh’ja (Reg. 16) | Лахденпохья; Сиеклахти | 61,52, 30,2 (1926-1953) | 2,2k | 3,7k | 5,6k | 6,2k | 7,1k |
 | Lakhtinskiy (Reg. 17) | Лахтинский; Lahtinskij | 60, 30,15 (1926-1953) | 1,2k | 4k | 11,2k | 11k | 10,7k |
 | Lakinsk (Reg. 21) | Лакинск; Лакинский | 56,02, 39,95 (1926-1953) | 2,3k | 4,3k | 7,2k | 7,9k | 9k |
@@ -3832,15 +3475,14 @@ Black-Earth Belt (Region 22)
 | Latnaya (Reg. 22) | Латная; Latnaja | 51,65, 38,9 (1926-1953) | 3,6k | 3,9k | 4,2k | 4,6k | 5,1k |
 | Lebedjan’ (Reg. 22) | Лебедянь | 53,02, 39,14 (1926-1953) | 12,1k | 8,7k | 4,2k | 5,2k | 7k |
 | Lebjaž’je (Reg. 17) | Лебяжье | 59,96, 29,41 (1926-1953) | 1,3k | 2,1k | 3,2k | 3,3k | 3,6k |
-| Lebyazhe (Reg. 22) | Лебяжье | 53,49, 37,87 (1926-1953) | 5,3k | 6,7k | 8,2k | 8,4k | 8,6k |
 | Ledmozero (Reg. 16) | Ледмозеро | 64,25, 32,03 (1926-1953) | 799 | 1,3k | 2k | 2,2k | 2,5k |
 | Leninskiy (Reg. 22) | Ленинский; Leninskij | 54,29, 37,46 (1926-1953) | 5,1k | 6,4k | 7,8k | 6,6k | 5,2k |
 | Leshukonskoye (Reg. 19) | Лешуконское | 64,9, 45,76 (1926-1953) | 2,6k | 3,6k | 4,9k | 5,2k | 5,6k |
 | Leskolovo (Reg. 17) | Лесколово | 60,26, 30,45 (1926-1953) | 1,2k | 1,9k | 2,9k | 3,1k | 3,3k |
 | Lesnaya Polyana (Reg. 21) | Лесная Поляна; Lesnaja Poljana | 57,69, 39,89 (1926-1953) | 1,4k | 1,9k | 2,6k | 2,7k | 2,9k |
+| Lesnoy Gorodok (Reg. 20) | Лесной Городок; Lesnoj Gorodok | 55,64, 37,21 (1926-1953) | 754 | 1,3k | 2k | 2,2k | 2,6k |
 | Lesnoy (Reg. 20) | Лесной; Lesnoj | 56,07, 37,92 (1947-1953) | \- | \- | \- | \- | 2,5k |
 | Lesnoy (Reg. 22) | Лесной; Lesnoj | 54,21, 40,47 (1947-1953) | \- | \- | \- | \- | 3,2k |
-| Lesnoy Gorodok (Reg. 20) | Лесной Городок; Lesnoj Gorodok | 55,64, 37,21 (1926-1953) | 754 | 1,3k | 2k | 2,2k | 2,6k |
 | Lesnyye Polyany (Reg. 20) | Лесные Поляны | 55,97, 37,87 (1926-1953) | 706 | 1,2k | 1,9k | 2,1k | 2,4k |
 | Lesogorskiy (Reg. 16) | Лесогорский; Lesogorskij | 61,05, 28,93 (1926-1953) | 1,8k | 3k | 4,5k | 4,7k | 5,1k |
 | Lesozavodskiy (Reg. 16) | Лесозаводский; Lesozavodskij | 66,73, 32,84 (1926-1953) | 619 | 834 | 1,1k | 1,2k | 1,5k |
@@ -3856,21 +3498,14 @@ Black-Earth Belt (Region 22)
 | Limenda (Reg. 19) | Лименда | 61,27, 46,69 (1926-1939) | 4,8k | 6,9k | 9,3k | \- | \- |
 | Lipetsk (Reg. 22) | Lipetsk Ironworks; Lipetsk Spa | 52,6, 39,57 (1926-1953) | 21,4k | 42k | 66,6k | 75k | 115k |
 | Lipki (Reg. 22) | Липки | 54,33, 37,52 (1926-1953) | 3,1k | 4,6k | 6,4k | 9k | 14k |
-| Lipovets (Reg. 21) | Липовец | 57,14, 33,5 (1926-1953) | 8,6k | 12,8k | 17,9k | 18,9k | 20,3k |
-| Lishnyagi (Reg. 20) | Лишняги | 54,42, 38,52 (1926-1953) | 3,3k | 5k | 7,2k | 8k | 9,2k |
 | Lisiy Nos (Reg. 17) | Лисий Нос; Lisij Nos | 60,02, 30,02 (1926-1953) | 846 | 2,4k | 5,7k | 7,3k | 10,2k |
 | Liski (Reg. 22) | Лиски; Новая | 50,98, 39,5 (1926-1953) | 7k | 14,1k | 25,5k | 28,7k | 33,5k |
-| Liski (Reg. 22) | Лыски | 50,94, 39,49 (1926-1953) | 2,9k | 2,9k | 2,9k | 2,8k | 2,8k |
 | Livenka (Reg. 22) | Ливенка | 50,45, 38,3 (1926-1953) | 4,7k | 4,7k | 4,6k | 4,6k | 4,5k |
-| Livenka (Reg. 22) | Ливенка; Троицкая | 51,95, 38,6 (1926-1953) | 2,8k | 2,6k | 2,5k | 2,3k | 2,1k |
-| Livenskaya (Reg. 22) | Ливенская | 52,46, 38,83 (1926-1953) | 21,4k | 19,6k | 18,1k | 20,4k | 23,9k |
 | Livny (Reg. 22) | Ливны | 52,42, 37,6 (1926-1953) | 19,9k | 16,5k | 12k | 14,7k | 19,4k |
 | Lizinovka (Reg. 22) | Лизиновка | 50,12, 39,46 (1926-1953) | 4,3k | 3,8k | 3,5k | 3,1k | 2,7k |
 | Ljuban’ (Reg. 17) | Любань | 59,35, 31,22 (1926-1953) | 4,3k | 6,3k | 8,7k | 8,2k | 7,6k |
-| LMS (Reg. 20) | ЛМС | 55,31, 37,19 (1926-1953) | 533 | 1k | 1,8k | 2,1k | 2,7k |
 | Lobnya (Reg. 20) | Лобня; Lobnja | 56,03, 37,47 (1926-1953) | 3,2k | 5,4k | 8,5k | 9,5k | 11k |
 | Lodeynoye Pole (Reg. 17) | Лодейное Поле; Lodejnoje Pole | 60,73, 33,56 (1926-1953) | 7,3k | 11,4k | 16,7k | 16,9k | 17,2k |
-| Log (Reg. 22) | Логъ | 51,58, 38,37 (1926-1953) | 7k | 7,2k | 7,4k | 8k | 9k |
 | Loknya (Reg. 17) | Локня; Loknja | 56,83, 30,14 (1926-1953) | 1,6k | 1,9k | 2,2k | 2,5k | 3k |
 | Lokot’ (Reg. 21) | Локоть | 52,57, 34,58 (1926-1953) | 3,9k | 4,9k | 6k | 6,4k | 7k |
 | Lomintsevskiy (Reg. 22) | Ломинцевский; Lomincevskij | 53,99, 37,66 (1926-1953) | 3,7k | 4,6k | 5,7k | 5,8k | 6k |
@@ -3880,7 +3515,6 @@ Black-Earth Belt (Region 22)
 | Lopatinskiy (Reg. 20) | Лопатинский; Lopatinskij | 55,34, 38,72 (1926-1953) | 1,5k | 2,5k | 4k | 4,5k | 5,2k |
 | Losevo (Reg. 22) | Лосево | 50,68, 40,05 (1926-1953) | 1,6k | 1,8k | 1,9k | 2,1k | 2,3k |
 | Losino-Petrovskiy (Reg. 20) | Лосино-Петровский; Losino-Petrovskij | 55,87, 38,19 (1926-1953) | 2,6k | 4,9k | 8,5k | 10,4k | 13,6k |
-| Lositsy (Reg. 17) | Лосицы | 58,55, 28,73 (1926-1953) | 4,6k | 5,9k | 7,2k | 7,3k | 7,5k |
 | Lotoshino (Reg. 20) | Лотошино; Lotošino | 56,23, 35,64 (1926-1953) | 1,3k | 2,2k | 3,4k | 3,4k | 3,5k |
 | Loukhi (Reg. 16) | Лоухи; Louhi | 66,08, 33,05 (1926-1953) | 825 | 1,4k | 2,1k | 2,9k | 4,4k |
 | Loyga (Reg. 19) | Лойга; Lojga | 61,08, 44,61 (1926-1953) | 1,2k | 1,7k | 2,3k | 2,4k | 2,6k |
@@ -3892,14 +3526,12 @@ Black-Earth Belt (Region 22)
 | Luknovo (Reg. 21) | Лукново | 56,18, 42,04 (1926-1953) | 611 | 959 | 1,4k | 2,1k | 3,5k |
 | Lukovetskiy (Reg. 19) | Луковецкий; Lukoveckij | 64,3, 41,92 (1926-1953) | 1,3k | 1,8k | 2,4k | 2,6k | 2,8k |
 | Lunevo (Reg. 20) | Лунёво | 55,38, 38,88 (1926-1953) | 775 | 1,3k | 2,1k | 2,3k | 2,7k |
-| Luzhno (Reg. 17) | Лужно | 57,81, 32,55 (1926-1953) | 18,7k | 27k | 37k | 38,9k | 41,7k |
 | Lyaskelya (Reg. 16) | Ляскеля; Ljaskelja | 61,76, 31,01 (1926-1953) | 1,3k | 2,2k | 3,4k | 3,7k | 4,3k |
 | Lychkovo (Reg. 17) | Лычково; Lyčkovo | 57,92, 32,4 (1926-1953) | 1,4k | 2k | 2,7k | 2,8k | 3k |
-| Lychno (Reg. 17) | Лычно | 58,3, 28,71 (1926-1953) | 6,7k | 8,5k | 10,5k | 10,6k | 10,8k |
 | Lytkarino (Reg. 20) | Лыткарино | 55,58, 37,91 (1926-1953) | 800 | 1,8k | 6,4k | 9,6k | 16,7k |
 | Lyubertsy (Reg. 20) | Lyubertsy Moscow Ring; Люберцы | 55,68, 37,9 (1926-1953) | 6,3k | 18,5k | 46,5k | 57,3k | 75,7k |
 | Lyubim (Reg. 21) | Любим; Ljubim | 58,36, 40,69 (1926-1953) | 3,7k | 5,3k | 7,1k | 7,3k | 7,5k |
-| Lyubitskoye (Reg. 22) | Любитское | 51,53, 36,41 (1926-1953) | 4,1k | 4,4k | 4,6k | 5,1k | 5,7k |
+| Lyubitskoye (Reg. 22) | Любитское | 51,53, 36,41 (1926-1953) | 4,7k | 4,7k | 4,7k | 4,7k | 4,7k |
 | Lyubokhna (Reg. 21) | Любохна; Ljubohna | 53,5, 34,39 (1926-1953) | 2,1k | 2,7k | 3,3k | 3,5k | 3,7k |
 | Lyubuchany (Reg. 20) | Любучаны | 55,25, 37,55 (1926-1953) | 675 | 1,1k | 1,8k | 2k | 2,3k |
 | Lyubytino (Reg. 17) | Любытино; Ljubytino | 58,81, 33,39 (1926-1953) | 381 | 536 | 718 | 905 | 1,2k |
@@ -3908,14 +3540,12 @@ Black-Earth Belt (Region 22)
 | Makar’jev (Reg. 21) | Макарьев | 57,89, 43,81 (1926-1953) | 6,5k | 6,7k | 8,5k | 8,9k | 9,6k |
 | Makashevka (Reg. 22) | Макашевка | 51,49, 42,62 (1926-1953) | 3,3k | 3k | 2,8k | 2,6k | 2,4k |
 | Makhrovka (Reg. 22) | Махровка | 51,54, 42,4 (1926-1953) | 2,9k | 2,5k | 2,2k | 2k | 1,7k |
-| Maklaki (Reg. 21) | Маклаки | 54,03, 34,87 (1926-1953) | 6,2k | 8,3k | 10,5k | 11,2k | 12,1k |
 | Maksatikha (Reg. 21) | Максатиха; Maksatiha | 57,8, 35,88 (1926-1953) | 1,8k | 3k | 4,7k | 5,3k | 6,1k |
 | Malakhovka (Reg. 20) | Малаховка; Malahovka | 55,65, 38,02 (1926-1953) | 4,6k | 9,2k | 16,4k | 19,2k | 23,8k |
 | Malaya Vereyka (Reg. 22) | Верейка; Verejka | 51,97, 38,71 (1926-1953) | 1,1k | 1,1k | 1,2k | 1,2k | 1,2k |
 | Malaya Vishera (Reg. 17) | Малая Вишера; Malaja Višera | 58,85, 32,22 (1926-1953) | 9,4k | 12,9k | 17,6k | 7,6k | 11,7k |
 | Malenga (Reg. 16) | Маленга | 63,84, 36,44 (1926-1953) | 912 | 1,5k | 2,3k | 2,5k | 2,9k |
 | Malino (Reg. 20) | Малино | 55,11, 38,17 (1926-1953) | 1,5k | 1,5k | 1,5k | 1,7k | 1,9k |
-| Malinovo (Reg. 22) | Малиново | 53,21, 37,3 (1926-1953) | 9,9k | 10,3k | 10,7k | 11,2k | 11,9k |
 | Maloarhangel’sk (Reg. 22) | Малоархангельск | 52,4, 36,5 (1926-1953) | 6,2k | 5,8k | 3,5k | 3,2k | 2,8k |
 | Maloshuyka (Reg. 19) | Малошуйка; Malošujka | 63,71, 37,45 (1926-1953) | 3,4k | 4,9k | 6,6k | 7k | 7,6k |
 | Maloyaro-slavets (Reg. 21) | Малоярославец; Malojaro-slavec | 55,01, 36,47 (1926-1953) | 5,5k | 7,5k | 11,7k | 13,3k | 15,8k |
@@ -3924,18 +3554,15 @@ Black-Earth Belt (Region 22)
 | Mamonovka (Reg. 22) | Мамоновка | 50,4, 40,5 (1926-1953) | 1,8k | 1,7k | 1,5k | 1,4k | 1,3k |
 | Mamontovka (Reg. 20) | Мамонтовка | 55,98, 37,82 (1926-1953) | 575 | 2,6k | 9,5k | 9,9k | 10,5k |
 | Manino (Reg. 22) | Манина | 50,5, 41,38 (1926-1953) | 5,1k | 4,8k | 4,6k | 4,4k | 4,1k |
-| Mankovka Malaya (Reg. 19) | Маньковка Малая | 63,07, 42,07 (1926-1953) | 5,5k | 7,9k | 10,6k | 11,3k | 12,2k |
 | Manturovo (Reg. 21) | Мантурово | 58,33, 44,76 (1926-1953) | 2,1k | 3,8k | 5,9k | 8k | 12k |
 | Marfino (Reg. 20) | Марфино | 56,07, 37,56 (1926-1953) | 704 | 1,2k | 1,9k | 2,1k | 2,4k |
 | Marinki (Reg. 21) | Маринки | 55,09, 37,03 (1926-1953) | 1,6k | 2,2k | 2,8k | 3k | 3,3k |
 | Marinskoe (Reg. 17) | Марьинское | 58,27, 34,05 (1926-1953) | 11,1k | 16k | 21,9k | 23,1k | 24,8k |
 | Marki (Reg. 22) | Марки | 50,78, 39,68 (1926-1953) | 2,4k | 2,3k | 2,1k | 2k | 1,8k |
-| Markovo (Reg. 21) | Марково | 57,02, 40,49 (1926-1953) | 2,1k | 2,9k | 3,8k | 4k | 4,3k |
 | Marusino (Reg. 20) | Марусино | 55,7, 37,98 (1926-1953) | 282 | 478 | 752 | 840 | 973 |
 | Masel’gskaja (Reg. 16) | Масельгская | 63,15, 34,31 (1926-1953) | 727 | 2,1k | 5,4k | 3,3k | 1,7k |
 | Maslova Pristan’ (Reg. 22) | Маслова Пристань | 50,46, 36,74 (1926-1953) | 2,7k | 1,9k | 2k | 2,2k | 2,5k |
 | Maslovka (Reg. 22) | Масловка | 51,55, 39,24 (1926-1953) | 1,1k | 1,3k | 1,6k | 1,8k | 2,2k |
-| Maslovka (Reg. 22) | Масловка | 52,7, 35,52 (1926-1953) | 2,8k | 2,9k | 3k | 3,2k | 3,4k |
 | Matrosovo (Reg. 16) | Матросово; Хацутой | 60,64, 28,73 (1926-1953) | 984 | 1,6k | 2,4k | 2,5k | 2,7k |
 | Matyskiy (Reg. 22) | Матырский; Matyrskij | 52,55, 39,8 (1926-1953) | 5,1k | 5,3k | 5,5k | 5,7k | 5,9k |
 | Mayskiy (Reg. 22) | Майский; Majskij | 50,52, 36,47 (1926-1953) | 3,4k | 2,8k | 2,4k | 2,5k | 2,6k |
@@ -3943,7 +3570,6 @@ Black-Earth Belt (Region 22)
 | Mazurka (Reg. 22) | Мазурка | 51,28, 42,58 (1926-1953) | 3,4k | 3k | 2,7k | 2,5k | 2,2k |
 | Medvedevo (Reg. 21) | Медведево | 57,29, 34,08 (1926-1953) | 1,7k | 1,4k | 1,3k | 1,1k | 944 |
 | Medvenka (Reg. 22) | Медвенка | 51,42, 36,11 (1926-1953) | 2,2k | 2,2k | 2,1k | 2,1k | 2k |
-| Medvezhe (Reg. 21) | Медвежье | 57,02, 34,41 (1926-1953) | 5,2k | 7,7k | 10,8k | 11,4k | 12,3k |
 | Medvezhi Ozera (Reg. 20) | Медвежьи Озёра | 55,87, 37,99 (1926-1953) | 441 | 747 | 1,2k | 1,3k | 1,5k |
 | Medvezhye-gorsk (Reg. 16) | Medvezhya Gora; Belbaltlag BBK HQ (Karelia) | 62,92, 34,46 (1926-1953) | 2,1k | 14,5k | 13,4k | 9,5k | 14,8k |
 | Medyn (Reg. 21) | Медынь; Medyn’ | 54,97, 35,86 (1926-1953) | 5,4k | 5,6k | 5,8k | 6k | 6,1k |
@@ -3954,7 +3580,6 @@ Black-Earth Belt (Region 22)
 | Melovoye (Reg. 22) | Меловое | 53,03, 35,43 (1939-1939) | \- | \- | 4,8k | \- | \- |
 | Mendeleyevo (Reg. 20) | Менделеево; Mendelejevo | 56,03, 37,22 (1926-1953) | 1,1k | 1,9k | 2,9k | 3,3k | 3,8k |
 | Mendeley-evskiy (Reg. 22) | Менделеевский; Mendelej-evskij | 54,14, 37,59 (1926-1953) | 3,3k | 4,2k | 5,1k | 5,2k | 5,4k |
-| Menyusha (Reg. 17) | Менюша | 58,38, 30,7 (1926-1953) | 8,7k | 12,6k | 17,2k | 18,1k | 19,4k |
 | Meshcherino (Reg. 20) | Мещерино | 55,2, 38,36 (1926-1953) | 804 | 1,4k | 2,1k | 2,4k | 2,8k |
 | Meshchovsk (Reg. 21) | Мещовск; Meščovsk | 54,32, 35,28 (1926-1953) | 2,7k | 2,9k | 3,6k | 4k | 4,5k |
 | Metallostroy (Reg. 17) | Металлострой; Metallostroj | 59,8, 30,55 (1926-1953) | 5,2k | 8,6k | 13,3k | 13,5k | 13,8k |
@@ -3967,20 +3592,16 @@ Black-Earth Belt (Region 22)
 | Michurinskiy (Reg. 21) | Мичуринский | 53,28, 34,23 (1926-1953) | 1,1k | 1,4k | 1,7k | 1,7k | 1,8k |
 | Mihel’sonovskij (Reg. 20) | Михельсоновский | 55,7, 37,9 (1926-1926) | 3,2k | \- | \- | \- | \- |
 | Mihnevo (Reg. 20) | Михнево | 55,13, 37,95 (1926-1953) | 875 | 1,5k | 2,3k | 3k | 4k |
-| Mikhalkino (Reg. 17) | Михалкино | 57,07, 29,61 (1926-1953) | 22,2k | 28,3k | 34,7k | 35,2k | 35,9k |
 | Mikhaylov (Reg. 22) | Михайлов; Mihajlov | 54,23, 39,03 (1926-1953) | 11,6k | 10,9k | 6,5k | 6,9k | 7,3k |
-| Mikhaylovka (Reg. 22) | Михайловка | 52,05, 39,27 (1926-1953) | 2,2k | 2k | 1,9k | 1,8k | 1,7k |
 | Mikhaylovka (Reg. 22) | Михайловка | 52,23, 35,38 (1926-1953) | 3,5k | 3,6k | 3,6k | 3,5k | 3,3k |
 | Mikulino (Reg. 21) | Микулино | 55,03, 31,11 (1926-1953) | 1,3k | 1,1k | 897 | 754 | 598 |
 | Mikun’ (Reg. 18) | Микунь | 62,35, 50,08 (1926-1953) | 2,7k | 3,6k | 4,6k | 6,1k | 8,7k |
 | Mileyevo (Reg. 21) | Милеево | 54,02, 33,82 (1926-1953) | 1,2k | 1k | 903 | 793 | 667 |
 | Miloslavskoye (Reg. 22) | Милославское; Miloslavskoje | 53,58, 39,45 (1926-1953) | 637 | 715 | 790 | 949 | 1,2k |
-| Miropole (Reg. 21) | Мирополье | 55,39, 32,94 (1926-1953) | 13,4k | 16,3k | 19,3k | 18,7k | 17,9k |
 | Misaylovo (Reg. 20) | Мисайлово | 55,56, 37,82 (1926-1953) | 5,1k | 8,7k | 13,7k | 15,3k | 17,7k |
 | Misheronskiy (Reg. 20) | Мишеронский; Mišeronskij | 55,72, 39,74 (1926-1953) | 1,4k | 2,4k | 3,9k | 4,3k | 5,1k |
 | Mit’kovka (Reg. 21) | Митьковка | 52,43, 32,16 (1926-1953) | 2k | 1,8k | 1,6k | 1,4k | 1,3k |
 | Mitrofanovka (Reg. 22) | Митрофановка | 49,97, 39,69 (1926-1953) | 3,1k | 3,3k | 3,5k | 3,9k | 4,3k |
-| Mogilki (Reg. 21) | Могилки | 57,33, 35,88 (1926-1953) | 4,8k | 7k | 9,9k | 10,4k | 11,2k |
 | Molochnoye (Reg. 19) | Молочное; Moločnoje | 59,29, 39,68 (1926-1953) | 2,2k | 2,9k | 3,6k | 3,8k | 4,1k |
 | Molochnyy (Reg. 16) | Молочный; Moločnyj | 68,85, 33,02 (1926-1953) | 1,7k | 2,3k | 3k | 3,5k | 4,2k |
 | Molodezhnoye (Reg. 17) | Молодежное; Molodežnoje | 60,2, 29,52 (1926-1953) | 687 | 1,1k | 1,8k | 1,8k | 1,8k |
@@ -3995,15 +3616,12 @@ Black-Earth Belt (Region 22)
 | Monino (Reg. 20) | Монино | 55,84, 38,19 (1926-1953) | 2,8k | 4,7k | 7,5k | 8,3k | 9,7k |
 | Mordovo (Reg. 22) | Мордово | 52,09, 40,77 (1926-1953) | 9,4k | 8,1k | 7,2k | 7k | 6,8k |
 | Morozovka (Reg. 22) | Морозовка | 51,93, 40,72 (1926-1953) | 2,1k | 2k | 1,9k | 1,9k | 1,8k |
-| Morozovskaya (Reg. 18) | Морозовская | 61,17, 50,3 (1926-1953) | 12,4k | 16,3k | 20,6k | 22,4k | 25,2k |
 | Morshansk (Reg. 22) | Morshansk Tsna Port; Morshansk Tambov | 53,44, 41,81 (1926-1953) | 27,8k | 31,6k | 35,2k | 36,8k | 39,1k |
 | Mosal’sk (Reg. 21) | Мосальск | 54,49, 34,98 (1926-1953) | 2,3k | 2,3k | 2,9k | 3,2k | 3,6k |
 | Moscow (Reg. 20) | Moskva; Second Imperial Capital | 55,76, 37,62 (1926-1953) | 2,03M | 3,66M | 4,14M | 3,65M | 5,35M |
 | Moskovskiy (Reg. 20) | Московский; Moskovskij | 55,6, 37,36 (1926-1953) | 1,3k | 2,5k | 4,3k | 5,1k | 6,4k |
 | Mosta (Reg. 21) | Моста | 56,53, 42,16 (1926-1953) | 660 | 903 | 1,2k | 1,2k | 1,3k |
 | Mostki (Reg. 17) | Мостки | 58,88, 31,48 (1926-1953) | 5,1k | 5,1k | 5,1k | 5,3k | 5,7k |
-| Motovilikha (Reg. 17) | Мотовилиха; Motoviliha | 56,15, 29,59 (1926-1926) | 33,1k | \- | \- | \- | \- |
-| Mozdok (Reg. 22) | Моздок | 51,96, 41,94 (1926-1953) | 13,8k | 14,1k | 14,3k | 14,7k | 15,3k |
 | Mozhaysk (Reg. 20) | Можайск; Možajsk | 55,5, 36,03 (1926-1953) | 5,5k | 9,2k | 11,8k | 12,8k | 14,4k |
 | Mstera (Reg. 21) | Мстёра; Mstjora | 56,38, 41,92 (1926-1953) | 4k | 4,6k | 5,2k | 5,6k | 6,1k |
 | Mtsensk (Reg. 22) | Мценск; Mcensk | 53,28, 36,58 (1926-1953) | 10,1k | 10,1k | 11,5k | 12,3k | 13,4k |
@@ -4012,7 +3630,6 @@ Black-Earth Belt (Region 22)
 | Mugreyevskiy (Reg. 21) | Мугреевский; Mugrejevskij | 56,6, 42,35 (1926-1953) | 3,4k | 4,6k | 6,1k | 6,4k | 6,8k |
 | Mukhanovo (Reg. 20) | Муханово; Muhanovo | 56,51, 38,32 (1926-1953) | 662 | 797 | 935 | 1,1k | 1,4k |
 | Mul’da (Reg. 18) | Мульда | 67,5, 63,85 (1926-1953) | 733 | 989 | 1,3k | 1,7k | 2,4k |
-| Muravlevo (Reg. 22) | Муравлево | 52,94, 35,47 (1926-1953) | 62k | 64,7k | 67,2k | 70,5k | 75,1k |
 | Murino (Reg. 17) | Murino Vsevolozhsky; Мурино | 60,05, 30,45 (1926-1953) | 968 | 1,2k | 1,4k | 1,6k | 2k |
 | Murmashi (Reg. 16) | Мурмаши; Murmaši | 68,82, 32,81 (1926-1953) | 1,2k | 1,6k | 2k | 3,1k | 5,7k |
 | Murmino (Reg. 22) | Мурмино | 54,6, 40,05 (1926-1953) | 2k | 2,2k | 2,5k | 2,8k | 3,3k |
@@ -4034,7 +3651,7 @@ Black-Earth Belt (Region 22)
 | Naryshkino (Reg. 22) | Нарышкино; Naryškino | 52,97, 35,73 (1926-1953) | 1,3k | 2,2k | 3,5k | 3,5k | 3,6k |
 | Navlya (Reg. 21) | Навля; Navlja | 52,83, 34,5 (1926-1953) | 3,3k | 4,2k | 5,2k | 5,7k | 6,4k |
 | Navoloki (Reg. 21) | Наволоки | 57,47, 41,96 (1926-1953) | 6,6k | 8,7k | 12,3k | 12,7k | 13,4k |
-| Naziya (Reg. 17) | Назия; Nazija | 59,9, 31,34 (1926-1953) | 4,4k | 7,2k | 10,9k | 10,4k | 9,7k |
+| Naziya (Reg. 17) | Назия; Nazija | 59,9, 31,34 (1926-1953) | 3,4k | 3,4k | 3,4k | 3,4k | 3,4k |
 | Nebolchi (Reg. 17) | Неболчи; Nebolči | 59,12, 33,35 (1926-1953) | 1k | 1,5k | 2k | 2,3k | 2,7k |
 | Nekrasovka (Reg. 20) | Некрасовка | 55,7, 37,94 (1926-1953) | 755 | 1,4k | 2,5k | 3k | 3,8k |
 | Nekrasovskiy (Reg. 20) | Некрасовский; Nekrasovskij | 56,09, 37,5 (1926-1953) | 2k | 3,4k | 5,3k | 6k | 6,9k |
@@ -4045,24 +3662,15 @@ Black-Earth Belt (Region 22)
 | Nerekhta (Reg. 21) | Нерехта; Nerehta | 57,46, 40,57 (1926-1953) | 7,4k | 10,3k | 16,3k | 17,9k | 20,3k |
 | Nerl’ (Reg. 21) | Нерль | 56,66, 40,39 (1926-1953) | 1,1k | 2k | 3,3k | 3,6k | 4k |
 | Nevel’ (Reg. 17) | Невель | 56,02, 29,93 (1926-1953) | 12,9k | 12,9k | 15,6k | 15,3k | 14,9k |
-| Nevskaya (Reg. 17) | Невская | 58,33, 32,32 (1926-1953) | 12,9k | 18,6k | 25,5k | 26,9k | 28,8k |
 | Neya (Reg. 21) | Нея; Neja | 58,3, 43,87 (1926-1953) | 1,7k | 5,4k | 8,9k | 10,1k | 11,9k |
 | Nigino (Reg. 19) | Нигино | 59,65, 45,28 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,2k |
 | Nikel (Reg. 16) | Никель; Nikel’ | 69,41, 30,22 (1935-1953) | \- | \- | 10,1k | 11,6k | 14,1k |
-| Nikitino (Reg. 22) | Никитовка | 52,73, 40,08 (1926-1939) | 5,1k | 8,8k | 14k | \- | \- |
-| Nikitovka (Reg. 22) | Никитовка | 51,52, 42,44 (1926-1953) | 7,5k | 7,8k | 7,9k | 8,7k | 9,7k |
-| Nikitskoye (Reg. 22) | Никитское | 53,54, 38,16 (1926-1953) | 6,5k | 8,2k | 10k | 10,2k | 10,5k |
 | Nikol’sk (Reg. 19) | Никольск | 59,54, 45,46 (1926-1953) | 3,1k | 3,6k | 5,1k | 5,2k | 5,4k |
-| Nikol’skij (Reg. 17) | Никольский | 60,92, 34,06 (1926-1953) | 804 | 1,3k | 2k | 2,1k | 2,2k |
 | Nikol’skij (Reg. 20) | Никольский | 55,68, 37,48 (1926-1953) | 4k | 7,6k | 13,2k | 11,6k | 9,7k |
 | Nikol’sko-Arhangel’skij (Reg. 20) | Никольско-Архангельский | 55,74, 37,97 (1926-1953) | 2,3k | 5,3k | 10,5k | 12,3k | 15,1k |
 | Nikol’skoje (Reg. 17) | Никольское | 59,7, 30,78 (1926-1953) | 1,9k | 2,4k | 3k | 3,8k | 5,1k |
-| Nikolaevka (Reg. 22) | Николаевка | 50,07, 39,37 (1926-1953) | 1,8k | 1,6k | 1,5k | 1,4k | 1,2k |
-| Nikolayevka (Reg. 22) | Николаевка | 51,73, 41,23 (1926-1953) | 1,8k | 1,8k | 1,7k | 1,7k | 1,6k |
-| Nikolayevka (Reg. 22) | Орликъ | 52,1, 36,46 (1926-1953) | 3,8k | 4,1k | 4,3k | 4,7k | 5,3k |
 | Nikologory (Reg. 21) | Никологоры | 56,14, 41,99 (1926-1953) | 1,6k | 3k | 5,2k | 5,9k | 6,8k |
 | Nikolskaya (Reg. 19) | Никольская | 64,38, 40,86 (1926-1953) | 6,6k | 9,4k | 12,7k | 13,5k | 14,6k |
-| Nikolskoe (Reg. 22) | Никольское | 50,89, 38,08 (1926-1953) | 1,6k | 1,3k | 1,1k | 1,2k | 1,2k |
 | Nikolskoe (Reg. 21) | Никольское | 58,01, 44,05 (1926-1953) | 1k | 1,2k | 1,3k | 1,5k | 1,8k |
 | Nikolskoe (Reg. 22) | Никольское | 51,86, 39,74 (1926-1953) | 1,1k | 1,2k | 1,4k | 1,6k | 1,9k |
 | Nivskiy (Reg. 16) | Нивский; Nivskij | 67,3, 32,48 (1926-1953) | 4,2k | 5,6k | 7,3k | 6k | 4,6k |
@@ -4073,7 +3681,6 @@ Black-Earth Belt (Region 22)
 | Nizhniy Odes (Reg. 18) | Нижний Одес; Nižnij Odes | 63,64, 54,86 (1926-1953) | 2,1k | 2,8k | 3,7k | 4,8k | 6,8k |
 | Nizhnyaya Omra (Reg. 18) | Нижняя Омра; Nižnjaja Omra | 62,75, 55,83 (1926-1953) | 1,2k | 1,7k | 2,2k | 2,8k | 4,1k |
 | Norskoye (Reg. 21) | Красный Перевал; Krasnyj Pereval | 57,74, 39,74 (1926-1939) | 1,7k | 4,3k | 9,5k | \- | \- |
-| Novaya (Reg. 21) | Новая | 55,17, 35,97 (1926-1953) | 5,7k | 7,5k | 9,6k | 10,2k | 11,1k |
 | Novaya Chigla (Reg. 22) | Новая-Чигла | 51,22, 40,48 (1926-1953) | 8k | 7,3k | 6,8k | 6,3k | 5,7k |
 | Novaya Ladoga (Reg. 17) | Новая Ладога; Novaja Ladoga | 60,1, 32,3 (1926-1953) | 3,9k | 4,7k | 5,3k | 3,1k | 5,3k |
 | Novaya Lyada (Reg. 22) | Новая Ляда; Novaja Ljada | 52,71, 41,64 (1926-1953) | 2,4k | 2,7k | 2,9k | 3k | 3,2k |
@@ -4081,11 +3688,8 @@ Black-Earth Belt (Region 22)
 | Novaya Tavolzhanka (Reg. 22) | Новая Таволжанка; Novaja Tavolžanka | 50,35, 36,83 (1926-1953) | 934 | 1,1k | 1,2k | 1,4k | 1,7k |
 | Novaya Usman (Reg. 22) | Новая Усмань | 51,64, 39,41 (1926-1953) | 10k | 10,1k | 10,2k | 10,3k | 10,5k |
 | Novgorod (Reg. 17) | Veliky Novgorod; Novgorod Governorate | 58,52, 31,28 (1926-1953) | 32,8k | 36k | 39,8k | 16k | 48k |
-| Novgorodka (Reg. 21) | Новгородка | 57,35, 35,3 (1926-1953) | 11,1k | 16,5k | 23,1k | 24,4k | 26,2k |
 | Novki (Reg. 21) | Новки | 56,36, 41,09 (1926-1953) | 1,1k | 1,5k | 1,9k | 2,1k | 2,3k |
 | Novo-Aleksandrovka (Reg. 17) | Ново-Александровка | 59,17, 31,33 (1939-1939) | \- | \- | 4k | \- | \- |
-| Novo-Arkhangelsk (Reg. 20) | Ново-Архангельск | 55,45, 36,4 (1926-1953) | 5,6k | 5,5k | 5,4k | 6k | 6,9k |
-| Novo-Mikhaylo-vskoye (Reg. 20) | Ново-Михайловское | 55,45, 36,28 (1926-1953) | 6,3k | 9,7k | 13,9k | 15,5k | 17,9k |
 | Novo-Talitsy (Reg. 21) | Ново-Талицы | 57, 40,86 (1926-1953) | 5,3k | 7,2k | 9,4k | 9,9k | 10,5k |
 | Novobrat-tsevskiy (Reg. 20) | Новобратцевский; Novobrat-cevskij | 55,85, 37,36 (1926-1953) | 513 | 979 | 1,7k | 1,9k | 2,2k |
 | Novodugino (Reg. 21) | Новодугино | 55,63, 34,3 (1926-1953) | 1,2k | 1,4k | 1,7k | 2k | 2,5k |
@@ -4130,7 +3734,7 @@ Black-Earth Belt (Region 22)
 | Nyandoma (Reg. 19) | Няндома; Njandoma | 61,67, 40,21 (1926-1953) | 4,4k | 8,7k | 14,9k | 16,7k | 19,4k |
 | Nyuksenitsa (Reg. 19) | Нюксеница | 60,41, 44,23 (1926-1953) | 2k | 2,6k | 3,2k | 3,4k | 3,7k |
 | Nyuvchim (Reg. 18) | Нювчим; Njuvčim | 61,4, 50,74 (1926-1953) | 715 | 949 | 1,2k | 1,4k | 1,8k |
-| Objatschewo (Reg. 18) | Объячево | 60,34, 49,61 (1926-1953) | 2,4k | 3,2k | 4,2k | 5,5k | 7,8k |
+| Objatschewo (Reg. 18) | Объячево | 60,34, 49,61 (1926-1953) | 2k | 2k | 2k | 2k | 2k |
 | Obninsk (Reg. 21) | First Nuclear Power Naukograd; Обнинск | 55,1, 36,61 (1946-1953) | \- | \- | \- | \- | 10k |
 | Obojan’ (Reg. 22) | Обоянь | 51,21, 36,28 (1926-1953) | 12,2k | 11k | 7,8k | 8,9k | 10,5k |
 | Obolensk (Reg. 20) | Оболенск | 54,98, 37,22 (1926-1953) | 1k | 1,8k | 2,8k | 3,1k | 3,6k |
@@ -4142,41 +3746,28 @@ Black-Earth Belt (Region 22)
 | Odoyev (Reg. 22) | Одоев; Odojev | 53,94, 36,69 (1926-1953) | 3,6k | 3,8k | 3,9k | 4,1k | 4,3k |
 | Ogarjovka (Reg. 22) | Огарёвка | 54,06, 38,05 (1926-1953) | 4,6k | 5,8k | 7,1k | 6,4k | 5,6k |
 | Oksovskiy (Reg. 19) | Оксовский; Oksovskij | 62,61, 39,9 (1926-1953) | 1,9k | 2,6k | 3,6k | 3,8k | 4,1k |
-| Oktjabr’ (Reg. 21) | Октябрь | 57,83, 37,5 (1926-1953) | 1,4k | 2k | 2,7k | 2,8k | 3k |
 | Oktjabr’skij (Reg. 18) | Октябрьский | 67,57, 64,13 (1926-1953) | 2,5k | 3,3k | 4,3k | 5,6k | 8k |
 | Oktjabr’skij (Reg. 19) | Октябрьский; Oktjabr’skij | 61,09, 43,17 (1926-1953) | 2k | 2,8k | 3,8k | 3,9k | 3,9k |
 | Oktjabr’skij (Reg. 22) | Октябрьский; Микояновка | 50,45, 36,36 (1926-1953) | 6,1k | 5k | 4,2k | 4,6k | 5,2k |
-| Oktjabr’skij (Reg. 21) | Октябрьский; Лосево | 56,22, 42,04 (1926-1953) | 612 | 835 | 1,1k | 1,4k | 2k |
-| Oktjabr’skij (Reg. 21) | Октябрьский | 57,13, 40,33 (1926-1953) | 1,8k | 2,5k | 3,3k | 3,4k | 3,7k |
-| Oktjabr’skij (Reg. 21) | Октябрьский; Брантовка | 58,32, 44,32 (1926-1953) | 1,8k | 2,3k | 2,8k | 3,5k | 4,5k |
 | Oktjabr’skij (Reg. 20) | Октябрьский | 55,61, 37,98 (1926-1953) | 3,8k | 5k | 6,3k | 6,7k | 7,3k |
 | Oktjabr’skij (Reg. 22) | Октябрьский; Oktjabr’skij | 54,23, 38,89 (1926-1953) | 1,9k | 2,2k | 2,5k | 3,2k | 4,4k |
-| Oktjabr’skij (Reg. 22) | Октябрьский; Комсомольский | 53,2, 38,45 (1926-1953) | 2,2k | 2,7k | 3,3k | 3,4k | 3,5k |
 | Okulovka (Reg. 17) | Окуловка | 58,41, 33,29 (1926-1953) | 2,9k | 4,1k | 5,5k | 6,1k | 7k |
 | Ol’gino (Reg. 17) | Ольгино | 60,01, 30,12 (1926-1926) | 1,1k | \- | \- | \- | \- |
 | Ol’hovatka (Reg. 22) | Ольховатка | 50,28, 39,29 (1926-1953) | 2,9k | 2,3k | 1,8k | 2,3k | 3,3k |
 | Olenegorsk (Reg. 16) | Оленегорск; Оленья | 68,14, 33,25 (1949-1953) | \- | \- | \- | \- | 6,4k |
 | Olenino (Reg. 21) | Оленино | 56,21, 33,49 (1926-1953) | 1,1k | 2k | 3,4k | 3,6k | 3,9k |
-| Olkhovets (Reg. 17) | Ольховецъ | 55,97, 29,51 (1926-1953) | 5,3k | 6,7k | 8,2k | 8,3k | 8,5k |
 | Olonets (Reg. 16) | Олонец; Olonec | 60,98, 32,97 (1926-1953) | 1,8k | 2,2k | 2,7k | 3,2k | 4,1k |
-| Olshanka (Reg. 21) | Ольшанка | 55,61, 33,44 (1926-1953) | 7,3k | 8,9k | 10,5k | 10,2k | 9,8k |
 | Olym (Reg. 22) | Олымский; Olymskij | 51,68, 38,18 (1926-1953) | 3,7k | 4k | 4,2k | 4,5k | 4,8k |
 | Onega (Reg. 19) | Онега; Устье | 63,91, 38,1 (1926-1953) | 5,3k | 9,5k | 15,8k | 17,3k | 19,5k |
 | Opalikha (Reg. 20) | Опалиха; Opaliha | 55,83, 37,25 (1926-1953) | 2k | 3,4k | 5,4k | 6k | 7k |
 | Opechenskiy Posad (Reg. 17) | Опеченский Посад; Opecenskij Posad | 58,28, 34,12 (1926-1953) | 666 | 705 | 741 | 778 | 830 |
 | Opochka (Reg. 17) | Опочка; Opočka | 56,71, 28,66 (1926-1953) | 7,1k | 6,5k | 11,2k | 11,3k | 11,5k |
-| Orekhovo (Reg. 21) | Орехово | 55,8, 41,03 (1926-1953) | 9,7k | 13,3k | 17,4k | 18,8k | 20,7k |
 | Orekhovo-Zuevo (Reg. 20) | Morozov Mills; Nikolskoe-Orekhovo | 55,81, 38,96 (1926-1953) | 62,8k | 80,4k | 99,3k | 101,9k | 105,5k |
-| Orekhovo-Zuyevo (Reg. 20) | Никольское | 55,81, 38,99 (1926-1953) | 3,9k | 3,3k | 2,9k | 2,6k | 2,2k |
 | Orgtrud (Reg. 21) | Оргтруд | 56,18, 40,61 (1926-1953) | 2,5k | 3,2k | 4k | 4,3k | 4,7k |
-| Orlova (Reg. 19) | Орлова | 59,55, 42,43 (1926-1953) | 12,5k | 16,3k | 20,4k | 21,9k | 24k |
-| Orlovka (Reg. 22) | Орловка | 51,03, 40,53 (1926-1953) | 4,1k | 3,6k | 3,3k | 3k | 2,6k |
 | Orlovo (Reg. 22) | Орлово | 51,76, 39,59 (1926-1953) | 5,4k | 5,3k | 5,2k | 5,1k | 4,9k |
-| Orsha (Reg. 21) | Орша; Orša | 56,91, 36,23 (1926-1953) | 954 | 1,4k | 1,9k | 2,1k | 2,2k |
 | Oryol (Reg. 22) | Orel; Oryol Governorate | 52,97, 36,08 (1926-1953) | 77,9k | 88k | 110,6k | 65k | 125k |
 | Ostashkov (Reg. 21) | Осташков; Ostaškov | 57,15, 33,11 (1926-1953) | 12,9k | 14,9k | 19k | 19,2k | 19,4k |
 | Oster (Reg. 21) | Остёр; Ostjor | 54,02, 32,8 (1926-1953) | 1,6k | 2k | 2,3k | 2,3k | 2,2k |
-| Ostraya Luka (Reg. 17) | Острая Лука | 57,6, 30,07 (1926-1953) | 4,9k | 6,2k | 7,6k | 7,7k | 7,9k |
 | Ostrogozhsk (Reg. 22) | Острогожск; Ostrogožsk | 50,87, 39,08 (1926-1953) | 23k | 17k | 11,7k | 15,3k | 21,8k |
 | Ostrov (Reg. 17) | Остров | 57,34, 28,35 (1926-1953) | 8,1k | 7,3k | 12,8k | 14,1k | 16k |
 | Ostrov (Reg. 20) | Островъ | 55,59, 37,84 (1926-1953) | 14,7k | 22,5k | 32,3k | 35,9k | 41,4k |
@@ -4210,19 +3801,17 @@ Black-Earth Belt (Region 22)
 | Parma (Reg. 18) | Парма | 66, 57,7 (1926-1953) | 3,5k | 4,8k | 6,2k | 8,1k | 11,6k |
 | Partizan (Reg. 22) | Партизан | 53,95, 38,1 (1926-1953) | 5,5k | 7k | 8,5k | 8,7k | 9k |
 | Pavelets (Reg. 22) | Павелец; Pavelec | 53,79, 39,25 (1926-1953) | 1,9k | 2,2k | 2,5k | 3,2k | 4,5k |
-| Pavlodar (Reg. 22) | Павлодар | 53,03, 41,61 (1926-1953) | 17,9k | 18,3k | 18,6k | 19,1k | 19,8k |
 | Pavlovo (Reg. 17) | Павлово | 59,81, 30,9 (1926-1953) | 1,1k | 1,8k | 2,7k | 2,9k | 3,1k |
-| Pavlovsk (Reg. 22) | Павловск; Осеред | 50,45, 40,12 (1926-1953) | 6,3k | 8,6k | 11,1k | 11,4k | 11,7k |
 | Pavlovsk (Reg. 17) | Павловск | 59,68, 30,43 (1926-1953) | 6,7k | 15,2k | 30,8k | 25,6k | 20k |
+| Pavlovsk (Reg. 22) | Павловск; Осеред | 50,45, 40,12 (1926-1953) | 6,3k | 8,6k | 11,1k | 11,4k | 11,7k |
 | Pavlovskaya Sloboda (Reg. 20) | Павловская Слобода; Pavlovskaja Sloboda | 55,82, 37,08 (1926-1953) | 2,8k | 3k | 3,2k | 3,4k | 3,6k |
 | Pavlovskiy Posad (Reg. 20) | Павловский Посад; Pavlovskij Posad | 55,78, 38,65 (1926-1953) | 20,9k | 30,7k | 42,8k | 46,2k | 51k |
-| Pay (Reg. 16) | Пай; Paj | 61,21, 34,43 (1926-1953) | 1,2k | 2k | 3,1k | 3,4k | 3,9k |
 | Pechenga (Reg. 16) | Печенга; Pečenga | 69,53, 31,17 (1926-1953) | 1,2k | 1,7k | 2,1k | 2,5k | 3k |
 | Pechersk (Reg. 21) | Печерск | 54,85, 32,03 (1926-1953) | 2k | 2,4k | 2,8k | 2,7k | 2,6k |
 | Pechora (Reg. 18) | Sevzheldorlag Rail Hub (Komi ASSR); Печора | 65,14, 57,22 (1940-1953) | \- | \- | \- | 14,5k | 22k |
 | Pechory (Reg. 17) | Печоры; Pečory | 57,82, 27,61 (1926-1953) | 3,1k | 4,1k | 5k | 2,5k | 4,5k |
 | Peno (Reg. 21) | Пено | 56,93, 32,74 (1926-1953) | 1,3k | 2,2k | 3,4k | 4,1k | 5,2k |
-| Pereborovo (Reg. 21) | Переборово | 56,38, 40,56 (1926-1953) | 15,8k | 21,6k | 28,3k | 30,4k | 33,6k |
+| Pereborovo (Reg. 21) | Переборово | 56,38, 40,56 (1926-1953) | 12,8k | 13k | 13,2k | 13,5k | 13,9k |
 | Perelazy (Reg. 21) | Перелазы | 53,04, 31,47 (1926-1953) | 3k | 2,8k | 2,5k | 2,3k | 2,1k |
 | Pereljošinskij (Reg. 22) | Перелёшинский | 51,72, 40,2 (1926-1953) | 2,6k | 2,7k | 2,9k | 3,2k | 3,6k |
 | Peremyšl’ (Reg. 21) | Перемышль | 54,26, 36,16 (1926-1953) | 1,4k | 1,8k | 2,3k | 2,3k | 2,4k |
@@ -4237,10 +3826,8 @@ Black-Earth Belt (Region 22)
 | Pervoavg-ustovskiy (Reg. 22) | Первоавгустовский; Pervoavg-ustovskij | 52,23, 35,06 (1926-1953) | 1,3k | 1,6k | 1,8k | 2,1k | 2,6k |
 | Pervomayskiy (Reg. 20) | Первомайский; Pervomajskij | 55,07, 38,66 (1926-1953) | 3,7k | 6,3k | 9,9k | 11,2k | 13,2k |
 | Pervomayskiy (Reg. 22) | Первомайский; Pervomajskij | 53,25, 40,29 (1926-1953) | 4,5k | 5,1k | 5,5k | 5,7k | 6k |
-| Pervomayskiy (Reg. 22) | Первомайский; Pervomajskij | 54,1, 37,11 (1926-1953) | 8,7k | 11k | 13,4k | 13,7k | 14,1k |
 | Pervomayskoye (Reg. 16) | Первомайское | 60,36, 29,74 (1926-1953) | 1,3k | 2,1k | 3,2k | 3,4k | 3,6k |
 | Pervoye Maya (Reg. 22) | Первое Мая | 50,89, 39,59 (1926-1953) | 2,6k | 2,8k | 3k | 3,3k | 3,7k |
-| Pes’ (Reg. 17) | Песь | 58,92, 34,33 (1926-1953) | 1k | 1,4k | 1,9k | 2k | 2,1k |
 | Peski (Reg. 20) | Пески; Лахва | 55,22, 38,76 (1926-1953) | 3,3k | 3,5k | 3,7k | 4,2k | 4,9k |
 | Peski (Reg. 22) | Пески | 51,82, 39,57 (1926-1953) | 9,3k | 9,1k | 8,9k | 8,8k | 8,6k |
 | Pesochenskiy (Reg. 21) | Песоченский; Pesočenskij | 54,17, 36,11 (1926-1953) | 1,2k | 1,3k | 1,4k | 1,7k | 2,3k |
@@ -4264,9 +3851,7 @@ Black-Earth Belt (Region 22)
 | Pistsovo (Reg. 21) | Писцово; Piscovo | 57,18, 40,53 (1926-1953) | 3,6k | 4,3k | 5k | 5,1k | 5,2k |
 | Pitelino (Reg. 22) | Пителино | 54,58, 41,81 (1926-1953) | 1,6k | 1,8k | 2k | 1,8k | 1,6k |
 | Pitkyaranta (Reg. 16) | Питкяранта; Pitkjaranta | 61,57, 31,48 (1926-1953) | 1,8k | 2,9k | 4,5k | 4,9k | 5,6k |
-| Pjal’ma (Reg. 16) | Пяльма | 62,4, 35,89 (1926-1953) | 1k | 1,7k | 2,6k | 2,9k | 3,3k |
 | Pjažijeva Sel’ga (Reg. 16) | Пяжиева Сельга | 61,48, 34,5 (1926-1953) | 860 | 1,4k | 2,2k | 2,4k | 2,7k |
-| Plavna (Reg. 21) | Плавна | 52,45, 32,43 (1926-1953) | 36,8k | 46,8k | 57,4k | 60k | 63,6k |
 | Plavsk (Reg. 22) | Плавск | 53,71, 37,29 (1926-1953) | 1,3k | 3,9k | 10k | 10,7k | 11,6k |
 | Plekhanovo (Reg. 22) | Плеханово; Plehanovo | 54,25, 37,55 (1926-1953) | 2,8k | 3,5k | 4,3k | 4,4k | 4,4k |
 | Plesetsk (Reg. 19) | Плесецк; Pleseck | 62,71, 40,29 (1926-1953) | 1,5k | 4,6k | 11,8k | 12,2k | 12,8k |
@@ -4278,11 +3863,7 @@ Black-Earth Belt (Region 22)
 | Pochinok (Reg. 21) | Починок; Počinok | 54,41, 32,44 (1926-1953) | 1,4k | 1,6k | 3,2k | 4,1k | 5,9k |
 | Podbuzhe (Reg. 21) | Подбужье | 53,5, 34,93 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,3k |
 | Podgorenskiy (Reg. 22) | Подгоренский; Podgorenskij | 50,41, 39,64 (1926-1953) | 2,7k | 2,9k | 3,1k | 3,4k | 3,8k |
-| Podgorishche (Reg. 17) | Подгорище | 58,68, 28,29 (1926-1953) | 7,4k | 9,5k | 11,6k | 11,8k | 12k |
-| Podgornaya (Reg. 22) | Подгорная | 50,47, 41,19 (1926-1953) | 9,4k | 9,7k | 9,9k | 10,8k | 12,1k |
 | Podgornoye (Reg. 22) | Подгорное | 51,74, 39,15 (1926-1953) | 6,4k | 6,5k | 6,6k | 6,7k | 6,8k |
-| Podgornoye (Reg. 22) | Подгорное | 53,26, 40,74 (1926-1953) | 3,3k | 3k | 2,7k | 2,5k | 2,2k |
-| Podkolodnovka (Reg. 22) | Подколодновка | 50, 40,66 (1926-1953) | 27,1k | 27,9k | 28,6k | 31,1k | 34,9k |
 | Podlesnyy (Reg. 22) | Подлесный; Podlesnyj | 53,94, 38,27 (1926-1953) | 4,6k | 5,8k | 7,1k | 7,3k | 7,5k |
 | Podmoshe (Reg. 20) | Подмошье | 56,38, 37,4 (1926-1953) | 6,1k | 9,3k | 13,3k | 14,8k | 17,1k |
 | Podolsk (Reg. 20) | Podolsk Moscow; Подольск | 55,43, 37,55 (1926-1953) | 19,8k | 48k | 72,4k | 75k | 100k |
@@ -4293,13 +3874,9 @@ Black-Earth Belt (Region 22)
 | Pogar (Reg. 21) | Погар | 52,55, 33,26 (1926-1953) | 5k | 5,3k | 5,5k | 5,7k | 6,1k |
 | Pogorelovka (Reg. 22) | Погореловка | 51,65, 35,47 (1926-1953) | 9,5k | 10,1k | 10,7k | 11,7k | 13,2k |
 | Pogoreloye Gorodishche (Reg. 21) | Погорелое Городище | 56,14, 34,94 (1926-1953) | 2,3k | 2,2k | 2,2k | 2,1k | 2k |
-| Pogost (Reg. 21) | Погостъ | 58,16, 43,75 (1926-1953) | 5k | 6,4k | 8k | 8,5k | 9,2k |
-| Pogrebishche (Reg. 17) | Погребище | 58,53, 29,1 (1926-1953) | 5k | 6,3k | 7,8k | 7,9k | 8k |
 | Pokrov (Reg. 21) | Покров | 55,92, 39,17 (1926-1953) | 3,2k | 2,8k | 5,1k | 5,5k | 6,3k |
 | Pokrovka (Reg. 20) | Покровка | 56,23, 36,82 (1926-1953) | 102 | 173 | 272 | 304 | 352 |
-| Pokrovka (Reg. 22) | Покровка | 51,3, 42,56 (1926-1953) | 5,6k | 5,1k | 4,7k | 4,4k | 3,9k |
 | Pokrovo-Prigorodnoye (Reg. 22) | Покрово-Пригородное | 52,68, 41,42 (1926-1953) | 2,6k | 2,9k | 3,2k | 3,3k | 3,5k |
-| Pokrovskaya (Reg. 19) | Покровская | 62,27, 45,03 (1926-1953) | 31,8k | 45,2k | 61,1k | 64,8k | 70k |
 | Pokrovskoye (Reg. 22) | Покровское; Pokrovskoje | 52,61, 36,87 (1926-1953) | 1,5k | 1,3k | 1,2k | 1,1k | 1k |
 | Poldnevitsa (Reg. 21) | Полдневица; Poldnevica | 58,61, 46,61 (1926-1953) | 2,6k | 3,3k | 4,1k | 4,4k | 4,7k |
 | Polkovoye (Reg. 22) | Полковая | 52,82, 41,42 (1926-1953) | 2,9k | 3k | 3,1k | 3,1k | 3,3k |
@@ -4320,25 +3897,20 @@ Black-Earth Belt (Region 22)
 | Povarovo (Reg. 20) | Поварово | 56,07, 37,05 (1926-1953) | 1,6k | 2,7k | 4,2k | 4,7k | 5,5k |
 | Povenets (Reg. 16) | Повенец; Povenec | 62,85, 34,83 (1926-1953) | 2,1k | 3,3k | 4,9k | 4,6k | 4,3k |
 | Povorino (Reg. 22) | Поворино | 51,2, 42,25 (1926-1953) | 1,2k | 4k | 10,8k | 12,9k | 16,2k |
-| Pozdnyakovo (Reg. 21) | Поздняково | 56,19, 41,82 (1926-1953) | 5,8k | 7,9k | 10,3k | 11,1k | 12,3k |
 | Pošehon’je (Reg. 21) | Пошехонье; Пертома | 58,5, 39,14 (1926-1953) | 4,3k | 5,5k | 6,9k | 7,1k | 7,5k |
 | Pravdinskiy (Reg. 20) | Правдинский; Pravdinskij | 56,06, 37,86 (1926-1953) | 2,3k | 3,9k | 6,1k | 7,4k | 9,4k |
 | Prechistoye (Reg. 21) | Пречистое; Prečistoje | 58,42, 40,33 (1926-1953) | 616 | 875 | 1,2k | 1,3k | 1,4k |
-| Preobraz-henskoye (Reg. 17) | Преображенское | 58,88, 28,43 (1926-1953) | 11,6k | 17,7k | 25,4k | 27,3k | 30,1k |
 | Pridonskoy (Reg. 22) | Придонской; Pridonskoj | 51,68, 39,07 (1926-1953) | 3,3k | 3,6k | 3,8k | 4,1k | 4,6k |
 | Prigorodnyy (Reg. 22) | Пригородный | 50,36, 41,01 (1926-1953) | 2,2k | 2,3k | 2,5k | 2,7k | 3k |
 | Priladozhskiy (Reg. 17) | Приладожский; Priladožskij | 59,87, 31,32 (1926-1953) | 1,5k | 2,4k | 3,6k | 3,8k | 4,1k |
-| Priluki (Reg. 19) | Прилуки | 63,23, 39,13 (1926-1953) | 34,9k | 49,6k | 67k | 71k | 76,8k |
 | Primorsk (Reg. 16) | Приморск | 60,37, 28,61 (1926-1953) | 921 | 2,3k | 2,3k | 2,7k | 3,3k |
 | Priozersk (Reg. 16) | Приозерск; Корела | 61,04, 30,14 (1926-1953) | 2,7k | 2k | 1k | 500 | 3,3k |
 | Prirechnyy (Reg. 16) | Приречный; Prirečnyj | 69,01, 30,29 (1926-1953) | 464 | 626 | 809 | 935 | 1,1k |
 | Pristen’ (Reg. 22) | Пристень | 51,24, 36,7 (1926-1953) | 2,2k | 2,3k | 2,5k | 2,9k | 3,6k |
 | Priupskiy (Reg. 22) | Приупский; Priupskij | 53,91, 37,74 (1926-1953) | 2,7k | 3,4k | 4,2k | 4,3k | 4,4k |
-| Privalnoe (Reg. 22) | Привальное | 54,5, 38,32 (1926-1953) | 6k | 7,6k | 9,3k | 9,5k | 9,8k |
 | Privodino (Reg. 19) | Приводино | 61,08, 46,5 (1926-1953) | 1,5k | 2,1k | 2,9k | 3,1k | 3,3k |
 | Privole (Reg. 21) | Приволье | 57,6, 39,87 (1939-1939) | \- | \- | 4,2k | \- | \- |
 | Privolzhsk (Reg. 21) | Приволжск; Privolžsk | 57,38, 41,29 (1926-1953) | 6,5k | 8,4k | 14,7k | 15,8k | 17,4k |
-| Progoreloye (Reg. 22) | Роговатое | 49,95, 40,88 (1926-1953) | 8k | 8,2k | 8,4k | 9,2k | 10,3k |
 | Prokhorovka (Reg. 22) | Прохоровка; Prohorovka | 51,04, 36,73 (1926-1953) | 1,6k | 2k | 2,4k | 2,9k | 3,7k |
 | Proletariy (Reg. 17) | Пролетарий; Proletarij | 58,43, 31,7 (1926-1953) | 1,8k | 2,9k | 4,4k | 4,8k | 5,4k |
 | Proletarskiy (Reg. 22) | Пролетарский; Proletarskij | 50,79, 35,77 (1926-1953) | 580 | 1,2k | 2,4k | 2,7k | 3,3k |
@@ -4364,7 +3936,6 @@ Black-Earth Belt (Region 22)
 | Putevka (Reg. 21) | Путевка | 53,26, 34,3 (1926-1953) | 1,5k | 1,9k | 2,3k | 2,4k | 2,5k |
 | Puteyets (Reg. 18) | Путеец; Putejec | 65,17, 57,09 (1926-1953) | 567 | 765 | 988 | 1,3k | 1,8k |
 | Putilkovo (Reg. 20) | Путилково | 55,86, 37,39 (1926-1953) | 5,1k | 8,7k | 13,7k | 15,3k | 17,7k |
-| Putilovo (Reg. 16) | Путилово | 62,29, 37 (1926-1953) | 4,4k | 6,8k | 9,8k | 10,8k | 12,3k |
 | Putyatino (Reg. 22) | Путятино | 54,16, 41,12 (1926-1953) | 3,8k | 3,8k | 3,9k | 3,8k | 3,7k |
 | Pyaozerskiy (Reg. 16) | Пяозерский; Pjaozerskij | 65,77, 31,09 (1926-1953) | 780 | 1,3k | 2k | 2,2k | 2,5k |
 | Pyatnitskoye (Reg. 22) | Пятницкое; Pjatnickoje | 50,42, 37,83 (1926-1953) | 4,1k | 3,3k | 2,8k | 2,9k | 3,1k |
@@ -4373,7 +3944,6 @@ Black-Earth Belt (Region 22)
 | Pytalovo (Reg. 17) | Пыталово | 57,07, 27,92 (1926-1953) | 2,4k | 2,9k | 3,4k | 3,4k | 3,5k |
 | Rabocheo-strovsk (Reg. 16) | Рабочеостровск; Rabočeostrovsk | 64,99, 34,78 (1926-1953) | 1,6k | 2,7k | 4,1k | 4k | 3,7k |
 | Radchenko (Reg. 21) | Радченко; Radčenko | 56,68, 36,37 (1926-1953) | 858 | 1,3k | 1,7k | 1,8k | 2k |
-| Radin (Reg. 21) | Радин | 52,38, 33,12 (1926-1953) | 6,7k | 8,5k | 10,5k | 10,9k | 11,6k |
 | Raditsa-Krylovka (Reg. 21) | Радица-Крыловка; Radica-Krylovka | 53,32, 34,36 (1926-1953) | 2,5k | 2,8k | 3k | 3,3k | 3,6k |
 | Radovitskiy (Reg. 22) | Радовицкий; Radovickij | 55,13, 39,8 (1926-1953) | 901 | 1,5k | 2,4k | 2,7k | 3,1k |
 | Rah’ja (Reg. 17) | Рахья | 60,09, 30,84 (1926-1953) | 969 | 1,6k | 2,4k | 2,5k | 2,7k |
@@ -4389,7 +3959,6 @@ Black-Earth Belt (Region 22)
 | Razumnoye (Reg. 22) | Разумное; Razumnoje | 50,53, 36,68 (1926-1953) | 6k | 4,9k | 4,2k | 4,3k | 4,5k |
 | Razvilka (Reg. 20) | Развилка | 55,59, 37,74 (1926-1953) | 1,7k | 2,8k | 4,4k | 4,9k | 5,7k |
 | Rechitsy (Reg. 20) | Речицы | 55,6, 38,47 (1926-1953) | 1,6k | 1,8k | 1,9k | 2k | 2,1k |
-| Rechki (Reg. 17) | Речки | 58,01, 30,94 (1926-1953) | 16k | 23k | 31,5k | 33,2k | 35,6k |
 | Redkino (Reg. 21) | Редкино | 56,65, 36,3 (1926-1953) | 941 | 1,4k | 1,9k | 3k | 5,4k |
 | Remmash (Reg. 20) | Реммаш | 56,45, 38,09 (1926-1953) | 1,4k | 2,4k | 3,9k | 4,3k | 5k |
 | Repets (Reg. 22) | Репецъ | 51,5, 37,46 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,3k |
@@ -4404,12 +3973,10 @@ Black-Earth Belt (Region 22)
 | Rodina (Reg. 17) | Родина | 57,83, 28,26 (1926-1953) | 1,1k | 1,4k | 1,6k | 1,6k | 1,6k |
 | Rodniki (Reg. 21) | Родники | 57,11, 41,74 (1926-1953) | 15,5k | 20,9k | 27k | 27,7k | 28,6k |
 | Rodniki (Reg. 20) | Родники | 55,65, 38,07 (1926-1953) | 714 | 1,2k | 1,9k | 2,1k | 2,5k |
-| Rodniki (Reg. 21) | Родники | 58,28, 43,88 (1926-1953) | 5,2k | 5,4k | 8,9k | 9,4k | 10,2k |
 | Rogachevka (Reg. 22) | Рогачевка | 51,52, 39,54 (1926-1953) | 3,3k | 3,2k | 3k | 2,9k | 2,7k |
 | Rognedino (Reg. 21) | Рогнедино | 53,8, 33,56 (1926-1953) | 537 | 682 | 837 | 916 | 1k |
 | Romanov-on-Murman (Reg. 16) | Murmansk; Murman Terminus | 68,97, 33,07 (1926-1953) | 8,8k | 62k | 118,9k | 92k | 180k |
 | Romanovka (Reg. 17) | Романовка | 60,04, 30,71 (1926-1953) | 1,7k | 2,7k | 4,1k | 4,3k | 4,6k |
-| Romanovskiy (Reg. 22) | Романовский | 52,2, 41,82 (1926-1953) | 39,4k | 40,2k | 41k | 42,1k | 43,7k |
 | Roshchino (Reg. 17) | Рощино; Roščino | 60,25, 29,61 (1926-1953) | 1,9k | 3,1k | 4,7k | 5k | 5,3k |
 | Roslavl’ (Reg. 21) | Рославль | 53,95, 32,86 (1926-1953) | 26k | 31,2k | 41,5k | 40,2k | 38,6k |
 | Roslyakovo (Reg. 16) | Росляково; Rosljakovo | 69,04, 33,2 (1926-1953) | 1,5k | 2k | 2,5k | 2,9k | 3,6k |
@@ -4417,22 +3984,17 @@ Black-Earth Belt (Region 22)
 | Rossoš’ (Reg. 22) | Россошь | 50,2, 39,57 (1926-1953) | 16,3k | 16,7k | 17,2k | 20,3k | 25,5k |
 | Rostov Veliky (Reg. 21) | Ростов Великий; Rostov Velikij | 57,19, 39,41 (1926-1953) | 20,9k | 25,3k | 29,8k | 29,6k | 29,4k |
 | Roven’ki (Reg. 22) | Ровеньки | 49,92, 38,91 (1926-1953) | 10,1k | 8,2k | 6,9k | 6,3k | 5,5k |
-| Rovnaya (Reg. 21) | Ровная | 56,52, 33,36 (1926-1953) | 9,2k | 13,7k | 19,2k | 20,2k | 21,7k |
 | Rozhdestvenno (Reg. 20) | Рождественно | 56,12, 37,62 (1926-1953) | 8,3k | 12,7k | 18,3k | 20,4k | 23,5k |
 | Rozhdestveno (Reg. 20) | Рождествено | 55,85, 37,05 (1926-1953) | 882 | 990 | 1,1k | 1,2k | 1,4k |
 | Rozhdest-venskaya Khava (Reg. 22) | Рождественская Хава | 51,66, 39,7 (1926-1953) | 6,1k | 5,6k | 5,2k | 4,9k | 4,5k |
 | Rozhdest-venskoye (Reg. 22) | Рождественское | 51,24, 42,18 (1926-1953) | 6,3k | 5,8k | 5,4k | 5,1k | 4,6k |
 | Rozhdest-venskoye (Reg. 22) | Рождественское | 51,44, 36,24 (1926-1953) | 2,2k | 1,9k | 1,7k | 1,5k | 1,3k |
 | Rošal’ (Reg. 20) | Рошаль; Крестов | 55,67, 39,87 (1926-1953) | 5,4k | 10,5k | 18,6k | 19,5k | 20,8k |
-| Rublevka (Reg. 22) | Рублевка | 52,28, 38,77 (1926-1953) | 6,9k | 6,3k | 5,9k | 6,6k | 7,8k |
 | Rubljovo (Reg. 20) | Рублёво | 55,79, 37,35 (1926-1953) | 1,3k | 1,9k | 2,6k | 3,7k | 5,9k |
 | Rudnev (Reg. 22) | Руднев | 53,94, 38,41 (1926-1953) | 2,8k | 3,6k | 4,4k | 4,5k | 4,6k |
 | Rudnya (Reg. 21) | Рудня; Rudnja | 54,95, 31,09 (1926-1953) | 3,6k | 3,7k | 7,3k | 7,6k | 7,9k |
-| Rudnya (Reg. 22) | Рудня | 50,56, 40,95 (1926-1953) | 3,2k | 2,9k | 2,8k | 2,6k | 2,4k |
 | Rudovka (Reg. 22) | Рудовка | 53,1, 42,4 (1926-1953) | 2,8k | 2,6k | 2,5k | 2,3k | 2,2k |
 | Rumyantsevo (Reg. 20) | Румянцево | 55,97, 36,53 (1926-1953) | 3,6k | 6,1k | 9,7k | 8,2k | 6,6k |
-| Rusanova (Reg. 18) | Русановская | 69,6, 63,53 (1926-1953) | 8k | 10,5k | 13,3k | 14,5k | 16,2k |
-| Rusanovka (Reg. 22) | Русановка | 54,46, 41,72 (1926-1953) | 4,5k | 5,1k | 5,8k | 6,2k | 6,7k |
 | Rusanovo (Reg. 18) | Русаново | 62,93, 56,17 (1926-1953) | 2,3k | 2k | 1,7k | 1,5k | 1,3k |
 | Russko-Vysotskoye (Reg. 17) | Русско-Высоцкое | 59,7, 29,94 (1926-1953) | 1,4k | 2,2k | 3,4k | 3,6k | 3,8k |
 | Ruza (Reg. 20) | Руза | 55,7, 36,19 (1926-1953) | 2,8k | 3,8k | 4,6k | 5k | 5,5k |
@@ -4440,7 +4002,6 @@ Black-Earth Belt (Region 22)
 | Ryazan (Reg. 22) | Pereyaslavl-Ryazansky; Ryazan Governorate | 54,63, 39,69 (1926-1953) | 50,9k | 71,4k | 95,4k | 119k | 160k |
 | Ryazanovskiy (Reg. 20) | Рязановский; Rjazanovskij | 55,55, 39,43 (1926-1953) | 1,3k | 2,2k | 3,4k | 3,8k | 4,4k |
 | Ryazhsk (Reg. 22) | Ряжск; Rjažsk | 53,71, 40,08 (1926-1953) | 16,2k | 9,1k | 5,5k | 6k | 6,8k |
-| Rybatskoye (Reg. 19) | Рыбацкое; Rybackoje | 60,66, 38,78 (1926-1953) | 8k | 10,6k | 13,3k | 14,2k | 15,4k |
 | Rybinsk (Reg. 21) | Rybinsk Grain Port; Rybinsk Yaroslavl | 58,05, 38,86 (1926-1953) | 55,5k | 92k | 139k | 136k | 160k |
 | Rybnoye (Reg. 22) | Рыбное; Rybnoje | 54,73, 39,51 (1926-1953) | 2k | 2,5k | 3k | 4,4k | 7,1k |
 | Rykan (Reg. 22) | Рыкань | 51,62, 39,57 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,8k |
@@ -4463,14 +4024,11 @@ Black-Earth Belt (Region 22)
 | Sandovo (Reg. 21) | Сандово | 58,46, 36,42 (1926-1953) | 575 | 844 | 1,2k | 1,4k | 1,6k |
 | Sanskoye (Reg. 22) | Санское | 54,38, 40,77 (1926-1953) | 2,6k | 2,3k | 2k | 1,8k | 1,5k |
 | Sapernyj (Reg. 17) | Саперный | 59,78, 30,66 (1926-1953) | 741 | 1,2k | 1,9k | 1,9k | 2k |
-| Sapkovo (Reg. 22) | Сапково | 54,57, 39,17 (1926-1953) | 9,3k | 10,7k | 12k | 12,8k | 14k |
 | Sapozhok (Reg. 22) | Сапожок; Sapožok | 53,94, 40,68 (1926-1953) | 9k | 5,2k | 3,3k | 3,6k | 4k |
-| Sapronovo (Reg. 20) | Сапроново | 55,22, 38,43 (1926-1953) | 3,2k | 5,4k | 8,5k | 9,5k | 11k |
 | Sarayi (Reg. 22) | Сараи; Sarai | 53,73, 41 (1926-1953) | 5,7k | 6,1k | 6,5k | 6,1k | 5,5k |
 | Sasovo (Reg. 22) | Сасово | 54,35, 41,92 (1926-1953) | 8,3k | 11,7k | 17,1k | 18,1k | 19,6k |
 | Savino (Reg. 21) | Савино | 56,59, 41,21 (1926-1953) | 1,3k | 2,1k | 3,3k | 4,1k | 5,3k |
 | Savinskiy (Reg. 19) | Савинский; Savinskij | 62,93, 40,14 (1926-1953) | 3,9k | 5,6k | 7,5k | 8k | 8,6k |
-| Savvinskaya Sloboda (Reg. 20) | Саввино; Savvino | 55,72, 36,8 (1926-1953) | 1,1k | 1,8k | 2,8k | 3k | 3,3k |
 | Sayda-Guba (Reg. 16) | Сайда-Губа; Sajda-Guba | 69,24, 33,23 (1939-1953) | \- | \- | 7,7k | 4,1k | 1,7k |
 | Sayukino (Reg. 22) | Саюкино | 52,79, 41,97 (1926-1953) | 3,7k | 3,5k | 3,2k | 3k | 2,7k |
 | Sazonovo (Reg. 19) | Сазоново; Белые | 59,09, 35,23 (1926-1953) | 928 | 1,3k | 1,6k | 2,1k | 3,1k |
@@ -4487,12 +4045,9 @@ Black-Earth Belt (Region 22)
 | Semidesy-atnoye (Reg. 22) | Семидесятское | 51,34, 38,73 (1926-1953) | 4,3k | 3,8k | 3,5k | 3,2k | 2,8k |
 | Semiluki (Reg. 22) | Семилуки | 51,73, 39,05 (1926-1953) | 6,4k | 6,9k | 7,3k | 9,7k | 13,9k |
 | Semkhoz (Reg. 20) | Семхоз; Semhoz | 56,28, 38,07 (1926-1953) | 538 | 912 | 1,4k | 1,6k | 1,9k |
-| Sennaya (Reg. 21) | Сенная | 54,86, 33,71 (1926-1953) | 7,9k | 9,5k | 11,3k | 10,9k | 10,5k |
 | Serebryanyye Prudy (Reg. 20) | Серебряные Пруды; Serebrjanyje Prudy | 54,47, 38,73 (1926-1953) | 5k | 5,2k | 5,3k | 4,4k | 3,3k |
-| Sereda (Reg. 20) | Середа | 55,9, 35,5 (1926-1953) | 42,7k | 65,2k | 93,9k | 104,4k | 120,2k |
 | Seredeyskiy (Reg. 21) | Середейский; Seredejskij | 54,05, 35,23 (1926-1953) | 1,5k | 2k | 2,6k | 2,8k | 3k |
 | Sergiyev Posad (Reg. 20) | Сергиев Посад; Sergijev Posad | 56,31, 38,14 (1926-1953) | 21,5k | 27,8k | 44,6k | 52,2k | 64,5k |
-| Sergiyevo (Reg. 21) | Сергиево; Sergijevo | 54,75, 35,52 (1926-1953) | 4k | 7,8k | 13,8k | 12,1k | 10,1k |
 | Sergiyevskoye (Reg. 22) | Сергиевское | 54,11, 37,75 (1926-1953) | 4,8k | 6,1k | 7,5k | 7,6k | 7,9k |
 | Serovo (Reg. 17) | Серово | 60,2, 29,55 (1926-1953) | 120 | 199 | 308 | 313 | 320 |
 | Serpeysk (Reg. 21) | Серпейск; Serpejsk | 54,34, 34,99 (1926-1953) | 1k | 1k | 975 | 950 | 918 |
@@ -4520,28 +4075,21 @@ Black-Earth Belt (Region 22)
 | Shatura (Reg. 20) | Шатура; Šatura | 55,57, 39,53 (1926-1953) | 2,3k | 6,8k | 15,1k | 16,4k | 18,2k |
 | Shaturtorf (Reg. 20) | Шатурторф; Šaturtorf | 55,57, 39,42 (1926-1953) | 2,6k | 4,8k | 8,2k | 7,5k | 6,8k |
 | Shcheglovo (Reg. 17) | Щеглово | 60,03, 30,75 (1926-1953) | 911 | 1,5k | 2,2k | 2,4k | 2,5k |
-| Shcherba-chevka (Reg. 22) | Щербачевка | 51,4, 35,48 (1926-1953) | 6,5k | 7k | 7,3k | 8,1k | 9,1k |
 | Shcherbinka (Reg. 20) | Щербинка; Ščerbinka | 55,5, 37,56 (1926-1953) | 961 | 1,8k | 3,2k | 5,4k | 10,8k |
 | Shchigry (Reg. 22) | Щигры; Ščigry | 51,88, 36,91 (1926-1953) | 7k | 7,7k | 7,6k | 8,6k | 10,1k |
-| Shchuche (Reg. 22) | Щучье | 51,76, 40,49 (1926-1953) | 2,8k | 2,7k | 2,6k | 2,5k | 2,3k |
 | Shchurovo (Reg. 20) | Щурово; Ščurovo | 55,05, 38,83 (1926-1939) | 4,3k | 7,3k | 11,5k | \- | \- |
 | Shchyolkovo (Reg. 20) | Щёлково; Ščjolkovo | 55,92, 37,97 (1926-1953) | 12,3k | 18,9k | 27,2k | 34,8k | 48,5k |
-| Shebekino (Reg. 22) | Shebekino Belgorod; Шебекино | 50,41, 36,89 (1926-1953) | 13,6k | 11,2k | 9,4k | 10,4k | 12k |
 | Shebekino (Reg. 22) | Шебекино; Šebekino | 50,41, 36,93 (1926-1953) | 1,4k | 3,9k | 9,4k | 10,6k | 12,4k |
 | Shekshema (Reg. 21) | Шекшема; Šekšema | 58,34, 45,18 (1926-1953) | 2,1k | 2,6k | 3,3k | 3,5k | 3,7k |
 | Sheksna (Reg. 19) | Шексна; Šeksna | 59,21, 38,51 (1926-1953) | 4,1k | 5,3k | 6,7k | 7,1k | 7,7k |
 | Shemetovo (Reg. 20) | Шеметово | 56,53, 38,08 (1926-1953) | 826 | 1,4k | 2,2k | 2,5k | 2,9k |
 | Shenkursk (Reg. 19) | Шенкурск; Šenkursk | 62,11, 42,9 (1926-1953) | 2,5k | 3,9k | 4,9k | 5k | 5,3k |
 | Shestakovo (Reg. 22) | Шестаково | 50,79, 40,06 (1926-1953) | 5,3k | 4,9k | 4,6k | 4,3k | 4k |
-| Shesternya (Reg. 17) | Шестерня | 58,8, 34,9 (1926-1953) | 8,3k | 12k | 16,4k | 17,2k | 18,5k |
 | Shevchenkovo (Reg. 22) | Голая | 49,85, 39,78 (1926-1953) | 1,6k | 1,4k | 1,3k | 1,2k | 1k |
 | Shilovo (Reg. 22) | Шилово; Šilovo | 54,32, 40,88 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,4k |
 | Shimsk (Reg. 17) | Шимск; Šimsk | 58,21, 30,72 (1926-1953) | 865 | 883 | 899 | 1,1k | 1,3k |
 | Shipitsyno (Reg. 19) | Шипицыно; Šipicyno | 61,28, 46,52 (1926-1953) | 2,4k | 3,4k | 4,7k | 4,9k | 5,3k |
-| Shipy (Reg. 22) | Шипы | 51,13, 36,41 (1926-1953) | 6,8k | 7,3k | 7,7k | 8,4k | 9,5k |
-| Shiryayevo (Reg. 22) | Ширяева | 50,33, 40,95 (1926-1953) | 5,3k | 5k | 4,7k | 4,4k | 4k |
 | Shishkin Les (Reg. 20) | Шишкин Лес | 55,41, 37,19 (1926-1953) | 411 | 785 | 1,4k | 1,6k | 2k |
-| Shmarovka (Reg. 22) | Шмаровка | 52,03, 40,64 (1926-1953) | 7,4k | 7,5k | 7,7k | 7,9k | 8,2k |
 | Shonguy (Reg. 16) | Шонгуй; Šonguj | 68,74, 33,16 (1926-1953) | 670 | 904 | 1,2k | 1,3k | 1,6k |
 | Shudayag (Reg. 18) | Шудаяг; Šudajag | 63,53, 53,61 (1926-1953) | 1,4k | 1,9k | 2,4k | 3,1k | 4,5k |
 | Shuklino (Reg. 22) | Шуклино | 51,96, 35,66 (1926-1953) | 2,1k | 2,2k | 2,4k | 2,6k | 2,9k |
@@ -4563,19 +4111,16 @@ Black-Earth Belt (Region 22)
 | Sknyatinovo (Reg. 21) | Скнятиново | 57,08, 39,34 (1926-1953) | 6,9k | 9,8k | 13,2k | 13,8k | 14,6k |
 | Skopin (Reg. 22) | Скопин | 53,82, 39,55 (1926-1953) | 10,1k | 12,1k | 13,2k | 14,5k | 16,4k |
 | Skorodnoye (Reg. 22) | Скородное | 51,36, 35,62 (1926-1953) | 2,3k | 2k | 1,8k | 1,7k | 1,4k |
-| Skorodnoye (Reg. 22) | Скородное | 53,49, 37,28 (1926-1953) | 7,5k | 9,5k | 11,6k | 11,9k | 12,2k |
 | Skoropus-kovskiy (Reg. 20) | Скоропусковский; Skoropus-kovskij | 56,37, 38,17 (1926-1953) | 1,1k | 1,8k | 2,9k | 3,2k | 3,7k |
 | Skuratovskiy (Reg. 22) | Скуратовский; Skuratovskij | 54,1, 37,6 (1926-1953) | 12,2k | 15,4k | 18,9k | 19,3k | 19,9k |
 | Slantsy (Reg. 17) | Сланцы; Slancy | 59,12, 28,09 (1926-1953) | 2,7k | 5,5k | 7,6k | 12,1k | 22,3k |
 | Slavniy (Reg. 22) | Славный; Slavnyj | 53,55, 36,47 (1926-1953) | 1,2k | 1,6k | 1,9k | 1,9k | 2k |
 | Sloboda (Reg. 22) | Слобода | 51,14, 40,3 (1926-1953) | 3,7k | 3,9k | 4,2k | 4,6k | 5,1k |
-| Sloboda (Reg. 19) | Слободское | 60,37, 36,38 (1926-1953) | 5,5k | 4,8k | 4,3k | 3,8k | 3,2k |
 | Smagleyevka (Reg. 22) | Смаглеевка | 49,8, 39,89 (1926-1953) | 2k | 1,9k | 1,8k | 1,7k | 1,6k |
 | Smerdomskiy (Reg. 19) | Смердомский; Smerdomskij | 59,18, 35,06 (1926-1953) | 979 | 955 | 936 | 916 | 891 |
 | Smolensk (Reg. 21) | Smolensk Dnieper; Smolensk Governorate | 54,78, 32,05 (1926-1953) | 78,5k | 108k | 156,7k | 68k | 120k |
 | Smolevichi (Reg. 21) | Смолевичи | 52,83, 32,21 (1926-1953) | 3,1k | 4,7k | 6,8k | 5,5k | 4,1k |
 | Smolyachkovo (Reg. 17) | Смолячково; Smoljačkovo | 60,18, 29,48 (1926-1953) | 272 | 451 | 695 | 707 | 723 |
-| Smorodino (Reg. 22) | Смородино | 51,9, 34,65 (1926-1953) | 6,1k | 6,5k | 6,9k | 7,5k | 8,5k |
 | Snagost (Reg. 22) | Снагость | 51,32, 34,89 (1926-1953) | 2,5k | 2,2k | 2k | 1,8k | 1,6k |
 | Snegiri (Reg. 20) | Снегири | 55,89, 37,02 (1926-1953) | 1,4k | 2,3k | 3,6k | 4,1k | 4,7k |
 | Snezhnogorsk (Reg. 16) | Снежногорск; Snežnogorsk | 69,19, 33,25 (1926-1953) | 3k | 4,1k | 5,3k | 6,1k | 7,4k |
@@ -4584,10 +4129,9 @@ Black-Earth Belt (Region 22)
 | Soboleva (Reg. 17) | Соболева | 59,72, 30,33 (1926-1953) | 5,4k | 8,3k | 12k | 12,9k | 14,2k |
 | Sofino (Reg. 20) | Софьино | 55,51, 38,18 (1926-1953) | 1,4k | 1,5k | 1,5k | 1,6k | 1,6k |
 | Sofiyevskiy (Reg. 21) | Софиевский | 54,34, 34,86 (1939-1939) | \- | \- | 5,8k | \- | \- |
-| Sofiyskoye (Reg. 20) | Софийское | 56,26, 35,54 (1926-1953) | 6,4k | 9,8k | 14,1k | 15,7k | 18,1k |
 | Sofrino (Reg. 20) | Софрино | 56,15, 37,93 (1926-1953) | 1,7k | 3k | 4,7k | 5,2k | 6k |
-| Sokol (Reg. 19) | Сокол | 59,46, 40,12 (1926-1953) | 5,9k | 13,9k | 29k | 32,4k | 37,4k |
 | Sokol’skoje (Reg. 21) | Сокольское | 57,14, 43,16 (1926-1953) | 2,5k | 3,4k | 4,3k | 4,6k | 4,9k |
+| Sokol (Reg. 19) | Сокол | 59,46, 40,12 (1926-1953) | 5,9k | 13,9k | 29k | 32,4k | 37,4k |
 | Sokolki (Reg. 21) | Санчелеево Верхнее | 52,99, 32,03 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,2k |
 | Sokolovo (Reg. 21) | Соколово | 56,41, 38,92 (1926-1953) | 15,1k | 20,7k | 27,1k | 29,2k | 32,2k |
 | Sokovoye (Reg. 22) | Соковое | 51,28, 37,79 (1926-1953) | 15,9k | 14,6k | 13,5k | 14k | 14,7k |
@@ -4607,16 +4151,12 @@ Black-Earth Belt (Region 22)
 | Sonkovo (Reg. 21) | Сонково | 57,78, 37,16 (1926-1953) | 811 | 1,7k | 3,1k | 3,6k | 4,3k |
 | Sortavala (Reg. 16) | Serdobol; Sordavala | 61,7, 30,69 (1926-1953) | 4,2k | 4,5k | 4,7k | 6,5k | 15,2k |
 | Sortirov-ochnaya (Reg. 22) | Сортировочная; Sortirovočnaja | 54,16, 36,49 (1926-1953) | 594 | 752 | 920 | 940 | 967 |
-| Sos (Reg. 21) | Сосъ | 54,61, 33,55 (1926-1953) | 8,4k | 10,2k | 12,1k | 11,7k | 11,2k |
 | Sosenskiy (Reg. 21) | Сосенский; Sosenskij | 54,06, 35,96 (1926-1953) | 3,3k | 4,5k | 5,8k | 6,1k | 6,6k |
 | Soshki (Reg. 22) | Сошки | 52,36, 39,66 (1926-1953) | 3,3k | 3,1k | 2,9k | 2,7k | 2,5k |
 | Sosnogorsk (Reg. 18) | Сосногорск; Ижма | 63,6, 53,89 (1939-1953) | \- | \- | 6,5k | 8,4k | 12,1k |
-| Sosnovets (Reg. 16) | Сосновец; Sosnovec | 64,43, 34,47 (1926-1953) | 948 | 1,6k | 2,4k | 2,6k | 3k |
-| Sosnovitsy (Reg. 21) | Сосновицы | 57,22, 35,47 (1926-1953) | 6,8k | 10k | 14k | 14,8k | 15,9k |
 | Sosnovka (Reg. 22) | Сосновка | 53,23, 41,37 (1926-1953) | 7,6k | 7,7k | 7,8k | 7,6k | 7,3k |
 | Sosnovo (Reg. 16) | Сосново | 60,55, 30,21 (1926-1953) | 1,7k | 2,8k | 4,3k | 4,5k | 4,8k |
 | Sotnitsyno (Reg. 22) | Сотницыно; Sotnicyno | 54,27, 41,8 (1926-1953) | 1,8k | 2k | 2,3k | 2,5k | 2,7k |
-| Sotsgorodok (Reg. 22) | Соцгородок; Socgorodok | 50,17, 38,12 (1926-1953) | 10,2k | 9k | 7,3k | 5,8k | 4,4k |
 | Sovetsk (Reg. 22) | Советск | 53,94, 37,63 (1926-1953) | 6,1k | 7,7k | 9,4k | 9,6k | 9,9k |
 | Sovetskiy (Reg. 18) | Советский; Sovetskij | 67,48, 64,42 (1926-1953) | 1,7k | 2,3k | 3k | 3,9k | 5,6k |
 | Sovetskiy (Reg. 16) | Советский; Sovetskij | 60,54, 28,68 (1926-1953) | 1,2k | 2k | 3k | 3,2k | 3,4k |
@@ -4625,8 +4165,6 @@ Black-Earth Belt (Region 22)
 | Spassk-Ryazanskiy (Reg. 22) | Спасск-Рязанский; Spassk-Rjazanskij | 54,41, 40,38 (1926-1953) | 6,3k | 6,8k | 7,3k | 7,3k | 7,2k |
 | Spirovo (Reg. 21) | Спирово | 57,42, 34,98 (1926-1953) | 1,6k | 3k | 5,2k | 5,6k | 6k |
 | Sredniy Ikorets (Reg. 22) | Средний Икорец | 51,07, 39,76 (1926-1953) | 4,3k | 4,2k | 4,1k | 4k | 3,9k |
-| Stanishino (Reg. 21) | Станишино | 56,67, 35,19 (1926-1953) | 12,1k | 17,9k | 25k | 26,4k | 28,4k |
-| Stanovaya (Reg. 22) | Становая | 53,13, 36,89 (1926-1953) | 9,6k | 10,1k | 10,4k | 11k | 11,7k |
 | Stanovoye (Reg. 22) | Становое | 52,76, 38,34 (1926-1953) | 2k | 1,9k | 1,9k | 2k | 2,3k |
 | Star’ (Reg. 21) | Старь | 53,62, 34,15 (1926-1953) | 3k | 3,7k | 4,4k | 4,5k | 4,5k |
 | Staraya Kupavna (Reg. 20) | Старая Купавна; Staraja Kupavna | 55,81, 38,18 (1926-1953) | 4,1k | 6,1k | 14,7k | 15,6k | 16,9k |
@@ -4636,15 +4174,12 @@ Black-Earth Belt (Region 22)
 | Staraya Vichuga (Reg. 21) | Старая Вичуга; Staraja Vičuga | 57,27, 41,88 (1926-1953) | 2,2k | 3k | 4k | 4,5k | 5,2k |
 | Starbeyevo (Reg. 20) | Старбеево; Starbejevo | 55,92, 37,48 (1926-1953) | 130 | 221 | 347 | 387 | 449 |
 | Staritsa (Reg. 21) | Старица; Starica | 56,51, 34,93 (1926-1953) | 3,9k | 3,1k | 4,5k | 4,6k | 4,8k |
-| Staritsa (Reg. 22) | Старица | 52,61, 42,81 (1926-1953) | 5k | 5,1k | 5,2k | 5,4k | 5,6k |
-| Starodub (Reg. 21) | Стародуб | 52,59, 32,76 (1926-1953) | 12,5k | 9,5k | 12,6k | 12,3k | 11,9k |
+| Starodub (Reg. 21) | Стародуб; Starodub Regiment Center | 52,59, 32,76 (1926-1953) | 12,5k | 9,5k | 12,6k | 12,3k | 11,9k |
 | Staroklenskoe (Reg. 22) | Старокленское | 53,21, 40,17 (1926-1953) | 2,8k | 2,5k | 2,3k | 2,1k | 1,8k |
-| Staropochepe (Reg. 21) | Старопочепье | 52,99, 33,28 (1926-1953) | 4,9k | 6,2k | 7,6k | 8k | 8,4k |
-| Staroye Selo (Reg. 17) | Старое Село | 57,91, 30,12 (1926-1953) | 5,7k | 7,3k | 9k | 9,1k | 9,3k |
 | Staroyurevo (Reg. 22) | Староюрьево | 53,32, 40,7 (1926-1953) | 3,5k | 3,9k | 4,3k | 4,5k | 4,7k |
 | Starozhilovo (Reg. 22) | Старожилово; Starožilovo | 54,23, 39,91 (1926-1953) | 1,8k | 2,1k | 2,4k | 2k | 1,6k |
 | Stary Oskol (Reg. 22) | OEMK Electrom-etallurgical Boomtown; Старый Оскол | 51,3, 37,84 (1926-1953) | 20,2k | 14,5k | 10,9k | 14,8k | 22k |
-| Staryy Gorodok (Reg. 21) | Старый Городок | 52,17, 32,15 (1926-1953) | 2,5k | 3,2k | 4k | 4,1k | 4,4k |
+| Staryy Gorodok (Reg. 21) | Старый Городок | 52,17, 32,15 (1926-1953) | 2,3k | 2,3k | 2,3k | 2,3k | 2,3k |
 | Stavrovo (Reg. 21) | Ставрово | 56,13, 40,01 (1926-1953) | 1,8k | 2k | 2,3k | 2,5k | 2,9k |
 | Steklyannaya Raditsa (Reg. 21) | Стеклянная Радица; Stekljannaja Radica | 53,37, 34,49 (1926-1953) | 1,3k | 1,3k | 1,3k | 1,3k | 1,3k |
 | Stepantsevo (Reg. 21) | Стёпанцево; Stjopancevo | 56,13, 41,7 (1926-1953) | 1,1k | 1,5k | 1,9k | 2k | 2,3k |
@@ -4652,16 +4187,14 @@ Black-Earth Belt (Region 22)
 | Stodolishche (Reg. 21) | Стодолище; Stodolišče | 54,19, 32,65 (1926-1953) | 535 | 1,2k | 2,2k | 2,4k | 2,5k |
 | Stolbovaya (Reg. 20) | Столбовая; Stolbovaja | 55,25, 37,49 (1926-1953) | 902 | 1,5k | 2,4k | 2,7k | 3,1k |
 | Strel’na (Reg. 17) | Стрельна | 59,85, 30,04 (1926-1953) | 4,9k | 9,4k | 16,5k | 16,6k | 16,7k |
-| Streletskoye (Reg. 22) | Стрелецкое | 50,74, 36,32 (1926-1953) | 4,2k | 3,4k | 2,9k | 3k | 3,2k |
 | Strelitsa (Reg. 22) | Стрелица; Strelica | 51,61, 38,91 (1926-1953) | 3,1k | 3,4k | 3,6k | 3,9k | 4,4k |
 | Stroitel (Reg. 22) | Строитель; Stroitel’ | 50,79, 36,48 (1926-1953) | 4k | 3,2k | 2,7k | 2,8k | 3k |
 | Stroitel (Reg. 22) | Строитель | 52,65, 41,44 (1926-1953) | 9k | 10,1k | 11k | 11,4k | 12k |
 | Stromyn (Reg. 20) | Стромынь | 56,04, 38,48 (1926-1953) | 1,1k | 1,3k | 1,5k | 1,7k | 2k |
 | Strugi-Krasnyye (Reg. 17) | Струги Красные; Strugi Krasnyje | 58,27, 29,11 (1926-1953) | 1,8k | 3,1k | 5,1k | 5k | 4,8k |
 | Strunino (Reg. 21) | Струнино | 56,37, 38,58 (1926-1953) | 8,9k | 11,7k | 15,1k | 16,1k | 17,7k |
-| Strykovo (Reg. 22) | Стрыково | 53,3, 35,49 (1926-1953) | 2,9k | 3k | 3,1k | 3,3k | 3,5k |
+| Strykovo (Reg. 22) | Стрыково | 53,3, 35,49 (1926-1953) | 3,4k | 3,4k | 3,4k | 3,4k | 3,4k |
 | Stupino (Reg. 20) | Ступино; Электровоз | 54,9, 38,07 (1926-1953) | 7,1k | 12,1k | 19k | 24,6k | 34,9k |
-| Suchkino (Reg. 22) | Сучкино | 51,85, 34,42 (1926-1953) | 6,4k | 6,8k | 7,2k | 7,9k | 8,9k |
 | Suda (Reg. 19) | Суда | 59,15, 37,56 (1926-1953) | 2,7k | 3,6k | 4,5k | 4,8k | 5,2k |
 | Sudislavl’ (Reg. 21) | Судиславль | 57,88, 41,71 (1926-1953) | 988 | 1,6k | 2,4k | 2,7k | 3k |
 | Sudogda (Reg. 21) | Судогда | 55,95, 40,87 (1926-1953) | 4,5k | 5,4k | 6,2k | 6,6k | 7,1k |
@@ -4673,14 +4206,13 @@ Black-Earth Belt (Region 22)
 | Sukkozero (Reg. 16) | Суккозеро | 63,17, 32,34 (1926-1953) | 841 | 1,4k | 2,1k | 2,3k | 2,7k |
 | Sukmanovka (Reg. 22) | Сукмановка | 51,79, 41,57 (1926-1953) | 3,9k | 3,4k | 3,1k | 2,8k | 2,4k |
 | Sukreml’ (Reg. 21) | Сукремль | 53,82, 34,4 (1926-1953) | 2,3k | 2,8k | 3,3k | 3,5k | 3,8k |
-| Sulskiy (Reg. 19) | Сульский | 64,8, 48,42 (1926-1953) | 39,5k | 56,1k | 75,7k | 80,3k | 86,8k |
 | Sumskiy Posad (Reg. 16) | Сумский Посад; Sumskij Posad | 64,26, 35,42 (1926-1953) | 1,1k | 1,1k | 1,1k | 1,1k | 1,1k |
 | Suoyarvi (Reg. 16) | Суоярви; Suojarvi | 62,09, 32,37 (1926-1953) | 1,9k | 3,1k | 4,8k | 5,3k | 6,1k |
 | Suponevo (Reg. 21) | Супонево | 53,21, 34,31 (1926-1953) | 3,5k | 3,9k | 4,4k | 4,8k | 5,5k |
 | Surazh (Reg. 21) | Сураж; Suraž | 53,02, 32,39 (1926-1953) | 5,8k | 6,6k | 9k | 8,9k | 8,7k |
 | Susanino (Reg. 21) | Сусанино; Молвитино | 58,15, 41,59 (1926-1953) | 2,3k | 2,6k | 2,9k | 2,8k | 2,8k |
 | Suvorov (Reg. 22) | Суворов; Суворовский | 54,12, 36,5 (1926-1953) | 8,5k | 10,7k | 13,1k | 13,4k | 13,8k |
-| Suzdal’ (Reg. 21) | Суздаль | 56,42, 40,45 (1926-1953) | 6,9k | 6,7k | 6,6k | 7,2k | 8,2k |
+| Suzdal’ (Reg. 21) | Суздаль; Suzdal Opolye | 56,42, 40,45 (1926-1953) | 6,9k | 6,7k | 6,6k | 7,2k | 8,2k |
 | Suzemka (Reg. 21) | Суземка | 52,32, 34,08 (1926-1953) | 2k | 2,7k | 3,5k | 4k | 4,8k |
 | Sven’ (Reg. 21) | Свень | 53,18, 34,55 (1926-1953) | 1,9k | 2,4k | 2,9k | 3,1k | 3,2k |
 | Sverdlovskiy (Reg. 20) | Свердловский; Sverdlovskij | 55,91, 38,15 (1926-1953) | 1,9k | 2,6k | 3,5k | 4k | 4,6k |
@@ -4689,8 +4221,6 @@ Black-Earth Belt (Region 22)
 | Sviritsa (Reg. 17) | Свирица; Svirica | 60,48, 32,89 (1926-1953) | 1,1k | 1,8k | 2,7k | 2,9k | 3,1k |
 | Svyatsk (Reg. 21) | Святск; Svjatsk | 52,67, 31,56 (1926-1953) | 3,3k | 1,6k | 822 | 434 | 185 |
 | Syntul (Reg. 22) | Сынтул | 55, 41,3 (1926-1953) | 2,2k | 2,3k | 2,4k | 2,4k | 2,4k |
-| Synya (Reg. 18) | Сыня; Synja | 65,37, 58,04 (1926-1953) | 467 | 629 | 813 | 1,1k | 1,5k |
-| Syrova (Reg. 21) | Сырова | 55,83, 31,81 (1926-1953) | 6,3k | 9,4k | 13,2k | 13,9k | 14,9k |
 | Syrskoye (Reg. 22) | Сырский; Syrskij | 52,57, 39,53 (1926-1953) | 7,5k | 7,2k | 6,9k | 7,7k | 9,1k |
 | Syčjovka (Reg. 21) | Сычёвка; Сычевка | 55,83, 34,28 (1926-1953) | 7,6k | 7k | 8,4k | 7,9k | 7,2k |
 | Syčjovo (Reg. 20) | Сычёво | 55,06, 38,71 (1926-1953) | 619 | 1k | 1,7k | 1,8k | 2,1k |
@@ -4708,7 +4238,7 @@ Black-Earth Belt (Region 22)
 | Taytsy (Reg. 17) | Тайцы; Tajcy | 59,66, 30,11 (1926-1953) | 704 | 1,1k | 1,7k | 2,5k | 4,3k |
 | Tekstil’ščik (Reg. 20) | Текстильщик | 55,94, 37,84 (1926-1953) | 771 | 1,3k | 2,1k | 2,3k | 2,6k |
 | Tel’mana (Reg. 17) | Тельмана | 59,73, 30,63 (1926-1953) | 1,7k | 2,8k | 4,2k | 4,4k | 4,7k |
-| Telepino (Reg. 21) | Телепино | 58,53, 39,25 (1926-1953) | 4,1k | 5,8k | 7,8k | 8,1k | 8,6k |
+| Telepino (Reg. 21) | Телепино | 58,53, 39,25 (1926-1953) | 3,5k | 3,5k | 3,5k | 3,5k | 3,5k |
 | Tempy (Reg. 20) | Темпы | 56,63, 37,3 (1926-1953) | 482 | 818 | 1,3k | 1,4k | 1,7k |
 | Terbuny (Reg. 22) | Тербуны | 52,15, 38,28 (1926-1953) | 1,6k | 1,5k | 1,5k | 1,7k | 2k |
 | Terekhovo (Reg. 22) | Терехово | 50,97, 40,78 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,2k |
@@ -4720,14 +4250,11 @@ Black-Earth Belt (Region 22)
 | Tikhmenevo (Reg. 21) | Тихменево; Tihmenevo | 57,99, 38,61 (1926-1953) | 1k | 1,5k | 2k | 2,1k | 2,2k |
 | Tikhvin (Reg. 17) | Тихвин; Tihvin | 59,64, 33,53 (1926-1953) | 10,3k | 13,4k | 16,2k | 11,6k | 15,1k |
 | Tim (Reg. 22) | Тим | 51,63, 37,13 (1926-1953) | 2k | 2,1k | 2,2k | 2,2k | 2,2k |
-| Tishkovka (Reg. 21) | Тишковка | 54,31, 31,37 (1926-1953) | 8,8k | 10,6k | 12,6k | 12,2k | 11,7k |
 | Tjoploje (Reg. 22) | Тёплое; Теплое | 53,62, 37,59 (1926-1953) | 1,5k | 1,8k | 2,2k | 2,2k | 2,1k |
-| Tjosovo-Netyl’skij (Reg. 17) | Тёсово-Нетыльский | 58,95, 31,07 (1926-1953) | 3,6k | 5k | 6,7k | 7,1k | 7,6k |
+| Tjosovo-Netyl’skij (Reg. 17) | Тёсово-Нетыльский | 58,95, 31,07 (1926-1953) | 2,6k | 2,6k | 2,6k | 2,6k | 2,6k |
 | Tokaryovka (Reg. 22) | Токарёвка; Tokarjovka | 52, 41,15 (1926-1953) | 1,5k | 2,7k | 4,5k | 5k | 5,8k |
 | Toksovo (Reg. 17) | Токсово | 60,15, 30,52 (1926-1953) | 2,4k | 3,9k | 5,8k | 6,2k | 6,6k |
 | Tolmachevo (Reg. 17) | Толмачёво; Tolmačjovo | 58,86, 29,91 (1926-1953) | 904 | 1,4k | 1,8k | 2,2k | 2,8k |
-| Tolmachi (Reg. 21) | Толмачи | 57,43, 35,69 (1926-1953) | 17,6k | 26k | 36,4k | 38,5k | 41,3k |
-| Tolstoye (Reg. 22) | Толстое | 52,6, 36,67 (1926-1953) | 3,6k | 3,8k | 4k | 4,1k | 4,4k |
 | Tomarovka (Reg. 22) | Томаровка | 50,68, 36,23 (1926-1953) | 7,6k | 6,9k | 6,4k | 6k | 5,4k |
 | Tomilino (Reg. 20) | Томилино | 55,66, 37,95 (1926-1953) | 1,9k | 5,5k | 13,5k | 14,3k | 15,5k |
 | Tonshalovo (Reg. 19) | Тоншалово; Tonšalovo | 59,19, 37,95 (1926-1953) | 1,8k | 2,4k | 3k | 3,2k | 3,5k |
@@ -4735,7 +4262,7 @@ Black-Earth Belt (Region 22)
 | Toropets (Reg. 21) | Торопец; Toropec | 56,5, 31,64 (1926-1953) | 10,7k | 10,6k | 12,9k | 13,6k | 14,4k |
 | Torzhok (Reg. 21) | Торжок; Toržok | 57,04, 34,96 (1926-1953) | 14,4k | 19,5k | 29,3k | 30,9k | 33,1k |
 | Tosno (Reg. 17) | Тосно; Тосна | 59,54, 30,88 (1926-1953) | 4,9k | 7,3k | 10,2k | 4,8k | 9,2k |
-| Tot’ma (Reg. 19) | Тотьма | 59,97, 42,76 (1926-1953) | 5,5k | 6,2k | 6,9k | 7,2k | 7,6k |
+| Tot’ma (Reg. 19) | Тотьма; Totma Saltworks | 59,97, 42,76 (1926-1953) | 5,5k | 6,2k | 6,9k | 7,2k | 7,6k |
 | Tovarkovo (Reg. 21) | Товарково | 54,68, 35,94 (1926-1953) | 1,9k | 2,6k | 3,3k | 3,5k | 3,8k |
 | Tovarkovskiy (Reg. 22) | Товарковский; Tovarkovskij | 53,68, 38,21 (1926-1953) | 11k | 13,9k | 17k | 15,7k | 14,1k |
 | Trakt (Reg. 18) | Тракт | 62,7, 51,29 (1926-1953) | 988 | 1,3k | 1,7k | 2,3k | 3,2k |
@@ -4746,13 +4273,11 @@ Black-Earth Belt (Region 22)
 | Troitsko-Pechorsk (Reg. 18) | Троицко-Печорск; Troicko-Pečorsk | 62,72, 56,17 (1926-1953) | 813 | 1,1k | 1,4k | 1,9k | 2,7k |
 | Troitskoye (Reg. 21) | Троицкое; Troickoje | 55,19, 35,92 (1926-1926) | 2,3k | \- | \- | \- | \- |
 | Troitskoye (Reg. 20) | Троицкое | 56,3, 36,48 (1926-1953) | 868 | 1,5k | 2,3k | 2,6k | 3k |
-| Troitskoye (Reg. 22) | Троицкое | 51,97, 38,41 (1926-1953) | 5,7k | 5k | 4,5k | 4k | 3,4k |
 | Trubchevsk (Reg. 21) | Трубчевск; Trubčevsk | 52,58, 33,77 (1926-1953) | 11,1k | 11,1k | 8,3k | 8,7k | 9,2k |
 | Trud (Reg. 21) | Труд | 57,61, 33,96 (1926-1953) | 480 | 704 | 978 | 1k | 1,1k |
 | Tsaritsyno (Reg. 20) | Ленино; Lenino | 55,63, 37,65 (1926-1953) | 5k | 9,5k | 16,5k | 17,3k | 18,3k |
 | Tsarskoe Selo (Reg. 17) | Pushkin; Detskoe Selo | 59,72, 30,4 (1926-1953) | 24,5k | 38,3k | 56,1k | 52,7k | 48,5k |
 | Tsementn-ozavodskiy (Reg. 18) | Цементнозаводский; Cementno-zavodskij | 67,63, 64,09 (1926-1953) | 359 | 484 | 626 | 819 | 1,2k |
-| Tsentralnyy (Reg. 22) | Центральный | 53,76, 36,42 (1926-1953) | 2,9k | 3,7k | 4,5k | 4,6k | 4,8k |
 | Tuchkovo (Reg. 20) | Тучково; Tučkovo | 55,6, 36,47 (1926-1953) | 1,1k | 1,9k | 3,1k | 3,9k | 5,4k |
 | Tugolesskiy Bor (Reg. 20) | Туголесский Бор; Tugolesskij Bor | 55,55, 39,82 (1926-1953) | 939 | 1,6k | 2,5k | 2,8k | 3,2k |
 | Tugolukovo (Reg. 22) | Туголуково | 51,94, 41,66 (1926-1953) | 3,2k | 2,9k | 2,7k | 2,5k | 2,2k |
@@ -4760,10 +4285,8 @@ Black-Earth Belt (Region 22)
 | Tulinovka (Reg. 22) | Тулиновка | 52,81, 41,57 (1926-1953) | 1,6k | 1,6k | 1,7k | 1,7k | 1,7k |
 | Tuma (Reg. 22) | Тума | 55,15, 40,55 (1926-1953) | 3,3k | 3,8k | 4,2k | 4,9k | 6k |
 | Tumannyy (Reg. 16) | Туманный; Tumannyj | 68,88, 35,69 (1926-1953) | 930 | 1,3k | 1,6k | 1,9k | 2,3k |
-| Turya (Reg. 18) | Турья | 62,82, 50,64 (1926-1953) | 5,8k | 7,7k | 9,7k | 10,6k | 11,8k |
 | Tutayev (Reg. 21) | Тутаев; Tutajev | 57,87, 39,53 (1926-1953) | 11,8k | 15k | 18,5k | 18,1k | 17,6k |
 | Tver (Reg. 21) | Kalinin; Tver Governorate | 56,86, 35,92 (1926-1953) | 108,4k | 152k | 216,1k | 158k | 238k |
-| Tverdilovo (Reg. 21) | Твердилово | 57,04, 38,23 (1926-1953) | 70,1k | 103,8k | 145,4k | 153,5k | 164,9k |
 | Tverdokh-lebovka (Reg. 22) | Твердохлебова | 49,94, 40,35 (1926-1953) | 2,1k | 1,9k | 1,7k | 1,6k | 1,4k |
 | Tyarlevo (Reg. 17) | Тярлево; Tjarlevo | 59,71, 30,45 (1926-1953) | 2,3k | 3,8k | 5,8k | 6,4k | 7,4k |
 | Udel’naja (Reg. 20) | Удельная | 55,64, 38,05 (1926-1953) | 3,5k | 5,5k | 8,1k | 9k | 10,5k |
@@ -4775,10 +4298,8 @@ Black-Earth Belt (Region 22)
 | Ugra (Reg. 21) | Угра | 54,78, 34,33 (1926-1953) | 2,2k | 2,7k | 3,1k | 3k | 2,9k |
 | Ukholovo (Reg. 22) | Ухолово; Uholovo | 53,79, 40,49 (1926-1953) | 3,3k | 3,7k | 4,1k | 4,3k | 4,6k |
 | Ukhta (Reg. 18) | Chibyu; Ukhtpechlag | 63,57, 53,68 (1929-1953) | \- | 5,8k | 14,8k | 21k | 28k |
-| Ukhtoma (Reg. 19) | Ухтома | 60,17, 38,04 (1926-1953) | 6k | 7,8k | 9,8k | 10,5k | 11,5k |
 | Ul’janovka (Reg. 17) | Ульяновка; Саблино | 59,64, 30,76 (1926-1953) | 3,7k | 6,9k | 11,6k | 12,9k | 14,8k |
 | Ulanovskiy (Reg. 22) | Улановский; Ulanovskij | 54,06, 37,85 (1926-1953) | 1,3k | 1,7k | 2,1k | 2,1k | 2,2k |
-| Ulyanino (Reg. 17) | Ульянино | 60,11, 33,26 (1926-1953) | 17,9k | 27,3k | 39,3k | 42,3k | 46,5k |
 | Umba (Reg. 16) | Умба; Лесной | 66,69, 34,34 (1947-1953) | \- | \- | \- | \- | 5,3k |
 | Umjot (Reg. 22) | Умёт; Умет | 52,56, 42,97 (1926-1953) | 770 | 858 | 941 | 822 | 686 |
 | Undol (Reg. 21) | Ундол | 56,02, 39,99 (1926-1926) | 2,3k | \- | \- | \- | \- |
@@ -4790,10 +4311,8 @@ Black-Earth Belt (Region 22)
 | Uritskiy (Reg. 21) | Урицкий; Urickij | 53,28, 34,51 (1926-1939) | 3,6k | 6,3k | 10,1k | \- | \- |
 | Uršel’skij (Reg. 21) | Уршельский; Уршель | 55,68, 40,22 (1926-1953) | 3,2k | 5,2k | 7,8k | 8,3k | 9,1k |
 | Ushcherpe (Reg. 21) | Ущерпье | 52,71, 31,89 (1926-1953) | 3,6k | 3,2k | 2,9k | 2,6k | 2,3k |
-| Ushkovo (Reg. 17) | Ушково; Uškovo | 60,2, 29,63 (1926-1953) | 1,3k | 2,2k | 3,4k | 3,5k | 3,6k |
 | Usman’ (Reg. 22) | Усмань | 52,04, 39,73 (1926-1953) | 13,5k | 13k | 11,4k | 11,5k | 11,7k |
 | Usogorsk (Reg. 18) | Усогорск | 63,41, 48,69 (1926-1953) | 2,8k | 3,7k | 4,8k | 6,3k | 9k |
-| Uspenskoye (Reg. 22) | Успенское | 52,7, 36,81 (1926-1953) | 2,5k | 2,4k | 2,4k | 2,3k | 2,2k |
 | Ust’-Ižora (Reg. 17) | Усть-Ижора | 59,81, 30,58 (1926-1953) | 8,7k | 11,2k | 14k | 3,5k | 9,4k |
 | Ust’-Šonoša (Reg. 19) | Усть-Шоноша | 61,15, 41,34 (1926-1953) | 1,4k | 2k | 2,7k | 2,8k | 3,1k |
 | Ust’je (Reg. 19) | Устье | 59,63, 39,74 (1926-1953) | 2,2k | 3k | 3,9k | 3,7k | 3,5k |
@@ -4802,15 +4321,12 @@ Black-Earth Belt (Region 22)
 | Ust-Tsilma (Reg. 18) | Усть-Цильма; Ust’-Cil’ma | 65,44, 52,15 (1926-1953) | 3,3k | 3,8k | 4,2k | 4,3k | 4,4k |
 | Ustyuzhna (Reg. 19) | Устюжна; Ustjužna | 58,84, 36,43 (1926-1953) | 5,2k | 5,7k | 7,2k | 7,6k | 8,3k |
 | Usvyaty (Reg. 17) | Усвяты; Usvjaty | 55,74, 30,75 (1926-1953) | 2,5k | 2,5k | 2,5k | 2,5k | 2,4k |
-| Utekhovo Vtoroye (Reg. 21) | Утехово | 54,1, 33,04 (1926-1953) | 21,6k | 26,2k | 30,9k | 30k | 28,8k |
-| Utkina (Reg. 21) | Уткина | 57,09, 32,42 (1926-1953) | 5,8k | 8,5k | 11,9k | 12,6k | 13,6k |
 | Utochka (Reg. 22) | Уточка | 51,77, 40,81 (1926-1953) | 1,7k | 1,6k | 1,6k | 1,5k | 1,4k |
 | Uvarovka (Reg. 20) | Уваровка | 55,53, 35,61 (1926-1953) | 889 | 1,6k | 2,7k | 2,9k | 3,2k |
 | Uvarovo (Reg. 22) | Уварово | 51,98, 42,26 (1926-1953) | 11,6k | 11,2k | 10,8k | 9,4k | 7,8k |
 | Uyemskiy (Reg. 19) | Уемский; Ujemskij | 64,47, 40,85 (1926-1953) | 1,7k | 2,4k | 3,2k | 3,4k | 3,7k |
 | Uzlovaya (Reg. 22) | Узловая; Uzlovaja | 53,98, 38,16 (1926-1953) | 3,5k | 7,8k | 17,9k | 25k | 38,8k |
 | Vagonoremont (Reg. 20) | Вагоноремонт | 55,9, 37,55 (1926-1953) | 2,1k | 3,9k | 6,8k | 9k | 13k |
-| Vakhrameyevo (Reg. 21) | Вахрамеево | 58,7, 38,52 (1926-1953) | 7,2k | 10,2k | 13,8k | 14,3k | 15,1k |
 | Valaam (Reg. 16) | Валаам | 61,39, 30,95 (1926-1953) | 1,2k | 1,2k | 1,2k | 1,3k | 1,3k |
 | Valday (Reg. 17) | Валдай; Valdaj | 57,98, 33,25 (1926-1953) | 5,8k | 7,4k | 8,3k | 9k | 9,9k |
 | Valuyki (Reg. 22) | Валуйки; Valujki | 50,2, 38,12 (1926-1953) | 10,2k | 11,4k | 18,7k | 18,5k | 18,3k |
@@ -4818,7 +4334,6 @@ Black-Earth Belt (Region 22)
 | Varvarovka (Reg. 22) | Варваровка | 50,47, 39,36 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,4k |
 | Vasil’jevskij Moh (Reg. 21) | Васильевский Мох | 57,01, 35,92 (1926-1953) | 1,6k | 2,3k | 3,3k | 3,7k | 4,4k |
 | Vasilevka (Reg. 22) | Васильевка | 54,11, 38,29 (1926-1953) | 5,9k | 7,4k | 9,1k | 9,3k | 9,6k |
-| Vasilevskaya (Reg. 19) | Васильевская | 60,22, 41,31 (1926-1953) | 6,1k | 8k | 10k | 10,8k | 11,8k |
 | Vatutinki (Reg. 20) | Ватутинки | 55,5, 37,33 (1926-1953) | 944 | 1,8k | 3,1k | 3,7k | 4,7k |
 | Vaulovo (Reg. 20) | Ваулово | 55,15, 37,3 (1926-1953) | 793 | 1,3k | 2,1k | 2,4k | 2,7k |
 | Vazhiny (Reg. 17) | Важины; Važiny | 60,96, 34,02 (1926-1953) | 1,2k | 2k | 3,1k | 3,2k | 3,5k |
@@ -4828,7 +4343,6 @@ Black-Earth Belt (Region 22)
 | Velikodv-orskiy (Reg. 21) | Великодворский; Velikodv-orskij | 55,25, 40,67 (1926-1953) | 2,4k | 2,8k | 3,1k | 3,2k | 3,3k |
 | Velikooktjabr’skij (Reg. 21) | Великооктябрьский | 57,43, 33,82 (1926-1953) | 1,2k | 1,7k | 2,4k | 2,5k | 2,7k |
 | Velikoye (Reg. 21) | Великое; Velikoje | 57,35, 39,77 (1926-1953) | 4,6k | 4,9k | 5,1k | 4,6k | 4,1k |
-| Velikoye Selo (Reg. 17) | Великое Село | 57,02, 28,8 (1926-1953) | 96,3k | 122,5k | 150,6k | 152,7k | 155,5k |
 | Veliky Ustyug (Reg. 19) | Ustyug Veliky; Sukhona Port | 60,76, 46,3 (1926-1953) | 19,2k | 25,3k | 32,1k | 33,5k | 35,5k |
 | Velizh (Reg. 21) | Велиж; Veliž | 55,6, 31,2 (1926-1953) | 10,5k | 10,3k | 11,4k | 10,2k | 8,9k |
 | Venjov (Reg. 22) | Венёв; Венев | 54,35, 38,26 (1926-1953) | 5,9k | 5,5k | 5,6k | 5,8k | 6k |
@@ -4843,7 +4357,6 @@ Black-Earth Belt (Region 22)
 | Verhovaž’je (Reg. 19) | Верховажье | 60,75, 42,05 (1926-1953) | 918 | 1,2k | 1,6k | 1,8k | 2,1k |
 | Verkhned-neprovskiy (Reg. 21) | Верхнеднепровский; Verhnedn-eprovskij | 54,98, 33,35 (1926-1953) | 2k | 2,4k | 2,8k | 2,7k | 2,6k |
 | Verkhnet-ulomskiy (Reg. 16) | Верхнетуломский; Verhnetu-lomskij | 68,61, 31,8 (1926-1953) | 565 | 762 | 985 | 1,1k | 1,4k |
-| Verkhneye (Reg. 21) | Верхнее | 58,51, 36,9 (1939-1939) | \- | \- | 34,2k | \- | \- |
 | Verkhneye Gutorovo (Reg. 22) | Вышне-Гуторово | 51,6, 36,57 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,4k |
 | Verkhneye Turovo (Reg. 22) | Турово | 51,61, 38,58 (1926-1953) | 7,1k | 6,2k | 5,5k | 4,9k | 4,2k |
 | Verkhniy Landekh (Reg. 21) | Верхний Ландех; Verhnij Landeh | 56,84, 42,6 (1926-1953) | 712 | 828 | 942 | 1,1k | 1,3k |
@@ -4858,7 +4371,6 @@ Black-Earth Belt (Region 22)
 | Vesenniy (Reg. 22) | Весенний | 53,97, 38,49 (1926-1953) | 533 | 674 | 825 | 843 | 869 |
 | Veshnyaki (Reg. 20) | Вешняки; Vešnjaki | 55,72, 37,82 (1926-1939) | 3,4k | 6,1k | 10,1k | \- | \- |
 | Veski (Reg. 21) | Вески | 57,07, 35,46 (1926-1953) | 2,5k | 2,2k | 2k | 1,8k | 1,6k |
-| Vetka (Reg. 17) | Ветка | 58,75, 35,26 (1926-1953) | 1,7k | 2,4k | 3,3k | 3,5k | 3,7k |
 | Vetluzhskiy (Reg. 21) | Ветлужский; Vetlužskij | 58,39, 45,47 (1926-1953) | 2,6k | 3,4k | 4,2k | 5,6k | 8,1k |
 | Veydelevka (Reg. 22) | Вейделевка; Vejdelevka | 50,15, 38,45 (1926-1953) | 3,8k | 3,8k | 3,8k | 3,6k | 3,3k |
 | Vichuga (Reg. 21) | Вичуга; Vičuga | 57,21, 41,93 (1926-1953) | 24,7k | 34,9k | 46,9k | 48,3k | 50,2k |
@@ -4866,13 +4378,10 @@ Black-Earth Belt (Region 22)
 | Viipuri (Reg. 16) | Vyborg; Viborg | 60,71, 28,75 (1926-1953) | 51,5k | 71,5k | 74,4k | 22k | 44k |
 | Villozi (Reg. 17) | Виллози | 59,7, 30,1 (1926-1953) | 897 | 1,5k | 2,2k | 2,3k | 2,5k |
 | Virandozero (Reg. 16) | Вирандозеро | 64,02, 36,01 (1926-1953) | 927 | 1,5k | 2,3k | 2,6k | 2,9k |
-| Viry (Reg. 17) | Виры | 56,65, 28,4 (1926-1953) | 6,8k | 8,7k | 10,7k | 10,8k | 11k |
-| Vishenki (Reg. 21) | Вишенки | 56,46, 40,29 (1926-1953) | 38,7k | 53k | 69,3k | 74,6k | 82,3k |
 | Vishnyak-ovskiye Dachi (Reg. 20) | Вишняковские Дачи; Višnjakovskije Dači | 55,76, 38,13 (1926-1953) | 345 | 585 | 921 | 1k | 1,2k |
 | Vizinga (Reg. 18) | Визинга | 61,07, 50,08 (1926-1953) | 2,9k | 4k | 5,1k | 6,7k | 9,6k |
 | Vjaz’ma (Reg. 21) | Вязьма | 55,21, 34,3 (1926-1953) | 20,8k | 25,6k | 33,8k | 33,2k | 32,4k |
 | Vladimir (Reg. 21) | Vladimir Klyazma; Vladimir Governorate | 56,13, 40,41 (1926-1953) | 39,7k | 51k | 66,8k | 76k | 125k |
-| Vladychino (Reg. 20) | Владычино | 56,09, 35,88 (1926-1953) | 13,8k | 21,1k | 30,3k | 33,7k | 38,8k |
 | Vlasikha (Reg. 20) | Власиха; Vlasiha | 55,68, 37,2 (1926-1953) | 5k | 8,5k | 13,3k | 14,9k | 17,2k |
 | Vnukovichi (Reg. 21) | Родонежское | 53,83, 32,9 (1926-1953) | 18,8k | 22,9k | 27k | 26,2k | 25,1k |
 | Vnukovo (Reg. 20) | Внуково | 55,61, 37,3 (1926-1953) | 1,6k | 3,1k | 5,5k | 6,5k | 8,2k |
@@ -4890,7 +4399,6 @@ Black-Earth Belt (Region 22)
 | Vologda (Reg. 19) | Vologda Governorate; Vologda Rail Junction | 59,22, 39,89 (1926-1953) | 58k | 74k | 95,2k | 98k | 115k |
 | Volokolamsk (Reg. 20) | Волоколамск | 56,03, 35,97 (1926-1953) | 4,4k | 5k | 5,4k | 6,2k | 7,5k |
 | Volokonovka (Reg. 22) | Волоконовка | 50,49, 37,86 (1926-1953) | 6,8k | 6,9k | 7k | 7,3k | 7,7k |
-| Volokonovka (Reg. 22) | Волоконовка | 49,84, 39,39 (1926-1953) | 3,7k | 3,2k | 2,8k | 2,5k | 2,1k |
 | Voloshka (Reg. 19) | Волошка; Vološka | 61,33, 40,09 (1926-1953) | 2,3k | 3,2k | 4,4k | 4,6k | 5k |
 | Volosovo (Reg. 17) | Волосово | 59,45, 29,49 (1926-1953) | 937 | 1,9k | 3,6k | 2,2k | 3,8k |
 | Volotovo (Reg. 22) | Волотово | 52,97, 39,09 (1926-1953) | 2,6k | 2,3k | 2,1k | 1,8k | 1,6k |
@@ -4906,19 +4414,16 @@ Black-Earth Belt (Region 22)
 | Vorontsovka (Reg. 22) | Воронцовка | 50,61, 40,35 (1926-1953) | 7,7k | 7,4k | 7,2k | 7k | 6,7k |
 | Vorotynsk (Reg. 21) | Воротынск | 54,43, 36,05 (1926-1953) | 969 | 820 | 711 | 616 | 509 |
 | Voskhod (Reg. 20) | Восход; Voshod | 55,97, 36,46 (1926-1953) | 338 | 573 | 902 | 1k | 1,2k |
-| Voskresenka (Reg. 22) | Воскресенка | 54,23, 39,46 (1926-1953) | 3,9k | 4,4k | 4,9k | 5,3k | 5,8k |
 | Voskresensk (Reg. 20) | Воскресенск; Истра | 55,31, 38,69 (1926-1953) | 4,3k | 9,1k | 17,2k | 22,9k | 33,6k |
 | Vostochnyy (Reg. 20) | Восточный; Vostočnyj | 55,82, 37,87 (1926-1953) | 1,1k | 2,1k | 3,7k | 4,4k | 5,5k |
 | Vostryakovo (Reg. 20) | Востряково; Vostrjakovo | 55,4, 37,81 (1926-1953) | 2,9k | 4,9k | 7,8k | 8,7k | 10k |
 | Voyskovitsy (Reg. 17) | Войсковицы | 59,53, 29,94 (1926-1953) | 1,1k | 1,9k | 2,8k | 3k | 3,2k |
 | Voyvozh (Reg. 18) | Войвож; Vojvož | 62,89, 54,96 (1926-1953) | 2,5k | 3,3k | 4,3k | 5,6k | 8k |
-| Vozdvizh-enskoye (Reg. 19) | Воздвиженское | 58,8, 39,91 (1926-1953) | 5,8k | 7,6k | 9,6k | 10,3k | 11,2k |
 | Vozhega (Reg. 19) | Вожега; Vožega | 60,47, 40,22 (1926-1953) | 830 | 2,2k | 4,9k | 5,6k | 6,6k |
 | Voznesen’je (Reg. 17) | Вознесенье | 61,01, 35,48 (1926-1953) | 2,9k | 4,6k | 7k | 891 | 1,9k |
 | Vožajol’ (Reg. 18) | Вожаёль | 62,84, 51,33 (1926-1953) | 1k | 1,4k | 1,8k | 2,3k | 3,3k |
 | Vsevolozhsk (Reg. 17) | Всеволожск; Vsevoložsk | 60,02, 30,67 (1926-1953) | 1,3k | 4,3k | 11,8k | 15,3k | 21,5k |
 | Vyartsilya (Reg. 16) | Вяртсиля; Vjartsilja | 62,18, 30,69 (1926-1953) | 1,1k | 1,8k | 2,7k | 3k | 3,4k |
-| Vyatskoye (Reg. 21) | Вятское | 57,87, 40,26 (1926-1953) | 52,2k | 73,8k | 99,4k | 103,6k | 109,5k |
 | Vyazhishchi (Reg. 17) | Вяжищи | 58,62, 31,17 (1926-1953) | 47,4k | 68,4k | 93,6k | 98,6k | 105,7k |
 | Vyazma-Bryanskaya (Reg. 21) | Вязьма-Брянская | 55,16, 34,37 (1926-1953) | 2,4k | 2,9k | 3,5k | 3,3k | 3,2k |
 | Vyazniki (Reg. 21) | Вязники; Vjazniki | 56,24, 42,15 (1926-1953) | 17,1k | 24,5k | 33,5k | 35,2k | 37,5k |
@@ -4933,7 +4438,6 @@ Black-Earth Belt (Region 22)
 | Vysha (Reg. 22) | Выша; Vyša | 53,85, 42,38 (1926-1953) | 2,1k | 2,4k | 2,6k | 2,9k | 3,3k |
 | Vyshkov (Reg. 21) | Вышков; Vyškov | 52,48, 31,69 (1926-1953) | 2,7k | 3,4k | 4,2k | 4,4k | 4,6k |
 | Vysokiy (Reg. 16) | Высокий; Vysokij | 68,14, 33,42 (1926-1953) | 2k | 2,7k | 3,5k | 4k | 4,9k |
-| Vysokovo (Reg. 21) | оково | 57,32, 36 (1926-1953) | 22,7k | 33,6k | 47,1k | 49,7k | 53,5k |
 | Vysokovsk (Reg. 20) | Высоковск; Высоковский | 56,32, 36,55 (1926-1953) | 8,1k | 9,6k | 11,5k | 11,4k | 11,2k |
 | Vysokoye (Reg. 22) | Высокое; Vysokoje | 54,62, 38,33 (1926-1939) | 6,1k | 7,7k | 9,5k | \- | \- |
 | Vysotsk (Reg. 16) | Высоцк; Vysock | 60,63, 28,57 (1926-1953) | 461 | 747 | 1,1k | 1,2k | 1,3k |
@@ -4946,14 +4450,11 @@ Black-Earth Belt (Region 22)
 | Yakovlevskoye (Reg. 20) | Яковлевское | 55,44, 37,95 (1926-1953) | 6,5k | 6,3k | 6,1k | 5,9k | 5,6k |
 | Yakshanga (Reg. 21) | Якшанга; Jakšanga | 58,36, 45,92 (1926-1953) | 2k | 2,6k | 3,2k | 4,2k | 5,9k |
 | Yamnoye (Reg. 22) | Ямное | 51,79, 39,14 (1926-1953) | 1,1k | 1,2k | 1,2k | 1,3k | 1,3k |
-| Yamnoye (Reg. 21) | Ямное | 54,13, 33,79 (1926-1953) | 4,4k | 5,9k | 7,5k | 8k | 8,7k |
-| Yamnyy (Reg. 22) | Ямный | 52,35, 34,96 (1926-1953) | 3,5k | 3,8k | 4k | 4,4k | 4,9k |
+| Yamnyy (Reg. 22) | Ямный | 52,35, 34,96 (1926-1953) | 4,1k | 4,1k | 4,1k | 4,1k | 4,1k |
 | Yarega (Reg. 18) | Ярега; Jarega | 63,44, 53,58 (1926-1953) | 2k | 2,7k | 3,4k | 4,5k | 6,4k |
 | Yarensk (Reg. 19) | Яренск; Jarensk | 62,17, 49,1 (1926-1953) | 949 | 1,5k | 2,2k | 2,3k | 2,5k |
-| Yaroslavets (Reg. 21) | Ярославецъ | 57,15, 36,97 (1926-1953) | 5,8k | 8,6k | 12,1k | 12,8k | 13,7k |
 | Yaroslavka (Reg. 22) | Ярославка | 52,91, 40,87 (1926-1953) | 2,9k | 2,6k | 2,4k | 2,3k | 2,1k |
 | Yaroslavl (Reg. 21) | Yaroslavl Volga; Yaroslavl Governorate | 57,63, 39,88 (1926-1953) | 114,3k | 215k | 298,1k | 285k | 360k |
-| Yartsevo (Reg. 21) | Ярцево; Jarcevo | 55,79, 41,56 (1926-1953) | 1,6k | 2,2k | 2,9k | 3,1k | 3,4k |
 | Yartsevo (Reg. 21) | Ярцево; Jarcevo | 55,06, 32,7 (1926-1953) | 18,7k | 26,9k | 36,7k | 5k | 12,7k |
 | Yasenki (Reg. 22) | Ясенки | 51,5, 38,67 (1926-1953) | 4,3k | 4k | 3,7k | 3,5k | 3,2k |
 | Yasinovo (Reg. 22) | Ясиново | 50,8, 39,4 (1926-1953) | 5,1k | 5,2k | 5,4k | 5,8k | 6,6k |
@@ -4968,26 +4469,20 @@ Black-Earth Belt (Region 22)
 | Yemetsk (Reg. 19) | Емецк; Jemeck | 63,47, 41,78 (1926-1953) | 708 | 907 | 1,1k | 1,1k | 1,2k |
 | Yemtsa (Reg. 19) | Емца; Jemca | 63,07, 40,33 (1926-1953) | 708 | 1,2k | 1,9k | 3k | 5,6k |
 | Yemva (Reg. 18) | Емва; Jemva | 62,59, 50,86 (1926-1953) | 3,2k | 4,3k | 5,6k | 7,3k | 10,5k |
-| Yeremeye-vskaya (Reg. 19) | Еремеевская | 60,62, 36,78 (1926-1953) | 18,7k | 24,5k | 30,7k | 32,9k | 36k |
 | Yerlino (Reg. 22) | Ерлино | 53,91, 39,73 (1926-1953) | 3,9k | 4,4k | 5k | 5,3k | 5,8k |
 | Yermolino (Reg. 21) | Ермолино; Jermolino | 55,19, 36,6 (1926-1953) | 1,8k | 3,6k | 5,8k | 5,8k | 5,7k |
 | Yershovo (Reg. 20) | Ершово | 55,77, 36,86 (1926-1953) | 5,1k | 4,8k | 4,5k | 4,3k | 3,9k |
 | Yertsevo (Reg. 19) | Ерцево; Jercevo | 60,8, 40,09 (1926-1953) | 2,3k | 3,2k | 4,4k | 4,7k | 5k |
-| Yesipovo (Reg. 19) | Есипово | 60,02, 38,02 (1926-1953) | 16,3k | 21,3k | 26,8k | 28,7k | 31,4k |
 | Yukhnov (Reg. 21) | Юхнов; Juhnov | 54,74, 35,23 (1926-1953) | 2k | 2,4k | 3,8k | 3,9k | 4k |
 | Yuma (Reg. 16) | Юма; Juma | 65,08, 33,26 (1926-1953) | 282 | 464 | 710 | 784 | 895 |
 | Yurasovka (Reg. 22) | Юрасовка | 50,49, 39,19 (1926-1953) | 1,6k | 1,5k | 1,4k | 1,3k | 1,2k |
 | Yurovskiy (Reg. 21) | Юровский; Jurovskij | 58,33, 44,78 (1926-1939) | 2,1k | 3,1k | 2,5k | \- | \- |
 | Yushkovo (Reg. 20) | Калининец; Kalininec | 55,56, 36,97 (1926-1953) | 1,9k | 3,3k | 5,2k | 5,8k | 6,7k |
 | Yuzha (Reg. 21) | Южа; Juža | 56,58, 42,01 (1926-1953) | 12,9k | 17k | 21,6k | 22k | 22,6k |
-| Zabore (Reg. 19) | Заборье | 62,74, 42,85 (1926-1953) | 5,5k | 7,8k | 10,5k | 11,2k | 12,1k |
-| Zaborovo (Reg. 22) | Заборово | 53,54, 40,52 (1926-1953) | 25k | 28,6k | 32k | 34,3k | 37,5k |
-| Zabrody (Reg. 22) | Заброды | 50,4, 41,03 (1926-1953) | 4,9k | 5,2k | 5,6k | 6,1k | 6,8k |
+| Zabrody (Reg. 22) | Заброды | 50,4, 41,03 (1926-1953) | 4,5k | 4,5k | 4,5k | 4,5k | 4,5k |
 | Zadon’je (Reg. 22) | Задонье | 54,01, 38,4 (1926-1953) | 8,2k | 10,4k | 12,8k | 10,3k | 7,7k |
 | Zadonsk (Reg. 22) | Задонск; Тешевка | 52,39, 38,93 (1926-1953) | 7,6k | 7k | 6,9k | 7,2k | 7,7k |
 | Zalegošč’ (Reg. 22) | Залегощь | 52,9, 36,89 (1926-1953) | 794 | 830 | 862 | 877 | 898 |
-| Zamlyne (Reg. 21) | Замлыне | 52,52, 32,22 (1926-1953) | 13,8k | 17,6k | 21,6k | 22,5k | 23,9k |
-| Zamoste (Reg. 22) | Замостье | 51,18, 35,3 (1926-1953) | 2,5k | 2,4k | 2,4k | 2,4k | 2,4k |
 | Zamoste (Reg. 17) | Замостье | 59,35, 29,93 (1939-1939) | \- | \- | 4,6k | \- | \- |
 | Zaokskiy (Reg. 22) | Заокский; Zaokskij | 54,73, 37,4 (1926-1953) | 376 | 476 | 583 | 921 | 1,7k |
 | Zaozjorsk (Reg. 16) | Заозёрск; Заозерный | 69,4, 32,45 (1926-1953) | 5,1k | 6,9k | 8,9k | 10,3k | 12,5k |
@@ -5005,7 +4500,6 @@ Black-Earth Belt (Region 22)
 | Zasetskoye (Reg. 22) | Старохоперская | 54, 38,19 (1926-1953) | 3,5k | 4,4k | 5,4k | 5,5k | 5,6k |
 | Zasheyek (Reg. 16) | Зашеек; Zašejek | 67,4, 32,55 (1926-1953) | 2,6k | 3,5k | 4,6k | 4,5k | 4,3k |
 | Zasosna (Reg. 22) | Засосна | 50,63, 38,4 (1926-1953) | 3,1k | 2,6k | 2,2k | 2,2k | 2,4k |
-| Zatvornoye (Reg. 22) | Затворное | 53,76, 39,07 (1926-1953) | 5,2k | 5,9k | 6,7k | 7,1k | 7,8k |
 | Zavety Il’iča (Reg. 20) | Заветы Ильича | 56,04, 37,85 (1926-1953) | 2,4k | 4,1k | 6,5k | 7,2k | 8,4k |
 | Zavolzhsk (Reg. 21) | Заволжск; Zavolžsk | 57,48, 42,14 (1926-1953) | 6,8k | 9,3k | 12,1k | 13k | 14,4k |
 | Zavorone-zhskoye (Reg. 22) | Заворонежское | 52,88, 40,55 (1926-1953) | 3k | 3,3k | 3,6k | 3,8k | 3,9k |
@@ -5019,16 +4513,12 @@ Black-Earth Belt (Region 22)
 | Zelenogr-adskiy (Reg. 20) | Зеленоградский; Zelenogr-adskij | 56,1, 37,92 (1926-1953) | 472 | 800 | 1,3k | 1,4k | 1,6k |
 | Zelenyy (Reg. 20) | Зеленый | 55,81, 38,11 (1926-1953) | 495 | 839 | 1,3k | 1,5k | 1,7k |
 | Zemlyansk (Reg. 22) | Землянск; Zemljansk | 51,9, 38,73 (1926-1953) | 3,6k | 2k | 1,2k | 1,2k | 1,2k |
-| Zemyatchino (Reg. 22) | Земетчино | 52,91, 41,85 (1926-1953) | 4,4k | 4,5k | 4,6k | 4,8k | 4,9k |
-| Zgudovo (Reg. 21) | Згудово | 58,15, 34,21 (1926-1953) | 5k | 7,3k | 10,3k | 10,9k | 11,7k |
-| Zharki (Reg. 21) | Жарки | 57,93, 41,4 (1926-1953) | 4,4k | 5,7k | 7,1k | 7,5k | 8,1k |
 | Zharkovskiy (Reg. 21) | Жарковский; Žarkovskij | 55,85, 32,27 (1926-1953) | 3,1k | 4,5k | 6,3k | 6,6k | 7,1k |
 | Zhavoronki (Reg. 20) | Жаворонки; Žavoronki | 55,65, 37,1 (1926-1953) | 1,7k | 2,8k | 4,4k | 5k | 5,8k |
 | Zhdankovskiy (Reg. 22) | Жданковский; Ždankovskij | 53,75, 38,18 (1926-1953) | 5,1k | 6,4k | 7,9k | 8,1k | 8,3k |
 | Zhelezno-dorozhnyy (Reg. 20) | Железнодорожный; Železnodorožnyj | 55,74, 38,02 (1926-1939) | 982 | 2,9k | 7,4k | \- | \- |
 | Zheleznogorsk (Reg. 22) | Железногорск; Železnogorsk | 52,34, 35,36 (1950-1953) | \- | \- | \- | \- | 942 |
 | Zherdevka (Reg. 22) | Жердевка; Žerdevka | 51,85, 41,45 (1926-1953) | 11,1k | 12,3k | 13,5k | 14k | 14,7k |
-| Zheremino (Reg. 22) | Жеремино | 54,03, 36,32 (1926-1953) | 7,9k | 10k | 12,2k | 12,5k | 12,8k |
 | Zheshart (Reg. 18) | Жешарт; Žešart | 62,07, 49,57 (1926-1953) | 2,6k | 3,5k | 4,5k | 5,9k | 8,4k |
 | Zhigaylovka (Reg. 22) | Жигайловка | 50,72, 37,38 (1926-1953) | 2,2k | 1,9k | 1,7k | 1,6k | 1,4k |
 | Zhilina (Reg. 22) | Жилина | 53, 36,07 (1926-1953) | 1k | 1,1k | 1,1k | 1,2k | 1,3k |
@@ -5047,12 +4537,9 @@ Black-Earth Belt (Region 22)
 | Zolotukhino (Reg. 22) | Золотухино; Zolotuhino | 52,09, 36,38 (1926-1953) | 2,1k | 2,3k | 2,4k | 2,6k | 3k |
 | Zubovo (Reg. 20) | Зубово | 56,38, 36,93 (1926-1953) | 930 | 953 | 973 | 994 | 1k |
 | Zubtsov (Reg. 21) | Зубцов; Zubcov | 56,18, 34,59 (1926-1953) | 3,7k | 4,9k | 4,7k | 4,7k | 4,6k |
-| Zuyevo (Reg. 20) | Зуево | 56,39, 37,1 (1926-1953) | 14,1k | 21,6k | 31,1k | 34,6k | 39,8k |
 | Zvannoye (Reg. 22) | Званное | 51,38, 34,55 (1926-1953) | 3,5k | 3,3k | 3,2k | 3,1k | 2,9k |
 | Zvenigorod (Reg. 20) | Звенигород | 55,73, 36,86 (1926-1953) | 3,1k | 4,2k | 6,3k | 7k | 8k |
-| Zverevo (Reg. 22) | Зверево | 54,4, 39,78 (1926-1953) | 5,5k | 6,2k | 7k | 7,5k | 8,2k |
 | Zvjozdnyj Gorodok (Reg. 20) | Звёздный Городок; Звездный городок | 55,88, 38,11 (1926-1953) | 1,2k | 2k | 3,2k | 3,6k | 4,1k |
-| Zybino (Reg. 22) | Николаевское | 53, 36,47 (1926-1953) | 2,1k | 2,2k | 2,2k | 2,4k | 2,5k |
 | Êlektrostal’ (Reg. 20) | Электросталь; Затишье | 55,79, 38,46 (1926-1953) | 16k | 27,1k | 42,6k | 54,5k | 75,7k |
 | Êrtil’ (Reg. 22) | Эртиль | 51,84, 40,8 (1926-1953) | 5,5k | 6,3k | 7,1k | 7,9k | 9,1k |
 | Čerepet’ (Reg. 22) | Черепеть | 54,12, 36,38 (1926-1953) | 1,4k | 1,8k | 2,2k | 2,3k | 2,5k |
@@ -5076,7 +4563,7 @@ and the Arctic coal camps of Vorkuta and Inta.
 
 ## Regions 23 - 34: Volga-Ural Republics, North Caucasus and the Urals
 
-Table covers 2.465 settlements across the Volga-Vyatka and Middle Volga
+Table covers 2.220 settlements across the Volga-Vyatka and Middle Volga
 republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 (Regions 26 and 28), the Lower Volga and North Caucasus (Regions 27 and
 29-33) and the Ural industrial region and Bashkir ASSR (Region 34)
@@ -5085,7 +4572,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Settlement | Other Names | Coords | 1926 | 1933 | 1939 | 1945 | 1953 |
 |:---|:---|:---|:---|:---|:---|:---|:---|
 | Abadzekhskaya (Reg. 29) | Абадзехская | 44,39, 40,22 (1926-1953) | 1,1k | 1,5k | 2k | 2,2k | 2,4k |
-| Abaimovo (Reg. 23) | Абаимово | 55,35, 45,28 (1926-1953) | 4,9k | 6,6k | 8,5k | 9,4k | 10,7k |
 | Abdulino (Reg. 25) | Абдулино | 53,69, 53,66 (1926-1953) | 13,7k | 18,7k | 24,3k | 25,9k | 28,1k |
 | Abinsk (Reg. 29) | Абинск; Абинская | 44,87, 38,16 (1926-1953) | 13,6k | 14k | 14,4k | 14,5k | 14,6k |
 | Abrau-Dyurso (Reg. 29) | Абрау-Дюрсо; Abrau-Djurso | 44,7, 37,6 (1926-1953) | 1,1k | 1,4k | 1,7k | 2,1k | 2,8k |
@@ -5094,7 +4580,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Achit (Reg. 34) | Ачит; Ačit | 56,8, 57,9 (1926-1953) | 3,6k | 3,6k | 3,6k | 3,8k | 4,1k |
 | Achkhoy-Martan (Reg. 32) | Ачхой-Мартан; Ačhoj-Martan | 43,19, 45,28 (1926-1953) | 5,1k | 5,7k | 6,3k | 6,9k | 7,7k |
 | Achuyevo (Reg. 29) | Ачуево; Ačujevo | 45,71, 37,77 (1926-1953) | 741 | 851 | 959 | 1,1k | 1,2k |
-| Adamov (Reg. 29) | Адамовъ | 48,63, 41,34 (1926-1953) | 7,8k | 11,8k | 16,8k | 18,8k | 21,8k |
 | Adamovka (Reg. 25) | Адамовка | 51,52, 59,94 (1926-1953) | 2,3k | 2,1k | 2k | 2,6k | 3,7k |
 | Adil-Yangiyurt (Reg. 33) | Адиль-Янгиюрт | 43,56, 46,58 (1926-1953) | 1k | 1,3k | 1,5k | 1,6k | 1,8k |
 | Adler (Reg. 29) | Адлер | 43,43, 39,92 (1926-1953) | 2,2k | 4,7k | 8,9k | 11,3k | 15,5k |
@@ -5109,16 +4594,14 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Agidel’ (Reg. 24) | Агидель | 55,91, 53,93 (1926-1953) | 5,8k | 7,8k | 10k | 11k | 12,3k |
 | Agronom (Reg. 29) | Агроном | 45,14, 39,19 (1926-1953) | 1,4k | 1,6k | 1,8k | 1,9k | 2,2k |
 | Agryz (Reg. 24) | Агрыз | 56,52, 52,99 (1926-1953) | 7,3k | 6,9k | 15,4k | 16,7k | 18,7k |
-| Ahmat-Jurt (Reg. 32) | Ахмат-Юрт | 43,22, 46,26 (1926-1953) | 2,9k | 3k | 3,2k | 3,5k | 3,9k |
+| Ahmat-Jurt (Reg. 32) | Ахмат-Юрт | 43,22, 46,26 (1926-1953) | 2,2k | 2,2k | 2,2k | 2,2k | 2,2k |
 | Ajat’ (Reg. 34) | Аять | 57,03, 60,23 (1926-1953) | 1k | 1,5k | 2,1k | 2,5k | 3k |
 | Akbasheva (Reg. 34) | Акбашева | 55,29, 60,85 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,2k | 2k |
 | Akberdino (Reg. 34) | Акбердино | 54,59, 56,18 (1926-1953) | 1,8k | 2,4k | 3k | 3,3k | 3,7k |
-| Akbulak (Reg. 25) | Акбулак | 51, 55,62 (1926-1953) | 6,7k | 8,6k | 10,7k | 11,8k | 13,4k |
 | Akhtarskiy (Reg. 29) | Ахтарский | 46,01, 38,35 (1926-1953) | 1,6k | 1,8k | 2k | 2,2k | 2,5k |
 | Akhtubinsk (Reg. 27) | Ахтубинск; Ahtubinsk | 48,28, 46,17 (1926-1953) | 6,8k | 11,4k | 17,7k | 19k | 20,8k |
 | Akhty (Reg. 33) | Ахты | 41,46, 47,73 (1926-1953) | 3,9k | 4,5k | 5,2k | 5,7k | 6,4k |
 | Akhtyrskiy (Reg. 29) | Ахтырский; Ahtyrskij | 44,85, 38,3 (1926-1953) | 4k | 4,6k | 5,2k | 7,3k | 11,3k |
-| Aki-Yurt (Reg. 32) | Аки-Юрт | 43,53, 44,85 (1926-1953) | 1,6k | 2,2k | 2,8k | 3,1k | 3,5k |
 | Akkermanovka (Reg. 25) | Аккермановка | 51,19, 58,21 (1926-1953) | 1,6k | 2,1k | 2,6k | 2,6k | 2,7k |
 | Aknada (Reg. 33) | Акнада | 42,4, 46,17 (1926-1953) | 754 | 804 | 849 | 957 | 1,1k |
 | Aksakovo (Reg. 34) | Аксаково | 54,03, 54,15 (1926-1953) | 643 | 1,1k | 1,8k | 2,3k | 3,3k |
@@ -5131,26 +4614,20 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Akusha (Reg. 33) | Акуша | 42,28, 47,34 (1926-1953) | 2,5k | 2,8k | 3,2k | 3,3k | 3,4k |
 | Akyar (Reg. 34) | Акъяр | 51,86, 58,22 (1926-1953) | 1,3k | 1,7k | 2,2k | 2,5k | 2,7k |
 | Al’burikent (Reg. 33) | Альбурикент | 42,97, 47,47 (1926-1953) | 1,4k | 1,4k | 1,5k | 1,7k | 2k |
-| Alabuga (Reg. 28) | Алабуга | 45,35, 47,02 (1926-1953) | 12,9k | 17k | 21,4k | 23,4k | 26,2k |
 | Alagir (Reg. 31) | Алагир | 43,04, 44,22 (1926-1953) | 4,2k | 7,6k | 12,6k | 13,4k | 14,4k |
 | Alapayevsk (Reg. 34) | Алапаевск; Alapajevsk | 57,85, 61,69 (1926-1953) | 12,1k | 23k | 25k | 30,3k | 39k |
 | Alatyr’ (Reg. 23) | Алатырь | 54,84, 46,58 (1926-1953) | 22,4k | 24,3k | 29,8k | 32,6k | 36,7k |
-| Aleksandriya (Reg. 30) | Александрия | 45,09, 43,25 (1926-1953) | 6,9k | 6,6k | 6,3k | 6,1k | 5,7k |
 | Aleksand-riyskaya (Reg. 30) | Александрийская | 44,23, 43,35 (1926-1953) | 7,3k | 7k | 6,8k | 7k | 7,4k |
-| Aleksandrov (Reg. 27) | Александров | 51,98, 49,52 (1926-1953) | 15,8k | 16k | 16,1k | 16,6k | 17,3k |
 | Aleksandrov Gay (Reg. 27) | Александров Гай; Aleksandrov Gaj | 50,14, 48,57 (1926-1953) | 8k | 6,5k | 5,5k | 5,2k | 5k |
 | Aleksandrovka (Reg. 25) | Александровка | 52,68, 54,41 (1926-1953) | 1,6k | 1,7k | 1,9k | 2k | 2,2k |
-| Aleksandrovsk (Reg. 34) | Александровск | 59,16, 57,57 (1926-1953) | 3,3k | 5,2k | 7,6k | 10k | 14,4k |
 | Aleksandrovsk-Grushevsky (Reg. 29) | Shakhty; Grushevsky Anthracite | 47,71, 40,21 (1926-1953) | 41,2k | 98k | 155,1k | 115k | 175k |
-| Aleksand-rovskiy (Reg. 23) | Александровский | 56,98, 47,11 (1926-1953) | 4,5k | 6,8k | 9,8k | 11,3k | 13,7k |
-| Aleksand-rovskiy (Reg. 34) | Александровский | 54,13, 59,32 (1926-1953) | 1,5k | 1,3k | 1,1k | 989 | 838 |
+| Aleksandrovsk (Reg. 34) | Александровск | 59,16, 57,57 (1926-1953) | 3,3k | 5,2k | 7,6k | 10k | 14,4k |
 | Aleksand-rovskoye (Reg. 30) | Александровское; Aleksand-rovskoje | 44,71, 43 (1926-1953) | 13,3k | 12,7k | 12,2k | 12,6k | 13,2k |
 | Aleksandrowka (Reg. 29) | Александровка | 46,8, 39 (1926-1953) | 6,4k | 6,3k | 6,1k | 6k | 5,8k |
-| Alekseyevka (Reg. 25) | Алексеевка; Aleksejevka | 52,58, 51,27 (1926-1953) | 8,8k | 5,7k | 4k | 4,6k | 5,7k |
-| Alekseyevka (Reg. 27) | Алексеевка; Aleksejevka | 52,31, 48,03 (1926-1953) | 10,2k | 6,6k | 4,6k | 5,1k | 6k |
+| Alekseyevka (Reg. 25) | Алексеевка; Aleksejevka | 53,25, 50,49 (1926-1953) | 8,8k | 5,7k | 4k | 4,6k | 5,7k |
 | Alekseyevka (Reg. 34) | Алексеевка | 54,85, 55,23 (1926-1953) | 903 | 1k | 1,2k | 1,3k | 1,5k |
+| Alekseyevka (Reg. 27) | Алексеевка; Aleksejevka | 52,31, 48,03 (1926-1953) | 10,2k | 6,6k | 4,6k | 5,1k | 6k |
 | Alekseye-vskaya (Reg. 27) | Алексеевская; Alekseje-vskaja | 50,29, 42,18 (1926-1953) | 2,7k | 2,8k | 2,9k | 2,9k | 2,9k |
-| Alekseyevskiy (Reg. 25) | Алексеевский | 52,75, 54,73 (1926-1953) | 23,8k | 30,5k | 37,8k | 41,6k | 47,3k |
 | Alekseye-vskoye (Reg. 24) | Алексеевское; Alekseje-vskoje | 55,31, 50,12 (1926-1953) | 4,9k | 5,3k | 5,7k | 5,7k | 5,6k |
 | Ali-Berdukovskiy (Reg. 30) | Али-Бердуковский | 43,99, 41,74 (1926-1953) | 1,6k | 2,2k | 2,8k | 3,2k | 3,7k |
 | Ali-Yurt (Reg. 32) | Али-Юрт | 43,14, 44,85 (1926-1953) | 2,8k | 3k | 3,3k | 3,5k | 3,9k |
@@ -5170,18 +4647,15 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Altud (Reg. 31) | Алтуд | 43,72, 43,87 (1926-1953) | 672 | 906 | 1,2k | 1,4k | 1,8k |
 | Altynay (Reg. 34) | Алтынай; Altynaj | 57,07, 61,99 (1926-1953) | 1,3k | 2k | 2,7k | 3,2k | 3,8k |
 | Amzya (Reg. 34) | Амзя; Amzja | 56,23, 54,38 (1926-1953) | 1,9k | 2,6k | 3,4k | 3,7k | 4,1k |
-| Anapa (Reg. 29) | Анапа | 44,89, 37,32 (1926-1953) | 13,4k | 15,4k | 17,3k | 18k | 18,9k |
+| Anapa (Reg. 29) | Анапа; Ottoman Circassian Port | 44,89, 37,32 (1926-1953) | 13,4k | 15,4k | 17,3k | 18k | 18,9k |
 | Anapskaya (Reg. 29) | Анапская | 44,9, 37,39 (1926-1953) | 5k | 5,7k | 6,4k | 7,1k | 8,1k |
 | Anastasi-yevskaya (Reg. 29) | Анастасиевская | 45,22, 37,89 (1926-1953) | 6,4k | 7,3k | 8,3k | 8,5k | 8,8k |
-| Anayevo (Reg. 23) | Анаево | 54,24, 42,57 (1926-1953) | 9,6k | 10,9k | 12,1k | 13,2k | 14,9k |
 | Andi (Reg. 33) | Анди | 42,78, 46,26 (1926-1953) | 2,3k | 2,5k | 2,8k | 2,9k | 3,1k |
-| Andreyev (Reg. 29) | Андреев; Андреевъ | 49,02, 41,35 (1926-1953) | 6,5k | 9,9k | 14,2k | 15,9k | 18,4k |
 | Andzhiyevskiy (Reg. 30) | Анджиевский; Andžijevskij | 44,24, 43,09 (1926-1953) | 1,1k | 1,6k | 2,3k | 2,3k | 2,3k |
 | Ankudinovka (Reg. 23) | Анкудиновка | 56,24, 44,05 (1926-1953) | 2k | 2,7k | 3,5k | 3,8k | 4,4k |
 | Ansalta (Reg. 33) | Ансалта | 42,69, 46,12 (1926-1953) | 1k | 1,1k | 1,2k | 1,3k | 1,6k |
 | Antipovka (Reg. 27) | Антиповка | 52,3, 45,48 (1926-1953) | 6,4k | 6,5k | 6,6k | 6,8k | 7k |
 | Antonovo (Reg. 23) | Антоново | 55,87, 45,81 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,1k |
-| Anyutino (Reg. 23) | Анютино | 54,84, 45,88 (1926-1953) | 22,8k | 25,7k | 28,5k | 31,2k | 35,2k |
 | Anzorey (Reg. 31) | Анзорей | 43,36, 43,94 (1926-1953) | 859 | 1,2k | 1,5k | 1,8k | 2,3k |
 | Apalikha (Reg. 27) | Апалиха | 52,31, 47,72 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Apastovo (Reg. 24) | Апастово | 55,2, 48,51 (1926-1953) | 2k | 2,1k | 2,1k | 2,1k | 2k |
@@ -5198,7 +4672,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Argudan (Reg. 31) | Аргудан | 43,42, 43,91 (1926-1953) | 992 | 1,3k | 1,7k | 2,1k | 2,6k |
 | Argun (Reg. 32) | Аргун | 43,29, 45,87 (1926-1953) | 6,5k | 6,9k | 7,2k | 7,9k | 8,8k |
 | Arkadak (Reg. 27) | Аркадак | 51,94, 43,5 (1926-1953) | 6,3k | 8,4k | 10,8k | 11,9k | 13,5k |
-| Arkhange-lskaya (Reg. 29) | Архангельская | 45,68, 40,28 (1926-1953) | 6,9k | 8k | 9k | 9k | 9k |
+| Arkhange-lskaya (Reg. 29) | Архангельская | 45,68, 40,28 (1926-1953) | 3,1k | 3,1k | 3,1k | 3,1k | 3,1k |
 | Arkhange-lskaya (Reg. 24) | Архангельская | 55,16, 51,26 (1926-1953) | 1,8k | 1,6k | 1,5k | 1,4k | 1,2k |
 | Arkhangelskoe (Reg. 34) | Архангельское | 54,41, 56,78 (1926-1953) | 2,1k | 3,4k | 5,3k | 5,3k | 5,4k |
 | Arkhangelskoe (Reg. 30) | Архангельское | 44,61, 44,09 (1926-1953) | 10,2k | 7,8k | 6,2k | 6,1k | 6k |
@@ -5212,14 +4686,13 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Artemevka (Reg. 25) | Артемьевка | 53,72, 53,51 (1926-1953) | 2,5k | 2,2k | 2k | 1,8k | 1,6k |
 | Arti (Reg. 34) | Арти | 56,42, 58,54 (1926-1953) | 8,7k | 9,3k | 9,8k | 10,7k | 12k |
 | Artjomovskij (Reg. 34) | Артёмовский; Егоршино | 57,35, 61,87 (1926-1953) | 3,7k | 8,6k | 17,9k | 21,8k | 28,5k |
-| Arzamas (Reg. 23) | Арзамас | 55,4, 43,84 (1926-1953) | 19,2k | 22,5k | 25,8k | 29,7k | 36k |
+| Arzamas (Reg. 23) | Арзамас; Mordovian Borderland Town | 55,4, 43,84 (1926-1953) | 19,2k | 22,5k | 25,8k | 29,7k | 36k |
 | Arzgir (Reg. 30) | Арзгир | 45,37, 44,22 (1926-1953) | 22,1k | 15,2k | 11,1k | 11,4k | 11,9k |
 | Asbest (Reg. 34) | Асбест; Куделька | 57,01, 61,46 (1926-1953) | 7,6k | 15,6k | 28,9k | 36k | 48,2k |
 | Asbestovskiy (Reg. 34) | Асбестовский; Asbestovskij | 57,76, 61,4 (1926-1953) | 708 | 1k | 1,5k | 1,7k | 2k |
 | Asekeyevo (Reg. 25) | Асекеево | 53,58, 52,82 (1926-1953) | 2k | 2,5k | 3,1k | 3,5k | 4,1k |
 | Asha (Reg. 34) | Аша; Aša | 55, 57,25 (1926-1953) | 7,7k | 8,8k | 23,6k | 26,9k | 32k |
 | Askarovo (Reg. 34) | Аскарово | 53,33, 58,52 (1926-1953) | 2,4k | 3,2k | 4,1k | 4,5k | 5k |
-| Askarovo (Reg. 25) | Аскарова | 51,56, 57,16 (1926-1953) | 7,8k | 10k | 12,4k | 13,6k | 15,5k |
 | Askino (Reg. 34) | Аскино | 56,09, 56,58 (1926-1953) | 1,8k | 2,6k | 3,2k | 3,5k | 3,8k |
 | Assinovskaya (Reg. 32) | Ассиновская | 43,24, 45,18 (1926-1953) | 5,4k | 5,7k | 6k | 6,3k | 6,8k |
 | Astrakhan (Reg. 27) | Hajitarkhan; Caspian Fishery Port | 46,35, 48,04 (1926-1953) | 184,3k | 225k | 253,6k | 248k | 265k |
@@ -5232,14 +4705,12 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Aushiger (Reg. 31) | Аушигер | 43,39, 43,74 (1926-1953) | 596 | 804 | 1k | 1,2k | 1,6k |
 | Avdon (Reg. 34) | Авдон | 54,67, 55,72 (1926-1953) | 1,7k | 2,2k | 2,9k | 3,2k | 3,5k |
 | Averyanovka (Reg. 33) | Аверьяновка | 43,85, 46,75 (1926-1953) | 538 | 573 | 605 | 682 | 801 |
-| Avramovka (Reg. 29) | Стародуб Новый; Стародубъ Новый | 48,81, 42,46 (1926-1953) | 6,4k | 9,7k | 13,9k | 15,5k | 18k |
 | Avtury (Reg. 32) | Автуры | 43,16, 46 (1926-1953) | 6k | 6,3k | 6,7k | 7,3k | 8,1k |
 | Ayatskoye (Reg. 34) | Аятское | 57,41, 60,69 (1926-1953) | 2,7k | 2,4k | 2,2k | 2k | 1,8k |
 | Aydyrlinskiy (Reg. 25) | Айдырлинский; Ajdyrlinskij | 52,05, 59,77 (1926-1953) | 257 | 391 | 560 | 802 | 1,3k |
 | Ayutinskiy (Reg. 29) | Аютинский; Ajutinskij | 47,78, 40,15 (1926-1953) | 3,5k | 5,2k | 7,5k | 8,3k | 9,5k |
-| Azeyevo (Reg. 24) | Азеево | 55,2, 51,1 (1926-1953) | 6,6k | 9,2k | 12,1k | 12,7k | 13,5k |
 | Aznakayevo (Reg. 24) | Азнакаево; Aznakajevo | 54,86, 53,08 (1926-1953) | 1,5k | 2,1k | 2,7k | 4,2k | 7,6k |
-| Azov (Reg. 29) | Азов | 47,11, 39,41 (1926-1953) | 17,5k | 21k | 25k | 28,8k | 34,7k |
+| Azov (Reg. 29) | Азов; Azaq | 47,11, 39,41 (1926-1953) | 17,5k | 21k | 25k | 28,8k | 34,7k |
 | Azovskaya (Reg. 29) | Азовская | 44,79, 38,63 (1926-1953) | 1,4k | 1,6k | 1,8k | 2k | 2,3k |
 | Azrapino (Reg. 23) | Азрапино | 54,7, 44,56 (1926-1953) | 2,3k | 2k | 1,9k | 1,7k | 1,5k |
 | Babayurt (Reg. 33) | Бабаюрт | 43,6, 46,78 (1926-1953) | 2,6k | 2,7k | 2,9k | 3,3k | 3,8k |
@@ -5250,7 +4721,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Bakaly (Reg. 34) | Бакалы | 55,18, 53,8 (1926-1953) | 2,4k | 2,4k | 2,7k | 3k | 3,6k |
 | Baksan (Reg. 31) | Баксан | 43,68, 43,54 (1926-1953) | 4,1k | 3,9k | 3,8k | 3,7k | 3,6k |
 | Baksanenok (Reg. 31) | Баксаненок | 43,69, 43,65 (1926-1953) | 849 | 1,1k | 1,5k | 1,8k | 2,3k |
-| Balabanovka (Reg. 29) | Балабановка | 49,04, 40,71 (1926-1953) | 6,7k | 10,2k | 14,6k | 16,4k | 19k |
 | Balakhon-ovskoye (Reg. 30) | Балахоновское | 44,78, 41,78 (1926-1953) | 1,7k | 1,6k | 1,6k | 1,7k | 1,9k |
 | Balakovo (Reg. 27) | Saratov Hydro & Balakovo NPP Boomtown; Балаково | 52,03, 47,8 (1926-1953) | 19,1k | 20,7k | 23,2k | 24,3k | 26k |
 | Balasheyka (Reg. 24) | Балашейка; Balašejka | 53,28, 48,09 (1926-1953) | 800 | 1,1k | 1,3k | 1,6k | 2,1k |
@@ -5260,7 +4730,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Baltasi (Reg. 24) | Балтаси | 56,35, 50,21 (1926-1953) | 1,3k | 1,7k | 2,3k | 2,3k | 2,2k |
 | Bammatyurt (Reg. 33) | Бамматюрт | 43,35, 46,61 (1926-1953) | 781 | 841 | 896 | 779 | 966 |
 | Bamut (Reg. 32) | Бамут | 43,16, 45,2 (1926-1953) | 1,7k | 1,8k | 1,9k | 2k | 2,3k |
-| Baraba (Reg. 34) | Бараба | 56,75, 61,77 (1926-1953) | 5,4k | 4,8k | 4,2k | 3,8k | 3,2k |
 | Baranchinskiy (Reg. 34) | Баранчинский; Barančinskij | 58,16, 59,7 (1926-1953) | 5,1k | 6,3k | 7,5k | 8,9k | 11,3k |
 | Baranov (Reg. 27) | Баранов | 49,02, 45,38 (1926-1953) | 2,5k | 2,8k | 3k | 3,1k | 3,3k |
 | Barda (Reg. 34) | Барда | 56,93, 55,59 (1926-1953) | 3k | 3,3k | 3,6k | 3,9k | 4,4k |
@@ -5294,7 +4763,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Belorechensk (Reg. 23) | Белореченск; Belorečensk | 58,77, 52,29 (1926-1953) | 1,2k | 1,9k | 2,7k | 3,1k | 3,8k |
 | Belorechka (Reg. 34) | Белоречка; Belorečka | 57,33, 60,03 (1926-1953) | 1k | 1,5k | 2,1k | 2,2k | 2,5k |
 | Beloretsk (Reg. 34) | Белорецк; Beloreck | 53,96, 58,4 (1926-1953) | 19,9k | 29,2k | 40,6k | 45,5k | 52,9k |
-| Beloyarovka (Reg. 29) | Белояровка | 48,45, 41,81 (1926-1953) | 3k | 4,6k | 6,6k | 7,3k | 8,5k |
 | Beloyarskiy (Reg. 34) | Белоярский; Belojarskij | 56,76, 61,42 (1926-1953) | 684 | 1k | 1,4k | 2,5k | 5,5k |
 | Beloye (Reg. 29) | Белое | 45,05, 39,65 (1926-1953) | 4,5k | 4,4k | 4,2k | 4,1k | 3,9k |
 | Belozere (Reg. 24) | Белозерье | 54,33, 47,19 (1926-1953) | 3k | 2,8k | 2,6k | 2,4k | 2,1k |
@@ -5310,7 +4778,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Bereznyaki (Reg. 27) | Березники | 51,74, 46,7 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,2k |
 | Berezovka (Reg. 23) | Березовка | 56,44, 44,75 (1926-1953) | 1k | 1,1k | 1,1k | 1,2k | 1,2k |
 | Berezovka (Reg. 34) | Березовка | 57,6, 57,32 (1926-1953) | 1,2k | 1,4k | 1,7k | 1,9k | 2,3k |
-| Berezovskoe (Reg. 30) | Березовское | 44,2, 44,65 (1926-1953) | 5,5k | 5,3k | 5,1k | 5,5k | 6k |
 | Berezovyy (Reg. 29) | Березовый | 45,15, 38,99 (1926-1953) | 2,3k | 2,6k | 3k | 3,3k | 3,7k |
 | Berjoza (Reg. 25) | Берёза; Береза | 53,52, 50,14 (1926-1953) | 1,4k | 1,9k | 2,4k | 2,9k | 3,8k |
 | Berkat-Yurt (Reg. 32) | Беркат-Юрт | 43,32, 45,82 (1926-1953) | 655 | 696 | 734 | 799 | 893 |
@@ -5319,20 +4786,19 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Beslan (Reg. 31) | Беслан; Prigorodny District | 43,18, 44,53 (1926-1953) | 1,6k | 3,7k | 7,6k | 10,1k | 14,6k |
 | Besskorbnaya (Reg. 29) | Бесскорбная | 44,64, 41,31 (1926-1953) | 2,1k | 2,4k | 2,7k | 3k | 3,4k |
 | Bessonovka (Reg. 24) | Бессоновка | 53,31, 45,04 (1926-1953) | 11,3k | 10,2k | 8,7k | 8,8k | 9k |
-| Bestuzhevka (Reg. 24) | Бестужевка | 53,72, 47,74 (1926-1953) | 2,9k | 4,1k | 5,4k | 5,7k | 6,3k |
+| Bestuzhevka (Reg. 24) | Бестужевка | 53,72, 47,74 (1926-1953) | 2,9k | 2,9k | 2,9k | 2,9k | 2,9k |
 | Bezenchuk (Reg. 25) | Безенчук; Bezenčuk | 52,98, 49,43 (1926-1953) | 2,5k | 3,2k | 4,1k | 5,4k | 7,9k |
 | Bezopasnoye (Reg. 30) | Безопасное | 45,65, 41,94 (1926-1953) | 12,7k | 8,9k | 6,5k | 6,6k | 6,6k |
 | Bezvodnoye (Reg. 23) | Безводное; Bezvodnoje | 56,83, 44,7 (1926-1953) | 4,2k | 3,7k | 3,3k | 3k | 2,6k |
 | Bilimbay (Reg. 34) | Билимбай; Bilimbaj | 56,97, 59,81 (1926-1953) | 4,4k | 5,5k | 6,6k | 7,4k | 8,5k |
 | Bilty (Reg. 32) | Бильты | 43,07, 46,36 (1926-1953) | 3,8k | 3,3k | 3k | 2,7k | 2,3k |
-| Birsk (Reg. 34) | Бирск | 55,42, 55,54 (1926-1953) | 12k | 15,8k | 18,8k | 20,1k | 22,7k |
+| Birsk (Reg. 34) | Бирск; Birsky Ostrog | 55,42, 55,54 (1926-1953) | 12k | 15,8k | 18,8k | 20,1k | 22,7k |
 | Biser (Reg. 34) | Бисер | 58,51, 58,88 (1926-1953) | 1k | 2,3k | 4,6k | 4k | 3,3k |
 | Bisert’ (Reg. 34) | Бисерть; Бисертский завод | 56,86, 59,05 (1926-1953) | 8,1k | 7,6k | 7,1k | 8,3k | 10k |
 | Bizhbulyak (Reg. 34) | Бижбуляк | 53,7, 54,26 (1926-1953) | 2,3k | 2,7k | 2,7k | 2,9k | 3,1k |
 | Blagodarnyy (Reg. 30) | Благодарный; Blagodarnyj | 45,1, 43,44 (1926-1953) | 12,2k | 14,2k | 16,1k | 15,7k | 15,2k |
 | Blagodatnoye (Reg. 30) | Благодатное | 45,4, 42,59 (1926-1953) | 4,1k | 3,2k | 2,6k | 2,8k | 3k |
 | Blagovesh-chensk (Reg. 34) | Благовещенск; Blagoveščensk | 55,04, 55,98 (1926-1953) | 6,9k | 8,8k | 11,7k | 12k | 12,5k |
-| Blagovesh-chenskiy (Reg. 34) | Благовещенский | 53,15, 56,15 (1926-1953) | 10,5k | 14,2k | 18,3k | 19,9k | 22,2k |
 | Blizhne-Pesochnoye (Reg. 23) | Ближне-Песочное; Bližne-Pesočnoje | 55,35, 42,1 (1926-1953) | 3,3k | 3,6k | 3,8k | 4,1k | 4,4k |
 | Bobrovka (Reg. 25) | Бобровка | 53,15, 50,65 (1926-1953) | 3,1k | 2,9k | 2,7k | 2,6k | 2,3k |
 | Bobrovskiy (Reg. 34) | Бобровский; Bobrovskij | 56,67, 60,98 (1926-1953) | 1,8k | 2,6k | 3,7k | 4,2k | 5,1k |
@@ -5342,15 +4808,9 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Bogatyye Saby (Reg. 24) | Богатые Сабы; Bogatyje Saby | 56,01, 50,45 (1926-1953) | 1,7k | 2,4k | 3,1k | 3,1k | 3k |
 | Bogdanovich (Reg. 34) | Богданович; Bogdanovič | 56,78, 62,05 (1926-1953) | 579 | 2,4k | 8,1k | 10,5k | 14,8k |
 | Bogdashkino (Reg. 24) | Богдашкино | 54,61, 47,67 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
-| Bogodukhovka (Reg. 25) | Богодуховка | 54,03, 50,73 (1926-1953) | 5,8k | 7,6k | 9,6k | 11,7k | 15,1k |
 | Bogorodsk (Reg. 23) | Богородск | 56,1, 43,51 (1926-1953) | 14,9k | 17,2k | 21,4k | 23,7k | 27,1k |
-| Bogorodskiy (Reg. 27) | Богородский | 52,3, 48,95 (1926-1953) | 11k | 11,1k | 11,2k | 11,6k | 12,1k |
 | Bogorodskoye (Reg. 23) | Богородское; Bogorodskoje | 57,83, 50,75 (1926-1953) | 1,4k | 1,5k | 1,7k | 1,8k | 2k |
-| Bogorodskoye (Reg. 23) | Богородское | 57,36, 45,01 (1926-1953) | 12,2k | 16,4k | 21,1k | 23,4k | 26,7k |
-| Bogorodskoye (Reg. 25) | Богородское | 53,63, 51,17 (1926-1953) | 13,3k | 17,5k | 22,1k | 26,8k | 34,7k |
-| Bogorodskoye (Reg. 25) | Богородск | 52,73, 55,05 (1926-1953) | 12,9k | 16,6k | 20,5k | 22,6k | 25,7k |
 | Bogoslovka (Reg. 24) | Богословка | 53,21, 44,8 (1926-1953) | 2,5k | 2,5k | 2,5k | 2,8k | 3,1k |
-| Bogoyavlensk (Reg. 34) | Богоявленск; Богоявленскъ | 58,38, 55,26 (1926-1953) | 8,1k | 12k | 16,8k | 19,2k | 23k |
 | Bokovskaya (Reg. 29) | Боковская | 49,23, 41,83 (1926-1953) | 5,7k | 8,6k | 12,3k | 11,3k | 10,1k |
 | Bol’šaja Jelhovka (Reg. 23) | Большая Елховка | 54,28, 45,32 (1926-1953) | 1,4k | 1,5k | 1,7k | 1,9k | 2,1k |
 | Bol’šaja Martynovka (Reg. 29) | Большая Мартыновка | 47,27, 41,67 (1926-1953) | 871 | 1,3k | 1,9k | 2,1k | 2,4k |
@@ -5362,7 +4822,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Bolkhuny (Reg. 27) | Болхунское | 47,99, 46,42 (1926-1953) | 6,7k | 6,1k | 5,6k | 5,1k | 4,6k |
 | Bolshaya Aleksandrovka (Reg. 23) | Большая Александровка | 55,85, 45,83 (1939-1939) | \- | \- | 6,3k | \- | \- |
 | Bolshaya Chernigovka (Reg. 25) | Большая Черниговка | 52,09, 50,87 (1926-1953) | 1,6k | 2,2k | 2,7k | 3,3k | 4,3k |
-| Bolshaya Glushitsa (Reg. 25) | Большая Глушица | 52,39, 50,47 (1926-1953) | 2,6k | 3,5k | 4,4k | 5,3k | 6,9k |
 | Bolshaya Orlovka (Reg. 29) | Большая Орловка | 47,33, 41,27 (1926-1953) | 1k | 1,5k | 2,2k | 2,4k | 2,8k |
 | Bolshaya Sosnova (Reg. 34) | Большая Соснова | 57,67, 54,6 (1926-1953) | 1,8k | 2,8k | 4,2k | 4,8k | 5,7k |
 | Bolsheus-tikinskoe (Reg. 34) | Большеустьикинское | 55,94, 58,26 (1926-1953) | 1,5k | 2k | 2,6k | 2,8k | 3,2k |
@@ -5376,21 +4835,17 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Bolshoy Tsaryn (Reg. 28) | Большой Царын | 47,85, 45,43 (1926-1953) | 1,2k | 1,6k | 2,1k | 2,2k | 2,3k |
 | Bor (Reg. 23) | Бор | 56,36, 44,07 (1926-1953) | 8,1k | 14,9k | 25,1k | 29,5k | 36,5k |
 | Borgusta-nskaya (Reg. 30) | Боргустанская | 44,05, 42,53 (1926-1953) | 8,5k | 7,9k | 7,5k | 7,1k | 6,6k |
-| Borisov (Reg. 29) | Борисов | 48,31, 41,93 (1926-1953) | 34,1k | 41,5k | 49,1k | 54,9k | 63,6k |
 | Borisovka (Reg. 29) | Борисовка | 44,76, 37,7 (1926-1953) | 820 | 942 | 1,1k | 1,2k | 1,3k |
 | Borisovka (Reg. 24) | Борисовка | 54,32, 49,38 (1926-1953) | 21,1k | 29,2k | 38,6k | 41,2k | 45k |
 | Borodayevka (Reg. 26) | Боаро | 51,68, 46,87 (1926-1953) | 2,8k | 2,5k | 2,3k | 2,1k | 1,9k |
-| Borovitsa (Reg. 23) | Боровица | 56,7, 44,12 (1926-1953) | 11,1k | 15k | 19,3k | 21,3k | 24,4k |
 | Borovoy (Reg. 23) | Боровой; Borovoj | 59,96, 51,69 (1926-1953) | 852 | 1,3k | 1,9k | 2,2k | 2,7k |
 | Borovsk (Reg. 34) | Боровск | 59,7, 56,69 (1926-1939) | 1,9k | 3k | 4,3k | \- | \- |
 | Borskoye (Reg. 25) | Борское | 53,03, 51,7 (1926-1953) | 7,5k | 7,7k | 7,8k | 7,9k | 8,1k |
 | Borzoy (Reg. 32) | Борзой | 42,84, 45,63 (1926-1953) | 1,4k | 1,5k | 1,5k | 1,7k | 1,9k |
 | Botashyurt (Reg. 33) | Баташюрт | 43,31, 46,51 (1926-1953) | 701 | 747 | 789 | 890 | 1k |
 | Botayurt (Reg. 33) | Батаюрт | 43,32, 46,68 (1926-1953) | 1,4k | 1,5k | 1,5k | 1,7k | 1,9k |
-| Botlikh (Reg. 33) | Ботлих | 42,67, 46,22 (1926-1953) | 1,3k | 1,6k | 1,9k | 2,3k | 2,8k |
 | Bredy (Reg. 34) | Бреды | 52,42, 60,34 (1926-1953) | 4,3k | 6,3k | 8,8k | 10,1k | 12,3k |
 | Brinkovskaya (Reg. 29) | Бриньковская | 46,03, 38,59 (1926-1953) | 1,7k | 2k | 2,2k | 2,5k | 2,8k |
-| Bryanskiy (Reg. 25) | Брянский | 52,07, 52,18 (1939-1939) | \- | \- | 37k | \- | \- |
 | Bryukhov-etskaya (Reg. 29) | Брюховецкая | 45,8, 39 (1926-1953) | 31,6k | 36,3k | 40,9k | 38,5k | 35,6k |
 | Budennovka (Reg. 24) | Буденновка | 52,62, 45,64 (1939-1939) | \- | \- | 5,8k | \- | \- |
 | Budyonnovsk (Reg. 30) | Будённовск; Budjonnovsk | 44,78, 44,17 (1926-1953) | 15,8k | 19,4k | 23,1k | 24,5k | 26,4k |
@@ -5400,24 +4855,19 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Buinsk (Reg. 23) | Буинск | 55,2, 47,06 (1926-1953) | 3,1k | 2,9k | 2,7k | 3,2k | 4k |
 | Bukharino (Reg. 34) | Бухарино | 55,29, 61,13 (1926-1926) | 5,2k | \- | \- | \- | \- |
 | Bulanash (Reg. 34) | Буланаш; Bulanaš | 57,28, 62 (1926-1953) | 4,1k | 6,1k | 8,5k | 9,8k | 11,9k |
-| Bulanovka (Reg. 34) | Булановка | 54,07, 54,43 (1926-1953) | 8,5k | 11,4k | 14,8k | 16k | 17,9k |
 | Bulgakovo (Reg. 34) | Булгаково | 54,5, 55,88 (1926-1953) | 937 | 1,3k | 1,6k | 1,8k | 2k |
 | Burayevo (Reg. 34) | Бураево | 55,84, 55,41 (1926-1953) | 1,6k | 2,5k | 4k | 4,3k | 4,8k |
 | Buribay (Reg. 34) | Бурибай; Buribaj | 51,96, 58,16 (1926-1953) | 2,2k | 3k | 3,9k | 4,1k | 4,4k |
-| Buron (Reg. 31) | Бурон | 42,79, 44 (1926-1953) | 829 | 1,1k | 1,4k | 1,5k | 1,6k |
 | Burtunay (Reg. 33) | Буртунай | 42,99, 46,63 (1926-1953) | 2,2k | 2k | 1,8k | 2k | 2,2k |
 | Buturlino (Reg. 23) | Бутурлино | 55,57, 44,9 (1926-1953) | 1,1k | 1,5k | 2k | 2,1k | 2,2k |
-| Buturlino (Reg. 24) | Я гановка | 53,9, 45,07 (1926-1953) | 5,1k | 5k | 4,9k | 5,4k | 6,2k |
-| Butyrskiy (Reg. 24) | Бутырский | 53,03, 47,92 (1926-1953) | 18,1k | 25k | 33k | 35,3k | 38,6k |
-| Buzayevo (Reg. 23) | Бузаево | 54,33, 46,16 (1926-1953) | 6,4k | 7,2k | 8k | 8,8k | 9,9k |
 | Buzdyak (Reg. 34) | Буздяк | 54,57, 54,53 (1926-1953) | 1k | 884 | 2,4k | 2,7k | 3,2k |
 | Buzuluk (Reg. 25) | Бузулук | 52,78, 52,26 (1926-1953) | 24,6k | 31,9k | 42,4k | 45,8k | 50,8k |
 | Bykovo (Reg. 26) | Быково | 49,77, 45,39 (1926-1953) | 7,5k | 6,7k | 6,1k | 5,7k | 5,2k |
 | Bylym (Reg. 31) | Былым; Угольный | 43,46, 43,04 (1926-1953) | 958 | 1,3k | 1,7k | 2k | 2,5k |
 | Bym (Reg. 34) | Бымовский | 57,43, 56,33 (1926-1953) | 1,9k | 1,7k | 1,6k | 1,4k | 1,2k |
 | Bystrogorskiy (Reg. 29) | Быстрогорский; Bystrogorskij | 48,21, 41,14 (1926-1953) | 869 | 1,3k | 1,9k | 2,1k | 2,4k |
-| Central’nyj (Reg. 23) | Центральный | 56,3, 42,79 (1926-1953) | 603 | 810 | 1k | 1,2k | 1,3k |
 | Central’nyj-Kospašskij (Reg. 34) | Центральный-Коспашский | 59,04, 57,77 (1926-1953) | 6,4k | 9,9k | 14,6k | 16,7k | 20k |
+| Central’nyj (Reg. 23) | Центральный | 56,3, 42,79 (1926-1953) | 603 | 810 | 1k | 1,2k | 1,3k |
 | Chaadayevka (Reg. 24) | Чаадаевка; Čaadajevka | 53,14, 45,91 (1926-1953) | 1,4k | 2,6k | 4,2k | 5,4k | 7,6k |
 | Chaltyr (Reg. 29) | Чалтырь | 47,28, 39,48 (1926-1953) | 6,9k | 7,4k | 7,9k | 8,4k | 9,1k |
 | Chamlykskaya (Reg. 29) | Чамлыкская | 44,72, 40,88 (1926-1953) | 1,3k | 1,5k | 1,7k | 1,9k | 2,2k |
@@ -5430,12 +4880,11 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Chebenki (Reg. 25) | Чебеньки | 51,94, 55,7 (1926-1953) | 1,3k | 1,7k | 2,1k | 2,3k | 2,7k |
 | Cheboksary (Reg. 23) | Shupashkar; Chuvash Capital | 56,14, 47,25 (1926-1953) | 8,8k | 18,5k | 31k | 46k | 75k |
 | Chechen-Aul (Reg. 32) | Чечен-Аул | 43,2, 45,79 (1926-1953) | 3k | 3,2k | 3,4k | 3,7k | 4k |
-| Chegem (Reg. 31) | Чегем; Čegem | 43,57, 43,59 (1926-1953) | 1,6k | 2,1k | 2,7k | 3,3k | 4,2k |
 | Chegem Vtoroy (Reg. 31) | Чегем Второй | 43,6, 43,6 (1926-1953) | 1,3k | 1,8k | 2,3k | 2,8k | 3,5k |
+| Chegem (Reg. 31) | Чегем; Čegem | 43,57, 43,59 (1926-1953) | 1,6k | 2,1k | 2,7k | 3,3k | 4,2k |
 | Chekalino (Reg. 25) | Чекалино | 53,87, 50,92 (1926-1953) | 2,1k | 1,9k | 1,7k | 1,5k | 1,3k |
 | Chekmagush (Reg. 34) | Чекмагуш | 55,14, 54,64 (1926-1953) | 2,2k | 3,5k | 4k | 4,4k | 5k |
 | Chelbasskaya (Reg. 29) | Челбасская | 45,98, 39,37 (1926-1953) | 6k | 6,9k | 7,7k | 7,7k | 7,6k |
-| Chelmode-yevskiy Maydan (Reg. 23) | Челмодеевский Майданъ | 53,89, 44,22 (1926-1953) | 12,4k | 14k | 15,5k | 17k | 19,1k |
 | Chelno-Vershiny (Reg. 25) | Челно-Вершины | 54,41, 51,09 (1926-1953) | 1,6k | 2,1k | 2,6k | 3,2k | 4,1k |
 | Chelyabinsk (Reg. 34) | Chelyaba; Trans-Siberian Migration Depot | 55,16, 61,44 (1926-1953) | 59,3k | 210k | 273,1k | 450k | 590k |
 | Chemodanovka (Reg. 24) | Чемодановка | 53,23, 45,25 (1926-1953) | 3,1k | 3k | 3,1k | 3,3k | 3,5k |
@@ -5448,7 +4897,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Chermen (Reg. 31) | Чермен | 43,15, 44,71 (1926-1953) | 6,3k | 6,9k | 7,4k | 7,5k | 7,6k |
 | Chermoz (Reg. 34) | Чёрмоз; Čjormoz | 58,78, 56,16 (1926-1953) | 8,3k | 10k | 11,8k | 11,7k | 11,7k |
 | Chernoe Ozero (Reg. 23) | Черное Озеро | 56,36, 47,41 (1926-1953) | 2,3k | 1,8k | 1,5k | 1,2k | 973 |
-| Chernogay (Reg. 24) | Черногай | 53,04, 42,98 (1926-1953) | 7k | 6,9k | 6,8k | 7,5k | 8,5k |
 | Chernois-tochinsk (Reg. 34) | Черноисточинск; Černoistočinsk | 57,74, 59,87 (1926-1953) | 7,5k | 7,7k | 7,9k | 7,7k | 7,4k |
 | Chernole-sskoye (Reg. 30) | Чернолесское | 44,72, 43,71 (1926-1953) | 10,6k | 7,8k | 6k | 5,9k | 5,8k |
 | Chernomorskiy (Reg. 29) | Черноморский; Černomorskij | 44,85, 38,49 (1926-1953) | 5,6k | 6,4k | 7,2k | 8k | 9,1k |
@@ -5457,7 +4905,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Chernovskiy (Reg. 27) | Черновский | 48,3, 42,89 (1926-1953) | 4,1k | 4,6k | 5k | 5,1k | 5,4k |
 | Chernushka (Reg. 34) | Чернушка; Černuška | 56,51, 56,08 (1926-1953) | 2,6k | 4k | 5,9k | 7,3k | 9,7k |
 | Cherny Yar (Reg. 27) | Chyorny Yar; Cherny Yar Volga | 48,06, 46,11 (1926-1953) | 3,4k | 3,5k | 3,6k | 3,8k | 3,9k |
-| Chernyayevka (Reg. 24) | Черняевка | 53,74, 45,68 (1926-1953) | 7,7k | 7,6k | 7,5k | 8,2k | 9,3k |
 | Chernysh-kovskiy (Reg. 27) | Чернышковский; Černyškovskij | 48,42, 42,23 (1926-1953) | 2,8k | 3,1k | 3,4k | 3,3k | 3,2k |
 | Chervlennaya (Reg. 30) | Червленная | 43,5, 45,88 (1926-1953) | 6,6k | 7k | 7,4k | 7,4k | 7,5k |
 | Chervlenoe (Reg. 27) | Червленое | 48,44, 44,38 (1926-1953) | 2,7k | 2,7k | 2,7k | 2,7k | 2,7k |
@@ -5493,23 +4940,19 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Demino (Reg. 30) | Дёмино | 44,98, 42,03 (1926-1953) | 1,7k | 1,7k | 1,6k | 1,8k | 1,9k |
 | Derbent (Reg. 33) | Bab al-Abwab; Derbent Caspian Gate | 42,06, 48,29 (1926-1953) | 23,1k | 29k | 34,1k | 32k | 40k |
 | Dergachi (Reg. 27) | Дергачи; Dergači | 51,23, 48,77 (1926-1953) | 7,9k | 7,1k | 6,4k | 6,5k | 6,7k |
-| Dergachi (Reg. 25) | Дергачи | 52,9, 50,04 (1926-1953) | 9,4k | 12,3k | 15,6k | 18,9k | 24,4k |
 | Dergunovka (Reg. 25) | Дергуновка | 52,49, 50,33 (1926-1953) | 2,9k | 2,6k | 2,3k | 2k | 1,7k |
 | Deyskoye (Reg. 31) | Дейское | 43,48, 44,16 (1926-1953) | 570 | 769 | 993 | 1,2k | 1,5k |
 | Digora (Reg. 31) | Дигора | 43,16, 44,16 (1926-1953) | 9,1k | 9,4k | 9,7k | 9,3k | 8,7k |
 | Dimitrovgrad (Reg. 24) | Димитровград; Мелекесс | 54,21, 49,62 (1926-1953) | 17,6k | 24,5k | 32,5k | 37,1k | 44,4k |
 | Dinskaya (Reg. 29) | Динская | 45,22, 39,23 (1926-1953) | 12,3k | 14,2k | 15,9k | 17,6k | 20,2k |
-| Div’ja (Reg. 34) | Дивья | 58,53, 56,28 (1926-1953) | 1,1k | 1,7k | 2,5k | 2,9k | 3,4k |
 | Diveyevo (Reg. 23) | Дивеево | 55,04, 43,25 (1926-1953) | 2,5k | 3,4k | 4,3k | 4,8k | 5,5k |
 | Divnomorskoye (Reg. 29) | Дивноморское | 44,5, 38,13 (1926-1953) | 2,1k | 2,4k | 2,7k | 3k | 3,4k |
 | Divnoye (Reg. 30) | Дивное | 45,91, 43,35 (1926-1953) | 7,1k | 7,7k | 8,2k | 8,7k | 9,4k |
 | Djoma (Reg. 34) | Дёма | 54,7, 55,82 (1926-1939) | 4,5k | 6,1k | 7,9k | \- | \- |
 | Dmitriyevka (Reg. 34) | Дмитриевка | 54,75, 55,33 (1926-1953) | 1k | 1,2k | 1,3k | 1,4k | 1,6k |
-| Dmitriyevka (Reg. 27) | Дмитриевка | 49,69, 44,31 (1926-1953) | 6,3k | 7k | 7,6k | 7,9k | 8,2k |
 | Dmitriyevka (Reg. 25) | Дмитриевка | 53,89, 52,44 (1926-1953) | 2,5k | 2,1k | 1,8k | 1,6k | 1,3k |
 | Dmitriye-vskoye (Reg. 30) | Дмитриевская; Городъ Старый | 45,81, 41,9 (1926-1953) | 3,4k | 3,4k | 3,4k | 3,4k | 3,4k |
 | Dobryanka (Reg. 34) | Добрянка; Dobrjanka | 58,46, 56,41 (1926-1953) | 6,8k | 8k | 10,2k | 11,6k | 13,7k |
-| Dolgiy (Reg. 29) | Долгий | 45,69, 37,92 (1926-1953) | 28,4k | 32,9k | 37,4k | 41,4k | 47,3k |
 | Dolgoder-evenskoye (Reg. 34) | Долгодеревенское | 55,35, 61,34 (1926-1953) | 2,3k | 3,3k | 4,6k | 5,3k | 6,4k |
 | Dolgorukovo (Reg. 24) | Долгоруково | 53,92, 44,93 (1926-1953) | 1,2k | 952 | 760 | 753 | 745 |
 | Dolzhanskaya (Reg. 29) | Должанская | 46,63, 37,8 (1926-1953) | 5,6k | 6,5k | 7,3k | 7,3k | 7,3k |
@@ -5530,7 +4973,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Dubki (Reg. 27) | Дубки | 51,66, 46,06 (1926-1953) | 2,4k | 2,6k | 2,9k | 2,9k | 3,1k |
 | Dubovaya Roshcha (Reg. 30) | Дубовая Роща | 44,71, 42,85 (1926-1953) | 1,6k | 1,6k | 1,6k | 1,7k | 1,8k |
 | Dubovka (Reg. 27) | Дубовка | 49,06, 44,83 (1926-1953) | 11,4k | 10,2k | 10,6k | 11k | 11,4k |
-| Dubovka (Reg. 27) | Дубовка | 51,37, 43,06 (1926-1953) | 22,7k | 22,9k | 23,1k | 23,8k | 24,8k |
 | Dubovskiy (Reg. 23) | Дубовский; Dubovskij | 56,34, 46,79 (1926-1953) | 1,8k | 2,9k | 4,3k | 5,1k | 6,3k |
 | Dubovskoye (Reg. 29) | Дубовское | 47,41, 42,77 (1926-1953) | 1,9k | 2,9k | 4,1k | 4,5k | 5,2k |
 | Dubrovka (Reg. 23) | Дубровка | 59,23, 51,16 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,2k | 2,5k |
@@ -5545,7 +4987,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Dyurtyuli (Reg. 34) | Дюртюли; Djurtjuli | 55,49, 54,86 (1926-1953) | 816 | 871 | 4,5k | 4,5k | 4,7k |
 | Dzerzhinsk (Reg. 23) | Rastyapino; Дзержинск | 56,24, 43,46 (1926-1926) | 8,9k | \- | \- | \- | \- |
 | Dzhalka (Reg. 32) | Джалка | 43,32, 45,99 (1926-1953) | 2k | 2,2k | 2,3k | 2,5k | 2,8k |
-| Dzhidzhikhabl (Reg. 29) | Джиджихабль | 44,95, 39,41 (1926-1953) | 18,7k | 24,6k | 31k | 33,8k | 37,9k |
 | Dzhiginka (Reg. 29) | Джигинка | 45,13, 37,34 (1926-1953) | 1,4k | 1,6k | 1,7k | 1,9k | 2,1k |
 | Dzhubga (Reg. 29) | Джубга; Džubga | 44,32, 38,71 (1926-1953) | 717 | 905 | 937 | 1,4k | 1,8k |
 | Džalil’ (Reg. 24) | Джалиль | 55,02, 52,74 (1926-1953) | 1,4k | 1,9k | 2,5k | 2,7k | 3k |
@@ -5553,12 +4994,10 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Ekaterinburg (Reg. 34) | Yekaterinburg; Sverdlovsk | 56,84, 60,61 (1926-1953) | 140,3k | 401k | 423,3k | 580k | 680k |
 | Ekaterinodar (Reg. 29) | Krasnodar; Kuban Cossack Capital | 45,04, 38,98 (1926-1953) | 162,5k | 178k | 203,8k | 172k | 260k |
 | Ekazhevo (Reg. 32) | Экажево | 43,21, 44,82 (1926-1953) | 8,5k | 11,5k | 14,8k | 16,2k | 18,3k |
-| Elan (Reg. 27) | Елань | 52,21, 44,18 (1926-1953) | 17,4k | 17,6k | 17,8k | 18,3k | 19,1k |
 | Elin-Yurt (Reg. 30) | Гвардейское | 43,67, 44,96 (1926-1953) | 2,3k | 2,5k | 2,6k | 2,8k | 3,2k |
 | Elista (Reg. 28) | Kalmyk Steppe; Kalmyk AO | 46,31, 44,26 (1926-1953) | 6,1k | 11,5k | 17,1k | 6,5k | 12k |
-| Elkhotovo (Reg. 31) | Эльхотово | 43,34, 44,2 (1926-1953) | 4,3k | 5,7k | 7,2k | 7,6k | 8,1k |
 | Elniki (Reg. 23) | Ельники | 54,62, 43,88 (1926-1953) | 4,1k | 4,2k | 4,3k | 4,4k | 4,6k |
-| Endirey (Reg. 33) | Эндирей | 43,16, 46,65 (1926-1953) | 2,6k | 2,3k | 2,1k | 2,3k | 2,7k |
+| Endirey (Reg. 33) | Эндирей; Andrey-Aul | 43,16, 46,65 (1926-1953) | 2,6k | 2,3k | 2,1k | 2,3k | 2,7k |
 | Enem (Reg. 29) | Энем; Ênem | 44,93, 38,91 (1926-1953) | 2,9k | 3,3k | 3,7k | 4,2k | 4,9k |
 | Energetik (Reg. 25) | Энергетик; Ênergetik | 51,74, 58,79 (1926-1953) | 2,5k | 3,2k | 4k | 4,5k | 5,2k |
 | Engel-Yurt (Reg. 32) | Энгель-Юрт | 43,33, 46,36 (1926-1953) | 2,3k | 2,5k | 2,6k | 2,8k | 3,1k |
@@ -5567,13 +5006,11 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Fakel (Reg. 23) | Факел; Сергиевский | 57,63, 53,03 (1926-1953) | 960 | 1,4k | 2k | 2,8k | 4,5k |
 | Falyonki (Reg. 23) | Фаленки; Falenki | 58,36, 51,59 (1926-1953) | 1,6k | 2,4k | 3,5k | 4,1k | 5k |
 | Fastovetskaya (Reg. 29) | Фастовецкая | 45,92, 40,16 (1926-1953) | 5,5k | 6,3k | 7,1k | 7,2k | 7,4k |
-| Fedorovka (Reg. 34) | Федоровка | 53,18, 55,19 (1926-1953) | 1,1k | 1,6k | 3k | 3,1k | 3,2k |
 | Fershampenuaz (Reg. 34) | Фершампенуаз | 53,52, 59,82 (1926-1953) | 1,4k | 2,1k | 2,9k | 3,4k | 4,1k |
 | Fjodorovka (Reg. 25) | Фёдоровка; Федоровка | 53,47, 49,63 (1926-1953) | 2,2k | 3,2k | 4,5k | 6,3k | 9,8k |
 | Fjodorovka (Reg. 34) | Фёдоровка; Федоровка | 55,31, 61,59 (1926-1953) | 959 | 1,4k | 1,9k | 2,2k | 2,7k |
 | Fortshtadt (Reg. 29) | Ирена | 45,03, 41,14 (1926-1953) | 7,1k | 8,3k | 9,4k | 10,4k | 11,9k |
 | Frolishchi (Reg. 23) | Фролищи; Frolišči | 56,42, 42,65 (1926-1953) | 1,2k | 1,7k | 2,1k | 2,4k | 2,7k |
-| Frolov (Reg. 28) | Нинское | 48,03, 44,65 (1926-1953) | 6k | 7,9k | 10k | 10,9k | 12,2k |
 | Frolovo (Reg. 27) | Фролово; Фроловский | 49,77, 43,65 (1926-1953) | 9,8k | 13,4k | 17,4k | 19,7k | 23,3k |
 | Froly (Reg. 34) | Фролы | 57,92, 56,27 (1926-1953) | 544 | 851 | 1,2k | 1,4k | 1,7k |
 | Gabishevo (Reg. 24) | Габишево | 55,61, 49,14 (1926-1953) | 616 | 852 | 1,1k | 1,2k | 1,4k |
@@ -5585,11 +5022,9 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Gatlukay (Reg. 29) | Гатлукай | 44,89, 39,24 (1926-1953) | 5,1k | 4,5k | 4,1k | 3,7k | 3,2k |
 | Gaverdovskiy (Reg. 29) | Гавердовский | 44,61, 40,03 (1926-1953) | 818 | 1,1k | 1,4k | 1,6k | 1,8k |
 | Gavrilovka (Reg. 23) | Гавриловка | 56,23, 43,72 (1926-1953) | 609 | 818 | 1,1k | 1,2k | 1,3k |
-| Gavrilovka (Reg. 24) | Горюшка | 53,56, 48,35 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,2k |
 | Gay (Reg. 25) | Гай; Gaj | 51,47, 58,45 (1926-1953) | 842 | 1,1k | 1,3k | 1,5k | 1,7k |
 | Gayduk (Reg. 29) | Гайдук; Gajduk | 44,78, 37,7 (1926-1953) | 654 | 1,6k | 3,3k | 3,5k | 3,8k |
 | Gayny (Reg. 34) | Гайны; Gajny | 60,3, 54,32 (1926-1953) | 1,6k | 1,8k | 2k | 2,2k | 2,6k |
-| Gayvoron (Reg. 27) | Гайворон | 51,8, 44,65 (1939-1939) | \- | \- | 9,3k | \- | \- |
 | Gedzhukh (Reg. 33) | Геджух | 42,13, 48,06 (1926-1953) | 1,3k | 1,3k | 1,4k | 1,6k | 1,9k |
 | Gekhi (Reg. 32) | Гехи | 43,16, 45,47 (1926-1953) | 4,5k | 4,8k | 5,1k | 5,4k | 5,9k |
 | Geldagan (Reg. 32) | Гелдаган | 43,21, 46,04 (1926-1953) | 3,9k | 4,1k | 4,3k | 4,7k | 5,3k |
@@ -5611,42 +5046,31 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Gizel (Reg. 31) | Гизель | 43,04, 44,57 (1926-1953) | 4,1k | 4,3k | 4,5k | 4,7k | 5k |
 | Glazov (Reg. 23) | Глазов | 58,14, 52,66 (1926-1953) | 6,6k | 10,1k | 16,5k | 24,1k | 40,2k |
 | Glotovka (Reg. 24) | Глотовка | 53,95, 46,7 (1926-1953) | 1,4k | 2k | 2,6k | 3,3k | 4,5k |
-| Glubokaya (Reg. 34) | Глубокая; Glubokaja | 58,77, 59,82 (1926-1953) | 1,5k | 2,2k | 3k | 2,9k | 2,8k |
 | Glubokiy (Reg. 29) | Глубокий; Glubokij | 48,53, 40,33 (1926-1953) | 7,3k | 10,6k | 14,6k | 14,9k | 15,2k |
-| Glukhov (Reg. 27) | Глухов | 49,07, 45,38 (1926-1953) | 15,7k | 17,4k | 18,9k | 19,6k | 20,5k |
-| Gochob (Reg. 33) | Гочобъ | 42,24, 46,66 (1926-1953) | 18,2k | 19,1k | 19,9k | 25k | 33,9k |
 | Gofitskoye (Reg. 30) | Гофицкое | 45,08, 43,05 (1926-1953) | 5k | 5k | 5k | 5k | 5,1k |
 | Golovins-hchino (Reg. 24) | Головинщина | 53,31, 44 (1926-1953) | 2,1k | 1,9k | 1,8k | 1,7k | 1,5k |
 | Golubitskaya (Reg. 29) | Голубицкая | 45,33, 37,27 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,4k |
-| Gondyrvay (Reg. 23) | Гондырвай | 57,27, 54,11 (1926-1953) | 50,9k | 74,6k | 103,4k | 131,1k | 179,7k |
 | Gor’kovskij (Reg. 27) | Горьковский | 48,68, 44,33 (1926-1953) | 3,4k | 3,8k | 4,1k | 4,3k | 4,5k |
 | Goragorskiy (Reg. 32) | Горагорский; Goragorskij | 43,5, 45,09 (1926-1953) | 2,4k | 2,6k | 2,7k | 3,3k | 4,3k |
 | Gorbatov (Reg. 23) | Горбатов | 56,13, 43,06 (1926-1953) | 3,3k | 3k | 3,1k | 3,3k | 3,4k |
 | Gorbatovka (Reg. 23) | Горбатовка | 56,26, 43,75 (1926-1953) | 4,9k | 4,8k | 4,6k | 4,5k | 4,4k |
-| Gorbunovka (Reg. 23) | Горбуновка | 54,51, 45,83 (1926-1953) | 4,8k | 5,4k | 6k | 6,5k | 7,4k |
-| Gordeyevka (Reg. 23) | Гордеевка | 57,31, 44,34 (1926-1953) | 8,6k | 11,5k | 14,9k | 16,4k | 18,8k |
-| Gorki (Reg. 25) | Горки | 54, 50,93 (1926-1953) | 5,3k | 7k | 8,9k | 10,7k | 13,9k |
 | Gornoural’skij (Reg. 34) | Горноуральский | 58,06, 59,9 (1926-1953) | 858 | 1,3k | 1,8k | 2k | 2,5k |
 | Gornozavodsk (Reg. 34) | Горнозаводск; Новопашийский | 58,37, 58,33 (1926-1953) | 2,8k | 4,4k | 6,4k | 7,3k | 8,8k |
 | Gornyak (Reg. 34) | Горняк; Gornjak | 55,18, 61,71 (1926-1953) | 7,7k | 11,2k | 15,5k | 15,7k | 15,9k |
 | Gornyatskiy (Reg. 29) | Горняцкий; Gornjackij | 48,3, 40,92 (1926-1953) | 4,4k | 6,6k | 9,5k | 10,5k | 12k |
+| Gornyy Shchit (Reg. 34) | Горный Щит | 56,69, 60,52 (1926-1953) | 2,4k | 2,5k | 2,7k | 2,8k | 3k |
 | Gornyy (Reg. 27) | Горный; Gornyj | 51,76, 48,54 (1926-1953) | 1,2k | 1,4k | 1,5k | 1,5k | 1,6k |
 | Gornyy (Reg. 29) | Горный; Gornyj | 47,82, 40,2 (1926-1953) | 1,2k | 1,8k | 2,6k | 2,9k | 3,3k |
-| Gornyy Shchit (Reg. 34) | Горный Щит | 56,69, 60,52 (1926-1953) | 2,4k | 2,5k | 2,7k | 2,8k | 3k |
 | Gorodets (Reg. 23) | Городец; Gorodec | 56,65, 43,47 (1926-1953) | 11,3k | 13,1k | 16,1k | 18,8k | 23,1k |
-| Gorodets (Reg. 24) | Городец | 54,43, 47,22 (1926-1953) | 6,1k | 8,4k | 11,1k | 11,9k | 13k |
 | Gorodishche (Reg. 27) | Городище; Gorodišče | 48,8, 44,47 (1926-1953) | 2,9k | 3,1k | 3,3k | 4,1k | 5,4k |
 | Gorodishche (Reg. 24) | Городище; Gorodišče | 53,28, 45,7 (1926-1953) | 4,9k | 5,1k | 6,3k | 6k | 5,6k |
 | Gorodishche (Reg. 24) | Городище | 55,3, 51,16 (1926-1953) | 4,2k | 3,6k | 3,2k | 2,8k | 2,4k |
-| Gorodok (Reg. 24) | Городок | 55,29, 49,92 (1926-1953) | 7,4k | 10,2k | 13,4k | 14,1k | 15k |
 | Gorodovikovsk (Reg. 28) | Городовиковск; Башанта | 46,09, 41,93 (1926-1953) | 2,3k | 3,1k | 4k | 4,2k | 4,4k |
-| Gorskoye (Reg. 27) | Горское | 49,02, 45,02 (1939-1939) | \- | \- | 12,2k | \- | \- |
 | Goryache-vodskiy (Reg. 30) | Горячеводский; Gorjačevodskij | 44,02, 43,09 (1926-1953) | 7,4k | 10,5k | 14,1k | 16k | 19k |
 | Goryachiy Klyuch (Reg. 29) | Горячий Ключ; Gorjačij Ključ | 44,63, 39,14 (1926-1953) | 2,2k | 2,7k | 3,3k | 4,6k | 7,1k |
 | Gostagay-evskaya (Reg. 29) | Гостагаевская | 45,02, 37,51 (1926-1953) | 5k | 5,7k | 6,4k | 6,6k | 6,9k |
 | Goy-Chu (Reg. 32) | Гой-Чу | 43,06, 45,61 (1926-1953) | 1,7k | 1,8k | 1,9k | 2k | 2,3k |
 | Goyty (Reg. 32) | Гойты | 43,16, 45,62 (1926-1953) | 5,5k | 5,7k | 5,9k | 6,4k | 7k |
-| Grabovets (Reg. 31) | Грабовец; Грабовецъ | 43,68, 43,73 (1926-1953) | 4,2k | 5,5k | 7k | 7,6k | 8,5k |
 | Grabovo (Reg. 24) | Грабово | 53,39, 45,06 (1926-1953) | 1,1k | 882 | 1,1k | 1,3k | 1,6k |
 | Grachevka (Reg. 25) | Грачёвка | 52,92, 52,87 (1926-1953) | 2,4k | 3,1k | 3,9k | 4,3k | 5k |
 | Grachevka (Reg. 30) | Грачёвка | 45,21, 42,41 (1926-1953) | 2,4k | 2,4k | 2,4k | 2,5k | 2,8k |
@@ -5686,17 +5110,14 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Ilek (Reg. 25) | Илек | 51,53, 53,38 (1926-1953) | 5,4k | 6,4k | 7,4k | 7,5k | 7,7k |
 | Ilinka (Reg. 29) | Ильинка | 48,54, 41,09 (1926-1953) | 1,9k | 1,8k | 1,8k | 1,7k | 1,6k |
 | Ilinskaya (Reg. 29) | Ильинская | 45,72, 40,72 (1926-1953) | 5,1k | 5,9k | 6,6k | 6,4k | 6,2k |
-| Illarionovo (Reg. 23) | Илларионово | 55,05, 45,15 (1926-1953) | 17,7k | 23,7k | 30,6k | 33,8k | 38,7k |
 | Ilmen (Reg. 27) | Ильмень | 51,88, 43,46 (1926-1953) | 4,8k | 4,9k | 4,9k | 5,1k | 5,3k |
 | Ilmino (Reg. 24) | Ильмино | 53,79, 45,66 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,1k | 1,9k |
 | Ilovlya (Reg. 27) | Иловля; Ilovlja | 49,3, 43,98 (1926-1953) | 2,4k | 2,7k | 2,9k | 2,8k | 2,6k |
 | Ilyinogorsk (Reg. 23) | Ильиногорск; Il’inogorsk | 56,23, 42,95 (1926-1953) | 2,3k | 3,1k | 4k | 4,5k | 5,1k |
-| Imeni Kirova (Reg. 30) | им. Кирова | 45,5, 42,25 (1926-1953) | 12,9k | 12,7k | 12,6k | 10,4k | 8k |
 | Imeni Stepana Razina (Reg. 23) | им. Степана Разина; im. Stepana Razina | 54,89, 44,3 (1926-1953) | 899 | 1,4k | 1,9k | 2,7k | 4,4k |
 | Inarki (Reg. 31) | Инарки | 43,47, 44,54 (1926-1953) | 2,6k | 3,5k | 4,6k | 5k | 5,6k |
 | Inderka (Reg. 24) | Индерка | 53,25, 46,26 (1926-1953) | 3,6k | 4k | 3,7k | 3,7k | 3,8k |
 | Industrialnyy (Reg. 29) | Индустриальный | 45,1, 39,11 (1926-1953) | 1,4k | 1,6k | 1,8k | 2k | 2,3k |
-| Ingener-Pyatina (Reg. 23) | Ингенеръ-Пятина | 54,39, 44,84 (1926-1953) | 6,4k | 7,2k | 8k | 8,8k | 9,9k |
 | Inozemtsevo (Reg. 30) | Иноземцево; Inozemcevo | 44,09, 43,09 (1926-1953) | 1,9k | 2,8k | 3,9k | 5,5k | 8,6k |
 | Insar (Reg. 23) | Инсар | 53,87, 44,37 (1926-1953) | 4,6k | 5,1k | 5,6k | 5,7k | 5,8k |
 | Inza (Reg. 24) | Инза | 53,85, 46,35 (1926-1953) | 2,3k | 6,1k | 14,2k | 15,4k | 17,2k |
@@ -5717,28 +5138,22 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Istok (Reg. 34) | Исток | 56,79, 60,78 (1926-1953) | 2,1k | 3,2k | 4,4k | 5,1k | 6,2k |
 | Isyangulovo (Reg. 34) | Исянгулово | 52,19, 56,59 (1926-1953) | 2,5k | 3,4k | 4,3k | 4,7k | 5,3k |
 | Ivaka (Reg. 34) | Ивака | 59,29, 57,52 (1926-1953) | 523 | 818 | 1,2k | 724 | 370 |
-| Ivankova (Reg. 34) | Иванькова | 58,74, 54,8 (1926-1953) | 6k | 8,8k | 12,3k | 14,1k | 16,8k |
-| Ivanovka (Reg. 25) | Ивановка | 53,55, 53,23 (1926-1953) | 3,5k | 5,1k | 7,1k | 7,4k | 7,8k |
-| Ivanovka (Reg. 25) | Ивановка | 53,88, 50,6 (1926-1953) | 5,6k | 7,4k | 9,3k | 11,3k | 14,7k |
-| Ivanovka (Reg. 24) | Ивановка | 52,46, 44,56 (1926-1953) | 2,8k | 2,6k | 2,4k | 2,3k | 2,1k |
 | Ivanovka Malaya (Reg. 27) | Ивановка Малая | 51,9, 43,06 (1926-1953) | 6,4k | 6,5k | 6,5k | 6,7k | 7k |
 | Ivanovskaya (Reg. 29) | Ивановская | 45,28, 38,46 (1926-1953) | 1,4k | 1,7k | 2k | 2,3k | 2,8k |
-| Ivanovskoye (Reg. 30) | Ивановское | 44,58, 41,88 (1926-1953) | 1,1k | 1,3k | 1,5k | 1,8k | 2,1k |
 | Ivanovskoye Pervoye (Reg. 23) | Ивановское | 55,9, 44,88 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,4k |
+| Ivanovskoye (Reg. 30) | Ивановское | 44,58, 41,88 (1926-1953) | 1,1k | 1,3k | 1,5k | 1,8k | 2,1k |
 | Ivanteyevka (Reg. 27) | Ивантеевка; Ivantejevka | 52,27, 49,11 (1926-1953) | 3,9k | 3,7k | 3,6k | 3,4k | 3,1k |
 | Ivdel’ (Reg. 34) | Ивдель | 60,69, 60,42 (1926-1953) | 2k | 2,9k | 4k | 6,7k | 13,2k |
 | Izberbash (Reg. 33) | Избербаш; Izberbaš | 42,57, 47,88 (1926-1953) | 4,6k | 4,9k | 5,2k | 6,6k | 8,9k |
 | Izhevsky Zavod (Reg. 23) | Izhevsk; Izhevsk Rifle Arsenal | 56,85, 53,21 (1926-1953) | 63,2k | 128k | 175,7k | 218k | 240k |
 | Izmaylovo (Reg. 24) | Измайлово; Izmajlovo | 53,72, 47,25 (1926-1953) | 2,7k | 3,8k | 5k | 4,9k | 4,7k |
 | Izobil’nyj (Reg. 30) | Изобильный; Изобильное | 45,37, 41,71 (1926-1953) | 1,8k | 3,6k | 6,7k | 7,8k | 9,5k |
-| Izobilnyy (Reg. 29) | Изобильный | 46,21, 39,18 (1926-1953) | 59,5k | 69,1k | 78,5k | 86,8k | 99,2k |
 | Izumrud (Reg. 34) | Изумруд | 57,08, 61,4 (1926-1953) | 2,4k | 3,5k | 4,9k | 6,5k | 9,4k |
 | Jaškul’ (Reg. 28) | Яшкуль | 46,17, 45,34 (1926-1953) | 1,7k | 2k | 2,4k | 2,5k | 2,6k |
 | Jelan’ (Reg. 27) | Елань | 50,95, 43,74 (1926-1953) | 13,3k | 12,3k | 11,5k | 12,2k | 13,1k |
 | Jerzovka (Reg. 27) | Ерзовка | 48,94, 44,65 (1926-1953) | 2,2k | 2,4k | 2,6k | 2,7k | 2,9k |
 | Jetkul’ (Reg. 34) | Еткуль | 54,82, 61,58 (1926-1953) | 1,4k | 2k | 2,7k | 3,2k | 3,8k |
 | Jolkino (Reg. 34) | Ёлкино; Елкино | 58,69, 59,83 (1926-1953) | 388 | 573 | 801 | 926 | 1,1k |
-| Jur’ja (Reg. 23) | Юрья | 59,04, 49,28 (1926-1953) | 963 | 1,5k | 2,2k | 2,8k | 4k |
 | Jurjuzan’ (Reg. 34) | Юрюзань | 54,86, 58,42 (1926-1953) | 6,5k | 8,3k | 10,8k | 12,4k | 15k |
 | Južnoural’sk (Reg. 34) | Южноуральск; Южноуральский | 54,45, 61,26 (1926-1953) | 6,8k | 10k | 13,8k | 16k | 19,4k |
 | Kabakovo (Reg. 34) | Кабаково | 54,54, 56,15 (1926-1953) | 1,4k | 1,5k | 1,6k | 1,7k | 1,8k |
@@ -5749,24 +5164,19 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Kafyr-Kumukh (Reg. 33) | Кафыр-Кумух | 42,84, 47,15 (1926-1953) | 1,2k | 1,1k | 1k | 1,2k | 1,4k |
 | Kagalnik (Reg. 29) | Кагальник | 47,08, 39,32 (1926-1953) | 11,6k | 11,2k | 10,9k | 10,6k | 10,1k |
 | Kagalnitskaya (Reg. 29) | Кагальницкая | 46,88, 40,15 (1926-1953) | 1,6k | 2,5k | 3,5k | 3,9k | 4,4k |
-| Kakashura (Reg. 33) | Кака-Шура | 42,65, 47,39 (1926-1953) | 3,1k | 3,1k | 3,1k | 3,3k | 3,5k |
+| Kakashura (Reg. 33) | Кака-Шура | 42,65, 47,39 (1926-1953) | 3,4k | 3,4k | 3,4k | 3,4k | 3,4k |
 | Kakhun (Reg. 31) | Кахун | 43,54, 43,88 (1926-1953) | 901 | 1,2k | 1,6k | 1,9k | 2,4k |
-| Kal’ja (Reg. 34) | Калья | 60,24, 59,99 (1926-1953) | 3,8k | 5,6k | 7,8k | 9k | 10,9k |
-| Kalach (Reg. 27) | Калач | 51,85, 48,57 (1926-1953) | 9,3k | 9,4k | 9,5k | 9,8k | 10,2k |
 | Kalach-na-Donu (Reg. 27) | Калач-на-Дону; Kalač-na-Donu | 48,69, 43,53 (1926-1953) | 3,5k | 5,1k | 7k | 9,1k | 12,9k |
 | Kalinin (Reg. 29) | Калинин | 47,25, 39,51 (1926-1953) | 809 | 1,2k | 1,8k | 1,9k | 2,2k |
 | Kalininaul (Reg. 33) | Калининаул | 43,07, 46,57 (1926-1953) | 1,2k | 1,4k | 1,6k | 1,7k | 2k |
-| Kalinino (Reg. 29) | Калинино | 45,97, 39,22 (1926-1953) | 7,1k | 8,2k | 9,2k | 10,2k | 11,6k |
 | Kalininsk (Reg. 27) | Калининск; Баланда | 51,5, 44,48 (1926-1953) | 10,1k | 14,3k | 19,3k | 17,3k | 14,8k |
 | Kalininskaya (Reg. 29) | Калининская | 45,48, 38,66 (1926-1953) | 22,2k | 25,5k | 28,7k | 26,7k | 24,2k |
 | Kalino (Reg. 34) | Калино | 58,25, 57,61 (1926-1953) | 1,9k | 2,9k | 4,3k | 4,9k | 5,9k |
 | Kalinovo (Reg. 34) | Калиново | 57,13, 60,15 (1926-1953) | 2,6k | 3,7k | 5,1k | 5,9k | 7,3k |
 | Kalinovskaya (Reg. 32) | Калиновская | 43,57, 45,52 (1926-1953) | 5,4k | 5,6k | 5,8k | 6k | 6,3k |
 | Kalinovskoye (Reg. 30) | Калиновское | 44,86, 42,96 (1926-1953) | 8k | 6,7k | 5,7k | 5,5k | 5,3k |
-| Kalmytskiy (Reg. 27) | Приволжский; Privolžskij | 46,02, 47,72 (1926-1953) | 3,9k | 4,6k | 5,3k | 7k | 10k |
 | Kalnibol-otskaya (Reg. 29) | Калниболотская | 46,01, 40,46 (1926-1953) | 4,8k | 5,5k | 6,2k | 6,2k | 6,2k |
 | Kaltasy (Reg. 34) | Калтасы | 55,97, 54,8 (1926-1953) | 1,5k | 2k | 2,6k | 2,8k | 3,2k |
-| Kaluga (Reg. 26) | Калуга | 51,37, 47,17 (1926-1953) | 57k | 57,6k | 58,1k | 59,9k | 62,3k |
 | Kama (Reg. 23) | Кама; Бутыш | 56,31, 54,09 (1926-1953) | 1,5k | 2,2k | 3,1k | 3,7k | 4,7k |
 | Kambarka (Reg. 23) | Камбарка | 56,27, 54,21 (1926-1953) | 6,2k | 7,8k | 9,4k | 10,5k | 12,1k |
 | Kambiley-evskoye (Reg. 31) | Камбилеевское | 43,08, 44,75 (1926-1953) | 2,8k | 3,7k | 4,7k | 5k | 5,5k |
@@ -5780,13 +5190,10 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Kamensk-Ural’skij (Reg. 34) | Каменск-Уральский; Каменский завод | 56,41, 61,93 (1926-1953) | 5,4k | 13,5k | 50,9k | 69,1k | 103,9k |
 | Kamenskaya (Reg. 29) | Kamensk-Shakhtinsky; Kamenskaya Stanitsa | 48,32, 40,26 (1926-1953) | 17,1k | 28k | 42,7k | 46,7k | 52,6k |
 | Kamenskiy (Reg. 26) | Каменский; Kamenskij | 50,89, 45,49 (1947-1953) | \- | \- | \- | \- | 1,3k |
-| Kamenskiy (Reg. 34) | Каменский | 59,25, 61,22 (1926-1953) | 7,5k | 10,9k | 14,9k | 17k | 20,4k |
 | Kamskiye Polyany (Reg. 24) | Камские Поляны; Kamskije Poljany | 55,43, 51,42 (1926-1953) | 3,4k | 4,7k | 6,3k | 6,8k | 7,6k |
 | Kamskoje Ust’je (Reg. 24) | Камское Устье | 55,2, 49,26 (1926-1953) | 3,4k | 3,8k | 4,2k | 4,4k | 4,7k |
 | Kamyshev-atskaya (Reg. 29) | Камышеватская | 46,41, 37,96 (1926-1953) | 5,5k | 6,3k | 7,1k | 6,9k | 6,6k |
 | Kamyshin (Reg. 26) | Dmitrievsk; Kamyshin Saratov | 50,1, 45,42 (1926-1953) | 18,5k | 21,3k | 24k | 31k | 43,7k |
-| Kamyshin (Reg. 25) | Камышин | 51,95, 51,22 (1926-1953) | 43,6k | 55,9k | 69,1k | 76,1k | 86,5k |
-| Kamyshinka (Reg. 27) | Камышинка | 52,18, 44,95 (1926-1953) | 20,6k | 20,8k | 21k | 21,6k | 22,5k |
 | Kamyshla (Reg. 25) | Камышла | 54,12, 52,14 (1926-1953) | 3k | 3,1k | 3,2k | 3,4k | 3,5k |
 | Kamyshlov (Reg. 34) | Камышлов; Kamyšlov | 56,85, 62,71 (1926-1953) | 9,9k | 11,8k | 17,5k | 20,6k | 25,6k |
 | Kamyzyak (Reg. 27) | Камызяк; Kamyzjak | 46,11, 48,08 (1926-1953) | 3,8k | 4k | 4,2k | 4,1k | 4k |
@@ -5806,18 +5213,15 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Karachaevsk (Reg. 30) | Mikoyan-Shakhar; Klukhori (1944-55; Karachay AO Capital) | 43,77, 41,91 (1926-1953) | 1,4k | 2,9k | 5,9k | 2,4k | 5,2k |
 | Karagach (Reg. 30) | Карагач | 43,81, 43,77 (1926-1953) | 706 | 952 | 1,2k | 1,5k | 1,9k |
 | Karagay (Reg. 34) | Карагай | 58,27, 54,93 (1926-1953) | 1,1k | 1,3k | 1,5k | 1,7k | 2,1k |
-| Karaidel (Reg. 34) | Караидель | 55,84, 56,9 (1926-1953) | 1k | 1,5k | 1,8k | 2k | 2,3k |
 | Karaidel’skij (Reg. 34) | Караидельский | 55,82, 57,11 (1926-1953) | 584 | 786 | 1k | 1,1k | 1,2k |
+| Karaidel (Reg. 34) | Караидель | 55,84, 56,9 (1926-1953) | 1k | 1,5k | 1,8k | 2k | 2,3k |
 | Karakulino (Reg. 23) | Каракулино | 56,01, 53,71 (1926-1953) | 2,9k | 3,1k | 3,2k | 3,4k | 3,6k |
 | Karamakhi (Reg. 33) | Карамахи | 42,62, 47,26 (1926-1953) | 723 | 771 | 814 | 918 | 1,1k |
 | Karamysh (Reg. 26) | Карамышъ | 51,03, 45,54 (1926-1953) | 1,8k | 1,5k | 1,3k | 1,1k | 937 |
-| Karan (Reg. 34) | Карань | 55,13, 54,37 (1926-1953) | 118,5k | 159,6k | 206k | 223,9k | 250,1k |
-| Karaseva (Reg. 23) | Карасева | 56,1, 53,6 (1926-1953) | 6,5k | 9,5k | 13,2k | 16,8k | 23k |
 | Karata (Reg. 33) | Карата | 42,59, 46,34 (1926-1953) | 10,2k | 10,9k | 11,5k | 10,5k | 9,4k |
 | Kardonikskaya (Reg. 30) | Кардоникская | 43,87, 41,71 (1926-1953) | 8,2k | 8,1k | 8,1k | 8,1k | 8k |
 | Kargala (Reg. 25) | Каргала | 51,89, 54,87 (1926-1953) | 6,5k | 6,4k | 6,3k | 6,3k | 6,2k |
 | Kargalinskaya (Reg. 30) | Каргалинская | 43,74, 46,48 (1926-1953) | 2,2k | 2,4k | 2,6k | 2,7k | 3k |
-| Kargalinskiy (Reg. 25) | Каргалинский | 51,95, 54,73 (1926-1953) | 8,1k | 10,3k | 12,8k | 14,1k | 16k |
 | Karintorf (Reg. 23) | Каринторф | 58,55, 50,19 (1926-1953) | 1,5k | 2,3k | 3,4k | 3,9k | 4,7k |
 | Karmaskaly (Reg. 34) | Кармаскалы | 54,37, 56,17 (1926-1953) | 3,7k | 3,6k | 3,5k | 3,8k | 4,2k |
 | Karpinsk (Reg. 34) | Карпинск; Богословский | 59,77, 60,01 (1926-1953) | 4,7k | 7k | 20,2k | 26,4k | 37,8k |
@@ -5826,7 +5230,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Karsun (Reg. 24) | Карсун | 54,2, 46,98 (1926-1953) | 5,3k | 5,6k | 6k | 6,4k | 7k |
 | Kartaly (Reg. 34) | Карталы | 53,06, 60,64 (1926-1953) | 6,8k | 9,9k | 13,7k | 18k | 25,8k |
 | Kashary (Reg. 29) | Кашары | 49,04, 41 (1926-1953) | 1,5k | 2,3k | 3,2k | 3,6k | 4,1k |
-| Kashinka (Reg. 24) | Кашинка | 54,63, 48,14 (1926-1953) | 5,6k | 7,8k | 10,3k | 11k | 12k |
 | Kashkhatau (Reg. 31) | Кашхатау; Kašhatau | 43,32, 43,61 (1926-1953) | 646 | 871 | 1,1k | 1,3k | 1,7k |
 | Kashpir (Reg. 25) | Кашпировка; Kašpirovka | 53,04, 48,41 (1926-1939) | 3,2k | 4,3k | 5,4k | \- | \- |
 | Kasli (Reg. 34) | Касли; Каслинский завод | 55,89, 60,75 (1926-1953) | 17,9k | 18,4k | 21,3k | 21,4k | 21,7k |
@@ -5840,17 +5243,14 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Kayasula (Reg. 30) | Каясула | 44,33, 45 (1926-1953) | 2,1k | 2,1k | 2,1k | 2,3k | 2,5k |
 | Kazachi Lageri (Reg. 29) | Казачьи Лагери | 47,55, 40,11 (1926-1953) | 1,2k | 1,8k | 2,6k | 2,8k | 3,2k |
 | Kazan (Reg. 24) | Qazan; Kazan University Hub | 55,79, 49,12 (1926-1953) | 179k | 268k | 398k | 465k | 540k |
-| Kazanka (Reg. 25) | Казанка | 53,36, 52,58 (1926-1953) | 2,3k | 2k | 1,8k | 1,6k | 1,4k |
 | Kazanskaya (Reg. 29) | Казанская | 45,41, 40,44 (1926-1953) | 5,1k | 5,8k | 6,6k | 6,9k | 7,3k |
 | Kazanskaya (Reg. 29) | Казанская | 49,79, 41,15 (1926-1953) | 1,2k | 1,8k | 2,5k | 2,8k | 3,2k |
 | Kazantsevo (Reg. 34) | Казанцево | 55,27, 61,35 (1926-1953) | 961 | 1,1k | 1,2k | 1,3k | 1,5k |
 | Kazgulak (Reg. 30) | Казгулак | 45,5, 43,23 (1926-1953) | 3,9k | 3,8k | 3,6k | 3,5k | 3,3k |
 | Kazminskoe (Reg. 30) | Казьминское | 44,59, 41,67 (1926-1953) | 10,1k | 9,6k | 9,2k | 8,8k | 8,4k |
-| Kedrovka (Reg. 34) | Кедровка | 58,18, 59,37 (1926-1953) | 905 | 1,3k | 1,9k | 2,2k | 2,6k |
 | Kedrovoye (Reg. 34) | Кедровое; Kedrovoje | 57,16, 60,57 (1926-1953) | 1,4k | 2k | 2,8k | 3,2k | 3,9k |
 | Kemlya (Reg. 23) | Кемля; Kemlja | 54,69, 45,26 (1926-1953) | 3,1k | 3k | 2,9k | 3k | 3,2k |
 | Kenzhe (Reg. 31) | Кенже; Kenže | 43,5, 43,55 (1926-1953) | 1,4k | 1,9k | 2,5k | 3k | 3,8k |
-| Kepinskiy (Reg. 27) | Кепинская | 49,84, 43,06 (1926-1953) | 17,5k | 19,3k | 21,1k | 21,8k | 22,8k |
 | Kerchevskiy (Reg. 34) | Керчевский; Kerčevskij | 59,95, 56,3 (1926-1953) | 1,1k | 1,8k | 2,6k | 3k | 3,6k |
 | Kerzhenets (Reg. 23) | Керженец; Kerženec | 56,47, 44,42 (1926-1953) | 737 | 990 | 1,3k | 1,4k | 1,6k |
 | Ketchenery (Reg. 28) | Кетченеры; Ketčenery | 47,31, 44,52 (1926-1953) | 520 | 701 | 906 | 1,2k | 1,7k |
@@ -5863,28 +5263,22 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Khalimbekaul (Reg. 33) | Халимбекаул | 42,85, 47,14 (1926-1953) | 1k | 1,1k | 1,1k | 1,3k | 1,5k |
 | Khalturiny (Reg. 23) | Халтурин | 58,54, 48,79 (1926-1926) | 4,7k | \- | \- | \- | \- |
 | Khamamatyurt (Reg. 30) | Хамаматюрт | 43,61, 46,5 (1926-1953) | 1,7k | 1,7k | 1,8k | 2k | 2,2k |
-| Khanenevka (Reg. 27) | Ханеневка | 51,57, 45,32 (1926-1953) | 17k | 17,1k | 17,3k | 17,8k | 18,6k |
 | Khankala (Reg. 32) | Ханкала | 43,3, 45,76 (1926-1953) | 2,6k | 2,7k | 2,9k | 3,1k | 3,5k |
 | Khanskaya (Reg. 29) | Ханская | 44,68, 39,96 (1926-1953) | 3,2k | 4,3k | 5,5k | 6,1k | 6,8k |
 | Kharabali (Reg. 27) | Харабали; Harabali | 47,41, 47,25 (1926-1953) | 5,3k | 6,7k | 8,3k | 8,7k | 9,2k |
 | Khasavyurt (Reg. 33) | Aukhovsky Chechen Deportation & Novolaksky Resettlement Hub; Хасавюрт | 43,25, 46,59 (1926-1953) | 6,9k | 12,5k | 23,4k | 17,5k | 26k |
 | Khatukay (Reg. 29) | Хатукай | 45,19, 39,66 (1926-1953) | 1,3k | 1,7k | 2,2k | 2,4k | 2,7k |
 | Khazar (Reg. 33) | Хазар | 42, 48,33 (1926-1953) | 692 | 738 | 779 | 879 | 1k |
-| Khersonka (Reg. 25) | Херсонка | 51,43, 57,67 (1926-1953) | 18,1k | 23,1k | 28,6k | 31,5k | 35,8k |
 | Khimmash (Reg. 34) | Нижнеисетский; Nižneisetskij | 56,76, 60,7 (1926-1953) | 3,9k | 5,6k | 7,7k | 8,8k | 10,5k |
-| Khmelevka (Reg. 25) | Хмелевка | 54, 52,37 (1926-1953) | 5k | 6,5k | 8,2k | 10k | 12,9k |
 | Khmelinka (Reg. 27) | Хмелинка | 52,14, 42,89 (1926-1953) | 6,1k | 6,2k | 6,2k | 6,4k | 6,7k |
 | Khokhryaki (Reg. 23) | Хохряки | 56,92, 53,32 (1926-1953) | 780 | 1,1k | 1,6k | 1,9k | 2,4k |
 | Kholmskiy (Reg. 29) | Холмская; Holmskaja | 44,85, 38,38 (1926-1953) | 10,1k | 9,8k | 9,6k | 11k | 13,1k |
 | Kholst (Reg. 31) | Холст; Holst | 42,83, 44,15 (1926-1953) | 227 | 299 | 379 | 406 | 445 |
 | Khosta (Reg. 29) | Хоста; Hosta | 43,51, 39,87 (1926-1939) | 749 | 2,5k | 7,1k | \- | \- |
 | Khristoforovo (Reg. 23) | Христофорово; Hristoforovo | 60,9, 47,25 (1926-1953) | 957 | 1,5k | 2,1k | 2,5k | 3k |
-| Khrushchevka (Reg. 27) | Хрущевка | 51,2, 43,99 (1926-1953) | 72,6k | 73,4k | 74,1k | 76,3k | 79,5k |
 | Khryashchevka (Reg. 24) | Хрящевка | 53,81, 49,09 (1926-1953) | 3,2k | 3,2k | 3,2k | 3,2k | 3,2k |
 | Khryug (Reg. 33) | Хрюкъ | 41,49, 47,6 (1926-1953) | 1,1k | 1,2k | 1,2k | 1,3k | 1,4k |
-| Khudyaki (Reg. 23) | Худяки | 57,62, 48,16 (1926-1953) | 5,8k | 8,8k | 12,7k | 14,6k | 17,6k |
 | Khunzakh (Reg. 33) | Avar Nutsalate; Khunzakh Fortress | 42,55, 46,7 (1926-1953) | 3,6k | 2,7k | 2,1k | 2,3k | 2,4k |
-| Khutorok (Reg. 29) | Хуторок; Hutorok | 46,12, 39,5 (1939-1953) | \- | \- | 8,6k | 10,3k | 12,9k |
 | Khvalynsk (Reg. 27) | Хвалынск; Hvalynsk | 52,49, 48,11 (1926-1953) | 13k | 12,7k | 15,6k | 16k | 16,6k |
 | Khvatovka (Reg. 27) | Хватовка; Hvatovka | 52,35, 46,56 (1926-1953) | 2,4k | 2,7k | 2,9k | 3k | 3,1k |
 | Khvorostyanka (Reg. 25) | Хворостянка | 52,61, 48,96 (1926-1953) | 6,3k | 6,2k | 6k | 5,9k | 5,8k |
@@ -5896,25 +5290,18 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Kinel’ (Reg. 25) | Кинель | 53,23, 50,63 (1926-1953) | 5,2k | 8,2k | 17k | 20,7k | 26,7k |
 | Kinel-Cherkassy (Reg. 25) | Кинель-Черкассы | 53,47, 51,49 (1926-1953) | 1,7k | 2,2k | 2,8k | 3,4k | 4,4k |
 | Kirgiz-Miyaki (Reg. 34) | Киргиз-Мияки | 53,63, 54,8 (1926-1953) | 1,5k | 2,4k | 2,7k | 3k | 3,4k |
-| Kirillovo (Reg. 23) | Кирилово | 56,05, 53,7 (1926-1953) | 5k | 7,3k | 10,1k | 12,8k | 17,6k |
 | Kirovgrad (Reg. 34) | Кировград; Калата | 57,43, 60,06 (1926-1953) | 3,7k | 10,9k | 27,7k | 26,1k | 24,1k |
 | Kirovo-Chepetsk (Reg. 23) | Кирово-Чепецк; Kirovo-Čepeck | 58,55, 50,03 (1926-1953) | 8k | 12,3k | 17,9k | 20,6k | 24,9k |
 | Kirovskaya (Reg. 29) | Кировская | 46,97, 40,04 (1926-1953) | 1,4k | 2,1k | 3k | 3,4k | 3,8k |
 | Kirovskiy (Reg. 27) | Кировский; Kirovskij | 45,85, 48,12 (1926-1953) | 1,6k | 1,9k | 2,2k | 2,4k | 2,7k |
 | Kirovskoye (Reg. 26) | Чаусы | 50,81, 46,7 (1926-1953) | 1,7k | 1,7k | 1,6k | 1,5k | 1,4k |
 | Kirpilskaya (Reg. 29) | Кирпильская | 45,37, 39,7 (1926-1953) | 4,5k | 5,1k | 5,8k | 5,8k | 5,7k |
-| Kirpilskiy (Reg. 29) | Кирпильский | 45,54, 38,9 (1926-1953) | 10k | 11,7k | 13,2k | 14,6k | 16,8k |
 | Kirs (Reg. 23) | Кирс | 59,34, 52,24 (1926-1953) | 3,9k | 5,2k | 6,6k | 7,6k | 9,3k |
 | Kirya (Reg. 23) | Киря; Kirja | 55,08, 46,86 (1926-1953) | 1,8k | 2,3k | 2,8k | 3,8k | 5,7k |
 | Kiryabinskoye (Reg. 34) | Кирябинское | 54,55, 59,26 (1926-1953) | 2,2k | 1,9k | 1,7k | 1,6k | 1,4k |
-| Kiselevka (Reg. 23) | Киселевка | 53,9, 42,7 (1926-1953) | 11,2k | 12,6k | 14k | 15,3k | 17,3k |
-| Kisha (Reg. 23) | Киша | 55,08, 46,03 (1926-1953) | 4,8k | 6,5k | 8,4k | 9,2k | 10,6k |
 | Kishpek (Reg. 31) | Кишпек | 43,66, 43,64 (1926-1953) | 521 | 702 | 907 | 1,1k | 1,4k |
-| Kisla (Reg. 25) | Кислянское | 53,65, 52,85 (1926-1953) | 26,7k | 34,3k | 42,4k | 46,7k | 53,1k |
 | Kislovodsk (Reg. 30) | Narzan Spa; Кисловодск | 43,91, 42,72 (1926-1953) | 31,6k | 41k | 51,3k | 58,2k | 68,8k |
-| Kislovodskaya (Reg. 30) | Кисловодская | 43,93, 42,73 (1926-1953) | 6,3k | 6k | 5,8k | 6,2k | 6,9k |
 | Kislyako-vskaya (Reg. 29) | Кисляковская | 46,44, 39,67 (1926-1953) | 10,8k | 12,4k | 14k | 12,8k | 11,3k |
-| Kista (Reg. 28) | Кистинское | 47,41, 44,56 (1926-1953) | 6,7k | 8,8k | 11,1k | 12,1k | 13,5k |
 | Kitayevskoye (Reg. 30) | Китаевское | 44,79, 43,32 (1926-1953) | 4,2k | 4k | 3,9k | 3,8k | 3,6k |
 | Kivat (Reg. 24) | Кивать | 54,44, 47,04 (1926-1953) | 3k | 2,8k | 2,6k | 2,5k | 2,3k |
 | Kiyevskoye (Reg. 29) | Киевское | 45,04, 37,89 (1926-1953) | 1,7k | 1,9k | 2,2k | 2,4k | 2,8k |
@@ -5929,9 +5316,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Kletskaya (Reg. 27) | Клетская; Kletskaja | 49,31, 43,06 (1926-1953) | 3,1k | 3,5k | 3,8k | 3,7k | 3,5k |
 | Klimkovka (Reg. 23) | Климковка | 58,89, 51,24 (1926-1953) | 1,5k | 1,5k | 1,5k | 1,5k | 1,5k |
 | Klimovka (Reg. 29) | Климовка | 49,34, 41,54 (1926-1953) | 1,1k | 914 | 800 | 700 | 587 |
-| Klin (Reg. 25) | Клин | 54,22, 51,5 (1926-1953) | 4,9k | 6,4k | 8,1k | 9,9k | 12,8k |
-| Klintsy (Reg. 25) | Клинцы | 53,09, 52,8 (1926-1953) | 39,4k | 50,6k | 62,6k | 68,9k | 78,3k |
-| Klyuchevo (Reg. 23) | Ключево | 55,55, 45,43 (1926-1953) | 4,9k | 6,5k | 8,4k | 9,3k | 10,6k |
 | Klyuchevsk (Reg. 34) | Ключевск; Ključevsk | 57,12, 60,94 (1926-1953) | 3,7k | 5,4k | 7,6k | 5,5k | 3,5k |
 | Klyuchishchi (Reg. 23) | Ключищи | 55,85, 43,56 (1926-1953) | 2,1k | 1,9k | 1,7k | 1,5k | 1,3k |
 | Klyuchishchi (Reg. 24) | Ключищи | 54,14, 48,24 (1926-1953) | 4,5k | 4,5k | 4,4k | 4,3k | 4,2k |
@@ -5968,7 +5352,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Korenovsk (Reg. 29) | Кореновск; Кореновская | 45,47, 39,45 (1926-1953) | 15,6k | 14,3k | 13,3k | 14,6k | 16,6k |
 | Korkino (Reg. 34) | Коркино | 54,89, 61,39 (1926-1953) | 5,7k | 8,3k | 11,5k | 21k | 46,7k |
 | Korkmaskala (Reg. 33) | Коркмаскала | 43,02, 47,29 (1926-1953) | 15,3k | 16,3k | 17,2k | 15,6k | 13,6k |
-| Korzhevka (Reg. 24) | Коржевка | 54,18, 46,37 (1926-1953) | 12,2k | 16,9k | 22,3k | 23,9k | 26,1k |
 | Kos’ja (Reg. 34) | Косья | 58,8, 59,35 (1926-1953) | 1,5k | 3,6k | 7,5k | 6,4k | 5,3k |
 | Koshary (Reg. 27) | Верхне - Ольховая | 48,37, 44,29 (1926-1953) | 2,3k | 2,5k | 2,7k | 2,8k | 2,9k |
 | Koshekhabl (Reg. 29) | Кошехабль | 44,9, 40,5 (1926-1953) | 2,1k | 2,8k | 3,6k | 3,9k | 4,4k |
@@ -5976,7 +5359,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Koshki (Reg. 25) | Кошки | 54,21, 50,47 (1926-1953) | 4,3k | 4,5k | 4,8k | 5k | 5,4k |
 | Kosino (Reg. 23) | Косино | 58,41, 51,28 (1926-1953) | 740 | 1,3k | 2k | 2,5k | 3,3k |
 | Kostek (Reg. 33) | Костек | 43,34, 46,85 (1926-1953) | 2,5k | 2,1k | 1,8k | 2k | 2,2k |
-| Kostroma (Reg. 25) | Кострома | 52,03, 53,52 (1926-1953) | 82,9k | 106,3k | 131,6k | 144,8k | 164,6k |
 | Kotel’nikovo (Reg. 27) | Котельниково | 47,63, 43,14 (1926-1953) | 8,1k | 9,2k | 15,5k | 16,1k | 16,9k |
 | Kotel’nič (Reg. 23) | Котельнич | 58,3, 48,34 (1926-1953) | 7,6k | 12,3k | 18,5k | 20,8k | 24,5k |
 | Kotovo (Reg. 26) | Котово | 50,32, 44,81 (1926-1953) | 2,4k | 2,7k | 2,9k | 3,8k | 5,5k |
@@ -5987,13 +5369,11 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Koz’modem’jansk (Reg. 23) | Козьмодемьянск | 56,33, 46,56 (1926-1953) | 7,7k | 8,8k | 10,7k | 11,2k | 12k |
 | Kozet (Reg. 29) | Козетъ | 44,99, 39 (1926-1953) | 4,2k | 3,9k | 3,6k | 3,3k | 3k |
 | Kozlovka (Reg. 23) | Козловка | 55,84, 48,25 (1926-1953) | 3k | 4,2k | 5,7k | 6,6k | 8,1k |
-| Kozlovka (Reg. 27) | Козловка | 52,65, 46,63 (1926-1953) | 2,6k | 2,3k | 2,1k | 1,9k | 1,6k |
 | Kraishevo (Reg. 27) | Краишевка | 50,84, 43,93 (1926-1953) | 3,5k | 3,2k | 3k | 2,8k | 2,5k |
 | Krasnaya Gorka (Reg. 23) | Красная Горка; Krasnaja Gorka | 55,39, 46,11 (1926-1953) | 2,3k | 3,1k | 4k | 4,4k | 5k |
 | Krasnaya Gorka (Reg. 34) | Красная Горка | 55,19, 56,67 (1926-1953) | 1,8k | 2,9k | 3,2k | 3,3k | 3,4k |
 | Krasnaya Polyana (Reg. 29) | Красная Поляна; Krasnaja Poljana | 43,68, 40,2 (1926-1953) | 1,2k | 1,6k | 2k | 2,6k | 3,5k |
 | Krasnaya Polyana (Reg. 23) | Красная Поляна; Krasnaja Poljana | 56,24, 51,14 (1926-1953) | 2,5k | 3,8k | 5,6k | 6,4k | 7,8k |
-| Krasnaya Polyana (Reg. 30) | Красная Поляна | 45,82, 42,08 (1926-1953) | 15,7k | 15k | 14,5k | 15,6k | 17,2k |
 | Krasno-armeysk-Volga (Reg. 26) | Balzer (Volga German ASSR Canton, Aug 1941 Deportation) | 51,02, 45,7 (1926-1953) | 12,1k | 9,8k | 15,7k | 8,2k | 12,5k |
 | Krasnoar-meyskoye (Reg. 23) | Красноармейское | 55,77, 47,17 (1926-1953) | 976 | 1,2k | 1,5k | 1,8k | 2,2k |
 | Krasnoar-meyskoye (Reg. 33) | Красноармейское | 43,02, 47,41 (1926-1953) | 26,3k | 28k | 29,6k | 23,8k | 17,7k |
@@ -6004,7 +5384,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Krasnogv-ardeyskiy (Reg. 34) | Красногвардейский; Krasnogv-ardejskij | 57,38, 62,32 (1926-1953) | 2,6k | 3,9k | 5,5k | 6k | 6,7k |
 | Krasnogv-ardeyskoye (Reg. 29) | Красногвардейское | 45,13, 39,57 (1926-1953) | 2,6k | 3,4k | 4,4k | 4,9k | 5,5k |
 | Krasnogv-ardeyskoye (Reg. 30) | Красногвардейское | 45,84, 41,52 (1926-1953) | 11,8k | 10,8k | 10,1k | 10,5k | 11,2k |
-| Krasnokamenka (Reg. 34) | Краснокаменский | 54,6, 60,22 (1926-1953) | 5,6k | 8,1k | 11,3k | 12,9k | 15,4k |
 | Krasnokamsk (Reg. 34) | Краснокамск | 58,08, 55,76 (1926-1953) | 13k | 20,3k | 29,7k | 35,7k | 45,6k |
 | Krasnokholm (Reg. 25) | Краснохолм | 51,6, 54,16 (1926-1953) | 2,3k | 2,9k | 3,6k | 4k | 4,7k |
 | Krasnokh-olmskiy (Reg. 34) | Краснохолмский; Krasnoho-lmskij | 55,99, 55,05 (1926-1953) | 1,7k | 2,4k | 3k | 3,3k | 3,7k |
@@ -6012,7 +5391,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Krasnooktjabr’skij (Reg. 23) | Краснооктябрьский | 56,68, 47,66 (1926-1953) | 792 | 1,3k | 1,9k | 2,2k | 2,7k |
 | Krasnooktjabr’skij (Reg. 27) | Краснооктябрьский | 48,87, 44,76 (1926-1953) | 2,5k | 2,8k | 3k | 3,2k | 3,3k |
 | Krasnook-tyabrskiy (Reg. 29) | Краснооктябрьский | 44,58, 40,08 (1926-1953) | 1,5k | 2,1k | 2,7k | 2,9k | 3,3k |
-| Krasnosa-marskoye (Reg. 25) | Моча | 53,06, 50,81 (1926-1953) | 2,9k | 2,7k | 2,6k | 2,4k | 2,3k |
 | Krasnosel’skij (Reg. 29) | Красносельский | 45,39, 40,61 (1926-1953) | 2,9k | 3,3k | 3,8k | 4,2k | 4,8k |
 | Krasnoselskoe (Reg. 29) | Красносельское | 45,29, 39,16 (1926-1953) | 1k | 1,2k | 1,3k | 1,5k | 1,7k |
 | Krasnosl-obodsk (Reg. 23) | Краснослободск | 54,43, 43,79 (1926-1953) | 7,2k | 5,6k | 6k | 6,2k | 6,3k |
@@ -6026,13 +5404,10 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Krasnoyarskiy (Reg. 25) | Красноярский; Krasnojarskij | 51,97, 59,9 (1926-1953) | 3,5k | 3,9k | 4,3k | 4,8k | 5,5k |
 | Krasnoye (Reg. 29) | Красное; Krasnoje | 46,74, 39,57 (1926-1953) | 1,9k | 2k | 2,1k | 2,2k | 2,4k |
 | Krasnoye (Reg. 23) | Красное | 59,2, 47,88 (1926-1953) | 4,5k | 3,7k | 3,2k | 2,7k | 2,2k |
-| Krasnoye (Reg. 34) | Краснослободское | 58,89, 56,62 (1926-1953) | 7,9k | 11,7k | 16,3k | 18,6k | 22,3k |
 | Krasny Yar (Reg. 27) | Krasny Yar Delta; Buzan Fortress | 46,53, 48,35 (1926-1953) | 9,1k | 6,7k | 5,1k | 4,9k | 4,7k |
 | Krasnye Baki (Reg. 23) | Красные Баки; Krasnyje Baki | 57,13, 45,16 (1926-1953) | 3,1k | 3,5k | 3,8k | 4,5k | 5,6k |
 | Krasnyj Oktjabr’ (Reg. 27) | Красный Октябрь | 51,54, 45,7 (1926-1953) | 3,6k | 3,9k | 4,2k | 4,3k | 4,5k |
 | Krasnyj Tekstil’ščik (Reg. 27) | Красный Текстильщик | 51,36, 45,83 (1926-1953) | 2,5k | 3,6k | 4,9k | 5k | 5,1k |
-| Krasnyy (Reg. 29) | Красный; Krasnyj | 47,39, 39,88 (1926-1953) | 1,9k | 1,9k | 1,9k | 1,9k | 1,8k |
-| Krasnyy (Reg. 27) | Красный | 51,45, 43,56 (1926-1953) | 7,3k | 7,4k | 7,5k | 7,7k | 8k |
 | Krasnyy Gulyay (Reg. 24) | Красный Гуляй; Krasnyj Guljaj | 54,03, 48,33 (1926-1953) | 1,4k | 1,9k | 2,6k | 2,7k | 3k |
 | Krasnyy Khimik (Reg. 23) | Красный Химик; Krasnyj Himik | 58,62, 49,71 (1926-1926) | 1,3k | \- | \- | \- | \- |
 | Krasnyy Klyuch (Reg. 34) | Красный Ключ; Krasnyj Ključ | 55,39, 56,65 (1926-1953) | 1,7k | 4k | 8,3k | 8k | 7,5k |
@@ -6046,11 +5421,11 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Krasnyy Yar (Reg. 27) | Красный Яр; Krasnyj Jar | 50,7, 44,73 (1926-1953) | 7,3k | 6,7k | 6,2k | 6,7k | 7,6k |
 | Krasnyy Yar (Reg. 25) | Красный Яр | 53,5, 50,39 (1926-1953) | 3,1k | 3,4k | 3,7k | 3,9k | 4,3k |
 | Krasnyy Yar (Reg. 26) | Красный Яръ | 51,63, 46,42 (1926-1953) | 5,1k | 4,9k | 4,6k | 4,5k | 4,2k |
+| Krasnyy (Reg. 29) | Красный; Krasnyj | 47,39, 39,88 (1926-1953) | 1,9k | 1,9k | 1,9k | 1,9k | 1,8k |
 | Krasnyye Barrikady (Reg. 27) | Красные Баррикады; Krasnyje Barrikady | 46,2, 47,85 (1926-1953) | 2k | 2,4k | 2,7k | 2,9k | 3,3k |
 | Krasyuko-vskaya (Reg. 29) | Красюковская | 47,52, 40,08 (1926-1953) | 1k | 1,5k | 2,2k | 2,4k | 2,8k |
 | Kriushi (Reg. 24) | Криуши | 54,1, 48,53 (1926-1953) | 3,9k | 3,8k | 3,8k | 3,7k | 3,6k |
 | Krivorozhe (Reg. 29) | Криворожье | 48,85, 40,77 (1926-1953) | 2k | 2k | 1,9k | 1,9k | 1,8k |
-| Krivoye Ozero (Reg. 24) | Кривое Озеро | 54,53, 50,55 (1926-1953) | 4,2k | 6,3k | 9,1k | 9,5k | 10,2k |
 | Krivyanskaya (Reg. 29) | Кривянская | 47,4, 40,17 (1926-1953) | 2,4k | 3,7k | 5,2k | 5,8k | 6,6k |
 | Kropačevo (Reg. 34) | Кропачево | 55,01, 57,99 (1926-1953) | 1,6k | 2,9k | 4,6k | 5,9k | 8,1k |
 | Kropotkin (Reg. 29) | Кропоткин; Романовский | 45,44, 40,57 (1926-1953) | 31k | 36,3k | 41,5k | 44,9k | 49,9k |
@@ -6062,7 +5437,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Krym (Reg. 29) | Крым | 47,3, 39,52 (1926-1953) | 1,1k | 1,6k | 2,3k | 2,5k | 2,9k |
 | Krymsk (Reg. 29) | Крымск; Крымская | 44,93, 37,99 (1926-1953) | 14,5k | 16,8k | 19,1k | 22,5k | 27,9k |
 | Kstovo (Reg. 23) | Кстово | 56,15, 44,2 (1926-1953) | 1,2k | 1,6k | 2k | 4,4k | 12,4k |
-| Kuba (Reg. 30) | Куба | 43,86, 43,46 (1926-1953) | 1,9k | 1,9k | 1,9k | 2k | 2,2k |
 | Kubachi (Reg. 33) | Кубачи; Kubači | 42,09, 47,6 (1926-1953) | 1,7k | 1,9k | 2k | 2k | 1,9k |
 | Kuchmazukino (Reg. 31) | Кучмазукино | 43,69, 43,55 (1926-1953) | 3,8k | 3,8k | 3,8k | 4,1k | 4,6k |
 | Kudeyevskiy (Reg. 34) | Кудеевский; Kudejevskij | 54,88, 56,76 (1926-1953) | 1,3k | 1,8k | 2,3k | 2,5k | 2,8k |
@@ -6082,14 +5456,13 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Kumylzhe-nskaya (Reg. 27) | Кумылженская; Kumylženskaja | 49,88, 42,59 (1926-1953) | 1,8k | 1,8k | 1,9k | 2k | 2k |
 | Kumysh (Reg. 30) | Кумыш | 43,88, 41,89 (1926-1953) | 1,4k | 1,8k | 2,4k | 2,7k | 3,1k |
 | Kunashak (Reg. 34) | Кунашак | 55,7, 61,55 (1926-1953) | 4,4k | 4,4k | 4,5k | 4,6k | 4,8k |
-| Kungur (Reg. 34) | Кунгур | 57,41, 56,97 (1926-1953) | 20,6k | 27,9k | 36,3k | 43,2k | 54,5k |
+| Kungur (Reg. 34) | Кунгур; Sylva Agricultural Center | 57,41, 56,97 (1926-1953) | 20,6k | 27,9k | 36,3k | 43,2k | 54,5k |
 | Kuperbash (Reg. 24) | Купербашъ | 56,11, 49,94 (1926-1953) | 2,3k | 2k | 1,7k | 1,5k | 1,3k |
 | Kurakh (Reg. 33) | Курахъ | 41,58, 47,78 (1926-1953) | 2k | 2,3k | 2,6k | 2,6k | 2,7k |
 | Kurchaloy (Reg. 32) | Курчалой; Kurčaloj | 43,2, 46,09 (1926-1953) | 3,3k | 3,5k | 3,6k | 4,3k | 5,4k |
 | Kurchanskaya (Reg. 29) | Курчанская | 45,22, 37,57 (1926-1953) | 2,3k | 2,6k | 2,9k | 3,2k | 3,7k |
 | Kurdzhinovo (Reg. 29) | Курджиново; Kurdžinovo | 43,99, 40,96 (1926-1953) | 1,6k | 2,1k | 2,7k | 3k | 3,5k |
 | Kurganinsk (Reg. 29) | Курганинск; Курганная | 44,88, 40,59 (1926-1953) | 13,7k | 12,9k | 12,2k | 15k | 19,7k |
-| Kuri (Reg. 34) | Курьи | 56,92, 62,12 (1926-1953) | 1,6k | 2,3k | 3,2k | 3,7k | 4,5k |
 | Kurkent (Reg. 33) | Куркент | 41,71, 48,12 (1926-1953) | 1,1k | 1,2k | 1,2k | 1,3k | 1,5k |
 | Kurmanayevka (Reg. 25) | Курманаевка | 52,51, 52,07 (1926-1953) | 1,7k | 2,2k | 2,7k | 3k | 3,5k |
 | Kurmysh (Reg. 23) | Курмыш; Kurmyš | 55,83, 46,07 (1926-1953) | 2,2k | 2,1k | 2,1k | 2k | 1,9k |
@@ -6103,8 +5476,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Kushchyo-vskaya (Reg. 29) | Кущевская | 46,56, 39,63 (1926-1953) | 33,2k | 38,2k | 43k | 40,5k | 37,3k |
 | Kushnarenkovo (Reg. 34) | Кушнаренково | 55,1, 55,35 (1926-1953) | 2,9k | 4,1k | 5,9k | 6,3k | 6,8k |
 | Kushva (Reg. 34) | Кушва; Kušva | 58,29, 59,75 (1926-1953) | 14,3k | 15,5k | 24,9k | 29,9k | 38,3k |
-| Kusinskiy Zavod (Reg. 34) | Кусинский Заводъ; Кусинский завод | 55,35, 59,4 (1926-1953) | 10,7k | 15,7k | 21,7k | 24,9k | 29,8k |
-| Kutais (Reg. 29) | Кутаис | 44,52, 39,3 (1926-1953) | 3,1k | 3,6k | 4,1k | 4,5k | 5,1k |
 | Kuteynikovo (Reg. 29) | Кутейниково | 47,55, 39,77 (1926-1953) | 1,6k | 2,5k | 3,5k | 3,2k | 2,8k |
 | Kuteynik-ovskaya (Reg. 29) | Кутейниковская | 47,24, 42,13 (1926-1953) | 2,1k | 2,4k | 2,8k | 2,6k | 2,3k |
 | Kuvandyk (Reg. 25) | Кувандык; Покровка | 51,48, 57,36 (1926-1953) | 3,6k | 6,6k | 11,2k | 13,6k | 17,6k |
@@ -6146,12 +5517,10 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Lermontov (Reg. 30) | Лермонтов; Лермонтовский | 44,11, 42,98 (1926-1953) | 8,9k | 8,8k | 8,7k | 9,3k | 10,2k |
 | Lesnoy (Reg. 23) | Лесной; Lesnoj | 59,78, 52,13 (1947-1953) | \- | \- | \- | \- | 4,1k |
 | Lesnoy (Reg. 34) | Лесной | 58,64, 59,79 (1947-1953) | \- | \- | \- | \- | 47,5k |
-| Lesnoye (Reg. 27) | Свинуха | 51,58, 42,76 (1926-1953) | 2,8k | 2,5k | 2,3k | 2k | 1,8k |
 | Lesnyye Polyany (Reg. 23) | Лесные Поляны; Lesnyje Poljany | 59, 52,42 (1926-1953) | 753 | 1,2k | 1,7k | 1,9k | 2,3k |
 | Lesogorsk (Reg. 23) | Лесогорск | 55,1, 43,94 (1926-1953) | 469 | 630 | 811 | 897 | 1k |
 | Letki (Reg. 23) | Летки | 54,31, 44,57 (1926-1953) | 1,9k | 1,6k | 1,4k | 1,3k | 1,1k |
 | Letnyaya Stavka (Reg. 30) | Летняя Ставка | 45,43, 43,44 (1926-1953) | 8,5k | 3,8k | 1,9k | 2,1k | 2,4k |
-| Letyagino (Reg. 34) | Бабинова | 54,4, 61,13 (1926-1953) | 6,5k | 9,5k | 13,1k | 15k | 18k |
 | Levashi (Reg. 33) | Леваши | 42,43, 47,32 (1926-1953) | 1,6k | 2k | 2,4k | 2,7k | 3,1k |
 | Levikha (Reg. 34) | Лёвиха; Ljoviha | 57,58, 59,9 (1926-1953) | 4,4k | 6,5k | 9k | 9,1k | 9,2k |
 | Levintsy (Reg. 23) | Лёвинцы; Ljovincy | 58,45, 50,96 (1926-1953) | 610 | 940 | 1,4k | 1,6k | 1,9k |
@@ -6163,18 +5532,15 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Linda (Reg. 23) | Линда | 56,62, 44,1 (1926-1953) | 2,1k | 2,9k | 3,7k | 4,1k | 4,7k |
 | Lineynoye (Reg. 27) | Линейное | 46,25, 47,41 (1926-1953) | 3,8k | 3,4k | 3,2k | 2,9k | 2,6k |
 | Linjovo (Reg. 26) | Линёво; Гуссенбах | 50,89, 44,83 (1926-1953) | 5,9k | 6,6k | 7,1k | 6,9k | 6,6k |
-| Lipovka (Reg. 25) | Липовка | 54,12, 51,03 (1926-1953) | 6,1k | 8k | 10,1k | 12,2k | 15,8k |
 | Lipovka (Reg. 27) | Липовка | 52,16, 45,76 (1926-1953) | 3k | 2,8k | 2,6k | 2,5k | 2,2k |
 | Lobanovo (Reg. 34) | Лобаново | 57,86, 56,3 (1926-1953) | 1,5k | 2,4k | 3,5k | 4k | 4,8k |
 | Lobva (Reg. 34) | Лобва | 59,19, 60,52 (1926-1953) | 2,8k | 4,8k | 7,5k | 8,6k | 10,2k |
 | Log (Reg. 27) | Лог | 49,48, 43,86 (1926-1953) | 3,1k | 3,5k | 3,8k | 3,6k | 3,5k |
 | Lokomotivnyy (Reg. 34) | Локомотивный; Lokomotivnyj | 53,04, 60,62 (1926-1953) | 3,5k | 5,1k | 7k | 8,1k | 9,9k |
 | Lomovka (Reg. 34) | Ломовка | 53,92, 58,37 (1926-1953) | 4,3k | 4k | 3,8k | 4k | 4,3k |
-| Lomovtsev (Reg. 29) | Ломовцевъ | 47,83, 41,75 (1926-1953) | 7,6k | 11,6k | 16,6k | 18,5k | 21,5k |
 | Lopatino (Reg. 24) | Лопатино | 52,62, 45,81 (1926-1953) | 3k | 2,7k | 2,4k | 2,6k | 2,8k |
 | Losinyy (Reg. 34) | Лосиный; Losinyj | 57,14, 61,07 (1926-1953) | 1,8k | 2,6k | 3,7k | 4,2k | 5,1k |
 | Lubyany (Reg. 24) | Лубяны; Lubjany | 56,04, 51,4 (1926-1953) | 1k | 1,4k | 1,9k | 2,7k | 4,3k |
-| Luchiny (Reg. 23) | Лучины | 59,63, 50,52 (1926-1953) | 3,6k | 5,6k | 8k | 9,2k | 11,2k |
 | Luganskoye (Reg. 26) | Луганское | 51,17, 45,66 (1926-1953) | 4,3k | 4,7k | 5,1k | 4,6k | 4k |
 | Lugovskoy (Reg. 34) | Луговской; Lugovskoj | 56,96, 64,53 (1926-1953) | 1k | 1,5k | 2,1k | 2,4k | 2,9k |
 | Lukhovka (Reg. 23) | Луховка; Luhovka | 54,15, 45,26 (1926-1953) | 2,1k | 2,4k | 2,7k | 2,9k | 3,3k |
@@ -6184,7 +5550,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Lun’jevka (Reg. 34) | Луньевка | 59,15, 57,69 (1926-1953) | 1,3k | 1,5k | 1,7k | 2k | 2,4k |
 | Lunino (Reg. 24) | Лунино | 53,59, 45,23 (1926-1953) | 2,5k | 4,5k | 7,3k | 7,4k | 7,5k |
 | Luza (Reg. 23) | Луза | 60,63, 47,26 (1926-1953) | 3k | 4,6k | 6,7k | 8,2k | 10,8k |
-| Lvovskoe (Reg. 29) | Львовское | 45,01, 38,6 (1926-1953) | 1,7k | 2k | 2,2k | 2,4k | 2,8k |
 | Lyambir (Reg. 23) | Лямбирь | 54,28, 45,12 (1926-1953) | 3k | 3,4k | 3,7k | 4,1k | 4,6k |
 | Lyamino (Reg. 34) | Лямино; Ljamino | 58,28, 57,73 (1926-1953) | 1,5k | 2,4k | 3,5k | 4k | 4,8k |
 | Lyangasovo (Reg. 23) | Лянгасово; Ljangasovo | 58,52, 49,45 (1926-1953) | 1,8k | 2,8k | 4k | 4,6k | 5,6k |
@@ -6201,7 +5566,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Magnitogorsk (Reg. 34) | Magnitnaya; Magnitostroy | 53,41, 58,98 (1929-1953) | \- | 115k | 145,9k | 205k | 270k |
 | Mahnjovo (Reg. 34) | Махнёво | 58,45, 61,7 (1926-1953) | 538 | 675 | 819 | 1k | 1,4k |
 | Makar’yevo (Reg. 23) | Макарьево; Makar’jevo | 56,08, 45,06 (1926-1953) | 1,2k | 1,6k | 2k | 2,5k | 3,4k |
-| Makhach-Kala (Reg. 30) | Махач-Кала | 45,72, 42,29 (1926-1926) | 32k | \- | \- | \- | \- |
 | Makhalino (Reg. 24) | Махалино | 53,09, 46,22 (1926-1953) | 2,7k | 2,5k | 2,2k | 2,4k | 2,7k |
 | Makhkety (Reg. 32) | Махкеты | 42,97, 45,91 (1926-1953) | 1,6k | 1,7k | 1,7k | 1,8k | 1,9k |
 | Maksimovka (Reg. 25) | Максимовка | 52,98, 51,14 (1926-1953) | 2,8k | 2,6k | 2,4k | 2,2k | 2k |
@@ -6240,7 +5604,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Maryanskaya (Reg. 29) | Марьянская | 45,1, 38,64 (1926-1953) | 7,3k | 8,4k | 9,4k | 9,5k | 9,6k |
 | Masalovka (Reg. 29) | Заводской; Zavodskoj | 48,4, 40,26 (1926-1953) | 1k | 1,5k | 2,2k | 2,4k | 2,7k |
 | Maslovo (Reg. 34) | Маслово | 60,11, 60,48 (1926-1953) | 864 | 1,3k | 1,8k | 2,1k | 2,5k |
-| Maslyanka (Reg. 34) | Маслянка | 57,7, 60,93 (1926-1953) | 18,5k | 26,8k | 36,8k | 42,1k | 50,2k |
 | Matveyev Kurgan (Reg. 29) | Матвеев Курган; Matvejev Kurgan | 47,57, 38,87 (1926-1953) | 5k | 5,4k | 5,8k | 6,1k | 6,4k |
 | Matveyevka (Reg. 25) | Матвеевка | 53,1, 49,65 (1926-1953) | 5,6k | 7,4k | 9,3k | 11,3k | 14,6k |
 | Matyshevo (Reg. 27) | Матышево | 50,82, 44,2 (1926-1953) | 4,3k | 3,9k | 3,6k | 3,4k | 3k |
@@ -6251,9 +5614,8 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Mayna (Reg. 24) | Майна; Majna | 54,12, 47,62 (1926-1953) | 1,7k | 2,4k | 3,2k | 3,7k | 4,4k |
 | Mayrtup (Reg. 32) | Майртуп | 43,2, 46,13 (1926-1953) | 3,5k | 3,7k | 3,9k | 4,3k | 4,8k |
 | Mayskiy (Reg. 31) | Майский; Majskij | 43,64, 44,04 (1926-1953) | 1,2k | 2,9k | 5,9k | 7,4k | 9,9k |
-| Mayskiy (Reg. 34) | Майский; Majskij | 58,1, 55,58 (1926-1953) | 890 | 1,4k | 2k | 2,3k | 2,8k |
 | Mayskiy (Reg. 29) | Майский; Majskij | 47,7, 40,1 (1926-1953) | 1,3k | 2k | 2,9k | 3,2k | 3,7k |
-| Mayskoye (Reg. 25) | Майское | 52,27, 50,03 (1926-1953) | 1,3k | 1,8k | 2,2k | 2,7k | 3,5k |
+| Mayskiy (Reg. 34) | Майский; Majskij | 58,1, 55,58 (1926-1953) | 890 | 1,4k | 2k | 2,3k | 2,8k |
 | Mechetinskaya (Reg. 29) | Мечетинская | 46,77, 40,46 (1926-1953) | 1,5k | 2,3k | 3,3k | 3,7k | 4,2k |
 | Mednogorsk (Reg. 25) | Медногорск | 51,41, 57,59 (1926-1953) | 12,4k | 15,9k | 19,6k | 23,7k | 30,5k |
 | Mednogorskiy (Reg. 30) | Медногорский; Mednogorskij | 43,92, 41,18 (1926-1953) | 1,5k | 2k | 2,6k | 2,9k | 3,3k |
@@ -6266,12 +5628,11 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Mekegi (Reg. 33) | Мекеге | 42,4, 47,46 (1926-1953) | 2,5k | 2,6k | 2,6k | 2,6k | 2,6k |
 | Mekenskaya (Reg. 30) | Мекенская | 43,66, 45,38 (1926-1953) | 2,5k | 2,5k | 2,5k | 2,6k | 2,6k |
 | Melchu Khe (Reg. 32) | Мелчхи | 43,31, 46,19 (1926-1953) | 1,3k | 1,4k | 1,5k | 1,6k | 1,8k |
-| Melekes (Reg. 24) | Мелекес; Мелекесъ | 55,59, 52,18 (1926-1953) | 20,7k | 28,6k | 37,8k | 39,7k | 42,3k |
 | Melentjevskij (Reg. 34) | Мелентьевский | 54,9, 59,93 (1926-1939) | 2k | 3k | 4,1k | \- | \- |
 | Meleuz (Reg. 34) | Мелеуз | 52,96, 55,93 (1926-1953) | 5,2k | 2,3k | 9,1k | 11,1k | 14,5k |
 | Melovoy (Reg. 24) | Меловой; Melovoj | 54,12, 48,33 (1926-1953) | 291 | 402 | 530 | 566 | 619 |
 | Mendeleyevsk (Reg. 24) | Менделеевск; Mendelejevsk | 55,9, 52,31 (1926-1953) | 5,2k | 6,4k | 8,5k | 9,2k | 10,3k |
-| Menzelinsk (Reg. 24) | Мензелинск | 55,73, 53,1 (1926-1953) | 7,5k | 8,2k | 10,9k | 11,2k | 11,5k |
+| Menzelinsk (Reg. 24) | Мензелинск; Menzelinskiy Ostrog | 55,73, 53,1 (1926-1953) | 7,5k | 8,2k | 10,9k | 11,2k | 11,5k |
 | Merkulovskiy (Reg. 29) | Меркуловъ | 49,61, 41,54 (1926-1953) | 4,3k | 3,9k | 3,6k | 3,3k | 2,9k |
 | Mesker-Yurt (Reg. 32) | Мескер-Юрт | 43,25, 45,91 (1926-1953) | 3,6k | 3,8k | 4,1k | 4,4k | 4,9k |
 | Meskety (Reg. 32) | Мескеты | 43,16, 46,36 (1926-1953) | 1,1k | 1,2k | 1,3k | 1,4k | 1,6k |
@@ -6279,29 +5640,26 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Mezhdure-chensk (Reg. 25) | Междуреченск; Meždurečensk | 53,27, 49,11 (1926-1953) | 1,2k | 1,6k | 2,1k | 2,5k | 3,3k |
 | Mezhevoy (Reg. 34) | Межевой; Meževoj | 55,17, 58,78 (1926-1953) | 1,9k | 2,8k | 3,9k | 4,5k | 5,5k |
 | Mezhgyul (Reg. 33) | Межгюль | 41,81, 48,01 (1926-1953) | 512 | 518 | 524 | 563 | 619 |
-| Mežgor’je (Reg. 34) | Межгорье | 54,24, 57,96 (1926-1953) | 6,4k | 8,6k | 11,1k | 12,1k | 13,6k |
+| Mežgor’je (Reg. 34) | Межгорье; Mezgor’e | 54,05, 57,82 (1926-1953) | 6,4k | 8,6k | 11,1k | 12,1k | 13,6k |
 | Mežozernyj (Reg. 34) | Межозерный | 54,15, 59,37 (1926-1953) | 1,5k | 2,2k | 3k | 3,5k | 4,3k |
 | Miass (Reg. 34) | Миасс | 55,05, 60,11 (1926-1953) | 19,4k | 21,9k | 28,5k | 41,4k | 68,2k |
 | Miasskoye (Reg. 34) | Миасское | 55,28, 61,89 (1926-1953) | 3,1k | 4,5k | 6,3k | 7,3k | 8,8k |
 | Miatli (Reg. 33) | Миатли | 43,08, 46,83 (1926-1953) | 820 | 874 | 923 | 1k | 1,2k |
-| Migulinskaya (Reg. 29) | Мигулинская | 49,69, 41,26 (1926-1953) | 38,8k | 58,9k | 84,2k | 94,1k | 109,1k |
 | Mikhaylovka (Reg. 27) | Михайловка; Mihajlovka | 50,06, 43,23 (1926-1953) | 12,9k | 15,3k | 17,7k | 21,7k | 28,5k |
 | Mikhaylovka (Reg. 34) | Михайловка | 54,8, 55,89 (1926-1953) | 1,7k | 1,9k | 2k | 2,1k | 2,4k |
 | Mikhaylovka (Reg. 24) | Михайловка | 53,85, 45,33 (1926-1953) | 878 | 648 | 500 | 485 | 465 |
-| Mikhaylovka (Reg. 25) | Подъемъ | 54,07, 51,15 (1926-1953) | 4,7k | 6,1k | 7,8k | 9,4k | 12,2k |
 | Mikhaylovsk (Reg. 30) | Михайловск; Mihajlovsk | 45,13, 42,03 (1926-1953) | 10,5k | 9,4k | 8,6k | 9,6k | 11k |
 | Mikhaylovsk (Reg. 34) | Михайловск; Mihajlovsk | 56,44, 59,12 (1926-1953) | 5,8k | 5,8k | 5,8k | 7k | 8,9k |
 | Mikhaylo-vskaya (Reg. 29) | Михайловская | 44,99, 40,6 (1926-1953) | 9,5k | 9,2k | 9k | 8,9k | 8,8k |
-| Mikhaylovskiy (Reg. 29) | Михайлов; Mihajlov | 47,67, 40,96 (1926-1953) | 1k | 1,2k | 1,3k | 1,5k | 1,8k |
 | Mikhaylovskiy Zavod (Reg. 34) | Михайловский завод | 56,4, 59,26 (1926-1953) | 5,8k | 4,7k | 3,9k | 3,3k | 2,6k |
+| Mikhaylovskiy (Reg. 29) | Михайлов; Mihajlov | 47,67, 40,96 (1926-1953) | 1k | 1,2k | 1,3k | 1,5k | 1,8k |
 | Mikhaylo-vskoye (Reg. 31) | Михайловское | 43,1, 44,63 (1926-1953) | 3,8k | 5k | 6,4k | 6,8k | 7,5k |
 | Millerovo (Reg. 29) | Миллерово | 48,93, 40,4 (1926-1953) | 12,8k | 18k | 24k | 25,7k | 28,1k |
 | Milovka (Reg. 34) | Миловка | 54,78, 55,83 (1926-1953) | 836 | 1,1k | 1,5k | 1,6k | 1,8k |
 | Min’jar (Reg. 34) | Миньяр | 55,07, 57,56 (1926-1953) | 5,7k | 7,2k | 9,8k | 11,3k | 13,5k |
 | Mindyak (Reg. 34) | Миндяк; Mindjak | 54,02, 58,79 (1926-1953) | 2,2k | 2,9k | 3,8k | 4,3k | 5,1k |
 | Mineralnye Vody (Reg. 30) | Минеральные Воды; Mineral’nyje Vody | 44,21, 43,14 (1926-1953) | 17,6k | 24k | 31,3k | 33,7k | 37,2k |
-| Mingrelskaya (Reg. 29) | Мингрельская | 45,01, 38,34 (1926-1953) | 7,1k | 8,1k | 9,1k | 8,7k | 8,1k |
-| Mishkino (Reg. 34) | Мишкино | 55,53, 55,96 (1926-1953) | 1,7k | 2,7k | 2,2k | 2,4k | 2,7k |
+| Mingrelskaya (Reg. 29) | Мингрельская | 45,01, 38,34 (1926-1953) | 3,1k | 3,1k | 3,1k | 3,1k | 3,1k |
 | Mityakinskaya (Reg. 29) | Митякинская | 48,61, 39,78 (1926-1953) | 10,5k | 9k | 7,9k | 6,9k | 5,8k |
 | Mizur (Reg. 31) | Мизур | 42,85, 44,05 (1926-1953) | 2,1k | 2,8k | 3,5k | 3,7k | 4,1k |
 | Mochalishche (Reg. 23) | Мочалище; Močališče | 56,33, 48,35 (1926-1953) | 949 | 1,5k | 2,2k | 2,6k | 3,3k |
@@ -6309,7 +5667,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Moksha (Reg. 25) | Мокша | 52,67, 50,4 (1926-1953) | 2,5k | 2,2k | 2k | 1,8k | 1,6k |
 | Mokshan (Reg. 24) | Мокшан; Mokšan | 53,44, 44,61 (1926-1953) | 9,9k | 8,6k | 7k | 6,8k | 6,5k |
 | Monetnyy (Reg. 34) | Монетный; Monetnyj | 57,05, 60,88 (1926-1953) | 4,3k | 6,3k | 8,8k | 9,1k | 9,6k |
-| Morets (Reg. 25) | Морецъ | 52,43, 50,32 (1926-1953) | 6,1k | 8k | 10,1k | 12,2k | 15,8k |
 | Morki (Reg. 23) | Морки | 56,43, 49 (1926-1953) | 766 | 1,2k | 1,8k | 2,2k | 2,9k |
 | Morozovsk (Reg. 29) | Морозовск | 48,35, 41,83 (1926-1953) | 12,4k | 16,8k | 21,7k | 23,1k | 25,2k |
 | Morsha (Reg. 25) | Морша | 52,4, 50,75 (1926-1953) | 2,6k | 2,3k | 2k | 1,8k | 1,6k |
@@ -6346,11 +5703,9 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Natukhay-evskaya (Reg. 29) | Натухаевская | 44,91, 37,57 (1926-1953) | 2,3k | 2,6k | 3k | 3,3k | 3,7k |
 | Naurskaya (Reg. 30) | Наурская; Naurskaja | 43,65, 45,31 (1926-1953) | 4,6k | 4,8k | 5k | 5,3k | 5,6k |
 | Navashino (Reg. 23) | Навашино; Navašino | 55,54, 42,19 (1926-1953) | 1,2k | 2,4k | 4,5k | 6,1k | 9,2k |
-| Nazarevka (Reg. 24) | Назарьевка | 53,61, 44,98 (1926-1953) | 6,8k | 6,7k | 6,6k | 7,3k | 8,3k |
 | Nazran (Reg. 32) | Kosta-Khetagurovo (1944-57; Ingush Centre Ceded to N. Ossetia); Назрань | 43,23, 44,77 (1926-1953) | 2,1k | 3,4k | 4,8k | 2,2k | 3,2k |
 | Nechayevka (Reg. 33) | Нечаевка | 43,27, 46,92 (1926-1953) | 1,3k | 1,4k | 1,4k | 1,6k | 1,9k |
 | Nechayevka (Reg. 24) | Нечаевка | 53,78, 45,72 (1926-1953) | 1,2k | 1,2k | 1,1k | 1,2k | 1,3k |
-| Neforosh-chanka (Reg. 34) | Нефороща | 53,97, 55,45 (1926-1953) | 15,8k | 21,2k | 27,4k | 29,8k | 33,3k |
 | Neftegorsk (Reg. 29) | Нефтегорск | 44,37, 39,71 (1926-1953) | 2,9k | 5,8k | 10,5k | 10k | 9,3k |
 | Neftegorsk (Reg. 25) | Нефтегорск | 52,8, 51,17 (1926-1953) | 3,3k | 4,3k | 5,5k | 6,6k | 8,6k |
 | Neftekamsk (Reg. 34) | Нефтекамск | 56,09, 54,26 (1926-1953) | 1,3k | 1,7k | 2,2k | 2,4k | 2,7k |
@@ -6373,11 +5728,8 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Nikol’sk (Reg. 24) | Никольск | 53,72, 46,07 (1926-1953) | 4,2k | 5,6k | 10,1k | 11,8k | 14,4k |
 | Nikol’skoje (Reg. 27) | Никольское | 47,76, 46,41 (1926-1953) | 4,9k | 4,9k | 5k | 5k | 5k |
 | Nikol’skoje-na-Čeremšane (Reg. 24) | Никольское-на-Черемшане | 54,05, 49,23 (1926-1953) | 1,9k | 2,7k | 3,5k | 3,5k | 3,6k |
-| Nikolayev (Reg. 29) | Николаев; Николаевъ | 48,02, 41,74 (1926-1953) | 127,6k | 193,6k | 276,9k | 309,3k | 358,7k |
 | Nikolayevka (Reg. 23) | Николаевка; Nikolajevka | 54,15, 45,14 (1926-1953) | 1,9k | 2,1k | 2,3k | 2,5k | 2,9k |
 | Nikolayevka (Reg. 24) | Николаевка; Nikolajevka | 53,13, 47,21 (1926-1953) | 900 | 1k | 1,4k | 1,9k | 2,9k |
-| Nikolayevka (Reg. 29) | Николаевка | 47,62, 40,48 (1926-1953) | 2,7k | 2,9k | 3k | 3,2k | 3,4k |
-| Nikolayevka (Reg. 27) | Николаевская | 47,29, 47,03 (1926-1953) | 28,7k | 36,7k | 45,2k | 49k | 54,4k |
 | Nikolayevsk (Reg. 26) | Николаевск; Nikolajevsk | 50,03, 45,46 (1926-1953) | 19,2k | 15,2k | 12,5k | 12k | 11,4k |
 | Nikolo-Berjozovka (Reg. 34) | Николо-Берёзовка; Николо-Березовка | 56,12, 54,16 (1926-1953) | 1,1k | 1,6k | 2,8k | 3,5k | 4,8k |
 | Nikolo-Pavlovskoye (Reg. 34) | Николо-Павловское; Nikolo-Pavlovskoje | 57,78, 60,06 (1926-1953) | 4,6k | 4,7k | 4,7k | 4,7k | 4,7k |
@@ -6413,7 +5765,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Novaya Lyalya (Reg. 34) | Новая Ляля; Novaja Ljalja | 59,05, 60,59 (1926-1953) | 7k | 11,5k | 14,9k | 15,7k | 16,8k |
 | Novaya Maka (Reg. 33) | Новая Мака | 41,77, 48,36 (1926-1953) | 842 | 898 | 948 | 1,1k | 1,3k |
 | Novaya Mayna (Reg. 24) | Новая Майна; Novaja Majna | 54,15, 49,75 (1926-1953) | 3,3k | 3,4k | 3,6k | 3,7k | 3,9k |
-| Novinki (Reg. 23) | Новинки | 56,75, 43,05 (1926-1953) | 3,7k | 5k | 6,4k | 7,1k | 8,1k |
 | Novo-Pavlovka (Reg. 23) | Ново-Павловка | 56,15, 43,85 (1939-1939) | \- | \- | 6,3k | \- | \- |
 | Novo-Pokrovskoye (Reg. 27) | Ново-Покровское | 46,3, 47,98 (1926-1953) | 7k | 8,9k | 11k | 11,9k | 13,2k |
 | Novoalek-sandrovsk (Reg. 30) | Новоалександровск; Новоалександровское | 45,5, 41,23 (1926-1953) | 10,7k | 10,6k | 10,5k | 12k | 14,4k |
@@ -6430,9 +5781,8 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Novodmit-riyevskaya (Reg. 29) | Новодмитриевская | 44,83, 38,88 (1926-1953) | 1,9k | 2,1k | 2,4k | 2,7k | 3k |
 | Novodzhe-reliyevskaya (Reg. 29) | Новоджерелиевская | 45,77, 38,67 (1926-1953) | 4,1k | 4,7k | 5,3k | 5,3k | 5,3k |
 | Novogagatli (Reg. 33) | Новогагатли | 43,46, 46,48 (1926-1953) | 856 | 912 | 963 | 1,1k | 1,3k |
-| Novogeor-giyevskiy (Reg. 27) | Новогеоргиевск | 45,87, 47,46 (1926-1953) | 5,1k | 6,5k | 8k | 8,7k | 9,6k |
 | Novogornyy (Reg. 34) | Новогорный; Novogornyj | 55,63, 60,79 (1926-1953) | 1,9k | 2,8k | 3,8k | 4,4k | 5,4k |
-| Novoil’inskij (Reg. 34) | Новоильинский | 57,89, 55,48 (1926-1953) | 3,2k | 5,1k | 7,4k | 8,5k | 10,2k |
+| Novoil’inskij (Reg. 34) | Новоильинский | 57,89, 55,48 (1926-1953) | 3,1k | 3,1k | 3,1k | 3,1k | 3,1k |
 | Novokash-pirskiy (Reg. 25) | Новокашпирский; Novokašpirskij | 53,02, 48,44 (1926-1953) | 2,3k | 3k | 3,8k | 4,6k | 6k |
 | Novokayakent (Reg. 33) | Новокаякент | 42,39, 47,99 (1926-1953) | 1,1k | 1,2k | 1,2k | 1,4k | 1,7k |
 | Novokors-unskaya (Reg. 29) | Новокорсунская | 45,64, 39,15 (1926-1953) | 1,8k | 2,1k | 2,4k | 2,6k | 3k |
@@ -6444,7 +5794,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Novomalo-rossiyskaya (Reg. 29) | Новомалороссийская | 45,63, 39,89 (1926-1953) | 4,3k | 4,9k | 5,5k | 5,6k | 5,6k |
 | Novomikh-aylovskiy (Reg. 34) | Новомихайловский; Novomiha-jlovskij | 53,9, 54,13 (1926-1953) | 1,6k | 2,1k | 2,7k | 3k | 3,3k |
 | Novomikh-aylovskiy (Reg. 29) | Новомихайловский; Novomiha-jlovskij | 44,26, 38,86 (1926-1953) | 2,8k | 3,2k | 3,6k | 4k | 4,5k |
-| Novomikh-aylovskoye (Reg. 29) | Новомихайловское | 46,55, 39,85 (1926-1953) | 4,2k | 4k | 3,7k | 3,5k | 3,3k |
 | Novominskaya (Reg. 29) | Новоминская | 46,32, 38,96 (1926-1953) | 6,9k | 7,9k | 8,9k | 9,2k | 9,5k |
 | Novomysh-astovskaya (Reg. 29) | Новомышастовская | 45,2, 38,58 (1926-1953) | 5k | 5,8k | 6,5k | 6,8k | 7,1k |
 | Novoniko-layevskiy (Reg. 26) | Новониколаевский; Novoniko-lajevskij | 50,97, 42,36 (1926-1953) | 4,4k | 4,9k | 5,3k | 6,1k | 7,3k |
@@ -6508,19 +5857,12 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Obsharovka (Reg. 25) | Обшаровка | 53,12, 48,85 (1926-1953) | 4,6k | 4,7k | 4,8k | 4,9k | 5k |
 | Okhansk (Reg. 34) | Оханск; Ohansk | 57,71, 55,39 (1926-1953) | 1,9k | 4,4k | 7,1k | 7,3k | 7,7k |
 | Oktjabr’sk (Reg. 25) | Октябрьск; Батраки | 53,17, 48,7 (1926-1939) | 6,1k | 8,1k | 10,3k | \- | \- |
-| Oktjabr’skij (Reg. 34) | Октябрьский | 56,52, 57,2 (1926-1953) | 259 | 563 | 1,1k | 2,1k | 5,2k |
-| Oktjabr’skij (Reg. 27) | Октябрьский | 47,97, 43,65 (1926-1953) | 3,9k | 4,3k | 4,7k | 4,9k | 5,2k |
-| Oktjabr’skij (Reg. 23) | Октябрьский | 59,44, 48,91 (1926-1953) | 812 | 1,3k | 1,8k | 2,1k | 2,5k |
 | Oktjabr’skij (Reg. 23) | Октябрьский | 56,28, 44,19 (1926-1953) | 2,1k | 2,8k | 3,6k | 4,2k | 5,1k |
-| Oktjabr’skij (Reg. 29) | Октябрьский; Буденновский | 47,4, 39,83 (1926-1953) | 2,4k | 3,7k | 5,3k | 8,7k | 16,8k |
-| Oktjabr’skij (Reg. 34) | Октябрьский | 56,69, 58,95 (1926-1953) | 860 | 1,3k | 1,8k | 2k | 2,5k |
 | Oktjabr’skij (Reg. 24) | Октябрьский | 54,34, 48,71 (1926-1953) | 2,2k | 3k | 4k | 4,2k | 4,6k |
-| Oktjabr’skij (Reg. 34) | Октябрьский | 54,88, 59,78 (1926-1953) | 2,4k | 3,5k | 4,9k | 5,7k | 6,9k |
-| Oktjabr’skoje (Reg. 25) | Октябрьское; Исаево- | 52,35, 55,5 (1926-1953) | 5,9k | 6,1k | 6,3k | 5,7k | 5k |
-| Oktyabrskaya (Reg. 29) | Октябрьская | 46,28, 39,82 (1926-1953) | 4,1k | 4,8k | 5,4k | 5,9k | 6,8k |
+| Oktjabr’skij (Reg. 27) | Октябрьский | 47,97, 43,65 (1926-1953) | 3,9k | 4,3k | 4,7k | 4,9k | 5,2k |
+| Oktjabr’skij (Reg. 34) | Октябрьский | 56,52, 57,2 (1926-1953) | 259 | 563 | 1,1k | 2,1k | 5,2k |
 | Oktyabrskiy (Reg. 23) | Октябрьский | 58,09, 52,87 (1926-1953) | 636 | 932 | 1,3k | 1,6k | 2k |
 | Oktyabrskoe (Reg. 32) | Октябрьское | 43,31, 45,57 (1926-1953) | 838 | 891 | 939 | 1k | 1,1k |
-| Oktyabrskoe (Reg. 34) | Октябрьское | 54,41, 62,73 (1926-1953) | 2,4k | 3,6k | 4,9k | 5,7k | 6,9k |
 | Oktyabrskoe (Reg. 31) | Октябрьское | 43,06, 44,74 (1926-1953) | 3,9k | 5,2k | 6,5k | 7k | 7,7k |
 | Oktyabrsky (Reg. 34) | Октябрьский; Oktjabr’skij | 54,48, 53,47 (1926-1953) | 27,9k | 37,5k | 48,5k | 52,8k | 59,3k |
 | Ol’hovka (Reg. 27) | Ольховка | 49,86, 44,56 (1926-1953) | 3,3k | 3,7k | 4k | 3,9k | 3,7k |
@@ -6534,18 +5876,14 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Oranzherei (Reg. 27) | Оранжереи; Oranžerei | 45,85, 47,57 (1926-1953) | 3,5k | 4,1k | 4,8k | 5,4k | 6,3k |
 | Orda (Reg. 34) | Орда | 57,19, 56,9 (1926-1953) | 1,8k | 2k | 2,2k | 2,4k | 2,7k |
 | Ordzhoni-kidzevskiy (Reg. 30) | Орджоникидзевский; Ordžonikidzevskij | 43,84, 41,9 (1926-1953) | 909 | 1,2k | 1,6k | 2,1k | 3k |
-| Orekhovka (Reg. 29) | Орехова | 48,97, 40,52 (1926-1953) | 4,2k | 6,3k | 9k | 10,1k | 11,7k |
 | Orekhovka (Reg. 25) | Ореховка | 52,56, 50,89 (1926-1953) | 2,2k | 1,9k | 1,7k | 1,5k | 1,3k |
-| Orel (Reg. 24) | Орел | 55,57, 49,07 (1926-1953) | 71,9k | 99,4k | 131,2k | 137,6k | 146,7k |
 | Orel-Izumrud (Reg. 29) | Орел-Изумруд | 43,46, 39,92 (1926-1953) | 1,6k | 1,9k | 2,1k | 2,4k | 2,7k |
 | Orenburg (Reg. 25) | Orenburg Steppe Gateway; Chkalov | 51,77, 55,1 (1926-1953) | 123,3k | 144k | 171,7k | 205k | 225k |
 | Orichi (Reg. 23) | Оричи; Oriči | 58,4, 49,06 (1926-1953) | 637 | 982 | 1,4k | 1,7k | 2,2k |
 | Orjol (Reg. 34) | Орёл | 59,34, 56,59 (1926-1953) | 1,3k | 1,6k | 1,9k | 2,2k | 2,7k |
 | Orlov (Reg. 23) | Орлов | 58,54, 48,89 (1926-1953) | 4,7k | 5,2k | 7,3k | 7,8k | 8,6k |
-| Orlov (Reg. 27) | Орлов | 51,91, 46,08 (1926-1953) | 5,1k | 5,2k | 5,2k | 5,4k | 5,6k |
 | Orlovka (Reg. 27) | Орловка | 48,85, 44,53 (1926-1953) | 2,7k | 2,5k | 2,4k | 2,2k | 2,1k |
 | Orlovskiy (Reg. 29) | Орловский; Orlovskij | 46,87, 42,05 (1926-1953) | 3,1k | 4,8k | 6,9k | 7,1k | 7,4k |
-| Orlovskiy (Reg. 25) | Орловский | 51,18, 56,23 (1926-1953) | 24,5k | 31,5k | 38,9k | 42,8k | 48,7k |
 | Orshanka (Reg. 23) | Оршанка; Oršanka | 56,92, 47,9 (1926-1953) | 600 | 954 | 1,4k | 1,6k | 2k |
 | Orsk (Reg. 25) | Orenburg Fortress; Орск | 51,23, 58,48 (1926-1953) | 13,6k | 26,2k | 66,3k | 88,9k | 131,5k |
 | Orsk (Reg. 25) | Yuzhuralnikel & Evacuated Refinery Hub (Chkalov Oblast); Орск | 51,2, 58,56 (1926-1953) | 13,6k | 26k | 66,3k | 115k | 150k |
@@ -6556,26 +5894,21 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Otkaznoye (Reg. 30) | Отказное | 44,33, 43,86 (1926-1953) | 5,3k | 5,2k | 5,1k | 4,9k | 4,8k |
 | Otradnaya (Reg. 29) | Отрадная | 44,39, 41,52 (1926-1953) | 12,6k | 11,1k | 9,9k | 10,7k | 11,9k |
 | Otradnyy (Reg. 25) | Отрадный; Otradnyj | 53,38, 51,35 (1926-1953) | 8,7k | 11,5k | 14,6k | 17,8k | 23k |
-| Ous (Reg. 34) | Оус | 60,91, 61,52 (1926-1953) | 710 | 1k | 1,5k | 1,7k | 2,1k |
 | Overyata (Reg. 34) | Оверята; Overjata | 58,08, 55,87 (1926-1953) | 1,4k | 2,2k | 3,2k | 3,6k | 4,3k |
 | Ovoshchnoy (Reg. 29) | Овощной | 47,1, 39,64 (1926-1953) | 521 | 791 | 1,1k | 1,3k | 1,4k |
-| Oykino (Reg. 25) | Ойкино | 54,42, 51,83 (1926-1953) | 4,8k | 6,3k | 7,9k | 9,6k | 12,5k |
 | Oyskhara (Reg. 32) | Ойсхара; Ojshara | 43,26, 46,25 (1926-1953) | 2,5k | 2,6k | 2,8k | 3k | 3,4k |
-| Ozernyy (Reg. 25) | Озерный | 52,98, 54,82 (1926-1953) | 120,5k | 154,5k | 191,2k | 210,5k | 239,3k |
 | Ozersk (Reg. 34) | Chelyabinsk-40 / Chelyabinsk-65 Mayak ZATO; Озёрск | 55,76, 60,7 (1945-1953) | \- | \- | \- | 13,3k | 38k |
 | Ozinki (Reg. 27) | Озинки | 51,2, 49,73 (1926-1953) | 3,2k | 3,5k | 3,8k | 4,9k | 6,9k |
-| Ozjornyj (Reg. 34) | Озёрный | 57,3, 61,21 (1926-1953) | 449 | 663 | 926 | 1,1k | 1,3k |
 | Očjor (Reg. 34) | Очёр; Очер | 57,88, 54,72 (1926-1953) | 4,8k | 6,2k | 7,7k | 9,2k | 11,7k |
 | Pachelma (Reg. 24) | Пачелма; Pačelma | 53,24, 43,35 (1926-1953) | 2,1k | 3,7k | 5,8k | 7k | 9k |
 | Palatovka (Reg. 27) | Палатовка | 52,04, 45,08 (1926-1953) | 6,7k | 6,7k | 6,8k | 7k | 7,3k |
 | Palimovka (Reg. 25) | Палимовка | 52,84, 52,2 (1926-1953) | 3,4k | 3,2k | 3k | 2,9k | 2,7k |
 | Pallasovka (Reg. 26) | Палласовка | 50,05, 46,89 (1926-1953) | 5,6k | 6,2k | 6,7k | 7,6k | 9,1k |
 | Pamjat’ Parižskoj Kommuny (Reg. 23) | Память Парижской Коммуны | 56,1, 44,5 (1926-1953) | 3,6k | 4,8k | 6,2k | 6,2k | 6,4k |
-| Panshino (Reg. 24) | Паньшино | 52,92, 48,45 (1926-1953) | 4,5k | 6,2k | 8,2k | 8,8k | 9,6k |
 | Paran’ga (Reg. 23) | Параньга | 56,7, 49,4 (1926-1953) | 1,4k | 2,3k | 3,4k | 3,5k | 3,7k |
 | Parapino (Reg. 23) | Парапино | 53,99, 43,9 (1926-1953) | 1,6k | 1,6k | 1,6k | 1,5k | 1,5k |
 | Paraul (Reg. 33) | Параул | 42,74, 47,36 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,8k | 2k |
-| Parkany (Reg. 34) | Парканы | 57,8, 57,87 (1926-1953) | 4,1k | 6,1k | 8,5k | 9,7k | 11,6k |
+| Parkany (Reg. 34) | Парканы | 57,8, 57,87 (1926-1953) | 4,1k | 4,1k | 4,1k | 4,1k | 4,1k |
 | Parkovyy (Reg. 29) | Парковый | 45,83, 40,15 (1926-1953) | 1,6k | 1,9k | 2,1k | 2,3k | 2,6k |
 | Pashiya (Reg. 34) | Пашия; Pašija | 58,43, 58,26 (1926-1953) | 3,5k | 5,7k | 11,2k | 11k | 10,8k |
 | Pashkovskiy (Reg. 29) | Пашковский; Paškovskij | 45,02, 39,1 (1926-1953) | 18k | 19,3k | 20,4k | 23,5k | 28,4k |
@@ -6584,16 +5917,14 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Pavlodolskaya (Reg. 30) | Павлодольская | 43,72, 44,48 (1926-1953) | 2,1k | 2,8k | 3,5k | 3,8k | 4,2k |
 | Pavlovka (Reg. 34) | Павловка | 55,42, 56,55 (1926-1953) | 1k | 1,4k | 1,8k | 2,8k | 5,2k |
 | Pavlovka (Reg. 24) | Павловка | 52,69, 47,14 (1926-1953) | 2,3k | 3,1k | 4,1k | 3,9k | 3,7k |
-| Pavlovka (Reg. 30) | Павловка | 44,66, 42,3 (1926-1953) | 8,4k | 8,1k | 7,8k | 8,4k | 9,2k |
 | Pavlovo (Reg. 23) | Павлово | 55,97, 43,09 (1926-1953) | 16,3k | 23,1k | 32,4k | 36,4k | 42,6k |
 | Pavlovskaya (Reg. 29) | Павловская | 46,14, 39,79 (1926-1953) | 3,9k | 4,7k | 5,6k | 6,5k | 8,1k |
 | Pavlovskiy (Reg. 34) | Павловский; Pavlovskij | 57,84, 54,84 (1926-1953) | 2,6k | 3,2k | 3,7k | 4,4k | 5,5k |
-| Pavlovskiy (Reg. 25) | Павловский | 52,67, 51,98 (1926-1953) | 10k | 12,9k | 15,9k | 17,5k | 19,9k |
 | Pazelki (Reg. 24) | Пазелки | 53,35, 45,39 (1926-1953) | 2,6k | 2,3k | 2,1k | 2k | 1,8k |
 | Pechineno (Reg. 25) | Печенино | 53,06, 51,22 (1926-1953) | 3,5k | 3k | 2,7k | 2,3k | 2k |
 | Pelagiada (Reg. 30) | Пелагиада | 45,21, 42,02 (1926-1953) | 6,6k | 6,6k | 6,6k | 6,6k | 6,6k |
 | Peles (Reg. 34) | Пелес | 60,63, 51,99 (1926-1953) | 1,7k | 2,7k | 3,9k | 4,5k | 5,4k |
-| Pelym (Reg. 34) | Пелым | 61,02, 61,99 (1926-1953) | 1,4k | 2k | 2,8k | 3,3k | 4k |
+| Pelym (Reg. 34) | Пелым; Pelym Ostrog | 61,02, 61,99 (1926-1953) | 1,4k | 2k | 2,8k | 3,3k | 4k |
 | Penza (Reg. 24) | Penza Sura; Penza Governorate | 53,2, 45 (1926-1953) | 91,9k | 120k | 159,8k | 195k | 215k |
 | Peredovaya (Reg. 29) | Передовая | 44,12, 41,48 (1926-1953) | 6,9k | 6,3k | 5,9k | 5,7k | 5,4k |
 | Perelyub (Reg. 27) | Перелюб; Перелюбъ | 51,86, 50,35 (1926-1953) | 2,7k | 2,6k | 2,4k | 2,6k | 2,9k |
@@ -6604,42 +5935,32 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Persianovka (Reg. 29) | Персиановский | 47,53, 39,42 (1926-1953) | 3,7k | 5,6k | 8,1k | 8,9k | 10,2k |
 | Pervomaysk (Reg. 23) | Первомайск; Pervomajsk | 54,87, 43,8 (1926-1953) | 3,5k | 5,2k | 7,4k | 8,9k | 11,4k |
 | Pervomayskaya (Reg. 32) | Первомайская | 43,4, 45,52 (1926-1953) | 1,6k | 1,7k | 1,8k | 2k | 2,2k |
-| Pervomayskiy (Reg. 34) | Первомайский; Pervomajskij | 55,65, 57,62 (1926-1953) | 814 | 1,1k | 1,4k | 1,5k | 1,7k |
-| Pervomayskiy (Reg. 23) | Первомайский; Pervomajskij | 59,06, 49,29 (1926-1953) | 1,1k | 1,8k | 2,5k | 2,8k | 3,2k |
-| Pervomayskiy (Reg. 23) | Первомайский; Pervomajskij | 56,61, 43,36 (1926-1953) | 876 | 1,2k | 1,5k | 1,7k | 1,9k |
-| Pervomayskiy (Reg. 25) | Первомайский; Pervomajskij | 51,9, 51,65 (1926-1953) | 3,4k | 4,3k | 5,3k | 6k | 6,9k |
-| Pervomayskiy (Reg. 25) | Первомайский; Pervomajskij | 53,35, 51,59 (1926-1953) | 739 | 977 | 1,2k | 1,5k | 1,9k |
 | Pervomayskiy (Reg. 34) | Первомайский; Pervomajskij | 54,87, 61,17 (1926-1953) | 2,7k | 3,9k | 5,4k | 6,2k | 7,5k |
-| Pervomayskiy (Reg. 30) | Первомайский | 45,48, 42,53 (1926-1953) | 1,3k | 1,3k | 1,2k | 1,3k | 1,5k |
+| Pervomayskiy (Reg. 23) | Первомайский; Pervomajskij | 59,06, 49,29 (1926-1953) | 1,1k | 1,8k | 2,5k | 2,8k | 3,2k |
+| Pervomayskiy (Reg. 25) | Первомайский; Pervomajskij | 53,35, 51,59 (1926-1953) | 739 | 977 | 1,2k | 1,5k | 1,9k |
 | Pervomayskiy (Reg. 23) | Первомайский | 57,07, 54,13 (1926-1953) | 540 | 791 | 1,1k | 1,3k | 1,7k |
 | Pervomayskoye (Reg. 33) | Первомайское | 43,92, 46,71 (1926-1953) | 1,7k | 1,8k | 1,9k | 2,1k | 2,5k |
 | Pervomayskoye (Reg. 30) | Первомайское | 43,94, 42,48 (1926-1953) | 1,7k | 2,3k | 3k | 3,3k | 3,9k |
-| Pervomayskoye (Reg. 26) | Линево - Озеро | 50,93, 46,76 (1926-1953) | 3,1k | 2,8k | 2,6k | 2,4k | 2,1k |
 | Pervouralsk (Reg. 34) | Первоуральск; Pervoural’sk | 56,91, 59,94 (1926-1953) | 9,2k | 16,4k | 44,2k | 54,8k | 73k |
 | Pervoye Maya (Reg. 23) | Первое Мая; Pervoje Maja | 56,42, 43,65 (1926-1953) | 849 | 1,1k | 1,5k | 1,6k | 1,9k |
 | Peschanka (Reg. 27) | Песчанка | 48,68, 44,59 (1926-1953) | 2,5k | 2,2k | 2k | 1,7k | 1,5k |
 | Peschanka (Reg. 27) | Песчанка | 52,28, 43,96 (1926-1953) | 3,2k | 2,8k | 2,6k | 2,3k | 2k |
 | Peschano-kopskoye (Reg. 29) | Песчанокопское | 46,19, 41,08 (1926-1953) | 7,9k | 8,1k | 8,4k | 8,6k | 9k |
-| Peschanyy Brod (Reg. 29) | Песчаный Брод; Песчаный Бродъ | 46,87, 40,02 (1926-1953) | 8,1k | 12,3k | 17,7k | 19,7k | 22,9k |
 | Peshkovo (Reg. 29) | Пешково | 47,02, 39,39 (1926-1953) | 3,9k | 3,9k | 3,9k | 3,9k | 3,8k |
 | Peskovka (Reg. 23) | Песковка | 59,04, 52,36 (1926-1953) | 3,4k | 4,1k | 4,7k | 5,9k | 7,9k |
 | Pestravka (Reg. 25) | Пестравка | 52,4, 49,96 (1926-1953) | 6,4k | 6,4k | 6,5k | 6,5k | 6,5k |
 | Pestretsy (Reg. 24) | Пестрецы | 55,75, 49,65 (1926-1953) | 3,9k | 4,1k | 4,3k | 4,6k | 4,9k |
 | Petrakovskoye (Reg. 33) | Петраковское | 43,25, 46,63 (1926-1953) | 394 | 420 | 443 | 500 | 586 |
-| Petropavlovsk (Reg. 34) | Петропавловск | 57,65, 54,29 (1926-1953) | 40,1k | 59,3k | 82,8k | 94,7k | 113,3k |
 | Petropav-lovskaya (Reg. 32) | Петропавловская | 43,38, 45,83 (1926-1953) | 1,2k | 1,3k | 1,3k | 1,5k | 1,6k |
 | Petropav-lovskaya (Reg. 29) | Петропавловская | 45,08, 40,45 (1926-1953) | 1,4k | 1,6k | 1,9k | 2,1k | 2,5k |
 | Petrov Val (Reg. 26) | Петров Вал | 50,14, 45,21 (1926-1953) | 6,3k | 7k | 7,6k | 7,9k | 8,4k |
 | Petrova Dubrava (Reg. 25) | Петра Дубрава; Petra Dubrava | 53,3, 50,37 (1926-1953) | 1,7k | 2,2k | 2,8k | 3,4k | 4,4k |
-| Petrovsk (Reg. 27) | Петровск | 52,31, 45,39 (1926-1953) | 19,2k | 17,6k | 18,6k | 20,3k | 22,9k |
 | Petrovsk-Port (Reg. 33) | Makhachkala; Petrovskoe Caspian | 42,98, 47,5 (1926-1953) | 32k | 62k | 86,8k | 82k | 100k |
+| Petrovsk (Reg. 27) | Петровск | 52,31, 45,39 (1926-1953) | 19,2k | 17,6k | 18,6k | 20,3k | 22,9k |
 | Petrovskaya (Reg. 29) | Петровская | 45,43, 37,95 (1926-1953) | 10,2k | 10,5k | 10,7k | 10,9k | 11,2k |
-| Petrovskiy (Reg. 25) | Петровский | 52,9, 48,92 (1926-1953) | 18k | 23,6k | 29,8k | 36,2k | 46,8k |
 | Pil’na (Reg. 23) | Пильна | 55,55, 45,92 (1926-1953) | 2,7k | 3,6k | 4,6k | 4,4k | 4,1k |
-| Pilnya (Reg. 23) | Пильня | 54,52, 43 (1926-1953) | 2,7k | 3,1k | 3,4k | 3,8k | 4,2k |
 | Pinerovka (Reg. 27) | Пинеровка | 51,56, 43,07 (1926-1953) | 5,4k | 5,3k | 5,3k | 5,2k | 5,1k |
 | Pinyug (Reg. 23) | Пинюг; Pinjug | 60,25, 47,78 (1926-1953) | 2,3k | 3,5k | 5k | 5,8k | 7k |
-| Pionerskiy (Reg. 34) | Пионерский; Pionerskij | 57,11, 63,75 (1926-1953) | 1,2k | 1,7k | 2,4k | 2,8k | 3,4k |
 | Piskaly (Reg. 25) | Пискалы | 53,63, 49,82 (1926-1953) | 2,5k | 2,4k | 2,4k | 2,3k | 2,2k |
 | Piterka (Reg. 27) | Питерка | 50,68, 47,44 (1926-1953) | 4,6k | 4,5k | 4,4k | 4k | 3,6k |
 | Pizhanka (Reg. 23) | Пижанка; Pižanka | 57,46, 48,54 (1926-1953) | 522 | 805 | 1,2k | 1,4k | 1,7k |
@@ -6647,17 +5968,14 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Plast (Reg. 34) | Пласт | 54,37, 60,81 (1926-1953) | 2,8k | 8,9k | 24,1k | 24,6k | 25,4k |
 | Plastuno-vskaya (Reg. 29) | Пластуновская | 45,29, 39,27 (1926-1953) | 6k | 6,9k | 7,7k | 7,9k | 8,1k |
 | Platniro-vskaya (Reg. 29) | Платнировская | 45,4, 39,38 (1926-1953) | 4,2k | 4,8k | 5,4k | 6k | 6,8k |
-| Ples (Reg. 26) | Плес | 51,29, 47,78 (1926-1953) | 1,3k | 1,2k | 1k | 936 | 814 |
 | Pleshanovo (Reg. 25) | Плешаново; Plešanovo | 52,85, 53,49 (1926-1953) | 435 | 558 | 691 | 771 | 892 |
 | Pobedinskoye (Reg. 32) | Побединское | 43,4, 45,43 (1926-1953) | 1,4k | 1,5k | 1,6k | 1,7k | 1,9k |
 | Pochinki (Reg. 23) | Починки; Počinki | 54,7, 44,86 (1926-1953) | 10,8k | 10,2k | 9,7k | 8,9k | 8k |
 | Podchinnyy (Reg. 26) | Подчинный; Podčinnyj | 50,88, 45,22 (1926-1953) | 1,8k | 2k | 2,2k | 1,7k | 1,3k |
 | Podgorinskiy (Reg. 27) | Подгорный | 50,66, 41,82 (1926-1953) | 3,8k | 4,2k | 4,6k | 4,7k | 5k |
 | Podgornaya (Reg. 30) | Подгорная | 44,2, 43,43 (1926-1953) | 4,5k | 4,6k | 4,6k | 4,7k | 4,8k |
-| Podgornoye (Reg. 27) | Дурникино | 51,67, 42,81 (1926-1953) | 4,7k | 4,1k | 3,7k | 3,4k | 2,9k |
 | Podgorodnyaya Pokrovka (Reg. 25) | Подгородняя Покровка | 51,83, 54,99 (1926-1953) | 1,2k | 1,5k | 1,9k | 2,1k | 2,4k |
 | Podlesnoye (Reg. 27) | Подлесное; Podlesnoje | 51,82, 47,01 (1926-1953) | 2k | 2,2k | 2,4k | 2,6k | 2,8k |
-| Podolsk (Reg. 25) | Подольск | 52,82, 53,58 (1926-1953) | 20,9k | 26,7k | 33,1k | 36,4k | 41,4k |
 | Podosinovets (Reg. 23) | Подосиновец; Podosinovec | 60,28, 47,07 (1926-1953) | 681 | 1k | 1,5k | 1,8k | 2,1k |
 | Podstepki (Reg. 25) | Подстепки | 53,52, 49,14 (1926-1953) | 639 | 1,1k | 1,2k | 1,4k | 1,5k |
 | Poim (Reg. 24) | Поим | 53,03, 43,19 (1926-1953) | 9,8k | 7,9k | 6,7k | 6,2k | 5,6k |
@@ -6665,7 +5983,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Pokoynoye (Reg. 30) | Покойное | 44,81, 44,25 (1926-1953) | 7k | 6,4k | 5,9k | 6,2k | 6,5k |
 | Pokrovka (Reg. 24) | Покровка | 53,83, 46,01 (1926-1953) | 3,6k | 3,1k | 2,8k | 2,5k | 2,1k |
 | Pokrovka (Reg. 25) | Покровка | 53,28, 50,85 (1926-1953) | 2,5k | 2,3k | 2,1k | 1,9k | 1,7k |
-| Pokrovsk-Ural’skij (Reg. 34) | Покровск-Уральский; Покровск | 60,14, 59,82 (1926-1953) | 5,9k | 5,9k | 5,9k | 5,9k | 6k |
 | Pokrovskoye (Reg. 33) | Покровское | 43,29, 46,67 (1926-1953) | 709 | 756 | 798 | 900 | 1,1k |
 | Pokrovskoye (Reg. 29) | Покровское | 47,41, 38,9 (1926-1953) | 6,4k | 6,8k | 7,2k | 7,6k | 8,2k |
 | Pokrovskoye (Reg. 34) | Покровское | 56,47, 61,61 (1926-1953) | 1,7k | 1,8k | 1,9k | 2k | 2,2k |
@@ -6673,7 +5990,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Poletayevo (Reg. 34) | Полетаево; Poletajevo | 55,03, 61,11 (1926-1953) | 2,1k | 2,4k | 2,7k | 3,1k | 3,6k |
 | Polevskoy (Reg. 34) | Полевской; Polevskoj | 56,44, 60,19 (1926-1953) | 7,6k | 10,8k | 17,2k | 23,3k | 34,8k |
 | Politotd-elskiy (Reg. 29) | Политотдельский | 46,5, 40,2 (1939-1939) | \- | \- | 6,4k | \- | \- |
-| Polovinka (Reg. 34) | Углеуральск; Ugleural’sk | 57,9, 55,27 (1926-1939) | 2k | 7,1k | 20,8k | \- | \- |
 | Polovinkina (Reg. 34) | Половинкина | 55,83, 59,73 (1926-1953) | 2,3k | 3,4k | 4,7k | 5,4k | 6,5k |
 | Poltavskaya (Reg. 29) | Stanitsa Krasnoarmey-skaya; Полтавская | 45,37, 38,22 (1926-1953) | 28,2k | 12,5k | 18,4k | 16,5k | 21k |
 | Polunochnoye (Reg. 34) | Полуночное; Polunočnoje | 60,87, 60,42 (1926-1953) | 2,3k | 3,4k | 4,7k | 5,4k | 6,6k |
@@ -6688,7 +6004,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Povolzhskiy (Reg. 25) | Поволжский; Povolžskij | 53,59, 49,76 (1926-1953) | 1,9k | 2,5k | 3,2k | 3,9k | 5,1k |
 | Pozhva (Reg. 34) | Пожва; Požva | 59,09, 56,09 (1926-1953) | 3k | 3,6k | 4,3k | 5,2k | 6,5k |
 | Praskoveya (Reg. 30) | Прасковея; Praskoveja | 44,74, 44,2 (1926-1953) | 15,4k | 13,5k | 12,1k | 10,7k | 9k |
-| Pravdinsk (Reg. 23) | Правдинск | 56,52, 43,56 (1926-1953) | 7,6k | 10,2k | 13,1k | 15k | 17,9k |
 | Pravokub-anskiy (Reg. 30) | Правокубанский; Pravokub-anskij | 43,91, 41,88 (1926-1953) | 967 | 1,3k | 1,7k | 1,9k | 2,2k |
 | Pravokumskoye (Reg. 30) | Правокумское | 44,77, 44,65 (1926-1953) | 7,1k | 7,4k | 7,7k | 7,4k | 7k |
 | Pregradnaya (Reg. 30) | Преградная | 43,95, 41,19 (1926-1953) | 2,1k | 2,8k | 3,7k | 4,1k | 4,8k |
@@ -6696,7 +6011,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Pribel’skij (Reg. 34) | Прибельский | 54,38, 56,45 (1926-1953) | 2,1k | 2,9k | 3,7k | 4k | 4,5k |
 | Pribrezhnyy (Reg. 25) | Прибрежный; Pribrežnyj | 53,49, 49,86 (1926-1953) | 3,1k | 4,1k | 5,2k | 6,3k | 8,2k |
 | Pridorozhnyy (Reg. 25) | Придорожный | 53,09, 50,16 (1926-1953) | 7,1k | 9,4k | 11,9k | 14,5k | 18,7k |
-| Pridorozhnyy (Reg. 29) | Придорожный | 46,45, 38,79 (1926-1953) | 12,1k | 14k | 15,9k | 17,6k | 20,1k |
 | Prigorodnoye (Reg. 32) | Пригородное | 43,26, 45,76 (1926-1953) | 1,6k | 1,7k | 1,8k | 1,9k | 2,2k |
 | Prigorodnoye (Reg. 24) | Пригородное | 52,44, 44,21 (1926-1953) | 7,5k | 5,8k | 3,2k | 3,4k | 3,7k |
 | Prigorodnyy (Reg. 25) | Пригородный | 51,77, 55,27 (1926-1953) | 1,2k | 1,6k | 1,9k | 2,1k | 2,5k |
@@ -6705,7 +6019,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Primorsko-Akhtarsk (Reg. 29) | Приморско-Ахтарск; Primorsko-Ahtarsk | 46,05, 38,18 (1926-1953) | 11,3k | 15,1k | 19,5k | 20,2k | 21,2k |
 | Prishib (Reg. 27) | Пришибъ | 47,68, 46,47 (1926-1953) | 7,2k | 6,1k | 5,3k | 4,7k | 3,9k |
 | Privokzal’nyj (Reg. 29) | Привокзальный | 45,76, 38,77 (1926-1953) | 2,5k | 2,8k | 3,2k | 3,5k | 4k |
-| Privokzal’nyj (Reg. 34) | Привокзальный | 58,88, 60,73 (1926-1953) | 2,7k | 4k | 5,6k | 6,5k | 7,9k |
+| Privokzal’nyj (Reg. 34) | Привокзальный | 58,88, 60,73 (1926-1953) | 2,5k | 2,5k | 2,5k | 2,5k | 2,5k |
 | Privolnaya (Reg. 29) | Привольная | 46,14, 38,69 (1926-1953) | 2,3k | 2,7k | 3k | 3,3k | 3,8k |
 | Privolnoe (Reg. 30) | Привольное | 45,92, 41,31 (1926-1953) | 5,4k | 5,2k | 5k | 4,8k | 4,6k |
 | Privolzhe (Reg. 25) | Приволжье | 52,86, 48,6 (1926-1953) | 1,9k | 2,5k | 3,2k | 3,9k | 5,1k |
@@ -6729,10 +6043,9 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Pugačjov (Reg. 27) | Пугачёв; Николаевск | 52,02, 48,8 (1926-1953) | 17,4k | 19,8k | 24,5k | 26,7k | 30k |
 | Pugačjovo (Reg. 23) | Пугачёво | 56,61, 53,07 (1926-1953) | 952 | 1,4k | 1,9k | 2,3k | 3k |
 | Pushkino (Reg. 26) | Пушкино; Puškino | 51,24, 46,97 (1926-1953) | 2,5k | 2,7k | 2,8k | 3k | 3,2k |
-| Putilova (Reg. 34) | Путилова | 58,98, 64,2 (1926-1953) | 2,8k | 4k | 5,5k | 6,3k | 7,5k |
+| Putilova (Reg. 34) | Путилова | 58,98, 64,2 (1926-1953) | 2,5k | 2,5k | 2,5k | 2,5k | 2,5k |
 | Pyatigorsk (Reg. 30) | Konstant-inogorsk; Caucasian Mineral Waters | 44,05, 43,06 (1926-1953) | 53,9k | 56k | 62,9k | 54k | 62k |
 | Pyatigorskiy (Reg. 30) | Пятигорский | 43,97, 43,26 (1926-1953) | 1,9k | 1,9k | 1,9k | 2k | 2,2k |
-| Pyatiizb-yanskiy (Reg. 27) | Пятиизбянская | 48,59, 43,46 (1926-1953) | 14,2k | 15,7k | 17,1k | 17,7k | 18,6k |
 | Pychas (Reg. 23) | Пычас; Pyčas | 56,5, 52,44 (1926-1953) | 1,3k | 1,5k | 1,7k | 2k | 2,4k |
 | Pyra (Reg. 23) | Пыра | 56,3, 43,35 (1926-1953) | 2k | 2,7k | 3,5k | 3,8k | 4,4k |
 | Pyshma (Reg. 34) | Пышма; Pyšma | 56,95, 63,25 (1926-1953) | 1,6k | 1,6k | 1,6k | 2,4k | 4,3k |
@@ -6740,7 +6053,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Raguli (Reg. 30) | Рагули | 45,64, 43,72 (1926-1953) | 6k | 5,6k | 5,2k | 4,9k | 4,5k |
 | Rakhinka (Reg. 27) | Рахинка | 49,02, 44,92 (1926-1953) | 3,7k | 3,5k | 3,4k | 3,3k | 3,1k |
 | Rakityanka (Reg. 25) | Ракитянка; Rakitjanka | 51,47, 57,65 (1926-1953) | 4,5k | 5,7k | 7,1k | 7k | 6,9k |
-| Rakov (Reg. 29) | Ново-Батайское | 46, 38,91 (1926-1953) | 15,6k | 18,2k | 20,6k | 22,8k | 26,1k |
 | Ramzay (Reg. 24) | Рамзай | 53,3, 44,74 (1926-1953) | 3,5k | 3,4k | 2,3k | 2,3k | 2,2k |
 | Raspopinskaya (Reg. 27) | Распопинская | 49,4, 42,87 (1926-1953) | 6k | 5,3k | 4,7k | 4,2k | 3,6k |
 | Rassheva-tskaya (Reg. 30) | Расшеватская | 45,57, 41,03 (1926-1953) | 8,5k | 7,5k | 6,8k | 6,6k | 6,5k |
@@ -6748,7 +6060,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Ratchino (Reg. 25) | Ратчино | 53,07, 54,45 (1926-1953) | 2,6k | 2,3k | 2,2k | 2k | 1,8k |
 | Rayevskaya (Reg. 29) | Раевская | 44,84, 37,56 (1926-1953) | 3k | 3,5k | 3,9k | 4,3k | 5k |
 | Rayevskiy (Reg. 34) | Раевский; Rajevskij | 54,06, 54,93 (1926-1953) | 6,1k | 8,3k | 10k | 10,8k | 11,9k |
-| Razdolnoe (Reg. 29) | Раздольное | 46,71, 39,67 (1926-1953) | 718 | 825 | 929 | 1k | 1,2k |
 | Razvilnoe (Reg. 29) | Развильное | 46,24, 41,3 (1926-1953) | 3,8k | 3,9k | 4,1k | 4,2k | 4,4k |
 | Rechnoy (Reg. 25) | Речной; Rečnoj | 51,22, 59,76 (1926-1953) | 431 | 553 | 684 | 763 | 882 |
 | Reftinskiy (Reg. 34) | Рефтинский; Reftinskij | 57,09, 61,68 (1926-1953) | 2,5k | 3,8k | 5,2k | 6,1k | 7,4k |
@@ -6756,12 +6067,10 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Repnoye (Reg. 27) | Репное | 51,59, 43,19 (1926-1953) | 3,6k | 3,5k | 3,5k | 3,5k | 3,4k |
 | Reshetikha (Reg. 23) | Решетиха; Rešetiha | 56,22, 43,29 (1926-1953) | 1,8k | 3,9k | 7,4k | 7,4k | 7,4k |
 | Revda (Reg. 34) | Ревда | 56,8, 59,94 (1926-1953) | 9,8k | 14,7k | 32,2k | 37,8k | 46,8k |
-| Revdinskiy (Reg. 34) | Ревдинский | 56,46, 59,53 (1926-1953) | 9k | 13,1k | 17,9k | 20,5k | 24,4k |
 | Rezh (Reg. 34) | Реж; Rež | 57,37, 61,4 (1926-1953) | 5,1k | 7,2k | 9,7k | 12,3k | 16,8k |
 | Rizovatovo (Reg. 23) | Ризоватово | 54,78, 44,64 (1926-1953) | 2,4k | 2,2k | 2k | 1,8k | 1,6k |
 | Rodionovo-Nesvetayskaya (Reg. 29) | Родионово-Несветайская | 47,61, 39,71 (1926-1953) | 1,5k | 2,2k | 3,2k | 3,5k | 4k |
 | Rodniki (Reg. 29) | Родники | 44,74, 39,91 (1926-1953) | 942 | 1,1k | 1,2k | 1,3k | 1,5k |
-| Rodniki (Reg. 24) | Родники | 55,14, 50,25 (1926-1953) | 5,5k | 7,6k | 10k | 10,5k | 11,2k |
 | Rodnikovskaya (Reg. 29) | Родниковская | 44,76, 40,67 (1926-1953) | 4,6k | 5,3k | 6k | 6,2k | 6,5k |
 | Rogovskaya (Reg. 29) | Роговская | 45,73, 38,74 (1926-1953) | 6,4k | 7,3k | 8,2k | 8,2k | 8,3k |
 | Romanovka (Reg. 27) | Романовка | 51,74, 42,75 (1926-1953) | 6,3k | 6,4k | 6,5k | 6,8k | 7,3k |
@@ -6772,7 +6081,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Roshni-Chu (Reg. 32) | Рошни-Чу | 43,09, 45,45 (1926-1953) | 1,4k | 1,5k | 1,5k | 1,7k | 1,9k |
 | Rossiyskiy (Reg. 29) | Российский | 45,12, 39,04 (1926-1953) | 2,5k | 2,8k | 3,2k | 3,5k | 4,1k |
 | Rostov-on-Don (Reg. 29) | Rostov & Nakhichevan; Don Grain Port | 47,24, 39,7 (1926-1953) | 308,1k | 456k | 510,2k | 350k | 515k |
-| Rostov-on-Don (Reg. 29) | Ростов | 47,22, 39,71 (1926-1953) | 23,4k | 35,6k | 50,8k | 56,8k | 65,9k |
 | Rovnoye (Reg. 26) | Ровное; Rovnoje | 50,78, 46,05 (1926-1953) | 6,2k | 6,8k | 7,4k | 6,3k | 5,2k |
 | Roza (Reg. 34) | Роза | 54,92, 61,46 (1926-1953) | 4,7k | 6,9k | 9,6k | 11k | 13,4k |
 | Rozhdestveno (Reg. 25) | Рождествено | 53,24, 50,06 (1926-1953) | 2,8k | 2,9k | 3,1k | 3,2k | 3,4k |
@@ -6782,7 +6090,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Rudnichnyy (Reg. 23) | Рудничный; Rudničnyj | 59,62, 52,47 (1926-1953) | 2k | 3,1k | 4,5k | 4,8k | 5,3k |
 | Rudnichnyy (Reg. 34) | Рудничный; Rudničnyj | 59,7, 60,29 (1926-1953) | 760 | 2,8k | 8,5k | 8k | 7,4k |
 | Rudnya (Reg. 27) | Рудня; Rudnja | 50,81, 44,56 (1926-1953) | 5,2k | 5,7k | 6,2k | 6,7k | 7,4k |
-| Rudnya (Reg. 27) | Рудня | 51,77, 44,62 (1926-1953) | 8,9k | 9k | 9,1k | 9,4k | 9,8k |
 | Ruem (Reg. 23) | Руэм | 56,63, 47,76 (1926-1953) | 509 | 809 | 1,2k | 1,4k | 1,8k |
 | Russkaya Lashma (Reg. 23) | Лашма Русская | 54,02, 43,85 (1926-1953) | 13,3k | 15k | 16,7k | 18,3k | 20,6k |
 | Russkiy Aktash (Reg. 24) | Русский Акташ; Russkij Aktaš | 55,04, 52,12 (1926-1953) | 4,3k | 4,6k | 4,8k | 5,1k | 5,5k |
@@ -6790,13 +6097,11 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Russkoye (Reg. 30) | Русское | 43,84, 44,62 (1926-1953) | 1,7k | 1,7k | 1,7k | 1,8k | 2k |
 | Rutul (Reg. 33) | Рутул | 41,53, 47,42 (1926-1953) | 1,8k | 2,1k | 2,4k | 2,5k | 2,7k |
 | Ruzayevka (Reg. 23) | Рузаевка; Ruzajevka | 54,06, 44,95 (1926-1953) | 6,8k | 11,2k | 17,1k | 19,2k | 22,3k |
-| Ruzayevka (Reg. 27) | Рузаевка | 52,33, 45,48 (1926-1953) | 9,5k | 9,7k | 9,7k | 10k | 10,5k |
 | Ryazanskaya (Reg. 29) | Рязанская | 44,96, 39,59 (1926-1953) | 3,4k | 3,9k | 4,4k | 4,5k | 4,6k |
 | Rybnaya Sloboda (Reg. 24) | Рыбная Слобода; Rybnaja Sloboda | 55,46, 50,14 (1926-1953) | 2k | 2,2k | 2,5k | 2,5k | 2,6k |
 | Rybushka (Reg. 27) | Рыбушка | 51,27, 45,44 (1926-1953) | 2,9k | 2,7k | 2,5k | 2,4k | 2,2k |
 | Ryzdvyanyy (Reg. 30) | Рыздвяный; Ryzdvjanyj | 45,27, 41,84 (1926-1953) | 2k | 2k | 1,9k | 2,1k | 2,3k |
 | Sabayevo (Reg. 23) | Сабаево | 53,99, 45,72 (1926-1953) | 2,7k | 2,5k | 2,3k | 2,2k | 2k |
-| Sadki (Reg. 27) | Садки | 49,18, 44,42 (1926-1953) | 5,8k | 6,4k | 7k | 7,2k | 7,6k |
 | Sadon (Reg. 31) | Садон | 42,85, 44,01 (1926-1953) | 2,5k | 3,2k | 4,1k | 4k | 3,8k |
 | Sadovoye (Reg. 28) | Садовое | 47,77, 44,51 (1926-1953) | 3,5k | 3,4k | 3,3k | 3,5k | 3,8k |
 | Sagopshi (Reg. 31) | Сагопши | 43,49, 44,59 (1926-1953) | 3,9k | 5,3k | 6,9k | 7,5k | 8,5k |
@@ -6822,7 +6127,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Sarapulka (Reg. 34) | Сарапулка | 56,87, 61,06 (1926-1953) | 1,5k | 1,7k | 1,9k | 2,1k | 2,4k |
 | Saratov (Reg. 27) | Saratov Grain Capital; Saratov Governorate | 51,53, 46,03 (1926-1953) | 219,5k | 327k | 375,9k | 410k | 500k |
 | Saratovskaya (Reg. 29) | Саратовская | 44,71, 39,22 (1926-1953) | 2,2k | 2,5k | 2,8k | 3,1k | 3,6k |
-| Sarepta (Reg. 27) | Сарепта | 48,52, 44,53 (1926-1926) | 1,8k | \- | \- | \- | \- |
+| Sarepta (Reg. 27) | Сарепта; Krasnoarmeysk | 48,52, 44,53 (1926-1926) | 1,8k | \- | \- | \- | \- |
 | Sarmakovo (Reg. 31) | Сармаково | 43,75, 43,2 (1926-1953) | 1,2k | 1,6k | 2k | 2,4k | 3,1k |
 | Sarmanovo (Reg. 24) | Сарманово | 55,25, 52,59 (1926-1953) | 1,6k | 2,2k | 2,9k | 3,1k | 3,5k |
 | Sarov (Reg. 23) | Arzamas-16 Nuclear Weapons ZATO; Саров | 54,94, 43,32 (1926-1953) | 1,6k | 2,2k | 2,8k | 7,7k | 30k |
@@ -6836,20 +6141,17 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Semender (Reg. 33) | Семендер | 42,99, 47,4 (1926-1953) | 1,5k | 1,6k | 1,7k | 1,9k | 2,2k |
 | Semenovka (Reg. 23) | Семеновка | 56,65, 47,98 (1926-1953) | 993 | 1,6k | 2,3k | 2,8k | 3,4k |
 | Semenovka (Reg. 25) | Семеновка | 53, 49,88 (1926-1953) | 2,7k | 2,4k | 2,2k | 2k | 1,7k |
-| Semenovskoe (Reg. 23) | Семеновское | 55,11, 46,2 (1926-1953) | 59,5k | 84,2k | 113,4k | 132,5k | 163,1k |
 | Semibalki (Reg. 29) | Семибалки | 47,01, 39,05 (1926-1953) | 5k | 4,6k | 4,2k | 3,9k | 3,5k |
 | Semikarakorsk (Reg. 29) | Семикаракорск | 47,52, 40,81 (1926-1953) | 2,7k | 4,1k | 5,9k | 7k | 8,9k |
 | Semiletka (Reg. 34) | Семилетка | 55,36, 54,62 (1926-1953) | 1,9k | 2,5k | 3,3k | 3,6k | 4k |
 | Semjonov (Reg. 23) | Семёнов; Семенов | 56,79, 44,5 (1926-1953) | 6,1k | 8,4k | 12k | 14k | 17,1k |
 | Sengiley (Reg. 24) | Сенгилей; Sengilej | 53,96, 48,8 (1926-1953) | 6,4k | 8,3k | 10,3k | 10,4k | 10,6k |
 | Sennoy (Reg. 27) | Сенной; Sennoj | 52,15, 46,96 (1926-1953) | 3k | 3,3k | 3,6k | 3,7k | 3,8k |
-| Sennoy (Reg. 29) | Сенной | 45,3, 37 (1926-1953) | 2,1k | 2,3k | 2,4k | 2,5k | 2,7k |
 | Serafimovich (Reg. 27) | Серафимович; Serafimovič | 49,58, 42,73 (1926-1953) | 6k | 7,1k | 8,3k | 8,4k | 8,7k |
 | Serafimovskiy (Reg. 34) | Серафимовский; Serafimovskij | 54,42, 53,8 (1926-1953) | 3,5k | 4,8k | 6,1k | 6,7k | 7,5k |
 | Serdobsk (Reg. 24) | Сердобск | 52,46, 44,22 (1926-1953) | 18,6k | 10,8k | 12,8k | 15,9k | 21,1k |
 | Serebryanka (Reg. 34) | Серебрянка; Serebrjanka | 59,57, 59,37 (1926-1953) | 2,7k | 2,4k | 2,3k | 2,1k | 1,9k |
 | Sergach (Reg. 23) | Сергач; Sergač | 55,53, 45,46 (1926-1953) | 2,3k | 3,3k | 5,3k | 6,1k | 7,2k |
-| Sergiyevka (Reg. 27) | Бакуръ Большой; Камешкиръ Русский | 45,97, 47,62 (1926-1953) | 6,7k | 8,5k | 10,5k | 11,4k | 12,6k |
 | Sergiyevsk (Reg. 25) | Сергиевск; Sergijevsk | 53,94, 51,17 (1926-1953) | 3,6k | 4,4k | 5,1k | 5,4k | 5,7k |
 | Sergiyevskoye (Reg. 30) | Сергиевское | 44,95, 42,7 (1926-1953) | 4,2k | 4,1k | 3,9k | 3,8k | 3,6k |
 | Sergokala (Reg. 33) | Сергокала | 42,45, 47,66 (1926-1953) | 16,7k | 17,8k | 18,8k | 17,3k | 15,4k |
@@ -6862,10 +6164,9 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Severka (Reg. 34) | Северка | 56,87, 60,3 (1926-1953) | 1,1k | 1,6k | 2,2k | 2,6k | 3,1k |
 | Severnoye (Reg. 25) | Северное | 54,09, 52,54 (1926-1953) | 1,8k | 2,3k | 2,8k | 3,1k | 3,6k |
 | Severnoye (Reg. 30) | Северное | 44,83, 42,86 (1926-1953) | 4,7k | 4,6k | 4,5k | 4,4k | 4,3k |
-| Severnyy (Reg. 34) | Северный; Severnyj | 60,98, 60,39 (1926-1953) | 4,7k | 4,1k | 3,6k | 3,2k | 2,7k |
-| Severnyy (Reg. 34) | Северный; Severnyj | 55,85, 60,48 (1926-1953) | 1,4k | 2,1k | 2,9k | 2,6k | 2,2k |
 | Severnyy Kommunar (Reg. 34) | Северный Коммунар; Severnyj Kommunar | 58,38, 54,02 (1926-1953) | 1,2k | 1,9k | 2,8k | 3,2k | 3,9k |
 | Severnyy-Kospashskiy (Reg. 34) | Северный-Коспашский; Severnyj-Kospašskij | 59,09, 57,8 (1926-1953) | 2,9k | 4,6k | 6,7k | 7,6k | 9,2k |
+| Severnyy (Reg. 34) | Северный; Severnyj | 55,85, 60,48 (1926-1953) | 1,4k | 2,1k | 2,9k | 2,6k | 2,2k |
 | Severoural’sk (Reg. 34) | Североуральск; Петропавловский | 60,15, 59,95 (1926-1953) | 2,7k | 4,3k | 6,4k | 9,8k | 17,1k |
 | Severskaya (Reg. 29) | Северская | 44,85, 38,68 (1926-1953) | 40,6k | 46,7k | 52,5k | 48,5k | 43,5k |
 | Severskiy (Reg. 34) | Северский; Severskij | 56,5, 60,22 (1926-1939) | 3,1k | 5,1k | 7,7k | \- | \- |
@@ -6888,8 +6189,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Sharlyk (Reg. 25) | Шарлык | 52,93, 54,74 (1926-1953) | 3k | 3,9k | 4,8k | 5,4k | 6,2k |
 | Shatki (Reg. 23) | Шатки; Šatki | 55,19, 44,12 (1926-1953) | 2,7k | 3k | 3,4k | 3,8k | 4,3k |
 | Shaygino (Reg. 23) | Шайгино; Šajgino | 57,77, 46,86 (1926-1953) | 2,1k | 2,8k | 3,6k | 3,9k | 4,5k |
-| Shaytanka (Reg. 34) | Шайтанка | 59,45, 60,02 (1926-1953) | 11,4k | 16,5k | 22,6k | 25,8k | 30,8k |
-| Shchigry (Reg. 27) | Щигры | 52,29, 49,36 (1926-1953) | 6,5k | 6,6k | 6,6k | 6,8k | 7,1k |
 | Shelkovskaya (Reg. 30) | Шелковская | 43,51, 46,34 (1926-1953) | 3,1k | 3,3k | 3,5k | 3,8k | 4,2k |
 | Shemordan (Reg. 24) | Шемордан; Šemordan | 56,19, 50,4 (1926-1953) | 2,1k | 3k | 3,9k | 4,2k | 4,7k |
 | Shemysheyka (Reg. 24) | Шемышейка; Šemyšejka | 52,89, 45,39 (1926-1953) | 3,5k | 3,1k | 2,7k | 2,7k | 2,6k |
@@ -6913,7 +6212,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Shumerlya (Reg. 23) | Шумерля; Šumerlja | 55,5, 46,41 (1926-1953) | 5,9k | 9,8k | 15,2k | 18,7k | 24,6k |
 | Shumeyka (Reg. 27) | Шумейковка | 51,56, 46,25 (1926-1953) | 3,1k | 2,9k | 2,7k | 2,5k | 2,3k |
 | Shumikhinskiy (Reg. 34) | Шумихинский; Šumihinskij | 58,74, 57,69 (1926-1953) | 2,7k | 4,3k | 6,3k | 7,2k | 8,6k |
-| Shurala (Reg. 34) | Шурала; Šurala | 57,44, 60,18 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,7k | 1,4k |
 | Shuvary (Reg. 23) | Шувары | 54,19, 44,46 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,2k |
 | Sibay (Reg. 34) | Сибай; Sibaj | 52,72, 58,67 (1926-1953) | 1,4k | 1,9k | 2,4k | 5,1k | 13,7k |
 | Sigayevo (Reg. 23) | Сигаево | 56,42, 53,78 (1926-1953) | 1,3k | 1,9k | 2,6k | 3,1k | 4k |
@@ -6922,11 +6220,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Simbirsk (Reg. 24) | Ulyanovsk; Sinbirsk | 54,31, 48,4 (1926-1953) | 72,3k | 82k | 102,1k | 145k | 165k |
 | Simonikha (Reg. 23) | Симониха; Simoniha | 56,5, 53,83 (1926-1953) | 899 | 1,3k | 1,8k | 2,2k | 2,8k |
 | Simonovskiy (Reg. 25) | Симоновский | 53,2, 48,62 (1926-1953) | 24,4k | 32,1k | 40,5k | 49,1k | 63,6k |
-| Simskiy (Reg. 34) | Симский | 54,49, 56,45 (1926-1953) | 9,5k | 12,7k | 16,4k | 17,9k | 20k |
 | Sinegorskiy (Reg. 29) | Синегорский; Sinegorskij | 48,01, 40,84 (1926-1953) | 3,4k | 4,7k | 6,2k | 7,7k | 10,5k |
-| Sinegorskiy (Reg. 34) | Синегорский; Sinegorskij | 57,89, 59,52 (1926-1953) | 517 | 763 | 1,1k | 1,2k | 1,5k |
-| Sinelnikovo (Reg. 27) | Синельниково | 51,94, 44,74 (1926-1926) | 12,6k | \- | \- | \- | \- |
-| Sinyavskiy (Reg. 29) | Синявский | 47,57, 39,48 (1926-1953) | 4,9k | 7,5k | 10,7k | 11,9k | 13,8k |
 | Sinyavskoye (Reg. 29) | Синявское | 47,28, 39,28 (1926-1953) | 878 | 1,3k | 1,9k | 2,1k | 2,4k |
 | Sirius (Reg. 29) | Сириус | 43,41, 39,96 (1926-1953) | 4,7k | 5,4k | 6,1k | 6,8k | 7,7k |
 | Sitniki (Reg. 23) | Ситники | 56,46, 44,07 (1926-1953) | 2,2k | 2,9k | 3,7k | 4,1k | 4,7k |
@@ -6947,8 +6241,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Smyshlyayevka (Reg. 25) | Смышляевка; Smyšljaevka | 53,24, 50,39 (1926-1953) | 4,6k | 5,2k | 5,9k | 6,5k | 7,6k |
 | Smyshlyayevka (Reg. 24) | Смышляевка | 53,76, 47,73 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,8k | 1,5k |
 | Sochi (Reg. 29) | Fort Aleksandiya; Dakhovsky Posad | 43,59, 39,72 (1926-1953) | 10,4k | 24,2k | 49,8k | 65,7k | 95k |
-| Sokolov (Reg. 27) | Соколов | 48,27, 42,3 (1926-1953) | 7,7k | 8,5k | 9,3k | 9,6k | 10,1k |
-| Sokolova (Reg. 34) | Соколова | 57,92, 62,6 (1926-1953) | 7k | 10,1k | 13,8k | 15,8k | 18,9k |
 | Sokolovo-Kundryuc-henskiy (Reg. 29) | Соколово-Кундрюченский; Sokolovo-Kundrjučenskij | 47,84, 39,95 (1926-1953) | 3,6k | 5,5k | 7,9k | 8,7k | 10k |
 | Sokolovyy (Reg. 27) | Соколовый; Sokolovyj | 51,57, 45,83 (1926-1953) | 3,7k | 4,1k | 4,4k | 4,5k | 4,7k |
 | Sokrutovka (Reg. 27) | Сокрутовка | 47,9, 46,54 (1926-1953) | 3k | 2,7k | 2,5k | 2,2k | 2k |
@@ -6961,7 +6253,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Solnechnoye (Reg. 33) | Солнечное | 43,28, 46,51 (1926-1953) | 746 | 795 | 839 | 946 | 1,1k |
 | Solnečnodol’sk (Reg. 30) | Солнечнодольск | 45,32, 41,54 (1926-1953) | 6,2k | 6,1k | 6,1k | 6,5k | 7,1k |
 | Solntsedar (Reg. 29) | Солнцедар; Solncedar | 44,57, 38,03 (1926-1953) | 1,5k | 1,7k | 1,9k | 2k | 2,2k |
-| Solonetskiy (Reg. 29) | Солонецкий | 48,54, 42,28 (1926-1953) | 165,7k | 251,4k | 359,5k | 401,7k | 465,7k |
 | Solyanka (Reg. 27) | Солянка | 46,39, 48,02 (1926-1953) | 6,8k | 6,4k | 6k | 5,6k | 5,2k |
 | Sormovo (Reg. 23) | Сормово | 56,36, 43,84 (1926-1926) | 40,1k | \- | \- | \- | \- |
 | Sorochinsk (Reg. 25) | Сорочинск; Soročinsk | 52,43, 53,15 (1926-1953) | 11,3k | 14,4k | 17,9k | 18,3k | 18,9k |
@@ -6974,8 +6265,8 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Sotnikovskoye (Reg. 30) | Сотниковское | 45, 43,78 (1926-1953) | 8,8k | 8,5k | 8,2k | 7,9k | 7,4k |
 | Sovetsk (Reg. 23) | Советск; Кукарка | 57,59, 48,96 (1926-1953) | 4,8k | 7,4k | 10,8k | 11,8k | 13,4k |
 | Sovetskaya (Reg. 29) | Советская | 44,78, 41,17 (1926-1953) | 6,5k | 7,5k | 8,4k | 8,6k | 8,8k |
-| Sovetskaya (Reg. 30) | Советская | 44,03, 44,05 (1926-1953) | 5,1k | 5,3k | 5,5k | 5,7k | 5,9k |
 | Sovetskaya (Reg. 29) | Чернышевская | 49,01, 42,12 (1926-1953) | 3,5k | 2,4k | 1,8k | 1,8k | 1,9k |
+| Sovetskaya (Reg. 30) | Советская | 44,03, 44,05 (1926-1953) | 5,1k | 5,3k | 5,5k | 5,7k | 5,9k |
 | Sovetskiy (Reg. 23) | Советский; Sovetskij | 56,76, 48,48 (1926-1953) | 515 | 819 | 1,2k | 1,4k | 1,8k |
 | Sovetskoye (Reg. 26) | Советское; Sovetskoje | 51,44, 46,74 (1926-1953) | 4,5k | 5k | 5,4k | 4,7k | 3,8k |
 | Sovetskoye (Reg. 33) | Советское | 41,73, 48,33 (1926-1953) | 778 | 829 | 876 | 988 | 1,2k |
@@ -6983,7 +6274,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Sovkhoznyy (Reg. 34) | Совхозный | 56,56, 61,43 (1926-1953) | 1,3k | 2k | 2,8k | 3,2k | 3,9k |
 | Sozimskiy (Reg. 23) | Созимский; Sozimskij | 59,74, 52,25 (1926-1953) | 1,1k | 1,6k | 2,4k | 2,8k | 3,3k |
 | Spassk (Reg. 23) | Спасск; Беднодемьяновск | 53,93, 43,18 (1926-1953) | 6,9k | 6k | 6,7k | 6,5k | 6,3k |
-| Spasskaya (Reg. 23) | Спасская | 58,08, 49,9 (1926-1953) | 5,9k | 9k | 12,9k | 14,9k | 18k |
 | Spasskoye (Reg. 23) | Спасское | 55,86, 45,7 (1926-1953) | 3k | 3,1k | 3,2k | 3,3k | 3,4k |
 | Spasskoye (Reg. 30) | Спасское | 45,07, 43,69 (1926-1953) | 4,1k | 4k | 3,8k | 3,7k | 3,5k |
 | Spiridonovka (Reg. 25) | Спиридоновка | 53,09, 50,65 (1926-1953) | 2,2k | 2,4k | 2,5k | 2,6k | 2,8k |
@@ -7002,9 +6292,8 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Staraya Stanitsa (Reg. 29) | Старая Станица | 45,01, 41,15 (1926-1953) | 2,5k | 2,9k | 3,3k | 3,6k | 4,2k |
 | Staraya Stanitsa (Reg. 29) | Старая Станица | 48,35, 40,29 (1926-1953) | 1,5k | 1,7k | 2k | 2,2k | 2,7k |
 | Staraya Sunzha (Reg. 32) | Старая Сунжа | 43,34, 45,74 (1926-1953) | 2,6k | 2,7k | 2,9k | 3,1k | 3,5k |
-| Staritsa (Reg. 27) | Старицкое | 48,22, 45,95 (1926-1953) | 5,8k | 5,4k | 5k | 4,6k | 4,2k |
 | Starobal-tachevo (Reg. 34) | Старобалтачево | 56, 55,92 (1926-1953) | 2,1k | 3,5k | 2,2k | 2,4k | 2,7k |
-| Staroche-rkasskaya (Reg. 29) | Старочеркасская | 47,24, 40,04 (1926-1953) | 4,4k | 4,1k | 3,8k | 3,6k | 3,3k |
+| Staroche-rkasskaya (Reg. 29) | Старочеркасская; Don Cossack Capital | 47,24, 40,04 (1926-1953) | 4,4k | 4,1k | 3,8k | 3,6k | 3,3k |
 | Staroder-evyankovskaya (Reg. 29) | Стародеревянковская | 46,13, 38,97 (1926-1953) | 4k | 4,6k | 5,2k | 5,6k | 6,3k |
 | Starodubskoye (Reg. 30) | Стародубское | 44,56, 44,02 (1926-1953) | 2,4k | 2,5k | 2,6k | 2,7k | 2,9k |
 | Starokam-yshinsk (Reg. 34) | Старокамышинск; Starokamyšinsk | 55,04, 61,59 (1926-1953) | 4,2k | 6,2k | 8,5k | 9,9k | 12k |
@@ -7037,9 +6326,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Storozhevaya (Reg. 30) | Сторожевая | 43,88, 41,45 (1926-1953) | 3,7k | 5k | 6,4k | 6,5k | 6,7k |
 | Strelka (Reg. 29) | Стрелка | 45,21, 37,29 (1926-1953) | 1,9k | 2,2k | 2,5k | 2,8k | 3,2k |
 | Strizhi (Reg. 23) | Стрижи; Striži | 58,47, 49,26 (1926-1953) | 2k | 3,1k | 4,4k | 5,1k | 6,2k |
-| Studenets (Reg. 23) | Студенецъ | 55,13, 46,35 (1926-1953) | 4,8k | 6,7k | 9,1k | 10,6k | 13,1k |
 | Subkhankulovo (Reg. 34) | Субханкулово; Subhankulovo | 54,56, 53,81 (1926-1953) | 852 | 1,1k | 1,5k | 1,8k | 2,2k |
-| Sudache (Reg. 27) | Судачье | 45,83, 47,42 (1926-1953) | 5,2k | 6,7k | 8,3k | 8,9k | 9,9k |
 | Sukhobez-vodnoye (Reg. 23) | Сухобезводное; Suhobezv-odnoje | 57,05, 44,89 (1926-1953) | 3,6k | 4,8k | 6,2k | 6,8k | 7,8k |
 | Sukhodol (Reg. 25) | Суходол; Suhodol | 53,9, 51,21 (1926-1953) | 2,4k | 2,8k | 3,2k | 3,8k | 4,6k |
 | Sukhoy Log (Reg. 34) | Сухой Лог; Suhoj Log | 56,91, 62,03 (1926-1953) | 5,4k | 8k | 11,1k | 13,9k | 18,9k |
@@ -7062,9 +6349,9 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Svecha (Reg. 23) | Свеча; Sveča | 58,28, 47,51 (1926-1953) | 692 | 1,1k | 1,5k | 2,1k | 3,2k |
 | Svetlograd (Reg. 30) | Светлоград; Петровское | 45,33, 42,86 (1926-1953) | 14,7k | 16,4k | 18k | 19,7k | 22,2k |
 | Svetlopo-lyansk (Reg. 23) | Светлополянск; Svetlopo-ljansk | 59,42, 52,36 (1926-1953) | 879 | 1,4k | 2k | 2,3k | 2,7k |
+| Svetlyy Yar (Reg. 27) | Светлый Яр; Svetlyj Jar | 48,47, 44,79 (1926-1953) | 2,8k | 3,1k | 3,3k | 3,5k | 3,7k |
 | Svetlyy (Reg. 25) | Светлый; Svetlyj | 50,82, 60,85 (1926-1953) | 6,5k | 8,3k | 10,3k | 11,5k | 13,3k |
 | Svetlyy (Reg. 27) | Светлый; Svetlyj | 51,67, 45,63 (1926-1953) | 7,4k | 8,1k | 8,7k | 9k | 9,3k |
-| Svetlyy Yar (Reg. 27) | Светлый Яр; Svetlyj Jar | 48,47, 44,79 (1926-1953) | 2,8k | 3,1k | 3,3k | 3,5k | 3,7k |
 | Sviyazhsk (Reg. 24) | Свияжск; Svijažsk | 55,77, 48,66 (1926-1953) | 2,6k | 2,1k | 1,8k | 1,5k | 1,2k |
 | Svobodnyy (Reg. 27) | Свободный; Svobodnyj | 52,33, 46,37 (1926-1953) | 1,6k | 1,7k | 1,8k | 1,9k | 2k |
 | Svobodnyy (Reg. 34) | Свободный; Svobodnyj | 58,04, 60,4 (1926-1953) | 3,6k | 5,3k | 7,4k | 8,5k | 10,3k |
@@ -7086,10 +6373,9 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Tamala (Reg. 24) | Тамала | 52,54, 43,25 (1926-1953) | 1,8k | 2,4k | 4,2k | 4,3k | 4,5k |
 | Taman (Reg. 29) | Тамань | 45,21, 36,72 (1926-1953) | 6,5k | 7,2k | 8k | 8,1k | 8,3k |
 | Tarasovskiy (Reg. 29) | Тарасовский; Tarasovskij | 48,73, 40,36 (1926-1953) | 2,1k | 3,2k | 4,6k | 5,1k | 5,8k |
-| Tarki (Reg. 33) | Тарки | 42,94, 47,5 (1926-1953) | 2k | 2,1k | 2,3k | 2,7k | 3,2k |
+| Tarki (Reg. 33) | Тарки; Shamkhalate of Tarki Capital | 42,94, 47,5 (1926-1953) | 2k | 2,1k | 2,3k | 2,7k | 3,2k |
 | Tarskoye (Reg. 32) | Тарское | 42,97, 44,78 (1926-1953) | 3,2k | 3,3k | 3,4k | 3,5k | 3,6k |
 | Tarumovka (Reg. 33) | Тарумовка | 44,08, 46,54 (1926-1953) | 1,5k | 1,7k | 1,8k | 2k | 2,3k |
-| Tashkent (Reg. 34) | ТАШКЕНТ | 56,31, 55,41 (1926-1953) | 303,4k | 408,6k | 527,3k | 573k | 640,2k |
 | Tashla (Reg. 25) | Ташла | 51,77, 52,74 (1926-1953) | 2,5k | 3,2k | 4k | 4,4k | 5,1k |
 | Tatarka (Reg. 30) | Татарка | 44,96, 41,95 (1926-1953) | 5,8k | 5,8k | 5,8k | 5,8k | 5,9k |
 | Tatarskaya Kargala (Reg. 25) | Татарская Каргала | 51,95, 55,17 (1926-1953) | 1,3k | 1,7k | 2,1k | 2,3k | 2,7k |
@@ -7097,14 +6383,13 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Tatsinskaya (Reg. 29) | Тацинская; Tacinskaja | 48,19, 41,28 (1926-1953) | 2,4k | 3,7k | 5,2k | 6,2k | 7,8k |
 | Tavatuy (Reg. 34) | Таватуй; Tavatuj | 57,15, 60,21 (1926-1953) | 819 | 806 | 795 | 784 | 769 |
 | Tavda (Reg. 34) | Тавда | 58,04, 65,27 (1926-1953) | 4,2k | 11k | 25,2k | 30,6k | 39,5k |
-| Tavolozhka (Reg. 34) | Таволожка | 58,04, 63,99 (1926-1953) | 4,4k | 6,4k | 8,8k | 10,1k | 12k |
 | Tayginka (Reg. 34) | Тайгинка; Tajginka | 55,62, 60,51 (1926-1953) | 542 | 792 | 1,1k | 1,3k | 1,5k |
 | Tbilisskaya (Reg. 29) | Тбилисская | 45,36, 40,2 (1926-1953) | 13,3k | 15,3k | 17,2k | 17,8k | 18,5k |
 | Temir-Khan-Shura (Reg. 33) | Buynaksk; Dagestan Oblast Capital | 42,82, 47,12 (1926-1953) | 10,9k | 16k | 22,1k | 24,9k | 29,2k |
 | Temiraul (Reg. 33) | Темираул; Темиръ-Аулъ | 43,25, 46,83 (1926-1953) | 1,1k | 1,1k | 1,2k | 1,3k | 1,5k |
 | Temirgoy-evskaya (Reg. 29) | Темиргоевская | 45,11, 40,28 (1926-1953) | 6,1k | 7k | 7,9k | 7,9k | 8k |
 | Temizhbe-kskaya (Reg. 29) | Темижбекская | 45,45, 40,84 (1926-1953) | 2,2k | 2,5k | 2,8k | 3,1k | 3,6k |
-| Temnikov (Reg. 23) | Темников | 54,63, 43,22 (1926-1953) | 4,5k | 4,3k | 5,5k | 5,7k | 5,9k |
+| Temnikov (Reg. 23) | Темников; Temnikov Principality | 54,63, 43,22 (1926-1953) | 4,5k | 4,3k | 5,5k | 5,7k | 5,9k |
 | Temryuk (Reg. 29) | Темрюк; Temrjuk | 45,27, 37,4 (1926-1953) | 15,9k | 17,4k | 23,2k | 22,9k | 22,5k |
 | Tengushevo (Reg. 23) | Теньгушево | 54,77, 42,72 (1926-1953) | 1,4k | 1,6k | 1,8k | 2k | 2,2k |
 | Tenishevo (Reg. 24) | Тенишево; Teniševo | 55,25, 49,21 (1926-1953) | 1,2k | 1,1k | 1,1k | 1,1k | 1k |
@@ -7113,8 +6398,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Teren’ga (Reg. 24) | Тереньга | 53,72, 48,37 (1926-1953) | 2,5k | 3k | 3,5k | 3,4k | 3,2k |
 | Tereze (Reg. 30) | Терезе | 43,94, 42,44 (1926-1953) | 2k | 2,7k | 3,5k | 3,9k | 4,6k |
 | Ternevskaya (Reg. 29) | Терновская | 45,85, 40,41 (1926-1953) | 4,4k | 5,1k | 5,7k | 5,8k | 5,9k |
-| Ternovka (Reg. 30) | Ново-Георгиевское | 44,79, 43,01 (1926-1953) | 14,4k | 13,8k | 13,3k | 14,3k | 15,8k |
-| Ternovka (Reg. 27) | Терновка | 51,33, 42,93 (1926-1953) | 3k | 2,7k | 2,5k | 2,4k | 2,2k |
 | Tersa (Reg. 27) | Терса | 52,09, 47,54 (1926-1953) | 4,4k | 4,2k | 4,1k | 3,9k | 3,7k |
 | Tetyushi (Reg. 24) | Тетюши; Tetjuši | 54,94, 48,83 (1926-1953) | 4,8k | 5,7k | 8,6k | 8,4k | 8,1k |
 | Tikhoretsk (Reg. 29) | Тихорецк; Tihoreck | 45,85, 40,12 (1926-1953) | 19,1k | 27,2k | 36,7k | 40,2k | 45,4k |
@@ -7136,15 +6419,12 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Tonshayevo (Reg. 23) | Тоншаево; Tonšajevo | 57,74, 47,01 (1926-1953) | 1k | 1,4k | 1,8k | 1,8k | 1,8k |
 | Torbeyevo (Reg. 23) | Торбеево; Torbejevo | 54,08, 43,25 (1926-1953) | 1,9k | 2,7k | 3,8k | 4k | 4,4k |
 | Torfyanoy (Reg. 23) | Торфяной; Torfjanoj | 58,49, 49,2 (1926-1953) | 707 | 1,1k | 1,6k | 1,8k | 2,2k |
+| Totskoye Vtoroye (Reg. 25) | Тоцкое Второе | 52,54, 52,83 (1926-1953) | 5,2k | 5,7k | 6,1k | 5,8k | 5,4k |
 | Totskoye (Reg. 25) | Тоцкое | 52,53, 52,75 (1926-1953) | 6,4k | 6,4k | 6,5k | 6,6k | 6,7k |
-| Totskoye Vtoroye (Reg. 25) | Тоцкое Второе | 52,54, 52,83 (1926-1953) | 6,6k | 8,4k | 10,4k | 11,6k | 13,4k |
 | Trekhgornyy (Reg. 34) | Трехгорный | 54,82, 58,45 (1926-1953) | 11,1k | 16,2k | 22,4k | 25,9k | 31,5k |
-| Trekhizbenka (Reg. 27) | Трехизбенка | 46,15, 48,36 (1926-1953) | 5,7k | 7,3k | 8,9k | 9,7k | 10,8k |
 | Tretiy Severnyy (Reg. 34) | Третий Северный; Tretij Severnyj | 60,21, 59,96 (1926-1953) | 800 | 1,2k | 1,7k | 1,9k | 2,3k |
 | Tri Protoka (Reg. 27) | Три Протока | 46,33, 48,12 (1926-1953) | 909 | 1,1k | 1,3k | 1,4k | 1,5k |
 | Troitsk (Reg. 34) | Troitsk Caravan Mart; Troitsk Orenburg | 54,1, 61,57 (1926-1953) | 30,4k | 38,3k | 46,7k | 54,1k | 65,9k |
-| Troitsk (Reg. 23) | Троицк; Troick | 54,09, 43,82 (1926-1953) | 7,1k | 6,3k | 5,7k | 5,1k | 4,4k |
-| Troitsk (Reg. 25) | Троицк | 50,7, 54,62 (1926-1953) | 39,9k | 51,1k | 63,2k | 69,6k | 79,1k |
 | Troitskaya (Reg. 32) | Троицкая | 43,31, 44,98 (1926-1953) | 5,6k | 6,3k | 7k | 7,8k | 9k |
 | Troitskaya (Reg. 29) | Троицкая | 45,13, 38,13 (1926-1953) | 4,2k | 4,8k | 5,4k | 5,5k | 5,6k |
 | Troitskiy (Reg. 34) | Троицкий; Troickij | 57,06, 63,75 (1926-1953) | 2k | 3,4k | 5,3k | 6,4k | 8,2k |
@@ -7156,7 +6436,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Trudovoy (Reg. 34) | Трудовой; Trudovoj | 55,99, 61,75 (1926-1953) | 1,1k | 1k | 920 | 847 | 757 |
 | Trunovskoye (Reg. 30) | Труновское | 45,49, 42,14 (1926-1953) | 16,2k | 11,7k | 8,9k | 8,6k | 8,3k |
 | Tsagan Aman (Reg. 28) | Цаган Аман; Cagan Aman | 47,56, 46,72 (1926-1953) | 5k | 6,8k | 8,8k | 7,7k | 6,6k |
-| Tsarev (Reg. 27) | Tsarev Akhtuba; Sarai-Berke | 48,66, 45,37 (1926-1953) | 7,7k | 6,7k | 6k | 5,3k | 4,5k |
 | Tsaritsyn (Reg. 27) | Volgograd; Stalingrad | 48,71, 44,51 (1926-1953) | 148,4k | 388k | 445,3k | 215k | 490k |
 | Tselina (Reg. 29) | Целина; Celina | 46,53, 41,03 (1926-1953) | 2,5k | 3,9k | 5,5k | 6,1k | 7k |
 | Tsementnyy (Reg. 34) | Цементный; Cementnyj | 57,47, 60,15 (1926-1953) | 1,5k | 2,2k | 3,1k | 3,3k | 3,5k |
@@ -7176,7 +6455,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Tumbotino (Reg. 23) | Тумботино | 56, 43,02 (1926-1953) | 3,2k | 4k | 5k | 6,1k | 7,8k |
 | Turgenevo (Reg. 23) | Тургенево | 54,85, 46,33 (1926-1953) | 1,6k | 2k | 2,4k | 2,9k | 3,8k |
 | Turgoyak (Reg. 34) | Тургояк; Turgojak | 55,15, 60,12 (1926-1953) | 2,4k | 3,5k | 4,8k | 5,5k | 6,7k |
-| Turinsk (Reg. 34) | Туринск | 58,05, 63,7 (1926-1953) | 4,5k | 6,5k | 10,4k | 12,5k | 15,8k |
+| Turinsk (Reg. 34) | Туринск; Yepanchin-Yurt | 58,05, 63,7 (1926-1953) | 4,5k | 6,5k | 10,4k | 12,5k | 15,8k |
 | Turinskaya Sloboda (Reg. 34) | Туринская Слобода | 57,62, 64,38 (1926-1953) | 2,3k | 3,3k | 4,7k | 5,4k | 6,6k |
 | Turki (Reg. 27) | Турки | 51,99, 43,27 (1926-1953) | 7,7k | 7,7k | 7,7k | 7,5k | 7,1k |
 | Tushna (Reg. 24) | Тушна | 54,03, 48,52 (1926-1953) | 2,8k | 2,6k | 2,4k | 2,3k | 2,1k |
@@ -7184,7 +6463,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Tuzha (Reg. 23) | Тужа; Tuža | 57,61, 47,94 (1926-1953) | 332 | 512 | 741 | 926 | 1,2k |
 | Tyrnyauz (Reg. 31) | Girkhodzhan; Balkar Tungsten-Molybdenum Combine (1944 Deport.) | 43,38, 42,92 (1926-1953) | 2k | 2,7k | 3,5k | 4,2k | 10,5k |
 | Tyube (Reg. 33) | Тюбе; Tjube | 43,05, 47,31 (1926-1953) | 823 | 877 | 926 | 1k | 1,2k |
-| Tyush (Reg. 34) | Тюшъ | 56,8, 58,35 (1926-1953) | 14,3k | 20,7k | 28,5k | 32,5k | 38,9k |
 | Uchaly (Reg. 34) | алы | 54,36, 59,44 (1926-1953) | 12,4k | 16,8k | 21,6k | 23,6k | 26,5k |
 | Uchkeken (Reg. 30) | кекен | 43,95, 42,52 (1926-1953) | 4,8k | 6,5k | 8,4k | 9,4k | 10,9k |
 | Uchkent (Reg. 33) | кент | 43,11, 47,08 (1926-1953) | 627 | 668 | 705 | 795 | 933 |
@@ -7206,9 +6484,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Undory (Reg. 24) | Ундоры | 54,61, 48,39 (1926-1953) | 2,3k | 2,4k | 2,5k | 2,6k | 2,7k |
 | Uni (Reg. 23) | Уни | 57,76, 51,49 (1926-1953) | 1,2k | 1,8k | 2,6k | 2,9k | 3,2k |
 | Untsukul (Reg. 33) | Унцукуль | 42,71, 46,79 (1926-1953) | 2,3k | 2,5k | 2,6k | 2,8k | 3,1k |
-| Urakovo (Reg. 23) | Ураково | 57,92, 52,7 (1926-1953) | 6,1k | 9k | 12,5k | 15,8k | 21,7k |
 | Ural’skij (Reg. 34) | Уральский | 57,93, 55,55 (1926-1953) | 2,4k | 3,8k | 5,6k | 6,4k | 7,6k |
-| Ural’skij (Reg. 34) | Уральский | 56,68, 61,08 (1926-1953) | 855 | 1,3k | 1,8k | 2k | 2,5k |
 | Uralets (Reg. 34) | Уралец; Uralec | 57,66, 59,65 (1926-1953) | 2,1k | 3,1k | 4,4k | 3,9k | 3,4k |
 | Uren’ (Reg. 23) | Урень | 57,46, 45,79 (1926-1953) | 2,9k | 3,9k | 5k | 6,3k | 8,6k |
 | Urkarakh (Reg. 33) | Уркарах | 42,16, 47,63 (1926-1953) | 2,4k | 2,7k | 3k | 3,2k | 3,4k |
@@ -7223,20 +6499,17 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Urvan (Reg. 31) | Урвань | 43,49, 43,76 (1926-1953) | 659 | 889 | 1,1k | 1,4k | 1,8k |
 | Uryupinsk (Reg. 27) | Урюпинск; Urjupinsk | 50,81, 42,01 (1926-1953) | 14,4k | 18,3k | 21,7k | 24,3k | 28,2k |
 | Urzhum (Reg. 23) | Уржум; Uržum | 57,11, 50 (1926-1953) | 5,7k | 6,8k | 8,8k | 9,3k | 10,2k |
-| Us’va (Reg. 34) | Усьва | 58,68, 57,64 (1926-1953) | 1,9k | 3,3k | 5,1k | 5,1k | 5k |
 | Usady (Reg. 24) | Усады | 55,99, 49,31 (1926-1953) | 1,2k | 1,4k | 1,6k | 1,8k | 2k |
 | Ushakovka (Reg. 27) | Ушаковка | 48,43, 45,12 (1926-1953) | 2,9k | 2,7k | 2,6k | 2,5k | 2,4k |
 | Ushinka (Reg. 24) | Ушинка | 53,47, 42,81 (1926-1953) | 4,2k | 3,9k | 3,6k | 3,4k | 3,1k |
 | Usisha (Reg. 33) | Усиша | 42,25, 47,39 (1926-1953) | 2,6k | 2,8k | 3k | 3,1k | 3,2k |
 | Usol’je (Reg. 34) | Усолье | 59,42, 56,68 (1926-1953) | 9k | 9,5k | 10k | 10,5k | 11,2k |
-| Usole (Reg. 24) | Усолье | 53,39, 49,06 (1926-1953) | 5,2k | 5,1k | 5,1k | 5,1k | 5k |
 | Uspenskoye (Reg. 29) | Успенская; Успенское | 44,83, 41,39 (1926-1953) | 4,2k | 3,9k | 3,8k | 3,8k | 3,9k |
 | Ust’-Doneckij (Reg. 29) | Усть-Донецкий | 47,64, 40,87 (1926-1953) | 1,3k | 2k | 2,9k | 3,2k | 3,6k |
 | Ust’-Džeguta (Reg. 30) | Усть-Джегута | 44,08, 41,98 (1926-1953) | 3,7k | 5k | 6,4k | 7,6k | 9,6k |
 | Ust’-Katav (Reg. 34) | Усть-Катав; Усть- | 54,94, 58,18 (1926-1953) | 6k | 8,3k | 13k | 15,5k | 19,5k |
 | Ust’-Kinel’skij (Reg. 25) | Усть-Кинельский | 53,27, 50,58 (1926-1953) | 1,9k | 2,5k | 3,2k | 3,9k | 5k |
 | Ust’-Labinsk (Reg. 29) | Усть-Лабинск; Усть- | 45,21, 39,69 (1926-1953) | 19,9k | 19,1k | 18,4k | 21,4k | 26k |
-| Ust-Atmis (Reg. 24) | Усть-Атмисъ | 53,06, 44,15 (1926-1953) | 6,1k | 6k | 5,9k | 6,5k | 7,4k |
 | Ust-Kachka (Reg. 34) | Усть-Качка | 58, 55,67 (1926-1953) | 1,7k | 2,6k | 3,9k | 4,4k | 5,3k |
 | Ust-Kishert (Reg. 34) | Усть-Кишерть | 57,37, 57,25 (1926-1953) | 1,7k | 1,9k | 2,1k | 2,2k | 2,5k |
 | Ust-Uza (Reg. 24) | Усть-Уза | 52,97, 45,3 (1926-1953) | 3,5k | 3,3k | 3,2k | 2,9k | 2,7k |
@@ -7263,7 +6536,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Varnavino (Reg. 23) | Варнавино | 57,4, 45,09 (1926-1953) | 1,6k | 1,9k | 2,3k | 2,5k | 2,7k |
 | Vasil’jevo (Reg. 24) | Васильево | 55,83, 48,72 (1926-1953) | 5,1k | 7,4k | 10,2k | 11,3k | 13,1k |
 | Vasil’sursk (Reg. 23) | Васильсурск; Васильгород | 56,13, 46,02 (1926-1953) | 3,4k | 3,9k | 4,5k | 4,9k | 5,4k |
-| Vasilevka (Reg. 23) | Васильевка | 55,25, 45,69 (1926-1953) | 8,8k | 11,8k | 15,2k | 16,8k | 19,2k |
 | Vasilevka (Reg. 25) | Васильевка | 53,72, 52,48 (1926-1953) | 2,3k | 2k | 1,9k | 1,7k | 1,5k |
 | Vasyurinskaya (Reg. 29) | Васюринская | 45,12, 39,42 (1926-1953) | 7k | 8k | 9k | 9,3k | 9,7k |
 | Vavozh (Reg. 23) | Вавож | 56,78, 51,93 (1926-1953) | 1,2k | 1,8k | 2,5k | 3k | 3,8k |
@@ -7320,7 +6592,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Veshenskaya (Reg. 29) | Вешенская | 49,63, 41,73 (1926-1953) | 9,2k | 13,9k | 19,9k | 18,6k | 16,8k |
 | Veshkayma (Reg. 24) | Вешкайма; Veškajma | 54,05, 47,12 (1926-1953) | 2,6k | 3,5k | 4,7k | 4k | 3,2k |
 | Vesjolyj (Reg. 29) | Весёлый; Веселый | 47,09, 40,74 (1926-1953) | 2,6k | 3,1k | 3,6k | 4,2k | 5,1k |
-| Vetka (Reg. 27) | Ветка | 51,81, 48,16 (1926-1953) | 8,2k | 8,3k | 8,4k | 8,6k | 9k |
 | Vetluga (Reg. 23) | Ветлуга | 57,86, 45,78 (1926-1953) | 6,1k | 6,4k | 8,1k | 8,6k | 9,4k |
 | Vetluzhskiy (Reg. 23) | Ветлужский; Vetlužskij | 57,17, 45,12 (1926-1953) | 1,4k | 1,8k | 2,4k | 3,4k | 5,5k |
 | Vetlyanka (Reg. 25) | Ветлянка; Vetljanka | 53,47, 50,33 (1926-1953) | 391 | 517 | 657 | 797 | 1k |
@@ -7345,8 +6616,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Volzhsk (Reg. 23) | Волжск; Volžsk | 55,87, 48,36 (1926-1953) | 8,2k | 13,1k | 19,5k | 22,9k | 28,4k |
 | Volzhskiy (Reg. 25) | Волжский; Volžskij | 53,43, 50,12 (1951-1953) | \- | \- | \- | \- | 4k |
 | Volzhsky (Reg. 27) | Volgograd Hydroelectric Boomtown (Founded 1954); Волжский | 48,79, 44,78 (1951-1953) | \- | \- | \- | \- | 15k |
-| Voronezhskaya (Reg. 29) | Воронежская | 45,21, 39,57 (1926-1953) | 2,9k | 3,3k | 3,7k | 4,1k | 4,7k |
-| Voronezhskiy (Reg. 25) | Воронеж | 51,4, 58,02 (1926-1953) | 158,7k | 203,5k | 251,8k | 277,2k | 315,1k |
+| Voronezhskaya (Reg. 29) | Воронежская | 45,21, 39,57 (1926-1953) | 1,3k | 1,3k | 1,3k | 1,3k | 1,3k |
 | Vorontsovka (Reg. 34) | Воронцовка; Voroncovka | 59,66, 60,24 (1926-1953) | 957 | 1,4k | 2k | 2,3k | 2,8k |
 | Vorotynets (Reg. 23) | Воротынец; Vorotynec | 56,06, 45,87 (1926-1953) | 3,4k | 3,7k | 4k | 3,8k | 3,6k |
 | Vorsma (Reg. 23) | Ворсма | 55,99, 43,27 (1926-1953) | 5,4k | 7k | 9,4k | 9,8k | 10,4k |
@@ -7368,9 +6638,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Vurnary (Reg. 23) | Вурнары | 55,49, 46,96 (1926-1953) | 2,8k | 3,6k | 4,4k | 5,2k | 6,3k |
 | Vyatka (Reg. 23) | Kirov; Khlynov | 58,6, 49,67 (1926-1953) | 62,1k | 96k | 143,6k | 185k | 215k |
 | Vyatskiye Polyany (Reg. 23) | Вятские Поляны; Vjatskije Poljany | 56,23, 51,06 (1926-1953) | 4,2k | 6,7k | 10,6k | 13,9k | 19,7k |
-| Vyazniki (Reg. 25) | Вязники | 53,36, 51,67 (1926-1953) | 13,3k | 17,5k | 22,1k | 26,8k | 34,7k |
 | Vyazovaya (Reg. 34) | Вязовая; Vjazovaja | 54,91, 58,36 (1926-1953) | 977 | 1,6k | 2,3k | 3k | 4,4k |
-| Vyazovka (Reg. 25) | инцовка | 54,33, 51,68 (1926-1953) | 4,7k | 6,1k | 7,7k | 9,4k | 12,2k |
 | Vyazovka (Reg. 27) | Вязовка | 52,16, 46,72 (1926-1953) | 3,9k | 3,7k | 3,6k | 3,5k | 3,3k |
 | Vyazovka (Reg. 24) | Вязовка | 54,07, 47,23 (1926-1953) | 2,1k | 1,9k | 1,7k | 1,5k | 1,3k |
 | Vyksa (Reg. 23) | Выкса | 55,32, 42,17 (1926-1953) | 10,9k | 17,7k | 26,5k | 30,1k | 35,5k |
@@ -7389,8 +6657,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Yalga (Reg. 23) | Ялга; Jalga | 54,13, 45,13 (1926-1953) | 1,3k | 1,4k | 1,6k | 1,7k | 2k |
 | Yalkhoy-Mokhk (Reg. 32) | Ялхой-Мохк | 43,11, 46,19 (1926-1953) | 1,3k | 1,4k | 1,5k | 1,6k | 1,8k |
 | Yanaul (Reg. 34) | Янаул; Janaul | 56,27, 54,93 (1926-1953) | 3,3k | 4,3k | 11,9k | 12,9k | 14,5k |
-| Yangi-Yurt (Reg. 30) | Аднмъ-Юртъ | 43,75, 46,03 (1926-1953) | 10,5k | 13,7k | 17,4k | 18,9k | 21,2k |
-| Yanguzhinskiy Maydan (Reg. 23) | Янгуженский Майданъ | 53,82, 44,01 (1926-1953) | 4,7k | 5,3k | 5,9k | 6,4k | 7,2k |
 | Yar (Reg. 23) | Яр; Jar | 58,25, 52,11 (1926-1953) | 1,3k | 1,9k | 2,7k | 3,2k | 4,1k |
 | Yaransk (Reg. 23) | Яранск; Jaransk | 57,3, 47,87 (1926-1953) | 6,1k | 6,8k | 9,3k | 10k | 11k |
 | Yaroslavka (Reg. 34) | Ярославка | 55,86, 57,97 (1926-1953) | 3,4k | 3,3k | 3,2k | 3,1k | 3k |
@@ -7405,11 +6671,7 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Yazykovo (Reg. 34) | Языково | 54,69, 55,01 (1926-1953) | 1,9k | 2k | 2,2k | 2,4k | 2,7k |
 | Yefremovo-Stepanovka (Reg. 29) | Ефремово-Степановка | 48,71, 40,84 (1926-1953) | 3,8k | 3,4k | 3k | 2,8k | 2,4k |
 | Yegorlykskaya (Reg. 29) | Егорлыкская | 46,57, 40,66 (1926-1953) | 9,8k | 10,4k | 10,9k | 11,4k | 12,2k |
-| Yekaterinburg (Reg. 34) | Лесной; Lesnoj | 56,86, 60,62 (1947-1953) | \- | \- | \- | \- | 47,5k |
 | Yekaterinovka (Reg. 27) | Екатериновка; Jekaterinovka | 52,05, 44,35 (1926-1953) | 3,7k | 4k | 4,4k | 4,7k | 5,3k |
-| Yekaterinovka (Reg. 24) | Екатериновка; Jekaterinovka | 53,96, 48,02 (1926-1953) | 1,2k | 1,1k | 1,1k | 1,1k | 997 |
-| Yekaterinovka (Reg. 27) | Екатериновка | 49,2, 44,87 (1926-1953) | 8,4k | 9,3k | 10,1k | 10,4k | 10,9k |
-| Yekaterinovka (Reg. 25) | Екатериновка | 54,07, 51,22 (1926-1953) | 3,4k | 3,2k | 3,1k | 2,9k | 2,8k |
 | Yelabuga (Reg. 24) | Елабуга; Jelabuga | 55,76, 52,04 (1926-1953) | 11,2k | 13,1k | 15k | 16,8k | 19,6k |
 | Yelanskiy (Reg. 34) | Еланский | 56,84, 62,5 (1926-1953) | 3,3k | 4,8k | 6,7k | 7,8k | 9,4k |
 | Yelaur (Reg. 24) | Елауръ | 53,84, 48,8 (1926-1953) | 3k | 2,7k | 2,5k | 2,4k | 2,1k |
@@ -7420,9 +6682,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Yelshanka (Reg. 27) | Елшанка | 51,81, 46,4 (1926-1953) | 3,8k | 3,6k | 3,5k | 3,3k | 3,1k |
 | Yemanzhelinsk (Reg. 34) | Еманжелинск; Jemanželinsk | 54,75, 61,32 (1926-1953) | 5,5k | 8k | 11,1k | 15,4k | 24,1k |
 | Yenotayevka (Reg. 27) | Енотаевка; Jenotajevka | 47,24, 47,03 (1926-1953) | 3,8k | 3,8k | 3,8k | 4,1k | 4,4k |
-| Yepifanovka (Reg. 25) | Епифановка | 53,6, 48,41 (1926-1953) | 3,4k | 4,5k | 5,7k | 6,9k | 8,9k |
-| Yeremeyevka (Reg. 34) | Еремеевка | 57,01, 58,03 (1926-1953) | 11,4k | 16,6k | 22,8k | 26k | 31k |
-| Yermakovskaya (Reg. 29) | Ермаковская | 48,04, 41,26 (1926-1953) | 16,4k | 24,8k | 35,5k | 39,7k | 46k |
 | Yermekeyevo (Reg. 34) | Ермекеево | 54,07, 53,67 (1926-1953) | 2,1k | 2,1k | 2,4k | 2,5k | 2,7k |
 | Yermolayevo (Reg. 34) | Ермолаево; Jermolajevo | 52,7, 55,82 (1926-1953) | 1,1k | 1,6k | 5,4k | 5,8k | 6,3k |
 | Yershov (Reg. 27) | Ершов; Jeršov | 51,36, 48,27 (1926-1953) | 5,1k | 9k | 14,4k | 15,9k | 18,1k |
@@ -7433,7 +6692,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Yevstrat-ovskiy (Reg. 27) | Евстратовский; Jevstrat-ovskij | 49,19, 42,88 (1926-1939) | 2k | 5k | 10,6k | \- | \- |
 | Yeysk (Reg. 29) | Eisk; Yeysk Azov Grain Port | 46,71, 38,27 (1926-1953) | 38,1k | 42,6k | 46,9k | 49,3k | 52,7k |
 | Yeyskoye Ukrepleniye (Reg. 29) | Ейское Укрепление | 46,71, 38,61 (1926-1953) | 3,5k | 3,3k | 3k | 3k | 2,9k |
-| Yezhovo (Reg. 23) | Ежово | 58,71, 52,33 (1926-1953) | 14,5k | 22,2k | 31,9k | 36,8k | 44,5k |
 | Yoshkar-Ola (Reg. 23) | Tsarevok-okshaysk; Krasnoko-kshaysk | 56,63, 47,9 (1926-1953) | 4,4k | 14k | 27,2k | 42k | 65k |
 | Yubileynyy (Reg. 34) | Юбилейный; Jubilejnyj | 58,78, 57,78 (1926-1953) | 1,2k | 1,9k | 2,7k | 3,1k | 3,8k |
 | Yudino (Reg. 24) | Юдино; Judino | 55,82, 48,88 (1926-1953) | 1,4k | 4,3k | 8,4k | 11k | 15,6k |
@@ -7447,22 +6705,16 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Yurla (Reg. 34) | Юрла | 59,32, 54,32 (1926-1953) | 959 | 1,1k | 1,2k | 1,4k | 1,6k |
 | Yurovka (Reg. 29) | Юровка | 45,11, 37,42 (1926-1953) | 1,3k | 1,4k | 1,6k | 1,8k | 2k |
 | Yushala (Reg. 34) | Юшала; Jušala | 57,08, 64,26 (1926-1953) | 1,8k | 2,7k | 3,7k | 4,3k | 5,2k |
-| Yusupovka (Reg. 27) | Юсуповка | 52,2, 44,26 (1926-1953) | 215,9k | 218,2k | 220,3k | 227k | 236,3k |
 | Yusva (Reg. 34) | Юсьва | 58,97, 54,96 (1926-1953) | 1,1k | 1,3k | 1,4k | 1,6k | 1,9k |
 | Yutsa (Reg. 30) | Юца | 43,96, 43,01 (1926-1953) | 3,3k | 3,3k | 3,2k | 3,5k | 3,8k |
 | Yuzhno-Sukhokumsk (Reg. 33) | Южно-Сухокумск; Južno-Suhokumsk | 44,66, 45,65 (1926-1953) | 3,1k | 3,3k | 3,4k | 3,9k | 4,5k |
-| Yuzhnyy (Reg. 27) | Южный; Južnyj | 48,42, 44,49 (1926-1953) | 912 | 1k | 1,1k | 1,1k | 1,2k |
-| Yuzhnyy (Reg. 23) | Южный; Južnyj | 57,61, 47,44 (1926-1953) | 1,4k | 1,9k | 2,5k | 2,8k | 3,2k |
-| Yuzhnyy (Reg. 29) | Южный; Južnyj | 47,34, 41,86 (1926-1953) | 800 | 1,2k | 1,7k | 1,9k | 2,2k |
-| Yuzhnyy (Reg. 34) | Южный; Južnyj | 53,12, 59,45 (1926-1953) | 1,1k | 1,6k | 2,3k | 2,6k | 3,2k |
-| Yuzhnyy (Reg. 29) | Южный | 45, 40,47 (1926-1953) | 1,6k | 1,8k | 2,1k | 2,3k | 2,6k |
 | Yuzhnyy Ural (Reg. 25) | Южный Урал | 51,73, 55,04 (1926-1953) | 450 | 577 | 714 | 797 | 922 |
 | Yuzhnyy-Kospashskiy (Reg. 34) | Южный-Коспашский; Južnyj-Kospašskij | 58,97, 57,76 (1926-1953) | 3,8k | 5,9k | 8,7k | 10k | 12k |
+| Yuzhnyy (Reg. 29) | Южный | 45, 40,47 (1926-1953) | 1,6k | 1,8k | 2,1k | 2,3k | 2,6k |
+| Yuzhnyy (Reg. 27) | Южный; Južnyj | 48,42, 44,49 (1926-1953) | 912 | 1k | 1,1k | 1,1k | 1,2k |
 | Zagorskiy (Reg. 30) | Загорский; Zagorskij | 44,25, 43,13 (1926-1953) | 1,3k | 1,3k | 1,2k | 1,3k | 1,5k |
-| Zainsk (Reg. 24) | Заинск; Новый | 55,28, 52 (1926-1953) | 2,9k | 3k | 3,2k | 4,3k | 6,5k |
 | Zakamsk (Reg. 34) | Закамск | 57,99, 55,91 (1926-1939) | 11,4k | 17,9k | 26,2k | \- | \- |
 | Zakan-Yurt (Reg. 32) | Закан-Юрт | 43,26, 45,42 (1926-1953) | 1,6k | 1,7k | 1,8k | 2k | 2,2k |
-| Zakharova (Reg. 34) | Захарова | 59,25, 54,64 (1926-1953) | 14,4k | 21,3k | 29,7k | 34k | 40,7k |
 | Zalesyanka (Reg. 27) | Залесянка | 51,21, 43,68 (1926-1953) | 1,9k | 1,8k | 1,6k | 1,5k | 1,4k |
 | Zalukokoazhe (Reg. 30) | Залукокоаже; Zalukokoaže | 43,9, 43,21 (1926-1953) | 807 | 1,1k | 1,4k | 1,7k | 2,1k |
 | Zandak (Reg. 32) | Зандак | 43,06, 46,46 (1926-1953) | 1,8k | 2k | 2,1k | 2,2k | 2,3k |
@@ -7470,9 +6722,8 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Zapadnyy (Reg. 34) | Западный | 55,11, 61,28 (1926-1953) | 2,6k | 3,7k | 5,2k | 6k | 7,3k |
 | Zaplavnoye (Reg. 27) | Заплавное | 48,7, 45,02 (1926-1953) | 6,9k | 6,5k | 6,2k | 5,9k | 5,5k |
 | Zaplavnoye (Reg. 25) | Заплавное | 52,98, 51,7 (1926-1953) | 2,5k | 2,2k | 2k | 1,9k | 1,7k |
-| Zarechnyy (Reg. 34) | Заречный; Zarečnyj | 56,81, 61,33 (1926-1953) | 250 | 369 | 515 | 595 | 722 |
 | Zarechnyy (Reg. 24) | Заречный; Zarečnyj | 53,2, 45,19 (1926-1953) | 4,7k | 4,7k | 4,7k | 5,2k | 5,9k |
-| Zarya (Reg. 23) | Заря; Zarja | 60,01, 48,03 (1926-1953) | 293 | 451 | 654 | 754 | 912 |
+| Zarechnyy (Reg. 34) | Заречный; Zarečnyj | 56,81, 61,33 (1926-1953) | 250 | 369 | 515 | 595 | 722 |
 | Zasechnoye (Reg. 24) | Засечное | 53,11, 45,08 (1926-1953) | 899 | 1,1k | 1,4k | 1,7k | 2,3k |
 | Zaterechnyy (Reg. 30) | Затеречный; Zaterečnyj | 44,79, 45,21 (1926-1953) | 3,1k | 3k | 3k | 3,2k | 3,5k |
 | Zaural’skij (Reg. 34) | Зауральский | 54,79, 61,24 (1926-1953) | 1,4k | 2k | 2,8k | 3,2k | 3,9k |
@@ -7484,7 +6735,6 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Zavolž’je (Reg. 23) | Заволжье | 56,64, 43,39 (1926-1953) | 8,3k | 11,1k | 14,3k | 15,8k | 18,1k |
 | Zavyalovo (Reg. 23) | Завьялово | 56,79, 53,38 (1926-1953) | 2,3k | 2,6k | 2,8k | 3,1k | 3,5k |
 | Zaykovo (Reg. 34) | Зайково; Zajkovo | 57,56, 62,76 (1926-1953) | 308 | 455 | 636 | 735 | 892 |
-| Zaytsev Khutor (Reg. 34) | Зайцевъ Хуторъ | 56,92, 56,65 (1926-1953) | 5,5k | 8,2k | 11,4k | 13,1k | 15,7k |
 | Zayukovo (Reg. 31) | Заюково | 43,62, 43,33 (1926-1953) | 3,7k | 5k | 6,4k | 6,7k | 7,1k |
 | Zelenchu-kskaya (Reg. 30) | Зеленчукская | 43,85, 41,59 (1926-1953) | 8,7k | 9,5k | 10,2k | 10,9k | 11,9k |
 | Zelenodolsk (Reg. 24) | Зеленодольск; Zelenodol’sk | 55,84, 48,52 (1926-1953) | 3k | 10,4k | 30,2k | 37,2k | 49,1k |
@@ -7504,36 +6754,28 @@ republics (Regions 23-25), the liquidated Volga German and Kalmyk ASSRs
 | Zhuravskoye (Reg. 30) | Журавское | 44,84, 43,3 (1926-1953) | 4,4k | 4,3k | 4,1k | 4k | 3,8k |
 | Zigaza (Reg. 34) | Зигаза | 53,84, 57,33 (1926-1953) | 1,5k | 2k | 2,6k | 2,4k | 2,1k |
 | Zilair (Reg. 34) | Зилаир | 52,23, 57,44 (1926-1953) | 5,6k | 4,5k | 6,6k | 5,9k | 5,2k |
-| Zilga (Reg. 31) | Зильги | 43,23, 44,52 (1926-1953) | 10,8k | 14,2k | 17,9k | 19,5k | 21,9k |
 | Zimovniki (Reg. 29) | Зимовники | 47,15, 42,47 (1926-1953) | 4,3k | 6,6k | 9,4k | 8,1k | 6,6k |
 | Zirgan (Reg. 34) | Зирган | 53,22, 55,92 (1926-1953) | 4,7k | 4,5k | 4,4k | 4,3k | 4,2k |
 | Zjuzel’skij (Reg. 34) | Зюзельский | 56,49, 60,13 (1926-1953) | 650 | 960 | 1,3k | 1,7k | 2,3k |
-| Zlatogorova (Reg. 34) | Златогорова | 56,57, 61,36 (1926-1953) | 9,3k | 13,5k | 18,6k | 21,2k | 25,3k |
 | Zlatoust (Reg. 34) | Zlatoustovsky Zavod; Zlatoust Steel | 55,17, 59,65 (1926-1953) | 48,3k | 78k | 99,4k | 125k | 145k |
 | Zmeyskaya (Reg. 31) | Змейская | 43,34, 44,16 (1926-1953) | 4,1k | 5,5k | 6,9k | 6,9k | 6,8k |
 | Znamensk (Reg. 27) | Знаменск; Капустин | 48,58, 45,73 (1926-1953) | 14,6k | 17,3k | 20,1k | 21,7k | 24k |
-| Znamenskiy (Reg. 29) | Знаменский | 45,62, 40,52 (1926-1953) | 1,1k | 1,2k | 1,4k | 1,5k | 1,7k |
 | Znamenskoye (Reg. 30) | Знаменское | 43,68, 45,13 (1926-1953) | 3,1k | 3,3k | 3,5k | 3,8k | 4,3k |
-| Zobovo (Reg. 25) | Зобово | 53,2, 54,67 (1926-1953) | 10,6k | 13,6k | 16,9k | 18,6k | 21,1k |
-| Zol’noje (Reg. 25) | Зольное | 53,44, 49,8 (1926-1953) | 2,5k | 3,3k | 4,2k | 5,2k | 6,7k |
+| Zol’noje (Reg. 25) | Зольное | 53,44, 49,8 (1926-1953) | 2,3k | 2,1k | 2k | 2k | 1,9k |
 | Zolotaryovka (Reg. 24) | Золотарёвка; Zolotarjovka | 53,08, 45,32 (1926-1953) | 1,3k | 1,6k | 2,6k | 3k | 3,6k |
 | Zolotovka (Reg. 27) | Золотурнъ | 51,89, 47,15 (1926-1953) | 2,8k | 3,4k | 3,5k | 3,6k | 3,7k |
-| Zolotoye (Reg. 26) | Золотое | 50,83, 45,9 (1926-1953) | 5,6k | 4,9k | 4,4k | 4k | 3,6k |
 | Zolskaya (Reg. 30) | Зольская | 43,91, 43,3 (1926-1953) | 6,5k | 6,2k | 5,9k | 6,1k | 6,4k |
 | Zubova Polyana (Reg. 23) | Зубова Поляна; Zubova Poljana | 54,08, 42,84 (1926-1953) | 3,1k | 3,5k | 3,9k | 5k | 6,8k |
 | Zubovo (Reg. 34) | Зубово | 54,62, 55,9 (1926-1953) | 2,9k | 3,9k | 5,1k | 5,5k | 6,2k |
-| Zubovo (Reg. 24) | Зубово | 53,72, 43,38 (1926-1953) | 4,3k | 4,3k | 4,2k | 4,7k | 5,3k |
+| Zubovo (Reg. 24) | Зубово | 53,72, 43,38 (1926-1953) | 4k | 4k | 4k | 4k | 4k |
 | Zuyevka (Reg. 23) | Зуевка; Zujevka | 58,4, 51,13 (1926-1953) | 3,6k | 7,4k | 12,4k | 14,3k | 17,3k |
 | Zuyevo (Reg. 24) | Зуево | 55,88, 53,22 (1926-1953) | 2,4k | 2,2k | 2k | 1,9k | 1,7k |
-| Zuyevo (Reg. 29) | Орехово | 44,8, 41,19 (1926-1953) | 17k | 19,7k | 22,4k | 24,7k | 28,3k |
 | Zvenigovo (Reg. 23) | Звенигово | 55,97, 48,02 (1926-1953) | 2,2k | 3,5k | 5,2k | 5,7k | 6,5k |
-| Zvereva (Reg. 34) | Зверева | 59,47, 62,62 (1926-1953) | 4,9k | 7k | 9,6k | 11k | 13,2k |
 | Zverevo (Reg. 29) | Зверево | 48,03, 40,12 (1926-1953) | 2,4k | 3,4k | 7,5k | 8,4k | 9,7k |
 | Zvjozdnyj (Reg. 34) | Звёздный | 57,73, 56,31 (1926-1953) | 694 | 1,1k | 1,6k | 1,8k | 2,2k |
 | Zykovo (Reg. 23) | Зыково | 54,07, 45,09 (1926-1953) | 920 | 1,1k | 1,1k | 1,1k | 1,1k |
 | Zyryanovskiy (Reg. 34) | Зыряновский; Zyrjanovskij | 57,73, 61,7 (1926-1953) | 767 | 1,1k | 1,6k | 1,8k | 2,2k |
 | Zyukayka (Reg. 34) | Зюкайка; Zjukajka | 58,2, 54,71 (1926-1953) | 1,2k | 1,8k | 2,6k | 3k | 3,6k |
-| Zyuzino (Reg. 23) | Зюзино | 57,47, 54,02 (1926-1953) | 2,4k | 2,1k | 1,9k | 1,7k | 1,5k |
 | Êl’brus (Reg. 31) | Эльбрус | 43,26, 42,64 (1926-1953) | 735 | 991 | 1,3k | 1,5k | 2k |
 | Êl’brusskij (Reg. 30) | Эльбрусский | 43,56, 42,13 (1926-1953) | 568 | 766 | 990 | 1,1k | 1,3k |
 | Êl’ton (Reg. 26) | Эльтон | 49,13, 46,85 (1926-1953) | 1,1k | 1,6k | 2,1k | 2,7k | 4k |
@@ -7557,7 +6799,7 @@ booming evacuation and steel cities in the Urals.
 
 ## Regions 35 - 45: Siberia, the Arctic Gulag and the Far East
 
-Table presents 1.274 towns and camp settlements across Western Siberia
+Table presents 1.184 towns and camp settlements across Western Siberia
 and the Kuzbass (Regions 35-38), the Altai-Sayan republics (Region 39),
 Eastern Siberia and the Yenisei-Taymyr polar zone (Regions 40-41),
 Buryatia, Chita and Yakutia (Regions 42-43), the Dalstroy Kolyma-Magadan
@@ -7583,11 +6825,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Aktash (Reg. 39) | Акташ; Aktaš | 50,31, 87,6 (1926-1953) | 947 | 1,3k | 1,6k | 1,8k | 2k |
 | Akutikha (Reg. 38) | Акутиха; Akutiha | 52,43, 84,47 (1926-1953) | 1,5k | 3,9k | 8,6k | 6,7k | 4,8k |
 | Aldan (Reg. 43) | Nezametny (until 1939); Yakut ASSR Goldfields Centre | 58,61, 125,39 (1926-1953) | 2,2k | 11,5k | 14k | 11,8k | 12,4k |
-| Aleksandrovka (Reg. 40) | Александровка | 54,79, 100,71 (1926-1953) | 17k | 26k | 37,4k | 41,1k | 46,7k |
-| Aleksandrovka (Reg. 45) | Александровка | 53,6, 126,96 (1926-1926) | 7,9k | \- | \- | \- | \- |
-| Aleksand-rovskiy (Reg. 43) | Александровск-Сахалинский; Aleksandrovsk-Sahalinskij | 62,23, 117,72 (1926-1953) | 2,7k | 9k | 24,9k | 24,1k | 23k |
 | Aleksand-rovskiy Zavod (Reg. 42) | Александровский завод | 50,93, 117,94 (1926-1953) | 3,3k | 3,2k | 3,2k | 3,1k | 3k |
-| Aleksand-rovskoye (Reg. 36) | Александровское | 60,43, 77,86 (1926-1953) | 1,5k | 2,1k | 2,7k | 3k | 3,4k |
 | Aleksand-rovsky Post (Reg. 45) | Aleksandrovsk-Sakhalinsky; Sakhalin Katorga Seat | 50,9, 142,16 (1926-1953) | 2,7k | 8,2k | 8,5k | 8,9k | 9,3k |
 | Alekseye-vskaya (Reg. 40) | Алексеевск; Aleksejevsk | 57,85, 108,4 (1926-1953) | 431 | 779 | 1,3k | 1,7k | 2,6k |
 | Aleysk (Reg. 38) | Алейск; Alejsk | 52,5, 82,77 (1926-1953) | 3,4k | 8,9k | 20,3k | 22,6k | 26,1k |
@@ -7602,15 +6840,13 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Amga (Reg. 43) | Амга | 60,9, 131,98 (1926-1953) | 1,6k | 2,9k | 4,8k | 5k | 5,3k |
 | Amurzet (Reg. 45) | Амурзет | 47,69, 131,1 (1926-1953) | 2,2k | 5,3k | 7,2k | 7k | 6,7k |
 | Anadyr (Reg. 44) | Chukotka Autonomous Okrug Capital; Анадырь | 64,73, 177,52 (1926-1953) | 1,9k | 2,6k | 3,3k | 4k | 5k |
-| Andra (Reg. 36) | Андра | 62,51, 65,89 (1926-1953) | 447 | 602 | 778 | 851 | 960 |
 | Andreyevsk (Reg. 40) | Андреевск; Andrejevsk | 58,13, 114,32 (1926-1953) | 2,2k | 4k | 6,6k | 6,3k | 5,9k |
-| Andrusovka (Reg. 45) | Андрусовка | 43,07, 131,3 (1926-1953) | 5,5k | 8,5k | 12,2k | 13,3k | 14,9k |
 | Angarsk (Reg. 40) | Angara Petrochemical & Uranium Enrichment Hub; Ангарск | 52,54, 103,89 (1948-1953) | \- | \- | \- | \- | 72k |
 | Aniva (Reg. 45) | Анива; Лютога | 46,72, 142,53 (1926-1953) | 2,5k | 2,8k | 3,2k | 3,8k | 4,7k |
 | Antipino (Reg. 35) | Антипино | 57,11, 65,76 (1926-1953) | 851 | 1,3k | 1,9k | 2,2k | 2,6k |
 | Anuchino (Reg. 45) | Анучино | 43,96, 133,06 (1926-1953) | 1,3k | 1,9k | 2,7k | 2,8k | 3k |
 | Anzhero-Sudzhensk (Reg. 37) | Anzherka; Анжеро-Судженск | 56,08, 86,03 (1926-1926) | 30,2k | \- | \- | \- | \- |
-| Aprel’sk (Reg. 40) | Апрельск | 58,18, 114,54 (1926-1953) | 2,7k | 4,9k | 8,1k | 6,2k | 4,4k |
+| Aprel’sk (Reg. 40) | Апрельск | 58,18, 114,54 (1926-1953) | 1,6k | 1,6k | 1,6k | 1,6k | 1,6k |
 | Arbagar (Reg. 42) | Арбагар | 51,94, 116,28 (1926-1953) | 1,1k | 2,2k | 3,9k | 4k | 4,2k |
 | Arkagala (Reg. 44) | Аркагала | 63,15, 146,94 (1926-1953) | 903 | 1,2k | 1,6k | 2,1k | 3,2k |
 | Arkhara (Reg. 45) | Архара; Arhara | 49,42, 130,08 (1926-1953) | 2,1k | 3,7k | 5,9k | 6,6k | 7,8k |
@@ -7618,13 +6854,10 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Armizonskoye (Reg. 35) | Армизонское | 55,95, 67,68 (1926-1953) | 1,4k | 1,5k | 1,7k | 1,9k | 2,1k |
 | Aromashevo (Reg. 35) | Аромашево | 56,87, 68,65 (1926-1953) | 922 | 1,4k | 2k | 2,3k | 2,8k |
 | Arsen’jev (Reg. 45) | Арсеньев; Семёновка | 44,16, 133,27 (1926-1953) | 16,4k | 13,1k | 10,7k | 14,1k | 20,1k |
-| Artemovsk (Reg. 39) | Артёмовск; Artjomovsk | 54,35, 93,44 (1926-1953) | 1,3k | 2,7k | 23,5k | 19,7k | 15,6k |
+| Artemovsk (Reg. 39) | Артёмовск; Artjomovsk | 54,35, 93,44 (1926-1953) | 1,3k | 2,7k | 1,4k | 1,6k | 2k |
 | Artjom (Reg. 45) | Артём; Артем | 43,36, 132,19 (1926-1953) | 4k | 10,5k | 34,9k | 40,1k | 48,3k |
 | Artjomovskij (Reg. 45) | Артёмовский; Артемовский | 43,37, 132,32 (1926-1953) | 2,5k | 3,7k | 5,1k | 5,6k | 6,4k |
-| Artjomovskij (Reg. 40) | Артёмовский; Артемовский | 58,21, 114,64 (1926-1953) | 3,2k | 5,7k | 9,5k | 9,6k | 9,6k |
-| Artyk (Reg. 43) | Артык | 64,18, 145,13 (1926-1953) | 856 | 1,5k | 2,5k | 2,6k | 2,8k |
 | Artyshta (Reg. 37) | Артышта; Artyšta | 54,12, 86,29 (1926-1953) | 825 | 1,8k | 3,5k | 3,7k | 4,1k |
-| Asino (Reg. 35) | Асино; Ксеньевка | 54,72, 71,64 (1926-1953) | 3k | 4,5k | 6,2k | 9,3k | 16,3k |
 | Asino (Reg. 35) | Асино | 57, 86,16 (1926-1953) | 9,3k | 12,5k | 16,2k | 18,6k | 22,3k |
 | Askiz (Reg. 39) | Аскиз | 53,13, 90,53 (1926-1953) | 1,6k | 2,2k | 2,8k | 3,5k | 4,5k |
 | Atagay (Reg. 40) | Атагай; Atagaj | 55,1, 99,39 (1926-1953) | 1,1k | 2k | 3,3k | 3,7k | 4,2k |
@@ -7649,7 +6882,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Balakhta (Reg. 39) | Балахта; Balahta | 55,38, 91,62 (1926-1953) | 2k | 3,1k | 4,4k | 4,3k | 4,3k |
 | Baley (Reg. 42) | Балей; Balej | 51,58, 116,63 (1926-1953) | 9,1k | 17,7k | 31,2k | 30,5k | 29,5k |
 | Balyaga (Reg. 42) | Баляга; Baljaga | 51,15, 108,91 (1926-1953) | 1,1k | 2,1k | 3,8k | 3,9k | 4,1k |
-| Balyksa (Reg. 39) | Балыкса | 53,41, 89,13 (1926-1953) | 5,5k | 7,4k | 9,5k | 7,8k | 6k |
+| Balyksa (Reg. 39) | Балыкса | 53,41, 89,13 (1926-1953) | 4,6k | 4,6k | 4,6k | 4,6k | 4,6k |
 | Barabash (Reg. 45) | Барабаш | 43,2, 131,49 (1926-1953) | 832 | 954 | 1,1k | 1,2k | 1,4k |
 | Barabinsk (Reg. 35) | Барабинск | 55,35, 78,36 (1926-1953) | 9,8k | 17,5k | 30k | 32,9k | 37,2k |
 | Baranikha (Reg. 44) | Бараниха; Baraniha | 68,5, 168,27 (1926-1953) | 623 | 840 | 1,1k | 1,2k | 1,3k |
@@ -7667,7 +6900,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Belaya Gora (Reg. 43) | Белая Гора; Belaja Gora | 68,54, 146,19 (1926-1953) | 466 | 836 | 1,4k | 1,4k | 1,5k |
 | Belichan (Reg. 44) | Беличан; Beličan | 62,89, 148,14 (1926-1953) | 284 | 383 | 495 | 672 | 1k |
 | Belmesevo (Reg. 38) | Бельмесёво | 53,2, 83,71 (1926-1953) | 426 | 484 | 540 | 592 | 669 |
-| Belogorodka (Reg. 37) | Белогородка | 56,29, 87,16 (1926-1953) | 3k | 2,6k | 2,4k | 2,1k | 1,8k |
 | Belogorsk (Reg. 45) | Белогорск; Александровское | 50,91, 128,51 (1926-1953) | 7,9k | 17,2k | 33,7k | 37,7k | 43,7k |
 | Belogorsk (Reg. 37) | Белогорск | 55,02, 88,49 (1926-1953) | 747 | 1,6k | 3,1k | 3,4k | 3,7k |
 | Belokurikha (Reg. 38) | Белокуриха; Belokuriha | 52, 85 (1926-1953) | 2,9k | 3,2k | 3,6k | 4k | 4,5k |
@@ -7677,23 +6909,18 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Beloyarsk (Reg. 38) | Белоярск; Belojarsk | 53,45, 83,9 (1926-1953) | 4k | 4,5k | 5k | 5,5k | 6,3k |
 | Beloyarskiy (Reg. 36) | Белоярский; Belojarskij | 63,71, 66,67 (1926-1953) | 2,7k | 3,6k | 4,7k | 5,1k | 5,8k |
 | Belozerskoye (Reg. 35) | Белозерское | 55,82, 65,59 (1926-1953) | 985 | 1,4k | 1,9k | 2k | 2,3k |
-| Belyy Yar (Reg. 35) | Белый Яр; Belyj Jar | 57,59, 72,39 (1926-1953) | 795 | 1,2k | 1,6k | 1,9k | 2,2k |
-| Belyy Yar (Reg. 36) | Белый Яр; Belyj Jar | 61,26, 73,24 (1926-1953) | 2,2k | 2,9k | 3,8k | 4,1k | 4,6k |
 | Belyy Yar (Reg. 39) | Белый Яр | 53,59, 91,38 (1926-1953) | 1,5k | 1,8k | 2,1k | 2,4k | 2,9k |
+| Belyy Yar (Reg. 36) | Белый Яр; Belyj Jar | 61,26, 73,24 (1926-1953) | 2,2k | 2,9k | 3,8k | 4,1k | 4,6k |
 | Belyy Yar (Reg. 36) | Белый Яр | 58,44, 85,05 (1926-1953) | 2,7k | 3,7k | 4,7k | 5,4k | 6,5k |
 | Berdigestyakh (Reg. 43) | Бердигестях | 62,1, 126,7 (1926-1953) | 1,6k | 2,8k | 4,7k | 4,9k | 5,1k |
 | Berdsk (Reg. 35) | Бердск; Бердский острог | 54,75, 83,1 (1926-1953) | 5,2k | 7,1k | 11k | 14,7k | 21,7k |
 | Berdyuzhe (Reg. 35) | Бердюжье | 55,8, 68,32 (1926-1953) | 863 | 1,3k | 1,9k | 2,2k | 2,7k |
 | Beregovoy (Reg. 35) | Береговой; Beregovoj | 55,17, 73,22 (1926-1953) | 1,6k | 2,4k | 3,3k | 3,8k | 4,6k |
-| Berezkina (Reg. 44) | Березкина | 66,38, 159,42 (1926-1953) | 5,7k | 7,5k | 9,5k | 10,4k | 11,6k |
 | Berezov (Reg. 36) | Beryozovo; Sugmut-Vosh Exile Ostrog | 63,94, 65,04 (1926-1953) | 1,4k | 2,2k | 3,3k | 4,1k | 5,5k |
-| Berezovka (Reg. 38) | Берёзовка | 52,35, 85,83 (1926-1953) | 2k | 2,2k | 2,5k | 2,7k | 3,1k |
-| Berezovye Luki (Reg. 35) | Березовые Луки | 53,63, 78,02 (1926-1953) | 5,3k | 7,8k | 11,1k | 12,4k | 14,5k |
 | Berezovyy (Reg. 45) | Березовый | 51,67, 135,68 (1926-1953) | 1,7k | 2,7k | 3,9k | 4,7k | 5,8k |
-| Berikul’skij (Reg. 37) | Берикульский | 55,53, 88,14 (1926-1953) | 3,2k | 6,9k | 13,3k | 10,7k | 8,1k |
+| Berikul’skij (Reg. 37) | Берикульский | 55,53, 88,14 (1926-1953) | 3,2k | 2,3k | 2,3k | 2,3k | 2,2k |
 | Beringovskiy (Reg. 44) | Беринговский; Beringovskij | 63,06, 179,35 (1926-1953) | 1,2k | 1,6k | 2,1k | 2,3k | 2,5k |
 | Berjozovka (Reg. 40) | Берёзовка; Березовка | 56,04, 93,13 (1926-1953) | 7,6k | 2,5k | 993 | 1,4k | 2,2k |
-| Berjozovka (Reg. 45) | Берёзовка | 53,47, 126,96 (1926-1953) | 878 | 1,9k | 3,8k | 3,9k | 4,2k |
 | Berjozovskij (Reg. 37) | Берёзовский; Березовский | 55,67, 86,27 (1926-1953) | 1,6k | 3,5k | 6,8k | 7,4k | 8,1k |
 | Berkakit (Reg. 43) | Беркакит | 56,58, 124,77 (1926-1953) | 1,1k | 2k | 3,2k | 3,4k | 3,6k |
 | Bestyakh (Reg. 43) | Бестях; Bestjah | 61,37, 128,88 (1926-1953) | 402 | 721 | 1,2k | 1,2k | 1,3k |
@@ -7703,7 +6930,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Bikin (Reg. 45) | Бикин | 46,81, 134,25 (1926-1953) | 11k | 26k | 15,1k | 16,2k | 17,7k |
 | Bira (Reg. 45) | Бира | 49, 132,46 (1926-1953) | 2,1k | 3,6k | 6,4k | 7,1k | 8,2k |
 | Birakan (Reg. 45) | Биракан | 48,99, 131,72 (1926-1953) | 1,6k | 2,7k | 4,4k | 4,3k | 4,3k |
-| Birikčul’ (Reg. 39) | Бирикчуль | 53,33, 89,88 (1926-1953) | 6k | 8,1k | 10,5k | 10,9k | 11,5k |
+| Birikčul’ (Reg. 39) | Бирикчуль | 53,33, 89,88 (1926-1953) | 5k | 5k | 5k | 5k | 5k |
 | Birobidzhan (Reg. 45) | Tikhonkaya (until 1931); Jewish Autonomous Oblast Capital (1934) | 48,79, 132,92 (1926-1953) | 825 | 7,5k | 29,6k | 31k | 36k |
 | Biryusinsk (Reg. 40) | Бирюсинск; Birjusinsk | 55,96, 97,82 (1926-1953) | 1,8k | 3,2k | 5,4k | 7,1k | 10,1k |
 | Biskamzha (Reg. 39) | Бискамжа; Biskamža | 53,45, 89,53 (1926-1953) | 1,6k | 2,1k | 2,7k | 2,8k | 3k |
@@ -7725,7 +6952,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Bol’šereč’je (Reg. 35) | Большеречье | 56,1, 74,63 (1926-1953) | 2k | 2,9k | 4,1k | 4,6k | 5,4k |
 | Bol’ševik (Reg. 44) | Большевик | 62,69, 147,58 (1926-1953) | 490 | 661 | 854 | 1,2k | 1,7k |
 | Bol’šoj Kamen’ (Reg. 45) | Большой Камень | 43,11, 132,35 (1926-1953) | 2,8k | 4,1k | 5,7k | 6,3k | 7,1k |
-| Bol’šoj Lug (Reg. 40) | Большой Луг | 54,6, 105,6 (1926-1953) | 1,7k | 3,1k | 5,2k | 5,7k | 6,6k |
+| Bol’šoj Lug (Reg. 40) | Большой Луг | 54,6, 105,6 (1926-1953) | 1,1k | 1,1k | 1,1k | 1,1k | 1,1k |
 | Bol’šoj Nimnyr (Reg. 43) | Большой Нимныр | 58,04, 125,48 (1926-1953) | 94 | 168 | 277 | 288 | 304 |
 | Bolon’ (Reg. 45) | Болонь | 49,9, 136,14 (1926-1953) | 698 | 1,1k | 1,6k | 1,9k | 2,4k |
 | Bolotnoye (Reg. 35) | Болотное; Bolotnoje | 55,67, 84,39 (1926-1953) | 6,9k | 9,7k | 19k | 21,1k | 24,1k |
@@ -7735,30 +6962,27 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Borodino (Reg. 40) | Бородино | 55,91, 94,91 (1926-1953) | 3,5k | 5,3k | 7,6k | 8,2k | 9,2k |
 | Borogontsy (Reg. 43) | Борогонцы | 62,67, 131,17 (1926-1953) | 1,4k | 2,5k | 4,1k | 4,3k | 4,6k |
 | Borovikha (Reg. 38) | Боровиха; Boroviha | 53,51, 83,84 (1926-1953) | 4,2k | 4,8k | 5,4k | 5,9k | 6,7k |
-| Borovlyanka (Reg. 38) | Боровлянка; Borovljanka | 53,87, 85,47 (1926-1953) | 6,5k | 7,4k | 8,2k | 7,8k | 7,2k |
+| Borovlyanka (Reg. 38) | Боровлянка; Borovljanka | 53,87, 85,47 (1926-1953) | 2,7k | 2,7k | 2,7k | 2,7k | 2,7k |
 | Borovoy (Reg. 37) | Боровой; Borovoj | 55,43, 86,08 (1926-1953) | 1,6k | 3,6k | 6,9k | 7,4k | 8,2k |
 | Borovskiy (Reg. 35) | Боровский; Borovskij | 57,04, 65,72 (1926-1953) | 708 | 1,1k | 1,6k | 1,8k | 2,2k |
 | Borzya (Reg. 42) | Borzya 36th Motor Rifle Brigade; Борзя | 50,38, 116,52 (1926-1953) | 3k | 5,9k | 10,3k | 13,3k | 18,5k |
 | Boshnyakovo (Reg. 45) | Бошняково; Bošnjakovo | 49,65, 142,18 (1926-1953) | 468 | 721 | 1,1k | 1,8k | 3,4k |
 | Bratsk (Reg. 40) | Bratsk Hydroelectric & Aluminium Boomtown; Братск | 56,15, 101,63 (1926-1953) | 1k | 1,8k | 3,1k | 5,5k | 12k |
 | Brindakit (Reg. 43) | Бриндакит | 60,07, 137,69 (1926-1953) | 525 | 942 | 1,6k | 1,6k | 1,7k |
-| Bukachacha (Reg. 42) | Букачача; Bukačača | 52,98, 116,9 (1926-1953) | 1,8k | 3,5k | 6,1k | 7,7k | 10,5k |
+| Bukachacha (Reg. 42) | Букачача; Bukačača | 52,98, 116,9 (1926-1953) | 1,2k | 1,8k | 2,4k | 2,8k | 3,3k |
 | Bukuka (Reg. 42) | Букука | 51,18, 116,63 (1926-1953) | 1,2k | 2,2k | 3,9k | 4k | 4,1k |
 | Bureya (Reg. 45) | Бурея; Bureja | 49,81, 129,81 (1926-1953) | 1,5k | 3,2k | 6,1k | 6,7k | 7,6k |
 | Burkand’ja (Reg. 44) | Буркандья | 63,38, 147,55 (1926-1953) | 497 | 670 | 866 | 1,2k | 1,8k |
 | Burkhala (Reg. 44) | Бурхала; Burhala | 62,65, 149,11 (1926-1953) | 578 | 779 | 1k | 1,4k | 2,1k |
 | Burla (Reg. 38) | Бурла | 53,34, 78,33 (1926-1953) | 2,4k | 2,7k | 3k | 3,3k | 3,7k |
 | Bursol’ (Reg. 38) | Бурсоль | 53,17, 78,44 (1926-1953) | 107 | 165 | 238 | 344 | 563 |
-| Buyukly (Reg. 45) | Буюклы; Bujukly | 49,54, 142,87 (1926-1953) | 763 | 1,2k | 1,6k | 2,2k | 3,2k |
 | Bykov (Reg. 45) | Быков; Найбути | 47,32, 142,57 (1926-1953) | 2,7k | 3,6k | 4,6k | 5,6k | 7,2k |
 | Bykovskiy (Reg. 43) | Быковский; Bykovskij | 72, 129,11 (1926-1953) | 241 | 433 | 714 | 743 | 784 |
 | Bystryy Istok (Reg. 38) | Быстрый Исток; Bystryj Istok | 52,37, 84,39 (1926-1953) | 5,6k | 6,9k | 8,3k | 7,9k | 7,3k |
-| Central’nyj (Reg. 37) | Центральный | 55,24, 85,34 (1926-1953) | 2,8k | 6k | 11,6k | 9,6k | 7,4k |
 | Chadan (Reg. 39) | Чадан; Čadan | 51,29, 91,57 (1926-1953) | 2k | 2,7k | 3,5k | 3,8k | 4,3k |
 | Chagda (Reg. 43) | Чагда; Čagda | 58,75, 130,61 (1926-1953) | 338 | 606 | 1k | 1k | 1,1k |
 | Chany (Reg. 35) | Чаны; Čany | 55,31, 76,76 (1926-1953) | 3,2k | 4,5k | 6,1k | 6,9k | 8,1k |
 | Chapayevo (Reg. 39) | Чапаево | 53,66, 91,34 (1926-1953) | 4,4k | 5,9k | 7,6k | 7,9k | 8,4k |
-| Chaunino (Reg. 35) | Чаунина | 57,15, 73,08 (1926-1953) | 23,6k | 35k | 49k | 56,5k | 68,4k |
 | Chegdomyn (Reg. 45) | Чегдомын; Čegdomyn | 51,13, 133 (1926-1953) | 2,2k | 3,5k | 5,2k | 6,2k | 7,7k |
 | Chekanovskiy (Reg. 40) | Чекановский; Čekanovskij | 56,16, 101,46 (1926-1953) | 2,9k | 5,2k | 8,7k | 9,6k | 10,9k |
 | Chekhov (Reg. 45) | Чехов | 47,45, 141,99 (1926-1953) | 2,5k | 3,3k | 4,3k | 5,2k | 6,7k |
@@ -7769,7 +6993,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Cherepanovo (Reg. 35) | Черепаново; Čerepanovo | 54,22, 83,38 (1926-1953) | 8,8k | 11,2k | 17,1k | 18,3k | 19,9k |
 | Cherlak (Reg. 35) | Черлак; Čerlak | 54,15, 74,81 (1926-1953) | 2,9k | 4,8k | 7,6k | 8,6k | 10,2k |
 | Chernavskoye (Reg. 35) | Чернавское | 54,99, 65,11 (1926-1953) | 2,9k | 2,5k | 2,3k | 2k | 1,7k |
-| Chernaya (Reg. 35) | Черная | 56,34, 66,33 (1926-1953) | 35,6k | 46,8k | 59,1k | 69,2k | 85,4k |
 | Chernigovka (Reg. 45) | Черниговка | 44,34, 132,57 (1926-1953) | 4,1k | 7k | 11,1k | 11,4k | 11,7k |
 | Chernogorsk (Reg. 39) | Chernogorskie Kopi; Khakass Coal & Kulak/German Spetsposelok | 53,82, 91,28 (1926-1953) | 1,4k | 12,2k | 17,4k | 26,5k | 42k |
 | Chernolu-chinskiy (Reg. 35) | Чернолучинский; Černolučinskij | 55,28, 73,03 (1926-1953) | 812 | 1,2k | 1,6k | 1,9k | 2,3k |
@@ -7802,7 +7025,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Dormidontovka (Reg. 45) | Дормидонтовка | 47,77, 134,91 (1926-1953) | 626 | 890 | 1,2k | 1,6k | 2,4k |
 | Dorogino (Reg. 35) | Дорогино | 54,36, 83,32 (1926-1953) | 933 | 1,3k | 1,8k | 2k | 2,4k |
 | Dovolnoe (Reg. 35) | Довольное | 54,49, 79,67 (1926-1953) | 2,2k | 3,2k | 4,3k | 4,8k | 5,7k |
-| Drovyanaya (Reg. 42) | Дровяная; Drovjanaja | 51,58, 113,04 (1926-1953) | 1,8k | 1,9k | 2k | 2,4k | 2,9k |
+| Drovyanaya (Reg. 42) | Дровяная; Drovjanaja | 51,58, 113,04 (1926-1953) | 957 | 1,5k | 2,1k | 2,5k | 3k |
 | Druzhino (Reg. 35) | Дружино | 55,02, 73,13 (1926-1953) | 499 | 729 | 1k | 1,2k | 1,4k |
 | Dubinino (Reg. 40) | Дубинино | 55,62, 89,09 (1926-1953) | 3,4k | 5,2k | 7,4k | 8k | 8,9k |
 | Dudareva (Reg. 35) | Дударева | 57,11, 65,46 (1926-1953) | 826 | 1,3k | 1,8k | 2,1k | 2,5k |
@@ -7832,7 +7055,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Gizhiga (Reg. 44) | Гижигинск; Gižiginsk | 61,95, 160,38 (1926-1953) | 473 | 483 | 491 | 500 | 511 |
 | Glyadyanskoye (Reg. 35) | Глядянское | 54,91, 65,09 (1926-1953) | 1,6k | 1,8k | 1,9k | 2,1k | 2,3k |
 | Gmiryanka (Reg. 40) | Гмирянка | 56,01, 94,88 (1926-1953) | 1,9k | 1,6k | 1,4k | 1,2k | 997 |
-| Goluboye (Reg. 45) | Голубое | 51,79, 127,97 (1926-1953) | 2,1k | 4,6k | 9k | 9,4k | 9,9k |
+| Goluboye (Reg. 45) | Голубое | 51,79, 127,97 (1926-1953) | 1,7k | 1,7k | 1,7k | 1,7k | 1,7k |
 | Golyshmanovo (Reg. 35) | Голышманово; Golyšmanovo | 56,4, 68,38 (1926-1953) | 1,7k | 3,4k | 6,1k | 7,1k | 8,7k |
 | Goncharnaya (Reg. 38) | Гончарная | 53,92, 83,05 (1926-1953) | 3,5k | 3,9k | 4,4k | 4,7k | 5,1k |
 | Gor’kovskoje (Reg. 35) | Горьковское | 55,37, 74,37 (1926-1953) | 1,1k | 1,9k | 3,1k | 3,4k | 3,7k |
@@ -7843,9 +7066,9 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Gornozavodsk (Reg. 45) | Горнозаводск | 46,56, 141,84 (1926-1953) | 3k | 5,6k | 6,6k | 6,6k | 6,5k |
 | Gornyak (Reg. 38) | Горняк; Gornjak | 51, 81,47 (1926-1953) | 8k | 9,1k | 10,2k | 11,2k | 12,6k |
 | Gornyi (Reg. 42) | Горный; Gornyj | 51,55, 113,04 (1926-1953) | 3,7k | 7,2k | 12,8k | 13,2k | 13,8k |
-| Gornyy (Reg. 45) | Горный; Gornyj | 44,84, 133,96 (1926-1953) | 446 | 654 | 907 | 995 | 1,1k |
-| Gornyy (Reg. 35) | Горный; Gornyj | 55,12, 83,91 (1926-1953) | 1,4k | 2k | 2,7k | 3k | 3,6k |
 | Gornyy Zerentuy (Reg. 42) | Горный Зерентуй; Gornyj Zerentuj | 51,22, 119,52 (1926-1953) | 807 | 1,6k | 2,8k | 2,9k | 3k |
+| Gornyy (Reg. 35) | Горный; Gornyj | 55,12, 83,91 (1926-1953) | 1,4k | 2k | 2,7k | 3k | 3,6k |
+| Gornyy (Reg. 45) | Горный; Gornyj | 44,84, 133,96 (1926-1953) | 446 | 654 | 907 | 995 | 1,1k |
 | Gornyye Klyuchi (Reg. 45) | Горные Ключи; Gornyje Ključi | 45,24, 133,5 (1926-1953) | 1,3k | 2k | 2,7k | 3k | 3,4k |
 | Goryachegorsk (Reg. 40) | Горячегорск; Gorjačegorsk | 55,4, 88,92 (1926-1953) | 1,4k | 2,1k | 3,1k | 3,3k | 3,7k |
 | Gramoteino (Reg. 37) | Грамотеино | 54,54, 86,38 (1926-1953) | 1,6k | 3,5k | 6,7k | 7,3k | 8k |
@@ -7864,7 +7087,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Il’ka (Reg. 42) | Илька | 51,72, 108,52 (1926-1953) | 1,9k | 2,2k | 2,4k | 2,6k | 2,8k |
 | Il’pyrskoje (Reg. 44) | Ильпырское | 59,96, 164,19 (1926-1953) | 721 | 973 | 1,3k | 1,4k | 1,6k |
 | Ilanskiy (Reg. 40) | Иланский; Ilanskij | 56,24, 96,07 (1926-1953) | 6,9k | 9,8k | 25,3k | 25,8k | 26,4k |
-| Ilinskiy (Reg. 45) | Ильинский | 47,99, 142,2 (1926-1953) | 1,6k | 2,3k | 2,5k | 2,2k | 2k |
 | Inkur (Reg. 42) | Инкур | 50,32, 103,34 (1926-1953) | 688 | 786 | 882 | 939 | 1k |
 | Innokent’jevka (Reg. 45) | Иннокентьевка | 49,68, 136,9 (1926-1953) | 494 | 783 | 1,2k | 1,4k | 1,7k |
 | Innokent’jevskij (Reg. 45) | Иннокентьевский | 48,6, 140,17 (1926-1953) | 552 | 875 | 1,3k | 1,3k | 1,2k |
@@ -7891,7 +7113,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Jugorjonok (Reg. 43) | Югорёнок; Югоренок | 59,76, 137,69 (1926-1953) | 337 | 605 | 998 | 1k | 1,1k |
 | Kaa-Khem (Reg. 39) | Каа-Хем; Kaa-Hem | 51,69, 94,57 (1926-1953) | 1,6k | 2,1k | 2,8k | 3k | 3,4k |
 | Kabaktan (Reg. 43) | Кабактан | 56,68, 122,42 (1926-1939) | 717 | 1,3k | 2,1k | \- | \- |
-| Kabane (Reg. 35) | Кабанье | 56,15, 71,49 (1926-1953) | 3,4k | 3k | 2,7k | 2,4k | 2,1k |
 | Kabansk (Reg. 42) | Кабанск | 52,05, 106,65 (1926-1953) | 2,2k | 2,8k | 3,3k | 3,5k | 3,8k |
 | Kachug (Reg. 40) | Качуг; Kačug | 53,96, 105,89 (1926-1953) | 1,8k | 4,7k | 10,9k | 10,2k | 9,4k |
 | Kadaya (Reg. 42) | Кадая; Kadaja | 50,93, 119,3 (1926-1953) | 684 | 1,3k | 2,3k | 2,4k | 2,5k |
@@ -7900,11 +7121,9 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Kalanguy (Reg. 42) | Калангуй; Kalanguj | 51,01, 116,52 (1926-1953) | 1,5k | 2,9k | 5,1k | 5,2k | 5,5k |
 | Kalinino (Reg. 39) | Калинино | 53,74, 91,39 (1926-1953) | 1,7k | 2,3k | 3k | 3,1k | 3,3k |
 | Kaltan (Reg. 37) | Калтан | 53,53, 87,28 (1926-1953) | 5k | 10,7k | 20,9k | 22,4k | 24,7k |
-| Kalugino (Reg. 35) | Калугина | 56,05, 71,87 (1926-1953) | 71,4k | 105,9k | 148,4k | 171,2k | 207,2k |
 | Kamen’-na-Obi (Reg. 38) | Камень-на-Оби; Камень | 53,79, 81,33 (1926-1953) | 23k | 24k | 25k | 26,4k | 28,5k |
 | Kamen-Rybolov (Reg. 45) | Камень-Рыболов | 44,74, 132,04 (1926-1953) | 3,7k | 5,5k | 7,6k | 8,3k | 9,4k |
 | Kamenka (Reg. 45) | Каменка; Макарово | 44,46, 136,01 (1926-1953) | 648 | 950 | 1,3k | 1,4k | 1,6k |
-| Kamenka (Reg. 35) | Каменка | 55,15, 79,67 (1926-1953) | 563 | 805 | 1,1k | 1,2k | 1,4k |
 | Kamensk (Reg. 42) | Каменск | 51,98, 106,58 (1926-1953) | 5,7k | 6,5k | 7,3k | 7,7k | 8,4k |
 | Kangalassy (Reg. 43) | Кангалассы | 62,35, 129,96 (1926-1953) | 361 | 647 | 1,1k | 1,1k | 1,2k |
 | Kankunskiy (Reg. 43) | Канкунский; Kankunskij | 57,62, 126,03 (1926-1953) | 761 | 1,4k | 2,3k | 2,3k | 2,5k |
@@ -7937,12 +7156,10 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Khabarovsk (Reg. 45) | Khabarovka; Priamurye Seat | 48,48, 135,08 (1926-1953) | 52k | 115k | 207,2k | 238k | 270k |
 | Khabary (Reg. 38) | Хабары | 53,63, 79,54 (1926-1953) | 2k | 2,3k | 2,6k | 2,8k | 3,1k |
 | Khandyga (Reg. 43) | Хандыга; Handyga | 62,65, 135,57 (1926-1953) | 1,2k | 2,1k | 3,5k | 3,7k | 3,9k |
-| Khani (Reg. 43) | Хани; Hani | 57,04, 121 (1926-1953) | 424 | 761 | 1,3k | 1,3k | 1,4k |
 | Khanty-Mansiysk (Reg. 36) | Ostyako-Vogulsk (1931-40); Ostyak-Vogul National Okrug Capital | 61, 69 (1926-1953) | 3,1k | 5,4k | 7,5k | 13,5k | 19k |
 | Khanymey (Reg. 36) | Ханымей | 63,72, 75,96 (1926-1953) | 589 | 794 | 1k | 1,1k | 1,3k |
-| Khapcheranga (Reg. 42) | Хапчеранга; Hapčeranga | 49,7, 112,39 (1926-1953) | 2,5k | 4,9k | 8,6k | 8,1k | 7,5k |
+| Khapcheranga (Reg. 42) | Хапчеранга; Hapčeranga | 49,7, 112,39 (1926-1953) | 1,7k | 1,7k | 1,7k | 1,7k | 1,7k |
 | Kharp (Reg. 36) | Харп; Harp | 66,8, 65,81 (1926-1953) | 599 | 807 | 1k | 1,1k | 1,3k |
-| Khasan (Reg. 45) | Хасан; Hasan | 42,42, 130,65 (1926-1953) | 325 | 476 | 661 | 725 | 819 |
 | Khatassy (Reg. 43) | Хатассы | 61,91, 129,63 (1926-1953) | 974 | 1,7k | 2,9k | 3k | 3,2k |
 | Khilok (Reg. 42) | Хилок; Hilok | 51,36, 110,46 (1926-1953) | 5k | 8,9k | 14,8k | 15,1k | 15,5k |
 | Khingansk (Reg. 45) | Хинганск; Hingansk | 49,13, 131,2 (1926-1953) | 1,3k | 2,3k | 3,9k | 4k | 4,2k |
@@ -7971,7 +7188,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Klyuchevskiy (Reg. 42) | Ключевский; Ključevskij | 53,53, 119,46 (1926-1953) | 997 | 1,9k | 3,4k | 3,5k | 3,7k |
 | Klyuchi (Reg. 44) | Ключи; Ključi | 56,32, 160,85 (1926-1953) | 5,8k | 6k | 6,2k | 6,4k | 6,7k |
 | Klyuchi (Reg. 38) | Ключи | 52,25, 79,17 (1926-1953) | 3,8k | 4,3k | 4,8k | 5,1k | 5,6k |
-| Klyuchi (Reg. 35) | Ключи | 55,15, 73,21 (1926-1953) | 809 | 1,2k | 1,6k | 1,9k | 2,3k |
 | Klyukvennyy (Reg. 35) | Клюквенный | 55,58, 71,93 (1926-1926) | 3,8k | \- | \- | \- | \- |
 | Knevichi (Reg. 45) | Кневичи | 43,4, 132,19 (1926-1953) | 1,5k | 2,2k | 3k | 3,3k | 3,8k |
 | Knyaze-Volkonskoye (Reg. 45) | Князе-Волконское | 48,47, 135,45 (1926-1953) | 2,7k | 4,2k | 6,2k | 7,4k | 9,2k |
@@ -7981,22 +7197,18 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Kokuy (Reg. 42) | Кокуй; Kokuj | 52,21, 117,55 (1926-1953) | 1,8k | 3,5k | 6,3k | 7,2k | 8,7k |
 | Kol’covo (Reg. 35) | Кольцово | 54,94, 83,19 (1926-1953) | 2,3k | 3,3k | 4,5k | 5k | 5,9k |
 | Kolendo (Reg. 45) | Колендо | 53,78, 142,78 (1926-1953) | 726 | 979 | 1,3k | 1,5k | 2k |
-| Kolmakovo (Reg. 37) | Колмакова | 55,69, 85,49 (1926-1953) | 4,6k | 7k | 10,1k | 10,7k | 11,4k |
 | Kolosovka (Reg. 35) | Колосовка | 56,47, 73,62 (1926-1953) | 1,2k | 1,9k | 2,1k | 2,4k | 2,7k |
 | Kolpashevo (Reg. 36) | Narym Okrug Capital (Ob-Irtysh Kulak Special Settlements); Колпашево | 58,31, 82,91 (1926-1953) | 1,4k | 11,5k | 15k | 18,2k | 21,5k |
 | Kolyvan’ (Reg. 38) | Колывань | 51,31, 82,57 (1926-1953) | 4,9k | 5,5k | 6,2k | 6,3k | 6,5k |
 | Kolyvan’ (Reg. 35) | Колывань; Чаусский острог | 55,31, 82,74 (1926-1953) | 8,1k | 7,5k | 7,1k | 7k | 6,9k |
 | Kommunar (Reg. 39) | Коммунар | 54,35, 89,28 (1926-1953) | 4,6k | 6,2k | 7,9k | 7,6k | 7,2k |
 | Kommunis-ticheskiy (Reg. 36) | Коммунистический; Kommunističeskij | 61,68, 64,48 (1926-1953) | 681 | 918 | 1,2k | 1,3k | 1,5k |
-| Komsomol’sk (Reg. 37) | Комсомольск | 55,65, 88,18 (1926-1953) | 941 | 2k | 4k | 4,3k | 4,7k |
 | Komsomol’skij (Reg. 44) | Комсомольский | 69,13, 172,74 (1926-1953) | 200 | 269 | 348 | 381 | 429 |
 | Komsomolsk-on-Amur (Reg. 45) | Komsomolsk-na-Amure; Permskoye | 50,55, 137,01 (1932-1953) | \- | 15k | 70,8k | 115k | 155k |
 | Kondinskoye (Reg. 36) | Кондинское; Kondinskoje | 59,65, 67,41 (1926-1953) | 1,4k | 1,9k | 2,5k | 2,7k | 3k |
 | Kondratevskiy (Reg. 38) | Кондратьевский | 52,71, 82,86 (1939-1939) | \- | \- | 8,1k | \- | \- |
-| Konduyak (Reg. 41) | Аяхта; Ajahta | 59,23, 94,08 (1926-1939) | 868 | 1,3k | 1,9k | \- | \- |
 | Konstanti-novka (Reg. 45) | Константиновка | 49,62, 127,99 (1926-1953) | 7,8k | 7,6k | 7,5k | 7,3k | 7,1k |
 | Kop’jovo (Reg. 39) | Копьёво | 54,99, 89,82 (1926-1953) | 2,5k | 3,4k | 4,4k | 4,6k | 4,9k |
-| Korchin (Reg. 39) | Корчин | 54,05, 90,33 (1926-1953) | 6,5k | 8,5k | 10,8k | 13,1k | 17k |
 | Korf (Reg. 44) | Корф | 60,37, 166,02 (1926-1953) | 910 | 1,2k | 1,6k | 1,7k | 2k |
 | Korfovskiy (Reg. 45) | Корфовский; Korfovskij | 48,22, 135,07 (1926-1953) | 1k | 1,6k | 2,4k | 2,8k | 3,5k |
 | Kormilovka (Reg. 35) | Кормиловка | 55, 74,1 (1926-1953) | 1,6k | 2,3k | 3,1k | 3,6k | 4,4k |
@@ -8023,7 +7235,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Krasnore-chenskiy (Reg. 45) | Краснореченский; Krasnorečenskij | 44,63, 135,35 (1926-1953) | 2,1k | 3k | 4,2k | 4,6k | 5,2k |
 | Krasnoselkup (Reg. 36) | Красноселькуп | 65,7, 82,45 (1926-1953) | 512 | 690 | 892 | 976 | 1,1k |
 | Krasnosh-chekovo (Reg. 38) | Краснощёково | 51,67, 82,73 (1926-1953) | 3,7k | 3,5k | 3,3k | 3,4k | 3,7k |
-| Krasnoturansk (Reg. 39) | Краснотуранск | 54,32, 91,57 (1926-1953) | 2,1k | 3,1k | 4,5k | 4,6k | 4,8k |
+| Krasnoturansk (Reg. 39) | Краснотуранск; Abakan Fortress | 54,32, 91,57 (1926-1953) | 2,1k | 3,1k | 4,5k | 4,6k | 4,8k |
 | Krasnoyarka (Reg. 35) | Красноярка | 55,33, 73,12 (1926-1953) | 817 | 1,2k | 1,7k | 1,9k | 2,3k |
 | Krasnoyarsk (Reg. 40) | Krasny Yar on Yenisei; Yeniseysk Capital | 56,02, 92,89 (1926-1953) | 72,3k | 128k | 190k | 265k | 335k |
 | Krasnozj-orskoje (Reg. 35) | Краснозёрское; Краснозерское | 53,99, 79,24 (1926-1953) | 1,7k | 2,5k | 3,4k | 3,8k | 4,4k |
@@ -8032,14 +7244,12 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Krasnyy Yar (Reg. 35) | Красный Яр; Krasnyj Jar | 55,24, 72,93 (1926-1953) | 1,6k | 1,9k | 2,1k | 2,3k | 2,7k |
 | Krivodanovka (Reg. 35) | Криводановка | 55,09, 82,66 (1926-1953) | 2,8k | 3,9k | 5,4k | 6k | 7,1k |
 | Krivosheino (Reg. 36) | Кривошеино | 57,34, 83,92 (1926-1953) | 2k | 2,7k | 3,5k | 4k | 4,8k |
-| Kropotkin (Reg. 40) | Кропоткин | 58,51, 115,32 (1926-1953) | 671 | 1,2k | 2k | 1,8k | 1,6k |
 | Krutaya Gorka (Reg. 35) | Крутая Горка; Krutaja Gorka | 55,36, 73,22 (1926-1953) | 1,3k | 1,9k | 2,6k | 3k | 3,7k |
 | Krutikha (Reg. 38) | Крутиха | 53,96, 81,21 (1926-1953) | 2,2k | 2,5k | 2,8k | 3k | 3,4k |
 | Krutinka (Reg. 35) | Крутинка | 56,01, 71,51 (1926-1953) | 2,8k | 3,5k | 4,4k | 4,7k | 5,3k |
 | Ksen’jevka (Reg. 42) | Ксеньевка | 53,56, 118,73 (1926-1953) | 1,5k | 3,6k | 7,5k | 7,4k | 7,3k |
 | Kuda (Reg. 40) | Куда | 52,44, 104,41 (1926-1953) | 476 | 860 | 1,4k | 1,6k | 1,8k |
 | Kul’dur (Reg. 45) | Кульдур | 49,2, 131,64 (1926-1953) | 764 | 1,4k | 2,3k | 2,3k | 2,4k |
-| Kulli (Reg. 42) | Кулли | 54,25, 121,42 (1926-1953) | 4,4k | 6,7k | 9,7k | 10k | 10,4k |
 | Kultuk (Reg. 40) | Култук | 51,72, 103,7 (1926-1953) | 2,8k | 3,4k | 4,1k | 4,7k | 5,6k |
 | Kulunda (Reg. 38) | Кулунда | 52,56, 78,94 (1926-1953) | 3k | 3,4k | 3,8k | 5,6k | 9,5k |
 | Kuminskiy (Reg. 36) | Куминский; Kuminskij | 58,67, 66,57 (1926-1953) | 1,2k | 1,6k | 2,1k | 2,3k | 2,6k |
@@ -8047,15 +7257,10 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Kupino (Reg. 35) | Купино | 54,37, 77,31 (1926-1953) | 6,3k | 9,1k | 12,3k | 14,9k | 19,2k |
 | Kuragino (Reg. 39) | Курагино | 53,89, 92,68 (1926-1953) | 4,2k | 6,3k | 9,1k | 9,1k | 9,1k |
 | Kurgan (Reg. 35) | Tsaryovo Gorodishche; Kurgan Butter Hub | 55,45, 65,33 (1926-1953) | 28k | 39k | 53,2k | 76k | 105k |
-| Kurganovka (Reg. 37) | Кургановка | 55,58, 86,2 (1926-1953) | 2,5k | 5,5k | 10,6k | 11,4k | 12,6k |
-| Kurganskaya (Reg. 35) | Курганская | 55,02, 72,65 (1926-1953) | 13k | 19,2k | 27k | 31,1k | 37,6k |
-| Kuril’sk (Reg. 45) | Курильск; Сяна | 45,23, 147,88 (1926-1953) | 472 | 637 | 823 | 992 | 1,3k |
 | Kurleya (Reg. 42) | Курлея; Kurleja | 52,19, 119,12 (1926-1953) | 881 | 1,7k | 3k | 1,8k | 849 |
 | Kurort-Darasun (Reg. 42) | Курорт-Дарасун; Курорт Дарасун | 51,2, 113,71 (1926-1953) | 1,2k | 2,3k | 4k | 4,1k | 4,3k |
 | Kurtamysh (Reg. 35) | Куртамыш; Kurtamyš | 54,91, 64,43 (1926-1953) | 5,7k | 7,1k | 8,6k | 9,6k | 11,1k |
 | Kurumkan (Reg. 42) | Курумкан | 54,32, 110,31 (1926-1953) | 3,7k | 4,2k | 4,8k | 5,1k | 5,5k |
-| Kurya (Reg. 38) | Курья | 51,6, 82,29 (1926-1953) | 2,2k | 2,5k | 2,7k | 3k | 3,4k |
-| Kustanay (Reg. 45) | Кустанай | 45,82, 134,68 (1926-1953) | 28,3k | 43,3k | 62,3k | 68k | 76,3k |
 | Kutulik (Reg. 42) | Кутулик | 53,35, 102,79 (1926-1953) | 1,6k | 2,9k | 4,9k | 5,6k | 6,6k |
 | Kuybyshev (Reg. 35) | Куйбышев; Kujbyšev | 55,45, 78,32 (1926-1953) | 7,6k | 10k | 12,9k | 16,7k | 23,5k |
 | Kuytun (Reg. 40) | Куйтун; Kujtun | 54,34, 101,51 (1926-1953) | 3,7k | 4,1k | 4,3k | 5,4k | 7,1k |
@@ -8077,7 +7282,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Lebjaž’je (Reg. 35) | Лебяжье | 55,27, 66,49 (1926-1953) | 3,1k | 4,9k | 7,1k | 7,6k | 8,2k |
 | Lebyazhe (Reg. 38) | Лебяжье | 53,24, 83,65 (1926-1953) | 2,3k | 2,6k | 2,9k | 3,2k | 3,6k |
 | Leningradskiy (Reg. 44) | Ленинградский; Leningradskij | 69,36, 178,4 (1926-1953) | 832 | 1,1k | 1,4k | 1,6k | 1,8k |
-| Lenino (Reg. 42) | Ленино | 53,66, 103,74 (1926-1953) | 9,4k | 7,9k | 6,8k | 5,9k | 4,8k |
 | Leninsk-Kuznetsky (Reg. 37) | Kolchugino; Ленинск-Кузнецкий | 54,66, 86,16 (1926-1953) | 19,6k | 58k | 82,7k | 102k | 118k |
 | Leninskiy (Reg. 43) | Ленинский; Leninskij | 58,57, 125,44 (1926-1953) | 2,1k | 3,8k | 6,2k | 4,9k | 3,6k |
 | Leninskoye (Reg. 45) | Ленинское | 47,94, 132,62 (1926-1953) | 1,2k | 2,2k | 2,1k | 2,4k | 2,8k |
@@ -8085,7 +7289,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Leonidovo (Reg. 45) | Леонидово; Камисикука | 49,29, 142,87 (1926-1953) | 1,6k | 2,2k | 2,9k | 3,4k | 4,4k |
 | Lermontovka (Reg. 45) | Лермонтовка | 47,15, 134,34 (1926-1953) | 1,3k | 2,1k | 3,1k | 3,7k | 4,6k |
 | Lesnikovo (Reg. 35) | Лесниково | 55,28, 65,32 (1926-1953) | 2,1k | 2,8k | 3,4k | 3,8k | 4,4k |
-| Lesnoye (Reg. 35) | Лесное; Lesnoje | 56,93, 67,25 (1926-1953) | 780 | 1,2k | 1,7k | 2k | 2,4k |
 | Lesogorsk (Reg. 40) | Лесогорск | 56,05, 99,51 (1926-1953) | 1,4k | 2,5k | 4,2k | 4,7k | 5,3k |
 | Lesopil’noje (Reg. 45) | Лесопильное | 46,74, 134,34 (1926-1953) | 480 | 761 | 1,1k | 1,3k | 1,7k |
 | Lesosibirsk (Reg. 41) | Лесосибирск; Новомаклаково | 58,24, 92,48 (1926-1953) | 5,7k | 8,7k | 12,4k | 13,5k | 15k |
@@ -8098,12 +7301,10 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Listvyanskiy (Reg. 35) | Листвянский; Listvjanskij | 54,44, 83,5 (1926-1953) | 1,9k | 2,7k | 3,6k | 4,1k | 4,8k |
 | Litovko (Reg. 45) | Литовко | 49,24, 135,18 (1926-1953) | 2k | 3,2k | 4,8k | 5,7k | 7,1k |
 | Livadiya (Reg. 45) | Ливадия; Livadija | 42,87, 132,67 (1926-1953) | 2,1k | 3,1k | 4,3k | 4,7k | 5,3k |
-| Londoko (Reg. 45) | Лондоко | 49,02, 131,99 (1926-1953) | 616 | 1,1k | 1,9k | 1,9k | 2k |
 | Londoko Zavod (Reg. 45) | Лондоко-завод; Londoko-zavod | 49,02, 131,93 (1926-1953) | 1,2k | 2,2k | 3,7k | 3,7k | 3,6k |
+| Londoko (Reg. 45) | Лондоко | 49,02, 131,99 (1926-1953) | 616 | 1,1k | 1,9k | 1,9k | 2k |
 | Lososina (Reg. 45) | Лососина | 49, 140,32 (1926-1953) | 607 | 962 | 1,4k | 1,7k | 2,1k |
 | Luchegorsk (Reg. 45) | Лучегорск; Lučegorsk | 46,44, 134,29 (1926-1953) | 1,3k | 1,9k | 2,6k | 2,9k | 3,3k |
-| Lugovoy (Reg. 36) | Луговой; Lugovoj | 61,07, 68,47 (1926-1953) | 1,1k | 1,4k | 1,9k | 2k | 2,3k |
-| Lugovoy (Reg. 35) | Луговой | 56,67, 66,3 (1926-1953) | 321 | 491 | 706 | 815 | 987 |
 | Lugovskiy (Reg. 40) | Луговский; Lugovskij | 58,06, 112,89 (1926-1953) | 890 | 1,6k | 2,7k | 3k | 3,4k |
 | Luzino (Reg. 35) | Лузино | 54,95, 73,04 (1926-1953) | 1,9k | 2,2k | 2,5k | 2,9k | 3,4k |
 | Lyantor (Reg. 36) | Лянтор; Ljantor | 61,62, 72,16 (1926-1953) | 3,7k | 4,9k | 6,4k | 7k | 7,9k |
@@ -8116,7 +7317,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Makarakskiy (Reg. 37) | Макаракский; Makarakskij | 55,59, 88,03 (1926-1953) | 586 | 1,3k | 2,5k | 2,7k | 2,9k |
 | Makarov (Reg. 45) | Макаров; Селютора | 48,63, 142,78 (1926-1953) | 9,9k | 14,2k | 15,4k | 15k | 14,4k |
 | Makkaveyevo (Reg. 42) | Маккавеево | 51,75, 113,94 (1926-1953) | 1,6k | 3k | 5,4k | 5,5k | 5,8k |
-| Makrushina (Reg. 40) | Макрушина | 53,88, 106,27 (1926-1953) | 3,4k | 5,3k | 7,6k | 8,3k | 9,4k |
 | Maksimov-shchina (Reg. 40) | Максимовщина | 52,27, 104,12 (1926-1953) | 302 | 546 | 906 | 1k | 1,1k |
 | Makushino (Reg. 35) | Макушино; Makušino | 55,21, 67,25 (1926-1953) | 4k | 6,1k | 8,7k | 10k | 12k |
 | Malinovka (Reg. 37) | Малиновка | 53,42, 87,28 (1926-1953) | 2,1k | 2,7k | 3,3k | 4,2k | 5,6k |
@@ -8135,8 +7335,8 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Matusovo (Reg. 42) | Матусово | 51,47, 116,35 (1926-1953) | 2,8k | 2,4k | 2,1k | 1,8k | 1,5k |
 | Mayma (Reg. 39) | Майма | 52, 85,9 (1926-1953) | 5,6k | 7,6k | 9,8k | 10,7k | 12,1k |
 | Mayna (Reg. 39) | Майна; Majna | 53,01, 91,48 (1926-1953) | 2,3k | 3,1k | 4k | 4,2k | 4,4k |
-| Mayskiy (Reg. 45) | Майский; Majskij | 49, 140,21 (1926-1953) | 1,6k | 2,6k | 3,9k | 4,6k | 5,7k |
 | Mayskiy (Reg. 45) | Майский; Majskij | 54,2, 124,48 (1926-1953) | 155 | 340 | 665 | 886 | 1,3k |
+| Mayskiy (Reg. 45) | Майский; Majskij | 49, 140,21 (1926-1953) | 1,6k | 2,6k | 3,9k | 4,6k | 5,7k |
 | Mayya (Reg. 43) | Майя | 61,74, 130,28 (1926-1953) | 1,8k | 3,2k | 5,3k | 5,6k | 5,9k |
 | Mazul’skij (Reg. 40) | Мазульский | 56,2, 90,35 (1926-1953) | 1,2k | 1,8k | 2,5k | 2,8k | 3,1k |
 | Medvezhiy (Reg. 40) | Медвежий; Medvežij | 57,86, 92,27 (1926-1953) | 1,7k | 2,7k | 3,8k | 4,1k | 4,6k |
@@ -8145,7 +7345,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Melioratorov (Reg. 35) | Мелиораторов | 57,21, 65,61 (1926-1953) | 804 | 1,2k | 1,8k | 2k | 2,5k |
 | Melnikovo (Reg. 35) | Мельниково | 56,56, 84,08 (1926-1953) | 3,2k | 4,3k | 5,6k | 6,4k | 7,7k |
 | Mendeleyevo (Reg. 36) | Менделеево; Mendelejevo | 58,17, 68,3 (1926-1953) | 1,5k | 2,4k | 3,4k | 3,9k | 4,7k |
-| Meny (Reg. 39) | Мены | 50,28, 87,68 (1926-1953) | 7,5k | 9,8k | 12,4k | 13,6k | 15,2k |
 | Mezhdure-chensk (Reg. 37) | Междуреченск; Meždurečensk | 53,69, 88,06 (1926-1953) | 10,1k | 22k | 42,7k | 45,9k | 50,7k |
 | Mezhdure-chenskiy (Reg. 36) | Междуреченский; Meždurečenskij | 59,6, 65,93 (1926-1953) | 2k | 2,7k | 3,5k | 3,8k | 4,3k |
 | Mgachi (Reg. 45) | Мгачи; Mgači | 51,05, 142,27 (1926-1953) | 2k | 2,7k | 3,5k | 4,2k | 5,4k |
@@ -8159,7 +7358,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Mishkino (Reg. 35) | Мишкино; Miškino | 55,34, 63,91 (1926-1953) | 5,1k | 6,6k | 8,3k | 8,3k | 8,4k |
 | Mnogover-shinnyy (Reg. 45) | Многовершинный; Mnogoveršinnyj | 53,93, 139,93 (1926-1953) | 446 | 707 | 1k | 1,2k | 1,6k |
 | Mogocha (Reg. 42) | Могоча; Mogoča | 53,74, 119,77 (1926-1953) | 4k | 9,5k | 20,1k | 18,3k | 16,1k |
-| Mogochin (Reg. 36) | Могочино; Mogočino | 57,71, 83,58 (1926-1953) | 4,3k | 5,9k | 7,6k | 7,9k | 8,3k |
+| Mogochin (Reg. 36) | Могочино; Mogočino | 57,71, 83,58 (1926-1953) | 3,6k | 3,6k | 3,6k | 3,6k | 3,6k |
 | Mogoytuy (Reg. 42) | Могойтуй; Mogojtuj | 51,29, 114,93 (1926-1953) | 1,1k | 2,1k | 3,7k | 3,8k | 3,9k |
 | Mogzon (Reg. 42) | Могзон | 51,74, 111,97 (1926-1953) | 1,8k | 3,7k | 6,9k | 7,5k | 8,4k |
 | Mokhovaya (Reg. 44) | Моховая; Mohovaja | 53,07, 158,58 (1926-1953) | 3,7k | 5k | 6,5k | 7,1k | 8k |
@@ -8182,8 +7381,8 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Muromtsevo (Reg. 35) | Муромцево; Muromcevo | 56,37, 75,25 (1926-1953) | 2,6k | 2,7k | 2,8k | 3,3k | 3,9k |
 | Myakit (Reg. 44) | Мякит; Mjakit | 61,41, 152,09 (1926-1953) | 523 | 705 | 911 | 1,2k | 1,9k |
 | Myaundzha (Reg. 44) | Мяунджа; Mjaundža | 63,04, 147,18 (1926-1953) | 909 | 1,2k | 1,6k | 2,1k | 3,2k |
-| Mys (Reg. 35) | Мыс | 57,17, 65,64 (1926-1953) | 2k | 2,3k | 2,7k | 3,1k | 3,8k |
 | Mys Shmidta (Reg. 44) | Мыс Шмидта; Mys Šmidta | 68,89, -179,41 (1926-1953) | 567 | 765 | 988 | 1,1k | 1,2k |
+| Mys (Reg. 35) | Мыс | 57,17, 65,64 (1926-1953) | 2k | 2,3k | 2,7k | 3,1k | 3,8k |
 | Myski (Reg. 37) | Мыски | 53,72, 87,8 (1926-1953) | 6k | 13k | 25,2k | 27,1k | 29,9k |
 | Nagornyy (Reg. 43) | Нагорный; Nagornyj | 55,95, 124,92 (1926-1953) | 195 | 350 | 579 | 603 | 636 |
 | Nagornyy (Reg. 38) | Нагорный; Nagornyj | 52,8, 83,55 (1926-1953) | 3,2k | 3,6k | 4,1k | 4,5k | 5k |
@@ -8207,7 +7406,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Nikitinskiy (Reg. 37) | Никитинский; Nikitinskij | 54,58, 86,01 (1926-1953) | 656 | 1,4k | 2,8k | 3k | 3,3k |
 | Nikolaevsk-on-Amur (Reg. 45) | Nikolaevsky Post; Amur Estuary | 53,14, 140,73 (1926-1953) | 7,4k | 11,7k | 17,3k | 20,6k | 26k |
 | Nikolayevka (Reg. 45) | Николаевка; Nikolajevka | 48,56, 134,78 (1926-1953) | 860 | 1,6k | 2,6k | 3,4k | 5k |
-| Nikolayevka (Reg. 45) | Николаевка | 43,89, 132,45 (1926-1953) | 1,3k | 1,9k | 2,7k | 2,9k | 3,3k |
 | Nikolsk-Ussuriysky (Reg. 45) | Ussuriysk; Nikolskoe Green Wedge | 43,8, 131,95 (1926-1953) | 35,3k | 54k | 71,9k | 82k | 92k |
 | Nizhneangarsk (Reg. 42) | Нижнеангарск; Nižneangarsk | 55,79, 109,58 (1926-1953) | 4k | 4,6k | 5,1k | 4,7k | 4,1k |
 | Nizhneso-rtymskiy (Reg. 36) | Нижнесортымский | 62,44, 71,76 (1926-1953) | 1,8k | 2,4k | 3,1k | 3,4k | 3,8k |
@@ -8222,7 +7420,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Nizhnyaya Ivolga (Reg. 42) | Нижняя Иволга | 51,77, 107,42 (1926-1953) | 619 | 707 | 793 | 844 | 917 |
 | Nizhnyaya Omka (Reg. 35) | Нижняя Омка | 55,43, 74,94 (1926-1953) | 1,1k | 1,6k | 2,2k | 2,5k | 3k |
 | Nizhnyaya Poyma (Reg. 40) | Нижняя Пойма; Nižnjaja Pojma | 56,16, 97,21 (1926-1953) | 11,3k | 17,1k | 24,5k | 26,5k | 29,5k |
-| Nizhnyaya Shakhtama (Reg. 42) | Нижняя Шахтама; Nižnjaja Šahtama | 51,39, 117,69 (1926-1953) | 3k | 5,8k | 10,3k | 7,3k | 4,6k |
+| Nizhnyaya Shakhtama (Reg. 42) | Нижняя Шахтама; Nižnjaja Šahtama | 51,39, 117,69 (1926-1953) | 3k | 1,2k | 1,1k | 1k | 913 |
 | Nizhnyaya Tavda (Reg. 35) | Нижняя Тавда; Nižnjaja Tavda | 57,67, 66,18 (1926-1953) | 1,1k | 1,7k | 2,5k | 2,9k | 3,6k |
 | Nogliki (Reg. 45) | Ноглики | 51,8, 143,14 (1926-1953) | 710 | 957 | 1,2k | 1,5k | 1,8k |
 | Norilsk (Reg. 41) | Norillag; Норильск | 69,36, 88,19 (1935-1953) | \- | \- | 13,9k | 42k | 78k |
@@ -8232,7 +7430,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Novaya Zaimka (Reg. 35) | Новая Заимка | 56,49, 66,92 (1926-1953) | 695 | 1,1k | 1,5k | 1,8k | 2,1k |
 | Novichikha (Reg. 38) | Новичиха | 52,21, 81,39 (1926-1953) | 2,4k | 2,7k | 3k | 3,1k | 3,3k |
 | Novikovo (Reg. 38) | Новиково; Оямамбэцу | 52,62, 85,96 (1926-1953) | 513 | 583 | 651 | 714 | 806 |
-| Novo-Troitskoye (Reg. 45) | Ново-Троицкое | 50,5, 127,55 (1926-1953) | 5,6k | 5,3k | 5k | 4,2k | 3,3k |
 | Novoagansk (Reg. 36) | Новоаганск | 61,94, 76,66 (1926-1953) | 2,2k | 3k | 3,9k | 4,3k | 4,8k |
 | Novoaltaysk (Reg. 38) | Новоалтайск; Novoaltajsk | 53,41, 83,94 (1926-1953) | 7,3k | 8,3k | 9,3k | 13,7k | 23k |
 | Novobiri-lyussy (Reg. 40) | Новобирилюссы | 56,95, 90,69 (1926-1953) | 1,4k | 2,1k | 2,9k | 3,2k | 3,6k |
@@ -8246,7 +7443,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Novokiyevskiy Uval (Reg. 45) | Новокиевский Увал | 51,66, 128,92 (1926-1953) | 274 | 600 | 1,2k | 1,3k | 1,6k |
 | Novokizh-inginsk (Reg. 42) | Новокижингинск; Novokižinginsk | 51,62, 109,6 (1926-1953) | 2,1k | 2,4k | 2,7k | 2,8k | 3,1k |
 | Novokruc-hininskiy (Reg. 42) | Новокручининский; Novokručininskij | 51,77, 113,8 (1926-1953) | 1,2k | 2,4k | 4,3k | 4,4k | 4,6k |
-| Novokuznetsk (Reg. 37) | Кузнецк | 53,76, 87,14 (1926-1953) | 40,1k | 54,8k | 99k | 104k | 111,1k |
 | Novolugovoye (Reg. 35) | Новолуговое | 54,98, 83,11 (1926-1953) | 1k | 1,4k | 2k | 2,2k | 2,6k |
 | Novoniko-laevsk (Reg. 35) | Novosibirsk; Ob Railway Crossing | 55,01, 82,94 (1926-1926) | 120,1k | \- | \- | \- | \- |
 | Novonikolsk (Reg. 45) | Новоникольск | 43,86, 131,86 (1926-1953) | 1,3k | 1,9k | 2,7k | 2,9k | 3,3k |
@@ -8259,15 +7455,13 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Novosili-katnyy (Reg. 38) | Новосиликатный; Novosili-katnyj | 53,31, 83,62 (1926-1953) | 3,5k | 4k | 4,5k | 4,9k | 5,6k |
 | Novosjolovo (Reg. 39) | Новосёлово; Новоселово | 55, 90,97 (1926-1953) | 1,6k | 2,4k | 3,4k | 3,2k | 3k |
 | Novosysoyevka (Reg. 45) | Новосысоевка | 44,23, 133,37 (1926-1953) | 1,6k | 2,3k | 3,2k | 3,5k | 4k |
-| Novotroi-tskoye (Reg. 40) | Новотроицкое | 56,66, 93,03 (1926-1953) | 2,7k | 2,4k | 2,2k | 2k | 1,7k |
 | Novovarshavka (Reg. 35) | Нововаршавка; Novovaršavka | 54,17, 74,7 (1926-1953) | 1,3k | 1,9k | 2,6k | 3k | 3,6k |
 | Novoyeru-dinskiy (Reg. 41) | Новоерудинский; Novojeru-dinskij | 59,78, 93,48 (1926-1953) | 566 | 858 | 1,2k | 1,3k | 1,5k |
-| Novyy (Reg. 45) | Новый; Novyj | 43,37, 132,02 (1926-1953) | 1,7k | 2,5k | 3,5k | 3,9k | 4,4k |
-| Novyy (Reg. 37) | Новый; Novyj | 55,65, 86,65 (1926-1953) | 699 | 1,5k | 2,9k | 2,5k | 2,1k |
 | Novyy Gorodok (Reg. 37) | Новый Городок; Novyj Gorodok | 54,31, 86,29 (1926-1953) | 4k | 8,6k | 16,7k | 18k | 19,9k |
 | Novyy Tap (Reg. 35) | Новый Тап; Novyj Tap | 57,05, 67,74 (1926-1953) | 1,1k | 1,6k | 2,3k | 2,7k | 3,3k |
 | Novyy Uoyan (Reg. 42) | Новый Уоян; Novyj Uojan | 56,16, 111,71 (1926-1953) | 3,5k | 4k | 4,5k | 4,8k | 5,2k |
 | Novyy Urgal (Reg. 45) | Новый Ургал; Novyj Urgal | 51,07, 132,6 (1926-1953) | 1,2k | 1,8k | 2,7k | 3,2k | 4,1k |
+| Novyy (Reg. 45) | Новый; Novyj | 43,37, 132,02 (1926-1953) | 1,7k | 2,5k | 3,5k | 3,9k | 4,4k |
 | Nyurba (Reg. 43) | Нюрба; Njurba | 63,28, 118,35 (1926-1953) | 662 | 1,2k | 2k | 2,8k | 4,6k |
 | Ob’ (Reg. 35) | Обь | 54,99, 82,71 (1926-1953) | 5,2k | 7,4k | 10,1k | 11,3k | 13,3k |
 | Obdorsk (Reg. 36) | Salekhard; Poluy Yamal Fair | 66,53, 66,6 (1926-1953) | 2,2k | 6,8k | 12,8k | 14,2k | 15k |
@@ -8278,22 +7472,13 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Okha (Reg. 45) | Оха; Oha | 53,59, 142,95 (1926-1953) | 7,7k | 11,9k | 19,6k | 21,7k | 24,9k |
 | Okhotsk (Reg. 44) | Охотск; Ohotsk | 59,36, 143,21 (1926-1953) | 692 | 1,1k | 1,6k | 2,6k | 5,1k |
 | Okoneshnikovo (Reg. 35) | Оконешниково; Okonešnikovo | 54,84, 75,08 (1926-1953) | 2,7k | 3k | 3,2k | 3,4k | 3,7k |
-| Oktjabr’skij (Reg. 42) | Октябрьский | 50,08, 118,25 (1926-1953) | 1,6k | 3,2k | 5,6k | 5,8k | 6,1k |
-| Oktjabr’skij (Reg. 44) | Октябрьский | 52,66, 156,24 (1926-1953) | 2,3k | 3,1k | 4,1k | 4,5k | 5k |
-| Oktjabr’skij (Reg. 41) | Октябрьский | 57,44, 97,52 (1926-1953) | 1,1k | 1,7k | 2,4k | 2,6k | 2,9k |
 | Oktjabr’skij (Reg. 45) | Октябрьский | 49,06, 140,25 (1926-1953) | 1,5k | 2,4k | 3,6k | 4,2k | 5,3k |
-| Oktjabr’skij (Reg. 45) | Октябрьский | 53,02, 128,65 (1926-1953) | 1,3k | 2,9k | 5,6k | 5,8k | 6,2k |
-| Oktjabr’skij (Reg. 40) | Октябрьский | 56,07, 99,41 (1926-1953) | 2k | 3,7k | 6,1k | 6,8k | 7,8k |
+| Oktjabr’skij (Reg. 42) | Октябрьский | 50,08, 118,25 (1926-1953) | 1,6k | 3,2k | 5,6k | 5,8k | 6,1k |
 | Oktjabr’skoje (Reg. 38) | Октябрьское | 53,27, 85,28 (1926-1953) | 185 | 210 | 234 | 257 | 290 |
-| Oktjabr’skoje (Reg. 35) | Октябрьское | 55,55, 73,6 (1926-1953) | 393 | 574 | 793 | 915 | 1,1k |
-| Oktjabr’skoje (Reg. 36) | Октябрьское | 62,46, 66,03 (1926-1953) | 1,6k | 2,2k | 2,8k | 3,1k | 3,5k |
-| Oktyabrskiy (Reg. 35) | Октябрьский | 55,94, 76,14 (1926-1953) | 2,3k | 3,2k | 4,4k | 4,9k | 5,8k |
 | Ol’ga (Reg. 45) | Ольга | 43,75, 135,29 (1926-1953) | 884 | 1,5k | 2,9k | 3,1k | 3,2k |
 | Ol’čan (Reg. 43) | Ольчан | 64,7, 142,59 (1926-1953) | 247 | 443 | 732 | 762 | 804 |
 | Ola (Reg. 44) | Ола | 59,58, 151,3 (1926-1953) | 389 | 524 | 677 | 1,1k | 2,3k |
 | Olovyannaya (Reg. 42) | Оловянная; Olovjannaja | 50,95, 115,58 (1926-1953) | 4,2k | 8,7k | 16,3k | 15,5k | 14,5k |
-| Oltar (Reg. 35) | Олтарь | 54,54, 76,65 (1926-1953) | 4,4k | 6,6k | 9,3k | 10,4k | 12,2k |
-| Olviopol (Reg. 35) | Ольвиополь | 54,52, 71,26 (1926-1953) | 8,6k | 12,7k | 17,8k | 20,6k | 24,9k |
 | Olyokminsk (Reg. 43) | Олёкминск; Oljokminsk | 60,37, 120,42 (1926-1953) | 2,3k | 3,6k | 5,2k | 5,9k | 6,9k |
 | Omchak (Reg. 44) | Омчак; Omčak | 61,64, 147,88 (1926-1953) | 828 | 1,1k | 1,4k | 2k | 2,9k |
 | Omsk (Reg. 35) | Omskaya Krepost; Steppe & Rail Capital | 54,99, 73,32 (1926-1953) | 161,7k | 227k | 288,9k | 410k | 490k |
@@ -8304,23 +7489,18 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Onokhino (Reg. 35) | Онохино | 56,93, 65,54 (1926-1953) | 498 | 761 | 1,1k | 1,3k | 1,5k |
 | Onokhoy (Reg. 42) | Онохой; Onohoj | 51,93, 108,06 (1926-1953) | 5,3k | 6,1k | 6,8k | 7,3k | 7,9k |
 | Ordynskoye (Reg. 35) | Ордынское; Ordynskoje | 54,36, 81,89 (1926-1953) | 4,8k | 4,6k | 4,4k | 4,7k | 5,2k |
-| Ordzhoni-kidzevskiy (Reg. 39) | Орджоникидзевское; Ordžonikidze-vskoje | 54,78, 88,96 (1926-1953) | 2,2k | 3k | 3,9k | 4,1k | 4,3k |
 | Orlovskiy (Reg. 42) | Орловский; Orlovskij | 51,04, 114,85 (1926-1953) | 907 | 1,8k | 3,1k | 3,2k | 3,4k |
 | Orochen Pervyy (Reg. 43) | Орочён Первый; Oročjon Pervyj | 58,5, 125,41 (1926-1953) | 1,6k | 2,9k | 4,8k | 4,3k | 3,7k |
 | Orotukan (Reg. 44) | Оротукан | 62,26, 151,67 (1926-1953) | 965 | 1,3k | 1,7k | 2,3k | 3,4k |
 | Osa (Reg. 42) | Оса | 53,39, 103,87 (1926-1953) | 1,3k | 1,5k | 1,6k | 1,8k | 2,1k |
 | Osetrovo (Reg. 40) | Осетрово | 56,78, 105,78 (1926-1939) | 1,1k | 2k | 3,3k | \- | \- |
 | Osinniki (Reg. 37) | Осинники | 53,6, 87,33 (1926-1953) | 6k | 13,1k | 25,4k | 34,2k | 50,7k |
-| Osinova (Reg. 35) | Осинова | 55,47, 70,73 (1926-1953) | 4k | 6k | 8,4k | 9,7k | 11,7k |
 | Osinovka (Reg. 40) | Осиновка | 56,27, 101,9 (1926-1953) | 2,9k | 3,6k | 4,3k | 5,1k | 6,5k |
 | Ossora (Reg. 44) | Оссора | 59,25, 163,07 (1926-1953) | 975 | 1,3k | 1,7k | 1,9k | 2,1k |
 | Ovsyanka (Reg. 40) | Овсянка; Ovsjanka | 55,96, 92,57 (1926-1953) | 2k | 3k | 4,3k | 4,7k | 5,2k |
-| Ozerki (Reg. 38) | станция Озёрки | 53,67, 83,69 (1926-1953) | 1,9k | 2,1k | 2,4k | 2,6k | 3k |
-| Ozerki (Reg. 38) | Озёрки | 51,52, 83,43 (1926-1953) | 2,2k | 2,5k | 2,8k | 3,1k | 3,5k |
 | Ozernovskiy (Reg. 44) | Озерновский; Ozernovskij | 51,5, 156,5 (1926-1953) | 2,3k | 3,1k | 4,1k | 4,5k | 5k |
 | Ozero-Karachi (Reg. 35) | Озеро-Карачи | 55,34, 76,95 (1926-1953) | 533 | 763 | 1k | 1,2k | 1,4k |
 | Ozerskiy (Reg. 45) | Озерский | 46,61, 143,13 (1926-1953) | 1,3k | 1,9k | 2,1k | 2,1k | 2,1k |
-| Ozeryane (Reg. 45) | Озеряне | 50,64, 128,74 (1926-1953) | 5,1k | 7,8k | 11,2k | 11,7k | 12,4k |
 | Pad Melnichnaya (Reg. 40) | Падь Мельничная | 52,16, 104,38 (1926-1953) | 1,3k | 2,3k | 3,8k | 4,2k | 4,8k |
 | Pakhachi (Reg. 44) | Пахачи; Pahači | 60,56, 169,14 (1926-1953) | 540 | 728 | 940 | 1k | 1,2k |
 | Palana (Reg. 44) | Палана | 59,08, 159,96 (1926-1953) | 455 | 614 | 793 | 830 | 883 |
@@ -8328,16 +7508,12 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Pangody (Reg. 36) | Пангоды | 65,85, 74,49 (1926-1953) | 1,4k | 1,9k | 2,5k | 2,7k | 3k |
 | Pankrushikha (Reg. 38) | Панкрушиха | 53,83, 80,35 (1926-1953) | 3,6k | 3,7k | 3,8k | 3,9k | 4,1k |
 | Parabel (Reg. 36) | Парабель | 58,7, 81,49 (1926-1953) | 2,1k | 2,8k | 3,6k | 4,1k | 4,9k |
-| Parizhskaya Kommuna (Reg. 38) | Парижская Коммуна | 52,81, 84,84 (1926-1953) | 16,6k | 18,9k | 21,1k | 22,6k | 24,7k |
 | Partizansk (Reg. 45) | Партизанск; Сучанский | 43,12, 133,12 (1926-1953) | 6,5k | 16,5k | 36,9k | 40,1k | 44,7k |
-| Pashino (Reg. 35) | Пашино; Pašino | 55,16, 82,97 (1926-1953) | 3,4k | 4,9k | 6,6k | 7,4k | 8,7k |
-| Pashki (Reg. 42) | Пашковская | 52,08, 104,57 (1926-1953) | 25,6k | 39,1k | 56,3k | 61,9k | 70,3k |
 | Pavlogradka (Reg. 35) | Павлоградка | 54,2, 73,56 (1926-1953) | 1,5k | 2,2k | 3,1k | 3,5k | 4,2k |
 | Pavlovsk (Reg. 38) | Павловск | 53,32, 82,99 (1926-1953) | 3,2k | 5,6k | 8,9k | 9,1k | 9,5k |
 | Peleduy (Reg. 43) | Пеледуй; Peleduj | 59,63, 112,74 (1926-1953) | 1,5k | 2,8k | 4,6k | 4,7k | 4,8k |
 | Pereyaslavka (Reg. 45) | Переяславка; Perejaslavka | 47,97, 135,06 (1926-1953) | 1,2k | 1,9k | 2,8k | 3,7k | 5,2k |
 | Pervomayskiy (Reg. 42) | Первомайский; Pervomajskij | 51,66, 115,62 (1926-1953) | 3,4k | 6,5k | 11,5k | 11,9k | 12,5k |
-| Pervomayskiy (Reg. 37) | Первомайский; Pervomajskij | 55,35, 87,87 (1926-1953) | 10k | 9k | 8,2k | 6,5k | 4,8k |
 | Pervomayskoye (Reg. 38) | Первомайское | 53,72, 84,02 (1926-1953) | 2,7k | 3k | 3,4k | 3,7k | 4,2k |
 | Pervomayskoye (Reg. 35) | Первомайское | 57,07, 86,24 (1926-1953) | 1,9k | 2,6k | 3,3k | 3,8k | 4,6k |
 | Peshcherka (Reg. 38) | Пещерка | 54,09, 84,77 (1926-1953) | 3,5k | 3,2k | 3k | 2,8k | 2,5k |
@@ -8361,15 +7537,12 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Pokrovsk (Reg. 43) | Покровск | 61,48, 129,14 (1926-1953) | 761 | 1,4k | 2,3k | 2,9k | 4k |
 | Polovinnoye (Reg. 35) | Половинное | 54,79, 65,99 (1926-1953) | 497 | 617 | 743 | 895 | 1,1k |
 | Poltavka (Reg. 35) | Полтавка | 54,36, 71,76 (1926-1953) | 1,7k | 2,2k | 2,9k | 3,4k | 4,1k |
-| Polyarnyy (Reg. 44) | Полярный; Poljarnyj | 69,16, 178,72 (1926-1953) | 1,3k | 1,7k | 2,2k | 2,4k | 2,7k |
-| Polyarnyy (Reg. 43) | Александровск | 71,13, 149,28 (1926-1953) | 2,7k | 2,3k | 2k | 1,7k | 1,4k |
 | Polysayevo (Reg. 37) | Полысаево; Polysajevo | 54,6, 86,28 (1926-1953) | 5,7k | 12,5k | 24,2k | 26k | 28,7k |
 | Popova (Reg. 45) | Попова | 42,96, 131,72 (1926-1953) | 1,4k | 1,5k | 1,6k | 1,7k | 1,8k |
 | Poronaysk (Reg. 45) | Поронайск; Poronajsk | 49,22, 143,09 (1926-1953) | 11,2k | 17,2k | 19,8k | 20,3k | 21k |
 | Porozhskiy (Reg. 40) | Порожский; Porožskij | 56,09, 101,67 (1926-1953) | 1,5k | 2,7k | 4,4k | 4,9k | 5,6k |
 | Pos’jet (Reg. 45) | Посьет | 42,65, 130,81 (1926-1953) | 637 | 761 | 886 | 1k | 1,3k |
-| Posele (Reg. 42) | Поселье | 50,61, 107,89 (1926-1953) | 9,7k | 11,1k | 12,5k | 13,3k | 14,4k |
-| Posevnaya (Reg. 35) | Посевная; Posevnaja | 54,3, 83,33 (1926-1953) | 3,6k | 5,1k | 6,9k | 7,4k | 8k |
+| Posevnaya (Reg. 35) | Посевная; Posevnaja | 54,3, 83,33 (1926-1953) | 3k | 3k | 3k | 3k | 3k |
 | Pospelikha (Reg. 38) | Поспелиха; Pospeliha | 51,95, 81,77 (1926-1953) | 6,7k | 7,7k | 8,6k | 9,2k | 10k |
 | Poyarkovo (Reg. 45) | Поярково; Pojarkovo | 49,63, 128,65 (1926-1953) | 444 | 972 | 1,9k | 2,6k | 4k |
 | Poykovskiy (Reg. 36) | Пойковский; Pojkovskij | 61, 71,89 (1926-1953) | 1k | 1,4k | 1,8k | 1,9k | 2,2k |
@@ -8403,7 +7576,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Reyneke (Reg. 45) | Рейнеке; Rejneke | 42,92, 131,73 (1926-1953) | 278 | 407 | 565 | 620 | 700 |
 | Rodino (Reg. 38) | Родино | 52,5, 80,2 (1926-1953) | 5,9k | 6,4k | 6,8k | 7k | 7,3k |
 | Romanovo (Reg. 38) | Романово | 52,62, 81,23 (1926-1953) | 3,8k | 4k | 4,1k | 4,3k | 4,5k |
-| Roshchino (Reg. 45) | Рощино | 45,9, 134,89 (1926-1953) | 1,4k | 2k | 2,8k | 3,1k | 3,5k |
 | Rostovka (Reg. 35) | Ростовка | 55,02, 73,58 (1926-1953) | 6,3k | 6,2k | 6,2k | 6,1k | 6k |
 | Rubtsovsk (Reg. 38) | Evacuated Altai Tractor Plant & German Deportee Hub; Рубцовск | 51,52, 81,21 (1926-1953) | 15,9k | 24k | 37,7k | 75k | 92k |
 | Rudnichnyy (Reg. 37) | Рудничный; Rudničnyj | 56,08, 86,25 (1926-1953) | 534 | 1,2k | 2,2k | 2,4k | 2,7k |
@@ -8419,7 +7591,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Salym (Reg. 36) | Салым | 60,06, 71,48 (1926-1953) | 914 | 1,2k | 1,6k | 1,7k | 2k |
 | Samus’ (Reg. 35) | Самусь | 56,74, 84,7 (1926-1953) | 2,2k | 3k | 3,9k | 4,5k | 5,4k |
 | Sangar (Reg. 43) | Сангар | 63,92, 127,47 (1926-1953) | 752 | 1,3k | 2,2k | 2,8k | 3,9k |
-| Sarala (Reg. 39) | Сарала | 54,87, 89,25 (1926-1953) | 8,5k | 11,4k | 14,7k | 11,7k | 8,5k |
+| Sarala (Reg. 39) | Сарала | 54,87, 89,25 (1926-1953) | 7k | 7k | 7k | 7k | 7k |
 | Sargatskoye (Reg. 35) | Саргатское; Sargatskoje | 55,61, 73,5 (1926-1953) | 1,8k | 2,7k | 3,7k | 4,1k | 4,5k |
 | Saryg-Sep (Reg. 39) | Сарыг-Сеп | 51,49, 95,56 (1926-1953) | 1,4k | 2k | 2,5k | 2,8k | 3,1k |
 | Sarylakh (Reg. 43) | Сарылах; Sarylah | 64,35, 142,53 (1926-1953) | 187 | 336 | 554 | 577 | 608 |
@@ -8433,19 +7605,16 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Sergeyevka (Reg. 45) | Сергиевский | 44,34, 131,66 (1926-1953) | 11,2k | 10,5k | 9,8k | 9,3k | 8,5k |
 | Seryshevo (Reg. 45) | Серышево; Seryševo | 51,09, 128,38 (1926-1953) | 427 | 935 | 1,8k | 2,8k | 4,9k |
 | Severnoye (Reg. 35) | Северное | 56,35, 78,36 (1926-1953) | 3,4k | 4,9k | 6,7k | 6,6k | 6,4k |
-| Severnyy (Reg. 43) | Северный; Severnyj | 66,32, 138,02 (1926-1953) | 704 | 1,3k | 2,1k | 2,2k | 2,3k |
 | Severo-Yeniseyskiy (Reg. 41) | Северо-Енисейский; Severo-Jenisejskij | 60,38, 93,03 (1926-1953) | 3k | 4,5k | 6,4k | 6,3k | 6,2k |
 | Severoba-ikalsk (Reg. 42) | Severoba-ykalsk; Northern Baikal BAM Boomtown (Founded 1974) | 55,64, 109,32 (1926-1953) | 7,9k | 9,1k | 10,2k | 11,1k | 12,4k |
 | Severomuysk (Reg. 42) | Северомуйск; Severomujsk | 56,18, 113,57 (1926-1953) | 2,4k | 2,7k | 3k | 3,2k | 3,5k |
 | Seversk (Reg. 35) | Tomsk-7 Closed Nuclear Complex ZATO; Северск | 56,6, 84,88 (1949-1953) | \- | \- | \- | \- | 35k |
-| Seyka (Reg. 39) | Сёйка; Sjojka | 51,88, 86,74 (1926-1953) | 673 | 908 | 1,2k | 1,3k | 1,4k |
 | Seymchan (Reg. 44) | Сеймчан; Sejmčan | 62,93, 152,39 (1926-1953) | 160 | 216 | 279 | 624 | 1,8k |
 | Shadrinsk (Reg. 35) | Шадринск; Šadrinsk | 56,09, 63,64 (1926-1953) | 19,2k | 25k | 31,1k | 37,2k | 47k |
 | Shagonar (Reg. 39) | Шагонар; Šagonar | 51,53, 92,93 (1926-1953) | 1,8k | 2,4k | 3,1k | 3,4k | 3,8k |
 | Shalinskoye (Reg. 40) | Шалинское | 55,72, 93,75 (1926-1953) | 2,3k | 2,6k | 3k | 3,1k | 3,2k |
 | Sharypovo (Reg. 40) | Шарыпово; Šarypovo | 55,54, 89,2 (1926-1953) | 1,2k | 1,8k | 2,5k | 2,8k | 3,1k |
 | Shatrovo (Reg. 35) | Шатрово | 56,52, 64,63 (1926-1953) | 2,3k | 2,9k | 3,7k | 3,9k | 4,1k |
-| Shchuchya (Reg. 35) | Щучья | 57,2, 66,7 (1926-1953) | 5,7k | 7,5k | 9,5k | 11,2k | 13,8k |
 | Shebalino (Reg. 39) | Шебалино | 51,3, 85,68 (1926-1953) | 6,8k | 4,1k | 2,6k | 2,8k | 3k |
 | Shebunino (Reg. 45) | Шебунино; Šebunino | 46,43, 141,86 (1926-1953) | 732 | 1,1k | 1,5k | 1,9k | 2,6k |
 | Shelabolikha (Reg. 38) | Шелаболиха | 53,42, 82,61 (1926-1953) | 2,2k | 2,5k | 2,8k | 3k | 3,4k |
@@ -8475,7 +7644,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Slavgorod (Reg. 38) | Kulunda Steppe Volga German & Kalmyk Deportee Centre; Славгород | 53, 78,65 (1926-1953) | 18,1k | 19,5k | 21,4k | 28,5k | 34k |
 | Slavyanka (Reg. 45) | Славянка; Slavjanka | 42,86, 131,39 (1926-1953) | 2,4k | 2,6k | 2,8k | 3k | 3,3k |
 | Slyudyanka (Reg. 40) | Слюдянка; Sljudjanka | 51,66, 103,71 (1926-1953) | 5,1k | 7,5k | 12,4k | 14,6k | 18,2k |
-| Smeloye (Reg. 35) | Смелое | 54,5, 71,41 (1926-1953) | 8,4k | 12,5k | 17,5k | 20,2k | 24,5k |
 | Smidovich (Reg. 45) | Смидович; Smidovič | 48,59, 133,81 (1926-1953) | 2,5k | 4,3k | 8,1k | 8,3k | 8,7k |
 | Smirnykh (Reg. 45) | Смирных; Smirnyh | 49,75, 142,83 (1926-1953) | 1,6k | 2,5k | 3,2k | 3,8k | 4,8k |
 | Smolenka (Reg. 42) | Смоленка | 52,14, 113,51 (1926-1953) | 1,2k | 2,3k | 4k | 4,1k | 4,3k |
@@ -8492,7 +7660,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Sokolovo (Reg. 38) | Соколово | 52,53, 84,79 (1926-1953) | 800 | 1,1k | 1,4k | 1,7k | 2,4k |
 | Sokur (Reg. 35) | Сокур | 55,21, 83,32 (1926-1953) | 1,8k | 2,5k | 3,4k | 3,9k | 4,5k |
 | Solnechnyy (Reg. 43) | Солнечный; Solnečnyj | 60,3, 137,56 (1926-1953) | 324 | 582 | 960 | 999 | 1,1k |
-| Solnechnyy (Reg. 40) | Солнечный; Solnečnyj | 55,29, 89,83 (1926-1953) | 3,4k | 5,1k | 7,3k | 8k | 8,9k |
 | Solnechnyy (Reg. 45) | Горный; Gornyj | 50,72, 136,64 (1926-1953) | 576 | 913 | 1,4k | 1,6k | 2k |
 | Soloneshnoye (Reg. 38) | Солонешное | 51,66, 84,32 (1926-1953) | 2,6k | 3,3k | 4k | 4k | 3,9k |
 | Solontsy (Reg. 40) | Солонцы | 56,07, 92,85 (1926-1953) | 841 | 1,3k | 1,8k | 2k | 2,2k |
@@ -8505,13 +7672,12 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Sovetskaja Gavan’ (Reg. 45) | Советская Гавань; Императорская | 48,97, 140,29 (1926-1953) | 10,2k | 6,2k | 11,9k | 16,7k | 26,5k |
 | Sovetskiy (Reg. 36) | Советский; Sovetskij | 61,36, 63,58 (1926-1953) | 2,1k | 2,8k | 3,6k | 4k | 4,5k |
 | Sovetskoye (Reg. 38) | Советское | 52,29, 85,41 (1926-1953) | 2,4k | 2,8k | 3,1k | 3,3k | 3,5k |
-| Spassk (Reg. 37) | Спасск | 52,75, 87,75 (1926-1953) | 417 | 905 | 1,8k | 1,9k | 2,1k |
 | Spassk-Dal’nij (Reg. 45) | Спасск-Дальний; Спасское | 44,6, 132,82 (1926-1953) | 11,4k | 16,7k | 23k | 27,1k | 33,6k |
 | Spornoye (Reg. 44) | Спорное; Spornoje | 62,34, 151,1 (1926-1953) | 825 | 1,1k | 1,4k | 2k | 2,9k |
 | Srednebelaya (Reg. 45) | Среднебелая; Srednebelaja | 50,66, 128,01 (1926-1953) | 972 | 2,1k | 4,2k | 4,4k | 4,6k |
 | Srednekolymsk (Reg. 43) | Среднеколымск | 67,46, 153,7 (1926-1953) | 685 | 1,2k | 2k | 2k | 2,1k |
-| Sredniy (Reg. 40) | Средний; Srednij | 52,89, 103,49 (1926-1953) | 1,6k | 2,8k | 4,7k | 5,2k | 5,9k |
 | Sredniy Urgal (Reg. 45) | Средний Ургал; Srednij Urgal | 51,16, 132,94 (1926-1953) | 728 | 1,2k | 1,7k | 2k | 2,5k |
+| Sredniy (Reg. 40) | Средний; Srednij | 52,89, 103,49 (1926-1953) | 1,6k | 2,8k | 4,7k | 5,2k | 5,9k |
 | Srednyaya Nyukzha (Reg. 45) | Средняя Нюкжа; Srednjaja Njukža | 55,22, 123,38 (1926-1939) | 982 | 2,2k | 4,2k | \- | \- |
 | Sretensk (Reg. 42) | Сретенск | 52,25, 117,71 (1926-1953) | 10,3k | 11,9k | 13,5k | 14k | 14,6k |
 | Stantsionno-Oyashinskiy (Reg. 35) | Станционно-Ояшинский; Stancionno-Ojašinskij | 55,47, 83,82 (1926-1953) | 1,3k | 1,6k | 2k | 2,4k | 3,1k |
@@ -8536,8 +7702,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Suzun (Reg. 35) | Сузун | 53,78, 82,32 (1926-1953) | 5,7k | 6,4k | 7,1k | 8,6k | 11,3k |
 | Svetlaya (Reg. 45) | Светлая; Svetlaja | 46,54, 138,33 (1926-1953) | 399 | 585 | 811 | 889 | 1k |
 | Svetlogorsk (Reg. 41) | Светлогорск | 66,94, 88,35 (1926-1953) | 996 | 1,5k | 2,2k | 2,3k | 2,6k |
-| Svetlyy (Reg. 43) | Светлый; Svetlyj | 61,36, 137,15 (1926-1953) | 817 | 1,5k | 2,4k | 2,5k | 2,7k |
-| Svetlyy (Reg. 40) | Светлый; Svetlyj | 58,44, 115,97 (1926-1953) | 1,8k | 3,3k | 5,5k | 3k | 1,4k |
 | Svetlyy (Reg. 35) | Светлый; Svetlyj | 54,89, 73,49 (1926-1953) | 1,4k | 2k | 2,7k | 3,2k | 3,8k |
 | Svetlyy (Reg. 35) | Светлый | 56,92, 85,97 (1926-1953) | 2,5k | 3,4k | 4,3k | 5k | 6k |
 | Svirsk (Reg. 42) | Свирск | 53,09, 103,34 (1926-1953) | 3,3k | 6k | 9,9k | 12,4k | 16,9k |
@@ -8549,14 +7713,12 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Tal’cy (Reg. 42) | Тальцы | 51,99, 104,67 (1926-1953) | 1,1k | 3,1k | 7,5k | 4,1k | 1,9k |
 | Tal’menka (Reg. 38) | Тальменка | 53,82, 83,57 (1926-1953) | 10,4k | 11,8k | 13,2k | 14,5k | 16,4k |
 | Talakan (Reg. 45) | Талакан | 50,26, 130,27 (1926-1953) | 967 | 2,1k | 4,1k | 4,3k | 4,6k |
-| Talaya (Reg. 44) | Талая; Talaja | 61,13, 152,39 (1926-1953) | 611 | 824 | 1,1k | 1,4k | 2,2k |
 | Taldan (Reg. 45) | Талдан | 53,69, 124,82 (1926-1953) | 947 | 2,1k | 4,1k | 4,2k | 4,5k |
 | Talinka (Reg. 36) | Талинка | 61,55, 66,44 (1926-1953) | 806 | 1,1k | 1,4k | 1,5k | 1,7k |
 | Talnakh (Reg. 41) | Талнах; Talnah | 69,49, 88,4 (1926-1953) | 3k | 4,5k | 6,5k | 7k | 7,8k |
 | Tambovka (Reg. 45) | Тамбовка | 50,1, 128,06 (1926-1953) | 2,1k | 4,6k | 9,1k | 9,5k | 10k |
 | Tankhoy (Reg. 42) | Танхой; Tanhoj | 51,56, 105,13 (1926-1953) | 3,1k | 3,6k | 4k | 3,6k | 3,1k |
 | Tara (Reg. 35) | Tara Irtysh; Tara Tobolsk Gub | 56,89, 74,37 (1926-1953) | 10,3k | 12,8k | 15,4k | 17,3k | 20,2k |
-| Tarbagatay (Reg. 42) | Тарбагатай; Tarbagataj | 51,18, 109,1 (1926-1953) | 1,1k | 2,2k | 3,9k | 4k | 4,2k |
 | Tarbagatay (Reg. 42) | Тарбагатай | 51,48, 107,36 (1926-1953) | 2,6k | 3k | 3,4k | 3,6k | 3,9k |
 | Tarko-Sale (Reg. 36) | Тарко-Сале | 64,92, 77,77 (1926-1953) | 243 | 328 | 423 | 538 | 742 |
 | Tarmany (Reg. 35) | Тарманы | 57,18, 65,61 (1926-1953) | 906 | 1,4k | 2k | 2,3k | 2,8k |
@@ -8605,7 +7767,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Torgo (Reg. 43) | Торго | 58,46, 119,52 (1926-1953) | 338 | 606 | 1k | 1k | 1,1k |
 | Troitskosavsk (Reg. 42) | Kyakhta Tea Entrepot; Troitskosavsk-Kyakhta | 50,35, 106,45 (1926-1953) | 9,6k | 10,7k | 11,2k | 10,9k | 10,6k |
 | Troitskoye (Reg. 38) | Троицкое; Troickoje | 52,98, 84,68 (1926-1953) | 5,3k | 5,6k | 5,9k | 6,9k | 8,6k |
-| Troitskoye (Reg. 45) | Троицкое; Troickoje | 49,44, 136,55 (1926-1953) | 920 | 1,5k | 2,2k | 2,7k | 3,7k |
 | Troitskoye (Reg. 35) | Троицкое | 54,86, 73,3 (1926-1953) | 798 | 1,2k | 1,6k | 1,9k | 2,2k |
 | Troitskoye (Reg. 45) | Троицкое | 46,92, 142,64 (1926-1953) | 735 | 1,1k | 1,4k | 1,5k | 1,7k |
 | Trubetskoye (Reg. 35) | Трубетчина | 54,61, 72,9 (1926-1953) | 588 | 600 | 610 | 620 | 634 |
@@ -8621,12 +7782,11 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Tungor (Reg. 45) | Тунгор | 53,39, 142,96 (1926-1953) | 1,2k | 1,6k | 2k | 2,4k | 3,1k |
 | Tura (Reg. 41) | Тура; Evenkia Capital | 64,28, 100,22 (1926-1953) | 726 | 1,1k | 1,6k | 1,7k | 1,9k |
 | Turan (Reg. 39) | Туран | 52,15, 93,92 (1926-1953) | 2,4k | 3,2k | 4,2k | 4,6k | 5,2k |
-| Turka (Reg. 42) | Турка | 52,95, 108,22 (1926-1953) | 1,3k | 1,4k | 1,6k | 1,7k | 1,9k |
 | Turochak (Reg. 39) | Турочак | 52,26, 87,12 (1926-1953) | 2k | 2k | 2,1k | 2,3k | 2,6k |
 | Turtas (Reg. 36) | Туртас | 58,94, 69,13 (1926-1953) | 835 | 1,3k | 1,8k | 2,1k | 2,6k |
 | Turukhansk (Reg. 41) | Monastyrskoe; Novaya Mangazeya | 65,79, 87,95 (1926-1953) | 780 | 680 | 605 | 538 | 460 |
 | Turuntayevo (Reg. 42) | Турунтаево | 52,2, 107,64 (1926-1953) | 4k | 4,5k | 5,1k | 5,4k | 5,9k |
-| Tyagun (Reg. 38) | Тягун; Tjagun | 53,95, 85,66 (1926-1953) | 5,7k | 6,5k | 7,2k | 7,9k | 9k |
+| Tyagun (Reg. 38) | Тягун; Tjagun | 53,95, 85,66 (1926-1953) | 2,4k | 2,4k | 2,4k | 2,4k | 2,4k |
 | Tyazhinskiy (Reg. 37) | Тяжинский; Tjažinskij | 56,11, 88,52 (1926-1953) | 1,4k | 3,1k | 6,1k | 6,5k | 7,2k |
 | Tygda (Reg. 45) | Тыгда | 53,11, 126,33 (1926-1953) | 859 | 2,5k | 6,4k | 6,1k | 5,9k |
 | Tymovskoye (Reg. 45) | Тымовское; Tymovskoje | 50,85, 142,66 (1926-1953) | 1,3k | 1,8k | 2,4k | 3k | 4,2k |
@@ -8645,10 +7805,9 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Uglezavodsk (Reg. 45) | Углезаводск; Фукакуса | 47,32, 142,63 (1926-1953) | 660 | 890 | 1,1k | 1,4k | 1,8k |
 | Uglovoye (Reg. 45) | Угловое; Uglovoje | 43,33, 132,09 (1926-1953) | 4,4k | 6,4k | 8,9k | 9,8k | 11k |
 | Uglovskoye (Reg. 38) | Угловское | 51,36, 80,19 (1926-1953) | 2,3k | 2,5k | 2,6k | 2,8k | 3k |
-| Ugol’nyj (Reg. 39) | Угольный | 55,38, 91,34 (1926-1953) | 1,4k | 2,1k | 3k | 3,3k | 3,6k |
 | Ugol’nyje Kopi (Reg. 44) | Угольные Копи | 64,75, 177,69 (1926-1953) | 1,9k | 2,5k | 3,2k | 3,5k | 4k |
 | Uk (Reg. 40) | Ук | 55,08, 98,86 (1926-1953) | 1,7k | 3k | 5k | 5,5k | 6,3k |
-| Ul’kan (Reg. 40) | Улькан | 57,24, 107,32 (1926-1953) | 966 | 1,7k | 2,9k | 3,2k | 3,7k |
+| Ul’kan (Reg. 40) | Улькан | 57,24, 107,32 (1926-1953) | 591 | 591 | 591 | 591 | 591 |
 | Ulagan (Reg. 39) | Улаган | 50,63, 87,96 (1926-1953) | 634 | 855 | 1,1k | 1,2k | 1,3k |
 | Ulala (Reg. 39) | Gorno-Altaysk; Altai Spiritual Mission | 51,96, 85,96 (1926-1953) | 5,7k | 14,5k | 24k | 23,5k | 25k |
 | Ulety (Reg. 42) | Улеты | 51,36, 112,48 (1926-1953) | 2,4k | 4,7k | 8,3k | 8,6k | 9k |
@@ -8659,7 +7818,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Uralo-Klyuchi (Reg. 40) | Урало-Ключи; Uralo-Ključi | 56,07, 97,46 (1926-1953) | 588 | 1,1k | 1,8k | 2k | 2,2k |
 | Uray (Reg. 36) | Урай; Uraj | 60,13, 64,79 (1926-1953) | 6,2k | 8,3k | 10,7k | 11,8k | 13,3k |
 | Urengoy (Reg. 36) | Уренгой; Urengoj | 65,97, 78,37 (1926-1953) | 1,3k | 1,8k | 2,3k | 2,5k | 2,8k |
-| Urey (Reg. 43) | Урей | 68,3, 134,98 (1926-1953) | 4,8k | 7,3k | 10,5k | 10,9k | 11,5k |
 | Ursk (Reg. 37) | Урск | 54,45, 85,4 (1926-1953) | 2,2k | 4,8k | 9,3k | 8k | 6,6k |
 | Urul’ga (Reg. 42) | Урульга | 51,77, 114,8 (1926-1953) | 1,2k | 2,3k | 4,1k | 4,2k | 4,4k |
 | Urusha (Reg. 45) | Уруша; Uruša | 54,05, 122,88 (1926-1953) | 1,1k | 2,4k | 4,7k | 5k | 5,2k |
@@ -8668,7 +7826,7 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Ussurka (Reg. 45) | Уссурка | 45,2, 133,51 (1926-1953) | 920 | 1,1k | 1,3k | 1,6k | 2k |
 | Ust’-Abakan (Reg. 39) | Усть-Абакан | 53,84, 91,39 (1926-1953) | 3,1k | 4,2k | 5,5k | 7,2k | 10,3k |
 | Ust’-Barguzin (Reg. 42) | Усть-Баргузин | 53,41, 109,03 (1926-1953) | 2,2k | 2,5k | 2,8k | 3,8k | 5,9k |
-| Ust’-Kamčatsk (Reg. 44) | Усть-Камчатск | 56,24, 162,53 (1926-1953) | 1k | 1,4k | 1,8k | 3k | 6k |
+| Ust’-Kamčatsk (Reg. 44) | Усть-Камчатск | 56,24, 162,53 (1926-1953) | 910 | 1,8k | 3,1k | 3,7k | 4,7k |
 | Ust’-Karsk (Reg. 42) | Усть-Карск | 52,7, 118,8 (1926-1953) | 1,4k | 2,7k | 4,8k | 4,6k | 4,2k |
 | Ust’-Omčug (Reg. 44) | Усть-Омчуг | 61,14, 149,63 (1926-1953) | 1,2k | 1,7k | 2,1k | 2,9k | 4,4k |
 | Ust’-Ordynskij (Reg. 42) | Усть-Ордынский | 52,81, 104,75 (1926-1953) | 1,6k | 2,8k | 4,7k | 5,4k | 6,5k |
@@ -8720,10 +7878,9 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Volchanets (Reg. 45) | Волчанец | 42,91, 132,76 (1926-1953) | 1,3k | 1,9k | 2,6k | 2,9k | 3,3k |
 | Volchikha (Reg. 38) | Волчиха; Volčiha | 52,02, 80,36 (1926-1953) | 6,7k | 6,9k | 7,1k | 8k | 9,3k |
 | Volno-Nadezhdinskoe (Reg. 45) | Вольно-Надеждинское | 43,37, 132 (1926-1953) | 8,6k | 12,7k | 17,6k | 16,1k | 14,2k |
-| Vostochnyy (Reg. 45) | Восточный | 48,27, 142,62 (1926-1953) | 2k | 2,2k | 2,2k | 2k | 1,8k |
 | Vostok (Reg. 45) | Восток; Vostok | 46,45, 135,83 (1926-1953) | 1,2k | 1,7k | 2,4k | 2,7k | 3k |
 | Vozdvizhenka (Reg. 45) | Воздвиженка | 43,89, 131,95 (1926-1953) | 2,1k | 2,4k | 2,6k | 2,9k | 3,3k |
-| Vozzhayevka (Reg. 45) | Возжаевка; Vozžajevka | 50,73, 128,72 (1926-1953) | 1,7k | 3,8k | 7,4k | 7,7k | 8,1k |
+| Vozzhayevka (Reg. 45) | Возжаевка; Vozžajevka | 50,73, 128,72 (1926-1953) | 1,4k | 1,4k | 1,4k | 1,4k | 1,4k |
 | Vrangel’ (Reg. 45) | Врангель | 42,73, 133,08 (1926-1953) | 2,4k | 3,6k | 4,9k | 5,4k | 6,1k |
 | Vstrechnyy (Reg. 44) | Встречный; Vstrečnyj | 67,95, 165,6 (1926-1953) | 568 | 766 | 989 | 1,1k | 1,2k |
 | Vulkannyy (Reg. 44) | Вулканный; Vulkannyj | 53,1, 158,35 (1926-1953) | 762 | 1k | 1,3k | 1,5k | 1,6k |
@@ -8753,25 +7910,21 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Yashkino (Reg. 37) | Яшкино; Jaškino | 55,87, 85,43 (1926-1953) | 810 | 3k | 9,3k | 10,6k | 12,5k |
 | Yasnogorsk (Reg. 42) | Ясногорск; Jasnogorsk | 50,87, 115,7 (1926-1953) | 2,2k | 4,2k | 7,4k | 7,7k | 8k |
 | Yasnomorskiy (Reg. 45) | Ясноморское; Jasnomorskoje | 46,75, 141,91 (1926-1953) | 577 | 778 | 1k | 1,2k | 1,6k |
-| Yasnyy (Reg. 45) | Ясный; Jasnyj | 55,53, 127,02 (1926-1953) | 3,6k | 7,9k | 15,5k | 6,3k | 1,9k |
 | Yaya (Reg. 37) | Яя; Jaja | 56,2, 86,43 (1926-1953) | 2,5k | 5,5k | 10,7k | 12,4k | 15,1k |
 | Yegorovskaya (Reg. 42) | Егоровская | 53,3, 103,02 (1926-1953) | 2,1k | 1,8k | 1,6k | 1,4k | 1,1k |
 | Yekaterino-slavka (Reg. 45) | Екатеринославка; Jekateri-noslavka | 50,37, 129,11 (1926-1953) | 2k | 2,8k | 3,7k | 3,9k | 4,1k |
 | Yelantsy (Reg. 40) | Еланцы | 52,8, 106,41 (1926-1953) | 1k | 1,8k | 3k | 3,4k | 3,8k |
 | Yelizovo (Reg. 44) | Елизово; Jelizovo | 53,19, 158,38 (1926-1953) | 738 | 1,1k | 1,5k | 2,1k | 3,3k |
 | Yeniseysk (Reg. 41) | Eniseisk; Yenisey Gold Boomtown | 58,45, 92,17 (1926-1953) | 6k | 9k | 12,8k | 13,9k | 15,6k |
-| Yerkovtsy (Reg. 45) | Ерковцы | 50,48, 128,42 (1926-1953) | 17,7k | 27k | 38,9k | 40,6k | 43k |
 | Yermakovskoye (Reg. 39) | Ермаковское | 53,28, 92,4 (1926-1953) | 2,5k | 3,8k | 5,4k | 5,7k | 6k |
 | Yerofey Pavlovich (Reg. 45) | Ерофей Павлович; Jerofej Pavlovič | 53,96, 121,96 (1926-1953) | 2,1k | 4,4k | 8,4k | 8,7k | 9,2k |
 | Yllymakh (Reg. 43) | Ыллымах; Yllymah | 58,58, 126,69 (1926-1953) | 458 | 822 | 1,4k | 1,4k | 1,5k |
 | Ynykchanskiy (Reg. 43) | Ыныкчан; Ynykčan | 60,26, 137,7 (1926-1953) | 727 | 1,3k | 2,2k | 2,2k | 2,4k |
 | Ytyk-Kyuel (Reg. 43) | Ытык-Кюёль | 62,36, 133,56 (1926-1953) | 1,6k | 2,9k | 4,8k | 5k | 5,2k |
 | Yugorsk (Reg. 36) | Югорск; Jugorsk | 61,31, 63,33 (1926-1953) | 2,3k | 3,1k | 4,1k | 4,4k | 5k |
-| Yurga (Reg. 35) | Юрга; Jurga | 56,5, 70,84 (1926-1953) | 2,2k | 3,3k | 4,7k | 9,4k | 23,5k |
 | Yurgamysh (Reg. 35) | Юргамыш; Jurgamyš | 55,37, 64,46 (1926-1953) | 963 | 2k | 3,8k | 4,5k | 5,7k |
 | Yurginskoye (Reg. 35) | Юргинское | 56,82, 67,39 (1926-1953) | 762 | 1,2k | 1,7k | 1,9k | 2,3k |
 | Yurty (Reg. 40) | Юрты; Jurty | 56,05, 97,63 (1926-1953) | 1,3k | 2,4k | 4k | 4,5k | 5,1k |
-| Yushkova (Reg. 35) | Юшкова | 56,88, 70,57 (1926-1953) | 5,6k | 7,4k | 9,3k | 10,9k | 13,4k |
 | Yuzhno-Kurilsk (Reg. 45) | Южно-Курильск; Južno-Kuril’sk | 44,03, 145,86 (1926-1953) | 1,1k | 1,4k | 1,9k | 2,2k | 2,9k |
 | Yuzhno-Sakhalinsk (Reg. 45) | Toyohara; Vladimirovka | 46,96, 142,74 (1926-1953) | 24,1k | 33,5k | 38,6k | 42k | 75k |
 | Yuzhno-Yeniseyskiy (Reg. 41) | Южно-Енисейский | 58,78, 94,63 (1926-1953) | 257 | 389 | 556 | 603 | 671 |
@@ -8783,7 +7936,6 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Zakoulovo (Reg. 35) | Закоулово | 54,83, 64,89 (1926-1953) | 2,5k | 2,2k | 1,9k | 1,7k | 1,4k |
 | Zalari (Reg. 40) | Залари | 53,56, 102,51 (1926-1953) | 1,2k | 2,2k | 3,6k | 5,1k | 8,3k |
 | Zalesovo (Reg. 38) | Залесово | 53,99, 84,74 (1926-1953) | 4k | 4,6k | 5,1k | 5,3k | 5,6k |
-| Zaozernaya (Reg. 35) | Заозерная | 56,84, 67,34 (1926-1953) | 7,3k | 9,6k | 12,1k | 14,2k | 17,5k |
 | Zaozyornyy (Reg. 40) | Заозёрный; Zaozjornyj | 55,96, 94,71 (1926-1953) | 4,2k | 6,4k | 9,2k | 13,7k | 23,3k |
 | Zapokrovskiy (Reg. 42) | Запокровский; Zapokrovskij | 50,82, 119,17 (1926-1953) | 436 | 847 | 1,5k | 1,5k | 1,6k |
 | Zarechnyy (Reg. 42) | Заречный; Zarečnyj | 51,85, 107,52 (1926-1953) | 4,3k | 4,9k | 5,5k | 5,8k | 6,4k |
@@ -8795,8 +7947,8 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Zavitinsk (Reg. 45) | Завитинск; Завитая | 50,11, 129,44 (1926-1953) | 4,3k | 7,4k | 11,7k | 12,9k | 14,6k |
 | Zavodope-trovskiy (Reg. 35) | Заводопетровское; Zavodope-trovskoje | 56,84, 66,73 (1926-1953) | 2,5k | 2,5k | 2,5k | 2,6k | 2,6k |
 | Zavodoukovsk (Reg. 35) | Заводоуковск; Заводоуковский | 56,5, 66,55 (1926-1953) | 2,7k | 4,2k | 6k | 6,7k | 7,8k |
-| Zavodskoy (Reg. 45) | Заводской; Zavodskoj | 43,46, 132,28 (1926-1953) | 1,8k | 2,6k | 3,6k | 4k | 4,5k |
 | Zavodskoy (Reg. 37) | Заводской; Zavodskoj | 53,87, 87,27 (1926-1953) | 980 | 2,1k | 4,1k | 4,4k | 4,9k |
+| Zavodskoy (Reg. 45) | Заводской; Zavodskoj | 43,46, 132,28 (1926-1953) | 1,8k | 2,6k | 3,6k | 4k | 4,5k |
 | Zavyalovo (Reg. 38) | Завьялово | 52,84, 80,92 (1926-1953) | 3,3k | 4k | 4,7k | 4,9k | 5,2k |
 | Zayarsk (Reg. 40) | Заярск; Zajarsk | 56,19, 102,83 (1926-1953) | 1,5k | 2,8k | 4,6k | 5,1k | 5,8k |
 | Zdvinsk (Reg. 35) | Здвинск | 54,7, 78,67 (1926-1953) | 1,7k | 2,5k | 3,4k | 3,5k | 3,7k |
@@ -8807,14 +7959,14 @@ complex (Region 44) and the Southern Far East (Region 45)
 | Zeya (Reg. 45) | Зея; Zeja | 53,74, 127,26 (1926-1953) | 4,3k | 6,4k | 8,9k | 8,3k | 7,6k |
 | Zhatay (Reg. 43) | Жатай; Žataj | 62,16, 129,83 (1926-1953) | 1,3k | 2,4k | 3,9k | 4,1k | 4,3k |
 | Zhelezno-dorozhnyy (Reg. 40) | Железнодорожный; Železnodorožnyj | 57,91, 102,78 (1926-1953) | 2k | 3,7k | 6,1k | 6,7k | 7,7k |
-| Zheleznogorsk (Reg. 40) | Krasnoyarsk-26 Underground Plutonium ZATO; Железногорск | 56,25, 93,53 (1950-1953) | \- | \- | \- | \- | 32k |
 | Zheleznogorsk-Ilimskiy (Reg. 40) | Железногорск-Илимский; Železnogorsk-Ilimskij | 56,58, 104,13 (1926-1953) | 473 | 854 | 1,4k | 1,6k | 1,8k |
+| Zheleznogorsk (Reg. 40) | Krasnoyarsk-26 Underground Plutonium ZATO; Железногорск | 56,25, 93,53 (1950-1953) | \- | \- | \- | \- | 32k |
 | Zhemchuzhnyy (Reg. 39) | Жемчужный; Žemčužnyj | 54,5, 90,15 (1926-1953) | 1k | 1,4k | 1,8k | 1,9k | 2k |
 | Zhigalovo (Reg. 40) | Жигалово; Žigalovo | 54,81, 105,16 (1926-1953) | 1,8k | 3,6k | 6,5k | 6k | 5,5k |
 | Zhireken (Reg. 42) | Жирекен; Žireken | 52,83, 117,31 (1926-1953) | 156 | 303 | 535 | 553 | 577 |
 | Zima (Reg. 40) | Зима | 53,92, 102,04 (1926-1953) | 8,1k | 15,9k | 27,6k | 30,5k | 34,9k |
 | Zlatoustovsk (Reg. 45) | Златоустовск | 52,97, 133,6 (1926-1953) | 387 | 848 | 1,7k | 1,7k | 1,8k |
-| Zmeinogorsk (Reg. 38) | Змеиногорск | 51,16, 82,19 (1926-1953) | 9,8k | 10,8k | 11,8k | 12,4k | 13,1k |
+| Zmeinogorsk (Reg. 38) | Змеиногорск; Zmeinogorskiy Rudnik | 51,16, 82,19 (1926-1953) | 9,8k | 10,8k | 11,8k | 12,4k | 13,1k |
 | Znamenityy (Reg. 39) | Знаменитый; Znamenityj | 54,43, 89,17 (1939-1939) | \- | \- | 5,5k | \- | \- |
 | Znamenka (Reg. 39) | Знаменка | 53,54, 91,92 (1926-1953) | 772 | 858 | 939 | 1k | 1,2k |
 | Znamenskoye (Reg. 35) | Знаменское | 57,13, 73,83 (1926-1953) | 1,1k | 1,6k | 2,2k | 2,6k | 3,1k |
@@ -8850,58 +8002,58 @@ Komsomolsk-on-Amur.
 
 ## Regional Gazetteer Summary
 
-Table sums the population of the 8.674 catalogued settlements across
+Table sums the population of the 7.826 catalogued settlements across
 each of the 45 regions at the five benchmark dates between 1926 and
 1953.
 
 | Region (Towns) | 1926 | 1933 | 1939 | 1945 | 1953 |
 |:---|:---|:---|:---|:---|:---|
-| 1\. Estonian SSR (64) | 332,5k | 352,6k | 376,3k | 345,2k | 564,7k |
-| 2\. Latvian SSR (97) | 680,1k | 737,4k | 736,6k | 535,2k | 970,9k |
-| 3\. Lithuanian SSR (113) | 642,9k | 690k | 785,9k | 593,2k | 898k |
+| 1\. Estonian SSR (63) | 318k | 341,4k | 366,9k | 335,3k | 552,7k |
+| 2\. Latvian SSR (96) | 678,8k | 736k | 735,1k | 533,6k | 969k |
+| 3\. Lithuanian SSR (113) | 629,1k | 682,2k | 785,9k | 593,2k | 898k |
 | 4\. Moldavian SSR (62) | 454,1k | 470,8k | 505,2k | 414,3k | 640,5k |
-| 5\. Kaliningrad Oblast (43) | 531,3k | 589,2k | 658,9k | 537,1k | 485,9k |
-| 6\. Western Belarus (118) | 708,5k | 877,8k | 980k | 936,1k | 1,07M |
-| 7\. Eastern Byelorussian SSR (188) | 1,15M | 1,45M | 1,76M | 1,31M | 1,97M |
-| 8\. Western Ukraine: Galicia & Volhynia (274) | 1,74M | 2,02M | 2,13M | 1,85M | 1,98M |
-| 9\. N. Bukovina, Budjak & Transcarpathia (167) | 994,8k | 1,07M | 1,13M | 1,11M | 1,27M |
-| 10\. Right-Bank Ukrainian SSR (442) | 3,06M | 3,12M | 3,54M | 3,02M | 3,77M |
-| 11\. Left-Bank Ukrainian SSR (448) | 3,09M | 3,37M | 3,82M | 3,24M | 3,91M |
-| 12\. Dnieper Industrial Bend (280) | 1,76M | 2,27M | 2,84M | 2,44M | 3,27M |
-| 13\. Donbas Coal-Metallurgical Basin (403) | 1,52M | 2,76M | 4,53M | 4,09M | 5,51M |
-| 14\. Ukrainian Black Sea Steppe (175) | 1,49M | 1,56M | 1,76M | 1,47M | 1,89M |
-| 15\. Crimea (107) | 695,8k | 963,2k | 1,32M | 1,27M | 1,67M |
-| 16\. Karelo-Finnish SSR & Murmansk (126) | 294,8k | 524k | 808,3k | 744,1k | 1,06M |
-| 17\. Leningrad, Novgorod & Pskov (225) | 2,8M | 4,38M | 5,43M | 3,24M | 5,28M |
-| 18\. Komi ASSR & Nenets Okrug (70) | 145,8k | 207,3k | 305,6k | 419k | 586,7k |
-| 19\. Arkhangelsk & Vologda (121) | 717,9k | 1,06M | 1,45M | 1,47M | 1,66M |
-| 20\. Moscow Metropolis (314) | 3,21M | 5,48M | 6,95M | 6,65M | 8,94M |
-| 21\. Upper Volga & Western Front (481) | 3,03M | 4,13M | 5,64M | 5,45M | 6,22M |
-| 22\. Central Black-Earth Belt (617) | 4,03M | 4,34M | 4,94M | 4,78M | 5,63M |
-| 23\. Chuvash, Mari, Mordvin & Udmurt ASSRs (371) | 1,6M | 2,38M | 3,22M | 3,69M | 4,42M |
-| 24\. Tatar ASSR & Ulyanovsk-Penza (219) | 1,28M | 1,56M | 2,03M | 2,28M | 2,59M |
-| 25\. Kuibyshev & Chkalov (193) | 1,7M | 2,18M | 2,85M | 3,31M | 4,02M |
-| 26\. Volga German ASSR (35) | 228,6k | 227,6k | 244,8k | 236,5k | 262,4k |
-| 27\. Saratov, Stalingrad & Astrakhan (214) | 2,04M | 2,49M | 2,78M | 2,62M | 3,13M |
-| 28\. Kalmyk ASSR (18) | 64,7k | 87,9k | 115,2k | 103,7k | 119,8k |
-| 29\. Rostov, Krasnodar (Kuban) & Adygei AO (399) | 3,42M | 4,31M | 5,32M | 5,24M | 6,24M |
-| 30\. Stavropol, Karachay AO & Cherkess AO (177) | 1,23M | 1,22M | 1,31M | 1,33M | 1,48M |
-| 31\. Kabardino-Balkar & N. Ossetian ASSRs (78) | 280,3k | 378,4k | 510,2k | 520,5k | 627,8k |
-| 32\. Chechen-Ingush ASSR / Grozny Oblast (99) | 384,7k | 469,7k | 520,8k | 506,1k | 618,7k |
-| 33\. Dagestan ASSR (132) | 397k | 462,3k | 530,6k | 537,7k | 609,6k |
-| 34\. Ural Industrial Belt & Bashkir ASSR (530) | 3,01M | 4,8M | 6,52M | 7,8M | 9,67M |
-| 35\. West Siberian Trans-Siberian Spine (210) | 1,13M | 1,39M | 1,84M | 2,23M | 2,72M |
-| 36\. Ob-Irtysh Taiga (Narym, Yugra, Yamal) (72) | 147k | 209,5k | 267,5k | 297,1k | 335,8k |
-| 37\. Kuzbass Coal-Steel Basin (78) | 329,4k | 811,5k | 1,28M | 1,57M | 1,94M |
-| 38\. Altai Krai (91) | 504k | 612,1k | 744,9k | 904,1k | 1,03M |
-| 39\. Gorno-Altai, Khakass & Tuva AOs (76) | 237,5k | 318,4k | 456,6k | 481,4k | 538,6k |
-| 40\. East Siberian Corridor (Krasnoyarsk-Irkutsk) (152) | 578,6k | 923,2k | 1,42M | 1,66M | 2,07M |
-| 41\. Yenisei-Taymyr Polar Zone (Norilsk) (26) | 48,1k | 88,1k | 144,3k | 179,4k | 229,5k |
-| 42\. Buryat-Mongol ASSR & Chita (148) | 518,5k | 771,6k | 1,16M | 1,19M | 1,26M |
-| 43\. Yakut ASSR (89) | 107,2k | 201,8k | 340,1k | 343,9k | 363,6k |
-| 44\. Kolyma-Magadan, Chukotka & Kamchatka (72) | 94,3k | 136,8k | 213k | 272,8k | 352k |
-| 45\. Southern Far East & Sakhalin (260) | 933,8k | 1,5M | 2,17M | 2,4M | 2,81M |
-| All 45 Regions (8674 towns) | 53,34M | 69,93M | 88,39M | 85,61M | 106,69M |
+| 5\. Kaliningrad Oblast (41) | 515,7k | 568,7k | 633k | 512,6k | 463,1k |
+| 6\. Western Belarus (106) | 536,8k | 653,4k | 708,2k | 658,5k | 768,4k |
+| 7\. Eastern Byelorussian SSR (164) | 979,8k | 1,24M | 1,52M | 1,06M | 1,7M |
+| 8\. Western Ukraine: Galicia & Volhynia (261) | 1,59M | 1,82M | 1,93M | 1,69M | 1,82M |
+| 9\. N. Bukovina, Budjak & Transcarpathia (159) | 762k | 808,6k | 849,6k | 817k | 952,7k |
+| 10\. Right-Bank Ukrainian SSR (414) | 2,79M | 2,84M | 3,25M | 2,71M | 3,44M |
+| 11\. Left-Bank Ukrainian SSR (390) | 2,64M | 2,91M | 3,36M | 2,77M | 3,44M |
+| 12\. Dnieper Industrial Bend (247) | 1,59M | 2,09M | 2,63M | 2,24M | 3,05M |
+| 13\. Donbas Coal-Metallurgical Basin (375) | 1,37M | 2,54M | 4,22M | 3,76M | 5,15M |
+| 14\. Ukrainian Black Sea Steppe (145) | 1,23M | 1,31M | 1,51M | 1,22M | 1,62M |
+| 15\. Crimea (83) | 440,3k | 583,2k | 780,5k | 634,6k | 885,4k |
+| 16\. Karelo-Finnish SSR & Murmansk (117) | 266,7k | 479,1k | 741,8k | 670,8k | 976,1k |
+| 17\. Leningrad, Novgorod & Pskov (193) | 2,42M | 3,91M | 4,81M | 2,6M | 4,6M |
+| 18\. Komi ASSR & Nenets Okrug (63) | 114,8k | 166,6k | 254,1k | 361,4k | 519,1k |
+| 19\. Arkhangelsk & Vologda (102) | 456,6k | 719,3k | 1,01M | 998,2k | 1,15M |
+| 20\. Moscow Metropolis (303) | 3,1M | 5,31M | 6,71M | 6,42M | 8,67M |
+| 21\. Upper Volga & Western Front (416) | 2,38M | 3,23M | 4,41M | 4,2M | 4,88M |
+| 22\. Central Black-Earth Belt (509) | 3,03M | 3,29M | 3,82M | 3,65M | 4,41M |
+| 23\. Chuvash, Mari, Mordvin & Udmurt ASSRs (334) | 1,25M | 1,92M | 2,62M | 2,99M | 3,57M |
+| 24\. Tatar ASSR & Ulyanovsk-Penza (198) | 1,07M | 1,29M | 1,68M | 1,91M | 2,19M |
+| 25\. Kuibyshev & Chkalov (152) | 904,7k | 1,16M | 1,55M | 1,9M | 2,38M |
+| 26\. Volga German ASSR (31) | 161,7k | 161,2k | 178,8k | 169,3k | 193,5k |
+| 27\. Saratov, Stalingrad & Astrakhan (177) | 1,42M | 1,86M | 2,11M | 1,94M | 2,42M |
+| 28\. Kalmyk ASSR (15) | 39k | 54,3k | 72,7k | 57,4k | 67,9k |
+| 29\. Rostov, Krasnodar (Kuban) & Adygei AO (365) | 2,76M | 3,38M | 4,06M | 3,84M | 4,61M |
+| 30\. Stavropol, Karachay AO & Cherkess AO (166) | 1,11M | 1,14M | 1,22M | 1,24M | 1,38M |
+| 31\. Kabardino-Balkar & N. Ossetian ASSRs (74) | 260,1k | 351,9k | 476,7k | 484,4k | 587,7k |
+| 32\. Chechen-Ingush ASSR / Grozny Oblast (98) | 382,4k | 466,7k | 517k | 501,8k | 613,6k |
+| 33\. Dagestan ASSR (130) | 377,9k | 441,9k | 509,1k | 510,5k | 572,8k |
+| 34\. Ural Industrial Belt & Bashkir ASSR (480) | 2,29M | 3,81M | 5,2M | 6,36M | 7,97M |
+| 35\. West Siberian Trans-Siberian Spine (187) | 922,3k | 1,08M | 1,42M | 1,75M | 2,12M |
+| 36\. Ob-Irtysh Taiga (Narym, Yugra, Yamal) (68) | 141,6k | 200,9k | 255,4k | 284k | 321,1k |
+| 37\. Kuzbass Coal-Steel Basin (69) | 264,4k | 717,6k | 1,12M | 1,41M | 1,78M |
+| 38\. Altai Krai (86) | 472k | 575,1k | 703k | 859,4k | 977,2k |
+| 39\. Gorno-Altai, Khakass & Tuva AOs (71) | 215,9k | 283,8k | 385,1k | 414,3k | 474k |
+| 40\. East Siberian Corridor (Krasnoyarsk-Irkutsk) (144) | 542,3k | 864,1k | 1,33M | 1,57M | 1,97M |
+| 41\. Yenisei-Taymyr Polar Zone (Norilsk) (24) | 46,2k | 85,1k | 140k | 176,9k | 226,6k |
+| 42\. Buryat-Mongol ASSR & Chita (142) | 464,8k | 693,2k | 1,05M | 1,08M | 1,14M |
+| 43\. Yakut ASSR (82) | 94,2k | 178,2k | 294,3k | 298,5k | 318,5k |
+| 44\. Kolyma-Magadan, Chukotka & Kamchatka (68) | 84,2k | 124k | 197,5k | 254,8k | 329,3k |
+| 45\. Southern Far East & Sakhalin (243) | 848,5k | 1,37M | 1,99M | 2,22M | 2,61M |
+| All 45 Regions (7826 towns) | 44,42M | 58,92M | 74,62M | 71,04M | 90,41M |
 
 Combined urban population of the 8.674 catalogued settlements across all
 45 regions from 1926 to 1953.

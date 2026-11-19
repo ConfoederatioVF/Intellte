@@ -1,0 +1,252 @@
+---
+title: "Settlement Gazetteer of Pre-Columbian Eastern Amazon Basin"
+subtitle: "PRETA: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1542AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: eastern_amazon_basin_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_eastern_amazon_basin_spatial.png"
+hero_caption: "Spatial distribution of 563 catalogued pre-Columbian settlements and regional hydrological catchments across the Eastern Amazon Basin (2,69M km²) from 10000BC to 1542AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("eastern_amazon_basin.json5")
+set_data <- read_json_file("eastern_amazon_basin_settlements.json")
+led_data <- read_json_file("eastern_amazon_basin_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 5L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 5L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  eamz_marajo_estuary = "Marajó Estuary",
+  eamz_lower_amazon_trombetas = "Lower Amazon Várzea",
+  eamz_tapajos_basin = "Tapajós Basin",
+  eamz_xingu_basin = "Xingu Basin",
+  eamz_lower_tocantins = "Lower Tocantins",
+  eamz_araguaia_upper_tocantins = "Upper Tocantins"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 coordinates, cultural affiliations, occupation spans and benchmark population trajectories for `r length(set_list)` pre-Columbian settlements across the Eastern Amazon Basin (2,69M km², encompassing 2.685.138 km²) from 10000BC to 1542AD. Spanning six hydrological divisions, the gazetteer encompasses diverse architectural and settlement traditions: monumental earthen residential mounds on Marajó Island, expansive dark-earth riverine towns along the Lower Amazon and Tapajós bluffs, fortified galactic garden cities in the Upper Xingu and ring-ditch defensive enclosures across the southern savannas of Tocantins and Araguaia.
+
+Settlement sizes range from early Holocene rock shelters at Caverna da Pedra Pintada (180 peak) and shell-mound encampments at Taperinha (320 peak) to late pre-Columbian urban complexes at Santarém Aldeia (12k peak, 7,26k in 1500AD), the Camutins mound network (5,48k peak), Porto de Santarém (4,45k peak), Kuhikugu X11 (4,16k peak), Itacoatiara (3,59k peak), Parintins (3,46k peak), Óbidos (3,17k peak), Nokugu X6 (3,07k peak) and Alter do Chão (2,39k peak). Every catalogued settlement reconciles against 1.029 source-ledger candidates under PRETA alongside `r length(exc_list)` documented exclusions (predominantly duplicate-alias consolidations within 3 km and non-habitation geological features).
+
+By coupling georeferenced settlement trajectories with regional anthrosol mapping and fluvial catchments, this gazetteer establishes an archaeological baseline for pre-contact nucleation in lowland South America. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that historical demographic reconstructions reflect genuine archaeological site densities rather than speculative continental assumptions.
+
+# Settlement Archaeology in Eastern Amazonia
+
+Archaeological settlement patterns in the Eastern Amazon Basin reflect sophisticated adaptations to regional hydrology, aquatic resource distribution and soil management [@neves2021chapter8; @roosevelt2016method]. Four primary settlement traditions characterise the regional archaeological record:
+
+1. **Estuarine Mound Complexes**: On eastern Marajó Island, human communities constructed monumental earthen mounds (*tesos*) rising up to twelve metres above the seasonally inundated savannas [@meggers1957marajo; @roosevelt1991moundbuilders; @schaan2008nonagricultural]. Mounds clustered in linear arrays along river channels such as the Anajás and Camutins, integrating corporate elite residential platforms, cemetery mounds and fish-retention dams that supported multi-tiered chiefdoms.
+2. **Várzea Bluff Towns**: Along the Lower Amazon trunk stream and the clear-water mouth of the Tapajós, riverine towns were positioned on high, flood-free bluffs directly overlooking fertile floodplains [@gomes1997bibliografia; @stenborg2012location; @furtado2013metodo]. Settlements like Santarém, Belterra, Óbidos and Parintins feature contiguous sheets of anthropogenic dark earth (Terra Preta do Índio) extending over tens of hectares, packed with ceramic refuse and faunal bone.
+3. **Upper Xingu Galactic Clusters**: In the Upper Xingu headwaters, Kuikuro-ancestral populations constructed a dispersed proto-urban network consisting of fortified plaza towns enclosed by deep defensive ditches and wooden palisades, linked by straight, raised radial roads up to forty metres wide [@heckenberger2003amazonia; @heckenberger2008urbanism]. Each settlement cluster operated as an integrated agro-urban unit combining town precincts with fish ponds and managed orchards.
+4. **Southern Ecotone Geometric Enclosures**: Along the southern margin of the basin connecting the Amazonian rainforest with the Central Brazilian Cerrado, human groups excavated geometric ditch enclosures and ring-ditch villages [@desouza2018earthbuilders; @walker2015ring; @peripato2023earthworks]. These earthworks functioned as fortified settlements, ritual ceremonial plazas and gathering centres during the late pre-Columbian era.
+
+# Methodology and Source Ledger Reconciliation
+
+Candidate sites in the source ledger were evaluated using published excavation monographs, regional heritage inventories from the Instituto do Patrimônio Histórico e Artístico Nacional (IPHAN), remote sensing surveys and radiocarbon syntheses [@neves2021chapter8; @pydaniel2023lifetimes]. Inclusion requires:
+- Precise WGS84 geographic coordinates validated against regional hydrography.
+- Documented cultural horizons, ceramic affiliations or radiocarbon chronologies.
+- Area-based or house-count demographic estimations calibrated to site extent.
+
+Where multiple archaeological survey points fall within 3 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features such as isolated petroglyph boulders without residential refuse are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the six sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 563 catalogued settlements and summed site peaks across the Eastern Amazon Basin.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Leading Pre-Columbian Settlements
+
+Table \ref{tab:gazetteer} presents the leading 45 pre-Columbian settlements across Eastern Amazonia ordered by peak population descending, detailing coordinates, sub-regional attribution, occupation span and benchmark demographic series.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1500 <- if (!is.null(s$population[["1500"]])) as.numeric(s$population[["1500"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region]])) reg_short[[s$region]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1500AD = if (is.numeric(p_1500)) viscount_fmt_pop(p_1500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 pre-Columbian settlements ordered by peak population across the Eastern Amazon Basin (10000BC to 1542AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1500AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+# Sub-Regional Settlement Catalogues
+
+## Amazon Estuary, Marajó Island and Amapá Coast
+
+The estuarine division catalogues 59 settlements concentrated primarily across the eastern grasslands of Marajó Island and the tidal inlets of Amapá [@meggers1957marajo; @schaan2008nonagricultural]. The largest nucleated centre was the Camutins mound group along the Anajás River, which supported 5,48k inhabitants across forty interconnected earth mounds during its peak in 800AD to 1000AD. Other major mound centres include Pacoval (2,17k peak in 800AD), Gurupá Mariocay (2,15k peak in 1000AD), Teso dos Bichos (1,80k peak in 800AD) and Monte Carmelo (1,40k peak).
+
+These settlements functioned as corporate elite civic-ceremonial centres, supported by intensive weir fishing in seasonal lakes and managed açaí palm groves [@schaan2008nonagricultural; @roosevelt1991moundbuilders].
+
+## Lower Amazon Várzea, Trombetas and Monte Alegre
+
+Encompassing 109 catalogued settlements, this corridor supported the densest concentration of urbanised riverine towns in the basin [@roosevelt1996cave; @campos2026use]. The Tapajó capital at Santarém Aldeia concentrated 12k people in 1200AD (retaining 7,26k in 1500AD), flanked by Porto de Santarém (4,45k peak), Itacoatiara Miracanguera (3,59k peak), Parintins Tupinambarana (3,46k peak), Óbidos Konduri (3,17k peak), Oriximiná Trombetas (2,05k peak) and Belterra (1,90k peak).
+
+Positioned along high river bluffs overlooking active floodplains, these communities farmed permanent Terra Preta anthrosols and maintained large corrals of freshwater river turtles, creating an uninterrupted zone of riverine settlement encountered by early Spanish explorers [@gomes1997bibliografia; @stenborg2012location].
+
+## Tapajós, Santarém and Maués-Abacaxis Basin
+
+The Tapajós basin catalogues 103 settlements along the clear-water Tapajós River and its eastern tributaries [@gomes2012cronologia; @stenborg2012location]. Leading settlements include Alter do Chão (2,39k peak in 1000AD), Borba Lower Madeira (1,90k peak), Itaituba Middle Tapajós (1,49k peak) and Maués (1,30k peak). Settlements were anchored on stable sandy bluffs, integrating manioc cultivation on dark earths with prolific river fisheries.
+
+## Lower and Upper Xingu Basin
+
+The Xingu basin catalogues 54 settlements, highlighted by the Kuhikugu proto-urban galactic cluster in the upper headwaters [@heckenberger2003amazonia; @heckenberger2008urbanism]. Fortified towns enclosed by deep defensive ditches and palisades include Kuhikugu X11 (4,16k peak in 1200AD), Nokugu X6 (3,07k peak) and Hihí X13 (2,40k peak), surrounded by satellite plaza villages such as Sagihengu (1,42k peak). Radial avenues linked these settlements into an integrated regional polity.
+
+## Lower Tocantins and Carajás
+
+The Lower Tocantins catalogues 132 settlements along the lower river terraces and surrounding mineral uplands [@magalhaes2005physis]. Major sites include Tucuruí (1,40k peak), ALTO SANTARÉM I (560 peak), Carajás rock shelters such as Abrigo do Jon and early Holocene ceramic hamlets.
+
+## Araguaia, Ilha do Bananal and Upper Tocantins
+
+The southernmost division catalogues 106 settlements, featuring ring-ditch earthworks and island settlements across Ilha do Bananal and the Upper Tocantins [@desouza2018earthbuilders; @walker2015ring]. The largest nucleated centre was Ilha do Bananal Javaé (1,60k peak in 1000AD), alongside Porto Nacional (1,38k peak) and seasonal Cerrado fishing camps.
+
+# Source Ledger Audit and Excluded Candidates
+
+The PRETA source ledger records 1.029 candidates for the Eastern Amazon Basin. Of these, 563 were included as primary catalogued settlements, while 466 entries were excluded. The vast majority of exclusions (461 sites, 98,9% of all exclusions) represent duplicate-alias consolidations: satellite survey coordinates located within 3 km of a primary nucleated settlement that were merged into the canonical site to avoid artificial spatial over-concentration. The remaining 5 exclusions represent isolated rock-art shelters or geological features lacking evidence of permanent habitation.
+
+Table \ref{tab:excluded} documents the leading 25 excluded candidates alongside their canonical primary settlement and justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Eastern Amazon Basin source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Limitations and Preservation Biases
+
+Archaeological visibility in the Eastern Amazon Basin remains affected by differential preservation and survey coverage:
+1. **Fluvial Erosion and Silt Inundation**: Active lateral migration of the Amazon river channel continually erodes riverbank settlements while seasonal silt deposition buries early Holocene deposits beneath metres of alluvium [@roosevelt2016method].
+2. **Dense Canopy Obscuration**: Outside cleared cattle pasture and modern urban footprints, ancient earthworks remain obscured beneath dense equatorial rainforest, a bias only recently alleviated by airborne LiDAR surveys [@peripato2023earthworks].
+3. **Perishable Architecture**: Indigenous construction relied predominantly on timber poles, woven thatch and rammed earth, which leave ephemeral posthole and hearth traces in tropical soils compared to stone masonry in the Andes.
+
+Despite these taphonomic factors, the integration of 563 catalogued settlements demonstrates that pre-Columbian Eastern Amazonia was a densely occupied, highly engineered cultural landscape.
+
+# Sources

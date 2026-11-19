@@ -1,0 +1,218 @@
+---
+title: "Upper Colorado Hydrological Unit (HU 14): Settlement Gazetteer"
+subtitle: "CENTAUR-II: Excavated Fremont, Chacoan and Mesa Verde Sites, 8500BC to 1600AD"
+date: "17 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: upper_colorado_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_upper_colorado_spatial.png"
+hero_caption: "Spatial distribution of 241 Fremont, Archaic and Ancestral Puebloan settlements across Upper Colorado Hydrological Unit 14, overlaid on three drainage masks."
+hero_label: "fig:hero-upper-colorado"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_json <- jsonlite::fromJSON("upper_colorado.json5", simplifyVector = FALSE)
+sett_json <- jsonlite::fromJSON("upper_colorado_settlements.json", simplifyVector = FALSE)
+ledger_json <- jsonlite::fromJSON("upper_colorado_source_ledger.json5", simplifyVector = FALSE)
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  s <- gsub("Existing Verified ", "", s, fixed = TRUE)
+  s <- gsub("(cave/rockshelter/mine/quarry/medicine wheel/cemetery/kill site)", "(non-habitation feature)", s, fixed = TRUE)
+  s <- gsub("coordinate/alias", "coordinate or alias", s, fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 6L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 6L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+sett_list <- unname(sett_json)
+peak_vals <- vapply(sett_list, function (s) max(as.numeric(unlist(s$population))), numeric(1))
+sett_names <- vapply(sett_list, function (s) as.character(s$name), character(1))
+sett_ranked <- sett_list[order(-peak_vals, sett_names)]
+top_sett_list <- head(sett_ranked, 45L)
+
+reg_short <- list(
+  uc_green_river_wyoming_basin = "Green River-WY",
+  uc_colorado_headwaters_grand_mesa = "CO Headwaters",
+  uc_san_juan_four_corners = "San Juan-Four Corners"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), ledger_json$candidates)
+exc_top <- head(exc_list, 30L)
+```
+
+# Abstract
+
+This gazetteer compiles WGS84 coordinates, occupational spans and benchmark population trajectories for `r length(sett_list)` excavated settlements and habitation clusters across Upper Colorado Hydrological Unit 14 (295,77k km²) between 8500BC and 1600AD (812 benchmark observations, averaging 3,37 per settlement, with 152 sites spanning at least three benchmarks) [@kelly2025; @bird2022p3k14c]. The inventory links 29 northern Fremont and Archaic camps across the Green River and Wyoming Basin (led by Range Creek at 640, Nine Mile Canyon at 610, Wardell-Green River at 310, Caldwell Village at 145 and early Holocene occupations at Finley Site from 8500BC) and 26 canyonland and headwater sites in Utah and Colorado (led by Coombs Site, Escalante GH, Escalante Pueblo, Inscription House, McPhee Village, Pueblo de los Golondrinas, Snake Rock Village and Three Dog Site at 1,06k, Red Knobs at 905 and Turner-Look at 827) with 186 Ancestral Puebloan great houses and community centres across the San Juan Basin led by Tsé Bíyó' Áshkhii (Pueblo Bonito, 3,2k), Cliff Palace (1,85k), Aztec Ruins (1,45k) and Yellow Jacket Pueblo (1,35k) [@frison1973wardell; @finley2020fremont; @lekson2006chaco; @varien1999sedentism]. Source-ledger reconciliation confirms 241 included settlements and 335 excluded records (327 duplicate-alias consolidations and 8 non-habitation cave exclusions) out of 576 candidates with zero unaccounted entries.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_upper_colorado_spatial.png",
+    "Spatial distribution of 241 Fremont, Archaic and Ancestral Puebloan settlements across Upper Colorado Hydrological Unit 14, overlaid on three drainage masks.",
+    "fig:hero-upper-colorado"
+  )
+}
+```
+
+# Background
+
+Settlement nucleation in Upper Colorado HU 14 followed contrasting ecological corridors from the Early Holocene through the late Puebloan and Fremont periods. Along the Upper Green River and the Tavaputs-Book Cliffs escarpment, Palaeoindian and Archaic hunters established early camps at Finley Site, Blue Point, Pine Spring, Sudden Shelter and Joe's Valley Alcove before Fremont groups built pithouse villages, storage granaries and communal bison-processing camps at Wardell-Green River, Caldwell Village, Nine Mile Canyon, Range Creek, Coombs Site, Snake Rock Village and McPhee Village [@frison1973wardell; @madsen1998fremont; @finley2020fremont].
+
+South of the San Juan River and across the Colorado-New Mexico plateau, Ancestral Puebloan communities erected multi-storey sandstone great houses at Tsé Bíyó' Áshkhii (Pueblo Bonito), Peñasco Blanco, Una Vida, Pueblo Alto, Kin Kletso and Kin Bineola in Chaco Canyon, outlier centres at Salmon Ruins, Salmon, Morris 41 and Aztec Ruins along the San Juan and Animas rivers, and defensive canyon villages across Mesa Verde and McElmo Dome at Cliff Palace, Yellow Jacket Pueblo, Sand Canyon Pueblo, Shields Pueblo, Woods Canyon Pueblo and Wallace Ruin [@lekson2006chaco; @reed2006salmon; @brown2008aztec; @varien1999sedentism].
+
+# Methodology
+
+## Gazetteer Compilation and Inclusion Criteria
+
+Every documented archaeological complex in the regional corpus was evaluated against CENTAUR gazetteer criteria requiring precise WGS84 coordinates, dated residential architecture or habitation middens and quantifiable phase populations [@kelly2025; @bird2022p3k14c]. Duplicate entries sharing coordinates or matching names within 2 to 25 km of a canonical settlement are consolidated as duplicate aliases (327 records), and non-habitation archaeological features such as caves lacking permanent residential structures (8 records, including Cowboy Cave, Mummy Cave and Mantle's Cave) are excluded in the regional source ledger rather than counted twice. Coordinates use decimal degrees in WGS84 and trajectories record active occupation benchmarks in GMT+0 calendar years. Table \ref{tab:summary-upper-colorado} reports included counts and peak sums across the three sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_json$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), sett_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Included = viscount_fmt_number(length(sub_sets), 0L),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(max(peaks)), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of the 241 included settlements and peak sums across Upper Colorado HU 14.",
+  c("Sub-Region", "Included Sites", "Sum of Site Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary-upper-colorado", font_size = "footnotesize")
+)
+```
+
+## Household and Room-Count Estimation
+
+Puebloan great-house and cliff-dwelling estimates combine excavated room counts, contemporaneous suite occupancy ratios and kiva-to-household multipliers reconciled with Southwest Social Networks and Village Ecodynamics Project habitation series [@lekson2006chaco; @varien1999sedentism; @reed2006salmon]. Fremont village figures derive from mapped pithouse and surface-structure clusters across canyon floor surveys in Range Creek, Nine Mile Canyon and the Uinta Basin, scaled by radiocarbon-dated occupation spans [@finley2020fremont; @madsen1998fremont].
+
+# Testing and Validation
+
+Ledger reconciliation confirms 241 included settlements and 335 excluded records (327 duplicate-alias consolidations and 8 non-habitation cave exclusions) across 576 candidates in the regional source ledger, matching the settlement gazetteer with zero unaccounted entries. Site latitudes span 35,67 to 42,84 N and longitudes 107,31 to 111,55 W, with CENTAUR provenance recorded on all entries. Chronological ordering confirms that northern Fremont sites (Wardell-Green River peaking at 310 in 800AD; Nine Mile Canyon at 610 in 1000AD; Range Creek at 640 in 1100AD) precede or crest earlier than the Chacoan-Animas-Mesa Verde great-house maxima (Tsé Bíyó' Áshkhii at 3,2k in 1100AD; Aztec Ruins at 1,45k and Cliff Palace at 1,85k in 1200AD; Yellow Jacket Pueblo at 1,35k in 1275AD) [@lekson2006chaco; @brown2008aztec; @robinson2021dendro]. Figure \ref{fig:settlements-upper-colorado} charts the rank-size hierarchy across all 241 settlements.
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_upper_colorado_settlements.png",
+  "Rank-size distribution and leading fifteen peak populations across the 241 catalogued sites in Upper Colorado HU 14.",
+  "fig:settlements-upper-colorado"
+)
+```
+
+# Results
+
+## Leading Settlement Gazetteer
+
+Table \ref{tab:gazetteer-upper-colorado} presents the top `r length(top_sett_list)` settlements by peak population descending out of the `r length(sett_list)` catalogued sites across Upper Colorado HU 14.
+
+```{r tab-gazetteer, results='asis'}
+rows <- lapply(top_sett_list, function(e) {
+  yrs <- sort(as.integer(names(e$population)))
+  pk <- max(as.numeric(unlist(e$population)))
+  span_str <- if (min(yrs) == max(yrs)) fmt_yr(min(yrs)) else paste0(fmt_yr(min(yrs)), " - ", fmt_yr(max(yrs)))
+  data.frame(
+    Settlement = clean_text(e$name),
+    State = clean_text(e$country),
+    SubRegion = reg_short[[e$region]],
+    Coords = fmt_coord(e$coords),
+    Span = span_str,
+    Peak = viscount_fmt_pop(pk),
+    Series = fmt_pop_series(e$population),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, rows)
+rownames(df_gaz) <- NULL
+viscount_table(
+  df_gaz,
+  "Top 45 settlements by peak population descending in Upper Colorado HU 14 with coordinates, spans and trajectories.",
+  c("Settlement", "State", "Sub-Region", "Coordinates", "Span", "Peak", "Benchmark Series"),
+  list(label = "tab:gazetteer-upper-colorado", font_size = "scriptsize")
+)
+```
+
+## Excluded Candidates and Source Ledger Audit
+
+Table \ref{tab:ledger-upper-colorado} documents the leading 30 of 335 excluded candidates (327 duplicate-alias consolidations and 8 unquantified non-habitation cave features) from the 576 entries in the regional source ledger.
+
+```{r tab-ledger, results='asis'}
+l_rows <- lapply(exc_top, function(cnd) {
+  data.frame(
+    Candidate = clean_text(cnd$name),
+    State = clean_text(cnd$country),
+    Reason = clean_text(cnd$reason),
+    Justification = clean_text(cnd$justification),
+    stringsAsFactors = FALSE
+  )
+})
+df_led <- do.call(rbind, l_rows)
+rownames(df_led) <- NULL
+viscount_table(
+  df_led,
+  "Leading thirty excluded candidates (out of 335 total exclusions) in the Upper Colorado HU 14 source ledger.",
+  c("Candidate", "Jurisdiction", "Exclusion Category", "Justification"),
+  list(label = "tab:ledger-upper-colorado", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three constraints affect site-level resolution. First, Chaco Canyon estimates (Tsé Bíyó' Áshkhii, centred on Pueblo Bonito, at 3,2k in 1100AD) combine permanent residential suites with seasonal ceremonial pilgrims across the wider canyon floor, creating sensitivity to assumed room-occupancy fractions [@lekson2006chaco]. Second, canyon-wall cliff dwellings such as Cliff Palace preserve exact room counts after 1150AD, whereas open valley-floor Fremont settlements in Range Creek and Nine Mile Canyon suffer from alluvial burial and historic disturbance [@finley2020fremont; @varien1999sedentism]. Third, small dispersed seasonal camps lacking discrete residential bounds are routed into sub-regional rural grids rather than catalogued individually.
+
+# Conclusion
+
+Cataloguing 241 settlements across 295,77k km² captures the Upper Colorado demographic gradient from 8500BC Wyoming Basin camps and first-millennium Fremont canyons to the Pueblo II-III masonry capitals of the San Juan Basin.
+
+# Sources
+
+<div id="refs"></div>

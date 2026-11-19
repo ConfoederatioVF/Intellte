@@ -1,0 +1,165 @@
+---
+title: "Settlement Gazetteer of the Lower Mississippi Hydrological Unit (HU 08)"
+subtitle: "CENTAUR-II: Archaic Earthworks, Plaquemine Centres and Late Mississippian Towns, 8500BC to 1600AD"
+date: "18 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: lower_mississippi_settlements.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_lower_mississippi_spatial.png"
+hero_caption: "Locations of 107 catalogued mound towns and earthwork complexes across the Lower Mississippi Hydrological Unit (250,4k km²) from 8500BC to 1600AD."
+hero_label: "fig:hero-lower-mississippi-gaz"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+mod_data <- fromJSON("lower_mississippi.json5", simplifyVector = FALSE)
+sett_data <- fromJSON("lower_mississippi_settlements.json", simplifyVector = FALSE)
+ledger_data <- fromJSON("lower_mississippi_source_ledger.json5", simplifyVector = FALSE)
+
+clean_text <- function (arg0_s) {
+  s <- gsub("Existing Verified ", "", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  gsub("_", " ", s, fixed = TRUE)
+}
+
+short_region <- function (rid) {
+  if (identical(rid, "lm_st_francis_st_memphis_parkin")) return("St. Francis-Memphis")
+  if (identical(rid, "lm_yazoo_ouachita_poverty_point")) return("Yazoo-Ouachita")
+  if (identical(rid, "lm_natchez_atchafalaya_delta")) return("Natchez-Delta")
+  return(rid)
+}
+
+fmt_yr_label <- function (y) {
+  if (y < 0) paste0(abs(y), "BC") else paste0(y, "AD")
+}
+
+fmt_span_pop <- function (pop_list) {
+  yrs <- as.integer(names(pop_list))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vapply(yrs, function (y) as.numeric(pop_list[[as.character(y)]]), numeric(1))
+  pk_idx <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[pk_idx]), " (", fmt_yr_label(yrs[pk_idx]), ")")
+}
+
+fmt_period_span <- function (pop_list) {
+  yrs <- sort(as.integer(names(pop_list)))
+  if (min(yrs) == max(yrs)) fmt_yr_label(min(yrs)) else paste0(fmt_yr_label(min(yrs)), " to ", fmt_yr_label(max(yrs)))
+}
+```
+
+# Abstract
+
+This gazetteer compiles settlement population series for the Lower Mississippi Hydrological Unit (HU 08) from 8500BC to 1600AD across six states (Louisiana 42, Mississippi 29, Arkansas 23, Tennessee 6, Missouri 4 and Kentucky 3). Of 208 candidate entries evaluated in the regional ledger, 107 bounded earthwork complexes, salt-dome camps and palisaded towns (292 dated benchmark observations, averaging 2,73 per site with 58 holding three or more benchmarks) enter the active settlement inventory, while 101 duplicate coordinate-alias records within 2 km of canonical sites are excluded. The chronology spans from Early Archaic Avery Island (35 at 8500BC) and Sloan (55 at 8200BC), Middle Archaic Watson Brake (480 at 3400BC) and Late Archaic Poverty Point (1,6k at 1500BC) through Woodland Marksville (1,1k), Troyville (1,2k) and Greenhouse (720) to Mississippian and Plaquemine capitals led by Parkin (2,8k), Emerald Mound (2,4k), Winterville (2,4k), Bradley (2,2k), Carson Mounds Mega-Town (2,2k), Lake George (2,2k), Nodena (2,2k), Carson Mounds (1,8k) and Fatherland (1,8k).
+
+# Background
+
+Monumental mound construction in HU 08 spans more than five millennia, opening with Middle Archaic earthen ring complexes in Louisiana at Watson Brake, Frenchman's Bend, Hedgepeth, Monte Sano and LSU Campus Mounds followed by Poverty Point [@saunders1997; @gibson2000], and continuing through Middle and Late Woodland geometric plazas at Marksville, Pinson Mounds, Troyville and Greenhouse [@toth1988; @ford1951]. After 1000AD, Mississippian and Plaquemine civic-ceremonial towns proliferated along the St. Francis, Yazoo and Natchez meander belts, matching Kelly et al. [@kelly2025] aggregate radiocarbon summit around 1177AD (N = 828) and reaching dense late pre-contact palisaded nucleation in 1400 to 1540AD [@morse1983; @brain1989; @williams1983].
+
+# Methodology
+
+## Inclusion Criteria and Geospatial Encoding
+
+All 208 candidates in the regional source ledger were screened for WGS84 coordinates, excavated plaza or residential zone bounds and distinct spatial identities. Included records carry regional attribution linked cleanly to their encompassing sub-region and primary site monographs cited here and in the ledger.
+
+## Earthwork and Town Population Calibration
+
+Settlement estimates derive from palisaded village hectares at Parkin, Bradley and Nodena [@morse1983; @mitchem1996], domestic midden arcs at Poverty Point and Watson Brake [@gibson2000; @saunders1997], and mound-plaza residential catchments at Winterville, Lake George, Emerald Mound and Fatherland [@brain1989; @williams1983; @neitzel1965].
+
+# Testing and Validation
+
+Ledger reconciliation and spatial containment checks across all 208 candidates returned zero errors as of 18 November 2026 GMT+0:
+
+1. **Included Settlements**: 107 sites (34 in St. Francis-Memphis, 48 in Yazoo-Ouachita and 25 in Natchez-Delta), spanning 29,72 to 37,07 N and 88,38 to 93,62 W across 292 dated benchmark observations.
+2. **Excluded Candidates**: 101 duplicate coordinate and alias records within 2 km merged into canonical sites (led by Emerald Mound, Lake George, Fatherland, Chucalissa, Parkin and Winterville), with zero unquantified non-habitation exclusions.
+
+```{r fig-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_lower_mississippi_settlements.png",
+  "Rank-size distribution and leading fifteen settlements by peak population across the 107 catalogued sites of Lower Mississippi (HU 08).",
+  "fig:lm-settlements"
+)
+```
+
+# Results
+
+## Top 45 Earthworks and Mound Towns
+
+Table \ref{tab:lm-included} presents the top 45 settlements by peak population descending out of the 107 catalogued sites in HU 08. Earliest occupation appears at Avery Island (35 at 8500BC, peaking at 280 in 1450AD) and Sloan (40 to 55 across 8500 to 8200BC), followed by Middle Archaic mound complexes at Watson Brake (480 at 3400BC) [@saunders1997], LSU Campus Mounds (280 at 3200BC), Monte Sano (260 at 3300BC) and Frenchman's Bend (240 at 3500BC). Late Archaic centres peak at Poverty Point (1,6k at 1500BC) and Jaketown (520 at 1000BC) [@gibson2000], succeeded by Woodland mound centres Tchefuncte (180 at 100BC), Marksville (1,1k at 200AD), Pinson Mounds (850 at 200AD), Ingomar Mounds (390 at 350AD), Troyville (1,2k at 650AD) and Greenhouse (720 at 600AD) [@toth1988; @ford1951].
+
+Among Mississippian and Plaquemine towns from 1000AD to 1600AD, northern valley centres include Towosahgy (980 at 1300AD), Lilbourn (950 at 1200AD), Wickliffe Mounds (880 at 1200AD), Twin Mounds (620 at 1250AD) and Obion Mounds (540 at 1150AD) [@cobb2002], alongside late St. Francis-Arkansas towns led by Parkin (2,8k at 1500AD), Bradley (2,2k at 1525AD), Nodena (2,2k at 1500AD), Carson Mounds (1,8k at 1350AD), Nodena Fortified City (1,7k at 1540AD), Upper Nodena (1,65k at 1500AD), Chucalissa (1,35k at 1400AD), Menard-Hodges (1,2k at 1600AD), Rose Mound (1,1k at 1475AD), Walls (1,1k at 1500AD) and Barton Ranch (920 at 1500AD) [@morse1983; @mitchem1996; @hudson1997]. Yazoo-Natchez-Delta centres encompass Emerald Mound (2,4k at 1400AD), Winterville (2,4k at 1200AD), Carson Mounds Mega-Town (2,2k at 1450AD), Lake George (2,2k at 1400AD), Lake George Palisaded Town (2k at 1450AD), Fatherland (1,8k at 1500AD), Parchman Place (1,35k at 1475AD), Anna (1,25k at 1350AD), Medora-Houma (920 at 1500AD), Bayou Goula Plaquemine Town (850 at 1550AD), Mazique (760 at 1500AD) and Feltus (720 at 950AD) [@williams1983; @brain1989; @neitzel1965].
+
+```{r tbl-included, results='asis'}
+keys_inc <- names(sett_data)
+peak_vals <- vapply(keys_inc, function (k) {
+  vals <- as.numeric(unlist(sett_data[[k]]$population))
+  if (length(vals) == 0) 0 else max(vals, na.rm = TRUE)
+}, numeric(1))
+ord_top <- order(-peak_vals, keys_inc)
+keys_top45 <- keys_inc[ord_top[seq_len(min(45L, length(ord_top)))]]
+rows_inc <- lapply(keys_top45, function (k) {
+  sv <- sett_data[[k]]
+  data.frame(
+    Region = paste0(clean_text(sv$name), " (", short_region(sv$region_id), ")"),
+    Period = fmt_period_span(sv$population),
+    Population = fmt_span_pop(sv$population),
+    Bounds = paste0(viscount_fmt_number(sv$coords[[1]], 2L), ", ", viscount_fmt_number(sv$coords[[2]], 2L)),
+    stringsAsFactors = FALSE
+  )
+})
+df_inc <- do.call(rbind, rows_inc)
+rownames(df_inc) <- NULL
+viscount_table(
+  df_inc,
+  "Top 45 settlements by peak population in Lower Mississippi (HU 08) out of 107 catalogued sites, showing occupied spans and WGS84 coordinates.",
+  c("Settlement (Division)", "Span", "Peak (Year)", "Coordinates"),
+  list(label = "tab:lm-included", font_size = "scriptsize")
+)
+```
+
+## Excluded Ledger Candidates
+
+Out of 208 entries evaluated in the regional ledger, 101 duplicate monument-inventory and variant-alias records falling within 2 km of canonical sites (led by Emerald Mound, Lake George, Fatherland, Chucalissa, Parkin and Winterville) are consolidated to prevent spatial double-counting, leaving 107 active settlements across the valley. Table \ref{tab:lm-excluded} presents the leading 30 of 101 excluded duplicate-alias entries.
+
+```{r tbl-excluded, results='asis'}
+exc_list <- Filter(function (c) identical(c$status, "excluded"), ledger_data$candidates)
+exc_top <- head(exc_list, 30L)
+rows_exc <- lapply(exc_top, function (c) {
+  data.frame(
+    Region = paste0(clean_text(c$name), " (", clean_text(c$country), ")"),
+    Period = "Excluded",
+    Population = clean_text(c$reason),
+    Bounds = clean_text(c$justification),
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, rows_exc)
+rownames(df_exc) <- NULL
+viscount_table(
+  df_exc,
+  "Leading 30 of 101 excluded duplicate-alias candidates documented in the Lower Mississippi (HU 08) source ledger.",
+  c("Candidate", "Status", "Reason", "Disposition"),
+  list(label = "tab:lm-excluded", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Borderland sites along the northern Cairo-Ohio confluence and middle Tennessee corridor (such as Kincaid Mounds, Shiloh Indian Mounds and Jonathan Creek studied by Welch [@welch2006]) and central Arkansas River valley complexes (such as Toltec Mounds documented by Rolingson [@rolingson1998]) are assigned to adjacent hydrological units (HU 05, HU 06 and HU 11) so shared settlement boundaries are never duplicated. Within HU 08 itself, the remaining 62 catalogued sites below rank 45 (primarily Archaic ridges and smaller Coles Creek, Plaquemine or Mississippian settlements peaking between 55 and 700 residents) are retained in the spatial subtraction surface alongside rural density priors [@brain1989; @cobb2002].
+
+# Sources
+
+<div id="refs"></div>

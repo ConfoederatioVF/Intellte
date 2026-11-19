@@ -1,0 +1,280 @@
+---
+title: "Settlement Gazetteer of Colonial Paraguay: Asunción Core, Jesuit Reducciones and Frontier Outposts"
+subtitle: "PRETA: Coordinates, Toponymy and Demographic Trajectories (1537AD to 1811AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: colonial_paraguay_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_colonial_paraguay_spatial.png"
+hero_caption: "Spatial distribution of 220 catalogued colonial settlements across the four sub-regions of Colonial Paraguay (415,3k km²) from 1537AD to 1811AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("colonial_paraguay.json5")
+set_data <- read_json_file("colonial_paraguay_settlements.json")
+led_data <- read_json_file("colonial_paraguay_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (is.na(y) || y == 0) return("-")
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  if (is.null(arg0_pop) || length(arg0_pop) == 0) return("-")
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+peaks_all <- vapply(set_list, function (s) {
+  p_vals <- as.numeric(unlist(s$population))
+  if (length(p_vals) > 0) max(p_vals) else 0
+}, numeric(1))
+set_list <- set_list[order(-peaks_all, vapply(set_list, function (s) as.character(s$name), character(1)))]
+
+reg_short <- list(
+  cpy_central_asuncion = "Central Asuncion",
+  cpy_villarrica_guaira_north = "Guaira and North",
+  cpy_jesuit_missions_parana = "Jesuit Reducciones",
+  cpy_gran_chaco_frontier = "Gran Chaco Frontier"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded"), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer compiles geographic coordinates, colonial toponymy, foundation dates and longitudinal population series for 220 catalogued historical settlements across Colonial Paraguay (415.304 km²) between 1537AD and 1811AD. The compiled inventory synthesises four distinct settlement traditions: Spanish administrative *ciudades* and *villas*, Franciscan *pueblos de indios*, the planned monastic urbanism of the Jesuit Guaraní *reducciones*, and rural *partidos* alongside frontier *presidios*.
+
+The 220 catalogued settlements are distributed across four regional divisions: 89 settlements in the eastern and northern march of Villarrica, Guairá, Caaguazú, San Pedro and Concepción (98.670 km²); 64 in the Jesuit mission territory along the Paraná, Tebicuary and Uruguay basins (48.127 km²); 61 in the central agrarian core of Asunción, Central, Cordillera and Paraguarí (19.779 km²); and 6 frontier garrisons and river outposts in the Gran Chaco Boreal (248.728 km²). Together, these settlements preserve 834 benchmark population observations, averaging 3,79 records per site.
+
+The regional urban hierarchy was anchored by the capital port of Asunción (13.800 peak), followed by prominent mission towns and regional commercial centers: San Ignacio Guazú (6.774), Pilar de Ñeembucú (6.414), Villarrica del Espíritu Santo (6.200), Mariscal Estigarribia (4.913), Encarnación de Itapúa (4.652), Santa Rosa de Lima (4.380), Santiago (4.170), Santa María de Fe (3.982), Concepción (3.945), San Lorenzo (3.599), Santísima Trinidad del Paraná (3.449), San Juan Bautista (3.418) and Luque (3.260). Every catalogued settlement reconciles against the source ledger alongside 23 excluded duplicate aliases within 2,5 km of primary nodes.
+
+\newpage
+
+# Settlement Taxonomy and Regional Distribution
+
+Colonial Paraguayan settlement archaeology and historical geography reflect a structural transition from dispersed swidden lineages (*tava*) to nucleated colonial towns [@susnik1965indio; @kleinpenning2003paraguay]. Spanish authorities recognized five distinct functional settlement categories:
+
+1. *Ciudades y Villas*: Chartered Spanish municipalities governed by a municipal town council (*cabildo*), royal treasury officials and a parish church. Asunción, founded in 1537AD, served as the provincial capital and primate river port. Secondary villas included Villarrica (founded 1570AD, relocated 1682AD), Villa de San Isidro Labrador de Curuguaty (1716AD), Villa Real de la Concepción (1773AD) and Villa del Pilar de Ñeembucú (1779AD) [@whigham1991politics].
+2. *Pueblos de Indios*: Communal indigenous towns established primarily by Franciscan friars between 1580AD and 1600AD to congregate encomienda tributaries. Governed internally by an indigenous *corregidor* and *cabildo indígena*, these towns included Altos, Ypané, Guarambaré, Tobatí, Itá, Yaguarón, Caazapá and Yuty [@telesca2009arcilla; @necker1979indiens].
+3. *Reducciones Jesuíticas*: Autonomous communal municipalities administered by the Society of Jesus between 1609AD and 1767AD, featuring standardised grid street networks, monumental stone basilicas, communal granaries and quarantine infirmaries [@maeder1984poblacion; @sarreal2014guarani].
+4. *Partidos y Capillas*: Dispersed rural agrarian parishes centered on a wayside chapel (*capilla*) or livestock estancia, which gradually nucleated into mestizo agricultural market towns during the eighteenth century (San Lorenzo, Luque, Capiatá, Pirayú, Carapeguá, Quiindy, Arroyos y Esteros) [@potthast2020mestizaje; @velazquez1965paraguay].
+5. *Presidios y Fuertes*: Frontier military garrisons and river outposts erected to secure navigation channels and deter Mbaya and Portuguese incursions (Fuerte Borbón (Fuerte Olimpo), San Carlos del Apa, Remanso del Castillo) [@wucherer2019from].
+
+Table \ref{tab:subreg-summary} outlines the spatial distribution, aggregate site peaks and leading settlements across the four colonial sub-regions.
+
+```{r tbl-subreg-summary, results='asis'}
+subreg_rows <- lapply(names(mod_data$regions), function (rk) {
+  reg <- mod_data$regions[[rk]]
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pop <- if (length(sub_sets) > 0) viscount_fmt_pop(max(peaks)) else "-"
+  share_pct <- viscount_fmt_number((length(sub_sets) / length(set_list)) * 100, 1L)
+  
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    AreaKm2 = viscount_fmt_number(reg$area_km2, 0L),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(share_pct, " %"),
+    SumPeaks = viscount_fmt_pop(sum(peaks)),
+    TopSettlement = top_name,
+    TopPeak = top_pop,
+    stringsAsFactors = FALSE
+  )
+})
+
+df_subreg <- do.call(rbind, subreg_rows)
+colnames(df_subreg) <- c("Sub-Region", "Area (km\u00b2)", "Sites", "Share (%)", "Sum of Peaks", "Leading Town", "Peak Pop")
+
+viscount_table(
+  df_subreg,
+  "Sub-regional distribution of 220 catalogued colonial settlements, summed site peaks and leading municipal centers.",
+  colnames(df_subreg),
+  list(label = "tab:subreg-summary", font_size = "footnotesize")
+)
+```
+
+# The Jesuit Guaraní Reducciones of Paraguay
+
+The thirty Jesuit Guaraní reducciones constituted the most celebrated urban and demographic experiment in colonial South America [@ganson2003guarani; @jackson2008demographic]. Eight of these towns were situated within the modern national borders of Paraguay, arrayed across the rolling grasslands and riverine terraces of Misiones, Itapúa and the lower Tebicuary:
+
+- *San Ignacio Guazú*: Founded in 1609AD by Fathers Marcial de Lorenzana and Francisco de San Martín, San Ignacio was the mother reduction of the entire mission system. It served as a strategic inland hub connecting Asunción with the southern missions, attaining a peak population of 6.774 inhabitants in 1732AD [@maeder1984poblacion].
+- *Encarnación de Itapúa*: Founded in 1615AD by Saint Roque González de Santa Cruz on the northern bank of the Río Paraná, Encarnación served as the primary river crossing and transshipment port for mission trade with Posadas and the Uruguay basin, supporting 4.652 residents at its peak [@kuhne2025churches].
+- *San Cosme y Damián*: Established in 1632AD along the Paraná River, San Cosme became famous across colonial South America as an astronomical center under Father Buenaventura Suárez, who constructed telescopes and published planetary ephemerides while ministering to 3.104 Guaraní souls [@gangui2021orientatio].
+- *Santa María de Fe*: Founded in 1647AD as a refuge for Guaraní neophytes fleeing bandeirante raids in the Brazilian Tapé, Santa María housed 3.982 inhabitants in 1732AD and was renowned for its sacred sculpture and polychrome wood carvings [@ganson2023gender].
+- *Santiago*: Established in 1669AD west of the Tebicuary River, Santiago grew into an enormous cattle ranching center managing hundreds of thousands of semi-feral cattle (*vacas alzadas*), with a peak population of 4.170 [@sarreal2014guarani].
+- *Jesús de Tavarangüé*: Founded in 1685AD, Jesús is celebrated for its monumental stone church designed by the Catalan architect Brother José Brasanelli, whose massive Romanesque portal and arched windows remained unfinished when the Jesuits were expelled in 1767AD, holding 2.980 residents in 1732AD [@kuhne2025churches].
+- *Santa Rosa de Lima*: Founded in 1698AD after an offshoot community separated from Santa María de Fe, Santa Rosa reached 4.380 souls in 1732AD and preserved exceptional baroque murals in its Loreto chapel [@kuhne2025churches].
+- *Santísima Trinidad del Paraná*: Founded in 1706AD, Trinidad represented the architectural culmination of the mission network, boasting a three-aisled cathedral with a massive dome, stone friezes carved by Guaraní stonemasons and a population of 3.449 [@kuhne2025churches].
+
+Table \ref{tab:missions-gazetteer} presents coordinates, foundation dates and longitudinal census observations for the eight Jesuit reducciones of Paraguay.
+
+```{r tbl-missions-gazetteer, results='asis'}
+m_keys <- c(
+  "San Ignacio",
+  "Encarnación (Itapúa)",
+  "Santa Rosa de Lima",
+  "Santiago",
+  "Santa María de Fe",
+  "Santísima Trinidad del Paraná",
+  "San Cosme y Damián",
+  "Jesús de Tavarangüé"
+)
+
+m_rows <- lapply(m_keys, function (mk) {
+  match_set <- Filter(function (s) identical(s$name, mk), set_list)
+  if (length(match_set) == 0) return(NULL)
+  s <- match_set[[1]]
+  pop <- s$population
+  f_yr <- fmt_yr(s$foundation_year)
+  coords_s <- fmt_coord(s$coords)
+  p_peak <- viscount_fmt_pop(max(as.numeric(unlist(pop))))
+  p_1732 <- if (!is.null(pop[["1732"]])) viscount_fmt_pop(pop[["1732"]]) else "-"
+  p_1767 <- if (!is.null(pop[["1767"]])) viscount_fmt_pop(pop[["1767"]]) else "-"
+  p_1799 <- if (!is.null(pop[["1799"]])) viscount_fmt_pop(pop[["1799"]]) else "-"
+  
+  data.frame(
+    Mission = clean_text(s$name),
+    Founded = f_yr,
+    Coords = coords_s,
+    PeakPop = p_peak,
+    P1732 = p_1732,
+    P1767 = p_1767,
+    P1799 = p_1799,
+    stringsAsFactors = FALSE
+  )
+})
+
+df_mgaz <- do.call(rbind, m_rows)
+colnames(df_mgaz) <- c("Mission Town", "Founded", "Coordinates", "Peak Pop", "1732AD", "1767AD", "1799AD")
+
+viscount_table(
+  df_mgaz,
+  "Longitudinal demographic trajectories across the eight Jesuit Guaraní reducciones of Paraguay.",
+  colnames(df_mgaz),
+  list(label = "tab:missions-gazetteer", font_size = "scriptsize")
+)
+```
+
+# Leading Colonial Settlements and Urban Hierarchy
+
+The urban hierarchy of colonial Paraguay displayed pronounced demographic concentration, with Asunción exerting primate commercial and political dominance across the Paraná-Paraguay basin [@cardozo2019downtown; @anon2019asuncion]. Asunción concentrated 13.800 residents by 1811AD, representing over seven percent of the provincial population and functioning as the sole deep-water port licensed for external commerce until the establishment of the Pilar customs house in 1779AD [@whigham1991politics].
+
+Surrounding Asunción, a dense constellation of agricultural towns in the Central and Cordillera valleys supported populations between 2.000 and 3.600 inhabitants, including San Lorenzo (3.599), Luque (3.260), Capiatá, Itauguá, Altos and Yaguarón. These towns operated as market centers supplying meat, maize, manioc, sugarcane and tobacco to urban consumers and fluvial convoys.
+
+In the southern plains, the Jesuit reducciones formed a distinctive secondary urban network: eight compact, highly planned towns with individual populations between 3.000 and 6.800 inhabitants during their eighteenth-century peak [@maeder1984poblacion]. In the eastern and northern march, Villarrica (6.200) and Concepción (3.945) anchored regional agricultural and yerba mate networks, while Mariscal Estigarribia (4.913) and Fuerte Borbón maintained fortified frontier positions. Table \ref{tab:top-settlements} compiles the leading thirty-five settlements ordered by peak recorded population.
+
+```{r tbl-top-settlements, results='asis'}
+top_35 <- head(set_list, 35)
+
+top_rows <- lapply(seq_along(top_35), function (i) {
+  s <- top_35[[i]]
+  pop <- s$population
+  f_yr <- fmt_yr(s$foundation_year)
+  coords_s <- fmt_coord(s$coords)
+  p_peak <- viscount_fmt_pop(max(as.numeric(unlist(pop))))
+  n_obs <- as.character(length(pop))
+  r_label <- reg_short[[s$region_id]]
+  
+  data.frame(
+    Town = clean_text(s$name),
+    SubRegion = r_label,
+    Coords = coords_s,
+    Founded = f_yr,
+    PeakPop = p_peak,
+    Observations = n_obs,
+    stringsAsFactors = FALSE
+  )
+})
+
+df_top <- do.call(rbind, top_rows)
+colnames(df_top) <- c("Colonial Settlement", "Sub-Region", "Coordinates", "Founded", "Peak Pop", "Censuses")
+
+viscount_table(
+  df_top,
+  "Leading thirty-five colonial settlements of Paraguay ordered by peak historical population.",
+  colnames(df_top),
+  list(label = "tab:top-settlements", font_size = "scriptsize")
+)
+```
+
+# Source Ledger Reconciliation and Excluded Candidates
+
+The 220 catalogued settlements were reconciled against the comprehensive source ledger through a systematic four-wave audit [@azara1847descripcion; @aguirre1949diario; @maeder1992misiones]:
+
+- Wave 1 (*Official Censuses and National Registries*): Incorporating 24 primary administrative centers and chartered villas enumerated in the Aguirre (1782AD) and Azara (1799AD) censuses.
+- Wave 2 (*Regional Monographs and Mission Inventories*): Adding 196 secondary towns, Franciscan pueblos de indios, Jesuit reducciones and rural chapels documented in regional historical geographies.
+- Wave 3 (*Longitudinal Backfill and Historical Rolls*): Verifying foundation dates, coordinates and multi-benchmark population records against parish and municipal archives.
+- Wave 4 (*Submask Gap Hunter and GeoNames Audit*): Performing an exhaustive spatial proximity sweep across all 5.280 grid cells, confirming zero unaccounted historical settlements within provincial boundaries.
+
+The candidate audit identified 23 duplicate aliases and peripheral chapel records situated within 2,5 km of primary nodes. To ensure spatial independence and prevent double-counting of settlement populations, these 23 candidates were consolidated as excluded aliases. Table \ref{tab:excluded-candidates} catalogues these excluded candidate records alongside their primary parent settlements and historical justifications.
+
+```{r tbl-excluded-candidates, results='asis'}
+exc_rows <- lapply(seq_along(exc_list), function (i) {
+  c <- exc_list[[i]]
+  
+  data.frame(
+    Candidate = clean_text(c$name),
+    Country = clean_text(c$country),
+    Category = clean_text(c$reason),
+    Justification = clean_text(c$justification),
+    stringsAsFactors = FALSE
+  )
+})
+
+df_exc <- do.call(rbind, exc_rows)
+colnames(df_exc) <- c("Excluded Candidate", "Jurisdiction", "Exclusion Category", "Historical Justification")
+
+viscount_table(
+  df_exc,
+  "Catalogued duplicate aliases and excluded candidate records in the Colonial Paraguay source ledger.",
+  colnames(df_exc),
+  list(label = "tab:excluded-candidates", font_size = "scriptsize")
+)
+```
+
+All 220 catalogued settlements reconcile cleanly with the source ledger, confirming zero unexplained discrepancies across the provincial dataset.
+
+# Sources
