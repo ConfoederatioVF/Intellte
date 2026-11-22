@@ -1,0 +1,239 @@
+---
+title: "Settlement Gazetteer of British Malaya, Singapore, North Borneo, Sarawak and Brunei"
+subtitle: "MANDALA: Coordinates, Toponymy and Demographic Trajectories (1786 to 1963)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: british_malaya_singapore_borneo_brunei_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_british_malaya_singapore_borneo_brunei_spatial.png"
+hero_caption: "Spatial distribution of 703 catalogued colonial settlements and regional hydrological catchments across British Malaya, Singapore, North Borneo, Sarawak and Brunei (353.101 km²) from 1786 to 1963."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("british_malaya_singapore_borneo_brunei.json5")
+set_data <- read_json_file("british_malaya_singapore_borneo_brunei_settlements.json")
+led_data <- read_json_file("british_malaya_singapore_borneo_brunei_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  as.character(round(as.numeric(arg0_y)))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  bm_singapore = "Singapore Straits Settlement",
+  bm_west_malaya = "West Coast Malaya",
+  bm_east_johor = "East Coast Malay States and Johor",
+  bm_sarawak = "Raj and Colony of Sarawak",
+  bm_north_borneo = "British North Borneo",
+  bm_brunei = "Brunei Protectorate"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative sub-regional affiliations, toponymic variants and benchmark demographic trajectories for `r length(set_list)` settlements across British Malaya, Singapore, Sarawak, British North Borneo and the Sultanate of Brunei (encompassing 353.101 km² across 4.323 active 5-arcminute terrestrial cells) from 1786 to 1963. Encompassing six physiographic and political divisions, the catalogue reflects distinct architectural and economic traditions: imperial port metropolises and entrepot docks along the Strait of Malacca, gravel-pump tin mining centres and railway towns across the western peninsular valleys, planned rubber estate settlements, fortified counter-insurgency townships and riverine coastal sultanates and petroleum stations in northern Borneo.
+
+Settlement populations range from early British maritime factories at Penang (founded 1786) and Singapore (founded 1819; reaching 1,72M peak in 1963) to federal and state capitals including Kuala Lumpur (462k in 1963), Klang (274k), Seberang Perai (255k), Ipoh (248k), George Town (221k) and Petaling Jaya (199k). On the eastern littoral and in Johor, regional centres include Kuantan (190k), Pelentong (158k), Iskandar Puteri (156k), Johor Bahru (155k) and Kota Bharu (151k). In northern Borneo, urban nuclei include Kuching (101k in Sarawak), Miri (82k), Sibu (67k), Sandakan (142k in North Borneo), Kota Kinabalu (123k peak), Lahad Datu (62k), Tawau (36k) and the oil installations of Seria (3,28k) and Brunei-Muara (3,27k). Every catalogued locality reconciles against 717 source-ledger candidate records under MANDALA alongside `r length(exc_list)` documented exclusions (predominantly duplicate survey aliases within a 2,2 km spatial radius or subordinate suburban consolidations).
+
+By linking georeferenced municipal coordinates with decennial census schedules from 1871 to 1957, railway alignments, tin mining leases and estate registers, this gazetteer establishes a spatial baseline for modern settlement systems in Southeast Asia. Settlement subtraction isolates nucleated urban centres from dasymetrically distributed rural cultivators and estate laborers, ensuring that regional demographic models reflect genuine archival and cartographic realities rather than arbitrary spatial smoothing.
+
+# Background
+
+Settlement morphology across the Malay Peninsula and northern Borneo reflects successive waves of maritime commerce, colonial intervention, mineral discovery and estate agriculture [@Wong2025Governing; @Jones1964Population]. Five distinct settlement traditions characterise the regional historical geography:
+1. Colonial Port Emporia: Established along deep-water anchorages and sheltered maritime straits, ports such as Singapore, George Town (Penang) and Melaka served as international trading gateways connecting European mercantile capital with archipelagic commodity circuits [@Banks2021Indian; @Drake2026Harry]. These settlements were distinguished by grid-iron urban plans, stone godowns along riverfront wharves, dense shophouse districts constructed by immigrant Chinese merchants and colonial administrative cantonments [@Roff1975British; @MURAKAMI2019Shinozaki].
+2. Tin Mining Boomtowns: The opening of alluvial cassiterite deposits in the Larut, Kinta and Klang basins spurred the rapid growth of inland mining camps into substantial urban centres [@Heejung2013Opium; @Selamat2025Impact]. Localities such as Taiping, Ipoh, Kampar, Kuala Lumpur and Seremban originated as clusters of timber and attap huts adjacent to mining excavations, subsequently evolving into structured brick municipalities served by municipal water supplies, electric power stations and railway depots [@Wong2025Colonial; @Ng2026Multi].
+3. Rubber Estate Hamlets and Railway Satellites: The rapid expansion of *Hevea* rubber cultivation after 1900 created hundreds of rural service nodes along trunk railway and road alignments [@Huff1992Sharecroppers; @Lowrie2024Exceptions]. Towns such as Klang, Sungai Petani, Kluang, Teluk Anson (Teluk Intan) and Batu Pahat functioned as bulk latex collection depots, processing centres and retail distribution hubs for surrounding plantation populations [@Selamat2025Impact; @Anonymous1932Rubber].
+4. Emergency New Villages (*Kampung Baru*): Constructed between 1948 and 1954 under the Briggs Plan, over 400 fortified rural townships (including Jinjang, Subang, Serdang and Ampang) concentrated previously dispersed Chinese squatters within perimeter wire fences and police guard posts, creating permanent nucleated settlements that rapidly urbanised during the post-war era [@Wong2025British; @Yunus2022Dekolonisa].
+5. Riverine Borneo Sultanates and Petroleum Ports: In Sarawak, North Borneo and Brunei, settlement remained anchored to navigable river mouths and estuarine deltas [@Fischer1958North; @C1968Population]. Settlements such as Brunei Town (*Kampong Ayer*), Kuching, Sibu and Sandakan combined tidal stilt dwellings with colonial administrative hills and timber wharves, while twentieth-century petroleum exploitation generated dedicated modern oil townships at Miri and Seria [@Jones1964Population; @Fernandez1999Colonial].
+
+# Methodology
+
+Candidate settlement records in the MANDALA source ledger were evaluated using published decennial colonial census schedules, municipal town board reports, railway survey plans and historical cartography [@SweeHock1967Fertility; @Jones1964Population; @Wong2025Governing]. Inclusion requires:
+- Precise WGS84 geographic coordinates cross-referenced against historical survey cartography and river hydrography [@Roff1975British; @Fischer1958North].
+- Continuous or periodic demographic records spanning from colonial decennial censuses (1871, 1891, 1901, 1911, 1921, 1931, 1947 and 1957) through the 1963 benchmark [@SweeHock1967Fertility; @Caldwell1967Borneo].
+- Population series calibrated to administrative town board limits or gazetted village areas [@Ng2026Multi; @Lee1989Female].
+
+Where multiple survey points fall within a 2,2 km spatial radius of a primary settlement core, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial demographic clustering. Non-habitation features such as isolated lighthouses, railway halts without permanent resident populations and transient timber camps are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the six sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 703 catalogued settlements and summed site peaks across British Malaya and Northern Borneo.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement coordinates and demographic trajectories were cross-checked through multi-temporal cartographic analysis and colonial archival records [@Jones1964Population; @Fischer1958North]. Historical maps produced by the Survey of the Federated Malay States, the Survey Department of Malaya (1920 to 1958) and the War Office General Staff Geographic Section (GSGS series) provided independent spatial validation for the 703 catalogued localities [@Drake2026Harry; @Wong2025Governing].
+
+Municipal and sanitary board records published in state government gazettes confirm population counts and municipal boundaries for major urban centres including Singapore, Penang, Kuala Lumpur, Ipoh and Melaka [@King2009Replicatin; @Roff1975British]. Migration statistics and labour registries preserved in the National Archives of Malaysia and the UK National Archives confirm the massive demographic infusions that drove settlement expansion during the rubber and tin booms [@Suppiah2023Interactio; @Raman2023Indian; @Wan2022Fleeting]. In northern Borneo, district officer diaries and land settlement reports from Sarawak and North Borneo validate population estimates for riverine longhouse settlements and coastal trading stations [@Ward1967Book; @Dessaint1970Natives].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 settlements across British Malaya, Singapore, Sarawak, North Borneo and Brunei ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1963 <- if (!is.null(s$population[["1963"]])) as.numeric(s$population[["1963"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1963 = if (is.numeric(p_1963)) viscount_fmt_pop(p_1963) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 colonial settlements ordered by peak population across British Malaya and Northern Borneo (1786 to 1963).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1963 Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Singapore Straits Settlement
+
+The Singapore division catalogues 22 settlements concentrated across Singapore Island and immediate adjacent littoral anchorages [@Banks2021Indian; @Eaton2015Cenotaph]. The urban core of Singapore grew from a fishing village of 1k in 1819 to a bustling colonial metropolis of 21,3k in 1824, 90,6k in 1871, 231,9k in 1901, 522,5k in 1931 and 1,70M by 1963 (with peak metropolitan counts reaching 1,72M). Secondary urban and suburban nuclei include Iskandar Puteri (156k peak), Johor Bahru (155k peak) and Pasir Gudang (145k peak) along the Johor Strait, alongside historic port facilities at Keppel Harbour, Jurong and Changi [@Sinha2013Religionstate; @Datta2021Schooling].
+
+### West Coast Malaya
+
+The western peninsular division catalogues 461 settlements spanning Penang, Perak, Selangor, Negeri Sembilan and Melaka [@Heejung2013Opium; @Selamat2025Impact]. Kuala Lumpur expanded from a tin mining outpost founded in 1857 into the federal administrative capital, housing 462k residents in 1963. Its western port and industrial satellites expanded in tandem: Klang reached 274k, Petaling Jaya (established as a planned satellite town in 1952) reached 199k, Kampung Baru Subang reached 226k and Shah Alam reached 159k [@Ng2026Multi; @Wong2025Colonial]. In Perak, Ipoh commanded the Kinta Valley tin fields, reaching 248k inhabitants, flanked by Taiping, Teluk Anson, Kampar and Batu Gajah. In the north, Penang Island and mainland Seberang Perai supported George Town (221k) and Butterworth (255k), while historic Melaka maintained commercial significance along the southern strait [@Roff1975British; @LEE1972First].
+
+### East Coast Malay States and Johor
+
+The eastern peninsular division catalogues 86 settlements across Kelantan, Terengganu, Pahang and Johor [@Hatin2011Population; @Peng2023Surplus]. Settlements were historically anchored to fertile river deltas and coastal fishing beaches. Kota Bharu (Bharu) in the Kelantan plain supported 151k residents in 1963, preserving traditional Malay cultural institutions and wet-rice cultivation. Along the South China Sea, Kuantan expanded into a major port and administrative centre (190k), supported by Kuala Terengganu. In southern Johor, extensive rubber plantation concessions fostered thriving inland transport nodes at Pelentong (158k), Kluang, Batu Pahat and Muar [@Selamat2025Impact; @Huff1992Sharecroppers; @Lowrie2024Exceptions].
+
+### Raj and Colony of Sarawak
+
+The Sarawak division catalogues 77 settlements distributed along the major river systems of southwestern Borneo [@Jones1964Population; @HADDON1896Natives]. Kuching, founded as the capital of the Brooke Raj in 1841 along the Sarawak River, was the preeminent urban centre, housing 101k inhabitants in 1963. Sibu (67k) emerged as the principal commercial river port of the Rajang basin, heavily settled by Foochow Chinese agricultural colonists introduced by the second Rajah, Charles Brooke [@Datta2021Schooling; @C1968Population]. In northern Sarawak, the discovery of petroleum in 1910 transformed Miri into a modern industrial and refining centre (82k peak), while Bintulu (36k) and Simanggang served as coastal trade hubs [@Fischer1958North].
+
+### British North Borneo
+
+The North Borneo division catalogues 33 settlements across Sabah and the island of Labuan [@Fernandez1999Colonial; @Fischer1958North]. Sandakan, situated on a deep natural bay on the eastern coast, served as the primary commercial capital of the British North Borneo Chartered Company, reaching 142k peak population through timber, tobacco and copra exports [@C1968Population]. On the western coast, Jesselton (Kota Kinabalu) operated as the coastal rail terminus and post-war administrative capital, reaching 123k peak. Other significant coastal settlements include Lahad Datu (62k), Tawau (36k) near the Dutch Kalimantan frontier and Victoria on the Crown Colony island of Labuan [@Ward1967Book; @Jones1964Population].
+
+### Brunei Protectorate
+
+The Brunei division catalogues 24 settlements across the coastal enclaves of the sultanate [@Fischer1958North; @Jones1964Population]. Historic demographic mass was concentrated at Brunei Town (*Kampong Ayer*, modern Bandar Seri Begawan), where the Brunei-Muara district accommodated 3,27k nucleated residents. Substantial residential and commercial expansions occurred at Gadong (8,56k peak), Sengkurong (7,90k) and Kilanas (6,12k). In the western Belait district, the commercial development of the Seria oilfield after 1929 created a modern petroleum township at Seria (3,28k) and Kuala Belait, supporting high-wage industrial employment [@Caldwell1967Borneo].
+
+# Limitations
+
+Settlement analysis across British Malaya and Northern Borneo is subject to distinct cartographic and historical caveats:
+1. Spatial consolidation in urbanising corridors: rapid post-war urban growth merged previously distinct mining villages and plantation quarters into contiguous metropolitan belts (such as the Klang Valley and Greater Penang), requiring careful deduplication using a 2,2 km spatial radius [@Ng2026Multi; @SweeHock1967Fertility].
+2. Variable colonial census definitions: the criteria for enumerating gazetted towns versus rural sanitary board areas shifted across census years (e.g. populations exceeding 1.000 versus 5.000 inhabitants), creating minor step variances in historical town series between 1911 and 1931 [@Jones1964Population; @SweeHock1968Family].
+3. Fluid naming conventions and colonial toponymy: many settlements possess multiple concurrent names in Malay, Chinese dialects (Hokkien, Cantonese, Hakka) and English (e.g. George Town or Tanjung Penaga; Teluk Anson or Teluk Intan; Jesselton or Kota Kinabalu), requiring systematic cross-referencing [@King2009Replicatin; @MURAKAMI2019Shinozaki].
+4. Dispersed riverine dwelling patterns in Borneo: interior indigenous communities in Sarawak and Sabah frequently inhabited dispersed longhouses along river tributaries rather than nucleated street towns, which limits direct comparisons between Bornean river basins and the dense town boards of western Malaya [@Dessaint1970Natives; @C1968Population].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 703 catalogued localities across British Malaya, Singapore, Sarawak, North Borneo and Brunei, providing a comprehensive gazetteer for colonial demographic and spatial development from 1786 to 1963. Reconciling georeferenced coordinates, historical toponymy and decennial census records, this catalogue captures the multi-tiered settlement landscape created by colonial commerce, tin mining, rubber agriculture and petroleum extraction. By isolating nucleated settlements from dasymetrically distributed rural cultivators, this gazetteer provides a spatial foundation for historical demographic reconstruction across Southeast Asia.
+
+# Appendix
+
+The MANDALA source ledger evaluated 717 candidate records across the macro-region, resulting in 703 accepted settlements and 14 exclusions. Table \ref{tab:excluded} documents the excluded candidates, detailing territory, exclusion classification and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Excluded candidate sites from the British Malaya and Northern Borneo source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

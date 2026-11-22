@@ -1,0 +1,234 @@
+---
+title: "Settlement Gazetteer of Nepal, Sri Lanka, Bhutan and the Maldives"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (1947 to 2026)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: nepal_ceylon_bhutan_maldives_after_independence_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_nepal_ceylon_bhutan_maldives_after_independence_spatial.png"
+hero_caption: "Spatial distribution of 4.523 catalogued settlements and six post-independence sub-regions across Nepal, Sri Lanka, Bhutan and the Maldives from 1947 to 2026."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("nepal_ceylon_bhutan_maldives_after_independence.json5")
+set_data <- read_json_file("nepal_ceylon_bhutan_maldives_after_independence_settlements.json")
+led_data <- read_json_file("nepal_ceylon_bhutan_maldives_after_independence_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  paste0(round(y), "AD")
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  ncbm_nepal_central_east = "Central and Eastern Nepal",
+  ncbm_nepal_west = "Western Nepal",
+  ncbm_sri_lanka_wet_south = "Sri Lanka (Wet and South)",
+  ncbm_sri_lanka_north_east = "Sri Lanka (North and East)",
+  ncbm_bhutan_all = "Kingdom of Bhutan",
+  ncbm_maldives_all = "Republic of Maldives"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 coordinates, sub-regional allocations, census chronologies and longitudinal demographic series for `r viscount_fmt_number(length(set_list), 0L)` post-independence urban and rural settlements across Nepal, Sri Lanka, Bhutan and the Maldives from 1947 to 2026. Encompassing 247.430 km² across six canonical divisions, the gazetteer bridges extreme environmental and architectural landscapes: dense high-valley urban conurbations in the Kathmandu and Thimphu valleys, post-malaria agricultural market centres and industrial border cities in the Nepali Tarai, extended peri-urban coastal ribbons and upland plantation hubs in Sri Lanka, and hyper-nucleated island communities across the coral atolls of the Maldives. Individual settlement trajectories range from leading urban metropolises such as Kathmandu (975.453 in 2011AD), Colombo (645.000 in 2025AD), Pokhara (550.000 in 2025AD), Bharatpur (390.501 in 2025AD), Lalitpur (315.000 in 2025AD), Birgunj (290.000 in 2025AD), Biratnagar (258.000 in 2025AD) and Dehiwala-Mount Lavinia (247.973 in 2025AD) to Malé (228k in 2025AD) and regional dzongkhag centres including Thimphu (132k in 2025AD) and Phuntsholing (30,9k in 2025AD). Every locality reconciles against the INDUS source ledger alongside `r length(exc_list)` documented exclusions. By linking georeferenced settlement trajectories with regional dasymetric population surfaces, this gazetteer provides an empirical baseline for settlement subtraction and spatial demographic analysis.
+
+# Background
+
+Settlement patterns across the peripheral sovereign polities of South Asia reflect historical adaptations to mountain topography, tropical island maritime commerce and post-colonial state planning [@Prachhai2025Demograp; @Abeykoon2000Fertilit]. Four primary settlement traditions characterise the regional catalogue:
+
+1. Intermontane valley urban agglomerations: In the central Himalayas, historic capitals established within fertile lacustrine basins developed into dominant national metropolises [@Slusser1982NepalMandala; @Sharma2026Internal]. Kathmandu, Lalitpur and Bhaktapur in Nepal, and Thimphu in Bhutan, expanded from mediaeval royal centres and monastic fortress complexes into modern service agglomerations that concentrate national administrative, educational and financial institutions [@Paricha2016Economic; @Phuntsho2013HistoryBhutan].
+
+2. Tarai agricultural colonisation and transit border towns: Following the mid-1950s eradication of hyperendemic malaria across the sub-Himalayan forest belt, millions of hill cultivators migrated south to the fertile plains [@Prasad2022Causes]. Market towns such as Biratnagar, Birgunj, Bharatpur, Butwal, Ghorahi and Bhimdatta expanded into major commercial and processing centres along highway junctions and transit routes connecting Nepal with the northern Indian urban and railway network [@Khattri2025Rural; @Bayly1983Rulers; @Bhavsar2026Future].
+
+3. Sri Lankan coastal ribbon and plantation agro-urban networks: In southwestern Sri Lanka, urbanisation assumed an extended linear morphology along coastal transport corridors [@Yapa1998Location]. Greater Colombo coalesced with contiguous suburban municipalities including Dehiwala-Mount Lavinia, Moratuwa, Negombo, Maharagama and Gampaha. In the interior, regional commercial centres such as Kandy, Kurunegala, Ratnapura and Galle anchored extensive plantation and paddy catchments built upon deeper South Asian littoral and agrarian hierarchies [@Abeywickrama1982Mortalit; @Champakalakshmi1996Trade].
+
+4. Insular atoll and dzongkhag administrative nodes: In the Maldives, human settlement was traditionally dispersed across hundreds of small coral islands [@Vannur2022Sightingb]. Modern economic centralisation, tourism development and marine transport concentrated demographic mass on Malé, creating an urban density exceeding 110.000 persons per km² and prompting satellite reclamation at Hulhumalé. In Bhutan, settlement remained structured around 20 administrative dzongs, with modern commercial growth concentrated at the southern Indian border gateway of Phuntsholing [@Paricha2016Economic; @Phuntsho2013HistoryBhutan].
+
+# Methodology
+
+The expanded 4.523-settlement gazetteer is empirically anchored in four complementary evidence streams rather than arbitrary demographic interpolation. Primary-monograph historical metropolis trajectories provide long-run urban anchors and regional institutional context [@Slusser1982NepalMandala; @Phuntsho2013HistoryBhutan; @ImperialGazetteer1908; @Bayly1983Rulers; @Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Naqvi1968Urbanisation]. Multi-repository archaeological and monument corpora—including Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews, ASI P1371, Wikidata, OpenStreetMap, XRONOS and c14bazAAR—document pre-modern site continuity and spatial coordinates across mountain basins and coastal plains [@Allchin1995Archaeology; @Erdosy1988Urbanisation]. Official national censuses from Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS supply decennial and municipal enumerations across the post-independence period [@Das2025Migration; @Irama2026Migration]. Finally, macro-envelope *qasba*, *pargana* and *nadu* continuity [@Eaton1993Rise; @Champakalakshmi1996Trade; @Chattopadhyaya1994Making] is filtered through strict foundation-year and chronological toponymy rules to prevent anachronistic back-projections.
+
+Inclusion in the gazetteer requires:
+- Precise WGS84 geographic coordinates validated against satellite imagery and official survey cartography.
+- Documented census returns, archaeological continuity or municipal registrations across one or more benchmark horizons from 1947 to 2026.
+- Administrative allocation to one of the six canonical sub-regions.
+
+Across four saturation waves, 2.623 localities entered from official national censuses, imperial anchors and registries (Wave 1), 1.266 from multi-repository archaeological, monument and geospatial corpora (Wave 2), and 634 from macro-envelope *qasba*, *pargana* and *nadu* continuity under foundation-year and toponymy filtering (Wave 3), before terminal sub-mask gap sweeps and GeoNames homonym checks (Wave 4) recorded zero further additions. Where multiple survey points fall within 2,2 km of an established municipal nucleus, secondary records were harmonised as duplicate aliases, preserving geographic integrity and avoiding double-counting. Non-residential facilities such as isolated tourist resorts without permanent civilian registration, seasonal camps and airport installations account for the `r length(exc_list)` exclusions from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the six sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 4.523 catalogued settlements and summed site peaks across Nepal, Sri Lanka, Bhutan and the Maldives.",
+  c("Sub-Region", "Settlements", "Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and longitudinal population trajectories were verified against sequential national census publications and spatial gazetteers [@Prachhai2025Demograp; @Sharma2026Demograp]. In Nepal, municipal amalgamation following the 2015 Constitution dissolved previous Village Development Committee boundaries into 753 consolidated local government units. To maintain longitudinal consistency across the 1952/1954 to 2021 census series, urban core populations were harmonised using ward-level census data [@Sharma2026Internal; @Shrestha2026Tracing].
+
+In Sri Lanka, settlement trajectories across the Northern and Eastern provinces were cross-checked using pre-conflict 1981 census data, local voter registries and the post-conflict 2012 enumeration to account for conflict displacement and return migration [@Maric2025Changes]. In the Maldives, island council registrations were reconciled with atoll census tables to track rapid population nucleation on Malé and Hulhumalé.
+
+Figure \ref{fig:demography} illustrates the combined four-state demographic expansion from 1947 to 2026 alongside the settlement rank-size distribution.
+
+```{r fig-demography, results='asis'}
+viscount_figure(
+  "figures/fig2_nepal_ceylon_bhutan_maldives_after_independence_demography.png",
+  "Demographic trajectory across six sub-regions and settlement rank-size distribution for 4.523 catalogued localities.",
+  "fig:demography"
+)
+```
+
+Settlement rank-size regression across all 4.523 catalogued localities yields a Pareto coefficient of $\alpha = 0{,}68$ ($R^2 = 0{,}89$). This rank-size distribution reflects a regional urban system characterised by primary capitals that coordinate external economic ties alongside dense lattices of intermediate Tarai, hill and coastal market centres [@Fargues2011Internat; @Nikitovic2026Migratio].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 40 settlements across the four countries ordered by peak recorded population descending, detailing coordinates, sub-regional allocations, recorded census chronologies and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_40 <- set_list[ord_all[seq_len(min(40L, length(set_list)))]]
+
+gaz_rows <- lapply(top_40, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_recent <- as.numeric(s$population[[as.character(y_max)]])
+  reg_lbl <- if (!is.null(s$region_id) && !is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else if (!is.null(reg_short[[s$region]])) reg_short[[s$region]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Country = clean_text(s$country),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    Recent = viscount_fmt_pop(p_recent),
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 40 post-independence settlements ordered by peak population across Nepal, Sri Lanka, Bhutan and the Maldives.",
+  c("Settlement Name", "Country", "Sub-Region", "Coordinates", "Census Span", "Peak Population", "Recent Population"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Central and Eastern Nepal
+
+This division catalogues 1.387 settlements across Koshi, Madhesh, Bagmati and Gandaki provinces [@Slusser1982NepalMandala; @Prachhai2025Demograp]. Kathmandu forms the demographic apex of the national urban hierarchy, expanding from 106,6k in 1952 to a municipal peak of 975.453 in 2011AD (910k in 2025). Adjoining Lalitpur (315.000 peak in 2025AD) and Bhaktapur constitute a unified urban expanse across the valley basin. To the west in Gandaki, Pokhara expanded from 12k in 1961 to 550.000 by 2025AD as a premier tourism, aviation and regional service hub, while Bharatpur (390.501 peak in 2025AD) anchors the Chitwan valley. Along the southern plains, Birgunj (290.000 peak in 2025AD) commands trade traffic through the Raxaul border corridor, while Biratnagar (258.000 peak in 2025AD), Dharan (141,1k peak), Lahan (125,1k peak), Janakpurdham (118,8k peak) and Hetauda (102,9k peak) anchor manufacturing and agro-processing across the central and eastern Tarai [@Khattri2025Rural].
+
+### Western Nepal
+
+This division catalogues 1.331 settlements across Lumbini, Karnali and Sudurpashchim provinces [@Sharma2026Internal]. In the Lumbini and western Tarai lowlands, Ghorahi (189,7k peak in 2025AD) and Butwal (143,9k peak in 2025AD) developed into the leading commercial arteries, supported by Bhimdatta (127,1k peak in 2025AD) and Dhangadhi (123,9k peak in 2025AD) anchoring the far-western border with Uttarakhand, and Nepalgunj (88,1k peak in 2025AD) commanding trade into the mid-western hills [@Chaudhary2025Migration; @Sarkar2020Overview].
+
+### Sri Lanka (Wet and South)
+
+This division catalogues 1.103 settlements across Western, Central, Southern, Sabaragamuwa and North-Western provinces [@Abeykoon2000Fertilit]. Colombo represents the economic and commercial hub, accommodating 645.000 residents within its core municipal bounds in 2025AD while anchoring an extensive peri-urban coastal belt comprising Dehiwala-Mount Lavinia (247.973 peak in 2025AD), Maharagama (234,1k peak), Moratuwa (201,6k peak), Beruwala (197,7k peak), Gampaha (191k peak in 2001AD) and Negombo (170,3k peak). In the central highlands, Kandy (112k peak in 2025AD) functions as a historic cultural and commercial centre, while Galle (96k peak) and Matara (91,4k peak) anchor the southern maritime littoral.
+
+### Sri Lanka (North and East)
+
+This division catalogues 381 settlements across Northern and Eastern provinces [@Maric2025Changes]. Along the eastern coast, Kalmunai (120k peak in 2025AD), Trincomalee (118,8k peak) and Batticaloa (103,9k peak) anchor regional fisheries, paddy marketing and deep-water maritime commerce. On the northern peninsula, Jaffna reached a pre-conflict peak of 118,2k in 1981AD before war-related displacement reduced its municipal population to 88,1k in 2001 and 2012, followed by gradual recovery to 100k by 2025AD.
+
+### Kingdom of Bhutan
+
+This division catalogues 215 settlements across all 20 dzongkhags [@Phuntsho2013HistoryBhutan; @Paricha2016Economic]. Thimphu constitutes the primary political and commercial centre, expanding from an agrarian valley of 12k in 1961 to 114,6k in 2017 and 132k by 2025AD. Phuntsholing (30,9k peak in 2025AD) represents the vital commercial gateway along the Indian border, handling the vast majority of cross-border vehicular commerce. Secondary dzongkhag centres including Tsirang (25k peak), Punakha (24k peak), Pemagatshel (15,5k peak) and Paro (12,8k peak) function as administrative nodes coordinating surrounding rural gewogs.
+
+### Republic of Maldives
+
+This division catalogues 106 inhabited island settlements across 21 administrative atolls [@Vannur2022Sightingb]. The capital island of Malé dominates the national urban structure, concentrating 228k inhabitants by 2025AD within an intensely built coral landmass of approximately 2,0 km². To relieve residential congestion, the Maldivian state initiated land reclamation at Hulhumalé (5,2k registered residents in 2025AD). Secondary regional urban nodes include Fuvahmulah (11,6k peak), Hithadhoo (10,4k peak in Addu City) and Kulhudhuffushi (9,9k peak) in the northern atolls.
+
+# Limitations
+
+Settlement analysis across the four countries is subject to several empirical limitations:
+
+1. Administrative reclassifications: In Nepal, the large-scale creation of urban municipalities after 2015 incorporated rural agricultural areas into municipal units, which inflated census urban statistics and necessitated adjustments to isolate core built-up areas [@Prachhai2025Demograp].
+
+2. Civil conflict enumeration gaps: In Sri Lanka, hostilities between 1983 and 2009 prevented standard census enumeration across Northern and Eastern districts during the 2001 census round, requiring retrospective reconstruction through administrative registers [@Maric2025Changes].
+
+3. Insular floating populations: In the Maldives, the presence of substantial expatriate resort workforces housed on non-administrative island resorts introduces minor disparities between de jure resident counts and de facto economic populations.
+
+# Conclusion
+
+The 4.523 catalogued settlements documented in this gazetteer provide a systematic geographical foundation for analysing eight decades of post-independence demographic expansion across Nepal, Sri Lanka, Bhutan and the Maldives.
+
+By linking georeferenced coordinates with sequential census records from 1947 to 2026, the gazetteer captures the diverse forms of human nucleation across South Asia peripheral states, from high Himalayan valley capitals and Tarai agricultural frontier cities to tropical coastal conurbations and oceanic coral atolls.
+
+This spatial inventory enables rigorous settlement subtraction within regional demographic models, ensuring that population reconstructions reflect genuine settlement nodes rather than arbitrary administrative aggregates.
+
+# Sources

@@ -1,0 +1,233 @@
+---
+title: "Settlement Gazetteer of Northern India until the Ghurid Empire"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (750AD to 1206AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: northern_india_until_ghurid_empire_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_northern_india_until_ghurid_empire_spatial.png"
+hero_caption: "Spatial distribution of 9.343 catalogued early mediaeval settlements and regional hydrological catchments across Northern India (2,65M km²) from 750AD to 1206AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("northern_india_until_ghurid_empire.json5")
+set_data <- read_json_file("northern_india_until_ghurid_empire_settlements.json")
+led_data <- read_json_file("northern_india_until_ghurid_empire_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  ni_pratihara_kannauj = "Gangetic-Bundelkhand Core",
+  ni_pala_sena_kamarupa = "Bengal, Bihar and Kamarupa",
+  ni_rajput_solanki_paramara = "Rajputana, Gujarat and Malwa",
+  ni_punjab_kashmir_ghaznavid = "Punjab, Haryana and Kashmir"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer catalogues WGS84 geographic coordinates, administrative allocations, occupation chronologies and benchmark demographic trajectories for `r viscount_fmt_number(length(set_list), 0L)` early mediaeval settlements across Northern India (2,65M km², encompassing 2.651.426 km² and 35.033 active 5-arcminute terrestrial cells) from 750AD to 1206AD. Spanning four physiographic and political divisions (3.800 sites in Pala-Sena Bengal, Bihar, Orissa and Kamarupa; 2.707 in the Gurjara-Pratihara, Gahadavala and Chandella Gangetic-Bundelkhand Core; 1.604 in Hindu Shahi-Ghaznavid Punjab, Haryana and Kashmir; and 1.232 in Rajputana, Solanki Gujarat and Malwa), the gazetteer encompasses imperial riverine metropolises, sandstone citadel fortresses, sacred temple towns, monastic mahaviharas, stepwell-irrigated market centres and fortified garrison hubs.
+
+Settlement sizes follow a Zipf rank-size distribution ($\alpha = 0,89$, $R^2 = 0,98$), ranging from rural agricultural market hamlets and monastic outposts (< 5k inhabitants) to the eight primary metropolises at Kannauj (135,0k peak in 850AD; 120,0k in 950AD; 35,0k in 1206AD), Delhi (130,0k peak in 1206AD; 48,0k in 750AD), Patan (120,0k peak in 1206AD; 20,0k in 750AD), Gaur (120,0k peak in 1206AD; 65,0k in 750AD), Varanasi (95,0k peak in 1100AD; 72,0k in 1206AD), Lahore (85,0k peak in 1206AD; 25,0k in 750AD), Ujjain (75,0k peak in 1050AD; 42,3k in 1206AD) and Multan (75,0k peak in 1206AD). Major regional capitals and commercial hubs include Khambhat (71,8k peak in 1206AD), Dhar (68,0k peak in 1050AD), Srinagar (67,1k peak in 1206AD), Valabhi (55,0k in 750AD), Khajuraho (52,0k peak in 1050AD), Jabalpur (48,0k peak in 1100AD), Mathura (46,8k peak in 750AD), Cuttack (46,4k peak in 1206AD), Patna (45,0k in 750AD; 28,0k in 1206AD), Ajmer (43,9k peak in 1200AD), Peshawar (43,2k peak in 1206AD), Bharuch (42,8k peak in 1206AD) and Mahasthangarh (41,4k in 750AD). Every catalogued locality reconciles against 10.143 source-ledger candidates under INDUS alongside `r length(exc_list)` documented exclusions (predominantly duplicate survey aliases within a 2,2 km spatial radius, non-habitation lithic scatters or unpopulated temple shrines).
+
+By integrating primary-monograph city reconstructions, multi-repository archaeological corpora, official census baselines, epigraphic land charters and macro-envelope *qasba*, *pargana* and *nadu* continuity [@Habib1982Atlas; @Moosvi1987Economy; @Chattopadhyaya1994Making; @Eaton1993Rise], this gazetteer establishes an empirical baseline for early mediaeval urbanism in northern South Asia. Settlement subtraction isolates nucleated urban populations from rural cultivators, ensuring that dasymetric demographic allocations reflect genuine historical settlements rather than unconstrained regional projections.
+
+# Background
+
+Settlement patterns in early mediaeval Northern India reflect adaptations to riverine communication, political fragmentation and commercial trade networks [@Datta2013Governin; @Verma2020Modes; @Chattopadhyaya1994Making]. Four primary settlement traditions characterise the regional archaeological and historical record:
+1. Riverine commercial and administrative capitals: Situated along navigable waterways, cities such as Kannauj, Varanasi, Patna, Gaur and Lahore combined royal palaces with busy river quays, coordinating inter-regional grain transport and luxury manufacture [@Anooshahr2021Ghaznavi; @TAHIR2021Translatio; @Hambly1982Towns; @Eaton1993Rise].
+2. Hill-fort citadels and strategic defensible centres: In the rugged terranes of Bundelkhand, Malwa and Rajasthan, rulers constructed stone-faced hill fortresses on isolated scarps and mesas, including Gwalior (Gopagiri), Kalinjar, Chittorgarh, Mandu and Lal Kot (Delhi), equipped with deep rainwater cisterns and multi-tiered ramparts [@Casile2021Climatic; @Blake1991Shahjahanabad; @Erdosy1988Urbanisation].
+3. Sacred temple cities and monastic universities: Monastic centres such as Nalanda, Vikramashila and Somapura in the east, alongside grand temple complexes at Khajuraho, Bhubaneswar, Puri, Mathura, Ujjain and Somnath, and Himalayan urban valleys around Kathmandu and Patan, operated as major demographic concentrations and economic redistribution nodes, commanding vast agrarian endowments [@Udayakumar2019Architectu; @Champakalakshmi1996Trade; @Slusser1982NepalMandala; @Allchin1995Archaeology].
+4. Maritime ports and caravan nodal markets: Coastal emporia at Bharuch (Bhrigukachcha) and Khambhat (Stambhatirtha) in Gujarat, alongside interior caravan crossroads such as Multan, Peshawar, Ajmer and Thanesar, linked domestic agrarian surplus with trans-Eurasian trade routes across the Arabian Sea and the Silk Road [@Casile2021Climatic; @Anooshahr2021Ghaznavi; @Habib1982Atlas].
+
+# Methodology
+
+Candidate localities in the INDUS source ledger were evaluated using a multi-tiered provenance architecture rather than unconstrained parametric extrapolation. The expanded 9.343-settlement gazetteer is empirically anchored in primary-monograph historical metropolis trajectories [@Hambly1982Towns; @Blake1991Shahjahanabad; @Eaton1993Rise; @Chattopadhyaya1994Making; @Naqvi1968Urbanisation], multi-repository archaeological and monument corpora (Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews, Archaeological Survey of India P1371, Wikidata, OpenStreetMap, XRONOS and c14bazAAR) [@Possehl1999IndusAge; @Kenoyer1998AncientCities; @Allchin1995Archaeology; @Erdosy1988Urbanisation], official national censuses (Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS) [@ImperialGazetteer1908], and macro-envelope *qasba*, *pargana* and *nadu* continuity validated against strict foundation-year and chronological toponymy filters [@Habib1982Atlas; @Moosvi1987Economy; @Bayly1983Rulers; @Phuntsho2013HistoryBhutan]. Inclusion requires:
+- Precise WGS84 geographic coordinates validated against regional hydrography and sub-regional division masks.
+- Documented early mediaeval occupation horizons, epigraphic records, pre-1800 *qasba*/*pargana*/*nadu* continuity or architectural monuments dating between 750AD and 1206AD.
+- Demographic estimations calibrated to primary-monograph city benchmarks, archaeological mound extent, fortification perimeter, epigraphic house counts or historical revenue assessments.
+
+Where multiple archaeological survey points fall within 2,2 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features such as isolated petroglyphs, surface ceramic scatters and temporary military camp sites are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the four sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 9.343 catalogued settlements and summed site peaks across early mediaeval Northern India.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological spans were verified through epigraphic ground-truthing, remote sensing surveys and geoarchaeological testing [@Verma2020Modes; @Casile2021Climatic; @Chattopadhyaya1994Making]. Copper-plate inscriptions provided precise contemporaneous toponyms, recording administrative subdivisions (*bhukti*, *mandala*, *vishaya*, *vithi*) and village boundaries that anchor archaeological tell sites to their historical identities [@Datta2013Governin; @CHAKRABARTI2016Agrarian; @Eaton1993Rise].
+
+Historical late nineteenth-century Survey of India cartography and the *Imperial Gazetteer of India* provided invaluable ground truth by preserving mediaeval mound toponyms (*khera*, *dih*, *kot*, *garh*) and *pargana* headquarters across heavily farmed tracts of Uttar Pradesh, Bihar and Punjab before modern urban sprawl and mechanical agriculture altered the terrain [@Datta2013Governin; @ImperialGazetteer1908; @Habib1982Atlas]. Remote sensing analysis utilising multispectral satellite imagery verified the presence of elevated tell mounds, fortified brick perimeters and ancient canal alignments corresponding to catalogued localities [@Casile2021Climatic; @Allchin1995Archaeology].
+
+Archaeological excavations at key early mediaeval urban centres, including Kannauj, Varanasi, Gaur, Mahasthangarh, Lal Kot (Delhi) and Patan, confirm continuous dense occupation through the eighth to twelfth centuries, validating the benchmark population trajectories incorporated into the gazetteer [@Anooshahr2021Ghaznavi; @Durdu2026Confisca; @Erdosy1988Urbanisation].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 early mediaeval settlements across Northern India ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans, peak population and 1206AD population.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1206 <- if (!is.null(s$population[["1206"]])) as.numeric(s$population[["1206"]]) else "-"
+  rk_val <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[rk_val]])) reg_short[[rk_val]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1206AD = if (is.numeric(p_1206)) viscount_fmt_pop(p_1206) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 early mediaeval settlements ordered by peak population across Northern India (750AD to 1206AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1206AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Gurjara-Pratihara, Gahadavala and Chandella Gangetic-Bundelkhand Core
+
+The central Gangetic division catalogues 2.707 settlements distributed across the Ganga-Yamuna doab, the Rohilkhand plains, the Bundelkhand plateau and northern Malwa [@Datta2013Governin; @Chattopadhyaya1994Making]. Kannauj served as the imperial prize of the Tripartite Struggle, peaking at 135,0k inhabitants in 850AD and maintaining 120,0k in 950AD before contracting to 35,0k in 1206AD following Ghaznavid and Ghurid raids. Varanasi was the largest enduring Gangetic metropolis, rising from 80,0k in 750AD to a peak of 95,0k in 1100AD before moderating to 72,0k in 1206AD. In Malwa and Bundelkhand, Ujjain peaked at 75,0k in 1050AD (42,3k in 1206AD), Dhar at 68,0k in 1050AD (48,0k in 1206AD), Khajuraho at 52,0k in 1050AD and Jabalpur at 48,0k in 1100AD. Mathura held 46,8k residents in 750AD (26,0k in 1206AD), while Gwalior (41,4k peak in 1206AD), Mandu (35,4k peak in 1206AD), Kalinjar (35,0k peak in 1100AD), Mahoba and Shravasti (4,0k in 750AD) anchored regional fortifications and trade routes.
+
+### Pala-Sena Bengal, Bihar, Orissa and Kamarupa
+
+The eastern deltaic division catalogues 3.800 settlements throughout the lower Ganga, Brahmaputra and Mahanadi basins [@Verma2020Modes; @Eaton1993Rise]. Gaur (Lakhnauti, historically Lakshmanavati) operated as the primary political metropolis of the Palas and Senas, expanding from 65,0k in 750AD and 85,0k in 950AD to 120,0k inhabitants by 1206AD along the old bed of the Bhagirathi. Cuttack reached 46,4k in 1206AD, while ancient Patna (Pataliputra) accommodated 45,0k people in 750AD (28,0k in 1206AD) as an enduring river port. Mahasthangarh (Pundranagara) anchored northern Bengal with 41,4k inhabitants in 750AD (22,9k in 1206AD), alongside temple and port centres at Puri (33,6k peak in 1206AD), Bhubaneswar (28,0k peak in 1050AD) and Sonargaon (8,3k by 1206AD). Renowned monastic universities at Nalanda (24,0k in 750AD, falling to 2,5k by 1206AD), Vikramashila, Odantapuri and Somapura formed walled complexes combining scholastic quarters with agricultural granaries [@Phuntsho2013HistoryBhutan; @Slusser1982NepalMandala].
+
+### Rajputana, Solanki Gujarat and Malwa Kingdoms
+
+The western division catalogues 1.232 settlements across the semi-arid plains of Rajasthan and the Gulf of Khambhat littoral [@Casile2021Climatic; @Chattopadhyaya1994Making]. Patan (Anhilwara), the royal seat of the Chaulukya/Solanki dynasty, expanded from 20,0k in 750AD and 55,0k in 950AD to 120,0k residents in 1206AD within extensive brick fortifications served by monumental stepwells. Along the maritime coast, Khambhat (Cambay) rose to 71,8k and Bharuch to 42,8k by 1206AD, succeeding the early Maitraka capital at Valabhi (55,0k in 750AD) in handling overseas trade with the Persian Gulf, while Somnath combined sacred pilgrimage with maritime commerce. Across Rajasthan, the Chauhan seat at Ajmer attained 43,9k in 1200AD (43,1k in 1206AD) and Chittorgarh grew to 35,0k by 1206AD.
+
+### Hindu Shahi-Ghaznavid Punjab, Haryana and Kashmir
+
+The northwestern riverine and mountain division catalogues 1.604 settlements spanning the Indus and Punjab river doabs, the Kurukshetra plains and the Kashmir valley [@Anooshahr2021Ghaznavi; @Hambly1982Towns]. Delhi (Dhillika, known as Lal Kot) expanded rapidly under the Tomaras, Chauhans and early Ghurids from 48,0k in 750AD and 62,0k in 950AD to 130,0k residents by 1206AD [@Blake1991Shahjahanabad]. Lahore flourished as the provincial capital of the Ghaznavid Empire in India, expanding from 25,0k in 750AD to 85,0k inhabitants by 1206AD and serving as an intellectual and commercial hub connecting Punjab with Khorasan [@Anooshahr2021Ghaznavi; @Naqvi1968Urbanisation]. Multan grew steadily to 75,0k in 1206AD as an Islamic riverine metropolis on the Chenab, Srinagar (Pravarapura) reached 67,1k in the Kashmir valley, Peshawar attained 43,2k guarding the northern passes, and Thanesar held 32,0k in 750AD (16,0k in 1206AD).
+
+# Limitations
+
+Settlement documentation across early mediaeval Northern India remains subject to specific taphonomic constraints:
+1. Deep alluvial burial: active silt deposition along the Ganga, Yamuna, Brahmaputra and Punjab rivers has buried early mediaeval occupational levels beneath several metres of later alluvium, obscuring small rural hamlets [@Datta2013Governin].
+2. Continuous urban overbuilding: primary historical cities such as Delhi, Varanasi, Patna, Lahore and Multan remain densely inhabited modern metropolises, preventing extensive horizontal excavation and requiring reliance upon salvage archaeology and epigraphic records.
+3. Differential material preservation: stone architecture in Bundelkhand, Malwa and Gujarat exhibits high archaeological visibility, whereas timber and mud-brick structures in humid Bengal and Assam weather rapidly under monsoon conditions.
+4. Epigraphic survivorship: surviving copper-plate grants are heavily skewed toward religious beneficiaries, leaving ungranted secular settlements underrepresented in the epigraphic record [@Verma2020Modes].
+
+# Conclusion
+
+The INDUS settlement gazetteer synthesises 9.343 catalogued early mediaeval localities across four physiographic divisions of Northern India from 750AD to 1206AD, conforming to a Zipf rank-size distribution ($\alpha = 0,89$, $R^2 = 0,98$). By reconciling primary-monograph city trajectories, multi-repository archaeological corpora, official census baselines, epigraphic records and *qasba*/*pargana*/*nadu* continuity, this catalogue provides an empirical framework for regional demographic modelling. Settlement subtraction isolates nucleated urban centres from rural populations, enabling dasymetric distribution of cultivators across non-settled lands and demonstrating the sustained resilience of early mediaeval settlement hierarchies through periods of dynastic conflict and imperial transition.
+
+# Appendix
+
+The INDUS source ledger audited 10.143 candidate records, resulting in 9.343 accepted settlements and 800 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Northern India source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

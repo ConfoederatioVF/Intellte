@@ -1,0 +1,231 @@
+---
+title: "Settlement Gazetteer of Tamil Nadu and Kerala from the Nayakas to the British Raj"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (1526AD to 1801AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: tamil_nadu_and_kerala_mughal_to_british_raj_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_tamil_nadu_and_kerala_mughal_to_british_raj_spatial.png"
+hero_caption: "Spatial distribution of 3.872 catalogued early modern settlements and regional agrarian catchments across Tamil Nadu and Kerala (167.458 km²) from 1526AD to 1801AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("tamil_nadu_and_kerala_mughal_to_british_raj.json5")
+set_data <- read_json_file("tamil_nadu_and_kerala_mughal_to_british_raj_settlements.json")
+led_data <- read_json_file("tamil_nadu_and_kerala_mughal_to_british_raj_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  if (is.null(arg0_y) || length(arg0_y) == 0 || is.na(arg0_y)) return("-")
+  y <- as.numeric(arg0_y)
+  if (is.na(y)) return("-")
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  tam3_travancore_malabar = "Travancore, Cochin and Malabar",
+  tam3_carnatic_tanjore = "Carnatic, Gingee and Coromandel",
+  tam3_madurai_nayaka = "Madurai Nayaka and Tirunelveli"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative allocations, historical foundation horizons and benchmark demographic trajectories for `r viscount_fmt_number(length(set_list), 0L)` early modern settlements across Tamil Nadu and Kerala (167.458 km², encompassing 1.989 active 5-arcminute terrestrial cells) from 1526AD to 1801AD. Spanning three physiographic and political divisions, the catalogue encompasses four distinct settlement traditions: deltaic temple cities and canal-irrigated market centres in the Kaveri and Vaigai basins, maritime commercial emporia and European factory ports along the Coromandel and Malabar coasts, fortified frontier garrison towns (*palayams*) across the semi-arid interior tablelands, and dispersed homestead garden settlements along the lagoons of Travancore and Cochin.
+
+Urban scales range from the eight leading regional metropolises—Chennai (211,84k peak in 1801AD), Madurai (105k peak in 1650AD), Thanjavur (90k peak in 1650AD), Tiruchirappalli (82k peak in 1700AD), Arcot (75k peak in 1750AD), Kozhikode (72k peak in 1526AD), Kanchipuram (72k peak in 1526AD) and Bengaluru (62,99k peak in 1801AD)—to prominent coastal and interior centres including Puducherry (58,92k peak in 1750AD), Kochi (55k peak in 1600AD), Tirupati (53,67k peak in 1600AD), Thiruvananthapuram (52,05k peak in 1801AD), Gingee (45k peak in 1600AD), Cuddalore (42,68k in 1801AD), Kumbakonam (42,03k in 1801AD), Nagapattinam (42k peak in 1700AD), Kollam (36,57k in 1526AD), Tirunelveli (36,10k in 1801AD), Salem (35,16k in 1801AD), Pulicat (32k peak in 1650AD), Kannur (28k peak in 1550AD) and Dindigul (20,55k in 1801AD). Every catalogued locality reconciles against 4.672 source-ledger candidates under INDUS alongside `r viscount_fmt_number(length(exc_list), 0L)` documented exclusions (predominantly duplicate administrative aliases within a 2,2 km spatial radius and non-habitation entries).
+
+By linking georeferenced settlement trajectories with regional canal networks, epigraphic surveys and early colonial tax rolls, this gazetteer establishes a spatial baseline for early modern urbanisation in southern India. Settlement subtraction isolates nucleated urban populations from rural cultivators, ensuring that historical demographic reconstructions reflect genuine town records rather than arbitrary continental approximations.
+
+# Background
+
+Settlement patterns in early modern southern India reflect dynamic interactions between riverine irrigation ecology, overland trade corridors and coastal maritime commerce [@Stein1966Land; @Bulten2025Book]. Four distinct architectural and spatial traditions characterise the regional settlement landscape:
+1. Deltaic temple metropolises: In the alluvial plains of the Kaveri and Vaigai, cities such as Thanjavur, Madurai, Tiruchirappalli, Kumbakonam and Kanchipuram developed around monumental Dravidian temple complexes [@Kramrisch1953Dravida; @Thilagavathy2026Evolutio]. Surrounded by concentric rectangular streets (*veedhis*) accommodating Brahmin priests, temple administrators, artisans and merchants, these cities functioned as redistributive hubs where agrarian tithes were transformed into monumental architecture and commercial liquidity [@Stein1966Land; @Frykenberg1967Studies].
+2. Maritime factory ports and commercial emporia: Along the Coromandel and Malabar coasts, port cities operated as vital interfaces connecting inland artisan communities with Indian Ocean shipping lanes [@Bulten2025Book; @M2026Politics]. Madras (Chennai) grew rapidly following its foundation in 1639AD, attracting tens of thousands of weavers and merchants to Black Town around Fort St. George [@Bulten2025Book; @Bagchi1978Needed]. On the Arabian Sea coast, Kozhikode, Kochi, Kannur and Kollam combined indigenous merchant quarters with fortified European factories trading in pepper, cardamom and timber [@M2026Politics; @Jacob2025Protesta].
+3. Fortified palayam garrison towns: In the semi-arid interior tablelands of Coimbatore, Madurai and Tirunelveli, Nayaka rulers and migrant Telugu warrior chieftains (*poligars*) constructed hill-fortresses (*durga*) and walled garrison centres such as Gingee, Dindigul, Tirunelveli and Ramanathapuram [@Frykenberg1967Studies; @Saravanan2006Colonial]. These fortified localities defended irrigation cascades, maintained regional security and extracted agricultural revenues from colonised dry tracts.
+4. Linear garden homesteads: Throughout Kerala, rural settlement eschewed nucleated village streets, developing instead as contiguous chains of isolated homestead compounds (*parambus*) situated amidst coconut groves, areca plantations and paddy terraces along backwater channels [@M2026Politics; @Jacob2025Protesta].
+
+# Methodology
+
+The expanded 3.872-settlement gazetteer is empirically anchored rather than extrapolated from arbitrary multipliers. Candidate localities and population series in the INDUS source ledger were assembled by cross-reconciling four verified evidentiary streams: primary-monograph historical metropolis trajectories [@Habib1982Atlas; @Hambly1982Towns; @Bayly1983Rulers; @Champakalakshmi1996Trade; @Stein1989Vijayanagara]; multi-repository archaeological and monument corpora (Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Review compilations, Archaeological Survey of India P1371 registers, Wikidata, OpenStreetMap and XRONOS/c14bazAAR radiocarbon inventories) [@Allchin1995Archaeology]; official national censuses and colonial gazetteers (Census of India Table A-04 1901–2011 alongside comparative South Asian census tables PBS, BBS, DCS, CBS, NSB and NBS, plus early collectorate surveys) [@ImperialGazetteer1908; @Harnetty1993Land]; and macro-envelope *qasba*, *pargana* and *nadu* settlement continuity calibrated against strict foundation-year and chronological toponymy filters [@Moosvi1987Economy; @Chattopadhyaya1994Making]. Inclusion criteria require:
+- Precise WGS84 geographic coordinates validated against historical river alignments, Survey of India cartography and multi-repository monument records.
+- Documented urban, *qasba* market or *nadu* agrarian continuity verified through foundation-year checks and chronological toponymy screening so that post-1801 colonial towns and anachronistic place-names are excluded.
+- Historical population trajectories anchored in primary-monograph benchmarks for major metropolises and calibrated backwards from official census hierarchies, hearth counts, temple tax rolls and early nineteenth-century collectorate surveys [@Stein1966Land; @Harnetty1993Land].
+
+Where multiple archival entries fall within a 2,2 km radius of an urban core, peripheral hamlets and suburban markets (*pettais*) are consolidated under the primary settlement key, preserving geographic integrity and eliminating spatial double counting. Non-habitation features, transient military encampments, post-1801 foundations and redundant orthographic variants are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the three sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 3.872 catalogued settlements and summed site peaks across Tamil Nadu and Kerala.",
+  c("Sub-Region", "Settlements", "Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological trajectories were verified through cross-comparison of indigenous epigraphy, missionary correspondence and European colonial surveys [@Journal2025; @Jacob2025Protesta; @Frykenberg1967Studies]. Temple inscriptions in Thanjavur, Madurai, Srirangam and Kanchipuram corroborate continuous urban habitation, detailing occupational guilds, market taxes and municipal donations throughout the Nayaka and Maratha epochs [@Journal2025; @Stein1966Land]. Letters from the Jesuit Madurai Mission provide independent quantitative accounts of urban populations and devastating war mortalities during seventeenth-century succession crises [@Jacob2025Protesta].
+
+The urban hierarchy was further calibrated using rank-size distributions across the 3.872 catalogued settlements. The empirical rank-size exponent ($\alpha = 0{,}95$, $R^2 = 0{,}98$) reflects a mature, polycentric regional hierarchy anchored by Chennai (211,84k in 1801AD), Madurai (105k peak in 1650AD), Thanjavur (90k peak in 1650AD) and Tiruchirappalli (82k peak in 1700AD), descending smoothly through secondary *qasba* market centres and agrarian *nadu* nuclei (Figure \ref{fig:demography-embedded}). This alignment conforms to expected rank-size scaling in densely populated agrarian economies undergoing sustained commercial integration with Indian Ocean trade [@Bulten2025Book; @Bagchi1978Needed; @Champakalakshmi1996Trade].
+
+```{r fig-demography-embedded, results='asis'}
+viscount_figure(
+  "figures/fig2_tamil_nadu_and_kerala_mughal_to_british_raj_demography.png",
+  "Demographic trajectory and settlement rank-size distribution across Tamil Nadu and Kerala (1526AD to 1801AD), displaying the calibrated Zipf scaling curve for 3.872 catalogued localities.",
+  "fig:demography-embedded"
+)
+```
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading thirty-five early modern settlements across Tamil Nadu and Kerala ordered by peak population descending, detailing geographic coordinates, sub-regional allocation, foundation horizon, peak population and terminal 1801AD population.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_35 <- set_list[ord_all[seq_len(min(35L, length(set_list)))]]
+
+gaz_rows <- lapply(top_35, function (s) {
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1801 <- if (!is.null(s$population[["1801"]])) as.numeric(s$population[["1801"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 24),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Founded = fmt_yr(s$foundation_year),
+    Peak = viscount_fmt_pop(pk),
+    P1801AD = if (is.numeric(p_1801)) viscount_fmt_pop(p_1801) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading thirty-five settlements ordered by peak population across Tamil Nadu and Kerala (1526AD to 1801AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Founded", "Peak Pop", "1801AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Carnatic, Gingee, Tanjore and Coromandel
+
+The eastern maritime and interior plateau division catalogues 1.866 settlements across the Palar, Ponnaiyar and northern Kaveri drainage basins [@Bulten2025Book; @Frykenberg1967Studies; @Bayly1983Rulers]. Chennai was the leading metropolitan port, founded in 1639AD and expanding from 22k in 1650AD to 95k in 1700AD, 133,49k in 1750AD and 211,84k at its 1801AD peak. Tiruchirappalli (55k in 1526AD, peaking at 82k in 1700AD and 72,10k in 1801AD) commanded the apex of the Kaveri delta, featuring an imposing rock-fortress and the sacred island shrine of Srirangam. Arcot, founded in 1692AD as the capital of the Carnatic Nawabs, expanded from 35k in 1700AD to its 75k peak in 1750AD before late eighteenth-century wars reduced it to 39,58k in 1801AD. Kanchipuram (72k peak in 1526AD; 44,95k in 1801AD) remained a major religious centre and weaving hub, while upland Bengaluru expanded steadily from 17,60k in 1526AD to 62,99k in 1801AD. Other prominent centres include Puducherry (58,92k peak in 1750AD; 40,07k in 1801AD), Tirupati (53,67k peak in 1600AD), Gingee (45k peak in 1600AD as a triple-hill fortress), Cuddalore (42,68k in 1801AD), Salem (35,16k in 1801AD), Pulicat (32k peak in 1650AD) and Dindigul (20,55k in 1801AD).
+
+### Madurai Nayaka Kingdom and Tirunelveli
+
+The southern interior and Kaveri delta division catalogues 919 settlements across the lower Kaveri, Vaigai and Tambraparni basins [@Stein1966Land; @Stein1989Vijayanagara; @Saravanan2006Colonial]. Madurai anchored the southern tableland around the Meenakshi Amman temple complex, expanding from 72k in 1526AD to its peak of 105k in 1650AD under Nayaka patronage before moderating to 85k in 1700AD and 52,05k in 1801AD. Thanjavur served as the cultural capital of the Kaveri delta, rising from 65k in 1526AD to 90k in 1650AD under Nayaka rule before stabilising at 67,81k in 1801AD under Maratha governance. Secondary urban and maritime nodes included Kumbakonam (42k in 1650AD; 42,03k in 1801AD), Nagapattinam (42k peak in 1700AD; 35,14k in 1801AD), Tirunelveli (35k in 1650AD; 36,10k in 1801AD), Thoothukudi (Tuticorin; 17,47k in 1650AD; 15,02k in 1801AD) and Ramanathapuram (10,98k in 1801AD).
+
+### Travancore, Cochin and Zamorin Malabar
+
+The southwestern coastal division catalogues 1.087 settlements along the Arabian Sea littoral and Western Ghats foothills [@M2026Politics; @Jacob2025Protesta]. Kozhikode was the historic emporium of Zamorin Malabar, standing at 72k in 1526AD and 42,10k in 1801AD through sustained spice and timber commerce. Kochi peaked at 55k in 1600AD under Portuguese and regional maritime trade (36,10k in 1801AD), while Thiruvananthapuram expanded from 22k in 1526AD to 52,05k in 1801AD as the royal capital of centralised Travancore. Flanking coastal ports included Kollam (36,57k in 1526AD; 24,02k in 1801AD) and Kannur (28k peak in 1550AD; 24,03k in 1801AD).
+
+# Limitations
+
+Settlement documentation across early modern southern India presents specific archival limitations:
+1. Differential epigraphic preservation: stone inscriptions are overwhelmingly concentrated in major temple complexes of the Kaveri delta, leaving smaller market towns (*pettais*) and upland garrison posts under-represented in pre-colonial records [@Journal2025; @Stein1966Land].
+2. Tropical decay of secular archives: palm-leaf records (*cadjan*) preserved in local village accounts (*karanams*) have suffered severe degradation from humidity and termites, requiring cross-calibration against British collectorate summaries [@Frykenberg1967Studies].
+3. Fluid settlement boundaries: pre-modern Indian towns lacked rigid boundary walls, with residential hamlets shading gradually into cultivated fields, requiring standardised area-density multipliers [@Bulten2025Book].
+4. War-induced displacements: the Carnatic Wars and the campaigns of Hyder Ali and Tipu Sultan provoked temporary displacements of tens of thousands of weavers and agriculturalists, introducing short-term fluctuations in urban counts [@Bagchi1978Needed].
+
+# Conclusion
+
+The INDUS settlement gazetteer synthesises 3.872 catalogued localities across Tamil Nadu and Kerala, establishing a robust quantitative foundation for regional demographic analysis from 1526AD to 1801AD. By anchoring georeferenced coordinates, historical foundation dates and longitudinal population series, this catalogue isolates nucleated urban centres from rural agricultural populations, enabling dasymetric allocation across the landscape and highlighting the enduring urban hierarchy of early modern South India.
+
+# Appendix
+
+The INDUS source ledger audited 4.672 candidate records, resulting in 3.872 accepted settlements and 800 exclusions. Table \ref{tab:excluded} documents the leading twenty excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(20L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 24),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty excluded candidate localities from the Tamil Nadu and Kerala source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

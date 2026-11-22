@@ -1,0 +1,244 @@
+---
+title: "Settlement Gazetteer of Early Modern South Asia"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (1526AD to 1757AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: mughal_vijayanagara_and_maratha_empires_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_mughal_vijayanagara_and_maratha_empires_spatial.png"
+hero_caption: "Spatial distribution of 46.429 catalogued early modern settlements and regional administrative macro-provinces across the Indian subcontinent (4,11M km²) from 1526AD to 1757AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("mughal_vijayanagara_and_maratha_empires.json5")
+set_data <- read_json_file("mughal_vijayanagara_and_maratha_empires_settlements.json")
+led_data <- read_json_file("mughal_vijayanagara_and_maratha_empires_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  mug_hindustan_core = "Imperial Hindustan Core",
+  mug_bengal_bihar_orissa = "Bengal, Bihar and Assam",
+  mug_gujarat_malwa_ajmer = "Gujarat, Malwa and Ajmer",
+  mug_maratha_deccan = "Maratha Swarajya and Deccan",
+  mug_vijayanagara_mysore = "Vijayanagara and Mysore",
+  mug_indus_multan_thatta = "Indus Basin and Multan"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative allocations, chronological spans and benchmark population trajectories for `r viscount_fmt_number(length(set_list), 0L)` early modern settlements across the Indian subcontinent (4,11M km², encompassing 4.106.288 km² and 53.236 active 5-arcminute terrestrial cells) from 1526AD to 1757AD [@Habib1982Atlas; @Moosvi1987Economy]. Spanning six macro-provinces, the catalogue documents diverse regional architectural and administrative traditions: monumental red-sandstone and marble imperial metropolises along the Yamuna and Ganges, deltaic river ports and weaving centres across Bengal, fortified maritime emporia on the Gulf of Khambhat, granite citadel fortresses in the Deccan and peninsular South, and riverine trade junctions across the Indus basin. Settlement sizes follow a Zipf rank-size distribution ($\alpha = 0,87$, $R^2 = 0,98$) ranging from primary continental metropolises such as Delhi (500k in 1700AD), Agra (500k in 1650AD), Hampi (450k in 1526AD), Lahore (350k in 1650AD), Ahmedabad (240k in 1650AD), Vijayapura (220k in 1650AD), Hyderabad (220k in 1650AD) and Gaur (220k in 1526AD), down to specialised manufacturing towns (*qasbas*) and agrarian *pargana* centres [@Hambly1982Towns; @Blake1991Shahjahanabad; @Stein1989Vijayanagara]. Every catalogued locality is reconciled against 47.229 source-ledger candidates under INDUS alongside `r viscount_fmt_number(length(exc_list), 0L)` documented exclusions (predominantly duplicate spelling variants within 2,2 km and isolated non-habitation features). By linking georeferenced settlement series with cadastral revenue surveys, archaeological corpora and official national censuses, this gazetteer provides the quantitative foundation for urban subtraction and dasymetric demographic mapping in early modern South Asia.
+
+# Background
+
+Early modern South Asian urban networks reflected dynamic economic interactions between agrarian tax collection, artisanal manufacturing and maritime trade [@Hambly1982Towns; @Moosvi1987Economy; @Seth2024Tale; @Carvalhal2025Beyond]. Four primary settlement traditions characterise the early modern subcontinent:
+1. Imperial dynastic capitals: In the Gangetic alluvium, Indus plains and the Deccan, central authorities constructed monumental planned cities incorporating fortified citadels, wide market avenues, congregational mosques and extensive gardens [@Blake1991Shahjahanabad; @Prior1990British; @Anon2024Contested]. Shahjahanabad (Delhi), Agra and Lahore concentrated imperial administration, noble households and military garrisons, stimulating artisan migration and daily grain imports [@Hambly1982Towns; @Naqvi1968Urbanisation].
+2. Maritime emporia and estuarine ports: Along the oceanic perimeter, commercial cities operated as global gateways connecting South Asian textile and spice production with Persian Gulf, Red Sea and European trading networks [@Sagaramath2023Exploratio; @Ahmad2026Pilgrimage]. Surat and Khambhat in Gujarat, Thatta in lower Sindh, Gaur, Sonargaon and Murshidabad in Bengal, and Machilipatnam on the Coromandel coast accommodated diverse communities of indigenous merchants, Armenian bankers and European company agents [@Eaton1993Rise; @Ahmad2026Pilgrimage; @Seth2024Tale].
+3. Specialised craft and market towns (*qasbas*): Throughout the agricultural interior, walled market centres coordinated regional textile weaving, metal casting, indigo processing and grain redistribution [@Bayly1983Rulers; @Katchalla2026Archaeolog; @Sheikh2021Persian]. Many northern and peninsular hubs—including Varanasi, Patna, Ujjain, Madurai and Thanjavur—built upon deep early historic urban foundations before expanding as *pargana* and *nadu* market nodes linking rural cultivators with urban consumers [@Erdosy1988Urbanisation; @Champakalakshmi1996Trade; @Chattopadhyaya1994Making].
+4. Upland citadel fortresses and frontier bastions: In the rugged highlands of the Western Ghats, Rajasthan and the Himalayan arc, regional polities maintained fortified centres guarding strategic defiles and agricultural oases [@Slusser1982NepalMandala; @Phuntsho2013HistoryBhutan; @YeolekarKadam2023Comprehens; @Anwar2019Strategic]. Strongholds such as Raigad, Sinhagad, Chittorgarh, Gwalior, Kathmandu and Multan provided defensive refuge and administered agrarian revenue extraction across highland frontiers [@ImperialGazetteer1908; @YeolekarKadam2023Comprehens; @Anwar2019Strategic].
+
+# Methodology
+
+The expanded 46.429-settlement gazetteer in the INDUS source ledger is empirically anchored across four complementary evidentiary pillars rather than arbitrary parametric assumptions:
+- Primary-monograph historical metropolis trajectories: Benchmark series for imperial capitals and provincial centres are drawn directly from specialist urban monographs, Persian cadastral compilations and contemporary European accounts [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Blake1991Shahjahanabad; @Bayly1983Rulers; @Stein1989Vijayanagara; @Eaton1993Rise; @Naqvi1968Urbanisation].
+- Multi-repository archaeological and monument corpora: Spatial coordinates, occupation horizons and structural footprints are ingested from Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews (IARs), ASI P1371 monument registers, Wikidata, OpenStreetMap and XRONOS/c14bazAAR radiocarbon databases, reconciled against regional archaeological syntheses [@Allchin1995Archaeology; @Possehl1999IndusAge; @Kenoyer1998AncientCities; @Chattopadhyaya1994Making; @Mishra2026Historical].
+- Official national censuses: Longitudinal settlement baselines and municipal hierarchies are anchored in Census of India Table A-04, the Pakistan Bureau of Statistics (PBS), Bangladesh Bureau of Statistics (BBS), Department of Census and Statistics Sri Lanka (DCS), Central Bureau of Statistics Nepal (CBS), National Statistics Bureau Bhutan (NSB) and National Bureau of Statistics Maldives (NBS), cross-checked against colonial district compendia [@ImperialGazetteer1908; @Prior1990British].
+- Macro-envelope *qasba*, *pargana* and *nadu* continuity with strict chronological filtering: Lower-tier market towns and persistent agrarian settlements are allocated within their respective submask demographic envelopes only after passing strict foundation-year thresholds (excluding post-1757AD colonial railway, cantonment and canal-colony foundations) and chronological toponymy audits.
+
+Every included locality satisfies four operational criteria:
+- Precise WGS84 geographic coordinates validated against historical river alignments and topography [@Mishra2026Historical].
+- Documented urban status, market activity or continuous *qasba*, *pargana* or *nadu* habitation during the period from 1526AD to 1757AD [@Habib1982Atlas; @Prior1990British].
+- Population trajectories derived from primary-monograph urban reconstructions, contemporary tax registers (*Ain-i Akbari*), traveller estimates or macro-calibrated census back-projections [@Moosvi1987Economy; @Seth2024Tale; @Carvalhal2025Beyond].
+- Methodological consolidation of duplicate spelling variants and suburban wards situated within 2,2 km of the primary urban nucleus.
+
+Where multiple survey points represent suburban extensions or spelling variants within 2,2 km of a historic urban core, secondary records are consolidated as duplicate aliases, preserving spatial integrity and preventing artificial clustering. Non-habitation features such as isolated defensive watchtowers, roadside milestones (*kos minars*) and hunting pavilions are excluded from urban subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the six macro-provinces.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    MacroProvince = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Settlements = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    SumPeaks = viscount_fmt_pop(sum(peaks)),
+    LeadingSettlement = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  MacroProvince = "Subcontinental Total",
+  Settlements = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  SumPeaks = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSettlement = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 46.429 catalogued settlements and summed site peaks across early modern South Asia.",
+  c("Macro-Province", "Settlements", "Settlement Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological trajectories were verified through administrative records, traveller accounts and archaeological topography [@Habib1982Atlas; @Moosvi1987Economy; @Sheikh2021Persian; @Kumar2025Preserving]. Indigenous Persian account books (*bahi* registers) from western India confirm the continuous presence of market institutions, merchant guilds (*mahajans*) and craft workshops in catalogued *qasbas*, validating historical population estimates [@Sheikh2021Persian; @N2020Fragments]. In the Deccan, Marathi archival registers (*rumals*) from the Peshwa archives record municipal tax levies and dwelling counts for major towns in Maharashtra, validating eighteenth-century urban growth trajectories [@YeolekarKadam2023Comprehens; @Keelan2019Deccani].
+
+Archaeological mapping of early modern urban defences and hydraulic works provides physical confirmation of settlement extents [@Stein1989Vijayanagara; @Sanjay2024Balancing; @Kumar2025Preserving]. At Hampi (Vijayanagara), surface surveys of municipal ramparts, temple complexes and hydraulic conduits confirm an urban perimeter exceeding 25 km², substantiating a 1526AD population of 450k residents [@Stein1989Vijayanagara; @Sanjay2024Balancing; @Katchalla2026Archaeolog]. At Delhi, ground surveys and satellite imagery confirm the 1.500-acre walled extent of Shahjahanabad and its surrounding suburban wards supporting 500k inhabitants by 1700AD, while historical cartography from the Survey of India corroborates suburban residential densities [@Blake1991Shahjahanabad; @Anon2024Contested; @Mishra2026Historical].
+
+# Results
+
+Across the 46.429 catalogued settlements, peak sizes follow a regular Zipf rank-size curve ($\alpha = 0,87$, $R^2 = 0,98$), confirming continuous hierarchy integration from imperial metropolises to regional *qasbas*. Table \ref{tab:gazetteer} presents the leading 45 early modern urban settlements across South Asia ordered by peak population descending, detailing coordinates, macro-province allocation, chronological span, peak population and 1700AD population.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1700 <- if (!is.null(s$population[["1700"]])) as.numeric(s$population[["1700"]]) else "-"
+  reg_key <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[reg_key]])) reg_short[[reg_key]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    MacroProvince = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1700AD = if (is.numeric(p_1700)) viscount_fmt_pop(p_1700) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 early modern settlements ordered by peak population across South Asia (1526AD to 1757AD).",
+  c("Settlement Name", "Macro-Province", "Coordinates", "Span", "Peak Pop", "1700AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Imperial Hindustan Core Subahs
+
+The northern Gangetic division catalogues 6.601 settlements spanning Delhi, Agra, Awadh, Allahabad and Kashmir [@Habib1982Atlas; @Khan2024Hydraulic; @Prior1990British]. Primary centres included Delhi (500k peak in 1700AD), Agra (500k peak in 1650AD), Varanasi (175k peak in 1757AD), Srinagar (135k in 1700AD), Lucknow (105k peak in 1757AD), Sirhind (90k in 1700AD), Faizabad (85k in 1757AD) and Prayagraj (Allahabad, 82k in 1700AD) [@Blake1991Shahjahanabad; @Naqvi1968Urbanisation; @Hambly1982Towns]. These centres operated as imperial administrative hubs, supported by dense networks of agricultural *qasbas* along the Ganga-Yamuna river corridors [@Bayly1983Rulers; @Khan2024Hydraulic].
+
+### Bengal, Bihar, Orissa and Ahom Assam
+
+The eastern deltaic division catalogues 11.048 settlements along the lower Ganges, Brahmaputra and Meghna river networks [@Eaton1993Rise; @Seth2024Tale; @Nayam2025Political]. Preeminent cities included Gaur (220k peak in 1526AD), Patna (200k peak in 1700AD), Murshidabad (195k peak in 1750AD, 185k in 1757AD), Dhaka (180k peak in 1700AD), Kolkata (115k peak in 1757AD), Sonargaon (85k in 1526AD) and Cuttack (82k in 1526AD) [@Eaton1993Rise; @Hambly1982Towns]. In Assam and the eastern Himalayan valleys, the Ahom capital complex at Garhgaon, Charaideo and Rangpur and Drukpa monastic centres coordinated regional administration and riverine trade [@Nayam2025Political; @Phuntsho2013HistoryBhutan].
+
+### Gujarat, Malwa, Ajmer and Gondwana
+
+The western commercial province catalogues 7.464 settlements across maritime Gujarat, Malwa and Rajputana [@Moosvi1987Economy; @Sagaramath2023Exploratio; @Ahmad2026Pilgrimage]. Major metropolises encompassed Ahmedabad (240k peak in 1650AD), Surat (200k peak in 1700AD), Burhanpur (135k peak in 1650AD), Jaipur (105k peak in 1757AD), Khambhat (95k in 1526AD), Mandu (95k in 1526AD), Vadodara (85k in 1757AD) and Ujjain (85k peak in 1757AD) [@Hambly1982Towns; @ImperialGazetteer1908]. These centres linked western maritime trade routes with interior textile and grain producing regions [@Ahmad2026Pilgrimage].
+
+### Maratha Swarajya, Bijapur, Golconda and the Deccan Subahs
+
+The Deccan tableland catalogues 6.335 settlements across Maharashtra, Telangana, Konkan and the Godavari-Krishna basins [@YeolekarKadam2023Comprehens; @Keelan2019Deccani]. Leading cities included Hyderabad (220k peak in 1650AD, 200k in 1700AD, 215k in 1757AD), Aurangabad (165k peak in 1700AD), Golconda (135k peak in 1595AD), Pune (110k peak in 1757AD), Ahmadnagar (110k peak in 1595AD), Machilipatnam (100k in 1650AD), Old Goa (98,5k in 1595AD) and Mumbai (85k peak in 1757AD), reflecting the transition from sultanate capitals to the expanding Maratha confederacy [@Hambly1982Towns; @YeolekarKadam2023Comprehens; @Kadam2025Memory].
+
+### Vijayanagara Heartland, Karnataka and Southern Successors
+
+The southern peninsular division catalogues 5.272 settlements across Karnataka, the Kaveri basin and the Coromandel plains [@Stein1989Vijayanagara; @Sanjay2024Balancing; @Katchalla2026Archaeolog]. The imperial capital of Hampi (Vijayanagara) reached 450k inhabitants in 1526AD, while Vijayapura (Bijapur) expanded to 220k inhabitants in 1650AD [@Stein1989Vijayanagara; @Hambly1982Towns]. Following the 1565AD sack of Hampi, regional prominence shifted toward Madurai (105k peak in 1650AD), Thanjavur (90k peak in 1650AD), Bidar (85k in 1526AD), Srirangapatna (85k in 1757AD), Tiruchirappalli (82k in 1700AD) and Chennai (95k in 1700AD, 140k peak in 1757AD) [@Champakalakshmi1996Trade; @Katchalla2026Archaeolog].
+
+### Indus Basin, Multan, Thatta and the Northwestern Frontier
+
+The western alluvial division catalogues 9.709 settlements along the Indus river and mountain corridors leading to Kabul [@Habib1982Atlas; @Anwar2019Strategic; @Ahmad2017Mughals]. Lahore anchored the upper basin with 350k residents in 1650AD (260k in 1700AD), while Thatta (137k peak in 1600AD, 130k in 1650AD), Multan (105k peak in 1650AD) and Peshawar (85k in 1757AD) commanded overland caravan and deltaic shipping routes [@Hambly1982Towns; @Naqvi1968Urbanisation; @Anwar2019Strategic].
+
+# Limitations
+
+Urban settlement analysis for early modern South Asia is subject to distinct archival constraints:
+1. Cadastral record variations: detailed *zabt* registers are concentrated in the Mughal heartland, whereas tributary hill states in Gondwana and the northeast preserve fewer quantitative tax rolls [@Bhadra1980Marx; @Prior1990British].
+2. Conversion of dwelling units: historical sources frequently report hearths or taxpaying compounds rather than absolute population counts, requiring household multiplier assumptions between 4,5 and 5,5 persons [@Carvalhal2025Beyond].
+3. Military camp volatility: large imperial armies (*lashkar*) numbering up to 300k individuals created mobile temporary cities whose demographic mass shifted across provincial boundaries [@Seth2024Tale].
+4. Modern urban overprinting: continuous settlement in major historic metropolises such as Delhi, Mumbai and Kolkata complicates archaeological excavation of early modern domestic stratigraphy [@Anon2024Contested].
+
+# Conclusion
+
+The INDUS settlement gazetteer synthesises 46.429 catalogued settlements across six macro-provinces (Zipf rank-size slope $\alpha = 0,87$, $R^2 = 0,98$), providing an empirically anchored baseline for early modern South Asian demographic analysis from 1526AD to 1757AD. By combining primary-monograph urban trajectories, multi-repository archaeological corpora, official national censuses and macro-calibrated *qasba*, *pargana* and *nadu* continuity series, this catalogue isolates nucleated settlements from rural populations, enabling dasymetric distribution of agriculturalists across non-settled lands and documenting the sustained economic and demographic vitality of the Indian subcontinent prior to colonial territorial expansion.
+
+# Appendix
+
+The INDUS source ledger audited 47.229 candidate records, resulting in 46.429 accepted settlements and 800 exclusions. Table \ref{tab:excluded} details the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the early modern South Asia source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

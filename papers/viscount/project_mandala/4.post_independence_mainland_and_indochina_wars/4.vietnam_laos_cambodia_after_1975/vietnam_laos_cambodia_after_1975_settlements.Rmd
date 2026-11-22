@@ -1,0 +1,250 @@
+---
+title: "Settlement Gazetteer of Vietnam, Laos and Cambodia after 1975"
+subtitle: "MANDALA: Coordinates, Administrative Allocations and Population Trajectories across Eastern Indochina (1975 to 2026)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: vietnam_laos_cambodia_after_1975_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_vietnam_laos_cambodia_after_1975_spatial.png"
+hero_caption: "Spatial distribution of 10.635 catalogued modern settlements and municipal administrative boundaries across Vietnam, Laos and Cambodia (765.511 km²) from 1975 to 2026."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("vietnam_laos_cambodia_after_1975.json5")
+set_data <- read_json_file("vietnam_laos_cambodia_after_1975_settlements.json")
+led_data <- read_json_file("vietnam_laos_cambodia_after_1975_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  vlc_vn_rrd = "Red River Delta",
+  vlc_vn_north_mt = "Northern Midlands and Mountains",
+  vlc_vn_central = "North and South Central Coast",
+  vlc_vn_highlands = "Central Highlands",
+  vlc_vn_southeast = "Southeast",
+  vlc_vn_mekong = "Mekong River Delta",
+  vlc_cambodia = "Cambodia",
+  vlc_laos = "Laos"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 coordinates, administrative allocations, longitudinal census series and benchmark demographic trajectories for `r length(set_list)` modern settlements across Vietnam, Laos and Cambodia (765.511 km², encompassing 9.525 active 5-arcminute terrestrial cells) from 1975 to 2026. Encompassing eight administrative and physiographic macro-divisions, the gazetteer captures diverse urban and rural settlement morphologies: high-density deltaic communes in the Red River and Mekong basins, sprawling coastal port metropolises along the South China Sea, planned upland agricultural settlements across the Central Highlands, riverine provincial capitals along the Mekong trunk stream in Laos and revitalised municipal centres across Cambodia.
+
+Settlement hierarchies range from primary international megacities at Ho Chi Minh City (14,56M peak, 14,56M in 2025) and Hanoi (8,72M peak, 8,72M in 2025) to major regional metropolises at Can Tho (3,12M), Da Nang (2,82M), Hai Phong (2,73M), Phnom Penh (1,70M) and Vientiane (1,00M). Secondary provincial capitals include Hue (1,38M), Bien Hoa (1,32M), Khanh Hoa (Nha Trang, 1,28M), Binh Thuan (Phan Thiet, 1,28M), Ben Tre (1,25M), Ca Mau (1,24M), Soc Trang (1,23M), Tay Ninh (1,22M), Ba Ria-Vung Tau (1,21M), Lam Dong (Da Lat, 1,20M), Binh Phuoc (1,06M), Sainyabuli (453k), Siem Reap (160k) and Battambang (140k). Every catalogued locality reconciles against 11.435 source-ledger records under MANDALA alongside `r length(exc_list)` documented exclusions (predominantly duplicate administrative aliases within a 2,2 km spatial buffer and non-habitation survey records).
+
+By anchoring georeferenced settlement series to national statistical censuses, multi-temporal remote sensing footprints and regional river drainage basins, this gazetteer establishes a spatial baseline for modern settlement dynamics in eastern Indochina. Settlement subtraction isolates nucleated urban centres from dasymetrically distributed rural cultivators, ensuring that regional demographic models reflect genuine administrative and demographic realities rather than arbitrary spatial smoothing.
+
+# Background
+
+Modern settlement systems in eastern Indochina reflect physical geography, riverine hydrology and twentieth-century post-war restructuring [@Fraser1993Vietnam; @Phan2014Internal; @Heuveline2007Phoenix]. Four primary settlement traditions characterise the regional landscape:
+1. Intensive deltaic agricultural settlements: in the Red River Delta and Mekong River Delta, settlement is organised around dense networks of village communes (*làng*, *xã*) bounded by centuries-old earthen dyke networks and canal grids [@Loenzien2019Magnitude; @Wei2019Predicting]. In the Red River Delta, high rural population densities exceeding 1.000 persons per km² created continuous agro-urban corridors connecting Hanoi with Haiphong and Nam Dinh.
+2. Coastal trading ports and industrial clusters: along the central and southern Vietnamese coastline, port cities such as Da Nang, Quy Nhon, Nha Trang, Vung Tau and Haiphong grew into major industrial hubs, mediating international container shipping, deep-sea fisheries and offshore petroleum logistics [@F2021Ratio].
+3. Upland agricultural colonies and planned market towns: in the Central Highlands (*Tây Nguyên*) and northern border mountains, post-1975 state programmes established New Economic Zones and commercial plantation centres that evolved into bustling provincial capitals such as Buon Ma Thuot, Pleiku, Kon Tum and Da Lat [@Phan2014Internal].
+4. Riverine administrative corridors: along the Mekong River trunk stream in Laos and Cambodia, capital cities and market towns including Vientiane, Luang Prabang, Savannakhet, Pakse, Phnom Penh and Kampong Cham developed as transport hubs linking agricultural hinterlands with fluvial navigation lanes, maintaining continuity with regional riverine settlement nodes [@Tomita2015Household; @Huguet2000Results; @Bawah2016Evolving].
+
+# Methodology
+
+Candidate settlements in the source ledger were evaluated using published decennial census registers, provincial gazetteers and geoname databases from Vietnam, Laos and Cambodia [@Fraser1993Vietnam; @Huguet2000Results]. Inclusion criteria require:
+- Precise WGS84 geographic coordinates validated against modern satellite imagery and official administrative boundaries.
+- Continuous multi-decadal census observations or official population estimates covering benchmarks between 1975 and 2025.
+- Administrative classification as a municipal city, provincial capital, district capital (*thị trấn*), ward or nucleated commune centre.
+
+Where multiple administrative points or suburb records fall within a 2,2 km buffer of a primary municipal centre, secondary coordinates are consolidated as duplicate aliases, preserving spatial integrity and avoiding artificial double counting. Non-habitation features such as industrial parks without permanent residents, national park stations and isolated geographic points are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the eight sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 10.635 catalogued settlements and summed site peaks across Vietnam, Laos and Cambodia.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement coordinates and population series were cross-checked through multi-temporal remote sensing and municipal boundary reconciliation [@F2021Ratio; @Wei2019Predicting]. High-resolution satellite imagery from Landsat, Sentinel-2 and commercial providers confirmed the physical footprint of catalogued settlements, distinguishing contiguous urban built-up areas from surrounding agricultural fields and seasonal water bodies. Night-time light radiometry from VIIRS confirms the geographic concentration of economic activity along major inter-provincial highway corridors.
+
+In Cambodia, settlement histories were reconciled against historical village registers, census enumerations and post-conflict reconstruction records [@Walque2005Selective; @Walque2006Socio; @Rashid2023Gender; @Jones2016Cambodia]. Following the forced de-urbanisation of 1975-1979 and subsequent recovery under the People's Republic of Kampuchea, municipal populations were checked through administrative headcounts and reconstruction files [@Heuveline2007Phoenix; @Huguet2000Results]. In Laos, settlement trajectories were checked against the 1985, 1995, 2005 and 2015 national censuses, confirming steady urban consolidation in Vientiane and secondary Mekong river towns alongside longitudinal village demographic records [@Tomita2015Household; @Bawah2016Evolving].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 modern settlements across Vietnam, Laos and Cambodia ordered by peak population descending, detailing coordinates, sub-regional allocation, observation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) as.character(y_min) else paste0(y_min, " - ", y_max)
+  pk <- max(as.numeric(unlist(s$population)))
+  p_2025 <- if (!is.null(s$population[["2025"]])) as.numeric(s$population[["2025"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P2025 = if (is.numeric(p_2025)) viscount_fmt_pop(p_2025) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 modern settlements ordered by peak population across Vietnam, Laos and Cambodia (1975 to 2026).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "2025 Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Vietnam - Red River Delta (Hanoi and Haiphong)
+
+The Red River Delta division catalogues 200 primary settlements concentrated across 32.533 km² of intensive alluvial floodplain. Hanoi anchors the national administrative and cultural hierarchy, expanding from 3,93M in 1975 to 8,72M in 2025 across an extensive metropolitan core [@Fraser1993Vietnam; @Hasegawa2025Evolution]. Hai Phong (2,73M peak) operates as the preeminent deep-water seaport and heavy manufacturing hub of northern Vietnam. Secondary industrial centres include Nam Dinh (280k peak), Hai Duong (260k peak), Thai Binh (220k peak) and Bac Ninh (270k peak), forming a tightly integrated polycentric urban cluster connected by expressways and river waterways.
+
+### Vietnam - Northern Midlands and Mountains
+
+This northern upland division catalogues 200 settlements spanning 93.375 km² of rugged limestone karst, upland valleys and international border zones. Thai Nguyen (340k peak) serves as the primary metallurgical and educational centre, while Viet Tri (315k peak) commands the confluence of the Red and Black rivers. Key border trading hubs include Lang Son (205k peak), Lao Cai (175k peak) and Mong Cai (145k peak), mediating cross-border overland commerce. Mountainous provincial capitals such as Ha Giang, Cao Bang, Son La, Dien Bien Phu and Yen Bai anchor multi-ethnic district market networks.
+
+### Vietnam - North and South Central Coast
+
+The central coastal division catalogues 436 settlements distributed along 107.840 km² of narrow coastal plains backed by the Truong Son mountains. Da Nang is the regional metropolis, expanding from 494k in 1975 to 2,82M in 2025 as a centre of high-technology industry, container logistics and tourism. Hue (1,38M peak) preserves its historic cultural role, while Khanh Hoa (Nha Trang, 1,28M) and Binh Thuan (Phan Thiet, 1,28M) anchor maritime commerce and fisheries. Other significant centres include Quy Nhon (480k peak), Vinh (340k peak), Thanh Hoa (410k peak), Quang Ngai (260k peak) and Tuy Hoa (210k peak).
+
+### Vietnam - Central Highlands (Tay Nguyen)
+
+The Central Highlands division catalogues 101 settlements across 55.328 km² of basalt plateaus. Buon Ma Thuot in Dac Lac province is the regional capital, expanding from 110k in 1975 to over 420k in 2025 as the global capital of robusta coffee production. Pleiku (260k peak) commands the northern plateau of Gia Lai, Kon Tum (175k peak) anchors the upper valley, and Da Lat in Lam Dong (1,20M peak administrative division) functions as an upland agricultural centre. The settlement network reflects rapid post-1975 migration and commercial cash-crop expansion [@Phan2014Internal; @F2021Ratio].
+
+### Vietnam - Southeast (Ho Chi Minh City and Dong Nai)
+
+The Southeast division catalogues 149 settlements across 25.423 km², forming the most economically dynamic urban agglomeration in mainland Southeast Asia. Ho Chi Minh City is the primary megacity, expanding from 6,86M in 1975 to 14,56M in 2025 [@Loenzien2019Magnitude; @Wei2019Predicting]. Surrounding satellite cities form an expansive industrial sprawl: Bien Hoa in Dong Nai (1,32M in 2025), Thu Dau Mot in Binh Duong (350k peak), Ba Ria-Vung Tau (1,21M), Tay Ninh (1,22M) and Binh Phuoc (1,06M). These centres host thousands of export processing factories and container logistics parks.
+
+### Vietnam - Mekong River Delta
+
+The southwestern delta division catalogues 220 settlements across 41.100 km² of criss-crossing canals and fertile alluvium. Can Tho is the regional metropolis, growing from 648k in 1975 to 3,12M in 2025 and serving as the administrative, educational and commercial capital of the delta. Major provincial centres include Ben Tre (1,25M), Ca Mau (1,24M), Soc Trang (1,23M), My Tho in Tien Giang (270k peak), Long Xuyen in An Giang (290k peak), Rach Gia in Kien Giang (250k peak) and Tan An in Long An (210k peak), anchoring intensive rice, fruit and aquaculture processing networks [@Phan2014Internal; @F2021Ratio].
+
+### Cambodia (Post-1979 Recovery and Modern Census)
+
+Cambodia catalogues 3.908 settlements across 180.174 km² of the Tonle Sap basin and coastal lowlands. Phnom Penh is the national primate city; completely emptied in April 1975 under Democratic Kampuchea, it repopulated after January 1979 from 26k to 1,70M by 2025, coordinating national commerce and manufacturing [@Walque2004Long; @Heuveline2007Phoenix; @Huguet2000Results]. Siem Reap (160k in 2025) anchors global heritage tourism adjacent to Angkor, while Battambang (140k in 2025) serves as the western agricultural capital [@Boonyabancha2019Urban; @Strom2017Urban]. Sihanoukville (Preah Sihanouk, 120k peak) operates as the primary deep-water maritime port, and Kampong Cham, Pursat and Kampot serve as regional river and coastal trading centres [@Um2024Effect; @Lee2022Dealing].
+
+### Laos (Lao PDR Modern Census)
+
+Laos catalogues 5.421 settlements distributed across 229.738 km² of mountainous terrain and Mekong river valleys. Vientiane is the national capital and primary metropolis, expanding from 180k in 1975 to 1,00M in 2025 [@Tomita2015Household; @Bawah2016Evolving]. Sainyabuli (453k peak administrative division) anchors the western agricultural frontier. Major provincial river towns along the Mekong trunk stream include Savannakhet (Kaysone Phomvihane, 125k peak), Pakse in Champasak (90k peak), Luang Prabang (70k peak) and Thakhek in Khammouane (45k peak), while northern centres such as Luang Namtha and Oudomxay manage trade corridors toward China.
+
+# Limitations
+
+Settlement analysis across Vietnam, Laos and Cambodia is subject to specific administrative and historical limitations:
+1. Administrative reclassification and city boundary changes: in Vietnam, provincial and municipal authorities frequently upgrade rural communes into urban wards (*phường*) or expand municipal boundary definitions, creating apparent discontinuities in longitudinal urban time series [@Fraser1993Vietnam; @Phan2014Internal].
+2. Informal suburbanisation and registration: rapid peri-urban development around Ho Chi Minh City, Hanoi and Phnom Penh often outpaces formal census registration, resulting in temporary undercounting of transient migrant workers [@Boonyabancha2019Urban; @Loenzien2019Magnitude].
+3. Historical data gaps in Cambodia (1975-1979): the destruction of municipal archives and suspension of civil administration under the Khmer Rouge precludes systematic census enumeration during that four-year window, necessitating reliance on post-1979 retrospective demographic reconstructions [@Walque2005Selective; @Walque2006Socio; @Jones2023Cambodia; @Heuveline2007Phoenix].
+4. Rural settlement dispersion in upland Laos: highly dispersed ethnic minority hamlets across northern and eastern Laos undergo seasonal shifting and consolidation, posing challenges for point-based georeferencing [@Tomita2015Household].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 10.635 catalogued localities across eight sub-regions in Vietnam, Laos and Cambodia, providing an empirical framework for regional demographic analysis from 1975 to 2026 [@Fraser1993Vietnam; @Huguet2000Results; @Heuveline2007Phoenix]. By anchoring georeferenced coordinates, administrative hierarchies and multi-decadal population series, this catalogue isolates nucleated urban centres from rural populations, enabling precise dasymetric allocation of rural cultivators across environmental suitability surfaces and capturing the historic half-century shift from war-torn rural agrarianism toward dynamic metropolitan integration.
+
+# Appendix
+
+The MANDALA source ledger audited 11.435 candidate settlements across eastern Indochina, resulting in 10.635 accepted catalogued localities and 800 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing territory, exclusion reason and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Vietnam, Laos and Cambodia source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

@@ -1,0 +1,264 @@
+---
+title: "The Nanda Empire: Fluvial Agrarian Intensification, Military Mobilisation and Gangetic Urbanisation"
+subtitle: "INDUS: Magadhan Centralisation, Iron Technology and Demographic Climax in the Ganga Basin (345BC to 321BC)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: nanda_empire_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_nanda_empire_spatial.png"
+hero_caption: "Four administrative divisions and 7.558 catalogued settlements across the Nanda Empire (2,54M km²) between 345BC and 321BC, illustrating Gangetic core density and frontier provinces."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+The Nanda Empire (345BC to 321BC) represented the first continental-scale imperial state in South Asian history, unifying 2.543.071 km² of the northern subcontinent across 32.480 active 5-arcminute terrestrial cells. Founded through the energetic military campaigns of Mahapadma Nanda and sustained under his eight dynastic successors, the empire consolidated the agrarian resources of the middle and lower Ganga basin, subdued the ancient tribal oligarchies of the Indo-Gangetic divide, incorporated the rich black-soil kingdoms of Malwa and established tributary hegemony extending southward to the Godavari basin and the Kalinga seaboard. Across this expanse, regional population expanded from 32M inhabitants in 345BC to 33,2M in 335BC, reaching 34,5M at the imperial climax in 321BC. Aggregate demographic density rose from 1.258,32 persons per 100 km² to 1.356,63 persons per 100 km², anchored by a hyper-concentrated Gangetic core where rural densities exceeded 29,94 persons per km² (2.993,87 persons per 100 km²).
+
+This demographic expansion was underpinned by profound technological and socioeconomic transitions comprising the peak of northern South Asia's Second Urbanisation. The widespread adoption of heavy iron ploughshares, socketed iron axes and iron sickles facilitated the systematic clearance of the dense subtropical monsoon forests of Bihar and Bengal, while the perfection of wet rice transplantation (*sali*) generated unprecedented agricultural surpluses along the alluvial floodplains of the Ganga, Son, Gandak and Ghaghara rivers. Concurrently, state-regulated fiscal structures, uniform metrology (*nandopakrama mani*) and the massive circulation of standardised silver punch-marked coinage (*karshapana*) stimulated inter-regional commerce. Urban manufacturing flourished within fortified cities that were home to sophisticated craft guilds, monumental timber palisades and Northern Black Polished Ware ceramic technology.
+
+Demographic mass was concentrated within four broad administrative provinces. The Magadhan and Anga heartland accommodated 10,88M people in 345BC and 11,73M in 321BC (representing 34% of imperial population across 15,4% of the land area), dominated by the imperial capital of Patna (Pataliputra) with 212.764 residents in 321BC alongside historic urban centres including Vaishali (36.000 peak in 345BC), Bhagalpur (Champa, 32.439 peak), Rajgir (29.087 peak), Chandraketugarh (21.432 peak) and Tamralipti (20.749 peak) [@Allchin1995Archaeology; @Erdosy1988Urbanisation]. The Kosala, Kashi, Vatsa and Upper Doab province accommodated 10,24M people in 345BC and 11,04M in 321BC (32% of imperial total across 17,2% of the territory), commanded by major commercial metropolises including Varanasi (60.125 peak in 321BC), Kaushambi (58.629 peak in 321BC), Shravasti (48.000 peak in 345BC), Mathura (43.418 peak in 321BC), Ayodhya (40.818 peak in 321BC) and Ahichhatra (29.431 peak) [@Erdosy1988Urbanisation; @Bayly1983Rulers]. The western tributary province of Avanti, Malwa and Chedi supported 6,4M people in 345BC and 6,9M in 321BC (20% of imperial population across 38,3% of the land area), anchored by Ujjain (62.087 peak in 321BC), Vidisha (30.459 peak) and Bharuch (21.432 peak) [@Habib1982Atlas]. The southern frontier province of Kalinga and the northern Deccan supported 4,48M people in 345BC and 4,83M in 321BC (14% of the imperial total across 29% of the area), anchored by Sisupalgarh (26.035 peak in 321BC).
+
+This historical demographic reconstruction combines 7.558 catalogued settlement trajectories (conforming to a Zipf rank-size distribution with $\alpha = 0,85$ and $R^2 = 0,96$) anchored in primary-monograph city histories, multi-repository archaeological corpora, official national censuses and macro-envelope *qasba*, *pargana* and *nadu* continuity models subjected to strict foundation-year and chronological toponymy filtering [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @ImperialGazetteer1908]. By subtracting nucleated urban centres from dasymetrically distributed rural cultivators, the reconstruction isolates genuine agrarian densities from municipal concentrations. The resulting demographic envelope demonstrates that the Nanda state maintained the logistical and economic capacity required to sustain the colossal standing army recorded by Greek historians, providing the institutional, fiscal and urban foundations inherited by the Mauryan Empire.
+
+# Background
+
+## Fluvial Ecology and Agrarian Geography of the Ganga Basin
+
+The ecological foundation of the Nanda Empire rested upon the vast alluvial basin formed by the Ganga and its perennial tributaries [@Singh2020Hydrology; @Jha2025Geoarchaeo]. Draining the snowfields and glaciers of the central Himalayas, the Ganga, Yamuna, Ghaghara, Gandak and Kosi rivers carry colossal volumes of water and suspended mineral sediment into the northern plains. Annual monsoon rainfall, exceeding 1.000 mm in eastern Uttar Pradesh and 1.600 mm in Bihar and Bengal, combines with seasonal river inundations to replenish soil nutrients across active floodplains (*khadar*), while slightly elevated older alluvium (*bangar*) provides secure elevated terrain for permanent settlements and orchard crops [@Singh2020Hydrology].
+
+South of the Ganga, the Son River and smaller drainage systems debouching from the Vindhyan and Chota Nagpur uplands supplied critical access to mineral resources [@Jha2025Geoarchaeo]. The iron ore deposits of the Barabar hills and the Singhbhum belt, situated within easy riverine transport distance of the Magadhan heartland, provided an inexhaustible supply of high-grade hematite and magnetite [@A1967Indian]. The juxtaposition of rich iron lodes, navigable waterways and deep alluvial soils granted Magadha an enduring structural advantage over rival polities located in the drier western plains or rugged peninsular plateaus [@Reden2019Handbook; @Dwivedi2019Early].
+
+During the mid-first millennium BC, technological developments transformed this environmental potential into agricultural reality. The introduction of heavy socketed iron axes permitted the clearance of dense sal (*Shorea robusta*) and teak forests across the middle Ganga plain [@Bengal2020Proceeding; @Jha2025Geoarchaeo]. Heavy iron-tipped ploughshares, drawn by multiple pairs of humped zebu oxen, penetrated the stiff, moisture-retentive clay soils (*kankar*) that had resisted earlier copper and wooden implements [@Singh2020Hydrology]. Agricultural intensification centred upon wet rice cultivation (*sali*), in which seedlings were carefully sprouted in nursery beds before being transplanted by hand into puddled, flooded fields [@Singh2020Hydrology]. This labour-intensive technique doubled grain yields compared to broadcast sowing, producing substantial caloric surpluses capable of sustaining large non-agricultural urban populations, standing armies and religious establishments [@Dwivedi2021Political; @Milligan2016Rags].
+
+## The Magadhan Ascendancy and Imperial Unification
+
+Prior to the fourth century BC, northern South Asia was partitioned among sixteen major territorial states (*mahajanapadas*) and numerous smaller clan oligarchies (*ganas* and *sanghas*) [@Teng2014Chapter; @Singh2009What]. These polities encompassed diverse political structures, ranging from hereditary monarchies such as Magadha, Kosala, Vatsa and Avanti to aristocratic republics such as the Licchavis of Vaishali, the Mallas of Kushinagar, the Shakyas of Kapilavastu and the Videhas of Mithila [@Niraula2026Unmasking; @Albery2017Buddhism].
+
+The expansion of Magadha unfolded across successive dynasties. Under Bimbisara and Ajatashatru of the Haryanka dynasty (sixth to fifth centuries BC), Magadha annexed neighbouring Anga to the east, gaining control over the river port of Champa and maritime outlets into the Bay of Bengal [@Barua2018Cultural]. Ajatashatru subsequently waged a protracted sixteen-year conflict against the Vajjian confederacy, constructing a fortified border outpost at Patali village on the confluence of the Ganga and Son rivers that later evolved into the imperial metropolis of Pataliputra [@Singh2021Giriyaka]. Under the succeeding Shaishunaga dynasty, Magadha vanquished its principal western competitor, the kingdom of Avanti centred on Ujjain, breaking the balance of power across northern India [@Dwivedi2019Early].
+
+Around 345BC, Mahapadma Nanda seized the Magadhan throne, initiating a decisive phase of imperial consolidation. Puranic texts designate Mahapadma as the *Sarvakshatrantaka* (destroyer of all Kshatriyas) and *Ekarat* (sole sovereign), reflecting his systematic eradication of hereditary aristocratic dynasties across northern and central India [@Singh2009What; @Teng2014Chapter]. The Nanda armies subjugated the ancient realms of the Panchalas, Kurus, Matsyas, Shurasenas, Aikshvakus of Kosala, Maithilas and Asmakas of the central Deccan, transforming tributary arrangements into direct provincial administration [@Dwivedi2021Political; @Asghar2025Historical]. By extending imperial rule into Kalinga along the eastern seaboard and establishing control over the commercial corridors of the Malwa plateau, the Nanda state created an integrated geopolitical space spanning from the Punjab rivers to the Ganga delta and from the Himalayan foothills to the northern Deccan [@Reden2019Handbook; @Embleton2023Names].
+
+## The Second Urbanisation and the Northern Black Polished Ware Horizon
+
+The Nanda era coincided with the maturity of northern India's Second Urbanisation, manifested archaeologically in the widespread distribution of Northern Black Polished Ware (NBPW) [@A1967Indian; @Allchin1995Archaeology; @Kaur2025Exploring]. Dating from approximately 700BC to 200BC, with its peak chronological horizon between 400BC and 300BC, NBPW is characterised by an exceptionally thin, well-levigated fabric and a glossy, lustrous surface slip ranging in colour from coal-black to steel-blue, gold and silvery sheen [@A1967Indian; @Jha2025Geoarchaeo]. This fine luxury tableware was manufactured through sophisticated high-temperature reduction firing and surface treatment, circulating throughout the urban elite as a marker of prestige and cosmopolitan connectivity [@Neill2020Empires; @Dwivedi2021Tools].
+
+Excavations at major Nanda centres document an architectural transformation from perishable thatch and wattle-and-daub structures to monumental urbanism, re-establishing complex civic hierarchies across northern South Asia centuries after the decline of the Indus civilisation [@A1967Indian; @Possehl1999IndusAge; @Kenoyer1998AncientCities; @Bengal2020Proceeding]. Cities were enclosed by colossal fortifications combining earthwork ramparts, fired-brick revetments, deep moats supplied by river diversions and massive timber palisades [@Singh2020Hydrology; @Erdosy1988Urbanisation]. At Pataliputra, excavations conducted by Waddell and Spooner at Bulandi Bagh and Kumrahar uncovered remains of the famous wooden palisade described by the Greek envoy Megasthenes, consisting of upright teak timbers set in parallel rows, bonded by iron bands and equipped with archery loopholes and defensive towers [@A1967Indian; @Allchin1995Archaeology; @Bengal2020Proceeding]. Similar monumental defences have been documented at Rajgir (cyclopean stone walls), Kaushambi, Ujjain, Vaishali, Shravasti and Sisupalgarh [@Singh2021Giriyaka; @Dwivedi2019Early].
+
+Within urban compounds, civic infrastructure expanded to accommodate dense populations. Standardised kiln-fired bricks were employed for deep circular soakage pits, drain channels, paved wells and storage granaries [@Singh2020Hydrology; @Kaur2025Exploring]. Specialised artisan quarters accommodated glassmakers, bead drillers, ironsmiths, textile weavers, ivory carvers and bronze casters [@Reden2019Handbook; @Neill2020Empires]. The concentration of craft production inside walled urban enclosures reflected both royal patronage and the organisational power of merchant guilds (*shreni*), which maintained their own judicial customs, training traditions and commercial standards [@Dwivedi2021Political; @Wick2013Religions].
+
+## Monetisation, Corporate Guilds and Fiscal Administration
+
+A defining hallmark of Nanda governance was the thorough monetisation of the regional economy through the issuance of punch-marked silver and copper coins [@Kumar2025Numismatic; @Bhandare2017Numismatic]. Known in contemporary texts as *karshapanas*, *panas* or *kahapanas*, these standard silver coins weighed approximately 3,4 to 3,6 grams (following the 32-ratti standard) and bore five distinct punch symbols impressed by official mint authorities [@Kumar2025Numismatic]. Typical punch marks included solar emblems, six-armed wheels, hills with peacocks, sacred trees, bulls and geometric signs, guaranteeing the metal purity and weight of the currency across imperial boundaries [@Bhandare2017Numismatic; @Dwivedi2021Tools].
+
+The transition from barter and bullion exchange to a regulated coinage system revolutionised public finance and commercial exchange [@Reden2019Handbook; @Dwivedi2021Political]. The Nanda treasury accumulated unprecedented metallic reserves through systematic fiscal extraction. Classical Greek and Latin writers, drawing upon reports gathered during Alexander's invasion of Punjab in 326BC, repeatedly noted the fabulous wealth of the Nanda king, whom they referred to as Agrammes or Xandrames (derived from the Sanskrit *Augrasainya*, son of Ugrasena/Mahapadma) [@Teng2014Chapter; @Brekke2005Religious]. Jain and Sanskrit traditions similarly characterise the Nandas as insatiable accumulators of treasure, recording that King Dhana Nanda buried enormous hordes of gold and silver coins beneath the bed of the Ganga River at Pataliputra [@Kumar2025Numismatic; @Milligan2016Rags].
+
+This wealth was extracted through an elaborate bureaucratic apparatus that levied taxes upon agricultural produce (the customary royal share of one-sixth, the *shadbhaga*), water usage from royal irrigation canals, tolls upon riverine and road traffic (*shulka*), mining royalties and market transaction fees [@Singh2020Hydrology; @Dwivedi2021Political]. The state introduced standardised dry and liquid measures known as *nandopakrama mani*, which regulated grain exchanges and market transactions throughout northern India [@Dwivedi2021Tools; @Embleton2023Names]. Commercial credit and maritime ventures were financed by wealthy merchant bankers (*setthis*), whose financial networks linked the inland river ports of the Ganga with coastal emporia at Tamralipti, Chandraketugarh and Sopara [@Barua2018Cultural; @Wick2013Religions].
+
+## Religious Heterodoxy and Urban Patronage
+
+The social transformations of the Nanda era were mirrored in the intellectual and religious sphere by the flourishing of sramanic movements, principally Buddhism, Jainism and Ajivika asceticism [@Brekke2005Religious; @Albery2017Buddhism]. These heterodox traditions arose in the urban milieu of the middle Ganga plain, challenging the hereditary ritual authority and animal sacrifices of the orthodox Vedic priesthood [@Singh2009What; @Milligan2016Rags]. Emphasising ethical individual responsibility, non-violence (*ahimsa*) and spiritual liberation, the sramanic orders resonated strongly with the mercantile and artisanal classes whose wealth was based upon trade, coinage and manufacture rather than hereditary landed estates [@Dwivedi2021Political; @Wick2013Religions].
+
+The Nandas were noted patrons of Jainism. Jain chronicles record that the chief ministers of the Nanda sovereigns, notably Kalpaka and Sakatala, were devout Jains who guided imperial administration and military strategy [@Kumar2025Numismatic; @Albery2017Buddhism]. The Hathigumpha inscription of King Kharavela of Kalinga, engraved centuries later in the Udayagiri caves near Bhubaneswar, specifically commemorates a Nanda monarch who had conquered Kalinga and carried away a revered image of the Jina (*Kalinga-Jina*) as a triumphal trophy to Pataliputra, alongside constructing an irrigation canal in the region [@Singh2020Hydrology; @Bengal2020Proceeding]. Concurrently, Buddhist monastic complexes (*viharas*) expanded along major trade routes, receiving donations of land, cash and commodities from royal officials, guild corporations and pious lay devotees (*upasakas*) at centres such as Rajgir, Vaishali, Sarnath and Shravasti [@Milligan2016Rags; @Singh2021Giriyaka].
+
+# Methodology
+
+## Spatial Disaggregation and Environmental Covariates
+
+To model demographic density across 2.543.071 km² of ancient territory, the INDUS analytical engine discretises the subcontinent into 32.480 active 5-arcminute terrestrial grid cells (each cell measuring approximately 9,2 km by 9,2 km at tropical latitudes). Each terrestrial cell is evaluated against environmental, hydrological and infrastructural covariates:
+- Fluvial distance decay: proximity to perennial rivers (the Ganga, Yamuna, Son, Gandak, Ghaghara, Narmada and Mahanadi) and secondary alluvial channels, applying exponential density attenuation beyond 12 km in semi-arid zones [@Singh2020Hydrology; @Jha2025Geoarchaeo].
+- Alluvial soil suitability: continuous weighting identifying fertile floodplains, silt-renewed terraces and deltaic fan systems capable of supporting intensive wet rice and multi-crop agriculture.
+- Topographic slope: penalising rugged mountain terrain in the Vindhya, Satpura, Chota Nagpur and Siwalik ranges while favouring flat alluvial plains and fertile valley floors.
+- Mineral and trade proximity: positive density weighting around documented ancient iron-smelting sites, copper workings, quarry zones and major overland trade arteries (*Uttarapatha* and *Dakshinapatha*) [@A1967Indian; @Dwivedi2021Tools].
+
+## Settlement Subtraction and Dasymetric Allocation
+
+To prevent double counting between nucleated urban populations and rural cultivators, 7.558 catalogued settlements with chronological population series are directly anchored to their WGS84 coordinates. At each benchmark year (345BC, 335BC, 321BC), the active population of catalogued settlements within each province is summed and subtracted from the provincial demographic total.
+
+The remaining rural population is then allocated across non-settled terrestrial pixels in proportion to environmental suitability scores. A two-pass boundary feathering algorithm smoothes density transitions across provincial borders, preventing artificial step discontinuities along mountain divides and administrative limits.
+
+## Demographic Uncertainty Boundaries
+
+Every provincial and macro-regional benchmark estimate carries explicit symmetric uncertainty bounds (+/- 30% across all benchmarks). At the 321BC imperial apex, the imperial total of 34,5M inhabitants is bounded between 24,15M and 44,85M people. This uncertainty interval accommodates variations across competing archaeological estimates of house size, room counts, person-per-hectare multipliers and rural settlement discovery rates [@A1967Indian; @Reden2019Handbook].
+
+Table \ref{tab:subregions} documents the four geopolitical provinces, land areas, benchmark populations and 321BC climax densities.
+
+<figure class="crd-table-figure" id="tab:subregions">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Geopolitical Province</th><th class="crd-th">Area km² (Share)</th><th class="crd-th">345BC</th><th class="crd-th">335BC</th><th class="crd-th">321BC</th><th class="crd-th">321BC Density</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Magadha, Anga and Lower Ganga</strong></td><td class="crd-td">391.800 (15,4%)</td><td class="crd-td">10,88M</td><td class="crd-td">11,29M</td><td class="crd-td">11,73M</td><td class="crd-td">2.993,87</td></tr>
+<tr><td class="crd-td"><strong>Kosala, Kashi and Upper Doab</strong></td><td class="crd-td">437.688 (17,2%)</td><td class="crd-td">10,24M</td><td class="crd-td">10,62M</td><td class="crd-td">11,04M</td><td class="crd-td">2.522,34</td></tr>
+<tr><td class="crd-td"><strong>Avanti, Malwa and Western Lands</strong></td><td class="crd-td">975.022 (38,3%)</td><td class="crd-td">6,4M</td><td class="crd-td">6,64M</td><td class="crd-td">6,9M</td><td class="crd-td">707,68</td></tr>
+<tr><td class="crd-td"><strong>Kalinga and Northern Deccan</strong></td><td class="crd-td">738.561 (29%)</td><td class="crd-td">4,48M</td><td class="crd-td">4,65M</td><td class="crd-td">4,83M</td><td class="crd-td">653,97</td></tr>
+<tr><td class="crd-td"><strong>Imperial Total</strong></td><td class="crd-td">2.543.071 (100%)</td><td class="crd-td">32M</td><td class="crd-td">33,2M</td><td class="crd-td">34,5M</td><td class="crd-td">1.356,63</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Provincial land area, benchmark populations and 321BC climax density across the Nanda Empire.</figcaption>
+</figure>
+
+# Testing and Validation
+
+## Military Mobilisation Ratios and Manpower Calibration
+
+The demographic validity of the Nanda imperial total (32M to 34,5M inhabitants) can be evaluated by examining the standing military establishment recorded in contemporary and classical historical accounts [@Teng2014Chapter; @Reden2019Handbook]. Classical Greco-Roman writers, including Curtius Rufus, Diodorus Siculus and Plutarch, drawing upon the contemporary memoirs of Alexander's staff officers, preserved detailed estimates of the armed forces assembled by the Nanda ruler to defend the Ganga crossing in 326BC [@Teng2014Chapter]. According to these reports, the Nanda standing army comprised 200.000 infantry, 20.000 (or by some accounts 80.000) cavalry, 2.000 four-horse war chariots and between 3.000 and 6.000 armoured war elephants [@Teng2014Chapter; @Brekke2005Religious].
+
+In pre-industrial agrarian empires, sustaining an active standing army of 250k to 300k combatants, alongside auxiliary teamsters, grooms, armourers, mahouts and camp followers, imposed severe fiscal and logistic constraints [@Reden2019Handbook]. Historical demographic analyses indicate that pre-modern agrarian states rarely mobilised more than 0,8% to 1,2% of their total population as full-time professional soldiers without inducing severe economic dislocation and famine [@Reden2019Handbook; @Dwivedi2021Political]. An army of approximately 280k total military personnel drawn from a population of 33,2M in 335BC yields a mobilisation ratio of approximately 0,84%, sitting comfortably within the sustainable envelope of intensive hydraulic states. An imperial population significantly below 25M would have rendered such a force unsustainable, whereas a population exceeding 50M would imply an implausibly low military extraction rate given the aggressive centralisation of the Nanda state.
+
+## Hydraulic Infrastructure and Paddy Agriculture Capacity
+
+The carrying capacity of the middle and lower Ganga basin was calibrated against archaeobotanical and agronomic studies of ancient wet rice systems [@Singh2020Hydrology; @Jha2025Geoarchaeo]. Wet rice paddy cultivation yields between 1,2 and 1,8 tonnes of husked grain per hectare under traditional organic cultivation with iron-share ploughing, compared to 0,5 to 0,8 tonnes for dry broadcast cereals [@Singh2020Hydrology]. Accounting for seed grain requirements, storage losses and milling waste, one hectare of intensively managed paddy land supports between 3,5 and 5 persons annually [@Singh2020Hydrology].
+
+Across the 391.800 km² of the Magadhan core province, where active floodplains and alluvial lowlands comprise over 60% of total land area, cultivating merely 10% of the territory (approximately 3,9M hectares) under double-cropped wet rice and winter pulses would support over 15M persons, comfortably accommodating our reconstructed 321BC climax population of 11,73M inhabitants [@Singh2020Hydrology; @Dwivedi2021Political]. Epigraphic records, including the Hathigumpha inscription, confirm that Nanda monarchs actively invested state capital in hydraulic infrastructure, constructing large diversion channels and storage reservoirs to protect cultivators against monsoon fluctuations [@Singh2020Hydrology; @Bengal2020Proceeding].
+
+## Numismatic and Archaeological Stratigraphy
+
+The chronological coherence of the Nanda urban network is verified through stratified excavations across northern and central India [@A1967Indian; @Kumar2025Numismatic]. At sites such as Pataliputra, Kaushambi, Rajgir, Varanasi, Ujjain and Sisupalgarh, late NBPW ceramic horizons (ca. 400BC to 300BC) coincide stratigraphically with heavy punch-marked silver coin hoards, baked-brick civic drains, iron slag concentrations and inscribed terracotta seals [@A1967Indian; @Kumar2025Numismatic; @Bhandare2017Numismatic].
+
+Numismatic hoards discovered at Patna, Gorakhpur, Chandausi, Amaravati and Vidisha contain thousands of uniform five-symbol silver *karshapanas* whose punch combinations and weight distributions exhibit minimal wear, confirming active circulation under a centralised issuing authority [@Kumar2025Numismatic; @Bhandare2017Numismatic]. The spatial dispersion of these coin hoards confirms that imperial monetary policy was enforced from the Punjab doabs to the coastal delta of Bengal and the northern Deccan plateau [@Dwivedi2021Tools; @Barua2018Cultural].
+
+## Source Ledger Ingestion and Saturation Audit
+
+The INDUS source ledger for the Nanda Empire was assembled through a four-wave asymptotic ingestion process combining primary-monograph city histories, multi-repository archaeological corpora, official census frameworks and macro-envelope settlement continuity models [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @Habib1982Atlas; @Moosvi1987Economy; @ImperialGazetteer1908]:
+- Wave 1: Ingestion of official national censuses (Census of India Table A-04 sub-district series and neighbouring South Asian registries) alongside primary-monograph imperial metropolis anchors, yielding 4.384 verified settlements.
+- Wave 2: Extraction of archaeological sites and heritage monuments from Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews, Archaeological Survey of India P1371 registers, Wikidata, OpenStreetMap and XRONOS/c14bazAAR radiocarbon inventories, adding 2.116 settlements.
+- Wave 3: Macro-calibrated pre-1800 *qasba*, *pargana* and *nadu* continuity modelling filtered by strict foundation-year and chronological toponymy audits, adding 1.058 early historic and tributary localities [@Hambly1982Towns; @Chattopadhyaya1994Making; @Champakalakshmi1996Trade; @Naqvi1968Urbanisation].
+- Wave 4: Sub-mask gap sweeps and GeoNames homonym audits across all four provinces, yielding zero unaccounted settlements and confirming asymptotic saturation (marginal gain 0%).
+
+In total, 8.358 candidate localities were audited: 7.558 were accepted as primary catalogued settlements (2.124 in Magadha and Anga, 1.876 in Kosala and the Upper Doab, 1.517 in Avanti and Malwa, and 2.041 in Kalinga and the northern Deccan) and 800 were excluded (predominantly duplicate survey aliases within 2,2 km, post-321BC foundations and non-habitation features).
+
+# Results
+
+## Demographic Trajectory and Benchmark Analysis
+
+Between 345BC and 321BC, the population of the Nanda Empire increased steadily from 32M to 34,5M inhabitants, representing an annualised growth rate of approximately 0,31% (Figure \ref{fig:trajectory} and Table \ref{tab:benchmarks}). This steady demographic trajectory reflects an era of internal political pacification following the suppression of regional dynasties, coupled with agricultural colonisation of forested tracts in the eastern Ganga basin.
+
+<figure class="crd-figure-block" id="fig:trajectory">
+<img class="crd-figure-img" src="/artefacts/project_indus/1.0-nanda-empire/fig2_nanda_empire_demography.png" alt="fig:trajectory" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Demographic trajectory of the Nanda Empire from 345BC to 321BC, showing benchmark population growth across four geopolitical provinces, uncertainty bounds and the Zipf rank-size distribution of 7.558 catalogued settlements ($\alpha = 0,85$, $R^2 = 0,96$).</figcaption>
+</figure>
+
+<figure class="crd-table-figure" id="tab:benchmarks">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Benchmark</th><th class="crd-th">Imperial Pop</th><th class="crd-th">Density</th><th class="crd-th">Magadha Core</th><th class="crd-th">Upper Doab</th><th class="crd-th">Avanti-Malwa</th><th class="crd-th">Kalinga-Deccan</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>345BC</strong></td><td class="crd-td">32M</td><td class="crd-td">1.258,32</td><td class="crd-td">10,88M</td><td class="crd-td">10,24M</td><td class="crd-td">6,4M</td><td class="crd-td">4,48M</td></tr>
+<tr><td class="crd-td"><strong>335BC</strong></td><td class="crd-td">33,2M</td><td class="crd-td">1.305,51</td><td class="crd-td">11,29M</td><td class="crd-td">10,62M</td><td class="crd-td">6,64M</td><td class="crd-td">4,65M</td></tr>
+<tr><td class="crd-td"><strong>321BC</strong></td><td class="crd-td">34,5M</td><td class="crd-td">1.356,63</td><td class="crd-td">11,73M</td><td class="crd-td">11,04M</td><td class="crd-td">6,9M</td><td class="crd-td">4,83M</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Benchmark population totals and provincial distribution across the Nanda Empire (345BC to 321BC).</figcaption>
+</figure>
+
+## The Four Geopolitical Provinces
+
+### Magadha, Anga and Lower Gangetic Heartland
+
+The imperial heartland comprised 391.800 km² along the lower Ganga, encompassing southern Bihar, northern Bengal and the deltaic fringes [@Barua2018Cultural; @Singh2021Giriyaka; @Eaton1993Rise]. Population expanded from 10,88M in 345BC to 11,29M in 335BC, reaching 11,73M in 321BC across 2.124 catalogued settlements, the densest sub-regional concentration in the empire. Demographic density attained 2.993,87 persons per 100 km² (29,94 persons per km²), the highest regional density in the ancient world outside the Nile valley and the central plains of China.
+
+This province was anchored by Patna (Pataliputra), which expanded from 160k inhabitants in 345BC to 180,1k in 335BC and 212.764 in 321BC within its monumental timber fortifications, functioning as the political, administrative and financial hub of the empire [@A1967Indian; @Allchin1995Archaeology; @Erdosy1988Urbanisation; @Hambly1982Towns; @Naqvi1968Urbanisation; @Bengal2020Proceeding]. Major secondary centres included Vaishali (36.000 peak in 345BC, declining slightly to 35.463 in 321BC), the former Licchavi republican capital; Bhagalpur (ancient Champa, 32.439 peak in 345BC); Rajgir (29.087 peak in 345BC), the ancient cyclopean mountain capital; Chandraketugarh (21.432 in 321BC), Tamralipti (20.749 in 321BC) and Wari-Bateshwar (20.210 in 321BC), which operated as riverine and deltaic gateways mediating trade across the Bay of Bengal, alongside Janakpur (Mithila, 17.686 in 321BC) and Gaya (17.250 in 321BC) [@Barua2018Cultural; @Neill2020Empires; @ImperialGazetteer1908].
+
+### Kosala, Kashi, Vatsa and Upper Doab Provinces
+
+The northern and western Gangetic province covered 437.688 km² across the Ganga-Yamuna doab, Haryana, Punjab and the Himalayan piedmont [@A1967Indian; @Joshi2010Origin; @Slusser1982NepalMandala]. Population grew from 10,24M in 345BC to 10,62M in 335BC, attaining 11,04M in 321BC (yielding a density of 2.522,35 persons per 100 km²).
+
+The province catalogues 1.876 settlements along an ancient, closely spaced network of agricultural market towns and caravan stations [@Dwivedi2019Early; @Embleton2023Names; @Erdosy1988Urbanisation]. Key metropolises included Varanasi (Kashi, rising from 55k in 345BC to 60.125 in 321BC), the sacred commercial and textile manufacturing centre on the Ganga [@Bayly1983Rulers; @Naqvi1968Urbanisation]; Kaushambi (expanding from 55k in 345BC to 58.629 in 321BC), commanding the Yamuna corridor [@Erdosy1988Urbanisation]; Shravasti (48.000 peak in 345BC, 46.376 in 321BC), the historic capital of Kosala [@Allchin1995Archaeology]; Mathura (43.418 peak in 321BC), the southern Yamuna trading hub [@Habib1982Atlas]; Ayodhya (Saketa, 40.818 peak in 321BC); Ahichhatra (29.431 peak in 321BC); and Delhi (Indraprastha, 25.015 peak in 321BC), commanding the western Yamuna crossing [@A1967Indian; @Blake1991Shahjahanabad; @Dwivedi2021Tools]. Secondary centres included Kannauj (18.956 in 321BC), Tilaurakot (Kapilavastu, 17.779 in 321BC) and Kampilya (15.379 peak in 345BC) [@Slusser1982NepalMandala; @Chattopadhyaya1994Making].
+
+### Avanti, Malwa, Chedi and Western Tributaries
+
+The southwestern province encompassed 975.022 km² of the Malwa plateau, the Narmada valley, Rajasthan and Gujarat [@Dwivedi2019Early; @Kumar2025Numismatic; @Habib1982Atlas]. Across 1.517 catalogued settlements, population expanded from 6,4M in 345BC to 6,64M in 335BC, reaching 6,9M in 321BC (707,68 persons per 100 km²).
+
+This territory occupied a critical strategic position connecting the Gangetic plains with the Arabian Sea ports [@Dwivedi2019Early]. Ujjain (expanding from 58.917 in 345BC to 62.087 in 321BC), situated on the Shipra River, functioned as the second-largest metropolis of the empire and the premier western capital, while Vidisha (rising to 30.459 in 321BC), situated on the Betwa River, served as the primary commercial junction linking the northern *Uttarapatha* with the southern *Dakshinapatha* [@Allchin1995Archaeology; @Dwivedi2021Tools]. Bharuch (Bhrigukaccha, 21.432 in 321BC) anchored maritime exchange on the Gulf of Khambhat, supported inland by Viratnagar (8.971 in 321BC), Maheshwar and Eran along the Chambal and Narmada corridors [@Habib1982Atlas; @Moosvi1987Economy].
+
+### Kalinga and Northern Deccan Frontier
+
+The southern province covered 738.561 km² encompassing the coastal plains of Odisha, the Mahanadi basin and the northern Deccan plateau along the Godavari River [@Bengal2020Proceeding; @SD2016Promoting]. Across 2.041 catalogued settlements, population increased from 4,48M in 345BC to 4,65M in 335BC, reaching 4,83M in 321BC (653,97 persons per 100 km²).
+
+Following Mahapadma Nanda's conquest of Kalinga, the province provided the empire with valuable salt production, coastal fisheries and direct access to maritime routes extending toward Southeast Asia [@Bengal2020Proceeding; @Barua2018Cultural]. The premier regional centre was Sisupalgarh (26.035 peak in 321BC, rising from 23.957 in 345BC), a monumental square fortress equipped with massive gateways, deep moats and kiln-fired brick habitations, complemented inland by the fortified post at Jaugada and southern agrarian *nadu* networks documented through long-term epigraphic continuity [@A1967Indian; @Champakalakshmi1996Trade; @Chattopadhyaya1994Making; @Stein1989Vijayanagara].
+
+## Urban Hierarchy and Settlement Systems
+
+Across all 7.558 catalogued settlements, the empirical size distribution conforms closely to a Zipf rank-size power law with exponent $\alpha = 0,85$ ($R^2 = 0,96$), reflecting a strongly integrated imperial urban system led by Patna without severe regional fragmentation [@Erdosy1988Urbanisation; @Allchin1995Archaeology]. Table \ref{tab:leading_settlements} presents the leading fifteen catalogued settlements in the Nanda Empire ordered by peak population.
+
+<figure class="crd-table-figure" id="tab:leading_settlements">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Settlement Name</th><th class="crd-th">Geopolitical Province</th><th class="crd-th">Coordinates</th><th class="crd-th">Peak Pop</th><th class="crd-th">321BC Pop</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Patna</strong></td><td class="crd-td">Magadha, Anga and Lower Ganga</td><td class="crd-td">25,61 N, 85,14 E</td><td class="crd-td">212,8k</td><td class="crd-td">212,8k</td></tr>
+<tr><td class="crd-td"><strong>Ujjain</strong></td><td class="crd-td">Avanti, Malwa and Western Lands</td><td class="crd-td">23,18 N, 75,78 E</td><td class="crd-td">62,1k</td><td class="crd-td">62,1k</td></tr>
+<tr><td class="crd-td"><strong>Varanasi</strong></td><td class="crd-td">Kosala, Kashi and Upper Doab</td><td class="crd-td">25,32 N, 83,01 E</td><td class="crd-td">60,1k</td><td class="crd-td">60,1k</td></tr>
+<tr><td class="crd-td"><strong>Kaushambi</strong></td><td class="crd-td">Kosala, Kashi and Upper Doab</td><td class="crd-td">25,34 N, 81,39 E</td><td class="crd-td">58,6k</td><td class="crd-td">58,6k</td></tr>
+<tr><td class="crd-td"><strong>Shravasti</strong></td><td class="crd-td">Kosala, Kashi and Upper Doab</td><td class="crd-td">27,51 N, 82,05 E</td><td class="crd-td">48k</td><td class="crd-td">46,4k</td></tr>
+<tr><td class="crd-td"><strong>Mathura</strong></td><td class="crd-td">Kosala, Kashi and Upper Doab</td><td class="crd-td">27,49 N, 77,67 E</td><td class="crd-td">43,4k</td><td class="crd-td">43,4k</td></tr>
+<tr><td class="crd-td"><strong>Ayodhya</strong></td><td class="crd-td">Kosala, Kashi and Upper Doab</td><td class="crd-td">26,79 N, 82,19 E</td><td class="crd-td">40,8k</td><td class="crd-td">40,8k</td></tr>
+<tr><td class="crd-td"><strong>Vaishali</strong></td><td class="crd-td">Magadha, Anga and Lower Ganga</td><td class="crd-td">25,99 N, 85,13 E</td><td class="crd-td">36k</td><td class="crd-td">35,5k</td></tr>
+<tr><td class="crd-td"><strong>Bhagalpur</strong></td><td class="crd-td">Magadha, Anga and Lower Ganga</td><td class="crd-td">25,25 N, 86,95 E</td><td class="crd-td">32,4k</td><td class="crd-td">32,2k</td></tr>
+<tr><td class="crd-td"><strong>Vidisha</strong></td><td class="crd-td">Avanti, Malwa and Western Lands</td><td class="crd-td">23,52 N, 77,81 E</td><td class="crd-td">30,5k</td><td class="crd-td">30,5k</td></tr>
+<tr><td class="crd-td"><strong>Ahichhatra</strong></td><td class="crd-td">Kosala, Kashi and Upper Doab</td><td class="crd-td">28,37 N, 79,13 E</td><td class="crd-td">29,4k</td><td class="crd-td">29,4k</td></tr>
+<tr><td class="crd-td"><strong>Rajgir</strong></td><td class="crd-td">Magadha, Anga and Lower Ganga</td><td class="crd-td">25,03 N, 85,42 E</td><td class="crd-td">29,1k</td><td class="crd-td">26,8k</td></tr>
+<tr><td class="crd-td"><strong>Sisupalgarh</strong></td><td class="crd-td">Kalinga and Northern Deccan</td><td class="crd-td">20,23 N, 85,85 E</td><td class="crd-td">26k</td><td class="crd-td">26k</td></tr>
+<tr><td class="crd-td"><strong>Delhi</strong></td><td class="crd-td">Kosala, Kashi and Upper Doab</td><td class="crd-td">28,61 N, 77,24 E</td><td class="crd-td">25k</td><td class="crd-td">25k</td></tr>
+<tr><td class="crd-td"><strong>Chandraketugarh</strong></td><td class="crd-td">Magadha, Anga and Lower Ganga</td><td class="crd-td">22,7 N, 88,68 E</td><td class="crd-td">21,4k</td><td class="crd-td">21,4k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Leading fifteen urban settlements in the Nanda Empire, showing coordinates, peak population and 321BC population.</figcaption>
+</figure>
+
+The settlement hierarchy conformed to a distinct multi-tiered rank-size distribution ($\alpha = 0,85$, $R^2 = 0,96$):
+1. Primate imperial metropolis (> 100k inhabitants): Patna (Pataliputra, 212.764 in 321BC), which concentrated imperial administrative, judicial and financial institutions at the confluence of the Ganga, Son and Gandak rivers [@A1967Indian; @Allchin1995Archaeology; @Bengal2020Proceeding].
+2. Regional metropolises (50k to 100k inhabitants): Ujjain (62.087 in 321BC), Varanasi (60.125 in 321BC) and Kaushambi (58.629 in 321BC), commanding vital river confluences and inter-regional caravan corridors [@Dwivedi2019Early; @Erdosy1988Urbanisation].
+3. Major provincial capitals (30k to 50k inhabitants): Shravasti (48.000 peak in 345BC, 46.376 in 321BC), Mathura (43.418 in 321BC), Ayodhya (40.818 in 321BC), Vaishali (36.000 peak in 345BC, 35.463 in 321BC), Bhagalpur (Champa, 32.439 peak in 345BC, 32.204 in 321BC) and Vidisha (30.459 in 321BC) [@Allchin1995Archaeology; @Dwivedi2021Tools].
+4. Secondary regional centres and ports (15k to 30k inhabitants): Ahichhatra (29.431 in 321BC), Rajgir (29.087 peak in 345BC, 26.830 in 321BC), Sisupalgarh (26.035 in 321BC), Delhi (Indraprastha, 25.015 in 321BC), Chandraketugarh (21.432 in 321BC), Bharuch (21.432 in 321BC), Tamralipti (20.749 in 321BC), Wari-Bateshwar (20.210 in 321BC), Kannauj (18.956 in 321BC), Tilaurakot (17.779 in 321BC), Janakpur (17.686 in 321BC), Gaya (17.250 in 321BC) and Kampilya (15.379 peak in 345BC) [@Barua2018Cultural; @Singh2021Giriyaka; @Kaur2025Exploring].
+5. Tertiary agricultural towns, *qasbas* and garrison outposts (< 15k inhabitants): over 7.530 catalogued nucleated localities out of the 7.558-site gazetteer providing local market services, craft production and garrison accommodation.
+
+# Limitations
+
+Archaeological visibility and demographic reconstruction across the Nanda Empire face distinct preservation and historiographical constraints:
+1. Fluvial alluviation and modern urban superposition: Major Gangetic cities have experienced continuous habitation across two and a half millennia, with modern metropolitan centres (Patna, Varanasi, Delhi, Ujjain) directly overlying ancient NBPW strata [@A1967Indian; @Jha2025Geoarchaeo]. Archaeological investigation is frequently restricted to salvage soundings, while active river alluviation has buried rural early historic hamlets under 3 to 6 metres of silt [@Jha2025Geoarchaeo].
+2. Perishable architectural materials: Although kiln-fired brick and dressed stone were utilised for municipal fortifications, drains and public structures, the vast majority of domestic dwellings were constructed of timber, bamboo and unbaked mud brick [@Bengal2020Proceeding]. In the humid subtropical climate of the Ganga basin, organic building components decay rapidly, leaving sparse architectural footprints beyond post-holes and floor levels [@A1967Indian].
+3. Historiographical and literary bias: Contemporary written records are filtered through external Greek accounts (Megasthenes, Curtius) or later Sanskrit puranic and Buddhist chronicles (Mahavamsa, Divyavadana) [@Teng2014Chapter; @Singh2009What]. These literary sources frequently exaggerate troop numbers, treasury sizes and royal vices to serve dynastic or moralising purposes, necessitating rigorous calibration against archaeological and agronomic baselines [@Reden2019Handbook; @Albery2017Buddhism].
+4. Numismatic dating challenges: Silver punch-marked coins carry no regnal names or calendar dates, circulating for decades or centuries as trusted bullion currency [@Kumar2025Numismatic; @Bhandare2017Numismatic]. While hoard associations anchor general chronological horizons, assigning specific coin series to individual Nanda sovereigns remains subject to scholarly debate [@Kumar2025Numismatic; @Dwivedi2021Tools].
+
+# Conclusion
+
+The Nanda Empire marked a watershed in the historical demography of South Asia, establishing the institutional, economic and territorial framework that unified the subcontinent. Between 345BC and 321BC, regional population expanded from 32M to 34,5M inhabitants across 2,54M km² of territory, generating an aggregate demographic density of 1.356,63 persons per 100 km² and supporting a 7.558-settlement urban hierarchy ($\alpha = 0,85$, $R^2 = 0,96$) headed by Patna (Pataliputra) with 212.764 residents in 321BC.
+
+This demographic apex was made possible by the convergence of heavy iron metallurgy, wet rice paddy cultivation, state-sponsored hydraulic engineering, standardised silver coinage and the fiscal unification of the northern subcontinent. By subduing competing tribal oligarchies and establishing centralised provincial administration, the Nanda rulers laid the logistical and military foundation that enabled Chandragupta Maurya and Chanakya to establish the Mauryan Empire in 321BC, projecting Magadhan authority across the entirety of South Asia.
+
+# Appendix
+
+The INDUS source ledger audited 8.358 candidate records, resulting in 7.558 accepted settlements and 800 exclusions. Table \ref{tab:saturation} summarises the four-wave saturation audit demonstrating complete regional coverage.
+
+<figure class="crd-table-figure" id="tab:saturation">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Ingestion Wave</th><th class="crd-th">Source Category</th><th class="crd-th">Prior Cumulative</th><th class="crd-th">Newly Included</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Wave 1</strong></td><td class="crd-td">official censuses imperial anchors and national registries</td><td class="crd-td">0</td><td class="crd-td">4.384</td></tr>
+<tr><td class="crd-td"><strong>Wave 2</strong></td><td class="crd-td">multi repository archaeology asi wikidata osm zenodo</td><td class="crd-td">4.384</td><td class="crd-td">2.116</td></tr>
+<tr><td class="crd-td"><strong>Wave 3</strong></td><td class="crd-td">macro calibrated pre1800 qasba nadu continuity and foundation audit</td><td class="crd-td">6.500</td><td class="crd-td">1.058</td></tr>
+<tr><td class="crd-td"><strong>Wave 4</strong></td><td class="crd-td">submask gap hunter and geonames homonym audit</td><td class="crd-td">7.558</td><td class="crd-td">0</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 4.</span> Four-wave asymptotic saturation audit of catalogued settlements across the Nanda Empire.</figcaption>
+</figure>
+
+# Sources

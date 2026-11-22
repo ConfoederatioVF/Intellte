@@ -1,0 +1,399 @@
+---
+title: "Demographic Trajectory of Korea under Japanese Occupation"
+subtitle: "Colonial Censuses, Provincial Dynamics, Industrial Migration and Spatial Distribution, 1905AD to 1945AD"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: korea_under_japanese_occupation_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_korea_under_japanese_occupation_spatial.png"
+hero_caption: "Administrative division and urban centres across the thirteen provinces of Korea from 1905AD to 1945AD."
+hero_label: "fig:hero-korea-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json5_clean <- function (arg0_path) {
+  lines <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  lines <- sub("^\\s*//.*$", "", lines)
+  lines <- sub("(?<!:)//.*$", "", lines, perl = TRUE)
+  txt <- paste(lines, collapse = "\n")
+  txt <- gsub("/\\*.*?\\*/", "", txt, perl = TRUE)
+  txt <- gsub(",(\\s*[}\\]])", "\\1", txt, perl = TRUE)
+  fromJSON(txt, simplifyVector = FALSE)
+}
+
+mod_data <- read_json5_clean("korea_under_japanese_occupation.json5")
+sett_data <- fromJSON("korea_under_japanese_occupation_settlements.json", simplifyVector = FALSE)
+diag_data <- fromJSON("../../_shared/sites_korea_japan/config/kriging_diagnostics.json", simplifyVector = FALSE)
+geo_data <- fromJSON("../../_shared/sites_korea_japan/config/sites_korea_japan_geojson_metadata.json", simplifyVector = FALSE)
+```
+
+# Abstract
+
+This study reconstructs the provincial demography, settlement hierarchy and spatial population density of Korea under Japanese colonial rule from the establishment of the Japanese residency-general in 1905AD through annexation in 1910AD to liberation in August 1945. Across thirteen administrative provinces encompassing 226.901 km² (3.462 five-arcminute raster cells), aggregate population expanded from 17,25M (17.250.000) in 1905AD and 17,43M (17.430.000) in 1910AD to 18,07M (18.070.000) in 1920AD, reached 19,52M (19.522.945) at the first modern census in 1925AD, climbed to 21,06M (21.058.305) in 1930AD, 22,90M (22.899.038) in 1935AD, and 24,33M (24.326.327) in 1940AD, culminating in 25,95M (25.950.000) at liberation in 1945AD [@Kwon1977Demography; @KOSIS2021Census; @SBJ2021Census]. This demographic expansion reflected the onset of modern mortality transition, driven by colonial public health infrastructure, quarantine controls, and smallpox vaccinations that lowered infant and crude death rates while fertility remained near traditional high levels [@Kwon1977Demography; @Michell1979Fact; @Shibuya2022Global]. Simultaneously, colonial economic restructuring generated dramatic spatial realignments: whereas southern agrarian provinces experienced rural immiseration and outward displacement under the rice export campaign, northern provinces underwent rapid industrialisation centered on hydroelectric power and heavy chemicals along the Yalu and Pujon rivers, creating manufacturing agglomerations at Pyongyang (310k), Hamhung (118k), Hungnam (29k), Chongjin (198k), Wonsan (111k) and Sinuiju (117k) [@EberstadtBanister1992; @Spoorenberg2012DPRK; @Kong1997Conclusion]. Meanwhile, trunk railways fostered rapid port urbanisation led by Seoul (935k), Busan (281k), Incheon (215k) and Daegu (205k), alongside massive wartime labour migration sending over 2M Koreans to Japan and 1,5M to Manchuria [@Kwon1977Demography; @Sun2019Chinese; @Zhou2025Chinese]. Reconciling official quinquennial censuses with Kwon Tae-hwan's demographic revisions, this study models spatial population surfaces using Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) kriging across 384 catchments, 9.224 land cells and 581 catalogued settlements [@Paciorek2006Matern].
+
+# Background
+
+## Pre-Colonial Registration and the Late Korean Empire
+
+The demographic foundations of early twentieth-century Korea originated in the administrative practices of the Joseon Dynasty (1392AD to 1910AD) and the short-lived Korean Empire (*Daehan Jeguk*, 1897AD to 1910AD) [@KwonShin1977Joseon; @Michell1979Fact]. Throughout the late Joseon era, the state maintained triennial household registers (*hojeok*) designed primarily to allocate military duties, corvée labour requirements, and grain tribute obligations rather than to enumerate every resident inhabitant [@KwonShin1977Joseon; @Cha2009LivingStandards].
+
+Because local gentry (*yangban*), monastic orders, private slaves, and runaway tenant cultivators successfully evaded fiscal registration, official dynastic returns suffered from persistent structural under-enumeration [@Michell1979Fact; @KwonShin1977Joseon]. The official census of 1904AD reported approximately 5,8M people, an arithmetic artefact reflecting tax quotas rather than living individuals [@Michell1979Fact]. Groundbreaking demographic analysis by Kwon Tae-hwan and Shin Yong-ha established that actual late Joseon population was roughly triple the registered fiscal counts, fluctuating between 16M and 17M persons during the late nineteenth century before nationwide epidemics and droughts in the 1890s temporarily checked agrarian growth [@KwonShin1977Joseon; @Michell1979Fact; @Cha2009LivingStandards].
+
+## The Residency-General and the Police Household Surveys (1905AD to 1910AD)
+
+Following the Russo-Japanese War and the imposition of the Eulsa Protectorate Treaty in November 1905, the Japanese Empire established the Residency-General (*Tonggamfu*) in Seoul, inaugurating direct administrative oversight over Korean internal affairs [@Kwon1977Demography; @Sun2019Chinese]. The Residency-General recognised that accurate cadastral and population registers were indispensable prerequisites for colonial fiscal extraction, land taxation and police surveillance [@Kwon1977Demography; @Cha2009LivingStandards].
+
+In 1909AD, the colonial administration enacted the Civil Registration Law (*Minseok-beop*), assigning the compilation of household registries to the national Police Bureau (*Kyeongmu Guk*) [@Kwon1977Demography; @KwonShin1977Joseon]. The police surveys of 1909AD and 1910AD registered 12.934.282 and 13.128.780 persons respectively [@Kwon1977Demography]. Although vastly more comprehensive than late Joseon tax rolls, these initial police surveys remained deficient [@Kwon1977Demography; @Michell1979Fact]. Widespread popular distrust of Japanese police authorities, fears of military conscription and taxation, logistical difficulties in mountainous frontier districts, and the systematic under-registration of female infants and unmarried daughters resulted in the omission of roughly 25% of total inhabitants [@Kwon1977Demography; @Yoo2019Politics].
+
+Kwon Tae-hwan's demographic reconstructions demonstrate that Korea's true biological population stood at 17,25M in 1905AD and rose to 17,43M at formal annexation in 1910AD [@Kwon1977Demography]. Between 1910AD and 1918AD, the Government-General of Chosen (*Chosen Sotokufu*) executed the comprehensive Land Survey (*Toji Josa Saeop*), establishing cadastral ownership boundaries and modern title deeds across the peninsula [@Cha2009LivingStandards; @KOSIS2021Census]. The land survey accelerated the conversion of traditional customary land tenancy into formal landlord-tenant contracts, producing widespread peasant dispossession while simultaneously tightening civil household surveillance across all thirteen provinces [@Kwon1977Demography; @Cha2009LivingStandards].
+
+## The Thirteen-Province System and Colonial Administrative Restructuring
+
+Following formal annexation in August 1910, the Government-General codified the thirteen-province administrative structure (*13-do*) that had been established during the Gabo Reforms of 1896AD [@Kwon1977Demography; @KOSIS2021Census]. The colonial state retained the provincial boundaries but reorganised the sub-provincial administrative tier to streamline command lines from Seoul [@KOSIS2021Census].
+
+In March 1914, the Government-General promulgated a sweeping amalgamation of local districts, consolidating hundreds of traditional historical magistrates into 218 unified counties (*gun*) and 12 designated municipal prefectures (*bu*) [@KOSIS2021Census; @NSTAC2026SSDSE]. The newly designated *bu* encompassed the primary commercial, administrative and treaty port settlements: Keijo (Seoul), Jinsen (Incheon), Kaijo (Kaesong), Heijo (Pyongyang), Chinnampo (Nampo), Shingishu (Sinuiju), Genzan (Wonsan), Fusan (Busan), Taikyu (Daegu), Mokpo, Kunsan (Gunsan), and Seishin (Chongjin) [@KOSIS2021Census; @NSTAC2026SSDSE].
+
+Below the county level, the colonial state grouped traditional natural hamlets (*dong* and *ri*) into standardised rural townships (*myeon*), each administered by an appointed township chief (*myeon-jang*) working under the direct supervision of the county police station [@KOSIS2021Census; @Yoo2019Politics]. This three-tiered hierarchy of province, county or municipality, and township provided the administrative grid through which subsequent quinquennial censuses and vital registration statistics were compiled [@Kwon1977Demography; @KOSIS2021Census].
+
+## The Transport Infrastructure and the Colonial Railway Grid
+
+The physical integration of the peninsular population was accelerated by the construction of a comprehensive standard-gauge railway network administered by the Railway Bureau of the Government-General (*Chosen Sotokufu Tetsudo*) [@Xia2024Impact; @Ao2026Tracing]. Construction had begun under private Japanese concessionaires prior to annexation, opening the Gyeongbu Line connecting Seoul and Busan in 1905AD and the Gyeongui Line linking Seoul to Sinuiju on the Manchurian frontier in 1906AD [@KOSIS2021Census; @Xia2024Impact].
+
+In 1911AD, the completion of the Yalu River Bridge linked the Korean railway network directly to the South Manchuria Railway (*Mantetsu*) at Dandong (Andong), establishing an unbroken overland rail corridor between Busan and Mukden, Changchun, Harbin and Beijing [@Sun2019Chinese; @Xia2024Impact]. The Government-General subsequently constructed the Honam Line (1914AD) through the southwestern agricultural plains of Chungcheong and Jeolla, the Gyeongwon Line (1914AD) cutting through the central mountains to Wonsan on the Sea of Japan, and the Hamgyeong Line (completed in 1928AD) hugging the northeastern coastline to Chongjin and Hoeryong [@KOSIS2021Census; @Ao2026Tracing].
+
+These railway corridors dramatically curtailed transit times across the peninsula, reducing the journey from Seoul to Busan from more than a week of overland travel to less than twelve hours [@Xia2024Impact]. Transport integration facilitated the long-distance haulage of rice and timber, enabled large-scale seasonal labour migration from southern villages to northern industrial zones, and channeled demographic growth into designated railway junction towns such as Daejeon, Iri (Iksan) and Suncheon [@Kwon1977Demography; @Xia2024Impact; @Dyrting2024Estimating].
+
+## The Quinquennial Colonial Census System (1925AD to 1944AD)
+
+The turning point in Korean demographic record-keeping occurred on 1 October 1925, when the Government-General instituted the modern quinquennial census system (*Kokusei Chosa*), synchronised with the imperial census apparatus in the Japanese home islands [@Kwon1977Demography; @SBJ2021Census]. The 1925AD First Simplified Census (*Kan'i Kokusei Chosa*) was the first genuine enumerative census conducted across the peninsula, deploying trained civilian enumerators who visited every household to register de facto resident populations on a single reference day [@Kwon1977Demography; @KOSIS2021Census].
+
+The 1925AD census enumerated 19.522.945 persons, providing an indispensable empirical anchor for all modern historical demography [@Kwon1977Demography; @KOSIS2021Census; @SBJ2021Census]. Five years later, on 1 October 1930, the colonial government conducted a comprehensive general census that collected detailed data on age, sex, marital status, place of birth, nationality, occupation, industry, literacy and mother tongue [@Kwon1977Demography; @KOSIS2021Census]. The 1930AD census counted 21.058.305 inhabitants, followed by the quinquennial census of 1 October 1935, which registered 22.899.038 persons [@Kwon1977Demography; @KOSIS2021Census].
+
+The 1940AD census, conducted amidst expanding wartime economic controls following the outbreak of the Second Sino-Japanese War in 1937AD, recorded 24.326.327 persons [@Kwon1977Demography; @KOSIS2021Census]. The final wartime simplified census of 1 May 1944 enumerated 25.900.000 people [@Kwon1977Demography; @SBJ2021Census]. At liberation in August 1945, the peninsula held an estimated 25,95M residents [@Kwon1977Demography; @EberstadtBanister1992].
+
+Through rigorous backward projection and cohort-survival analysis, Kwon Tae-hwan evaluated the completeness of these colonial censuses [@Kwon1977Demography]. While early colonial police tallies omitted millions of people, the 1925AD and 1930AD censuses attained high coverage rates exceeding 97% to 98%, with omissions concentrated almost entirely among infants under one year of age and seasonal itinerant agricultural workers [@Kwon1977Demography; @Dyrting2024Estimating].
+
+## Mortality Decline and the Epidemiological Transition
+
+The four decades between 1905AD and 1945AD witnessed the initial phase of Korea's modern demographic transition, marked by a pronounced divergence between declining mortality and persistent high fertility [@Kwon1977Demography; @Shibuya2022Global]. Prior to 1910AD, life expectancy at birth in Korea hovered between 24 and 30 years, reflecting endemic infectious diseases, recurrent smallpox epidemics, gastrointestinal infections, and seasonal malnutrition [@Kwon1977Demography; @Cha2009LivingStandards; @Michell1979Fact].
+
+The Government-General established a centralized colonial hygiene and police medicine infrastructure [@Kwon1977Demography; @Shibuya2022Global]. Maritime quarantine stations at Busan, Incheon, Gunsan, Mokpo, Wonsan and Chongjin intercepted cholera and plague outbreaks arriving from continental Chinese and Russian ports [@Ao2026Tracing; @Shibuya2022Global]. Provincial charity hospitals (*do-rip uiwon*) were established in all thirteen provincial capitals, serving as regional bases for epidemic surveillance, disinfection and medical certification [@Kwon1977Demography; @Shibuya2022Global]. Compulsory vaccination campaigns against smallpox, introduced systematically across elementary schools and rural police stations, reduced smallpox mortality to negligible levels by the 1920s [@Kwon1977Demography]. Concurrently, municipal authorities constructed chlorinated piped water networks and drainage channels in major cities such as Seoul, Busan, Daegu and Pyongyang, mitigating waterborne enteric diseases [@KOSIS2021Census; @NSTAC2026SSDSE].
+
+As documented by Kwon Tae-hwan, the crude death rate fell steadily from approximately 34 to 36 per thousand around 1910AD to 24 per thousand during the 1925--1930 intercensal quinquennium, and further declined to 18--20 per thousand by 1940AD [@Kwon1977Demography]. Infant mortality dropped from over 220 infant deaths per thousand live births before 1920AD to approximately 140 per thousand by 1940AD, lifting female life expectancy at birth to 45 years and male life expectancy to 42 years [@Kwon1977Demography; @Lee2022Household].
+
+In contrast to falling mortality, fertility remained largely untouched by modern family limitation [@Kwon1977Demography; @Yoo2019Politics]. Universal female marriage, early marriage ages (averaging 16 to 18 years for females before the 1930s), and the cultural premium placed on male lineage continuity sustained crude birth rates above 40 to 45 per thousand throughout the colonial era [@Kwon1977Demography; @Yoo2019Politics; @Bien2013High]. Consequently, natural population growth accelerated from less than 0,5% per annum before 1910AD to 1,5% annually in the 1920s and exceeded 1,7% annually during the 1930s, generating a classic demographic transition boom [@Kwon1977Demography; @Cha2009LivingStandards].
+
+# Methodology
+
+## Territorial Masking and the Thirteen-Province System
+
+To maintain spatial and administrative consistency across the colonial epoch, this study adopts the thirteen-province administrative partition (*13-do*) codified by imperial decree in 1896AD and maintained with minor boundary adjustments by the Government-General of Chosen through 1945AD (Table \ref{tab:validation-korea}) [@Kwon1977Demography; @KOSIS2021Census]. The peninsular landmass covers 226.901 km² across 3.462 five-arcminute raster cells, grouped into three macro-regions:
+
+1. Northern Industrial and Frontier Provinces (four territories, 94.520 km², 41,7% of peninsular area): South Pyongan (Heian-nan, 14.819 km²), North Pyongan (Heian-hoku, 27.824 km²), South Hamgyong (Kankyo-nan, 34.010 km²), and North Hamgyong (Kankyo-hoku, 18.677 km²).
+2. Central Corridor Provinces (three territories, 60.468 km², 26,6% of peninsular area): Gyeonggi-do encompassing Seoul and Incheon (Keiki, 9.974 km²), Gangwon-do spanning the Taebaek crest (Kogen, 32.478 km²), and Hwanghae-do (Kokai, 18.016 km²).
+3. Southern Agricultural Core Provinces (six territories, 71.913 km², 31,7% of peninsular area): North Chungcheong (Chusei-hoku, 5.606 km²), South Chungcheong (Chusei-nan, 9.342 km²), North Jeolla (Zenra-hoku, 8.161 km²), South Jeolla encompassing Jeju Island (Zenra-nan, 15.408 km²), North Gyeongsang (Keisho-hoku, 18.729 km²), and South Gyeongsang (Keisho-nan, 13.857 km²).
+
+At each benchmark year $t \in \{1905, 1910, 1915, 1920, 1925, 1930, 1935, 1940, 1944, 1945\}$, regional population $P_r(t)$ harmonises enumerated civil totals $C_r(t)$, unrecorded infant fractions $\alpha_r(t)$, and net inter-provincial and external migration flows $M_r(t)$:
+
+$$P_r(t) = C_r(t) \cdot \left[1 + \alpha_r(t)\right] + M_r(t)$$
+
+where $\alpha_r(t)$ represents the age-specific under-enumeration correction factor derived from Kwon Tae-hwan's demographic evaluations, declining from 0,25 in 1905AD to 0,02 by 1935AD [@Kwon1977Demography].
+
+## Census Correction and Analytical Harmonisation
+
+Official colonial statistics present two distinct analytical challenges: the massive under-registration of early police surveys (1909AD to 1920AD) and the distortion of late colonial censuses (1940AD and 1944AD) by wartime military conscription and labour mobilisation [@Kwon1977Demography; @SBJ2021Census].
+
+For the pre-census benchmarks of 1905AD, 1910AD, 1915AD and 1920AD, this study calibrates regional baselines against the reverse-survival projections developed by Kwon Tae-hwan (1977) and reconstructed agricultural labour models by Cha Myung Soo (2009) [@Kwon1977Demography; @Cha2009LivingStandards]. These adjustments reveal that official police figures in 1910AD undercounted Korea's inhabitants by 4,30M persons, with omission rates running highest in rugged northern interior counties and among landless southern agricultural tenants [@Kwon1977Demography; @Michell1979Fact].
+
+For the quinquennial census benchmarks (1925AD to 1940AD), official tallies require only minor upward adjustments for infant under-registration (ranging from 1,8% to 2,5% nationally) [@Kwon1977Demography]. However, during the final wartime phase (1940AD to 1945AD), rapid industrialisation and compulsory labour drafts transferred over 1,5M Korean workers into Japanese mines and factories and another 800k into Manchurian construction projects [@Kwon1977Demography; @Sun2019Chinese; @Zhou2025Chinese]. Harmonised totals account for both resident civilian populations and mobilised cohorts, yielding 25,90M in 1944AD and 25,95M at liberation in 1945AD (Table \ref{tab:validation-korea}) [@Kwon1977Demography; @EberstadtBanister1992].
+
+## Non-Stationary Kriging and Biophysical Covariates
+
+Spatial population density across the peninsula is calibrated using the East Asian and peninsular kriging domain, integrating 90.926 geocoded archaeological, architectural and historical records across 384 domestic catchments and 9.224 valid land cells [@Paciorek2006Matern]. Catchment Voronoi tessellations exhibit a median radius of 25,09 km and a 90th percentile radius of 28,32 km, ensuring dense spatial control across rugged peninsular terrain [@Paciorek2006Matern]. Residual spatial autocorrelation is modelled through Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) covariance functions [@Paciorek2006Matern]:
+
+$$C(s_i, s_j) = \sigma_i \sigma_j \, |\Sigma_i|^{1/4} |\Sigma_j|^{1/4} \left|\frac{\Sigma_i + \Sigma_j}{2}\right|^{-1/2} \mathcal{M}_{3/2}\!\left(\sqrt{Q_{ij}}\right)$$
+
+Regularised dimensionless bandwidths stand at $\tau_1 = 1,4211$ and $\tau_2 = 2,6291$, with residual variogram determination coefficient $R^2 = 0,9315$ for the late Joseon and imperial horizon (Table \ref{tab:kriging-korea}). Five biophysical and infrastructural covariates condition spatial allocation: habitable land fraction, vegetative net primary productivity, terrain slope and elevation suitability, 13,5 km fluvial decay along primary river corridors (notably the Han, Nakdong, Geum, Daedong and Yalu rivers), and coastal access [@Leipe2017Barley; @Ao2026Tracing; @Choi2020Changes].
+
+To prevent double-counting between dense urban populations and rural hinterlands, 581 catalogued settlements led by Seoul (935k), Pyongyang (310k), Busan (281k), Incheon (215k) and Daegu (205k) condition focal population cores, with urban masks subtracted to preserve rural densities inside each provincial boundary [@Kwon1977Demography; @KOSIS2021Census].
+
+# Testing and Validation
+
+Regional totals harmonise precisely with the longitudinal census revisions established by Kwon Tae-hwan (1977) and the historical compendia of Statistics Korea and the Statistics Bureau of Japan [@Kwon1977Demography; @KOSIS2021Census; @SBJ2021Census]. Table \ref{tab:validation-korea} details population trajectories across all ten benchmark years from 1905AD to 1945AD, decomposed into macro-regions.
+
+```{r tab-validation, results='asis'}
+benchmarks <- c("1905", "1910", "1915", "1920", "1925", "1930", "1935", "1940", "1944", "1945")
+
+north_keys <- c("south_pyongan_13do", "north_pyongan_13do", "south_hamgyong_13do", "north_hamgyong_13do")
+central_keys <- c("gyeonggi_13do", "gangwon_13do", "hwanghae_13do")
+south_keys <- c("north_chungcheong_13do", "south_chungcheong_13do", "north_jeolla_13do", "south_jeolla_13do", "north_gyeongsang_13do", "south_gyeongsang_13do")
+
+sum_group <- function(keys, yr) {
+  sum(vapply(keys, function(k) as.numeric(mod_data$regions[[k]]$population[[yr]]), numeric(1)))
+}
+
+val_rows <- lapply(benchmarks, function(yr) {
+  p_north <- sum_group(north_keys, yr)
+  p_central <- sum_group(central_keys, yr)
+  p_south <- sum_group(south_keys, yr)
+  p_tot <- p_north + p_central + p_south
+  data.frame(
+    Benchmark = paste0(yr, "AD"),
+    North = viscount_fmt_pop(p_north),
+    Central = viscount_fmt_pop(p_central),
+    South = viscount_fmt_pop(p_south),
+    Total = viscount_fmt_pop(p_tot),
+    stringsAsFactors = FALSE
+  )
+})
+val_df <- do.call(rbind, val_rows)
+rownames(val_df) <- NULL
+
+viscount_table(
+  val_df,
+  "Macro-regional demographic benchmarks across Korea, 1905AD to 1945AD, harmonised from colonial census returns and demographic reconstructions by Kwon Tae-hwan (1977).",
+  c("Year", "Northern Provinces", "Central Corridor", "Southern Agricultural Core", "Total Population"),
+  list(label = "tab:validation-korea", font_size = "footnotesize")
+)
+```
+
+Across the nine chronological horizons in the peninsular and archipelagic kriging domain, Table \ref{tab:kriging-korea} documents tightly regularised Matérn variogram parameters. Residual determination coefficients exceed 0,93 across all epochs, with effective short ranges spanning 35,66 km.
+
+```{r tab-kriging, results='asis'}
+korea_labels <- c(
+  palaeolithic_early_jomon_chulmun = "1. Palaeolithic and Early Chulmun Eras (before 3500BC)",
+  middle_jomon_chulmun = "2. Middle Chulmun and Jomon Eras (3500BC to 2000BC)",
+  late_jomon_mumun_bronze = "3. Late Mumun Bronze and Jomon Eras (2000BC to 300BC)",
+  yayoi_gojoseon_commanderies = "4. Gojoseon, Han Commanderies and Yayoi Eras (300BC to 300AD)",
+  kofun_three_kingdoms = "5. Three Kingdoms and Kofun Eras (300AD to 668AD)",
+  nara_heian_unified_silla = "6. Unified Silla and Early Heian Eras (668AD to 935AD)",
+  late_heian_kamakura_goryeo = "7. Goryeo and Kamakura Eras (935AD to 1392AD)",
+  muromachi_sengoku_early_joseon = "8. Early Joseon and Muromachi Eras (1392AD to 1600AD)",
+  edo_late_joseon_imperial = "9. Late Joseon and Imperial Eras (1600AD to 1945AD)"
+)
+korea_horizons <- names(diag_data$variogram_models)
+krig_df <- data.frame(
+  Horizon = unname(korea_labels[korea_horizons]),
+  Tau1 = vapply(korea_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$tau1_dimensionless, 2L), character(1)),
+  Nugget = vapply(korea_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$c0_nugget, 6L), character(1)),
+  Nugget_Sill = vapply(korea_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$nugget_to_sill_ratio, 2L), character(1)),
+  Residual_R2 = vapply(korea_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$residual_r2, 4L), character(1)),
+  Mean_Cell = vapply(korea_horizons, function(h) viscount_fmt_number(diag_data$kriged_raster_stats[[h]]$mean_value, 4L), character(1)),
+  P99_Cell = vapply(korea_horizons, function(h) viscount_fmt_number(diag_data$kriged_raster_stats[[h]]$p99_value, 4L), character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(krig_df) <- NULL
+
+viscount_table(
+  krig_df,
+  "Spatial kriging variogram diagnostics across nine chronological horizons (9.224 valid land cells, regularised tau1 = 1,42, tau2 = 2,63).",
+  c("Kriging Horizon", "Tau1", "Nugget c0", "Nugget-to-Sill", "Residual R²", "Mean Cell", "P99 Cell"),
+  list(label = "tab:kriging-korea", font_size = "scriptsize")
+)
+```
+
+Table \ref{tab:source-corpora-korea} details the component archaeological, heritage and historical gazetteer registries aggregated into the regional spatial domain.
+
+```{r tab-source-corpora, results='asis'}
+src_labels <- c(
+  Rekihaku_c14db_1.3 = "National Museum of Japanese History Radiocarbon Database v1.3",
+  Rekihaku_SiteRaw_25k = "National Museum of Japanese History Archaeological Site Register",
+  JASOSR_Kanto_Sites = "Japanese Archaeological Site Survey (Kanto Region)",
+  JASOSR_Tokyo_Sites = "Japanese Archaeological Site Survey (Tokyo Prefecture)",
+  MLIT_P32_Japan = "Ministry of Land, Infrastructure, Transport and Tourism Cultural Assets",
+  WD_Japan_Historic_Sites = "National Government Designated Cultural Properties of Japan",
+  KHS_Korea_Heritage_API = "Korea Heritage Service National Heritage Portal API",
+  Korean_Neolithic_C14 = "Radiocarbon Chronology of the Korean Neolithic and Bronze Ages",
+  Hanseong_Baekje_AMS = "Hanseong Baekje Museum Accelerator Mass Spectrometry Corpus",
+  WD_SouthKorea_Arch = "National Heritage Administration Historic Relics and Monuments",
+  WD_NorthKorea_Heritage = "DPR Korea National Treasure and Cultural Relic Inventory",
+  NRICH_NK_Arch_Corpus = "National Research Institute of Cultural Heritage North Korea Survey",
+  Joseon_Sejong_Jiriji_NK = "Sejong Sillok Jiriji Northern Fortress and County Cadastre",
+  c14bazAAR_Global = "Deduplicated Global Radiocarbon Synthesis (c14bazAAR)",
+  JADE_Frontier_Buffer = "Continental East Asia Frontier Buffer Archaeological Extract"
+)
+
+sc_keys <- names(geo_data$source_record_counts)
+tot_sc <- sum(as.numeric(unlist(geo_data$source_record_counts)))
+
+sc_rows <- lapply(sc_keys, function(sk) {
+  lbl <- if (sk %in% names(src_labels)) unname(src_labels[[sk]]) else sk
+  cnt <- as.numeric(geo_data$source_record_counts[[sk]])
+  data.frame(
+    Registry = lbl,
+    Records = viscount_fmt_number(cnt, 0L),
+    Share = paste0(viscount_fmt_number(100 * cnt / tot_sc, 2L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+sc_df <- do.call(rbind, sc_rows)
+rownames(sc_df) <- NULL
+
+viscount_table(
+  sc_df,
+  "Component archaeological, heritage and historical gazetteer registries aggregated into the regional kriging domain.",
+  c("Source Registry", "Raw Records", "Share"),
+  list(label = "tab:source-corpora-korea", font_size = "footnotesize")
+)
+```
+
+# Results
+
+## Early Colonial Reorganisation and Demographic Recovery (1905AD to 1920AD)
+
+Between 1905AD and 1920AD, Korea emerged from late nineteenth-century demographic stagnation into renewed population growth, expanding by 4,8% from 17,25M to 18,07M (Figure \ref{fig:traj-korea}) [@Kwon1977Demography; @Cha2009LivingStandards]. The end of internal political instability following the Donghak Peasant War of 1894AD and the Russo-Japanese War of 1904--1905 permitted agrarian rehabilitation across the fertile southern plains [@Cha2009LivingStandards; @Michell1979Fact].
+
+```{r fig-traj, results='asis'}
+viscount_figure(
+  "figures/fig2_korea_under_japanese_occupation_trajectory.png",
+  "Demographic trajectory of Korea from 1905AD to 1945AD across northern, central and southern provinces with historical uncertainty intervals.",
+  "fig:traj-korea"
+)
+```
+
+During this initial phase, the demographic center of gravity remained firmly anchored in the southern agricultural provinces, which contained 52,1% of all peninsular inhabitants in 1905AD (8,99M) and 51,3% in 1920AD (9,26M) (Table \ref{tab:validation-korea}) [@Kwon1977Demography]. North Gyeongsang formed the most populous single province with 2,07M residents in 1905AD, followed by South Jeolla (1,93M), South Gyeongsang (1,81M), and Gyeonggi (1,81M) (Table \ref{tab:regions-korea}) [@Kwon1977Demography; @KOSIS2021Census].
+
+However, the colonial Land Survey (1910AD to 1918AD) deeply restructured rural tenancy relations [@Cha2009LivingStandards]. By legally vesting land titles in registered proprietors and disallowing traditional partial cultivation rights (*dohoji*), the colonial cadastral regime strengthened the bargaining power of landlords [@Cha2009LivingStandards]. Farm rents rose to 50% or more of annual harvests, paid in kind [@Cha2009LivingStandards]. Indebted peasant smallholders were progressively demoted to pure tenant cultivators or agricultural day labourers, instigating seasonal food shortages ("spring hunger", *borigogae*) and initiating early migratory outflows into Manchuria and urban centers [@Kwon1977Demography; @Sun2019Chinese; @Zhou2025Chinese].
+
+## Quinquennial Census Era and Agrarian Stagnation in the South (1920AD to 1935AD)
+
+Between 1920AD and 1935AD, natural population increase accelerated sharply across Korea, driving aggregate population from 18,07M to 22,90M, an overall gain of 26,7% (Table \ref{tab:regions-korea}) [@Kwon1977Demography; @KOSIS2021Census]. The five-year intercensal growth rate reached 8,0% between 1925AD and 1930AD, and 8,7% between 1930AD and 1935AD, corresponding to an annual growth rate of 1,7% [@Kwon1977Demography].
+
+```{r fig-shares, results='asis'}
+viscount_figure(
+  "figures/fig3_korea_under_japanese_occupation_shares.png",
+  "Provincial population shares and comparative peak versus 1945AD terminal totals across the thirteen Korean territories.",
+  "fig:shares-korea"
+)
+```
+
+This rapid demographic expansion coincided with the implementation of the Campaign to Increase Rice Production (*Sanmi Jeungsik Gyehoek*, 1920AD to 1934AD) [@Cha2009LivingStandards; @Kwon1977Demography]. To alleviate urban food shortages and industrial wages in Japan following the 1918 Rice Riots, the colonial government financed large-scale irrigation reservoirs, land reclamation, chemical fertilisation and improved seed varieties across the southern rice basket (Jeolla, Chungcheong and Gyeongsang) [@Cha2009LivingStandards].
+
+While agricultural output expanded, rice exports to Japan grew far more rapidly than domestic production, rising from 3,2M *seok* (approximately 580M litres) in 1920AD to over 10M *seok* by 1934AD [@Cha2009LivingStandards]. Per capita domestic rice consumption in Korea dropped by over 40% between 1912AD and the early 1930s, as Korean cultivators substituted cheaper coarse grains (millet imported from Manchuria, barley and sorghum) for rice [@Cha2009LivingStandards; @Leipe2017Barley].
+
+Mounting agrarian immiseration in the southern countryside acted as a powerful push factor, expelling surplus rural labour from the villages [@Kwon1977Demography; @Dyrting2024Estimating; @Zhou2025Chinese]. While southern provinces continued to add absolute population through high natural fertility, their share of total peninsular population fell steadily from 51,3% in 1920AD to 49,7% in 1935AD and 48,7% by 1940AD (Figure \ref{fig:shares-korea}) [@Kwon1977Demography; @Wu2021Spatiality].
+
+```{r tab-regions, results='asis'}
+yr_cols <- c("1905", "1910", "1915", "1920", "1925", "1930", "1935", "1940", "1944", "1945")
+reg_rows <- lapply(names(mod_data$regions), function(rk) {
+  rv <- mod_data$regions[[rk]]
+  vals <- vapply(yr_cols, function(y) viscount_fmt_pop(rv$population[[y]]), character(1))
+  nm <- sub("^[0-9]+\\.\\s*", "", rv$name)
+  nm <- gsub("&", "and", nm, fixed = TRUE)
+  df_r <- data.frame(
+    Region = nm,
+    Area = viscount_fmt_number(rv$area_km2, 0L),
+    stringsAsFactors = FALSE
+  )
+  for (idx in seq_along(yr_cols)) {
+    df_r[[yr_cols[idx]]] <- vals[idx]
+  }
+  df_r
+})
+reg_df <- do.call(rbind, reg_rows)
+
+tot_vals <- vapply(yr_cols, function(y) {
+  tot <- sum(vapply(mod_data$regions, function(r) as.numeric(r$population[[y]]), numeric(1)))
+  viscount_fmt_pop(tot)
+}, character(1))
+
+tot_row <- data.frame(
+  Region = "Peninsula Total",
+  Area = viscount_fmt_number(mod_data$total_area_km2, 0L),
+  stringsAsFactors = FALSE
+)
+for (idx in seq_along(yr_cols)) {
+  tot_row[[yr_cols[idx]]] <- tot_vals[idx]
+}
+reg_df <- rbind(reg_df, tot_row)
+rownames(reg_df) <- NULL
+
+viscount_table(
+  reg_df,
+  "Provincial population benchmarks across thirteen Korean territories, 1905AD to 1945AD, calculated from regional JSON registers.",
+  c("Province", "Area (km²)", "1905AD", "1910AD", "1915AD", "1920AD", "1925AD", "1930AD", "1935AD", "1940AD", "1944AD", "1945AD"),
+  list(label = "tab:regions-korea", font_size = "scriptsize", max_rows_per_page = 20L)
+)
+```
+
+## Northern Hydroelectric Industrialisation and Heavy Chemical Complexes (1930AD to 1945AD)
+
+Following the Mukden Incident of September 1931 and the Japanese creation of the puppet state of Manchukuo, the colonial administration fundamentally redirected its economic development policy in Korea [@Kong1997Conclusion; @Kirby1997Korean; @EberstadtBanister1992]. Korea was repositioned from an agricultural rice supplier into a continental logistical spring-board and heavy industrial base supporting military expansion into North China [@Kong1997Conclusion; @Kirby1997Korean].
+
+This structural transformation centered decisively on the northern provinces (South Pyongan, North Pyongan, South Hamgyong and North Hamgyong), which possessed abundant mineral deposits (iron ore at Musan, coal at Sadong and Kaechon, magnesite at Dancheon) and rugged river gradients suited for large-scale hydroelectric exploitation [@EberstadtBanister1992; @Spoorenberg2012DPRK; @Kong1997Conclusion].
+
+Under the leadership of industrialist Noguchi Shitagau and the Nihon Chisso (Nichitsu) conglomerate, the colonial government financed the construction of massive hydroelectric dams along the Pujon and Changjin river basins in South Hamgyong, culminating in the 700.000 kW Sup'ung (Shuifeng) Dam on the Yalu River, completed in 1944AD as one of the largest hydroelectric installations in the world [@EberstadtBanister1992; @Kong1997Conclusion]. Cheap electric power fed sprawling chemical and metallurgical complexes at Hungnam, Hamhung and Chongjin [@EberstadtBanister1992; @Spoorenberg2012DPRK]. The Chosen Nitrogen Fertiliser Company (*Chosen Chisso Hiryo*) complex at Hungnam grew into the largest chemical plant in the Japanese Empire, synthesising ammonium sulphate, nitric acid, explosives and synthetic petroleum [@EberstadtBanister1992; @Kong1997Conclusion].
+
+Hydroelectric industrialisation spurred intense inter-provincial migration from the agrarian south to the industrialising north [@Kwon1977Demography; @Dyrting2024Estimating; @Zhirov2022Demographic]. Between 1925AD and 1944AD, South Hamgyong expanded from 1,44M to 1,89M, North Hamgyong surged from 679k to 1,00M (a 47,9% expansion), South Pyongan grew from 1,23M to 1,78M, and North Pyongan advanced from 1,43M to 1,89M (Table \ref{tab:regions-korea}) [@KOSIS2021Census; @EberstadtBanister1992]. Overall, the northern macro-region expanded from 4,02M in 1905AD to 6,59M by 1945AD, increasing its share of the peninsular total from 23,3% to 25,4% (Table \ref{tab:validation-korea}) [@Kwon1977Demography].
+
+Urban growth in the north far outpaced national averages: Pyongyang expanded from 72k in 1920AD to 310k in 1945AD; Chongjin surged from 8k to 198k; Hamhung rose from 23k to 118k; Sinuiju expanded to 117k; Wonsan attained 111k; and the twin industrial port of Hungnam reached 29k [@KOSIS2021Census; @EberstadtBanister1992].
+
+## Urban Hierarchy, Railway Corridors and Port Expansion
+
+Alongside northern industrialisation, colonial development reconfigured the peninsular urban hierarchy through the construction of trunk railway networks connecting the Japanese home islands to the Manchurian interior [@Kwon1977Demography; @Ao2026Tracing; @Xia2024Impact]. The primary transport axis was the Gyeongbu (Seoul-Busan, opened 1905AD) and Gyeongui (Seoul-Sinuiju, opened 1906AD) railway corridor, later supplemented by the Gyeongwon (Seoul-Wonsan, 1914AD) and Honam (Daejeon-Mokpo, 1914AD) lines [@KOSIS2021Census; @Xia2024Impact].
+
+These railway corridors channeled trade and administrative functions into a distinctive urban hierarchy led by Keijo (Seoul), which expanded from 225k in 1905AD to 343k in 1925AD, 444k in 1935AD, and reached 935k in the 1940AD census after incorporating industrial suburbs in Yeongdeungpo and surrounding Gyeonggi townships [@Kwon1977Demography; @KOSIS2021Census]. Seoul operated as the undisputed colonial primate city, concentrating government departments, central banking institutions, Japanese trading zaibatsu branches, and imperial educational institutions [@KOSIS2021Census].
+
+Busan (Fusan) served as the primary maritime terminus connecting Korea to Japan via the Shimonoseki railway ferry (*Kampu Renrakusen*), expanding from 38k in 1905AD to 107k in 1925AD, 182k in 1935AD, and 281k in 1945AD [@Kwon1977Demography; @Ao2026Tracing; @KOSIS2021Census]. Incheon (Jinsen), functioning as the maritime outer port for Seoul, grew from 30k to 215k; Daegu (Taikyu), the inland agricultural and textile distribution hub of North Gyeongsang, rose from 32k to 205k; and Daejeon, created as a railway junction between the Gyeongbu and Honam lines, expanded from a rural village of less than 1k inhabitants in 1905AD to 75k by 1945AD [@Kwon1977Demography; @KOSIS2021Census].
+
+Specialised port settlements expanded rapidly along both coastlines [@Ao2026Tracing; @Michel2024Addressing]. On the Yellow Sea, Gunsan (44k) and Mokpo (36k) handled massive rice shipments outbound from the fertile Honam plain, while Chinnampo (81k) channeled coal and mineral ore from the Daedong river basin [@KOSIS2021Census; @Ao2026Tracing]. Along the Sea of Japan, Wonsan (111k) linked the Gyeongwon railway to coastal fishing fleets and mineral refining, while Chongjin (198k) served as the primary deep-water port transferring iron ore from Musan to Japanese blast furnaces [@Ao2026Tracing; @EberstadtBanister1992].
+
+Table \ref{tab:density-korea} demonstrates the resulting spatial population density across the thirteen provinces in 1940AD, contrasting the high rural and urban densities of Gyeonggi and the southern plains with the expansive, lower-density northern territories.
+
+```{r tab-density, results='asis'}
+reg_keys <- names(mod_data$regions)
+dens_rows <- lapply(reg_keys, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  ar <- as.numeric(rv$area_km2)
+  nm <- sub("^[0-9]+\\.\\s*", "", rv$name)
+  nm <- gsub("&", "and", nm, fixed = TRUE)
+  sub_sites <- Filter(function(s) identical(s[["region_id"]], rk), sett_data)
+  n_sites <- length(sub_sites)
+  p1905 <- as.numeric(rv$population[["1905"]])
+  p1940 <- as.numeric(rv$population[["1940"]])
+  data.frame(
+    Province = nm,
+    Sites = viscount_fmt_number(n_sites, 0L),
+    P1905 = viscount_fmt_pop(p1905),
+    P1940 = viscount_fmt_pop(p1940),
+    Dens1940 = viscount_fmt_number(p1940 / ar, 1L),
+    stringsAsFactors = FALSE
+  )
+})
+dens_df <- do.call(rbind, dens_rows)
+rownames(dens_df) <- NULL
+
+viscount_table(
+  dens_df,
+  "Catalogued settlements, 1905AD and 1940AD population benchmarks, and 1940AD density (persons per km²).",
+  c("Province", "Sites", "1905AD", "1940AD", "1940AD (km²)"),
+  list(label = "tab:density-korea", font_size = "scriptsize", max_rows_per_page = 20L)
+)
+```
+
+## Wartime Mobilisation, Forced Labour and External Dispersal (1937AD to 1945AD)
+
+The escalation of total war following the Marco Polo Bridge Incident in July 1937 and the Pacific War in December 1941 triggered unprecedented state-directed population displacement [@Kwon1977Demography; @Kirby1997Korean; @Sun2019Chinese]. Enacting the National Mobilisation Law (*Kokka Sodoin-ho*) in 1938AD, the Japanese colonial apparatus instituted coercive labour recruitment (*Choyong*), allocating quotas of Korean rural labourers to war-critical sectors [@Kwon1977Demography; @Kirby1997Korean].
+
+Between 1939AD and 1945AD, the colonial administration mobilised over 1,5M Korean workers for transport to the Japanese home islands, where they were concentrated in coal mines in Kyushu and Hokkaido, steel mills in Yawata and Muroran, and military construction sites across Honshu [@Kwon1977Demography; @Lamanna2018Immigrant]. By mid-1945, the Korean resident population in Japan exceeded 2,1M persons, representing more than 8% of the total ethnic Korean population worldwide [@Kwon1977Demography; @SBJ2021Census]. Concurrently, agricultural migration across the Yalu and Tumen rivers expanded the Korean diaspora in Manchuria (notably the Jiandao and Kando region) to over 1,5M people [@Kwon1977Demography; @Sun2019Chinese; @Zhou2025Chinese].
+
+This massive outward labour drain severely depressed domestic population growth during the final colonial years [@Kwon1977Demography]. While high biological fertility generated approximately 400k net natural births annually, outward migration removed between 250k and 300k persons per year between 1940AD and 1944AD [@Kwon1977Demography]. Consequently, peninsular growth slowed to 1,2% annually between 1940AD (24,33M) and 1944AD (25,90M) (Table \ref{tab:validation-korea}) [@Kwon1977Demography; @KOSIS2021Census]. The demographic hemorrhage was acutely visible in rural sex ratios: by 1944AD, working-age male cohorts (ages 20 to 39) in southern farming counties exhibited sex ratios of only 75 to 85 males per 100 females, reflecting the concentrated conscription of young adult men for external industrial drafts [@Kwon1977Demography; @Bien2013High; @Yoo2019Politics].
+
+At the termination of hostilities on 15 August 1945, the collapse of imperial Japan unleashed a chaotic reverse migration tide, as hundreds of thousands of demobilised soldiers, factory labourers and displaced families sought repatriation across the 38th parallel into southern Korea or returned from Manchuria and Japan [@Kwon1977Demography; @EberstadtBanister1992; @UNFPA2008DPRKCensus].
+
+# Sources
+
+<div id="refs"></div>

@@ -1,0 +1,248 @@
+---
+title: "Settlement Gazetteer of Sri Lanka and the Maldives"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1796AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: sri_lanka_and_maldives_until_british_rule_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_sri_lanka_and_maldives_until_british_rule_spatial.png"
+hero_caption: "Spatial distribution of 1.642 catalogued historical settlements and regional hydrological catchments across Sri Lanka and the Maldives archipelago (63.718 km²) from 10000BC to 1796AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("sri_lanka_and_maldives_until_british_rule.json5")
+set_data <- read_json_file("sri_lanka_and_maldives_until_british_rule_settlements.json")
+led_data <- read_json_file("sri_lanka_and_maldives_until_british_rule_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("[^\\x20-\\xFF]", "", s, perl = TRUE)
+  s <- gsub("\\(\\s*\\)", "", s)
+  trimws(gsub("\\s+", " ", s))
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  slm_rajarata_dry = "Rajarata Dry Zone",
+  slm_jaffna_north = "Jaffna Peninsula",
+  slm_kandy_wet_southwest = "Kotte and Kandyan Wet Zone",
+  slm_ruhuna_east = "Ruhuna and Eastern Littoral",
+  slm_maldives_atolls = "Maldives Archipelago"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, sub-regional allocations, occupation spans and benchmark population trajectories for 1.642 historical settlements across Sri Lanka and the Maldives archipelago (63.718 km² across 768 active 5-arcminute terrestrial cells) from 10000BC to 1796AD. Spanning five physiographic and historical divisions, the gazetteer encompasses diverse architectural and settlement traditions: monumental brick agro-urban metropolises in the dry zone lowlands, insular limestone port towns on the Jaffna peninsula, granite rock citadels and rain-fed wet-paddy market centres in the southwest wet zone and Kandyan highlands, fortified riverine capitals in Ruhuna and coral-stone atoll trading ports across the Maldives.
+
+Settlement populations range from early prehistoric rock-shelter stations at Batadombalena and coastal dune camps on the Iranamadu formation to classical hydraulic capitals at Anuradhapura (90k peak in 500AD) and Polonnaruwa (62k peak in 1200AD), international Indian Ocean emporia at Mantai (24,9k peak in 800AD) and Trincomalee (18k peak in 1650AD), regional redoubts at Tissamaharama (28k peak in 200AD), late mediaeval Sri Jayawardenepura Kotte (42k peak in 1450AD) and Jaffna (37,6k peak in 1600AD), and early modern maritime and highland capitals at Colombo (45k in 1796AD), Gampaha (35,9k in 1796AD), Kandy (30k peak in 1700AD), Galle (26k in 1796AD) and Malé (10,5k in 1796AD). Every catalogued locality reconciles against 1.872 candidate records in the INDUS source ledger alongside 230 documented exclusions (predominantly duplicate survey aliases within a 2,2 km spatial radius, toponymic homonyms and non-habitation features).
+
+By linking georeferenced settlement series with regional hydrography, reservoir cascade registries, speleothem paleoclimate records and colonial cadastral rolls, this gazetteer establishes an archaeological baseline for historical nucleation in southern South Asia. Settlement subtraction isolates nucleated urban centres from dasymetrically distributed rural populations, ensuring that demographic reconstructions reflect genuine archaeological mound and settlement extents rather than arbitrary spatial projections.
+
+# Background
+
+Historical settlement patterns in Sri Lanka and the Maldives reflect sophisticated adaptations to regional hydrology, geomorphology and maritime trade geography [@Abeywardana2018Ancient; @Feener2021Maldives]. Four primary architectural and functional traditions characterise the regional settlement record:
+1. Monastic-hydraulic metropolises: In the northern and north-central dry zone lowlands, urban capitals were integrated with extensive cascade reservoirs (*ellangawa*) and monastic complexes [@Abeywardana2018Ancient; @Hawken2021Long]. Anuradhapura and Polonnaruwa featured massive brick stupas, stone-lined baths, monastic hospitals and residential quarters served by stone sluices and trans-basin feeder canals [@Abeywardana2019Evolution; @Muditha2026Hydraulic].
+2. Rock-fortress citadels and wet zone hill capitals: In the granite inselbergs and river valleys of the southwest wet zone and interior highlands, royal dynasties constructed fortified redoubts, including Sigiriya, Yapahuwa, Kurunegala, Dambadeniya, Gampola and Kandy (Senkadagala) [@DameronNandan2003World; @Coningham2025Village]. These centres leveraged steep topography and terraced wet-paddy farming for defensive resilience against foreign invasions [@Kelegama2023Lure].
+3. Maritime port emporia and coastal fortresses: Along strategic maritime passages, trading ports mediated Indian Ocean commercial exchange [@Bohingamuwa2017Lanka; @Green2025Indian; @Champakalakshmi1996Trade]. Mantai on the Gulf of Mannar, Jambukola Pattana and Jaffna (Nallur) in the north, Gokanna (Trincomalee) on the east coast, and Colombo and Galle in the southwest developed specialised warehouse quarters, cosmopolitan merchant communities and coastal bastion fortifications [@Zhang2023Chinese; @Anthony2010Pastoral].
+4. Coral atoll settlements: Across the Maldives archipelago, human communities adapted to small coral islets through pelagic tuna fishing, coconut agroforestry and cowrie shell harvesting [@Feener2021Maldives; @MD2023Spatial]. Settlement centred on Malé, where coral-stone mosques, royal residences and marine anchorages coordinated archipelago governance [@Cui2025Religion; @Gippert2024Written].
+
+# Methodology
+
+The 1.642-settlement INDUS gazetteer is empirically anchored rather than extrapolated from synthetic multipliers. Site selection and benchmark series combine four primary evidence classes:
+- Primary-monograph historical metropolis trajectories for dynastic capitals, port emporia and highland kingdoms [@Coningham2025Village; @Allchin1995Archaeology; @Erdosy1988Urbanisation; @Stein1989Vijayanagara].
+- Multi-repository archaeological and monument corpora integrating Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic IAR inventories, ASI P1371, Wikidata, OpenStreetMap and radiocarbon compilations from XRONOS and c14bazAAR [@Abeywardana2018Ancient; @Feener2021Maldives].
+- Official national census schedules and historical gazetteers, drawing upon Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS series alongside colonial cadastral rolls (*tombos*) and imperial compendia [@ImperialGazetteer1908; @Bayly1983Rulers; @Manogaran1987Ethnic].
+- Macro-envelope *qasba*, *pargana* and *nadu* market continuity reconciled against pre-1800 regional totals and filtered strictly by foundation year and chronological toponymy [@Habib1982Atlas; @Moosvi1987Economy; @Chattopadhyaya1994Making].
+
+Inclusion requires:
+- Precise WGS84 geographic coordinates validated against satellite imagery and national cartography.
+- Documented ceramic, epigraphic, numismatic, census or historical chronicle evidence spanning prehistoric to early modern eras.
+- Area-based, house-mound or historical census demographic estimations calibrated to settlement scale without arbitrary magic numbers.
+
+Where multiple archaeological survey points fall within 2,2 km of a primary historical centre, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features, such as isolated rock inscriptions, mineral quarries, toponymic homonyms and ephemeral forager scatters, are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of 1.642 catalogued settlements and summed site peaks across the five sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 1.642 catalogued settlements and summed site peaks across Sri Lanka and the Maldives.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement coordinates, occupation spans and population series were tested against archaeological field surveys, epigraphic registries and colonial records [@Abeywardana2019Evolution; @Coningham2025Village]. Stratified excavations at Anuradhapura, Polonnaruwa, Mantai, Kantarodai and Sigiriya provide ceramic and radiocarbon benchmarks that corroborate urban foundation and expansion phases [@Coningham2025Village; @Bohingamuwa2017Lanka].
+
+Epigraphic lithic inscriptions confirm town names, administrative wards and water allocation rights [@Abeywardana2019Evolution; @Uparathana2026Archaeolog]. In coastal areas, Portuguese and Dutch cadastral rolls (*tombos*) provide seventeenth- and eighteenth-century household counts for coastal settlements, anchoring late pre-British demographic figures [@Manogaran1987Ethnic].
+
+In the Maldives, archaeological documentation by the Maldives Heritage Survey recorded architectural plans, gravestone epigraphy and oral toponyms across dozens of inhabited atoll islands, confirming continuous mediaeval and early modern occupation [@Feener2021Maldives; @Gippert2024Written].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 historical settlements across Sri Lanka and the Maldives ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " to ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1200 <- if (!is.null(s$population[["1200"]])) as.numeric(s$population[["1200"]]) else "-"
+  rk_s <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[rk_s]])) reg_short[[rk_s]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1200AD = if (is.numeric(p_1200)) viscount_fmt_pop(p_1200) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 historical settlements ordered by peak population across Sri Lanka and the Maldives (10000BC to 1796AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1200AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+The rank-size hierarchy across 1.642 catalogued settlements conforms to a power-law distribution with Pareto exponent $\alpha = 0{,}71$ ($R^2 = 0{,}90$), reflecting a multi-tiered urban and rural system spanning primary metropolitan capitals, regional ports and local agricultural centres.
+
+## Sub-Regional Settlement Catalogues
+
+### Rajarata Dry Zone
+
+The northern and north-central lowlands catalogue 507 historical settlements along the Malvathu, Kala, Yan and Mahaweli river basins [@Abeywardana2018Ancient; @Hawken2021Long]. Anuradhapura was the classical capital (90k peak in 500AD), commanding extensive monastic precincts and municipal reservoirs. Polonnaruwa succeeded as mediaeval capital (62k peak in 1200AD), anchored by the Sea of Parakrama. Mantai (24,9k peak in 800AD) operated as the primary northwestern international trade emporium, while Trincomalee (18k peak in 1650AD) served as a natural deep-water naval harbour on the Bay of Bengal and Kalpitiya (10k in 1796AD) controlled western lagoon approaches.
+
+### Jaffna Peninsula and Northern Littoral
+
+The northern karst limestone shelf catalogues 58 settlements [@Manogaran1987Ethnic; @Anthony2010Pastoral]. Jaffna was the capital of the Aryacakravarti kingdom and colonial port (37,6k peak in 1600AD, 34k in 1796AD), closely paired with its royal precinct at Nallur (12k in 1600AD). Kantarodai represented an early historic urban town (5,9k peak in 1450AD) with Buddhist stupas dating to the first millennium BC, while Kanathra island (2k peak in 1500AD) and Delft Island supported maritime fisheries and horse breeding.
+
+### Kotte, Southwest Wet Zone and Kandyan Highlands
+
+The southwest and central highlands catalogue 661 settlements [@Coningham2025Village; @Kelegama2023Lure]. Colombo expanded from a coastal trading roadstead into a colonial capital (45k peak in 1796AD). Sri Jayawardenepura Kotte served as the late mediaeval royal capital (42k peak in 1450AD), while Gampaha grew into a major western wet zone centre (35,9k in 1796AD) and Kandy (Senkadagala) anchored the highland monarchy (30k peak in 1700AD, 28k in 1796AD). Maritime and inland centres included Galle (26k in 1796AD), Negombo (25,8k), Beruwala (25,5k), Moratuwa (25,3k), Dambulla (15,6k), the fifth-century rock citadel of Sigiriya (12k peak in 500AD) and the earlier mediaeval capital of Dambadeniya (9,1k in 1300AD).
+
+### Ruhuna Southeast and Eastern Littoral
+
+The southeastern dry zone catalogues 304 settlements [@Coningham2025Village; @Sutcliffe2011Historical]. Tissamaharama (ancient Mahagama) anchored the regional hydraulic core (28k peak in 200AD), supported by the Tissa and Yoda tanks. Other key centres included Batticaloa (15k in 1796AD), Pottuvil (7,3k in 1796AD), Kalmunai (6,2k in 1550AD), Tarachoi (1,3k peak in 300AD) and Magama, coordinating coastal trade and irrigated farming along the Kirindi Oya and Menik Ganga.
+
+### Maldives Archipelago
+
+The coral atolls catalogue 112 settlements spanning the Chagos-Laccadive chain [@Feener2021Maldives; @Cui2025Religion]. Malé was the royal sultanate capital and port (10,5k peak in 1796AD, 6,9k in 1200AD), coordinating trade and governance across northern, central and southern atoll island communities featuring coral-stone Friday mosques and pre-Islamic Buddhist stupas (*havitta*) [@Feener2021Maldives; @Cui2025Religion].
+
+# Limitations
+
+Settlement documentation across Sri Lanka and the Maldives remains constrained by distinct preservation and recovery factors:
+1. Alluvial siltation and tank sedimentation: active sediment deposition in dry zone reservoir beds has buried ancient canal off-takes and field hamlets, obscuring lower-tier settlements [@Abeywardana2018Ancient].
+2. Dense tropical vegetation: centuries of forest regrowth over Rajarata after 1250AD enveloped earthen bunds and brick monasteries, requiring aerial surveying and remote sensing for site detection [@Coningham2025Village; @Fernando2011Current].
+3. Colonial urban overprinting: continuous occupation in Colombo, Galle and Jaffna altered ancient archaeological deposits, making stratified excavation challenging [@Coningham2025Village].
+4. Coral atoll erosion and stone recycling: in the Maldives, limited terrestrial land and coastal storms degraded pre-modern shorelines, while porites coral masonry was continuously recycled across construction phases [@Feener2021Maldives; @MD2023Spatial].
+
+# Conclusion
+
+The INDUS settlement gazetteer synthesises 1.642 catalogued historical settlements across Sri Lanka and the Maldives, providing an empirical baseline for demographic reconstruction from 10000BC to 1796AD. By reconciling georeferenced coordinates, structural topologies and population trajectories, this gazetteer distinguishes nucleated urban centres from rural populations, enabling dasymetric surface allocation of agricultural cultivators and demonstrating the resilience of settlement networks across insular South Asia.
+
+# Appendix
+
+The INDUS source ledger audited 1.872 candidate records, accepting 1.642 primary settlements and documenting 230 exclusions. Table \ref{tab:excluded} presents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Sri Lanka and Maldives source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

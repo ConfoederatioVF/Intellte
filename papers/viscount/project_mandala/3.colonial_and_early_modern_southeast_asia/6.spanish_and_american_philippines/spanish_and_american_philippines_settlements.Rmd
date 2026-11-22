@@ -1,0 +1,243 @@
+---
+title: "Settlement Gazetteer of the Spanish and American Philippines"
+subtitle: "MANDALA: Coordinates, Parochial Gazetteers and Demographic Series (1565 to 1946)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: spanish_and_american_philippines_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_spanish_and_american_philippines_spatial.png"
+hero_caption: "Spatial distribution of 3.793 catalogued settlements and insular administrative catchments across the Philippine archipelago (300.894 km²) from 1565 to 1946."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("spanish_and_american_philippines.json5")
+set_data <- read_json_file("spanish_and_american_philippines_settlements.json")
+led_data <- read_json_file("spanish_and_american_philippines_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  sap_manila_cluzon = "Manila and Central Luzon",
+  sap_north_luzon = "Ilocos, Cordillera and Cagayan Valley",
+  sap_south_luzon = "Southern Tagalog, Bicol and Palawan",
+  sap_west_visayas = "Western Visayas (Panay and Negros)",
+  sap_ce_visayas = "Central and Eastern Visayas",
+  sap_mindanao_sulu = "Mindanao and Sulu Archipelago"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer catalogues geographic coordinates, administrative hierarchies, historical toponymic transitions and multi-century demographic series for `r length(set_list)` catalogued settlements across the Philippine archipelago (300.894 km², encompassing 4.371 active 5-arcminute terrestrial cells) from the initial Spanish conquest in 1565 to the proclamation of Philippine independence in 1946. Spanning six physiographic divisions and more than seven thousand islands, the gazetteer encompasses diverse settlement traditions: fortified stone presidios and ecclesiastical cabeceras in coastal lowlands, extramural trading suburbs (arrabales), dispersed agrarian farming hamlets (visitas and sitios), upland mission reductions and planned agricultural frontier colonies established during the American Commonwealth era.
+
+Settlement scales range from early Hispanic encomienda villages and coastal missions to metropolitan conurbations. Manila formed the preeminent urban nucleus of the archipelago, growing from 32,52k in 1600 to 219,93k in 1903 and reaching 983,91k in 1946 within its municipal boundaries, surrounded by an expanding ring of suburban municipalities including Taguig (221,79k peak), Antipolo (154,92k peak), Pasig (144,64k peak), Valenzuela (122,96k peak), Paranaque (119,24k peak) and Quezon City (97,53k in 1946). Secondary regional metropolises anchoring insular sea lanes and agrarian hinterlands include Cebu (167,50k peak) in Central Visayas, Iloilo (116,28k peak) in Western Visayas, Davao (111,26k peak) and Zamboanga (103,32k peak) in Mindanao, alongside dynamic southern agricultural centres such as Budta (215,96k peak) and Malingao (190,24k peak). Every catalogued locality reconciles against 3.810 candidate entries in the regional source ledger alongside `r length(exc_list)` documented exclusions (predominantly duplicate spatial aliases collapsed within a 2,2 km deduplication radius).
+
+By anchoring georeferenced settlement trajectories to regional coastal morphology, fluvial drainage networks and nineteenth-century cadastral surveys, this gazetteer establishes a spatial foundation for historical demography in the insular Philippines. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that demographic allocations reflect authentic municipal distributions and documented historical tax records rather than uniform geographic interpolations.
+
+# Background
+
+Settlement patterns in the colonial Philippines reflect the systematic imposition of Spanish ecclesiastical planning upon indigenous maritime and riverine kinship networks, followed by nineteenth-century commercial expansion and twentieth-century American colonial reorganisations [@Galvan1997Spanish; @PatriciaFlan2023Colonial; @Kirsch2022American; @Abueva1961Philippine]. Six distinct settlement categories characterised the archipelago across the four-century study period:
+1. Fortified coastal capitals and presidios: Fortified citadels served as administrative capitals and military garrisons, exemplified by Intramuros in Manila, Fort San Pedro in Cebu and Fort Pilar in Zamboanga [@Galvan1997Spanish; @Hill1920Audiencia; @Anonymous1930Manila]. Designed with perimeter stone curtain walls, bastions (baluartes) and moats, these strongholds defended the colonial state against European naval rivals (such as the Dutch and British) and maritime raiding expeditions from the Sulu Archipelago and Maguindanao [@Hill1920Audiencia; @PatriciaFlan2023Colonial].
+2. Ecclesiastical cabeceras (pueblos): The cornerstone of the Spanish reducción policy, the cabecera was a nucleated settlement planned according to the Laws of the Indies (Leyes de Indias) [@Galvan1997Spanish; @Ahlborn1963Spanish; @Cruikshank2012Puzzle]. Centred upon an open plaza mayor, the cabecera contained the parish church, convento, municipal tribunal (casa tribunal) and the residences of indigenous elites (principalia), functioning as the ecclesiastical, judicial and fiscal hub of a wider municipal district [@Ahlborn2012Spanish; @Fernandez1988Pompas].
+3. Agrarian visitas and barrios: Surrounding each cabecera was a network of subordinate agricultural hamlets (visitas) and rural settlements (sitios or barrios) located several kilometres into the countryside [@Cruikshank2012Puzzle; @Ahlborn2012Spanish]. Visitas featured small open-air chapels visited intermittently by parish priests, allowing tenant farmers (inquilinos and kasama) to cultivate rice, maize and root crops while remaining tethered to the municipal parish [@Gealogo2012Counting; @Graham2017Mission].
+4. Upland missions and frontier reductions: On the frontiers of Spanish control, religious orders established active mission stations (misiones vivas) and fortified border posts (comandancias politico-militares) in an effort to attract animist highland groups (Igorot, Ifugao, Tingguian, Mangyan) and lowland remounted fugitives (cimarrones) into settled agriculture [@Graham2017Mission; @Elizalde2019Beyond; @Cruikshank2012Puzzle].
+5. Hacienda towns and cash-crop export centres: With the nineteenth-century expansion of global commercial agriculture, specialised plantation settlements developed rapidly across Western Visayas (sugar in Negros Occidental and Iloilo), Bicol and Leyte (abaca cordage), Laguna and Batangas (sugar, coffee, copra) and the Cagayan Valley (tobacco) [@Chaudhuri1985Prosperity; @HAYASE1986Manila; @Lindsey1987Prosperity; @Lee2014Appearance]. These towns featured private steam-powered sugar mills (centrales azucareras), extensive warehouses (camarines) and large residential mansions (bahay na bato) constructed by wealthy Chinese-mestizo and native landowners [@Clemente2023Chinese; @Camacho2020Stephanie].
+6. American chartered cities and resettlement colonies: Following the establishment of American rule and the Commonwealth, the colonial state designated modern chartered cities (such as Quezon City, Baguio, Tagaytay and Davao) designed according to modern sanitary and urban planning principles, alongside organised agricultural resettlement colonies in the Cotabato and Koronadal valleys of Mindanao [@Kirsch2022American; @Winkelmann2023Colonial; @LindioMcGovern2005American].
+
+# Methodology
+
+Candidate localities in the MANDALA source ledger were evaluated using published municipal gazetteers, nineteenth-century Spanish provincial dictionaries (Buzeta and Bravo 1850; Cavada 1876), decennial census reports (1903, 1918, 1939) and modern geoname registers [@Cruikshank2012Puzzle; @Millegan1942Census; @Abueva1961Philippine; @Gealogo2012Counting]. Inclusion in the gazetteer requires:
+- Precise WGS84 geographic coordinates validated against historical cartography and modern satellite imagery.
+- Documented administrative status as an independent parish (parroquia), pueblo, municipality or chartered city during the colonial or Commonwealth period.
+- Chronological population series derived from ecclesiastical padrones, tribute rolls or official decennial censuses.
+
+Where multiple archaeological, parish or survey records fall within 2,2 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-residential military redoubts and seasonal fishing shelters are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the six sub-regions of the Philippine archipelago.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Archipelago Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 3.793 catalogued settlements and summed site peaks across the Philippine archipelago.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications, spatial locations and demographic trajectories were systematically cross-verified against multi-temporal cartographic and archival sources [@Galvan1997Spanish; @Cruikshank2012Puzzle; @Ayad2021Escuela]:
+- Historical Spanish cartography, including the celebrated 1734 Murillo Velarde chart (*Carta Hydrographica y Chorographica de las Yslas Filipinas*) and late nineteenth-century provincial atlas maps (*Planos de provincias de Filipinas*), provided independent validation of early pueblo foundations, cabecera-visita linkages and coastal fortifications [@Galvan1997Spanish; @Ayad2021Escuela].
+- Coastal hydrographic surveys conducted by the United States Coast and Geodetic Survey between 1901 and 1920 established precise geodetic coordinates for all major maritime anchorages, ports of entry and municipal river landings [@Kirsch2022American; @Ayad2021Escuela].
+- Decennial census enumerations (1903, 1918, 1939) provided complete municipal-level demographic series, confirming that twentieth-century settlement growth rates matched regional natural increase and inter-provincial migration streams [@Millegan1942Census; @Abueva1961Philippine; @McELHINNY2005Kissing].
+- Toponymic transition series reconcile historical Hispanic orthography with modern Filipino and regional language spellings (such as Sugbu to Cebu, Palanyag to Paranaque, Culiat to Angeles, Pineda to Pasay and Nueva Vergara to Davao), preventing duplicate counting of renamed administrative entities [@Cruikshank2012Puzzle; @Gealogo2012Counting; @Kirsch2022American].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 settlements across the Philippine archipelago ordered by peak population descending, detailing coordinates, sub-regional allocation, chronological spans and demographic benchmarks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1946 <- if (!is.null(s$population[["1946"]])) as.numeric(s$population[["1946"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 24),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1946 = if (is.numeric(p_1946)) viscount_fmt_pop(p_1946) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 settlements ordered by peak population across the Philippine archipelago (1565 to 1946).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1946 Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Manila and Central Luzon
+
+Manila and Central Luzon catalogues 411 settlements distributed across the alluvial plains of Bulacan, Pampanga, Tarlac, Nueva Ecija, Bataan, Rizal and Zambales [@Gealogo2012Counting; @Javellana2012Nineteenth; @Ahlborn1963Spanish]. Manila represented the primary primate city of the archipelago throughout the colonial era, expanding from 32,52k in 1600 to 219,93k in 1903, 623,49k in 1939 and 983,91k in 1946. Around Manila, rapid suburbanisation during the late Spanish and American periods stimulated the growth of major surrounding municipalities including Taguig (221,79k peak), Antipolo (154,92k peak), Tondo (148,24k peak in 1850), Pasig (144,64k peak), Valenzuela (122,96k peak), Paranaque (119,24k peak), Quezon City (97,53k in 1946), Pasay (88,73k peak), Makati (86,54k peak), Angeles (81,97k peak in Pampanga) and Imus (81,72k peak). In the rice-producing heartland of Central Luzon, key municipal centres included San Fernando, Guagua, Malolos, Baliwag, Tarlac and Cabanatuan, functioning as market centres along the Manila-Dagupan railway line opened in 1892 [@Ahlborn2012Spanish; @Lemps2012Waters; @Morley2023Interlacin].
+
+### Ilocos, Cordillera and Cagayan Valley
+
+Northern Luzon catalogues 528 settlements across the provinces of Ilocos Norte, Ilocos Sur, La Union, Abra, Mountain Province, Benguet, Cagayan, Isabela and Nueva Vizcaya [@Aguilar2023Termination; @Ahlborn2012Spanish]. In the coastal Ilocos plain, dense ribbons of stone-built pueblos flourished, including Laoag (43k peak), Vigan (historic seat of the Diocese of Nueva Segovia), San Fernando (La Union) and Batac. In the interior Cagayan Valley, tobacco monopoly towns included Tuguegarao (32k peak), Ilagan and Aparri, which served as a major maritime river port handling agricultural trade. In the Cordillera uplands, Baguio was established by American colonial authorities in 1900 as the official summer capital, featuring a grid designed by Daniel Burnham and growing rapidly as a gold-mining and administrative centre [@Kirsch2022American; @Winkelmann2023Colonial].
+
+### Southern Tagalog, Bicol and Palawan
+
+Southern Tagalog, Bicol and the southwestern island frontier catalogue 817 settlements across Cavite, Laguna, Batangas, Tayabas (Quezon), Camarines Norte, Camarines Sur, Albay, Sorsogon, Mindoro and Palawan [@Chaudhuri1985Prosperity; @Lindsey1987Prosperity; @Ahlborn1963Spanish]. Calamba was the leading urban centre in Laguna (97,50k peak in 1946), surrounded by prosperous agricultural towns such as San Pablo, Lipa, Batangas City, Santa Cruz, Biñan and Tayabas. In the Bicol Peninsula, abaca cultivation stimulated rapid population expansion in Legazpi (62k peak), Naga (Ciudad de Nueva Caceres), Tabaco, Iriga and Sorsogon [@HAYASE1986Manila; @Chaudhuri1985Prosperity]. In the frontier province of Palawan, Puerto Princesa served as the provincial naval and administrative capital, complemented by Cuyo and Coron.
+
+### Western Visayas (Panay and Negros)
+
+Western Visayas catalogues 407 settlements across the provinces of Iloilo, Capiz, Antique, Aklan, Negros Occidental and Guimaras [@Chaudhuri1985Prosperity; @Gowey2025Feminine]. Iloilo City served as the commercial emporium of the central Philippines, concentrating 116,28k inhabitants at its peak and handling vast tonnages of export sugar, textiles and tobacco [@Chaudhuri1985Prosperity; @Lee2014Appearance]. Across the Guimaras Strait on Negros Occidental, the expansion of sugar plantations gave rise to wealthy hacienda municipalities including Bacolod (75k peak), Silay, Bago, Talisay, Cadiz and San Carlos [@Chaudhuri1985Prosperity; @Lee2014Appearance]. On Panay, agricultural centres along the Jaro and Panay rivers included Jaro, Santa Barbara, Pototan, Cabatuan and Roxas City (Capiz) [@Gowey2025Feminine; @Clemente2023Chinese].
+
+### Central and Eastern Visayas (Cebu, Bohol, Leyte and Samar)
+
+Central and Eastern Visayas catalogues 580 settlements across Cebu, Bohol, Negros Oriental, Siquijor, Leyte and Samar [@Cruikshank2012Puzzle; @HAYASE1986Manila]. Cebu City represented the historic capital of the Visayas, with its population expanding to 167,50k by 1946 across port districts and suburban arrabales [@Cruikshank2012Puzzle; @Galvan1997Spanish; @Abueva1961Philippine]. In Leyte, Ormoc (77,35k peak) and Tacloban (54k peak) operated as thriving commercial ports shipping copra and abaca, while Carigara and Baybay served fertile agricultural valleys. In Bohol, Tagbilaran, Tubigon and Jagna anchored dense coastal farming communities. In Samar, Catbalogan and Calbayog functioned as administrative and trading nodes along rugged maritime coasts.
+
+### Mindanao and Sulu Archipelago
+
+Mindanao and the Sulu Archipelago catalogue 1.050 settlements spanning the provinces of Zamboanga, Misamis, Lanao, Cotabato, Davao, Bukidnon, Agusan, Surigao and the Sulu Archipelago [@Winkelmann2023Colonial; @Hill1920Audiencia]. For centuries, Zamboanga served as the primary Spanish military fortress in the south (103,32k peak). During the American Commonwealth era, state-directed settlement and commercial plantation investment spurred rapid population growth in Davao (111,26k peak), which developed extensive abaca and coconut plantations with significant Japanese commercial participation [@HAYASE1986Manila; @Kirsch2022American]. In the Cotabato Valley, agricultural settlements such as Budta (215,96k peak) and Malingao (190,24k peak) expanded rapidly as Christian migrants established rice and corn farms [@Winkelmann2023Dangerous; @Abueva1961Philippine]. In northern Mindanao, Cagayan de Misamis (Cagayan de Oro), Iligan and Butuan formed vital trading outlets connecting the interior plateau with Visayan shipping lanes.
+
+# Limitations
+
+Settlement gazetteer analysis across the colonial Philippines is subject to several methodological and archival constraints:
+1. Shifting municipal boundaries: Throughout the Spanish and American periods, subordinate barrios were frequently elevated to independent municipalities or subsequently re-annexed into larger parent pueblos, creating complex boundary discontinuities across decennial censuses [@Cruikshank2012Puzzle; @Millegan1942Census].
+2. Decoupling of poblacion and municipal totals: Spanish padrones often distinguished between the nucleated town centre (poblacion) and its outlying rural visitas, whereas early American censuses frequently aggregated the entire municipal jurisdiction into a single figure, requiring careful disaggregation to prevent overestimating core urban densities [@Gealogo2012Counting; @Abueva1961Philippine].
+3. Fluid frontier toponymy: In Mindanao, Sulu and the Cordillera highlands, indigenous settlements often possessed multiple local names (in Maguindanaon, Tausug, Maranao or Ilocano) alongside Spanish or American administrative designations, necessitating cross-referencing against ethnographic records to prevent duplicate site entries [@Winkelmann2023Colonial; @Cruikshank2012Puzzle].
+4. Destruction of local municipal archives: Recurrent tropical fires, wartime aerial bombardments and typhoon flooding destroyed local municipal registers (actas de cabildo and libros de resoluciones) across numerous provincial capitals, especially during the 1945 liberation campaigns [@Morton1960History; @Sunderland1960Liberation; @Morley2023Interlacin].
+
+# Conclusion
+
+The settlement gazetteer of the Spanish and American Philippines establishes a comprehensive georeferenced repository of 3.793 historical settlements spanning nearly four centuries of colonial and national development. By documenting coordinates, administrative classifications and demographic trajectories across six physiographic divisions, this gazetteer links micro-historical parish records with macro-demographic models. The data demonstrate the progressive evolution of Philippine settlement geography from dispersed pre-colonial barangays to a structured network of pueblos, hacienda centres, export ports and modern metropolitan districts, establishing an empirical foundation for spatial demography across insular Southeast Asia.
+
+# Appendix
+
+The MANDALA source ledger audited 3.810 candidate settlement records, resulting in 3.793 accepted settlements and 17 documented exclusions. Table \ref{tab:excluded} presents the 17 excluded candidates, detailing modern territory, exclusion classification and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_rows <- lapply(exc_list, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 58) j_txt <- paste0(substr(j_txt, 1, 55), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 24),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Seventeen excluded candidate settlements from the Philippine archipelago source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

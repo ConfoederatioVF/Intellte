@@ -1,0 +1,240 @@
+---
+title: "Settlement Gazetteer of Thailand after 1945"
+subtitle: "MANDALA: Coordinates, Administrative Allocation and Demographic Trajectories (1945 to 2026)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: thailand_after_1945_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_thailand_after_1945_spatial.png"
+hero_caption: "Spatial distribution of 4.183 catalogued settlements and macro-regional boundaries across Thailand (547.158 km²) from 1945 to 2026."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("thailand_after_1945.json5")
+set_data <- read_json_file("thailand_after_1945_settlements.json")
+led_data <- read_json_file("thailand_after_1945_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  th_bmr_central = "Bangkok Metropolitan Region and Lower Central Plains",
+  th_upper_central = "Upper Central Plains",
+  th_northern = "Northern Thailand",
+  th_northeastern_isan = "Northeastern Thailand (Isan)",
+  th_eastern = "Eastern Economic Corridor",
+  th_southern = "Southern Thailand"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative hierarchy, foundation periods and longitudinal census population series for 4.183 urban and semi-urban settlements across Thailand (547.158 km², encompassing 6.751 active 5-arcminute terrestrial cells) from 1945 to 2026. Structured across six macro-regions, the inventory spans the complete settlement continuum of modern Thailand: the primate capital conurbation of Bangkok and its five perimeter provinces along the lower Chao Phraya delta, the heavy manufacturing and deep-sea port municipalities of the Eastern Economic Corridor, the agricultural market centres and district capitals of the Khorat Plateau, the intermontane basin towns of Northern Thailand, the irrigated rice market centres of the Upper Central Plains and the rubber, tin and maritime trading settlements of Southern Thailand.
+
+Settlement magnitudes range from rural district sub-district municipalities (*thetsaban tambon*) and sanitary districts (*sukhaphiban*) housing 2k to 10k cultivators to intermediate regional administrative capitals such as Chiang Mai (131k municipal core, expanding to over 960k in its broader urban basin), Nakhon Ratchasima (126k municipal core, 430k in 2020), Khon Kaen (114k core), Udon Thani (130k core), Phitsanulok (89k core), Nakhon Sawan (1,06M peak registered district) and Hat Yai-Songkhla (1,26M peak registered district). At the pinnacle of the national hierarchy stands Bangkok, commanding an official municipality of 5,68M residents in 2020 and a peak recorded urban population of 8,28M, expanding to over 14M residents when integrating contiguous urbanised districts across Samut Prakan (1,35M peak), Samut Sakhon (1,35M peak), Nonthaburi (1,33M peak) and Pathum Thani (1,33M peak).
+
+Every catalogued settlement reconciles against 4.189 source-ledger candidate records compiled under MANDALA, incorporating six documented exclusions collapsed within a 2,2 km spatial deduplication radius. By cross-referencing published decennial censuses from the National Statistical Office with civil registration registers and multi-temporal satellite imagery, this gazetteer provides an empirical framework for settlement subtraction, separating nucleated urban concentrations from rural farming populations across post-war Mainland Southeast Asia.
+
+# Background
+
+Post-war urbanisation and settlement patterns in Thailand reflect state-led administrative centralisation, rapid fertility transitions and national economic planning [@Goldstein1978Migration; @Waxler1982Fertility]. Four principal settlement traditions define the modern Thai urban network:
+1. The Primate Deltaic Metropolises: Anchored by Bangkok, established on the lower alluvial loops of the Chao Phraya River, the metropolitan core expanded from canal-oriented transport networks to road-based industrial sprawl [@Shummadtayar2013Investigat; @Pongpiachan2025Size]. The capital absorbed surrounding agrarian settlements, transforming formerly autonomous provincial capitals such as Nonthaburi and Samut Prakan into dense suburban dormitory and manufacturing districts [@Iamtrakul2024Quantifyin].
+2. Eastern Seaboard Industrial Gateways: Developed under national economic planning from the late 1970s, deep-sea port installations at Laem Chabang and Map Ta Phut transformed coastal communities in Chonburi and Rayong into heavy industrial conurbations dedicated to petrochemicals, automotive manufacturing and export logistics [@Songsom2025Examining; @Guest1998Assessing].
+3. Agrarian Market Towns and Railway Nodes: Across Northeastern Thailand, the Upper Central Plains and the North, intermediate cities expanded along State Railway of Thailand corridors and national highway alignments (Phahonyothin, Mittraphap, Sukhumvit). Towns such as Nakhon Ratchasima, Khon Kaen, Ubon Ratchathani, Nakhon Sawan and Phitsanulok functioned as processing and shipping hubs for export paddy, cassava, maize and kenaf [@Mahikul2019Modelling; @Tontisirin2024Spatial].
+4. Intermontane Basin Capitals and Maritime Ports: In Northern Thailand, ancient walled city centres such as Chiang Mai, Chiang Rai, Lampang and Lamphun grew along alluvial valley floors bounded by mountain ranges [@Tschirhart2020Choosing]. In Southern Thailand, coastal anchorages, tin-smelting ports and rubber trading hubs such as Phuket, Songkhla, Hat Yai, Surat Thani and Trang developed along the Isthmus of Kra, mediating commercial exchange between peninsular Thailand and maritime Southeast Asia [@Witvorapong2015Social; @Pongponrat2015Domestic].
+
+# Methodology
+
+Candidate settlements in the source ledger were evaluated against decennial census volumes from the National Statistical Office, municipal registers maintained by the Department of Provincial Administration, and historical map series [@Goldstein1978Migration; @Guest1998Assessing; @V2011Health]. Inclusion requires:
+- Definitive WGS84 geographic coordinates validated against regional cartography and satellite imagery.
+- Documented administrative status as a special administrative area (Bangkok, Pattaya), city municipality (*thetsaban nakhon*), town municipality (*thetsaban mueang*), sub-district municipality (*thetsaban tambon*), sanitary district (*sukhaphiban*) or recognised district centre (*amphoe mueang*).
+- Multi-benchmark population series calibrated across the 1945 to 2026 temporal domain.
+
+Where secondary administrative survey entries fall within 2,2 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases to prevent artificial spatial clustering. Ephemeral agricultural hamlets below 1k inhabitants and non-residential infrastructure nodes are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of 4.183 catalogued settlements and summed site peaks across the six macro-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    MacroRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Settlements = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    SummedPeaks = viscount_fmt_pop(sum(peaks)),
+    LeadingSettlement = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  MacroRegion = "National Total",
+  Settlements = as.character(length(set_list)),
+  Share = "100%",
+  SummedPeaks = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSettlement = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Macro-regional distribution of 4.183 catalogued settlements and summed site peaks across Thailand.",
+  c("Macro-Region", "Settlements", "Share", "Summed Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications, administrative boundaries and demographic series were corroborated through satellite remote sensing and demographic cross-checks [@Guest1998Assessing; @Iamtrakul2024Quantifyin]. Multi-spectral Landsat imagery (1972 to 2026) and nighttime luminosity archives (DMSP-OLS and VIIRS) confirmed the expansion of built-up urban footprints across the central delta, verifying the physical coalescence of Bangkok with Thonburi, Nonthaburi, Samut Prakan and Pathum Thani [@Shummadtayar2013Investigat; @Saeyang2026Principal].
+
+Historical topographic map series published by the Royal Thai Survey Department (Series L7017 at 1:50.000 scale) provided spatial ground truth for provincial and district centres established during mid-twentieth-century administrative expansions [@Tsuda2023Macroscopi]. Vital statistics compiled by the Ministry of Public Health and provincial health offices corroborate municipal population counts, ensuring that municipal annexation boundaries (*thetsaban*) are distinguished from underlying physical urban built-up areas [@V2011Health; @Thanvisitthpon2018Urban].
+
+# Results
+
+Table \ref{tab:gazetteer} documents the leading 45 settlements across Thailand ordered by peak population descending, detailing coordinates, macro-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_2020 <- if (!is.null(s$population[["2020"]])) as.numeric(s$population[["2020"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 24),
+    MacroRegion = substr(reg_lbl, 1, 24),
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P2020 = if (is.numeric(p_2020)) viscount_fmt_pop(p_2020) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 settlements ordered by peak population across Thailand (1945 to 2026).",
+  c("Settlement Name", "Macro-Region", "Coordinates", "Span", "Peak Pop", "2020 Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Bangkok Metropolitan Region and Lower Central Plains
+
+The capital division catalogues 748 settlements across 70.843 km² [@Iamtrakul2024Quantifyin; @Shummadtayar2013Investigat]. Bangkok dominates the regional hierarchy, expanding from 780k in 1947 to 5,68M in 2020 (8,28M peak recorded). Surrounding metropolitan provinces form dense contiguous urban ribbons: Samut Sakhon (1,35M peak, 578k in 2020), Samut Prakan (1,35M peak, 541k in 2020), Nonthaburi (1,33M peak, 1,25M in 2020), Pathum Thani (1,33M peak, 1,15M in 2020) and Nakhon Pathom. In the lower central delta, agricultural and fishing towns including Samut Songkhram, Ratchaburi and Phetchaburi provide vital primary processing and maritime shipping connections [@Thanvisitthpon2018Urban; @Pongpiachan2025Size].
+
+### Upper Central Plains
+
+The upper central division catalogues 457 settlements across 91.876 km² along the Chao Phraya, Nan and Yom river systems [@Tsuda2023Macroscopi]. Nakhon Sawan is the principal urban hub, situated at the confluence of the Ping and Nan rivers, supporting 1,09M peak recorded district population (1,06M in 2020). Secondary agricultural trading centres include Phitsanulok (623k peak), Kamphaeng Phet (431k peak), Phichit (380k peak), Phetchabun (458k peak) and Sukhothai (280k peak). These centres coordinate the marketing and processing of double-cropped irrigated rice, sugarcane and maize [@Tontisirin2024Spatial].
+
+### Northern Thailand
+
+The northern intermontane division catalogues 472 settlements across 100.159 km² [@Tschirhart2020Choosing; @Hattapradit2026Ageing]. Chiang Rai is the largest catalogued district node with 1,29M peak population (1,29M in 2020), commanding trade along the Mekong border corridor with Myanmar and Laos. Chiang Mai serves as the historical cultural and economic capital of Lanna, anchoring an urban basin of over 960k inhabitants (131k municipal municipality). Other major valley centres include Lampang (574k peak), Phrae (341k peak), Nan (328k peak), Phayao (358k peak), Lamphun (265k peak) and Mae Hong Son (182k peak).
+
+### Northeastern Thailand (Isan)
+
+The northeastern division catalogues 1.517 settlements across 174.740 km², reflecting the dense distribution of agrarian market towns across the Khorat Plateau [@Mahikul2019Modelling; @Pongponrat2015Domestic]. Major provincial urban centres include Surin (1,33M peak, 449k in 2020), Roi Et (1,31M peak, 1,31M in 2020), Si Sa Ket (1,29M peak, 422k in 2020), Sakon Nakhon (1,15M peak, 1,15M in 2020), Chaiyaphum (1,14M peak, 1,14M in 2020), Nakhon Ratchasima (1,09M peak, 430k in 2020), Ubon Ratchathani (1,06M peak), Khon Kaen (948k peak, 114k core), Udon Thani (924k peak, 130k core), Buri Ram (915k peak) and Kalasin (718k peak). These centres anchor the most populous agrarian sub-region of Thailand.
+
+### Eastern Economic Corridor
+
+The eastern maritime division catalogues 249 settlements across 33.855 km² [@Songsom2025Examining]. Anchored by the Eastern Seaboard industrial initiative, major conurbations include Chonburi (824k peak), Pattaya (384k peak), Si Racha (321k peak), Rayong (482k peak), Chachoengsao (428k peak), Prachin Buri (345k peak) and Sa Kaeo (362k peak). Deep-sea container ports at Laem Chabang and industrial parks at Map Ta Phut and Amata City sustain massive manufacturing clusters that draw migrant workers from across the kingdom [@Guest1998Assessing; @Suksai2020Foreign].
+
+### Southern Thailand
+
+The southern peninsular division catalogues 740 settlements across 75.685 km² [@Witvorapong2015Social; @Pongponrat2015Domestic]. Songkhla-Hat Yai is the preeminent commercial and educational metropolis, concentrating 1,26M peak population (201k core in 2020) and mediating border trade with Peninsular Malaysia. Other major centres include Surat Thani (1,06M peak, 1,06M in 2020) anchoring the upper Gulf coast, Nakhon Si Thammarat (986k peak), Phuket (418k peak), Trang (482k peak), Krabi (385k peak), Phatthalung (362k peak), Chumphon (354k peak) and the southern border centres of Yala (328k peak), Pattani (341k peak) and Narathiwat (368k peak).
+
+# Limitations
+
+The settlement gazetteer is subject to several historical-administrative constraints:
+1. Spatial Boundary Amalgamations: Following the 1999 Municipality Act, numerous sanitary districts (*sukhaphiban*) were elevated to sub-district municipalities (*thetsaban tambon*), resulting in sudden administrative perimeter expansions that do not reflect genuine physical nucleation [@Songsom2025Examining; @Tontisirin2024Spatial].
+2. Registration versus De Facto Residence: High mobility among circular factory workers, hospitality staff and construction crews leads to significant disparities between registered domicile (*thabian ban*) and de facto physical presence in urban districts like Pattaya, Bangkok and Hat Yai [@Guest1998Assessing; @Goldstein1978Migration].
+3. Cross-Border Labour Inflows: Seasonal plantation and fishery workforces from neighbouring nations are under-recorded in municipal registries along the Andaman and Gulf coasts [@Suksai2020Foreign; @Tschirhart2020Choosing].
+4. Rapid Peripheral Suburbanisation: In the Bangkok Metropolitan Region, ribbon developments along transport arteries blur the physical boundaries between adjacent municipal authorities, requiring dasymetric raster allocation for accurate density measurement [@Iamtrakul2024Quantifyin; @Saeyang2026Principal].
+
+# Conclusion
+
+The MANDALA settlement gazetteer for Thailand compiles 4.183 georeferenced localities across six macro-regions from 1945 to 2026, providing a detailed empirical record of post-war Southeast Asian urbanisation. By cataloguing coordinates, administrative levels and multi-benchmark demographic series, this inventory captures the dramatic expansion of Bangkok into a global primate agglomeration, the development of the Eastern Economic Corridor, and the resilience of agrarian market networks across the Khorat Plateau, the northern valleys and the southern peninsula. Reconciled against 4.189 candidate records and audited through asymptotic saturation, this gazetteer establishes an essential spatial baseline for historical demography in Mainland Southeast Asia.
+
+# Appendix
+
+The MANDALA source ledger audited 4.189 candidate settlement records across Thailand, accepting 4.183 unique localities and excluding 6 records due to duplicate spatial buffering within a 2,2 km deduplication radius. Table \ref{tab:excluded} documents the complete catalogue of excluded candidate sites alongside their methodological justifications.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 24),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Excluded candidate sites from the Thailand source ledger, detailing reason and deduplication justification.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

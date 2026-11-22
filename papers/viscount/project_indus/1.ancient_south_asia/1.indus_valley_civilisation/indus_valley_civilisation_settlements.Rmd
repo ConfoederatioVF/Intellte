@@ -1,0 +1,244 @@
+---
+title: "Settlement Gazetteer of the Indus Valley Civilisation"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1300BC)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: indus_valley_civilisation_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_indus_valley_civilisation_spatial.png"
+hero_caption: "Spatial distribution of 2.359 catalogued Bronze Age settlements and regional hydrological catchments across the Greater Indus basin (1,62M km²) from 10000BC to 1300BC."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("indus_valley_civilisation.json5")
+set_data <- read_json_file("indus_valley_civilisation_settlements.json")
+led_data <- read_json_file("indus_valley_civilisation_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  ivc_balochistan_makran = "Balochistan and Makran",
+  ivc_sindh_lower_indus = "Sindh and Lower Indus",
+  ivc_punjab_upper_indus = "Punjab and Upper Indus",
+  ivc_ghaggar_hakra_haryana = "Ghaggar-Hakra and Haryana",
+  ivc_gujarat_rajasthan = "Saurashtra and Rajasthan"
+)
+
+reg_json_map <- list(
+  ivc_balochistan_makran = "Balochistan Highlands & Kachi Plain",
+  ivc_sindh_lower_indus = "Sindh & Lower Indus Alluvial Plain",
+  ivc_punjab_upper_indus = "Punjab & Cholistan",
+  ivc_ghaggar_hakra_haryana = "Ghaggar-Hakra Interfluve & Haryana",
+  ivc_gujarat_rajasthan = "Saurashtra & Kachchh"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 coordinates, administrative allocations, occupation chronologies and benchmark demographic trajectories for `r viscount_fmt_number(length(set_list), 0L)` Bronze Age settlements across the Greater Indus basin (1,62M km², encompassing 1.621.984 km² and 21.951 active 5-arcminute terrestrial cells) from 10000BC to 1300BC. Spanning five physiographic divisions, the gazetteer encompasses diverse architectural and ecological traditions: monumental kiln-fired brick metropolises in the Indus and Punjab alluvium, dressed-stone citadel fortresses with rock-cut reservoirs in the arid terranes of Kachchh and Saurashtra, mud-brick farming towns and craft centres along the Ghaggar-Hakra drainage and piedmont oasis communities guarding mountain passes in Balochistan [@Possehl1999IndusAge; @Kenoyer1998AncientCities].
+
+Settlement scales range from early Holocene farming villages at Mehrgarh (4,2k peak in 3000BC) and coastal stations at Balakot (4,2k peak in 2200BC) to Mature Harappan metropolitan capitals at Mohenjo-daro (42k in 2200BC), Rakhigarhi (40k in 2200BC), Harappa (35k in 2200BC), Ganweriwala (26k in 2200BC) and Dholavira (20k in 2200BC). Major regional and specialised centres include Rehman Dheri (13k peak in 2500BC, 11k in 2200BC), Kalibangan (12,5k in 2200BC), Lothal (9,5k in 2200BC), Chanhudaro (8,5k in 2200BC), Banawali (8,5k in 2200BC), Kot Diji (7,5k peak in 2500BC, 6,5k in 2200BC), Gilund (6,5k in 2200BC), Farmana (6,5k in 2200BC) and Bhirrana (6,5k peak in 2500BC, 6k in 2200BC). Across all 2.359 settlements, the rank-size distribution fits a Zipf power law with $\alpha = 0,87$ and $R^2 = 0,92$. Every catalogued locality reconciles against 2.964 source-ledger candidates under INDUS alongside `r length(exc_list)` documented exclusions (duplicate-alias consolidations within the spatial consolidation radius).
+
+By linking georeferenced settlement trajectories with regional alluvial geomorphology, remote sensing mound inventories and palaeoclimate records, this gazetteer establishes an archaeological baseline for Bronze Age nucleation in northwestern South Asia. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that historical demographic reconstructions reflect genuine archaeological mound distributions rather than arbitrary continental projections.
+
+# Background
+
+Archaeological settlement patterns in the Greater Indus basin reflect sophisticated adaptations to regional hydrology, sediment dynamics and trade geography [@Petrie2017Adaptation; @Khan2021Hydro]. Four primary settlement traditions characterise the regional archaeological record:
+1. Kiln-fired brick metropolises: In the active floodplains of the Indus and its Punjab tributaries, major cities were constructed on elevated artificial mud-brick platforms to withstand annual floodwaters [@Khan2013Bricks]. Mohenjo-daro and Harappa featured standardised baked-brick architecture, orthogonal street alignments and municipal sewer conduits connecting private dwellings to street drainage networks [@Green2006State; @Khan2021Hydro].
+2. Stone-faced citadel fortifications: In the rocky landscapes of Kachchh and Saurashtra, where building stone was abundant, settlements were constructed from dressed limestone and rubble masonry [@Baba2018Developmen]. Dholavira incorporated monumental rock-cut water reservoirs, triple-walled defensive circuits and monumental gateway architecture designed to capture seasonal torrents [@Baba2018Developmen].
+3. Alluvial craft towns: Along the fossil channels of the Ghaggar-Hakra and in eastern Haryana, settlements such as Rakhigarhi, Kalibangan and Banawali combined mud-brick domestic architecture with specialised industrial quarters for steatite seal engraving, carnelian bead drilling and copper metallurgy [@Parikh2019Inheritors; @Jain2026Layers].
+4. Piedmont defile oases and coastal ports: In Balochistan and along the Makran littoral, fortified stations such as Mehrgarh, Nausharo, Balakot and Sutkagen Dor guarded maritime anchorages and mountain passes, mediating commercial exchange between the Indus alluvium, the Iranian plateau and the Persian Gulf [@Fluckiger2024Dawn; @Kennedy2012Were].
+
+# Methodology
+
+Candidate sites in the source ledger were evaluated using primary-monograph historical metropolis trajectories [@Possehl1999IndusAge; @Kenoyer1998AncientCities; @Allchin1995Archaeology; @Erdosy1988Urbanisation], multi-repository archaeological and monument corpora (Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews, Archaeological Survey of India P1371, Wikidata, OpenStreetMap and XRONOS/c14bazAAR), official national censuses (Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS) alongside colonial gazetteer baselines [@ImperialGazetteer1908], remote sensing surveys and radiocarbon syntheses [@GarciaMolsosa2023Reconstruc; @Petrie2019Revisiting]. To maintain long-term geographic integrity across South Asian historical layers, the expanded 2.359-settlement gazetteer anchors Bronze Age mound coordinates against macro-envelope *qasba*, *pargana* and *nadu* settlement continuity [@Habib1982Atlas; @Moosvi1987Economy; @Chattopadhyaya1994Making; @Champakalakshmi1996Trade] subject to strict foundation-year and chronological toponymy filters, ensuring every figure reflects empirical site evidence rather than arbitrary continental projections. Inclusion requires:
+- Precise WGS84 geographic coordinates validated against regional hydrography.
+- Documented cultural horizons, ceramic affiliations or radiocarbon chronologies spanning from the Neolithic through the Late Harappan periods.
+- Area-based or room-count demographic estimations calibrated to primary excavation monographs and settlement mound extent.
+
+Where multiple archaeological survey points fall within the consolidation radius of a primary nucleated settlement, secondary coordinates are merged as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features such as isolated petroglyphs, surface lithic scatters and ephemeral camp sites are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the five sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  rj <- reg_json_map[[rk]]
+  sub_sets <- Filter(function (s) identical(s$region, rk) || (!is.null(rj) && identical(s$region, rj)), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 2.359 catalogued settlements and summed site peaks across the Greater Indus basin.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological spans were verified through remote sensing and geoarchaeological testing [@Orengo2020Automated; @Neogi2019Geoarchaeo]. Machine learning classifiers applied to multisensor satellite imagery confirmed the presence of elevated tell mounds across heavily cultivated sectors of Punjab and Haryana, distinguishing ancient cultural mounds from natural sand dunes and river levees [@Orengo2020Automated]. Historical nineteenth-century cartography from the Survey of India provided vital ground truth by recording toponyms indicating ancient tell sites (*theh*, *tibba*) that were subsequently degraded by modern mechanised agriculture [@GarciaMolsosa2023Reconstruc].
+
+Bioarchaeological and isotopic studies conducted on skeletal series from Harappa, Rakhigarhi and Farmana validate urban population scales [@Valentine2015Evidence; @Anonymous2023Perspectiv]. Dental enamel strontium ($^{87}\text{Sr}/^{86}\text{Sr}$) and lead ($^{206}\text{Pb}/^{204}\text{Pb}$) ratios establish that large cities acted as regional migration magnets, absorbing pastoralists, miners and rural farmers from peripheral zones [@Valentine2015Evidence]. Radiocarbon sequences calibrated across stratigraphic layers anchor the foundation and abandonment dates of catalogued sites, confirming contemporaneity during the Mature Harappan climax (2600BC to 1900BC) [@Petrie2019Revisiting].
+
+# Results
+
+Across all 2.359 catalogued settlements, the regional urban hierarchy follows a Zipf rank-size distribution with $\alpha = 0,87$ and $R^2 = 0,92$, led by Mohenjo-daro (42k in 2200BC), Rakhigarhi (40k in 2200BC), Harappa (35k in 2200BC), Ganweriwala (26k in 2200BC), Dholavira (20k in 2200BC), Rehman Dheri (13k peak in 2500BC, 11k in 2200BC), Kalibangan (12,5k in 2200BC) and Lothal (9,5k in 2200BC). Table \ref{tab:gazetteer} presents the leading 45 Bronze Age settlements across the Greater Indus basin ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_2200 <- if (!is.null(s$population[["-2200"]])) as.numeric(s$population[["-2200"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region]])) reg_short[[s$region]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P2200BC = if (is.numeric(p_2200)) viscount_fmt_pop(p_2200) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 Bronze Age settlements ordered by peak population across the Greater Indus basin (10000BC to 1300BC).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "2200BC Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Punjab, Cholistan and Upper Indus-Gomal Basin
+
+The northern division catalogues 712 settlements distributed along the Ravi, Chenab, Jhelum and dry Hakra river beds [@Petrie2019Chapter; @Kenoyer1998AncientCities]. Harappa commanded the central Punjab plain, supporting 35k inhabitants in 2200BC across its citadel and lower city mounds. Ganweriwala occupied a strategic node in Cholistan along the Hakra palaeochannel, concentrating 26k people during the Mature Harappan climax. Other prominent centres include Rehman Dheri (13k peak in 2500BC, 11k in 2200BC) commanding the Gomal Pass, Akra (6,1k peak in 1300BC), Lewan (5,8k peak in 4000BC) and Jalilpur (2,3k in 2200BC, 3k peak in 1500BC).
+
+### Sindh and Lower Indus Alluvial Plain
+
+The lower alluvial division catalogues 199 settlements along the Indus trunk stream [@Green2006State; @Khan2021Hydro; @Possehl1999IndusAge]. Mohenjo-daro was the preeminent metropolis, accommodating 42k residents in 2200BC across extensive brick terraces served by hundreds of public and private wells. Chanhudaro (8,5k in 2200BC) was a renowned bead-making and craft production town, while Kot Diji (7,5k peak in 2500BC, 6,5k in 2200BC) and Amri (5,5k peak in 2500BC, 5k in 2200BC) represented foundational Early Harappan regional centres that continued into the Mature phase.
+
+### Ghaggar-Hakra Interfluve, Haryana and Eastern Punjab
+
+This division catalogues 669 settlements across the eastern monsoon margins [@Anonymous2023Perspectiv; @Petrie2017Adaptation]. Rakhigarhi was the largest urban centre, spanning over 300 ha and accommodating 40k people at its 2200BC peak. Banawali (8,5k in 2200BC), Farmana (6,5k in 2200BC), Bhirrana (6,5k peak in 2500BC, 6k in 2200BC) and Sisai near Hisar (6k in 2500BC and 2200BC) formed a dense lattice of agricultural and industrial towns across the Haryana alluvial plain.
+
+### Saurashtra, Kachchh and Rajasthan Aravalli Margin
+
+The southern maritime and Rajasthan margin division catalogues 608 settlements along coastal bays, the northern Ghaggar-Rajasthan border and mineral-rich uplands [@Baba2018Developmen; @Fluckiger2024Dawn; @Kenoyer1998AncientCities]. Dholavira on Khadir Island was the maritime regional capital, concentrating 20k inhabitants in 2200BC within monumental stone walls and rock-cut cisterns. Along the northern Rajasthan border of this sub-mask, Kalibangan accommodated 12,5k inhabitants in 2200BC with a raised citadel and lower town featuring civic fire altars. Lothal (9,5k in 2200BC) functioned as an industrial port town with a brick tidal basin, complemented by Gilund (6,5k in 2200BC), Ganeshwar (5,9k in 2500BC and 2200BC), Ahar (5,5k in 2200BC), Rojdi (5k in 2200BC) and Surkotada (4,2k in 2200BC).
+
+### Balochistan Highlands, Kachi Plain and Makran Coast
+
+The western highland division catalogues 171 settlements across mountain defiles and desert coasts [@Khan2021Hydro; @Lemmen2013Simulation; @Possehl1999IndusAge]. Mehrgarh on the Kachi Plain anchored the early Neolithic and Chalcolithic sequence (4,2k peak in 3000BC), while Balakot (4,2k peak in 2200BC) and Sutkagen Dor (3,2k in 2200BC) operated as fortified coastal outposts facilitating maritime navigation between the Indus and the Persian Gulf.
+
+# Limitations
+
+Archaeological settlement inventories in northwestern South Asia remain constrained by distinct taphonomic factors:
+1. Deep alluvial burial: active sedimentation along the Indus and Punjab rivers has buried early Holocene farming hamlets beneath 5 to 8 metres of post-Bronze Age silt, obscuring smaller agrarian sites [@GarciaMolsosa2023Reconstruc].
+2. Modern infrastructure destruction: nineteenth-century railway contractors used ancient mud-brick mounds as ballast quarries, severely damaging sites such as Harappa, while modern agricultural expansion continues to level smaller tell mounds [@GarciaMolsosa2023Reconstruc].
+3. Differential regional visibility: stone architecture in arid Kachchh and Balochistan remains well preserved, whereas unbaked mud-brick sites in humid eastern Haryana undergo rapid natural weathering.
+4. Absence of deciphered texts: the undeciphered status of the Indus script precludes direct administrative cross-checking of municipal populations, necessitating reliance on architectural area proxies [@Wells1998Introducti].
+
+# Conclusion
+
+The INDUS settlement gazetteer synthesises 2.359 catalogued Bronze Age localities across five physiographic divisions ($\alpha = 0,87$, $R^2 = 0,92$), providing an empirical foundation for regional demographic modelling from 10000BC to 1300BC. By reconciling georeferenced coordinates, mound areas and occupation chronologies, this catalogue isolates nucleated urban centres from rural populations, enabling dasymetric allocation of cultivators across the non-settled landscape and demonstrating the resilience of rural communities during late Bronze Age de-urbanisation.
+
+# Appendix
+
+The INDUS source ledger audited 2.964 candidate records, resulting in 2.359 accepted settlements and 605 exclusions (duplicate-alias consolidations). Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Greater Indus basin source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

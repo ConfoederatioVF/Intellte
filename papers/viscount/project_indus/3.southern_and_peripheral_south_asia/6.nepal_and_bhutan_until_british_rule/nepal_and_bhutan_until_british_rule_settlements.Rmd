@@ -1,0 +1,231 @@
+---
+title: "Settlement Gazetteer of Nepal and Bhutan"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (10000BC to 1816AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: nepal_and_bhutan_until_british_rule_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_nepal_and_bhutan_until_british_rule_spatial.png"
+hero_caption: "Spatial distribution of 4.060 catalogued historical settlements and regional drainage catchments across Nepal and Bhutan (183.712 km²) from 10000BC to 1816AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("nepal_and_bhutan_until_british_rule.json5")
+set_data <- read_json_file("nepal_and_bhutan_until_british_rule_settlements.json")
+led_data <- read_json_file("nepal_and_bhutan_until_british_rule_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  nep1_kathmandu_central = "Kathmandu Valley and Central Pahad",
+  nep1_eastern_kirat = "Eastern Kirat Hills and Koshi Terai",
+  nep1_western_khasa = "Western Khasa Malla and Karnali",
+  nep1_bhutan_dzongs = "Bhutanese Valleys and Drukpa Dzongs"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer catalogues WGS84 geographic coordinates, administrative allocations, foundation chronologies and benchmark demographic trajectories for `r viscount_fmt_number(length(set_list), 0L)` historical settlements across Nepal and Bhutan (183.712 km², comprising 2.452 active 5-arcminute terrestrial cells) from 10000BC to 1816AD. Distributed across four physiographic divisions—1.491 settlements in the Kathmandu Valley and Central Pahad, 1.263 in Western Khasa Malla and Karnali, 880 in the Eastern Kirat Hills and Koshi Terai, and 426 in Bhutanese Valleys and Drukpa Dzongs—the gazetteer spans diverse architectural and structural traditions: dense multi-tiered brick metropolises with paved royal plazas (*durbar*) in the lacustrine basin of the Kathmandu Valley, monumental stone-and-timber fortress-monasteries (*dzongs*) commanding deep glaciated valleys across Bhutan, terraced stone homesteads and hilltop citadels in the Khasa Malla and Kirat highlands, and fortified mud-brick enclosures guarding sub-Himalayan Terai corridors [@Slusser1982NepalMandala; @Phuntsho2013HistoryBhutan; @Coningham2021Urban]. Peak settlement sizes follow a tight Zipf rank-size power law ($\alpha = 0,80$, $R^2 = 0,99$), ranging from Early Historic Terai capitals at Shravasti (45k peak in 300BC), Tilaurakot (18k peak in 300BC) and Janakpur (18k peak in 300BC) to mediaeval and early modern metropolises and frontier market cities at Kathmandu (62k peak in 1650AD; 52,8k in 1816AD), Lalitpur (48k peak in 1650AD; 31,4k in 1816AD), Musahri (43,1k in 1816AD), Bhaktapur (40k peak in 1650AD; 23,4k in 1816AD), Cooch Behar (32k peak in 1650AD; 16,8k in 1816AD), Pilibhit (29,6k in 1816AD) and Rajganj (29,2k in 1816AD) [@Erdosy1988Urbanisation; @Bayly1983Rulers; @Eaton1993Rise]. Secondary highland capitals include Sinja (15,5k peak in 1300AD) in the Karnali basin, Gorkha (11,4k peak in 1750AD; 8k in 1816AD) and Drukpa monastic bastions at Punakha (8,5k peak in 1775AD), Thimphu (7,5k in 1750AD to 1816AD), Paro (7k peak in 1750AD) and Jakar (6k peak in 1700AD). Every catalogued locality reconciles against 4.335 candidate records in the INDUS source ledger alongside `r length(exc_list)` documented exclusions (predominantly duplicate survey aliases within a 2,2 km spatial radius, GeoNames homonyms and non-habitation ritual shrines). By integrating georeferenced trajectories with regional hydrology and mid-hill terrain constraints, this gazetteer establishes a spatial baseline for historical settlement subtraction and demographic modelling across the central and eastern Himalayas.
+
+# Background
+
+Historical settlement patterns across Nepal and Bhutan reflect human adaptations to steep altitudinal gradients, riverine transport corridors and trans-Himalayan commercial routes [@Coningham2021Urban; @Toffin1990Mythical; @Slusser1982NepalMandala]. Four primary architectural and settlement traditions characterise the regional archaeological record:
+1. Multi-tiered Newar brick metropolises: In the Kathmandu Valley, urban nucleations developed around contiguous, multi-storey fired-brick domestic dwellings with carved sal-wood struts and pitched terracotta-tiled roofs [@Slusser1982NepalMandala; @Toffin1990Mythical; @Gosai2025Ethnograph]. Urban layout was structured around internal courtyards (*chowks*), Buddhist monastic complexes (*baha* and *bahi*), stepped stone water conduits (*dhunge dhara* or *hiti*) and monumental palace squares (*durbar*) housing royal courts and pagoda shrines [@Toffin1990Mythical; @Shrestha2016Traditiona; @Sengupta2017Ruptured].
+2. Fortress-monasteries (*dzongs*): Across the valleys of western and central Bhutan, administrative and spiritual life nucleated around monumental *dzongs* erected on defensible spur ridges commanding river confluences [@Phuntsho2013HistoryBhutan; @Ling2016India]. Built of massive tapered rubble masonry, rammed earth and timber without iron nails, these installations combined central temple keeps (*utse*) with administrative blocks housing monk bodies and civil magistrates under the dual *chho-sid-nyi* system [@Phuntsho2013HistoryBhutan; @Ling2016India; @Compagna2026Layered].
+3. Hilltop citadels and terraced homesteads: In the western Karnali basin and the eastern Kirat hills, settlements featured stone-and-timber defensive towers (*kot*) perched on ridge tops flanked by loose clusters of farmhouse homesteads [@Hutt1984Nepali; @Parajuli1999Agro]. In the capital of the Khasa Malla empire at Sinja, monumental stone temple structures and carved stone pillars (*deval*) overlooked terraced alluvial floodplains along the Hima River [@Hutt1984Nepali].
+4. Sub-Himalayan Terai walled enclosures: Along the southern alluvial fringe bordering the Gangetic plain, early Iron Age and Classical settlements were constructed of kiln-fired and sun-dried mud-bricks surrounded by earthen ramparts and defensive moats [@Erdosy1988Urbanisation; @Allchin1995Archaeology; @Coningham2021Urban]. Shravasti, Tilaurakot and Piprahwa controlled access between northern Indian trade arteries and the Himalayan foothills, housing Buddhist monastic fraternities and royal administrative clans [@Coningham2021Urban; @Maskey2024Religious].
+
+# Methodology
+
+The expanded 4.060-settlement gazetteer is empirically anchored in four complementary evidentiary streams rather than synthetic scaling assumptions:
+1. Primary-monograph historical metropolis trajectories: Longitudinal population profiles for major royal capitals, *durbar* towns and monastic seats are reconstructed directly from architectural extents, household counts, royal chronicles and primary historical monographs [@Slusser1982NepalMandala; @Phuntsho2013HistoryBhutan; @Erdosy1988Urbanisation; @Allchin1995Archaeology; @Naqvi1968Urbanisation].
+2. Multi-repository archaeological and monument corpora: Prehistoric, Early Historic and mediaeval habitation horizons are compiled from Pleiades, Zenodo regional archaeological datasets (including Harappan, Vidarbha and Palaeolithic Indian Archaeology A Review syntheses), Archaeological Survey of India records, Wikidata, OpenStreetMap heritage layers and radiocarbon inventories in XRONOS and c14bazAAR [@Coningham2021Urban; @Chattopadhyaya1994Making].
+3. Official national censuses and fiscal gazetteers: Baseline demographic anchors and town hierarchies are calibrated against official national census enumerations—specifically Census of India Table A-04 urban-rural time series alongside historical returns compiled for Pakistan (PBS), Bangladesh (BBS), India (DCS), Nepal (CBS), Bhutan (NSB) and adjacent Himalayan territories (NBS)—cross-checked with colonial and precolonial fiscal surveys [@ImperialGazetteer1908; @Bayly1983Rulers; @Compagna2026Layered].
+4. Macro-envelope *qasba*, *pargana* and *nadu* continuity: Rural market towns and revenue centres are traced backward through pre-1800 fiscal geography [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Eaton1993Rise], governed by strict foundation-year cut-offs and chronological toponymy filters that eliminate post-1816 colonial or industrial foundations from precolonial time slices.
+
+Every candidate locality in the INDUS source ledger was verified for WGS84 coordinates against regional drainage networks, documented habitation prior to 1816AD, and calibrated population anchors. Where multiple survey points fall within a 2,2 km spatial radius of a primary settlement, duplicate coordinates are collapsed as survey aliases, and GeoNames homonyms or non-habitation features such as isolated petroglyphs, mountain shrines, battle sites and temporary transhumance huts are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the four sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 4.060 catalogued settlements and summed site peaks across Nepal and Bhutan.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological bounds were cross-referenced against epigraphic discoveries and historical survey records [@Coningham2021Urban; @Toffin1990Mythical; @Subedi2024Conservati; @Slusser1982NepalMandala]. In the Kathmandu Valley, over two hundred Sanskrit stone inscriptions dating from the fifth to eighth centuries AD identify specific settlements (*grama*, *dranga*) that evolved into modern urban wards in Kathmandu, Patan and Bhaktapur [@Slusser1982NepalMandala; @Toffin1990Mythical; @Subedi2024Conservati].
+
+In the southern Terai lowlands, stratigraphic excavations at Shravasti and Tilaurakot verified continuous habitation spanning the northern black polished ware and post-Mauryan periods, identifying monumental civic gates, brick drainage channels and defensive ditches [@Erdosy1988Urbanisation; @Allchin1995Archaeology; @Coningham2021Urban]. In western Nepal, historical Khasa Malla inscriptions recorded by Tucci and subsequent epigraphists anchor the foundation dates and territorial jurisdiction of Sinja, Dullu and surrounding fortresses in the Karnali and Mahakali catchments [@Hutt1984Nepali].
+
+In Bhutan, monastic block-print chronicles (*namthar* and *rgyal-rabs*) record the foundation dates of seventeenth-century *dzongs* under Zhabdrung Ngawang Namgyal, confirming that sites such as Punakha (1637AD), Wangdue Phodrang (1638AD) and Paro Rinpung Dzong (1644AD) replaced earlier mediaeval monastic fiefs [@Phuntsho2013HistoryBhutan; @Ling2016India; @Compagna2026Layered].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 35 historical settlements across Nepal and Bhutan ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_35 <- set_list[ord_all[seq_len(min(35L, length(set_list)))]]
+
+gaz_rows <- lapply(top_35, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1816 <- if (!is.null(s$population[["1816"]])) as.numeric(s$population[["1816"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1816AD = if (is.numeric(p_1816)) viscount_fmt_pop(p_1816) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 35 historical settlements ordered by peak population across Nepal and Bhutan (10000BC to 1816AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1816AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Regional Settlement Systems
+
+Across the 4.060-settlement gazetteer, peak settlement populations conform closely to a Zipf rank-size distribution ($\alpha = 0,80$, $R^2 = 0,99$).
+
+### Kathmandu Valley and Central Pahad
+
+This core division catalogues 1.491 settlements concentrated in the fertile lacustrine basin of Kathmandu, surrounding mid-hill valleys and the central Terai margin [@Slusser1982NepalMandala; @Toffin1990Mythical; @Sengupta2017Ruptured]. Kathmandu (Kantipur) was the primary urban centre, rising from 16k in 200AD to 30k in 800AD, peaking at 62k in 1650AD and sustaining 52,8k in 1816AD as the imperial capital of the Shah dynasty [@Slusser1982NepalMandala; @Whitmarsh2022Darbar]. Lalitpur (Patan) formed the southern metropolitan node, peaking at 48k in 1650AD (31,4k in 1816AD) with renowned metalcasting and stone-carving guilds [@Slusser1982NepalMandala; @Toffin1990Mythical]. Bhaktapur (Bhadgaon) anchored the eastern valley, peaking at 40k in 1650AD (23,4k in 1816AD) and distinguished by its palace squares and active woodcarving quarters [@Gosai2025Ethnograph]. In the southern alluvial belt, Musahri reached 43,1k in 1816AD alongside Dumra (20,2k) and Bettiah (19,8k) [@Bayly1983Rulers; @ImperialGazetteer1908]. In the surrounding hills and ancient Terai corridors, Gorkha (11,4k peak in 1750AD; 8k in 1816AD) operated as the Shah fortress-capital, while Tilaurakot (18k peak in 300BC) and Janakpur (18k peak in 300BC; 15,2k in 1816AD) anchored early urban and pilgrimage routes [@Coningham2021Urban; @Allchin1995Archaeology].
+
+### Western Khasa Malla and Karnali Highlands
+
+The western division catalogues 1.263 settlements distributed across the rugged Karnali, Bheri and Mahakali catchments and adjacent southwestern Terai margins [@Hutt1984Nepali]. Along the border with the Gangetic plain, ancient Shravasti commanded southern trade routes, peaking at 45k in 300BC and maintaining 23,8k in 200AD before contracting in the early mediaeval period [@Erdosy1988Urbanisation; @Allchin1995Archaeology]. Sinja in Jumla was the mediaeval imperial capital of the Khasa Malla realm, peaking at 15,5k inhabitants in 1300AD (12,6k in 1200AD) with extensive irrigation terracing along the Hima River [@Hutt1984Nepali]. Frontier market towns and administrative centres such as Pilibhit (29,6k in 1816AD), Ghorahi (26,2k in 1816AD), Bahraich (22,9k in 1816AD) and Bhimdatta (16,7k in 1816AD) operated as collection depots exchanging hill timber, herbs and resin for plains grain and cloth [@Bayly1983Rulers; @Naqvi1968Urbanisation; @Compagna2026Layered].
+
+### Eastern Kirat Hills and Koshi Terai
+
+The eastern division catalogues 880 settlements across the Saptakoshi basin, the Arun gorge and the Morang Terai lowlands [@Kovacs2024Bengal; @Compagna2026Layered]. Inhabited in the hills by Rai and Limbu communities organised into clan territories (*kipat*) around fortified hilltops (*kot*) and river confluences, the division also encompassed dense agricultural and commercial centres along the eastern Terai and Darjiling foothills. Leading settlements at the 1816AD baseline included Singiya (19,9k), Dharan (19,8k), Phulwari (18,9k), Lahan (18,2k), Darjiling (13,4k) and Inaruwa (12,8k), reflecting late eighteenth-century agrarian reclamation and cross-border trade with Bengal [@Eaton1993Rise; @Compagna2026Layered].
+
+### Bhutanese Valleys and Drukpa Dzongs
+
+The eastern Himalayan division catalogues 426 settlements across the inner valleys of Bhutan and the adjacent Duars lowlands [@Phuntsho2013HistoryBhutan; @Ling2016India]. Along the southern piedmont corridor, Cooch Behar peaked at 32k in 1650AD (16,8k in 1816AD) and Rajganj reached 29,2k in 1816AD [@Eaton1993Rise; @Compagna2026Layered]. Within the highlands, Punakha served as the winter capital of the Drukpa theocracy, peaking at 8,5k in 1775AD (8k in 1816AD), while Thimphu supported 7,5k residents from 1750AD to 1816AD [@Phuntsho2013HistoryBhutan; @Ling2016India]. In western Bhutan, Paro (7k peak in 1750AD; 6,5k in 1816AD) commanded trade routes over the Tremo La pass into the Chumbi valley of Tibet, while Jakar Dzong in Bumthang (6k peak in 1700AD; 5,5k in 1816AD) and Trongsa Dzong (5,5k peak in 1750AD; 5,2k in 1816AD) governed the central and eastern valleys [@Phuntsho2013HistoryBhutan; @Ling2016India; @Compagna2026Layered].
+
+# Limitations
+
+Settlement documentation across the southern Himalayas remains subject to significant preservation and archival biases:
+1. Seismic vulnerability: high-frequency seismic activity along the Himalayan frontal thrust has caused repeated destruction of historical brick and stone architecture, levelling civic structures and obliterating epigraphic markers [@Coningham2021Urban].
+2. High-relief erosion and mass wasting: monsoon landslides and seasonal river scouring regularly erode lower alluvial terraces, stripping away rural domestic settlement layers [@Parajuli1999Agro].
+3. Perishable construction materials: outside royal palaces, stone temples and monastic *dzongs*, rural domestic architecture relied upon timber, wattle-and-daub and thatch, which leave minimal surface archaeological traces after abandonment [@Gosai2025Ethnograph].
+4. Asymmetric archival coverage: historical written documentation is heavily concentrated within the Kathmandu Valley and major Bhutanese monasteries, leaving small agricultural hamlets in the western and eastern mid-hills under-represented in precolonial texts [@Hutt1984Nepali; @Kieniewicz2020Identifyin].
+
+# Conclusion
+
+The INDUS settlement gazetteer synthesises 4.060 historical localities across Nepal and Bhutan from 10000BC to 1816AD, exhibiting a Zipf rank-size slope of $\alpha = 0,80$ ($R^2 = 0,99$) and providing an empirical baseline for regional demographic modelling. By georeferencing urban centres, hill fortresses, monastic *dzongs* and Terai market towns, this catalogue isolates nucleated populations from rural farming communities, enabling dasymetric allocation of agrarian cultivators across the mid-hill landscape and capturing the enduring structural role of intramontane urbanism in Himalayan history.
+
+# Appendix
+
+The INDUS source ledger audited 4.335 candidate records, resulting in 4.060 accepted settlements and 275 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Nepal and Bhutan source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

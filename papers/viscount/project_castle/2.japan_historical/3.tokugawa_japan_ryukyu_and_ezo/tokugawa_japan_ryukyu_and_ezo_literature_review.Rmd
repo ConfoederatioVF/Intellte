@@ -1,0 +1,468 @@
+---
+title: "Demographic Trajectory of Tokugawa Japan, the Ryukyu Kingdom and Ezo"
+subtitle: "Bakufu Sexennial Censuses, Castle Towns, Agrarian Frontiers and Famine Shocks, 1603AD to 1868AD"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: tokugawa_japan_ryukyu_and_ezo_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_tokugawa_japan_ryukyu_and_ezo_spatial.png"
+hero_caption: "Administrative macro-regions and primary castle-town settlements across the Japanese archipelago, the Ryukyu Kingdom and Ezo from 1603AD to 1868AD."
+hero_label: "fig:hero-tokugawa-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  lines <- gsub("//.*$", "", lines)
+  txt <- paste(lines, collapse = "\n")
+  txt <- gsub("/\\*.*?\\*/", "", txt, perl = TRUE)
+  txt <- gsub(",\\s*([}\\]])", "\\1", txt, perl = TRUE)
+  fromJSON(txt, simplifyVector = FALSE)
+}
+
+mod_data <- read_json5_clean("tokugawa_japan_ryukyu_and_ezo.json5")
+sett_data <- fromJSON("tokugawa_japan_ryukyu_and_ezo_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("tokugawa_japan_ryukyu_and_ezo_source_ledger.json5")
+diag_data <- fromJSON("../../_shared/sites_korea_japan/config/kriging_diagnostics.json", simplifyVector = FALSE)
+geo_data <- fromJSON("../../_shared/sites_korea_japan/config/sites_korea_japan_geojson_metadata.json", simplifyVector = FALSE)
+```
+
+# Abstract
+
+This study reconstructs the demographic trajectory, settlement hierarchy and spatial population density of Japan under the Tokugawa Shogunate, the Ryukyu Kingdom and the northern frontier of Ezo from the political unification of 1603AD to the Meiji Restoration of 1868AD. Across eleven macro-regional territories covering 390.852 km² and 6.249 raster cells, total population expanded from 12,27M (12.270.000) in 1603AD to 17,50M (17.500.000) in 1650AD, 27,69M (27.690.000) in 1700AD and 31,28M (31.280.000) at the inauguration of nationwide sexennial censuses under the eighth Shogun Tokugawa Yoshimune in 1721AD [@Hayami2001Historical; @Hayami2010Population; @Sekiyama1958Kinsei; @Kito2000Jinko]. Over the succeeding century and a half, population entered a prolonged demographic plateau characterised by low natural increase, deliberate family limitation, and severe famine mortality during the Little Ice Age, fluctuating between 29,87M (in 1792AD, following the Great Tenmei Famine) and 32,30M (in 1846AD), before terminating at 33,30M (33.300.000) in 1868AD [@Sekiyama1958Kinsei; @Kito2000Jinko; @Anon2021Popular]. To reconcile official commoner registers (*hyakusho* and *chonin*) with total biological headcounts, this study applies systematic adjustments for the unrecorded samurai military class (*buke*, ~1,8M to 2,0M persons), court aristocracy (*kuge*), clergy, outcaste communities (*hinin* and *burakumin*, ~400k to 500k), and omitted infants [@Sekiyama1958Kinsei; @Hayami2001Historical; @Groemer2021Visual]. Spatial densities are calibrated using Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) kriging across 384 domestic catchments, 9.123 land cells and 1.078 geocoded settlements led by the tripartite metropolises of Edo (1,05M to 1,10M), Osaka (410k) and Kyoto (390k), complemented by the regional castle towns of Kanazawa, Nagoya, Sendai, Kagoshima and Hiroshima, alongside the peripheral polities of the Ryukyu Kingdom (Shuri and Naha, 39k) and Ezo (Hakodate, 25k) [@Smits2019MaritimeRyukyu; @Walker2001ConquestAinu; @Paciorek2006Matern].
+
+# Background
+
+## Unification and the Early Modern State Order
+
+The demographic history of early modern Japan opened with the consolidation of political hegemony under Tokugawa Ieyasu following the decisive Battle of Sekigahara in 1600AD and his investiture as Shogun by the imperial court in 1603AD [@Hayami2001Historical; @Hayami2010Population]. The establishment of the Tokugawa Shogunate (Bakufu) at Edo brought to a close more than a century of endemic warfare that had characterized the Sengoku period [@Farris2006Medieval; @Farris2009DailyLife]. The institutional framework of the resulting *bakuhan* system combined centralized hegemony exercised by the Bakufu over foreign relations, coinage, mining and military affairs with decentralized administrative autonomy exercised by more than two hundred and fifty regional lords (*daimyo*) over their respective territorial domains (*han*) [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+To secure social stability, the Tokugawa regime consolidated the status segregation initiated during Toyotomi Hideyoshi's regency [@Hayami2001Historical]. Society was formally divided into hereditary status orders: samurai warriors (*shi*), peasant cultivators (*no*), artisans (*ko*) and merchants (*sho*), supplemented by court aristocrats, religious clergy and marginalized outcaste groups [@Sekiyama1958Kinsei; @Groemer2021Visual; @Anon2021Presence]. The military class was systematically separated from agrarian landholding: samurai were concentrated into the castle towns (*jokamachi*) surrounding their daimyo's fortress, where they drew stipends allocated from domain rice treasuries rather than direct peasant dues [@Hayami2001Historical; @Videen1989Dandy].
+
+The fiscal foundation of both Shogunate and domain governance rested on cadastral land surveys (*kenchi*), which assessed the productive capacity of every agricultural parcel in standardised units of brown rice (*koku*, equivalent to approximately 180 litres or 150 kg, theoretically sufficient to sustain one adult for one year) [@Hayami2001Historical; @Kito2000Jinko]. Peasant village communities (*mura*) were made collectively responsible for tax delivery (*murauke-sei*), binding cultivators to their registered holdings and discouraging unauthorized rural out-migration [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+## The Shumon Aratame-cho and Religious Inhabitation Registers
+
+The primary administrative instrument for recording local populations in early modern Japan was the religious examination register (*shumon aratame-cho*) [@Hayami2001Historical; @Hayami2010Population]. Following the bloody suppression of the Shimabara Rebellion (1637AD to 1638AD), a rural uprising in southwestern Kyushu sparked by severe fiscal exactions and Christian allegiance, the Bakufu decreed the universal suppression of Christianity and instituted the temple certification system (*terauke*) [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+Under this system, every household across the archipelago was required to register annually with a local Buddhist temple, whose resident priest attested to the family's orthodox Buddhist affiliation and absence of Christian beliefs [@Hayami2001Historical]. Over the course of the 1660s and 1670s, these temple certification rolls evolved into comprehensive local population registers that recorded each household head, family members, resident servants, age, relationships, livestock holdings and changes resulting from births, marriages, adoptions, deaths and authorised migration [@Hayami2001Historical; @Hayami2010Population].
+
+In the twentieth century, the pioneering historical demographer Hayami Akira recognised that surviving *shumon aratame-cho* series constituted a rich repository of pre-modern micro-data comparable to Western European parish registers [@Hayami2001Historical; @Hayami2010Population]. Through family reconstitution of continuous village series across Shinano, Mino and Owari provinces, Hayami established that early modern Japanese peasant households maintained a distinct demographic regime characterised by moderate marital fertility, active parity regulation, delayed female marriage ages and complex stem-family residential patterns [@Hayami2001Historical].
+
+## The Kyoho Nationwide Sexennial Censuses (1721AD to 1846AD)
+
+Building on the established infrastructure of the *shumon aratame-cho*, the eighth Shogun Tokugawa Yoshimune instituted the first nationwide population census in 1721AD as an integral element of his Kyoho administrative reforms (*Kyoho no kaikaku*) [@Sekiyama1958Kinsei; @Kito2000Jinko]. The Bakufu ordered every daimyo domain, direct Shogunal territory (*tenryo*), and ecclesiastical domain to report aggregate commoner population tallies every six years (sexennial censuses), beginning in 1721AD and repeated at six-year intervals through 1846AD [@Sekiyama1958Kinsei; @Kito2000Jinko].
+
+The official census returns provide a continuous macro-level index of Japan's recorded commoner population across the eighteenth and early nineteenth centuries [@Sekiyama1958Kinsei; @Kito2000Jinko]. The inaugural survey of 1721AD recorded 26.065.422 commoners, rising to a recorded maximum of 26.252.540 in 1726AD [@Sekiyama1958Kinsei]. Subsequent censuses documented the severe demographic impacts of regional famines: recorded commoners fell to 25.084.384 in 1786AD and dipped to 24.891.441 in 1792AD following the Great Tenmei Famine, before experiencing a gradual nineteenth-century recovery to 27.201.400 in 1828AD and 26.907.625 in 1846AD [@Sekiyama1958Kinsei; @Kito2000Jinko; @Anon2021Popular].
+
+## Under-Enumeration and Social Omissions in Bakufu Returns
+
+While the Bakufu sexennial censuses represent a remarkable administrative achievement, modern historical demography demonstrates that raw official tallies substantially understate the true biological population of early modern Japan [@Sekiyama1958Kinsei; @Hayami2001Historical; @Kito2000Jinko]. Official counts were designed for fiscal and ideological supervision rather than demographic enumeration, resulting in several systematic omissions:
+
+First, the entire military class (*buke*) and their resident dependents were excluded from standard census returns [@Sekiyama1958Kinsei; @Hayami2001Historical]. This group encompassed the Shogun, daimyo lords, direct Shogunal bannermen (*hatamoto*), housemen (*gokenin*), domain samurai retainers, and their immediate families, estimated by Sekiyama Naotaro and Kito Hiroshi at approximately 6% to 7% of national inhabitants (1,8M to 2,0M persons) [@Sekiyama1958Kinsei; @Kito2000Jinko].
+
+Second, the imperial court aristocracy (*kuge*) resident in Kyoto, Shinto shrine officials (*shinshoku*), and ordained Buddhist monastic clergy (*shukke*) were exempt from commoner registration rolls, removing approximately 300k to 400k individuals nationwide [@Sekiyama1958Kinsei; @Kito2000Jinko].
+
+Third, outcaste and socially stigmatised populations (*eta*, *hinin*, wandering entertainers and day labourers) were systematically omitted from civil registers in most domains, adding approximately 400k to 500k uncounted inhabitants [@Sekiyama1958Kinsei; @Groemer2021Visual; @Anon2021Popular; @Anon2021Presence].
+
+Fourth, domains applied divergent minimum age thresholds for recording children [@Sekiyama1958Kinsei; @Hayami2001Historical]. While some domains registered newborns immediately, others omitted infants until age one, two, or even seven, and certain northeastern domains recorded only individuals aged fifteen and older [@Sekiyama1958Kinsei; @Kito2000Jinko]. Correcting for these omissions, Sekiyama (1958) and Kito (2000) established that Japan's biological population at the benchmark of 1721AD stood at 31,28M rather than the raw recorded 26,07M commoners (Table \ref{tab:validation-tokugawa}).
+
+# Methodology
+
+## Territorial Division and Macro-Regional Masking
+
+To capture historical reality across the archipelago while maintaining spatial consistency across the Tokugawa era, this study partitions Japan, the Ryukyu Kingdom and Ezo into eleven macro-regional territories covering 390.852 km² across 6.249 raster cells (Table \ref{tab:regions-tokugawa}):
+
+1. Kinai and Surrounding Provinces (24.662 km², 382 cells): Yamashiro, Yamato, Kawachi, Izumi, Settsu, Tanba, Tango, Harima, Omi, Wakasa and Awaji, centered on Kyoto and Osaka.
+2. Kanto Eight Provinces and Edo (30.108 km², 453 cells): Musashi, Sagami, Kazusa, Shimosa, Hitachi, Kozuke, Shimotsuke and Awa, centered on the Shogunal capital at Edo.
+3. Tokai Corridor (17.642 km², 259 cells): Owari, Mikawa, Totomi, Suruga, Izu, Ise and Shima, linking the two great urban centres along the Tokaido transit axis.
+4. Tosan Central Highlands (30.485 km², 435 cells): Kai, Shinano, Hida and Mino, encompassing alpine basins, sericulture valleys and the Nakasendo highway.
+5. Hokuriku Sea of Japan (29.231 km², 496 cells): Echizen, Kaga, Noto, Etchu, Echigo and Sado Island, forming the northern maritime agricultural and shipping belt.
+6. Tohoku (Mutsu and Dewa) (72.145 km², 1.130 cells): The vast northeastern frontier comprising Mutsu and Dewa provinces, exposed to cold summer maritime winds.
+7. Chugoku (San'in and San'yo) (34.807 km², 551 cells): The western Honshu provinces bordering the Seto Inland Sea and the Sea of Japan.
+8. Shikoku (20.683 km², 316 cells): Awa, Sanuki, Iyo and Tosa provinces, characterised by intense agricultural commercialisation and coastal fisheries.
+9. Kyushu (46.372 km², 728 cells): The nine southwestern provinces encompassing Chikuzen, Chikugo, Buzen, Bungo, Hizen, Higo, Hyuga, Osumi and Satsuma, alongside Tsushima and Iki islands.
+10. Ryukyu Kingdom (4.509 km², 98 cells): The southern archipelago comprising the Okinawa, Amami, Miyako and Yaeyama island chains, under Satsuma domain hegemony and Qing tributary relations [@Smits2019MaritimeRyukyu; @Castle2012Ryukyu].
+11. Ezo (Matsumae and Ainu) (80.208 km², 1.401 cells): Hokkaido and adjacent insular territories, comprising the southern Japanese settlement enclave (*Wajinchi*) and northern Indigenous Ainu lands (*Ezochi*) [@Walker2001ConquestAinu].
+
+At each historical benchmark year $t$, total regional population $P_r(t)$ synthesises recorded commoner populations $C_r(t)$, domain-specific child under-enumeration adjustments $\alpha_r(t)$, samurai military households $S_r(t)$, and unrecorded marginal populations $M_r(t)$:
+
+$$P_r(t) = C_r(t) \cdot \alpha_r(t) + S_r(t) + M_r(t)$$
+
+where $\alpha_r(t)$ ranges between 1,08 and 1,18 depending on documented domain age-registration thresholds [@Sekiyama1958Kinsei; @Kito2000Jinko].
+
+## Social Class Multipliers and Under-Enumeration Corrections
+
+Following the methodology established by Sekiyama Naotaro and Kito Hiroshi, provincial civil totals depart systematically from raw census registers [@Sekiyama1958Kinsei; @Kito2000Jinko]. For the benchmark year 1721AD, registered commoners totaled 26,07M across the sixty-eight provinces [@Sekiyama1958Kinsei]. Adding 1,90M samurai personnel and dependents (concentrated heavily in Edo, castle towns and garrison districts), 350k court nobles and clergy, 450k outcaste inhabitants, and 2,51M uncounted infants and young children produces the harmonised nationwide total of 31,28M (Table \ref{tab:validation-tokugawa}) [@Sekiyama1958Kinsei; @Kito2000Jinko; @Groemer2021Visual].
+
+For seventeenth-century benchmarks prior to 1721AD, population totals draw on cadastral assessed yields (*kokudaka*), local *shumon aratame-cho* parish survivals, and domain military registers harmonised by Hayami Akira and Kito Hiroshi [@Hayami2001Historical; @Hayami2010Population; @Kito2000Jinko]. These show that Japan's biological population grew from 12,27M in 1603AD to 17,50M in 1650AD, climbing to 27,69M by 1700AD and reaching 31,28M in 1721AD [@Kito2000Jinko]. For the late Tokugawa period, official census returns are adjusted using domain-level multipliers up to 1846AD, with the terminal benchmark of 1868AD calibrated against the initial Meiji civil registrations of 1872AD (34,80M) [@SBJ2021Census; @NSTAC2026SSDSE].
+
+## Non-Stationary Kriging and Biophysical Covariates
+
+Spatial population allocation within the eleven territorial masks employs non-stationary kriging across 384 domestic catchments and 9.123 valid land cells [@Paciorek2006Matern; @Kawai2023Exploring]. Residual spatial dependence is modelled with Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) covariance [@Paciorek2006Matern]:
+
+$$C(s_i, s_j) = \sigma_i \sigma_j \, |\Sigma_i|^{1/4} |\Sigma_j|^{1/4} \left|\frac{\Sigma_i + \Sigma_j}{2}\right|^{-1/2} \mathcal{M}_{3/2}\!\left(\sqrt{Q_{ij}}\right)$$
+
+Regularised dimensionless variogram bandwidths stand at $\tau_1 = 1,4211$ and $\tau_2 = 2,6291$, with nugget-to-sill ratios constrained across all nine archaeological and historical horizons (Table \ref{tab:kriging-tokugawa}). The model incorporates five biophysical covariates: arable alluvial soil suitability, natural vegetative productivity index, terrain slope ecozone suitability, 13,5 km fluvial decay along major river channels (particularly the Tone, Yodo, Shinano, Kitakami, Kiso and Chikugo systems), and coastal marine proximity [@Paciorek2006Matern; @Takeuchi2017Finescale; @Nishiyama2012Detailed]. High-density populations from 1.078 catalogued settlements (led by Edo, Osaka, Kyoto, Nagoya and Kanazawa) anchor urban nodes, with urban masks subtracted to preserve rural totals inside each territorial boundary [@Sekiyama1958Kinsei; @Kurosawa2017Rise].
+
+# Testing and Validation
+
+Arithmetic reconciliation confirms exact parity between the territorial totals presented here and the regional reconstructions established by Sekiyama Naotaro (1958), Hayami Akira (2001, 2010) and Kito Hiroshi (2000). Table \ref{tab:validation-tokugawa} presents the longitudinal trajectory across all thirteen benchmark years from 1603AD to 1868AD, decomposed into macro-regional groupings.
+
+```{r tab-validation, results='asis'}
+benchmarks <- c("1603", "1650", "1700", "1721", "1750", "1786", "1792", "1804", "1828", "1834", "1840", "1846", "1868")
+
+core_keys <- c("kinai_edo", "kanto_edo")
+central_keys <- c("tokai_edo", "tosan_edo", "hokuriku_edo", "chugoku_edo")
+north_keys <- c("tohoku_edo")
+sw_keys <- c("shikoku_edo", "kyushu_edo")
+periph_keys <- c("ryukyu_kingdom", "ezo_hokkaido")
+
+sum_grp <- function(keys, yr) {
+  sum(vapply(keys, function(k) as.numeric(mod_data$regions[[k]]$population[[yr]]), numeric(1)))
+}
+
+val_rows <- lapply(benchmarks, function(yr) {
+  p_core <- sum_grp(core_keys, yr)
+  p_cent <- sum_grp(central_keys, yr)
+  p_north <- sum_grp(north_keys, yr)
+  p_sw <- sum_grp(sw_keys, yr)
+  p_periph <- sum_grp(periph_keys, yr)
+  p_tot <- p_core + p_cent + p_north + p_sw + p_periph
+  data.frame(
+    Benchmark = paste0(yr, "AD"),
+    Core_Metropolitan = viscount_fmt_pop(p_core),
+    Central_Western = viscount_fmt_pop(p_cent),
+    Tohoku_North = viscount_fmt_pop(p_north),
+    Shikoku_Kyushu = viscount_fmt_pop(p_sw),
+    Peripheries = viscount_fmt_pop(p_periph),
+    Total = viscount_fmt_pop(p_tot),
+    stringsAsFactors = FALSE
+  )
+})
+val_df <- do.call(rbind, val_rows)
+rownames(val_df) <- NULL
+
+viscount_table(
+  val_df,
+  "Macro-regional demographic benchmarks across Tokugawa Japan, Ryukyu and Ezo, 1603AD to 1868AD, harmonised from Sekiyama (1958), Hayami (2001) and Kito (2000).",
+  c("Year", "Kinai and Kanto", "Central and Western", "Tohoku", "Shikoku and Kyushu", "Ryukyu and Ezo", "Archipelago Total"),
+  list(label = "tab:validation-tokugawa", font_size = "scriptsize")
+)
+```
+
+Across all nine horizons in the Japanese and Korean kriging domain, Table \ref{tab:kriging-tokugawa} documents tightly constrained Matérn variogram parameters. Residual $R^2$ exceeds 0,93 across all epochs, with the late Edo and Joseon horizon displaying residual $R^2 = 0,9315$, regularised nugget-to-sill ratio 0,22, and effective short range 35,66 km.
+
+```{r tab-kriging, results='asis'}
+jk_labels <- c(
+  palaeolithic_early_jomon_chulmun = "1. Palaeolithic and Early Jomon / Chulmun (before 3500BC)",
+  middle_jomon_chulmun = "2. Middle Jomon and Chulmun (3500BC to 2000BC)",
+  late_jomon_mumun_bronze = "3. Late Jomon and Mumun Bronze (2000BC to 800BC)",
+  yayoi_gojoseon_commanderies = "4. Yayoi and Gojoseon Eras (800BC to 250AD)",
+  kofun_three_kingdoms = "5. Kofun and Three Kingdoms (250AD to 645AD)",
+  nara_heian_unified_silla = "6. Nara, Early Heian and Unified Silla (645AD to 935AD)",
+  late_heian_kamakura_goryeo = "7. Late Heian, Kamakura and Goryeo (935AD to 1336AD)",
+  muromachi_sengoku_early_joseon = "8. Muromachi, Sengoku and Early Joseon (1336AD to 1603AD)",
+  edo_late_joseon_imperial = "9. Edo, Late Joseon and Modern Eras (1603AD to 1868AD)"
+)
+jk_horizons <- names(diag_data$variogram_models)
+krig_df <- data.frame(
+  Horizon = unname(jk_labels[jk_horizons]),
+  Tau1 = vapply(jk_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$tau1_dimensionless, 2L), character(1)),
+  Nugget = vapply(jk_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$c0_nugget, 6L), character(1)),
+  Nugget_Sill = vapply(jk_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$nugget_to_sill_ratio, 2L), character(1)),
+  Residual_R2 = vapply(jk_horizons, function(h) viscount_fmt_number(diag_data$variogram_models[[h]]$residual_r2, 4L), character(1)),
+  Mean_Cell = vapply(jk_horizons, function(h) viscount_fmt_number(diag_data$kriged_raster_stats[[h]]$mean_value, 4L), character(1)),
+  P99_Cell = vapply(jk_horizons, function(h) viscount_fmt_number(diag_data$kriged_raster_stats[[h]]$p99_value, 4L), character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(krig_df) <- NULL
+
+viscount_table(
+  krig_df,
+  "Kriging variogram diagnostics across nine chronological horizons in the Korea and Japan domain (9.123 valid land cells, tau1 = 1,42, tau2 = 2,63).",
+  c("Kriging Horizon", "Tau1", "Nugget c0", "Nugget-to-Sill", "Residual R²", "Mean Cell", "P99 Cell"),
+  list(label = "tab:kriging-tokugawa", font_size = "scriptsize")
+)
+```
+
+Table \ref{tab:source-corpora-tokugawa} details the component archaeological, heritage and historical registries aggregated into the regional database, highlighting the contribution of national archaeological inventories from Japan and Korea totaling 93.358 records.
+
+```{r tab-source-corpora, results='asis'}
+src_labels <- c(
+  Rekihaku_c14db_1.3 = "National Museum of Japanese History (Rekihaku) C14 Compendium",
+  Rekihaku_SiteRaw_25k = "Rekihaku Nationwide Archaeological Site Gazetteer",
+  JASOSR_Kanto_Sites = "Japanese Association for Study of Site Remnants (Kanto)",
+  JASOSR_Tokyo_Sites = "Tokyo Metropolitan Archaeological Remains Survey",
+  MLIT_P32_Japan = "Ministry of Land, Infrastructure, Transport Historic Sites Register",
+  WD_Japan_Historic_Sites = "National Designated Cultural Properties of Japan",
+  KHS_Korea_Heritage_API = "Korea Heritage Service National Cultural Heritage Database",
+  Korean_Neolithic_C14 = "Korean Neolithic and Bronze Age Radiocarbon Corpus",
+  Hanseong_Baekje_AMS = "Hanseong Baekje Museum Accelerator Mass Spectrometry Corpus",
+  WD_SouthKorea_Arch = "South Korean Historic Sites and Monument Corpus",
+  WD_NorthKorea_Heritage = "North Korean Historic Relics and Monuments Compendium",
+  NRICH_NK_Arch_Corpus = "National Research Institute of Cultural Heritage (NRICH) Survey",
+  Joseon_Sejong_Jiriji_NK = "Sejong Sillok Jiriji Northern Fortress Register",
+  c14bazAAR_Global = "Deduplicated Global Radiocarbon Synthesis (c14bazAAR)",
+  JADE_Frontier_Buffer = "East Asian Continental Frontier Buffer Sites"
+)
+
+sc_keys <- names(geo_data$source_record_counts)
+tot_sc <- sum(as.numeric(unlist(geo_data$source_record_counts)))
+
+sc_rows <- lapply(sc_keys, function(sk) {
+  lbl <- if (sk %in% names(src_labels)) unname(src_labels[[sk]]) else sk
+  cnt <- as.numeric(geo_data$source_record_counts[[sk]])
+  data.frame(
+    Registry = lbl,
+    Records = viscount_fmt_number(cnt, 0L),
+    Share = paste0(viscount_fmt_number(100 * cnt / tot_sc, 2L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+sc_df <- do.call(rbind, sc_rows)
+rownames(sc_df) <- NULL
+
+viscount_table(
+  sc_df,
+  "Component archaeological, heritage and historical gazetteer registries aggregated into the regional domain (93.358 total records).",
+  c("Source Registry", "Raw Records", "Share"),
+  list(label = "tab:source-corpora-tokugawa", font_size = "footnotesize")
+)
+```
+
+# Results
+
+## The Seventeenth-Century Agrarian Expansion (1603AD to 1721AD)
+
+Between 1603AD and 1721AD, Japan experienced a tremendous demographic expansion, more than doubling in population from 12,27M to 31,28M (+155,0%) across 118 years (Figure \ref{fig:traj-tokugawa}) [@Hayami2001Historical; @Hayami2010Population; @Sekiyama1958Kinsei; @Kito2000Jinko]. This sustained growth represented an average annual compound growth rate of 0,80% across the seventeenth century, a rate of increase unprecedented in Japanese history and unequalled in contemporary Eurasia [@Hayami2001Historical; @Kito2000Jinko].
+
+```{r fig-traj, results='asis'}
+viscount_figure(
+  "figures/fig2_tokugawa_japan_ryukyu_and_ezo_trajectory.png",
+  "Demographic trajectory of Tokugawa Japan, the Ryukyu Kingdom and Ezo from 1603AD to 1868AD across core, western, northern and peripheral territories with historical uncertainty bands.",
+  "fig:traj-tokugawa"
+)
+```
+
+Several structural developments powered this demographic surge. First, the cessation of endemic Sengoku warfare liberated massive peasant labour previously diverted into military levies, enabling continuous rural reclamation [@Farris2006Medieval; @Hayami2001Historical]. Second, the Bakufu and regional daimyo undertook vast land reclamation projects (*shinden kaihatsu*), dyking alluvial river plains, clearing upland terraces and draining marshlands [@Hayami2001Historical]. Across Japan, cultivated acreage expanded from approximately 2,06M *cho* (20.400 km²) at Hideyoshi's cadastral surveys around 1598AD to over 2,97M *cho* (29.500 km²) by 1700AD, an increase in agricultural land area exceeding 44% [@Hayami2001Historical; @Kito2000Jinko].
+
+Third, agricultural productivity intensified through technological innovations: double-cropping of winter wheat or barley following summer wet-rice; deep ploughing using improved iron-edged spades (*kuwa*) and ox-drawn ploughs; and the widespread application of commercial fertilisers, notably dried sardine meal (*hoshika*) transported from coastal fisheries and night soil collected from growing cities [@Hayami2001Historical; @Hayami2010Population].
+
+Fourth, commercial crop specialization transformed rural cash economies: cotton cultivation spread across the Kinai, Mikawa and Seto Inland Sea plains; sericulture and mulberry orchards expanded in Kai, Shinano and Kozuke; and rapeseed oil, indigo, tobacco and sugar cane flourished across Shikoku and Kyushu [@Hayami2001Historical; @Anon2021Popular].
+
+By 1721AD, the Kanto plain had expanded from 2,02M in 1603AD to 5,63M, fueled by the explosive growth of Edo and rural settlement across Musashi and Shimosa [@Sekiyama1958Kinsei; @Kito2000Jinko]. Kinai grew from 2,02M to 4,63M, Kyushu climbed from 1,47M to 3,88M, Chugoku rose from 1,41M to 3,38M, Tohoku expanded from 1,29M to 3,44M, and the Tokai corridor increased from 1,29M to 3,19M (Table \ref{tab:regions-tokugawa}) [@Sekiyama1958Kinsei; @Kito2000Jinko].
+
+## The Eighteenth-Century Demographic Plateau and Famine Crises (1721AD to 1846AD)
+
+Following the benchmark census of 1721AD, Japan entered an extraordinary 125-year demographic plateau (Figure \ref{fig:shares-tokugawa}). Between 1721AD (31,28M) and 1846AD (32,30M), aggregate population expanded by only 3,3%, remaining bounded within a narrow range between 29,87M and 32,30M across five generations [@Sekiyama1958Kinsei; @Kito2000Jinko].
+
+```{r fig-shares, results='asis'}
+viscount_figure(
+  "figures/fig3_tokugawa_japan_ryukyu_and_ezo_shares.png",
+  "Macro-regional population shares and comparative peak versus 1868AD terminal totals across the eleven territories.",
+  "fig:shares-tokugawa"
+)
+```
+
+Historical demographers attribute this stationary regime to the confluence of environmental ceilings, behavioural adaptation and severe climatic shocks [@Hayami2001Historical; @Kito2000Jinko]:
+
+1. Ecological Frontiers and Saturation: By the early eighteenth century, easily reclaimable alluvial plains and gravity-fed irrigation sources had been fully exploited under existing hydraulic technology [@Hayami2001Historical]. Further land clearance pushed cultivation onto marginal slopes vulnerable to erosion, soil exhaustion and drought [@Hayami2001Historical; @Kito2000Jinko].
+
+2. Deliberate Parity Regulation: Micro-demographic reconstructions from village *shumon aratame-cho* demonstrate that peasant households consciously regulated fertility to maintain living standards and prevent the fragmentation of family holdings (*ie* system) [@Hayami2001Historical]. Methods included abortion, infanticide (*mabiki*), delayed female marriage age (averaging 22 to 25 years in central and western domains), extended birth spacing, and non-biological adult adoptions [@Hayami2001Historical; @Kakishima2011Year].
+
+3. Climatic Deterioration and Famine Mortality: The Little Ice Age brought frequent unseasonable rains, volcanic ash clouds and cold summer winds (*yamase*) that repeatedly devastated rice harvests [@Hayami2001Historical; @Kito2000Jinko]:
+   - The Kyoho Famine (1732AD): Unusually cool and rainy weather in western Japan triggered catastrophic leafhopper (*unkawa*) swarms across the Seto Inland Sea and northern Kyushu, destroying rice crops and causing an estimated 100k to 150k starvation deaths [@Sekiyama1958Kinsei; @Kito2000Jinko].
+   - The Great Tenmei Famine (1782AD to 1788AD): The most destructive subsistence crisis of early modern Japan, initiated by prolonged summer rains and unseasonable cold, followed by the catastrophic explosive eruption of Mount Asama in central Honshu in 1783AD [@Sekiyama1958Kinsei; @Kito2000Jinko]. Volcanic ash blanketed eastern provinces, blocking solar radiation and causing midsummer frosts across Mutsu and Dewa [@Sekiyama1958Kinsei]. Rice crops failed completely across northern Honshu for successive seasons. Epidemic typhus and starvation caused widespread depopulation; between 1750AD and 1786AD, national population fell by 1,00M from 31,10M to 30,10M, bottoming at 29,87M in 1792AD (Table \ref{tab:validation-tokugawa}) [@Sekiyama1958Kinsei; @Kito2000Jinko]. Tohoku alone lost 393k people (-12,2% of its population) between 1750AD and 1792AD [@Sekiyama1958Kinsei; @Kito2000Jinko].
+   - The Great Tenpo Famine (1833AD to 1837AD): Incessant rain and cold summer weather caused repeated harvest collapses across northern and central Japan [@Sekiyama1958Kinsei; @Anon2021Popular]. National population declined from 32,10M in 1834AD to 31,20M in 1840AD (-900k people), provoking violent peasant uprisings (*hyakusho ikki*), urban rice riots (*uchikowashi*), and Oshio Heihachiro's armed rebellion in Osaka in 1837AD [@Sekiyama1958Kinsei; @Anon2021Popular].
+
+```{r tab-regions, results='asis'}
+yr_cols <- c("1603", "1650", "1700", "1721", "1750", "1786", "1804", "1828", "1846", "1868")
+reg_rows <- lapply(names(mod_data$regions), function(rk) {
+  rv <- mod_data$regions[[rk]]
+  vals <- vapply(yr_cols, function(y) viscount_fmt_pop(rv$population[[y]]), character(1))
+  nm <- sub("^[0-9]+\\.\\s*", "", rv$name)
+  nm <- gsub("&", "and", nm, fixed = TRUE)
+  df_r <- data.frame(
+    Territory = nm,
+    Area = viscount_fmt_number(rv$area_km2, 0L),
+    stringsAsFactors = FALSE
+  )
+  for (idx in seq_along(yr_cols)) {
+    df_r[[yr_cols[idx]]] <- vals[idx]
+  }
+  df_r
+})
+reg_df <- do.call(rbind, reg_rows)
+
+tot_vals <- vapply(yr_cols, function(y) {
+  tot <- sum(vapply(mod_data$regions, function(r) as.numeric(r$population[[y]]), numeric(1)))
+  viscount_fmt_pop(tot)
+}, character(1))
+
+tot_row <- data.frame(
+    Territory = "Archipelago Total",
+  Area = viscount_fmt_number(mod_data$total_area_km2, 0L),
+  stringsAsFactors = FALSE
+)
+for (idx in seq_along(yr_cols)) {
+  tot_row[[yr_cols[idx]]] <- tot_vals[idx]
+}
+reg_df <- rbind(reg_df, tot_row)
+rownames(reg_df) <- NULL
+
+viscount_table(
+  reg_df,
+  "Provincial population benchmarks across eleven territories in Tokugawa Japan, Ryukyu and Ezo, 1603AD to 1868AD.",
+  c("Territory", "Area (km²)", "1603AD", "1650AD", "1700AD", "1721AD", "1750AD", "1786AD", "1804AD", "1828AD", "1846AD", "1868AD"),
+  list(label = "tab:regions-tokugawa", font_size = "scriptsize", max_rows_per_page = 20L)
+)
+```
+
+## Regional Trajectories and Spatial Variations
+
+Demographic trends across the eighteenth century diverged sharply between eastern and western Japan (Table \ref{tab:density-tokugawa}) [@Hayami2001Historical; @Sekiyama1958Kinsei]. While northeastern Japan suffered stagnation and recurrent depopulation, western Japan maintained resilient rural economies and modest demographic growth [@Hayami2001Historical].
+
+```{r tab-density, results='asis'}
+reg_keys <- names(mod_data$regions)
+dens_rows <- lapply(reg_keys, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  ar <- as.numeric(rv$area_km2)
+  nm <- sub("^[0-9]+\\.\\s*", "", rv$name)
+  nm <- gsub("&", "and", nm, fixed = TRUE)
+  sub_s <- Filter(function(s) identical(s[["region_id"]], rk), sett_data)
+  n_sites <- length(sub_s)
+  p1603 <- as.numeric(rv$population[["1603"]])
+  p1721 <- as.numeric(rv$population[["1721"]])
+  p1868 <- as.numeric(rv$population[["1868"]])
+  data.frame(
+    Territory = nm,
+    Sites = viscount_fmt_number(n_sites, 0L),
+    P1603 = viscount_fmt_pop(p1603),
+    P1721 = viscount_fmt_pop(p1721),
+    P1868 = viscount_fmt_pop(p1868),
+    Dens1868 = viscount_fmt_number(p1868 / ar, 1L),
+    stringsAsFactors = FALSE
+  )
+})
+dens_df <- do.call(rbind, dens_rows)
+rownames(dens_df) <- NULL
+
+viscount_table(
+  dens_df,
+  "Catalogued settlements, 1603AD, 1721AD and 1868AD population benchmarks, and terminal 1868AD density (persons per km²).",
+  c("Territory", "Sites", "1603AD", "1721AD", "1868AD", "1868AD (km²)"),
+  list(label = "tab:density-tokugawa", font_size = "scriptsize")
+)
+```
+
+### Kinai and the Kanto Plain
+
+Kinai and Kanto formed the dual metropolitan poles of early modern Japan [@Hayami2001Historical; @Sekiyama1958Kinsei]. Kinai (24.662 km²), the traditional political and cultural heartland, grew from 2,02M in 1603AD to 4,63M in 1721AD, exhibiting the highest provincial population densities in Japan (187,7 persons per km² in 1721AD and 183,6 in 1868AD) [@Sekiyama1958Kinsei]. High urbanization, commercial cotton agriculture and dense handicrafts sustained stable rural populations despite low marital fertility [@Hayami2001Historical].
+
+The Kanto plain (30.108 km²), encompassing Musashi and the surrounding seven provinces, grew from 2,02M in 1603AD to 5,63M in 1721AD, becoming Japan's most populous macro-region [@Sekiyama1958Kinsei; @Kito2000Jinko]. Edo's voracious demand for grain, charcoal, vegetables and labour drew tens of thousands of seasonal migrants (*dekasegi*) from neighbouring provinces [@Hayami2001Historical; @Videen1989Dandy]. Following the Tenmei famine, Kanto population contracted to 4,93M in 1792AD, before recovering to 5,46M by 1868AD (181,4 persons per km²) [@Sekiyama1958Kinsei].
+
+### Central and Western Honshu: Tokai, Tosan, Hokuriku and Chugoku
+
+The central and western provinces formed an integrated agricultural and commercial continuum [@Hayami2001Historical; @Sekiyama1958Kinsei]:
+
+The Tokai corridor (17.642 km²) expanded from 1,29M in 1603AD to 3,19M in 1721AD and 3,40M in 1868AD (192,5 persons per km², the highest density in the realm), benefiting from intense road traffic along the Tokaido highway and commercial cotton production in Owari and Mikawa [@Sekiyama1958Kinsei].
+
+The Tosan highlands (30.485 km²), encompassing Shinano, Kai and Hida, expanded from 798k in 1603AD to 2,13M in 1721AD and 2,36M in 1868AD (77,6 persons per km²), driven by sericulture, silk reeling, and terrace agriculture [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+The Hokuriku Sea of Japan belt (29.231 km²), anchored by the powerful Maeda clan's Kaga domain and Echigo's vast rice plains, grew from 1,04M in 1603AD to 2,75M in 1721AD and 3,33M in 1868AD (113,9 persons per km²), sustained by intensive fertilizer use and the thriving *kitamaebune* shipping route connecting Hokkaido fisheries to Osaka [@Sekiyama1958Kinsei; @Kito2000Jinko].
+
+Chugoku (34.807 km²), spanning the San'in and San'yo coasts, expanded from 1,41M in 1603AD to 3,38M in 1721AD and reached 3,86M by 1868AD (111,0 persons per km²), leveraging Seto Inland Sea shipping, wax tree harvesting, tatami rush cultivation and salt refining [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+### Tohoku: Northern Climate Vulnerability
+
+Tohoku (Mutsu and Dewa, 72.145 km²) was the most climate-vulnerable macro-region in Japan [@Sekiyama1958Kinsei; @Kito2000Jinko]. Population expanded from 1,29M in 1603AD to 3,44M in 1721AD under extensive early domain reclamations conducted by the Date clan of Sendai and the Tsugaru domain of Hirosaki [@Sekiyama1958Kinsei]. However, the region lay directly in the path of the cold summer northeasterly *yamase* winds blowing from the Sea of Okhotsk [@Sekiyama1958Kinsei].
+
+During the eighteenth century, Tohoku experienced catastrophic famines: between 1721AD (3,44M) and 1792AD (2,84M), the region lost 603k inhabitants (-17,5%), with entire villages abandoned (*tsubure-ya*) and widespread infanticide recorded in local chronicles [@Sekiyama1958Kinsei; @Kito2000Jinko]. Tohoku required more than seven decades to regain its early eighteenth-century peak, reaching 3,43M only on the eve of the Meiji Restoration in 1868AD (47,5 persons per km²) [@Sekiyama1958Kinsei].
+
+### Shikoku and Kyushu: Agrarian Commercialisation
+
+Shikoku (20.683 km²) and Kyushu (46.372 km²) demonstrated remarkable demographic stability and commercial dynamism [@Sekiyama1958Kinsei; @Kito2000Jinko]. Shikoku grew from 798k in 1603AD to 2,06M in 1721AD and 2,43M in 1868AD (117,5 persons per km²), driven by Tokushima's monopoly over indigo dyeing (*ai*), Sanuki's refined white sugar (*wasanbon*), and coastal fishing in Tosa [@Sekiyama1958Kinsei; @Anon2021Popular].
+
+Kyushu grew from 1,47M in 1603AD to 3,88M in 1721AD and 4,28M in 1868AD (92,3 persons per km²) [@Sekiyama1958Kinsei]. Benefiting from diversified agro-ecological environments and milder winters, southwestern domains such as Satsuma and Saga developed specialized export commodities (sweet potatoes, wax, tobacco, Arita porcelain) and maintained strong domestic grain reserves [@Sekiyama1958Kinsei; @Castle2012Ryukyu]. Nagasaki served as the Shogunate's sole window for licensed foreign trade with Dutch VOC merchants at Dejima and Chinese traders at the Shinchi warehouse quarter [@Sekiyama1958Kinsei].
+
+### The Ryukyu Kingdom: Satsuma Subordination and Maritime Trade
+
+The Ryukyu Kingdom (4.509 km², 98 cells) occupied a unique geopolitical position in early modern East Asia [@Smits2019MaritimeRyukyu; @Castle2012Ryukyu; @McComack2016Year]. In 1609AD, troops from the Satsuma domain under Shimazu Tadatsune invaded the islands, capturing King Sho Nei and incorporating the kingdom into the Japanese feudal hierarchy [@Smits2019MaritimeRyukyu; @Castle2012Ryukyu]. However, the Bakufu and Satsuma deliberately preserved Ryukyu's external trappings of independence to maintain lucrative indirect trade with Qing China: Ryukyu retained its king at Shuri Castle, continued to dispatch tribute missions to Beijing, and observed Chinese calendar eras in diplomatic correspondence, while secretly paying heavy sugar and grain taxes to Satsuma [@Smits2019MaritimeRyukyu; @Castle2012Ryukyu; @Habibi2026From].
+
+Ryukyu's population expanded from 98k in 1603AD to 156k in 1721AD, peaking at 164k in 1786AD and concluding at 157k in 1868AD (34,7 persons per km²) [@Smits2019MaritimeRyukyu; @Castle2012Ryukyu]. The kingdom's food security was fundamentally transformed by the introduction of the sweet potato (*karaimo*) from Fujian by Noguni Sokan in 1605AD and its active promotion by government scholar Saion [@Smits2019MaritimeRyukyu; @Osozawa2021Phylogeography]. Resistant to severe typhoons and drought that periodically ravaged millet and rice crops, sweet potato cultivation enabled island populations to maintain food security on thin coral soils [@Smits2019MaritimeRyukyu; @Nishikawa2022Cultural; @Nishiyama2012Detailed]. The royal capital of Shuri and the neighbouring commercial port of Naha formed a contiguous urban concentration supporting 39k residents [@Castle2012Ryukyu].
+
+### Ezo: The Matsumae Domain, Ainu Trade and the Northern Frontier
+
+The northern frontier of Ezo (80.208 km², 1.401 cells) encompassed Hokkaido and adjacent sub-arctic islands [@Walker2001ConquestAinu]. Under Tokugawa governance, Ezo was placed under the authority of the Matsumae clan, who resided at Fukuyama (Matsumae) Castle on the Oshima Peninsula [@Walker2001ConquestAinu]. In 1604AD, Tokugawa Ieyasu granted Matsumae Yoshihiro an exclusive black-seal charter (*kuroinjō*) granting monopoly trading rights with the Indigenous Ainu people [@Walker2001ConquestAinu].
+
+The territory was divided into two distinct administrative zones: the Japanese settlement district (*Wajinchi*) on the southern tip of the Oshima Peninsula, and the extensive Indigenous territory (*Ezochi*) encompassing the remainder of Hokkaido [@Walker2001ConquestAinu]. Over the seventeenth and eighteenth centuries, the Matsumae domain transitioned from direct trade (*akinaiba-chigyo-sei*) to commercial contracting (*basho ukeoi-sei*), leasing trading posts (*basho*) to merchant syndicates from Omi and Osaka [@Walker2001ConquestAinu].
+
+These contractors transformed the Ainu economy from subsistence hunting and salmon fishing into forced commercial fisheries supplying herring fertilizer (*kasuka*) and marine delicacies (*tawaramono*) for Honshu agriculture [@Walker2001ConquestAinu]. Contact brought recurrent epidemics of smallpox and measles that devastated Indigenous communities: Ainu populations in Ezo declined from an estimated 25k to 30k in the early seventeenth century to fewer than 15k by the mid-nineteenth century [@Walker2001ConquestAinu].
+
+Simultaneously, seasonal and permanent Japanese migration to coastal fisheries increased: total population in Ezo grew from 24,5k in 1603AD to 31k in 1721AD, 47k in 1804AD and 60k by 1868AD [@Walker2001ConquestAinu; @Sekiyama1958Kinsei]. Hakodate emerged as the leading northern port, growing from 6k in 1750AD to 25k in 1868AD following its opening to foreign trade under the Treaty of Kanagawa in 1854AD [@Walker2001ConquestAinu].
+
+## Castle Towns, Metropolises and Urban Networks
+
+The Tokugawa era established a sophisticated, multi-tiered urban hierarchy that made Japan one of the most urbanised societies in the pre-industrial world (Figure \ref{fig:sett-tokugawa}) [@Hayami2001Historical; @Sekiyama1958Kinsei; @Videen1989Dandy]. By 1721AD, more than 10% to 12% of Japan's population lived in cities exceeding 10k inhabitants [@Hayami2001Historical; @Kito2000Jinko].
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_tokugawa_japan_ryukyu_and_ezo_settlements.png",
+  "Rank-size distribution and leading castle-town metropolises across Tokugawa Japan, Ryukyu and Ezo.",
+  "fig:sett-tokugawa"
+)
+```
+
+At the apex of this urban system stood the Three Great Cities (*Santo*):
+
+1. Edo (Tokyo): Expanding from a provincial fortress town of 150k in 1603AD to 430k in 1650AD, 850k in 1700AD, 1,00M in 1721AD, and an eighteenth-century peak of 1,05M to 1,10M between 1750AD and 1800AD, Edo was the most populous city in the world [@Sekiyama1958Kinsei; @Kito2000Jinko; @Videen1989Dandy; @Anon2021Presence]. The city's population was divided between approximately 500k registered commoners (*chonin*) living in densely packed merchant wards (*machiya*) and an equivalent number of samurai retainers, daimyo families and transient labourers maintained by the alternate attendance system (*sankin-kotai*), which compelled every daimyo to reside in Edo in alternate years [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+2. Osaka: The commercial and financial hub of Japan, known as the 'Kitchen of the Empire' (*tenka no daidokoro*), expanded from 200k in 1603AD to 380k in 1700AD and peaked at 410k in 1750AD [@Sekiyama1958Kinsei; @Kurosawa2017Rise]. Centered on the Dojima Rice Exchange (the world's first formal futures market), Osaka processed domain tax rice, managed nationwide credit networks and distributed consumer goods across the archipelago [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+3. Kyoto: The historic imperial capital and centre of cultural prestige, maintaining 305k residents in 1603AD and peaking at 390k in 1700AD [@Sekiyama1958Kinsei; @Kito2000Jinko]. Kyoto specialized in high-value luxury artisanal manufacturing, including Nishijin silk textiles, lacquerware, copper refining, book publishing and Buddhist arts [@Hayami2001Historical].
+
+Below the *Santo*, the second tier comprised the great regional castle towns (*jokamachi*) serving as domain administrative headquarters:
+- Kanazawa (Maeda clan, Kaga domain): The largest provincial castle town, supporting 120k residents at its 1700AD peak [@Sekiyama1958Kinsei].
+- Nagoya (Owari Tokugawa branch): Reaching 115k in 1850AD and 123k by 1868AD [@Sekiyama1958Kinsei].
+- Hiroshima (Asano clan, Aki domain): Reaching 70k in 1850AD and 73,5k in 1868AD [@Sekiyama1958Kinsei].
+- Kagoshima (Shimazu clan, Satsuma domain): Reaching 68k in 1850AD [@Sekiyama1958Kinsei; @Castle2012Ryukyu].
+- Sendai (Date clan, Mutsu domain): Reaching 65k in 1700AD [@Sekiyama1958Kinsei].
+- Wakayama (Kii Tokugawa branch): Supporting 55k in 1750AD and 59,5k in 1868AD [@Sekiyama1958Kinsei].
+- Kumamoto (Hosokawa clan, Higo domain): Maintaining 45k residents [@Sekiyama1958Kinsei].
+- Fukuoka (Kuroda clan, Chikuzen domain): Supporting 44k residents [@Sekiyama1958Kinsei].
+- Okayama (Ikeda clan, Bizen domain): Reaching 40k residents [@Sekiyama1958Kinsei].
+
+A third tier encompassed specialised commercial ports and trading towns:
+- Nagasaki: The sole foreign trade port, peaking at 64k in 1700AD before settling between 30k and 35k as import quotas were tightened [@Sekiyama1958Kinsei].
+- Sakai: The historic Free Port of Izumi province, contracting from 65k in 1603AD to 39k in 1868AD as Osaka captured regional riverine trade [@Sekiyama1958Kinsei].
+- Niigata: The leading shipping haven on the Sea of Japan, growing from 18k in 1650AD to 33k in 1868AD through the *kitamaebune* grain trade [@Sekiyama1958Kinsei].
+- Shuri and Naha: The royal capital and port of the Ryukyu Kingdom, maintaining 39k residents [@Castle2012Ryukyu].
+- Hakodate: The northern deep-water haven in Ezo, expanding from 6k in 1750AD to 25k in 1868AD [@Walker2001ConquestAinu].
+
+Below these major centres, over five hundred post stations (*shukuba*) along the Five Highways (*Gokaido* led by the Tokaido and Nakasendo) and coastal harbours mediated exchange between rural farming villages and metropolitan markets [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+# Limitations
+
+Three principal constraints govern demographic precision across the Tokugawa era. First, the Bakufu sexennial censuses recorded only commoners, requiring historical demographers to estimate samurai, outcaste, clerical and infant populations through social multipliers rather than direct complete enumerations [@Sekiyama1958Kinsei; @Kito2000Jinko]. While corroborated by domain military payrolls (*buke bungencho*) and cadastral returns, aggregate figures carry an estimated uncertainty interval of $\pm 5\%$ to $\pm 8\%$ during the 1721AD to 1846AD era [@Sekiyama1958Kinsei; @Hayami2001Historical].
+
+Second, surviving *shumon aratame-cho* parish registers are geographically uneven [@Hayami2001Historical]. Village archives have survived in abundance across central and western Honshu (notably Nagano, Gifu, Aichi, Kyoto and Osaka prefectures), but are far sparser across northeastern Honshu (Mutsu and Dewa) where recurrent famines and rural flight disrupted archive preservation [@Hayami2001Historical; @Sekiyama1958Kinsei].
+
+Third, demographic estimates for the peripheral territories of the Ryukyu Kingdom and Ezo rely on disparate source traditions [@Smits2019MaritimeRyukyu; @Walker2001ConquestAinu]. In Ryukyu, parish registers (*koseki*) were maintained under Satsuma oversight but survive imperfectly [@Smits2019MaritimeRyukyu; @Castle2012Ryukyu]. In Ezo, Ainu numbers reflect trading post logs and epidemic reports rather than regular household registrations, introducing wider uncertainty into pre-1800AD Indigenous estimates [@Walker2001ConquestAinu].
+
+# Sources
+
+<div id="refs"></div>

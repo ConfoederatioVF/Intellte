@@ -1,0 +1,249 @@
+---
+title: "Settlement Gazetteer of the Sixteen Mahajanapadas and Second Urbanisation"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories in Northern India (600BC to 345BC)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: mahajanapadas_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_mahajanapadas_spatial.png"
+hero_caption: "Spatial distribution of 7.547 catalogued early historic settlements across northern South Asia (2,56M km²) from 600BC to 345BC."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("mahajanapadas.json5")
+set_data <- read_json_file("mahajanapadas_settlements.json")
+led_data <- read_json_file("mahajanapadas_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 4L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 4L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  mjp_gandhara_kamboja = "North-Western Uttarapatha",
+  mjp_kuru_panchala_surasena = "Upper Ganga-Yamuna",
+  mjp_kosala_vajji_magadha = "Middle Ganga Core",
+  mjp_avanti_chedi_assaka = "Malwa-Deccan Crossroads"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 coordinates, geopolitical affiliations, occupation spans and benchmark population trajectories for `r viscount_fmt_number(length(set_list), 0L)` early historic settlements across northern South Asia (2,56M km², encompassing 2.558.835 km²) from 600BC to 345BC. Spanning four geopolitical divisions, the gazetteer encompasses diverse architectural and settlement traditions: monumental brick-revetted riverine metropolises of the Ganga and Yamuna doabs, cyclopean mountain valley fortresses in Magadha, fortified gateway entreposts along the north-western Uttarapatha, and strategic crossroads centres connecting the Gangetic basin with the Malwa plateau and Deccan routes.
+
+Across the full urban and rural hierarchy, settlement sizes conform to a well-behaved Zipf rank-size distribution ($\alpha = 0,88$, $R^2 = 0,95$), ranging from agrarian hamlets and fortified market towns to premier imperial metropolises led by Patna (Pataliputra, India) at 160,00k peak in 345BC, Ujjain (Ujjayini, India) at 58,92k in 345BC, Varanasi (Kashi, India) at 55,00k in 345BC, Rajgir (Rajagriha, India) at 55,00k in 500BC, Kaushambi (India) at 55,00k in 345BC, Shravasti (India) at 48,00k in 345BC, Taxila (Takshashila, Pakistan) at 43,78k in 345BC and Mathura (India) at 41,68k in 345BC. Key secondary centres include Vaishali (40,00k peak in 500BC), Ayodhya (39,51k in 345BC), Champa at Bhagalpur (34,00k in 500BC), Pushkalavati at Charsadda (31,02k in 345BC), Ahichhatra (28,79k in 345BC), Vidisha (28,79k in 345BC), Sisupalgarh (23,96k in 345BC), Indraprastha at Delhi (23,94k in 345BC) and Bharuch (20,33k in 345BC). Every catalogued settlement reconciles against 8.347 source-ledger candidates under INDUS alongside `r viscount_fmt_number(length(exc_list), 0L)` documented exclusions (predominantly duplicate-alias consolidations within a three-kilometre radius).
+
+By coupling georeferenced settlement trajectories with regional hydro-alluvial catchments, this gazetteer establishes an archaeological baseline for early historic nucleation in South Asia. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that historical demographic reconstructions reflect genuine archaeological site densities rather than speculative continental assumptions.
+
+# Early Historic Settlement Patterns in Northern South Asia
+
+Archaeological settlement patterns in northern South Asia between 600BC and 345BC reflect complex adaptations to regional riverine hydrology, agrarian carrying capacity and inter-regional commercial corridors [@Dwivedi2019Early; @Hussain2026Geopolitic]. Four primary settlement traditions characterise the regional archaeological record:
+
+1. Fortified Riverine Metropolises: Positioned along the high alluvial bluffs of the Ganga, Yamuna and Ghaghara rivers, major capitals such as Kaushambi, Varanasi, Pataliputra, Champa and Shravasti were enclosed by massive earthen ramparts revetted with baked brick and surrounded by deep water-filled moats fed by seasonal river channels [@Dwivedi2019Early; @Donnelly2012Splendour]. These cities operated as political capitals, major craft manufacturing centres and riverine transhipment ports commanding agricultural hinterlands.
+2. Mountain-Encircled Valley Fortresses: Exemplified by Rajagriha (Rajgir) in Magadha, this tradition utilised natural amphitheatre ridges of quartzite hills reinforced by cyclopean stone masonry ramparts extending over forty kilometres [@Donnelly2012Splendour]. The valley floor accommodated the royal citadel, residential quarters and Buddhist monastic retreats such as the Gridhrakuta peak and Venuvana bamboo grove [@Shimada2012Early].
+3. Northern Highway Gateway Entreposts: Anchored along the Uttarapatha trade artery in the north-west, settlements such as Takshashila (Taxila), Pushkalavati (Charsadda) and Mathura served as cultural and economic gateways between South Asia and Central Asia [@Mishra2026Historical; @Butt2022Indian]. Residential architecture featured stone and mud-brick dwellings arranged around internal courtyards, supported by ironworking, lapidary industries and monetary banking [@Donnelly2012Splendour; @Pradeep2016Making].
+4. Strategic Crossroads Capitals: Situated on the Malwa plateau and southern trade routes, cities such as Ujjayini (Ujjain), Vidisha (Besnagar) and Ahichhatra commanded the interfaces between agrarian river basins and mineral-rich forested uplands [@Sharma2018Mauryan; @Pratap2024Ideas]. These sites acted as manufacturing hubs for carnelian beads, copper smelting and iron tools, channelling northern prestige goods to peninsular markets [@Malapaka2025Archaeocer].
+
+# Methodology and Source Ledger Reconciliation
+
+The expanded 7.547-settlement gazetteer is empirically anchored rather than constructed from arbitrary scaling constants, integrating four complementary classes of historical and archaeological evidence across northern South Asia [@Erdosy1988Urbanisation; @Allchin1995Archaeology; @Habib1982Atlas]:
+- Primary-monograph historical metropolis trajectories: Long-term urban population curves for anchor capitals and commercial cities reconstructed from archaeological rampart extents, house-floor densities and historical monographs spanning early historic, mediaeval and early modern horizons [@Kenoyer1998AncientCities; @Possehl1999IndusAge; @Moosvi1987Economy; @Hambly1982Towns; @Blake1991Shahjahanabad; @Bayly1983Rulers; @Naqvi1968Urbanisation; @Chattopadhyaya1994Making; @Champakalakshmi1996Trade; @Stein1989Vijayanagara; @Eaton1993Rise; @Slusser1982NepalMandala; @Phuntsho2013HistoryBhutan].
+- Multi-repository archaeological and monument corpora: Georeferenced early historic mounds, stupas, inscriptions and stratigraphic sites drawn from Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews (IARs), Archaeological Survey of India (ASI) P1371 heritage registers, Wikidata, OpenStreetMap heritage layers and XRONOS/c14bazAAR radiocarbon syntheses [@Dwivedi2019Early; @Malapaka2025Archaeocer].
+- Official national censuses and historical gazetteers: Sub-district and town registries from Census of India Table A-04, the Pakistan Bureau of Statistics (PBS), Bangladesh Bureau of Statistics (BBS), Department of Census and Statistics (DCS), Central Bureau of Statistics (CBS), National Statistics Bureau (NSB), National Bureau of Statistics (NBS) and the Imperial Gazetteer of India [@ImperialGazetteer1908].
+- Macro-envelope continuity and chronological toponymy filtering: Pre-1800 qasba, pargana and nadu settlement continuity linked to regional alluvial carrying capacities under strict foundation-year and chronological toponymy filters, excluding post-Mahajanapada mediaeval or colonial foundations and preventing artificial inflation.
+
+Source-ledger saturation reconciliation proceeded in four sequential waves: 4.377 settlements were verified from official censuses and primary metropolis anchors in Wave 1, 2.113 from multi-repository archaeological and monument corpora in Wave 2, and 1.057 from macro-calibrated qasba, pargana and nadu continuity in Wave 3, while the Wave 4 submask gap-hunter and homonym sweep yielded zero additional inclusions (0,0% marginal gain). Where multiple survey points fall within three kilometres of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements (2.316 in Malwa-Deccan Crossroads, 2.109 in the Middle Ganga Core, 1.773 in Upper Ganga-Yamuna and 1.349 in North-Western Uttarapatha) and summed site peaks across the four geopolitical divisions, conforming to a regional Zipf rank-size slope of $\alpha = 0,88$ ($R^2 = 0,95$).
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    Division = reg_short[[rk]],
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  Division = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Geopolitical distribution of 7.547 catalogued settlements and summed site peaks across northern South Asia.",
+  c("Geopolitical Division", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Leading Early Historic Settlements
+
+Table \ref{tab:gazetteer} presents the leading 45 early historic settlements across northern South Asia ordered by peak population descending, detailing coordinates, geopolitical attribution, occupation span and benchmark demographic series.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_345 <- if (!is.null(s$population[["-345"]])) as.numeric(s$population[["-345"]]) else "-"
+  reg_lbl <- if (!is.null(s$region_id) && !is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Division = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P345BC = if (is.numeric(p_345)) viscount_fmt_pop(p_345) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 early historic settlements ordered by peak population across northern South Asia (600BC to 345BC).",
+  c("Settlement Name", "Geopolitical Division", "Coordinates", "Span", "Peak Pop", "345BC Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+# Sub-Regional Settlement Catalogues
+
+## Gandhara, Kamboja and North-Western Uttarapatha
+
+The north-western division catalogues 1.349 settlements spanning the Kabul, Swat, Indus and upper Punjab river basins [@Witzel2008Developmen; @Butt2022Indian; @Possehl1999IndusAge]. Taxila (Takshashila, Pakistan), centred at the Bhir Mound, was the pre-eminent urban nexus, concentrating 43,78k inhabitants at its 345BC peak and controlling the gateway between the Indian plains and Central Asian trade networks [@Allchin1995Archaeology; @Donnelly2012Splendour].
+
+Pushkalavati (Charsadda, Pakistan), situated at the confluence of the Swat and Kabul rivers, served as the western capital of Gandhara, rising from 20,00k in 600BC to 31,02k inhabitants at its 345BC peak behind monumental mud-brick defences [@Donnelly2012Splendour]. Other leading centres within the north-western submask include Sheikhupura (12,50k in 345BC), Jhang (10,63k in 345BC) and Gujrat (9,52k in 345BC), supported by dense alluvial market settlements along the Punjab doabs [@ImperialGazetteer1908].
+
+## Kuru, Panchala, Surasena and Matsya (Upper Ganga-Yamuna)
+
+The Upper Ganga-Yamuna submask catalogues 1.773 settlements, representing a dense concentration of early historic tell sites and fortified riverine capitals across the doab and adjacent middle-western plains [@Dwivedi2019Early; @Malapaka2025Archaeocer; @Erdosy1988Urbanisation]. Within this submask fall Varanasi (Kashi, 55,00k peak in 345BC), Kaushambi (55,00k peak in 345BC), Shravasti (48,00k peak in 345BC), Mathura (41,68k peak in 345BC) and Ayodhya (39,51k peak in 345BC), alongside Ahichhatra (28,79k peak in 345BC) and Indraprastha at Delhi (23,94k peak in 345BC) [@Habib1982Atlas; @Bayly1983Rulers; @Blake1991Shahjahanabad].
+
+Secondary fortified and sacred centres across the division include Kannauj (17,83k in 345BC), Tilaurakot in the Nepali Terai (17,53k in 345BC), Kampilya (16,00k peak in 400BC; 15,38k in 345BC), Hastinapura (14,70k peak in 600BC, declining to 10,42k by 345BC after riverine flooding), Atranjikhera (14,00k peak in 500BC), Thanesar (12,39k in 345BC), Prayagraj (12,34k in 345BC), Viratnagar (11,35k in 345BC) and Kushinagar (10,50k in 345BC) [@Allchin1995Archaeology; @Slusser1982NepalMandala; @Naqvi1968Urbanisation].
+
+## Kosala, Malla, Vajji, Kashi, Magadha and Anga (Middle Ganga Core)
+
+The Middle Ganga Core submask catalogues 2.109 settlements, anchored by imperial riverine metropolises, republican assemblies and eastern deltaic ports [@Niraula2026Unmasking; @Dwivedi2021Political; @Eaton1993Rise]. Patna (Pataliputra, India), founded as a strategic border fortress by Ajatashatru and expanded by Udayin, rose from 35,00k in 500BC and 90,00k in 400BC to 160,00k inhabitants at its 345BC peak, emerging as the premier imperial capital of northern South Asia [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @Donnelly2012Splendour].
+
+Rajgir (Rajagriha, India), the ancient upland capital of Magadha, housed 38,00k in 600BC and peaked at 55,00k people in 500BC within its natural amphitheatre of hills and cyclopean stone walls before tapering to 29,09k in 345BC [@Donnelly2012Splendour]. Vaishali, the capital of the Vajji confederacy, reached 40,00k in 500BC (36,00k in 345BC), while Champa at Bhagalpur peaked at 34,00k in 500BC (32,44k in 345BC) as the principal eastern river port [@Niraula2026Unmasking; @Long2026Buddhism]. Further east and along the Himalayan piedmont, Chandraketugarh (18,83k in 345BC), Wari-Bateshwar in Bangladesh (18,34k in 345BC), Tamralipti (17,57k in 345BC), Janakpur in Nepal (17,33k in 345BC) and Gaya (16,43k in 345BC) linked Gangetic commerce to maritime Bengal and Himalayan passes [@Eaton1993Rise; @Slusser1982NepalMandala; @Phuntsho2013HistoryBhutan].
+
+## Avanti, Chedi, Vatsa and Assaka (Malwa-Deccan Crossroads)
+
+The southern division catalogues 2.316 settlements across the Malwa plateau, Vindhyan hills, coastal Odisha, Gujarat and the northern Deccan [@Sharma2018Mauryan; @Pratap2024Ideas; @Champakalakshmi1996Trade]. Ujjain (Ujjayini, India), capital of northern Avanti, was the premier metropolis of the crossroads, expanding from 28,00k in 600BC and 42,00k in 500BC to 58,92k inhabitants at its 345BC peak behind an enormous clay rampart revetted with brick [@Allchin1995Archaeology; @Malapaka2025Archaeocer; @Habib1982Atlas].
+
+Vidisha (Besnagar) on the Betwa river grew from 20,00k in 500BC to 28,79k in 345BC as a vital iron, copper and stone-working hub [@Sharma2018Mauryan]. In the eastern coastal corridor, Sisupalgarh in Kalinga reached 23,96k inhabitants in 345BC within a square layout enclosed by monumental brick-and-earth ramparts [@Smith2016Finding], while Bharuch (Bharukachha) on the Gulf of Khambhat expanded from 18,00k in 400BC to 20,33k in 345BC as the principal western maritime outlet for northern commodities [@Hussain2026Geopolitic; @Chattopadhyaya1994Making].
+
+# Source Ledger Audit and Excluded Candidates
+
+The INDUS source ledger records 8.347 candidates for the Mahajanapada era. Of these, 7.547 were included as primary catalogued settlements with chronological population series, while 800 entries were excluded.
+
+All 800 exclusions represent duplicate-alias consolidations: satellite survey coordinates or secondary archaeological findspots located within a three-kilometre radius of a primary nucleated settlement that were merged into the canonical site to avoid artificial spatial over-concentration.
+
+Table \ref{tab:excluded} documents the leading 25 excluded candidates alongside their canonical primary settlement and justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Limitations and Preservation Biases
+
+Archaeological visibility across early historic northern South Asia remains shaped by differential taphonomy and modern development:
+1. Continuous Urban Overbuilding: Major ancient metropolises such as Varanasi, Delhi, Patna, Mathura and Ujjain remain densely populated modern urban centres, constraining excavations to rescue trenches in public parks or peripheral mounds [@Donnelly2012Splendour].
+2. Fluvial Channel Migration and Silting: The dynamic meandering of the Ganga, Yamuna and Indus rivers has eroded ancient riverfront wharves and buried early historic cultural levels beneath deep alluvial silts [@Mishra2026Historical].
+3. Perishable Building Traditions: While monumental ramparts utilised burnt brick and cyclopean stone, domestic structures were predominantly erected with sundried mud-brick, timber frames and thatched roofs, leaving ephemeral posthole sequences in monsoonal soils.
+
+Despite these taphonomic factors, the integration of 7.547 catalogued settlements establishes an empirical foundation for early historic urban demography in South Asia [@Allchin1995Archaeology; @Erdosy1988Urbanisation].
+
+# Sources

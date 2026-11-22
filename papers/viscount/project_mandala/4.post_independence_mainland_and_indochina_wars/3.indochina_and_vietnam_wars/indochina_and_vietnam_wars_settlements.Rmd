@@ -1,0 +1,241 @@
+---
+title: "Settlement Gazetteer of Indochina during the Thirty Years War"
+subtitle: "MANDALA: Georeferenced Coordinates, Provincial Trajectories and Forced Nucleation in Vietnam, Laos and Cambodia (1945-1975)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: indochina_and_vietnam_wars_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_indochina_and_vietnam_wars_spatial.png"
+hero_caption: "Spatial distribution of 10.597 catalogued settlements and regional administrative catchments across Indochina (765.511 km²) between 1945 and 1975."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("indochina_and_vietnam_wars.json5")
+set_data <- read_json_file("indochina_and_vietnam_wars_settlements.json")
+led_data <- read_json_file("indochina_and_vietnam_wars_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  ivw_drv_red_river = "Red River Core and Northern Uplands",
+  ivw_dmz_central = "North-Central Panhandle and Coastal Theatre",
+  ivw_central_highlands = "Central Highlands and Trail Corridor",
+  ivw_rvn_saigon_delta = "Saigon and Mekong Delta Lowlands",
+  ivw_cambodia_war = "Cambodia and Eastern Mekong Basin",
+  ivw_laos_secret_war = "Laos Mekong Valley and Upland Corridor"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative jurisdictions, occupation chronologies and demographic trajectories for `r length(set_list)` settlements across Indochina (765.511 km²) between 1945 and 1975. Encompassing the territories of Vietnam, Laos and Cambodia, the gazetteer records the human geography of three decades of continuous armed conflict, spanning the anti-colonial struggle against France, national partition at the 17th parallel, and the high-intensity military campaigns of the Second Indochina War. Across these thirty years, settlement patterns were transformed by massive aerial interdiction, strategic hamlet relocation schemes and forced urbanisation.
+
+Settlement magnitudes range from dispersed upland tribal villages in the Truong Son mountains and karst caves along the Plain of Jars to primary metropolises including Ho Chi Minh City (Saigon) (6,86M in 1975), Hanoi (3,93M in 1975), Hai Phong (1,29M), wartime Phnom Penh (swollen by refugees to over 1,8M on the eve of its fall), and Da Nang (493,94k). Secondary regional centres include Phan Thiet (603,85k), Lam Dong (Da Lat) (587,41k), Ca Mau (582,42k), Soc Trang (577,69k), Tay Ninh (573,32k), Bien Hoa (571,84k), Ba Ria-Vung Tau (568,47k), Vinh Long (496,18k), Tra Vinh (491,57k) and Binh Phuoc (488,43k). Every catalogued locality reconciles against 11.397 candidate records in the MANDALA source ledger alongside `r length(exc_list)` documented exclusions (principally duplicate homonym entries sharing identical geographic coordinates and population series).
+
+By linking georeferenced settlement trajectories with regional fluvial geomorphology, remote sensing bomb damage assessments and archival census records, this gazetteer establishes an empirical baseline for mid-twentieth-century population nucleation in mainland South-East Asia. Settlement subtraction isolates nucleated urban populations from rural agricultural cultivators, ensuring that regional demographic models capture the stark contrast between depopulated free-fire zones and congested refugee enclaves.
+
+# Background
+
+Settlement patterns in wartime Indochina were dictated by the intersection of alluvial ecology, transportation infrastructure and military geometry [@Thrift1985Cities; @Lacouture1970From; @Race1970Origins]. Four distinct settlement traditions and operational configurations characterised the region:
+1. Intensive deltaic agglomerations: In the Red River delta of northern Vietnam and the Mekong delta of southern Vietnam, dense networks of agricultural villages developed along river dykes, natural levees and drainage canals. High rural densities (frequently exceeding 500 persons per km²) sustained wet-rice cultivation, creating continuous agrarian ribbons punctuated by provincial commercial market towns [@Thrift1985Cities; @NguyenMarshall2023Political].
+2. Industrial and administrative command metropolises: Major urban centres, notably Hanoi, Hai Phong, Saigon-Cholon and Phnom Penh, concentrated administrative authority, international trade and manufacturing. During the conflict, these metropolises either dispersed their populations into rural caverns and upland redoubts to evade aerial bombardment (Hanoi) or absorbed millions of destitute rural refugees fleeing free-fire zones (Saigon and Phnom Penh) [@Thrift1985Cities; @Goodman1975South; @Blumenfeld1970Cambodia].
+3. Strategic garrison towns and logistical hubs: Along the Demilitarised Zone and the central littoral, towns such as Da Nang, Hue, Pleiku, Kontum and Buon Ma Thuot functioned as fortified logistical nodes. These centres accommodated maritime anchorages, air bases, military headquarters and expanding squatter settlements housing camp followers and civilian refugees [@Goscha2005Maritime; @Catton2019Control].
+4. Dispersed upland hamlets and subterranean complexes: Across the Annamite Cordillera, the Plain of Jars and the Bolaven Plateau, indigenous populations and insurgent forces adapted to intensive aerial bombardment by dispersing into forest canopies or constructing extensive subterranean tunnel networks, as seen in the karst caverns of Viengxay and the village tunnel complexes of Vinh Moc [@Mishra2008Laos; @Pholsena2012Transformative; @Olson2024Secret].
+
+# Methodology
+
+Candidate sites in the source ledger were evaluated using published French colonial statistical directories, wartime administrative gazetteers, American military maps (Joint Operations Graphic 1:250.000 series), military casualty and systems analyses, and post-war census inventories [@Thayer1975Systems; @Galarneau1984Burns; @Nguyen2016Fighting]. Inclusion criteria required:
+- Precise WGS84 geographic coordinates verified against historical topography and satellite imagery.
+- Documented administrative status, commune designation or military cantonment records spanning the 1945-1975 interval.
+- Temporal population estimations anchored to colonial registers, wartime refugee counts or early post-unification censuses.
+
+Where multiple gazetteer entries referred to the same physical locality under variant colonial French, Vietnamese, Khmer or Lao transliterations within 2,2 km, secondary entries were consolidated as duplicate aliases. Non-residential military installations, isolated fire support bases and temporary patrol encampments were excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the six sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 10.597 catalogued settlements and summed site peaks across Indochina.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identities, spatial coordinates and chronological continuity were cross-referenced against historical cartography, coastal logistical records and satellite imagery [@Goscha2005Maritime; @Catton2019Control]. Declassified high-altitude reconnaissance photographs from the CORONA satellite programme (1960-1972) and U-2 flights were examined to verify urban extents and identify physical infrastructure destruction across contested provincial capitals such as Hue, Quang Tri and An Loc [@Catton2019Control; @Anonymous1971Civilian].
+
+Refugee flow registers maintained by the Republic of Vietnam Ministry of Social Welfare, naval evacuation archives from the 1954 partition, and international medical assistance surveys provided empirical calibration for urban population surges [@Catton2010Royal; @Catanzaro1982Health; @Anonymous1971Civilian]. In cities such as Da Nang and Saigon, registration logs confirmed that population densities within informal squatter settlements reached over 1.200 persons per hectare by 1972. Cross-sectional demographic mortality analyses and longitudinal surveys corroborated these dramatic displacement patterns [@Merli1998Mortality; @Merli2000Socioeconomic; @Hd1996Population]. In rural zones subjected to systematic defoliation under Operation Ranch Hand, agricultural surveys confirmed the widespread abandonment of rubber plantations and fruit orchards, validating the reallocation of displaced populations to provincial urban fringes [@Olson2024Secret; @Lanner1971Foresters].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 settlements across Indochina ordered by peak population, showing geographic coordinates, sub-regional allocation, chronological spans and demographic metrics.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) as.character(y_min) else paste0(y_min, " - ", y_max)
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1975 <- if (!is.null(s$population[["1975"]])) as.numeric(s$population[["1975"]]) else "-"
+  reg_id <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[reg_id]])) reg_short[[reg_id]] else clean_text(reg_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1975 = if (is.numeric(p_1975)) viscount_fmt_pop(p_1975) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 settlements ordered by peak population across Indochina (1945 to 1975).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1975 Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### 1. Democratic Republic of Vietnam — Red River Core and Northern Uplands
+
+The northern core division catalogues 398 primary settlements distributed across the Red River floodplain and the northern mountain arc [@Thrift1985Cities; @Zhang2002Chinas]. Hanoi anchored the national political structure, expanding from 1,93M in 1945 to 3,93M in 1975 despite planned wartime evacuations. Hai Phong served as the premier deep-water maritime port, concentrating 1,29M residents across its urban and industrial districts. Secondary industrial centres included Nam Dinh (the historical textile capital), Thai Nguyen (the centre of domestic iron and steel production), Viet Tri (heavy chemical manufacturing) and Hon Gai (anthracite coal mining along Ha Long Bay). Upland provincial capitals such as Lang Son, Cao Bang and Lao Cai coordinated overland trade and military logistics with China [@Zhang2002Chinas].
+
+### 2. North-Central Panhandle, DMZ and Central Coastal Theatre
+
+This coastal division catalogues 427 settlements along the narrow maritime strip between Thanh Hoa and Binh Thuan [@Goscha2005Maritime; @Catton2019Control]. Da Nang grew into the second-largest urban agglomeration in South Vietnam, housing 493,94k residents in 1975 supported by a massive deep-water naval anchorage and air base complex. Hue served as the cultural and educational capital, experiencing catastrophic structural damage and civilian losses during the 1968 Tet Offensive [@Anonymous1971Civilian]. Other major coastal settlements included Vinh (the primary northern staging base for the Ho Chi Minh Trail), Thanh Hoa, Dong Hoi, Quang Ngai, Quy Nhon and Nha Trang, each functioning as fortified enclaves surrounded by intensely contested rural peripheries.
+
+### 3. Central Highlands and Ho Chi Minh Trail Corridor
+
+The interior highland division catalogues 98 settlements across the forested plateaux of Kontum, Gia Lai, Dak Lak and Lam Dong [@Pholsena2012Transformative; @Mishra2008Laos]. Buon Ma Thuot in Dak Lak province was the premier urban centre of the southern highlands, controlling surrounding coffee and rubber estates. Pleiku functioned as the headquarters of the South Vietnamese II Corps and US military operations in the central plateau. Da Lat in Lam Dong province (587,41k) developed as a mountain resort and agricultural market centre for temperate vegetables, largely insulated from kinetic ground fighting until the final months of the war in 1975. Kontum and An Khe formed fortified strongpoints guarding Highway 19, the primary east-west logistical artery connecting the coast with the interior.
+
+### 4. Republic of Vietnam — Saigon and Mekong Delta Lowlands
+
+The southern alluvial division catalogues 363 settlements across the fertile plain of the lower Mekong and Dong Nai rivers [@Thrift1985Cities; @NguyenMarshall2023State; @Goodman1975South]. Ho Chi Minh City (Saigon) dominated the macro-region, expanding to 6,86M inhabitants by 1975 as military operations, defoliation and free-fire zone declarations drove rural cultivators into the capital. The Mekong delta supported a dense hierarchy of riverine market cities: Can Tho served as the administrative and military hub of the delta, supported by My Tho, Bien Hoa (571,84k), Ca Mau (582,42k), Soc Trang (577,69k), Tay Ninh (573,32k), Ba Ria-Vung Tau (568,47k), Vinh Long (496,18k), Tra Vinh (491,57k) and Binh Phuoc (488,43k).
+
+### 5. Cambodia: Phnom Penh Refuge and Eastern Bombing Theatre
+
+The Cambodian division catalogues 3.894 settlements across the central floodplains, the Tonle Sap basin and the Cardamom and Dangrek mountain borders [@Blumenfeld1970Cambodia; @Walque2005Selective]. Phnom Penh underwent unprecedented refugee hyper-inflation, swelling from approximately 650k residents in 1969 to over 1,80M by early 1975 as American carpet bombing and Khmer Rouge insurgent advances devastated the eastern countryside. Battambang in the northwest remained the premier agricultural rice centre, while Kampong Cham, Siem Reap, Kampot and the deep-water maritime port of Sihanoukville (Kampong Som) operated as secondary administrative and commercial nodes [@Walque2006Sociodemographic; @Hood1990Beijings].
+
+### 6. Laos: Mekong Lowlands and Plain of Jars and Trail Zone
+
+The Lao division catalogues 5.417 settlements across the rugged valleys of northern and southern Laos [@Mishra2008Laos; @Pholsena2012Transformative]. Vientiane functioned as the national administrative capital and diplomatic refuge along the Mekong River, while Luang Prabang maintained its status as the royal capital. In the southern panhandle, Savannakhet and Pakse commanded vital river crossings and agricultural trade with Thailand. In the contested interior, settlements such as Sam Neua and Viengxay operated as subterranean command bases for the Pathet Lao, while the Plain of Jars witnessed the total depopulation and physical erasure of dozens of ancient agricultural villages under continuous aerial bombardment [@Bundy1988Failure; @Zhang2002Chinas].
+
+# Limitations
+
+Settlement documentation across wartime Indochina is subject to specific administrative and historical limitations:
+1. Heterogeneous census quality: While the Democratic Republic of Vietnam conducted structured municipal registrations in 1960 and 1974, demographic counts in the Republic of Vietnam relied upon civil identity registries and refugee relief rolls that systematically omitted informal squatters and unregistered children [@Thayer1975Systems; @Merli2000Socioeconomic; @Anonymous1971Civilian].
+2. Rapid administrative boundary revisions: Provincial and district boundaries were reorganised repeatedly by both the Diem administration and the National Liberation Front, creating complex homonym overlaps and administrative reallocations across historical documents [@Catton2019Control; @NguyenMarshall2023Political].
+3. Transitory refugee settlements: Hundreds of temporary refugee camps established along Highway 1 and around major air bases existed for only several months before being dismantled, relocated or integrated into expanding urban municipalities [@Nguyen2016Fighting; @Catton2010Royal].
+4. Toponymic variations: Settlements frequently bore multiple distinct names across French colonial cartography, Vietnamese national gazetteers, US military maps and local indigenous dialects, necessitating rigorous coordinate validation to eliminate duplicate reporting [@Zagoria1982Refused; @Galarneau1984Burns].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 10.597 catalogued localities across six sub-regions, establishing an empirical spatial framework for demographic research on the Indochina Wars from 1945 to 1975. By anchoring settlement populations to WGS84 coordinates and tracing municipal trajectories across thirty years of conflict, this catalogue documents the dramatic spatial shift from rural agrarian dispersion to defensive urban concentration. The resulting data provide the indispensable foundation for dasymetric population modelling, post-war reconstruction analyses and long-term settlement geography across mainland South-East Asia.
+
+# Appendix
+
+The MANDALA source ledger audited 11.397 candidate records, resulting in 10.597 accepted settlements and 800 exclusions. Table \ref{tab:excluded} presents the leading 25 excluded candidate records, detailing territorial allocation, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate records from the Indochina source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

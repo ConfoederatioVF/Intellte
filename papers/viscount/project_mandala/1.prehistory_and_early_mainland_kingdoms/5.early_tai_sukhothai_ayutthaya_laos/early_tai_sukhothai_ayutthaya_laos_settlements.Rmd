@@ -1,0 +1,264 @@
+---
+title: "Settlement Gazetteer of Early Tai Principalities, Sukhothai, Ayutthaya and Laos"
+subtitle: "MANDALA: Coordinates, Toponymy and Demographic Trajectories (500BC to 1769AD)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: early_tai_sukhothai_ayutthaya_laos_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_early_tai_sukhothai_ayutthaya_laos_spatial.png"
+hero_caption: "Spatial distribution of 850 catalogued historical settlements and regional hydrological catchments across the Chao Phraya, Mekong and Peninsular basins (783.386 km²) from 500BC to 1769AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("early_tai_sukhothai_ayutthaya_laos.json5")
+set_data <- read_json_file("early_tai_sukhothai_ayutthaya_laos_settlements.json")
+led_data <- read_json_file("early_tai_sukhothai_ayutthaya_laos_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- as.character(arg0_s)
+  s <- gsub("วังจันทรเกษม", "Wang Chan Kasem", s, fixed = TRUE)
+  s <- gsub("วังวาริชเวสม์", "Wang Waritchawet", s, fixed = TRUE)
+  s <- gsub("วังประมวญ", "Wang Pramuan", s, fixed = TRUE)
+  s <- gsub("วังสรรพสาตรศุภกิจ", "Wang Sanphasat Suphakit", s, fixed = TRUE)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("[^\\x20-\\x7E\\xC0-\\xFF]", "", s, perl = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  tai_ayutthaya_cp = "Lower Chao Phraya and Ayutthaya",
+  tai_sukhothai_upper = "Upper Chao Phraya and Sukhothai",
+  tai_lanna_north = "Lan Na and Northern Valleys",
+  tai_khorat_isan = "Khorat Plateau and Mun-Chi",
+  tai_peninsular_south = "Peninsular Isthmus and Patani",
+  tai_lan_xang_laos = "Lan Xang and Lao Mekong"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative allocations, foundation chronologies and benchmark demographic series for `r length(set_list)` historical settlements across the Chao Phraya, middle Mekong and Peninsular basins (783.386 km², encompassing 9.642 active 5-arcminute terrestrial cells) from 500BC to 1769AD. Encompassing six physiographic divisions, the gazetteer spans diverse morphological and architectural traditions: moated Dvaravati Buddhist centres in the central plain, stone-faced Khmer provincial outposts along the Mun-Chi river network, weir-irrigated Tai valley capitals across Lan Na, riverine port capitals in Sukhothai and Ayutthaya, and fortified transpeninsular trading ports along the Kra Isthmus.
+
+Settlement scales range from proto-historic iron-age farming villages and coastal trading hamlets in the Bang Pakong Valley to early historic Mon monastic centres at Nakhon Pathom (38,38k peak) and Lavo (Lopburi), expanding to prominent mediaeval Tai capitals at Sukhothai (31,99k peak in 1300AD), Chiang Mai (52,15k peak in 1500AD), Vientiane (43,53k peak in 1769AD), Luang Prabang (26,75k peak) and the hydraulic metropolis of Ayutthaya (261,71k peak in 1500AD). Following the destruction of Ayutthaya in 1767AD, urban mass relocated downstream to Thonburi (249,44k in 1769AD), preserving regional administrative continuity. Every catalogued locality reconciles against 1.034 source-ledger candidates under MANDALA alongside `r length(exc_list)` documented exclusions (predominantly duplicate survey aliases within a 2,2 km spatial radius and non-habitation features).
+
+By coupling georeferenced settlement trajectories with regional fluvial geomorphology, remote sensing mound inventories and epigraphic registers, this gazetteer provides an archaeological baseline for historical nucleation in central Mainland Southeast Asia. Settlement subtraction isolates nucleated urban, monastic and administrative centres from rural cultivators, ensuring that regional demographic models reflect authentic settlement distributions rather than unconstrained spatial interpolations.
+
+# Background
+
+Archaeological and historical settlement patterns across Thailand and Laos reflect long-term adaptations to seasonal monsoon flooding, river confluence navigation and overland transpeninsular trade routes [@Mudar1999Many; @Moore1988Moated; @Scott2015Rainfall]. Five primary settlement traditions characterise the regional catalogue:
+1. Moated alluvial enclosures: Prevalent across the central plain and the Khorat Plateau from the sixth to eleventh centuries AD, Dvaravati settlements featured rounded or irregular earthen ramparts encircled by wide water-filled moats [@Mudar1999Many; @Murphy2015Many; @Patnukao2024Revisiting]. These moats served multi-functional roles: municipal drainage during monsoon floods, dry-season water storage, domestic fish farming and civic defence [@Moore1988Moated; @OReilly2014Increasing]. Key examples include Nakhon Pathom, Ku Bua, U Thong, Lavo (Lopburi) and Muang Fa Daet [@Mudar1999Many; @Murphy2015Many; @Glover2011Dvaravati].
+2. Intermontane valley capitals: In northern Thailand (Lan Na) and northern Laos (Lan Xang), Tai principalities founded walled capitals along river terraces within enclosed intermontane valleys [@Champawan2017Political; @Lockhart2016Xang]. Chiang Mai, Chiang Rai, Phayao and Luang Prabang were positioned at points where upland mountain streams debouched into broad alluvial fans, allowing municipal diversion for urban moats and field irrigation systems (*muang fai*) [@Champawan2017Political; @Lockhart1999Laos; @Miller2011Laos].
+3. Hydraulic island metropolises: In the lower Chao Phraya delta, Ayutthaya exploited the confluence of three rivers to construct an insular capital encircled by natural river barriers and artificial cut-off canals [@Reid2018Chris; @Taylor2018History; @CarvalhoResende2017Flooding]. Canal networks functioned as highways for boat transport, tidal drainage channels and municipal firebreaks, supporting dense multi-ethnic quarters and royal palaces [@Clark2018History; @Baker2021Child].
+4. Riverine terrace and barrage complexes: Along the Yom and Nan rivers, Sukhothai, Si Satchanalai and Kamphaeng Phet combined earthen barrages (*saridphong*), diversion canals and stone-lined reservoirs to supply water to urban monasteries, royal palaces and extensive ceramic kilns [@Anonymous1992Sukhothai; @Yoshikawa1980Royal; @Jangid2025Inspection].
+5. Coastal and transpeninsular trading ports: Along the Kra Isthmus, settlements such as Nakhon Si Thammarat, Chaiya, Songkhla and Patani occupied river estuaries protected by coastal sand-ridge spits, commanding overland portage routes between the Bay of Bengal and the Gulf of Thailand [@Patnukao2024Tracing; @Reid2018Chris].
+
+# Methodology
+
+Candidate localities in the source ledger were systematically screened against published archaeological inventories, national cultural heritage registers, historical chronicles and epigraphic surveys [@Mudar1999Many; @Murphy2015Many; @Glover2011Dvaravati; @Moore1988Moated]. Inclusion requires:
+- Documented WGS84 geographic coordinates cross-checked against satellite imagery and regional hydrography.
+- Documented cultural horizons, ceramic typologies, architectural remains or historical chronicles spanning from late prehistory through 1769AD.
+- Demographic series calibrated to settlement mound areas, intramural walled extents, residential household densities or contemporary diplomatic travelogue descriptions [@Reid2018Chris; @Taylor2018History; @Barram2008Papers].
+
+Where multiple archaeological survey points fall within 2,2 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Modern administrative subdivisions, isolated non-habitation shrines, mineral quarries and duplicate toponyms are excluded from the catalogued series.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the six sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 850 catalogued settlements and summed site peaks across early Tai, Sukhothai, Ayutthaya and Lao realms.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological trajectories were verified through spatial analyses, remote sensing surveys and stratigraphic correlations [@Mudar1999Many; @Patnukao2024Tracing; @Kanjanajuntorn2014Tracing]. In the central plain, multi-temporal satellite imagery and synthetic aperture radar (SAR) revealed palaeochannels and ancient moat alignments around Dvaravati and Ayutthayan settlements that had been partially obscured by modern paddy consolidation and canalisation [@Kanjanajuntorn2014Tracing; @CarvalhoResende2017Flooding]. Ground surveys and aerial photography conducted by the Fine Arts Department of Thailand provided verification for earthen ramparts, brick stupa basements and laterite city walls [@Glover2011Dvaravati; @Barram2008Papers; @Anonymous1992Sukhothai].
+
+In the Khorat Plateau and the middle Mekong valley, epigraphic inventories of inscribed boundary stones (*bai sema*) and Khmer temple inscriptions cross-check site foundations and administrative status between the seventh and fourteenth centuries AD [@Murphy2015Many; @Patnukao2024Revisiting]. Quantitative analyses of monastic installations demonstrate that religious foundations correlate with settlement longevity and local agricultural carrying capacity [@Murphy2015Many; @Moore1988Moated; @Scott2015Rainfall].
+
+In the southern peninsula, spatial modelling of Buddhist temples and historical toponyms confirms continuous settlement clustering along ancient coastal chenier ridges and beach barriers in Nakhon Si Thammarat and Songkhla from the early historic era through the early modern period [@Patnukao2024Tracing]. Archival cross-referencing against Portuguese, Dutch VOC and French diplomatic maps from the sixteenth and seventeenth centuries provides external verification for port locations, intramural city dimensions and trading quarter extents across the Chao Phraya and Peninsular coasts [@Reid2018Chris; @Clark2018History; @Patnukao2024Tracing].
+
+# Results
+
+## Principal Catalogued Settlements
+
+Table \ref{tab:gazetteer} presents the leading 45 historical settlements across early Tai realms, Sukhothai, Ayutthaya and Laos ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1769 <- if (!is.null(s$population[["1769"]])) as.numeric(s$population[["1769"]]) else "-"
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1769AD = if (is.numeric(p_1769)) viscount_fmt_pop(p_1769) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 historical settlements ordered by peak population across early Tai, Sukhothai, Ayutthaya and Lao realms (500BC to 1769AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1769AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Lower Chao Phraya and Ayutthaya-Dvaravati Core
+
+The Lower Chao Phraya division catalogues 269 settlements across the active delta and tidal floodplains [@Mudar1999Many; @Glover2011Dvaravati; @CarvalhoResende2017Flooding]. Ayutthaya was the preeminent hydraulic metropolis, founded in 1351AD on an island formed by the Chao Phraya, Pa Sak and Lopburi rivers. Ayutthaya concentrated 261,71k residents in 1500AD and 240,94k in 1650AD, coordinating royal administration, international trade and extensive canal networks [@Reid2018Chris; @Taylor2018History; @CarvalhoResende2017Flooding]. Following its destruction in 1767AD, urban mass relocated southwards to Thonburi (249,44k in 1769AD), which served as the capital under King Taksin [@Reid2018Chris; @Baffie2018Chris].
+
+Other prominent centres include the foundational Mon Dvaravati capital of Nakhon Pathom (38,38k peak), the fortified transit port of Kanchanaburi (37,18k peak), the coastal port of Samut Sakhon (55,75k peak), Khlong Luang (50,89k peak), Bang Kapi (33,02k peak), Bang Phli (31,38k peak), Lat Krabang (29,42k peak), Bang Lamung (27,47k peak), Si Racha (26,72k peak), Bang Sao Thong (25,78k peak), Sa Kaeo (23,38k peak) and Prachuap Khiri Khan (22,96k peak). These settlements coordinated wet-rice production, maritime trade and defensive frontier operations [@Mudar1999Many; @Baker2021Child; @Choompolpaisal2021Boran].
+
+### Upper Chao Phraya and Sukhothai Basin
+
+The Upper Chao Phraya division catalogues 88 settlements along the Ping, Yom and Nan river valleys [@Yoshikawa1980Royal; @Pu2013Confucian]. Sukhothai was the royal capital of the first independent Tai kingdom, founded in the thirteenth century along the Yom River. Sukhothai supported 31,99k inhabitants in 1300AD, developing sophisticated water storage barrages and temple complexes [@Anonymous1992Sukhothai; @Yoshikawa1980Royal; @Jangid2025Inspection]. Its sister city, Si Satchanalai, functioned as an international celadon ceramic production hub [@Anonymous1992Sukhothai; @Pu2013Confucian].
+
+Nakhon Sawan (43,37k peak) commanded the strategic confluence where the Ping, Wang, Yom and Nan rivers unite to form the Chao Phraya trunk stream, serving as the primary commercial and logistical transit gateway between northern Thailand and the central plain [@Yoshikawa1980Royal; @Pu2013Confucian]. Kamphaeng Phet (29,77k peak) on the Ping River formed a massive laterite fortress city protecting the western approaches to Sukhothai and Ayutthaya [@Anonymous1992Sukhothai]. Other notable centres include Phitsanulok (peaking as a royal secondary capital under King Trailokanat), Phichit and Tak [@Pu2013Confucian; @Baker2021Child].
+
+### Lan Na and Northern Intermontane Valleys
+
+The northern division catalogues 98 settlements across the enclosed intermontane valleys of northern Thailand [@Champawan2017Political; @J2025Genomic]. Chiang Mai was the premier capital of Lan Na, founded in 1296AD by King Mangrai in the fertile Ping River basin. Surrounded by rectangular brick walls and a wide moat, Chiang Mai supported 34,59k residents in 1300AD, expanding to 52,15k in 1500AD, 44,69k in 1650AD and 34,24k in 1769AD [@Champawan2017Political; @Sirimongkon2025Qualitative].
+
+Other major urban centres include Lamphun (ancient Hariphunchai, the Mon Buddhist precursor to Tai rule), Chiang Rai (founded in 1262AD as Mangrai's initial capital), Phayao (an autonomous principality along Kwan Phayao lake), Lampang (a fortified walled city on the Wang River), Nan (commanding eastern highland passes to Laos) and Phrae [@Champawan2017Political; @J2025Genomic]. These polities maintained extensive weir-and-channel community irrigation networks (*muang fai*) that sustained dense valley populations [@Champawan2017Political].
+
+### Khorat Plateau and Mun-Chi Basins
+
+The Khorat Plateau division catalogues 205 settlements across the Mun and Chi river basins [@Moore1988Moated; @Murphy2015Many; @Patnukao2024Revisiting]. Nakhon Ratchasima (Khorat) served as the primary western gateway to the plateau, accommodating 30,84k residents in 1769AD within a rectangular moated and walled enclosure constructed under King Narai of Ayutthaya to defend against Lao incursions [@Reid2018Chris; @Murphy2015Many].
+
+Along the Chi River, Khon Kaen accommodated 27,27k residents at its peak, flanked by the ancient Dvaravati moated city of Muang Fa Daet, renowned for its carved Buddhist boundary stones (*bai sema*) [@Murphy2015Many; @Patnukao2024Revisiting]. Along the Mun River, Ubon Ratchathani (18,48k peak), Buriram (17,96k peak), Surin (16,84k peak), Roi Et (15,92k peak) and Mahasarakham supported dense agricultural communities exploiting seasonal river floodplains, salt pans and laterite quarries [@Moore1988Moated; @Scott2015Rainfall; @OReilly2014Increasing].
+
+### Peninsular Isthmus and Patani Corridor
+
+The peninsular division catalogues 122 settlements along the narrow Kra Isthmus [@Patnukao2024Tracing]. Nakhon Si Thammarat (ancient Tambralinga or Ligor) was the preeminent urban centre, accommodating over 20k inhabitants and anchoring maritime trade across the Gulf of Thailand [@Patnukao2024Tracing]. The city was centred on Wat Phra Mahathat, a colossal Sri Lankan-style stupa, and was defended by rectangular brick walls constructed along an elevated coastal sand spit [@Patnukao2024Tracing].
+
+On the eastern coast, Patani emerged as an influential Islamic sultanate and international trading port from the fifteenth to seventeenth centuries, accommodating Chinese, Malay, Dutch and English merchants [@Reid2018Chris; @Taylor2018History]. Songkhla commanded the entrance to the vast inland lagoon of Lake Songkhla, serving as a fortified naval base and merchant port [@Patnukao2024Tracing; @Reid2018Chris]. On the western Andaman coast, Phuket, Trang and Krabi facilitated tin mining and maritime trade with India and the Arab world [@Reid2018Chris; @Patnukao2024Tracing].
+
+### Lan Xang and Lao Mekong Realm
+
+The Lao division catalogues 68 settlements along the middle Mekong River and its eastern highland tributaries [@Lockhart2016Xang; @Lockhart1999Laos; @Murphy2015Many]. Vientiane was the royal capital of Lan Xang from 1560AD onwards, founded on a fertile crescent-shaped bend of the Mekong. Protected by multi-tiered moats and earthen ramparts, Vientiane accommodated 43,53k inhabitants in 1769AD, centred on the sacred Pha That Luang stupa and royal palaces [@Lockhart2016Xang; @Lockhart1999Laos].
+
+Luang Prabang (Muang Sua) was the ancestral capital of King Fa Ngum, situated at the confluence of the Nam Khan and Mekong rivers. Luang Prabang concentrated 26,75k residents at its peak, acting as the spiritual and cultural heart of the Lao monarchy [@Lockhart2016Xang; @Miller2011Laos]. Other prominent centres include Sainyabūlī (20,69k peak), Savannakhet (18,36k peak), Pakxe (16,23k peak), Thakhek (14,75k peak) and Champasak, which anchored southern Lao territory adjacent to the Khone Phapheng falls [@Lockhart1999Laos; @Stark2007Preangkorian].
+
+# Limitations
+
+Archaeological settlement inventories across Thailand and Laos remain subject to significant preservation and taphonomic limitations:
+1. Perishable timber architecture: Domestic houses, administrative pavilions and town palisades were constructed from timber, bamboo and palm thatch, which decay rapidly in tropical monsoon climates, leaving only earthen mounds, ditches and brick temple foundations visible to archaeologists [@Glover2011Dvaravati; @Mudar1999Many; @Moore1988Moated].
+2. Fluvial alluviation and delta accretion: Heavy seasonal silt deposition across the Chao Phraya floodplains has buried early prehistoric and Dvaravati cultural horizons beneath several metres of clay, obscuring smaller hamlets [@CarvalhoResende2017Flooding; @Glover2011Dvaravati].
+3. Modern urban expansion: Rapid infrastructure construction and urban development across Bangkok, Nonthaburi, Ayutthaya and provincial capitals have levelled ancient earthen ramparts and canal segments, necessitating rapid salvage recording [@KHAMRUANG2022Economic; @CarvalhoResende2017Flooding].
+4. Asymmetric epigraphic preservation: While religious stone inscriptions and royal chronicles survive in substantial numbers from Sukhothai, Lan Na and Ayutthaya, smaller rural settlements lack written documentation, requiring demographic models to rely upon archaeological mound dimensions and ceramic scatter extents [@Murphy2015Many; @Yoshikawa1980Royal; @Barram2008Papers].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 850 catalogued historical settlements across six physiographic divisions in Thailand and Laos from 500BC to 1769AD. By compiling documented WGS84 geographic coordinates, foundation dates, occupational spans and benchmark population series, this catalogue establishes a systematic archaeological baseline for regional urbanisation. Settlement subtraction cleanly isolates nucleated metropolitan capitals, walled provincial centres and monastic complexes from dasymetrically allocated rural cultivators, demonstrating that demographic expansion was fundamentally driven by the canalisation of alluvial floodplains, the construction of intermontane weir systems and the integration of riverine capitals into Eurasian maritime trade.
+
+# Appendix
+
+The MANDALA source ledger audited 1.034 candidate localities, resulting in 850 accepted settlements and 184 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the source ledger for the Tai and Lao realms.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

@@ -1,0 +1,262 @@
+---
+title: "Pakistan until British Annexation: Demographic History of the Indus Plains, Gandhara, Sindh and Balochistan"
+subtitle: "INDUS: Long-Term Settlement Evolution, Fluvial Dynamics and Urban Networks (10000BC to 1849AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: pakistan_until_british_rule_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_pakistan_until_british_rule_spatial.png"
+hero_caption: "Five physiographic divisions and 10.940 catalogued settlements across the Indus basin, Gandhara, Sindh and Balochistan (847.968 km²) from 10000BC to 1849AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+The geographical territory comprising modern Pakistan spans 847.968 km² across the northwestern rim of the South Asian subcontinent, encompassing 11.646 terrestrial grid cells within the INDUS spatial framework. Defined by the great arterial drainage of the Indus River and its five Punjab tributaries, the dry upland plateau of Balochistan, the mountain corridors of Gandhara and the deeply incised gorges of the Karakoram and Hindu Kush, this domain has mediated demic exchanges between Central Asia, the Iranian plateau and the Gangetic lowlands for twelve millennia. From an initial base of 85k terminal Pleistocene hunter-gatherers in 10000BC, regional population expanded to 290k by 5000BC as aceramic Neolithic village settlements coalesced along the piedmont fans of the Kachi Plain and Bolan Pass. With the development of early chalcolithic agro-pastoral networks and the subsequent maturation of the Indus Valley Civilisation, population reached 2,6M at the 2200BC urban peak, achieving an aggregate regional density of 306,62 persons per 100 km² before experiencing post-urban rural devolution to 2,2M in 1000BC. A secondary cycle of state formation and agrarian intensification commenced during the first millennium BC, propelled by iron metallurgy, Persian imperial administration and Mauryan consolidation, raising the regional total to 4,2M by 300BC. Under the Kushan Empire around 100AD, intensive international commerce along the Silk Road networks and Buddhist monastic patronage raised population to 5,4M. Steady growth through late antiquity and the early mediaeval Islamic era brought the total to 6,2M in 600AD and 7,1M in 1000AD as Arab urban foundations in Sindh and Ghaznavid administrative hubs in Punjab reorganised regional commercial arteries. The demographic expansion quickened under the Delhi Sultanate and attained an early modern peak under the Mughal Empire, expanding from 9,8M in 1500AD to 12,4M in 1700AD, anchored by extensive canal irrigation works in the Punjab doabs, urban manufacturing in Lahore and deltaic port trade at Thatta. Following eighteenth-century Afghan incursions and regional fragmentation, consolidation under the Sikh Empire in Punjab and the Talpur emirs in Sindh carried total population to 15,2M by 1849AD (yielding a regional density of 1.792,52 persons per 100 km²), on the eve of British East India Company annexation. This study synthesises 10.940 catalogued historical settlements (yielding a Zipf rank-size fit of $\alpha = 0,73$, $R^2 = 0,92$), 11.740 candidate records and extensive archaeobotanical, numismatic and survey evidence to reconstruct twelve millennia of human habitation across northwestern South Asia.
+
+# Background
+
+## Fluvial Ecology, Doabs and Arid Frontiers
+
+The physical geography of the northwestern subcontinent is anchored by the Indus River, which gathers snowmelt and glacial discharge from the Tibetan plateau, Karakoram and western Himalayas before descending into the alluvial lowlands [@Khan2021Hydro; @Simpson2020Frontier]. East of the Indus trunk stream, five major perennial rivers dissect the Punjab plain into distinct interfluvial tracts known as doabs: the Bari Doab between the Beas and Ravi, the Rechna Doab between the Ravi and Chenab, the Chaj Doab between the Chenab and Jhelum, and the vast Sindh Sagar Doab between the Jhelum and the Indus. Annual summer inundations historically deposited thick layers of nutrient-rich alluvial silt across low-lying floodplains (*khadir* or *sailab* lands), renewing soil fertility and supporting intensive cereal agriculture without requiring artificial fertiliser, while higher bluffs (*bar* lands) supported thorn scrub suitable for pastoral grazing [@Simpson2020Frontier].
+
+North of the Punjab plains, the Potwar plateau presents an undulating landscape of dissected sandstone ridges and loess deposits bounded by the Salt Range to the south and the Margalla Hills to the north. West of the Indus, the terrain rises abruptly into the rugged limestone chains of the Sulaiman and Kirthar ranges, framing the arid upland plateau of Balochistan. In this hyper-arid western province, which covers 343.142 km² (40,5% of the total regional land surface), agriculture was historically restricted to narrow intermontane basins and alluvial fans watered by perennial springs or seasonal torrent runoff managed through subterranean *karez* channels [@Khan2021Hydro; @Breseeg2001Baloch].
+
+To the northwest, the fertile intramontane basins of Peshawar, Swat and Bannu form the core of historical Gandhara, commanding the primary passes leading through the Hindu Kush toward Central Asia and Afghanistan [@Spengler2020Southern; @Iori2023Urban]. The Kabul, Swat and Kurram rivers provided reliable perennial water in these northern basins, permitting productive double-cropping of cereals, pulses and tree crops. Beyond the outer mountain ramparts lie the deeply incised valleys of Gilgit, Chitral, Hunza and Baltistan, where communities established terraced irrigation villages along glacial meltwater channels at elevations exceeding 1.500 metres [@Ali2002Exploratio; @Torwali2015Ignored]. In the far south, the Indus River empties into the Arabian Sea through an extensive deltaic network of distributaries, tidal mudflats and mangrove estuaries in lower Sindh, anchoring maritime commerce connecting the subcontinent with the Persian Gulf and western Indian Ocean [@Alam2025Origin].
+
+## Prehistoric Foundations and the Bronze Age Climax
+
+The earliest sedentary agricultural communities in the northwestern subcontinent developed along the piedmont margin where the Balochistan mountains meet the alluvial plains [@Khan2021Hydro]. At Mehrgarh, situated on the Bolan River in the Kachi Plain, excavations demonstrated continuous occupation from an aceramic Neolithic phase ca. 7000BC through chalcolithic horizons to ca. 2600BC. Early inhabitants domesticated zebu cattle (*Bos indicus*), cultivated six-row barley and naked wheat, and constructed compartmentalised mud-brick granaries [@Khan2021Hydro]. By 5000BC, regional population across the study domain reached 290k, with settled farming communities spreading northward into the Gomal and Bannu valleys and southward into the Porali drainage of Lasbela.
+
+During the fourth millennium BC, village settlements expanded into the central Indus floodplains, establishing distinct regional cultures including the Kot Diji tradition across central Sindh and Punjab, the Amri culture in southern Sindh, and the Hakra ware complex along the dried drainage of Cholistan [@Possehl1999IndusAge; @Petrie2025Hidden; @Alam2025Origin]. Between 2600BC and 1900BC, these regional traditions coalesced into the Mature Harappan urban phenomenon. Harappa in the Bari Doab and Mohenjo-daro in the Larkana district of Sindh developed into planned metropolises featuring orthogonal street layouts, multi-storey fired-brick architecture and municipal drainage conduits [@Kenoyer1998AncientCities; @Khan2021Hydro]. Secondary regional centres such as Ganweriwala in Cholistan, Kot Diji in Sindh and Rehman Dheri in the Gomal valley commanded regional trade routes exchanging marine shells from the Makran coast, chert blades from the Rohri Hills, and copper ingots from highland mines [@Possehl1999IndusAge; @Petrie2025Hidden]. At the 2200BC urban climax, regional population reached 2,6M, with West Punjab supporting 1,404M inhabitants and Sindh supporting 572k.
+
+The weakening of the summer monsoon around 2200BC, coupled with the hydrological drying of the Ghaggar-Hakra system and tectonic avulsion of river channels, triggered the progressive de-urbanisation of the Indus plains [@Khan2021Hydro]. Monumental public architecture ceased, municipal sanitary systems fell into disuse, and populations dispersed into smaller agricultural villages. By 1000BC, regional population receded to 2,2M, marking a transitional phase during which agrarian populations adapted to smaller-scale riverine farming and pastoral mobility.
+
+## Iron Age Reorganisation and the Gandharan Synthesis
+
+The introduction of iron metallurgy during the early first millennium BC facilitated forest clearance and deeper tillage across the river valleys of the northwestern frontier [@Ali2002Exploratio; @Sardar2012Rock]. In the Swat and Dir valleys, the Gandharan Grave culture documented extensive cinerary burial grounds and fortified hill settlements associated with mixed farming and horse breeding [@Ali2002Exploratio; @Spengler2020Southern]. During the sixth century BC, the Achaemenid Empire under Cyrus the Great and Darius I annexed the trans-Indus regions, incorporating Gandhara and Hindush as prosperous satrapies contributing gold dust, timber and cavalry units to imperial levies [@Iori2023Urban; @Antonetti2024Wine].
+
+The Macedonian incursion led by Alexander of Macedon in 326BC traversed Swat and the Peshawar plain, assaulting fortified rock strongholds at Massaga, Aornos and Bazira (modern Barikot) before crossing the Indus at Ohind (Hund) and confronting King Porus along the Hydaspes (Jhelum) [@Iori2023Urban; @Shavarebi2025Numismatic]. Following the Macedonian retreat, Chandragupta Maurya consolidated authority over the entire northwestern domain, incorporating Gandhara, Punjab, Sindh and eastern Balochistan into the Mauryan Empire. Under Emperor Ashoka (reigned ca. 268BC to 232BC), royal edicts carved onto rock faces at Shahbazgarhi in the Peshawar valley and Mansehra in Hazara inscribed moral precepts in the Kharosthi script and Prakrit language, confirming the integration of the northwestern valleys into subcontinental administrative circuits [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @Rajput2018Beauty; @Filigenzi2019Buddhist]. By 300BC, regional population expanded to 4,2M, supported by peaceful inter-provincial trade and royal road networks linking Taxila with Pataliputra.
+
+Following the disintegration of the Mauryan state, the northwestern domain became a focal ground for Greek, Scythian and Parthian dynasties migrating from Bactria and the Aral-Caspian steppe [@Iori2021Ritual; @Shavarebi2025Numismatic]. The Indo-Greek kings established fortified Hellenistic cities with orthogonal street grids and monumental civic temples, notably at Sirkap (Taxila) and Bazira (Barikot), introducing Greek artistic motifs, administrative practices and weight standards that merged with local Buddhist traditions [@Iori2021Ritual; @Antonetti2024Wine].
+
+## Kushan Imperial Climax and Buddhist Monastic Networks
+
+Under the Kushan dynasty, which unified Bactria, Gandhara, Punjab and the Gangetic plain from the first to third centuries AD, northwestern South Asia attained an extraordinary level of economic prosperity and cultural integration [@Bashir2026Pilgrimage; @Malik2011Sang]. King Kanishka I established his winter capital at Purushapura (Peshawar), where he erected a monumental multi-tiered wooden stupa described by Chinese pilgrim Fa-xien as one of the wonders of the ancient world [@Bashir2026Pilgrimage; @Khan2013Reclamatio]. Taxila reached its architectural apex as a premier university town and commercial crossroads, comprising the stone-walled city of Sirsukh, the massive Dharmarajika stupa and numerous suburban monastic academies [@Khan2025Management; @Malik2011Sang].
+
+In the Swat valley, extensive urban and religious complexes expanded at Barikot, Butkara, Saidu Sharif and Panr [@Olivieri2021Monumental; @Olivieri2022Stoneyards; @Iori2023Urban]. Stone sculptors crafted thousands of schist and stucco relief carvings representing the life of the Buddha, harmonising Greco-Roman anatomical realism and drapery with Indian iconographic traditions [@Rajput2018Beauty; @Li2022Transmissi; @Khan2026Geochemica]. This Buddhist monastic economy was sustained by dense agrarian villages practicing terraced irrigation and cultivating two crops per year: winter wheat and barley complemented by summer millets, pulses, rice and viticulture [@Spengler2020Southern; @Antonetti2024Wine]. By 100AD, regional population reached 5,4M, with West Punjab supporting 2,916M, Sindh supporting 1,188M and Gandhara supporting 756k.
+
+Monastic networks acted as vital infrastructure nodes along trans-Asian trade corridors, providing safe shelter, credit facilities and storehouses for commercial caravans crossing the mountain passes between the Punjab plains, the Pamir knots and the Tarim Basin [@Bashir2026Pilgrimage; @Filigenzi2019Buddhist]. Rock inscriptions and petroglyphs carved along the upper Indus gorges at Chilas, Shatial and Gilgit record the passage of Sogdian, Bactrian and Indian merchants, documenting sustained demographic and economic connections between the northern valleys and Central Asia [@Sardar2012Rock; @Torwali2015Ignored].
+
+## Early Mediaeval Transformations, Arab Rule and the Delhi Sultanate
+
+From the fifth century AD, the northwestern subcontinent experienced political fragmentation precipitated by the incursions of the Kidarite and Hephthalite (Huna) confederations from the Central Asian steppes [@Shavarebi2025Numismatic; @Kragh2018Chronotopi]. Although Buddhist monastic institutions suffered physical destruction in some lowland urban centres, rural agrarian life continued, and regional power reconstituted under the Turk Shahi and Hindu Shahi dynasties, who governed Gandhara and Punjab from capitals at Kabul, Hund and Nandana in the Salt Range [@Shavarebi2025Numismatic].
+
+In the south, an entirely new political and cultural trajectory commenced in 712AD when Muhammad bin Qasim led an Umayyad expedition into Sindh, defeating Raja Dahir at Debal and annexing the lower Indus valley to the Islamic caliphate [@Alam2025Origin; @Chatterji2017Princes]. The Arab governors established Mansura as their administrative capital on a loop of the Indus near modern Shahdadpur, while Multan in southern Punjab became a renowned emporium anchored by the Sun Temple and trans-desert caravan trade [@Alam2025Origin]. Arab geographers such as al-Istakhri and Ibn Hawqal described Sindh as a flourishing province where rice, sugar cane, indigo and cotton were produced in abundance along inundation canals, supporting busy river ports and maritime traffic through Debal and Thatta [@Alam2025Origin].
+
+At the turn of the eleventh century, Sultan Mahmud of Ghazni launched repeated campaigns across the Salt Range and Punjab, defeating the Hindu Shahi ruler Anandapala and annexing West Punjab to the Ghaznavid Empire. Lahore was transformed into a major provincial administrative capital and garrison city under Ghaznavid governors such as Malik Ayaz, inaugurating eight centuries of Persianised Islamic urban culture in Punjab. Following the Ghurid conquest in the late twelfth century, Punjab and Sindh were incorporated into the Delhi Sultanate (1206AD to 1526AD). Under the Khilji and Tughlaq sultans, fortified towns were established across Punjab to defend the agrarian heartland against Mongol invasions from Central Asia, while Sufi orders established influential hospice centres at Multan (Bahauddin Zakariya), Uch (Jalaluddin Surkh-Posh Bukhari) and Pakpattan (Fariduddin Ganjshakar), transforming rural pastoralists into sedentary farming communities [@Chatterji2017Princes; @Alam2025Origin]. Regional population grew from 6,2M in 600AD to 7,1M in 1000AD and reached 9,8M by 1500AD.
+
+## The Mughal Golden Age and the Sikh Empire (1500AD to 1849AD)
+
+Under the Mughal Empire (1526AD to 1707AD), the northwestern domain enjoyed unprecedented political stability, commercial prosperity and agrarian expansion [@Habib1982Atlas; @Moosvi1987Economy; @Simpson2020Frontier; @Chatterji2017Princes]. Emperor Akbar reorganised the territory into key imperial provinces (*subahs*): Lahore, Multan, Thatta (Sindh) and Kabul (which included the Peshawar valley). The Grand Trunk Road was upgraded with paved causeways, brick bridges, roadside caravanserai and shade trees, connecting Peshawar through Rawalpindi and Lahore with Delhi and Bengal. Lahore functioned as the formal capital of the empire from 1585AD to 1598AD under Akbar and remained a favoured imperial residence under Jahangir and Shah Jahan, expanding into a metropolis reaching 350k inhabitants at its 1650AD apex, enclosed within massive brick walls and protected by the Lahore Fort and Badshahi Mosque [@Hambly1982Towns; @Moosvi1987Economy; @Naqvi1968Urbanisation; @Alam2025Origin].
+
+Mughal revenue administration, codified in the *Ain-i-Akbari* by Abu'l-Fazl, stimulated agrarian production by extending irrigation canals (*wahs*), introducing Persian water wheels (*rahat*) on open masonry wells, and assessing revenue in cash rather than crop shares [@Moosvi1987Economy; @Habib1982Atlas; @Simpson2020Frontier; @Chatterji2017Princes]. In Sindh, Thatta flourished as an international manufacturing centre renowned for glazed tiles, cotton calicoes and river boat construction, reaching 137,05k residents at its 1600AD peak and sustaining maritime trade with the Persian Gulf, East Africa and Europe [@Hambly1982Towns; @Habib1982Atlas; @Alam2025Origin]. Regional population reached 12,4M in 1700AD, with West Punjab supporting 6,696M and Sindh supporting 2,728M.
+
+Following the death of Emperor Aurangzeb in 1707AD, central imperial control weakened, exposing the northwestern provinces to devastating invasions by Nadir Shah of Persia in 1739AD and Ahmad Shah Durrani of Afghanistan between 1748AD and 1767AD [@Bayly1983Rulers; @Simpson2020Frontier; @Chatterji2017Princes]. In Sindh, local authority was asserted successively by the Kalhora dynasty and the Talpur Mirs, who expanded inundation canal networks across the lower delta and shifted their capital to Hyderabad [@ImperialGazetteer1908; @Alam2025Origin]. In Balochistan, the Khanate of Kalat under Mir Nasir Khan I unified diverse Brahui and Baloch pastoral tribes into a confederation spanning Makran, Sarawan and Jhalawan [@Breseeg2001Baloch; @Jetly1999Ethnicity].
+
+In Punjab, Sikh misls (military confederacies) resisted Afghan dominance and progressively established territorial control over the doabs. In 1799AD, Maharaja Ranjit Singh captured Lahore and unified the Sikh Empire, extending his authority over Multan (1818AD), Kashmir (1819AD) and Peshawar (1834AD) [@Bayly1983Rulers; @Chatterji2017Princes; @Simpson2020Frontier]. Under Ranjit Singh, agriculture expanded, trade flourished, and Amritsar developed into the preeminent commercial and banking centre of northern India, reaching 128,66k inhabitants by 1849AD [@Bayly1983Rulers; @ImperialGazetteer1908]. By 1849AD, regional population across the five sub-regions reached 15,2M. Following the death of Ranjit Singh and subsequent instability, the British East India Company fought two Anglo-Sikh wars, culminating in the formal annexation of Punjab on 29 March 1849, terminating indigenous sovereignty across the northwestern subcontinent [@Simpson2020Frontier; @Qadir2022Curriculum].
+
+# Methodology
+
+## Spatial Disaggregation and Environmental Covariates
+
+To model continuous demographic variation across 847.968 km² of land area, the INDUS spatial framework partitions Pakistan into 11.646 active 5-arcminute terrestrial cells. Each grid cell is evaluated against environmental covariates:
+- Fluvial distance decay: Euclidean distance to perennial river channels (the Indus trunk stream, Jhelum, Chenab, Ravi, Sutlej, Kabul and Swat rivers), with density weighting decaying sharply beyond 15 km in arid tracts [@Simpson2020Frontier; @Khan2021Hydro].
+- Floodplain geomasking: continuous weighting identifying active alluvium, silt-renewed terraces and seasonal inundation basins capable of supporting floodwater (*sailab*) cultivation.
+- Topographic slope: penalising steep terrain across the Sulaiman, Kirthar, Salt and Karakoram ranges while favouring flat alluvial plains, deltaic fan bluffs and terraced river valleys.
+- Bioclimatic suitability: precipitation contours capturing summer monsoon penetration and winter Mediterranean cyclonic rains, alongside temperature gradients governing crop maturation [@Spengler2020Southern].
+
+## Settlement Subtraction and Rural Allocation
+
+To prevent double counting between nucleated urban centres and rural agricultural cultivators, 10.940 catalogued historical settlements with chronological population series are directly anchored to their WGS84 coordinates [@Habib1982Atlas; @ImperialGazetteer1908; @Alam2025Origin; @Petrie2025Hidden]. At each benchmark year, the active population of catalogued settlements within each sub-region is aggregated and subtracted from the sub-regional demographic envelope.
+
+The residual rural population is then allocated across non-urban pixels in proportion to environmental suitability weights. A boundary feathering algorithm smoothes density transitions across sub-regional borders, preventing step discontinuities along mountain crests and provincial boundaries.
+
+## Benchmark Calibration and Demographic Uncertainty
+
+The reconstruction establishes eleven chronological benchmark points: 10000BC, 5000BC, 2200BC, 1000BC, 300BC, 100AD, 600AD, 1000AD, 1500AD, 1700AD and 1849AD. Each benchmark estimate incorporates an explicit uncertainty envelope ranging from +/- 10% in historic eras to +/- 15% in prehistoric horizons, accommodating archaeological room-count variances, house-floor multipliers and historical tax-record ambiguities.
+
+Table \ref{tab:subregions} documents the five physiographic divisions, land areas, benchmark populations and 1849AD densities.
+
+<figure class="crd-table-figure" id="tab:subregions">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Sub-Region</th><th class="crd-th">Area km² (Share)</th><th class="crd-th">10000BC</th><th class="crd-th">2200BC</th><th class="crd-th">300BC</th><th class="crd-th">100AD</th><th class="crd-th">1000AD</th><th class="crd-th">1500AD</th><th class="crd-th">1700AD</th><th class="crd-th">1849AD</th><th class="crd-th">1849AD Density</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>West Punjab and Potwar</strong></td><td class="crd-td">203.722 (24%)</td><td class="crd-td">45,9k</td><td class="crd-td">1,4M</td><td class="crd-td">2,27M</td><td class="crd-td">2,92M</td><td class="crd-td">3,83M</td><td class="crd-td">5,29M</td><td class="crd-td">6,7M</td><td class="crd-td">8,21M</td><td class="crd-td">4.029,02</td></tr>
+<tr><td class="crd-td"><strong>Sindh and Indus Delta</strong></td><td class="crd-td">139.911 (16,5%)</td><td class="crd-td">18,7k</td><td class="crd-td">572k</td><td class="crd-td">924k</td><td class="crd-td">1,19M</td><td class="crd-td">1,56M</td><td class="crd-td">2,16M</td><td class="crd-td">2,73M</td><td class="crd-td">3,34M</td><td class="crd-td">2.390,09</td></tr>
+<tr><td class="crd-td"><strong>Gandhara and Khyber Passes</strong></td><td class="crd-td">97.377 (11,5%)</td><td class="crd-td">11,9k</td><td class="crd-td">364k</td><td class="crd-td">588k</td><td class="crd-td">756k</td><td class="crd-td">994k</td><td class="crd-td">1,37M</td><td class="crd-td">1,74M</td><td class="crd-td">2,13M</td><td class="crd-td">2.185,32</td></tr>
+<tr><td class="crd-td"><strong>Balochistan and Makran</strong></td><td class="crd-td">343.142 (40,5%)</td><td class="crd-td">5,1k</td><td class="crd-td">156k</td><td class="crd-td">252k</td><td class="crd-td">324k</td><td class="crd-td">426k</td><td class="crd-td">588k</td><td class="crd-td">744k</td><td class="crd-td">912k</td><td class="crd-td">265,78</td></tr>
+<tr><td class="crd-td"><strong>Northern Valleys and Gilgit</strong></td><td class="crd-td">63.816 (7,5%)</td><td class="crd-td">3,4k</td><td class="crd-td">104k</td><td class="crd-td">168k</td><td class="crd-td">216k</td><td class="crd-td">284k</td><td class="crd-td">392k</td><td class="crd-td">496k</td><td class="crd-td">608k</td><td class="crd-td">952,74</td></tr>
+<tr><td class="crd-td"><strong>Regional Total</strong></td><td class="crd-td">847.968 (100%)</td><td class="crd-td">85k</td><td class="crd-td">2,6M</td><td class="crd-td">4,2M</td><td class="crd-td">5,4M</td><td class="crd-td">7,1M</td><td class="crd-td">9,8M</td><td class="crd-td">12,4M</td><td class="crd-td">15,2M</td><td class="crd-td">1.792,52</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Sub-regional land area, benchmark populations and 1849AD density across the five divisions of Pakistan.</figcaption>
+</figure>
+
+# Testing and Validation
+
+## Cartographic Cross-Checking and Survey of India Records
+
+Settlement locations and toponymic continuity were verified using nineteenth-century Survey of India cartography [@Petrie2025Hidden; @Simpson2020Frontier; @ImperialGazetteer1908]. Revenue maps, quarter-inch sheets and one-inch-to-the-mile topographical surveys compiled between 1850 and 1900 preserved thousands of ancient tell mounds recorded with local descriptive prefixes such as *theh*, *tibba*, *damb*, *kot* and *deri* [@Petrie2025Hidden]. Many of these cultural mounds were subsequently damaged or levelled by twentieth-century canal colony colonisation and mechanical levelling, making archival map georeferencing indispensable for establishing primary habitation coordinates [@Petrie2025Hidden; @Khan2023Grey].
+
+## Archaeobotanical and Agrarian Evidence
+
+Agricultural production systems were validated against macro-botanical remains recovered from archaeological strata across the northwestern valleys [@Spengler2020Southern]. At Barikot in the Swat valley, flotation analyses documented a diverse crop repertoire spanning from the Late Bronze Age to late antiquity, combining winter cereals (free-threshing wheat, six-row barley) with summer millets (*Setaria italica*, *Panicum miliaceum*), rice (*Oryza sativa*), pulses (lentil, chickpea, grass pea) and viticulture (*Vitis vinifera*) [@Spengler2020Southern; @Antonetti2024Wine]. This multi-cropping regime expanded caloric production, insulated rural populations against seasonal drought, and provided the subsistence foundation required to sustain urban centres and monastic complexes.
+
+## Numismatic and Stratigraphic Calibration
+
+Urban chronologies and economic activity were corroborated through stratigraphic coin sequences [@Shavarebi2025Numismatic]. At Barikot, excavations spanning four decades yielded hundreds of stratigraphically controlled coin finds extending from the Indo-Greek period through Indo-Scythian, Kushan, Kushano-Sasanian and Hindu Shahi layers [@Shavarebi2025Numismatic; @Iori2023Urban]. High coin densities during the Kushan epoch (first to third centuries AD) confirm vigorous market transactions and demographic concentration, whereas subsequent debasement and regionalised bronze coinages reflect the transition toward mediaeval localised economies [@Shavarebi2025Numismatic].
+
+## Source Ledger Audit and Saturation
+
+The source ledger for the Pakistan chapter was compiled through a four-wave asymptotic ingestion process:
+- Wave 1: Programmatic ingestion of official national census records (Census of India Table A-04 and Pakistan Bureau of Statistics series), primary-monograph imperial metropolis anchors [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Naqvi1968Urbanisation; @Bayly1983Rulers; @ImperialGazetteer1908] and national registries, incorporating 6.345 primary settlements.
+- Wave 2: Extraction from multi-repository archaeological, heritage and monument corpora (Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeological Reports, Archaeological Survey of India P1371, Wikidata, OpenStreetMap and XRONOS/c14bazAAR) [@Possehl1999IndusAge; @Kenoyer1998AncientCities; @Allchin1995Archaeology; @Petrie2025Hidden], adding 3.063 settlements.
+- Wave 3: Macro-calibrated pre-1800 *qasba*, *pargana* and *nadu* continuity backfill governed by strict foundation-year verification and chronological toponymy filters, contributing 1.532 sites.
+- Wave 4: Sub-mask gap sweeps and GeoNames homonym audits across all five divisions, yielding zero unaccounted settlements and confirming asymptotic saturation (marginal gain 0%).
+
+In total, 11.740 candidate localities were audited: 10.940 were accepted as primary catalogued settlements (4.773 in West Punjab and Potwar, 1.778 in Sindh and the Indus Delta, 1.668 in Gandhara and Khyber-Pakhtunkhwa, 1.974 in Balochistan and Makran, and 747 in the Northern Valleys and Kashmir) and 800 were excluded (predominantly duplicate survey aliases within a 2,2 km spatial radius and non-habitation feature records).
+
+# Results
+
+## Trajectory Across Twelve Millennia
+
+The demographic trajectory of the Pakistan domain illustrates continuous growth punctuated by distinct structural transitions (Figure \ref{fig:trajectory} and Table \ref{tab:benchmarks}).
+
+<figure class="crd-figure-block" id="fig:trajectory">
+<img class="crd-figure-img" src="/artefacts/project_indus/1.0-pakistan-until-british-rule/fig2_pakistan_until_british_rule_demography.png" alt="fig:trajectory" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Demographic trajectory of Pakistan across five sub-regions (10000BC to 1849AD), illustrating Bronze Age, Kushan, Mughal and Sikh peaks.</figcaption>
+</figure>
+
+<figure class="crd-table-figure" id="tab:benchmarks">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Benchmark</th><th class="crd-th">Regional Pop</th><th class="crd-th">Density</th><th class="crd-th">West Punjab</th><th class="crd-th">Sindh</th><th class="crd-th">Gandhara</th><th class="crd-th">Balochistan</th><th class="crd-th">North Valleys</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>10000BC</strong></td><td class="crd-td">85k</td><td class="crd-td">10,02</td><td class="crd-td">45,9k</td><td class="crd-td">18,7k</td><td class="crd-td">11,9k</td><td class="crd-td">5,1k</td><td class="crd-td">3,4k</td></tr>
+<tr><td class="crd-td"><strong>5000BC</strong></td><td class="crd-td">290k</td><td class="crd-td">34,2</td><td class="crd-td">156,6k</td><td class="crd-td">63,8k</td><td class="crd-td">40,6k</td><td class="crd-td">17,4k</td><td class="crd-td">11,6k</td></tr>
+<tr><td class="crd-td"><strong>2200BC</strong></td><td class="crd-td">2,6M</td><td class="crd-td">306,62</td><td class="crd-td">1,4M</td><td class="crd-td">572k</td><td class="crd-td">364k</td><td class="crd-td">156k</td><td class="crd-td">104k</td></tr>
+<tr><td class="crd-td"><strong>1000BC</strong></td><td class="crd-td">2,2M</td><td class="crd-td">259,44</td><td class="crd-td">1,19M</td><td class="crd-td">484k</td><td class="crd-td">308k</td><td class="crd-td">132k</td><td class="crd-td">88k</td></tr>
+<tr><td class="crd-td"><strong>300BC</strong></td><td class="crd-td">4,2M</td><td class="crd-td">495,3</td><td class="crd-td">2,27M</td><td class="crd-td">924k</td><td class="crd-td">588k</td><td class="crd-td">252k</td><td class="crd-td">168k</td></tr>
+<tr><td class="crd-td"><strong>100AD</strong></td><td class="crd-td">5,4M</td><td class="crd-td">636,82</td><td class="crd-td">2,92M</td><td class="crd-td">1,19M</td><td class="crd-td">756k</td><td class="crd-td">324k</td><td class="crd-td">216k</td></tr>
+<tr><td class="crd-td"><strong>600AD</strong></td><td class="crd-td">6,2M</td><td class="crd-td">731,16</td><td class="crd-td">3,35M</td><td class="crd-td">1,36M</td><td class="crd-td">868k</td><td class="crd-td">372k</td><td class="crd-td">248k</td></tr>
+<tr><td class="crd-td"><strong>1000AD</strong></td><td class="crd-td">7,1M</td><td class="crd-td">837,3</td><td class="crd-td">3,83M</td><td class="crd-td">1,56M</td><td class="crd-td">994k</td><td class="crd-td">426k</td><td class="crd-td">284k</td></tr>
+<tr><td class="crd-td"><strong>1500AD</strong></td><td class="crd-td">9,8M</td><td class="crd-td">1.155,7</td><td class="crd-td">5,29M</td><td class="crd-td">2,16M</td><td class="crd-td">1,37M</td><td class="crd-td">588k</td><td class="crd-td">392k</td></tr>
+<tr><td class="crd-td"><strong>1700AD</strong></td><td class="crd-td">12,4M</td><td class="crd-td">1.462,32</td><td class="crd-td">6,7M</td><td class="crd-td">2,73M</td><td class="crd-td">1,74M</td><td class="crd-td">744k</td><td class="crd-td">496k</td></tr>
+<tr><td class="crd-td"><strong>1849AD</strong></td><td class="crd-td">15,2M</td><td class="crd-td">1.792,52</td><td class="crd-td">8,21M</td><td class="crd-td">3,34M</td><td class="crd-td">2,13M</td><td class="crd-td">912k</td><td class="crd-td">608k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Benchmark population totals and sub-regional distribution across Pakistan (10000BC to 1849AD).</figcaption>
+</figure>
+
+## Detailed Epochal Analysis
+
+### Terminal Pleistocene and Early Farming (10000BC to 2200BC)
+
+During the terminal Pleistocene, mobile foraging bands occupied riverine terraces, rock shelters and highland springs. Population stood at 85k in 10000BC (yielding a density of 0,1 persons per 100 km²), rising to 290k in 5000BC as aceramic Neolithic farming hamlets expanded across the Balochistan piedmont fans [@Khan2021Hydro; @Possehl1999IndusAge]. The third millennium BC witnessed rapid growth as chalcolithic agro-pastoral communities colonised the Indus alluvium, culminating in the Mature Harappan climax of 2,6M at 2200BC (306,62 persons per 100 km²). Fired-brick cities at Harappa (35k) and Mohenjo-daro (42k) concentrated monumental craft production and civic administration [@Kenoyer1998AncientCities; @Possehl1999IndusAge; @Petrie2025Hidden; @Alam2025Origin].
+
+### Iron Age Reorganisation and Classical Gandharan Climax (1000BC to 600AD)
+
+Following late Bronze Age de-urbanisation, population contracted to 2,2M in 1000BC before rebounding sharply during the first millennium BC. Iron technology, Persian imperial integration and Mauryan administration elevated regional numbers to 4,2M by 300BC [@Erdosy1988Urbanisation; @Allchin1995Archaeology]. Under the Kushan Empire around 100AD, thriving international commerce along the Silk Road and intensive Buddhist monastic building raised regional population to 5,4M (636,82 persons per 100 km²). Taxila (72k in 100AD), Charsadda (35k in 100AD, peaking at 38k in 100BC) and Peshawar served as preeminent urban nodes commanding regional and trans-Eurasian trade [@Allchin1995Archaeology; @Bashir2026Pilgrimage; @Khan2025Management].
+
+### Mediaeval Dynasties and Islamic Integration (600AD to 1500AD)
+
+Following post-Kushan fragmentation, population stabilised at 6,2M in 600AD. Umayyad conquest in 712AD established Islamic rule in Sindh, raising Mansura (58,4k peak in 900AD; 33,84k in 1000AD) as an international emporium and invigorating deltaic commerce [@Alam2025Origin]. Ghaznavid and Ghurid consolidation in the eleventh and twelfth centuries re-centred political authority in Lahore, while Delhi Sultanate administration and Sufi hospices encouraged canal settlement across the Punjab doabs. Regional population reached 7,1M in 1000AD and expanded to 9,8M by 1500AD.
+
+### Early Modern Expansion under Mughals and Sikhs (1500AD to 1849AD)
+
+The early modern era witnessed sustained demographic acceleration. Mughal administrative unification, Grand Trunk Road commerce and Persian wheel irrigation expanded population to 12,4M in 1700AD [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns]. Despite mid-eighteenth-century Afghan invasions, consolidation under Maharaja Ranjit Singh in Punjab and the Talpur Mirs in Sindh carried regional population to 15,2M by 1849AD (1.792,52 persons per 100 km²) [@Bayly1983Rulers; @ImperialGazetteer1908]. West Punjab anchored 8,208M inhabitants (54% of the regional total; 4.029,02 persons per 100 km²), Sindh supported 3,344M (22%; 2.390,09 persons per 100 km²), Gandhara housed 2,128M (14%; 2.185,32 persons per 100 km²), Balochistan accommodated 912k (6%; 265,78 persons per 100 km²) and the Northern Valleys accommodated 608k (4%; 952,74 persons per 100 km²).
+
+## Urban Hierarchy and Settlement Systems
+
+Table \ref{tab:leading_settlements} presents the leading fifteen historical settlements across Pakistan ordered by peak population.
+
+<figure class="crd-table-figure" id="tab:leading_settlements">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Settlement Name</th><th class="crd-th">Sub-Region</th><th class="crd-th">Coordinates</th><th class="crd-th">Peak Pop</th><th class="crd-th">1849AD Pop</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Lahore</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">31,55 N, 74,34 E</td><td class="crd-td">350k</td><td class="crd-td">129,6k</td></tr>
+<tr><td class="crd-td"><strong>Thatta</strong></td><td class="crd-td">Sindh and Indus Delta</td><td class="crd-td">24,75 N, 67,92 E</td><td class="crd-td">137k</td><td class="crd-td">11,1k</td></tr>
+<tr><td class="crd-td"><strong>Amritsar</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">31,63 N, 74,87 E</td><td class="crd-td">128,7k</td><td class="crd-td">128,7k</td></tr>
+<tr><td class="crd-td"><strong>Multan</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">30,2 N, 71,47 E</td><td class="crd-td">105k</td><td class="crd-td">58,8k</td></tr>
+<tr><td class="crd-td"><strong>Peshawar</strong></td><td class="crd-td">Gandhara and Swat</td><td class="crd-td">34,02 N, 71,58 E</td><td class="crd-td">95k</td><td class="crd-td">59,8k</td></tr>
+<tr><td class="crd-td"><strong>Sheikhupura</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">31,71 N, 73,99 E</td><td class="crd-td">83,7k</td><td class="crd-td">83,7k</td></tr>
+<tr><td class="crd-td"><strong>Taxila</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">33,75 N, 72,79 E</td><td class="crd-td">72k</td><td class="crd-td">-</td></tr>
+<tr><td class="crd-td"><strong>Jhang</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">33,67 N, 72,7 E</td><td class="crd-td">71,1k</td><td class="crd-td">71,1k</td></tr>
+<tr><td class="crd-td"><strong>Jhang</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">31,27 N, 72,32 E</td><td class="crd-td">66k</td><td class="crd-td">66k</td></tr>
+<tr><td class="crd-td"><strong>Gujrat</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">32,57 N, 74,08 E</td><td class="crd-td">63,7k</td><td class="crd-td">63,7k</td></tr>
+<tr><td class="crd-td"><strong>Kasur</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">31,12 N, 74,45 E</td><td class="crd-td">60,7k</td><td class="crd-td">60,7k</td></tr>
+<tr><td class="crd-td"><strong>Mardan</strong></td><td class="crd-td">Gandhara and Swat</td><td class="crd-td">34,2 N, 72,05 E</td><td class="crd-td">60,7k</td><td class="crd-td">60,7k</td></tr>
+<tr><td class="crd-td"><strong>Mansura</strong></td><td class="crd-td">Sindh and Indus Delta</td><td class="crd-td">25,88 N, 68,78 E</td><td class="crd-td">58,4k</td><td class="crd-td">-</td></tr>
+<tr><td class="crd-td"><strong>Ghakhar Mandi</strong></td><td class="crd-td">West Punjab and Potwar Plateau</td><td class="crd-td">32,18 N, 74,9 E</td><td class="crd-td">58,3k</td><td class="crd-td">58,3k</td></tr>
+<tr><td class="crd-td"><strong>Mingora</strong></td><td class="crd-td">Gandhara and Swat</td><td class="crd-td">34,78 N, 72,36 E</td><td class="crd-td">52,7k</td><td class="crd-td">52,7k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Leading fifteen historical settlements in Pakistan, showing coordinates, peak population and 1849AD population.</figcaption>
+</figure>
+
+Across all 10.940 catalogued sites, peak settlement sizes conform to a Zipf rank-size distribution ($\alpha = 0,73$, $R^2 = 0,92$), reflecting a multi-tiered urban hierarchy balanced between imperial capitals and dense agrarian market networks:
+1. Primary metropolises (> 70k inhabitants): Lahore (350k peak in 1650AD; 129,61k in 1849AD), Thatta (137,05k peak in 1600AD; 11,1k in 1849AD), Amritsar (128,66k peak in 1849AD), Multan (105k peak in 1650AD; 58,84k in 1849AD), Peshawar (95k peak in 1800AD; 59,85k in 1849AD), Sheikhupura (83,68k peak in 1849AD), Taxila (72k peak in 100AD) and Jhang (71,11k peak in 1849AD) [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Bayly1983Rulers; @ImperialGazetteer1908]. These major centres coordinated imperial administration, international commerce and craft manufacturing.
+2. Major regional capitals (35k to 70k inhabitants): Gujrat (63,72k in 1849AD), Kasur (60,71k in 1849AD), Mardan (60,68k in 1849AD), Mansura (58,4k in 900AD), Mingora (52,69k in 1849AD), Shikarpur (48k in 1800AD), Hyderabad (48k in 1800AD), Firozpur (46,98k in 1849AD), Mohenjo-daro (42k in 2200BC), Sialkot (42k in 1700AD), Uch (42k in 1300AD), Charsadda (38k in 100BC), Jammu (38k in 1775AD) and Harappa (35k in 2200BC).
+3. Secondary provincial and caravan centres (20k to 35k inhabitants): Dhirkot (33,55k in 1849AD), Ganweriwala (26k in 2200BC), Kalat (24k in 1800AD) and extensive provincial *qasbas* and *pargana* headquarters across the Indus plains.
+4. Tertiary market towns, river ports and mountain forts (< 20k inhabitants): Skardu (17,99k in 1849AD), Muzaffarabad (17,67k in 1849AD), Quetta (11,7k in 1849AD), Sehwan (10,75k in 1849AD), Sukkur, Rohri, Dera Ismail Khan, Dera Ghazi Khan, Bannu, Barikot, Hund, Turbat, Gilgit and thousands of catalogued agrarian villages.
+
+# Limitations
+
+Demographic reconstruction across twelve millennia of northwestern South Asian history faces specific methodological limitations:
+1. Dynamic fluvial alluviation: the meandering courses and seasonal avulsions of the Indus, Ravi, Chenab and Sutlej rivers have buried early prehistoric sites under metres of sediment while destroying others through channel erosion [@Khan2021Hydro; @Simpson2020Frontier].
+2. Infrastructure quarrying: nineteenth-century railway construction utilised ancient brick mounds as ballast quarries, most notoriously at Harappa, degrading architectural footprints and stratigraphy [@Petrie2025Hidden].
+3. Regional survey disparities: fertile agricultural sectors of Punjab and Peshawar have received intensive archaeological investigation, whereas the vast arid expanses of central Balochistan and the high Karakoram valleys remain comparatively less surveyed [@Simpson2020Frontier; @Breseeg2001Baloch].
+4. Pre-census quantitative reliance: prior to the introduction of systematic decennial British censuses in the late nineteenth century, urban populations must be derived from walled surface extents, house-floor multipliers and revenue records [@Simpson2020Frontier].
+
+# Conclusion
+
+The demographic evolution of Pakistan from 10000BC to 1849AD reflects an extraordinary history of human adaptation across diverse ecological zones. From 85k post-glacial foragers, regional population grew to 2,6M during the Bronze Age Harappan climax, attained 5,4M under the Kushan Empire, and expanded to 15,2M under Sikh and Talpur rule on the eve of British annexation. Throughout these twelve millennia, demographic mass remained consistently concentrated along the fertile doabs of West Punjab and the alluvial banks of the Indus, while the mountain defiles of Gandhara and the arid plateaus of Balochistan mediated cultural and economic interaction with Central Asia and the Near East.
+
+# Appendix
+
+Table \ref{tab:saturation} documents the four-wave asymptotic saturation audit confirming comprehensive settlement coverage across the study domain.
+
+<figure class="crd-table-figure" id="tab:saturation">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Ingestion Wave</th><th class="crd-th">Source Category</th><th class="crd-th">Prior Cumulative</th><th class="crd-th">Newly Included</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Wave 1</strong></td><td class="crd-td">official censuses imperial anchors and national registries</td><td class="crd-td">0</td><td class="crd-td">6.345</td></tr>
+<tr><td class="crd-td"><strong>Wave 2</strong></td><td class="crd-td">multi repository archaeology asi wikidata osm zenodo</td><td class="crd-td">6.345</td><td class="crd-td">3.063</td></tr>
+<tr><td class="crd-td"><strong>Wave 3</strong></td><td class="crd-td">macro calibrated pre1800 qasba nadu continuity and foundation audit</td><td class="crd-td">9.408</td><td class="crd-td">1.532</td></tr>
+<tr><td class="crd-td"><strong>Wave 4</strong></td><td class="crd-td">submask gap hunter and geonames homonym audit</td><td class="crd-td">10.940</td><td class="crd-td">0</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 4.</span> Four-wave asymptotic saturation audit of catalogued settlements across Pakistan.</figcaption>
+</figure>
+
+# Sources

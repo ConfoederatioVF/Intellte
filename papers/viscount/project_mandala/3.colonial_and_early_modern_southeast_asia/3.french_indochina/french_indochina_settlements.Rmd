@@ -1,0 +1,240 @@
+---
+title: "Settlement Gazetteer of French Indo-China"
+subtitle: "MANDALA: Coordinates, Toponymy and Demographic Trajectories across Six Administrative Divisions (1862 to 1954)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: french_indochina_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_french_indochina_spatial.png"
+hero_caption: "Spatial distribution of 10.505 catalogued settlements and regional hydrological catchments across French Indo-China (765.511 km²) from 1862 to 1954."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("french_indochina.json5")
+set_data <- read_json_file("french_indochina_settlements.json")
+led_data <- read_json_file("french_indochina_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  fic_tonkin_delta = "Tonkin Red River Delta",
+  fic_tonkin_uplands = "Tonkin Northern Highlands",
+  fic_annam_north = "Northern and Central Annam",
+  fic_cochinchina = "Cochinchina Colony",
+  fic_cambodia = "Cambodia Protectorate",
+  fic_laos = "Laos Protectorate"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 coordinates, administrative allocations, longitudinal demographic trajectories and toponymic transitions for `r length(set_list)` settlements across French Indo-China (765.511 km², encompassing 9.525 active 5-arcminute terrestrial cells) from 1862 to 1954. Covering the direct colony of Cochinchina alongside the protectorates of Annam, Tonkin, Cambodia and Laos, the gazetteer reflects diverse settlement systems: modernised colonial port metropolises and riverine entrepots, provincial administrative seats (*chefs-lieux*), frontier mining towns and rubber plantation villages, as well as thousands of customary agricultural communes (*xa*) and highland hamlets (*ban*).
+
+Urban populations spanned from primary colonial agglomerations such as Saigon-Cholon (3,92M peak across its metropolitan hinterland, 1,9M core municipal population in 1954) and Hanoi (2,25M metropolitan prefecture, 150k core city in 1936) to regional manufacturing and export ports including Haiphong (735k peak), Can Tho (422k peak), Ben Tre (399k peak), Hue (386k peak), Phnom Penh (360k in 1954), Nha Trang (Khanh Hoa prefecture, 346k peak), Phan Thiet (Binh Thuan, 345k peak), Dalat (Lam Dong, 336k peak), Ca Mau (333k peak) and Soc Trang (330k peak). Secondary centres encompassed Bien Hoa (327k peak), Vung Tau (Ba Ria-Vung Tau, 325k peak), Vinh Long (284k peak), Da Nang (Tourane, 282k peak), Tra Vinh (281k peak) and Ha Giang (246k peak in the northern highlands). Every catalogued locality reconciles against 11.305 candidate records in the source ledger alongside `r length(exc_list)` documented exclusions (principally duplicate homonym records and subordinate suburbs merged within a 2,2 km spatial deduplication radius).
+
+By combining georeferenced coordinates with colonial census registers, cadastral surveys from the Service geographique de l'Indochine and epidemiological records from the Pasteur Institutes, this gazetteer establishes a spatial baseline for colonial and early modern Southeast Asian urbanisation. Subtracting nucleated municipal populations from dasymetrically distributed rural cultivators ensures that demographic models reflect documented settlement nodes rather than uniform agricultural densities.
+
+# Background
+
+Settlement patterns in French Indo-China were shaped by the intersection of traditional hydrographic transport networks, wet-rice ecology and French colonial administrative infrastructure [@Paquette2022French; @Hearden2017French]. Four major settlement types characterise the regional gazetteer:
+1. Colonial port metropolises and export gateways: Saigon-Cholon in Cochinchina and Haiphong in Tonkin operated as primary interfaces between the Indochinese interior and global maritime trade [@Demay2011Saigon; @Hue2025Cochinchina]. Saigon was re-engineered along French urban lines with grid-iron boulevards, administrative palaces, botanical gardens and deep-water docks along the Saigon River, while neighbouring Cholon functioned as the principal rice-milling and mercantile hub managed by Chinese dialect congregations (*bang*) and regional merchant diasporas [@Demay2011Saigon; @Pairaudeau2010Vietnamese]. Haiphong served as the maritime terminus for Red River freight and the Yunnan railway, handling coal from Hon Gai, cement and export zinc [@Testa2002Workers].
+2. Administrative capitals and residency seats: Hanoi, designated the federal capital of the Indochinese Union in 1902, integrated ancient Vietnamese craft guilds across the Thirty-Six Streets (*Ba Muoi Sau Pho Phuong*) with a modern French administrative quarter south of Hoan Kiem Lake [@Legrandjacques2022Voies; @Testa2002Workers]. Provincial capitals (*chefs-lieux de province*) such as Hue (the imperial seat of the Nguyen dynasty), Nam Dinh, Thanh Hoa, Vinh, Phnom Penh and Vientiane concentrated French residential compounds, indigenous administrative tribunals, military barracks and municipal markets [@Kolnberger2014Planning; @Ninh2022Vietnamese].
+3. Concession towns and plantation nodes: The expansion of European capital into the interior spurred specialised settlements, including rubber plantation headquarters across the red basaltic soils of Thu Dau Mot, Bien Hoa and Tay Ninh, anthracite mining agglomerations at Hon Gai and Cam Pha along the Tonkin littoral, and tin mining communities in central Laos [@Mahanty2022Rubber; @Hieu2025French]. High in the Lang Biang plateau, Dalat was founded in 1897 as a temperate hill sanatorium, developing into an elite administrative and educational centre [@Legrandjacques2022Voies; @Paquette2022French].
+4. Rural agricultural village clusters: In the alluvial plains of Tonkin and Annam, settlements formed dense, nucleated villages enclosed by living bamboo ramparts (*luy tre*), containing ancestral communal halls (*dinh*), pagodas and cooperative irrigation councils [@S1940Lutilisation; @Franganillo2007Bases]. In the newly drained tracts of western Cochinchina, settlements stretched linearly along canal banks (*rach*), creating ribbon hamlets accessible primarily by sampans and motor launches [@Hue2025Cochinchina; @Anon2015Social].
+
+# Methodology
+
+Candidate settlement records were compiled from official colonial gazetteers (*Monographies provinciales*), statistical yearbooks (*Annuaire statistique de l'Indochine*), topographic survey sheets from the Service geographique de l'Indochine and historical toponymic dictionaries [@Paquette2022French; @S1940Lutilisation]. Inclusion criteria required:
+- Definite WGS84 geographic coordinates validated against historical cartography and modern satellite imagery.
+- Longitudinal demographic benchmarks spanning the colonial period from 1862 to 1954.
+- Official administrative status as a municipality, provincial capital, canton market or distinct rural commune.
+
+Where multiple cadastral records or variant colonial romanisations (such as Tourane for Da Nang, Faifo for Hoi An, Cap Saint-Jacques for Vung Tau or Baria for Ba Ria) occurred within a 2,2 km radius of a primary settlement core, secondary coordinates were merged as duplicate aliases to avoid artificial spatial clustering. Non-habitation features such as isolated customs posts, defensive pillboxes and seasonal forest camps were excluded from the settlement database.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the six sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 10.505 catalogued settlements and summed site peaks across French Indo-China.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement coordinates and historical toponyms were verified using multi-temporal remote sensing, colonial cadastral sheets and archival boundary treaties [@S1940Lutilisation; @Anonymous1959Vietnamcambodialaos]. High-resolution satellite imagery was cross-referenced with 1:100.000 topographic maps published by the Service geographique de l'Indochine between 1900 and 1950, validating the physical continuity of settlement mounds, dike networks and urban street grids [@Goloubew1929Bronze; @Paquette2022French].
+
+Demographic magnitudes were cross-checked against independent municipal publications, chamber of commerce records and sanitary reports from the Pasteur Institute network [@Hon2026French; @DangvanNgu1939Piedra]. In northern and central Vietnam, demographic series were reconciled with Pierre Gourou's 1936 survey of peasant villages in the Tonkin delta, which established precise population counts, land-to-man ratios and cottage craft specialisations across thousands of individual communes [@S1940Lutilisation; @INOUE2018Field]. In Cambodia, municipal records from Phnom Penh and Battambang confirm commercial expansion following the 1907 boundary settlement with Siam [@Kolnberger2014Planning; @Chan2024Urban].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 settlements across French Indo-China ordered by peak population descending, detailing coordinates, sub-regional allocation, chronological spans and benchmark population counts.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1954 <- if (!is.null(s$population[["1954"]])) as.numeric(s$population[["1954"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1954 = if (is.numeric(p_1954)) viscount_fmt_pop(p_1954) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 settlements ordered by peak population across French Indo-China (1862 to 1954).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1954 Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Tonkin Red River Delta
+
+The Red River delta catalogues 195 primary settlements and municipal districts concentrated across 32.533 km² of intensive alluvial plain [@S1940Lutilisation; @Franganillo2007Bases]. Hanoi served as the preeminent political and educational centre, supporting an urban prefecture of 2,25M inhabitants by 1954 (peaking from 882k in 1862 and 1,60M in 1936). Haiphong anchored maritime shipping along the Gulf of Tonkin, concentrating 735k residents in its industrial and port quarters [@Testa2002Workers]. Other leading centres included Nam Dinh (the principal cotton weaving and textile centre of northern Vietnam), Hai Duong along the Thai Binh river corridor, Thai Binh town, Hung Yen, Bac Ninh, Phu Ly (Ha Nam province) and Son Tay guarding the entrance to the midland hills.
+
+### Tonkin Northern Highlands
+
+The northern highland division catalogues 198 settlements across 93.375 km² of mountainous terrain spanning the Chinese border [@Dinh2021Year; @Bayly2012French]. Settlements were predominantly administrative military posts (*postes militaires*), river trading stations and valley market towns inhabited by Tai, Muong, Tay, Nung, Hmong and Dao communities. Leading localities included Ha Giang (246k peak) commanding the upper Clear River valley, Lao Cai at the junction of the Red and Nam Ti rivers serving the Yunnan railway [@Testa2002Workers], Lang Son guarding the Friendship Pass (*Muc Nam Quan*), Cao Bang along the Bang Giang river, Tuyen Quang, Yen Bai and the upland garrison of Dien Bien Phu in the Muong Thanh valley [@THOMAS2007French; @Goscha2003Guerre].
+
+### Northern and Central Annam
+
+The Annam coastal strip catalogues 498 settlements distributed across 163.168 km² of narrow littoral plains and highland plateaux [@Goloubew1929Bronze; @Ninh2022Vietnamese]. Hue remained the royal capital and administrative seat of the imperial court, supporting 386k residents in 1954. Da Nang (Tourane) was the principal deep-water port of central Vietnam, concentrating 282k people. Nha Trang in Khanh Hoa province (346k peak) housed the Pasteur Institute and coastal fisheries [@Hon2026French], while Phan Thiet in Binh Thuan province (345k peak) dominated regional fish sauce (*nuoc mam*) production. Dalat in Lam Dong (336k peak) developed into a temperate hill station, sanatorium and educational retreat [@Legrandjacques2022Voies]. Major agricultural centres in the northern littoral included Thanh Hoa, Vinh (Nghe An province), Ha Tinh, Dong Hoi (Quang Binh) and Quang Ngai.
+
+### Cochinchina Colony
+
+The southern colony catalogues 363 settlements across 66.523 km² of fertile deltaic plains and plantation plateaux [@Hue2025Cochinchina; @Hieu2025French; @Demay2011Saigon]. Ho Chi Minh City (Saigon-Cholon) formed the premier commercial metropolis of mainland Southeast Asia, accommodating 3,92M inhabitants across its metropolitan district by 1954 [@Pairaudeau2010Vietnamese]. Can Tho (422k peak) served as the primary commercial and agricultural capital of the western Mekong delta along the Bassac River. Other major deltaic centres included Ben Tre (399k peak), Ca Mau (333k peak) in the extreme southern mangrove frontier, Soc Trang (330k peak), Tay Ninh (328k peak), Bien Hoa (327k peak), Ba Ria-Vung Tau (325k peak), Vinh Long (284k peak), Tra Vinh (281k peak) and Bac Lieu (272k peak) [@Anon2015Social].
+
+### Cambodia Protectorate
+
+The Cambodia division catalogues 3.851 settlements across 180.174 km² surrounding the Tonle Sap lake and Mekong river corridors [@Kolnberger2014Planning; @Chan2024Urban]. Phnom Penh was the royal and administrative capital, growing from 100k inhabitants in the late nineteenth century to 360k by 1954 at the junction of the Mekong, Tonle Sap and Bassac rivers (*Quatre-Bras*). Battambang served as the agricultural capital of the northwest, dominating rice milling and grain trade following its retrocession by Siam in 1907 [@Anonymous1959Vietnamcambodialaos]. Other major centres included Kampong Cham along the Mekong, Kampot on the Gulf of Thailand (the principal pepper-exporting port), Siem Reap adjacent to the Angkor archaeological complex, Pursat, Kampong Chhnang, Prey Veng and Svay Rieng along the southern borderlands [@Chan2025Urban].
+
+### Laos Protectorate
+
+The Laos protectorate catalogues 5.400 settlements across 229.738 km² of rugged mountains and Mekong river terraces [@Anonymous1959Vietnamcambodialaos; @Dinh2021Year]. Settlement was organised into small riverine villages (*ban*) clustered along the Mekong and its tributaries, interspersed with upland swidden hamlets inhabited by Lao Theung and Lao Soung groups [@Bayly2012French]. Vientiane functioned as the administrative capital of the protectorate, while Luang Prabang served as the historic royal capital of the Lao monarchy under King Sisavang Vong. Secondary administrative posts and transit centres included Savannakhet, Pakse in Champasak province, Thakhek in Khammouane province, Xieng Khouang on the Plain of Jars and Sam Neua in the northeastern highlands [@MoriniComby1953Indochine].
+
+# Limitations
+
+Settlement gazetteer compilation in French Indo-China is subject to several source constraints:
+1. Village aggregation and fiscal concealment: in Tonkin and Annam, communal authorities regularly reported consolidated population totals for multi-hamlet village federations, masking internal household distribution [@S1940Lutilisation; @Anon2015Social].
+2. High mobility among upland populations: swidden agriculturalists across the Annamite Range and Lao highlands relocated settlements every few seasons as soils depleted, creating fluid toponymy and temporary site abandonments [@Dinh2021Year; @Bayly2012French].
+3. Orthographic variance across colonial cartography: French cartographers transcribed Vietnamese, Khmer and Lao toponyms using disparate romanisation systems, requiring cross-matching against modern administrative codes [@Paquette2022French; @Anonymous1959Vietnamcambodialaos].
+4. Destruction of municipal records during anti-colonial conflicts: military combat between 1945 and 1954 caused widespread loss of municipal birth registries and tax rolls, particularly in disputed rural cantons [@MoriniComby1953Indochine; @THOMAS2007French; @Goscha2003Guerre].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 10.505 catalogued localities across French Indo-China, providing a georeferenced empirical foundation for regional demographic analysis from 1862 to 1954. By reconciling geographical coordinates, colonial census records and administrative boundaries across six sub-regions, this study documents the contrast between crowded wet-rice deltaic plains and sparse interior massifs. Isolating municipal urban populations from rural agriculturalists enables dasymetric distribution of cultivators, clarifying the demographic dynamics that shaped modern Vietnam, Cambodia and Laos.
+
+# Appendix
+
+The MANDALA source ledger audited 11.305 candidate settlement records, resulting in 10.505 accepted settlements and 800 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the French Indo-China source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

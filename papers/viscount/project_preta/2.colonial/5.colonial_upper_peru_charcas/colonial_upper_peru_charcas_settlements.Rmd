@@ -1,0 +1,156 @@
+---
+title: "Settlement Gazetteer of Colonial Bolivian Highlands (Real Audiencia de Charcas)"
+subtitle: "PRETA: Mining Reales, Toledo Reducciones, Doctrinas and Urban Trajectories across Alto Perú (1535AD to 1825AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: colonial_upper_peru_charcas_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_colonial_upper_peru_charcas_spatial.png"
+hero_caption: "Spatial distribution of 258 catalogued colonial settlements across the six jurisdictions of the Real Audiencia de Charcas (468,8k km²) from 1535AD to 1825AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("colonial_upper_peru_charcas.json5")
+set_data <- read_json_file("colonial_upper_peru_charcas_settlements.json")
+led_data <- read_json_file("colonial_upper_peru_charcas_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("%", "\\\\%", s, fixed = TRUE)
+  s <- gsub("#", "\\\\#", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  cup_la_paz = "Intendencia de La Paz",
+  cup_oruro = "Oruro, Paria & Carangas",
+  cup_cochabamba = "Cochabamba & Mizque",
+  cup_chuquisaca_la_plata = "Charcas (La Plata)",
+  cup_potosi_charcas = "Intendencia de Potosí",
+  cup_tarija_cinti = "Tarija & Southern Frontier"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer documents geographic coordinates, foundation dates and colonial demographic trajectories for `r viscount_fmt_number(length(set_list), 0L)` cities, silver mining *reales*, Viceroy Toledo *reducciones*, indigenous *doctrinas* and agrarian parishes across the Colonial Bolivian Highlands (Real Audiencia de Charcas, Alto Perú; 468,8k km²) from 1535AD to 1825AD. Spanning the six historical jurisdictions of La Paz, Oruro, Cochabamba, Charcas (La Plata-Sucre), Potosí and Tarija, the gazetteer bridges the pre-Columbian highland settlement network and the 1825AD republican census baseline with zero temporal or territorial discontinuity.
+
+Urban primacy was overwhelmingly anchored by the Villa Imperial de Potosí (peaking at 160,0k in 1610AD before receding to 70,0k in 1700AD and 18,5k in 1825AD) and San Felipe de Austria de Oruro (peaking at 48,0k in 1680AD), complemented by the steadily expanding administrative and agrarian capitals of Nuestra Señora de La Paz (rising to 38,0k by 1825AD), Villa de Oropesa de Cochabamba (30,5k), La Plata-Sucre (19,8k), Punata (9,0k), Quillacollo (8,8k), Paria (8,8k), Tarija (8,6k), Cliza (8,6k), Tarata (8,2k) and Mizque (7,5k). Every catalogued locality reconciles against `r viscount_fmt_number(length(led_data$candidates), 0L)` audited source-ledger candidates drawn from Toledo's 1572AD to 1575AD *Visita General*, seventeenth-century *mita* and *Numeración General* rolls, Viedma's 1788AD statistical survey, the 1796AD Alto Perú intendancy enumerations and back-linked historic highland municipalities, with `r viscount_fmt_number(length(exc_list), 0L)` documented spatial deduplications and zero unaccounted records.
+
+# Colonial Urban Hierarchy and Settlement Classes
+
+Settlement organisation across colonial Charcas comprised four distinct functional tiers [@Bakewell1984; @Cook1975Toledo; @Larson1998; @Mumford2012]:
+
+1. **Silver Mining Metropolises (*Reales de Minas*)**: Potosí (founded 1545AD), Oruro (1606AD), Porco (1538AD) and San Cristóbal de Lípez operated as hyper-urbanised industrial magnets with vast indigenous *rancherías*, *ingenio* ore mills and inter-regional commercial markets [@Bakewell1984; @Zulawski1995; @Mangan2005].
+2. **Spanish Administrative and Agrarian *Villas***: La Plata-Sucre (1538AD), Nuestra Señora de La Paz (1548AD), Villa de Oropesa de Cochabamba (1571AD), Tarija (1574AD) and Mizque (1560AD) housed judicial courts, cathedral chapters, university faculties and landowning *hacendado* elites [@Barnadas1973; @Larson1998; @Klein1993].
+3. **Viceroy Toledo *Reducciones* (*Pueblos de Indios*)**: Consolidated between 1572AD and 1575AD from ancestral Aymara and Quechua *ayllus* — notably Achacachi, Copacabana, Caquiaviri, Sica Sica, Tiwanaku, Chayanta, Macha, Sacaca, Challapata, Corque, Curahuara de Carangas, Tapacarí, Tarabuco, Puna and Cotagaita — these gridded parish centres functioned as the institutional backbone of colonial tribute and *mita* mobilisation [@Cook1975Toledo; @Mumford2012; @SanchezAlbornoz1978].
+4. **Valley *Forastero* and *Hacienda* Parishes**: Agricultural towns throughout Cochabamba (Cliza, Punata, Tarata, Quillacollo, Sacaba), the Yungas (Coroico, Chulumani, Irupana), Cinti (Camargo) and Chuquisaca absorbed displaced Altiplano migrants and sustained steady eighteenth-century demographic expansion [@Larson1998; @Klein1993; @Viedma1788].
+
+Table \ref{tab:summary} summarises settlement counts, summed peaks and leading cities across all six jurisdictions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    Jurisdiction = reg_short[[rk]],
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingCity = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_sum <- rbind(df_sum, data.frame(
+  Jurisdiction = "Total Audiencia de Charcas",
+  Sites = as.character(length(set_list)),
+  Share = "100,0%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingCity = "Potosí (160k)",
+  stringsAsFactors = FALSE
+))
+viscount_table(
+  df_sum,
+  "Jurisdictional distribution of catalogued colonial settlements across the Real Audiencia de Charcas (1535AD to 1825AD).",
+  c("Jurisdiction", "Sites", "Share", "Peak Sum", "Leading Settlement"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Catalogue of Major Settlements
+
+Table \ref{tab:catalogue} lists the leading 120 colonial settlements across the Real Audiencia de Charcas ranked by peak population between 1535AD and 1825AD.
+
+```{r tbl-catalogue, results='asis'}
+ord <- order(sett_peaks, decreasing = TRUE)
+top_n <- min(120L, length(ord))
+cat_rows <- lapply(ord[seq_len(top_n)], function (idx) {
+  s <- set_list[[idx]]
+  yrs <- sort(as.numeric(names(s$population)))
+  pk <- max(as.numeric(unlist(s$population)))
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  data.frame(
+    Name = clean_text(s$name),
+    Jurisdiction = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Coords = fmt_coord(s$coords),
+    Span = paste0(fmt_yr(min(yrs)), "--", fmt_yr(max(yrs))),
+    Peak = viscount_fmt_pop(pk),
+    stringsAsFactors = FALSE
+  )
+})
+df_cat <- do.call(rbind, cat_rows)
+viscount_table(
+  df_cat,
+  "Leading 120 catalogued colonial settlements of the Real Audiencia de Charcas / Alto Perú (1535AD to 1825AD), ordered by peak population.",
+  c("Settlement", "Jurisdiction", "Coordinates", "Attested Span", "Peak Pop."),
+  list(label = "tab:catalogue", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+<div id="refs"></div>

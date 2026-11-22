@@ -1,0 +1,238 @@
+---
+title: "Settlement Gazetteer of Pakistan until British Annexation"
+subtitle: "INDUS: Coordinates, Toponymy and Urban Chronologies (10000BC to 1849AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: pakistan_until_british_rule_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_pakistan_until_british_rule_spatial.png"
+hero_caption: "Spatial distribution of 10.940 catalogued historical settlements and administrative divisions across Pakistan (847.968 km²) from 10000BC to 1849AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("pakistan_until_british_rule.json5")
+set_data <- read_json_file("pakistan_until_british_rule_settlements.json")
+led_data <- read_json_file("pakistan_until_british_rule_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  pak1_punjab_sikh = "West Punjab and Potwar",
+  pak1_sindh_indus_delta = "Sindh and Indus Delta",
+  pak1_gandhara_kp = "Gandhara and Khyber Passes",
+  pak1_balochistan_makran = "Balochistan and Makran",
+  pak1_northern_kashmir = "Northern Valleys and Gilgit"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer documents geographic coordinates, administrative allocations, chronological occupation envelopes and benchmark demographic estimates for 10.940 historical settlements across Pakistan from 10000BC to 1849AD. Encompassing 847.968 km² and 11.646 terrestrial 5-arcminute cells across five physiographic divisions under INDUS, the catalogue encompasses diverse architectural and ecological traditions: mud-brick and kiln-fired brick metropolises in the alluvial doabs of Punjab and Sindh, stone-built Hellenistic and Gandharan urban complexes with Buddhist stupas in the northern river basins, riverine fortress ports and commercial emporia along the lower Indus delta, and fortified oasis settlements guarding mountain passes and coastal anchorages in Balochistan and the Karakoram gorges. Across the full catalogue, peak site sizes follow a Zipf rank-size exponent of $\alpha = 0,73$ ($R^2 = 0,92$), spanning from early agricultural pioneer villages at Mehrgarh (4,20k peak in 3000BC) and Mature Harappan metropolises at Mohenjo-daro (42k in 2200BC) and Harappa (35k in 2200BC) to classical Gandharan capitals at Taxila (72k in 100AD) and Charsadda (38k in 100BC), mediaeval Islamic hubs at Mansura (58,40k in 900AD), Thatta (137,05k in 1600AD) and Multan (105k in 1650AD), and early modern metropolises at Lahore (350k in 1650AD), Amritsar (128,66k in 1849AD), Peshawar (95k in 1800AD), Sheikhupura (83,68k in 1849AD) and Jhang (71,11k in 1849AD). Every catalogued locality reconciles against 11.740 candidate records within the source ledger alongside 800 documented exclusions, primarily duplicate-alias records within a 2,2 km spatial consolidation radius and non-habitation archaeological features. By providing an explicit spatial inventory of nucleated habitation nodes, this gazetteer establishes an empirical foundation for settlement subtraction, ensuring that residual rural cultivators are allocated across the landscape according to environmental suitability.
+
+# Background
+
+Archaeological and historical settlement systems across Pakistan reflect dynamic human adaptations to regional hydrology, sediment deposition, trade corridors and defensive topography [@Possehl1999IndusAge; @Khan2021Hydro; @Petrie2025Hidden; @Simpson2020Frontier]. Four primary settlement traditions characterise the regional record across twelve millennia:
+1. Alluvial brick metropolises: In the active floodplains of the Indus and the Punjab tributaries, settlements relied on massive artificial mud-brick platforms to elevate living quarters above seasonal floodwaters [@Khan2021Hydro]. Mature Harappan cities such as Harappa, Mohenjo-daro and Ganweriwala featured baked-brick masonry, orthogonal street grids and covered drainage networks [@Kenoyer1998AncientCities; @Possehl1999IndusAge; @Khan2021Hydro; @Alam2025Origin]. During the mediaeval and early modern periods, cities such as Lahore and Multan expanded atop immense composite occupation mounds enclosed by defensive brick walls and citadel bastions [@Hambly1982Towns; @Habib1982Atlas; @Moosvi1987Economy; @Naqvi1968Urbanisation].
+2. Stone-built Gandharan cities and monastic complexes: In the Peshawar basin, Swat valley and Potwar plateau, where limestone and schist were abundant, urban centres were constructed with dressed-stone masonry and rubble packing [@Allchin1995Archaeology; @Iori2023Urban; @Olivieri2021Monumental]. At Taxila, successive city foundations at Bhir Mound, Sirkap and Sirsukh document Greek, Scythian and Kushan urban planning, flanked by stone stupas and monastic colleges at Dharmarajika and Jaulian [@Erdosy1988Urbanisation; @Khan2025Management; @Malik2011Sang]. At Barikot in Swat, defensive walls with bastions protected dense residential quarters, wine-press installations and Buddhist shrines [@Iori2023Urban; @Antonetti2024Wine; @Shavarebi2025Numismatic].
+3. Deltaic emporia and river ports: Along the lower Indus and deltaic channels, settlements combined riverine shipping with overseas maritime trade [@Alam2025Origin]. Mediaeval Mansura was established within a loop of the Indus as an Arab administrative capital, while Thatta on the western delta margin developed into an international maritime port renowned for textile weaving and shipbuilding [@Hambly1982Towns; @Habib1982Atlas; @ImperialGazetteer1908; @Alam2025Origin].
+4. Mountain defile oases and highland forts: In the arid valleys of Balochistan and the Karakoram, fortified stations guarded strategic trade routes linking the lowlands with Central Asia and Iran [@Ali2002Exploratio; @Breseeg2001Baloch]. Mehrgarh commanded the Bolan Pass, while Kalat, Quetta, Chitral and Gilgit served as fortified redoubts anchoring local agricultural terraces and pastoral routes [@Possehl1999IndusAge; @Khan2021Hydro; @Torwali2015Ignored].
+
+# Methodology
+
+The expanded 10.940-settlement gazetteer is empirically anchored in four reconciled evidentiary tiers rather than arbitrary interpolation:
+1. Primary-monograph historical metropolis trajectories: Peak and benchmark urban series for leading cities derive from Mughal, Sultanate, Sikh and colonial economic histories and revenue atlases [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Naqvi1968Urbanisation; @Bayly1983Rulers; @ImperialGazetteer1908], alongside early historic and Bronze Age excavations [@Possehl1999IndusAge; @Kenoyer1998AncientCities; @Allchin1995Archaeology; @Erdosy1988Urbanisation].
+2. Multi-repository archaeological and monument corpora: Spatial coordinates and occupation spans were ingested from Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeological Reports (IARs), Archaeological Survey of India (ASI P1371) registers, Wikidata, OpenStreetMap (OSM) and XRONOS/c14bazAAR radiocarbon databases [@Petrie2025Hidden; @Simpson2020Frontier].
+3. Official national censuses and administrative registries: Late pre-colonial baselines and sub-district demographic hierarchies were calibrated against Census of India Table A-04 historical series, Pakistan Bureau of Statistics (PBS) records and harmonised South Asian statistical frameworks (BBS, DCS, CBS, NSB and NBS) across sovereign boundaries.
+4. Macro-envelope *qasba*, *pargana* and *nadu* continuity: Pre-1800 secondary town and market-village series were validated through strict foundation-year verification and chronological toponymy filters, preserving an empirical Zipf rank-size slope ($\alpha = 0,73$, $R^2 = 0,92$).
+
+Candidate sites in the source ledger require precise WGS84 coordinates validated against regional hydrology, documented cultural horizons or historical chronicles, and area-based, hearth-based or census-anchored demographic estimates. Where multiple archaeological survey points fall within a 2,2 km radius of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features such as isolated petroglyph boulders, surface lithic scatters, solitary shrines and defensive watchtowers are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of 10.940 catalogued settlements and summed site peaks across the five physiographic divisions of Pakistan.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 10.940 catalogued settlements and summed site peaks across Pakistan.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological horizons were evaluated through cartographic cross-checking and archaeological fieldwork [@Petrie2025Hidden; @Simpson2020Frontier; @ImperialGazetteer1908]. Nineteenth-century Survey of India revenue and topographical maps recorded thousands of ancient tell mounds (*theh*, *tibba*, *damb*, *kot*, *deri*) prior to modern canal colony levelling, providing independent spatial coordinates for ancient settlement nodes [@Petrie2025Hidden]. Stratigraphic excavations and numismatic sequences at Taxila, Charsadda, Barikot and Harappa anchor the chronological envelopes and urban populations of major centres [@Kenoyer1998AncientCities; @Allchin1995Archaeology; @Shavarebi2025Numismatic; @Khan2025Management; @Iori2023Urban]. Macro-botanical remains from Barikot confirm multi-cropping agricultural regimes capable of sustaining dense urban populations [@Spengler2020Southern; @Antonetti2024Wine].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 40 historical settlements across Pakistan ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans, peak population and 1849AD population.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_40 <- set_list[ord_all[seq_len(min(40L, length(set_list)))]]
+
+gaz_rows <- lapply(top_40, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1849 <- if (!is.null(s$population[["1849"]])) as.numeric(s$population[["1849"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region]])) reg_short[[s$region]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1849AD = if (is.numeric(p_1849)) viscount_fmt_pop(p_1849) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 40 historical settlements ordered by peak population across Pakistan (10000BC to 1849AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1849AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### West Punjab and Potwar Plateau
+
+West Punjab catalogues 4.773 historical settlements, concentrating 6.702.766 in summed peak population across the rich alluvial doabs and Potwar upland [@Habib1982Atlas; @Moosvi1987Economy; @Simpson2020Frontier]. Lahore functioned as an enduring provincial and imperial metropolis, peaking at 350k inhabitants in 1650AD and sustaining 129,61k in 1849AD [@Hambly1982Towns; @Naqvi1968Urbanisation]. Amritsar developed into the preeminent commercial and banking centre of the Sikh Empire, reaching 128,66k inhabitants by 1849AD [@Bayly1983Rulers; @ImperialGazetteer1908]. Multan occupied a central junction along the lower Chenab, peaking at 105k in 1650AD and maintaining 58,84k in 1849AD as a major caravan emporium. Sheikhupura reached 83,68k in 1849AD, Taxila in the Potwar upland peaked at 72k in 100AD during the Kushan climax [@Allchin1995Archaeology; @Khan2025Management; @Malik2011Sang], and Jhang reached 71,11k by 1849AD. Other prominent centres include Gujrat (63,72k in 1849AD), Kasur (60,71k in 1849AD), Firozpur (46,98k in 1849AD), Sialkot (42k peak in 1700AD), Uch (42k peak in 1300AD), Jammu (38k peak in 1775AD), Harappa (35k in 2200BC) and Ganweriwala (26k in 2200BC) [@Kenoyer1998AncientCities; @Possehl1999IndusAge].
+
+### Sindh and the Indus Delta
+
+The southern alluvial division catalogues 1.778 settlements, with summed peak populations of 2.862.280 [@Habib1982Atlas; @Alam2025Origin]. Thatta anchored the deltaic trade network, accommodating 137,05k inhabitants at its 1600AD peak as an international textile and port centre before receding to 11,10k by 1849AD [@Hambly1982Towns; @ImperialGazetteer1908]. Mansura served as the primary Arab administrative and commercial capital of Sindh, concentrating 58,40k people at its 900AD peak [@Alam2025Origin]. Shikarpur and Hyderabad both attained 48k at their 1800AD peaks (maintaining 39,41k and 40,85k respectively in 1849AD), while Mohenjo-daro stood as the foremost Bronze Age metropolis of the lower Indus at 42k residents in 2200BC [@Kenoyer1998AncientCities; @Khan2021Hydro]. Other significant centres include Sehwan (10,75k in 1849AD), Sukkur, Rohri and Alor.
+
+### Gandhara, Swat and Khyber-Pakhtunkhwa Passes
+
+The northwestern frontier catalogues 1.668 settlements, with summed peak populations of 2.296.764 [@Erdosy1988Urbanisation; @Iori2023Urban; @Ali2002Exploratio]. Peshawar served as the primary gateway metropolis, peaking at 95k inhabitants in 1800AD and holding 59,85k in 1849AD after functioning as the Kushan winter capital Purushapura [@Bashir2026Pilgrimage; @Khan2013Reclamatio]. Mardan (60,68k in 1849AD) and Mingora (52,69k in 1849AD) anchored dense agrarian and market corridors, while Charsadda (ancient Pushkalavati) at the junction of the Swat and Kabul rivers reached 38k in 100BC and sustained 35k in 100AD [@Allchin1995Archaeology]. Barikot (ancient Bazira) in the Swat valley commanded riverine terraces and mountain routes, supporting stone-walled fortifications, Buddhist temples and dense domestic blocks [@Iori2023Urban; @Olivieri2021Monumental; @Shavarebi2025Numismatic]. Other key nodes include Hund (ancient Udabhandapura), Saidu Sharif, Bannu and Dera Ismail Khan.
+
+### Balochistan, Kalat and the Makran Coast
+
+The western highland division catalogues 1.974 settlements across 343.142 km² of hyper-arid mountain ranges, piedmont fans and desert coastline, with summed peak populations of 1.865.931 [@Khan2021Hydro; @Breseeg2001Baloch]. Kalat served as the fortified upland capital of the Brahui Khanate, reaching 24k inhabitants in 1800AD (16,94k in 1849AD), while Chaman (16,92k in 1849AD) and Quetta (11,70k in 1849AD) commanded the northern passes leading toward Kandahar [@Breseeg2001Baloch; @Jetly1999Ethnicity]. Mehrgarh on the Bolan River anchored the foundational Neolithic sequence of South Asia, reaching 4,20k people in 3000BC, while Leri Damb in the Kachi Plain sustained 3,28k inhabitants at its 500BC peak [@Possehl1999IndusAge; @Khan2021Hydro]. Coastal ports at Sutkagen Dor, Gwadar, Pasni and Sonmiani facilitated maritime navigation across the northern Arabian Sea.
+
+### Gilgit-Baltistan, Chitral and Western Kashmir Valleys
+
+The northern mountain division catalogues 747 settlements distributed along high-altitude glacial valleys, with summed peak populations of 753.071 [@Ali2002Exploratio; @Torwali2015Ignored]. Dhirkot reached 33,55k inhabitants in 1849AD, while Skardu in Baltistan (17,99k in 1849AD) and Muzaffarabad (17,67k in 1849AD) coordinated terraced irrigation agriculture and trans-montane caravan transit. Gilgit (1,76k in 1849AD) occupied a strategic river confluence along the upper Indus mediating traffic between Kashmir, Badakhshan and Xinjiang [@Sardar2012Rock], while Chitral in the Kunar drainage sustained a fortified princely seat [@Ali2002Exploratio].
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_pakistan_until_british_rule_demography.png",
+  "Demographic trajectory of Pakistan across five sub-regions (10000BC to 1849AD), illustrating Bronze Age, Kushan, Mughal and Sikh peaks.",
+  "fig:trajectory"
+)
+```
+
+# Limitations
+
+Settlement documentation across Pakistan remains subject to distinct archaeological and taphonomic constraints:
+1. Fluvial alluviation: repeated avulsions and sediment deposition along the Indus, Ravi, Chenab and Sutlej rivers have buried early prehistoric settlements beneath deep silt layers while eroding others [@Khan2021Hydro; @Simpson2020Frontier].
+2. Infrastructure quarrying: nineteenth-century railway contractors used ancient mud-brick mounds as ballast quarries, most notably at Harappa, damaging architectural stratigraphy [@Petrie2025Hidden].
+3. Regional survey disparities: fertile agricultural sectors of Punjab and Peshawar have received intensive archaeological investigation, whereas arid tracts of central Balochistan and high Karakoram gorges remain comparatively less surveyed [@Simpson2020Frontier; @Breseeg2001Baloch].
+4. Pre-census quantitative reliance: prior to the introduction of systematic decennial British censuses in the late nineteenth century, urban populations must be derived from walled surface extents, house-floor multipliers and revenue records [@Simpson2020Frontier].
+
+# Conclusion
+
+The INDUS settlement gazetteer synthesises 10.940 historical localities across Pakistan from 10000BC to 1849AD ($\alpha = 0,73$, $R^2 = 0,92$), providing an empirical baseline for regional demographic modelling. By reconciling WGS84 coordinates, occupation spans and population series across five physiographic divisions, this catalogue isolates nucleated urban centres from rural agricultural populations, enabling dasymetric allocation of cultivators across the non-settled landscape and demonstrating long-term demographic continuity across twelve millennia of northwestern South Asian history.
+
+# Appendix
+
+The source ledger audited 11.740 candidate records across Pakistan, resulting in 10.940 accepted settlements and 800 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Pakistan source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

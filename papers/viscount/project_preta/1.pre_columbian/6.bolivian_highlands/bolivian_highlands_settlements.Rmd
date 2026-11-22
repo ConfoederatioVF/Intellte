@@ -1,0 +1,161 @@
+---
+title: "Settlement Gazetteer of Pre-Columbian Bolivian Highlands"
+subtitle: "PRETA: Coordinates, Toponymy and Demographic Trajectories across Tiwanaku, Lake Titicaca, Altiplano and Inter-Andean Valleys (10000BC to 1535AD)"
+date: "19 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: bolivian_highlands_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_bolivian_highlands_spatial.png"
+hero_caption: "Spatial distribution of 316 catalogued pre-Columbian settlements across six organic HydroBASINS divisions of the Bolivian Highlands (405,4k km²) from 10000BC to 1535AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("bolivian_highlands.json5")
+set_data <- read_json_file("bolivian_highlands_settlements.json")
+led_data <- read_json_file("bolivian_highlands_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  s <- gsub("%", "\\\\%", s, fixed = TRUE)
+  s <- gsub("#", "\\\\#", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  bolhi_titicaca_tiwanaku = "Titicaca & Tiwanaku",
+  bolhi_la_paz_yungas_larecaja = "La Paz, Larecaja & Yungas",
+  bolhi_oruro_poopo_carangas = "Oruro, Wankarani & Carangas",
+  bolhi_cochabamba_mizque_valleys = "Cochabamba & Mizque",
+  bolhi_charcas_potosi_chuquisaca = "Charcas, Potosí & Chuquisaca",
+  bolhi_southern_altiplano_tarija = "Southern Altiplano & Tarija"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues geographic coordinates, cultural horizons, occupation spans and demographic trajectories for `r viscount_fmt_number(length(set_list), 0L)` pre-Columbian settlements across the Bolivian Highlands (405,4k km², encompassing 405.375 km²) from 10000BC to 1535AD. Partitioned organically across six HydroBASINS Level 6 hydrological divisions, the gazetteer unites the lacustrine urban heartland of Lake Titicaca and Tiwanaku with the terraced valleys of Chuquiabo-La Paz, Larecaja and the Yungas, the Formative Wankarani and Aymara Carangas-Sora plateau of Oruro, the imperial maize granaries of Cochabamba and Mizque, the metallurgical and fortified confederations of Charcas, Qaraqara, Yampara and Potosí, and the caravan and valley centres of Lípez, Cinti and Tarija.
+
+Catalogued settlement peaks span from early Holocene rock-shelters to major urban and administrative capitals led by Tiwanaku (35,0k peak at 800AD), Cochabamba-Sierra Mokho (18,5k), Chuquiabo-La Paz (14,5k), Quillacollo-Cotapachi (12,0k), Choquechaca-Chuquisaca (11,5k), Lukurmata (11,0k), Paria in Oruro (9,8k), Incallajta (8,8k), Copacabana (7,5k), Porco (6,8k), Sacaba (6,8k), Punata (6,4k), Cliza (6,2k), Sacaca (5,8k), Tarija-Tolomosa (5,8k), Oroncota (5,8k), Macha (5,6k), Samaipata (5,6k), Achacachi (5,6k), Iskanwaya (5,2k) and Caquiaviri (5,2k). Every entry reconciles against `r viscount_fmt_number(length(led_data$candidates), 0L)` audited source-ledger candidates compiled from the Bolivian Radiocarbon Database, XRONOS, p3k14c/AndesC14, OpenStreetMap and Wikidata monument inventories, regional settlement surveys and ancestral Bolivian highland *marka* seats, with `r viscount_fmt_number(length(exc_list), 0L)` documented spatial deduplications within 3 km and zero unaccounted records.
+
+By documenting the complete settlement hierarchy of pre-Columbian Highland Bolivia alongside its spatial and chronological anchors, this gazetteer eliminates the pre-1825 Altiplano coverage gap within PRETA and underpins non-stationary Matérn kriging across the Andes-to-Amazon transition.
+
+# Settlement Typologies of the Pre-Columbian Bolivian Highlands
+
+Settlement archaeology across the Bolivian Highlands reflects five primary structural traditions documented across pedestrian surveys and excavations [@Kolata1993; @Stanish2003; @Janusek2004; @McAndrews2005; @Arkush2011; @GyarmatiVarga1999; @Alconini2016]:
+
+1. **Lake Titicaca Formative Courts and Tiwanaku Urbanism**: Along the Taraco Peninsula, Katari Basin and Tiwanaku Valley, sunken stone ceremonial courts at Chiripa, Kala Uyuni and Khonkho Wankane preceded the Middle Horizon urban nucleation of Tiwanaku (35,0k), Lukurmata (11,0k) and Pajchiri (3,4k), supported by extensive raised-field agro-ecosystems (*suka kollus*) [@Kolata1993; @Bermann1994; @Bandy2001].
+2. **Central Altiplano Wankarani Tell Mounds**: Across northern Oruro and the Desaguadero-Poopó corridor, circular adobe-house villages accumulated into stratified residential mounds at La Joya, Iroco and Caracollo combining camelid herding with early metallurgy [@McAndrews2005; @Capriles2014Wankarani].
+3. **Late Intermediate Aymara Hillforts (*Pukaras*) and *Markas***: Following Tiwanaku fragmentation, competing Aymara señoríos (Pacajes, Omasuyos, Carangas, Quillacas, Charka, Qaraqara, Yampara and Lípez) nucleated around walled hilltop citadels, polychrome *chullpa* cemeteries and dual-moiety *marka* towns such as Caquiaviri, Iskanwaya, Macha, Sacaca, Alcaya and San Cristóbal de Lípez [@Parssinen2005; @Arkush2011; @Nielsen2002; @PlattBouysseHarris2006].
+4. **Inca *Qullasuyu* Provincial Capitals and *Qollqa* Granaries**: Under fifteenth-century Inca administration, planned state centres at Paria, Cotapachi-Quillacollo, Inkarraqay, Copacabana and the Island of the Sun integrated imperial taxation, ceremonial pilgrimage and bulk maize storage along the *Qhapaq Ñan* [@GyarmatiVarga1999; @GyarmatiCondarco2014; @BauerStanish2001].
+5. **Eastern Cordillera Frontier Fortresses**: Guarding the warm eastern Andean rim against lowland Chaco raids, monumental walled installations at Incallajta, Samaipata and Oroncota anchored military garrisons and valley agricultural estates [@Alconini2004; @Cobos2004].
+
+# Methodology and Source Reconciliation
+
+Because Bolivia's national archaeological inventory (SIAAB) remains legally restricted under Law 530 to curb looting, exhaustive enumeration requires triangulating open international chronometric repositories — specifically the Bolivian Radiocarbon Database and XRONOS (666 Bolivian dates), PEOPLE 3000 p3k14c/AndesC14 and Sales et al. radiocarbon tables — with georeferenced OpenStreetMap and Wikidata archaeological monuments (419 records), peer-reviewed regional settlement surveys (Stanish, Albarracín-Jordán, Bandy, Janusek, Bermann, McAndrews, Capriles, Pärssinen, Gyarmati, Alconini, Lecoq and Nielsen) and historically attested pre-Hispanic Aymara and Quechua *marka* capitals [@Capriles2023BRD; @Stanish2003; @Janusek2004; @PlattBouysseHarris2006]. Secondary records falling within 3 km of a primary nucleated settlement are consolidated as spatial deduplications in the source ledger, ensuring clean separation across all six hydrological divisions (Table \ref{tab:summary}).
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_sum <- rbind(df_sum, data.frame(
+  SubRegion = "Total Bolivian Highlands",
+  Sites = as.character(length(set_list)),
+  Share = "100,0%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = "Tiwanaku (35k)",
+  stringsAsFactors = FALSE
+))
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of catalogued pre-Columbian Bolivian Highland settlements, summed settlement peaks and leading urban centres.",
+  c("Hydrological Division", "Sites", "Share", "Peak Sum", "Leading Settlement"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Catalogue of Major Settlements
+
+Table \ref{tab:catalogue} lists the leading 120 catalogued pre-Columbian settlements across the Bolivian Highlands ranked by peak population, detailing WGS84 coordinates, hydrological division, earliest and latest documented horizons and peak inhabitant estimate. All `r viscount_fmt_number(length(set_list), 0L)` settlements are stored in full machine-readable form in the accompanying chapter gazetteer file.
+
+```{r tbl-catalogue, results='asis'}
+ord <- order(sett_peaks, decreasing = TRUE)
+top_n <- min(120L, length(ord))
+cat_rows <- lapply(ord[seq_len(top_n)], function (idx) {
+  s <- set_list[[idx]]
+  yrs <- sort(as.numeric(names(s$population)))
+  pk <- max(as.numeric(unlist(s$population)))
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  data.frame(
+    Name = clean_text(s$name),
+    Division = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Coords = fmt_coord(s$coords),
+    Span = paste0(fmt_yr(min(yrs)), "--", fmt_yr(max(yrs))),
+    Peak = viscount_fmt_pop(pk),
+    stringsAsFactors = FALSE
+  )
+})
+df_cat <- do.call(rbind, cat_rows)
+viscount_table(
+  df_cat,
+  "Leading 120 catalogued pre-Columbian settlements of the Bolivian Highlands (10000BC to 1535AD), ordered by peak population.",
+  c("Settlement", "Hydrological Division", "Coordinates", "Attested Span", "Peak Pop."),
+  list(label = "tab:catalogue", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+<div id="refs"></div>

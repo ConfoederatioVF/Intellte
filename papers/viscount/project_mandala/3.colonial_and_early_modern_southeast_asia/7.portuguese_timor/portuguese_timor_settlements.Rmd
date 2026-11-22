@@ -1,0 +1,237 @@
+---
+title: "Settlement Gazetteer of Portuguese Timor"
+subtitle: "MANDALA: Coordinates, Toponymy and Longitudinal Demographic Series (1515 to 1975)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: portuguese_timor_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_portuguese_timor_spatial.png"
+hero_caption: "Spatial distribution of 154 catalogued colonial and indigenous settlements across Portuguese Timor (16.917 km²) from 1515 to 1975."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("portuguese_timor.json5")
+set_data <- read_json_file("portuguese_timor_settlements.json")
+led_data <- read_json_file("portuguese_timor_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  pt_dili_north = "Dili, Liquica and Central North Coast",
+  pt_west_oecusse = "Western Districts and Oecusse Enclave",
+  pt_east_baucau = "Eastern Districts"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer registers WGS84 geographic coordinates, administrative allocations, longitudinal demographic series and foundation chronologies for `r length(set_list)` catalogued settlements across Portuguese Timor (16.917 km² across 233 active 5-arcminute terrestrial cells) from 1515 to 1975. Encompassing three administrative sub-regions, the gazetteer spans diverse morphological typologies: coastal colonial ports, fortified highland ridge villages (*koba*), mid-elevation coffee market towns and peripheral riverine agricultural settlements.
+
+Settlement scales range from historical coastal administrative centres such as Dom Aleixo in Dili (72,91k peak in 1975), Viqueque (43,56k peak in 1975), Lautem (36,56k peak in 1975), Ainaro (35,38k peak in 1975), Baucau (26,51k peak in 1975), Manatuto (26,13k peak in 1975) and Pante Makassar in Oecusse (20,89k peak in 1975) to specialised highland coffee market centres including Hatulia (20,61k peak in 1975), Ermera (20,24k peak in 1975), Maubisse (12,45k peak in 1975) and Letefoho (12,40k peak in 1975). Secondary agricultural posts include Maubara (12,29k peak in 1975), Uato-Lari (10,60k peak in 1975), Laga (10,29k peak in 1975) and dozens of peripheral *sucos* and administrative posts. Every catalogued locality reconciles against 159 candidate records in the regional source ledger alongside `r length(exc_list)` documented exclusions (predominantly duplicate homonym entries and subordinate fortifications merged within a 2,2 km spatial deduplication radius).
+
+By integrating georeferenced coordinates with historical Portuguese censuses, Dominican mission registers and colonial cadastral records, this gazetteer establishes an archaeological and administrative baseline for historical nucleation across eastern Timor. Settlement subtraction isolates nucleated administrative and market centres from rural populations, ensuring that dasymetric demographic allocations reflect genuine terrain and settlement constraints rather than uniform spatial assumptions.
+
+# Background
+
+Settlement morphology in Portuguese Timor was governed by defensive military needs, agrarian ecological gradients and colonial extraction networks [@PereiradosSa2026History; @Roque2016Unruly]. Four primary settlement traditions characterise the regional historical landscape:
+
+## Coastal Enclaves and Colonial Ports
+
+Ports such as Lifau, Dili, Liquica and Manatuto occupied narrow coastal embayments protected from maritime swells [@Villiers1994Vanishing; @Hagerdal2022Chapter]. These centres featured stone-and-lime defensive bastions, customs houses, Catholic mission chapels and Eurasian quarters, serving as commercial conduits connecting maritime shipping lanes with the interior [@Villiers1994Vanishing; @Sousa2023Chapter]. Dili developed from an initial swampy military garrison in 1769 into the primary administrative capital, concentrating colonial military forces, trading houses and provincial administrative organs [@Kammen2018Progress; @Rocha2020Tempos].
+
+## Highland Fortifications and Sacred Lineage Hamlets
+
+Traditional Timorese settlements (*koba*) were deliberately positioned atop defensive mountain ridges between 600 m and 1.500 m elevation, surrounded by dry-stone ramparts and dense cactus hedges (*bua*) to deter headhunting raids and colonial expeditions [@Roque2016Unruly; @Bovensiepen2019Pacificati]. Within each hamlet, sacred lineage houses (*uma lulik*) preserved ancestral relics, regulated matrimonial alliances and mediated territorial authority (*rai na'in*) across hereditary clan boundaries [@MeitznerYode2025Indigenous; @Almeida2025Baldios].
+
+## Coffee Agroforestry Centres and Administrative Posts
+
+In the fertile volcanic uplands of Ermera, Hatulia, Letefoho, Ainaro and Maubisse, the introduction of Arabica coffee in the nineteenth century prompted the growth of permanent trading stations along mule trails, featuring drying terraces, military garrisons and colonial administrative offices [@Kammen2025Colonial; @Sousa2023Chapter]. These upland settlements acted as nodes where customary agrarian communities interfaced directly with Portuguese fiscal administrators, merchant concessionaires and Catholic mission schools [@Madeira2010Manipulation; @Matos2020Studies].
+
+## Eastern Basin Market Networks
+
+In Baucau, Viqueque, Lautem and Lospalos, nucleated market settlements formed around perennial limestone springs and fertile rice valleys, facilitating exchange between Fataluku, Makasae and Tetum cultivators [@Sousa2023Chapter; @PereiradosSa2026History]. These communities integrated wet-rice agriculture with extensive water buffalo pastoralism across sub-coastal alluvial plains, anchoring resilient settlement nodes capable of sustaining population densities through prolonged colonial disruptions [@Almeida2025Baldios; @Roque2016Unruly].
+
+# Methodology
+
+Candidate settlements in the source ledger were evaluated using published Portuguese colonial gazetteers, official provincial censuses (*Recenseamento Geral da Populacao*), Dominican mission registries and historical cartography [@PereiradosSa2026History; @Madeira2010Manipulation; @Matos2020Studies]. Settlement inclusion requires:
+- Precise WGS84 geographic coordinates validated against 1:50.000 Portuguese military topographic sheets and contemporary satellite imagery.
+- Documented longitudinal population series spanning the colonial period from 1515 to 1975.
+- Administrative classification as a historical capital, military command post, *circunscricao*, *posto administrativo* or primary rural *suco*.
+
+Where multiple historical survey records fall within 2,2 km of a primary nucleated settlement, subordinate military batteries and satellite redoubts are consolidated into the primary settlement record, preserving spatial independence and eliminating double counting. Furthermore, toponymic cross-referencing between historical colonial variants and modern Timorese administrative divisions ensures that changing orthographies do not generate spurious duplicate sites [@Smith2002Timor; @MeitznerYode2025Indigenous]. Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the three administrative sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 154 catalogued settlements and summed site peaks across Portuguese Timor.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological allocations were verified through multi-criteria evaluation methods and toponymic concordance [@Smith2002Timor; @MeitznerYode2025Indigenous]. Historical settlement toponyms in Portuguese Timor frequently diverged across colonial Portuguese records, indigenous Tetum terms and local ethnolinguistic designations [@Hagerdal2022Chapter; @Roben2026Formas]. We applied Analytic Hierarchy Process (AHP) weighting to resolve toponymic ambiguities, cross-referencing military reports with Catholic parish registries (*assentos de baptismo*) and post-war census gazetteers [@PereiradosSa2026History; @Madeira2010Manipulation; @Duek2025Introduction].
+
+Ecological and biogeographical checks confirmed settlement plausibility [@Kammen2025Colonial; @Clamagirand1972Travail]. Highland settlement densities in Ermera, Ainaro and Bobonaro correlate strongly with volcanic soil fertility, perennial mountain springs and microclimatic suitability for Arabica coffee, while low settlement densities along the north coast reflect hyper-arid scrub vegetation and seasonal water scarcity [@Anonymous2022Democratic; @Kammen2025Colonial]. Archival tax rolls from the late nineteenth century and provincial census tables from 1950, 1960 and 1970 provide independent empirical anchors for demographic trajectories [@Madeira2010Manipulation; @Nuttall2021Portuguese; @Duek2025Introduction].
+
+Longitudinal population series were calibrated against Catholic mission baptismal registers and parish lists from the eighteenth and nineteenth centuries [@Villiers1994Vanishing; @Hagerdal2022Chapter]. In districts where civil administrative posts were established late, baptismal ratios and infant mortality rates recorded by parish priests provide vital demographic ground truth that corroborates colonial fiscal counts [@Roque2016Unruly; @ROQUE2012Marriage].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 settlements across Portuguese Timor ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1975 <- if (!is.null(s$population[["1975"]])) as.numeric(s$population[["1975"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1975 = if (is.numeric(p_1975)) viscount_fmt_pop(p_1975) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 settlements ordered by peak population across Portuguese Timor (1515 to 1975).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1975 Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Dili, Liquica and Central North Coast
+
+The northern division catalogues 60 settlements encompassing the colonial capital of Dili, the maritime port of Liquica, the coastal scrub plains of Manatuto and Atauro Island [@Villiers1994Vanishing; @PereiradosSa2026History]. Dili was the primary administrative capital, concentrating government administration, military barracks, customs offices and mission schools [@Kammen2018Progress; @Silva2022Chapter; @Rocha2020Tempos]. Its core municipal perimeter encompassed Dom Aleixo (72,91k peak in 1975), Vera Cruz, Cristo Rei and Nain Feto. Secondary coastal settlements included Manatuto (26,13k peak in 1975), Liquica (9,5k peak), Maubara (12,29k peak in 1975) and Bazartete (8,7k peak), which served as coastal shipment hubs for coffee and sandalwood brought down from the mountains. In the coffee mid-highlands of Ermera district, Ermera administrative post (20,24k peak in 1975) and Letefoho (12,40k peak in 1975) anchored the primary plantation production belt.
+
+### Western Districts and Oecusse-Ambeno Enclave
+
+The western division catalogues 53 settlements distributed across the Bobonaro border plains, the high mountain slopes of Ainaro and the coastal enclave of Oecusse-Ambeno [@Hagerdal2022Chapter; @Clamagirand1972Travail]. In the Oecusse enclave, Pante Makassar (20,89k peak in 1975), formerly the colonial redoubt of Lifau, was the historic gateway of Portuguese colonisation on Timor [@Villiers1994Vanishing; @Tosun2025Influence]. In the central cordillera, Ainaro (35,38k peak in 1975) commanded the southern approaches to Mount Tatamailau, serving as a key administrative and military command post [@Roque2016Unruly; @Bovensiepen2019Pacificati]. Hatulia (20,61k peak in 1975) and Maubisse (12,45k peak in 1975) formed critical nodes in the highland coffee economy, while Maliana (9,8k peak) and Bobonaro (8,6k peak) anchored extensive grazing plateaux and border surveillance stations adjacent to Dutch West Timor [@Hagerdal2022Chapter; @MeitznerYode2025Indigenous].
+
+### Eastern Districts (Baucau, Lautem, Viqueque and Manufahi)
+
+The eastern division catalogues 41 settlements spanning the fertile river valleys of Viqueque, the elevated limestone terraces of Baucau, the rugged ranges of Manufahi and the eastern maritime tip of Lautem [@Almeida2025Baldios; @Sousa2023Chapter]. Viqueque (43,56k peak in 1975) was the largest southern agrarian centre, commanding expansive wet-rice paddies and coastal coconut groves. Baucau administrative post (26,51k peak in 1975) operated as the secondary municipal capital of the province, featuring an international airfield, hospital and commercial market [@Kammen2018Progress; @Sousa2023Chapter]. Lautem (36,56k peak in 1975), Lospalos (9,2k peak), Uato-Lari (10,60k peak in 1975) and Laga (10,29k peak in 1975) served as regional trade and administrative centres coordinating Fataluku and Makasae agricultural communities [@Almeida2025Baldios; @PereiradosSa2026History]. In the rugged interior of Manufahi, Same (8,9k peak) preserved the historical memory of Dom Boaventura's resistance, remaining a focal point of indigenous identity [@Sousa2023Insurrect; @Bovensiepen2019Pacificati].
+
+# Limitations
+
+Settlement gazetteer analysis in Portuguese Timor remains subject to specific historical constraints:
+1. Dispersed hamlet settlement structure: outside colonial administrative posts, rural Timorese populations resided in small dispersed family hamlets (*knua*) rather than nucleated villages, meaning that catalogued populations for *sucos* and administrative posts represent aggregate territorial jurisdictions rather than single contiguous urban fabrics [@MeitznerYode2025Indigenous; @Almeida2025Baldios].
+2. Archival destruction of municipal registers: the widespread destruction of Dili during the Pacific War (1942 to 1945) destroyed nineteenth-century cadastral maps, necessitating reconstruction from surviving Lisbon colonial records and post-war land surveys [@Madeira2010Manipulation; @Kammen2025Colonial].
+3. Fluid administrative demarcations: the boundaries of administrative posts (*postos administrativos*) and *sucos* were modified multiple times between 1860 and 1975, requiring careful geospatial reconciliation to ensure longitudinal integrity [@Smith2002Timor; @PereiradosSa2026History].
+4. Environmental degradation of perishable vernacular architecture: traditional Timorese domestic architecture was constructed from bamboo, thatch and timber (*uma lulik*), leaving minimal stratified archaeological mound signatures and requiring primary reliance on documentary cartography and administrative gazetteers [@Almeida2025Baldios; @Roque2016Unruly].
+
+# Conclusion
+
+The settlement gazetteer of Portuguese Timor synthesises 154 catalogued settlements across three administrative sub-regions from 1515 to 1975. By anchoring georeferenced coordinates, historical administrative status and longitudinal demographic series, this gazetteer demonstrates the spatial evolution of the territory from isolated sandalwood redoubts into an integrated network of coastal ports, highland coffee centres and agricultural valley markets. Settlement subtraction isolates these nucleated nodes from rural populations, providing an empirical baseline for spatial demographic modelling across eastern Timor.
+
+# Appendix
+
+The MANDALA source ledger audited 159 candidate settlement records for Portuguese Timor, resulting in 154 accepted settlements and 5 documented exclusions. Table \ref{tab:excluded} documents the five excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Excluded candidate sites from the Portuguese Timor source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

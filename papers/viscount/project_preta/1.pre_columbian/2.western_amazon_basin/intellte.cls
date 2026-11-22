@@ -449,3 +449,97 @@
 
 \endinput
 
+t\sffamily\bfseries\fontsize{14pt}{18pt}\selectfont Abstract\par}%
+    \vspace{4pt}%
+    {\noindent\absfont\theabstract\par}%
+    \vspace{8pt}%
+  }%
+}
+\newcommand{\abscontentformatted}{\abscontent}
+
+%% Intellte CRD Working Paper Title Block
+\renewcommand{\@maketitle}{%
+  \noindent
+  \begin{minipage}{\textwidth}
+    \raggedright
+    % 1. Top CRD Flag + CONFOEDERATIO, RESEARCH DIVISION (CRD). Banner
+    % CRD 2026 logo aspect ratio is 512x464: optically aligned to the combined line height (37pt) of the two 18.5pt rows
+    \noindent
+    \IfFileExists{\crd@logopath}{%
+      \noindent\raisebox{-3.5pt}{\includegraphics[height=37pt]{\crd@logopath}}\hspace{10pt}%
+      \parbox[b]{0.80\textwidth}{%
+        \crdbannerfont CONFOEDERATIO,\par\vspace{2pt}%
+        \crdbannerfont RESEARCH DIVISION (CRD).%
+      }\par
+    }{%
+      {\crdbannerfont CONFOEDERATIO,\par RESEARCH DIVISION (CRD).\par}%
+    }%
+    \vspace{12pt}%
+    % 2. Main Title (Jost* Bold Uppercase)
+    {\raggedright\titlefont\MakeUppercase{\@title}\par}%
+    % 3. Subtitle (Jost* Book)
+    \@ifundefined{@subtitle}{}{%
+      \vspace{5pt}%
+      {\raggedright\subtitlefont\@subtitle\par}%
+    }%
+    % 4. Date - Authors | Emails line (Karla Light)
+    \vspace{4pt}%
+    {\raggedright\datesfont\color{crdmeta}%
+      \renewcommand\UrlFont{\karlalight\fontsize{11pt}{15.5pt}\selectfont\color{crdlinkblue}}%
+      \@ifundefined{@crddate}{\today}{\@crddate}%
+      \@ifundefined{@crdauthors}{}{ - \@crdauthors}%
+      \@ifundefined{@crdemails}{}{ \textbar\ \@crdemails}%
+      \par}%
+    \vspace{4pt}%
+  \end{minipage}\par
+  % 5. Optional Hero Figure (Cover chart before Abstract: full-width 0in left/right margins = \paperwidth)
+  \@ifundefined{@herofigure}{}{%
+    \noindent
+    \begin{minipage}{\textwidth}
+      \centering
+      \noindent\makebox[\textwidth][c]{\includegraphics[width=\paperwidth,height=0.52\textheight,keepaspectratio]{\@herofigure}}\par
+      \captionsetup{type=figure, aboveskip=15pt, belowskip=6pt, skip=15pt}%
+      \@ifundefined{@herocaption}{}{%
+        \expandafter\caption\expandafter{\@herocaption}%
+        \@ifundefined{@herolabel}{}{\expandafter\label\expandafter{\@herolabel}}%
+      }%
+    \end{minipage}\par
+  }%
+  % 6. Unbolded Abstract section (if provided in YAML frontmatter; otherwise # Abstract section in body)
+  \abscontent
+}
+
+%% CRD Endnotes ("Footnotes" section at the end of the paper after Sources)
+%% Matches CRD convention:
+%% - Inline \footnote{...} (or Markdown ^[...]) places a hyperlinked superscript number
+%% - \printcrdfootnotes renders the horizontal separator rule under the "Footnotes" heading
+%%   followed by flush-left superscripted endnotes in 10pt/15pt Source Serif 4
+\newcounter{crdfootnote}
+\newcommand{\crd@fnlist}{}
+
+\long\def\footnote#1{%
+  \refstepcounter{crdfootnote}%
+  \hyperlink{crdfn:\thecrdfootnote}{\textsuperscript{\thecrdfootnote}}%
+  \begingroup
+    \edef\crd@currfn{\thecrdfootnote}%
+    \expandafter\crd@appendfn\expandafter{\crd@currfn}{#1}%
+  \endgroup
+}
+
+\long\def\crd@appendfn#1#2{%
+  \gappto\crd@fnlist{%
+    \par\noindent\hypertarget{crdfn:#1}{\textsuperscript{#1}}\hspace{0.22em}#2\par\vspace{8pt}%
+  }%
+}
+
+\newcommand{\printcrdfootnotes}{%
+  \par\setlength{\parskip}{0pt}\vspace{-2pt}%
+  \noindent{\color{crdmeta}\rule{0.32\textwidth}{0.5pt}}\par
+  {\normalfont\rmfamily\mdseries\fontsize{10pt}{15pt}\selectfont\raggedright
+   \setlength{\parskip}{0pt}%
+   \crd@fnlist
+   \par}%
+}
+
+\endinput
+

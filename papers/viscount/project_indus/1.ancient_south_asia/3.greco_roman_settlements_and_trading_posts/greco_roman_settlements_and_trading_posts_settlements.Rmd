@@ -1,0 +1,249 @@
+---
+title: "Settlement Gazetteer of Greco-Roman Settlements and Indian Ocean Trading Posts"
+subtitle: "INDUS: Coordinates, Toponymy and Benchmark Populations (327BC to 500AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: greco_roman_settlements_and_trading_posts_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_greco_roman_settlements_and_trading_posts_spatial.png"
+hero_caption: "Spatial distribution of 6.077 catalogued Hellenistic cities, Indo-Greek settlements and Indian Ocean trading emporia across South Asia (2,12M km²) from 327BC to 500AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("greco_roman_settlements_and_trading_posts.json5")
+set_data <- read_json_file("greco_roman_settlements_and_trading_posts_settlements.json")
+led_data <- read_json_file("greco_roman_settlements_and_trading_posts_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 5L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 5L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  gr_gandhara_bactria_punjab = "Gandhara and Punjab",
+  gr_indus_delta_barygaza = "Barygaza Corridor",
+  gr_malabar_coromandel = "Malabar and Coromandel",
+  gr_taprobane_sri_lanka = "Taprobane"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, historical toponyms, regional attributions, occupational spans and benchmark population trajectories for 6.077 catalogued settlements across the Greco-Roman and Indo-Greek contact zone in South Asia from 327BC to 500AD. Spanning 2,12M km² across northwestern river corridors, the Indus delta, the Gujarat and Saurashtra coasts, the Malabar and Coromandel peninsular littorals, and the island of Taprobane (Sri Lanka), the gazetteer encompasses diverse urban architectures across four divisions: Gandhara and Punjab (1.648 settlements), Barbarikon, Saurashtra and Barygaza (1.722 settlements), Malabar and Coromandel (2.570 settlements) and Taprobane (137 settlements).
+
+Settlement sizes follow a Zipf rank-size distribution ($\alpha = 0,95$, $R^2 = 0,93$) anchored by eight primate capitals and emporia: Anuradhapura (90k peak in 500AD; 75k in 100AD), Peshawar (80k peak in 200AD; 65k in 100AD), Taxila (72k peak in 100AD), Paithan (60k peak in 100AD), Kanchipuram (60k peak in 500AD; 33,76k in 100AD), Madurai (51,44k peak in 500AD; 48k in 100AD), Amaravati (48k peak in 100AD) and Kaveripattinam (45k peak in 200AD; 42k in 100AD). Beneath this upper tier stood major ports and regional centres including Bharuch (43,98k in 100AD), Multan (38,70k peak in 500AD), Charsadda (38k peak in 100BC), Sialkot (36,72k peak in 100BC), Tiruchirappalli (36k peak in 200AD), Pattanam (Muziris, 36k in 100AD), Thanesar (35k peak in 500AD), Nagarjunakonda (32k peak in 300AD), Tissamaharama (28k peak in 200AD), Sopara (28k in 100AD), Banbhore (27,86k peak in 500AD), Alor (27,38k peak in 500AD), Valabhi (25k peak in 500AD), Arikamedu (24k in 100AD), Mantai (24k peak in 500AD) and Korkai (22k in 100AD). Every catalogued settlement reconciles against 6.877 candidates in the INDUS source ledger alongside 800 documented duplicate-alias exclusions.
+
+By combining georeferenced settlement trajectories with regional hydrological catchments and classical geographical sources, this gazetteer establishes an archaeological baseline for historical demographic reconstruction in ancient South Asia. Settlement subtraction isolates nucleated commercial and administrative centres from dispersed rural cultivators, ensuring that population density surfaces reflect verified site distributions rather than speculative uniform assumptions.
+
+# Settlement Archaeology in Ancient South Asia and the Indian Ocean
+
+Settlement patterns in ancient South Asia between 327BC and 500AD reflect distinct regional responses to international trade routes, riverine irrigation and monsoon navigation systems [@Mairs2020Graeco; @Seland2014Archaeolog; @Abraham2023Recent]. Four primary urban traditions characterise the regional settlement record:
+
+1. **Hellenistic and Indo-Greek Fortified Cities**: In Gandhara and Punjab, urban centres were established along strategic river crossings and mountain passes linking South Asia to Central Asia [@Mairs2020Graeco; @Francfort2020Quelques]. Sites such as Sirkap (Taxila), Sagala (Sialkot), Peukelaotis (Charsadda), Bazira (Barikot), Boukephala (Jhelum) and Alexandria at the confluence (Uch) incorporated orthogonal Hippodamian street plans, stone rubble and diaper defensive walls, bastioned gateways and cosmopolitan civic quarters integrating Buddhist stupas with Classical architectural mouldings.
+2. **Estuarine and Tidal Delta Emporia**: Along the northern Arabian Sea coast, at the mouths of the Indus and Narmada rivers, maritime trade was handled by specialised estuarine ports [@Seland2016Periplus; @Tomber2009Migration]. Barbarikon (Banbhore) on the Indus delta and Barygaza (Bharuch) on the Narmada estuary accommodated foreign ocean-going vessels, transferring imported Mediterranean goods onto river craft for transit into the continental interior while collecting inland commodities such as semi-precious agate beads, cotton textiles, silk and aromatics.
+3. **Peninsular Monsoon Port-Cities and Guild Centres**: Along the Malabar and Coromandel littorals of Tamilakam, coastal emporia operated under the patronage of early Tamil dynasties (Cheras, Cholas, Pandyas) and commercial merchant guilds [@Verma2022Trade; @Jr2000Stone; @Abraham2023Recent]. Muziris (Pattanam) and Nelkynda on the Malabar coast monopolised the international black pepper trade, while Arikamedu (Poduke), Kaveripattinam (Puhar), Korkai and Alagankulam on the Coromandel coast served as industrial centres for bead manufacturing, pearl fishing, weaving and Mediterranean ceramic importation.
+4. **Insular Hydraulic Capitals and Transshipment Ports**: On Taprobane (Sri Lanka), urban settlements integrated royal political authority, Buddhist monastic complexes and extensive hydraulic networks [@Bille2022Maritime; @Verardi2012Buddhism]. The royal capital at Anuradhapura was sustained by artificial irrigation reservoirs (*wewas*), while coastal ports at Mantai (Mahatittha) and Godavaya served as central transshipment hubs linking the western Indian Ocean maritime network with the Bay of Bengal and Southeast Asia.
+
+# Methodology and Source Ledger Reconciliation
+
+The expanded 6.077-settlement gazetteer in the INDUS source ledger is empirically anchored rather than extrapolated from uniform regional multipliers. Primary-monograph historical metropolis trajectories provide benchmark anchors for major political and commercial seats [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @Champakalakshmi1996Trade; @Chattopadhyaya1994Making; @Kenoyer1998AncientCities; @Possehl1999IndusAge], supplemented by classical geographical sources (*Periplus Maris Erythraei*, Ptolemy's *Geographia*, Strabo's *Geographica*, Pliny's *Naturalis Historia*) and modern syntheses [@Mairs2020Graeco; @Seland2016Periplus; @Tomber2007Rome; @Abraham2023Recent]. Lower-tier sites integrate multi-repository archaeological and monument corpora — including the Pleiades Ancient Gazetteer, Zenodo Indian Archaeology Review compilations (Harappan, Vidarbha and Palaeolithic inventories), Archaeological Survey of India P1371 monument registers, Wikidata heritage entries, OpenStreetMap archaeological surveys and XRONOS/c14bazAAR radiocarbon assemblages — reconciled against official national census baselines (Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS) and macro-envelope *qasba*, *pargana* and *nadu* territorial continuity [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Bayly1983Rulers; @Stein1989Vijayanagara; @ImperialGazetteer1908; @Naqvi1968Urbanisation].
+
+Every candidate record passes strict foundation-year and chronological toponymy filters before admission:
+- Precise WGS84 geographic coordinates validated against regional topography and satellite imagery.
+- Documented occupation or early historic *janapada* alluvial continuity within the Greco-Roman horizon (327BC to 500AD), confirmed by excavated stratigraphy, radiocarbon dates, numismatic hoards or epigraphic attestations, excluding later mediaeval or colonial foundations such as Shahjahanabad or modern cantonment towns [@Blake1991Shahjahanabad; @Eaton1993Rise].
+- Calibrated longitudinal population series conforming to the empirical Zipf rank-size slope ($\alpha = 0,95$, $R^2 = 0,93$) and historical catchment limits.
+
+Where multiple datasets record overlapping coordinates within a 2,2 km spatial deduplication radius of a higher-priority historical core, or share identical population trajectories under homonymous aliases, secondary entries are consolidated in the source ledger to prevent spatial over-concentration.
+
+Table \ref{tab:summary} summarises the distribution of 6.077 catalogued settlements and summed site peaks across the four sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(if (!is.null(s$region_id)) s$region_id else s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 6.077 catalogued settlements and summed site peaks across the Greco-Roman contact zone.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Leading Ancient Settlements and Trading Posts
+
+Table \ref{tab:gazetteer} presents the leading 45 ancient settlements across the Greco-Roman and Indo-Greek contact zone ordered by peak population descending, detailing coordinates, sub-regional attribution, occupation span and benchmark demographic series.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_100 <- if (!is.null(s$population[["100"]])) as.numeric(s$population[["100"]]) else "-"
+  rk_val <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[rk_val]])) reg_short[[rk_val]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P100AD = if (is.numeric(p_100)) viscount_fmt_pop(p_100) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 ancient settlements ordered by peak population across the Greco-Roman contact zone (327BC to 500AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "100AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+# Sub-Regional Settlement Catalogues
+
+## Gandhara, Taxila and Indo-Greek Punjab
+
+The Gandhara and Punjab division catalogues 1.648 settlements spanning northern Pakistan and northwestern India [@Mairs2020Graeco; @Olivieri2022Stoneyards; @Kenoyer1998AncientCities]. The largest urban centres were Peshawar (Pushkalavati, 80k peak in 200AD; 65k in 100AD), Taxila (Sirkap and Bhir Mound, 72k peak in 100AD), Multan (38,70k peak in 500AD), Charsadda (38k peak in 100BC), Sialkot (Sagala/Euthymedeia, 36,72k peak in 100BC), Thanesar (35k peak in 500AD), Jalandhar (22,88k peak in 500AD), Lahore (19,77k peak in 500AD), Sheikhupura (18k peak in 500AD) and Uch (Alexandria at the confluence, 17,20k peak in 500AD).
+
+These settlements functioned as military garrisons, administrative capitals and Buddhist monastic centres, anchored on fertile alluvial soils and controlling arterial trade routes through the Khyber and Bolan passes.
+
+## Barbarikon, Saurashtra and Barygaza Maritime Corridor
+
+Encompassing 1.722 catalogued settlements, this corridor supported the principal western maritime emporia and Deccan trade centres connecting northern and central India to the Persian Gulf and Red Sea [@Tomber2009Migration; @Seland2016Periplus; @Allchin1995Archaeology]. Major centres included the inland Satavahana seat at Paithan (60k peak in 100AD), Bharuch (Barygaza, 43,98k peak in 100AD), Sopara (Souppara, 28k peak in 100AD), Banbhore (Barbarikon, 27,86k peak in 500AD; 22k in 100AD), Alor (27,38k peak in 500AD), Valabhi (25k peak in 500AD), Junagadh (23,65k peak in 200AD), Nashik (22k peak in 100AD) and Kolhapur (20k peak in 100AD).
+
+Positioned along tidal river estuaries, sheltered gulfs and Sahyadri pass termini, these communities transferred maritime imports from Roman Egypt into continental distribution networks while processing raw cotton, semi-precious stone beads and agricultural surpluses.
+
+## Muziris, Nelkynda, Korkai and Arikamedu Emporia
+
+The southern peninsular division catalogues 2.570 settlements across Kerala, Tamil Nadu, coastal Andhra and southern Karnataka [@Verma2022Trade; @Abraham2023Recent; @Jr2000Stone; @Champakalakshmi1996Trade]. Leading centres include Kanchipuram (60k peak in 500AD; 33,76k in 100AD), Madurai (51,44k peak in 500AD; 48k in 100AD), Amaravati (48k peak in 100AD), Kaveripattinam (Puhar, 45k peak in 200AD; 42k in 100AD), Tiruchirappalli (Uraiyur, 36k peak in 200AD), Pattanam (Muziris, 36k peak in 100AD), Nagarjunakonda (32k peak in 300AD), Arikamedu (Poduke, 24k peak in 100AD), Korkai (22k peak in 100AD) and Mylapore (16,45k peak in 500AD).
+
+These settlements combined royal dynastic capitals with specialised commercial ports and craft manufacturing centres, handling the extraction and maritime export of Malabar black pepper, Gulf of Mannar pearls, beryls and fine cotton muslins.
+
+## Taprobane (Sri Lanka)
+
+Taprobane catalogues 137 settlements concentrated across the northern dry zone and coastal harbours of Sri Lanka [@Bille2022Maritime; @Verardi2012Buddhism]. The pre-eminent urban centre was the royal hydraulic capital at Anuradhapura (90k peak in 500AD; 75k in 100AD), supported by regional centres at Tissamaharama (Mahagama, 28k peak in 200AD), Mantai (Mahatittha, 24k peak in 500AD; 18k in 100AD) and Sigiriya (12k peak in 500AD).
+
+Settlements were integrated into vast tank irrigation systems and coastal transshipment networks connecting the western and eastern Indian Ocean maritime spheres.
+
+# Source Ledger Audit and Excluded Candidates
+
+The INDUS source ledger records 6.877 candidate entries for the Greco-Roman and Indo-Greek contact zone. Of these, 6.077 were included as primary catalogued settlements, while 800 entries were excluded as duplicate-alias consolidations. Specifically, 716 entries (89,5% of exclusions) were collapsed within a 2,2 km spatial deduplication radius of a higher-priority historical record, and the remaining 84 entries (10,5%) represent duplicate homonyms sharing identical population trajectories.
+
+Table \ref{tab:excluded} documents the leading 25 excluded candidates alongside their territory, reason and justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Greco-Roman contact zone source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Limitations and Preservation Biases
+
+Archaeological visibility across the Greco-Roman contact zone is shaped by several taphonomic biases:
+1. **Fluvial Avulsion and Silt Inundation**: Shifting channels of the Indus, Narmada, Periyar and Kaveri rivers have buried ancient quays and dock structures beneath deep alluvial deposits [@Tomber2009Migration; @Abraham2023Recent].
+2. **Coastal Erosion and Tectonic Activity**: Marine incursions and sea-level changes have submerged or eroded ancient coastal installations at Kaveripattinam, Korkai and Sopara.
+3. **Continuous Modern Urban Overburden**: Dense modern urban occupation at Peshawar, Taxila, Bharuch, Sialkot and Madurai obscures ancient strata, restricting comprehensive open-area excavations.
+
+Despite these preservation constraints, the integration of 6.077 catalogued settlements demonstrates that ancient South Asia supported a highly nucleated, commercially differentiated urban hierarchy.
+
+# Sources

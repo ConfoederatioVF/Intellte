@@ -1,0 +1,331 @@
+---
+title: "Demographic Trajectory of Post-War Japan"
+subtitle: "Official Censuses, Tokaido Megalopolitan Concentration, Rapid Ageing and Depopulation, 1945AD to 2026AD"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: japan_after_1945_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_japan_after_1945_spatial.png"
+hero_caption: "Prefectural population density and municipal urban centres across the forty-seven prefectures of Japan from 1945AD to 2026AD."
+hero_label: "fig:hero-japan-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+This paper reconstructs the prefectural demography, settlement hierarchy and spatial population density of Japan across the modern post-war era from the cessation of hostilities in 1945AD through 2026AD. Across forty-seven prefectural territories covering 390.852 km² (6.249 five-arcminute raster cells), aggregate population expanded from 72,53M (72.527.044) in late 1945AD to 84,11M (84.114.574) in 1950AD following the repatriation of 6,29M overseas civilians and demobilised soldiers and the first post-war baby boom (*dankai no sedai*). Sustained high economic growth (*kodo keizai seicho*) propelled national population to 94,3M (94.301.623) in 1960AD, 104,67M (104.665.171) in 1970AD and 117,06M (117.060.396) in 1980AD, accompanied by an unprecedented reallocation of human resources from rural prefectures into the Tokaido Pacific Belt (*Taiheiyo Beruto*) megalopolitan axis encompassing Greater Tokyo, Keihanshin and Chukyo [@SBJ2021Census; @Kito2000Jinko; @Suzuki2013Fertility]. After the reversion of Okinawa in 1972AD and the second baby boom of 1971AD to 1974AD, national expansion decelerated under sub-replacement fertility, reaching 123,61M (123.611.167) in 1990AD and 126,93M (126.925.843) in 2000AD, before attaining an all-time historical apex of 128,06M (128.057.352) in the official census of 2010AD [@SBJ2021Census; @NSTAC2026SSDSE]. Over the subsequent sixteen years, compounding natural decrease, acute fertility depression and demographic ageing reduced national population to 126,15M (126.146.099) in 2020AD and 122,45M (122.448.520) by 2026AD [@Oizumi2022Sensitivity; @Haas2025Population]. Drawing on official quinquennial *Kokusei Chosa* censuses from 1945AD to 2025AD, municipality statistics from the National Statistics Center SSDSE-A-2026 registry across 1.683 geocoded municipal centres, and Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) spatial kriging calibrated across 383 domestic catchments, this study quantifies the structural tension between capital-sphere concentration in Tokyo (14,29M) and Kanagawa (9,18M) and acute depopulation (*kaso*) across peripheral agrarian regions [@Paciorek2006Matern; @Kumagai2020Populationsustaining; @Sakamoto2025Spatial].
+
+# Background
+
+## Post-War Destruction, Repatriation and Demobilisation (1945AD to 1950AD)
+
+The demographic baseline of modern post-war Japan was established amidst acute physical destruction, territorial contraction and unprecedented population displacement following the surrender of the Empire of Japan in August 1945 [@Kito2000Jinko; @SBJ2021Census]. The Allied strategic bombing offensive had destroyed over 2,2M residences across sixty-six major urban centres, leaving approximately 30% of the pre-war urban population homeless, while the atomic detonations over Hiroshima and Nagasaki in August 1945 completely obliterated municipal administrative infrastructures and inflicted catastrophic immediate and protracted radiological casualties [@IV2015Longrun; @Inoue2019Changes].
+
+In the extraordinary population survey organised on 1 November 1945 under the authority of the Supreme Commander for the Allied Powers (GHQ/SCAP), the enumerated population of the four home islands (Honshu, Kyushu, Shikoku and Hokkaido) stood at 72,53M (Table \ref{tab:validation-japan}) [@SBJ2021Census]. The primary metropolitan areas exhibited profound demographic contraction due to wartime evacuations (*sokai*) and air-raid casualties: the enumerated population of Tokyo Prefecture had collapsed from 7,35M in 1940AD to 3,52M in November 1945, Osaka had fallen from 4,79M to 2,89M, and Kanagawa had declined to 1,88M, as millions of urban families fled to rural kin across Tohoku, Hokuriku and Shikoku [@SBJ2021Census; @Katayama2016Prediction].
+
+Between 1945AD and 1950AD, Japan experienced the swiftest demographic rebound in its documented history, expanding by 11,59M persons in five years to reach 84,11M in the first regular post-war census of 1950AD [@SBJ2021Census; @Kito2000Jinko]. This expansion was driven by two simultaneous demographic surges:
+1. The mass repatriation (*hikiage*) of approximately 6,29M overseas Japanese nationals—including 3,11M demobilised armed forces personnel and 3,18M civilian settlers from Manchuria (*Manshukoku*), Korea, Taiwan, Karafuto (southern Sakhalin), the Kuril Islands and the South Pacific mandate (*Nan'yo Gunto*)—which was substantially completed by the close of 1949AD [@SBJ2021Census; @Walker2001ConquestAinu].
+2. The initial post-war baby boom (*dankai no sedai*, 1947AD to 1949AD), which generated over 8M live births in three calendar years, with the crude birth rate peaking at 34,3 per 1.000 in 1947AD and total fertility reaching 4,32 children per woman [@Suzuki2013Fertility; @Winter2013Japan].
+
+Agrarian communities accommodated this immense influx through the GHQ-directed land reform programme (*nochi kaikaku*), which dissolved the pre-war landlord class and transferred 1,9M hectares of cultivated tenant land to owner-farmers, anchoring rural food security before heavy industrial reconstruction gathered momentum [@Sekiyama1958Kinsei; @Kobayashi2020Drivers].
+
+## High Economic Growth and Tokaido Pacific Belt Concentration (1950AD to 1975AD)
+
+The outbreak of the Korean War in 1950AD ignited Japan's industrial recovery through Allied military procurement contracts, initiating the era of rapid economic growth (*kodo keizai seicho*) that transformed the spatial distribution of Japanese society between 1950AD and 1975AD [@KOSIS2021Census; @SBJ2021Census]. Over this quarter-century, national population climbed from 84,11M to 111,94M, growing at an annual rate exceeding 1,1% (Table \ref{tab:validation-japan}).
+
+Agricultural mechanisation, coupled with massive capital investment in petrochemical, steel, shipbuilding and automobile complexes along coastal deep-water embayments, generated the Great Internal Migration (*jidai no daikokumin ido*) [@SBJ2021Census; @Koizumi2021Effect]. Millions of young rural school leavers—termed the golden eggs (*kin no tamago*)—boarded chartered group-employment trains (*shudan shushoku ressha*) departing agricultural villages across Tohoku, Hokuriku, San'in and southern Kyushu to enter manufacturing and commercial employment along the Tokaido Pacific Belt [@Koizumi2021Effect; @Otani2026Vegetation].
+
+This migration stream channelled population into three colossal urban agglomerations:
+
+1. The Greater Tokyo Capital Sphere: encompassing Tokyo, Kanagawa, Saitama and Chiba, which expanded from 13,05M in 1950AD to 27,04M in 1975AD, absorbing 52% of all net inter-prefectural migrants [@SBJ2021Census; @Katayama2016Prediction]. Kanagawa Prefecture experienced the most explosive expansion, quadrupling from 2,48M in 1950AD to 6,4M in 1975AD as Yokohama and Kawasaki transformed into contiguous industrial and suburban corridors [@Katayama2016Prediction].
+
+2. The Keihanshin Metropolitan Axis: encompassing Osaka, Hyogo and Kyoto, which expanded from 8,99M in 1950AD to 14,88M in 1975AD, anchored by Osaka (which climbed to 3,01M in 1960AD) and Kobe (1,36M) [@IV2015Longrun; @Otani2026Vegetation].
+
+3. The Chukyo Industrial Hub: centered on Aichi Prefecture and the manufacturing powerhouse of Nagoya, expanding from 3,3M in 1950AD to 5,28M in 1975AD [@SBJ2021Census].
+
+Conversely, rural non-metropolitan prefectures suffered unprecedented depopulation (*kaso*). Prefectures such as Shimane, Kagoshima, Kochi and Akita recorded absolute population declines during the 1960s despite elevated natural birth rates, prompting the Diet to pass the Emergency Measures Act for Depopulated Areas (*Kaso Chiiki Taisaku Kinkyu Sochi Ho*) in 1970AD [@Kumagai2020Populationsustaining; @Sakamoto2025Spatial]. A secondary baby boom occurred between 1971AD and 1974AD as the *dankai no sedai* entered peak reproductive ages, producing over 2M births annually and lifting national population past 100M in 1967AD and 111,94M by 1975AD [@Suzuki2013Fertility; @Nagao2013Decreasing]. In May 1972, the reversion of the Ryukyu Islands from United States civil administration (USCAR) reunited Okinawa Prefecture (945k residents) with the national statistical system [@Smits2019MaritimeRyukyu; @SBJ2021Census].
+
+## Infrastructure Expansion and National Comprehensive Development Plans
+
+To mitigate escalating regional disparities between the Pacific Belt and agrarian peripheries, the Japanese government enacted a sequence of five National Comprehensive Development Plans (*Zenkoku Sogo Kaihatsu Keikaku* or *Zenso*):
+
+1. The First Zenso (1962AD): established fifteen New Industrial Cities (*Shin Sangyo Toshi*) outside the primary metropolitan centres to promote regional manufacturing dispersal [@SBJ2021Census; @Tong2020Small].
+
+2. The New Zenso or Shin-Zenso (1969AD): authored under Prime Minister Kakuei Tanaka's vision for the Remodelling of the Japanese Archipelago (*Nihon Retto Kaizoron*), initiating nationwide high-speed transportation networks [@Tong2020Small; @Cheung2024Cointegrations].
+
+3. The Third Zenso or Sanzenso (1977AD): introduced the permanent human settlement zone concept (*Teijuken Koso*) to foster rural employment, secondary education and medical infrastructure [@Sakai2013Impact; @Koizumi2021Effect].
+
+4. The Fourth Zenso or Yonzenso (1987AD): attempted to counteract unipolar Tokyo concentration by fostering multipolar functional regions (*Takenteki Kokudo Keisei*) [@Kumagai2020Populationsustaining].
+
+5. The Grand Design for the 21st Century (1998AD): acknowledged the demographic transition and shifted focus toward regional consolidation, natural environmental preservation and municipal resilience [@Kobayashi2020Drivers; @Oizumi2022Sensitivity].
+
+Transportation infrastructure played a decisive role in structuring this spatial evolution. The opening of the Tokaido Shinkansen high-speed rail line between Tokyo and Osaka in 1964AD, followed by the Sanyo Shinkansen (1975AD), Tohoku and Joetsu Shinkansen (1982AD), and the nationwide expressway network (*Kosokudoro*), drastically compressed travel times between regional capitals and Tokyo [@Tong2020Small; @Cheung2024Cointegrations]. However, rather than decentralising economic activity into peripheral prefectures, high-speed rail networks frequently exerted a powerful straw effect (*sutoro koka*), accelerating the drain of corporate headquarters, financial services and educated youth into central Tokyo [@Cheung2024Cointegrations; @Liu2024Urban].
+
+## The Post-Transition Stabilization and Demographic Apex (1975AD to 2010AD)
+
+Following the 1973AD first global oil crisis, Japan's fertility trajectory diverged decisively from post-war replacement norms [@Suzuki2013Fertility; @Winter2013Japan]. Total fertility dropped below the replacement threshold of 2,07 in 1974AD, falling to 1,91 in 1975AD, 1,75 in 1980AD and dropping to 1,57 in 1989AD—an event known as the 1,57 shock (*ichi-go-nana shokku*) because it breached the historic low recorded during the superstitious fire-horse year (*hinoeuma*) of 1966AD [@Suzuki2013Fertility; @Ghaznavi2022Fish].
+
+Despite persistent sub-replacement fertility, national population continued to expand for three decades, climbing from 111,94M in 1975AD to 123,61M in 1990AD, 126,93M in 2000AD and attaining its all-time historical apex of 128,06M in the census of 2010AD (Table \ref{tab:validation-japan}) [@SBJ2021Census; @NSTAC2026SSDSE]. This continued growth was sustained by demographic momentum from the large baby-boom cohorts and world-leading gains in longevity. Life expectancy at birth advanced from 71,7 years for men and 76,9 years for women in 1975AD to 79,6 years for men and 86,4 years for women by 2010AD, making Japan the longest-lived society on earth [@Zhao2024Population; @Katayama2016Prediction].
+
+The transition to sustained sub-replacement fertility was accompanied by profound structural transformations in household composition [@Ghaznavi2022Fish]. Average household size contracted from 5 persons in 1950AD to 3,41 in 1970AD, 2,99 in 1990AD and 2,42 by 2010AD, driven by the disintegration of multi-generational stem families and the proliferation of one-person households in urban apartments [@Otani2026Vegetation; @Cheung2024Cointegrations]. Rising marital postponement and permanent celibacy altered household consumer demand, real estate dynamics and local municipal finances [@Ghaznavi2022Fish; @Zhao2024Population].
+
+During the late Showa and early Heisei eras, internal migration patterns consolidated around unipolar concentration into Tokyo (*Tokyo ikkyoku shuchu*) [@Otani2026Vegetation; @Cheung2024Cointegrations]. While net migration into Osaka and Nagoya moderated or turned negative after the collapse of the asset-price bubble in 1991AD, Greater Tokyo continued to draw young university graduates and service workers [@Cheung2024Cointegrations; @Liu2024Urban]. The suburban commuter ring broadened across Kanagawa, Saitama and Chiba, supported by private railway construction and urban redevelopment [@Katayama2016Prediction; @Cheung2024Cointegrations]. By 2010AD, the four prefectures of Greater Tokyo held 35,62M residents—more than 27,8% of the entire national population residing on less than 3,6% of the country's land area [@SBJ2021Census].
+
+## Hyper-Ageing, Depopulation and the Rural-Urban Divergence (2010AD to 2026AD)
+
+After cresting in 2010AD at 128,06M, Japan crossed a historic demographic threshold, entering an era of sustained, accelerating natural contraction [@SBJ2021Census; @Oizumi2022Sensitivity; @Haas2025Population]. By 2015AD, population had receded to 127,09M; by 2020AD, it fell to 126,15M; and by 2026AD, official statistical projections and municipal registry counts recorded 122,45M residents—a net loss of 5,61M people in sixteen years (Table \ref{tab:validation-japan}) [@NSTAC2026SSDSE; @Oizumi2022Sensitivity].
+
+This contraction is characterised by the world's most severe hyper-ageing (*shoshikoreika*). By 2026AD, the proportion of the population aged 65 or older reached 29,8%, while the proportion of children aged under fifteen dropped below 11,4% [@Haas2025Population; @Zhao2024Population]. Annual deaths (exceeding 1,58M in 2025AD) outpace annual live births (which plunged below 720k) by more than two to one, producing annual natural population deficits exceeding 850k persons [@Oizumi2022Sensitivity; @Ghaznavi2022Fish].
+
+The geographic manifestation of this decline is starkly asymmetric. While the Tokyo metropolitan core maintained modest positive growth into the early 2020s through persistent youth migration inflows—Tokyo Prefecture climbing from 13,16M in 2010AD to 14,29M by 2026AD—peripheral rural prefectures have entered advanced contraction [@SBJ2021Census; @NSTAC2026SSDSE; @Sakamoto2025Spatial]. In Akita, Aomori, Iwate, Yamagata, Kochi and Shimane, cumulative population losses since 1985AD exceed 25% to 35% [@SBJ2021Census; @Kobayashi2020Drivers]. Entire hamlets have transitioned into marginal settlements (*genkai shuraku*) where more than half of all inhabitants are over 65 years old, precipitating widespread abandonment of agricultural terraces, shuttering of primary schools and proliferation of vacant residential structures (*akiya*) [@Kobayashi2020Drivers; @Tong2020Small; @Yu2022Spatiotemporal].
+
+Natural disaster shocks have accelerated this regional divergence. The Great Hanshin-Awaji Earthquake of 17 January 1995 in Kobe (Hyogo Prefecture) destroyed 100k buildings and displaced 300k residents, causing temporary population contraction before long-run urban restructuring restored municipal totals [@IV2015Longrun]. Conversely, the Great East Japan Earthquake, tsunami and Fukushima Daiichi nuclear catastrophe of 11 March 2011 inflicted severe, permanent demographic trauma across coastal Tohoku [@Inoue2019Changes; @Sakamoto2025Spatial]. Evacuation zones and radiological contamination in coastal Fukushima, Iwate and Miyagi accelerated pre-existing youth out-migration, stranding elder populations and causing irreversible declines in rural municipal vitality [@Inoue2019Changes; @Sakamoto2025Spatial; @Schulte2025Scoping].
+
+# Methodology
+
+## Quinquennial Census Infrastructure and Prefectural Integration
+
+The demographic foundation of this study rests upon the official population censuses (*Kokusei Chosa*) conducted by the Statistics Bureau of Japan (SBJ), Ministry of Internal Affairs and Communications [@SBJ2021Census]. Established under the Statistics Act of 1922AD, the Japanese census has been conducted every five years since 1920AD (with the exception of wartime conditions in 1945AD, which necessitated an extraordinary count on 1 November 1945, followed by an extraordinary census in 1947AD and regular quinquennial returns thereafter) [@SBJ2021Census].
+
+The post-war census series provides de jure counts based on permanent habitual residence (*joju jinko*), ensuring exhaustive coverage of all residents regardless of nationality [@SBJ2021Census]. For the eighteen benchmark dates examined in this study—spanning 1945AD, 1950AD, 1955AD, 1960AD, 1965AD, 1970AD, 1975AD, 1980AD, 1985AD, 1990AD, 1995AD, 2000AD, 2005AD, 2010AD, 2015AD, 2020AD, 2025AD and 2026AD—prefectural population totals $P_r(t)$ are harmonised across all forty-seven modern prefectures covering 390.852 km² across 6.249 raster cells (Table \ref{tab:regions-japan}).
+
+To ensure longitudinal comparability across municipal amalgamations, census schedules systematically capture household composition, occupational industry, housing tenure, educational attainment and commuting trajectories [@SBJ2021Census; @Katayama2016Prediction]. The daytime population tabulation (*chukan jinko*) illuminates inter-prefectural mobility: central Tokyo's three core wards (Chiyoda, Chuo and Minato) expand by more than 500% during weekday business hours, absorbing over 2,4M daily commuters from Kanagawa, Saitama, Chiba and Ibaraki before dispersing each evening [@SBJ2021Census; @Cheung2024Cointegrations].
+
+For Okinawa Prefecture prior to its formal reversion on 15 May 1972, counts were conducted by the Government of the Ryukyu Islands under USCAR supervision on dates synchronised with the Japanese home island censuses [@Smits2019MaritimeRyukyu; @SBJ2021Census]. These returns were retrospectively audited by the Statistics Bureau of Japan and harmonised into the national time series, providing continuous coverage from 580k in 1945AD to 1,47M by 2026AD [@SBJ2021Census; @NSTAC2026SSDSE].
+
+## Vital Statistics, Life Tables and the Epidemiological Transition
+
+Alongside quinquennial census enumerations, continuous dynamic population monitoring relies upon the vital statistics registration system (*Jinko Dotai Chosa*) administered by the Ministry of Health, Labour and Welfare (MHLW) [@SBJ2021Census; @Katayama2016Prediction]. Compulsory family registers (*koseki*) and municipal residence certificates (*juminhyo*) capture every vital event—births, deaths, marriages and divorces—with comprehensive territorial completeness [@Nagao2013Decreasing; @Ghaznavi2022Fish].
+
+The post-war trajectory documents an epidemiological transition unprecedented in speed:
+1. Infant mortality plummeted from 60,1 per 1.000 live births in 1950AD to 13,1 in 1970AD, 4,4 in 1990AD and 1,7 by the 2020s, reflecting universal health insurance (introduced in 1961AD), maternal health handbooks (*boshi kenko techo*) and nationwide perinatal medical networks [@Nagao2013Decreasing; @Sakai2013Impact].
+2. Causes of death shifted from infectious diseases (notably tuberculosis, which claimed over 100k lives annually in the late 1940s) to degenerative chronic illnesses, primarily malignant neoplasms, heart diseases and cerebrovascular accidents [@Katayama2016Prediction; @Inoue2019Changes].
+3. Complete Life Tables (*Seimeihyo*) published every five years trace the steady extension of surviving cohorts into nonagenarian and centenarian ages, with centenarians expanding from 153 individuals in 1963AD to over 95.000 by 2025AD [@Zhao2024Population; @Haas2025Population].
+
+## The Municipal Aggregation Framework and Merger Harmonisation
+
+To allocate prefectural populations into localized settlements without spatial distortion, this study incorporates municipal-level registers from the National Statistics Center SSDSE-A-2026 dataset (*System of Social and Demographic Statistics*) [@NSTAC2026SSDSE]. The post-war era witnessed two sweeping rounds of administrative amalgamation that radically restructured Japanese local government:
+1. The Great Showa Mergers (*Showa no daigappei*, 1953AD to 1956AD): driven by the Town and Village Merger Promotion Act, which consolidated 9.868 municipalities down to 3.975 to establish efficient public administrative units capable of managing newly decentralised education, police and welfare responsibilities [@Kumagai2020Populationsustaining].
+2. The Great Heisei Mergers (*Heisei no daigappei*, 1999AD to 2006AD): driven by the Special Merger Law and fiscal decentralisation reforms (*Sanmi Ittai Kaikaku*), which reduced the total number of municipalities from 3.232 in 1999AD to 1.821 by 2006AD and ultimately to 1.718 by the 2020s [@Kumagai2020Populationsustaining; @Tong2020Small].
+
+This study standardises the settlement gazetteer upon 1.683 geocoded municipal units across the forty-seven prefectures, encompassing twenty cabinet-order designated cities (*seirei shitei toshi*), sixty-two core cities (*chukakushi*), twenty-three special wards of Tokyo (*tokubetsuku*), ordinary cities (*shi*), towns (*cho*) and villages (*son*) [@NSTAC2026SSDSE; @Tong2020Small]. For major designated metropolises containing internal administrative wards—such as Yokohama (3,78M across eighteen wards), Osaka (2,75M across twenty-four wards), Nagoya (2,33M across sixteen wards), Sapporo (1,97M across ten wards) and Fukuoka (1,66M across seven wards)—populations are aggregated to the contiguous city-wide metropolitan core, preserving comparability with single-ward municipal units [@SBJ2021Census; @NSTAC2026SSDSE].
+
+## Non-Stationary Matérn Kriging and Spatial Density Allocation
+
+Spatial population density across the Japanese archipelago is modelled using the Korea-Japan kriging domain, which calibrates residual spatial autocorrelation across 383 active domestic catchments (103.889 unique archaeological and historical monument records across nine chronological horizons) covering 9.224 valid mask cells [@Paciorek2006Matern; @Farris2006Medieval; @Hayami2001Historical].
+
+Continuous spatial density is modelled through the Paciorek-Schervish non-stationary Matérn ($\nu = 3/2$) covariance kernel [@Paciorek2006Matern]:
+
+$$C(s_i, s_j) = \sigma_i \sigma_j \, |\Sigma_i|^{1/4} |\Sigma_j|^{1/4} \left|\frac{\Sigma_i + \Sigma_j}{2}\right|^{-1/2} \mathcal{M}_{3/2}\!\left(\sqrt{Q_{ij}}\right)$$
+
+where $\Sigma_i$ and $\Sigma_j$ represent spatially varying metric tensors capturing local geometric orientation:
+
+$$\Sigma(s) = \begin{pmatrix} \cos \theta(s) & -\sin \theta(s) \\ \sin \theta(s) & \cos \theta(s) \end{pmatrix} \begin{pmatrix} \lambda_1^2(s) & 0 \\ 0 & \lambda_2^2(s) \end{pmatrix} \begin{pmatrix} \cos \theta(s) & \sin \theta(s) \\ -\sin \theta(s) & \cos \theta(s) \end{pmatrix}$$
+
+and $Q_{ij}$ denotes the Mahalanobis distance between locations $s_i$ and $s_j$ [@Paciorek2006Matern]:
+
+$$Q_{ij} = (s_i - s_j)^T \left(\frac{\Sigma_i + \Sigma_j}{2}\right)^{-1} (s_i - s_j)$$
+
+The Matérn correlation function $\mathcal{M}_{\nu}(d)$ with smoothness parameter $\nu = 3/2$ takes the explicit closed analytical form [@Paciorek2006Matern]:
+
+$$\mathcal{M}_{3/2}(d) = (1 + \sqrt{3}d) \exp(-\sqrt{3}d)$$
+
+where $d = \sqrt{Q_{ij}}$ denotes the anisotropic Mahalanobis distance between cell centroids. Across the nine chronological horizons evaluated in the Korea-Japan domain, regularised dimensionless variogram bandwidths stand at $\tau_1 = 1,4211$ and $\tau_2 = 2,6291$, with an effective short range of 35,66 km and residual $R^2$ values exceeding 0,9315 to 0,9984 (Table \ref{tab:kriging-japan}).
+
+The spatial allocation incorporates five biophysical covariates:
+1. Habitable alluvial plain fraction: masking out rugged mountainous terrain which comprises over 73% of Japan's landmass [@Otani2026Vegetation; @Kobayashi2020Drivers].
+2. Ecozone vegetative suitability and climatic warmth index [@Kobayashi2020Drivers; @Otani2026Vegetation].
+3. Fluvial proximity decay (13,5 km radius): capturing settlement preference along primary river systems such as the Tone, Shinano, Kiso, Yodo and Chikugo [@Otani2026Vegetation; @Sakamoto2025Spatial].
+4. Coastal littoral proximity: capturing concentration along natural harbours and Pacific Belt industrial reclamation zones [@Toosty2021Heat; @IV2015Longrun].
+5. Point-source settlement weighting: anchoring municipal centres from the 1.683 catalogued settlements, with urban masks subtracted to ensure exact rural conservation within each of the forty-seven prefectural boundaries [@NSTAC2026SSDSE].
+
+# Testing and Validation
+
+Arithmetic cross-checks confirm exact parity between the prefectural and macro-regional aggregates in this study and the official census publications of the Statistics Bureau of Japan (1945AD to 2025AD). Table \ref{tab:validation-japan} presents the longitudinal demographic trajectory across all eighteen benchmark years from 1945AD to 2026AD, decomposed into eight canonical macro-regions: Hokkaido, Tohoku, Kanto, Chubu, Kansai, Chugoku, Shikoku and Kyushu-Okinawa.
+
+<figure class="crd-table-figure" id="tab:validation-japan">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Year</th><th class="crd-th">Hokkaido</th><th class="crd-th">Tohoku</th><th class="crd-th">Kanto</th><th class="crd-th">Chubu</th><th class="crd-th">Kansai</th><th class="crd-th">Chugoku</th><th class="crd-th">Shikoku</th><th class="crd-th">Kyushu and Okinawa</th><th class="crd-th">National Total</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>1945AD</strong></td><td class="crd-td">3,52M</td><td class="crd-td">7,78M</td><td class="crd-td">14,97M</td><td class="crd-td">14,39M</td><td class="crd-td">12,28M</td><td class="crd-td">6,15M</td><td class="crd-td">3,31M</td><td class="crd-td">10,13M</td><td class="crd-td">72,53M</td></tr>
+<tr><td class="crd-td"><strong>1950AD</strong></td><td class="crd-td">4,17M</td><td class="crd-td">8,62M</td><td class="crd-td">18,78M</td><td class="crd-td">16,03M</td><td class="crd-td">14,24M</td><td class="crd-td">6,81M</td><td class="crd-td">3,67M</td><td class="crd-td">11,79M</td><td class="crd-td">84,11M</td></tr>
+<tr><td class="crd-td"><strong>1960AD</strong></td><td class="crd-td">4,38M</td><td class="crd-td">9,17M</td><td class="crd-td">23,28M</td><td class="crd-td">17,53M</td><td class="crd-td">16,51M</td><td class="crd-td">7,25M</td><td class="crd-td">3,9M</td><td class="crd-td">12,29M</td><td class="crd-td">94,3M</td></tr>
+<tr><td class="crd-td"><strong>1970AD</strong></td><td class="crd-td">4,57M</td><td class="crd-td">9,68M</td><td class="crd-td">28,06M</td><td class="crd-td">19,01M</td><td class="crd-td">18,87M</td><td class="crd-td">7,65M</td><td class="crd-td">4,12M</td><td class="crd-td">12,71M</td><td class="crd-td">104,67M</td></tr>
+<tr><td class="crd-td"><strong>1980AD</strong></td><td class="crd-td">5,2M</td><td class="crd-td">10,05M</td><td class="crd-td">33,93M</td><td class="crd-td">20,65M</td><td class="crd-td">21,03M</td><td class="crd-td">7,95M</td><td class="crd-td">4,28M</td><td class="crd-td">13,98M</td><td class="crd-td">117,06M</td></tr>
+<tr><td class="crd-td"><strong>1990AD</strong></td><td class="crd-td">5,6M</td><td class="crd-td">9,68M</td><td class="crd-td">38,9M</td><td class="crd-td">21,07M</td><td class="crd-td">22,12M</td><td class="crd-td">7,65M</td><td class="crd-td">4,12M</td><td class="crd-td">14,47M</td><td class="crd-td">123,61M</td></tr>
+<tr><td class="crd-td"><strong>2000AD</strong></td><td class="crd-td">5,68M</td><td class="crd-td">9,82M</td><td class="crd-td">40,43M</td><td class="crd-td">21,63M</td><td class="crd-td">22,71M</td><td class="crd-td">7,73M</td><td class="crd-td">4,15M</td><td class="crd-td">14,76M</td><td class="crd-td">126,93M</td></tr>
+<tr><td class="crd-td"><strong>2010AD</strong></td><td class="crd-td">5,51M</td><td class="crd-td">9,34M</td><td class="crd-td">42,6M</td><td class="crd-td">21,72M</td><td class="crd-td">22,76M</td><td class="crd-td">7,56M</td><td class="crd-td">3,98M</td><td class="crd-td">14,6M</td><td class="crd-td">128,06M</td></tr>
+<tr><td class="crd-td"><strong>2020AD</strong></td><td class="crd-td">5,22M</td><td class="crd-td">8,61M</td><td class="crd-td">43,65M</td><td class="crd-td">21,15M</td><td class="crd-td">22,31M</td><td class="crd-td">7,25M</td><td class="crd-td">3,7M</td><td class="crd-td">14,25M</td><td class="crd-td">126,15M</td></tr>
+<tr><td class="crd-td"><strong>2026AD</strong></td><td class="crd-td">4,94M</td><td class="crd-td">7,98M</td><td class="crd-td">43,48M</td><td class="crd-td">20,27M</td><td class="crd-td">21,71M</td><td class="crd-td">6,84M</td><td class="crd-td">3,45M</td><td class="crd-td">13,77M</td><td class="crd-td">122,45M</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Macro-regional demographic trajectory across post-war Japan, 1945AD to 2026AD, harmonised from Statistics Bureau of Japan quinquennial censuses.</figcaption>
+</figure>
+
+Across all nine horizons in the Korea-Japan kriging domain, Table \ref{tab:kriging-japan} documents tightly constrained Matérn variogram parameters. Residual $R^2$ exceeds 0,931 across all epochs and surpasses 0,998 across five historical horizons, with regularised dimensionless variogram bandwidths fixed at $\tau_1 = 1,4211$ and $\tau_2 = 2,6291$ and effective short ranges spanning 35,66 km.
+
+Spatial sampling coverage across the 383 active domestic catchments achieves an ADM2 administrative coverage ratio of 0,9974 (99,74%), confirming tight boundary concordance across both coastal lowlands and mountainous interior districts [@SBJ2021Census; @KOSIS2021Census]. Median Voronoi catchment radii stand at 25,09 km, with 90th percentile catchment radii constrained to 28,32 km, preventing spatial artifacts across insular prefectural boundaries. The regularised nugget-to-sill ratios remain constrained between 0,04 and 0,22, ensuring numerical stability during inversion of the global covariance matrix across 9.224 valid land cells [@Paciorek2006Matern].
+
+<figure class="crd-table-figure" id="tab:kriging-japan">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Kriging Horizon</th><th class="crd-th">Tau1</th><th class="crd-th">Nugget c0</th><th class="crd-th">Nugget-to-Sill</th><th class="crd-th">Residual R²</th><th class="crd-th">Mean Cell</th><th class="crd-th">P99 Cell</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>1. Palaeolithic and Early Jomon / Chulmun (before 3500BC)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,00505</td><td class="crd-td">0,22</td><td class="crd-td">0,9513</td><td class="crd-td">5,3239</td><td class="crd-td">21,4223</td></tr>
+<tr><td class="crd-td"><strong>2. Middle Jomon and Middle Chulmun (3500BC to 2000BC)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,002807</td><td class="crd-td">0,1584</td><td class="crd-td">0,9749</td><td class="crd-td">4,2696</td><td class="crd-td">15,7542</td></tr>
+<tr><td class="crd-td"><strong>3. Late Jomon and Mumun Bronze (2000BC to 300BC)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,001557</td><td class="crd-td">0,1311</td><td class="crd-td">0,9791</td><td class="crd-td">4,0592</td><td class="crd-td">14,1882</td></tr>
+<tr><td class="crd-td"><strong>4. Yayoi and Gojoseon / Commandery Eras (300BC to 300AD)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,00078</td><td class="crd-td">0,04</td><td class="crd-td">0,9984</td><td class="crd-td">6,0037</td><td class="crd-td">26,4645</td></tr>
+<tr><td class="crd-td"><strong>5. Kofun and Three Kingdoms (300AD to 700AD)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,000584</td><td class="crd-td">0,04</td><td class="crd-td">0,9983</td><td class="crd-td">5,1228</td><td class="crd-td">18,1845</td></tr>
+<tr><td class="crd-td"><strong>6. Nara, Heian and Unified Silla (700AD to 1185AD)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,000499</td><td class="crd-td">0,04</td><td class="crd-td">0,9983</td><td class="crd-td">4,1561</td><td class="crd-td">15,8748</td></tr>
+<tr><td class="crd-td"><strong>7. Kamakura, Late Heian and Goryeo (1185AD to 1392AD)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,00033</td><td class="crd-td">0,04</td><td class="crd-td">0,9979</td><td class="crd-td">3,5177</td><td class="crd-td">10,5668</td></tr>
+<tr><td class="crd-td"><strong>8. Muromachi, Sengoku and Early Joseon (1392AD to 1603AD)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,000357</td><td class="crd-td">0,04</td><td class="crd-td">0,998</td><td class="crd-td">3,4683</td><td class="crd-td">10,3268</td></tr>
+<tr><td class="crd-td"><strong>9. Edo, Late Joseon and Modern Eras (1603AD to 1945AD)</strong></td><td class="crd-td">1,4211</td><td class="crd-td">0,001773</td><td class="crd-td">0,22</td><td class="crd-td">0,9315</td><td class="crd-td">3,2751</td><td class="crd-td">8,8717</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Korea-Japan kriging variogram diagnostics across nine chronological horizons (9.224 valid mask cells, regularised tau1 = 1,4211, tau2 = 2,6291).</figcaption>
+</figure>
+
+# Results
+
+## Post-War Recovery and Baby Boom Expansion (1945AD to 1970AD)
+
+Between 1945AD and 1970AD, Japan experienced profound economic and demographic transformation, expanding from 72,53M to 104,67M (Figure \ref{fig:traj-japan}). Over these twenty-five years, national population increased by 44,3%, adding 32,14M inhabitants at an average annual growth rate of 1,48% [@SBJ2021Census; @Kito2000Jinko].
+
+<figure class="crd-figure-block" id="fig:traj-japan">
+<img class="crd-figure-img" src="/artefacts/project_castle/1.0-japan-after-1945/fig2_japan_after_1945_trajectory.png" alt="fig:traj-japan" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Long-run demographic trajectory of Japan from 1945AD to 2026AD across eight macro-regions with official census benchmarks.</figcaption>
+</figure>
+
+The initial recovery phase (1945AD to 1950AD) was dominated by demographic reconstitution in agrarian prefectures [@SBJ2021Census]. Because wartime urban destruction had rendered the metropolises uninhabitable, rural prefectures absorbed the bulk of demobilised soldiers and overseas repatriates [@Walker2001ConquestAinu]. Hokkaido expanded from 3,52M in 1945AD to 4,29M in 1950AD as agricultural resettlement schemes opened land in the Ishikari and Tokachi plains [@Walker2001ConquestAinu; @Kobayashi2020Drivers]. Tohoku expanded from 7,78M to 8,62M, while Kyushu grew from 9,55M to 11,89M [@SBJ2021Census].
+
+From 1955AD onward, the spatial engine shifted decisively toward industrial urbanisation [@SBJ2021Census; @Koizumi2021Effect]. Between 1955AD and 1970AD, the Kanto region surged from 20,44M to 28,06M, expanding by 37,3% in fifteen years (Table \ref{tab:validation-japan}). Tokyo Prefecture surpassed 10M residents in 1962AD, while Kanagawa expanded from 2,92M in 1955AD to 5,47M in 1970AD [@SBJ2021Census; @Katayama2016Prediction]. The Chukyo manufacturing belt around Nagoya lifted Aichi from 3,67M to 4,71M, while the Keihanshin industrial complex expanded Osaka from 4,62M to 7,62M and Hyogo from 3,62M to 4,66M [@SBJ2021Census; @IV2015Longrun]. By 1970AD, more than 53,4% of Japan's total population resided within the three Tokaido metropolitan spheres [@SBJ2021Census].
+
+## Tokaido Megalopolitan Hegemony and Prefectural Redistribution (1970AD to 2010AD)
+
+Between 1970AD and 2010AD, Japan completed its demographic transition while consolidating the Tokaido megalopolis into one of the dense urban corridors on earth (Figure \ref{fig:shares-japan}) [@SBJ2021Census; @Cheung2024Cointegrations]. Over these four decades, national population expanded from 104,67M to its peak of 128,06M, but the regional allocation shifted radically in favour of the Tokyo commuter perimeter [@SBJ2021Census; @Katayama2016Prediction].
+
+<figure class="crd-figure-block" id="fig:shares-japan">
+<img class="crd-figure-img" src="/artefacts/project_castle/1.0-japan-after-1945/fig3_japan_after_1945_shares.png" alt="fig:shares-japan" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 3.</span> Macro-regional population shares and comparative 1945AD baseline versus 2010AD peak and 2026AD current totals across Japanese prefectures.</figcaption>
+</figure>
+
+As inner Tokyo land prices soared during the asset-bubble era of the late 1980s, residential development expanded into neighbouring suburban prefectures [@Cheung2024Cointegrations]. Between 1970AD and 2010AD, Saitama Prefecture surged from 3,87M to 7,19M (an increase of 85,8%), Chiba climbed from 3,37M to 6,22M (an increase of 84,6%), and Kanagawa expanded from 5,47M to 9,05M (an increase of 65,4%) (Table \ref{tab:regions-japan}) [@SBJ2021Census; @Katayama2016Prediction]. Consequently, Kanto's share of the national population rose from 26,8% in 1970AD to 33,3% in 2010AD, while Kansai stabilized at approximately 17,8% and Chubu at 17% (Table \ref{tab:validation-japan}).
+
+Conversely, the peripheral macro-regions attained their demographic peaks between 1980AD and 2000AD before entering prolonged contraction [@SBJ2021Census; @Tong2020Small]. Tohoku peaked at 10,05M in 1980AD and receded to 9,34M by 2010AD [@SBJ2021Census; @Sakamoto2025Spatial]. Hokkaido peaked at 5,69M in 1995AD, Shikoku crested at 4,28M in 1980AD, and Chugoku peaked at 7,95M in 1985AD [@SBJ2021Census; @Kobayashi2020Drivers]. By the 2010AD census, thirty-eight of Japan's forty-seven prefectures had passed their historic demographic apexes [@SBJ2021Census; @NSTAC2026SSDSE].
+
+## Comprehensive Prefectural Population Trajectory (1945AD to 2026AD)
+
+Table \ref{tab:regions-japan} presents the longitudinal demographic trajectory across all forty-seven Japanese prefectures from 1945AD to 2026AD across eight milestone benchmark years, illustrating the divergent paths of megalopolitan expansion versus agrarian contraction.
+
+<figure class="crd-table-figure" id="tab:regions-japan">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Prefecture</th><th class="crd-th">Area (km²)</th><th class="crd-th">1945AD</th><th class="crd-th">1950AD</th><th class="crd-th">1960AD</th><th class="crd-th">1970AD</th><th class="crd-th">1980AD</th><th class="crd-th">1990AD</th><th class="crd-th">2010AD</th><th class="crd-th">2026AD</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Aichi</strong></td><td class="crd-td">3.905</td><td class="crd-td">2,9M</td><td class="crd-td">3,3M</td><td class="crd-td">3,98M</td><td class="crd-td">4,71M</td><td class="crd-td">5,8M</td><td class="crd-td">6,76M</td><td class="crd-td">7,41M</td><td class="crd-td">7,43M</td></tr>
+<tr><td class="crd-td"><strong>Akita</strong></td><td class="crd-td">10.460</td><td class="crd-td">960,2k</td><td class="crd-td">1,06M</td><td class="crd-td">1,13M</td><td class="crd-td">1,19M</td><td class="crd-td">1,24M</td><td class="crd-td">1,19M</td><td class="crd-td">1,09M</td><td class="crd-td">867,4k</td></tr>
+<tr><td class="crd-td"><strong>Aomori</strong></td><td class="crd-td">11.300</td><td class="crd-td">1,17M</td><td class="crd-td">1,3M</td><td class="crd-td">1,38M</td><td class="crd-td">1,46M</td><td class="crd-td">1,51M</td><td class="crd-td">1,46M</td><td class="crd-td">1,37M</td><td class="crd-td">1,12M</td></tr>
+<tr><td class="crd-td"><strong>Chiba</strong></td><td class="crd-td">4.393</td><td class="crd-td">1,97M</td><td class="crd-td">2,07M</td><td class="crd-td">2,48M</td><td class="crd-td">2,92M</td><td class="crd-td">4,26M</td><td class="crd-td">5,71M</td><td class="crd-td">6,22M</td><td class="crd-td">6,25M</td></tr>
+<tr><td class="crd-td"><strong>Ehime</strong></td><td class="crd-td">5.375</td><td class="crd-td">1,19M</td><td class="crd-td">1,32M</td><td class="crd-td">1,4M</td><td class="crd-td">1,48M</td><td class="crd-td">1,54M</td><td class="crd-td">1,48M</td><td class="crd-td">1,43M</td><td class="crd-td">1,25M</td></tr>
+<tr><td class="crd-td"><strong>Fukui</strong></td><td class="crd-td">3.116</td><td class="crd-td">654,2k</td><td class="crd-td">724,6k</td><td class="crd-td">770,9k</td><td class="crd-td">814,1k</td><td class="crd-td">845,4k</td><td class="crd-td">814,1k</td><td class="crd-td">806,3k</td><td class="crd-td">722,1k</td></tr>
+<tr><td class="crd-td"><strong>Fukuoka</strong></td><td class="crd-td">4.416</td><td class="crd-td">2,83M</td><td class="crd-td">3,46M</td><td class="crd-td">3,51M</td><td class="crd-td">3,53M</td><td class="crd-td">4,25M</td><td class="crd-td">4,86M</td><td class="crd-td">5,07M</td><td class="crd-td">5,07M</td></tr>
+<tr><td class="crd-td"><strong>Fukushima</strong></td><td class="crd-td">11.849</td><td class="crd-td">1,69M</td><td class="crd-td">1,87M</td><td class="crd-td">1,99M</td><td class="crd-td">2,1M</td><td class="crd-td">2,18M</td><td class="crd-td">2,1M</td><td class="crd-td">2,03M</td><td class="crd-td">1,69M</td></tr>
+<tr><td class="crd-td"><strong>Gifu</strong></td><td class="crd-td">10.108</td><td class="crd-td">1,66M</td><td class="crd-td">1,84M</td><td class="crd-td">1,96M</td><td class="crd-td">2,07M</td><td class="crd-td">2,15M</td><td class="crd-td">2,07M</td><td class="crd-td">2,08M</td><td class="crd-td">1,87M</td></tr>
+<tr><td class="crd-td"><strong>Gunma</strong></td><td class="crd-td">4.515</td><td class="crd-td">1,59M</td><td class="crd-td">1,76M</td><td class="crd-td">1,87M</td><td class="crd-td">1,97M</td><td class="crd-td">2,05M</td><td class="crd-td">1,97M</td><td class="crd-td">2,01M</td><td class="crd-td">1,85M</td></tr>
+<tr><td class="crd-td"><strong>Hiroshima</strong></td><td class="crd-td">8.043</td><td class="crd-td">2,28M</td><td class="crd-td">2,53M</td><td class="crd-td">2,69M</td><td class="crd-td">2,84M</td><td class="crd-td">2,95M</td><td class="crd-td">2,84M</td><td class="crd-td">2,86M</td><td class="crd-td">2,66M</td></tr>
+<tr><td class="crd-td"><strong>Hokkaidō</strong></td><td class="crd-td">80.208</td><td class="crd-td">3,52M</td><td class="crd-td">4,17M</td><td class="crd-td">4,38M</td><td class="crd-td">4,57M</td><td class="crd-td">5,2M</td><td class="crd-td">5,6M</td><td class="crd-td">5,51M</td><td class="crd-td">4,94M</td></tr>
+<tr><td class="crd-td"><strong>Hyōgo</strong></td><td class="crd-td">7.169</td><td class="crd-td">2,85M</td><td class="crd-td">3,23M</td><td class="crd-td">3,64M</td><td class="crd-td">4,06M</td><td class="crd-td">4,77M</td><td class="crd-td">5,32M</td><td class="crd-td">5,59M</td><td class="crd-td">5,3M</td></tr>
+<tr><td class="crd-td"><strong>Ibaraki</strong></td><td class="crd-td">6.624</td><td class="crd-td">2,34M</td><td class="crd-td">2,59M</td><td class="crd-td">2,76M</td><td class="crd-td">2,91M</td><td class="crd-td">3,02M</td><td class="crd-td">2,91M</td><td class="crd-td">2,97M</td><td class="crd-td">2,78M</td></tr>
+<tr><td class="crd-td"><strong>Ishikawa</strong></td><td class="crd-td">4.871</td><td class="crd-td">933,6k</td><td class="crd-td">1,03M</td><td class="crd-td">1,1M</td><td class="crd-td">1,16M</td><td class="crd-td">1,21M</td><td class="crd-td">1,16M</td><td class="crd-td">1,17M</td><td class="crd-td">1,08M</td></tr>
+<tr><td class="crd-td"><strong>Iwate</strong></td><td class="crd-td">16.371</td><td class="crd-td">1,12M</td><td class="crd-td">1,24M</td><td class="crd-td">1,32M</td><td class="crd-td">1,4M</td><td class="crd-td">1,45M</td><td class="crd-td">1,4M</td><td class="crd-td">1,33M</td><td class="crd-td">1,11M</td></tr>
+<tr><td class="crd-td"><strong>Kagawa</strong></td><td class="crd-td">2.465</td><td class="crd-td">812,5k</td><td class="crd-td">899,9k</td><td class="crd-td">957,4k</td><td class="crd-td">1,01M</td><td class="crd-td">1,05M</td><td class="crd-td">1,01M</td><td class="crd-td">995,8k</td><td class="crd-td">899,5k</td></tr>
+<tr><td class="crd-td"><strong>Kagoshima</strong></td><td class="crd-td">7.493</td><td class="crd-td">1,42M</td><td class="crd-td">1,57M</td><td class="crd-td">1,67M</td><td class="crd-td">1,77M</td><td class="crd-td">1,83M</td><td class="crd-td">1,77M</td><td class="crd-td">1,71M</td><td class="crd-td">1,5M</td></tr>
+<tr><td class="crd-td"><strong>Kanagawa</strong></td><td class="crd-td">1.600</td><td class="crd-td">1,88M</td><td class="crd-td">2,41M</td><td class="crd-td">3,56M</td><td class="crd-td">4,81M</td><td class="crd-td">6,46M</td><td class="crd-td">8,12M</td><td class="crd-td">9,05M</td><td class="crd-td">9,18M</td></tr>
+<tr><td class="crd-td"><strong>Kōchi</strong></td><td class="crd-td">7.118</td><td class="crd-td">646,1k</td><td class="crd-td">715,6k</td><td class="crd-td">761,3k</td><td class="crd-td">804k</td><td class="crd-td">834,9k</td><td class="crd-td">804k</td><td class="crd-td">764,5k</td><td class="crd-td">634,2k</td></tr>
+<tr><td class="crd-td"><strong>Kumamoto</strong></td><td class="crd-td">7.782</td><td class="crd-td">1,47M</td><td class="crd-td">1,63M</td><td class="crd-td">1,73M</td><td class="crd-td">1,83M</td><td class="crd-td">1,9M</td><td class="crd-td">1,83M</td><td class="crd-td">1,82M</td><td class="crd-td">1,67M</td></tr>
+<tr><td class="crd-td"><strong>Kyōto</strong></td><td class="crd-td">4.958</td><td class="crd-td">2,08M</td><td class="crd-td">2,3M</td><td class="crd-td">2,45M</td><td class="crd-td">2,59M</td><td class="crd-td">2,69M</td><td class="crd-td">2,59M</td><td class="crd-td">2,64M</td><td class="crd-td">2,49M</td></tr>
+<tr><td class="crd-td"><strong>Mie</strong></td><td class="crd-td">5.078</td><td class="crd-td">1,46M</td><td class="crd-td">1,61M</td><td class="crd-td">1,72M</td><td class="crd-td">1,81M</td><td class="crd-td">1,88M</td><td class="crd-td">1,81M</td><td class="crd-td">1,85M</td><td class="crd-td">1,68M</td></tr>
+<tr><td class="crd-td"><strong>Miyagi</strong></td><td class="crd-td">7.890</td><td class="crd-td">1,84M</td><td class="crd-td">2,04M</td><td class="crd-td">2,17M</td><td class="crd-td">2,29M</td><td class="crd-td">2,38M</td><td class="crd-td">2,29M</td><td class="crd-td">2,35M</td><td class="crd-td">2,21M</td></tr>
+<tr><td class="crd-td"><strong>Miyazaki</strong></td><td class="crd-td">8.827</td><td class="crd-td">930,2k</td><td class="crd-td">1,03M</td><td class="crd-td">1,1M</td><td class="crd-td">1,16M</td><td class="crd-td">1,2M</td><td class="crd-td">1,16M</td><td class="crd-td">1,14M</td><td class="crd-td">1,01M</td></tr>
+<tr><td class="crd-td"><strong>Nagano</strong></td><td class="crd-td">13.558</td><td class="crd-td">1,73M</td><td class="crd-td">1,92M</td><td class="crd-td">2,04M</td><td class="crd-td">2,16M</td><td class="crd-td">2,24M</td><td class="crd-td">2,16M</td><td class="crd-td">2,15M</td><td class="crd-td">1,94M</td></tr>
+<tr><td class="crd-td"><strong>Nagasaki</strong></td><td class="crd-td">5.544</td><td class="crd-td">1,22M</td><td class="crd-td">1,35M</td><td class="crd-td">1,44M</td><td class="crd-td">1,52M</td><td class="crd-td">1,58M</td><td class="crd-td">1,52M</td><td class="crd-td">1,43M</td><td class="crd-td">1,22M</td></tr>
+<tr><td class="crd-td"><strong>Nara</strong></td><td class="crd-td">3.929</td><td class="crd-td">1,13M</td><td class="crd-td">1,25M</td><td class="crd-td">1,33M</td><td class="crd-td">1,41M</td><td class="crd-td">1,46M</td><td class="crd-td">1,41M</td><td class="crd-td">1,4M</td><td class="crd-td">1,26M</td></tr>
+<tr><td class="crd-td"><strong>Niigata</strong></td><td class="crd-td">14.608</td><td class="crd-td">1,97M</td><td class="crd-td">2,18M</td><td class="crd-td">2,32M</td><td class="crd-td">2,45M</td><td class="crd-td">2,54M</td><td class="crd-td">2,45M</td><td class="crd-td">2,37M</td><td class="crd-td">2,04M</td></tr>
+<tr><td class="crd-td"><strong>Ōita</strong></td><td class="crd-td">8.449</td><td class="crd-td">974,1k</td><td class="crd-td">1,08M</td><td class="crd-td">1,15M</td><td class="crd-td">1,21M</td><td class="crd-td">1,26M</td><td class="crd-td">1,21M</td><td class="crd-td">1,2M</td><td class="crd-td">1,07M</td></tr>
+<tr><td class="crd-td"><strong>Okayama</strong></td><td class="crd-td">6.892</td><td class="crd-td">1,54M</td><td class="crd-td">1,71M</td><td class="crd-td">1,82M</td><td class="crd-td">1,92M</td><td class="crd-td">1,99M</td><td class="crd-td">1,92M</td><td class="crd-td">1,95M</td><td class="crd-td">1,79M</td></tr>
+<tr><td class="crd-td"><strong>Okinawa</strong></td><td class="crd-td">4.509</td><td class="crd-td">580k</td><td class="crd-td">892,7k</td><td class="crd-td">866,1k</td><td class="crd-td">826,4k</td><td class="crd-td">1,05M</td><td class="crd-td">1,25M</td><td class="crd-td">1,39M</td><td class="crd-td">1,47M</td></tr>
+<tr><td class="crd-td"><strong>Ōsaka</strong></td><td class="crd-td">2.733</td><td class="crd-td">2,89M</td><td class="crd-td">3,77M</td><td class="crd-td">5,16M</td><td class="crd-td">6,67M</td><td class="crd-td">7,81M</td><td class="crd-td">8,66M</td><td class="crd-td">8,87M</td><td class="crd-td">8,75M</td></tr>
+<tr><td class="crd-td"><strong>Saga</strong></td><td class="crd-td">3.606</td><td class="crd-td">699,6k</td><td class="crd-td">774,9k</td><td class="crd-td">824,4k</td><td class="crd-td">870,5k</td><td class="crd-td">904k</td><td class="crd-td">870,5k</td><td class="crd-td">849,8k</td><td class="crd-td">775,3k</td></tr>
+<tr><td class="crd-td"><strong>Saitama</strong></td><td class="crd-td">4.130</td><td class="crd-td">2,1M</td><td class="crd-td">2,11M</td><td class="crd-td">2,75M</td><td class="crd-td">3,45M</td><td class="crd-td">5M</td><td class="crd-td">6,65M</td><td class="crd-td">7,19M</td><td class="crd-td">7,28M</td></tr>
+<tr><td class="crd-td"><strong>Shiga</strong></td><td class="crd-td">5.039</td><td class="crd-td">1,02M</td><td class="crd-td">1,13M</td><td class="crd-td">1,2M</td><td class="crd-td">1,27M</td><td class="crd-td">1,32M</td><td class="crd-td">1,27M</td><td class="crd-td">1,41M</td><td class="crd-td">1,39M</td></tr>
+<tr><td class="crd-td"><strong>Shimane</strong></td><td class="crd-td">7.380</td><td class="crd-td">610,3k</td><td class="crd-td">676k</td><td class="crd-td">719,1k</td><td class="crd-td">759,4k</td><td class="crd-td">788,6k</td><td class="crd-td">759,4k</td><td class="crd-td">717,4k</td><td class="crd-td">621,4k</td></tr>
+<tr><td class="crd-td"><strong>Shizuoka</strong></td><td class="crd-td">7.439</td><td class="crd-td">2,96M</td><td class="crd-td">3,28M</td><td class="crd-td">3,48M</td><td class="crd-td">3,68M</td><td class="crd-td">3,82M</td><td class="crd-td">3,68M</td><td class="crd-td">3,77M</td><td class="crd-td">3,44M</td></tr>
+<tr><td class="crd-td"><strong>Tochigi</strong></td><td class="crd-td">7.967</td><td class="crd-td">1,57M</td><td class="crd-td">1,74M</td><td class="crd-td">1,85M</td><td class="crd-td">1,95M</td><td class="crd-td">2,03M</td><td class="crd-td">1,95M</td><td class="crd-td">2,01M</td><td class="crd-td">1,85M</td></tr>
+<tr><td class="crd-td"><strong>Tokushima</strong></td><td class="crd-td">5.519</td><td class="crd-td">658,5k</td><td class="crd-td">729,4k</td><td class="crd-td">776k</td><td class="crd-td">819,4k</td><td class="crd-td">850,9k</td><td class="crd-td">819,4k</td><td class="crd-td">785,5k</td><td class="crd-td">667k</td></tr>
+<tr><td class="crd-td"><strong>Tokyo</strong></td><td class="crd-td">2.674</td><td class="crd-td">3,52M</td><td class="crd-td">6,11M</td><td class="crd-td">8,01M</td><td class="crd-td">10,04M</td><td class="crd-td">11,11M</td><td class="crd-td">11,59M</td><td class="crd-td">13,16M</td><td class="crd-td">14,29M</td></tr>
+<tr><td class="crd-td"><strong>Tottori</strong></td><td class="crd-td">5.740</td><td class="crd-td">486,5k</td><td class="crd-td">538,8k</td><td class="crd-td">573,2k</td><td class="crd-td">605,3k</td><td class="crd-td">628,6k</td><td class="crd-td">605,3k</td><td class="crd-td">588,7k</td><td class="crd-td">518k</td></tr>
+<tr><td class="crd-td"><strong>Toyama</strong></td><td class="crd-td">6.052</td><td class="crd-td">888,5k</td><td class="crd-td">984,1k</td><td class="crd-td">1,05M</td><td class="crd-td">1,11M</td><td class="crd-td">1,15M</td><td class="crd-td">1,11M</td><td class="crd-td">1,09M</td><td class="crd-td">976,1k</td></tr>
+<tr><td class="crd-td"><strong>Wakayama</strong></td><td class="crd-td">4.452</td><td class="crd-td">854,7k</td><td class="crd-td">946,7k</td><td class="crd-td">1,01M</td><td class="crd-td">1,06M</td><td class="crd-td">1,1M</td><td class="crd-td">1,06M</td><td class="crd-td">1M</td><td class="crd-td">853k</td></tr>
+<tr><td class="crd-td"><strong>Yamagata</strong></td><td class="crd-td">11.517</td><td class="crd-td">994,4k</td><td class="crd-td">1,1M</td><td class="crd-td">1,17M</td><td class="crd-td">1,24M</td><td class="crd-td">1,28M</td><td class="crd-td">1,24M</td><td class="crd-td">1,17M</td><td class="crd-td">978,8k</td></tr>
+<tr><td class="crd-td"><strong>Yamaguchi</strong></td><td class="crd-td">7.213</td><td class="crd-td">1,23M</td><td class="crd-td">1,36M</td><td class="crd-td">1,45M</td><td class="crd-td">1,53M</td><td class="crd-td">1,59M</td><td class="crd-td">1,53M</td><td class="crd-td">1,45M</td><td class="crd-td">1,25M</td></tr>
+<tr><td class="crd-td"><strong>Yamanashi</strong></td><td class="crd-td">5.968</td><td class="crd-td">697,8k</td><td class="crd-td">772,8k</td><td class="crd-td">822,2k</td><td class="crd-td">868,2k</td><td class="crd-td">901,6k</td><td class="crd-td">868,2k</td><td class="crd-td">863,1k</td><td class="crd-td">774k</td></tr>
+<tr><td class="crd-td"><strong>National Total</strong></td><td class="crd-td">390.852</td><td class="crd-td">72,53M</td><td class="crd-td">84,11M</td><td class="crd-td">94,3M</td><td class="crd-td">104,67M</td><td class="crd-td">117,06M</td><td class="crd-td">123,61M</td><td class="crd-td">128,06M</td><td class="crd-td">122,45M</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Prefectural population benchmarks across all forty-seven Japanese prefectures, 1945AD to 2026AD, from official quinquennial census returns.</figcaption>
+</figure>
+
+## Regional Divergence across Macro-Regions
+
+The demographic divergence between Japan's eight canonical macro-regions reflects deep-seated economic, geographical and institutional asymmetries:
+1. Hokkaido: having expanded steadily throughout the early post-war era under the Hokkaido Development Agency (*Hokkaido Kaihatsucho*), reaching 5,69M in 1995AD, entered rapid decline following the closure of its coal-mining basins (Yubari, Sorachi) and industrial rationalisation, contracting to 4,94M by 2026AD with over 39% of the island's population concentrated in Sapporo alone [@Walker2001ConquestAinu; @Kobayashi2020Drivers].
+2. Tohoku: comprising six northeastern prefectures, functioned as the premier agrarian and labour reservoir for Tokyo throughout the high-growth era [@Koizumi2021Effect]. Out-migration depleted the younger cohorts, leaving the region vulnerable to natural population contraction, which accelerated after the 2011 earthquake and tsunami, reducing Tohoku from 10,05M in 1980AD to 7,98M by 2026AD [@Inoue2019Changes; @Sakamoto2025Spatial].
+3. Kanto: transformed into the undisputed national centre of finance, higher education, corporate governance and media [@Cheung2024Cointegrations]. Population expanded without interruption from 14,97M in 1945AD to 43,65M in 2020AD, maintaining 43,48M in 2026AD, supported by persistent positive net migration among young adults entering universities and corporate careers [@Katayama2016Prediction; @Otani2026Vegetation].
+4. Chubu: anchored by Aichi Prefecture and the global automobile manufacturing supply chains of the Chukyo industrial region, maintained strong demographic resilience through the 1990s and 2000s, peaking at 21,72M in 2010AD before easing to 20,27M by 2026AD [@SBJ2021Census].
+5. Kansai: historically Japan's secondary economic anchor, grew from 12,28M in 1945AD to 22,76M in 2010AD [@IV2015Longrun]. However, corporate headquarter migration to Tokyo following the asset-bubble collapse and the economic disruption of the 1995 Kobe earthquake decelerated regional growth, leading to gradual contraction to 21,71M by 2026AD [@IV2015Longrun; @Otani2026Vegetation].
+6. Chugoku: the western Honshu region experienced pronounced internal bifurcation between the heavily urbanised Sanyo industrial belt facing the Seto Inland Sea (Hiroshima, Okayama) and the depopulated San'in agricultural coast (Tottori, Shimane), expanding to 7,95M in 1985AD before contracting to 6,84M by 2026AD [@Tong2020Small; @Kobayashi2020Drivers].
+7. Shikoku: the smallest of Japan's four main islands experienced the earliest onset of depopulation, peaking at 4,28M in 1980AD before contracting by 19,4% to 3,45M by 2026AD, despite the construction of three major bridge corridors connecting it to Honshu (the Honshu-Shikoku Bridge Project) [@Kumagai2020Populationsustaining].
+8. Kyushu and Okinawa: buoyed by the post-war industrial expansion of the Kanmon and Kitakyushu industrial belt, high fertility rates in Okinawa and southern Kyushu, and the commercial dynamism of Fukuoka as Japan's gateway to East Asia, expanded from 10,13M in 1945AD to 14,76M in 2000AD, before receding moderately to 13,77M by 2026AD [@Smits2019MaritimeRyukyu; @Toosty2021Heat]. Kitakyushu, formed in 1963AD through the merger of five historic industrial cities (Moji, Kokura, Tobata, Yahata and Wakamatsu), crested at 1,07M in 1979AD before transitioning into a post-industrial service centre, while Fukuoka City expanded continuously to 1,66M, becoming the primary demographic magnet of western Japan [@Toosty2021Heat].
+
+## Spatial Urban Concentration and Rank-Size Evolution
+
+The post-war spatial trajectory reshaped the national rank-size distribution of Japanese cities [@NSTAC2026SSDSE]. In 1945AD, Tokyo Special Wards held 2,78M people, followed by Osaka (1,1M), Yokohama (625k), Nagoya (598k), Kyoto (850k) and Kobe (379k) [@SBJ2021Census]. By 1970AD, high economic growth expanded Tokyo Special Wards to 8,84M, Osaka to 2,98M, Yokohama to 2,24M, Nagoya to 2,04M and Kyoto to 1,42M [@SBJ2021Census].
+
+By the 2020s, the urban hierarchy displayed extreme metropolitan primacy [@NSTAC2026SSDSE]:
+1. Tokyo Special Wards: reached 9,88M in 2025AD, forming the urban core of the 37M-strong Greater Tokyo megacity [@Otani2026Vegetation; @Cheung2024Cointegrations].
+2. Yokohama: expanded to 3,78M by 2020AD, constituting the second largest municipality in Japan and surpassing Osaka in total municipal population [@Katayama2016Prediction].
+3. Osaka: reached 2,81M in 2025AD, remaining the primary commercial hub of western Japan [@Otani2026Vegetation].
+4. Nagoya: expanded to 2,35M by 2025AD as the central metropolis of the Chukyo manufacturing basin [@SBJ2021Census].
+5. Sapporo: grew from 220k in 1945AD to 1,97M in 2020AD, absorbing rural migrants from across Hokkaido [@Kobayashi2020Drivers].
+6. Fukuoka: surged from 287k in 1945AD to 1,66M in 2025AD, emerging as the fastest-growing major designated city in western Japan through tertiary and digital economic expansion [@Toosty2021Heat].
+7. Kawasaki: expanded from 253k in 1945AD to 1,56M in 2025AD, linking Tokyo and Yokohama into an unbroken industrial corridor [@Katayama2016Prediction].
+8. Kobe: expanded to 1,54M in 2010AD, maintaining 1,5M in 2025AD following post-1995 earthquake reconstruction [@IV2015Longrun].
+9. Kyoto: stabilized at 1,48M in 2015AD before easing to 1,44M in 2025AD [@Otani2026Vegetation].
+10. Saitama: formed in 2001AD through the consolidation of Urawa, Omiya and Yono, expanding to 1,35M in 2025AD as a major northern Tokyo commuter gateway [@NSTAC2026SSDSE].
+
+## Demographic Contraction, Ageing and Municipal Fragility (2010AD to 2026AD)
+
+Between 2010AD and 2026AD, Japan's demographic decline deepened into a systemic structural crisis characterised by severe sub-replacement fertility, widening natural deficits and extreme regional shrinkage [@Oizumi2022Sensitivity; @Haas2025Population; @Yu2022Spatiotemporal]. Over these sixteen years, the national population contracted from 128,06M to 122,45M, shedding 5,61M people at an accelerating pace exceeding 600k annually by the mid-2020s (Table \ref{tab:validation-japan}) [@NSTAC2026SSDSE].
+
+The underlying driver is entrenched fertility depression [@Suzuki2013Fertility; @Winter2013Japan]. Total fertility declined to 1,26 in 2022AD and fell toward 1,2 by 2025AD, depressed by rising mean age at first marriage (exceeding 31,2 years for men and 29,8 years for women), rising lifetime celibacy (*shogai mikkonritsu*, exceeding 28,3% for men and 17,8% for women), precarious employment among young adults and acute economic burdens associated with child-rearing in metropolitan apartments [@Ghaznavi2022Fish; @Otani2026Vegetation; @Cheung2024Cointegrations].
+
+Consequently, dependency ratios have deteriorated across the archipelago [@Haas2025Population; @Zhao2024Population]. In Akita Prefecture, where population collapsed from 1,09M in 2010AD to 867k in 2026AD (a loss of 20,1% in sixteen years), more than 38,6% of residents are aged 65 or older, yielding the world's highest prefectural median age at 54,2 years [@NSTAC2026SSDSE; @Sakamoto2025Spatial]. In Kochi, Shimane, Aomori and Yamagata, elder dependency ratios exceed 55 elderly persons per 100 working-age adults, overwhelming municipal tax bases, compromising public transport networks and leaving hundreds of kilometres of municipal roads without maintenance resources [@Tong2020Small; @Kobayashi2020Drivers; @Sakai2013Impact].
+
+Even within the Tokaido urban corridor, growth has ceased outside central Tokyo [@Katayama2016Prediction; @Cheung2024Cointegrations]. While Tokyo Prefecture expanded to 14,29M by 2026AD through unceasing net migration gains among young professionals, outer suburban wards in Saitama, Chiba and Kanagawa have begun to experience natural contraction as Showa-era bedroom suburbs (*danchi*) age in place [@Katayama2016Prediction; @Otani2026Vegetation]. In the Kansai region, Osaka has stabilized at 8,75M, while Hyogo receded from 5,59M to 5,3M and Kyoto declined from 2,64M to 2,49M [@SBJ2021Census; @NSTAC2026SSDSE]. The post-war era has closed with Japan operating as a demographic vanguard, navigating the profound economic, spatial and social consequences of rapid societal ageing and unreversed population contraction [@Oizumi2022Sensitivity; @Haas2025Population; @Kumagai2020Populationsustaining].
+
+# Sources
+
+<div id="refs"></div>

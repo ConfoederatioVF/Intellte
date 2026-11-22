@@ -1,0 +1,192 @@
+---
+title: "Settlement Gazetteer of the Maurya Empire (322BC to 185BC)"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories across Five Viceroyalties"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: maurya_empire_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_maurya_empire_spatial.png"
+hero_caption: "Spatial distribution of 9.518 catalogued settlements across five imperial viceroyalties of the Maurya Empire (3,94M km²) during the Ashokan apex (260BC)."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("maurya_empire.json5")
+set_data <- read_json_file("maurya_empire_settlements.json")
+led_data <- read_json_file("maurya_empire_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 5L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 5L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  mau_uttarapatha = "Uttarapatha",
+  mau_prachya_magadha = "Prachya and Core",
+  mau_avantiratha = "Avantiratha",
+  mau_kalinga = "Kalinga",
+  mau_dakshinapatha = "Dakshinapatha"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative jurisdictions, occupation spans and benchmark population series for `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements across the Maurya Empire (3,94M km², encompassing 3.938.787 km²) from 322BC to 185BC. Spanning five canonical imperial viceroyalties (Prachya and the Magadhan Core with 3.414 settlements, Uttarapatha with 2.203, Dakshinapatha with 2.084, Avantiratha with 1.440 and Kalinga with 377), the dataset documents the spatial hierarchy of early South Asian urbanism, encompassing the palisaded megacity of Pataliputra, viceregal metropolises at Taxila, Ujjayini, Tosali and Suvarnagiri, fortified regional capitals such as Kaushambi, Varanasi, Mathura, Sisupalgarh, Mahasthangarh and Rajgir, coastal trading emporia at Bharuch, Sopara and Tamralipti, and thousands of agrarian market towns and rural village communities.
+
+Settlement demographic estimates range from the imperial capital of Patna (Pataliputra, 320k peak in 260BC) and regional metropolises including Ujjain (70,6k peak in 185BC), Varanasi (65k peak in 300BC), Kaushambi (62k peak in 300BC), Taxila (59,1k peak in 185BC), Mathura (50,5k peak in 185BC), Shravasti (46,4k peak in 322BC) and Ayodhya (44,2k peak in 185BC) down to nucleated garrison outposts, mining encampments and rural market settlements numbering several hundred inhabitants. Across the full 9.518-settlement gazetteer, log-log rank-size scaling fits a Zipf slope of $\alpha = 0,87$ ($R^2 = 0,95$). Every catalogued settlement is reconciled against `r viscount_fmt_number(length(led_data$candidates), 0L)` candidates recorded in the INDUS source ledger, alongside `r viscount_fmt_number(length(exc_list), 0L)` documented exclusions that isolate duplicate toponymic aliases within 3 km, non-habitation epigraphic pillars, and natural rock outcrops lacking domestic occupational refuse.
+
+By anchoring archaeological and historical settlement trajectories to precise geographic coordinates, this gazetteer provides the empirical foundation for settlement subtraction within the INDUS spatial kriging pipeline. Isolating nucleated urban populations from rural peasantries ensures that regional demographic density surfaces reflect documented archaeological and census-calibrated sites rather than uncalibrated continental assumptions.
+
+# Settlement Archaeology in the Maurya Empire
+
+Archaeological settlement patterns in the Maurya Empire reflect a highly integrated urban hierarchy shaped by imperial administrative design, inter-regional trade arteries and agrarian colonisation [@Hawkes2020Back; @Dwivedi2019Early; @Allchin1995Archaeology; @Erdosy1988Urbanisation]. Excavations across South Asia identify four primary functional tiers of settlement:
+
+1. **Imperial Capital**: Pataliputra (modern Patna), situated at the confluence of the Ganga and Son rivers, constituted the administrative and political nerve centre of the empire. As recorded by Megasthenes and confirmed by excavations at Kumrahar and Bulandi Bagh, the city was enclosed by a massive timber palisade punctuated by 570 watchtowers and 64 gates, surrounded by a deep protective moat fed by the Son River. Excavations revealed monumental Mauryan architecture, notably an eighty-pillared polished sandstone hypostyle hall demonstrating sophisticated stone-cutting craftsmanship and imperial Persian influence [@Fauconnier2015Occidente].
+2. **Viceregal Metropolises**: Outlying provinces were governed from major fortified metropolises headed by royal princes. In Uttarapatha, Taxila (Bhir Mound) featured dense stone masonry habitations, covered drainage systems, and extensive artisan quarters manufacturing jewellery, coins and glassware [@Morris2019Evidence]. In Avantiratha, Ujjayini was enclosed by a massive mud rampart and moat along the Kshipra River, serving as the astronomical and mercantile capital of western India [@Dwivedi2021Tools]. In Kalinga, Tosali was anchored by the fortified city of Sisupalgarh, featuring a square layout enclosed by monumental earthen ramparts faced with laterite brick, sixteen stone gateways, and internal gridded streets [@Yule2008Early; @Yule2009Sisupalgar]. In Dakshinapatha, Suvarnagiri in Andhra Pradesh coordinated mineral extraction from the southern gold and diamond belts [@Shinde2026Autonomous].
+3. **Fortified Regional Market Centres**: Secondary administrative and commercial capitals functioned as focal nodes for tax collection and legal administration. In northern Bengal, the fortified citadel of Mahasthangarh (ancient Pundranagara) occupied a high terrace overlooking the Karatoya River, with excavations uncovering Mauryan brick walls, punch-marked coins, and a third-century BC Brahmi inscription recording royal grain distribution during drought [@Rashid2020Search; @Kovacs2024Bengal]. In the middle Ganga valley, fortified centres like Kaushambi, Rajgir, Varanasi, Shravasti and Ayodhya concentrated thousands of artisans, merchants and state officials along the *rajapatha* [@Hussain2026Geopolitic].
+4. **Maritime and Riverine Ports**: International commercial emporia connected inland production centres with overseas markets. On the Gulf of Khambhat, Bharuch (Bhrigukachha, Barygaza) acted as the premier western seaport handling cotton, aromatics and semiprecious stones bound for the Red Sea and Persian Gulf [@Bopearachchi2022Indian]. On the Konkan coast, Sopara (Shurparaka) served as a major Buddhist maritime hub, where Ashoka erected an edition of his Major Rock Edicts. In the east, Tamralipti in the Bengal delta handled riverine and maritime traffic connecting the Ganga basin with Kalinga, Sri Lanka and Southeast Asia [@Mishra2026Coastal].
+
+# Methodology and Source Ledger Reconciliation
+
+The expanded 9.518-settlement gazetteer is empirically anchored rather than derived from arbitrary multipliers, integrating four reconciled source waves across 10.318 evaluated candidates:
+
+1. **Primary-Monograph Historical Metropolis Trajectories**: Leading urban trajectories are calibrated directly from archaeological and historical-demographic monographs covering early historic urbanism, intramural mound areas and pre-industrial city scales [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @Champakalakshmi1996Trade; @Kenoyer1998AncientCities; @Possehl1999IndusAge], supplemented by canonical regional urban syntheses for the Indo-Gangetic plain, Bengal and the Deccan [@Habib1982Atlas; @Moosvi1987Economy; @Hambly1982Towns; @Naqvi1968Urbanisation; @Blake1991Shahjahanabad; @Bayly1983Rulers; @Eaton1993Rise; @Stein1989Vijayanagara].
+2. **Multi-Repository Archaeological and Monument Corpora**: Stratigraphic and spatial anchors are ingested from Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology A Review (IAR) compilations, Archaeological Survey of India (ASI) P1371 site registers, Wikidata, OpenStreetMap heritage nodes and XRONOS/c14bazAAR radiocarbon inventories [@Hawkes2020Back; @Dwivedi2019Early].
+3. **Official National Censuses and Colonial Gazetteers**: Long-term settlement coordinates and sub-district baselines draw on Census of India Table A-04, the Pakistan Bureau of Statistics (PBS), Bangladesh Bureau of Statistics (BBS), Department of Census and Statistics (DCS, Sri Lanka), Central Bureau of Statistics (CBS, Nepal), National Statistics Bureau (NSB, Bhutan) and National Bureau of Statistics (NBS, Maldives), cross-checked against historical administrative gazetteers and Himalayan regional histories [@ImperialGazetteer1908; @Slusser1982NepalMandala; @Phuntsho2013HistoryBhutan].
+4. **Macro-Envelope Continuity and Chronological Filters**: Non-metropolitan market towns and rural centres incorporate macro-envelope *qasba*, *pargana* and *nadu* settlement continuity [@Chattopadhyaya1994Making; @Habib1982Atlas], strictly gated by foundation-year constraints, Northern Black Polished Ware (NBPW) or radiocarbon phase verification, and chronological toponymy filters excluding post-Mauryan foundations.
+
+Candidate inclusion requires WGS84 coordinates verified against regional topography and drainage, confirmed fourth-to-second-century BC occupation, and demographic scaling calibrated to fortified intramural area, residential mound extent or macro-envelope rural-urban parity. Where multiple survey points fall within 3 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, while non-habitation features (isolated rock edicts, displaced pillar fragments and natural landmarks) account for the `r viscount_fmt_number(length(exc_list), 0L)` excluded candidates. Across the 9.518 included settlements, the rank-size distribution conforms to a Zipf curve of $\alpha = 0,87$ ($R^2 = 0,95$).
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the five imperial viceroyalties.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  reg_lbl <- if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk)
+  data.frame(
+    Province = reg_lbl,
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  Province = "Imperial Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Provincial distribution of 9.518 catalogued settlements and summed site peaks across the Maurya Empire.",
+  c("Province", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Leading Maurya Settlements
+
+Table \ref{tab:gazetteer} presents the leading 45 settlements across the Maurya Empire ordered by peak demographic scale descending, detailing coordinates, provincial attribution, chronological occupation span and benchmark population series.
+
+The urban apex was led by the imperial capital of Patna (Pataliputra, 320k peak in 260BC), followed by Ujjain (Ujjayini, 70,6k peak in 185BC), Varanasi (65k peak in 300BC), Kaushambi (62k peak in 300BC), Taxila (59,1k peak in 185BC), Mathura (50,5k peak in 185BC), Shravasti (46,4k peak in 322BC) and Ayodhya (44,2k peak in 185BC) [@Allchin1995Archaeology; @Erdosy1988Urbanisation]. Along the northwestern arterial route of Uttarapatha, Taxila was flanked by Charsadda (Pushkalavati, 35,6k peak in 185BC), Sialkot (34,1k peak in 185BC), Delhi (Indraprastha, 28,1k peak in 185BC), Multan (24,4k peak in 185BC) and Peshawar (19,2k peak in 185BC) [@Morris2019Evidence]. In Avantiratha, Ujjain was supported by Vidisha (35,3k peak in 185BC) and the commercial port of Bharuch (28,8k peak in 185BC) on the Narmada estuary [@Dwivedi2021Tools].
+
+In the eastern provinces, the fortified stronghold of Sisupalgarh (35k peak in 260BC) anchored Kalinga, while Vaishali (35,5k peak in 322BC), Bhagalpur (32,2k peak in 322BC), Ahichhatra (31,5k peak in 185BC), Mahasthangarh (27,3k peak in 185BC), Chandraketugarh (27,3k peak in 185BC), Rajgir (26,9k peak in 322BC) and Tamralipti (26,8k peak in 185BC) structured Prachya and the Bengal delta [@Yule2009Sisupalgar; @Rashid2020Search]. Across Dakshinapatha, Paithan (25,3k peak in 185BC), Amaravati (21k peak in 185BC), Sopara (20,2k peak in 185BC) and Kanchipuram (18,7k peak in 185BC) linked Deccan interior routes with Indian Ocean trade [@Champakalakshmi1996Trade; @Bopearachchi2022Indian; @Neelakantan2025Digital].
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_260 <- if (!is.null(s$population[["-260"]])) as.numeric(s$population[["-260"]]) else "-"
+  rk <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    Province = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P260BC = if (is.numeric(p_260)) viscount_fmt_pop(p_260) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 settlements ordered by peak population across the Maurya Empire (322BC to 185BC).",
+  c("Settlement Name", "Province", "Coordinates", "Span", "Peak Pop", "260BC Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+# Sources

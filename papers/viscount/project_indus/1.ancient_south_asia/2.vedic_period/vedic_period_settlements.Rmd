@@ -1,0 +1,252 @@
+---
+title: "Settlement Gazetteer of the Vedic Period and Iron Age Gangetic Basin"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (1500BC to 500BC)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: vedic_period_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_vedic_period_spatial.png"
+hero_caption: "Spatial distribution of 5.905 catalogued settlements and macro-regional catchments across Northern and Western South Asia (2,01M km²) from 1500BC to 500BC."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("vedic_period.json5")
+set_data <- read_json_file("vedic_period_settlements.json")
+led_data <- read_json_file("vedic_period_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 5L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 5L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  ved_sapta_sindhu = "Sapta Sindhu and Punjab",
+  ved_kurukshetra_doab = "Kurukshetra and Upper Doab",
+  ved_kosala_videha_magadha = "Middle Ganga and Magadha",
+  ved_malwa_rajasthan_gujarat = "Malwa and Western Periphery"
+)
+
+reg_json_to_key <- list(
+  "Sapta Sindhu & Gandhara" = "ved_sapta_sindhu",
+  "Kurukshetra" = "ved_kurukshetra_doab",
+  "Middle Ganga & Kosala & Videha" = "ved_kosala_videha_magadha",
+  "Malwa & Matsya & Rajasthan" = "ved_malwa_rajasthan_gujarat"
+)
+
+norm_reg_key <- function (arg0_reg) {
+  if (!is.null(reg_json_to_key[[arg0_reg]])) return(reg_json_to_key[[arg0_reg]])
+  arg0_reg
+}
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, sub-regional attributions, archaeological horizons and benchmark demographic trajectories for `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements across Northern and Western South Asia (2,01M km², encompassing 2.013.529 km² and 26.445 active terrestrial grid cells) during the Vedic period from 1500BC to 500BC. Spanning four physiographic macro-regions, the gazetteer captures the spatial restructuring of South Asian settlement systems following the post-urban Indus decentralisation [@Possehl1999IndusAge; @Kenoyer1998AncientCities]. Architectural and settlement forms documented include early agropastoral tells and rock-cut mortuary complexes in Gandhara and the Swat valley, fortified mud-brick tells associated with Painted Grey Ware (PGW) ceramics across Kurukshetra and the Ganga-Yamuna Doab, riverine wet-paddy trading hubs in Kosala and early Magadha, and enduring Chalcolithic-Iron Age tell settlements across the Malwa plateau and the Aravalli piedmont [@Erdosy1988Urbanisation; @Allchin1995Archaeology]. Individual settlement scales conform closely to a Zipf rank-size distribution ($\alpha = 0,85$, $R^2 = 0,97$), ranging from small agrarian farmsteads and specialised pottery hamlets (300 to 800 peak inhabitants) to large fortified regional capitals peaking in 500BC, led by Rajgir (55.000), Kaushambi (48.000), Varanasi (42.000), Ujjain (42.000), Shravasti (42.000), Vaishali (40.000), Taxila (35.000) and Patna (35.000). Every settlement is reconciled against 6.705 source-ledger candidates under PRETA alongside `r viscount_fmt_number(length(exc_list), 0L)` documented duplicate-alias exclusions within a 2,2 km spatial deduplication radius. Georeferenced settlement trajectories provide the empirical foundation for settlement subtraction, ensuring that background rural population surfaces reflect authentic archaeological densities across Iron Age South Asia.
+
+# Settlement Archaeology and Iron Age Nucleation
+
+Archaeological settlement patterns in Northern and Western South Asia between 1500BC and 500BC document the transition from dispersed agropastoral hamlets to nucleated, multi-tiered urban systems [@Kumar2023Second; @Thapar1981Indian; @Allchin1995Archaeology]. Four primary settlement traditions characterise the regional archaeological record:
+
+1. Sapta Sindhu and Gandharan Tells: In the northwest, communities occupied stratified tell mounds situated along the floodplains of the Indus and Punjab tributaries, alongside stone-built settlements and cist-grave cemeteries in Swat, Dir and the Vale of Peshawar [@Olivieri2022Stoneyards; @Jassar2009Hellas; @Possehl1999IndusAge]. Sites such as Taxila (Bhir Mound), Charsadda (Bala Hisar) and Harappa maintained strategic positions controlling trade routes connecting the Gangetic basin with the Iranian plateau [@Kenoyer1998AncientCities].
+2. Kuru-Panchala Fortified Tells: Across Haryana and the Upper Ganga-Yamuna Doab, settlements associated with the Painted Grey Ware horizon occupied elevated river levees (*kheras*) rising three to twelve metres above the active floodplain [@Latief2026Tibba; @Neogi2019Geoarchaeo]. Sites including Kaushambi, Varanasi, Shravasti, Ayodhya, Mathura, Ahichchhatra, Hastinapura and Kampilya featured massive mud and burnt-brick ramparts, ditch circumvallations and structured domestic quarters [@Erdosy1988Urbanisation].
+3. Middle Gangetic Wet-Paddy Riverine Centres: In the fertile, humid alluvium of Kosala, Videha and early Magadha, settlements developed at the confluences of perennial rivers and oxbow lakes [@Kumar2023Second; @Sengupta2023Fish]. Centres such as Rajgir (Rajagriha), Vaishali, Patna (Pataliputra) and Bhagalpur (Champa) combined intensive wet-paddy rice agriculture with riverine boat transport, emerging as the largest demographic agglomerations in first-millennium BC South Asia [@Allchin1995Archaeology].
+4. Malwa and Western Chalcolithic Tells: Across central India and Rajasthan, tell settlements maintained continuous occupation from the Chalcolithic Ahar and Malwa cultures into the Iron Age [@Schug2009Ancient; @Mishra2026Historical]. Sites such as Ujjain, Vidisha, Nagda and Eran exploited fertile black cotton soils and mineral deposits, serving as commercial links between the Gangetic heartland and the Arabian Sea coast [@Allchin1995Archaeology].
+
+# Methodology and Source Ledger Reconciliation
+
+The expanded 5.905-settlement gazetteer is empirically anchored rather than parametrically invented, integrating primary-monograph urban histories with multi-repository archaeological, monument, census and historical-toponymy corpora through a four-wave saturation pipeline [@Erdosy1988Urbanisation; @Allchin1995Archaeology; @ImperialGazetteer1908; @JANGIS2025Journal]:
+
+- Wave 1 (3.425 inclusions): Primary-monograph historical metropolis trajectories and official national censuses, uniting the Census of India Table A-04 and Saket sub-district series with Pakistan Bureau of Statistics (PBS), Bangladesh Bureau of Statistics (BBS), DCS, CBS, NSB and NBS territorial frames alongside nineteenth- and early twentieth-century district gazetteers [@ImperialGazetteer1908; @Bayly1983Rulers].
+- Wave 2 (1.653 inclusions): Multi-repository archaeological and heritage corpora, combining Pleiades classical site records, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology: A Review (IAR) compilations, Archaeological Survey of India (ASI) P1371 monument registers, Wikidata, OpenStreetMap (OSM) heritage nodes and radiocarbon-dated XRONOS/c14bazAAR site assemblages [@Thapar1981Indian; @Possehl1999IndusAge; @Kenoyer1998AncientCities].
+- Wave 3 (827 inclusions): Macro-envelope *qasba*, *pargana* and *nadu* settlement continuity reconstructions derived from Mughal and early modern cartographic syntheses [@Habib1982Atlas; @Naqvi1968Urbanisation; @Chattopadhyaya1994Making], subjected to strict foundation-year and chronological toponymy filters so that post-ancient mediaeval and colonial foundations are excluded.
+- Wave 4 (0 new additions; saturation verified): Automated submask gap-hunter and GeoNames homonym audit across 354.949 South Asian locality records, confirming 0,0% marginal gain and complete coverage across all four physiographic submasks.
+
+Inclusion required verified WGS84 geographic coordinates aligned with documented archaeological mounds or continuous pre-ancient settlement cores, stratigraphic or toponymic evidence of occupation between 1500BC and 500BC (OCP, Gandhara Grave, BRW, PGW or early NBPW horizons), and empirical population trajectories calibrated to site area and administrative rank. Where multiple survey entries fell within a 2,2 km radius of a higher-priority nucleated centre, secondary records were merged as duplicate aliases to prevent artificial spatial clustering. Across the full 5.905-settlement hierarchy, peak populations follow a clean Zipf rank-size power law ($\alpha = 0,85$, $R^2 = 0,97$).
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the four macro-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(norm_reg_key(s$region), rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 5.905 catalogued settlements and summed site peaks across Northern and Western South Asia.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Leading Settlements of the Vedic Period
+
+Table \ref{tab:gazetteer} presents the leading 45 settlements across Northern and Western South Asia ordered by peak population descending, detailing geographic coordinates, sub-regional attribution, occupation span and benchmark demographic series.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_500 <- if (!is.null(s$population[["-500"]])) as.numeric(s$population[["-500"]]) else "-"
+  s_rk <- norm_reg_key(s$region)
+  reg_lbl <- if (!is.null(reg_short[[s_rk]])) reg_short[[s_rk]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P500BC = if (is.numeric(p_500)) viscount_fmt_pop(p_500) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 settlements ordered by peak population across Northern and Western South Asia (1500BC to 500BC).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "500BC Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+# Sub-Regional Settlement Catalogues
+
+## Sapta Sindhu, Gandhara and Indus-Punjab Plains
+
+The Sapta Sindhu division catalogues 1.391 settlements spanning the Punjab plains and the northwestern highlands [@Olivieri2022Stoneyards; @Jassar2009Hellas; @Possehl1999IndusAge]. Leading centres include Taxila (35k peak in 500BC), Charsadda (23,8k peak in 500BC), Sheikhupura (9,1k peak in 500BC), Harappa (8,5k peak in 1500BC), Jhang (7,8k peak in 500BC), Jamal Garhi (7,6k peak in 500BC) and Gujrat (6,9k peak in 500BC). In Gandhara, Taxila and Charsadda anchored strategic river crossings connecting the Indus valley with Central Asia, developing stone architecture, terraced residential quarters and metallurgical workshops [@Allchin1995Archaeology]. Across the central Punjab doabs, settlements occupied elevated river terraces, integrating wheat-barley agriculture with sheep, goat and zebu pastoralism [@Kenoyer1998AncientCities].
+
+## Kurukshetra, Upper Ganga-Yamuna Doab and Panchala
+
+The Kuru-Panchala and western Kosala division catalogues 1.317 settlements, representing the primary Painted Grey Ware heartland of Iron Age South Asia [@Thapar1981Indian; @Latief2026Tibba; @Erdosy1988Urbanisation]. Leading centres include Kaushambi (48k peak in 500BC), Varanasi (42k peak in 500BC), Shravasti (42k peak in 500BC), Ayodhya (32k peak in 500BC), Mathura (32k peak in 500BC), Ahichchhatra (25k peak in 500BC), Delhi (18k peak in 500BC), Hastinapura (18k peak in 700BC), Tilaurakot (16k peak in 500BC), Kampilya (15,5k peak in 500BC) and Atranjikhera (14k peak in 500BC). These settlements were characterised by deep stratigraphic accumulations of Painted Grey Ware and early NBPW, iron-smelting furnaces, glass bangle workshops and extensive defensive ramparts constructed of compacted earth, mud brick and burnt brick.
+
+## Middle Ganga, Kosala, Videha and Early Magadha
+
+The Middle Ganga and eastern Kosala-Videha-Magadha division catalogues 1.501 settlements, functioning as the primary agrarian and urban growth zone of first-millennium BC South Asia [@Kumar2023Second; @Sengupta2023Fish; @Allchin1995Archaeology]. Anchored by Rajgir (Rajagriha) (55k peak in 500BC), Vaishali (40k peak in 500BC), Patna (Pataliputra) (35k peak in 500BC), Bhagalpur (Champa) (34k peak in 500BC), Janakpur (15,2k peak in 500BC), Gaya (12k peak in 500BC), Darbhanga (6,1k peak in 500BC) and Chirand (6k peak in 500BC), settlements in this division controlled vast wet-paddy rice hinterlands and riverine freight networks along the Ganga, Son and Gandak rivers. The construction of cyclopean stone walls at Rajgir and monumental earthen and brick ramparts at Vaishali and Champa marked the emergence of early state administration and standing military forces.
+
+## Malwa, Matsya, Rajasthan and Western Chalcolithic Periphery
+
+The western division catalogues 1.696 settlements distributed across the Aravalli range, the Malwa tableland and the estuaries of Gujarat [@Schug2009Ancient; @Mishra2026Historical; @Allchin1995Archaeology]. Prominent settlements include Ujjain (42k peak in 500BC), Vidisha (20k peak in 500BC), Viratnagar (10,7k peak in 500BC), Indragarh (6,3k peak in 600BC), Alwar (5,5k peak in 500BC), Nahargarh ki Bawari (4,6k peak in 600BC) and Dewas (4,5k peak in 500BC). Positioned along the fertile black cotton soils of Malwa and key trans-Aravalli corridors, these centres developed thriving metallurgical, bead-making and textile industries, channelling raw materials and semi-precious stones from central and western India to the Gangetic urban markets.
+
+# Source Ledger Audit and Excluded Candidates
+
+The source ledger evaluates 6.705 candidate localities across Northern and Western South Asia. Of these, 5.905 entries were verified and included as primary catalogued settlements, while 800 entries were excluded. All 800 exclusions (100% of excluded records) represent duplicate-alias consolidations: secondary survey coordinates located within a 2,2 km spatial deduplication radius of a higher-priority canonical settlement that were merged to prevent artificial spatial clustering.
+
+Table \ref{tab:excluded} documents the leading 25 excluded candidates alongside their canonical primary settlement, administrative jurisdiction and exclusion justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Vedic Period source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Limitations and Preservation Biases
+
+Archaeological visibility and settlement recovery across Northern and Western South Asia remain subject to pronounced taphonomic constraints [@Jha2025Geoarchaeo; @Neogi2019Geoarchaeo]:
+
+1. Alluvial Burial in the Gangetic Floodplain: Annual monsoon inundations have deposited several metres of silt across second and first millennium BC horizons, obscuring low-relief rural hamlets and small farmsteads while leaving only prominent tell mounds exposed.
+2. Urban Superimposition: Many of the largest Vedic centres, notably Varanasi, Ujjain, Patna, Mathura and Delhi, have been continuously occupied for over two millennia, resulting in modern civic infrastructure overlying ancient archaeological strata and restricting excavations to salvage trenches [@Allchin1995Archaeology; @Erdosy1988Urbanisation].
+3. Brick Robbery and Industrial Disturbance: Nineteenth-century railway expansion resulted in systematic destruction of protohistoric tell mounds across Punjab and Uttar Pradesh, where ancient mud-brick and burnt-brick structures were quarried for track ballast [@ImperialGazetteer1908].
+
+Despite these preservation factors, the spatial synthesis of 5.905 georeferenced settlements (conforming to a Zipf rank-size slope of $\alpha = 0,85$, $R^2 = 0,97$) establishes an empirical baseline for understanding Iron Age nucleation, demographic growth and territorial organisation in ancient South Asia.
+
+# Sources

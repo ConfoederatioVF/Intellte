@@ -1,0 +1,248 @@
+---
+title: "Settlement Gazetteer of Early Vietnam and Dai Viet"
+subtitle: "MANDALA: Coordinates, Toponymy and Demographic Trajectories (500BC to 1862AD)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: early_vietnam_and_dai_viet_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_early_vietnam_and_dai_viet_spatial.png"
+hero_caption: "Spatial distribution of 290 catalogued historical settlements and regional hydrological catchments across Vietnam (318.161 km²) from 500BC to 1862AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("early_vietnam_and_dai_viet.json5")
+set_data <- read_json_file("early_vietnam_and_dai_viet_settlements.json")
+led_data <- read_json_file("early_vietnam_and_dai_viet_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  if (y == 0) return("1AD")
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  dv_red_river_delta = "Red River Delta Core",
+  dv_northern_uplands = "Northern Uplands",
+  dv_thanh_nghe_thuan = "North-Central Plains",
+  dv_central_highlands = "Central Highlands",
+  dv_cochinchina_mekong = "Gia Dinh and Mekong Delta"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 coordinates, administrative allocations, foundation chronologies and benchmark demographic trajectories for `r length(set_list)` historical settlements across Vietnam (318.161 km², encompassing 4.003 active 5-arcminute terrestrial cells) from 500BC to 1862AD. Spanning five physiographic divisions, the gazetteer documents diverse architectural and functional traditions: monumental earthwork and brick citadels guarding deltaic river confluences, fortified coastal trading ports, montane border garrisons in the karst highlands and pioneer canal market towns in the Mekong Delta.
+
+Settlement scales range from proto-historic Metal Age fortified enclosures at Co Loa Citadel (500 ha perimeter) and Dong Son craft villages along the Ma River to imperial administrative metropolises at Thang Long (modern Hanoi, peaking at 121,05k in 1500AD), Hoa Lu, Luy Lau and Phu Xuan/Hue (imperial capital of the Nguyen dynasty, 52k in 1862AD). In the south, rapid colonisation established commercial market nodes at Gia Dinh (95,28k in 1800AD; modern Ho Chi Minh City, 1,11M peak), Can Tho (246,12k peak), Ben Tre (101,18k peak) and Bien Hoa (100,76k peak). Every catalogued locality reconciles against 317 source-ledger candidates under MANDALA alongside `r length(exc_list)` documented exclusions (predominantly duplicate administrative aliases within modern metropolitan boundaries and non-habitation suburban compounds).
+
+By linking georeferenced settlement trajectories with regional fluvial geomorphology, remote sensing surveys of citadel ramparts and dynastic gazetteers (*dia ba*), this gazetteer establishes an archaeological baseline for urbanisation across pre-modern Vietnam. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that historical demographic reconstructions reflect genuine administrative and archaeological mound distributions rather than arbitrary continental projections.
+
+# Background
+
+Historical settlement patterns in Vietnam reflect prolonged adaptation to regional hydrology, coastal navigation and agrarian colonisation [@Taylor2001Establishing; @Anonymous2003Population]. Four primary settlement traditions characterise the regional archaeological and historical record:
+1. Concentric earthwork and brick citadels: In the Red River Delta and north-central valleys, royal capitals and provincial administrative headquarters were constructed with concentric ramparts, moats and masonry gates [@Hung2024Long; @Nguyen2024Religious]. Co Loa Citadel featured three spiral rings of tamped earth up to twelve metres high, while Thang Long combined an inner Forbidden City (*Tu Cam Thanh*), an imperial city enclosure (*Hoang Thanh*) and an expansive outer civil wall (*Dai La Thanh*) defended by river moats [@Hung2024Long].
+2. Riverine and estuarine trading ports: Along major distributaries and protected coastal bays, trading ports (*thi tu*) grew into cosmopolitan mercantile centres [@Bellwood2026Year; @Maren2005Barrier]. Luy Lau on the Duong River operated as a major Sino-Indian Buddhist and trade hub during the early first millennium AD, while Pho Hien in the seventeenth century and Hoi An (Faifo) in central Vietnam accommodated Chinese, Japanese, Dutch and Portuguese merchant guilds [@Dao2020Potential; @Nguyen2025Risk].
+3. Montane passes and frontier military garrisons: In the northern karst highlands and along the Truong Son cordillera, fortified border garrisons (*don*) commanded vital trade defiles linking the lowlands with Yunnan, Guangxi and the Lao kingdoms [@Utting2022Geochemica; @Anonymous2003Population]. These outposts coordinated tributary trade in horses, aromatic resins and copper ore while mediating relations between the royal court and highland ethnic communities [@Le2023Characteristics; @Hoa2024Analysis].
+4. Pioneer canal market towns: In the Mekong Delta and Dong Nai basin, settlements developed linearly along excavated canals and natural tidal rivers [@Taylor2001Establishing; @TY2023Multiple]. Gia Dinh, Cu Lao Pho (Bien Hoa), My Tho and Can Tho functioned as agricultural collection centres, connecting inland rice farmers with maritime trade routes to southern China and the Malay archipelago [@Taylor2001Establishing; @Son2021Watersaving].
+
+# Methodology
+
+Candidate sites in the source ledger were evaluated using published excavation monographs, national heritage registers, French colonial gazetteers and dynastic treatises such as the *Dai Nam Nhat Thong Chi* [@Franganillo2007Bases; @Anonymous2003Population]. Inclusion requires:
+- Precise WGS84 geographic coordinates validated against regional hydrography and satellite imagery.
+- Documented cultural horizons, epigraphic records or dynastic chronologies spanning from the Dong Son period through 1862AD [@Bellwood2026Year; @Nguyen2024Religious].
+- Demographic estimations calibrated to urban perimeter area, hearth counts or registered taxpayers (*dinh*).
+
+Where multiple survey points or modern administrative subunits fall within the footprint of an urban core (such as the Kinh Thien Palace, Dai La ramparts and modern district centres within Hanoi), secondary points are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features such as isolated shrines, modern administrative pavilions and temporary field camps are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the five sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 290 catalogued historical settlements and summed site peaks across Vietnam.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological spans were verified through archaeological excavations, historical cartography and satellite remote sensing [@Hung2024Long; @Bellwood2026Year]. In the Red River Delta, stratigraphic excavations at the Imperial Citadel of Thang Long confirmed continuous occupation layers from the Tang-era Dai La fortress (eighth century) through the Ly, Tran, Le and Nguyen dynasties [@Hung2024Long]. Architectural foundations, stone dragon balustrades and thousands of glazed terracotta roof tiles demonstrate the scale of the royal administrative palace compound [@Hung2024Long; @Nguyen2024Religious].
+
+In central and southern Vietnam, ground-truthing of historical citadels and river ports utilised French colonial hydrographic surveys and nineteenth-century cadastral maps (*dia ba*) [@Taylor2001Establishing; @Anonymous2003Population]. At Phu Xuan/Hue, the Vauban-style ramparts erected under Gia Long and Minh Mang were mapped against satellite imagery, confirming a perimeter of ten kilometres enclosing the civil and military elite of the Nguyen empire [@Nguyen2024Religious]. In the Mekong Delta, satellite synthetic aperture radar (SAR) revealed ancient canal alignments radiating from Oc Eo, Angkor Borei and Gia Dinh, documenting the hydraulic infrastructure that supported southern agrarian colonisation [@Taylor2001Establishing; @TY2023Multiple].
+
+Radiocarbon sequences, stratigraphic profiles and ceramic assemblages anchor the foundation dates of catalogued sites, confirming contemporaneity during major dynastic peaks [@Bellwood2026Year; @Utting2022Geochemica]. Fluvial geomorphological surveys and geotechnical analyses of alluvial delta soils further calibrate the structural stability and long-term subsidence of urban masonry compounds [@Dao2020Potential; @TranNguyen2018Effect]. Ceramic typologies—including Han-style impressed tiles, Ly-Tran celadons and Le blue-and-white export wares—establish occupational longevity across deltaic riverine markets [@Hung2024Long; @Maren2005Barrier].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 historical settlements across Vietnam ordered by peak population descending, detailing coordinates, sub-regional allocation, occupation spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1862 <- if (!is.null(s$population[["1862"]])) as.numeric(s$population[["1862"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1862AD = if (is.numeric(p_1862)) viscount_fmt_pop(p_1862) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 historical settlements ordered by peak population across Vietnam (500BC to 1862AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1862AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Red River Delta Core
+
+The Red River Delta catalogues 78 settlements distributed across the alluvial plains of modern Hanoi, Bac Ninh, Hai Duong, Hung Yen, Nam Dinh, Thai Binh and Hai Phong [@Franganillo2007Bases; @Lan2015Assessment]. Thang Long (modern Hanoi) was the preeminent imperial capital, concentrating 111,42k inhabitants in 1300AD and 121,05k in 1500AD within royal citadel ramparts and outer commercial craft guilds (*ba muoi sau pho phuong*) along the Red River [@Hung2024Long; @Nguyen2024Religious].
+
+Hai Phong functioned as an estuarine maritime gateway, concentrating 207,92k peak residents in modern times alongside historical trading anchorages subject to coastal barrier progradation and tidal currents [@Maren2005Barrier; @Nguyen2025Risk]. Co Loa Citadel (500BC to 1AD) commanded the upper delta, representing the political core of the Au Lac kingdom whose riverine transport is demonstrated by prehistoric and proto-historic logboat assemblages [@Bellwood2026Year]. Luy Lau in Bac Ninh operated as the administrative capital during Han imperial rule, serving as a renowned centre for Buddhist scholarship and Sino-Vietnamese administrative integration [@Nguyen2024Religious; @Franganillo2007Bases]. Hoa Lu in Ninh Binh was the tenth-century karst redoubt of Dinh Bo Linh and Le Hoan, taking advantage of natural limestone massifs whose long-term human habitation extends into the Pleistocene [@Utting2022Geochemica]. Pho Hien on the Red River in Hung Yen flourished in the seventeenth century as an international river port housing Chinese and Dutch merchant factories, sustained by the fertile agricultural hinterland and water-saving irrigation networks of the delta [@Son2021Watersaving; @Anonymous2021Assessment].
+
+### Northern Uplands and Viet Bac Frontier
+
+The northern highland division catalogues 35 settlements across the mountain valleys and karst plateaux of Viet Bac, Tay Bac and the Sino-Vietnamese borderland [@Anonymous2003Population; @Doan2025Application]. Viet Tri occupied a strategic position at the confluence of the Red, Black and Lo rivers, anchoring early Van Lang settlement mounds and serving as the primary gateway between the northern uplands and the delta plain [@Bellwood2026Year; @Taylor2001Establishing].
+
+Lang Son commanded the vital Friendship Pass (*Chi Lang* defile) linking Dai Viet with Guangxi, functioning as a fortified military garrison and customs checkpoint that saw repeated diplomatic and military engagements [@Nguyen2024Religious]. Cao Bang, Tuyen Quang and Thai Nguyen operated as provincial administrative citadels coordinating mineral extraction, timber harvesting and relations with Tay, Nung and Dao tribal chieftains (*tho ty*) who governed upland communes with hereditary autonomy [@Le2023Characteristics; @Anonymous2003Population].
+
+### North-Central Plains: Thanh-Nghe-Tinh and Thuan Hoa
+
+The north-central coastal division catalogues 43 settlements across the valleys of the Ma, Ca and Huong rivers, spanning modern Thanh Hoa, Nghe An, Ha Tinh, Quang Binh, Quang Tri and Thua Thien Hue [@Le2023Characteristics; @Anonymous2003Population]. Da Nang (Tourane) represented the primary central seaport, concentrating 216,41k modern peak residents alongside historical maritime anchorages guarding the entrance to central Vietnam [@Dao2020Potential].
+
+Phu Xuan/Hue was the imperial capital of the Nguyen dynasty, concentrating 45k people in 1800AD and 52k in 1862AD within massive brick ramparts enclosing the Imperial City and Forbidden City [@Nguyen2024Religious; @Hung2024Long]. The Citadel of the Ho Dynasty (*Tay Do*) in Thanh Hoa, erected in 1397AD from massive dressed stone blocks without mortar, served as the fortified capital of the Ho dynasty and a military stronghold [@Nguyen2024Religious]. The Dong Son type-site on the Ma River in Thanh Hoa anchored the Bronze Age metallurgical complex from 500BC onward, drawing upon rich mineral lodes in the adjacent hills [@Bellwood2026Year; @Le2023Characteristics]. Lam Son in Thanh Hoa was the historic cradle of Le Loi's anti-Ming liberation struggle, while Vinh on the Ca River functioned as the political and demographic hub of Nghe An [@Anonymous2003Population].
+
+### Central Highlands and Nam Tien Corridor
+
+The central highland division catalogues 19 settlements along the forested slopes of the Annamite Range and the adjacent south-central coastal fringe, spanning Khanh Hoa, Binh Thuan, Gia Lai, Dak Lak and Kon Tum [@Anonymous2003Population; @Hoa2024Analysis]. Khanh Hoa (97,75k peak) and Binh Thuan (97,60k peak) operated as key coastal nodes where southern spurs of the Truong Son cordillera meet the South China Sea [@Taylor2001Establishing].
+
+Qui Nhon (Vijaya) and Nha Trang (Kauthara) originated as coastal Cham administrative and religious centres before being integrated into Dai Viet during the fifteenth and seventeenth centuries [@Nguyen2024Religious]. In the interior highlands, settlements such as Buon Ma Thuot and Pleiku functioned as trading marts where Ede, Jarai and Bahnar populations exchanged forest resins, elephants and mountain gold for salt, iron tools and lowland ceramics supplied by coastal merchants [@Anonymous2003Population; @Hoa2024Analysis].
+
+### Gia Dinh and Mekong Delta Frontier
+
+The southern division catalogues 115 settlements across the Dong Nai basin and the nine distributaries of the Mekong Delta in Nam Bo [@Taylor2001Establishing; @Anonymous2003Population]. Gia Dinh (modern Ho Chi Minh City/Saigon-Cholon) was the commercial metropolis of southern Vietnam, founded in 1698AD and expanding to 95,28k inhabitants in 1800AD (attaining a modern peak of 1,11M within its historical administrative core) [@Taylor2001Establishing; @TY2023Multiple].
+
+Can Tho (246,12k peak) commanded the lower Hau Giang, serving as the primary agricultural collection hub of the southwestern delta. Bien Hoa (Cu Lao Pho, 100,76k peak) on the Dong Nai River was an early commercial centre founded by Chinese Ming loyalist merchants, flourishing until disrupted by the Tay Son wars [@Taylor2001Establishing]. Ben Tre (101,18k peak), My Tho, Vinh Long, Soc Trang, Ca Mau and Rach Gia formed an integrated network of canal market towns where rice cultivation, fishing and coastal shipping supported rapid demographic expansion throughout the eighteenth and nineteenth centuries [@TY2023Multiple; @Mussgnug2006Yield]. Ancient maritime trading centres including Oc Eo and Angkor Borei confirm early first-millennium urbanism associated with the kingdom of Funan prior to deltaic reorganisation [@Bellwood2026Year; @Anonymous2018Dynamics].
+
+# Limitations
+
+Historical settlement inventories across Vietnam remain subject to distinct archaeological and documentary limitations:
+1. Intensive modern urban redevelopment: continuous metropolitan expansion at Hanoi (Thang Long), Ho Chi Minh City (Gia Dinh) and Da Nang has obliterated extensive archaeological stratigraphy, restricting excavations to rescue projects such as the Ba Dinh political precinct [@Hung2024Long].
+2. Tropical alluvial burial and erosion: high-energy floods in the Red River Delta and tidal scouring in the Mekong Delta have buried early wooden and earthen structures under metres of river silt or washed away riverbank market settlements [@Dao2020Potential; @Nguyen2025Risk; @Maren2005Barrier].
+3. Perishable construction materials: domestic architecture in both northern and southern villages was predominantly constructed from timber, bamboo and thatch, leaving minimal archaeological mound traces compared to stone or baked-brick monuments, though waterlogged anaerobic silts occasionally yield exceptional timber remains [@Bellwood2026Year].
+4. Epigraphic and administrative gaps: pre-eleventh-century municipal administrative registers are virtually absent, requiring reliance on external dynastic histories and archaeological settlement perimeters for demographic estimation [@Nguyen2024Religious; @Anonymous2003Population].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 290 catalogued historical localities across five physiographic divisions, providing an empirical foundation for regional demographic modelling in Vietnam from 500BC to 1862AD. By reconciling georeferenced coordinates, citadel areas and occupation chronologies, this catalogue isolates nucleated urban centres from rural populations, enabling dasymetric allocation of cultivators across the non-settled landscape and demonstrating the role of state-sponsored hydraulic engineering and frontier colonisation in sustaining demographic expansion.
+
+# Appendix
+
+The MANDALA source ledger audited 317 candidate records across Vietnam, resulting in 290 accepted settlements and 27 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Vietnam source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

@@ -1,0 +1,257 @@
+---
+title: "Settlement Gazetteer of the Pre-Colonial Sultanates and Pre-Spanish Philippines"
+subtitle: "MANDALA: Coordinates, Toponymy and Benchmark Populations (1200AD to 1786AD)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: pre_colonial_sultanates_and_philippines_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_pre_colonial_sultanates_and_philippines_spatial.png"
+hero_caption: "Spatial distribution of 2.422 catalogued pre-colonial settlements and maritime catchments across the Malay Archipelago and Philippines (2,07M km²) from 1200AD to 1786AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("pre_colonial_sultanates_and_philippines.json5")
+set_data <- read_json_file("pre_colonial_sultanates_and_philippines_settlements.json")
+led_data <- read_json_file("pre_colonial_sultanates_and_philippines_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  if (is.null(arg0_coords) || length(arg0_coords) < 2) return("NA")
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  pcs_malacca_peninsula = "Malacca and Peninsular Sultanates",
+  pcs_aceh_sumatra = "Aceh and Sumatran Sultanates",
+  pcs_java_sultanates = "Demak, Banten and Mataram Java",
+  pcs_brunei_borneo = "Brunei and Borneo Sultanates",
+  pcs_makassar_sulawesi = "Makassar and Sulawesi Polities",
+  pcs_ternate_tidore_maluku = "Maluku Spice Archipelago",
+  pcs_sulu_mindanao = "Sulu and Maguindanao Sultanates",
+  pcs_prehispanic_luzon_visayas = "Pre-Spanish Luzon and Visayas"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer documents WGS84 geographic coordinates, sub-regional allocations, occupational chronological horizons and benchmark demographic trajectories for `r length(set_list)` catalogued pre-colonial and early modern settlements across the Malay Archipelago and the Philippine islands (2,07M km², comprising 2.073.299 km² and 26.777 active 5-arcminute terrestrial cells) from 1200AD to 1786AD. Spanning eight insular and peninsular sub-regions, the gazetteer encompasses diverse architectural, ecological and commercial traditions: royal agrarian capitals in the volcanic interior basins of Java, fortified estuarine entrepôts along the Strait of Malacca, pepper ports in northern and western Sumatra, spice-trading island fortresses in Maluku, Bugis-Makassar maritime citadels in southern Sulawesi and coastal riverine barangays throughout pre-Spanish Luzon and the Visayas.
+
+Settlement demographic scales range from inland sawah administrative capitals at Setiabudi (313,99k peak in 1786AD), Kotagede and Plered (116,22k in 1700AD), Kartasura (101,83k in 1700AD) and Trowulan (97,75k in 1400AD) to major coastal trading metropolises at Tondo (149,02k in 1500AD), Jayakarta (135,32k in 1700AD), Surabaya (128,22k in 1600AD), Melaka (98,63k in 1600AD), Banten Lama (90,10k in 1700AD), Makassar (89,09k in 1600AD), Banda Aceh (81,70k in 1600AD) and Temasek (77,17k in 1565AD). Secondary and regional trading nodes include Banjarmasin (36,04k in 1786AD), Ternate (24,20k in 1786AD), Jolo (24,01k in 1786AD), Cirebon (39,47k peak), Tuban (29,86k peak), Gresik (33,40k peak), Pasuruan (34,47k peak) and Butuan (18,52k peak). Every catalogued locality reconciles against 2.549 source-ledger candidates under MANDALA alongside `r length(exc_list)` documented exclusions (principally duplicate survey aliases within a 2,2 km spatial radius and non-habitation anchorages).
+
+By pairing georeferenced coordinates with historical cartography, indigenous court chronicles, VOC registers and early Spanish colonial tributes, this gazetteer establishes an empirical baseline for urbanization across maritime Southeast Asia. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that historical demographic reconstructions reflect genuine settlement distributions rather than arbitrary continental projections.
+
+# Background
+
+Archaeological and historical settlement configurations across island Southeast Asia reflect adaptations to marine archipelagos, river mouths and volcanic soil belts [@Widodo2018Morphology; @Jones2018Some]. Four primary settlement traditions characterise the regional record:
+1. Coastal and estuarine entrepôts (bandar): Positioned at the mouths of navigable rivers or along strategic maritime choke points, settlements such as Melaka, Banten Lama, Jayakarta, Banda Aceh and Makassar served as polyethnic trade emporia [@Widodo2018Morphology; @Borschberg2016Melaka]. Housing was constructed from timber and bamboo on stilts over tidal mudflats, flanked by fortified brick or earthen royal citadels and masonry warehouses [@Kemper2019Umbilical; @Raben2008Cities].
+2. Interior sawah agrarian metropolises (kraton): Concentrated in the volcanic intermontane basins of Central and East Java, settlements such as Trowulan, Kotagede, Plered and Kartasura functioned as ceremonial and administrative capitals [@Wood2008Volcano; @SAKAI1993Hizen]. These inland centres drew upon extensive canal irrigation networks and dense rural peasant villages, accommodating royal courts, artisans, religious foundations and standing garrisons [@Knaap2006About].
+3. Island spice strongholds: In Maluku and the Sulu Archipelago, insular fortified centres such as Ternate, Tidore and Jolo commanded regional monopolies over cloves, nutmeg, pearls and marine tortoiseshell [@Charney1996World; @Rusdiyanto2018Kesultanan]. Built on steep volcanic island margins, these polities deployed fleets of outrigger war galleys (kora-kora, karakoa) to enforce tribute and protect sea lanes [@Faral2022Year].
+4. Riverine and littoral barangays: Throughout the pre-Spanish Philippines, settlement was organised around kin-based communities (barangays) established along coasts, estuaries and lake shores [@M2021Multiple; @Clav2025Beyond]. Prominent river mouths hosted fortified stockades (kota) equipped with bronze swivel cannons (lantaka), such as Maynila and Tondo along the Pasig River, mediating trade between inland rice farmers and overseas merchant vessels [@Green1995Interim; @Bjork1998Link].
+
+# Methodology
+
+Candidate sites in the source ledger were evaluated using published archaeological monographs, historical cartography, colonial administrative reports and regional heritage registers [@Widodo2018Morphology; @Singru2015Regional; @Jones2018Some]. Inclusion requires:
+- Precise WGS84 geographic coordinates validated against regional nautical charts and river hydrography.
+- Documented occupation horizons or ceramic sequences spanning from the mediaeval through the early modern eras.
+- Area-based, hearth-count or tribute-based demographic estimations calibrated to historical settlement density.
+
+Where multiple archaeological survey points fall within 2,2 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and preventing artificial clustering. Non-habitation features such as isolated anchorages, navigation beacons and seasonal fishing shelters are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the eight sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 2.422 catalogued settlements and summed site peaks across maritime Southeast Asia.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement identifications and chronological spans were verified through archaeological excavations, historical cartography and archival cross-referencing [@SAKAI1993Hizen; @Green1995Interim]. Stratigraphic sequences at major port sites reveal dense layers of imported trade ceramics: Song and Yuan dynasty celadons, Ming blue-and-white porcelain and Southeast Asian stoneware jars from Sawankhalok (Thailand) and Go Sanh (Vietnam) [@SAKAI1993Hizen; @Subrahmanyam2020Coromandel]. These ceramic distributions confirm sustained commercial activity and nucleated population concentrations corresponding to the historical Age of Commerce.
+
+Historical cartography and early navigation guides provide vital independent spatial ground truth [@Widodo2018Morphology; @Borschberg2016Melaka]. Sixteenth- and seventeenth-century European charts (such as Portuguese portolans and VOC maps by Hessel Gerritsz and Johannes Vingboons), alongside Chinese navigation rutters (such as the Shun Feng Xiang Song and the Mao Kun map from the Zheng He voyages), record indigenous toponyms and harbour soundings, validating the precise locations of the 2.422 catalogued settlements [@DeJosselinDe1960Malacca].
+
+Bioarchaeological and zooarchaeological analyses from skeletal assemblages in the Philippines, Java and Sulawesi confirm dietary reliance on marine protein and cultivated rice, supporting the caloric carrying capacities adopted in the demographic models [@M2021Multiple; @Faral2022Year; @MB2026Updated].
+
+# Results
+
+## Leading Settlements of Maritime Southeast Asia
+
+Table \ref{tab:gazetteer} presents the leading 45 pre-colonial and early modern settlements across maritime Southeast Asia ordered by peak historical population, detailing coordinates, sub-regional allocation, chronological spans and benchmark populations.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1786 <- if (!is.null(s$population[["1786"]])) as.numeric(s$population[["1786"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 24),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1786AD = if (is.numeric(p_1786)) viscount_fmt_pop(p_1786) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading forty-five settlements ordered by peak historical population across maritime Southeast Asia (1200AD to 1786AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1786AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Malacca, Johor and Peninsular Malay Sultanates
+
+The Malay Peninsula catalogues 271 settlements distributed along the western and eastern coastal littorals and interior river valleys [@Borschberg2016Melaka; @DeJosselinDe1960Malacca]. Melaka was the preeminent international emporium, growing from 62,24k in 1400AD to a peak of 98,63k in 1600AD across its port, syahbandar districts and royal hill fortress [@Mustaffa2023Tracing; @Subrahmanyam2020Coromandel]. Temasek at the southern tip of the peninsula supported 77,17k inhabitants in 1565AD, while riverine capitals of the Johor Sultanate (Johor Lama, Kota Tinggi) and Perak (Batu Gajah, Kuala Kangsar) maintained tin and jungle resin extraction circuits.
+
+### Aceh, Minangkabau and Sumatran Sultanates
+
+Sumatra catalogues 365 settlements spanning the pepper coasts and highland valleys [@Arifia2024Batee; @Widodo2018Morphology]. Deli Serdang supported 83,51k residents in 1786AD, while Banda Aceh reached 81,70k in 1600AD, serving as a fortified naval capital equipped with extensive foundries and religious schools. In southern Sumatra, Palembang along the Musi River concentrated 62,37k people in 1786AD, anchoring trade with the pepper-producing interior and the Sunda Strait. In the Minangkabau highlands, fortified agricultural settlements around Tanah Datar supported terraced rice agriculture and gold mining.
+
+### Demak, Banten, Cirebon and Mataram Java
+
+Java constitutes the demographic core of the archipelago, cataloguing 563 settlements [@Wood2008Volcano; @Kemper2019Umbilical]. In western Java, the urban complex of Setiabudi and Greater Batavia expanded from 30,27k in 1200AD to an all-time peak of 313,99k in 1786AD. Jayakarta accommodated 135,32k in 1700AD, while Banten Lama supported 90,10k in 1700AD as a major international pepper port [@SAKAI1993Hizen; @Kemper2019Umbilical]. In the east, Surabaya supported 128,22k in 1600AD, while Trowulan concentrated 97,75k in 1400AD during the Majapahit era. In Central Java, the inland agrarian capitals of Mataram at Kotagede and Plered (116,22k in 1700AD) and Kartasura (101,83k in 1700AD) coordinated extensive rice taxation and royal administrative retinues [@Knaap2006About].
+
+### Brunei, Banjar and Coastal Borneo Sultanates
+
+Borneo catalogues 134 settlements situated along navigable tidal rivers and sheltered bays [@Morris1974Brunei; @Harrison1973Brunei]. Banjarmasin at the mouth of the Barito River was the largest urban centre, supporting 36,04k residents in 1786AD through diamond, pepper and rattan commerce. Brunei Kota Batu along the Brunei River anchored a maritime sultanate whose outrigger fleets controlled northern coastal trade routes, while Sambas, Sukadana and Pontianak served as riverine trading nodes in western Borneo.
+
+### Gowa-Tallo, Bone and Sulawesi Polities
+
+Southwestern Sulawesi catalogues 74 settlements anchoring Bugis and Makassar maritime networks [@Knaap2006About; @Widodo2018Morphology]. The twin kingdom capital of Makassar and the brick citadel of Somba Opu accommodated 89,09k inhabitants at their peak in 1600AD, maintaining an open-door commercial policy that attracted English, Danish, Portuguese and Asian merchants. The rival kingdom of Bone, centred along the coastal plains of the Gulf of Boni, supported dense agrarian rice settlements and supplied martial levies for regional expeditions.
+
+### Ternate, Tidore and Maluku Spice Archipelago
+
+The spice archipelago catalogues 29 settlements across volcanic islands and coastal anchorages [@Charney1996World; @Rusdiyanto2018Kesultanan]. Ternate was the leading urban centre, housing 24,20k people in 1786AD beneath its active volcanic cone, protected by stone fortifications (Fort Tolukko, Fort Kalamata) and an extensive war fleet [@Clercq1890Staatsievl; @Faral2022Year]. Tidore supported rival courtly settlements on its adjacent volcanic island, while the Banda Islands accommodated fortified nutmeg-producing villages prior to Dutch conquest in 1621AD.
+
+### Sulu and Maguindanao Sultanates (Southern Philippines)
+
+The southern Philippine maritime realm catalogues 296 settlements across the Sulu Archipelago and Mindanao [@Clav2025Beyond; @Mendoza2015Landlessness]. Jolo on the island of Jolo was the principal capital of the Sultanate of Sulu, concentrating 24,01k inhabitants in 1786AD as an international emporium for pearls, mother-of-pearl, tripang and birds' nests [@Ellorin2026Virtuosos]. Along the Pulangi River in Mindanao, Cotabato operated as the capital of the Maguindanao Sultanate, mediating trade between inland Lumad tribes and coastal Muslim raiders.
+
+### Pre-Spanish Luzon and Visayas Barangays (Tondo, Maynila and Cebu)
+
+Luzon and the Visayas catalogue 690 settlements spanning coastal embayments, river valleys and inland lakes [@M2021Multiple; @Bjork1998Link]. Tondo was the largest pre-colonial settlement in the archipelago, accommodating 149,02k people in 1500AD on the northern bank of the Pasig River. Facing Tondo across the river, Maynila operated as a palisaded trading town commanding maritime access to Laguna de Bay. In the Visayas, Cebu served as an early maritime hub (18,2k peak), while Butuan in northeastern Mindanao directed riverine gold extraction and boat building [@Green1995Interim].
+
+# Limitations
+
+Settlement gazetteer compilation in maritime Southeast Asia is constrained by specific preservation and documentation challenges:
+1. Perishable building materials: Vernacular structures built of wood, bamboo and thatch have left minimal architectural surface traces, requiring reliance on subsurface ceramic sherd scatters and posthole configurations [@Widodo2018Morphology].
+2. High alluvial and estuarine deposition: Rapid siltation in dynamic river deltas (such as the Brantas, Musi and Pasig rivers) has buried mediaeval occupation layers beneath several metres of fluvial mud [@Green1995Interim].
+3. Urban continuity and modern overbuilding: Continuous occupation of major historical port cities (Jakarta, Manila, Surabaya, Makassar, Melaka) hinders extensive stratigraphic excavation beneath modern commercial infrastructure [@Jones2018Some].
+4. Archival conversion uncertainties: Historical tax censuses, church registers and VOC accounts use fluctuating tribute units and household multipliers that require systematic demographic standardisation [@Raben2008Cities; @Singru2015Regional].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 2.422 catalogued localities across eight insular sub-regions, establishing a rigorous spatial framework for historical demography in maritime Southeast Asia from 1200AD to 1786AD. By reconciling georeferenced coordinates, occupational horizons and demographic peaks, this catalogue bridges the analytical gap between coastal entrepôts and interior agrarian hinterlands. Settlement subtraction successfully isolates nucleated urban centres from rural cultivators, enabling dasymetric distribution across the landscape and providing an empirical foundation for regional demographic history.
+
+# Appendix
+
+## Excluded Ledger Candidates
+
+The MANDALA source ledger evaluated 2.549 candidate settlements, of which 127 were excluded following spatial deduplication and non-habitation filtering. Table \ref{tab:excluded} documents the leading twenty-five excluded candidate records, showing modern country territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 24),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the maritime Southeast Asia source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

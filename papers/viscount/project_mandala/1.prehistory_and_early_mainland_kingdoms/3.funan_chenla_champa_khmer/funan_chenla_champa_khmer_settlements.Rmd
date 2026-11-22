@@ -1,0 +1,241 @@
+---
+title: "Settlement Gazetteer of Funan, Chenla, Champa and the Khmer Empire"
+subtitle: "MANDALA: Coordinates, Toponymy and Demographic Trajectories (500BC to 1862AD)"
+date: "21 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: funan_chenla_champa_khmer_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_funan_chenla_champa_khmer_spatial.png"
+hero_caption: "Spatial distribution of 156 catalogued historical and archaeological settlements across four physiographic catchments in Cambodia and southern Vietnam (243.324 km²) from 500BC to 1862AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("funan_chenla_champa_khmer.json5")
+set_data <- read_json_file("funan_chenla_champa_khmer_settlements.json")
+led_data <- read_json_file("funan_chenla_champa_khmer_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  kh_angkor_tonle_sap = "Tonle Sap and Angkor Basin",
+  kh_funan_lower_mekong = "Lower Mekong and Angkor Borei",
+  kh_champa_coast = "Champa Maritime Corridor",
+  kh_cardamom_east = "Cardamom Coast and Upper Mekong"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues geographic coordinates, administrative allocations, chronological spans and benchmark demographic estimates for `r length(set_list)` historical and archaeological settlements across Cambodia and southern Vietnam (243.324 km², encompassing 3.018 active 5-arcminute terrestrial cells) from 500BC to 1862AD. Distributed across four physiographic divisions, the catalogued localities capture the evolution of settlement forms in mainland South-East Asia: proto-historic moated wetland citadels in the Transbassac, monumental brick temple-cities along the middle Mekong, the vast low-density agro-urban complex of Greater Angkor and walled coastal trading ports along the Annamite littoral.
+
+Settlement magnitudes range from early Iron Age trade posts and regional monastic centres to pre-industrial metropolises. The urban climax is represented by Greater Angkor (Yasodharapura), which covered over 1.000 km² and reached an estimated peak population of 700.185 inhabitants in 1200AD, supported by an integrated network of reservoirs (*baray*), canals and bunded rice fields. Major coastal centres include Da Nang (216,41k peak in 1862AD), Khanh Hoa (97,75k peak in 1862AD), Binh Thuan (97,60k peak in 1862AD), Phu Yen (68,34k peak in 1862AD), Ninh Thuan (46,67k peak in 1862AD) and Nha Trang (45,86k peak in 1862AD). Lower Mekong riverine capitals encompass Phnom Penh (93,02k peak in 1862AD), Chaktomuk (45,04k peak in 1600AD), Longvek (27,52k peak in 1600AD) and Angkor Borei (21,10k peak in 200AD). Secondary Angkorian regional hubs comprise Koh Ker (33,86k in 1000AD), Preah Khan of Kompong Svay (30k in 1200AD), Sambor Prei Kuk (24,85k in 700AD) and Banteay Chhmar (22,19k in 1200AD).
+
+Every catalogued settlement reconciles against 268 source-ledger candidates under MANDALA alongside `r length(exc_list)` documented exclusions. Excluded entities consist primarily of secondary temple shrines or suburbs collapsed within a 2,2 km spatial buffer of primary urban nodes, ensuring that nucleated settlement subtraction accurately distinguishes dense urban occupation from the surrounding rural agrarian landscape.
+
+This gazetteer establishes a georeferenced foundation for regional demographic analysis. By linking spatial coordinates with documented occupation chronologies, LiDAR earthwork surveys and epigraphic records, the catalogue enables precise dasymetric allocation of rural cultivators across active terrestrial cells while preserving the distinct demographic signatures of urban metropolises.
+
+# Background
+
+## Settlement Typologies and Hydraulic Nucleation
+
+The historical landscape of the Tonle Sap and Mekong basins is characterised by two distinct traditions of settlement nucleation [@Fletcher2008Archaeolog; @Carter2021Evolution]:
+1. Low-density agro-urban complexes: exemplified by Greater Angkor, these settlements dispersed residential quarters, house gardens and village ponds across extensive grids of bunded rice fields, integrated by transport causeways and canals [@Carter2018Urbanism; @Klassen2020Down; @Klassen2021Metropolis]. Monumental temple enclosures stood at the centre of these agricultural zones, serving concurrently as civic administrative nodes and ritual centres [@Lowman2023Angkor].
+2. Compact moated citadels: characteristic of proto-historic Funan and pre-Angkorian Chenla, these sites featured concentric earthen ramparts and water-filled moats enclosing elevated habitation mounds [@Bourdonneau2007Habiliter; @Chin2023Education]. Settlements such as Angkor Borei and Sambor Prei Kuk utilised brick masonry for administrative and religious enclosures, with populations concentrated within or adjacent to defensive perimeters [@Pietrusewsky2007Bioarchaeo; @Chin2026Short].
+
+## Maritime Port Enclaves and Estuarine Embayments
+
+Along the central and southern coast of Vietnam, Cham settlement patterns adhered to riverine and estuarine topography [@Moska2022Champa; @TzeKen1997Relations]. Cham principalities established fortified administrative citadels near the mouths of short, swift coastal rivers, where ships could shelter from seasonal monsoons:
+- Estuarine port towns: sites such as Hoi An (Faifo) and Da Nang on the Han River estuary mediated maritime trade between the South China Sea and interior forest basins [@TzeKen1997Relations; @YOSHIMOTO2018Okawa].
+- River valley citadel capitals: inland fortified centres such as Tra Kieu (Simhapura) in Quang Nam and Cha Ban (Vijaya) in Binh Dinh commanded fertile alluvial plains, surrounded by satellite villages dedicated to wet-rice cultivation [@Moska2022Champa].
+- Coastal defensive fortresses: fortified promontory strongholds and island redoubts guarded sea lanes and protected salt-evaporation pans and coastal fisheries.
+
+# Methodology
+
+Candidate localities in the source ledger were audited using published excavation reports, heritage registers, high-resolution satellite remote sensing and epigraphic inventories [@Klassen2018Semi; @Landauer2025Beyond]. Inclusion within the active settlement catalogue requires:
+- Precise WGS84 coordinates verified against satellite imagery and historical cartography.
+- Documented habitation phases spanning the period between 500BC and 1862AD, confirmed by stratigraphic excavations, architectural remains or datable inscriptions.
+- Demographically constrained population estimations based on enclosed area, residential mound counts and documented urban carrying capacity [@Carter2021Evolution; @Klassen2021Metropolis].
+
+Secondary monuments, satellite temple shrines and suburban wards situated within 2,2 km of a primary settlement centre are consolidated under the parent settlement to eliminate artificial spatial clustering. Non-habitation features such as isolated caves, megalithic alignments and ceremonial quarries are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of `r length(set_list)` catalogued settlements and summed site peaks across the four sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 156 catalogued settlements and summed site peaks across Cambodia and southern Vietnam.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement chronologies and spatial extents were verified through multi-sensor remote sensing, geoarchaeological coring and epigraphic analysis [@Fletcher2008Archaeolog; @Landauer2025Beyond]. Airborne radar and LiDAR campaigns conducted across northwestern Cambodia have demonstrated that low-relief earthen features—including residential occupation mounds, field dykes and domestic water tanks—form dense, continuous networks surrounding central temple complexes [@Carter2018Urbanism; @Penny2014Environmen]. These survey data confirm that population density was distributed across expansive peri-urban agro-ecosystems rather than confined solely within temple walls [@Carter2021Evolution; @Klassen2020Down].
+
+Radiocarbon determinations and pottery chronologies from stratified excavations anchor the temporal occupation bounds of major urban centres. At Angkor Borei and Oc Eo, radiocarbon sequences and geophysical surveys corroborate early historic occupation beginning in the late first millennium BC and continuing through the sixth century AD [@Bourdonneau2007Habiliter; @Ngoc2019Contributi; @Pietrusewsky2007Bioarchaeo]. At Greater Angkor and secondary capitals such as Koh Ker, luminescence, sediment coring and radiocarbon dating of canal sediments establish that major hydraulic modifications and urban expansion occurred between the tenth and twelfth centuries AD, followed by severe canal breaches and siltation in the fourteenth century [@Penny2014Environmen; @Hall2018Evaluating; @Chim2021Sustainabl].
+
+Epigraphic surveys and material culture analyses provide independent documentation of settlement hierarchies [@Lowman2023Angkor; @Polkinghorne2019Consumptio]. Inscriptions recording the foundation of hospitals (*arogyasala*) and rest-houses (*dharmasala*) along the imperial highways confirm the continuous occupation of provincial hubs such as Phimai, Phanom Rung and Preah Khan of Kompong Svay during the imperial climax [@Lowman2023Angkor].
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 historical and archaeological settlements across Cambodia and southern Vietnam ordered by peak population descending, detailing coordinates, sub-regional allocation, chronological spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1200 <- if (!is.null(s$population[["1200"]])) as.numeric(s$population[["1200"]]) else "-"
+  reg_lbl <- if (!is.null(reg_short[[s$region_id]])) reg_short[[s$region_id]] else clean_text(s$region_id)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1200AD = if (is.numeric(p_1200)) viscount_fmt_pop(p_1200) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 historical settlements ordered by peak population across Cambodia and southern Vietnam (500BC to 1862AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "1200AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Tonle Sap and Angkor Hydraulic Basin
+
+The Tonle Sap and Angkor hydraulic basin catalogues 55 settlements situated across the lacustrine plains and surrounding alluvial slopes [@Carter2021Evolution; @Klassen2021Metropolis]. Greater Angkor represents the preeminent urban centre, attaining a climactic population of 700.185 inhabitants in 1200AD across its integrated network of temple complexes, residential wards and hydraulic reservoirs. Koh Ker served as the imperial capital between 928AD and 944AD, reaching 33,86k inhabitants around its vast Rahal reservoir [@Hall2018Evaluating]. Preah Khan of Kompong Svay concentrated 30k people as a strategic eastern fortress and industrial iron-working centre. Sambor Prei Kuk (Isanapura) anchored the pre-Angkorian Chenla kingdom along the Sen River, housing 24,85k residents in 700AD within concentric brick-walled enclosures [@Chin2023Education]. Banteay Chhmar accommodated 22,19k inhabitants guarding the northwest frontier against Siamese incursions [@Lowman2023Angkor]. Other key centres include the upland redoubt of Phnom Kulen (Mahendraparvata) [@Penny2014Environmen], the regional temple complex of Phanom Rung (10,65k peak) and provincial market towns such as Battambang and Siem Reap.
+
+### Lower Mekong and Angkor Borei-Chaktomuk Core
+
+The Lower Mekong and Angkor Borei-Chaktomuk core catalogues 44 settlements distributed along the Mekong trunk stream and deltaic distributaries [@Bourdonneau2007Habiliter; @Hall1982Indianization]. Phnom Penh developed into the primary riverport capital following the abandonment of Angkor, expanding to 93,02k inhabitants by 1862AD at the confluence of the Mekong, Tonle Sap and Bassac rivers. Chaktomuk supported 45,04k residents in 1600AD as an early post-Angkorian administrative centre, while Longvek housed 27,52k people during the sixteenth century as a fortified royal capital [@Polkinghorne2019Consumptio]. Angkor Borei represented the foundational urban centre of Funan, housing 21,10k people in 200AD defended by brick walls and navigable canals connecting to the coastal port of Oc Eo [@Pietrusewsky2007Bioarchaeo; @Ngoc2019Contributi; @Bui2023Memory; @Lien2007Archaeolog]. Secondary agricultural and market centres in this alluvial tract include Tan Chau (13,88k in 1862AD), Trang Bang (12,82k in 1862AD), Chau Doc (9,6k in 1862AD) and Banteay Prei Nokor (8,5k peak).
+
+### Champa Maritime Corridor
+
+The Champa maritime corridor catalogues 44 settlements positioned along the coastal river deltas of central and southern Vietnam [@Moska2022Champa; @TzeKen1997Relations]. Da Nang functioned as a primary maritime trade port and commercial hub, expanding to 216,41k inhabitants by 1862AD. Provincial coastal centres include Khanh Hoa (97,75k in 1862AD), Binh Thuan (97,60k in 1862AD), Phu Yen (68,34k in 1862AD), Ninh Thuan (Panduranga, 46,67k in 1862AD) and Nha Trang (45,86k in 1862AD). Historical Cham capitals include Vijaya (Cha Ban) in Binh Dinh, which concentrated 23,30k people at its 1200AD climax, and Tra Kieu (Simhapura), which supported 12,5k residents as the early political capital of Amaravati [@Moska2022Champa]. Hoi An (Faifo) operated as an international maritime trading port accommodating 29,29k people in 1800AD, hosting Japanese, Chinese, Dutch and Portuguese merchant quarters [@YOSHIMOTO2018Okawa].
+
+### Cardamom Coast and Upper Mekong Uplands
+
+The Cardamom coast and upper Mekong uplands catalogue 13 settlements situated along the southwestern maritime coast and the forested riverine margins of eastern Cambodia. Ha Tien served as a prominent coastal trading entrepot on the Gulf of Thailand, supporting 7,96k inhabitants in 1862AD under the semi-autonomous administration of the Mac family. Snuol (4,34k in 1862AD), Preaek Prasab (3,81k in 1862AD), Kratie (3,55k in 1862AD) and Sambour (3,43k in 1862AD) functioned as riverbank market stations on the upper Mekong, mediating commercial exchange in forest resins, cardamom, elephant ivory and aromatic woods. Along the southern coast, Kampot (2,32k in 1862AD) provided maritime anchorage and trade connections with the Malay peninsula.
+
+# Limitations
+
+Settlement gazetteering and demographic estimation across the lower Mekong and coastal Vietnam remain subject to distinct archaeological and historical biases:
+1. Differential canopy penetration: while airborne LiDAR has transformed archaeological discovery in northwestern Cambodia, comparable high-resolution coverage remains incomplete for the Cardamom uplands and portions of the lower Mekong delta, resulting in potential undercounting of small rural settlements [@Carter2018Urbanism; @Fletcher2008Archaeolog].
+2. Fluvial burial in deltaic environments: heavy sediment deposition across the Mekong delta has buried early Funan-period canal settlements beneath metres of recent silt, requiring reliance on remote sensing palaeochannel mapping [@Bourdonneau2007Habiliter; @Ngoc2019Contributi].
+3. Urban sprawl and modern redevelopment: modern urbanisation in Da Nang, Nha Trang, Phnom Penh and secondary Vietnamese provincial cities has covered or disturbed pre-colonial Cham and Khmer archaeological strata, complicating precise surface area measurements.
+4. Documentary disparity between epochs: while the Angkorian climax is extensively documented by stone epigraphy, the post-fifteenth-century era relies primarily on later royal chronicles and European merchant accounts, requiring careful cross-calibration [@Polkinghorne2019Consumptio; @TzeKen1997Relations].
+
+# Conclusion
+
+The MANDALA settlement gazetteer synthesises 156 catalogued historical and archaeological localities across four physiographic sub-regions, establishing a rigorous spatial framework for demographic modelling from 500BC to 1862AD. By reconciling georeferenced coordinates, documented occupation chronologies and urban population estimates, this catalogue distinguishes nucleated urban centres from rural populations, enabling dasymetric distribution of cultivators across the agricultural landscape and illuminating the structural transformations of mainland South-East Asian settlement systems across more than two millennia.
+
+# Appendix
+
+The source ledger audited 268 candidate records across Cambodia and southern Vietnam, resulting in 156 accepted primary settlements and 112 exclusions. Table \ref{tab:excluded} documents the leading 25 excluded candidates, detailing modern territory, exclusion category and methodological justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Sources

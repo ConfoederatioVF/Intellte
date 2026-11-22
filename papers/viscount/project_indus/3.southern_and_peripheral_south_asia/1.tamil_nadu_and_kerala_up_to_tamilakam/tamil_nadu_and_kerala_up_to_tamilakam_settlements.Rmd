@@ -1,0 +1,234 @@
+---
+title: "Settlement Gazetteer of Prehistoric and Early Historic Tamilakam"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (10000BC to 300AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: tamil_nadu_and_kerala_up_to_tamilakam_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_tamil_nadu_and_kerala_up_to_tamilakam_spatial.png"
+hero_caption: "Spatial distribution of 1.579 catalogued prehistoric and Early Historic settlements and regional hydrological catchments across Tamil Nadu and Kerala (167.458 km²) from 10000BC to 300AD."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("tamil_nadu_and_kerala_up_to_tamilakam.json5")
+set_data <- read_json_file("tamil_nadu_and_kerala_up_to_tamilakam_settlements.json")
+led_data <- read_json_file("tamil_nadu_and_kerala_up_to_tamilakam_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  tam1_chera_malabar = "Chera Malabar and Western Ghats",
+  tam1_chola_kaveri = "Kaveri Delta and Kongu Uplands",
+  tam1_pandya_vaigai = "Vaigai-Thamirabarani Pandya Heartland"
+)
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This settlement gazetteer catalogues WGS84 geographic coordinates, administrative sub-regions, chronological occupation horizons and benchmark population trajectories for 1.579 prehistoric and Early Historic settlements across Tamil Nadu and Kerala (167.458 km², encompassing 1.989 active 5-arcminute terrestrial cells) from 10000BC to 300AD. Encompassing three physiographic macro-zones (842 settlements in the Kaveri Delta and Tondaimandalam sub-region, 457 in the Vaigai-Thamirabarani Pandya heartland and 280 in Chera Malabar), the gazetteer spans diverse architectural, industrial and ecological traditions: coastal red sand-dune foraging stations (*teri* sites) and river terrace Palaeolithic occupations along the Kortallaiyar, pastoral ash-mounds and polished celt settlements in the interior uplands, monumental Megalithic cists, dolmens and urn burial cemeteries (*mudumakkal thazhi*) across the Vaigai and Thamirabarani plains, and fortified inland capitals, industrial pyrotechnological craft quarters and trans-oceanic maritime emporia during the Sangam era.
+
+Settlement magnitudes range from early rural and coastal communities such as Megnanapuram (201 inhabitants in 300AD), Adichanallur (1k peak in 300AD) and Rameswaram (1,2k peak in 300AD) to Early Historic metropolises at Madurai (48k peak in 100AD; 42,7k in 0AD), Kaveripattinam/Puhar (45k peak in 200AD; 34,3k in 0AD), Kanchipuram (42,7k peak in 300AD; 30k in 0AD), Tiruchirappalli/Uraiyur (36k peak in 200AD; 32k in 0AD) and Pattanam/Muziris (36k peak in 100AD; 28k in 0AD). Leading secondary centres include Arikamedu/Poduke (24k peak in 100AD), Korkai (22k peak in 100AD), Mylapore (13,7k peak in 300AD), Keeladi (11k peak in 100BC), Cuddalore (9,7k peak in 300AD), Kodumanal (9k peak in 100BC), Alagankulam (4,3k peak in 300AD), Karur (4,1k peak in 300AD) and Kunnukara (3k peak in 600BC). Every catalogued locality reconciles against 1.762 candidates in the INDUS source ledger alongside 183 documented exclusions (predominantly duplicate survey aliases and post-domain foundations).
+
+By integrating spatial coordinates with regional geomorphology, stratified excavation monographs and classical Sangam toponymy [@Champakalakshmi1996Trade; @Allchin1995Archaeology], this gazetteer provides an empirical baseline for urbanisation and settlement systems in southern peninsular India. Settlement subtraction isolates nucleated urban centres from dasymetrically distributed rural agricultural populations, preventing demographic double counting and confirming that Early Historic Tamilakam sustained an integrated settlement hierarchy conforming to a Zipf rank-size distribution ($\alpha = 0,94$, $R^2 = 0,95$).
+
+# Background
+
+Archaeological settlement patterns across Tamil Nadu and Kerala reflect specialised adaptations to distinct geomorphic zones, monsoonal hydrology and maritime trade networks [@Abraham2003Chera; @KingwellBanham2019Rainfed; @Tomber2009Migration; @Champakalakshmi1996Trade]. Four primary settlement traditions characterise the regional archaeological inventory:
+1. Alluvial deltaic metropolises and agrarian centres: In the fertile Kaveri, Vaigai and Thamirabarani basins, permanent settlements developed around tank-irrigated paddy fields [@KingwellBanham2019Rainfed]. Centres such as Madurai, Uraiyur and Tiruchirappalli featured brick domestic compounds, defensive earthen ramparts, moats and royal palaces described in Sangam poetry [@Monsingh2025Ancient; @Dwivedi2019Early; @Champakalakshmi1996Trade].
+2. Maritime emporia and coastal ports: Along the Malabar, Coromandel and Gulf of Mannar littorals, specialised harbour settlements mediated long-distance commerce between the Mediterranean world, the Red Sea and Southeast Asia [@Tomber2009Migration; @Cobb2023Indian; @Abraham2023Recent]. Pattanam (Muziris), Kaveripattinam (Puhar), Arikamedu, Korkai and Alagankulam operated brick wharves, warehouses, glass and stone bead workshops and customs stations [@Kelly2024Report; @Deshpande1975Indian; @Thapar1979Indian].
+3. Upland industrial craft towns: In the mineral-rich Kongu plateau and interior hill corridors, towns such as Kodumanal and Karur specialised in high-temperature pyrotechnology, including wootz crucible steel smelting, quartz crystal bead knapping and beryl carving for export [@Abraham2003Chera; @Rao1985Indian; @Allchin1995Archaeology].
+4. Pastoral and megalithic mortuary complexes: Across the granitic inselbergs and gravel river bluffs of the Deccan fringe and southern plains, communities constructed dolmenoid cists, stone circles and urn burial grounds at sites such as Adichanallur and the Nilgiri hills [@K2014Early; @Rao1989South; @Simone2021Grave; @Johansen2023Social].
+
+# Methodology
+
+The expanded 1.579-settlement gazetteer is empirically anchored in four reconciled evidentiary tiers rather than arbitrary demographic multipliers:
+- Primary-monograph historical metropolis trajectories: Leading urban curves for Madurai, Kaveripattinam, Kanchipuram, Tiruchirappalli (Uraiyur), Pattanam (Muziris), Arikamedu, Korkai and Mylapore are reconstructed from excavated site extents, Sangam textual attestations and South Indian urban history monographs [@Champakalakshmi1996Trade; @Allchin1995Archaeology; @Erdosy1988Urbanisation].
+- Multi-repository archaeological and monument corpora: Prehistoric, Megalithic and Early Historic findspots are compiled from Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic IAR excavation syntheses [@Rao1985Indian; @Thapar1981Indian; @N1978Indian; @Deshpande1975Indian], Archaeological Survey of India registers (ASI P1371), Wikidata, OpenStreetMap heritage records, XRONOS and c14bazAAR radiocarbon databases.
+- Official national censuses and historical gazetteers: Long-lived sub-district and urban continuities are cross-checked against Census of India Table A-04 settlement tables, regional South Asian census series (PBS, BBS, DCS, CBS, NSB and NBS) and colonial gazetteer baselines [@ImperialGazetteer1908].
+- Macro-envelope *qasba*, *pargana* and *nadu* continuity: Pre-1800 agrarian market nodes are back-projected within calibrated regional carrying envelopes [@Habib1982Atlas; @Chattopadhyaya1994Making] and screened through strict foundation-year and chronological toponymy filters that exclude colonial-era or post-domain foundations.
+
+Inclusion criteria across all 1.762 audited candidates required confirmed WGS84 geographic coordinates cross-referenced against topographic surveys, verified prehistoric or Early Historic cultural horizons, and area-calibrated demographic trajectories. Where multiple archaeological survey findspots fall within 2,2 km of a primary nucleated settlement, secondary coordinates are consolidated as duplicate aliases, preserving geographic integrity and eliminating artificial point clustering. Non-habitation features such as isolated petroglyphs and surface lithic scatters without architectural deposits are excluded from settlement subtraction.
+
+Table \ref{tab:summary} summarises the distribution of 1.579 catalogued settlements and summed site peaks across the three sub-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(s$region_id, rk) || identical(s$region, rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = if (!is.null(reg_short[[rk]])) reg_short[[rk]] else clean_text(rk),
+    Sites = as.character(length(sub_sets)),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = as.character(length(set_list)),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Sub-regional distribution of 1.579 catalogued settlements and summed site peaks across Tamil Nadu and Kerala.",
+  c("Sub-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Testing and Validation
+
+Settlement locations and chronological spans were verified through multi-source stratigraphic and material evidence [@Rao1985Indian; @Abraham2003Chera; @Kelly2024Report]. Radiocarbon sequences from Keeladi, Kodumanal and Pattanam anchor the transition from Early Iron Age Megalithic culture into Early Historic urbanism between 600BC and 300AD [@Baskar2026Regional; @Abraham2023Recent].
+
+Archaeobotanical and palynological profiles from archaeological sediments confirm agricultural intensifications corresponding to settlement growth [@Fuller2020Chapter; @KingwellBanham2019Rainfed]. The shift from dry millet horticulture to bunded wet-paddy agriculture in the Kaveri and Thamirabarani plains provided the caloric foundation for town nucleation [@KingwellBanham2019Rainfed].
+
+The spatial distribution of catalogued settlements conforms to an integrated rank-size hierarchy (Figure \ref{fig:demography} Panel B). Evaluated across all 1.579 catalogued localities, the Zipf rank-size distribution exhibits a power-law exponent of $\alpha = 0,94$ with a coefficient of determination of $R^2 = 0,95$ [@Erdosy1988Urbanisation; @Champakalakshmi1996Trade]. This log-linear fit confirms that southern peninsular settlement was not fragmented into isolated autarkic enclaves, but formed an articulated settlement network where primary capitals coordinated secondary market towns, industrial craft nodes and agrarian villages.
+
+```{r fig-demography, results='asis'}
+viscount_figure(
+  "figures/fig2_tamil_nadu_and_kerala_up_to_tamilakam_demography.png",
+  "Demographic trajectory and settlement hierarchy across Tamil Nadu and Kerala (10000BC to 300AD), showing benchmark sub-regional population curves and Zipf rank-size distribution ($\\alpha = 0,94$, $R^2 = 0,95$) for 1.579 catalogued settlements.",
+  "fig:demography"
+)
+```
+
+# Results
+
+Table \ref{tab:gazetteer} presents the leading 45 prehistoric and Early Historic settlements across Tamil Nadu and Kerala ordered by peak population descending, detailing coordinates, sub-regional allocation, chronological spans and demographic peaks.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_0 <- if (!is.null(s$population[["0"]])) as.numeric(s$population[["0"]]) else "-"
+  rk_s <- if (!is.null(s$region_id)) s$region_id else s$region
+  reg_lbl <- if (!is.null(reg_short[[rk_s]])) reg_short[[rk_s]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P0AD = if (is.numeric(p_0)) viscount_fmt_pop(p_0) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 prehistoric and Early Historic settlements ordered by peak population across Tamil Nadu and Kerala (10000BC to 300AD).",
+  c("Settlement Name", "Sub-Region", "Coordinates", "Span", "Peak Pop", "0AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Settlement Catalogues
+
+### Kaveri Delta, Tondaimandalam and Kongu Uplands
+
+The central and northern division catalogues 842 settlements spanning the Kaveri drainage, the Noyyal and Amaravathi tributaries, and the Palar and Ponnaiyar basins [@Abraham2003Chera; @R2025Artistic; @Udayakumar2019Architectu; @Champakalakshmi1996Trade]. Major settlements include Kanchipuram (42,7k peak in 300AD; 30k in 0AD), the northern administrative and religious centre; Tiruchirappalli/Uraiyur (36k peak in 200AD; 32k in 0AD), the inland dynastic capital commanding deltaic irrigation; Arikamedu/Poduke (24k peak in 100AD; 20k in 0AD), the industrial port town with extensive Roman trade connections [@Deshpande1975Indian; @Kelly2024Report]; Mylapore (13,7k peak in 300AD), the Tondaimandalam coastal harbour; northern basin nodal centres such as Ambattur (12,9k), Poonamallee (12,9k) and Cuddalore (9,7k in 300AD); Kodumanal (9k peak in 100BC), the preeminent gem-cutting and high-carbon steel industrial centre; and Karur (4,1k in 300AD).
+
+### Vaigai-Thamirabarani Basins and Pandya Heartland
+
+The southern division catalogues 457 settlements across the Vaigai, Thamirabarani and Gundar river basins [@Monsingh2025Ancient; @Baskar2026Regional; @Champakalakshmi1996Trade]. Madurai was the foremost inland metropolis, peaking at 48k inhabitants in 100AD (42,7k in 0AD) across its fortified urban core [@Dwivedi2019Early]. Kaveripattinam/Puhar (45k peak in 200AD; 34,3k in 0AD), mapped at the southern Kaveri estuary boundary, operated as a cosmopolitan Chola maritime emporium. Korkai (22k peak in 100AD; 19,8k in 0AD) served as the primary Pandya port and pearl emporium at the Thamirabarani mouth, flanked by Kalkulam (11,3k in 300AD), Keeladi (11k peak in 100BC) with extensive brick structures, ring-wells and inscribed Tamil-Brahmi pottery along the Vaigai [@Baskar2026Regional; @Rao1985Indian], Alagankulam (4,3k in 300AD) on the Vaigai estuary [@Thapar1979Indian], and the Iron Age urn burial complex at Adichanallur (1k in 300AD) [@MushrifTripathy2019Tales].
+
+### Chera Coastal Malabar and Western Ghats Littoral
+
+The western division catalogues 280 settlements along the high-precipitation rainforest strip and backwater lagoons between Kasaragod and Cape Comorin [@Kelly2024Report; @Tomber2009Migration]. Pattanam (Muziris) was the preeminent maritime emporium, concentrating 36k inhabitants at its 100AD peak (28k in 0AD) around brick wharves, boat basins and Roman merchant enclaves [@Kelly2024Report; @Cobb2023Indian]. Secondary coastal and gapway centres include Kanayannur (9,5k in 300AD), Vadakara (9,4k in 300AD), Tirurangadi (9,3k in 300AD), Tirur (9,3k in 300AD), Palakkad (7,5k in 300AD) and Kunnukara (3k peak in 600BC), alongside smaller spice-collecting anchorages along the Arabian Sea littoral [@Tomber2009Migration; @Abraham2023Recent].
+
+# Limitations
+
+Archaeological settlement inventories in southern peninsular India are subject to distinct taphonomic constraints:
+1. Alluvial burial and deltaic siltation: river deposition across the Kaveri, Vaigai and Periyar deltas has buried early prehistoric and Neolithic levels beneath metres of sediment, while coastal erosion and progradation altered port topographies at Puhar and Korkai [@Tomber2009Migration; @Rick2022Coring].
+2. Continuous modern urban occupation: ancient metropolises such as Madurai, Tiruchirappalli, Kanchipuram and Karur remain living cities, constraining excavation to isolated test trenches and salvage archaeology [@Abraham2003Chera; @Rao1985Indian].
+3. Acidic tropical soils: high soil acidity across the Western Ghats and lateritic coastal terraces rapidly degrades organic materials, unburnt bone and wooden structures, limiting preservation to ceramics, stone artefacts, glass and metal slag [@MushrifTripathy2019Tales; @Kelly2024Report].
+
+# Conclusion
+
+The 1.579 catalogued settlements in Tamil Nadu and Kerala (842 in Kaveri Delta and Tondaimandalam, 457 in the Vaigai-Thamirabarani basins and 280 in Chera Malabar) document an articulated urban and rural landscape that evolved from sparse Mesolithic foraging camps into a multi-tiered settlement system during the Sangam era ($\alpha = 0,94$, $R^2 = 0,95$). Anchored by major metropolises at Madurai (48k peak), Kaveripattinam (45k), Kanchipuram (42,7k), Tiruchirappalli (36k) and Pattanam (36k), the settlement hierarchy was supported by specialised industrial crafting nodes and intensive tank-irrigated agricultural villages [@Champakalakshmi1996Trade; @Allchin1995Archaeology]. Reconciled against 1.762 source-ledger candidates and 183 documented exclusions, this gazetteer provides a spatial foundation for quantitative demographic models of prehistoric and Early Historic South Asia.
+
+# Appendix
+
+The INDUS source ledger for Tamil Nadu and Kerala was compiled through a four-wave asymptotic ingestion workflow. Table \ref{tab:ledger-waves} summarises candidate acquisitions and duplicate alias consolidations.
+
+```{r tbl-ledger-waves, results='asis'}
+sat_waves <- led_data$saturation_audit$waves
+wave_rows <- lapply(sat_waves, function (w) {
+  data.frame(
+    Wave = paste0("Wave ", w$wave),
+    Class = clean_text(w$source_class),
+    Prior = viscount_fmt_number(as.numeric(w$prior_cumulative_included), 0L),
+    New = viscount_fmt_number(as.numeric(w$newly_included), 0L),
+    stringsAsFactors = FALSE
+  )
+})
+df_waves <- do.call(rbind, wave_rows)
+viscount_table(
+  df_waves,
+  "Four-wave asymptotic ingestion and settlement saturation across Tamil Nadu and Kerala.",
+  c("Ingestion Wave", "Source Class", "Prior Total", "Newly Included"),
+  list(label = "tab:ledger-waves", font_size = "scriptsize")
+)
+```
+
+# Sources

@@ -1,0 +1,287 @@
+---
+title: "Northern India from the Tripartite Struggle to the Ghurid Conquest: Agrarian Colonisation, Temple Urbanism and Regional Hierarchies"
+subtitle: "INDUS: Feudalising Polities, Fluvial Networks and Demographic Expansion (750AD to 1206AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: northern_india_until_ghurid_empire_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_northern_india_until_ghurid_empire_spatial.png"
+hero_caption: "Four physiographic and political divisions and 9.343 catalogued settlements across Northern India (2,65M km²) from 750AD to 1206AD, contrasting the Gangetic alluvium with desert borderlands, Himalayan valleys and the eastern delta."
+hero_label: "fig:hero-spatial"
+header-includes:
+  - \AtBeginDocument{\pretocmd{\abscontent}{\crdneedspace{135pt}}{}{}}
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+The northern plains and peripheral plateaus of South Asia (2,65M km², encompassing 2.651.426 km² and 35.033 active 5-arcminute terrestrial cells) underwent an extensive cycle of agrarian colonisation, institutional decentralisation and demographic expansion between the mid-eighth century and the establishment of the Delhi Sultanate. Stretching from the Kabul defiles and the sub-Himalayan valleys of Kashmir across the fertile interfluves of Punjab, the Yamuna-Ganga doab, the Bundelkhand granites, the semi-arid scarplands of Rajputana, the Malwa tableland and the black-cotton coastal plains of Gujarat to the humid rice-growing deltas of Bengal, Orissa and the Brahmaputra valley, early mediaeval Northern India sustained a dense lattice of peasant hamlets, fortified capitals (*durga*), sacred temple complexes and commercial market towns (*nagara*, *mandapika*).
+
+Reconstructed across four physiographic and political divisions from 750AD to 1206AD under INDUS, regional population expanded from 49M inhabitants in 750AD during the initial stages of the Tripartite Struggle between the Gurjara-Pratiharas, Palas and Rashtrakutas to 52,5M in 850AD and 56M in 950AD as regional dynasties consolidated administrative control. Growth continued through the fragmentation of imperial hegemony, reaching 59,5M in 1050AD and 62M in 1150AD, before stabilising at 63,5M by 1206AD at the culmination of the Ghurid military campaigns. This aggregate demographic trajectory represents an overall expansion of 29,6% over four and a half centuries (compounding at an annual rate of 0,057%), elevating regional population density from 1.848 persons per 100 km² in 750AD to 2.395 persons per 100 km² in 1206AD.
+
+Demographic weight remained concentrated within the central alluvial corridors and deltaic lowlands. At the 1206AD culmination, the Gurjara-Pratihara, Gahadavala and Chandella Gangetic-Bundelkhand Core accommodated 21,59M inhabitants (34% of regional population; 2.934 persons per 100 km²), anchored by metropolitan hubs at Kannauj (135k peak in 850AD), Varanasi (95k peak in 1100AD) and Ujjain (75k peak in 1050AD). The Pala-Sena realms of Bengal, Bihar, Orissa and Kamarupa supported 18,415M people (29%; 2.291 persons per 100 km²), sustained by intensive wet-rice cultivation and urban centres at Gaur (120k peak in 1206AD), Cuttack, Patna and Mahasthangarh. The Hindu Shahi-Ghaznavid borderlands of Punjab, Haryana and Kashmir housed 12,065M inhabitants (19%; 2.070 persons per 100 km²), commanded by Delhi (130k peak in 1206AD), Lahore (85k peak in 1206AD), Multan (75k peak in 1206AD) and Srinagar. The Rajputana, Solanki Gujarat and Malwa kingdoms accommodated 11,43M people (18%; 2.161 persons per 100 km²), underpinned by irrigation tanks, stepwells and maritime ports at Patan (120k peak in 1206AD), Khambhat and Bharuch.
+
+This quantitative historical synthesis reconciles 9.343 catalogued settlement trajectories (following a Zipf rank-size distribution with $\alpha = 0,89$ and $R^2 = 0,98$) with primary-monograph city reconstructions, epigraphic royal land grants, multi-repository archaeological corpora, official census baselines and administrative tax records [@Chattopadhyaya1994Making; @Habib1982Atlas; @Eaton1993Rise; @ImperialGazetteer1908]. By subtracting georeferenced nucleated urban centres from dasymetrically distributed rural cultivators, the reconstruction demonstrates that early mediaeval demographic expansion was propelled by the clearance of primeval forests, the incorporation of indigenous forest groups into agrarian production and the proliferation of irrigation networks, establishing the human foundation that sustained subsequent imperial structures in northern South Asia.
+
+# Background
+
+## Fluvial Ecology and Agrarian Physiography
+
+The physical geography of early mediaeval Northern India is defined by sharp contrasts between Himalayan-fed river basins, peninsular tablelands and arid western margins [@Casile2021Climatic]. The Indo-Gangetic alluvium forms an immense trough filled with deep Pleistocene and Holocene sediments, drained westward by the Indus system and eastward by the Ganga and Yamuna [@Datta2013Governin]. In the east, the Ganga joins the Brahmaputra and Meghna to form the Bengal delta, where shifting distributary channels and annual monsoon floods continuously deposit fresh silt, creating one of the most productive agricultural ecologies in the pre-modern world [@Abrol2023Agroecol].
+
+South of the Gangetic plain rise the Vindhya and Satpura ranges, flanking the fertile volcanic soils of the Malwa plateau and the rocky sandstone scarps of Bundelkhand [@Casile2021Climatic]. To the west, the Aravalli range bisects Rajasthan, separating the arid Thar desert from the fertile riverine basins of eastern Rajasthan and Gujarat [@CHAKRABARTI2016Agrarian]. Precipitation displays a pronounced east-west gradient: annual rainfall exceeds 1.800 mm in the Bengal delta and Kamarupa, averages 800 to 1.100 mm in the central Gangetic plain and drops below 350 mm in western Punjab, Sindh and the Marwar desert [@Abrol2023Agroecol].
+
+This climatic and hydrological variation dictated regional agrarian strategies. In eastern and deltaic zones, wet-rice agriculture dominated, supported by natural flood retreat and minor drainage embankments [@Prasad2016Adivasi]. In the semi-arid west and peninsular margins, sedentary life depended upon artificial water harvesting, including bunded tanks (*talav*), masonry stepwells (*vav*, *baoli*) and diversion channels, which protected agrarian communities against monsoon variability during the Mediaeval Climate Anomaly [@Casile2021Climatic; @Manish2019Greater].
+
+## The Tripartite Struggle and Regional State Formation (750AD to 1000AD)
+
+Following the disintegration of Harsha's empire in the mid-seventh century, northern South Asia fragmented into competing dynastic spheres [@Verma2020Modes]. By the middle of the eighth century, three imperial powers contested supremacy over the imperial capital of Kannauj (Mahodaya) in the central Gangetic plain, initiating the protracted conflict known as the Tripartite Struggle:
+1. The Gurjara-Pratiharas, originating in western Rajasthan and Malwa, who expanded eastward to capture Kannauj under Nagabhata II and Bhoja I, creating a realm that stretched from Gujarat to the borders of Bihar [@Anooshahr2021Ghaznavi].
+2. The Palas of Bengal and Bihar, founded around 750AD by Gopala through popular election following the anarchic period of *matsyanyaya*, who established a Buddhist empire that patronised monastic universities and expanded westward along the Ganga under Dharmapala and Devapala [@TAHIR2021Translatio].
+3. The Rashtrakutas of the Deccan, who repeatedly launched military campaigns across the Vindhyan passes into the Gangetic heartland under Dhruva, Govinda III and Krishna III, defeating both northern rivals without attempting permanent territorial annexation [@Anooshahr2021Ghaznavi].
+
+This tripartite contest transformed the institutional structure of northern South Asian polities. Unable to maintain centralised standing armies and bureaucratic administrations over extensive distances, rulers increasingly delegated administrative authority and fiscal rights to regional vassals (*samanta*, *ranaka*, *thakkura*), laying the foundations for an early mediaeval political structure [@Verma2020Modes; @Ghosh2012Accumula; @Chattopadhyaya1994Making].
+
+## Agrarian Expansion and the Epigraphic Record
+
+The early mediaeval era was characterised by the widespread expansion of the agrarian frontier, documented through thousands of royal copper-plate inscriptions (*tamra-shasana*) and stone epigraphs [@Verma2020Modes; @Chao1994Stone; @OLOUGHLIN2006Insular; @Chattopadhyaya1994Making]. Kings and subordinate chieftains made perpetual grants of land and revenue (*brahmadeya*, *agrahara*, *sasana*) to learned brahmins, Buddhist monasteries and Hindu temples, transferring not merely royal tax rights but also administrative jurisdiction, water sources, mineral rights and uncultivated wasteland [@Datta2013Governin; @Verma2020Modes; @Eaton1993Rise].
+
+These land grants served as instruments of rural colonisation:
+- Beneficiaries introduced calendar management, seasonal crop schedules and agricultural treatises, notably the *Krishi-Parashara*, standardising planting cycles and moisture conservation [@Pawar2026Indian].
+- Agrarian communities cleared dense primeval forests in Bengal, Assam, Bundelkhand and the sub-Himalayan terai, transforming peripheral tracts into tax-yielding agricultural estates [@Prasad2016Adivasi; @Eaton1993Rise; @Phuntsho2013HistoryBhutan].
+- Indigenous forest-dwelling populations (*atavika*, *sabara*, *pulinda*, *kirata*) were progressively integrated into the agrarian division of labour, being absorbed into lower strata of the *varna* hierarchy as peasant cultivators, manual labourers and village artisans [@Prasad2016Adivasi; @Prasad2021Womens].
+- Peasant communities adopted sophisticated crop rotations, combining autumn-sown winter cereals (*rabi* wheat, barley, pulses) with summer monsoon crops (*kharif* rice, millets, sesame, sugarcane), significantly elevating the caloric carrying capacity of alluvial tracts [@Abrol2023Agroecol; @Mitra2015Informal].
+
+Epigraphic studies demonstrate that this institutional transfer did not lead to agrarian degradation or economic stagnation, but stimulated rural investment, irrigation construction and demographic density [@Verma2020Modes; @Datta2013Governin; @Chattopadhyaya1994Making].
+
+## Temple Urbanism, Guilds and Commerce
+
+In contrast to older historiographical models that postulated a total urban collapse between the seventh and eleventh centuries, archaeological surveys and epigraphic analyses demonstrate the emergence of a distinctive early mediaeval urbanism centred on sacred monumental complexes and market centres [@Chattopadhyaya1994Making; @Erdosy1988Urbanisation; @Allchin1995Archaeology; @Udayakumar2019Architectu]. While ancient imperial capitals such as Pataliputra declined in political primacy, new regional metropolises and temple towns flourished across northern South Asia and the adjacent Himalayan valleys [@Slusser1982NepalMandala]:
+- In Bundelkhand, the Chandella rulers transformed Khajuraho and Mahoba into architectural showpieces, constructing stone temple complexes served by engineered masonry water tanks [@Udayakumar2019Architectu; @Chattopadhyaya1994Making].
+- In Orissa, the Somavamshi and Eastern Ganga dynasties established monumental temple centres at Bhubaneswar and Puri, which functioned as economic redistribution nodes commanding thousands of agrarian villages [@Udayakumar2019Architectu; @Champakalakshmi1996Trade].
+- In Gujarat, the Solankis developed Patan (Anhilwara) into an emporium coordinating maritime commerce through Gulf of Khambhat ports such as Bharuch (Bhrigukachcha) and Khambhat (Stambhatirtha) with caravan routes traversing Rajasthan [@Casile2021Climatic; @Chattopadhyaya1994Making].
+
+Commercial transactions were coordinated by merchant guilds (*shreni*, *nigama*) and itinerant trading corporations, including the *Nanadesi* and *Ayyavole*, which operated across regional borders in parallel with southern Indian networks [@Mitra2015Informal; @Champakalakshmi1996Trade; @Stein1989Vijayanagara]. Local market towns (*hatta*, *mandapika*) emerged at the junction of agrarian catchments, where rural cultivators exchanged grain, cotton and dairy products for manufactured iron tools, salt, spices and textiles [@Chattopadhyaya1994Making; @Mitra2015Informal; @Datta2013Governin]. The minting of base silver and billon coinages, including the widespread 'bull-and-horseman' series (*Samanta Deva*) and bilingual Ghaznavid dirhams, facilitated regional exchange alongside cowrie shells used for petty market transactions [@Allen2004Archbish; @Anooshahr2021Ghaznavi].
+
+## Frontier Pressures, Invasions and State Transitions (1000AD to 1206AD)
+
+From the late tenth century, northern South Asia was confronted by military incursions from the Ghaznavid Empire of Central Asia [@Anooshahr2021Ghaznavi; @Durdu2026Confisca]. Sabuktigin and his son Mahmud of Ghazni conducted repeated expeditions across the Indus, breaking the power of the Hindu Shahis of Udabhandapura (Hund) and annexing Punjab into the Ghaznavid realm with Lahore as a provincial capital [@Anooshahr2021Ghaznavi; @Hambly1982Towns]. Between 1000AD and 1026AD, Mahmud launched seventeen campaigns into the heart of Northern India, raiding rich temple centres and fortified cities including Mathura, Kannauj, Thanesar, Gwalior and Somnath [@Durdu2026Confisca].
+
+Historiographical analysis of these campaigns reveals that they operated as mechanisms of state-directed wealth extraction and fiscal centralisation, transferring vast quantities of precious metals and captives to Ghazni to finance Central Asian military operations [@Durdu2026Confisca]. Rather than precipitating complete societal de-population, the Ghaznavid annexation of Punjab established a military-administrative frontier along the Ghaggar-Yamuna divide, integrating northwestern India into broader trans-Eurasian trade networks and introducing Persian administrative institutions [@TAHIR2021Translatio; @Anooshahr2021Ghaznavi; @Naqvi1968Urbanisation].
+
+During the late twelfth century, the Ghurid dynasty under Mu'izz al-Din Muhammad bin Sam displaced the Ghaznavids and initiated systematic territorial conquest across the Gangetic plain [@Anooshahr2021Ghaznavi]. Following the defeat of Prithviraj Chauhan III at the Second Battle of Tarain (1192AD), Ghurid commanders, notably Qutb al-Din Aibak and Bakhtiyar Khalji, rapidly overran the Gahadavala kingdom of Kannauj and Varanasi, the Chandella strongholds in Bundelkhand, the Sena realm in Bengal and the Buddhist monasteries of Bihar (Nalanda and Vikramashila) [@TAHIR2021Translatio; @Eaton1993Rise]. By 1206AD, following Muhammad of Ghur's death, Qutb al-Din Aibak established an independent Sultanate at Delhi, consolidating northern South Asia under a militarised, revenue-extracting state that inherited the dense agrarian and urban infrastructure developed over the preceding four centuries [@Anooshahr2021Ghaznavi; @Hambly1982Towns; @Blake1991Shahjahanabad; @Habib1982Atlas; @Moosvi1987Economy].
+
+# Methodology
+
+## Spatial Disaggregation and Environmental Covariates
+
+To estimate demographic densities across 2.651.426 km² of northern South Asia, the INDUS spatial framework partitions the regional territory into 35.033 active 5-arcminute grid cells (measuring approximately 9,2 km by 9,2 km at tropical latitudes). Each terrestrial cell is evaluated against environmental covariates:
+- Fluvial distance decay: proximity to major perennial waterways (Indus, Jhelum, Chenab, Ravi, Sutlej, Yamuna, Ganga, Ghaghara, Gandak, Son, Brahmaputra and Mahanadi), with exponential density decay applied beyond 12 km in arid regions [@Abrol2023Agroecol].
+- Floodplain geomasking: continuous weighting reflecting active silt deposition, fertile deltaic terraces and canal-irrigable lowlands capable of supporting multi-cropping inundation agriculture [@Datta2013Governin].
+- Topographic slope: penalising rugged terrain in the Himalayas, Sulaiman range and Vindhyan scarps while favouring flat alluvial plains and gently rolling plateau soils [@Casile2021Climatic].
+- Bioclimatic moisture suitability: integrating palaeoclimatic precipitation anomalies reconstructed from regional speleothem records and lake sediment cores across the Mediaeval Climate Anomaly [@Casile2021Climatic].
+
+## Settlement Subtraction and Rural Allocation
+
+To eliminate double counting between nucleated urban centres and rural agricultural populations, 9.343 catalogued settlements with chronological population series are directly anchored to their WGS84 geographic coordinates. This expanded gazetteer is empirically anchored in primary-monograph metropolis trajectories, multi-repository archaeological and monument corpora (Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews, Archaeological Survey of India P1371, Wikidata, OpenStreetMap, XRONOS and c14bazAAR), official national censuses (Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS), and macro-envelope *qasba*, *pargana* and *nadu* continuity subjected to strict foundation-year and chronological toponymy filters [@Habib1982Atlas; @Moosvi1987Economy; @Bayly1983Rulers; @ImperialGazetteer1908; @Possehl1999IndusAge; @Kenoyer1998AncientCities]. At each benchmark year (750AD, 850AD, 950AD, 1050AD, 1150AD and 1206AD), the active population of catalogued settlements inside each sub-region is summed and subtracted from the sub-regional demographic envelope.
+
+The remaining rural population is then allocated across non-settled pixels in proportion to environmental suitability weights. A two-pass boundary feathering algorithm smoothes density transitions across sub-regional frontiers, preventing step discontinuities along mountain divides and administrative limits.
+
+## Demographic Uncertainty Envelopes
+
+Every sub-regional and macro-regional benchmark estimate carries an explicit symmetric uncertainty bound (+/- 20% across all benchmark years from 750AD to 1206AD). At the 1206AD culmination, the regional total of 63,5M is bounded between 50,8M and 76,2M inhabitants. This uncertainty interval accommodates variances across competing epigraphic grant frequencies, house-floor areas, harvest yields and historical chronicle estimates [@Datta2013Governin; @Verma2020Modes].
+
+Table \ref{tab:subregions} documents the four physiographic and political divisions, land areas, benchmark populations and 1206AD densities.
+
+<figure class="crd-table-figure" id="tab:subregions">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Sub-Region</th><th class="crd-th">Area km² (Share)</th><th class="crd-th">750AD</th><th class="crd-th">850AD</th><th class="crd-th">950AD</th><th class="crd-th">1050AD</th><th class="crd-th">1150AD</th><th class="crd-th">1206AD</th><th class="crd-th">1206AD Density</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Gangetic-Bundelkhand Core</strong></td><td class="crd-td">735.807 (27,8%)</td><td class="crd-td">16,66M</td><td class="crd-td">17,85M</td><td class="crd-td">19,04M</td><td class="crd-td">20,23M</td><td class="crd-td">21,08M</td><td class="crd-td">21,59M</td><td class="crd-td">2.934,19</td></tr>
+<tr><td class="crd-td"><strong>Bengal, Bihar and Kamarupa</strong></td><td class="crd-td">803.833 (30,3%)</td><td class="crd-td">14,21M</td><td class="crd-td">15,22M</td><td class="crd-td">16,24M</td><td class="crd-td">17,25M</td><td class="crd-td">17,98M</td><td class="crd-td">18,41M</td><td class="crd-td">2.290,9</td></tr>
+<tr><td class="crd-td"><strong>Rajputana, Gujarat and Malwa</strong></td><td class="crd-td">528.901 (19,9%)</td><td class="crd-td">8,82M</td><td class="crd-td">9,45M</td><td class="crd-td">10,08M</td><td class="crd-td">10,71M</td><td class="crd-td">11,16M</td><td class="crd-td">11,43M</td><td class="crd-td">2.161,08</td></tr>
+<tr><td class="crd-td"><strong>Punjab, Haryana and Kashmir</strong></td><td class="crd-td">582.885 (22%)</td><td class="crd-td">9,31M</td><td class="crd-td">9,97M</td><td class="crd-td">10,64M</td><td class="crd-td">11,3M</td><td class="crd-td">11,78M</td><td class="crd-td">12,06M</td><td class="crd-td">2.069,88</td></tr>
+<tr><td class="crd-td"><strong>Regional Total</strong></td><td class="crd-td">2.651.426 (100%)</td><td class="crd-td">49M</td><td class="crd-td">52,5M</td><td class="crd-td">56M</td><td class="crd-td">59,5M</td><td class="crd-td">62M</td><td class="crd-td">63,5M</td><td class="crd-td">2.394,94</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Sub-regional land area, benchmark populations and 1206AD density across early mediaeval Northern India.</figcaption>
+</figure>
+
+# Testing and Validation
+
+## Epigraphic Charters and Agrarian Density Constraints
+
+To validate demographic trends against primary historical evidence, epigraphic corpuses comprising thousands of dated copper-plate inscriptions were analysed across northern South Asia [@Verma2020Modes; @Chao1994Stone; @OLOUGHLIN2006Insular]. Epigraphic charters document specific village grants, recording boundary stones, canal diversions, irrigation tanks, orchards and tenant households [@Datta2013Governin; @CHAKRABARTI2016Agrarian].
+
+Spatial mapping of epigraphic findspots reveals an intensifying frequency of land donations between the eighth and twelfth centuries:
+- In Bengal and Bihar, Pala and Sena charters (such as the Khalimpur plate of Dharmapala and the Naihati plate of Vallalasena) record the conversion of low-lying marshes and deltaic islands into revenue-paying agricultural settlements (*grama*, *pataka*) [@Verma2020Modes].
+- In the central Gangetic plain, Pratihara, Gahadavala and Chandella inscriptions register donations of multiple villages (*grama-samuha*) alongside fiscal dues including the grain tax (*bhoga*), cash assessments (*hiranya*) and trade tolls (*sulka*), confirming an expanding fiscal base supported by demographic growth [@Datta2013Governin].
+- In western India, Chaulukya/Solanki inscriptions record the construction and endowment of deep stepwells and public tanks by royal queens, ministers and wealthy merchants, demonstrating sustained capital investment in water conservation [@Casile2021Climatic].
+
+These epigraphic data provide empirical ground-truthing that contradicts notions of rural stagnation, indicating that feudal decentralisation stimulated local reclamation and population density [@Verma2020Modes; @Datta2013Governin].
+
+## Geoarchaeological Coring and Water Management Systems
+
+Palaeohydrological and geoarchaeological records from northern and western India provide independent physical confirmation of climate-adapted agricultural resilience [@Casile2021Climatic; @Manish2019Greater]. Sediment cores extracted from lake basins and oxbow lakes in Rajasthan (Didwana, Lunkaransar) and Uttar Pradesh (Santhi Tal) indicate fluctuating monsoon precipitation during the Mediaeval Climate Anomaly (ca. 900AD to 1300AD), with interludes of reduced summer moisture interspersed between humid pulses [@Casile2021Climatic].
+
+Archaeological excavations of hydraulic installations confirm that early mediaeval societies adapted to these climatic fluctuations through engineering:
+- The Paramara king Bhoja (r. 1010AD to 1055AD) engineered the massive Bhojpur lake near Bhopal by throwing earthen and stone dams across river defiles, creating a reservoir covering over 650 km² that irrigated surrounding agricultural lowlands [@Casile2021Climatic].
+- In northern Gujarat, the Solankis constructed monumental stepped reservoirs, such as the Rani ki Vav at Patan, combining sacred iconographic display with functional groundwater extraction during drought years [@Casile2021Climatic].
+- At Mandu on the Malwa scarp, extensive rain-fed catchment cisterns and filter conduits collected monsoon runoff, sustaining both the urban citadel and intensive terraced farming along the ravine slopes [@Casile2021Climatic].
+
+These hydraulic systems buffered agrarian output against seasonal drought, explaining the steady population expansion observed in semi-arid zones during the tenth and eleventh centuries [@Abrol2023Agroecol].
+
+## Agrarian Surplus, Fiscal Extraction and Caloric Budgets
+
+Caloric and agrarian balance sheets confirm that northern South Asian alluvial tracts possessed the ecological potential to sustain the reconstructed population figures [@Abrol2023Agroecol; @Ghosh2012Accumula]. In the lower Ganga and Brahmaputra valleys, wet-rice agriculture yielded 1,2 to 1,8 tonnes of unhusked grain per hectare under traditional broadcasting and transplanting techniques, producing over 3.000 kcal per person per day across settled farming districts [@Abrol2023Agroecol]. Double-cropping of winter pulses and mustard on rice stubble fields provided essential protein and vegetable oils, maintaining biological resilience [@Abrol2023Agroecol; @Kumar2017Health].
+
+In the central Gangetic plain and Punjab doabs, the combination of wheat, barley and pulses (*rabi*) with millets, cotton and sesame (*kharif*) distributed labour demand across both seasons and insulated communities against single-monsoon failures [@Datta2013Governin; @Mitra2015Informal]. Standard royal taxation rates, typically assessed at one-sixth (*shadhbhaga*) to one-fourth of gross agricultural output, left sufficient economic surplus within the village economy to support artisan castes, smiths, potters and local temple institutions [@Ghosh2012Accumula; @Mishra2022Book; @Jha2025Book; @Prasad2021Womens].
+
+## Source Ledger Ingestion and Saturation Audit
+
+The INDUS source ledger for Northern India was assembled through a four-wave asymptotic ingestion process designed to ensure comprehensive geographic coverage:
+- Wave 1: Automated extraction from official national censuses (Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS), primary-monograph metropolis anchors and national registries, incorporating 5.419 georeferenced settlements [@Habib1982Atlas; @Hambly1982Towns; @ImperialGazetteer1908].
+- Wave 2: Systematic multi-repository integration from archaeological and heritage corpora (ASI P1371, Pleiades, Zenodo IARs, XRONOS/c14bazAAR, Wikidata and OpenStreetMap), adding 2.616 settlements (cumulative 8.035) [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @Possehl1999IndusAge].
+- Wave 3: Macro-calibrated pre-1800 *qasba*, *pargana* and *nadu* continuity and foundation-year audits, adding 1.308 settlements (cumulative 9.343) [@Moosvi1987Economy; @Bayly1983Rulers; @Champakalakshmi1996Trade].
+- Wave 4: Sub-mask gap sweeps and GeoNames homonym reconciliation across all four divisions, yielding zero unaccounted settlements and confirming asymptotic saturation (marginal gain 0%).
+
+In total, 10.143 candidate localities were audited: 9.343 were accepted as primary catalogued settlements (2.707 in the Gangetic-Bundelkhand Core, 3.800 in Bengal, Bihar, Orissa and Kamarupa, 1.604 in Punjab, Haryana and Kashmir, and 1.232 in Rajputana, Solanki Gujarat and Malwa) and 800 were excluded (predominantly duplicate survey aliases within a 2,2 km spatial radius, non-habitation lithic scatters or unpopulated temple shrines).
+
+# Results
+
+## Macro-Regional Demographic Trajectory
+
+The demographic history of Northern India from the mid-eighth century to the early thirteenth century demonstrates steady, sustained population growth supported by the expansion of the agrarian frontier and the intensification of urban commerce (Figure \ref{fig:trajectory} and Table \ref{tab:benchmarks}).
+
+<figure class="crd-figure-block" id="fig:trajectory">
+<img class="crd-figure-img" src="/artefacts/project_indus/1.0-northern-india-until-ghurid-empire/fig2_northern_india_until_ghurid_empire_demography.png" alt="fig:trajectory" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Long-term demographic trajectory of Northern India (750AD to 1206AD), showing steady population expansion across four sub-regions alongside the rank-size distribution of 9.343 catalogued settlements (Zipf $\alpha = 0,89$, $R^2 = 0,98$).</figcaption>
+</figure>
+
+<figure class="crd-table-figure" id="tab:benchmarks">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Benchmark</th><th class="crd-th">Regional Pop</th><th class="crd-th">Density</th><th class="crd-th">Gangetic Core</th><th class="crd-th">Bengal and Bihar</th><th class="crd-th">Punjab and Kashmir</th><th class="crd-th">Rajputana and Malwa</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>750AD</strong></td><td class="crd-td">49M</td><td class="crd-td">1.848,06</td><td class="crd-td">16,66M</td><td class="crd-td">14,21M</td><td class="crd-td">9,31M</td><td class="crd-td">8,82M</td></tr>
+<tr><td class="crd-td"><strong>850AD</strong></td><td class="crd-td">52,5M</td><td class="crd-td">1.980,07</td><td class="crd-td">17,85M</td><td class="crd-td">15,22M</td><td class="crd-td">9,97M</td><td class="crd-td">9,45M</td></tr>
+<tr><td class="crd-td"><strong>950AD</strong></td><td class="crd-td">56M</td><td class="crd-td">2.112,07</td><td class="crd-td">19,04M</td><td class="crd-td">16,24M</td><td class="crd-td">10,64M</td><td class="crd-td">10,08M</td></tr>
+<tr><td class="crd-td"><strong>1050AD</strong></td><td class="crd-td">59,5M</td><td class="crd-td">2.244,08</td><td class="crd-td">20,23M</td><td class="crd-td">17,25M</td><td class="crd-td">11,3M</td><td class="crd-td">10,71M</td></tr>
+<tr><td class="crd-td"><strong>1150AD</strong></td><td class="crd-td">62M</td><td class="crd-td">2.338,36</td><td class="crd-td">21,08M</td><td class="crd-td">17,98M</td><td class="crd-td">11,78M</td><td class="crd-td">11,16M</td></tr>
+<tr><td class="crd-td"><strong>1206AD</strong></td><td class="crd-td">63,5M</td><td class="crd-td">2.394,94</td><td class="crd-td">21,59M</td><td class="crd-td">18,41M</td><td class="crd-td">12,06M</td><td class="crd-td">11,43M</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Benchmark population totals and sub-regional distribution across Northern India (750AD to 1206AD).</figcaption>
+</figure>
+
+Between 750AD and 1206AD, regional population expanded from 49M to 63,5M (+29,6%), elevating aggregate density from 1.848 persons per 100 km² to 2.395 persons per 100 km². Growth proceeded in three distinct phases:
+1. Early Tripartite Consolidation (750AD to 950AD): Regional population climbed from 49M to 56M (+14,3%), driven by initial land clearances in the central Gangetic plain and Bengal delta under the Gurjara-Pratiharas and Palas.
+2. High Feudal Apex and Temple Urbanism (950AD to 1150AD): Population rose from 56M to 62M (+10,7%), characterised by the emergence of regional successor states, the proliferation of hydraulic infrastructure in Malwa and Gujarat and the expansion of market networks.
+3. Frontier Raids and Ghurid Transition (1150AD to 1206AD): Growth moderated to 63,5M (+2,4%), reflecting military disruptions in the northwest and central river corridors prior to political stabilisation under the early Delhi Sultanate.
+
+## Four Sub-Regional Trajectories
+
+### Gurjara-Pratihara, Gahadavala and Chandella Gangetic-Bundelkhand Core
+
+The central Gangetic plain and Bundelkhand plateau remained the demographically dominant core of Northern India throughout the period, encompassing 2.707 catalogued settlements. Population expanded from 16,66M in 750AD to 19,04M in 950AD, reaching 21,59M by 1206AD (yielding an aggregate density of 2.934 persons per 100 km², the highest in the macro-region). Anchored by the fertile silts of the Ganga-Yamuna doab and northern Malwa, this division supported major urban centres including Kannauj (peaking at 135k in 850AD before moderating to 120k in 950AD and 35k in 1206AD), the sacred pilgrimage metropolis of Varanasi (95k peak in 1100AD; 72k in 1206AD), Ujjain (75k peak in 1050AD; 42,3k in 1206AD), Dhar (68k peak in 1050AD), Khajuraho (52k peak in 1050AD), Jabalpur (48k peak in 1100AD), Mathura (46,8k in 750AD; 26k in 1206AD), Gwalior (41,4k peak in 1206AD), Mandu (35,4k peak in 1206AD) and Kalinjar (35k peak in 1100AD) [@Chattopadhyaya1994Making; @Erdosy1988Urbanisation].
+
+### Pala-Sena Bengal, Bihar, Orissa and Kamarupa
+
+The eastern deltaic division sustained the second largest demographic concentration and the largest spatial inventory of 3.800 catalogued settlements, growing from 14,21M in 750AD to 16,24M in 950AD and 18,415M in 1206AD (2.291 persons per 100 km²). Sustained by wet-rice cultivation and extensive riverine trade along the lower Ganga and Brahmaputra, this zone was led by Gaur (Lakhnauti, historically Lakshmanavati), which grew from 65k in 750AD and 85k in 950AD to 120k inhabitants in 1206AD [@Eaton1993Rise]. Other leading hubs included Cuttack (46,4k peak in 1206AD), ancient Patna (Pataliputra, 45k in 750AD and 28k in 1206AD), the fortified northern Bengal centre of Mahasthangarh (41,4k in 750AD; 22,9k in 1206AD), Puri (33,6k peak in 1206AD), Bhubaneswar (28k peak in 1050AD) and the emerging eastern deltaic port of Sonargaon (8,3k by 1206AD). Monastic universities at Nalanda (24k in 750AD before falling to 2,5k by 1206AD), Vikramashila and Somapura housed resident scholar-monks and drew pilgrims from across Asia [@Phuntsho2013HistoryBhutan; @Slusser1982NepalMandala].
+
+### Hindu Shahi-Ghaznavid Punjab, Haryana and Kashmir
+
+The northwestern riverine and mountain division, comprising 1.604 catalogued settlements, expanded from 9,31M in 750AD to 10,64M in 950AD and 12,065M by 1206AD (2.070 persons per 100 km²). While the frontier witnessed frequent military conflicts during the Ghaznavid campaigns, the alluvial plains of Punjab and Haryana supported robust agricultural communities. Delhi (Dhillika, known as Lal Kot) developed into a major fortified metropolis under the Tomaras, Chauhans and early Ghurids, expanding from 48k in 750AD and 62k in 950AD to 130k inhabitants by 1206AD [@Blake1991Shahjahanabad; @Hambly1982Towns]. In Punjab, Lahore expanded from 25k in 750AD to 85k by 1206AD as the provincial capital of the Ghaznavid Empire, commanding trade through the Khyber Pass [@Anooshahr2021Ghaznavi; @Naqvi1968Urbanisation]. Multan grew steadily to 75k by 1206AD as an Islamic commercial hub on the Chenab, while Srinagar in Kashmir reached 67,1k and Peshawar attained 43,2k by 1206AD.
+
+### Rajputana, Solanki Gujarat and Malwa Kingdoms
+
+The western semi-arid and plateau division, encompassing 1.232 catalogued settlements, grew from 8,82M in 750AD to 10,08M in 950AD and 11,43M in 1206AD (2.161 persons per 100 km²). Supported by stepwells, tank irrigation and maritime trade, this division was led by Patan (Anhilwara), the Solanki capital, which expanded from 20k in 750AD and 55k in 950AD to 120k inhabitants by 1206AD [@Chattopadhyaya1994Making]. Maritime commerce through Gulf of Khambhat ports such as Khambhat (Cambay, 71,8k peak in 1206AD) and Bharuch (42,8k peak in 1206AD) connected Gujarat's textile artisans and grain producers with the Persian Gulf, Red Sea and Southeast Asian trading networks, succeeding the early Maitraka centre of Valabhi (55k in 750AD) [@Casile2021Climatic]. Across Rajasthan, the Chauhan capital of Ajmer reached 43,9k in 1200AD (43,1k in 1206AD), while Chittorgarh grew to 35k on the Mewar plateau.
+
+## Urban Hierarchy and Settlement Systems
+
+Table \ref{tab:leading_settlements} presents the leading fifteen catalogued settlements in early mediaeval Northern India ordered by peak population. Across the 9.343 catalogued sites, city sizes adhere closely to a Zipf rank-size distribution ($\alpha = 0,89$, $R^2 = 0,98$).
+
+<figure class="crd-table-figure" id="tab:leading_settlements">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Settlement Name</th><th class="crd-th">Sub-Region</th><th class="crd-th">Coordinates</th><th class="crd-th">Peak Pop</th><th class="crd-th">1206AD Pop</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Kannauj</strong></td><td class="crd-td">Gangetic-Bundelkhand Core</td><td class="crd-td">27,05 N, 79,92 E</td><td class="crd-td">135k</td><td class="crd-td">35k</td></tr>
+<tr><td class="crd-td"><strong>Delhi</strong></td><td class="crd-td">Punjab, Haryana and Kashmir</td><td class="crd-td">28,61 N, 77,24 E</td><td class="crd-td">130k</td><td class="crd-td">130k</td></tr>
+<tr><td class="crd-td"><strong>Gaur</strong></td><td class="crd-td">Bengal, Bihar and Kamarupa</td><td class="crd-td">24,87 N, 88,13 E</td><td class="crd-td">120k</td><td class="crd-td">120k</td></tr>
+<tr><td class="crd-td"><strong>Patan</strong></td><td class="crd-td">Rajputana, Gujarat and Malwa</td><td class="crd-td">23,85 N, 72,12 E</td><td class="crd-td">120k</td><td class="crd-td">120k</td></tr>
+<tr><td class="crd-td"><strong>Varanasi</strong></td><td class="crd-td">Gangetic-Bundelkhand Core</td><td class="crd-td">25,32 N, 83,01 E</td><td class="crd-td">95k</td><td class="crd-td">72k</td></tr>
+<tr><td class="crd-td"><strong>Lahore</strong></td><td class="crd-td">Punjab, Haryana and Kashmir</td><td class="crd-td">31,55 N, 74,34 E</td><td class="crd-td">85k</td><td class="crd-td">85k</td></tr>
+<tr><td class="crd-td"><strong>Ujjain</strong></td><td class="crd-td">Gangetic-Bundelkhand Core</td><td class="crd-td">23,18 N, 75,78 E</td><td class="crd-td">75k</td><td class="crd-td">42,3k</td></tr>
+<tr><td class="crd-td"><strong>Multan</strong></td><td class="crd-td">Punjab, Haryana and Kashmir</td><td class="crd-td">30,2 N, 71,47 E</td><td class="crd-td">75k</td><td class="crd-td">75k</td></tr>
+<tr><td class="crd-td"><strong>Khambhat</strong></td><td class="crd-td">Rajputana, Gujarat and Malwa</td><td class="crd-td">22,31 N, 72,62 E</td><td class="crd-td">71,8k</td><td class="crd-td">71,8k</td></tr>
+<tr><td class="crd-td"><strong>Dhar</strong></td><td class="crd-td">Gangetic-Bundelkhand Core</td><td class="crd-td">22,59 N, 75,3 E</td><td class="crd-td">68k</td><td class="crd-td">48k</td></tr>
+<tr><td class="crd-td"><strong>Srinagar</strong></td><td class="crd-td">Punjab, Haryana and Kashmir</td><td class="crd-td">34,08 N, 74,8 E</td><td class="crd-td">67,1k</td><td class="crd-td">67,1k</td></tr>
+<tr><td class="crd-td"><strong>Valabhi</strong></td><td class="crd-td">Rajputana, Gujarat and Malwa</td><td class="crd-td">21,88 N, 71,88 E</td><td class="crd-td">55k</td><td class="crd-td">-</td></tr>
+<tr><td class="crd-td"><strong>Khajuraho</strong></td><td class="crd-td">Gangetic-Bundelkhand Core</td><td class="crd-td">24,83 N, 79,92 E</td><td class="crd-td">52k</td><td class="crd-td">23,8k</td></tr>
+<tr><td class="crd-td"><strong>Jabalpur</strong></td><td class="crd-td">Gangetic-Bundelkhand Core</td><td class="crd-td">23,18 N, 79,99 E</td><td class="crd-td">48k</td><td class="crd-td">36,4k</td></tr>
+<tr><td class="crd-td"><strong>Mathura</strong></td><td class="crd-td">Gangetic-Bundelkhand Core</td><td class="crd-td">27,49 N, 77,67 E</td><td class="crd-td">46,8k</td><td class="crd-td">26k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Leading fifteen early mediaeval settlements in Northern India, showing coordinates, peak population and 1206AD population.</figcaption>
+</figure>
+
+The urban settlement hierarchy conformed to a multi-tiered structural organisation:
+1. Primary metropolises (75k inhabitants and above): Kannauj (135k peak in 850AD), Delhi (130k peak in 1206AD), Patan (120k peak in 1206AD), Gaur (120k peak in 1206AD), Varanasi (95k peak in 1100AD), Lahore (85k peak in 1206AD), Ujjain (75k peak in 1050AD) and Multan (75k peak in 1206AD). These regional centres coordinated imperial administration, commercial trade and riverine transport [@Hambly1982Towns; @Habib1982Atlas].
+2. Major regional centres (45k to 74,9k inhabitants): Khambhat (71,8k peak in 1206AD), Dhar (68k peak in 1050AD), Srinagar (67,1k peak in 1206AD), Valabhi (55k in 750AD), Khajuraho (52k peak in 1050AD), Jabalpur (48k peak in 1100AD), Mathura (46,8k peak in 750AD), Cuttack (46,4k peak in 1206AD) and Patna (45k peak in 750AD). These walled cities commanded critical geographical nodes, river crossings and provincial agricultural basins [@Chattopadhyaya1994Making; @Eaton1993Rise].
+3. Specialised commercial, fortress and sacred towns (25k to 44,9k inhabitants): Ajmer (43,9k peak in 1200AD), Peshawar (43,2k), Bharuch (42,8k), Gwalior (41,4k), Mahasthangarh (41,4k peak in 750AD), Mandu (35,4k), Chittorgarh (35k), Kalinjar (35k), Puri (33,6k), Thanesar (32k) and Bhubaneswar (28k). These settlements operated as manufacturing hubs, maritime ports and religious pilgrimage sites [@Allchin1995Archaeology; @Casile2021Climatic].
+4. Fortified market towns, monastic complexes and rural centres (< 25k inhabitants): Nalanda (24k in 750AD), Somnath, Mahoba, Shravasti and over 9.300 catalogued *qasba*, *mandapika* and village settlements distributed across the four sub-regions [@Moosvi1987Economy; @Bayly1983Rulers].
+
+## Comparative Conquest Dynamics and Institutional Adaptation
+
+The transition from indigenous Rajput, Pala and Sena hegemonies to the Delhi Sultanate between 1192AD and 1206AD presents striking institutional parallels with contemporary conquest statecraft in mediaeval Europe [@Patourel1971Norman; @Latimer2010Assimila]. Much as the Norman conquest of Anglo-Saxon England involved the replacement of the uppermost echelon of landholders while preserving the underlying manorial agricultural regime and parish tax units, the Ghurid conquest replaced regional dynastic rulers (*rajas*, *maharajas*) with Turkic and Afghan military commanders (*muqti*, *iqtadar*) while leaving local village headmen (*muqaddam*, *khut*) and revenue collectors (*patwari*) in operational control of peasant agriculture [@Patourel1971Norman; @Anooshahr2021Ghaznavi; @Chandra2025Akbar].
+
+The Ghaznavid and Ghurid state apparatus depended upon the extraction of agricultural revenue through the *iqta* system, a fiscal mechanism whereby the right to collect land revenue was assigned to military officers in exchange for maintaining troop contingents [@Anooshahr2021Ghaznavi; @Durdu2026Confisca]. Confiscation practices (*musadara*), systematically analysed by Durdu in the Ghaznavid administration, targeted corrupt provincial governors and recalcitrant wealthy elites rather than peasant cultivators, preserving the agrarian tax base that generated annual revenue [@Durdu2026Confisca]. Furthermore, the immediate continuity of bilingual coinage minted at Lahore and Delhi, which bore both Arabic Islamic inscriptions and Nagari legends depicting the Hindu deity Lakshmi or the Bull of Shiva, demonstrates deliberate economic pragmatism designed to avoid monetary dislocation [@Allen2004Archbish]. Local elite families assimilated into the new administrative hierarchy, preserving rural property rights and facilitating institutional continuity [@Latimer2010Assimila; @TAHIR2021Translatio].
+
+# Limitations
+
+Demographic reconstruction across early mediaeval Northern India remains subject to several evidentiary and taphonomic limitations:
+1. Epigraphic preservation bias: copper-plate land charters have survived unevenly across northern South Asia [@Verma2020Modes; @Chao1994Stone]. Being concentrated in religious institutions, temples and royal archives, surviving charters overrepresent donations to priestly elites and religious foundations while underrepresenting ungranted peasant holdings and communal forest tenures [@Datta2013Governin].
+2. Fluvial sedimentation and urban continuity: active alluviation across the Gangetic plain has buried many early mediaeval strata beneath metres of post-thirteenth-century silt [@Datta2013Governin]. Concurrently, continuous modern urban habitation at primary historical sites including Delhi, Varanasi, Patna, Lahore, Ujjain and Multan severely limits horizontal archaeological excavation, requiring reliance upon salvage stratigraphy and toponymic analysis.
+3. Disparate chronicle metrics: contemporary Persian historical chronicles (such as the *Tarikh-i Yamini* of al-Utbi and the *Tabakat-i Nasiri* of Minhaj-i Siraj) frequently employ conventional hyperbole when reporting army sizes, casualties and looted treasuries, necessitating cautious cross-checking against epigraphic and archaeological data [@TAHIR2021Translatio; @Durdu2026Confisca].
+4. Localized climatic shocks: regional speleothem and lake records demonstrate episodic multi-year drought pulses that triggered short-term local harvest failures and temporary famine migrations, as recorded in Kalhana's *Rajatarangini* for Kashmir, which are inevitably smoothed in decadal benchmark demographic models [@Casile2021Climatic; @Kumar2017Health].
+
+# Conclusion
+
+The early mediaeval epoch in Northern India (750AD to 1206AD) was characterised by substantial agrarian, institutional and demographic expansion. Across 2,65M km² of territory, population expanded from 49M in 750AD during the initial Tripartite Struggle to 63,5M by 1206AD at the establishment of the Delhi Sultanate. This demographic growth was propelled by the clearance of primeval forests, royal land grants that settled peasant communities, the integration of forest populations into sedentary agriculture and the proliferation of irrigation technologies, including masonry stepwells, reservoirs and inundation canals.
+
+Far from being an era of urban decay and political stagnation, early mediaeval Northern India witnessed the development of a complex multi-tiered settlement hierarchy across 9.343 catalogued sites (Zipf $\alpha = 0,89$, $R^2 = 0,98$), ranging from imperial metropolises at Kannauj, Delhi, Patan, Gaur, Varanasi, Lahore, Ujjain and Multan down to thousands of fortified towns and agricultural market centres. When the Ghurid campaigns dismantled the upper crust of Rajput and Sena dynasties at the close of the twelfth century, the conquerors inherited a densely populated, agriculturally productive and institutionally resilient society, providing the demographic and economic foundations that supported the Delhi Sultanate.
+
+# Appendix
+
+The INDUS source ledger audited 10.143 candidate records across Northern India, resulting in 9.343 accepted primary settlements and 800 exclusions. Table \ref{tab:saturation} summarises the four-wave saturation audit demonstrating asymptotic regional coverage.
+
+<figure class="crd-table-figure" id="tab:saturation">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Ingestion Wave</th><th class="crd-th">Source Category</th><th class="crd-th">Prior Cumulative</th><th class="crd-th">Newly Included</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Wave 1</strong></td><td class="crd-td">official censuses imperial anchors and national registries</td><td class="crd-td">0</td><td class="crd-td">5.419</td></tr>
+<tr><td class="crd-td"><strong>Wave 2</strong></td><td class="crd-td">multi repository archaeology asi wikidata osm zenodo</td><td class="crd-td">5.419</td><td class="crd-td">2.616</td></tr>
+<tr><td class="crd-td"><strong>Wave 3</strong></td><td class="crd-td">macro calibrated pre1800 qasba nadu continuity and foundation audit</td><td class="crd-td">8.035</td><td class="crd-td">1.308</td></tr>
+<tr><td class="crd-td"><strong>Wave 4</strong></td><td class="crd-td">submask gap hunter and geonames homonym audit</td><td class="crd-td">9.343</td><td class="crd-td">0</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 4.</span> Four-wave asymptotic saturation audit of catalogued settlements across early mediaeval Northern India.</figcaption>
+</figure>
+
+# Sources

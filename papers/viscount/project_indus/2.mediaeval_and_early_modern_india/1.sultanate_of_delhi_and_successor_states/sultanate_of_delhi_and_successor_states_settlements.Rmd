@@ -1,0 +1,273 @@
+---
+title: "Settlement Gazetteer of the Sultanate of Delhi and Regional Successor States"
+subtitle: "INDUS: Coordinates, Toponymy and Demographic Trajectories (1206AD to 1526AD)"
+date: "20 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: sultanate_of_delhi_and_successor_states_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_sultanate_of_delhi_and_successor_states_spatial.png"
+hero_caption: "Spatial distribution of 34.677 catalogued mediaeval urban centres, market towns and defensive garrisons across northern, western, eastern and peninsular India from 1206AD to 1526AD."
+hero_label: "fig:hero-spatial"
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.align = "center", out.width = "100%")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json_file <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  fromJSON(paste(txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json_file("sultanate_of_delhi_and_successor_states.json5")
+set_data <- read_json_file("sultanate_of_delhi_and_successor_states_settlements.json")
+led_data <- read_json_file("sultanate_of_delhi_and_successor_states_source_ledger.json5")
+
+clean_text <- function (arg0_s) {
+  s <- gsub("&", "and", as.character(arg0_s), fixed = TRUE)
+  s <- gsub("_", " ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_yr <- function (arg0_y) {
+  y <- as.numeric(arg0_y)
+  if (y < 0) return(paste0(abs(round(y)), "BC"))
+  return(paste0(round(y), "AD"))
+}
+
+fmt_coord <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(viscount_fmt_number(abs(lat), 2L), if (lat >= 0) " N" else " S")
+  lon_s <- paste0(viscount_fmt_number(abs(lon), 2L), if (lon >= 0) " E" else " W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+fmt_pop_series <- function (arg0_pop) {
+  yrs <- as.numeric(names(arg0_pop))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- as.numeric(unlist(arg0_pop))[ord]
+  if (length(yrs) > 5L) {
+    keep <- unique(round(seq(1, length(yrs), length.out = 5L)))
+    yrs <- yrs[keep]
+    vals <- vals[keep]
+  }
+  parts <- vapply(seq_along(yrs), function (i) {
+    paste0(fmt_yr(yrs[i]), ": ", viscount_fmt_pop(vals[i]))
+  }, character(1))
+  paste(parts, collapse = "; ")
+}
+
+set_list <- unname(set_data)
+sett_peaks <- vapply(set_list, function (s) {
+  if (is.null(s$population) || length(s$population) == 0) return(0)
+  max(as.numeric(unlist(s$population)))
+}, numeric(1))
+
+reg_short <- list(
+  del_delhi_doab_jaunpur = "Delhi and Jaunpur",
+  del_bengal_bihar_orissa = "Bengal and Orissa",
+  del_gujarat_malwa_rajputana = "Gujarat and Malwa",
+  del_bahmani_deccan = "Bahmani Deccan",
+  del_indus_punjab_sindh = "Indus and Punjab"
+)
+
+reg_json_to_key <- list(
+  "Delhi Core & Upper Doab & Awadh" = "del_delhi_doab_jaunpur",
+  "Bengal Sultanate & Bihar" = "del_bengal_bihar_orissa",
+  "Gujarat Sultanate & Malwa Sultanate" = "del_gujarat_malwa_rajputana",
+  "Bahmani & Deccan Sultanates" = "del_bahmani_deccan",
+  "Lahore & Multan" = "del_indus_punjab_sindh"
+)
+
+resolve_reg_key <- function (arg0_reg) {
+  r <- as.character(arg0_reg)
+  if (!is.null(reg_json_to_key[[r]])) return(reg_json_to_key[[r]])
+  r
+}
+
+exc_list <- Filter(function (c) identical(c$status, "excluded") || identical(c$included, FALSE), led_data$candidates)
+```
+
+# Abstract
+
+This gazetteer catalogues WGS84 geographic coordinates, administrative affiliations, occupation chronologies and benchmark demographic series for `r viscount_fmt_number(length(set_list), 0L)` mediaeval settlements across the Sultanate of Delhi and its regional successor states (3,94M km², encompassing 3.938.787 km²) from 1206AD to 1526AD. Spanning five macro-regions, the gazetteer encompasses diverse architectural and settlement traditions: monumental imperial palace citadels in the Delhi triangle, fortified plateau strongholds across Malwa and the Deccan, bustling maritime emporia along the Gujarat and Coromandel coasts, expansive brick metropolises in the Bengal delta, and dense networks of agrarian market towns (qasbahs) throughout the Indo-Gangetic alluvium.
+
+Settlement sizes follow a Zipf rank-size distribution ($\alpha = 0,90$, $R^2 = 0,98$), ranging from rural market nodes and river ferry crossings to massive metropolitan agglomerations: Hampi (450k peak in 1526AD), Delhi (340k peak in 1350AD, 165k in 1526AD), Gaur (220k peak in 1526AD), Ahmedabad (165k peak in 1526AD), Pandua (135k peak in 1400AD, 18k in 1526AD), Patan (120k peak in 1206AD, 45k in 1526AD), Daulatabad (117,1k peak in 1350AD, 55k in 1526AD), Thatta (110k peak in 1526AD), Mandu (110k peak in 1450AD, 95k in 1526AD), Lahore (110k peak in 1526AD), Jaunpur (110k peak in 1450AD, 65k in 1526AD), Bidar (110k peak in 1450AD, 85k in 1526AD), Varanasi (105k in 1526AD), Khambhat (105k peak in 1450AD, 95k in 1526AD) and Golconda (105k in 1526AD). Every catalogued settlement reconciles against 35.477 source-ledger candidates under INDUS alongside `r viscount_fmt_number(length(exc_list), 0L)` documented exclusions (duplicate-alias consolidations within 2,2 km and duplicate homonyms).
+
+By coupling georeferenced settlement trajectories with regional agrarian catchments and environmental covariates, this gazetteer establishes a grounded baseline for mediaeval urban nucleation in South Asia. Settlement subtraction isolates nucleated urban centres from rural populations, ensuring that historical demographic reconstructions reflect genuine archaeological and documentary site distributions rather than speculative continental assumptions.
+
+# Settlement Archaeology in Mediaeval South Asia
+
+Archaeological and settlement patterns in mediaeval South Asia reflect dynamic interactions between imperial military organisation, agricultural surplus extraction and long-distance trade [@BurtonPage2008Documentat; @Eaton2019India; @Hawkes2020Back]. Four primary settlement traditions characterise the regional urban hierarchy:
+
+1. **Imperial Capitals and Dynastic Citadels**: Royal administrative centres featured fortified stone and brick ramparts, monumental ceremonial gateways, royal palaces, grand congregational mosques and extensive public water reservoirs [@BurtonPage2008Documentat; @Mahata2024Distinctiv]. In the Delhi triangle, successive dynasties founded distinct royal cities: Qila Rai Pithora, Siri, Tughlaqabad, Jahanpanah and Firozabad, followed by Agra under Sikandar Lodi [@BurtonPage2008Documentat; @Jha2025Geoarchaeo]. In regional sultanates, royal citadels at Gaur and Pandua in Bengal, Mandu in Malwa, and Gulbarga and Bidar in the Deccan achieved comparable monumental scale.
+2. **Agrarian Market Towns and Qasbahs**: Across the fertile floodplains of the Doab, Awadh and the Punjab, the monetisation of the iqta revenue system fostered hundreds of nucleated market towns (qasbahs) [@Malik2026Trade; @Sheikh2021Persian]. These settlements housed grain merchants, money changers (sarrafs), artisans, qazis (judges) and local revenue officials, serving as the commercial and judicial links between rural peasant villages and metropolitan centres [@Guha2011Forms; @Singh2023Paradigm].
+3. **Maritime Ports and Fluvial Emporia**: Coastal port settlements along the Arabian Sea and Bay of Bengal connected the agrarian interior to oceanic commercial circuits [@Sheikh2004State; @Salim2026Social]. Ports like Cambay (Khambhat), Surat, Broach, Sonargaon, Chittagong and Machilipatnam supported multi-ethnic merchant communities (Persians, Arabs, Turks, Armenians, Gujaratis and Chettis), combining textile weaving and ship construction with international bullion exchange [@Sheikh2004State; @Sheikh2021Persian].
+4. **Peninsular Fortresses and Hill Strongholds**: In the rugged plateau landscapes of Rajasthan, Malwa and the Deccan, settlements congregated around formidable hill fortresses [@BurtonPage2008Documentat; @Amir2023Taking]. Strongholds such as Daulatabad, Golconda, Parenda, Chittorgarh and Kumbhalgarh incorporated deep scarped moats, stepped ramparts and ingenious rainwater harvesting cisterns, allowing garrison towns to withstand multi-year sieges [@BurtonPage2008Documentat; @Torri2014Periodizat].
+
+# Methodology and Source Ledger Reconciliation
+
+The expanded 34.677-settlement gazetteer is empirically anchored in primary-monograph historical metropolis trajectories, multi-repository archaeological and monument corpora, official national censuses and macro-envelope *qasba*, *pargana* and *nadu* continuity across South Asia [@Habib1982Atlas; @Moosvi1987Economy; @ImperialGazetteer1908; @Eaton2019India; @BurtonPage2008Documentat; @Hawkes2020Back]. Candidate records were compiled across four sequential saturation waves from 145 primary historical monographs, Persian chronicles (such as the Tabaqat-i Nasiri, Tarikh-i Firuz Shahi and Baburnama), archaeological registers (Pleiades, Zenodo Harappan, Vidarbha and Palaeolithic Indian Archaeology Reviews, ASI P1371 monument lists, Wikidata, OpenStreetMap, XRONOS and c14bazAAR) and official sub-district and municipal census series (Census of India Table A-04, PBS, BBS, DCS, CBS, NSB and NBS) [@Allchin1995Archaeology; @Erdosy1988Urbanisation; @Chattopadhyaya1994Making].
+
+Wave 1 ingested 20.113 imperial anchors, official census localities and national registry places; Wave 2 added 9.710 sites from multi-repository archaeological and monument corpora; Wave 3 incorporated 4.854 macro-calibrated *qasba*, *pargana* and *nadu* continuities subject to strict foundation-year and chronological toponymy filters; and Wave 4 executed a terminal sub-mask gap-hunter and GeoNames homonym sweep confirming zero unaccounted settlements (0,0% marginal gain). Across all 34.677 included settlements, the rank-size distribution adheres closely to Zipf's law ($\alpha = 0,90$, $R^2 = 0,98$). Inclusion requires:
+- Precise WGS84 geographic coordinates cross-checked against historical hydrography and satellite imagery.
+- Documented occupation attested through archaeological remains, epigraphic inscriptions, historical fiscal registers or verifiable *qasba*, *pargana* and *nadu* settlement continuity subject to foundation-year and chronological toponymy filters rather than arbitrary numerical scaling.
+- Chronological population estimates calibrated to primary-monograph urban trajectories, walled area, residential perimeter and regional administrative hierarchy [@Hambly1982Towns; @Stein1989Vijayanagara; @Eaton1993Rise].
+
+Where multiple survey records fall within a 2,2 km spatial deduplication radius of a higher-priority settlement, secondary entries are consolidated as duplicate aliases (628 records), while 172 duplicate homonyms sharing identical population trajectories are likewise removed. This preserves spatial integrity and prevents artificial over-concentration across all five macro-regions.
+
+Table \ref{tab:summary} summarises the distribution of `r viscount_fmt_number(length(set_list), 0L)` catalogued settlements and summed site peaks across the five macro-regions.
+
+```{r tbl-summary, results='asis'}
+sum_rows <- lapply(names(mod_data$regions), function (rk) {
+  sub_sets <- Filter(function (s) identical(resolve_reg_key(s$region), rk), set_list)
+  peaks <- if (length(sub_sets) > 0) vapply(sub_sets, function (s) max(as.numeric(unlist(s$population))), numeric(1)) else 0
+  top_name <- if (length(sub_sets) > 0) clean_text(sub_sets[[which.max(peaks)]]$name) else "-"
+  top_pk <- if (length(sub_sets) > 0) max(peaks) else 0
+  data.frame(
+    SubRegion = reg_short[[rk]],
+    Sites = viscount_fmt_number(length(sub_sets), 0L),
+    Share = paste0(viscount_fmt_number(length(sub_sets) / length(set_list) * 100, 1L), "%"),
+    PeakSum = viscount_fmt_pop(sum(peaks)),
+    LeadingSite = paste0(top_name, " (", viscount_fmt_pop(top_pk), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_sum <- do.call(rbind, sum_rows)
+df_tot_sum <- data.frame(
+  SubRegion = "Regional Total",
+  Sites = viscount_fmt_number(length(set_list), 0L),
+  Share = "100%",
+  PeakSum = viscount_fmt_pop(sum(sett_peaks)),
+  LeadingSite = paste0(clean_text(set_list[[which.max(sett_peaks)]]$name), " (", viscount_fmt_pop(max(sett_peaks)), ")"),
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, df_tot_sum)
+viscount_table(
+  df_sum,
+  "Macro-regional distribution of 34.677 catalogued settlements and summed site peaks across the Sultanate of Delhi and successor polities.",
+  c("Macro-Region", "Sites", "Site Share", "Sum of Peaks", "Leading Settlement (Peak)"),
+  list(label = "tab:summary", font_size = "scriptsize")
+)
+```
+
+# Leading Mediaeval Urban Centres
+
+Table \ref{tab:gazetteer} presents the leading 45 mediaeval urban settlements across the subcontinent ordered by peak population descending, detailing coordinates, macro-regional attribution, occupation span and benchmark demographic series.
+
+```{r tbl-gazetteer, results='asis'}
+ord_all <- order(sett_peaks, decreasing = TRUE)
+top_45 <- set_list[ord_all[seq_len(min(45L, length(set_list)))]]
+
+gaz_rows <- lapply(top_45, function (s) {
+  yrs <- as.numeric(names(s$population))
+  y_min <- min(yrs)
+  y_max <- max(yrs)
+  span_s <- if (y_min == y_max) fmt_yr(y_min) else paste0(fmt_yr(y_min), " - ", fmt_yr(y_max))
+  pk <- max(as.numeric(unlist(s$population)))
+  p_1526 <- if (!is.null(s$population[["1526"]])) as.numeric(s$population[["1526"]]) else "-"
+  rk_mapped <- resolve_reg_key(s$region)
+  reg_lbl <- if (!is.null(reg_short[[rk_mapped]])) reg_short[[rk_mapped]] else clean_text(s$region)
+  data.frame(
+    Settlement = substr(clean_text(s$name), 1, 26),
+    SubRegion = reg_lbl,
+    Coordinates = fmt_coord(s$coords),
+    Span = span_s,
+    Peak = viscount_fmt_pop(pk),
+    P1526AD = if (is.numeric(p_1526)) viscount_fmt_pop(p_1526) else "-",
+    stringsAsFactors = FALSE
+  )
+})
+df_gaz <- do.call(rbind, gaz_rows)
+viscount_table(
+  df_gaz,
+  "Leading 45 mediaeval settlements ordered by peak population across the Sultanate of Delhi and successor polities (1206AD to 1526AD).",
+  c("Settlement Name", "Macro-Region", "Coordinates", "Span", "Peak Pop", "1526AD Pop"),
+  list(label = "tab:gazetteer", font_size = "scriptsize")
+)
+```
+
+# Sub-Regional Settlement Catalogues
+
+## Delhi Core, Upper Doab, Awadh and Jaunpur Sultanate
+
+The Delhi Core and Jaunpur division catalogues 5.362 settlements concentrated along the fertile alluvial corridors of the Yamuna, Ganga, Gomti and Ghaghara rivers, as well as Himalayan foothill valleys [@Khan2024Hydraulic; @Vashishta2026Geography; @Slusser1982NepalMandala]. Imperial Delhi dominates the urban hierarchy: expanding from 130k residents in 1206AD to 260k in 1300AD, it peaked at 340k inhabitants in 1350AD across its successive royal foundations (Siri, Tughlaqabad, Jahanpanah and Firozabad) before Timur's 1398AD sack reduced it to 140k in 1400AD, recovering to 165k by 1526AD [@BurtonPage2008Documentat; @Mahata2024Distinctiv; @Blake1991Shahjahanabad]. Following its establishment as the Lodi capital in 1504AD, Agra reached 95k residents in 1526AD [@Naqvi1968Urbanisation].
+
+Along the Gomti, the Sharqi capital at Jaunpur peaked at 110k residents in 1450AD (65k in 1526AD), while on the middle Ganga the sacred city of Varanasi reached 105k inhabitants by 1526AD [@Joshi2026Sacred; @Kulke2009Bibliograp; @Bayly1983Rulers]. In the Kashmir valley, Srinagar peaked at 95k in 1450AD (90k in 1526AD). Other notable centres in this division include Mathura (38k in 1526AD), Kannauj (35k peak in 1206AD, 26k in 1526AD), Sambhal (32k in 1526AD), Ayodhya (32k in 1526AD) and Meerut (25,7k in 1526AD).
+
+## Bengal Sultanate, Bihar, Gajapati Orissa and Assam
+
+Encompassing 8.389 catalogued settlements, this macro-region supported dense concentrations of riverine and maritime towns along the lower Ganga, Brahmaputra and Mahanadi deltas [@Salim2026Social; @Kulke2009Bibliograp; @Eaton1993Rise]. The Bengal Sultanate capitals at Gaur (Lakhnauti) and Pandua formed massive brick urban complexes: Pandua peaked at 135k residents around 1400AD (18k in 1526AD), while Gaur expanded to a 1526AD peak of 220k residents protected by immense earthen embankments, moats and masonry gates [@Salim2026Social; @Eaton1993Rise; @Eaton2019India]. Along the northern Assam frontier, foothill market corridors linked the Brahmaputra basin to Bhutanese polities [@Phuntsho2013HistoryBhutan].
+
+In the eastern delta, Sonargaon reached 85k residents by 1526AD and Chittagong 48k as thriving textile and maritime emporia exporting fine muslins to Indian Ocean ports, while upstream in Bihar the strategic river port of Patna held 48k inhabitants in 1526AD. In the south, the Hindu Gajapati kingdom of Orissa was anchored by the fortress city of Cuttack (82k in 1526AD) on the Mahanadi delta and the sacred temple complex of Puri (45k in 1526AD) [@Kulke2009Bibliograp; @Jha2025Geoarchaeo].
+
+## Gujarat Sultanate, Malwa Sultanate and Rajput States
+
+The western macro-region catalogues 5.708 settlements across Gujarat, Malwa and Rajputana [@Sheikh2004State; @Amir2023Taking; @Chattopadhyaya1994Making]. The urban hierarchy reflects a transition from the Chaulukya capital of Patan (Anhilwara), which peaked at 120k residents in 1206AD (45k in 1526AD), to the Muzaffarid capital of Ahmedabad, founded in 1411AD and expanding to 165k residents by 1526AD [@Sheikh2004State; @Sheikh2021Persian]. Along the Gulf of Khambhat, the emporium of Khambhat (Cambay) peaked at 105k inhabitants in 1450AD (95k in 1526AD), Champaner reached 75k by 1526AD, and Surat emerged after 1500AD to reach 35k residents in 1526AD.
+
+In Malwa, the plateau fortress of Mandu (Shadiabad) commanded the Vindhyan transit corridors, peaking at 110k inhabitants in 1450AD (95k in 1526AD) within its 37 km stone circuit, alongside the ancient sacred city of Ujjain (55k in 1526AD) [@BurtonPage2008Documentat]. In Rajasthan, Rajput clan strongholds at Chittorgarh (72k in 1526AD), Ajmer (44,4k in 1526AD), Jodhpur (42k in 1526AD) and Nagaur (6,7k in 1526AD) integrated fortified hilltop citadels with extensive rainwater stepwell networks [@Amir2023Taking; @Singh2023Paradigm].
+
+## Bahmani and Deccan Sultanates
+
+The peninsular macro-region catalogues 8.125 settlements across Maharashtra, Telangana, northern Karnataka and neighbouring peninsular corridors [@Eaton2019India; @Chatterjee2006Slavery; @Champakalakshmi1996Trade]. Along the Tungabhadra river, the imperial capital of the Vijayanagara Empire at Hampi grew from 85k residents in 1350AD to 450k inhabitants in 1526AD, forming the largest urban agglomeration in South Asia [@Stein1989Vijayanagara]. Within the Deccan Sultanates, Daulatabad peaked at 117,1k residents in 1350AD (55k in 1526AD), Bidar peaked at 110k in 1450AD (85k in 1526AD), Kalaburagi (Gulbarga) peaked at 95k in 1400AD (42k in 1526AD), and Warangal peaked at 95k in 1300AD (35k in 1526AD).
+
+By 1526AD, the successor capitals of Golconda (105k, preceding the later sixteenth-century foundation of Hyderabad), Vijayapura (Bijapur, 95k) and Ahmadnagar (75k) dominated plateau politics [@BurtonPage2008Documentat; @Eaton2019India]. In the Tamil hinterland, Kanchipuram maintained 74,6k residents in 1206AD (72k in 1526AD). Along the Konkan coast, Old Goa reached 65k inhabitants by 1526AD as the premier horse-importing port of the Deccan, while on the Coromandel coast Machilipatnam stood at 35k residents in 1526AD.
+
+## Lahore, Multan and Samma Sindh Frontier
+
+The north-western frontier catalogues 7.093 settlements along the Indus and Punjab river basins [@Ali2023Historical; @Malik2021Colonial; @Possehl1999IndusAge; @Kenoyer1998AncientCities]. In lower Sindh, Thatta rose under the Samma dynasty to reach 110k inhabitants by 1526AD, matching Lahore (110k in 1526AD) as the largest urban centre of the north-west. Multan on the Chenab peaked at 85k residents in 1350AD (80k in 1526AD), functioning as a vital commercial emporium and spiritual centre dominated by Suhrawardi Sufi shrines [@Hannan2025Sufic; @Malik2021Colonial].
+
+Further north, Peshawar reached 50k residents by 1526AD, guarding the eastern approaches to the Khyber Pass [@Ali2023Historical]. Across the Punjab and Indus corridor, frontier garrison towns at Dipalpur, Uch, Rohri and Bhakkar guarded strategic river crossings against Mongol and Arghun incursions [@Ali2023Historical].
+
+# Source Ledger Audit and Excluded Candidates
+
+The INDUS source ledger records 35.477 candidate settlements for the Sultanate of Delhi and successor polities. Of these, 34.677 were included as primary catalogued settlements with active demographic series, while 800 entries were excluded.
+
+Of the excluded entries, 628 records (78,5% of all exclusions) represent duplicate-alias consolidations collapsed within a 2,2 km spatial deduplication radius of higher-priority settlements to avoid artificial spatial over-concentration. The remaining 172 exclusions (21,5%) represent duplicate homonyms sharing identical population trajectories across regional registers.
+
+Table \ref{tab:excluded} documents the leading 25 excluded candidates alongside their territory and exclusion justification.
+
+```{r tbl-excluded, results='asis'}
+exc_show <- exc_list[seq_len(min(25L, length(exc_list)))]
+exc_rows <- lapply(exc_show, function (c) {
+  j_txt <- clean_text(c$justification)
+  if (nchar(j_txt) > 52) j_txt <- paste0(substr(j_txt, 1, 49), "...")
+  data.frame(
+    Candidate = substr(clean_text(c$name), 1, 26),
+    Territory = clean_text(c$country),
+    Reason = clean_text(c$reason),
+    Justification = j_txt,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+viscount_table(
+  df_exc,
+  "Leading twenty-five excluded candidate sites from the Sultanate of Delhi source ledger.",
+  c("Candidate Site", "Territory", "Exclusion Category", "Justification"),
+  list(label = "tab:excluded", font_size = "scriptsize")
+)
+```
+
+# Limitations and Preservation Biases
+
+Archaeological visibility across mediaeval South Asia remains conditioned by distinct taphonomic and historiographical factors:
+
+1. **Continuous Urban Superimposition**: Many of the largest mediaeval cities (Delhi, Agra, Ahmedabad, Lahore, Patna, Varanasi) have experienced continuous dense urban habitation into the modern era, burying or destroying mediaeval structural horizons beneath multi-period colonial and modern building footprints [@Hawkes2020Back; @Jha2025Geoarchaeo].
+2. **Alluvial Dynamics and Fluvial Avulsion**: The high-energy river systems of the Indo-Gangetic and Bengal plains (Ganga, Yamuna, Indus, Brahmaputra) frequently shift their channels during annual monsoon floods, eroding ancient riverfront wharves or burying mediaeval settlements beneath metres of alluvial silt [@Khan2024Hydraulic; @Jha2025Geoarchaeo].
+3. **Material Recycling and Spolia**: The extensive reuse of brick and stone materials (spolia) from older structural foundations in subsequent building phases, combined with the decay of timber, thatch and unbaked mud-brick domestic dwellings, biases the archaeological record towards elite stone mosques, tombs and monumental palace citadels [@BurtonPage2008Documentat; @Mahata2024Distinctiv].
+
+Despite these preservation constraints, the systematic integration of 34.677 catalogued settlements demonstrates that mediaeval India sustained a densely populated, commercially integrated and highly differentiated urban landscape.
+
+# Sources
