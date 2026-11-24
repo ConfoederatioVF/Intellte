@@ -34,34 +34,37 @@ Aust Kätzchen
 
 <figure>
 <img src="figures/pre_columbian_southern_cone_urban_hierarchy.png"
-alt="Twelve largest recorded pre-Columbian settlements and rank-size curve across 69 habitation complexes in the Southern Cone, 10000BC to 1500AD." />
+alt="Twelve largest recorded pre-Columbian settlements and rank-size curve across 1.759 habitation complexes in the Southern Cone, 10000BC to 1500AD." />
 <figcaption aria-hidden="true">Twelve largest recorded pre-Columbian
-settlements and rank-size curve across 69 habitation complexes in the
+settlements and rank-size curve across 1.759 habitation complexes in the
 Southern Cone, 10000BC to 1500AD.</figcaption>
 </figure>
 
 # Abstract
 
-This gazetteer documents 69 catalogued pre-Columbian habitation
-complexes spanning seven biophysical sub-regions and three modern
-national territories-Argentina (37 sites), Chile (26) and Uruguay
-(6)-between 10000BC and 1500AD. Assembled across four sequential
-saturation waves logged in the chapter source ledger, the register draws
-100% of its entries from primary regional archaeological syntheses,
-heritage archives and radiocarbon inventories, with zero excluded
-duplicates, zero empty sub-regions and zero crowd-sourced fallback
-records (1,47% marginal gain in the final verification wave)
+This gazetteer documents 1.759 catalogued pre-Columbian habitation
+complexes spanning seven biophysical sub-regions and five modern
+national territories-Chile (1.040 sites), Argentina (646), Uruguay (36),
+Peru (26) and Bolivia (11)-between 10000BC and 1500AD. Assembled across
+four sequential saturation waves logged in the chapter source ledger
+(14.677 candidates evaluated; 12.918 duplicate-catchment consolidations
+excluded; 1,03% marginal gain in the final verification wave), the
+register draws 100% of its entries from primary regional archaeological
+syntheses, national heritage registers (CMN, ArKG, IDACOR/INAPL) and
+radiocarbon corpora, with zero empty sub-regions and zero crowd-sourced
+fallback records
 [\[1\]](#ref-oliver1991monte)[\[2\]](#ref-nunez2010sequential)[\[3\]](#ref-scaro2019configuracion).
-Peak estimated site populations scale continuously from early
-Palaeoindian and Archaic foraging camps (420 to 1.080 inhabitants)
-through Patagonian valley stations, Pampean wetland locales, Uruguayan
-*cerritos* mound clusters and Chaco riverine centres (1.260 to 4.920) to
-late pre-Columbian Araucanian mound towns, Calchaquí and Humahuaca
-*pukarás* and Atacama oasis hubs (5.120 to 16.400 inhabitants),
-following a power-law rank-size distribution ($\alpha = 0,49$,
-$R^2 = 0,97$) headed by Imperial Carahue (16.400), Purén-Lumaco
-(14.200), Valdivia Calle-Calle (11.450), Villarrica Mallolafquén
-(10.200) and Penco Bío-Bío (9.860)
+Peak estimated site populations scale continuously from small mobile
+Patagonian, Fuegian and Early Holocene foraging camps (5 to 185
+inhabitants; median 30 across 363 Patagonian locales, led by Negro
+Muerto at 185, Punta Pardelas at 142 and Túnel on the Beagle Channel at
+128) through Pampean camps (14 to 790), Atacama oases, Uruguayan
+*cerritos* mound clusters and Chaco riverine centres to late
+pre-Columbian Araucanian mound towns and Calchaquí or Humahuaca
+*pukarás* (5.120 to 16.400 inhabitants), following a power-law rank-size
+distribution ($\alpha = 0,58$, $R^2 = 0,99$) headed by Imperial Carahue
+(16.400), Purén-Lumaco (14.200), Valdivia Calle-Calle (11.450),
+Villarrica Mallolafquén (10.200) and Penco Bío-Bío (9.860)
 [\[4\]](#ref-iriarte2007construccion)[\[5\]](#ref-borrero1998peopling)[\[6\]](#ref-scabuzzo2024bioarqueologia).
 
 # Background
@@ -98,33 +101,37 @@ Los Toldos, Cueva de las Manos and Túnel on the Beagle Channel
 # Methodology
 
 The settlement register was compiled across four ingestion waves audited
-in the chapter source ledger. Wave 1 consolidated 43 primary
+in the chapter source ledger. Wave 1 consolidated 897 primary
 archaeological settlement hubs drawn from seven regional synthesis
 corpora covering Monte Verde and Purén-Lumaco, Atacama and Norte Grande,
 Northwest Argentina, Cuyo, the Gran Chaco, the Paraná Delta, Uruguay
 *cerritos* and Patagonia
 [\[2\]](#ref-nunez2010sequential)[\[19\]](#ref-cabreraperez2005patrimonio).
-Wave 2 incorporated 17 additional habitation sites from Chilean,
-Argentine and Uruguayan heritage inventories, Wave 3 added 8
-radiocarbon-dated Palaeoindian and Archaic chronological anchors
+Wave 2 incorporated 598 additional habitation locales from Chilean (CMN
+and ArKG), Argentine (IDACOR and INAPL) and Uruguayan heritage
+inventories, Wave 3 added 246 radiocarbon-dated Palaeoindian, Archaic
+and Late Holocene chronological anchors
 [\[6\]](#ref-scabuzzo2024bioarqueologia)[\[20\]](#ref-silva2014modeling)
-and Wave 4 conducted a final sub-regional gap sweep adding 1 locale,
-bringing marginal gain to 1,47% across 69 evaluated candidates with zero
-excluded records.
+and Wave 4 conducted a final sub-regional gap sweep adding 18 locales,
+bringing marginal gain to 1,03% across 14.677 evaluated candidates
+(12.918 duplicate-catchment consolidations excluded).
 
-All 69 sites carry WGS84 geographic coordinates, polygon assignment
+All 1.759 sites carry WGS84 geographic coordinates, polygon assignment
 across the seven biophysical sub-regions and multi-benchmark population
-trajectories derived from excavated structure counts, mound footprints
-and regional carrying-capacity ceilings
-[\[3\]](#ref-scaro2019configuracion)[\[4\]](#ref-iriarte2007construccion).
+trajectories calibrated strictly within each sub-region’s biophysical
+carrying-capacity ceiling and reference-year demographic curve, keeping
+mobile Patagonian and Fuegian foraging sites at archaeologically
+attested band and seasonal aggregation sizes (5 to 185 inhabitants)
+[\[3\]](#ref-scaro2019configuracion)[\[4\]](#ref-iriarte2007construccion)[\[5\]](#ref-borrero1998peopling).
 
 # Testing and Validation
 
-Ledger reconciliation confirms exact accounting across all 69 evaluated
-and included entries (0 excluded), 100% coordinate coverage and full
-sub-regional saturation across all seven polygons (minimum 4 sites in
-the Pampas, maximum 14 in Central Chile and Araucanía). Figure maps the
-spatial distribution of all 69 habitation complexes across the seven
+Ledger reconciliation confirms exact accounting across all 14.677
+evaluated candidates (1.759 included, 12.918 consolidated duplicates, 0
+unaccounted), 100% coordinate coverage and full sub-regional saturation
+across all seven polygons (minimum 51 sites in the Gran Chaco, maximum
+500 in Central Chile and Araucanía). Figure maps the spatial
+distribution of all 1.759 habitation complexes across the seven
 sub-regional boundaries.
 
 <img src="figures/pre_columbian_southern_cone_regional_map.png" width="1884" />
@@ -164,14 +171,14 @@ Alto Paraná Guaraní (6.140).
 | **Arica Chinchorro** | Chile | Atacama and Norte Chico Oases (Atacameño, Changos and Diaguita) | -18,48, -70,31 | 6000BC to 1450AD | 4,9k (1450AD) |
 | **Rincón Chico** | Argentina | Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté) | -26,71, -66,08 | 900AD to 1450AD | 4,9k (1450AD) |
 | **Huentota Huarpe** | Argentina | Northwestern Andes, Sierras Pampeanas and Cuyo (Diaguita, Comechingón and Huarpe) | -32,89, -68,84 | 400AD to 1450AD | 4,9k (1450AD) |
+| **Paraná Miní** | Argentina | Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté) | -28,87, -59,43 | 1004AD to 1500AD | 4,5k (1500AD) |
 | **Tafí del Valle** | Argentina | Northwestern Andes, Sierras Pampeanas and Cuyo (Diaguita, Comechingón and Huarpe) | -26,85, -65,71 | 400BC to 1400AD | 4,2k (1400AD) |
 | **Cayastá Chaná-Timbú** | Argentina | Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté) | -31,2, -60,16 | 700AD to 1450AD | 4,1k (1450AD) |
+| **Cerro Aguará** | Argentina | Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté) | -29,11, -59,46 | 796AD to 1500AD | 4k (1500AD) |
 | **Las Mercedes Salado** | Argentina | Northwestern Andes, Sierras Pampeanas and Cuyo (Diaguita, Comechingón and Huarpe) | -27,78, -64,26 | 200AD to 1400AD | 3,9k (1400AD) |
 | **Ovalle Limarí** | Chile | Central Chile and Araucanía (Picunche, Mapuche and Huilliche) | -30,6, -71,2 | 600AD to 1450AD | 3,9k (1450AD) |
 | **Copiapó Iglesia Colorada** | Chile | Atacama and Norte Chico Oases (Atacameño, Changos and Diaguita) | -27,77, -70,06 | 400AD to 1450AD | 3,9k (1450AD) |
 | **Orán Bermejo** | Argentina | Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté) | -23,14, -64,32 | 600AD to 1450AD | 3,9k (1450AD) |
-| **Los Amarillos** | Argentina | Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté) | -23,44, -65,38 | 1000AD to 1400AD | 3,6k (1400AD) |
-| **Tagua Tagua** | Chile | Central Chile and Araucanía (Picunche, Mapuche and Huilliche) | -34,48, -71,16 | 9000BC to 1450AD | 3,6k (1450AD) |
 
 Leading 30 pre-Columbian habitation complexes across the Southern Cone,
 10000BC to 1500AD (ordered by peak estimated population).
@@ -180,21 +187,21 @@ Leading 30 pre-Columbian habitation complexes across the Southern Cone,
 
 Table aggregates catalogued site counts, areal recovery density per
 10.000 km², leading settlement and 1500AD regional population across all
-seven sub-regions. Central Chile and Araucanía (14 sites), Patagonia and
-Tierra del Fuego (12) and the Northwestern Andes, Gran Chaco and
-Paraná-Uruguay polygons (10 each) anchor the spatial distribution, while
-Atacama and Norte Chico leads in recovery intensity at 0,47 sites per
-10.000 km².
+seven sub-regions. Central Chile and Araucanía (500 sites), Patagonia
+and Tierra del Fuego (363), Atacama and Norte Chico (319) and the
+Northwestern Andes, Sierras Pampeanas and Cuyo (309) anchor the spatial
+distribution, while Atacama and Norte Chico leads in recovery intensity
+at 16,58 sites per 10.000 km².
 
 | Sub-Region | Area (km²) | Sites | Sites per 10k km² | Leading Site (Peak) | 1500AD Pop. |
 |:---|:---|:---|:---|:---|:---|
-| **Central Chile and Araucanía (Picunche, Mapuche and Huilliche)** | 313.988 | 14 | 0,45 | Imperial Carahue (16,4k) | 760k |
-| **Northwestern Andes, Sierras Pampeanas and Cuyo (Diaguita, Comechingón and Huarpe)** | 551.253 | 10 | 0,18 | Suquía Comechingón (6,5k) | 390k |
-| **Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté)** | 720.843 | 10 | 0,14 | Quilmes (7,9k) | 220k |
-| **Paraná-Uruguay Littoral and Banda Oriental (Guaraní, Chaná and Charrúa)** | 462.467 | 10 | 0,22 | Alto Paraná Guaraní (6,1k) | 190k |
-| **Humid and Dry Pampas (Querandí and Het)** | 546.467 | 4 | 0,07 | La Guillerma Salado (2k) | 115k |
-| **Atacama and Norte Chico Oases (Atacameño, Changos and Diaguita)** | 190.246 | 9 | 0,47 | San Pedro de Atacama (6,2k) | 75k |
-| **Patagonia, Magallanes and Tierra del Fuego (Tehuelche, Selk’nam and Yaghan)** | 985.296 | 12 | 0,12 | Negro Muerto (1,6k) | 55k |
+| **Central Chile and Araucanía (Picunche, Mapuche and Huilliche)** | 313.988 | 500 | 15,92 | Imperial Carahue (16,4k) | 760k |
+| **Northwestern Andes, Sierras Pampeanas and Cuyo (Diaguita, Comechingón and Huarpe)** | 551.253 | 309 | 5,61 | Suquía Comechingón (6,5k) | 390k |
+| **Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté)** | 720.843 | 51 | 0,71 | Quilmes (7,9k) | 220k |
+| **Paraná-Uruguay Littoral and Banda Oriental (Guaraní, Chaná and Charrúa)** | 462.467 | 131 | 2,83 | Alto Paraná Guaraní (6,1k) | 190k |
+| **Humid and Dry Pampas (Querandí and Het)** | 546.467 | 86 | 1,57 | Boro Hue (800) | 115k |
+| **Atacama and Norte Chico Oases (Atacameño, Changos and Diaguita)** | 190.246 | 319 | 16,77 | San Pedro de Atacama (6,2k) | 75k |
+| **Patagonia, Magallanes and Tierra del Fuego (Tehuelche, Selk’nam and Yaghan)** | 985.296 | 363 | 3,68 | Negro Muerto (185) | 55k |
 
 Catalogued site counts, areal site density (per 10.000 km²), leading
 settlement and 1500AD regional population across seven Southern Cone
@@ -210,51 +217,58 @@ records in Chile, 5.939 in Argentina and 366 in Uruguay.
 
 | Source Corpus | Entries | Share |
 |:---|:---|:---|
-| **Politis and Bonomo (2012) Paraná Delta** | 15 | 21,7% |
-| **Miotti and Salemme (2004) Patagonia** | 12 | 17,4% |
-| **Dillehay (1997, 2007) Monte Verde and Purén-Lumaco** | 12 | 17,4% |
-| **Núñez (1992) / Llagostera (2004) Atacama and Norte Grande** | 11 | 15,9% |
-| **Tarragó (2000) / Nielsen (2001) NOA Quebrada and Valles** | 9 | 13% |
-| **Bárcena (2001) Cuyo** | 5 | 7,2% |
-| **Lorandi (1978) / Lamenza (2015) Gran Chaco Archaeology** | 5 | 7,2% |
+| **radiocarbon_primary_synthesis** | 552 | 31,4% |
+| **CMN Chile - Registro Arqueológico Acredi** | 476 | 27,1% |
+| **IDACOR_CONICET_Argentina** | 351 | 20% |
+| **ArKG Chile Archaeological Knowledge Grap** | 178 | 10,1% |
+| **CMN Chile - Registros Arqueológicos Comp** | 105 | 6% |
+| **SIGDA_Ministerio_de_Cultura_Peru** | 28 | 1,6% |
+| **Politis and Bonomo (2012) Paraná Delta** | 15 | 0,9% |
+| **Miotti and Salemme (2004) Patagonia** | 12 | 0,7% |
+| **Dillehay (1997, 2007) Monte Verde and Purén-Lumaco** | 12 | 0,7% |
+| **Núñez (1992) / Llagostera (2004) Atacama and Norte Grande** | 11 | 0,6% |
+| **Tarragó (2000) / Nielsen (2001) NOA Quebrada and Valles** | 9 | 0,5% |
+| **Bárcena (2001) Cuyo** | 5 | 0,3% |
+| **Lorandi (1978) / Lamenza (2015) Gran Chaco Archaeology** | 5 | 0,3% |
 
-Provenance corpus distribution across 69 catalogued pre-Columbian
+Provenance corpus distribution across 1.759 catalogued pre-Columbian
 Southern Cone habitation sites.
 
 | Wave | Source Class | Prior Total | Newly Added | Marginal Gain |
 |:---|:---|:---|:---|:---|
-| **Wave 1** | Primary archaeological settlement-pattern surveys | 0 | 43 | 100% |
-| **Wave 2** | National heritage registers (CMN, INAPL and IDACOR) | 43 | 17 | 39,53% |
-| **Wave 3** | Radiocarbon longitudinal backfill | 60 | 8 | 13,33% |
-| **Wave 4** | Sub-regional gap sweep | 68 | 1 | 1,47% |
+| **Wave 1** | Primary archaeological settlement-pattern surveys | 0 | 897 | 100% |
+| **Wave 2** | National heritage registers (CMN, ArKG and IDACOR) | 897 | 598 | 66,67% |
+| **Wave 3** | Radiocarbon longitudinal backfill | 1.495 | 246 | 16,45% |
+| **Wave 4** | Sub-regional gap sweep | 1.741 | 18 | 1,03% |
 
 Four-wave saturation audit from the pre-Columbian Southern Cone source
-ledger (marginal gain 1,47% at closure).
+ledger (marginal gain 1,03% at closure).
 
 # Limitations
 
 Three constraints govern interpretation of this gazetteer. First,
 archaeological visibility differs sharply between arid oasis cemeteries,
-stone-walled *pukarás* and earthen *cerritos* versus alluvial river
-plains and humid rainforests, producing uneven areal site densities
-between Atacama (0,47 sites per 10.000 km²) and the Pampas (0,07)
+stone-walled *pukarás* and Patagonian rockshelters versus alluvial river
+plains and humid lowlands, producing uneven areal site densities between
+Atacama and the Gran Chaco
 [\[2\]](#ref-nunez2010sequential)[\[6\]](#ref-scabuzzo2024bioarqueologia).
 Second, simplified hydrological polygon borders assign six eastern
 Andean *pukarás* (Quilmes, Tolombón Diaguita, Tilcara, Rincón Chico, Los
 Amarillos and Tastil Pre-Inca) to the western margin of the Gran
 Chaco-Pilcomayo polygon rather than the Northwestern Andes polygon.
 Third, settlement estimates for dispersed Araucanian mound polities and
-mobile Patagonian or Pampean camps reflect district aggregation capacity
-rather than nucleated urban streets
+mobile Patagonian or Pampean foraging camps reflect district aggregation
+capacity rather than nucleated urban streets, bounded strictly within
+regional ecological carrying capacities
 [\[1\]](#ref-oliver1991monte)[\[21\]](#ref-perez2009deformaciones)[\[22\]](#ref-nacuzzi2000relacion).
 
 # Conclusion
 
-Together, the 69 catalogued habitation complexes trace the shift from
+Together, the 1.759 catalogued habitation complexes trace the shift from
 small Palaeoindian and Archaic foraging camps to dense pre-Columbian
-agrarian and mound-building centres across Chile, Argentina and Uruguay,
-establishing the spatial baseline prior to Inca imperial expansion and
-sixteenth-century European arrival
+agrarian and mound-building centres across Chile, Argentina, Uruguay,
+southern Peru and southern Bolivia, establishing the spatial baseline
+prior to Inca imperial expansion and sixteenth-century European arrival
 [\[23\]](#ref-trillo2025trabajo)[\[24\]](#ref-magdalenafrere2016estudios).
 
 # Sources

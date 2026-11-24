@@ -418,13 +418,13 @@ horticulture and lakeside fisheries supported dense sedentary clusters
 ## Gazetteer Assembly and Provenance Architecture
 
 Alongside sub-regional totals, QUIPU compiles a geocoded settlement
-gazetteer of 69 habitation complexes distributed across Argentina (37),
-Chile (26) and Uruguay (6), assembled through four sequential saturation
-waves logged in the chapter source ledger. Wave 1 harvested 43 primary
-archaeological settlement-pattern hubs from regional syntheses covering
-Monte Verde and Purén-Lumaco, Atacama and Norte Grande, Northwest
-Argentina, Cuyo, the Gran Chaco, the Paraná Delta, Uruguay *cerritos*
-and Patagonia
+gazetteer of 1.759 habitation complexes distributed across Argentina
+(37), Chile (26) and Uruguay (6), assembled through four sequential
+saturation waves logged in the chapter source ledger. Wave 1 harvested
+43 primary archaeological settlement-pattern hubs from regional
+syntheses covering Monte Verde and Purén-Lumaco, Atacama and Norte
+Grande, Northwest Argentina, Cuyo, the Gran Chaco, the Paraná Delta,
+Uruguay *cerritos* and Patagonia
 [\[1\]](#ref-oliver1991monte)[\[2\]](#ref-nunez2010sequential)[\[11\]](#ref-scaro2019configuracion).
 Wave 2 added 17 sites cross-checked against national heritage registers
 from Chile’s Consejo de Monumentos Nacionales, Argentina’s INAPL and
@@ -700,7 +700,7 @@ topped out below 20k inhabitants before tapering steeply below rank 35
 into smaller foraging camps and hamlets
 [\[1\]](#ref-oliver1991monte)[\[7\]](#ref-iriarte2007construccion)[\[11\]](#ref-scaro2019configuracion).
 
-<img src="figures/pre_columbian_southern_cone_urban_hierarchy.png" width="3141" />
+<img src="figures/pre_columbian_southern_cone_urban_hierarchy.png" width="3101" />
 
 Seven of the top ten settlements lay in Central Chile and Araucanía:
 Imperial Carahue (16.400), Purén-Lumaco (14.200), Valdivia Calle-Calle
@@ -714,13 +714,13 @@ archaeological site recovery intensity per 10.000 km².
 
 | Sub-Region | 10000BC Share | 0AD Share | 1000AD Share | 1500AD Share | 10000BC Dens. | 1500AD Dens. | Sites per 10k km² |
 |:---|:---|:---|:---|:---|:---|:---|:---|
-| **Central Chile and Araucanía (Picunche, Mapuche and Huilliche)** | 30,6% | 40,5% | 42% | 42,1% | 0,024 | 2,42 | 0,45 |
-| **Northwestern Andes, Sierras Pampeanas and Cuyo (Diaguita, Comechingón and Huarpe)** | 15,7% | 20,8% | 21,5% | 21,6% | 0,007 | 0,71 | 0,18 |
-| **Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté)** | 8,9% | 11,7% | 12,2% | 12,2% | 0,003 | 0,31 | 0,14 |
-| **Paraná-Uruguay Littoral and Banda Oriental (Guaraní, Chaná and Charrúa)** | 7,6% | 10,1% | 10,5% | 10,5% | 0,004 | 0,41 | 0,22 |
-| **Humid and Dry Pampas (Querandí and Het)** | 23,1% | 8,7% | 6,5% | 6,4% | 0,011 | 0,21 | 0,07 |
-| **Atacama and Norte Chico Oases (Atacameño, Changos and Diaguita)** | 3% | 4% | 4,1% | 4,2% | 0,004 | 0,39 | 0,47 |
-| **Patagonia, Magallanes and Tierra del Fuego (Tehuelche, Selk’nam and Yaghan)** | 11,1% | 4,2% | 3,1% | 3% | 0,003 | 0,06 | 0,12 |
+| **Central Chile and Araucanía (Picunche, Mapuche and Huilliche)** | 30,6% | 40,5% | 42% | 42,1% | 0,024 | 2,42 | 15,92 |
+| **Northwestern Andes, Sierras Pampeanas and Cuyo (Diaguita, Comechingón and Huarpe)** | 15,7% | 20,8% | 21,5% | 21,6% | 0,007 | 0,71 | 5,61 |
+| **Gran Chaco and Pilcomayo-Bermejo Basins (Guaycurú, Wichí and Tonocoté)** | 8,9% | 11,7% | 12,2% | 12,2% | 0,003 | 0,31 | 0,71 |
+| **Paraná-Uruguay Littoral and Banda Oriental (Guaraní, Chaná and Charrúa)** | 7,6% | 10,1% | 10,5% | 10,5% | 0,004 | 0,41 | 2,83 |
+| **Humid and Dry Pampas (Querandí and Het)** | 23,1% | 8,7% | 6,5% | 6,4% | 0,011 | 0,21 | 1,57 |
+| **Atacama and Norte Chico Oases (Atacameño, Changos and Diaguita)** | 3% | 4% | 4,1% | 4,2% | 0,004 | 0,39 | 16,77 |
+| **Patagonia, Magallanes and Tierra del Fuego (Tehuelche, Selk’nam and Yaghan)** | 11,1% | 4,2% | 3,1% | 3% | 0,003 | 0,06 | 3,68 |
 
 Sub-regional population shares, opening and closing densities
 (inhabitants per km²) and catalogued site recovery intensity (sites per
@@ -795,14 +795,16 @@ eve of European arrival.
 
 ## National Distribution of Catalogued Settlements
 
-Table aggregates all 69 catalogued pre-Columbian habitation complexes
+Table aggregates all 1.759 catalogued pre-Columbian habitation complexes
 across the three modern national territories of the Southern Cone.
 
 | Country       | Catalogued Sites | Share of Gazetteer |
 |:--------------|:-----------------|:-------------------|
-| **Argentina** | 37               | 53,6%              |
-| **Chile**     | 26               | 37,7%              |
-| **Uruguay**   | 6                | 8,7%               |
+| **Chile**     | 1.040            | 59,1%              |
+| **Argentina** | 646              | 36,7%              |
+| **Uruguay**   | 36               | 2%                 |
+| **Peru**      | 26               | 1,5%               |
+| **Bolivia**   | 11               | 0,6%               |
 
 Distribution of 69 catalogued pre-Columbian habitation complexes across
 Argentina, Chile and Uruguay.
@@ -815,13 +817,19 @@ reliance on crowd-sourced fallback sources.
 
 | Source Corpus | Entries | Share |
 |:---|:---|:---|
-| **Politis and Bonomo (2012) Paraná Delta** | 15 | 21,7% |
-| **Miotti and Salemme (2004) Patagonia** | 12 | 17,4% |
-| **Dillehay (1997, 2007) Monte Verde and Purén-Lumaco** | 12 | 17,4% |
-| **Núñez (1992) / Llagostera (2004) Atacama and Norte Grande** | 11 | 15,9% |
-| **Tarragó (2000) / Nielsen (2001) NOA Quebrada and Valles** | 9 | 13% |
-| **Bárcena (2001) Cuyo** | 5 | 7,2% |
-| **Lorandi (1978) / Lamenza (2015) Gran Chaco Archaeology** | 5 | 7,2% |
+| **radiocarbon_primary_synthesis** | 552 | 31,4% |
+| **CMN Chile - Registro Arqueológico Acredi** | 476 | 27,1% |
+| **IDACOR_CONICET_Argentina** | 351 | 20% |
+| **ArKG Chile Archaeological Knowledge Grap** | 178 | 10,1% |
+| **CMN Chile - Registros Arqueológicos Comp** | 105 | 6% |
+| **SIGDA_Ministerio_de_Cultura_Peru** | 28 | 1,6% |
+| **Politis and Bonomo (2012) Paraná Delta** | 15 | 0,9% |
+| **Miotti and Salemme (2004) Patagonia** | 12 | 0,7% |
+| **Dillehay (1997, 2007) Monte Verde and Purén-Lumaco** | 12 | 0,7% |
+| **Núñez (1992) / Llagostera (2004) Atacama and Norte Grande** | 11 | 0,6% |
+| **Tarragó (2000) / Nielsen (2001) NOA Quebrada and Valles** | 9 | 0,5% |
+| **Bárcena (2001) Cuyo** | 5 | 0,3% |
+| **Lorandi (1978) / Lamenza (2015) Gran Chaco Archaeology** | 5 | 0,3% |
 
 Primary archaeological provenance breakdown across 69 catalogued entries
 in the pre-Columbian Southern Cone gazetteer.
