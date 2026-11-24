@@ -1,0 +1,498 @@
+---
+title: "Ancient and Mediaeval Sudan and Nubia"
+subtitle: "Kush, Meroe, Christian Nubia and Islamisation to 1821"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: ancient_mediaeval_nubia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Eight ecological and political sub-regions and 132 individually assessed settlements across Sudan, South Sudan and adjacent Eritrean and Ethiopian borderlands from 2500BC to 1821AD."
+hero_label: "fig:hero-ancient-mediaeval-nubia"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("ancient_mediaeval_nubia_summary_cache.json", simplifyVector = FALSE)
+sett_raw <- jsonlite::fromJSON("ancient_mediaeval_nubia_settlements.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+n_total_sites <- length(all_entries)
+n_total_obs <- as.integer(summary_cache$observation_count)
+n_excluded <- 8L
+n_candidates <- n_total_sites + n_excluded
+
+cnt_by_country <- summary_cache$settlements_by_country
+n_sudan <- as.integer(cnt_by_country[["Sudan"]])
+n_south_sudan <- as.integer(cnt_by_country[["South Sudan"]])
+n_ethiopia <- as.integer(cnt_by_country[["Ethiopia"]])
+n_eritrea <- as.integer(cnt_by_country[["Eritrea"]])
+
+subregs <- summary_cache$subregions
+sub_order <- c(
+  "nobatia_lower_nubia",
+  "makuria_dongola_napata",
+  "meroe_alodia_butana",
+  "beja_red_sea_suakin",
+  "funj_sennar_gezira",
+  "darfur_keira_sultanate",
+  "kordofan_nuba_hills",
+  "shilluk_sudd_upper_nile"
+)
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+headline_series <- summary_cache$headline_series
+
+fmt_era <- function (yr) {
+  y <- as.integer(yr)
+  if (y < 0L) return(paste0(abs(y), "BC"))
+  if (y == 0L) return("0")
+  paste0(y, "AD")
+}
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+bench_keys <- c("-2000", "0", "300", "500", "800", "1000", "1200", "1500", "1700", "1720", "1750", "1770", "1800", "1820")
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) {
+    sum(vapply(all_entries, site_active_at, logical(1), yr_num = yr))
+  }, integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+Between the emergence of the Kerma polity around 2500BC and the Turco-Egyptian invasion of Sennar in 1821AD, the Middle Nile Valley and its savanna and desert hinterlands sustained a shifting constellation of riverine kingdoms, Red Sea trading ports and Sahelian sultanates. Across a study domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning modern Sudan, South Sudan and adjoining Eritrean and Ethiopian margins, NICETHI reconstructs a regional population rising from `r viscount_fmt_pop(headline_series[["-2000"]])` inhabitants in 2000BC to `r viscount_fmt_pop(headline_series[["0"]])` at the Meroitic peak around year 0, moderating to `r viscount_fmt_pop(headline_series[["800"]])` in 800AD during the Christian Nubian era and expanding across the savanna belt to `r viscount_fmt_pop(headline_series[["1500"]])` in 1500AD, `r viscount_fmt_pop(headline_series[["1700"]])` in 1700AD and `r viscount_fmt_pop(headline_series[["1820"]])` in 1820AD. Demographic gravity moved steadily southward over four millennia. Early urban concentrations clustered along the Dongola Reach and Lower Nubian cataracts at Kerma, Napata and Old Dongola, shifted onto the Island of Meroe and the Blue Nile confluence at Meroe and Soba during Kushite and Alodian rule, and ultimately settled in the rain-fed Gezira, Darfur, Kordofan and Upper Nile plains under the Funj, Keira and Shilluk states as northern cataract reaches desiccated. These trajectories integrate `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements (`r viscount_fmt_number(n_total_obs, 0L)` dated observations), non-stationary Matérn kriging across `r viscount_fmt_number(6431, 0L)` continental Voronoi catchments, cross-frontier harmonisation along the Sahara-Sahel margin and strictly mass-conserving pycnophylactic disaggregation into colonial and post-independence census polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Eight ecological and political sub-regions and 132 individually assessed settlements across Sudan, South Sudan and adjacent Eritrean and Ethiopian borderlands from 2500BC to 1821AD.",
+    "fig:hero-ancient-mediaeval-nubia"
+  )
+}
+```
+
+# Background
+
+## Ecological Corridors from the Cataracts to the Sudd
+
+The historical demography of ancient and mediaeval Sudan was shaped by a sharp meridional gradient in rainfall, river morphology and pastoral mobility [@Adams1977Nubia; @Edwards2004NubianPast; @Guilbault2026EmbodimentAnd]. North of the confluence of the White and Blue Niles near modern Khartoum, annual precipitation drops below 150 mm, confining permanent agrarian settlement to narrow alluvial pockets along the Main Nile between the Sixth and First Cataracts. Through the Batn el-Hajar and Lower Nubia, rocky granite ridges pinch the floodplain into discontinuous silt terraces where cultivation depended historically on seasonal basin recession and later on animal-driven waterwheels [@Adams1977Nubia; @Budka2023DayThe]. Only in the wider Dongola Reach and Letti Basin between the Third and Fourth Cataracts, and again upstream across the Shendi Reach and Atbara-Butana steppe, did broad alluvial islands and seasonal *wadis* support substantial urban capitals such as Kerma, Napata, Old Dongola and Meroe [@Osypinski2023NewAdvances; @Bobrowski2023Ltd1Kerma].
+
+South of the confluence, the ecological geometry widens markedly. Across the Gezira clay plain between the Blue and White Niles, annual rainfall of 300 to 600 mm supports rain-fed sorghum alongside riverine recessional plots, creating the productive core that later sustained Alodia and the Funj Sultanate [@Spaulding1985HeroicAge; @Gregory2025CapturingEmpire]. Westward, the semi-arid Kordofan plateau and the volcanic massif of Jebel Marra in Darfur trap orographic moisture that sustained terraced upland farming and caravan crossroads linking the Nile to Lake Chad [@Arkell1937FasherDarfur]. Eastward, the Red Sea Hills and Gash inland delta supported mobile Beja pastoralists and maritime entrepôts at Aidhab, Badi and Suakin [@Costanzo2021CreatingThe; @GonzalezRuibal2017SudansEastern]. Southward beyond the tenth parallel, the vast Sudd wetlands and Sobat-Pibor floodplains gave rise to specialised Nilotic agro-pastoral and riverine polities led by the Shilluk rethdom [@Dercole2021SeventyYears; @Runfola2020GeoBoundaries].
+
+## Historiography of Nubian and Sudanese Historical Demography
+
+For much of the twentieth century, quantitative estimates of Sudan's pre-colonial population rested on scattered classical notices by Herodotus, Strabo and Pliny, mediaeval Arabic geographies by Ibn Selim al-Aswani and al-Maqrizi, and nineteenth-century European travel accounts by Burckhardt, Browne, Krump, Bruce and Cailliaud [@Adams1977Nubia; @Spaulding1985HeroicAge]. The Aswan High Dam salvage campaigns of the 1960s, followed by decades of Sudanese-international excavations at Kerma, Sai Island, Amara West, Jebel Barkal, Meroe, Soba, Old Dongola, Banganarti and Jebel Moya, transformed that textual picture into concrete spatial archaeology [@Naser2019DialoguesThe; @Bashir2026ArchaeologyAnd; @Dercole2021SeventyYears]. Surface transects and stratigraphic soundings established city footprints, cemetery horizons and shifts in settlement spacing across four millennia [@Edwards2004NubianPast; @Bobrowski2023Ltd1Kerma; @Budka2023DayThe].
+
+Yet archaeological fieldwork has remained heavily concentrated along the northern cataracts, leaving Darfur, Kordofan, the southern Gezira and the Upper Nile comparatively under-excavated [@Naser2019DialoguesThe; @Costanzo2021CreatingThe]. Bioarchaeological, archaeobotanical and experimental archaeometallurgical studies over the past decade have begun to close this evidentiary divide, documenting dietary resilience during Holocene aridification, iron-smelting fuel demands at Meroe and agricultural continuity across the Christian-Islamic transition at Old Dongola [@Moyne2023EcologicalFlexibility; @Humphris2018IronSmelting; @Nasreldein2026ContinuityChange; @Guilbault2026EmbodimentAnd]. NICETHI synthesises these uneven regional records into a unified sub-regional demographic series from 2500BC to 1821AD, pairing site-level archaeological reconstructions with continuous spatial kriging and backward-linked administrative census polygons.
+
+# Methodology
+
+## Territorial Partition and Sub-Regional Accounting
+
+The study domain covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells (`r viscount_fmt_number(100, 0L)`% bounded within Sub-Saharan Africa's Nile-Sudanic macro-corridor). Within NICETHI, this chapter belongs to Regime 2 (dynastic and imperial antiquity through early modern pre-colonial states, 2500BC to 1821AD), succeeding the prehistoric Sub-Saharan synthesis at 2500BC and handing off directly at the 1821AD Turco-Egyptian conquest to the early modern Sahel-Sudan and colonial Horn-Sudan chapters. To respect physical hydrography and historical polities rather than anachronistic colonial borders, the domain is partitioned into eight contiguous sub-regions summarised in Table \ref{tab:subregions}: Lower Nubia and Nobatia, Makuria with Napata and the Dongola Reach, the Island of Meroe with Alodia and Atbara-Butana, the Beja Highlands and Suakin Littoral, the Funj Sultanate of Sennar and Blue Nile Gezira, the Daju-Tunjur-Keira Sultanate of Darfur, Kordofan Savanna and the Nuba Mountains, and the Shilluk Kingdom with the Sudd and Southern Nilotes.
+
+Fourteen benchmark years structure the demographic series: 2000BC, year 0, 300AD, 500AD, 800AD, 1000AD, 1200AD, 1500AD, 1700AD, 1720AD, 1750AD, 1770AD, 1800AD and 1820AD. Sub-regional headcounts represent full resident populations, combining urban capitals, fortified river towns, agricultural villages, oasis camps and transhumant pastoral groups anchored to regional grazing circuits [@Moyne2023EcologicalFlexibility; @Costanzo2021CreatingThe].
+
+```{r tab-subregions, results='asis'}
+df_sub <- do.call(rbind, lapply(sub_order, function (sid) {
+  sr <- sub_by_id[[sid]]
+  ds <- dist_by_id[[sid]]
+  data.frame(
+    `Sub-Region` = sr$name,
+    Era = gsub("\\.\\.", "-", sr$era),
+    `Area (km²)` = viscount_fmt_number(sr$area_km2, 0L),
+    Pixels = viscount_fmt_number(sr$pixel_count, 0L),
+    `Area Share (%)` = viscount_fmt_number(100 * as.numeric(sr$area_km2) / total_area_km2, 1L),
+    `Assessed Sites` = viscount_fmt_number(ds$settlement_count, 0L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_sub_row <- data.frame(
+  `Sub-Region` = "Total Sudan and Nubia",
+  Era = "2500BC-1821AD",
+  `Area (km²)` = viscount_fmt_number(total_area_km2, 0L),
+  Pixels = viscount_fmt_number(total_pixels, 0L),
+  `Area Share (%)` = "100",
+  `Assessed Sites` = viscount_fmt_number(sum(vapply(sub_order, function (sid) as.integer(dist_by_id[[sid]]$settlement_count), integer(1))), 0L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sub <- rbind(df_sub, tot_sub_row)
+rownames(df_sub) <- NULL
+viscount_table(
+  df_sub,
+  "Eight Sudanese and Nubian ecological and political sub-regions showing equal-area surface, five-arcminute pixel count, territorial share and mask-interior settlement counts (128 mask-interior plus four borderland sites equal 132).",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Gazetteer Screening and Site-Level Reconstruction
+
+To anchor urban scaling and spatial covariance, `r viscount_fmt_number(n_candidates, 0L)` candidate towns, tells, fortresses and archaeological habitation sites were screened from excavation monographs, survey catalogues, historical itineraries, Pleiades coordinates and regional registers [@Pleiades2024Africa; @Dercole2021SeventyYears; @Osypinski2023NewAdvances]. Eight duplicate spelling aliases (including redundant entries for El Fasher, El Obeid, Sennar, Shendi, Suakin, Fashoda and Kutum) were merged into canonical entries, leaving `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_total_obs, 0L)` dated observations: `r viscount_fmt_number(n_sudan, 0L)` in modern Sudan, `r viscount_fmt_number(n_south_sudan, 0L)` in South Sudan, `r viscount_fmt_number(n_ethiopia, 0L)` on the upper Sobat-Kaffa borderland in Ethiopia and `r viscount_fmt_number(n_eritrea, 0L)` in adjacent Eritrean highlands. All `r viscount_fmt_number(n_total_sites, 0L)` entries record core city-proper populations rather than broad metropolitan agglomerations, preventing inflated modern catchment boundaries from distorting pre-industrial urban ranks.
+
+Recorded active centres expand across the period in step with both urban growth and surviving documentary richness. Eleven settlements hold attested population estimates at 2000BC, rising to `r viscount_fmt_number(n_active[["0"]], 0L)` at year 0, `r viscount_fmt_number(n_active[["300"]], 0L)` at 300AD and 500AD, `r viscount_fmt_number(n_active[["1200"]], 0L)` at 1200AD, `r viscount_fmt_number(n_active[["1500"]], 0L)` at 1500AD and `r viscount_fmt_number(n_active[["1700"]], 0L)` at 1700AD before settling around `r viscount_fmt_number(n_active[["1800"]], 0L)` in 1800AD and `r viscount_fmt_number(n_active[["1820"]], 0L)` in 1820AD. Individual site peaks derive from excavated walled footprints and residential density transects (typically 60 to 150 inhabitants per hectare depending on compound spacing) calibrated against pre-colonial African urban density benchmarks [@Budka2023DayThe; @Spaulding1985HeroicAge].
+
+## Non-Stationary Matérn Kriging and Continental Harmonisation
+
+Point settlement ledgers inevitably undercount dispersed agro-pastoral villages in regions lacking systematic surface survey [@Costanzo2021CreatingThe; @Naser2019DialoguesThe]. NICETHI therefore distributes sub-regional population totals across five-arcminute cells using non-stationary Paciorek-Schervish Matérn ($\nu = 3/2$) residual kriging calibrated across `r viscount_fmt_number(24537, 0L)` domestic archaeological sites and `r viscount_fmt_number(6431, 0L)` metric-isotropic Voronoi catchments (`r viscount_fmt_number(1731, 0L)` active catchments over `r viscount_fmt_number(290451, 0L)` valid land cells). Median Voronoi catchment radius across the continental mosaic stands at 31,72 km (90th percentile 49,29 km). Across the eight archaeological horizons spanning 2500BC to 1821AD - from the Kerma and Late Neolithic horizon through the Kushite Early Iron Age, Classical Meroitic, Late Antique Christian Nubian, Mediaeval and Early Modern horizons - weighted least-squares variogram fitting converges at dimensionless short-range correlation $\tau_1 = 1,35$ (raw $\tau_1$ between 1,38 and 1,42), secondary scale $\tau_2 = 2,9$, nugget-to-sill ratio 0,04 and effective short-range spatial correlation between 43,63 km and 45,16 km ($R^2 = 0,9991$ to $0,9992$).
+
+Five biophysical covariates drive the deterministic trend before residual kriging: baseline habitability ($\beta_0$ shifting from 0,1497 in the Kerma horizon to 0,01 in mediaeval and early modern horizons), natural biome productivity ($\beta_1 = 0,01$), ecological suitability ($\beta_2$ from 0,0597 to 0,01), fluvial proximity ($\beta_3$ from 0,1099 to 0,0595) and coastal access ($\beta_4$ from 0,1012 to 0,0717). Purely biophysical agro-ecological smoothing gates perennial Nile corridors while pruning hyper-arid Saharan numerical scatter beyond oasis and wadi habitats, and a 2-pixel urban buffer excludes modern Khartoum sprawl from prehistoric and mediaeval layers. Along the northern and western margins linking Sudan, Chad, Niger, Mali and Mauritania, an 18-pixel cross-frontier ribbon harmonises NICETHI with HANDBOOK across 77 rasters, cutting median cross-border logarithmic density discontinuities from 0,6 dex down to 0,0 dex across 39 boundary pairs. Downward linkage to geoBoundaries modern administrative units [@Runfola2020GeoBoundaries] and Anglo-Egyptian Sudan colonial provinces (Nubian Nile, Darfur, Kordofan, Atbara-Gezira, Red Sea Hills and Sobat-Upper Nile) uses strictly mass-conserving pycnophylactic areal scaling across 30.911 unit-year checks (100% pass rate within 0,01%, maximum unit relative error 5,6e-8).
+
+# Testing and Validation
+
+## Variogram Diagnostics and Rank-Size Scaling
+
+Across all horizons relevant to Sudan and Nubia, fluvial proximity ($\beta_3 = 0,06$ to $0,11$) and coastal access ($\beta_4 = 0,07$ to $0,10$) remain five to ten times stronger than background biome productivity once iron-age and mediaeval urbanisation matures, cleanly isolating the Main, Blue and White Nile ribbons, the Gash delta and the Red Sea anchorages from intervening hyper-arid desert. At the settlement scale, rank-size regression on peak populations across the 131 spatially deduplicated centres (merging overlapping Wad Medani coordinates) yields an ordinary least-squares Pareto slope of $q = 0,74$ ($R^2 = 0,98$) over the upper 66 centres and a full-sample slope of $q = 1,03$ ($R^2 = 0,79$), as plotted in Figure \ref{fig:ranksize}. That sub-unitary upper-tail slope ($q < 1$) matches a polycentric urban network in which regional capitals across sequential dynasties - Soba (32,4k), Meroe (29,4k), Sennar (28,6k), Old Dongola (23,8k), Napata (16,4k) and Kerma (14,7k) - never concentrated population into a single primate metropolis on the scale of Lower Egypt or Mesopotamia [@Adams1977Nubia; @Edwards2004NubianPast].
+
+```{r tab-top-settlements, results='asis'}
+top_setts <- summary_cache$top_settlements
+df_top <- do.call(rbind, lapply(top_setts, function (s) {
+  src1 <- if (length(s$sources) > 0L) as.character(s$sources[[1]]) else "-"
+  src1 <- sub("\\s*\\(via .*", "", src1)
+  if (nchar(src1) > 48L) src1 <- paste0(substr(src1, 1L, 45L), "...")
+  data.frame(
+    Settlement = as.character(s$name),
+    Country = as.character(s$country),
+    Lat = viscount_fmt_number(s$lat, 2L),
+    Lon = viscount_fmt_number(s$lon, 2L),
+    Peak = viscount_fmt_pop(s$peak_pop),
+    `Peak Year` = fmt_era(s$peak_year),
+    Span = paste0(fmt_era(s$min_year), "-", fmt_era(s$max_year)),
+    `Primary Basis` = src1,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_top) <- NULL
+viscount_table(
+  df_top,
+  "Sixteen largest individually assessed settlements in Sudan, Nubia and adjacent borderlands with coordinates, peak populations and documented chronological spans.",
+  arg3_options = list(label = "tab:top-settlements")
+)
+```
+
+## Calibration Against Historical Enumerations and Regional Benchmarks
+
+To anchor pre-industrial urban densities and late pre-colonial totals against external historical demography, Table \ref{tab:hist-benchmarks} compiles documentary urban observations and continental demographic benchmarks from the chapter's archival synthesis. Eyewitness estimates for Sennar in 1821AD (13,5k), Old Dongola in 1814AD (6k) and Suakin in 1814AD (5k to 8,2k), together with nineteenth-century Darfur and Kordofan caravan-town counts at Kobbei (6k in 1793-1796), El Fasher (8,6k in 1810) and El Obeid (8,5k in 1821), align closely with excavated urban areas converted via pre-colonial African density transects (median 10k persons/km², or 60 to 88 persons per hectare). At the macro-regional scale, NICETHI's 1820AD Sudan-Nubia total of `r viscount_fmt_pop(headline_series[["1820"]])` sits coherently below Patrick Manning's 1850AD Eastern Sudan estimate of 6,56M (which covers a broader Nile-Chad-Ethiopian borderlands aggregate) and within Northeast Africa's 19M to 22M regional envelope across 1700AD to 1790AD.
+
+```{r tab-hist-benchmarks, results='asis'}
+arf_setts <- summary_cache$arf_settlement_evidence
+keep_names <- c("Sennar", "Old Dongola", "Suakin", "Khartoum", "Aksum", "Matara")
+sub_ev <- Filter(function (x) x$settlement_name %in% keep_names, arf_setts)
+rows_ev <- lapply(sub_ev, function (x) {
+  yr_s <- if (is.null(x$year)) "19th c." else fmt_era(x$year)
+  val_s <- if (!is.null(x$population)) {
+    paste0(viscount_fmt_pop(x$population), " inh.")
+  } else if (!is.null(x$walled_area_ha)) {
+    paste0(viscount_fmt_number(x$walled_area_ha, 1L), " ha")
+  } else {
+    "Compound count"
+  }
+  src_bn <- basename(as.character(x$source_file))
+  src_bn <- sub("\\.pdf$", "", src_bn)
+  if (nchar(src_bn) > 46L) src_bn <- paste0(substr(src_bn, 1L, 43L), "...")
+  data.frame(
+    `Benchmark / Place` = paste0(x$settlement_name, " (", x$country_or_region, ")"),
+    Period = yr_s,
+    `Recorded Value` = val_s,
+    `Archival Source` = src_bn,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_bench <- do.call(rbind, rows_ev)
+extra_rows <- data.frame(
+  `Benchmark / Place` = c(
+    "Preindustrial African Cities (59-city sample)",
+    "Igboho Ethnographic Transect (69,5 ha, 324 houses)",
+    "Eastern Sudan Slave-Trade Region (Manning Table 10.8)",
+    "Northeast Africa Regional Total (Manning Table 4.1)"
+  ),
+  Period = c("Pre-1850", "Ethnographic", "1850AD", "1700-1790AD"),
+  `Recorded Value` = c(
+    "Mean 12,7k / km² (median 10k)",
+    "60-88 persons/ha (114-167 m²/pers.)",
+    "6,56M (9,19M in 1950)",
+    "19M-22M"
+  ),
+  `Archival Source` = c(
+    "Storey (1992) Precolonial African Cities",
+    "Agbaje-Williams (1980) Calibration",
+    "Manning African Population Tables",
+    "Manning Table 4.1 Regional Series"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_bench <- rbind(df_bench, extra_rows)
+rownames(df_bench) <- NULL
+viscount_table(
+  df_bench,
+  "Archival settlement observations, pre-industrial urban density calibrations and macro-regional demographic benchmarks used for validation.",
+  arg3_options = list(label = "tab:hist-benchmarks")
+)
+```
+
+# Results
+
+## Kerma, Pre-Kerma and Lower Nubia (2500BC to 1500BC)
+
+At 2000BC, the combined population of Sudan and Nubia stood at approximately `r viscount_fmt_pop(headline_series[["-2000"]])` (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). Most inhabitants lived in rain-fed and pastoral savanna zones south of the Sahara's southern edge - `r viscount_fmt_pop(sub_by_id[["kordofan_nuba_hills"]]$population[["-2000"]])` in Kordofan and the Nuba Hills, `r viscount_fmt_pop(sub_by_id[["funj_sennar_gezira"]]$population[["-2000"]])` in the Gezira, `r viscount_fmt_pop(sub_by_id[["shilluk_sudd_upper_nile"]]$population[["-2000"]])` across the Sudd and Upper Nile, `r viscount_fmt_pop(sub_by_id[["meroe_alodia_butana"]]$population[["-2000"]])` in Butana and `r viscount_fmt_pop(sub_by_id[["darfur_keira_sultanate"]]$population[["-2000"]])` in Darfur - while the hyper-arid northern river reaches held smaller, tightly nucleated pockets: `r viscount_fmt_pop(sub_by_id[["makuria_dongola_napata"]]$population[["-2000"]])` in the Dongola Reach, `r viscount_fmt_pop(sub_by_id[["beja_red_sea_suakin"]]$population[["-2000"]])` in the Eastern Desert and `r viscount_fmt_pop(sub_by_id[["nobatia_lower_nubia"]]$population[["-2000"]])` in Lower Nubia.
+
+Yet it was along the Third Cataract and the Letti-Dongola basin that Sub-Saharan Africa's earliest monumental urban state emerged. Growing out of Pre-Kerma agro-pastoral communities around 2500BC, the Kingdom of Kerma expanded into a fortified riverine capital with mudbrick *deffufa* temples, craft quarters and vast royal tumulus cemeteries [@Dercole2021SeventyYears; @Osypinski2023NewAdvances; @Bobrowski2023Ltd1Kerma]. Kerma's city-proper population rose from 1,29k around 2500BC to 6,89k in 2000BC and peaked at 14,68k around 1650BC, supported by satellite agricultural villages across the Letti Basin and cattle-herding complexes documented isotopically at Kadruka [@Bobrowski2023Ltd1Kerma; @Moyne2023EcologicalFlexibility]. Further north between the First and Second Cataracts, Middle Kingdom Egyptian fortresses such as Buhen (2,64k at 1900BC), Mirgissa, Semna, Askut and Uronarti guarded river traffic against Kerma while C-Group farming villages farmed narrow alluvial banks [@Adams1977Nubia; @Budka2023DayThe].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Aggregate and attested urban population trajectories (Panel A), recorded settlement counts (Panel B) and leading city trajectories (Panel C) across Sudan and Nubia from 2000BC to 1820AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## New Kingdom Colonisation, Napata and the Kingdom of Kush (1500BC to 300BC)
+
+Following Thutmose I and Thutmose III's conquest of Kerma around 1500BC, Egyptian New Kingdom administration established temple-towns at Sai Island (3,47k at 1400BC), Soleb, Sesebi, Amara West and Kawa, while shifting southern administrative focus upstream to Napata near Jebel Barkal [@Budka2023DayThe; @Adams1977Nubia]. Kerma itself contracted to 11,24k in 1500BC and 4,87k by 1200BC, though recent residential archaeology at Amara West and Sai shows enduring Nubian domestic architecture and mixed subsistence alongside Egyptian temple estates [@Budka2023DayThe; @Guilbault2026EmbodimentAnd].
+
+After Egyptian withdrawal around 1070BC, indigenous Kushite rulers buried at El-Kurru and Nuri forged the Napatan Empire, conquering Egypt as the Twenty-Fifth Dynasty under Piye and Taharqa [@Edwards2004NubianPast]. Napata surged from 2,85k at 1400BC to 7,45k at 800BC and peaked at 16,4k around 680BC, flanked across the river by Sanam (8,17k at 650BC) and downstream by Kawa (8,95k at 680BC). Iron-age demographic expansion simultaneously transformed the Butana plains and savanna corridor between the Atbara and Blue Nile, lifting regional population across Sudan and Nubia nearly tenfold between 2000BC and the turn of the Common Era.
+
+## The Meroitic Empire and Post-Meroitic Transition (300BC to 550AD)
+
+From the fourth century BC onward, royal burials and political gravity moved upstream past the Fifth Cataract to the Island of Meroe, where seasonal *hafirs* (excavated water reservoirs) and reliable summer rains sustained sorghum, millet and livestock away from the Nile channel [@Edwards2004NubianPast; @Yvanez2018ClothingThe]. At year 0, regional population reached an ancient maximum of `r viscount_fmt_pop(headline_series[["0"]])` (Table \ref{tab:trajectory}), led by Meroe-Alodia-Butana at `r viscount_fmt_pop(sub_by_id[["meroe_alodia_butana"]]$population[["0"]])` (`r viscount_fmt_number(as.numeric(sub_by_id[["meroe_alodia_butana"]]$population[["0"]]) / as.numeric(sub_by_id[["meroe_alodia_butana"]]$area_km2), 2L)` persons/km²), the Gezira at `r viscount_fmt_pop(sub_by_id[["funj_sennar_gezira"]]$population[["0"]])` and Kordofan at `r viscount_fmt_pop(sub_by_id[["kordofan_nuba_hills"]]$population[["0"]])`. Meroe itself grew from 4,8k in 700BC to 24,8k in 100BC and peaked at 29,4k in 100AD, supported by large-scale iron-smelting workshops whose slag mounds and experimental furnace reconstructions attest to sustained industrial fuelwood harvesting [@Humphris2018IronSmelting; @Humphris1945TheAncient], alongside cotton textile production at secondary towns such as Naqa (5,24k), Musawwarat es-Sufra, Wad ban Naqa and Dangeil [@Yvanez2018ClothingThe].
+
+Late antique climate cooling, Nile flood instability, Aksumite raids from the Ethiopian plateau and the southward contraction of Roman Red Sea trade depressed Meroitic urban life after 250AD [@Humphris1945TheAncient; @Guilbault2026EmbodimentAnd]. Meroe fell from 21,5k in 250AD to 8,4k by 350AD, and aggregate regional population eased from `r viscount_fmt_pop(headline_series[["0"]])` at year 0 to `r viscount_fmt_pop(headline_series[["300"]])` in 300AD before stabilising at `r viscount_fmt_pop(headline_series[["500"]])` in 500AD. Post-Meroitic elite tumulus centres emerged at El-Hobagi, Tanqasi and Ballana-Qustul, where Early Makurian burials preserved glass beads, Mediterranean silver and Nubian textiles bridging Kushite and Christian material traditions [@ThenObuska2018EarlyMakuria; @ThenObuska2018EarlyMakuria_2; @Yvanez2018ClothingThe].
+
+## Christian Nubia: Nobatia, Makuria and Alodia (550AD to 1504AD)
+
+Christianisation in the mid-sixth century consolidated Nubia into three kingdoms: Nobatia between the First and Third Cataracts (centred on Faras, Qasr Ibrim and Meinarti), Makuria across the Dongola Reach (centred on Old Dongola), and Alodia extending from the Fifth Cataract across the Butana and northern Gezira (centred on Soba) [@Adams1977Nubia; @ThenObuska2018EarlyMakuria]. After Nobatia merged into Makuria around the seventh century, the unified northern crown repelled early Arab expeditions in 642AD and 652AD under the *baqt* treaty, inaugurating five centuries of urban stability powered by *saqia* waterwheel irrigation along the Dongola Reach [@Adams1977Nubia; @Guilbault2026EmbodimentAnd].
+
+Old Dongola rose from 6,4k in 550AD to 14,2k in 750AD and peaked at 23,8k around 1000AD, while Faras reached 7,42k around 800AD and pilgrimage monasteries flourished at Banganarti and Ghazali. Farther south, Alodia's capital at Soba grew from 8,4k in 550AD to 21,5k in 800AD and achieved a regional ancient-mediaeval urban peak of 32,4k around 1000AD, matching Ibn Selim al-Aswani's tenth-century description of wide avenues, churches and lush gardens along the Blue Nile [@Edwards2004NubianPast; @Nasreldein2026ContinuityChange]. Aggregate regional population stood at `r viscount_fmt_pop(headline_series[["800"]])` in 800AD and rose to `r viscount_fmt_pop(headline_series[["1000"]])` in 1000AD and `r viscount_fmt_pop(headline_series[["1200"]])` in 1200AD. Late mediaeval Mamluk interventions, Bedouin Arab pastoral migrations and the breakup of Makuria into petty river principalities such as Dotawo reduced Old Dongola to 11,6k by 1450AD and Soba to 4,8k by 1500AD, though archaeobotanical assemblages at Old Dongola demonstrate substantial continuity in sorghum, barley and date cultivation across the transition to Islam [@Nasreldein2026ContinuityChange].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Peak population rank-size distribution across 131 deduplicated Sudanese and Nubian settlements (Panel A) and 1820AD sub-regional population densities (Panel B).",
+  "fig:ranksize",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Beja Highlands, Red Sea Ports and Eastern Borderlands
+
+Between the Nile and the Red Sea, Beja pastoral confederations - known to Graeco-Roman authors as Blemmyes - occupied the Red Sea Hills and eastern *wadi* basins, sustaining `r viscount_fmt_pop(sub_by_id[["beja_red_sea_suakin"]]$population[["500"]])` inhabitants in 500AD and `r viscount_fmt_pop(sub_by_id[["beja_red_sea_suakin"]]$population[["1000"]])` in 1000AD [@Costanzo2021CreatingThe]. Funerary monuments clustered near seasonal water sources and Gash delta pastures reflect durable nomadic territorial organisation rather than sedentary nucleated towns [@Costanzo2021CreatingThe]. Along the coast, maritime hubs at Badi, Aidhab and later Suakin linked Upper Egyptian and Sudanese caravan routes with Hijaz pilgrimage shipping and Indian Ocean merchants. Following the Mamluk destruction of Aidhab in 1426AD and the Ottoman occupation of Suakin in 1517-1555AD, Suakin grew from 2,45k in 1000AD and 4,28k in 1200AD to 6,84k in 1517AD, 7,4k in 1541AD and 8,15k when Burckhardt visited in 1814AD. Along the southeastern frontier bordering the Ethiopian highlands, Qwara and Atbara-Setit borderland societies maintained mixed agropastoral hamlets between 600AD and 1850AD [@GonzalezRuibal2017SudansEastern].
+
+## Islamisation and the Funj Sultanate of Sennar (1504AD to 1821AD)
+
+Following the 1504AD alliance of Amara Dunqas and Abdallah Jamma that overthrew Soba, the Funj Sultanate of Sennar shifted Sudan's political and demographic core into the rain-fed Gezira and Blue Nile valley [@Spaulding1985HeroicAge]. Total population across the chapter domain rose from `r viscount_fmt_pop(headline_series[["1500"]])` in 1500AD to `r viscount_fmt_pop(headline_series[["1700"]])` in 1700AD, with the Funj Sennar-Gezira heartland surging from `r viscount_fmt_pop(sub_by_id[["funj_sennar_gezira"]]$population[["1500"]])` to `r viscount_fmt_pop(sub_by_id[["funj_sennar_gezira"]]$population[["1700"]])` (`r viscount_fmt_number(as.numeric(sub_by_id[["funj_sennar_gezira"]]$population[["1700"]]) / as.numeric(sub_by_id[["funj_sennar_gezira"]]$area_km2), 2L)` persons/km²). Sennar expanded from 9,8k in 1550AD to 28,6k around 1701AD when visited by Theodor Krump, flanked by commercial river towns at Arbaji (11,2k in 1700AD), Qarri (4,82k), Shandi (5,45k in 1814AD), Barbar (5,18k) and the rising Gezira depot of Wad Medani (6,4k in 1821AD) [@Spaulding1985HeroicAge; @AbuManga2017OldFulani].
+
+Over the eighteenth century, internal Hamaj regency wars, Red Sea caravan disruption and the 1780s-1790s Sahelian-Sudanic droughts reduced aggregate population from `r viscount_fmt_pop(headline_series[["1700"]])` in 1700AD to `r viscount_fmt_pop(headline_series[["1770"]])` in 1770AD and `r viscount_fmt_pop(headline_series[["1820"]])` in 1820AD on the eve of Ismail Pasha's Turco-Egyptian campaign. Northern Nubia suffered sharpest contraction: Lower Nubia and Nobatia fell from `r viscount_fmt_pop(sub_by_id[["nobatia_lower_nubia"]]$population[["1700"]])` in 1700AD to `r viscount_fmt_pop(sub_by_id[["nobatia_lower_nubia"]]$population[["1820"]])` in 1820AD (`r viscount_fmt_number(sub_by_id[["nobatia_lower_nubia"]]$end_density_km2, 2L)` persons/km²), and the Dongola Reach eased from `r viscount_fmt_pop(sub_by_id[["makuria_dongola_napata"]]$population[["1700"]])` to `r viscount_fmt_pop(sub_by_id[["makuria_dongola_napata"]]$population[["1820"]])` (`r viscount_fmt_number(sub_by_id[["makuria_dongola_napata"]]$end_density_km2, 2L)` persons/km²) as Shayqiya raids and Egyptian Mamluk exiles disrupted *saqia* estates. By 1820AD, the Funj Gezira retained the highest regional density at `r viscount_fmt_number(sub_by_id[["funj_sennar_gezira"]]$end_density_km2, 2L)` persons/km², followed by Atbara-Butana (`r viscount_fmt_number(sub_by_id[["meroe_alodia_butana"]]$end_density_km2, 2L)` persons/km²) and Kordofan (`r viscount_fmt_number(sub_by_id[["kordofan_nuba_hills"]]$end_density_km2, 2L)` persons/km²).
+
+## Darfur, Kordofan and the Shilluk-Upper Nile Heartland to 1821AD
+
+West of the White Nile, three vast interior sub-regions carried more than three-fifths of the domain's population throughout the early modern era. In Darfur, stone palace compounds at Uri (8,64k around 1480AD) and Ain Farah (4,15k in 1520AD) marked the Daju-to-Tunjur transition before the Keira dynasty consolidated around Jebel Marra, Shoba (5,28k in 1780AD), the caravan hub of Kobbei (8,42k in 1803AD) and the permanent capital of El Fasher (8,6k in 1810AD) [@Arkell1937FasherDarfur; @Runfola2020GeoBoundaries]. Darfur's population grew from `r viscount_fmt_pop(sub_by_id[["darfur_keira_sultanate"]]$population[["1200"]])` in 1200AD to `r viscount_fmt_pop(sub_by_id[["darfur_keira_sultanate"]]$population[["1700"]])` in 1700AD and stood at `r viscount_fmt_pop(sub_by_id[["darfur_keira_sultanate"]]$population[["1820"]])` in 1820AD. Between Darfur and Sennar, Kordofan's gum-arabic savanna and the Nuba hill refugia held `r viscount_fmt_pop(sub_by_id[["kordofan_nuba_hills"]]$population[["1820"]])` in 1820AD, centred on the Musabba'at and Keira garrison-market of El Obeid (8,5k in 1821AD) and Bara [@Spaulding1985HeroicAge; @AbuManga2017OldFulani]. Farther south along the White Nile and Sobat marshes, the Shilluk Kingdom centred on Kodok (5,16k in 1820AD), Tonga and Panyikang anchored the Nilotic Sudd, holding `r viscount_fmt_pop(sub_by_id[["shilluk_sudd_upper_nile"]]$population[["1500"]])` in 1500AD and `r viscount_fmt_pop(sub_by_id[["shilluk_sudd_upper_nile"]]$population[["1820"]])` in 1820AD (`r viscount_fmt_number(100 * as.numeric(sub_by_id[["shilluk_sudd_upper_nile"]]$population[["1820"]]) / as.numeric(headline_series[["1820"]]), 1L)`% of the entire Sudan-Nubia total) [@GonzalezRuibal2017SudansEastern; @Gregory2025CapturingEmpire].
+
+```{r tab-trajectory, results='asis'}
+show_yrs <- c("-2000", "0", "500", "1000", "1500", "1700", "1820")
+df_traj <- do.call(rbind, lapply(sub_order, function (sid) {
+  ps <- sub_by_id[[sid]]$population
+  data.frame(
+    `Sub-Region` = sub_by_id[[sid]]$name,
+    `2000BC` = viscount_fmt_pop(ps[["-2000"]]),
+    `0` = viscount_fmt_pop(ps[["0"]]),
+    `500AD` = viscount_fmt_pop(ps[["500"]]),
+    `1000AD` = viscount_fmt_pop(ps[["1000"]]),
+    `1500AD` = viscount_fmt_pop(ps[["1500"]]),
+    `1700AD` = viscount_fmt_pop(ps[["1700"]]),
+    `1820AD` = viscount_fmt_pop(ps[["1820"]]),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_traj <- data.frame(
+  `Sub-Region` = "Total Sudan and Nubia",
+  `2000BC` = viscount_fmt_pop(headline_series[["-2000"]]),
+  `0` = viscount_fmt_pop(headline_series[["0"]]),
+  `500AD` = viscount_fmt_pop(headline_series[["500"]]),
+  `1000AD` = viscount_fmt_pop(headline_series[["1000"]]),
+  `1500AD` = viscount_fmt_pop(headline_series[["1500"]]),
+  `1700AD` = viscount_fmt_pop(headline_series[["1700"]]),
+  `1820AD` = viscount_fmt_pop(headline_series[["1820"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_traj <- rbind(df_traj, tot_traj)
+rownames(df_traj) <- NULL
+viscount_table(
+  df_traj,
+  "Sub-regional and aggregate population trajectory across Sudan and Nubia at seven primary benchmarks from 2000BC to 1820AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+# Limitations
+
+Three structural uncertainties bound historical population reconstruction for ancient and mediaeval Sudan and Nubia. First, archaeological survey density is strongly skewed toward the Main Nile cataracts slated for reservoir inundation and Polish-Sudanese concessions at Old Dongola and Kerma [@Naser2019DialoguesThe; @Bashir2026ArchaeologyAnd; @Osypinski2023NewAdvances], whereas vast areas of Kordofan, the Nuba Mountains, Darfur and the Sudd marshes hold sparse radiocarbon dates and few excavated habitation mounds [@Costanzo2021CreatingThe; @Edwards2004NubianPast]. NICETHI mitigates that survey imbalance through metric-isotropic Voronoi catchment scaling and biophysical fluvial-biome covariates rather than relying on raw site counts alone.
+
+Second, pre-colonial urban populations converted from mounded area, cemetery demographics and traveller house counts remain sensitive to intra-mural open compound space, seasonal caravan influx and post-depositional mudbrick erosion [@Budka2023DayThe; @Humphris2018IronSmelting]. Individual urban figures carry roughly 15% to 25% uncertainty, and the `r viscount_fmt_number(n_total_sites, 0L)` assessed centres represent the nucleated town and ceremonial tier rather than ephemeral pastoral camps [@Moyne2023EcologicalFlexibility]. Third, pre-1800 rural trajectories in southern and western Sudan necessarily bridge sparse archaeological horizons with backward demographic projection from colonial and post-independence census distributions; future excavations in Darfur, Kordofan and the White Nile will refine these early modern rural baselines [@Bashir2026ArchaeologyAnd; @Gregory2025CapturingEmpire].
+
+# Conclusion
+
+Across more than four millennia from the rise of Kerma around 2500BC to the fall of Sennar in 1821AD, the population of Sudan and Nubia expanded nearly twelvefold from `r viscount_fmt_pop(headline_series[["-2000"]])` in 2000BC to `r viscount_fmt_pop(headline_series[["0"]])` at the Meroitic peak, navigated a long late antique and mediaeval plateau between `r viscount_fmt_pop(headline_series[["300"]])` and `r viscount_fmt_pop(headline_series[["1200"]])`, and climbed across the savanna sultanates to `r viscount_fmt_pop(headline_series[["1700"]])` in 1700AD and `r viscount_fmt_pop(headline_series[["1820"]])` in 1820AD. Throughout that span, political power and demographic weight migrated progressively southward - from the Third Cataract and Dongola Reach under Kerma, Napata and Makuria, onto the Butana plains under Meroe and Alodia, and finally into the Gezira, Darfur, Kordofan and Upper Nile corridors. By uniting `r viscount_fmt_number(n_total_sites, 0L)` individually assessed centres, non-stationary Matérn kriging across `r viscount_fmt_number(6431, 0L)` continental catchments and strictly mass-conserving pycnophylactic administrative reconciliation, this chapter delivers a continuous baseline carrying directly into nineteenth-century Turco-Egyptian, Mahdist and Anglo-Egyptian Sudan.
+
+# Appendix
+
+## Intermediate Benchmark Series, Population Densities and Territorial Shares
+
+Table \ref{tab:trajectory-inter} records the seven intermediate benchmark years omitted from Table \ref{tab:trajectory} for page-width legibility, completing the 14-benchmark series across 300AD, 800AD, 1200AD, 1720AD, 1750AD, 1770AD and 1800AD. Tables \ref{tab:density-appendix} and \ref{tab:shares-appendix} report sub-regional population densities (persons per km²) and percentage shares of the regional total, highlighting the steady shift in demographic weight from northern Nubia and Atbara-Butana toward the Gezira, Kordofan and Upper Nile.
+
+```{r tab-trajectory-inter, results='asis'}
+df_inter <- do.call(rbind, lapply(sub_order, function (sid) {
+  ps <- sub_by_id[[sid]]$population
+  data.frame(
+    `Sub-Region` = sub_by_id[[sid]]$name,
+    `300AD` = viscount_fmt_pop(ps[["300"]]),
+    `800AD` = viscount_fmt_pop(ps[["800"]]),
+    `1200AD` = viscount_fmt_pop(ps[["1200"]]),
+    `1720AD` = viscount_fmt_pop(ps[["1720"]]),
+    `1750AD` = viscount_fmt_pop(ps[["1750"]]),
+    `1770AD` = viscount_fmt_pop(ps[["1770"]]),
+    `1800AD` = viscount_fmt_pop(ps[["1800"]]),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_inter <- data.frame(
+  `Sub-Region` = "Total Sudan and Nubia",
+  `300AD` = viscount_fmt_pop(headline_series[["300"]]),
+  `800AD` = viscount_fmt_pop(headline_series[["800"]]),
+  `1200AD` = viscount_fmt_pop(headline_series[["1200"]]),
+  `1720AD` = viscount_fmt_pop(headline_series[["1720"]]),
+  `1750AD` = viscount_fmt_pop(headline_series[["1750"]]),
+  `1770AD` = viscount_fmt_pop(headline_series[["1770"]]),
+  `1800AD` = viscount_fmt_pop(headline_series[["1800"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_inter <- rbind(df_inter, tot_inter)
+rownames(df_inter) <- NULL
+viscount_table(
+  df_inter,
+  "Sub-regional and aggregate population at seven intermediate late antique, mediaeval and eighteenth-century benchmarks (300AD to 1800AD).",
+  arg3_options = list(label = "tab:trajectory-inter")
+)
+```
+
+```{r tab-density-appendix, results='asis'}
+df_dens <- do.call(rbind, lapply(sub_order, function (sid) {
+  sr <- sub_by_id[[sid]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    `Sub-Region` = sr$name,
+    `2000BC` = viscount_fmt_number(as.numeric(ps[["-2000"]]) / ar, 2L),
+    `0` = viscount_fmt_number(as.numeric(ps[["0"]]) / ar, 2L),
+    `500AD` = viscount_fmt_number(as.numeric(ps[["500"]]) / ar, 2L),
+    `1000AD` = viscount_fmt_number(as.numeric(ps[["1000"]]) / ar, 2L),
+    `1500AD` = viscount_fmt_number(as.numeric(ps[["1500"]]) / ar, 2L),
+    `1700AD` = viscount_fmt_number(as.numeric(ps[["1700"]]) / ar, 2L),
+    `1820AD` = viscount_fmt_number(as.numeric(ps[["1820"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_dens <- data.frame(
+  `Sub-Region` = "Mean Sudan and Nubia",
+  `2000BC` = viscount_fmt_number(as.numeric(headline_series[["-2000"]]) / total_area_km2, 2L),
+  `0` = viscount_fmt_number(as.numeric(headline_series[["0"]]) / total_area_km2, 2L),
+  `500AD` = viscount_fmt_number(as.numeric(headline_series[["500"]]) / total_area_km2, 2L),
+  `1000AD` = viscount_fmt_number(as.numeric(headline_series[["1000"]]) / total_area_km2, 2L),
+  `1500AD` = viscount_fmt_number(as.numeric(headline_series[["1500"]]) / total_area_km2, 2L),
+  `1700AD` = viscount_fmt_number(as.numeric(headline_series[["1700"]]) / total_area_km2, 2L),
+  `1820AD` = viscount_fmt_number(as.numeric(headline_series[["1820"]]) / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_dens <- rbind(df_dens, tot_dens)
+rownames(df_dens) <- NULL
+viscount_table(
+  df_dens,
+  "Mean population density (persons per km²) across the eight Sudanese and Nubian sub-regions from 2000BC to 1820AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab-shares-appendix, results='asis'}
+df_sh <- do.call(rbind, lapply(sub_order, function (sid) {
+  sr <- sub_by_id[[sid]]
+  ps <- sr$population
+  data.frame(
+    `Sub-Region` = sr$name,
+    `2000BC (%)` = viscount_fmt_number(100 * as.numeric(ps[["-2000"]]) / as.numeric(headline_series[["-2000"]]), 1L),
+    `0 (%)` = viscount_fmt_number(100 * as.numeric(ps[["0"]]) / as.numeric(headline_series[["0"]]), 1L),
+    `500AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["500"]]) / as.numeric(headline_series[["500"]]), 1L),
+    `1000AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1000"]]) / as.numeric(headline_series[["1000"]]), 1L),
+    `1500AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1500"]]) / as.numeric(headline_series[["1500"]]), 1L),
+    `1700AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1700"]]) / as.numeric(headline_series[["1700"]]), 1L),
+    `1820AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1820"]]) / as.numeric(headline_series[["1820"]]), 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_sh) <- NULL
+viscount_table(
+  df_sh,
+  "Sub-regional percentage shares of total Sudanese and Nubian population across primary benchmarks from 2000BC to 1820AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+All pre-1821 calendar dates follow astronomical era notation without period separators (2500BC, 0, 1820AD). Sub-regional settlement counts in Table \ref{tab:subregions} reflect the 128 settlements located inside the eight five-arcminute sub-regional mask polygons, while the companion gazetteer assigns the remaining four immediate borderland sites (Bonga, Debarwa, Sembel Ona and Djabarona) to their adjoining hydrological corridors so all 132 settlements appear in regional tables.

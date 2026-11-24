@@ -1,0 +1,487 @@
+---
+title: "Early Modern West Africa, Equatoria and Angola"
+subtitle: "Settlement Gazetteer: 301 Cities, Ports and Towns (1500-1885)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: atlantic_west_equatoria_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 301 individually assessed settlements across 24 modern countries and twelve historical sub-regions from Senegambia to southern Angola between 1500AD and 1885AD."
+hero_label: "fig:hero-settlements-awe"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("atlantic_west_equatoria_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("atlantic_west_equatoria_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", as.integer(yrs[i_pk]), "AD)")
+}
+
+clean_site_name <- function (nm) {
+  s <- as.character(nm)
+  s <- gsub("#", "No. ", s, fixed = TRUE)
+  s
+}
+
+iso_map <- c(
+  Angola = "AGO",
+  Benin = "BEN",
+  `Burkina Faso` = "BFA",
+  Cameroon = "CMR",
+  `Central African Republic` = "CAF",
+  `Democratic Republic of the Congo` = "COD",
+  `Equatorial Guinea` = "GNQ",
+  Gabon = "GAB",
+  Gambia = "GMB",
+  Ghana = "GHA",
+  Guinea = "GIN",
+  `Guinea-Bissau` = "GNB",
+  `Ivory Coast` = "CIV",
+  Liberia = "LBR",
+  Mali = "MLI",
+  Mauritania = "MRT",
+  Namibia = "NAM",
+  Nigeria = "NGA",
+  `Republic of the Congo` = "COG",
+  Senegal = "SEN",
+  `Sierra Leone` = "SLE",
+  `South Sudan` = "SSD",
+  Togo = "TGO",
+  Zambia = "ZMB"
+)
+
+classify_awe_zone <- function (e) {
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  ctry <- as.character(e$country)
+  if (ctry %in% c("Senegal", "Gambia", "Guinea-Bissau", "Mauritania", "Mali")) return(1L)
+  if (identical(ctry, "Guinea")) {
+    if (lat >= 10.90 && lon <= -12.0) return(1L)
+    return(2L)
+  }
+  if (ctry %in% c("Sierra Leone", "Liberia")) return(2L)
+  if (identical(ctry, "Ivory Coast")) {
+    if (lon < -6.0) return(2L)
+    return(3L)
+  }
+  if (identical(ctry, "Burkina Faso")) return(3L)
+  if (identical(ctry, "Ghana")) {
+    if ((lat >= 9.0 && lon >= -0.5) || (lat < 9.0 && lon >= 0.4 && lat >= 6.2)) return(4L)
+    return(3L)
+  }
+  if (ctry %in% c("Togo", "Benin")) return(4L)
+  if (identical(ctry, "Nigeria")) {
+    if (lon < 3.35 && lat < 7.0) return(4L)
+    if (lon >= 11.5) return(7L)
+    if (lon >= 6.82 || (lat < 5.5 && lon >= 6.3) || (lon >= 6.78 && lat < 6.2)) return(6L)
+    return(5L)
+  }
+  if (identical(ctry, "Equatorial Guinea")) {
+    if (lat > 2.5) return(6L)
+    return(8L)
+  }
+  if (identical(ctry, "Cameroon")) {
+    if ((lat >= 5.8 && lon <= 10.3) || (lat < 4.5 && lon <= 9.5)) return(6L)
+    return(7L)
+  }
+  if (ctry %in% c("Gabon", "Republic of the Congo")) return(8L)
+  if (ctry %in% c("Central African Republic", "South Sudan")) return(11L)
+  if (identical(ctry, "Namibia")) return(10L)
+  if (identical(ctry, "Zambia")) {
+    if (lat < -14.0 && lon < 26.0) return(10L)
+    return(12L)
+  }
+  if (identical(ctry, "Angola")) {
+    if (lat >= -5.7) return(8L)
+    if (lat <= -10.5) return(10L)
+    return(9L)
+  }
+  if (identical(ctry, "Democratic Republic of the Congo")) {
+    if (lon >= 22.8 && lat <= -4.0) return(12L)
+    if (lon < 13.3 && lat >= -5.85) return(8L)
+    if (lat <= -4.8 && lon < 16.0) return(9L)
+    if (lon <= 17.0 && lat <= -1.0) return(8L)
+    return(11L)
+  }
+  return(11L)
+}
+
+zone_ids <- vapply(all_entries, classify_awe_zone, integer(1))
+zone_entries <- lapply(1:12, function (z) {
+  sub <- all_entries[zone_ids == z]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+})
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- unname(iso_map[as.character(e$country)])
+    if (is.na(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(
+      iso_code,
+      ": ",
+      fmt_eu_coord(e$coords[[1]]),
+      ", ",
+      fmt_eu_coord(e$coords[[2]])
+    )
+    data.frame(
+      Settlement = clean_site_name(e$name),
+      Location = loc_str,
+      `1500AD` = fmt_site_pop(e, 1500),
+      `1700AD` = fmt_site_pop(e, 1700),
+      `1800AD` = fmt_site_pop(e, 1800),
+      `1850AD` = fmt_site_pop(e, 1850),
+      `1880AD` = fmt_site_pop(e, 1880),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+n_obs <- as.integer(summary_cache$observation_count)
+n_countries <- length(summary_cache$countries)
+
+bench_nums <- c(1500, 1700, 1800, 1850, 1880)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates and dated population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across Atlantic West Africa, Equatorial Africa and Angola between 1500AD and 1885AD, encompassing `r viscount_fmt_number(n_obs, 0L)` archival observations across `r n_countries` modern countries. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate towns, royal capitals, European forts and market centres (`r viscount_fmt_number(n_excluded, 0L)` excluded), the retained settlements span twelve historical sub-regions from Senegambia and Upper Guinea through Asante, Dahomey, Oyo-Yorubaland, Benin, the Niger Delta and Cameroon to Loango, Kongo, Angola, Kuba and the Luba-Lunda commonwealth. Active entries expand from `r viscount_fmt_number(n_active[["1500"]], 0L)` attested sites in 1500AD to `r viscount_fmt_number(n_active[["1700"]], 0L)` in 1700AD, `r viscount_fmt_number(n_active[["1800"]], 0L)` in 1800AD and `r viscount_fmt_number(n_active[["1850"]], 0L)` in 1850AD before consolidating at `r viscount_fmt_number(n_active[["1880"]], 0L)` late precolonial towns in 1880AD, documenting urban dynamics from Mbanza Congo (52k), Benin City (52,8k) and Old Oyo (99,8k) to nineteenth-century Ibadan (200k), Abeokuta (100k) and Ilorin (85k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 301 individually assessed settlements across 24 modern countries and twelve historical sub-regions from Senegambia to southern Angola between 1500AD and 1885AD.",
+    "fig:hero-settlements-awe"
+  )
+}
+```
+
+# Background
+
+Early modern urbanism across Atlantic Africa developed within starkly different political and ecological settings [@Green2015AfricanKingdoms]. Along the Senegambian savanna and Upper Guinea estuaries, compact royal capitals and Luso-African or French river entrepôts mediated millet, rice, gold and gum commerce [@Havik2007PortOfGeba; @Howard1900MandeIdentity]. Across the Akan forest, the Dahomey Gap and Yorubaland, walled city-states and agrarian capitals supported dense populations backed by yam farming, ironworking and Atlantic-era maize and cassava [@Kirkgreene2001ComparativeStudy; @Monroe2014DahomeySlavery; @Ogundiran2009OyoFrontier]. South of the Niger Delta across Loango, Kongo, Angola and the Luba-Lunda interior, royal capitals and Portuguese presídios punctuated lower-density woodland and highland savannas [@Thornton1977KongoDemography; @Ferreira2011TheSuppression; @Coloniales1920CongoRevue].
+
+# Methodology
+
+## Candidate Screening and Spatial Partition
+
+Candidate entries were compiled from Portuguese Angolan presídio censuses [@Ferreira2011TheSuppression; @Curto2005ResistenciaEscravidao], French Senegalese communal registers, Gold Coast and Nigerian enumerations, traveller eyewitness reports and archaeological transect surveys [@AgbajeWilliam1990NewsAnd; @Monroe2014DahomeySlavery; @Law1977OyoEmpire]. From `r viscount_fmt_number(n_candidates, 0L)` candidates located inside the 7,03M km² domain clipped to geoBoundaries outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate orthographies and non-settlement fragments were excluded, retaining `r viscount_fmt_number(length(all_entries), 0L)` city-proper settlements across `r n_countries` countries. Every entry is mapped deterministically to one of the 12 historical sub-regions defined in the companion review.
+
+## Population Assessment and Interpolation
+
+All entries carry explicit city-proper population observations anchored to documented years rather than uniform caps or back-projections. Where primary archival or archaeological counts span multiple dates (such as Mbanza Congo from 1550AD to 1885AD or Luanda from 1580AD to 1885AD), Tables 1 to 12 report linearly interpolated values at five benchmark dates (1500AD, 1700AD, 1800AD, 1850AD and 1880AD) alongside each settlement's observed peak and peak year, marking periods outside a site's documented span with a hyphen (-).
+
+# Testing and Validation
+
+Across 299 spatially deduplicated settlements ($n = 299$), OLS rank-size regression on the upper 150 settlements yields a Pareto slope of $q = 0,81$ ($R^2 = 0,98$; Figure \ref{fig:settlements-rank}), matching a polycentric coastal-and-inland urban hierarchy rather than single-city primacy [@Ogundiran2009OyoFrontier; @AgbajeWilliam1990NewsAnd]. Typological screening confirms zero duplicate place-names at matching dates, zero unverified modern extrapolations and consistent alignment with historical foundation and abandonment dates [@Law1977OyoEmpire; @Thornton1977KongoDemography].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size distribution across 299 spatially deduplicated settlements (top-150 OLS slope q = 0,81, R² = 0,98) and mean population densities of the ten densest sub-regions in 1880AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.40\\textheight")
+)
+```
+
+# Results
+
+## Wolof States, Futa Jallon and Kaabu
+
+Table \ref{tab:zone1-sites} compiles `r viscount_fmt_number(length(zone_entries[[1]]), 0L)` settlements across Senegal, Gambia, Guinea-Bissau, southern Mauritania, western Mali and northern Guinea, led by Saint-Louis (15.980 in 1878), Kansala (13,7k in 1850), Bakel (10,9k in 1863) and Labé [@Havik2007PortOfGeba].
+
+```{r tab-zone1, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[1]]),
+  "Individually assessed settlements in the Wolof States, Futa Jallon and Kaabu from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone1-sites")
+)
+```
+
+## Sierra Leone, Grain Coast and Early Liberia
+
+Table \ref{tab:zone2-sites} lists `r viscount_fmt_number(length(zone_entries[[2]]), 0L)` settlements across Sierra Leone, Liberia, central Guinea and western Ivory Coast, headed by Freetown (21,9k in 1881), Timbo (9,14k in 1818), Kankan and Falaba [@Howard1900MandeIdentity].
+
+```{r tab-zone2, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[2]]),
+  "Individually assessed settlements in Sierra Leone, the Grain Coast and Early Liberia from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone2-sites")
+)
+```
+
+## Asante Empire, Fante and Gold Coast
+
+Table \ref{tab:zone3-sites} records `r viscount_fmt_number(length(zone_entries[[3]]), 0L)` settlements across Ghana, central and eastern Ivory Coast and southern Burkina Faso, led by Salaga (38,6k in 1850), Kumasi (27,5k in 1820), Kong, Elmina (15,2k in 1700), Abankeseso and Cape Coast [@Kirkgreene2001ComparativeStudy; @Weiskel2000ThePrecolonial].
+
+```{r tab-zone3, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[3]]),
+  "Individually assessed settlements in the Asante Empire, Fante and Gold Coast from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone3-sites")
+)
+```
+
+## Kingdom of Dahomey, Allada and Ewe Littoral
+
+Table \ref{tab:zone4-sites} documents `r viscount_fmt_number(length(zone_entries[[4]]), 0L)` settlements across Benin, Togo, eastern Ghana and westernmost Nigeria, topped by Savi (77,5k in 1727), Lagos (37,5k in 1881), Abomey (30k in 1851), Allada (30k in 1668), Ouidah (30k in 1720) and Porto-Novo (26,4k in 1885) [@Monroe2014DahomeySlavery; @Mac1900SlaveryAnd].
+
+```{r tab-zone4, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[4]]),
+  "Individually assessed settlements in the Kingdom of Dahomey, Allada and the Ewe Littoral from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone4-sites")
+)
+```
+
+## Oyo Empire, Yorubaland and Kingdom of Benin
+
+Table \ref{tab:zone5-sites} catalogues `r viscount_fmt_number(length(zone_entries[[5]]), 0L)` settlements across western and central Nigeria, led by Ibadan (200k in 1850), Abeokuta (100k in 1861), Old Oyo (99,8k in 1780), Ilorin (85k in 1880), Ile-Ife (62,4k in 1500), Bida (58,4k in 1885), Benin City (52,8k in 1602), Ogbomosho (50k in 1856) and Raba (46,2k in 1840) [@Law1977OyoEmpire; @AgbajeWilliam1990NewsAnd; @Roese1984DasKonigreich].
+
+```{r tab-zone5, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[5]]),
+  "Individually assessed settlements in the Oyo Empire, Yorubaland and Kingdom of Benin from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone5-sites")
+)
+```
+
+## Niger Delta States, Arochukwu and Cross River
+
+Table \ref{tab:zone6-sites} compiles `r viscount_fmt_number(length(zone_entries[[6]]), 0L)` settlements across eastern Nigeria, western Cameroon and Bioko, led by Bauchi (30k in 1866), Umaisha (24,7k in 1833), Calabar (18,2k in 1885), Wukari, Onitsha and Bonny [@Skowronek2023GermanBrass].
+
+```{r tab-zone6, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[6]]),
+  "Individually assessed settlements in the Niger Delta States, Arochukwu and Cross River from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone6-sites")
+)
+```
+
+## Bamum, Cameroon Grassfields and Biafra Coast
+
+Table \ref{tab:zone7-sites} lists `r viscount_fmt_number(length(zone_entries[[7]]), 0L)` settlements across central and northern Cameroon and Adamawa, led by Foumban (22k in 1885), Douala (18,6k in 1884), Ngaoundéré and Tibati.
+
+```{r tab-zone7, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[7]]),
+  "Individually assessed settlements in Bamum, the Cameroon Grassfields and Biafra Coast from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone7-sites")
+)
+```
+
+## Loango, Teke-Makoko and Gabon Littoral
+
+Table \ref{tab:zone8-sites} documents `r viscount_fmt_number(length(zone_entries[[8]]), 0L)` settlements across Gabon, Republic of the Congo, mainland Equatorial Guinea, Cabinda and the lower Congo Pool, led by Buali (18,5k in 1668), Bolobo, Cabinda (8,6k in 1783) and Mbe.
+
+```{r tab-zone8, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[8]]),
+  "Individually assessed settlements in Loango, Teke-Makoko and the Gabon Littoral from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone8-sites")
+)
+```
+
+## Kongo, Ndongo, Matamba and Portuguese Angola
+
+Table \ref{tab:zone9-sites} records `r viscount_fmt_number(length(zone_entries[[9]]), 0L)` settlements across northern Angola and Bas-Congo, led by Mbanza Congo (52k in 1550), Kabasa (24k in 1585), Luanda (17,8k in 1885), Soyo (15,2k in 1705) and Santa Maria de Matamba (14,2k in 1660) [@Thornton1977KongoDemography; @Ferreira2011TheSuppression; @Ngaba2026BercoEducacao].
+
+```{r tab-zone9, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[9]]),
+  "Individually assessed settlements in Kongo, Ndongo, Matamba and Portuguese Angola from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone9-sites")
+)
+```
+
+## Ovimbundu Kingdoms, Benguela and Southern Angola
+
+Table \ref{tab:zone10-sites} compiles `r viscount_fmt_number(length(zone_entries[[10]]), 0L)` settlements across the Bié plateau, southern Angola, northern Namibia and Barotseland, led by Bailundo, Cuito (11,8k in 1875), Lealui and Benguela (4,6k in 1885) [@Ferreira2017TheSuppression].
+
+```{r tab-zone10, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[10]]),
+  "Individually assessed settlements in the Ovimbundu Kingdoms, Benguela and Southern Angola from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone10-sites")
+)
+```
+
+## Kuba Kingdom, Inner Congo and Ubangi
+
+Table \ref{tab:zone11-sites} lists `r viscount_fmt_number(length(zone_entries[[11]]), 0L)` settlements across the inner Congo forest, Ubangi and South Sudanese borderlands, led by Kuba capital Nsheng (10,8k in 1850), Yambio, Bangassou and Rafai [@Coloniales1920CongoRevue].
+
+```{r tab-zone11, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[11]]),
+  "Individually assessed settlements in the Kuba Kingdom, Inner Congo and Ubangi from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone11-sites")
+)
+```
+
+## Luba Empire, Lunda Commonwealth and Kazembe
+
+Table \ref{tab:zone12-sites} documents `r viscount_fmt_number(length(zone_entries[[12]]), 0L)` settlements across Katanga, Kasai and northern Zambia, led by Kasongo (28k in 1885), Musumba (25k in 1846), Bunkeya (18,5k in 1885) and Nyangwe (15,2k in 1885) [@Alencastro2018PoliticaDos; @Congostijdlijn2019GeschiedenisVan].
+
+```{r tab-zone12, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[[12]]),
+  "Individually assessed settlements in the Luba Empire, Lunda Commonwealth and Kazembe from 1500AD to 1880AD with peak populations.",
+  arg3_options = list(label = "tab:zone12-sites")
+)
+```
+
+# Limitations
+
+Three caveats apply to this settlement ledger. First, archival survival favours coastal enclaves and major royal capitals over dispersed interior villages, leaving inner Congo and Luba-Lunda with fewer individually dated towns than Senegambia or the Gulf of Guinea [@Thornton1977KongoDemography; @Coloniales1920CongoRevue]. Second, linear interpolation between dated observations cannot capture sudden unrecorded war shocks between benchmark observations [@Law1977OyoEmpire; @Monroe2014DahomeySlavery]. Third, the `r viscount_fmt_number(length(all_entries), 0L)` entries measure urban and major market centres rather than total rural headcounts, which appear in the companion regional synthesis.
+
+# Conclusion
+
+Together, these `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document the shifting urban geography of Atlantic West Africa, Equatorial Africa and Angola from 1500AD to 1885AD. They capture early royal capitals such as Mbanza Congo, Benin City and Allada, the rise and collapse of Old Oyo, nineteenth-century Yoruba defensive agglomeration at Ibadan and Abeokuta, the maritime entrepôts of Luanda, Saint-Louis, Freetown and Lagos, and late precolonial caravan hubs across Luba-Lunda and Katanga.
+
+# Appendix
+
+## Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed settlement counts and combined interpolated urban populations across all twelve sub-regions at the five chapter benchmarks from 1500AD to 1880AD.
+
+```{r tab-appendix-summary, results='asis'}
+zone_names <- c(
+  "1. Wolof States, Futa Jallon and Kaabu",
+  "2. Sierra Leone, Grain Coast and Liberia",
+  "3. Asante Empire, Fante and Gold Coast",
+  "4. Kingdom of Dahomey, Allada and Ewe",
+  "5. Oyo Empire, Yorubaland and Benin",
+  "6. Niger Delta, Arochukwu and Cross River",
+  "7. Bamum, Cameroon Grassfields and Biafra",
+  "8. Loango, Teke-Makoko and Gabon",
+  "9. Kongo, Ndongo, Matamba and Angola",
+  "10. Ovimbundu, Benguela and S. Angola",
+  "11. Kuba, Inner Congo and Ubangi",
+  "12. Luba, Lunda and Kazembe"
+)
+sum_rows <- lapply(1:12, function (z) {
+  sub <- zone_entries[[z]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(zone_names[z], " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1500AD` = sums[["1500"]],
+    `1700AD` = sums[["1700"]],
+    `1800AD` = sums[["1800"]],
+    `1850AD` = sums[["1850"]],
+    `1880AD` = sums[["1880"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Sub-Regions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1500AD` = tot_sums[["1500"]],
+  `1700AD` = tot_sums[["1700"]],
+  `1800AD` = tot_sums[["1800"]],
+  `1850AD` = tot_sums[["1850"]],
+  `1880AD` = tot_sums[["1880"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed settlement counts and combined interpolated urban populations across the twelve sub-regions from 1500AD to 1880AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Settlement coordinates follow decimal degrees (latitude, longitude) formatted with European decimal commas in gazetteer tables. Settlements recorded under slightly variant historical spellings or overlapping port names (such as Freetown and Lagos) retain distinct entries where documented in separate historical series.

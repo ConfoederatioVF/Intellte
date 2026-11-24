@@ -1,0 +1,411 @@
+---
+title: "Modern Southern Africa (1902-Present)"
+subtitle: "Settlement Gazetteer: 1.499 Assessed Urban and Rural Places"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: modern_southern_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 1.499 assessed settlements across Modern Southern Africa from 1902AD to 2026AD."
+hero_label: "fig:hero-settlements-southern-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("modern_southern_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("modern_southern_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  ps <- as.numeric(unlist(e$population))
+  e$peak_pop_val <- if (length(ps) > 0L) max(ps) else 0
+  e
+})
+
+iso3_map <- c(
+  "Angola" = "AGO",
+  "Botswana" = "BWA",
+  "Lesotho" = "LSO",
+  "Mozambique" = "MOZ",
+  "Namibia" = "NAM",
+  "South Africa" = "ZAF",
+  "Zambia" = "ZMB",
+  "Zimbabwe" = "ZWE",
+  "eSwatini" = "SWZ"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+fmt_era_yr <- function (y) {
+  paste0(as.integer(y), "AD")
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", fmt_era_yr(yrs[i_pk]), ")")
+}
+
+sort_entries <- function (sub_list) {
+  pks <- vapply(sub_list, function (e) e$peak_pop_val, numeric(1))
+  nms <- vapply(sub_list, function (e) as.character(e$name), character(1))
+  sub_list[order(-pks, nms)]
+}
+
+zaf_all <- Filter(function (e) identical(as.character(e$country), "South Africa"), all_entries)
+zaf_t1 <- sort_entries(Filter(function (e) e$peak_pop_val >= 100000, zaf_all))
+zaf_t2 <- sort_entries(Filter(function (e) e$peak_pop_val >= 30000 && e$peak_pop_val < 100000, zaf_all))
+zaf_t3 <- sort_entries(Filter(function (e) e$peak_pop_val >= 15000 && e$peak_pop_val < 30000, zaf_all))
+zaf_t4 <- sort_entries(Filter(function (e) e$peak_pop_val >= 8000 && e$peak_pop_val < 15000, zaf_all))
+zaf_t5 <- sort_entries(Filter(function (e) e$peak_pop_val < 8000, zaf_all))
+
+nam_entries <- sort_entries(Filter(function (e) identical(as.character(e$country), "Namibia"), all_entries))
+bwa_entries <- sort_entries(Filter(function (e) identical(as.character(e$country), "Botswana"), all_entries))
+lso_entries <- sort_entries(Filter(function (e) identical(as.character(e$country), "Lesotho"), all_entries))
+swz_entries <- sort_entries(Filter(function (e) identical(as.character(e$country), "eSwatini"), all_entries))
+buf_entries <- sort_entries(Filter(function (e) !(as.character(e$country) %in% c("South Africa", "Namibia", "Botswana", "Lesotho", "eSwatini")), all_entries))
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    nm <- as.character(e$name)
+    if (identical(nm, "(no name)")) nm <- "Unnamed Sekhukhune Locality"
+    sc <- if (identical(as.character(e$population_scope), "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = nm,
+      Scope = sc,
+      Location = loc_str,
+      `1910AD` = fmt_site_pop(e, 1910),
+      `1952AD` = fmt_site_pop(e, 1952),
+      `1970AD` = fmt_site_pop(e, 1970),
+      `1995AD` = fmt_site_pop(e, 1995),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1910, 1952, 1970, 1995, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+
+group_list <- list(
+  list(label = "South Africa: Tier 1 (>= 100k Peak)", entries = zaf_t1),
+  list(label = "South Africa: Tier 2 (30k to < 100k Peak)", entries = zaf_t2),
+  list(label = "South Africa: Tier 3 (15k to < 30k Peak)", entries = zaf_t3),
+  list(label = "South Africa: Tier 4 (8k to < 15k Peak)", entries = zaf_t4),
+  list(label = "South Africa: Tier 5 (< 8k Peak)", entries = zaf_t5),
+  list(label = "Namibia", entries = nam_entries),
+  list(label = "Botswana", entries = bwa_entries),
+  list(label = "Lesotho", entries = lso_entries),
+  list(label = "Eswatini", entries = swz_entries),
+  list(label = "Cross-Border Buffer (MOZ, AGO, ZMB, ZWE)", entries = buf_entries)
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates, spatial scopes and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed urban and rural settlements across Modern Southern Africa between 1902AD and 2026AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate places (`r viscount_fmt_number(n_excluded, 0L)` duplicate alias records and overlapping boundary shells excluded), the retained entries span `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations across South Africa (1.232), Namibia (94), Botswana (70), Lesotho (48), Eswatini (33) and 22 cross-border buffer towns in Mozambique, Angola, Zambia and Zimbabwe. Active interpolated entries rise from `r viscount_fmt_number(n_active[["1910"]], 0L)` centres in 1910AD to `r viscount_fmt_number(n_active[["1952"]], 0L)` in 1952AD, `r viscount_fmt_number(n_active[["1970"]], 0L)` in 1970AD, `r viscount_fmt_number(n_active[["1995"]], 0L)` in 1995AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` by 2025AD, led by the metropolitan agglomerations of Johannesburg (11,01M), Cape Town (4,39M), Durban (3,52M), Maputo (2,98M), Windhoek (566,2k), Gaborone (534,8k), Maseru (505,7k) and Manzini (328,9k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 1.499 assessed settlements across Modern Southern Africa from 1902AD to 2026AD.",
+    "fig:hero-settlements-southern-africa"
+  )
+}
+```
+
+# Background
+
+Compiling a unified twentieth- and early twenty-first-century settlement gazetteer for Southern Africa requires reconciling disparate colonial, Apartheid and post-colonial enumeration traditions [@Caldwell2002HistoricalPopulation; @ChimereDan2013ApartheidAnd]. Union and Republic censuses in South Africa separated European municipal boroughs from segregated townships and ethnic Bantustans between 1911AD and 1991AD, whereas post-1994AD wall-to-wall municipalities merged suburban cores and outlying settlements into single metropolitan jurisdictions [@Simkins2011SouthAfrica; @Bakker2020MigrationAnd]. Neighbouring statistical agencies in Namibia, Botswana, Lesotho and Eswatini similarly transitioned from colonial district headcounts to modern geocoded village and town registers [@StatsSA2023Census2022; @NSA2024NamibiaCensus; @StatsBotswana2022Census].
+
+# Methodology
+
+## Candidate Screening and Territorial Accounting
+
+Candidate settlements were screened from official census tables, OECD/SWAC Africapolis urban polygons, UNSD Demographic Yearbook series and historical statistical registers [@StatsSA2023Census2022; @Deleu2015ImprovingAfripop]. Across the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study domain bounded over geoBoundaries administrative outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records were removed, leaving `r viscount_fmt_number(length(all_entries), 0L)` retained settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations. Of those entries, 1.477 fall inside the five core sovereign territories (1.487 interior cell matches across the 46 Admin-1 sub-regions plus coastal or frontier edge matches) and 22 lie in adjacent border corridors of Mozambique, Angola, Zambia and Zimbabwe to anchor cross-frontier interpolation.
+
+## Scope Classification and Benchmark Interpolation
+
+Every settlement carries an explicit spatial scope distinguishing `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city-proper places from `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` metropolitan agglomerations, preventing municipal cores and encompassing urban footprints from being conflated [@Bakker2020MigrationAnd]. Tables \ref{tab:zaf-t1} through \ref{tab:buf-sites} list all 1.499 settlements partitioned by country and South African peak-population tier, reporting linearly interpolated populations at 1910AD, 1952AD, 1970AD, 1995AD and 2025AD alongside each settlement's observed peak population and peak year. Dates preceding foundation or earliest census attestation and dates after municipal absorption or boundary discontinuation appear as hyphens (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` settlements, rank-size regression yields $q = 0,98$ ($R^2 = 0,9922$) across the upper 180 urban centres and $q = 1,40$ ($R^2 = 0,8893$) across the full ledger, matching the 1.414 spatially deduplicated settlement peaks ($q = 0,99$, $R^2 = 0,99$) plotted in Figure \ref{fig:settlements-rank}. Chronological and coordinate screening eliminates duplicate urban synonyms and checks alignment between historical boundary transitions and municipal census dates [@Udjo2014EstimatingDemographic; @Mkhatha2024ResponseMoultrie].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 1.414 deduplicated peaks (q = 0,99, R² = 0,99) and ten densest sub-regions in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## South Africa: Tier 1 Metropolitan Agglomerations and Major Cities (92 Sites)
+
+Table \ref{tab:zaf-t1} records the `r viscount_fmt_number(length(zaf_t1), 0L)` largest South African centres reaching 100k or more inhabitants at peak, led by the Johannesburg agglomeration (11,01M), Cape Town agglomeration (4,39M), Durban agglomeration (3,52M), Soshanguve (1,91M), Pretoria agglomeration (1,76M), Evaton (1,09M) and Port Elizabeth (957,3k) [@StatsSA2023Census2022; @Simkins2011SouthAfrica].
+
+```{r tab-zaf-t1, results='asis'}
+viscount_table(
+  build_gazetteer_df(zaf_t1),
+  "South African settlements reaching 100k or more inhabitants at peak (1910AD to 2025AD).",
+  arg3_options = list(label = "tab:zaf-t1", font_size = "scriptsize")
+)
+```
+
+## South Africa: Tier 2 Secondary Cities (199 Sites)
+
+Table \ref{tab:zaf-t2} catalogues `r viscount_fmt_number(length(zaf_t2), 0L)` secondary South African cities and industrial towns peaking between 30k and 100k inhabitants, spanning provincial service centres, mining municipalities and peri-urban growth corridors across all nine provinces [@Bakker2020MigrationAnd; @Africa2024ProvincialProfile].
+
+```{r tab-zaf-t2, results='asis'}
+viscount_table(
+  build_gazetteer_df(zaf_t2),
+  "South African settlements peaking between 30k and 100k inhabitants (1910AD to 2025AD).",
+  arg3_options = list(label = "tab:zaf-t2", font_size = "scriptsize")
+)
+```
+
+## South Africa: Tier 3 Intermediate Regional Towns (254 Sites)
+
+Table \ref{tab:zaf-t3} documents `r viscount_fmt_number(length(zaf_t3), 0L)` intermediate South African towns and dense rural centres peaking between 15k and 30k inhabitants across agricultural districts and former homeland settlement belts [@Madhavan2017HouseholdStructure].
+
+```{r tab-zaf-t3, results='asis'}
+viscount_table(
+  build_gazetteer_df(zaf_t3),
+  "South African settlements peaking between 15k and 30k inhabitants (1910AD to 2025AD).",
+  arg3_options = list(label = "tab:zaf-t3", font_size = "scriptsize")
+)
+```
+
+## South Africa: Tier 4 District Towns (259 Sites)
+
+Table \ref{tab:zaf-t4} presents `r viscount_fmt_number(length(zaf_t4), 0L)` South African district towns and rural service localities peaking between 8k and 15k inhabitants [@StatsSA2023Census2022].
+
+```{r tab-zaf-t4, results='asis'}
+viscount_table(
+  build_gazetteer_df(zaf_t4),
+  "South African settlements peaking between 8k and 15k inhabitants (1910AD to 2025AD).",
+  arg3_options = list(label = "tab:zaf-t4", font_size = "scriptsize")
+)
+```
+
+## South Africa: Tier 5 Smaller Towns and Rural Centres (428 Sites)
+
+Table \ref{tab:zaf-t5} records the remaining `r viscount_fmt_number(length(zaf_t5), 0L)` South African towns, mission stations, railway junctions and rural villages below 8k peak population, accounting fully for all 1.232 South African entries in the chapter ledger [@Cilliers2012NewEstimates; @StatsSA2023Census2022].
+
+```{r tab-zaf-t5, results='asis'}
+viscount_table(
+  build_gazetteer_df(zaf_t5),
+  "South African settlements below 8k peak population (1910AD to 2025AD).",
+  arg3_options = list(label = "tab:zaf-t5", font_size = "scriptsize")
+)
+```
+
+## Namibia (94 Sites)
+
+Table \ref{tab:nam-sites} lists `r viscount_fmt_number(length(nam_entries), 0L)` Namibian settlements across all thirteen regions, anchored by Windhoek (566,2k agglomeration, 486,2k city proper), Rundu (118,6k), Walvis Bay (102,7k), Swakopmund (99,6k) and Oshakati (91,6k) [@NSA2024NamibiaCensus].
+
+```{r tab-nam-sites, results='asis'}
+viscount_table(
+  build_gazetteer_df(nam_entries),
+  "Assessed settlements across Namibia from 1910AD to 2025AD.",
+  arg3_options = list(label = "tab:nam-sites", font_size = "scriptsize")
+)
+```
+
+## Botswana (70 Sites)
+
+Table \ref{tab:bwa-sites} presents `r viscount_fmt_number(length(bwa_entries), 0L)` settlements across Botswana, led by the post-1964AD capital of Gaborone (534,8k agglomeration), Francistown (173,8k agglomeration), Maun (91,6k), Mogoditshane (88,0k), Molepolole (78,8k) and Mochudi (68,4k) [@StatsBotswana2022Census; @Monamo2026EstimationDistrict].
+
+```{r tab-bwa-sites, results='asis'}
+viscount_table(
+  build_gazetteer_df(bwa_entries),
+  "Assessed settlements across Botswana from 1910AD to 2025AD.",
+  arg3_options = list(label = "tab:bwa-sites", font_size = "scriptsize")
+)
+```
+
+## Lesotho (48 Sites)
+
+Table \ref{tab:lso-sites} details `r viscount_fmt_number(length(lso_entries), 0L)` Basotho settlements across all ten districts, headed by Maseru (505,7k agglomeration, 343,5k city proper), Maputsoe (99,2k), Mohale's Hoek (66,2k), Hlotse (64,0k) and Butha-Buthe (62,4k) [@Bank2010SouthernAfrica].
+
+```{r tab-lso-sites, results='asis'}
+viscount_table(
+  build_gazetteer_df(lso_entries),
+  "Assessed settlements across Lesotho from 1910AD to 2025AD.",
+  arg3_options = list(label = "tab:lso-sites", font_size = "scriptsize")
+)
+```
+
+## Eswatini (33 Sites)
+
+Table \ref{tab:swz-sites} catalogues `r viscount_fmt_number(length(swz_entries), 0L)` settlements across Eswatini's four regions, anchored by Manzini (328,9k agglomeration), Mbabane (127,5k agglomeration), Mafutseni (80,2k) and Siteki (36,7k) [@Deleu2015ImprovingAfripop].
+
+```{r tab-swz-sites, results='asis'}
+viscount_table(
+  build_gazetteer_df(swz_entries),
+  "Assessed settlements across Eswatini from 1910AD to 2025AD.",
+  arg3_options = list(label = "tab:swz-sites", font_size = "scriptsize")
+)
+```
+
+## Cross-Border Buffer Settlements (22 Sites)
+
+Table \ref{tab:buf-sites} documents `r viscount_fmt_number(length(buf_entries), 0L)` frontier buffer settlements across Mozambique (10, led by Maputo 2,98M agglomeration and Matola 1,03M), Angola (6), Zambia (3) and Zimbabwe (3), incorporated solely for cross-border spatial interpolation [@Deleu2015ImprovingAfripop].
+
+```{r tab-buf-sites, results='asis'}
+viscount_table(
+  build_gazetteer_df(buf_entries),
+  "Cross-border buffer settlements along the Mozambican, Angolan, Zambian and Zimbabwean margins (1910AD to 2025AD).",
+  arg3_options = list(label = "tab:buf-sites", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, individual place series terminate or shift scope when municipal boundaries are amalgamated, meaning pre-2000AD city-proper entries and post-2000AD metropolitan agglomerations appear as separate rows to prevent artificial leaps [@Bakker2020MigrationAnd]. Second, interpolated benchmark columns display a hyphen outside each settlement's attested span, so settlements founded after 1952AD (such as Gaborone in 1964AD or Secunda in the 1970s) show blanks at earlier benchmarks. Third, summing raw rows across both city-proper and metropolitan entries double-counts overlapping urban cores and should never substitute for the 46-polygon regional totals in the companion literature review.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` settlements catalogued in Tables \ref{tab:zaf-t1} through \ref{tab:buf-sites} trace Southern Africa's urban transformation from 1902AD colonial mining and port nodes to contemporary metropolitan corridors, anchoring both sub-national disaggregation and rank-size calibration across all five sovereign states.
+
+# Appendix
+
+## Gazetteer Summary by Country and Regional Tier
+
+Table \ref{tab:gazetteer-summary} reconciles site counts, city-proper versus metropolitan scopes, chronological observations and combined unadjusted interpolated sums across every country and South African size tier, accounting for all `r viscount_fmt_number(length(all_entries), 0L)` settlements (`r viscount_fmt_number(summary_cache$observation_count, 0L)` observations).
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(group_list, function (grp) {
+  sub <- grp$entries
+  n_city <- sum(vapply(sub, function (e) identical(as.character(e$population_scope), "city_proper"), logical(1)))
+  n_met <- sum(vapply(sub, function (e) identical(as.character(e$population_scope), "metro"), logical(1)))
+  n_obs <- sum(vapply(sub, function (e) length(e$population), integer(1)))
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    Group = grp$label,
+    Sites = viscount_fmt_number(length(sub), 0L),
+    `City/Metro` = paste0(viscount_fmt_number(n_city, 0L), "/", viscount_fmt_number(n_met, 0L)),
+    Obs = viscount_fmt_number(n_obs, 0L),
+    `1910AD` = sums[["1910"]],
+    `1952AD` = sums[["1952"]],
+    `1970AD` = sums[["1970"]],
+    `1995AD` = sums[["1995"]],
+    `2025AD` = sums[["2025"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  Group = "All Ledger Entries",
+  Sites = viscount_fmt_number(length(all_entries), 0L),
+  `City/Metro` = paste0(
+    viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L),
+    "/",
+    viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)
+  ),
+  Obs = viscount_fmt_number(summary_cache$observation_count, 0L),
+  `1910AD` = tot_sums[["1910"]],
+  `1952AD` = tot_sums[["1952"]],
+  `1970AD` = tot_sums[["1970"]],
+  `1995AD` = tot_sums[["1995"]],
+  `2025AD` = tot_sums[["2025"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Summary of assessed settlement counts, spatial scopes, chronological observations and combined interpolated site totals by country and tier.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest attested census or Africapolis observations; one unnamed Sekhukhune locality in the source Africapolis feed is labelled Unnamed Sekhukhune Locality in Table \ref{tab:zaf-t3}.

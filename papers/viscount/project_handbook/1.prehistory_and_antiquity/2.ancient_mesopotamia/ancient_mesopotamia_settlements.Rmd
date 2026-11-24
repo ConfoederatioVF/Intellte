@@ -1,0 +1,333 @@
+---
+title: "Ancient Mesopotamia to 539 BC"
+subtitle: "Settlement Gazetteer: 2.923 Individually Assessed Cities, Tells and Towns (3500BC-539BC)"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: ancient_mesopotamia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_ancient_mesopotamia_spatial.png"
+hero_caption: "Spatial distribution of 2.923 individually assessed settlements across Iraq, eastern Syria and south-eastern Turkey spanning five Mesopotamian ecological zones from 3500BC to 539BC."
+hero_label: "fig:hero-settlements-mesopotamia"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("ancient_mesopotamia_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("ancient_mesopotamia_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", abs(as.integer(yrs[i_pk])), "BC)")
+}
+
+clean_site_name <- function (nm) {
+  s <- as.character(nm)
+  s <- gsub("a\u0304", "\u0101", s, fixed = TRUE)
+  s <- gsub("e\u0304", "\u0113", s, fixed = TRUE)
+  s <- gsub("i\u0304", "\u012b", s, fixed = TRUE)
+  s <- gsub("u\u0304", "\u016b", s, fixed = TRUE)
+  s <- gsub("#", "No. ", s, fixed = TRUE)
+  s
+}
+
+classify_mesopotamia_zone <- function (e) {
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  ctry <- as.character(e$country)
+  if (identical(ctry, "Syria") || identical(ctry, "Turkey") || lon < 42.2) return(4L)
+  if ((lat >= 33.1 && lat < 35.0 && lon >= 44.45) || (lat >= 35.0 && lat < 35.7 && lon >= 44.2)) return(5L)
+  if (lat >= 34.55) return(3L)
+  if (lat < 32.05 || (lat < 32.45 && lon >= 45.0)) return(1L)
+  return(2L)
+}
+
+zone_ids <- vapply(all_entries, classify_mesopotamia_zone, integer(1))
+zone_entries <- lapply(1:5, function (z) {
+  sub <- all_entries[zone_ids == z]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+})
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- if (identical(e$country, "Iraq")) "IRQ" else if (identical(e$country, "Syria")) "SYR" else if (identical(e$country, "Turkey")) "TUR" else toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(
+      iso_code,
+      ": ",
+      fmt_eu_coord(e$coords[[1]]),
+      ", ",
+      fmt_eu_coord(e$coords[[2]])
+    )
+    data.frame(
+      Settlement = clean_site_name(e$name),
+      Location = loc_str,
+      `2500BC` = fmt_site_pop(e, -2500),
+      `1800BC` = fmt_site_pop(e, -1800),
+      `1000BC` = fmt_site_pop(e, -1000),
+      `539BC` = fmt_site_pop(e, -539),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_iraq <- sum(vapply(all_entries, function (e) identical(e$country, "Iraq"), logical(1)))
+n_syria <- sum(vapply(all_entries, function (e) identical(e$country, "Syria"), logical(1)))
+n_turkey <- sum(vapply(all_entries, function (e) identical(e$country, "Turkey"), logical(1)))
+n_excluded <- as.integer(summary_cache$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+
+bench_nums <- c(-3500, -2500, -1800, -1000, -539)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles verified spatial coordinates and evidence-assessed multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed ancient settlements across Mesopotamia between 3500BC and 539BC (`r viscount_fmt_number(n_iraq, 0L)` in modern Iraq, `r viscount_fmt_number(n_syria, 0L)` in eastern Syria and `r viscount_fmt_number(n_turkey, 0L)` in the Upper Euphrates and Tur Abdin borderlands of south-eastern Turkey). Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate tells, historic cities and archaeological loci (`r viscount_fmt_number(n_excluded, 0L)` excluded), the retained settlements span five ecological zones: Lower Mesopotamia (Sumer and Southern Babylonia), Akkad and Central Babylonia, Assyria and the Upper Tigris, the Middle Euphrates and Khabur Jezirah, and the Diyala and East Tigris piedmont. Active assessed entries rise from `r viscount_fmt_number(n_active[["-3500"]], 0L)` early urban hubs at 3500BC to `r viscount_fmt_number(n_active[["-2500"]], 0L)` at 2500BC and `r viscount_fmt_number(n_active[["-1800"]], 0L)` at 1800BC before consolidating to `r viscount_fmt_number(n_active[["-1000"]], 0L)` in 1000BC and `r viscount_fmt_number(n_active[["-539"]], 0L)` major centres in 539BC, tracing urban growth from early Sumerian cities such as Uruk (51,2k), Lagash (44,6k) and Ur (43,8k) to the imperial metropolises of Nimrud (63,8k), Nineveh (114k) and Babylon (172k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_ancient_mesopotamia_spatial.png",
+    "Spatial distribution of 2.923 individually assessed settlements across Iraq, eastern Syria and south-eastern Turkey spanning five Mesopotamian ecological zones from 3500BC to 539BC.",
+    "fig:hero-settlements-mesopotamia"
+  )
+}
+```
+
+# Background
+
+Reconstructing the urban network of ancient Mesopotamia requires uniting archaeological tell surveys with historical cuneiform geography. Unlike Graeco-Roman towns recorded in surviving civic charters, Mesopotamian settlements appear across disparate repositories: mounded ceramic surveys across the southern alluvium, declassified satellite hollow-way inventories in the Syrian Jazira, Neo-Assyrian royal itineraries and excavated stratigraphic sequences [@Marchetti2019Rise; @Ur2010Cycles; @Gordin2022Mapa; @Deadman2026Comparativ].
+
+In the southern floodplains of Sumer and Akkad, settlement clustered tightly along raised alluvial levees and engineered feeder canals, leaving tells spaced 10 to 30 km apart across otherwise arid mudflats [@Giosan2025Morphodyna; @Mantellini2024Developmen]. Further north across the Upper Tigris, Khabur and Balikh triangles, settlements sat on limestone ridges and wadi terraces spaced every 2 to 5 km within rain-fed barley corridors [@McMahon2019Early; @Ur2013Ancient]. Bringing both ecological zones into a single bilingual gazetteer exposes long-run shifts between polycentric Sumerian city-states, northern Bronze Age tell kingdoms and first-millennium imperial capitals [@Chelazzi2026Emergence; @Marchetti2024Long].
+
+# Methodology
+
+## Candidate Screening and Spatial Partition
+
+Candidate entries were screened from published excavation monographs, regional surface surveys, measured-area urban corpora (Palmisano et al. 2021; Titolo and Palmisano 2025), linked Mesopotamian gazetteers and chronometric registers including NERD [@Gordin2022Mapa; @Deadman2026Comparativ]. Of `r viscount_fmt_number(n_candidates, 0L)` initial candidates located within the 505.275 km² Mesopotamian territorial mask defined over geoBoundaries national outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate tell synonyms, subordinate suburbs, monumental non-settlement fragments (city gates, palaces, shrines and excavation grid blocks) and unquantified sherd scatters were excluded, leaving `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements strictly contained within the Mesopotamian territorial polygon.
+
+Every retained settlement is mapped to one of five ecological zones using its decimal coordinates and modern country territory: Lower Mesopotamia (Sumer and Southern Babylonia), Akkad and Central Babylonia, Assyria and the Upper Tigris, the Middle Euphrates and Khabur Jezirah, and the Diyala and East Tigris Piedmont. Combining diacritics on historical transliterations such as Mari and Shuruppak are normalised prior to typesetting so tables render cleanly without glyph substitution.
+
+## Site-Specific Population Assessment and Benchmarks
+
+Rather than applying uniform nominal caps, every settlement in the ledger is individually evaluated from excavated or surveyed occupied hectares multiplied by documented period-specific urban density coefficients (typically 110 to 220 inhabitants per hectare depending on whether outer lower towns held compact courtyard housing or palace precincts and gardens), cross-checked against architectural plans, cuneiform archives and historical episodes of foundation, expansion and destruction [@Ur2014Households; @Marchetti2024Long; @Ur2013Ancient]. Assessed urban peaks span two orders of magnitude: from first-millennium imperial metropolises such as Babylon (172k at 565BC across roughly 900 ha), Nineveh (114k at 680BC across 750 ha) and Nimrud (63,8k at 750BC across 360 ha), through Early Dynastic, Ur III and Old Babylonian capitals including Uruk (51,2k), Lagash (44,6k), Ur (43,8k), Dur-Sharrukin (36,4k), Umma (35,2k), Larsa (34,8k), Kish (33,4k), Girsu (31,4k) and Nippur (29,8k), down to excavated secondary towns and forts of 620 to 4k inhabitants. Because each site's trajectory is dated to its own archaeological turning points (such as Sennacherib's 689BC sack of Babylon, Sargon II's 705BC abandonment of Dur-Sharrukin or the 612BC fall of Nineveh), Tables 1 to 5 present linearly interpolated resident populations at four chapter benchmarks (2500BC, 1800BC, 1000BC and 539BC) alongside each settlement's exact assessed peak and peak date, marking periods prior to foundation or following abandonment with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements, rank-size regression on peak populations yields a steep primate Zipf slope of $\alpha = 1,27$ ($R^2 = 0,83$, unrounded $\alpha = 1,265$; Figure \ref{fig:settlements-rank}). Replacing legacy flat gazetteer caps with site-specific area-density reconstructions restores authentic urban scaling from imperial mega-capitals down to regional market tells [@Chelazzi2026Emergence; @Marchetti2024Long].
+
+Spatial and typological verification confirms zero non-settlement fragments (such as named city gates, ramparts or survey blocks), zero duplicate tell synonyms and complete chronological alignment between each settlement's population horizon and its documented foundation and abandonment dates [@Ur2013Ancient; @Schneider2022Nippur].
+
+```{r fig4-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig4_ancient_mesopotamia_settlements.png",
+  "Zipf rank-size distribution across 2.923 individually assessed Mesopotamian settlements (Zipf slope 1,27, R² = 0,83) and the twelve largest individually assessed Mesopotamian cities between 3500BC and 539BC.",
+  "fig:settlements-rank"
+)
+```
+
+# Results
+
+## Lower Mesopotamia: Sumer and Southern Babylonia
+
+Table \ref{tab:zone1-sites} catalogues `r viscount_fmt_number(length(zone_entries[[1]]), 0L)` individually assessed settlements across the Lower Euphrates-Tigris alluvial plain from Eridu and Ur north to Nippur, Mashkan-Shapir and Tulul al-Baqarat (Kesh). Here stand the earliest urban hubs of antiquity - Uruk (51,2k), Lagash (44,6k), Ur (43,8k), Umma (35,2k), Larsa (34,8k), Girsu (31,4k), Nippur (29,8k), Adab (27,8k), Isin (24,6k), Shuruppak (19,2k), Bad-tibira (17,6k), Mashkan-Shapir (16,6k) and Zabalam (13,6k) - anchored to deltaic marshes and gravity-fed levee canals [@Giosan2025Morphodyna; @Goodman2024Flooding; @Mantellini2024Developmen].
+
+```{r tab-zone1, results='asis'}
+df_z1 <- build_gazetteer_df(zone_entries[[1]])
+viscount_table(
+  df_z1,
+  "Individually assessed settlements in Lower Mesopotamia (Sumer and Southern Babylonia) from 2500BC to 539BC with assessed peak populations.",
+  arg3_options = list(label = "tab:zone1-sites")
+)
+```
+
+## Akkad and Central Babylonia
+
+Table \ref{tab:zone2-sites} lists `r viscount_fmt_number(length(zone_entries[[2]]), 0L)` individually assessed settlements across the narrow Euphrates-Tigris neck spanning Babylon (172k), Kish (33,4k), Dur-Kurigalzu (28,6k), Borsippa (25,6k), Sippar (22,4k), Cutha (17,6k), Marad (13,4k), Tell ed-Der, Dilbat, Rapiqu, Samarra and Hit. As salinisation curtailed productivity in southernmost Sumer during the second millennium BC, central Babylonia became the demographic heartland of Old, Kassite and Neo-Babylonian statehood [@Schneider2022Nippur; @Gordin2022Mapa; @Marchetti2024Long].
+
+```{r tab-zone2, results='asis'}
+df_z2 <- build_gazetteer_df(zone_entries[[2]])
+viscount_table(
+  df_z2,
+  "Individually assessed settlements in Akkad and Central Babylonia from 2500BC to 539BC with assessed peak populations.",
+  arg3_options = list(label = "tab:zone2-sites")
+)
+```
+
+## Assyria and the Upper Tigris
+
+Table \ref{tab:zone3-sites} compiles `r viscount_fmt_number(length(zone_entries[[3]]), 0L)` individually assessed settlements across the Assyrian heartland and Upper Tigris piedmont, led by Nineveh (114k), Nimrud or Kalhu (63,8k), Dur-Sharrukin (36,4k), Arbela (26,4k), Tell Taya (18,9k), Kar-Tukulti-Ninurta (15,6k), Assur (15,2k), Kurd Qaburstan (Qabra), Tell Baqrta, Qasr Shemamok (Kilizu), Tell al-Hawa, Imgur-Enlil and Ekallatum. Royal aqueducts and state-directed village foundations turned this dry-farming belt into an imperial core during the ninth to seventh centuries BC [@Ur2013Ancient; @Dercksen2022Golden; @Sotysiak2015Antemortem].
+
+```{r tab-zone3, results='asis'}
+df_z3 <- build_gazetteer_df(zone_entries[[3]])
+viscount_table(
+  df_z3,
+  "Individually assessed settlements in Assyria and the Upper Tigris piedmont from 2500BC to 539BC with assessed peak populations.",
+  arg3_options = list(label = "tab:zone3-sites")
+)
+```
+
+## Middle Euphrates and Khabur Jezirah
+
+Table \ref{tab:zone4-sites} documents `r viscount_fmt_number(length(zone_entries[[4]]), 0L)` individually assessed settlements across the Middle Euphrates corridor, the Syrian Khabur and Balikh plains and the northern piedmont borderlands of south-eastern Turkey. Extending from Mari (23,8k), Tell Farfara (20,4k), Terqa, Dur-Katlimmu (16,8k), Emar and Habuba Kabira on the Euphrates and lower Khabur to Tell Mozan or Urkesh (17,6k), Tell Brak (15,4k), Tell Hamoukar (14,4k), Harran (14,2k), Tell Leilan (13,6k), Tell Halaf (Guzana), Tell Chuera, Tell Beydar, Tell Arbid and Nasibina in the northern rain-fed belt, this zone captures both third-millennium tell urbanisation and Aramean-Assyrian Iron Age settlement [@Ur2010Cycles; @McMahon2019Early; @Butterlin2010Uruk].
+
+```{r tab-zone4, results='asis'}
+df_z4 <- build_gazetteer_df(zone_entries[[4]])
+viscount_table(
+  df_z4,
+  "Individually assessed settlements in the Middle Euphrates and Khabur Jezirah from 2500BC to 539BC with assessed peak populations.",
+  arg3_options = list(label = "tab:zone4-sites")
+)
+```
+
+## Diyala and East Tigris Piedmont
+
+Table \ref{tab:zone5-sites} records `r viscount_fmt_number(length(zone_entries[[5]]), 0L)` individually assessed settlements along the Diyala river valley, the Hamrin basin and the Zagros piedmont corridor east of the Tigris, led by Eshnunna (14,8k), Arrapha (14,2k), Opis (13,2k), Der (9,6k), Bakr Awa (9,2k), Tutub (7,8k), Me-Turan (7,8k), Ishchali (5,4k), Nuzi (4,8k), Tell Agrab and Shaduppum. Linking Babylonia with Elam and the Iranian plateau, the Diyala and East Tigris corridor sustained the highest rural-urban density per square kilometre in late Neo-Babylonian Mesopotamia [@Marchetti2024Long; @Altaweel2015Evaluating].
+
+```{r tab-zone5, results='asis'}
+df_z5 <- build_gazetteer_df(zone_entries[[5]])
+viscount_table(
+  df_z5,
+  "Individually assessed settlements in the Diyala and East Tigris Piedmont from 2500BC to 539BC with assessed peak populations.",
+  arg3_options = list(label = "tab:zone5-sites")
+)
+```
+
+# Limitations
+
+Three caveats govern use of this settlement ledger. First, converting excavated or surveyed site hectares into resident headcounts remains sensitive to intra-mural open space (royal palaces, parks, temples and canals) and local residential density (typically 110 to 220 persons per hectare), introducing roughly 15% to 25% uncertainty around individual urban peaks [@Marchetti2024Long; @Chelazzi2026Emergence]. Second, deep Holocene siltation in southern Iraq obscures small unmounded canal hamlets, producing fewer individually assessed tells in Lower Mesopotamia (`r viscount_fmt_number(length(zone_entries[[1]]), 0L)` sites) than in the rain-fed Middle Euphrates and Khabur Jezirah (`r viscount_fmt_number(length(zone_entries[[4]]), 0L)` sites) despite far higher true alluvial population density [@Giosan2025Morphodyna; @Deadman2026Comparativ]. Third, because the `r viscount_fmt_number(length(all_entries), 0L)` retained sites capture the archaeologically quantified urban and major-town tier rather than unexcavated rural hamlets, their combined sums reflect nucleated urban population and should be read alongside the full regional demographic totals in the companion review.
+
+# Conclusion
+
+Taken together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed sites trace the enduring geography of ancient Mesopotamian urbanism across Iraq, eastern Syria and the northern piedmont borderlands of south-eastern Turkey from 3500BC to 539BC. Southern deltaic tells sustained the earliest dense city-state networks at Uruk, Lagash, Ur, Umma and Nippur, northern Khabur and Upper Tigris centres rose on rain-fed grain and overland trade, and Neo-Assyrian and Neo-Babylonian imperial capitals at Nimrud, Nineveh and Babylon bridged both halves of the basin ahead of the Persian conquest in 539BC.
+
+# Appendix
+
+## Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed settlements and their combined interpolated urban populations across all five Mesopotamian ecological zones across the five chapter benchmarks from 3500BC to 539BC.
+
+```{r tab-appendix-summary, results='asis'}
+zone_names <- c(
+  "1. Lower Mesopotamia (Sumer)",
+  "2. Akkad and Central Babylonia",
+  "3. Assyria and Upper Tigris",
+  "4. Middle Euphrates and Khabur",
+  "5. Diyala and East Tigris"
+)
+sum_rows <- lapply(1:5, function (z) {
+  sub <- zone_entries[[z]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Zone (Sites)` = paste0(zone_names[z], " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `3500BC` = sums[["-3500"]],
+    `2500BC` = sums[["-2500"]],
+    `1800BC` = sums[["-1800"]],
+    `1000BC` = sums[["-1000"]],
+    `539BC` = sums[["-539"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Zone (Sites)` = paste0("All Zones (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `3500BC` = tot_sums[["-3500"]],
+  `2500BC` = tot_sums[["-2500"]],
+  `1800BC` = tot_sums[["-1800"]],
+  `1000BC` = tot_sums[["-1000"]],
+  `539BC` = tot_sums[["-539"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated urban populations across the five Mesopotamian ecological zones from 3500BC to 539BC.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

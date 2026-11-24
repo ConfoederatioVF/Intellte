@@ -1,0 +1,297 @@
+---
+title: "Prehistoric and Neolithic MENA, Iran and Afghanistan"
+subtitle: "Settlement Gazetteer: Epipalaeolithic to Chalcolithic Sites (10000BC to 3200BC)"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: prehistoric_neolithic_mena_iran_afghanistan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_prehistoric_neolithic_mena_iran_afghanistan_spatial.png"
+hero_caption: "Seventeen ecological catchments and 7.966 individually evidence-assessed settlements across North Africa, the Near East, Anatolia, Transcaucasia, Iran and Afghanistan between 10000BC and 3200BC."
+hero_label: "fig:hero-prehistoric-neolithic-mena-iran-afghanistan"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+summary_cache <- jsonlite::fromJSON("prehistoric_neolithic_mena_iran_afghanistan_summary_cache.json", simplifyVector = FALSE)
+sett_raw <- jsonlite::fromJSON("prehistoric_neolithic_mena_iran_afghanistan_settlements.json", simplifyVector = FALSE)
+all_entries <- unname(sett_raw)
+
+sanitise_name <- function (arg0_vec) {
+  s <- as.character(arg0_vec)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  s <- gsub("\u01dd|\u0259", "e", s, perl = TRUE)
+  s <- gsub("\u01e6", "G", s, fixed = TRUE)
+  s <- gsub("\u01e7", "g", s, fixed = TRUE)
+  s <- gsub("\u0226", "A", s, fixed = TRUE)
+  s <- gsub("\u0227", "a", s, fixed = TRUE)
+  s <- gsub("\u02bf|\u2018|\u2019", "'", s, perl = TRUE)
+  s <- gsub("\u1e0c", "D", s, fixed = TRUE)
+  s <- gsub("\u1e0d", "d", s, fixed = TRUE)
+  s <- gsub("\u1e24", "H", s, fixed = TRUE)
+  s <- gsub("\u1e25", "h", s, fixed = TRUE)
+  s <- gsub("\u1e2a", "Kh", s, fixed = TRUE)
+  s <- gsub("\u1e2b", "kh", s, fixed = TRUE)
+  s <- gsub("\u1e62", "S", s, fixed = TRUE)
+  s <- gsub("\u1e63", "s", s, fixed = TRUE)
+  s <- gsub("\u1e6d", "t", s, fixed = TRUE)
+  s <- gsub("\u1e93", "z", s, fixed = TRUE)
+  s <- gsub("\u1eb9", "e", s, fixed = TRUE)
+  s <- gsub("\u2010", "-", s, fixed = TRUE)
+  s
+}
+
+fmt_eu_coord <- function (arg0_x) {
+  s <- format(round(as.numeric(arg0_x), 2), nsmall = 2, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+get_pop_str <- function (arg0_entry, arg1_yr) {
+  val <- arg0_entry$population[[as.character(arg1_yr)]]
+  if (is.null(val) || is.na(val) || as.numeric(val) <= 0) return("-")
+  viscount_fmt_pop(val)
+}
+
+get_pop_num <- function (arg0_entry, arg1_yr) {
+  val <- arg0_entry$population[[as.character(arg1_yr)]]
+  if (is.null(val) || is.na(val)) return(0)
+  as.numeric(val)
+}
+
+get_peak_pop <- function (arg0_entry) {
+  vals <- unlist(arg0_entry$population)
+  if (length(vals) == 0) return(0)
+  max(as.numeric(vals), na.rm = TRUE)
+}
+
+zone_map <- list(
+  "1" = c("Israel", "Palestine", "Jordan", "Lebanon", "Syria", "Cyprus"),
+  "2" = c("Turkey", "Armenia", "Georgia", "Azerbaijan"),
+  "3" = c("Egypt"),
+  "4" = c("Iraq", "Oman", "Yemen", "Saudi Arabia", "United Arab Emirates", "Kuwait"),
+  "5" = c("Iran", "Afghanistan"),
+  "6" = c("Algeria", "Morocco", "Tunisia", "Libya", "Western Sahara")
+)
+
+classify_zone <- function (arg0_country) {
+  for (zk in names(zone_map)) {
+    if (arg0_country %in% zone_map[[zk]]) return(zk)
+  }
+  "4"
+}
+
+zone_entries <- lapply(names(zone_map), function (zk) {
+  sub <- Filter(function (e) classify_zone(as.character(e$country)) == zk, all_entries)
+  pks <- vapply(sub, get_peak_pop, numeric(1))
+  sub[order(-pks, vapply(sub, function (e) as.character(e$name), character(1)))]
+})
+names(zone_entries) <- names(zone_map)
+
+build_gazetteer_df <- function (arg0_list) {
+  rows <- lapply(arg0_list, function (e) {
+    coords_str <- paste0(fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = sanitise_name(e$name),
+      Country = as.character(e$country),
+      Coords = coords_str,
+      `10000BC` = get_pop_str(e, "-10000"),
+      `6000BC` = get_pop_str(e, "-6000"),
+      `3200BC` = get_pop_str(e, "-3200"),
+      Peak = viscount_fmt_pop(get_peak_pop(e)),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+```
+
+# Abstract
+
+This gazetteer compiles individually evidence-assessed demographic series for 7.966 excavated and surveyed prehistoric settlements across `r length(unique(vapply(all_entries, function (e) as.character(e$country), character(1))))` modern territories in North Africa, the Near East, Anatolia, Cyprus, Transcaucasia, Iran and Afghanistan from 10000BC to 3200BC. Grouped into six macro-regional tables—the Levant and Cyprus (`r length(zone_entries[["1"]])` sites), Anatolia and Transcaucasia (`r length(zone_entries[["2"]])` sites), the Nile Valley, Delta and Western Oases (`r length(zone_entries[["3"]])` sites), Mesopotamia and the Arabian Peninsula (`r length(zone_entries[["4"]])` sites), Iran and Afghanistan (`r length(zone_entries[["5"]])` sites) and the Maghreb, Libya and Sahara (`r length(zone_entries[["6"]])` sites)—the entries document the transition from mobile Epipalaeolithic camps to PPNB megasites and terminal Chalcolithic proto-urban towns. Across the inventory, peak populations span small hunting-pastoralist camps (45 to 250 residents), Neolithic megasites such as Çatalhöyük (4,45k), Tell Abu Hureyra (3,82k), 'Ain Ghazal (2,76k) and Basta (2,14k), and terminal fourth-millennium urban centres led by Uruk (22,4k), Tell Brak (15,9k), Susa (8,15k), Hamoukar (7,55k) and Hierakonpolis (6,35k) [@Bogaard2017Agricultur; @BirchChapman2017Estimating; @Palmisano2019Holocene]. Site coordinates and occupancy spans are cross-referenced against regional excavation monographs, measured-area urban corpora (Palmisano et al. 2021; Titolo and Palmisano 2025), chronometric registers including NERD and C-Turkey, the EES Delta Survey and geoBoundaries subadministrative meshes [@Runfola2020GeoBoundaries].
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_prehistoric_neolithic_mena_iran_afghanistan_spatial.png",
+    "Seventeen ecological catchments and 7.966 individually evidence-assessed settlements across North Africa, the Near East, Anatolia, Transcaucasia, Iran and Afghanistan between 10000BC and 3200BC.",
+    "fig:hero-prehistoric-neolithic-mena-iran-afghanistan"
+  )
+}
+```
+
+# Background
+
+Excavated settlement mounds (*tells*, *höyüks* and *tepes*), open-air riverine camps and desert *escargotières* provide the primary building blocks for prehistoric population history across Western Asia and North Africa. Whereas later chapters rely on tax registers, hearth counts and provincial censuses, the seven millennia from 10000BC to 3200BC must be pieced together from stratigraphic exposures, architectural floor plans and radiocarbon-dated occupation horizons [@Moore1978Neolithic; @Finlayson2011Architectu; @Palmisano2019Holocene].
+
+Throughout this span, settlement forms evolved alongside subsistence strategies. Late Natufian and PPNA hamlets in the Levant—such as Nahal Ein Gev II, Wadi Faynan 16, Shubayqa 6 and Saaïdé II—consisted of clustered semi-subterranean round huts built from undressed fieldstone and mud plaster [@Grosman2016Nahal; @Horvath2001Natufian; @Thuesen2023Nascent]. By the Middle and Late PPNB, rectilinear mudbrick houses and multi-storeyed stone compounds allowed populations of several thousand people to pack onto single hillside springs at 'Ain Ghazal, Basta, Ba'ja, Beidha, Yiftahel and Tell Qarassa [@Balbo2012Squaring; @BirchChapman2017Estimating; @Benz2019Burying; @SapirHen2016Human]. Similar high-density aggregations appeared on the Konya Plain at Çatalhöyük [@Bogaard2017Agricultur; @Wright2013Domesticat], along the Ergani plain at Çayönü, on the Susiana plain at Susa and Chogha Mish, and eventually along the Khabur, lower Euphrates and Nile floodplains.
+
+# Methodology
+
+Each entry in this gazetteer derives from published excavation reports, national archaeological site registers, measured-area urban corpora (Palmisano et al. 2021; Titolo and Palmisano 2025), chronometric registers including NERD and C-Turkey, the EES Delta Survey and regional survey monographs. Occupied spans are tabulated at 500-year intervals from 10000BC through 3500BC, closing at the 3200BC terminal Chalcolithic benchmark. For clarity of comparison across seven columns, the regional tables display geographic coordinates (latitude and longitude in decimal degrees with European comma separators), population estimates at three anchor horizons—the Epipalaeolithic opening at 10000BC, the mature Ceramic Neolithic at 6000BC and the terminal Chalcolithic at 3200BC—and each settlement's peak population within the domain. Hyphens denote horizons before site foundation or after abandonment.
+
+Where residential architecture is well preserved, site populations are estimated from excavated roofed floor area, contemporaneous dwelling ratios and household multipliers ranging from 4,5 persons in circular PPNA huts to 6,5 persons in rectilinear PPNB and Chalcolithic compounds [@BirchChapman2017Estimating; @Kadowaki2012Household]. Where surface sherd scatter and mound area provide the only volumetric measure, site totals follow standard Near Eastern tell density calibrations adjusted for courtyard and craft-quarter fractions [@Palmisano2019Holocene; @Wright2013Domesticat]. All site points sit inside the metric-isotropic Voronoi catchment mesh described in the companion literature review, anchored to geoBoundaries administrative polygons [@Runfola2020GeoBoundaries] so that site-level estimates remain strictly consistent with the 17 catchment totals.
+
+# Testing and Validation
+
+Every individually evidence-assessed settlement was audited for coordinate integrity, chronological bounds and rank-size coherence across the 10000BC to 3200BC window. Coordinates were verified against published site gazetteers and modern hydrographic networks to ensure zero offshore stranding outside Cyprus and the Gulf islands, and zero modern metropolitan back-projection into uninhabited desert basins. Across all 7.966 included sites (reconciled alongside 250 excluded duplicate or subordinate candidates out of 8.216 evaluated ledger entries), the rank-size regression yields a Zipf slope of $\alpha = 0,90$ ($R^2 = 0,92$, unrounded $\alpha = 0,895$), capturing the continuous late fourth-millennium hierarchy linking small Epipalaeolithic and Neolithic villages to emergent proto-urban centres at Uruk (22,4k), Tell Brak (15,9k), Susa (8,15k), Hamoukar (7,55k) and Hierakonpolis (6,35k).
+
+In the Levant, assessed peaks for Beidha (235), 'Ain Ghazal (2,76k), Basta (2,14k), Teleilat Ghassul (1,82k) and Tell Abu Hureyra (3,82k) were checked against independent household and osteological studies [@BirchChapman2017Estimating; @Slon2014Plastered; @Munro2018Emergence]. In Anatolia, Çatalhöyük East's 4,45k peak around 6500BC accords with archaeobotanical, architectural and ground-stone evidence for sustained 1.500-year occupation [@Bogaard2017Agricultur; @Coulardeau2023Sedentaris]. In northern Arabia and the adjacent desert fringe, wet-phase sites such as Jebel Oraf (95), Al-Ula Neolithic (125) and Shuwaymis (75) were cross-checked against recent Holocene survey dates from Tabuk, Jubbah and the Negev-Sinai [@Crassard2013Beyond; @Birkenfeld2020Hunting; @Alasmari2026Results].
+
+# Results
+
+## Levant, Sinai and Cyprus
+
+Table \ref{tab:zone1} lists `r length(zone_entries[["1"]])` individually evidence-assessed settlements across Israel, Palestine, Jordan, Lebanon, Syria and Cyprus, spanning Natufian hamlets, PPNB megasites, Pottery Neolithic Yarmukian villages, Late Chalcolithic northern Mesopotamian proto-cities and early Cypriot coastal settlements [@Moore1978Neolithic; @Yerkes2012Form; @Shtienberg2020Neolithic]. Along the Jordan Rift and Euphrates corridor, early round-house camps at Eynan, Jericho, Wadi Faynan 16, Mureybet and Jerf el-Ahmar gave way to dense rectilinear megasites at Tell Abu Hureyra (3,82k), 'Ain Ghazal (2,76k), Basta (2,14k), Teleilat Ghassul (1,82k) and Sha'ar HaGolan (1,38k), and finally to Late Chalcolithic urban centres at Tell Brak (15,9k), Hamoukar (7,55k) and Tell al-Hawa (4,15k) alongside coastal Ras Shamra and Byblos [@Finlayson2011Architectu; @Grosman2016Nahal; @Thuesen2023Nascent]. Across the sea on Cyprus, Klimonas, Shillourokambos, Khirokitia, Ayios Epiktitos-Vrysi and Kissonerga-Mosphilia document maritime colonisation from the ninth millennium BC onward.
+
+```{r tab-zone1, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["1"]]),
+  "Individually evidence-assessed prehistoric and Neolithic settlements across the Levant, Jordan Valley, Syria and Cyprus (10000BC to 3200BC).",
+  arg3_options = list(label = "tab:zone1")
+)
+```
+
+## Anatolia and Transcaucasia
+
+Table \ref{tab:zone2} presents `r length(zone_entries[["2"]])` excavated mounds and hilltop sites across Turkey, Armenia, Georgia and Azerbaijan, tracing the spread of farming from southeastern Anatolian Pre-Pottery sanctuaries through central Anatolian mudbrick towns to Kura-Aras villages [@Biltekin2024Exploring; @Bogaard2017Agricultur; @Budja2009Early]. Upper Tigris and Euphrates sites such as Körtik Tepe, Göbekli Tepe, Çayönü and Late Chalcolithic Arslantepe (1,68k) sit alongside central, western and southern Anatolian mounds including Çatalhöyük (4,45k), Domuztepe (1,76k), Mersin-Yumuktepe (1,16k), Aşıklı Höyük (980), Ulucak Höyük, Hacılar and Ilıpınar, while Shulaveris Gora, Göytepe, Mentesh Tepe, Aknashen and Ovçular Tepesi anchor the Kura-Aras piedmont corridor.
+
+```{r tab-zone2, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["2"]]),
+  "Individually evidence-assessed prehistoric and Neolithic settlements across Anatolia and Transcaucasia (10000BC to 3200BC).",
+  arg3_options = list(label = "tab:zone2")
+)
+```
+
+## Nile Valley, Delta and Western Oases
+
+Table \ref{tab:zone3} documents `r length(zone_entries[["3"]])` predynastic settlements, Fayum shore camps and Western Desert oasis stations across Egypt, reflecting the gradual convergence of Epipalaeolithic fishers and Saharan cattle herders onto the Nile alluvium prior to 3200BC. Western Desert and Fayum stations at Nabta Playa, Dakhla Oasis, Siwa Oasis and Kom W pair with Lower Egyptian mounds at Merimde Beni Salama (1,06k), Maadi (1,19k) and Buto (2,16k) and Upper Egyptian predynastic centres at El-Badari, Naqada (4,15k) and Hierakonpolis (6,35k).
+
+```{r tab-zone3, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["3"]]),
+  "Individually evidence-assessed Epipalaeolithic and Predynastic settlements across the Nile Valley, Delta and Western Oases (10000BC to 3200BC).",
+  arg3_options = list(label = "tab:zone3")
+)
+```
+
+## Mesopotamia and Arabian Peninsula
+
+Table \ref{tab:zone4} records `r length(zone_entries[["4"]])` settlements across Iraq, Oman, Yemen, Saudi Arabia, the United Arab Emirates and Kuwait, linking northern Hassuna-Halaf rain-fed villages and southern Ubaid-Uruk cities with Holocene wet-phase Arabian camps [@Crassard2013Beyond; @Alasmari2026Results]. In northern and central Iraq, Nemrik 9, Jarmo, Tell Hassuna, Choga Mami and Tepe Gawra document early farming and irrigation networks, while on the lower alluvium Tell Oueili, Uruk (22,4k), Nippur (4,78k), Eridu (4,62k) and Ur (3,84k) illustrate the fourth-millennium leap to urban scale. Across Arabia, Dosariyah (235), Ra's al-Hamra (210), Al-Sihi (155), Jubabat al-Juruf, Al-Buhais 18, Al-Ula Neolithic, As-Sabiyah, Marawah, Suwayh and Jebel Oraf highlight wet-phase pastoral, highland-farming and coastal subsistence.
+
+```{r tab-zone4, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["4"]]),
+  "Individually evidence-assessed prehistoric settlements across Mesopotamia, the Gulf littoral and the Arabian Peninsula (10000BC to 3200BC).",
+  arg3_options = list(label = "tab:zone4")
+)
+```
+
+## Iranian Plateau, Zagros and Afghanistan
+
+Table \ref{tab:zone5} compiles `r length(zone_entries[["5"]])` settlements across Iran and Afghanistan, extending from Zagros aceramic camps and Susiana tells across the central plateau oases to the Hindu Kush foothills and Sistan-Helmand basins. Western and southern Iranian sites such as Ganj Dareh, Ali Kosh, Susa (8,15k), Chogha Mish (2,48k), Tol-e Nurabad and Tall-e Bakun pair with plateau and eastern centres including Shahr-i Sokhta (2,45k), Tepe Sialk (2,34k), Tepe Hissar (2,25k), Yanik Tepe, Tepe Yahya, Tepe Zagheh, Sang-e Chakhmaq and Tal-i Iblis, while Mundigak (1,68k), Said Qala Tepe, Deh Morasi Ghundai, Gardan Reg, Aq Kupruk, Kara Kamar, Tashkurgan 40 and Darra-i Kur represent prehistoric and Chalcolithic nodes across Afghanistan.
+
+```{r tab-zone5, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["5"]]),
+  "Individually evidence-assessed prehistoric and Chalcolithic settlements across the Zagros, Iranian Plateau and Afghanistan (10000BC to 3200BC).",
+  arg3_options = list(label = "tab:zone5")
+)
+```
+
+## Maghreb, Libya and Sahara
+
+Table \ref{tab:zone6} gathers `r length(zone_entries[["6"]])` Capsian *escargotières*, Neolithic cave-and-terrace settlements and Saharan wadi camps across Algeria, Morocco, Tunisia, Libya and Western Sahara. Northern Maghreb and Libyan littoral sites such as Medjez II (135), Haua Fteah (130), El-Mekta (115), Ifri Oudadane (95), Gueldaman (90), Columnata (85), Kehf el-Baroud (85), Shakshuk (80), Kef Zoura D (65) and Abiar Miggi (60) contrast with interior Saharan pluvial camps at Takarkori, Hassi Mouillah, Amekni, Tin Hanakaten and Uan Afuda and Atlantic wadi sites at Izriten, Oued Chebeika, Tifariti and Ashash.
+
+```{r tab-zone6, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["6"]]),
+  "Individually evidence-assessed Epipalaeolithic and Neolithic settlements across the Maghreb, Libya and Sahara (10000BC to 3200BC).",
+  arg3_options = list(label = "tab:zone6")
+)
+```
+
+# Limitations
+
+Site-level coverage across this 7.966-settlement gazetteer mirrors regional excavation histories. Dense rescue surveys in Israel, Jordan, western Syria, central Anatolia, Lower Egypt and southwestern Iran supply dense sequences of well-published excavated mounds, whereas interior Libya, Yemen, Atlantic Morocco and upland Afghanistan are represented primarily by key excavated type sites and oasis surveys. Consequently, individual site counts in Table \ref{tab:zone6} or the Afghan subset reflect fieldwork density rather than total rural hamlet numbers, which are instead captured at the regional catchment level through kriged habitat covariates and demographic multipliers.
+
+Furthermore, lateral settlement drift across multi-period tells means that peak figures of 2k to 4,5k at major Neolithic mounds represent maximum multi-phase occupational envelopes rather than unbroken single-generation censuses. Alluvial siltation across the lower Euphrates and Nile Delta, together with post-glacial sea-level rise along the eastern Mediterranean and Persian Gulf coasts, also masks submerged or buried Epipalaeolithic camps older than 6000BC [@Shtienberg2020Neolithic; @Roberts2017Human]. Finally, shifting radiocarbon calibration curves across the ninth and seventh millennia BC introduce centennial uncertainty around exact foundation and abandonment dates, meaning individual horizon columns should be interpreted alongside the broader regional trends analysed in the companion review.
+
+# Conclusion
+
+Together, these six regional tables anchor the spatial distribution of prehistoric population from the Atlantic Maghreb to the Hindu Kush. They document the gradual scaling-up of human communities from small Epipalaeolithic bands into permanent agricultural villages by 6000BC, and finally into the first irrigated urban centres of Mesopotamia, Susiana and predynastic Egypt by 3200BC.
+
+# Appendix
+
+Table \ref{tab:gaz-summary} aggregates individually evidence-assessed site counts and combined site populations across the six macro-regional zones from 10000BC to 3200BC.
+
+```{r tab-gaz-summary, results='asis'}
+zone_labels <- c(
+  "1" = "1. Levant, Sinai and Cyprus",
+  "2" = "2. Anatolia and Transcaucasia",
+  "3" = "3. Nile Valley, Delta and Oases",
+  "4" = "4. Mesopotamia and Arabia",
+  "5" = "5. Iran and Afghanistan",
+  "6" = "6. Maghreb, Libya and Sahara"
+)
+sum_rows <- lapply(names(zone_labels), function (zk) {
+  sub <- zone_entries[[zk]]
+  data.frame(
+    `Macro-Zone` = zone_labels[[zk]],
+    Sites = viscount_fmt_number(length(sub), 0L),
+    `10000BC` = viscount_fmt_pop(sum(vapply(sub, get_pop_num, numeric(1), "-10000"))),
+    `6000BC` = viscount_fmt_pop(sum(vapply(sub, get_pop_num, numeric(1), "-6000"))),
+    `4000BC` = viscount_fmt_pop(sum(vapply(sub, get_pop_num, numeric(1), "-4000"))),
+    `3200BC` = viscount_fmt_pop(sum(vapply(sub, get_pop_num, numeric(1), "-3200"))),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_gs <- do.call(rbind, sum_rows)
+tot_gs <- data.frame(
+  `Macro-Zone` = "All Six Zones",
+  Sites = viscount_fmt_number(length(all_entries), 0L),
+  `10000BC` = viscount_fmt_pop(sum(vapply(all_entries, get_pop_num, numeric(1), "-10000"))),
+  `6000BC` = viscount_fmt_pop(sum(vapply(all_entries, get_pop_num, numeric(1), "-6000"))),
+  `4000BC` = viscount_fmt_pop(sum(vapply(all_entries, get_pop_num, numeric(1), "-4000"))),
+  `3200BC` = viscount_fmt_pop(sum(vapply(all_entries, get_pop_num, numeric(1), "-3200"))),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_gs <- rbind(df_gs, tot_gs)
+rownames(df_gs) <- NULL
+viscount_table(
+  df_gs,
+  "Individually evidence-assessed site counts and combined settlement totals across six macro-zones from 10000BC to 3200BC.",
+  arg3_options = list(label = "tab:gaz-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

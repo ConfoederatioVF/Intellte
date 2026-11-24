@@ -1,0 +1,433 @@
+---
+title: "Mediaeval North Africa (1000-1517)"
+subtitle: "Fatimid, Ayyubid and Mamluk Egypt and the Mediaeval Maghreb"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: mediaeval_north_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_mediaeval_north_africa_spatial.png"
+hero_caption: "Five North African demographic regions and major urban centres from the Nile Delta and Upper Egypt to Tripolitania, Ifriqiya, Tlemcen, Fez and Sijilmasa between 1000AD and 1517AD."
+hero_label: "fig:hero-mediaeval-north-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("mediaeval_north_africa_summary_cache.json", simplifyVector = FALSE)
+region_cfg <- jsonlite::fromJSON("mediaeval_north_africa.json5", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("mediaeval_north_africa_settlements.json", simplifyVector = FALSE)
+
+fmt_yr_pop <- function(pop_list, yr_chr) {
+  val <- pop_list[[yr_chr]]
+  if (is.null(val)) return("-")
+  viscount_fmt_pop(val)
+}
+
+clean_arabic_latin <- function(txt) {
+  s <- as.character(txt)
+  s <- gsub("a\u0167", "a", s, fixed = TRUE)
+  s <- gsub("\u0167", "t", s, fixed = TRUE)
+  s <- gsub("[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]+", "", s, perl = TRUE)
+  trimws(gsub("\\s{2,}", " ", s, perl = TRUE))
+}
+
+sett_countries <- vapply(settlements_raw, function(e) as.character(e$country), character(1))
+ctry_tab <- sort(table(sett_countries), decreasing = TRUE)
+n_total_sett <- length(settlements_raw)
+
+fmt_ctry_dist <- function() {
+  nms <- names(ctry_tab)
+  cnts <- as.integer(ctry_tab)
+  items <- vapply(seq_along(nms), function(i) {
+    pct <- paste0(viscount_fmt_number(100.0 * cnts[i] / n_total_sett, 1L), "%")
+    if (i == 1L) {
+      paste0(viscount_fmt_number(cnts[i], 0L), " settlements across ", nms[i], " (", pct, ")")
+    } else {
+      paste0(viscount_fmt_number(cnts[i], 0L), " across ", nms[i], " (", pct, ")")
+    }
+  }, character(1))
+  if (length(items) == 1L) return(items[1L])
+  paste0(paste(items[-length(items)], collapse = ", "), " and ", items[length(items)])
+}
+
+fmt_ctry_lead_summary <- function() {
+  nms <- names(ctry_tab)
+  cnts <- as.integer(ctry_tab)
+  items <- vapply(seq_along(nms), function(i) {
+    pct <- paste0(viscount_fmt_number(100.0 * cnts[i] / n_total_sett, 1L), "%")
+    if (i == 1L) {
+      paste0(nms[i], " accounts for ", viscount_fmt_number(cnts[i], 0L), " catalogued centres (", pct, ")")
+    } else {
+      paste0(nms[i], " (", viscount_fmt_number(cnts[i], 0L), " sites, or ", pct, ")")
+    }
+  }, character(1))
+  if (length(items) == 1L) return(items[1L])
+  if (length(items) == 2L) return(paste0(items[1L], ", followed by ", items[2L]))
+  paste0(items[1L], ", followed by ", paste(items[2:(length(items) - 1L)], collapse = ", "), " and ", items[length(items)])
+}
+
+n_active_yr <- function(yr_num) {
+  cnt <- sum(vapply(settlements_raw, function(e) {
+    yrs <- suppressWarnings(as.integer(names(e$population)))
+    yrs <- yrs[is.finite(yrs)]
+    if (length(yrs) == 0L) return(FALSE)
+    yr_num >= min(yrs) && yr_num <= max(yrs)
+  }, logical(1)))
+  viscount_fmt_number(cnt, 0L)
+}
+```
+
+# Abstract
+
+Between 1000AD and the Ottoman conquest of Cairo in 1517AD, the population of North Africa from the Atlantic littoral of Morocco to the Nile Delta followed a stark two-part cycle of gradual agrarian expansion and sudden epidemic contraction. Across the five regions reconstructed in HANDBOOK—Fatimid, Ayyubid and Mamluk Egypt; Almoravid, Almohad and Marinid Morocco and Western Sahara; Hammadid, Almohad and Zayyanid Algeria; Zirid and Hafsid Ifriqiya (Tunisia); and Tripolitania, Cyrenaica and Fezzan—combined numbers rose from 12,65M in 1000AD to 13,48M in 1150AD and reached a mediaeval peak of 14,42M around 1300AD. Growth was concentrated in Egypt, where basin irrigation along the Nile Valley and Delta supported 6,45M inhabitants under the early Bahri Mamluk sultanate, and in Morocco, where Almoravid, Almohad and Marinid state formation linked High Atlas pastoralists, trans-Saharan gold routes through Sijilmasa and irrigated coastal plains into a polity of 3,15M people. By contrast, eleventh-century Hilalian migrations and maritime raids depressed inland Ifriqiya and Libya below their late tenth-century baselines before partial coastal recovery under the Hafsids. The arrival of the Black Death in 1348AD and recurrent plague epidemics over the following century broke this demographic plateau. By 1400AD total North African population had fallen to 10,14M, a net decline of 29,7%, with Egypt losing 2,3M inhabitants (-35,7%) and rural irrigation works contracting across both Lower and Upper Egypt. Gradual demographic recovery during the late fifteenth century restored regional totals to 11,28M by 1517AD, still 21,8% below the pre-plague peak of 1300AD. These estimates rest on 13.787 individually assessed mediaeval North African settlements screened from 14.037 ledger candidates (250 excluded), radial oasis and alluvial-corridor kernels, non-stationary Matérn kriging ($\nu = 3/2$) and pycnophylactic scaling across 10 historical subadministrative census provinces and 445 modern geoBoundaries administrative polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_mediaeval_north_africa_spatial.png",
+    "Five North African demographic regions and major urban centres from the Nile Delta and Upper Egypt to Tripolitania, Ifriqiya, Tlemcen, Fez and Sijilmasa between 1000AD and 1517AD.",
+    "fig:hero-mediaeval-north-africa"
+  )
+}
+```
+
+# Background
+
+## Ecological Dualism and Hydraulic Foundations
+
+North Africa between the eleventh and early sixteenth centuries comprised two ecologically distinct demographic worlds bound together by Mediterranean sea lanes and trans-Saharan caravan tracks. East of the Western Desert lay Egypt, a hydraulic society in which virtually the entire sedentary population crowded into the 35.000 km² ribbon of the Nile Valley, the Faiyum depression and the broad fan of the Delta. West of the Gulf of Sirte stretched the Maghreb, an archipelago of Tell Atlas coastal plains, fertile intermontane basins, high semi-arid steppes and pre-Saharan palm oases extending from Tripolitania through Tunisia and Algeria to the Atlantic plains of Morocco and the Wadi Draa.
+
+Because annual precipitation across the Maghreb drops sharply south of the Tell crest and east of the Tunisian Sahel, human numbers depended on two contrasting mechanisms: annual Nile flood basins in Egypt, and spring-fed or wadi-diversion oasis networks plus dryland cereal-olive belts across the Maghreb [@Fenwick2020Ifriqiya; @Fenwick2022Medieval; @Kamiyama2021Irrigation]. Where irrigation dykes held silt and floodwater in Egypt, rural densities reached levels matched elsewhere in the Mediterranean world only in Lombardy or Lower Mesopotamia; across the Maghreb, by contrast, settlement clustered along coastal alluvial pockets, terraced mountain valleys and isolated oasis depressions separated by wide pastoral corridors.
+
+## Fatimid, Ayyubid and Mamluk Egypt
+
+At the opening of our period in 1000AD, the Fatimid Caliphate had recently shifted its seat from Mahdia in Ifriqiya to Cairo (*al-Qāhira*), founded beside the older commercial metropolis of Fusṭāṭ in 969AD. Fatimid control over the Nile Valley fostered vigorous urban commerce, glass and textile manufacture, and Red Sea transit trade, backed by gold minted from West African ore moving north through Sijilmasa and Kairouan [@L2026Insights; @R2024Unveiling]. Egypt held roughly 5,75M people at the turn of the millennium, nearly half the entire North African total.
+
+Yet Egyptian demography remained acutely sensitive to consecutive low Nile floods. Between 1065AD and 1072AD, prolonged hydrological failure coincided with factional fighting among Turkish, Berber and Sudanese regiments (*al-shidda al-mustanṣiriyya*), triggering famine, epidemic mortality and the temporary depopulation of quarters outside the Fatimid walls. Recovery under the Armenian vizier Badr al-Jamālī restored irrigation dykes and fiscal order, carrying Egypt to 5,95M by 1150AD.
+
+Under the Ayyubids (1171–1250AD) and the early Bahri Mamluks (1250–1382AD), state capacity and rural productivity rose substantially. Saladin unified Cairo, Fusṭāṭ and the fortified Citadel into a single metropolitan conurbation, while Ayyubid and Mamluk *iqṭāʿ* cadastral assignments tied military revenue directly to the maintenance of provincial *jusūr* (dykes) and feeder canals [@Rapoport2007Women]. The great Mamluk land surveys—especially the *Rawk al-Ḥusāmī* (1298AD) and the *Rawk al-Nāṣirī* (1315AD) under Sultan al-Nāṣir Muḥammad ibn Qalāwūn—registered thousands of Delta and Nile Valley *nāḥiya* villages and their cultivated *feddan* assessments. At the high-water mark around 1300AD, Egypt supported an estimated 6,45M inhabitants, anchored by the Cairo-Fusṭāṭ complex (peaking at 412k in 1340AD), the Mediterranean ports of Alexandria (*al-Iskandariyya*, 86,5k) and Damietta (*Dumyāṭ*, 39,2k), Upper Egypt's caravan hub Qus (48,5k) and provincial market towns such as al-Maḥalla al-Kubrā, Asyūṭ, al-Fayyūm, Bilbays and Aswan (*Uswān*) [@Bosworth2007Historic].
+
+This trajectory snapped in the autumn of 1347AD when plague arrived at Alexandria on Mediterranean merchant vessels and spread upstream through the Delta to Cairo by 1348AD [@Tresso2021Prayer; @MH2025Plague; @J2024Plague]. Contemporary Mamluk chronicles and funerary registers describe daily funeral tallies in Cairo running into thousands at the height of the outbreak, leaving entire quarters abandoned and transforming extramural cemeteries into dense burial landscapes [@John2022Urban]. Unlike regions that rebounded swiftly after a single epidemic shock, Mamluk Egypt endured repeated secondary plague waves—notably in 1363AD, 1374AD, 1419AD, 1430AD and 1460AD—compounded by Circassian Burji Mamluk fiscal exactions and neglected provincial canal dredging. Egypt's population dropped from 6,45M in 1300AD to 4,15M in 1400AD, a contraction of more than one-third, before partial demographic stabilisation lifted the total to 4,55M on the eve of the Ottoman conquest in 1517AD.
+
+## Ifriqiya, Tripolitania and the Central Maghreb
+
+West of Egypt, the eleventh century opened with a sharp divergence between Ifriqiya and the western Maghreb. In 1051–1057AD, following the Zirid breach with Cairo, the migration of Banu Hilal and Banu Sulaym pastoral confederations into Tripolitania and central Tunisia disrupted settled dryland farming around Kairouan (*al-Qayrawān*), which was sacked in 1057AD [@Fenwick2020Ifriqiya]. Settled populations in inland Ifriqiya and Cyrenaica declined or shifted toward fortified coastal towns such as Tunis, Sousse, Sfax and Mahdia, as well as the olive-growing Sahel and northern Tell valleys.
+
+Ceramic production surveys at Chimtou and regional archaeological syntheses confirm that urban networks did not vanish across Ifriqiya, but reoriented away from exposed interior steppe plains toward littoral ports and terraced upland refugia [@Fenwick2020Ifriqiya; @V2024Technology]. Genetic analyses of Tunisian paternal lineages further reflect the layered demographic legacy of Middle Eastern and autochthonous Maghrebi populations across these coastal and interior zones [@S2021Insights]. Tripolitania, Cyrenaica and Fezzan slipped from 1M inhabitants in 1000AD to 880k in 1150AD and 820k in 1300AD, while Zirid and Hafsid Tunisia dipped from 1,75M in 1000AD to 1,65M in 1150AD before Hafsid consolidation (1229–1574AD) restored Tunis and its agricultural hinterland to 1,75M by 1300AD.
+
+In the Central Maghreb (modern Algeria), political gravity shifted from the Hammadid mountain capital of Qalʿat Banī Ḥammād to the maritime port of Béjaïa and, after the mid-thirteenth century, to Zayyanid Tlemcen [@Algeria2018Spatial; @Algeria2017Traditiona]. Tlemcen controlled the northern terminus of western Saharan caravan routes via Sijilmasa and Tuat while commanding fertile Tell basins between Oran and the Chelif valley. Combined Algerian totals grew modestly from 1,9M in 1000AD to 2,15M in 1150AD and 2,25M in 1300AD, cushioned in the Kabylie and Aurès highlands against steppe pastoral disruption, before fourteenth-century plague and Marinid-Zayyanid warfare reduced numbers to 1,75M in 1400AD and allowed a modest recovery to 1,95M by 1517AD.
+
+## Almoravid, Almohad and Marinid Morocco
+
+Morocco experienced the strongest sustained demographic expansion in the mediaeval Maghreb. Originating among Sanhaja pastoralists of the western Sahara, the Almoravid movement unified the desert oases, the Draa and Tafilalt valleys, and the Atlantic plains, founding Marrakech around 1062–1070AD and linking Moroccan cities directly to Andalusi craft and agricultural expertise [@Sires2025Those; @Alkadi2017Origin]. Their Almohad successors (1147–1269AD) and the Marinid dynasty (1244–1465AD) consolidated Fez (*Fās*) as a dense artisanal and educational capital—home to Qarawiyyin madrasas and water-driven mills—while sustaining irrigated oasis booms along the Wadi Draa and Tafilalt (Sijilmasa) [@Hour2025Teaching; @Olsen2000Almohad; @Fenwick2022Medieval; @Bigon2022Tracing].
+
+Archaeological field surveys in the Wadi Draa demonstrate that oasis agriculture, *khettara* water galleries and fortified *ksour* expanded markedly between 700AD and 1500AD, underpinning Moroccan totals that climbed from 2,25M in 1000AD to 2,85M in 1150AD and 3,15M in 1300AD [@Fenwick2022Medieval]. Like Egypt and Ifriqiya, Morocco was struck hard by the 1348AD plague—witnessed in part by the Marinid chroniclers and by Ibn Baṭṭūṭa's travels—falling to 2,35M in 1400AD before late Marinid and Wattasid stabilisation carried the region back to 2,75M by 1517AD [@Tresso2021Prayer].
+
+# Methodology
+
+## Spatial Partitioning and Settlement Compilation
+
+Reconstruction of North African population between 1000AD and 1517AD within HANDBOOK operates under Regime 2 (historical proto-census and archaeological-urban hybrid modelling), integrating regional demographic totals, settlement gazetteers, archaeological site distributions and subadministrative GIS polygons into a single mass-conserving spatial surface. Five continuous spatial regions partition the 27.855 active 5-arcminute land pixels across the North African domain: Fatimid, Ayyubid and Mamluk Egypt (11.049 pixels); Tripolitania, Cyrenaica and Fezzan (6.692 pixels); Almoravid, Almohad and Marinid Morocco and Western Sahara (5.695 pixels); Hammadid, Almohad and Zayyanid Algeria (3.531 pixels); and Zirid and Hafsid Ifriqiya (888 pixels).
+
+Political boundaries across these dynasties shifted frequently, particularly between Marinids, Zayyanids and Hafsids. Historical territorial extents were therefore cross-referenced against the Cliopatria geospatial political database to preserve consistent sub-regional accounting across benchmark slices [@JS2025Cliopatria]. Using fixed geographical envelopes anchored to enduring hydrographic and topographical divides avoids spurious population jumps whenever frontier provinces such as Tlemcen, Tripolitania or Barqa changed suzerainty.
+
+Settlement reconstruction screened 14.037 candidate entries drawn from mediaeval Arabic geographical works (al-Bakrī, al-Idrīsī, Ibn Jubayr, Ibn Baṭṭūṭa, al-Maqrīzī, Ibn Duqmāq and Leo Africanus), historical settlement registers (including Al-Thurayya, DARMC, Euratlas and regional North African archaeological corpora), excavated urban plans and regional historical monographs. Following deduplication and strict evidentiary screening against the 1000–1517AD window, 13.787 individually assessed mediaeval North African settlements were retained in the included ledger and 250 candidate entries were excluded as co-located localities, duplicate variants, abandoned classical ruins lacking mediaeval occupation or unquantified minor waystations. Every retained city and oasis town was evaluated case by case from excavated intramural hectare areas, fiscal *rawk* and *iqṭāʿ* records, sixteenth-century hearth counts, documented sacks and plague mortality curves.
+
+The retained ledger distributes `r fmt_ctry_dist()`. Historical urban descriptions and dynastic capitals were cross-checked against standard Islamic urban reference works to separate continuously inhabited towns from abandoned classical ruins [@Bosworth2007Historic].
+
+## Radial Oasis Modelling and Non-Stationary Matérn Kriging
+
+Because North African settlement outside the Tell littoral is tightly tethered to linear riverine corridors and isolated desert springs, naive Euclidean interpolation across hyper-arid desert expanses would smear urban mass over uninhabitable erg and hammada terrain. HANDBOOK therefore combines a biophysical habitability mask with radial oasis and alluvial-corridor distance kernels.
+
+Each oasis or wadi settlement—from Sijilmasa in Tafilalt and the Wadi Draa *ksour* to Ghadames, Siwa and the Kharga-Dakhla depressions—exerts a compact metric-isotropic decay field scaled by local hydrological catchment size. Conversely, Nile Valley and Delta pixels receive continuous alluvial suitability weighting informed by historic *jusūr* dyke networks and cultivated basin extents. Residual spatial variance in settlement and archaeological site intensity is interpolated using two-dimensional non-stationary Matérn kriging ($\nu = 3/2$) over Freeman-Tukey variance-stabilised site counts inside metric-isotropic catchments, preventing cross-desert spillover from Egypt into the Fezzan or from the Tell Atlas into the Tanezrouft.
+
+```{r table-subregions, results='asis'}
+sub_rows <- lapply(summary_cache$top_subregions, function(sr) {
+  p <- sr$population
+  data.frame(
+    Region = sr$name,
+    `1000AD` = fmt_yr_pop(p, "1000"),
+    `1150AD` = fmt_yr_pop(p, "1150"),
+    `1300AD` = fmt_yr_pop(p, "1300"),
+    `1400AD` = fmt_yr_pop(p, "1400"),
+    `1517AD` = fmt_yr_pop(p, "1517"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_p <- summary_cache$headline_series
+tot_row <- data.frame(
+  Region = "Total Mediaeval North Africa",
+  `1000AD` = fmt_yr_pop(tot_p, "1000"),
+  `1150AD` = fmt_yr_pop(tot_p, "1150"),
+  `1300AD` = fmt_yr_pop(tot_p, "1300"),
+  `1400AD` = fmt_yr_pop(tot_p, "1400"),
+  `1517AD` = fmt_yr_pop(tot_p, "1517"),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sub <- do.call(rbind, c(sub_rows, list(tot_row)))
+rownames(df_sub) <- NULL
+viscount_table(
+  df_sub,
+  "Sub-regional population trajectory across Mediaeval North Africa from 1000AD to 1517AD, showing pre-plague growth to 1300AD, the fourteenth-century demographic trough and partial recovery by the Ottoman conquest.",
+  arg3_options = list(label = "tab:subregional-trajectory")
+)
+```
+
+## Subadministrative GIS Calibration
+
+To bridge mediaeval spatial surfaces directly with nineteenth- and twentieth-century statistical regimes, HANDBOOK anchors its grid geometry to both historical provincial census divisions and modern geoBoundaries administrative polygons [@Runfola2020GeoBoundaries]. Historical provincial series from the Egyptian censuses of 1882–1947, Moroccan protectorate enumerations of 1880–1960, Algerian departmental censuses of 1886–1954, Tunisian *contrôles civils* of 1881–1956 and Italian Libyan counts of 1880–1954 establish the post-1880 provincial constraints.
+
+At finer resolution, 445 modern ADM1 and ADM2 polygons across Egypt, Morocco, Algeria, Tunisia, Libya and Western Sahara define the sub-provincial spatial targets. Mass-conserving pycnophylactic scaling guarantees that grid-cell sums match every administrative unit exactly without artificial boundary cliffs across international or provincial borders.
+
+```{r fig2-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_mediaeval_north_africa_trajectory.png",
+  "Population trajectory across the five North African regions between 1000AD and 1517AD, highlighting Egyptian basin-irrigation growth to 1300AD, the 1348AD Black Death contraction and Maghrebi divergence.",
+  "fig:trajectory"
+)
+```
+
+# Testing and Validation
+
+## Pycnophylactic Mass Conservation and Subadministrative Audits
+
+Validation of the North African surface rests on three internal audits: subadministrative pycnophylactic mass conservation, settlement rank-size coherence across the 13.787-site ledger, and spatial density diagnostics across ecological zones. Across the full HANDBOOK domain, the subadministrative mass audit evaluated 29 historical provincial units and 2.629 modern administrative units over 65.864 unit-year checks, recording a maximum unit relative mass error of 5,85e-08.
+
+Within the North African chapter specifically, Table \ref{tab:hist-subadmin} documents the 10 historical subadministrative census provinces—three Egyptian *muḥāfaẓa* and *mudīriyya* groupings, four Algerian *départements* and southern territories, plus the Moroccan, Tunisian and Libyan protectorate and colonial frameworks. Their territorial footprints calibrate back-projected regional weighting between the Delta, Upper Egypt, the Tell Atlas and Saharan districts, ensuring that pre-modern population density ratios across ecological bands remain anchored to observed hydraulic and agrarian constraints.
+
+```{r table-hist-subadmin, results='asis'}
+hist_list <- summary_cache$chapter_historical_subadmin
+hist_rows <- lapply(hist_list, function(hu) {
+  yrs <- sort(names(hu$pops))
+  first_yr <- yrs[1]
+  last_yr <- yrs[length(yrs)]
+  data.frame(
+    ISO3 = hu$iso3,
+    `Historical Division` = hu$name,
+    `First Census` = paste0(viscount_fmt_pop(hu$pops[[first_yr]]), " (", first_yr, ")"),
+    `Last Census` = paste0(viscount_fmt_pop(hu$pops[[last_yr]]), " (", last_yr, ")"),
+    `Series Span` = paste0(first_yr, "-", last_yr),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_hist <- do.call(rbind, hist_rows)
+rownames(df_hist) <- NULL
+viscount_table(
+  df_hist,
+  "Historical subadministrative census divisions calibrating regional demographic structure across Egypt and the Maghreb, listing earliest and latest enumerations in each archival series.",
+  arg3_options = list(label = "tab:hist-subadmin")
+)
+```
+
+## Modern geoBoundaries Disaggregation and Zipf Diagnostics
+
+Complementing the nineteenth- and twentieth-century provincial series, Table \ref{tab:mod-subadmin} summarises the 445 modern geoBoundaries ADM1 and ADM2 units matched inside the North African mask [@Runfola2020GeoBoundaries]. High-resolution ADM2 coverage in Egypt (296 districts across five census dates from 1986 to 2023), Morocco (63 provinces and prefectures across four censuses from 1994 to 2024) and Algeria (44 *wilayas* across four censuses from 1977 to 2008) contrasts with ADM1 coverage in Tunisia (24 governorates), Libya (17 *shaʿbiyat*) and Western Sahara (1 administrative unit).
+
+Because modern Egyptian *markaz* and *qism* units align closely with mediaeval Nile *kūra* and *nāḥiya* fiscal basins, their polygonal boundaries provide a direct geometric check on alluvial rural carrying capacities when disaggregated back through Matérn kriging covariates. Similarly, Moroccan provinces along the Haouz, Gharb and Souss plains preserve hydrographic boundaries first stabilised under Almoravid and Almohad hydraulic administration.
+
+```{r table-mod-subadmin, results='asis'}
+mod_stats <- summary_cache$chapter_modern_subadmin_stats
+mod_rows <- lapply(names(mod_stats), function(iso) {
+  st <- mod_stats[[iso]]
+  yrs <- unlist(st$years)
+  data.frame(
+    Jurisdiction = iso,
+    `Admin Level` = st$level,
+    `Matched Units` = as.integer(st$matched_units),
+    `Census Count` = length(yrs),
+    `Census Years` = paste(yrs, collapse = ", "),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_mod <- do.call(rbind, mod_rows)
+rownames(df_mod) <- NULL
+viscount_table(
+  df_mod,
+  "Modern geoBoundaries subadministrative units matched inside the North African spatial mask, detailing administrative tier and census years used for pycnophylactic disaggregation.",
+  arg3_options = list(label = "tab:mod-subadmin")
+)
+```
+
+Rank-size testing across all 13.787 individually assessed settlements yields a Zipf slope of $\alpha = 0,81$ with $R^2 = 0,91$. This well-fitted power-law distribution reflects a mature polycentric urban system spanning multiple sovereign capitals rather than a single primate city-state: while Cairo towered over the Egyptian Nile system at a pre-plague peak of 412k in 1340AD, Fez (148k), Marrakech (132k), Tunis (124k), Kairouan (89,2k), Tlemcen (88,5k), Alexandria (86,5k), Béjaïa (61,2k), Ceuta (52,4k) and Qus (48,5k) anchored semi-independent dynastic poles across the Maghreb and Upper Egypt above a dense register of regional market towns and oasis hubs. Temporal coverage across the 13.787-site ledger remains broad throughout the half-millennium—`r n_active_yr(1000L)` active sites in 1000AD, `r n_active_yr(1150L)` in 1150AD and `r n_active_yr(1300L)` in 1300AD following the foundations of Qalʿat Banī Ḥammād (1007AD), Béjaïa (1067AD), Marrakech (1070AD), Rabat (1150AD), Quseir al-Qadim (1180AD) and Mansoura (1219AD), `r n_active_yr(1350L)` across the mid-fourteenth-century plague slice, `r n_active_yr(1400L)` in 1400AD, `r n_active_yr(1500L)` in 1500AD and `r n_active_yr(1517L)` at the 1517AD terminal benchmark as demolished or abandoned centres (such as Tinnis, Surt, Aydhab, Anfa and Tamdult) were offset by late fifteenth-century foundations such as Chefchaouen and rebuilt Tetouan.
+
+```{r fig3-density, results='asis'}
+viscount_figure(
+  "figures/fig3_mediaeval_north_africa_density.png",
+  "Kriged population density surface across Mediaeval North Africa showing extreme concentration along the Nile Delta and Valley beside compact Maghrebi littoral and Saharan oasis belts.",
+  "fig:density"
+)
+```
+
+# Results
+
+## Pre-Plague Expansion and Regional Divergence (1000-1300AD)
+
+Between 1000AD and 1300AD, North Africa's population grew by 1,77M (+14%), climbing from 12,65M to 14,42M, though regional fortunes diverged sharply. Egypt added 700k people (+12,2%) over those three centuries, rising from 5,75M to 6,45M despite the severe eleventh-century Nile low-water crisis and Crusader coastal raids on Damietta and Alexandria. Agricultural intensification under the Ayyubids and early Bahri Mamluks, including expanded summer cultivation of sugar cane, rice and cotton alongside winter wheat and barley, raised rural yields across the Delta and Faiyum [@AM2026Tale; @Rapoport2007Women].
+
+In parallel, Almoravid, Almohad and Marinid Morocco grew by 900k inhabitants (+40%), from 2,25M in 1000AD to 3,15M in 1300AD—the fastest proportional growth in the region. This expansion rested on Atlantic plain reclamation, urban expansion at Marrakech and Fez, and trans-Saharan oasis intensification in the Draa and Tafilalt [@Fenwick2022Medieval; @Sires2025Those; @Bigon2022Tracing]. Algeria gained 350k (+18,4%), rising from 1,9M to 2,25M as Zayyanid Tlemcen and eastern Kabyle and Constantine basins consolidated trade and upland farming.
+
+Conversely, Tunisia and Libya suffered early mediaeval stagnation or contraction. Tunisia dipped from 1,75M in 1000AD to 1,65M in 1150AD following the Hilalian disruption of the central steppe and Norman attacks on coastal ports, before Hafsid administrative restoration lifted numbers back to 1,75M by 1300AD [@Fenwick2020Ifriqiya]. Libya endured a steady structural decline from 1M in 1000AD to 880k in 1150AD and 820k in 1300AD, as pastoralisation contracted sedentary cereal farming across the Jabal Akhdar in Cyrenaica and exposed Tripolitanian coastal towns to maritime competition.
+
+## The 1348AD Plague Collapse and Partial Recovery
+
+The Black Death of 1347–1349AD inverted this trajectory everywhere. Reaching Alexandria in late 1347AD and spreading rapidly along the Nile, Mediterranean shipping routes and caravan trails into Tunisia, Algeria and Morocco by 1348AD, *Yersinia pestis* killed perhaps 30% to 40% of urban residents in the initial wave and persisted in endemic urban-rural reservoirs throughout the late fourteenth and fifteenth centuries [@Tresso2021Prayer; @MH2025Plague; @John2022Urban].
+
+By 1400AD, Egypt had fallen by 2,3M to 4,15M (-35,7%), Morocco by 800k to 2,35M (-25,4%), Algeria by 500k to 1,75M (-22,2%), Tunisia by 500k to 1,25M (-28,6%) and Libya by 180k to 640k (-22%). In Egypt, rural depopulation undermined the collective labour required to clear silt from basin canals and maintain flood embankments, converting temporary epidemic loss into prolonged agrarian under-capacity that lasted well into the fifteenth century.
+
+Recovery between 1400AD and 1517AD was uneven and incomplete. Total North African population regained 1,14M inhabitants (+11,2%) over those 117 years, reaching 11,28M in 1517AD. Morocco rebounded most vigorously (+400k, to 2,75M), followed by Egypt (+400k, to 4,55M), Algeria (+200k, to 1,95M), Tunisia (+100k, to 1,35M) and Libya (+40k, to 680k). Even at the close of the Mamluk sultanate, however, Egypt remained 1,9M inhabitants (-29,5%) below its 1300AD peak, shifting the demographic balance of North Africa slightly westward: Egypt's share of total North African population fell from 45,5% in 1000AD and 44,7% in 1300AD to 40,3% in 1517AD, while the four Maghrebi regions collectively increased from 54,5% to 59,7%.
+
+## Urban Hierarchy and Oasis Anchors
+
+```{r table-top-settlements, results='asis'}
+top_s <- summary_cache$top_settlements[seq_len(min(15L, length(summary_cache$top_settlements)))]
+top_rows <- lapply(top_s, function(st) {
+  lat_s <- viscount_fmt_number(st$coords[[1]], 2L)
+  lon_s <- viscount_fmt_number(st$coords[[2]], 2L)
+  data.frame(
+    Settlement = clean_arabic_latin(st$name),
+    Jurisdiction = st$country,
+    Coords = paste0(lat_s, ", ", lon_s),
+    `Peak Year` = paste0(st$peak_year, "AD"),
+    `Peak Pop.` = viscount_fmt_pop(st$peak_pop),
+    Span = paste0(st$min_year, "-", st$max_year, "AD"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_top <- do.call(rbind, top_rows)
+rownames(df_top) <- NULL
+viscount_table(
+  df_top,
+  "Leading fifteen settlements in the Mediaeval North Africa ledger by peak assessed population, showing geographic coordinates, peak benchmark year and active chronological span.",
+  arg3_options = list(label = "tab:top-settlements")
+)
+```
+
+Table \ref{tab:top-settlements} highlights the spatial continuity and dynastic dynamism of mediaeval urban anchors across the region. In Egypt, Cairo (412k in 1340AD), Alexandria (86,5k in 1340AD) and Upper Egypt's caravan terminus Qus (48,5k in 1300AD) trace the primary hydrological and spice-trade spine from the Mediterranean coast to the Red Sea corridor. Across the Maghreb, Moroccan capitals Fez (148k in 1340AD) and Marrakech (132k in 1200AD) join Ceuta (52,4k), Sijilmasa (42,4k) and Meknes (41,2k); Ifriqiyan capitals Tunis (124k in 1340AD), Kairouan (89,2k in 1050AD) and Al-Mahdiyya (46,2k in 1100AD) reflect the post-Hilalian shift from steppe to coast; and Algerian poles Tlemcen (88,5k), Béjaïa (61,2k), Constantine (40,6k) and Qalʿat Banī Ḥammād (39,4k in 1050AD) link Tell hinterlands to Mediterranean maritime commerce [@Bosworth2007Historic; @Fenwick2020Ifriqiya].
+
+Behind these rank-size leaders, architectural and material records corroborate distinct urban morphologies between the eastern and western basins. Detailed courtyard-house surveys in Tlemcen's mediaeval medina reveal multi-tiered residential quarters calibrated to artisanal guild density and defensive citadel proximity under Zayyanid patronage [@Algeria2017Traditiona; @Algeria2018Spatial], while madrasa endowments across Almohad and Marinid Fez concentrated scholarly migration and manuscript production inside dense intramural wards [@Hour2025Teaching].
+
+At the southern desert margins, multi-isotopic analyses of Fatimid gold coinage demonstrate how West African gold passing through Sijilmasa and the Wadi Draa oiled Mediterranean fiscal capacity and anchored permanent oasis populations far south of the Tell rainfall limit [@L2026Insights; @Bigon2022Tracing]. In central Tunisia, even after the eleventh-century sack of Kairouan, water-harvesting olive cultivation and glazed ceramic workshops kept rural-urban exchange alive along the Sahel and northern river corridors [@Kamiyama2021Irrigation; @V2024Technology].
+
+```{r fig4-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_mediaeval_north_africa_settlements.png",
+  "Spatial distribution and rank-size hierarchy of 13.787 individually assessed North African mediaeval settlements across Egypt, Libya, Tunisia, Algeria and Morocco between 1000AD and 1517AD.",
+  "fig:settlements"
+)
+```
+
+# Limitations
+
+Four principal uncertainties govern these estimates. First, no region in North Africa possesses complete household-level censuses before the nineteenth century. Egyptian population figures rely on indirect reconciliation of Mamluk *rawk* cadastral land surveys, grain tax receipts, military *iqṭāʿ* enrolments and urban topography, all of which record fiscal capacity rather than exact headcounts and under-represent landless labourers, pastoral groups and women [@Rapoport2007Women].
+
+Second, Maghrebi historical chronicles rarely transmit province-wide fiscal totals outside isolated tribute accounts under the Almohads and Marinids. Regional estimates across Tunisia, Algeria, Morocco and Libya therefore depend more heavily on archaeological settlement density surveys, oasis canal footprints and urban intramural area comparisons [@Fenwick2022Medieval; @Fenwick2020Ifriqiya].
+
+Third, the magnitude of the 1348AD plague collapse and subsequent fifteenth-century mortality waves carries wide uncertainty bounds, roughly plus or minus 20% to 30% around point estimates. While contemporary Cairo necrologies and Ibn Baṭṭūṭa's travel accounts attest to catastrophic urban mortality, rural plague incidence in Upper Egypt, the Rif mountains and pre-Saharan *ksour* is far more sparsely documented [@Tresso2021Prayer; @MH2025Plague].
+
+Fourth, the 13.787-site settlement ledger exhibits a systematic survival bias toward walled dynastic capitals, maritime ports and major caravan centres documented by Arabic geographers and sixteenth-century hearth surveys—such as Cairo, Fez, Tunis, Tlemcen and Tripoli—while earthen mudbrick villages, smaller Saharan *ksour* and seasonal pastoral camps leave fainter archaeological and textual traces. Radial oasis kernels capture point-source desert carrying capacity cleanly, yet simplify multi-branch wadi irrigation systems into symmetric decay gradients.
+
+# Conclusion
+
+Between 1000AD and 1517AD, Mediaeval North Africa traced a demographic arc defined by hydraulic fragility in the east, trans-Saharan state integration in the west and shared vulnerability to fourteenth-century pandemic plague. Total population expanded from 12,65M at the turn of the millennium to 14,42M around 1300AD, anchored by 6,45M inhabitants in Mamluk Egypt and 3,15M in Marinid Morocco, before the 1348AD Black Death and recurring epidemic waves drove numbers down by nearly 30% to 10,14M in 1400AD.
+
+Although late fifteenth-century demographic stabilisation restored the macro-region to 11,28M by 1517AD, Egypt never fully regained its pre-plague basin-irrigation density prior to Ottoman incorporation. As a result, the Maghreb entered the early modern era holding a larger share of total North African population than it had possessed under the Fatimids five centuries earlier.
+
+# Appendix
+
+## Modern Subadministrative Target Polygons
+
+To illustrate the fine-grained spatial targets used in HANDBOOK's pycnophylactic disaggregation pipeline, Table \ref{tab:modern-top-units} reports the leading modern ADM1 and ADM2 polygons inside the North African domain alongside their latest census totals and land areas [@Runfola2020GeoBoundaries]. Compact metropolitan and alluvial districts such as Fayyum City (75 km²), Kesm Al-minya (76 km²) and the Prefecture of Casablanca (141 km²) contrast sharply with broader provincial territories such as Province de Kenitra (3.437 km²), Tizi Ouzou (3.192 km²) and interior Algerian *wilayas* including Batna (11.775 km²) and Djelfa (35.146 km²), underscoring why area-weighted uniform disaggregation fails without radial oasis and alluvial-corridor covariates.
+
+```{r table-modern-top-units, results='asis'}
+mod_top <- summary_cache$chapter_modern_top_units[seq_len(min(12L, length(summary_cache$chapter_modern_top_units)))]
+mt_rows <- lapply(mod_top, function(mu) {
+  yrs <- sort(names(mu$pops))
+  first_yr <- yrs[1]
+  last_yr <- yrs[length(yrs)]
+  clean_nm <- clean_arabic_latin(mu$name)
+  data.frame(
+    ISO3 = mu$iso3,
+    Unit = clean_nm,
+    Level = mu$level,
+    `Area (km²)` = viscount_fmt_number(mu$area_km2, 0L),
+    `Latest Census` = paste0(viscount_fmt_pop(mu$pops[[last_yr]]), " (", last_yr, ")"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_mt <- do.call(rbind, mt_rows)
+rownames(df_mt) <- NULL
+viscount_table(
+  df_mt,
+  "Twelve highest-population modern geoBoundaries administrative units inside the North African spatial mask, giving polygonal area and latest census population.",
+  arg3_options = list(label = "tab:modern-top-units")
+)
+```
+
+## Settlement Ledger Country Totals
+
+Table \ref{tab:ledger-breakdown} summarises the distribution of the 13.787 individually assessed settlements across the five constituent countries and their combined archival populations at four benchmark slices. `r fmt_ctry_lead_summary()`; Cairo's metropolitan scale and dense Delta town network keep Egyptian urban mass well above every Maghrebi jurisdiction, while regional rural totals balance these urban anchors against kriged suitability across each hydrological zone.
+
+```{r table-ledger-breakdown, results='asis'}
+countries_ord <- c("Egypt", "Morocco", "Algeria", "Tunisia", "Libya")
+extra_cty <- setdiff(unique(sett_countries), countries_ord)
+countries_ord <- c(countries_ord, sort(extra_cty))
+lb_rows <- lapply(countries_ord, function(cty) {
+  sub_s <- Filter(function(x) identical(x$country, cty), settlements_raw)
+  sum_yr <- function(yr) {
+    vals <- vapply(sub_s, function(x) {
+      v <- x$population[[yr]]
+      if (is.null(v)) 0 else as.numeric(v)
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }
+  data.frame(
+    Jurisdiction = cty,
+    `Included Sites` = viscount_fmt_number(length(sub_s), 0L),
+    `1000AD` = sum_yr("1000"),
+    `1150AD` = sum_yr("1150"),
+    `1300AD` = sum_yr("1300"),
+    `1500AD` = sum_yr("1500"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_lb <- do.call(rbind, lb_rows)
+rownames(df_lb) <- NULL
+viscount_table(
+  df_lb,
+  "Distribution of the 13.787 individually assessed settlements across modern North African jurisdictions and aggregated ledger populations at four mediaeval benchmarks.",
+  arg3_options = list(label = "tab:ledger-breakdown")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

@@ -1,0 +1,419 @@
+---
+title: "Southern Europe and European Islands after 1945"
+subtitle: "Spain, Portugal, Italy, Malta, Greece, North Atlantic and Macaronesian Islands, 1945-2025"
+date: "22 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/southern_europe_and_islands_after_1945_regional_map.png"
+hero_caption: "Sub-regional population density and principal settlements across Southern Europe, Eastern Thrace, Macaronesia and the North Atlantic, 1945-2025."
+bibliography: southern_europe_and_islands_after_1945_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(jsonlite)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_data <- fromJSON("southern_europe_and_islands_after_1945_summary.json", simplifyVector = FALSE)
+
+clean_hgis_source <- function (arg0_raw) {
+  src <- as.character(arg0_raw)
+  if (grepl("^DEMOPAST_ISTAT", src)) return("DEMOPAST/ISTAT Italian Provinces (1951-1971)")
+  if (grepl("^INE_Spain", src)) return("INE Spain 1833 Historic Provinces")
+  if (grepl("^INE_Portugal", src)) return("INE Portugal 1835 Historic Districts")
+  if (grepl("^INSEE_96", src)) return("INSEE 96 French Départements (Border Frame)")
+  if (grepl("^INSEE_1876", src)) return("INSEE Départements & GISCO NUTS-3 (Border Frame)")
+  if (grepl("^BFS_Swiss", src)) return("BFS Swiss Cantons (Border Frame)")
+  if (grepl("^CShapes_Europe", src)) return("CShapes National Census Polygons (Greece & Balkans)")
+  if (grepl("^NorthAtlantic_Census", src)) return("North Atlantic Historic Censuses")
+  if (grepl("^Eurostat_demo_r", src)) return("Eurostat NUTS-3 Population Series (1990-2020)")
+  if (grepl("^National_Statistical_Office_NonNUTS", src)) return("Non-NUTS North Atlantic Statistical Offices")
+  gsub("_", " ", src, fixed = TRUE)
+}
+
+clean_hgis_short <- function (arg0_raw) {
+  src <- as.character(arg0_raw)
+  if (grepl("^DEMOPAST_ISTAT", src)) return("DEMOPAST/ISTAT")
+  if (grepl("^INE_Spain", src)) return("INE Spain")
+  if (grepl("^INE_Portugal", src)) return("INE Portugal")
+  if (grepl("^INSEE", src)) return("INSEE")
+  if (grepl("^BFS_Swiss", src)) return("BFS Switzerland")
+  if (grepl("^CShapes_Europe", src)) return("CShapes Census")
+  if (grepl("^NorthAtlantic", src)) return("North Atlantic")
+  if (grepl("^Eurostat_demo_r", src)) return("Eurostat NUTS-3")
+  if (grepl("^National_Statistical_Office_NonNUTS", src)) return("Non-NUTS Offices")
+  gsub("_", " ", src, fixed = TRUE)
+}
+
+clean_prov_source <- function (arg0_raw) {
+  src <- as.character(arg0_raw)
+  mapping <- c(
+    "INE_Spain_Censos_Historicos_1857_1991" = "INE Spain Historic Municipal Censuses (1857-1991)",
+    "Buringh_European_Urban_700_2000" = "Buringh European Urban Series (700-2000)",
+    "GeoNames_Municipal_Gazetteer_Supplement" = "GeoNames Municipal Gazetteer Supplement",
+    "Eurostat_Urban_Audit_1990_2024" = "Eurostat Urban Audit Metropolitan Series (1990-2024)",
+    "National_Statistical_Census_Portugal" = "INE Portugal National Census Series",
+    "National_Statistical_Census_Greece" = "ELSTAT Greece National Census Series",
+    "National_Statistical_Census_Malta" = "NSO Malta National Census Series",
+    "National_Statistical_Census_Iceland" = "Statistics Iceland Municipal Series",
+    "INSEE_Recensement_1876_2023" = "INSEE French Municipal Censuses (Border Frame)",
+    "National_Statistical_Census_Slovenia" = "SURS Slovenia Municipal Series (Border Frame)",
+    "DEMOPAST_ISTAT_Citta_1861_1971" = "DEMOPAST/ISTAT Italian Cities (1861-1971)",
+    "National_Statistical_Census_Greenland" = "Statistics Greenland District & Town Registers",
+    "National_Statistical_Census_Bulgaria" = "NSI Bulgaria Municipal Series (Border Frame)",
+    "National_Statistical_Census_Faroe_Islands" = "Hagstova Faroe Islands Municipal Registers",
+    "National_Statistical_Census_Switzerland" = "BFS Switzerland Municipal Series (Border Frame)"
+  )
+  if (src %in% names(mapping)) return(unname(mapping[src]))
+  gsub("_", " ", src, fixed = TRUE)
+}
+
+clean_country_code <- function (arg0_code) {
+  cd <- as.character(arg0_code)
+  mapping <- c(
+    "ES" = "Spain",
+    "IT" = "Italy",
+    "PT" = "Portugal",
+    "EL" = "Greece",
+    "GR" = "Greece",
+    "MT" = "Malta",
+    "IS" = "Iceland",
+    "FO" = "Faroe Islands",
+    "GL" = "Greenland",
+    "CS_greece" = "Greece",
+    "CS_bulgaria" = "Bulgaria",
+    "CS_albania" = "Albania"
+  )
+  if (cd %in% names(mapping)) return(unname(mapping[cd]))
+  gsub("^CS_", "", cd)
+}
+
+get_pop_at <- function (arg0_pop, arg1_year) {
+  key <- as.character(arg1_year)
+  if (!is.null(arg0_pop[[key]])) return(viscount_fmt_pop(arg0_pop[[key]]))
+  "--"
+}
+```
+
+```{r hero-md, echo=FALSE, results='asis'}
+if (!knitr::is_latex_output()) {
+  cat("![Sub-regional population density and principal settlements across Southern Europe, Eastern Thrace, Macaronesia and the North Atlantic, 1945-2025.](figures/southern_europe_and_islands_after_1945_regional_map.png)\n\n")
+}
+```
+
+# Abstract
+
+Between 1945 and 2025 the southern rim of Europe and the Atlantic island territories underwent one of the swiftest demographic reversals in modern European history. Across 11 sub-regions covering 3.227.227 km² — stretching from the Spanish Meseta, Portugal, Italy, Malta, Greece and Eastern Thrace to the Canary Islands, the Azores, Madeira, Iceland, the Faroe Islands and Greenland — total population rose from 93,29M in 1950 to 108,91M in 1970, 122,69M in 1990, 138,83M in 2010 and 142,33M in 2025, an aggregate increase of 52,57%. That net expansion masks a sharp structural inversion. Between 1950 and 1974 Mediterranean Europe functioned as the chief labour reservoir for north-western European industry while shedding millions of rural inhabitants into domestic coastal metropolises; by the late twentieth century Spain, Italy, Portugal and Greece had entered the lowest-low fertility tier and pivoted to international immigration to offset natural decrease. Meanwhile Eastern Thrace expanded nearly eightfold around European Istanbul, Malta surpassed 2.023 persons per km² and the Canary Islands and Iceland nearly tripled, whereas the Azores and Madeira declined by 15,21% and Greece contracted by 6,66% after 2010. Anchored by 2.455 sub-administrative historical GIS enumerations and 2.018 settlements, this chapter reconstructs the regional trajectories, internal migrations and urban hierarchies of the post-war era.
+
+# Background
+
+## Geographic Scope and Post-War Baseline
+
+This chapter encompasses 11 sub-regions spanning the three southern European peninsulas, European Turkey, the central Mediterranean archipelago of Malta, the volcanic archipelagos of Macaronesia and the sub-Arctic territories of the North Atlantic. Together these units occupy 3.227.227 km², though Greenland alone accounts for 2.076.808,1 km² (64,35% of the study area) while holding less than 0,04% of its population. Excluding Greenland, the remaining 10 sub-regions cover 1.150.418,9 km², on which mean population density climbed from 81,07 persons per km² in 1950 to 123,67 persons per km² in 2025. Relief and climate impose sharp internal contrasts across this zone. Rugged cordilleras — the Iberian Meseta and Cantabrian ranges, the Apennines, the Pindus mountains and the Alpine watershed — divide arid or sparsely inhabited uplands from narrow alluvial basins and irrigated coastal plains where settlement has clustered ever more tightly since the Second World War [@RosesWolf2019; @Mitchell2007].
+
+In 1945 the Mediterranean peninsulas stood markedly behind north-western Europe in urbanisation, industrial output and life expectancy. Italy emerged from wartime combat and partition with 47,11M inhabitants in 1950, over half of the entire study domain, yet southern Italy remained overwhelmingly agrarian, marked by latifundia estates, endemic malaria on coastal lowlands and high infant mortality [@DEMOPAST2023]. Spain, numbering 27,28M on the mainland and Balearics plus 793k in the Canary Islands in 1950, was still recovering from the human and infrastructural losses of the 1936-1939 Civil War and the rationing years of early Francoist autarky [@INE2024]. Portugal, with 7,86M on the mainland and 585k across the Azores and Madeira, remained locked in rural conservatism under the Estado Novo, recording Europe's lowest literacy rates and highest infant mortality outside the Balkans. Greece, tallying 7,57M in 1950, had endured a decade of Italian-German occupation, the 1941-1942 famine and the 1946-1949 Civil War that left mountain villages across Epirus and Macedonia burned or evacuated [@StatBalkans2024]. At the south-eastern margin, Eastern Thrace (Turkey-in-Europe) held just 1,59M people in 1950, with European Istanbul still below 1M. Across the Atlantic, Iceland (143k), the Faroe Islands (31,8k) and Greenland (23,6k) stood at the threshold of post-war fisheries mechanisation, public health campaigns and welfare-state integration [@Hagstofa2024; @StatGL2024].
+
+## Demographic Regimes Across the Mediterranean and North Atlantic
+
+The 80 years following 1945 compressed two centuries of demographic transition into less than two generations across Southern Europe. At mid-century, birth rates across southern Italy, interior Spain, northern Portugal and rural Greece remained well above replacement, generating an abundant youth cohort that neither local agriculture nor nascent industry could absorb [@CoaleWatkins1986]. Between 1950 and the oil shock of 1973, two simultaneous migration streams emptied the agrarian interior: an international exodus of guest workers and permanent emigrants towards France, West Germany, Switzerland, Belgium, Britain, Australia and the Americas, and an even larger internal relocation towards domestic industrial poles [@INSEE2024; @BFS2024; @ONS2024]. Simultaneously, antibiotics, DDT-driven malaria eradication, piped water and expanded maternal clinics pushed infant mortality down sharply and narrowed the life-expectancy gap with northern Europe [@Tamarozzi2020Epidemiological].
+
+Following the 1973-1974 economic downturn and the democratic transitions in Portugal (1974), Greece (1974) and Spain (1975), the demographic regime inverted. Fertility fell faster in Iberia and Italy than anywhere else on the continent. By the early 1990s Italy and Spain recorded total fertility rates between 1,2 and 1,3 children per woman, joined shortly thereafter by Portugal and Greece [@CoaleWatkins1986]. Delayed labour-market entry, elevated youth unemployment and family-mediated housing tenure pushed mean age at first birth past 30 years across Mediterranean Europe [@Raviv2022Intergenerational]. Because large post-war cohorts were still passing through reproductive ages during the 1970s and 1980s, natural increase remained positive for another decade before turning negative in Italy during the mid-1990s and across Portugal, Greece and Spain during the 2010s. From the late 1990s onwards, international immigration from Latin America, North Africa, Eastern Europe and South Asia became the sole engine of demographic growth in Mediterranean Europe — until the sovereign debt crisis of 2008-2014 halted inflows and triggered renewed youth emigration from Greece, Spain, Portugal and southern Italy [@Sommeiller2020Working; @Contributors2022Assessing]. Only Eastern Thrace, propelled by Anatolian migration into Istanbul, and the North Atlantic and tourism-driven island economies of Iceland, the Faroe Islands, Malta and the Canary Islands sustained strong late-period expansion.
+
+# Methodology
+
+## Sub-Administrative Historical GIS Architecture
+
+Reconstruction of post-war demographic change in MAGNETIC rests on a strict separation between period-authentic historical administrative geographies prior to 1990 and harmonised European Union statistical units from 1990 onwards. Across the 1950-2020 decadal snapshots, 2.455 scraped sub-administrative enumeration rows anchor the spatial distribution of population beneath the 11 macro-regional totals. Every pre-1990 snapshot relies exclusively on archival census boundaries contemporary with the enumeration: 92 Italian provinces in the 1951 and 1961 DEMOPAST/ISTAT censuses expanding to 94 provinces in 1971 following the creation of Pordenone and Isernia [@DEMOPAST2023], 51 Spanish historic provinces established under the 1833 Javier de Burgos territorial reform [@INE2024], 18 Portuguese mainland historic districts established in 1835, North Atlantic colonial and home-rule census frames [@StatGL2024; @Hagstofa2024] and CShapes national census polygons for Greece and neighbouring Balkan territories [@StatBalkans2024]. Contiguous border frames — the 96 post-war French départements from INSEE [@INSEE2024] and 24-25 Swiss cantons from BFS [@BFS2024] — are retained in the spatial boundary ledger to eliminate edge distortion along the Alpine and Pyrenean frontiers.
+
+From 1990 onwards, sub-administrative coverage transitions cleanly to Eurostat NUTS-3 population series (`r viscount_fmt_number(summary_data$hgis_row_count, 0L)` total scraped rows across all regimes), supplemented by non-NUTS statistical registers for Greenland and the Faroe Islands [@Eurostat2024; @StatGL2024]. Table 1 summarises the 2.455 scraped sub-administrative enumeration rows grouped by archival source family and regime span.
+
+```{r hgis-regime-table, results='asis'}
+hgis_list <- summary_data$hgis_regime_summary
+hgis_df <- data.frame(
+  regime = vapply(hgis_list, function (x) as.integer(x$snapshot_regime), integer(1)),
+  raw_source = vapply(hgis_list, function (x) as.character(x$source), character(1)),
+  units = vapply(hgis_list, function (x) as.integer(x$units), integer(1)),
+  pop = vapply(hgis_list, function (x) as.numeric(x$population_sum), numeric(1)),
+  area = vapply(hgis_list, function (x) as.numeric(x$area_km2_sum), numeric(1)),
+  stringsAsFactors = FALSE
+)
+hgis_df$series <- vapply(hgis_df$raw_source, clean_hgis_source, character(1))
+
+series_names <- unique(hgis_df$series)
+agg_rows <- lapply(series_names, function (sn) {
+  sub <- hgis_df[hgis_df$series == sn, ]
+  yr_min <- min(sub$regime)
+  yr_max <- max(sub$regime)
+  span_lbl <- if (yr_min == yr_max) as.character(yr_min) else paste0(yr_min, "-", yr_max)
+  u_min <- min(sub$units)
+  u_max <- max(sub$units)
+  u_lbl <- if (u_min == u_max) as.character(u_min) else paste0(u_min, "-", u_max)
+  data.frame(
+    Series = sn,
+    Span = span_lbl,
+    Rows = viscount_fmt_number(sum(sub$units), 0L),
+    Units = u_lbl,
+    PeakPop = viscount_fmt_pop(max(sub$pop)),
+    Area = viscount_fmt_number(max(sub$area), 0L),
+    sort_yr = yr_min,
+    sort_rows = sum(sub$units),
+    stringsAsFactors = FALSE
+  )
+})
+agg_df <- do.call(rbind, agg_rows)
+agg_df <- agg_df[order(agg_df$sort_yr, -agg_df$sort_rows), ]
+agg_display <- agg_df[, c("Series", "Span", "Rows", "Units", "PeakPop", "Area")]
+rownames(agg_display) <- NULL
+
+viscount_table(
+  agg_display,
+  "Sub-administrative historical GIS enumeration series across 1950-2020 regimes (2.455 scraped rows).",
+  c("Archival Series", "Regime Span", "Total Rows", "Units/Regime", "Peak Covered Pop.", "Mapped Area (km²)")
+)
+```
+
+## Settlement Gazetteer and Interpolation Protocol
+
+Beneath the sub-administrative polygon layer, MAGNETIC compiles a georeferenced gazetteer of `r viscount_fmt_number(summary_data$settlement_count, 0L)` settlements active between 1950 and 2025. Primary urban series derive from national municipal censuses and metropolitan statistical audits: INE Spain's historic municipal register contributes 724 settlements (35,88%), the Buringh European urban series contributes 507 settlements (25,12%), Eurostat Urban Audit provides 178 metropolitan and city cores (8,82%), and national statistical censuses for Portugal (122), Greece (104), Malta (24), Iceland (21), Greenland (6), the Faroe Islands (4), DEMOPAST/ISTAT Italy (11) and border-frame registers for France, Slovenia, Bulgaria and Switzerland supply a further 329 settlements [@INE2024; @Eurostat2024; @DEMOPAST2023; @Hagstofa2024; @StatGL2024]. Official and historical registers therefore account for 86,12% of the gazetteer (1.738 settlements), while the GeoNames municipal gazetteer supplement supplies the remaining 280 secondary places (13,88%).
+
+Benchmark sub-regional totals are evaluated at five anchor dates: 1950, 1970, 1990, 2010 and 2025. Where national census calendars fall in year-1 or year-2 intervals — notably Italian censuses (1951, 1961, 1971, 1981, 1991, 2001, 2011), Greek censuses (1951, 1961, 1971, 1981, 1991, 2001, 2011, 2021) and Portuguese censuses (1950, 1960, 1970, 1981, 1991, 2001, 2011, 2021) — populations are adjusted to exact decadal mid-year or 1 January benchmarks using inter-censal exponential growth rates constrained to annual civil registration vital balances [@Mitchell2007; @Eurostat2024]. Post-2020 trajectories incorporate provisional 2024-2025 population registers from INE, ISTAT, ELSTAT, NSO Malta, Statistics Iceland and Statistics Greenland.
+
+# Validation
+
+## Sub-Administrative Cross-Checks and Boundary Reconciliation
+
+Reconciling macro-regional series against the 2.455 scraped sub-administrative rows confirms high internal consistency across all major states while exposing meaningful administrative artefacts that would otherwise escape national totals. In Italy, summing the 92 DEMOPAST/ISTAT provinces yields 47,51M inhabitants in 1951 and 50,62M in 1961, expanding across 94 provinces to 54,14M in 1971 and 56,57M in 1980 [@DEMOPAST2023]. Those sums track the MAGNETIC Italy sub-region totals — 47,11M in 1950, 53,82M in 1970 and 56,72M in 1990 — within 0,8%, the minor offset reflecting the one-year shift between 1950/1970 benchmarks and 1951/1971 census dates plus microstate inclusions (San Marino and Vatican City). In Spain, summing the 51 historic provinces in INE records yields 28,06M in 1950, 33,89M in 1970 and 37,3M in 1980 [@INE2024]. Comparing against the combined sum of Mainland Spain and the Canary Islands in MAGNETIC (27,28M + 793k = 28,07M in 1950; 32,72M + 1,17M = 33,89M in 1970) produces virtually exact parity.
+
+In Portugal, the 18 mainland historic districts provide a particularly revealing cross-check on twentieth-century migration shocks. District sums climb from 7,86M in 1950 to 8,29M in 1960, then fall to 8,07M in 1970 before leaping to 9,21M in 1980. That V-shaped dip and surge captures two defining events: first the massive 1960s emigration wave to France and West Germany that temporarily drained interior districts faster than natural increase could replenish them, and second the sudden arrival of *retornados* after colonial independence in 1974-1975. Table 2 presents the featured sub-administrative HGIS enumerations from the scraped ledger, illustrating the scale and continuity of the largest Spanish, Italian and Greek census polygons from 1950 through 2020.
+
+```{r hgis-featured-table, results='asis'}
+feat_list <- summary_data$hgis_featured_units
+feat_df <- data.frame(
+  Regime = vapply(feat_list, function (x) as.character(x$snapshot_regime), character(1)),
+  Country = vapply(feat_list, function (x) clean_country_code(x$country), character(1)),
+  Unit = vapply(feat_list, function (x) as.character(x$unit_name), character(1)),
+  Area = vapply(feat_list, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  Pop = vapply(feat_list, function (x) viscount_fmt_pop(x$population), character(1)),
+  Density = vapply(feat_list, function (x) viscount_fmt_number(as.numeric(x$population) / as.numeric(x$area_km2), 1L), character(1)),
+  Source = vapply(feat_list, function (x) clean_hgis_short(x$source), character(1)),
+  sort_pop = vapply(feat_list, function (x) as.numeric(x$population), numeric(1)),
+  stringsAsFactors = FALSE
+)
+feat_df <- feat_df[order(-feat_df$sort_pop), ]
+feat_display <- feat_df[, c("Regime", "Country", "Unit", "Area", "Pop", "Density", "Source")]
+rownames(feat_display) <- NULL
+
+viscount_table(
+  feat_display,
+  "Featured sub-administrative HGIS enumerations across Southern Europe and the Balkan census frame, 1950-2020.",
+  c("Regime", "Country", "Administrative Unit", "Area (km²)", "Population", "Density (/km²)", "Archival Series")
+)
+```
+
+## Urban Primacy and Metropolitan Definition Audits
+
+Auditing the settlement gazetteer against sub-administrative totals highlights a critical distinction between municipal core boundaries and functional metropolitan agglomerations [@DeVries1984; @Eurostat2024]. Across Southern Europe after 1970, historic city municipalities frequently stalled or lost residents due to office conversion, rising housing costs and suburbanisation, even while their surrounding metropolitan rings expanded rapidly. In Italy, for example, Milan's historic municipality declined from 1,73M in 1971 to roughly 1,35M by 2020, whereas the Eurostat Urban Audit greater city of Milano peaked at 4,11M in 2018 before easing to 3,57M in 2025. Similarly, Torino climbed from 713k in 1950 to 1,17M in 1971 at the peak of Fiat-led industrial migration, then contracted within its municipal limits to roughly 851k in 2024 while its broader metropolitan catchment remained near 1,42M [@DEMOPAST2023].
+
+Because the settlement archive ingests both Eurostat Urban Audit functional cities and historical municipal census cores from DEMOPAST/ISTAT, Buringh and GeoNames, three major Mediterranean capitals appear under paired metropolitan and municipal entries: Roma (3,39M metropolitan series) alongside Rome (2,35M municipal core), Napoli greater city (3,13M peak) alongside Naples (922k municipal core) and Athina (3,19M metropolitan basin) alongside Athens (797k historic municipality). Retaining explicit provenance labels prevents double-counting when calibrating sub-regional raster densities while preserving comparability with both pre-1950 urban histories and post-1990 European metropolitan statistics [@Eurostat2024; @Welch2024Bringing].
+
+# Results
+
+Aggregate population across the 11 sub-regions expanded from 93,29M in 1950 to 142,33M in 2025, adding 49,04M inhabitants over 75 years (+52,57%). Growth was strongly front-loaded in the Mediterranean core and markedly divergent across the periphery. Between 1950 and 1970 the domain gained 15,62M inhabitants (+16,75%); between 1970 and 1990 it added 13,78M (+12,65%); between 1990 and 2010 an unprecedented immigration wave across Spain, Italy, Greece and Portugal lifted the total by another 16,14M (+13,16%). After 2010, however, aggregate growth slowed abruptly to 3,5M over 15 years (+2,52%), and three-quarters of that late expansion occurred in just two sub-regions: Spain (+2,2M) and Eastern Thrace (+1,9M), while Italy (-327k), Greece (-741k) and the Azores and Madeira (-18k) all registered net declines. Figure 1 traces the post-war population trajectories of the study domain and its constituent sub-regions, and Table 3 compiles the benchmark series across all 11 sub-regions.
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/southern_europe_and_islands_after_1945_population_trajectory.png",
+  "Population trajectories across the 11 sub-regions of Southern Europe, Eastern Thrace and European islands, 1950-2025.",
+  "fig:trajectory"
+)
+```
+
+```{r subregion-table, results='asis'}
+subs <- summary_data$subregions
+sub_rows <- lapply(subs, function (s) {
+  p1950 <- as.numeric(s$population[["1950"]])
+  p1970 <- as.numeric(s$population[["1970"]])
+  p1990 <- as.numeric(s$population[["1990"]])
+  p2010 <- as.numeric(s$population[["2010"]])
+  p2025 <- as.numeric(s$population[["2025"]])
+  area <- as.numeric(s$area_km2)
+  data.frame(
+    Subregion = as.character(s$name),
+    Area = viscount_fmt_number(area, 0L),
+    Y1950 = viscount_fmt_pop(p1950),
+    Y1970 = viscount_fmt_pop(p1970),
+    Y1990 = viscount_fmt_pop(p1990),
+    Y2010 = viscount_fmt_pop(p2010),
+    Y2025 = viscount_fmt_pop(p2025),
+    Dens2025 = viscount_fmt_number(p2025 / area, 1L),
+    stringsAsFactors = FALSE
+  )
+})
+sub_df <- do.call(rbind, sub_rows)
+tot <- summary_data$domain_totals
+tot_area <- as.numeric(summary_data$total_area_km2)
+tot_row <- data.frame(
+  Subregion = "Domain Total (11 Sub-Regions)",
+  Area = viscount_fmt_number(tot_area, 0L),
+  Y1950 = viscount_fmt_pop(tot[["1950"]]),
+  Y1970 = viscount_fmt_pop(tot[["1970"]]),
+  Y1990 = viscount_fmt_pop(tot[["1990"]]),
+  Y2010 = viscount_fmt_pop(tot[["2010"]]),
+  Y2025 = viscount_fmt_pop(tot[["2025"]]),
+  Dens2025 = viscount_fmt_number(as.numeric(tot[["2025"]]) / tot_area, 1L),
+  stringsAsFactors = FALSE
+)
+sub_df <- rbind(sub_df, tot_row)
+rownames(sub_df) <- NULL
+
+viscount_table(
+  sub_df,
+  "Sub-regional population totals (1950-2025), mapped area and 2025 density across Southern Europe and European islands.",
+  c("Sub-Region", "Area (km²)", "1950", "1970", "1990", "2010", "2025", "2025 (/km²)")
+)
+```
+
+## Iberian Peninsula: Rural Exodus, Retornados and Immigration
+
+Mainland Spain and the Balearic Islands expanded from 27,28M in 1950 to 46,75M in 2025 (+71,37%), raising mean density from 54,76 to 93,84 persons per km². Yet no European country experienced a starker spatial redistribution of its population over the post-war decades. Following the 1959 Stabilisation Plan, rapid industrialisation, agricultural mechanisation and the rise of mass coastal tourism triggered an immense internal migration from the interior plateaux to metropolitan and littoral poles [@RosesWolf2019; @INE2024]. Between 1950 and 1980 over 4M Spaniards left rural municipalities across Castile and León, Castile-La Mancha, Extremadura, Aragon, inland Galicia and agrarian Andalusia, moving into Madrid, Catalonia, the Basque Country, Valencia and the Balearics. The resulting demographic hollowing of the interior — known today as *España vaciada* — reduced provinces such as Soria, Teruel, Cuenca and Zamora to half or less of their mid-century headcounts, leaving vast stretches of the northern and southern Meseta at sub-15 persons per km², comparable to Lapland or the Scottish Highlands.
+
+Simultaneously, Spain's two metropolitan anchors surged. In the sub-administrative HGIS ledger, Madrid province climbed from 3,79M in 1970 to 4,63M in 1980, 4,94M in 1990, 6,37M in 2010 and 6,72M in 2020, while Barcelona province advanced from 3,93M in 1970 to 4,67M in 1990 and 5,69M in 2020 [@INE2024; @Eurostat2024]. After 1975 Spanish fertility collapsed swiftly from 2,8 children per woman to under 1,2 by the late 1990s [@CoaleWatkins1986]. That natural slowdown was overturned after 1998 by Europe's largest proportional immigration boom: driven by construction, agriculture, tourism and domestic care demand, net inflows from Colombia, Ecuador, Morocco, Romania, Argentina, Venezuela and northern Europe added 7,1M people to mainland Spain and the Balearics between 1990 and 2010 (from 37,45M to 44,55M). Although the 2008-2014 recession temporarily reversed net migration and raised youth unemployment past 50% [@Sommeiller2020Working], immigration resumed briskly after 2016, lifting the mainland and Balearics to 46,75M in 2025 and sustaining expansion across Madrid (5,48M urban cluster), Barcelona (3,24M-3,77M), Valencia (1,8M), Sevilla (836k), Zaragoza (841k), Málaga (721k), Alicante (613k), Murcia (575k) and Palma de Mallorca (534k).
+
+Mainland Portugal followed a more erratic trajectory, rising from 7,86M in 1950 to 10,18M in 2025 (+29,58%, or 115,25 persons per km²). Throughout the 1960s, clandestine and legal labour emigration — predominantly to France, where Portuguese became the largest foreign nationality in the Paris basin, alongside West Germany and Switzerland — drained well over 1M citizens from rural northern and central Portugal [@INSEE2024; @BFS2024]. Mainland totals consequently barely moved between 1950 (7,86M) and 1970 (8,12M), and actually contracted between 1960 (8,29M across the 18 historic districts) and 1970 (8,07M). The April 1974 Carnation Revolution and rapid decolonisation of Angola, Mozambique and Guinea-Bissau reversed this drain almost overnight: between 1974 and 1976 approximately 500k to 600k *retornados* repatriated to the metropole, propelling mainland Portugal to 9,21M by 1980 and 9,41M by 1990. Subsequent decades intensified coastal polarisation along the Braga-Porto-Aveiro-Lisbon-Setúbal littoral — where Lisboa reached 1,97M and Porto 1,02M by 2025 — while the interior districts of Bragança, Guarda, Castelo Branco, Portalegre and Beja aged and depopulated. Following recession-era emigration during 2011-2015, renewed inflows from Brazil, Portuguese-speaking Africa and South Asia nudged mainland Portugal back above 10,18M by 2025 despite sustained natural decrease [@Contributors2022Assessing].
+
+## Italy and Malta: Industrial Boom, Mezzogiorno Mobility and Extreme Density
+
+Italy — including San Marino and Vatican City — remained the demographic heavyweight of Southern Europe throughout the post-war era, yet grew more slowly than Iberia, rising from 47,11M in 1950 to 53,82M in 1970, 56,72M in 1990 and a peak near 59,28M around 2010 before easing to 58,95M in 2025 (+25,15% over 75 years; 196,41 persons per km²). The defining spatial transformation occurred during the *Miracolo Economico* of 1951-1971, when rapid manufacturing expansion across the north-western industrial triangle (Milano, Torino and Genova) drew an estimated 4M internal migrants out of the rural Mezzogiorno (Sicily, Calabria, Basilicata, Campania, Apulia and Sardinia) as well as the agrarian Veneto [@RosesWolf2019; @DEMOPAST2023]. Provincial enumerations in DEMOPAST/ISTAT capture the scale of that northward tide: Milano province expanded to 3,9M by 1970 and 4,08M by 1980, while Torino municipal population surged from 713k in 1950 to 1,17M in 1971 and Genova climbed from 685k to 817k. At the same time, state administration, public-sector employment and service growth transformed Roma from 1,61M in 1950 to 2,78M in 1971 and 4,25M across its NUTS-3 metropolitan province by 2020.
+
+Even during the boom, Italy continued exporting workers to Switzerland, West Germany, Belgium, Argentina and Australia until the early 1970s [@BFS2024]. Once industrial growth moderated, Italy led Europe into lowest-low fertility: total fertility plunged below 1,5 by 1985 and fell to 1,19 in the mid-1990s, driven initially by northern and central regions (Liguria, Emilia-Romagna, Piedmont and Tuscany) before spreading to the Mezzogiorno after 2000 [@CoaleWatkins1986]. By the late 1990s deaths exceeded births nationally. Large-scale immigration during 2000-2014 — notably from Romania, Albania, Morocco, Ukraine, China and South Asia, concentrated heavily in Lombardy, Emilia-Romagna, Veneto and Lazio — temporarily pushed Italy past 59,28M [@Ahmad2010Pakistanis; @Sabri2012Concept]. After 2014, however, shrinking cohorts of women of childbearing age, persistent emigration of young southern graduates and lower net immigration tipped the country into structural population decline (-327k between 2010 and 2025). Historic urban cores in Bologna, Firenze, Genova, Palermo and Catania all thinned relative to their late-twentieth-century peaks, leaving Italy with Europe's highest median age.
+
+Immediately south of Sicily, Malta exhibited one of the sharpest demographic turnarounds in Europe. On just 278,2 km² of limestone archipelago, post-war overpopulation and the phased drawdown of British naval dockyard employment initially prompted state-assisted emigration of more than 100k Maltese to Australia, Canada, Britain and the United States [@ONS2024]. Total population consequently fell from 312k in 1950 to 303k in 1970. Following independence (1964) and industrial diversification into tourism, maritime services and light manufacturing, emigration tapered off and the population recovered to 354k in 1990 and 415k in 2010. After 2010, rapid expansion in financial services, remote gaming, aviation maintenance, hospitality and construction triggered an extraordinary surge of foreign workers from EU states, the Balkans, the Philippines and South Asia. Within 15 years Malta added 148k residents (+35,66%), reaching 563k in 2025 and an overall density of 2.023,7 persons per km² — by far the highest national density in Europe, turning Greater Valletta and the harbour towns into a nearly continuous urban conurbation.
+
+## Greece and Eastern Thrace: Balkan Urbanisation and the Marmara Megacity
+
+Greece expanded from 7,57M in 1950 to 8,79M in 1970, 10,16M in 1990 and a peak of 11,12M in 2010 before contracting sharply to 10,38M in 2025 (+37,19% net over 1950-2025, but -6,66% since 2010). The post-war Greek demographic map was forged by civil war displacement and extreme metropolitan primacy [@StatBalkans2024]. Mountain villages across Epirus, Western Macedonia, Evrytania and the Peloponnese emptied rapidly after 1950 as peasant households fled poverty and wartime devastation either for West German factories — over 600k Greek guest workers departed during 1955-1973 — or for the Attica basin. Athens (Athina metropolitan area) grew from 2,22M in 1950 to 2,84M in 1990 and 3,19M by 2025, concentrating nearly a third of the entire Greek population around the capital, while Thessaloniki (Saloniki) nearly tripled from 295k in 1950 to 845k in 2025 as the commercial hub of northern Greece.
+
+During the 1990s and 2000s, the collapse of communist regimes in the Balkans and the former Soviet Union redirected migration flows into Greece: roughly 700k to 900k Albanian workers, Pontic Greek repatriates from the former Soviet Union and Bulgarian or Romanian migrants lifted the national total above 11,12M by 2010 despite low native fertility [@StatBalkans2024]. That gain proved fragile. The 2009-2018 sovereign debt crisis slashed GDP by a quarter, drove unemployment above 27% and precipitated both the departure of foreign labourers and a new brain drain of over 450k young Greek graduates towards Britain, Germany and the Netherlands [@Sommeiller2020Working; @Contributors2022Assessing]. Combined with a widening surplus of deaths over births, Greece shed 741k inhabitants between 2010 and 2025, leaving rural prefectures across Thrace, Thessaly and the Peloponnese severely aged.
+
+Across the Maritsa frontier, Turkey-in-Europe (Eastern Thrace) recorded the fastest sustained population growth anywhere on the European continent. On 22.970,2 km², population nearly octupled from 1,59M in 1950 to 3,15M in 1970, 6,25M in 1990, 10,35M in 2010 and 12,25M in 2025 (+670,44%), driving regional density from 69,2 to 533,3 persons per km². Overwhelmingly, that surge reflects the transformation of European-side Istanbul from a historic imperial port of 983k in 1950 into a continental megacity of 5,68M in 1990 and 9,41M by 2025. Mass rural-to-urban migration from central, eastern and Black Sea Anatolia filled peripheral *gecekondu* districts from the 1950s through the 1990s, later consolidated into high-rise satellite municipalities stretching westwards towards Silivri, Çorlu and Çerkezköy in Tekirdağ province. While agricultural provinces such as Edirne and Kırklareli experienced modest ageing and rural stasis comparable to neighbouring Bulgarian Thrace, the Marmara industrial belt absorbed millions of young Anatolian workers and, after 2011, substantial Syrian and regional refugee communities, maintaining positive population momentum even as Turkish fertility eased towards replacement levels in the 2020s.
+
+## Macaronesian and North Atlantic Islands: Tourism, Fisheries and Sub-Arctic Settlement
+
+The five Atlantic island sub-regions — two Macaronesian and three North Atlantic — trace starkly divergent post-war trajectories shaped by tourism, fisheries, out-migration and state welfare investment. Within Macaronesia, the Canary Islands (7.482 km²) nearly tripled from 793k in 1950 to 1,17M in 1970, 1,49M in 1990, 2,12M in 2010 and 2,26M in 2025 (+184,36%), pushing archipelagic density from 106 to 301,4 persons per km². Once an emigration-prone export periphery reliant on bananas, tomatoes and coaling ports, the Canaries were transformed after 1960 by charter aviation and year-round European winter tourism [@INE2024]. Gran Canaria (centred on Las Palmas at 467k) and Tenerife (Santa Cruz and La Laguna) absorbed rural migrants from the smaller western islands (La Palma, La Gomera and El Hierro), mainland Spaniards, Latin American returnees and large communities of British, German and Nordic residents, while Lanzarote and Fuerteventura expanded rapidly from tiny pastoral baselines.
+
+By contrast, the Portuguese archipelagos of the Azores and Madeira formed the sole sub-region in the entire study domain to register a net long-term population decline between 1950 and 2025. Combined population fell from 585k in 1950 to 542k in 1970 and 491k in 1990, recovered modestly to 514k in 2010 on improved air links and regional autonomy transfers, then slipped again to 496k in 2025 (-15,21% overall). Two distinct migration corridors drove this contraction. In the Azores, chronic rural poverty and the devastating 1957-1958 Capelinhos volcanic eruption on Faial prompted special US refugee legislation and sustained chain migration to Massachusetts, Rhode Island, California and Ontario, halving the population of smaller islands such as Flores, Corvo and Pico while concentrating survivors on São Miguel (Ponta Delgada) and Terceira. Madeira likewise exported tens of thousands of islanders to Venezuela, South Africa, Brazil and Britain, though Funchal's cruise and resort economy moderated losses and drew returnees from Venezuela during the 2010s.
+
+In the North Atlantic, Iceland (100.656,8 km²) expanded steadily from 143k in 1950 to 204k in 1970, 255k in 1990, 318k in 2010 and 393k in 2025 (+174,83%; density rising from 1,4 to 3,9 persons per km²) [@Hagstofa2024]. Post-war prosperity built on extended maritime fishing zones, hydro-geothermal energy, aluminium smelting and a high Nordic fertility rate sustained rapid natural growth through the late twentieth century, while fishing villages in the Westfjords and eastern fjords gradually ceded population to the Greater Reykjavík Capital Region, which now houses roughly two-thirds of the nation. After a brief outflow following the 2008 banking collapse, an extraordinary tourism and construction boom after 2012 triggered heavy labour immigration — especially from Poland, Lithuania and Romania — lifting foreign-born residents past 18% of the population by 2025 [@Contributors2022Assessing].
+
+The Faroe Islands (1.328 km²) rose from 31,8k in 1950 to 38,6k in 1970 and 47,4k in 1990 on modernised trawler fleets and home-rule public infrastructure. In 1992-1994, however, the simultaneous collapse of North Atlantic cod stocks and the domestic banking system triggered an acute recession in which roughly 10% of the population emigrated to Denmark, holding totals nearly flat between 1990 (47,4k) and 2010 (48,5k). Over the last 15 years, pelagic fisheries, salmon aquaculture, subsea road tunnels linking the central islands around Tórshavn and Europe's highest fertility rate (near 2,1 children per woman) restored vigorous expansion, lifting the archipelago to 55,1k in 2025 (+73,27% since 1950).
+
+Greenland (2.076.808,1 km²) underwent a profound epidemiological and settlement transition after 1950. Under the Danish G-50 and G-60 modernisation programmes, ending colonial trade monopolies in 1953, aggressive tuberculosis eradication, maternal clinics and urban housing drove annual natural increase past 3,5% during the 1950s and 1960s, doubling population from 23,6k in 1950 to 46,5k in 1970 [@StatGL2024]. Growth continued to 55,6k in 1990, after which Greenland entered a long plateau — 56,5k in 2010 and 56,8k in 2025 (+140,68% since 1950) — as persistent emigration of young adults and students to Denmark offset positive natural increase. Spatially, policy-driven and economic centralisation steadily emptied remote hunting outposts in East and North Greenland while concentrating over a third of the territory in Nuuk alongside regional centres in Sisimiut, Ilulissat, Qaqortoq and Aasiaat.
+
+## Urban Hierarchy and Metropolitan Concentration
+
+Across the entire study domain, post-war demographic growth was overwhelmingly metropolitan and coastal. Figure 2 displays the rank-size urban hierarchy of the 2.018 catalogued localities, and Table 4 reports the 15 largest urban records across the 1950-2025 benchmark dates. At the apex stands European Istanbul (9,41M in 2025), followed by Madrid (5,48M), Milano greater city (3,57M in 2025 after a 4,11M peak in 2018), Roma (3,39M), Barcelona (3,24M in 2025 after a 3,77M peak in 2023), Athina (3,19M) and Napoli greater city (2,98M in 2025). Below these seven multi-million metropolises sits a dense second tier of regional capitals and industrial ports — Lisboa (1,97M), Valencia (1,8M), Torino (1,42M), Porto (1,02M), Genova (994k), Bilbao (953k), Sevilla (836k), Saloniki (845k) and Zaragoza (841k) — together with rapidly growing coastal tourism and logistics centres such as Málaga, Alicante, Murcia, Palma de Mallorca, Greater Valletta and Las Palmas.
+
+```{r fig-hierarchy, results='asis'}
+viscount_figure(
+  "figures/southern_europe_and_islands_after_1945_urban_hierarchy.png",
+  "Rank-size distribution and metropolitan concentration across Southern European and island settlements, 1950-2025.",
+  "fig:hierarchy"
+)
+```
+
+```{r top-cities-table, results='asis'}
+tops <- summary_data$top_settlements
+n_show <- min(15L, length(tops))
+top_rows <- lapply(seq_len(n_show), function (i) {
+  s <- tops[[i]]
+  data.frame(
+    Rank = as.character(i),
+    Settlement = as.character(s$name),
+    Country = as.character(s$country),
+    Y1950 = get_pop_at(s$population, 1950),
+    Y1970 = get_pop_at(s$population, 1970),
+    Y1990 = get_pop_at(s$population, 1990),
+    Y2010 = get_pop_at(s$population, 2010),
+    Y2025 = get_pop_at(s$population, 2025),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, top_rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  "Fifteen largest urban records in Southern Europe and European islands across 1950-2025 benchmarks.",
+  c("Rank", "Settlement", "Country", "1950", "1970", "1990", "2010", "2025")
+)
+```
+
+Two contrasting urban dynamics emerge from Table 4. In eastern and Iberian growth corridors (Istanbul, Madrid, Valencia, Zaragoza, Sevilla, Bilbao and Lisboa), urban expansion persisted into the 2020s, reinforced by high-speed rail integration, suburban commuter rings and international immigration. In Italy's older industrial and southern cores (Milano, Torino, Genova, Napoli and Palermo), demographic ageing and post-industrial suburban sprawl capped core growth after 1980, producing flat or gently declining metropolitan trajectories despite substantial immigrant inflows [@RosesWolf2019; @Raviv2022Intergenerational].
+
+# Limitations
+
+Five structural constraints govern the interpretation of these series. First, municipal and metropolitan boundary reforms complicate longitudinal comparisons for individual cities. Eurostat Urban Audit functional urban boundaries periodically expanded or redefined metropolitan perimeters — visible in step-changes for Madrid and Barcelona around 2015, Greater Valletta in 2023 and Milano in 2019 — while historical DEMOPAST/ISTAT and Buringh municipal cores track narrower inner administrative limits, generating parallel records for Rome, Naples and Athens [@Eurostat2024; @DEMOPAST2023]. Second, post-war international and circular migration introduces registration lags. Undocumented labour inflows into Spain, Italy and Greece during 1995-2008 frequently entered official population counts in sudden jumps following regularisation amnesties (such as Italy in 2002 and Spain in 2005), whereas post-2010 emigrants from Greece, Spain, Portugal and southern Italy often remained inscribed on municipal registers for several years after moving abroad, causing temporary over-estimation before subsequent census corrections [@Sabri2012Concept; @Welch2024Bringing].
+
+Third, spatial clipping of the regional bounding polygon incorporates narrow perimeter strips of neighbouring states — 22 border municipalities in southern France, 16 in Slovenia, 5 each in Albania and Bulgaria, 4 in Switzerland, 3 in North Macedonia plus the microstates of Andorra, San Marino and Monaco — into the 2.018-settlement archive, alongside the full French département and Swiss cantonal border frames in the 2.455-row HGIS ledger. Sub-regional macro totals in Table 3 strictly exclude neighbouring sovereign territories, ensuring zero cross-chapter double-counting. Fourth, geographic area denominators require care for island and polar sub-regions: Greenland's 2,08M km² ice-sheet surface yields an unadjusted density of 0,03 persons per km² that masks compact coastal town settlement, while the rasterised polygon area of the Azores and Madeira (722,1 km²) represents the core mapped island mask rather than the full 3.132 km² geographic land surface of both archipelagos. Fifth, while 86,12% of the 2.018 settlements rest on official census or historical urban archives, the remaining 13,88% (280 secondary towns) rely on the GeoNames municipal gazetteer supplement interpolated along regional growth curves and therefore carry wider local uncertainty prior to 1990.
+
+# Conclusion
+
+Between 1945 and 2025 Southern Europe and the European Atlantic islands completed a rapid, asymmetric transformation from agrarian emigration zones into aged, coastal and migration-dependent societies. Total population rose by 52,57%, from 93,29M in 1950 to 142,33M in 2025, yet the post-war map fractured along two sharp axes. Within the Mediterranean peninsulas, rural uplands across central Spain, interior Portugal, the Apennines, the Mezzogiorno and mainland Greece emptied permanently as populations concentrated into metropolitan basins and tourist littorals, while early and profound fertility collapse turned international immigration into the sole counterweight to natural decrease. At the regional margins, demographic momentum diverged even more widely: European Istanbul propelled Eastern Thrace nearly eightfold to 12,25M, labour inflows drove Malta past 2.023 persons per km² and tourism alongside maritime industries nearly tripled the Canary Islands and Iceland, whereas mid-century Atlantic emigration left the Azores and Madeira 15,21% smaller than in 1950 and post-2010 austerity reversed Greece's late-twentieth-century gains. Preserving both the 2.455 sub-administrative HGIS enumerations and the 2.018-settlement gazetteer exposes these sub-national divergences beneath aggregate national curves, providing an archival baseline for European regional demography in the twenty-first century.
+
+# Appendix
+
+Table 5 records the provenance distribution across all 2.018 settlements compiled for Southern Europe and European islands after 1945. Official national statistical censuses, Eurostat Urban Audit and peer-reviewed historical urban registers supply 1.738 settlements (86,12%), while the GeoNames municipal supplement contributes 280 secondary settlements (13,88%). Full settlement-level tables, country counts and spatial distributions appear in the companion gazetteer volume for this chapter.
+
+```{r provenance-table, results='asis'}
+prov_counts <- summary_data$provenance_counts
+prov_keys <- names(prov_counts)
+prov_vals <- vapply(prov_keys, function (k) as.integer(prov_counts[[k]]), integer(1))
+tot_set <- sum(prov_vals)
+
+prov_df <- data.frame(
+  Source = vapply(prov_keys, clean_prov_source, character(1)),
+  Count = prov_vals,
+  Share = vapply(prov_vals, function (v) paste0(viscount_fmt_number(100 * v / tot_set, 2L), "%"), character(1)),
+  stringsAsFactors = FALSE
+)
+prov_df <- prov_df[order(-prov_df$Count), ]
+prov_df$Count <- vapply(prov_df$Count, function (v) viscount_fmt_number(v, 0L), character(1))
+prov_df <- rbind(
+  prov_df,
+  data.frame(
+    Source = "Total Settlement Gazetteer",
+    Count = viscount_fmt_number(tot_set, 0L),
+    Share = "100%",
+    stringsAsFactors = FALSE
+  )
+)
+rownames(prov_df) <- NULL
+
+viscount_table(
+  prov_df,
+  "Archival provenance ledger across all 2.018 settlements in Southern Europe and European islands, 1945-2025.",
+  c("Archival Provenance Source", "Settlements", "Share")
+)
+```
+
+# Sources

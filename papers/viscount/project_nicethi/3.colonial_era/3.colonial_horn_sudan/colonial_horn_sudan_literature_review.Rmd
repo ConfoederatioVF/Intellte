@@ -1,0 +1,436 @@
+---
+title: "Colonial Horn of Africa and Anglo-Egyptian Sudan"
+subtitle: "Ethiopia, Eritrea, Somalilands and Anglo-Egyptian Sudan (1880s-1960)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_horn_sudan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Nine colonial and imperial sub-regions and 239 individually assessed settlements across the Horn of Africa and Anglo-Egyptian Sudan between 1880AD and 1960AD."
+hero_label: "fig:hero-colonial-horn"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("colonial_horn_sudan_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("colonial_horn_sudan_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("1880", "1910", "1930", "1950", "1956", "1960")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+subregion_order <- c(
+  "imperial_ethiopia_north_central",
+  "imperial_ethiopia_south_west",
+  "imperial_ethiopia_hararghe_ogaden",
+  "italian_eritrea",
+  "french_british_somaliland",
+  "italian_somaliland",
+  "anglo_egyptian_sudan_north_nile",
+  "anglo_egyptian_sudan_darfur_kord",
+  "anglo_egyptian_sudan_south"
+)
+```
+
+# Abstract
+
+Between 1880AD and 1960AD, imperial state consolidation in Ethiopia, the Mahdist upheaval and subsequent Anglo-Egyptian Condominium in Sudan, and European coastal partition across Eritrea and the Somali littoral reshaped population geography across Northeast Africa. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning eleven modern jurisdictions, NICETHI reconstructs an aggregate regional population that dipped slightly from `r viscount_fmt_pop(headline_vals[["1880"]])` inhabitants in 1880AD to `r viscount_fmt_pop(summary_cache$headline_series[["1890"]])` in 1890AD during the Ethiopian Great Famine (*Kefu Qan*) and Mahdist wars before recovering to `r viscount_fmt_pop(headline_vals[["1910"]])` in 1910AD, `r viscount_fmt_pop(headline_vals[["1930"]])` in 1930AD, `r viscount_fmt_pop(headline_vals[["1950"]])` in 1950AD, `r viscount_fmt_pop(headline_vals[["1956"]])` in 1956AD and `r viscount_fmt_pop(headline_vals[["1960"]])` by 1960AD, reaching a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth diverged sharply between highland agrarian cores and arid pastoral lowlands. Addis Ababa expanded from 20k in 1890AD to 444k city-proper (`r viscount_fmt_pop(541699)` metropolitan agglomeration) by 1960AD, while Khartoum, Omdurman and Khartoum North recovered from wartime devastation to form a 342,7k tri-city capital alongside Port Sudan, Atbara and Gezira irrigation towns, and Asmara grew to 123,5k under Italian and British administration. These estimates integrate `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations with colonial province censuses, non-stationary Matérn residual kriging and mass-conserving sub-administrative disaggregation.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Nine colonial and imperial sub-regions and 239 individually assessed settlements across the Horn of Africa and Anglo-Egyptian Sudan between 1880AD and 1960AD.",
+    "fig:hero-colonial-horn"
+  )
+}
+```
+
+# Background
+
+## Imperial Expansion, Railway Corridors and Famine Recovery
+
+At the opening of the 1880s, Northeast Africa comprised an intricate patchwork of highland Ethiopian principalities, the Egyptian-held Sudan sliding into the Mahdist revolt, Ottoman-Egyptian Red Sea ports and autonomous Somali clan confederacies along the Gulf of Aden and Benadir coast [@Caulk1972FirearmsAnd; @Omar2001ScrambleHorn; @Division1922HandbookThe]. Within three decades, military conquest and railway engineering bound these regions into sharply defined political territories. Under Emperor Menelik II, Shewan armies armed with European breechloaders incorporated Harar in 1887AD alongside Oromo, Kaffa, Wolayta and Sidamo provinces in the south and west, transferring the imperial court from Entoto down to the hot springs at Addis Ababa in 1886AD [@Caulk1972FirearmsAnd; @Pankhurst1968EconomicHistory]. Scarcely had the new capital taken root when the 1888AD to 1892AD Great Famine (*Kefu Qan*), triggered by rinderpest cattle mortality, locust swarms and drought, decimated livestock herds and rural households across northern and central Ethiopia as well as neighbouring Eritrea [@Pankhurst1968EconomicHistory; @Taddia2013ModernEthiopia].
+
+Recovery after 1892AD coincided with major transport and urban realignments. The Franco-Ethiopian railway from Djibouti reached the newly founded junction of Dire Dawa in 1902AD and entered Addis Ababa in 1917AD, shifting external commerce away from older Massawa and Zeila caravan trails toward the Gulf of Aden [@Pankhurst1968EconomicHistory; @Darwich2025PortInfrastructures]. In Italian Eritrea, declared a formal colony in 1890AD, the administration shifted its capital from coastal Massawa to highland Asmara, investing in roads, segregated residential quarters and port expansion before using Eritrea as the staging ground for the 1935AD invasion and 1936AD to 1941AD occupation of Italian East Africa [@Fuller2011ItalyColonial; @Yi2026TheRole; @Braukamper2013IndigenousViews]. Across the Somali peninsula, French Somaliland anchored Djibouti's harbour, British Somaliland administered Hargeisa and Berbera as livestock-export hubs for Aden, and Italian Somaliland consolidated plantation agriculture along the Shabelle and Juba rivers behind Mogadishu, Marka and Kismaayo [@Omar2001ScrambleHorn; @Darwich2025PortInfrastructures; @Agency1948BritishProposal].
+
+In the Nile basin, the Mahdist State concentrated tens of thousands of soldiers, administrators and displaced families at Omdurman while largely abandoning Turkish-era Khartoum until Anglo-Egyptian forces retook the confluence in 1898AD [@Division1922HandbookThe]. Under the 1899AD Condominium Agreement, British administrators rebuilt Khartoum as a planned administrative grid across the Blue Nile from Omdurman, constructed a new deep-water Red Sea terminal at Port Sudan after 1905AD to replace coral-choked Suakin, centralised railway workshops at Atbara, annexed the Sultanate of Darfur in 1916AD and launched the Gezira cotton irrigation scheme south of Wad Madanī following completion of the Sennar Dam in 1925AD [@Division1922HandbookThe; @Abdelgadir2024AssessmentImplementation]. Together, these fiscal, hydraulic and rail investments redrew the urban and rural settlement map ahead of Sudanese independence in 1956AD and Somali and British Somaliland independence in 1960AD [@Sudan1956Census; @Omar2001ScrambleHorn].
+
+## Historiography of Colonial Censuses and Urban Records
+
+Quantitative reconstruction across this macro-region faces stark disparities in documentary density between coastal enclaves and inland provinces. Italian Eritrea possesses the earliest systematic enumerations, compiled by colonial municipal offices and published in Rome through the 1905AD, 1931AD and 1939AD censuses alongside the 1938AD *Guida dell'Africa Orientale Italiana* [@Fuller2011ItalyColonial; @Taddia2013ModernEthiopia; @Yi2026TheRole]. British Military Administration records for 1941AD to 1952AD document post-war demobilisation, Italian settler repatriation and urban unemployment across Asmara, Massawa, Keren and Dek'emhāre prior to Eritrea's 1952AD federation with Ethiopia [@Beyan2021UnemploymentAnd; @Olusesan2020SecessionOutside; @Muller2020ColonialBorders]. For British Somaliland and the Anglo-Egyptian Sudan prior to the 1950s, colonial Blue Books, the 1922AD Admiralty *Handbook* and Robert René Kuczynski's *Demographic Survey* compile district tax rolls, tribal estimates and municipal counts while warning candidly against treating early poll-tax lists as complete headcounts [@Division1922HandbookThe; @Kuczynski1949DemographicSurvey2; @Jambir1950StrategicImportance].
+
+Two major mid-century advances anchor the upper end of the period. In Sudan, the Department of Statistics executed the First Population Census of Sudan in 1955AD to 1956AD, enumerating 10.262.536 residents across all nine Condominium provinces through stratified household sampling and nomad cluster frames [@Sudan1956Census]. That census revealed that pre-war Condominium estimates had substantially undercounted both Darfur-Kordofan and the three southern provinces of Bahr el Ghazal, Upper Nile and Equatoria [@Sudan1956Census; @Division1922HandbookThe]. In Ethiopia, where no national census occurred before 1984AD, urban trajectories rely on Richard Pankhurst's synthesis of consular reports, Italian occupation municipal surveys, 1950s Central Statistical Office municipal tallies, heritage inventories and modern spatial agglomeration footprints [@Pankhurst1968EconomicHistory; @Demisse2024UrbanLand; @Kitessa2020QuantifyingWater; @ARCCH2020EthiopiaInventory]. NICETHI harmonises these heterogeneous archives into a single territorial ledger from 1880AD to 1960AD.
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The study area covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells spanning eleven modern jurisdictions: Sudan, South Sudan, Ethiopia, Eritrea, Djibouti, Somalia and Somaliland, together with narrow border-edge settlements in Chad, the Central African Republic, Uganda and Kenya [@Runfola2020GeoBoundaries]. Within NICETHI, the chapter occupies the colonial demographic regime (1880AD to 1960AD), bridging nineteenth-century pre-partition states with post-colonial national statistical series. Nine historical-administrative sub-regions partition the territory along Condominium provincial groups, Imperial Ethiopian macro-provinces, Italian Eritrea, Italian Somaliland and the French and British Somaliland protectorates (Table \ref{tab:subregions}).
+
+Population trajectories are evaluated across 14 benchmark years between 1880AD and 1960AD (1880, 1890, 1910, 1920, 1930, 1950, 1951, 1952, 1953, 1955, 1956, 1957, 1959 and 1960), with six core checkpoints reported in comparative tables: 1880AD (pre-Mahdist and Menelik expansion baseline), 1910AD (post-famine recovery and early railway era), 1930AD (Gezira irrigation and interwar colonial peak), 1950AD (post-Second World War and BMA transition), 1956AD (Sudanese independence and 1955-1956 census alignment) and 1960AD (Somali independence and chapter close). All sub-regional figures represent full resident populations encompassing towns, rural cultivating villages and nomadic or transhumant pastoral groups [@Sudan1956Census; @Pankhurst1968EconomicHistory; @Kuczynski1949DemographicSurvey2].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  Era = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    paste0(pts[1], "AD-", pts[2], "AD")
+  }, character(1)),
+  `Assessed Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Nine colonial and imperial sub-regions of the Horn of Africa and Anglo-Egyptian Sudan, showing surface area, 5-arcminute pixel counts, eras and interior assessed sites.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Screening and Metropolitan Reconciliation
+
+Urban hierarchies were built from `r viscount_fmt_number(n_candidate_sites, 0L)` candidate towns, railway stations, garrison posts, ports and provincial capitals screened from the 1955-1956 Sudanese census, Italian ISTAT colonial censuses, British Somaliland Blue Books, Ethiopian municipal surveys, heritage inventories and Africapolis agglomeration series [@Sudan1956Census; @Fuller2011ItalyColonial; @Pankhurst1968EconomicHistory; @ARCCH2020EthiopiaInventory]. Removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate transliteration aliases (such as parallel colonial English and Arabic spellings for Khartoum, Omdurman, El Fasher, El Obeid, Kassala and Wau) left `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements backed by `r viscount_fmt_number(n_obs_total, 0L)` chronological observations (Figure \ref{fig:hero-colonial-horn}).
+
+Both city-proper municipal cores and post-1950 metropolitan agglomerations are tracked explicitly to avoid confounding administrative boundaries with built-up urban footprints. Of the 239 retained records, `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` carry city-proper municipal scope and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` represent metropolitan agglomerations beginning in 1950AD: Addis Ababa (363,4k in 1950AD to 541,7k in 1960AD), Khartoum (229,4k to 342,7k), Asmara (99,3k to 123,5k), Mogadishu (47,5k to 101,5k), Hargeisa (30,4k to 38,4k), Djibouti (31,9k to 37,4k) and Juba (18k to 17k) [@Demisse2024UrbanLand; @Darwich2025PortInfrastructures; @Beyan2021UnemploymentAnd]. In keeping with NICETHI accounting rules, metropolitan agglomerations appear alongside their constituent municipal cores (such as Al-Kharṭūm, Umm Durmān and Al-Kharṭūm Baḥrī inside greater Khartoum) with explicit scope tags rather than merging distinct historical series.
+
+## Residual Kriging Substrata and Sub-Administrative Disaggregation
+
+To distribute rural farming and pastoral populations continuously across `r viscount_fmt_number(total_area_km2, 0L)` km², NICETHI pairs colonial territorial envelopes with non-stationary Paciorek-Schervish Matérn ($\nu = 3/2$) residual kriging calibrated across 11.199 domestic archaeological and historical site records (6.970 unique-coordinate sites) within 6.431 Voronoi catchments across Sub-Saharan Africa [@Runfola2020GeoBoundaries; @Sulas2014AksumWater]. Within the East and Horn archaeological sector, regional registers and monograph tables supply 93,91% of 2.708 site records (zero crowd-sourced records; pan-regional share 82,94%). Catchment geometry scales locally with combined HYDE 3.5 and KK10 density surfaces beneath a 25.000 km² ceiling (median Voronoi radius 31,72 km, 90th percentile 49,29 km).
+
+In the late precolonial nineteenth-century kriging horizon directly preceding the 1880AD baseline, weighted least-squares variogram fitting fixes dimensionless short-range correlation at $\tau_1 = 1,35$ (raw 1,3757), secondary range $\tau_2 = 2,9025$ and nugget-to-sill ratio 0,04, yielding an effective short-range correlation distance of 43,63 km ($R^2 = 0,9992$) with positive fluvial ($\beta_3 = 0,0342$) and coastal ($\beta_4 = 0,0475$) trend weights shielded by a two-pixel urban buffer mask [@Sulas2014AksumWater; @ARCCH2020EthiopiaInventory]. For the colonial and independence era, pycnophylactic dasymetric disaggregation across historical regime polygons (1914AD colonial provinces, 1925AD and 1940AD interwar territories, and 1950AD and 1960AD administrative layers) preserves total mass within 0,01% across 30.911 unit-year checks over 81 years, with a worst unit relative error of $5,603 \times 10^{-8}$ [@Runfola2020GeoBoundaries].
+
+# Testing and Validation
+
+## Condominium and Trusteeship Census Benchmarks
+
+Direct confrontation against published provincial censuses tests how faithfully the spatial model recovers sub-national population distributions. Table \ref{tab:sudan-1956} reproduces the official nine-province tally of the 1955-1956 First Population Census of Sudan (`r viscount_fmt_number(summary_cache$subadmin_benchmark_tables[[1]]$total_enumerated_pop, 0L)` inhabitants) [@Sudan1956Census]. Summing the three Sudanese sub-regions in NICETHI for 1956AD yields 4.391.864 in Nile, Khartoum and Kassala (comparable to Blue Nile, Kassala, Northern and Khartoum provinces combined: 4.388.667), 3.117.149 in Darfur and Kordofan (comparable to 3.090.733 enumerated) and 2.744.080 in the Southern Provinces (comparable to Bahr el Ghazal, Equatoria and Upper Nile combined: 2.783.136), giving an aggregate discrepancy of under 0,1% across the entire Condominium footprint [@Sudan1956Census; @Division1922HandbookThe].
+
+```{r tab2-sudan-1956, results='asis'}
+sdn_bench <- summary_cache$subadmin_benchmark_tables[[1]]
+sdn_units <- sdn_bench$units
+sdn_tot <- as.numeric(sdn_bench$total_enumerated_pop)
+df_t2 <- data.frame(
+  Province = vapply(sdn_units, function (u) as.character(u$unit_name), character(1)),
+  Level = vapply(sdn_units, function (u) as.character(u$admin_level), character(1)),
+  `Enumerated Pop.` = vapply(sdn_units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+  `Share (%)` = vapply(sdn_units, function (u) viscount_fmt_number(100 * as.numeric(u$population) / sdn_tot, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t2 <- rbind(df_t2, data.frame(
+  Province = "Total Sudan (1955-1956)",
+  Level = "ADM0",
+  `Enumerated Pop.` = viscount_fmt_number(sdn_tot, 0L),
+  `Share (%)` = "100,0",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+))
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "First Population Census of Sudan (1955-1956) provincial totals across all nine Condominium provinces.",
+  arg3_options = list(label = "tab:sudan-1956")
+)
+```
+
+Cross-border consistency is likewise checked against the 1961AD Somali regional compilation (1.863.584 residents across eight provinces including Burao and Hargeisa in former British Somaliland and Banaadir, Alto Giuba, Hiiraan, Mudug, Basso Giuba and Migiurtinia in former Italian Somaliland) and the Northern Frontier Province counts in Kenya's 1948AD (187.451) and 1962AD (268.900 North-Eastern) censuses [@Kuczynski1949DemographicSurvey2; @Omar2001ScrambleHorn; @Jambir1950StrategicImportance]. These cross-checks confirm that lowland pastoral densities remain consistent across colonial partition lines separating Italian Somaliland, the Ogaden, British Somaliland and northern Kenya [@Agency1948BritishProposal].
+
+## Settlement Rank-Size Calibration and Urban Hierarchy Diagnostics
+
+Across the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements, ordinary least-squares rank-size regression on the upper half of the urban distribution (119 entries) yields a Zipf exponent of $q = 1,07$ ($R^2 = 0,99$), while full-sample regression across all 239 entries yields $q = 1,21$ ($R^2 = 0,96$). Figure \ref{fig:rank-size} plots the 230 spatially deduplicated settlement peaks ($q = 0,98$, $R^2 = 0,99$) alongside 1960AD sub-regional densities. That near-unit upper-tier slope ($q \approx 1$) reflects a balanced multi-polar hierarchy anchored by imperial and colonial capitals - Addis Ababa (541,7k), Khartoum (342,7k), Asmara (123,5k) and Mogadishu (101,5k) - paired with resilient secondary ports and provincial hubs such as Port Sudan (62,7k), Marka (61,6k), Al-Ubayyiḍ (58,2k), Wad Madanī (56,9k), Kassalā (50,7k), Dese (46,9k), Harar (45k), Dire Dawa (42,1k), Atbara (42k), Hargeisa (38,4k) and Djibouti (37,4k) [@Pankhurst1968EconomicHistory; @Fuller2011ItalyColonial; @Darwich2025PortInfrastructures].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 230 spatially deduplicated sites (q = 0,98, R² = 0,99) and mean sub-regional densities in 1960AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Below the 35k to 542k metropolitan and primary-town tier lies a dense middle rank of 10k to 34k district centres: Al-Fāshir (33,5k), Gonder (22,8k), Jima (22k), Nyālā (18,8k), al-Nuhud (18,5k), Berbera (18,1k), Juba (18k), Massawa (17,2k), Al-Junaynah (15,6k), Mekele (15,3k), Debere Markos (15k), Keren (15k), Qoryoley (15k), Afgoye (14,9k), Jowhar (14,5k), Malakal (13,8k), Wau (13,6k), Aksum (13k), Jijiga (12,8k) and Dek'emhāre (12,8k) [@Sudan1956Census; @Sulas2014AksumWater; @Beyan2021UnemploymentAnd]. The steeper downward curvature beyond rank 120 in Figure \ref{fig:rank-size} captures small frontier garrisons, Red Sea anchorage villages and southern Sudanese river stations between 550 and 4k inhabitants.
+
+# Results
+
+## Imperial Ethiopia and the Great Famine Recovery (1880AD to 1960AD)
+
+Throughout the eighty-year span, the three Ethiopian sub-regions held the largest share of Northeast African population, climbing from 7,39M combined in 1880AD (62,7% of the study area) to 12,11M in 1960AD (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). During the 1880s, rinderpest epizootic and the 1888AD to 1892AD *Kefu Qan* famine depressed totals across all three Ethiopian zones: North-Central Highlands slipped from `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_north_central"]]$population[["1880"]])` in 1880AD to `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_north_central"]]$population[["1890"]])` in 1890AD, Oromo-Kaffa-Southwest eased from `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_south_west"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_south_west"]]$population[["1890"]])`, and Hararghe-Ogaden fell from `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_hararghe_ogaden"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_hararghe_ogaden"]]$population[["1890"]])` [@Pankhurst1968EconomicHistory; @Taddia2013ModernEthiopia].
+
+Recovery after 1892AD accelerated along southern agricultural frontiers and the Djibouti railway spine. By 1930AD, Oromo-Kaffa-Southwest reached `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_south_west"]]$population[["1930"]])` and the Northern-Central Highlands reached `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_north_central"]]$population[["1930"]])`, buoyed by Addis Ababa's expansion from 20k in 1890AD to 80k in 1930AD and the rise of Dire Dawa (5,1k in 1906AD to 22k in 1938AD), Dese (36k in 1938AD) and Jima (22k in 1938AD) [@Pankhurst1968EconomicHistory; @Caulk1972FirearmsAnd; @Braukamper2013IndigenousViews]. Under the 1936AD to 1941AD Italian occupation, military roadbuilding and segregated urban cantonments boosted Addis Ababa to 150k by 1940AD before post-war rural-to-urban migration lifted the city proper to 444k and the wider agglomeration to 541,7k by 1960AD, raising Northern-Central Highlands to `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_north_central"]]$population[["1960"]])` and Oromo-Kaffa-Southwest to `r viscount_fmt_pop(sub_by_id[["imperial_ethiopia_south_west"]]$population[["1960"]])` [@Trento2013MadamatoAnd; @Demisse2024UrbanLand; @Kitessa2020QuantifyingWater].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading urban centres across the Horn of Africa and Anglo-Egyptian Sudan (1880AD to 1960AD).",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Italian Eritrea, Djibouti and the Somalilands
+
+Coastal colonial territories exhibited smaller aggregate populations than the Ethiopian highlands or Nile basin but underwent intense urban concentration around administrative capitals and railhead ports. Italian Eritrea grew from `r viscount_fmt_pop(sub_by_id[["italian_eritrea"]]$population[["1880"]])` in 1880AD to a pre-war plateau of `r viscount_fmt_pop(sub_by_id[["italian_eritrea"]]$population[["1930"]])` in 1930AD before stabilising around `r viscount_fmt_pop(sub_by_id[["italian_eritrea"]]$population[["1950"]])` in 1950AD and `r viscount_fmt_pop(sub_by_id[["italian_eritrea"]]$population[["1960"]])` in 1960AD [@Taddia2013ModernEthiopia; @Olusesan2020SecessionOutside]. Within that modest regional envelope, Asmara exploded from 5,1k in 1893AD and 21.601 in the 1931AD ISTAT census to 98k in 1939AD (during the Ethiopian mobilisation), 120,4k in 1952AD and 123,5k as an agglomeration in 1960AD, drawing highland labour even through the post-1941AD British Military Administration downturn [@Fuller2011ItalyColonial; @Yi2026TheRole; @Beyan2021UnemploymentAnd; @Muller2020ColonialBorders]. Massawa (17,2k peak), Keren (15k) and Dek'emhāre (12,8k) formed Eritrea's secondary urban belt.
+
+Across the southern Red Sea and Gulf of Aden, French and British Somaliland combined held `r viscount_fmt_pop(sub_by_id[["french_british_somaliland"]]$population[["1880"]])` in 1880AD and `r viscount_fmt_pop(sub_by_id[["french_british_somaliland"]]$population[["1960"]])` in 1960AD, while Italian Somaliland (later UN Trust Territory AFIS) transitioned from `r viscount_fmt_pop(sub_by_id[["italian_somaliland"]]$population[["1880"]])` in 1880AD to `r viscount_fmt_pop(sub_by_id[["italian_somaliland"]]$population[["1960"]])` in 1960AD [@Omar2001ScrambleHorn; @Kuczynski1949DemographicSurvey2]. Although rural pastoral totals in arid Somaliland remained sparse (roughly 1 person/km²), urban port growth accelerated dramatically: Djibouti expanded from a French port foundation in 1888AD to 31,5k city-proper (37,4k agglomeration) by 1960AD, Hargeisa overtook coastal Berbera (18,1k) and Zeila (6k) to reach 38,4k, and Mogadishu climbed from 6,5k in 1895AD and 29,6k in 1931AD to 55k in 1938AD and 101,5k as an agglomeration by 1960AD [@Darwich2025PortInfrastructures; @Jambir1950StrategicImportance; @Agency1948BritishProposal].
+
+## Anglo-Egyptian Sudan from the Mahdiyya to Independence
+
+Sudan's three sub-regions exhibit the most dramatic statistical transformation in the chapter, both from genuine twentieth-century economic growth and from the landmark 1955-1956 census correction of early Condominium undercounts (Table \ref{tab:trajectory}). During the Mahdiyya, Omdurman swelled to 148k by 1895AD while abandoned Khartoum fell from 54,2k in 1884AD to 4.620 in 1898AD, and Kassalā contracted from 15,2k in 1880AD to 9,8k in 1894AD [@Division1922HandbookThe]. After 1898AD, Condominium reconstruction lifted Khartoum to 50k in 1930AD and 124k in 1960AD while Omdurman recovered from 41.592 in 1905AD to 113.551 in the 1955-1956 census, uniting with Khartoum North into a 342,7k metropolitan capital [@Sudan1956Census].
+
+Parallel commercial corridors emerged along the Red Sea and Gezira plain. Port Sudan rose from 4.289 in 1910AD to 47.562 in 1955AD and 62,7k by 1960AD; railway workshops lifted Atbara from 8,5k in 1910AD to 36.298 in 1955AD and 42k in 1960AD; and cotton irrigation raised Wad Madanī from 11,2k in 1885AD to 47.677 in 1955AD and 56,9k in 1960AD [@Division1922HandbookThe; @Sudan1956Census; @Abdelgadir2024AssessmentImplementation]. In the west, Al-Ubayyiḍ recovered from 12,4k in 1905AD to 58,2k in 1960AD alongside Darfur centres at Al-Fāshir (33,5k) and Nyālā (18,8k), bringing Darfur and Kordofan to `r viscount_fmt_pop(sub_by_id[["anglo_egyptian_sudan_darfur_kord"]]$population[["1960"]])` by 1960AD. Meanwhile, the three southern provinces of Bahr el Ghazal, Upper Nile and Equatoria reached `r viscount_fmt_pop(sub_by_id[["anglo_egyptian_sudan_south"]]$population[["1956"]])` at the 1956AD census benchmark, led by modest river towns at Juba (18k agglomeration), Malakal (13,8k) and Wau (13,6k) [@Sudan1956Census].
+
+```{r tab3-trajectory, results='asis'}
+df_t3 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `1880AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1880"]]), character(1)),
+  `1910AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1910"]]), character(1)),
+  `1930AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1930"]]), character(1)),
+  `1950AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1950"]]), character(1)),
+  `1956AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1956"]]), character(1)),
+  `1960AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1960"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t3 <- data.frame(
+  Subregion = "Total Study Area",
+  `1880AD` = viscount_fmt_pop(headline_vals[["1880"]]),
+  `1910AD` = viscount_fmt_pop(headline_vals[["1910"]]),
+  `1930AD` = viscount_fmt_pop(headline_vals[["1930"]]),
+  `1950AD` = viscount_fmt_pop(headline_vals[["1950"]]),
+  `1956AD` = viscount_fmt_pop(headline_vals[["1956"]]),
+  `1960AD` = viscount_fmt_pop(headline_vals[["1960"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_row_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Sub-regional and total population trajectories across six benchmark years from 1880AD to 1960AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Leading Urban Centres and Regional Density Gradients
+
+Table \ref{tab:top-centres} lists the fifteen largest individually assessed urban records in the ledger alongside their chronological coverage and peak populations. Highland Ethiopia retained by far the highest rural and urban densities in the Horn, closing 1960AD at `r viscount_fmt_number(sub_by_id[["imperial_ethiopia_south_west"]]$end_density_km2, 2L)` persons/km² in Oromo-Kaffa-Southwest and `r viscount_fmt_number(sub_by_id[["imperial_ethiopia_north_central"]]$end_density_km2, 2L)` persons/km² in the Northern-Central Highlands [@Pankhurst1968EconomicHistory; @Sulas2014AksumWater]. By contrast, Nile-Khartoum-Kassala averaged `r viscount_fmt_number(sub_by_id[["anglo_egyptian_sudan_north_nile"]]$end_density_km2, 2L)` persons/km² across vast desert margins, Southern Sudan stood at `r viscount_fmt_number(sub_by_id[["anglo_egyptian_sudan_south"]]$end_density_km2, 2L)` persons/km², Darfur-Kordofan at `r viscount_fmt_number(sub_by_id[["anglo_egyptian_sudan_darfur_kord"]]$end_density_km2, 2L)` persons/km², Eritrea at `r viscount_fmt_number(sub_by_id[["italian_eritrea"]]$end_density_km2, 2L)` persons/km², Hararghe-Ogaden at `r viscount_fmt_number(sub_by_id[["imperial_ethiopia_hararghe_ogaden"]]$end_density_km2, 2L)` persons/km², Italian Somaliland at `r viscount_fmt_number(sub_by_id[["italian_somaliland"]]$end_density_km2, 2L)` persons/km² and French and British Somaliland at `r viscount_fmt_number(sub_by_id[["french_british_somaliland"]]$end_density_km2, 2L)` persons/km² [@Sudan1956Census; @Kuczynski1949DemographicSurvey2; @Omar2001ScrambleHorn].
+
+```{r tab4-top-centres, results='asis'}
+top_15 <- summary_cache$top_settlements[seq_len(min(15L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_15, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_15, function (s) as.character(s$country), character(1)),
+  Span = vapply(top_15, function (s) {
+    if (s$min_year == s$max_year) paste0(s$min_year, "AD") else paste0(s$min_year, "AD-", s$max_year, "AD")
+  }, character(1)),
+  `Peak Pop.` = vapply(top_15, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_15, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_15, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Fifteen largest individually assessed urban records in the Horn of Africa and Anglo-Egyptian Sudan (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Three methodological constraints govern these reconstructions. First, the sharp rise in Sudanese sub-regional totals between 1930AD (3,08M across all three Condominium zones) and 1950AD to 1956AD (9,35M to 10,25M) reflects a structural regime shift from incomplete pre-war poll-tax estimates to the 1955-1956 First Population Census and post-1950 annual series [@Division1922HandbookThe; @Sudan1956Census; @Kuczynski1949DemographicSurvey2]. While the 1956AD provincial totals directly reflect the census, pre-1930AD rural figures in Darfur, Kordofan and the southern Sudd wetlands carry substantially wider uncertainty margins than highland Ethiopia or Italian Eritrea.
+
+Second, maintaining strict fidelity to source series introduces deliberate scope pairings and a small number of residual transliteration overlaps inside the 239-entry urban ledger. Seven major capitals carry separate 1950AD to 1960AD metropolitan agglomeration rows alongside their municipal city-proper records (such as Addis Ababa and Khartoum), while two regional towns retain distinct historical-orthographic series in the ledger (Wad Madanī alongside Wad Medani, and Harar alongside an agglomeration-derived Harare entry in Hararghe) [@Pankhurst1968EconomicHistory; @Demisse2024UrbanLand]. Users summing urban populations should therefore filter by scope or consult the companion gazetteer rather than aggregating raw ledger peaks indiscriminately.
+
+Third, pastoralist mobility across arid lowlands poses persistent enumeration challenges. In British and Italian Somaliland, the Ogaden, Danakil and northern Darfur, seasonal migrations across colonial boundaries meant that single-date town counts (28 of the 239 entries) and regional Blue Book estimates varied sharply with drought cycles and border-rectification disputes [@Omar2001ScrambleHorn; @Agency1948BritishProposal; @Jambir1950StrategicImportance].
+
+# Conclusion
+
+Between 1880AD and 1960AD, the Horn of Africa and Anglo-Egyptian Sudan more than doubled in population from `r viscount_fmt_pop(headline_vals[["1880"]])` to `r viscount_fmt_pop(headline_vals[["1960"]])` inhabitants across `r viscount_fmt_number(total_area_km2, 0L)` km². Following the demographic trough of the 1888AD to 1892AD Ethiopian Great Famine and Mahdist conflicts, expansion clustered along railway corridors, irrigated cotton plains and colonial port-capitals: Addis Ababa surged past half a million metropolitan inhabitants, Khartoum-Omdurman surpassed 340k, Asmara topped 123k and Mogadishu passed 101k. By pairing `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements with the 1955-1956 Sudanese census, Italian Eritrean enumerations and mass-conserving spatial interpolation, NICETHI supplies a continuous demographic baseline directly preceding post-colonial independence.
+
+# Appendix
+
+## Sub-Regional Density and Share Series
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all nine sub-regions from 1880AD to 1960AD, quantifying the sustained ten- to fifteen-fold gradient between highland Ethiopia and the Somali littoral. Table \ref{tab:shares-appendix} tracks each sub-region's percentage share of the total study area, illustrating how the post-1950 integration of the 1955-1956 Sudanese census shifted Sudan's combined share from roughly one-quarter in 1880AD to 45,5% by 1960AD.
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD` = viscount_fmt_number(as.numeric(ps[["1880"]]) / ar, 2L),
+    `1910AD` = viscount_fmt_number(as.numeric(ps[["1910"]]) / ar, 2L),
+    `1930AD` = viscount_fmt_number(as.numeric(ps[["1930"]]) / ar, 2L),
+    `1950AD` = viscount_fmt_number(as.numeric(ps[["1950"]]) / ar, 2L),
+    `1956AD` = viscount_fmt_number(as.numeric(ps[["1956"]]) / ar, 2L),
+    `1960AD` = viscount_fmt_number(as.numeric(ps[["1960"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1880AD` = viscount_fmt_number(headline_vals[["1880"]] / total_area_km2, 2L),
+  `1910AD` = viscount_fmt_number(headline_vals[["1910"]] / total_area_km2, 2L),
+  `1930AD` = viscount_fmt_number(headline_vals[["1930"]] / total_area_km2, 2L),
+  `1950AD` = viscount_fmt_number(headline_vals[["1950"]] / total_area_km2, 2L),
+  `1956AD` = viscount_fmt_number(headline_vals[["1956"]] / total_area_km2, 2L),
+  `1960AD` = viscount_fmt_number(headline_vals[["1960"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across the nine sub-regions from 1880AD to 1960AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1880"]]) / headline_vals[["1880"]], 1L),
+    `1910AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1910"]]) / headline_vals[["1910"]], 1L),
+    `1930AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1930"]]) / headline_vals[["1930"]], 1L),
+    `1950AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1950"]]) / headline_vals[["1950"]], 1L),
+    `1956AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1956"]]) / headline_vals[["1956"]], 1L),
+    `1960AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1960"]]) / headline_vals[["1960"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total regional population by sub-region across six benchmark years from 1880AD to 1960AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+## Somali Administrative Benchmarks and Colonial Provincial Regimes
+
+Table \ref{tab:somalia-1961} documents the eight-province 1961AD Somali regional population distribution across former Italian Somaliland and British Somaliland (`r viscount_fmt_number(summary_cache$subadmin_benchmark_tables[[2]]$total_enumerated_pop, 0L)` persons), while Table \ref{tab:hgis-units} summarises representative Condominium provincial polygons across the 1914AD, 1925AD and 1940AD territorial regimes [@Omar2001ScrambleHorn; @Division1922HandbookThe; @Runfola2020GeoBoundaries].
+
+```{r tab7-somalia-1961, results='asis'}
+som_bench <- summary_cache$subadmin_benchmark_tables[[2]]
+som_units <- som_bench$units
+som_tot <- as.numeric(som_bench$total_enumerated_pop)
+df_t7 <- data.frame(
+  Province = vapply(som_units, function (u) as.character(u$unit_name), character(1)),
+  Level = vapply(som_units, function (u) as.character(u$admin_level), character(1)),
+  `Population (1961AD)` = vapply(som_units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+  `Share (%)` = vapply(som_units, function (u) viscount_fmt_number(100 * as.numeric(u$population) / som_tot, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t7 <- rbind(df_t7, data.frame(
+  Province = "Total Somalia (1961AD)",
+  Level = "ADM0",
+  `Population (1961AD)` = viscount_fmt_number(som_tot, 0L),
+  `Share (%)` = "100,0",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+))
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Somali regional benchmark populations (1961AD) spanning former Italian Somaliland and British Somaliland provinces.",
+  arg3_options = list(label = "tab:somalia-1961")
+)
+```
+
+```{r tab8-hgis-units, results='asis'}
+hgis_list <- summary_cache$hgis_regime_units
+df_t8 <- data.frame(
+  Regime = vapply(hgis_list, function (x) {
+    r <- as.character(x$regime)
+    if (identical(r, "R06_COLONIAL_1914")) "Colonial (1914AD)"
+    else if (identical(r, "R07_MANDATES_1925")) "Mandates (1925AD)"
+    else "Colonial (1940AD)"
+  }, character(1)),
+  Span = vapply(hgis_list, function (x) {
+    if (x$year_start == x$year_end) paste0(x$year_start, "AD") else paste0(x$year_start, "AD-", x$year_end, "AD")
+  }, character(1)),
+  `Province Unit` = vapply(hgis_list, function (x) as.character(x$unit_name), character(1)),
+  `Area (km²)` = vapply(hgis_list, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t8) <- NULL
+viscount_table(
+  df_t8,
+  "Representative Anglo-Egyptian Sudan colonial provincial polygon regimes in the NICETHI historical boundary archive.",
+  arg3_options = list(label = "tab:hgis-units")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Of the 239 individually assessed settlements in the chapter ledger, 237 lie strictly inside the nine 5-arcminute sub-regional pixel zones reported in Table \ref{tab:subregions}, while two frontier settlements (Birao in neighbouring Central African Republic and Faza on the Lamu archipelago margin) fall immediately outside the raster perimeter and are assigned to their adjacent sub-regions in the companion settlement gazetteer so all 239 entries are catalogued.

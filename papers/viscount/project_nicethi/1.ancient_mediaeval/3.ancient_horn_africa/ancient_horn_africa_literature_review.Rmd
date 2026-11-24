@@ -1,0 +1,389 @@
+---
+title: "Ancient and Mediaeval Ethiopia and the Horn"
+subtitle: "Axum, Solomonic Abyssinia, Adal and Somali-Oromo Migrations"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: ancient_horn_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Nine demographic sub-regions and 164 individually assessed settlements across Ethiopia, Eritrea, Somalia, Somaliland, Djibouti and adjacent Sudanese and Kenyan borderlands from 1000BC to 1885AD."
+hero_label: "fig:hero-horn-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("ancient_horn_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("ancient_horn_africa_settlements.json", simplifyVector = FALSE)
+
+sub_list <- summary_cache$subregions
+sub_by_id <- setNames(sub_list, vapply(sub_list, function (x) x$id, character(1)))
+dist_list <- summary_cache$subregion_settlement_distribution
+dist_by_id <- setNames(dist_list, vapply(dist_list, function (x) x$id, character(1)))
+
+sub_order <- vapply(summary_cache$top_subregions, function (x) x$id, character(1))
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+headline_series <- summary_cache$headline_series
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_obs_total <- as.integer(summary_cache$observation_count)
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- n_total_sites + n_excluded
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+bench_early <- c("-1000", "200", "500", "700", "1000", "1300", "1600")
+bench_late <- c("1710", "1740", "1770", "1800", "1820", "1850", "1880")
+bench_all <- c(bench_early, bench_late)
+
+n_active <- setNames(
+  vapply(as.numeric(bench_all), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_all
+)
+
+fmt_era <- function (yr_str) {
+  y <- as.integer(yr_str)
+  if (y < 0L) paste0(abs(y), "BC") else paste0(y, "AD")
+}
+```
+
+# Abstract
+
+Between the emergence of the first stone-built townships on the Tigrayan and Eritrean plateau around 1000BC and the consolidation of the modern Ethiopian and coastal frontiers in 1885AD, the Horn of Africa sustained one of the longest continuous urban and agrarian traditions south of the Sahara. Across a study area of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning modern Ethiopia, Eritrea, Somalia, Somaliland, Djibouti and bordering tracts of Sudan and northern Kenya, NICETHI reconstructs a total population that grew from `r viscount_fmt_pop(headline_series[["-1000"]])` inhabitants in 1000BC to `r viscount_fmt_pop(headline_series[["200"]])` in 200AD and `r viscount_fmt_pop(headline_series[["500"]])` at the Aksumite zenith in 500AD, edged upward through the mediaeval highland and littoral transition to `r viscount_fmt_pop(headline_series[["1000"]])` in 1000AD and `r viscount_fmt_pop(headline_series[["1300"]])` in 1300AD, and then expanded sharply from `r viscount_fmt_pop(headline_series[["1600"]])` in 1600AD to `r viscount_fmt_pop(headline_series[["1850"]])` in 1850AD and `r viscount_fmt_pop(headline_series[["1880"]])` by 1880AD. Demographic gravity shifted repeatedly across altitude and rainfall zones over these three millennia. In antiquity, plough-based teff and barley agriculture anchored Aksum, Yeha and Adulis along the northern Red Sea corridor, whereas mediaeval growth pivoted southward toward Zagwe Lasta, the Solomonic camps of Shewa and Begemder, the walled Islamic emirates of Ifat, Adal and Harar, and the Indian Ocean ports of the Benadir coast. From the sixteenth century onward, Oromo pastoral-agrarian expansions and intensive enset root-crop cultivation across Kaffa, Wolayta and the Omo-Gibe highlands carried the demographic centre of gravity into the central and south-western plateaus. These trajectories are anchored to `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` period observations, paired with Matérn kriging over archaeological catchments and pycnophylactic disaggregation across subadministrative census polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Nine demographic sub-regions and 164 individually assessed settlements across Ethiopia, Eritrea, Somalia, Somaliland, Djibouti and adjacent Sudanese and Kenyan borderlands from 1000BC to 1885AD.",
+    "fig:hero-horn-africa"
+  )
+}
+```
+
+# Background
+
+## Highland Ecology, Plough Farming and Pastoral Littorals
+
+The Horn of Africa divides abruptly along the East African Rift escarpment into two contrasting demographic environments [@Fattovich2010Aksum; @Phillipson2000FoundationsAfrican]. Above 1.500 m, the volcanic Abyssinian and Eritrean highlands receive 800 to 1.800 mm of monsoon rainfall between June and September, supporting dense mixed farming. In the northern and central provinces of Tigray, Begemder, Gojjam and Shewa, ox-drawn scratch ploughs sustained cereal regimes built on teff, barley, emmer wheat, chickpeas and oilseeds [@Phillipson2000FoundationsAfrican; @Agostini2020LuisaSernicola]. Across the humid south-western uplands of Kaffa, Wolayta and the Gibe valley, by contrast, perennial hoe cultivation of enset (*Ensete ventricosum*), yams and taro yielded far higher caloric densities per hectare than rain-fed cereals, enabling dense rural settlement under forest cover [@GonzalezRuiba2024LandscapesMemory; @Mekonnen2017AncestralHuman].
+
+Surrounding this highland massif on three sides lay arid and semi-arid lowlands where rainfall drops below 400 mm and drops under 150 mm along the Danakil depression and the Gulf of Aden shore [@Zazzaro2013TheAncient; @Lewis1960TheSomali]. Here pastoralism dominated, punctuated by oasis horticulture along the Awash, Shebelle and Juba rivers and by maritime entrepots anchored to monsoon shipping lanes [@Kassim1995IslamAnd; @Pankhurst1982EthiopianTowns]. Coastal towns such as Adulis, Zeila, Barbara, Muqdisho, Marka and Barawa linked highland ivory, gold, civet, coffee and captives to Red Sea and Indian Ocean markets, creating an enduring economic interdependence between highland kingdoms and lowland ports [@Zazzaro2013TheAncient; @Addawe2026ConflictBetween].
+
+## Historiography and Archaeological Foundations
+
+Historical demography in the Horn was long constrained by thin written chronicles before the fourteenth century and an absence of national censuses prior to the late twentieth century. Classical periplus texts, Ge'ez royal inscriptions and Arabic geographical compendia established political sequences for Aksum, Ifat, Adal and the Benadir coast, yet gave few reliable headcounts [@Phillipson2000FoundationsAfrican; @Kassim1995IslamAnd]. Early estimates therefore leaned heavily on nineteenth-century European travellers such as Bruce, Salt, Burton, Harris and Cecchi, whose counts captured only single royal camps or seasonal trade fairs rather than broader rural carrying capacity [@Pankhurst1982EthiopianTowns; @Assefa2016FertilityBelow].
+
+Over the past half-century, regional archaeology and archival synthesis have altered this picture. Systematic field surveys around Aksum, Yeha, Beta Giyorgis, Adulis and eastern Tigray quantified built-up settlement footprints and rural site densities from the first millennium BC through the Late Aksumite contraction [@Fattovich2010Aksum; @Agostini2020LuisaSernicola; @Uhlig2013DavidPhillipson; @Zazzaro2013TheAncient]. Subsequent excavations at Lalibela, rock-cut church complexes across Tigray, the mediaeval Islamic towns of Harar, Harlaa and Fedis, and fortified frontier landscapes in western Ethiopia revealed dense regional networks that textual chronicles had largely overlooked [@Muehlbauer2021BastionsThe; @Smith1998LalibelaKonjowa; @Insoll2017FirstFootsteps; @Siraj2024PreliminarySurvey; @GonzalezRuiba2024LandscapesMemory]. Meanwhile, historical syntheses of Ethiopian towns and Benadir-Somali oral and archival traditions clarified how mobile royal camps, walled caravan centres and riverine sultanates rose and waned between 1200AD and 1885AD [@Pankhurst1982EthiopianTowns; @Lewis1960TheSomali; @Lewis1996SongsFrom].
+
+# Methodology
+
+## Territorial Partition and Chronological Benchmarks
+
+The study domain covers `r viscount_fmt_number(total_area_km2, 1L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute grid cells, spanning modern Ethiopia, Eritrea, Somalia, Somaliland and Djibouti together with bordering tracts of eastern Sudan, South Sudan and northern Kenya. Within NICETHI, the chapter occupies Regime 2 (1000BC to 1885AD), connecting Holocene pastoral-neolithic baselines with late-nineteenth and twentieth-century colonial and national enumerations. Guided by historical polity boundaries and HydroBASINS hydrological divides, the domain is partitioned into nine contiguous sub-regions summarised in Table \ref{tab:subregions}.
+
+Population trajectories are evaluated across fourteen benchmark dates capturing major political and ecological turning points: 1000BC (pre-Axumite highland consolidation), 200AD and 500AD (Aksumite commercial apogee), 700AD (post-Aksumite Red Sea realignment), 1000AD (Zagwe and early Benadir urban rise), 1300AD (early Solomonic and Ifat expansion), 1600AD (post-Adal war and Oromo migration frontier), and seven eighteenth- and nineteenth-century benchmarks (1710AD, 1740AD, 1770AD, 1800AD, 1820AD, 1850AD and 1880AD) spanning Gondarine maturity, the *Zemene Mesafint* (Era of the Princes), the Oromo Gibe monarchies and Egyptian-Ethiopian frontier consolidation ahead of 1885AD [@Pankhurst1982EthiopianTowns; @Addawe2026ConflictBetween; @Khayre2016SomaliaOverview].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  `Sub-Region` = vapply(sub_order, function (sid) sub_by_id[[sid]]$name, character(1)),
+  Era = vapply(sub_order, function (sid) gsub("\\.\\.", " to ", sub_by_id[[sid]]$era), character(1)),
+  `Area (km²)` = vapply(sub_order, function (sid) viscount_fmt_number(sub_by_id[[sid]]$area_km2, 0L), character(1)),
+  Pixels = vapply(sub_order, function (sid) viscount_fmt_number(sub_by_id[[sid]]$pixel_count, 0L), character(1)),
+  `Assessed Sites` = vapply(sub_order, function (sid) viscount_fmt_number(dist_by_id[[sid]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(sub_order, function (sid) viscount_fmt_number(100 * as.numeric(sub_by_id[[sid]]$area_km2) / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Nine demographic sub-regions of Ancient and Mediaeval Ethiopia and the Horn showing active eras, polygon area, grid pixel counts, internal assessed settlements (152 inside sub-region polygons plus 12 borderland sites) and territorial share.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Gazetteer Screening and Source Integration
+
+To anchor urban and market networks across the three-millennium span, `r viscount_fmt_number(n_candidates, 0L)` candidate towns, ports, royal camps and archaeological settlements were screened from excavation reports, heritage inventories, classical gazetteers and historical town histories [@ARCCH2020EthiopiaInventory; @Pleiades2024Africa; @Pankhurst1982EthiopianTowns; @Phillipson2000FoundationsAfrican]. After removing `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records, `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements remained (`r viscount_fmt_number(n_obs_total, 0L)` period observations, all scoped to city-proper extents). Across modern borders, 81 sites lie in Ethiopia, 21 in Sudan, 19 in Somalia, 15 in Eritrea, 15 in Kenya, 10 in Somaliland, 2 in Djibouti and 1 in South Sudan.
+
+Of these `r viscount_fmt_number(n_total_sites, 0L)` settlements, 152 fall directly inside the nine mapped Horn sub-regions, while 12 lie along adjacent Nile-Butana, Red Sea, Sobat and Swahili borderlands (including Meroe, Barbar, Wad Medani and Lamu). Active assessed settlements rise from `r viscount_fmt_number(n_active[["-1000"]], 0L)` early loci in 1000BC to `r viscount_fmt_number(n_active[["200"]], 0L)` in 200AD, `r viscount_fmt_number(n_active[["1000"]], 0L)` in 1000AD, `r viscount_fmt_number(n_active[["1600"]], 0L)` in 1600AD and `r viscount_fmt_number(n_active[["1850"]], 0L)` in 1850AD before narrowing to `r viscount_fmt_number(n_active[["1880"]], 0L)` documented centres around 1880AD. Table \ref{tab:top-settlements} summarises the twenty largest settlements by assessed historical peak.
+
+```{r tab2-top-settlements, results='asis'}
+top_setts <- summary_cache$top_settlements
+df_t2 <- do.call(rbind, lapply(top_setts, function (s) {
+  y_min <- as.integer(s$min_year)
+  y_max <- as.integer(s$max_year)
+  y_pk <- as.integer(s$peak_year)
+  span_str <- paste0(
+    if (y_min < 0L) paste0(abs(y_min), "BC") else paste0(y_min, "AD"),
+    " to ",
+    if (y_max < 0L) paste0(abs(y_max), "BC") else paste0(y_max, "AD")
+  )
+  pk_yr_str <- if (y_pk < 0L) paste0(abs(y_pk), "BC") else paste0(y_pk, "AD")
+  data.frame(
+    Settlement = viscount_sanitise_tex_str(s$name),
+    Country = s$country,
+    `Peak Pop.` = viscount_fmt_pop(s$peak_pop),
+    `Peak Year` = pk_yr_str,
+    `Active Span` = span_str,
+    Obs. = as.character(s$observation_count),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Twenty largest individually assessed settlements in Ethiopia and the Horn between 1000BC and 1885AD by peak resident population.",
+  arg3_options = list(label = "tab:top-settlements")
+)
+```
+
+## Radial Kriging Substrata and Pycnophylactic Disaggregation
+
+Point settlement ledgers capture nucleated towns, royal camps and excavated sites, yet most inhabitants lived in unmounded highland homesteads, enset gardens and mobile pastoral camps [@Agostini2020LuisaSernicola; @Takele2020CulturalHeritage]. NICETHI therefore reconstructs continuous spatial population surfaces using non-stationary Matérn ($\nu = 3/2$) residual kriging calibrated across 24.537 weighted domestic archaeological records and 6.431 Voronoi catchments pan-regionally (1.731 active catchments). Within the East-Horn archaeological register specifically, 2.708 site records (2.349 unique-coordinate loci) achieve a 93,91% share of regional primary and monograph sources with zero crowd-sourced coordinates [@ARCCH2020EthiopiaInventory; @Pleiades2024Africa].
+
+Spatial correlation is evaluated along metric-isotropic radial distance fields scaled by local Voronoi catchment radii (median 31,72 km, 90th percentile 49,29 km). Across the Classical Aksum-Meroe horizon through the nineteenth-century pre-colonial horizon, dimensionless correlation range converges at $\tau_1 = 1,35$ (raw estimates 1,38 to 1,42), secondary scale $\tau_2 = 2,90$ and nugget-to-sill ratio 0,04, yielding effective short-range correlation distances between 43,63 km and 45,16 km ($R^2 = 0,9992$). Deterministic trend conditioning weights baseline habitability, natural biome productivity, ecological suitability, fluvial proximity ($\beta_3$ tapering from 0,101 in antiquity to 0,0342 in the nineteenth century) and coastal access ($\beta_4$ tapering from 0,0969 to 0,0475), with a two-pixel urban-core buffer preventing modern metropolitan footprints around Addis Ababa, Asmara or Mogadishu from distorting earlier surfaces. Downstream, colonial and national subadministrative polygons from geoBoundaries [@Runfola2020GeoBoundaries] across Ethiopia, Eritrea, Somalia, Somaliland, Djibouti, Kenya and Sudan are reconciled over 81 disaggregated years (30.911 unit-year checks, 100% mass conservation within 0,01%, maximum relative error 5,60e-08).
+
+# Testing and Validation
+
+## Rank-Size Scaling and Gazetteer Saturation
+
+To test whether the `r viscount_fmt_number(n_total_sites, 0L)` retained settlements reflect a coherent urban hierarchy rather than isolated travellers' curiosities, rank-size scaling was evaluated across peak populations (Figure \ref{fig:rank-size}). Ordinary least-squares regression on the upper half of the urban distribution ($n = 82$) yields a Zipf exponent of $q = 0,67$ (slope $-0,6738$, $R^2 = 0,9657$), while regression across all `r viscount_fmt_number(n_total_sites, 0L)` settlements gives $q = 1,01$ (slope $-1,0099$, $R^2 = 0,8133$). That dual structure captures a polycentric urban network: no single metropolis dominated the Horn for three millennia, because political capitals migrated from Yeha and Aksum to Lalibela, Barara, Harar, Muqdisho, Gondar, Ankober and Entoto as dynasties and trade routes shifted [@Pankhurst1982EthiopianTowns; @Addawe2026ConflictBetween; @Insoll2017FirstFootsteps].
+
+Four saturation waves confirmed that all nine sub-regions contain multiple dated settlements (0 empty inhabited sub-regions). Adding the fourth gap-sweep wave contributed only 2 sites (1,22% marginal gain), while unique peak values account for 84,15% of entries (interquartile log10 spread 0,605), demonstrating that individual site curves preserve local historical turning points rather than synthetic interpolation templates [@Agostini2020LuisaSernicola; @Uhlig2013DavidPhillipson].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size distribution of all 164 individually assessed settlements (Zipf slope 0,67 over the upper tier, R² = 0,97) alongside 1880AD sub-regional population densities across Ethiopia and the Horn.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.40\\textheight")
+)
+```
+
+## Archaeological Cross-Checks and Subadministrative Continuity
+
+Archaeological surveys around Aksum and eastern Tigray provide an independent check on highland carrying capacity. Intensive transect mapping across the Beta Giyorgis and Aksum hinterland documents rural hamlet densities rising steadily from the Pre-Aksumite phase (c. 800BC to 400BC) to Classical and Middle Aksumite peaks between 150AD and 550AD before thinning sharply after 700AD [@Fattovich2010Aksum; @Agostini2020LuisaSernicola; @Uhlig2013DavidPhillipson]. On the Red Sea coast, excavations at Adulis confirm a parallel rise from 100BC to a fifth- and sixth-century commercial zenith (13,4k) followed by seventh-century flood silting and maritime decline [@Zazzaro2013TheAncient].
+
+At the opposite chronological end, nineteenth-century regional totals align smoothly with twentieth-century subadministrative census geography [@Runfola2020GeoBoundaries; @Assefa2016FertilityBelow]. By 1880AD, Shewa (15,46 persons/km²), Begemder-Gojjam (7,50 persons/km²) and the Omotic south-west (5,82 persons/km²) already exhibit the same highland density gradient recorded in Ethiopia's 1984 and 2007 enumerations, whereas arid northern Somalia (1,15 persons/km²) and the Juba-Shabelle littoral (2,06 persons/km²) preserve the sharp highland-to-steppe contrast characteristic of pastoral-nomadic zones [@Mekonnen2017AncestralHuman; @Khayre2016SomaliaOverview].
+
+# Results
+
+## Pre-Axumite Da'amat and the Northern Highland Core (1000BC to 100BC)
+
+In 1000BC, the `r viscount_fmt_number(total_area_km2, 0L)` km² Horn domain held approximately `r viscount_fmt_pop(headline_series[["-1000"]])` inhabitants (Table \ref{tab:traj-early} and Figure \ref{fig:trends}). Settlement remained overwhelmingly concentrated in the northern highlands and adjacent Sudanese river corridors: Aksum, Tigray and Medri Bahri held 70,5k (24,1% of the regional total), Zagwe, Begemder and Gojjam held 56,8k (19,4%), and the south-western Omotic uplands held 40,4k (13,8%). Along the Eritrean Asmara plateau and in north-eastern Tigray, agricultural villages of the Ona and Pre-Aksumite traditions combined stone-walled architecture with emmer wheat, barley and cattle husbandry [@Fattovich2010Aksum; @Agostini2020LuisaSernicola].
+
+By 800BC to 400BC, the polity of Da'amat emerged around Yeha, where a monumental limestone temple, South Arabian-influenced inscriptions and stone-built elite compounds anchored a town of roughly 5,5k inhabitants at 600BC alongside early centres at Sembel Ona (1,2k), Keskese (1,2k), Hawelti-Melazo (1,2k), Matara, Qohaito and Mezber [@Fattovich2010Aksum; @Phillipson2000FoundationsAfrican]. Across the western Tigray-Atbara marches, Nile-influenced Kushitic towns such as Meroe (12,6k by 400BC, rising to 29,4k in 100AD) linked middle-Nile iron production with northern Horn ivory and incense networks [@Phillipson2000FoundationsAfrican; @Zazzaro2013TheAncient].
+
+## Kingdom of Aksum, Adulis and Red Sea Apogee (100BC to 700AD)
+
+Between 100BC and 550AD, the Kingdom of Aksum unified northern Tigray and highland Eritrea into one of late antiquity's principal trading empires, lifting regional population more than fourfold from 292,6k in 1000BC to 1,25M in 200AD and 1,40M in 500AD (Table \ref{tab:traj-early}). Aksum itself expanded from 3,9k in 200BC to 12,4k in 100AD, 28,6k in 350AD and 34,2k at its sixth-century peak, ringed by stone stelae, royal tombs and dense peri-urban farming hamlets surveyed at Beta Samati (4,3k), Ona Adi (3,9k) and Henzat (2,5k) [@Phillipson2000FoundationsAfrican; @Uhlig2013DavidPhillipson; @Agostini2020LuisaSernicola].
+
+Maritime trade through the Gulf of Zula powered this expansion. Adulis grew from 2,9k in 100BC to 13,4k by 550AD, serving as the kingdom's custom-house for Mediterranean amphorae, Indian textiles, highland gold and ivory, while highland staging posts at Qohaito (7,9k) and Matara (6,3k) linked the Red Sea escarpment to the Aksumite plateau [@Zazzaro2013TheAncient; @Pleiades2024Africa]. Further south-east along the Gulf of Aden and Guardafui littoral, classical periplus ports including Zeila (1,7k), Barbara (1,5k) and Hafun (2,6k at 350AD) connected aromatic-gum hinterlands to Indian Ocean shipping [@Lewis1960TheSomali; @Pleiades2024Africa].
+
+After 600AD, environmental degradation around Aksum, Red Sea commercial disruption and the rise of Islamic maritime networks eroded Aksumite urban density [@Fattovich2010Aksum; @Zazzaro2013TheAncient]. Adulis fell sharply to 5,2k around 650AD before siltation and raids ended its urban phase, while Aksum itself contracted from 34,2k in 550AD to 11,8k in 750AD. Aksum, Tigray and Medri Bahri correspondingly eased from 288k in 200AD to 259,9k in 700AD, even as aggregate Horn population edged upward to 1,48M thanks to slow agricultural expansion further south in Amhara, Shewa and the Omotic south-west [@Phillipson2000FoundationsAfrican; @Muehlbauer2021BastionsThe].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Aggregate regional and urban population series (logarithmic scale), active settlement counts and leading city trajectories across Ethiopia and the Horn from 1000BC to 1885AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.40\\textheight")
+)
+```
+
+## Zagwe Lalibela, Early Solomonic Expansion and the Islamic Emirates (700AD to 1520AD)
+
+Between 700AD and 1300AD, regional population nearly doubled from 1,48M to 2,71M, while Aksum, Tigray and Medri Bahri relinquished demographic primacy to the central and south-western highlands (Table \ref{tab:traj-early}). In northern Tigray, Christian monastic communities carved rock-cut cruciform churches across limestone massifs, sustaining rural parishes even as large Aksumite towns shrank [@Muehlbauer2021BastionsThe; @Gervers2025ReviewMikael]. Political gravity moved south into Lasta, where the Zagwe dynasty (c. 1137AD to 1270AD) established its sacred capital at Roha-Lalibela. Anchored by eleven monolithic rock-hewn churches and subterranean trench networks, Lalibela grew to roughly 9,7k inhabitants around 1220AD, functioning as both royal seat and enduring pilgrimage centre [@Smith1998LalibelaKonjowa; @Takele2020CulturalHeritage].
+
+In 1270AD, the Solomonic restoration under Yekuno Amlak shifted highland power further south into Amhara and Shewa, pushing Zagwe, Begemder and Gojjam to 436,1k and Shewa to 256,8k by 1300AD [@Pankhurst1982EthiopianTowns; @Addawe2026ConflictBetween]. Unlike Aksum or Gondar, the early Solomonic monarchy governed through mobile royal *katama* encampments - temporary tented cities of tens of thousands of soldiers, clergy and retainers - supplemented by fixed highland strongholds such as Tegulet, Debre Birhan (7,4k in 1465AD) and Barara (11,4k in 1515AD) overlooking the Awash approaches [@Pankhurst1982EthiopianTowns].
+
+East of the Rift escarpment, Islamic trade networks transformed urbanism from the Danakil coast to Hararghe and the Benadir shore [@Insoll2017FirstFootsteps; @Addawe2026ConflictBetween; @Kassim1995IslamAnd]. Harlaa reached 9,9k around 1300AD as a stone-built commercial hub linking highland Christian kingdoms with Zeila (9k in 1331AD, 11,4k in 1500AD), while mediaeval Islamic settlements excavated at Fedis and Gidaya sustained terraced sorghum and khat farming across the Chercher and Harar plateaus [@Insoll2017FirstFootsteps; @Siraj2024PreliminarySurvey]. Further south along the Indian Ocean coast, Muqdisho swelled from 6,4k in 1000AD to 18,5k in 1220AD and 24,8k when Ibn Battuta visited in 1331AD, anchoring the Benadir wool-weaving and maritime network alongside Marka, Barawa and Pate (16,8k peak in 1700AD) [@Kassim1995IslamAnd; @Lewis1960TheSomali].
+
+```{r tab3-trajectory-early, results='asis'}
+df_t3a <- data.frame(
+  `Sub-Region` = vapply(sub_order, function (sid) sub_by_id[[sid]]$name, character(1)),
+  `1000BC` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["-1000"]]), character(1)),
+  `200AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["200"]]), character(1)),
+  `500AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["500"]]), character(1)),
+  `700AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["700"]]), character(1)),
+  `1000AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1000"]]), character(1)),
+  `1300AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1300"]]), character(1)),
+  `1600AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1600"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_t3a <- data.frame(
+  `Sub-Region` = "Total Ethiopia and the Horn",
+  `1000BC` = viscount_fmt_pop(headline_series[["-1000"]]),
+  `200AD` = viscount_fmt_pop(headline_series[["200"]]),
+  `500AD` = viscount_fmt_pop(headline_series[["500"]]),
+  `700AD` = viscount_fmt_pop(headline_series[["700"]]),
+  `1000AD` = viscount_fmt_pop(headline_series[["1000"]]),
+  `1300AD` = viscount_fmt_pop(headline_series[["1300"]]),
+  `1600AD` = viscount_fmt_pop(headline_series[["1600"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3a <- rbind(df_t3a, tot_t3a)
+rownames(df_t3a) <- NULL
+viscount_table(
+  df_t3a,
+  "Sub-regional and aggregate population trajectory from 1000BC to 1600AD across seven early benchmark years.",
+  arg3_options = list(label = "tab:traj-early")
+)
+```
+
+## Adal Wars, Oromo Migrations and Gondarine Reconstruction (1520AD to 1769AD)
+
+The sixteenth century reshaped the political and ethnic map of the entire Horn. Long-standing commercial rivalry between the Solomonic state and the Sultanate of Adal erupted into full-scale war between 1529AD and 1543AD under Imam Ahmad ibn Ibrahim al-Ghazi, whose armies marched from Dakar (7,3k in 1500AD) and Harar across Shewa, Begemder and Tigray [@Addawe2026ConflictBetween; @Pankhurst1982EthiopianTowns]. Following the war's devastation, Emir Nur ibn Mujahid encircled Harar within its stone *Jugol* walls around 1551AD, lifting the city to 18,2k by 1560AD as the chief Islamic citadel of the eastern plateau [@Insoll2017FirstFootsteps; @Assefa2016FertilityBelow].
+
+Almost simultaneously, pastoral-agrarian Oromo confederacies governed by the eight-year *Gadaa* age-grade cycle expanded northward and eastward from the upper Genale and Bale uplands into Shewa, Hararghe, Gojjam and the Gibe valley [@Lewis1960TheSomali; @GonzalezRuiba2024LandscapesMemory]. By 1600AD, the Horn's population reached 4,77M: Kaffa, Wolayta and the Omotic south-west led at 1,08M, followed by Zagwe, Begemder and Gojjam (738,4k), Aksum and Tigray (703,1k), the Ajuran-Benadir basin (520,6k), the Afar-Red Sea littoral (470,5k), Shewa (460,2k) and the Oromo-Bale confederacies (454k). Along the Shabelle and lower Juba rivers, the Ajuran Imamate built limestone wells, masonry fortresses and canal works supporting agrarian surplus and Benadir port exports before yielding to the Geledi Sultanate at Afgoye (7,4k by 1880AD) and inland Somali clan confederacies [@Kassim1995IslamAnd; @Lewis1996SongsFrom; @Khayre2016SomaliaOverview].
+
+Retreating north-west to Lake Tana after the sixteenth-century upheavals, Solomonic emperors abandoned nomadic camps for permanent stone architecture at Gorgora (9,4k), Danqaz (7,8k) and finally Gondar, founded by Emperor Fasilides in 1636AD [@Pankhurst1982EthiopianTowns]. Protected by stone castles and fed by fertile Dembiya grain estates, Gondar expanded from 24,5k in 1650AD to 62k around 1700AD - the largest city in the Horn's pre-1885 history - anchoring an artisanal, clerical and commercial capital that still held 48,5k inhabitants in 1770AD before civil wars eroded its primacy [@Pankhurst1982EthiopianTowns].
+
+```{r tab4-trajectory-late, results='asis'}
+df_t3b <- data.frame(
+  `Sub-Region` = vapply(sub_order, function (sid) sub_by_id[[sid]]$name, character(1)),
+  `1710AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1710"]]), character(1)),
+  `1740AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1740"]]), character(1)),
+  `1770AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1770"]]), character(1)),
+  `1800AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1800"]]), character(1)),
+  `1820AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1820"]]), character(1)),
+  `1850AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1850"]]), character(1)),
+  `1880AD` = vapply(sub_order, function (sid) viscount_fmt_pop(sub_by_id[[sid]]$population[["1880"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_t3b <- data.frame(
+  `Sub-Region` = "Total Ethiopia and the Horn",
+  `1710AD` = viscount_fmt_pop(headline_series[["1710"]]),
+  `1740AD` = viscount_fmt_pop(headline_series[["1740"]]),
+  `1770AD` = viscount_fmt_pop(headline_series[["1770"]]),
+  `1800AD` = viscount_fmt_pop(headline_series[["1800"]]),
+  `1820AD` = viscount_fmt_pop(headline_series[["1820"]]),
+  `1850AD` = viscount_fmt_pop(headline_series[["1850"]]),
+  `1880AD` = viscount_fmt_pop(headline_series[["1880"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3b <- rbind(df_t3b, tot_t3b)
+rownames(df_t3b) <- NULL
+viscount_table(
+  df_t3b,
+  "Sub-regional and aggregate population trajectory from 1710AD to 1880AD across seven late benchmark years.",
+  arg3_options = list(label = "tab:traj-late")
+)
+```
+
+## Omotic Intensification, Shewan Ascendancy and the 1880AD Horizon (1770AD to 1885AD)
+
+Between 1710AD and 1850AD, the Horn experienced its strongest pre-industrial demographic surge, nearly doubling from 5,33M to 10,18M before plateauing at 10,15M in 1880AD under recurring mid-to-late nineteenth-century droughts, regional wars and Egyptian-Mahdist frontier disruptions (Table \ref{tab:traj-late}). Three regional dynamics defined this era. First, the Omotic forest kingdoms of Kaffa (centred at Bonga, 7,9k, and Anderacha), Wolayta (Dalbo) and the Oromo Gibe monarchies led by Jimma Abba Jifar (11,8k by 1880AD) combined high-yield enset cultivation, terraced slopes and long-distance caravan trade in coffee, musk and gold to reach 2,34M inhabitants by 1880AD [@GonzalezRuiba2024LandscapesMemory; @Pankhurst1982EthiopianTowns].
+
+Second, while northern Begemder fragmented during the *Zemene Mesafint* - depressing Gondar to 14,2k by 1833AD and 7,2k by 1865AD - the autonomous Kingdom of Shewa tripled from 577,3k in 1710AD to 1,71M in 1850AD (15,46 persons/km² in 1880AD, the highest regional density in the Horn). Successive Shewan capitals at Ankober (12,4k in 1841AD), Liche (11,2k in 1875AD) and Menelik II's ridge fortress at Entoto (18,5k in 1884AD) positioned Shewa to unify the central plateau just before the founding of Addis Ababa in 1886AD [@Pankhurst1982EthiopianTowns; @ARCCH2020EthiopiaInventory]. Elsewhere in the north, Emperors Tewodros II and Yohannes IV anchored military-administrative towns at Debretabor (14,6k in 1860AD), Magdala (11,5k in 1868AD) and Mekele (11,8k in 1881AD), while Kassalā (15,2k), Wad Medani (12,4k), Barbar (11,5k) and Al-Qaḍārif (11,2k) grew along the western Sudanese caravan corridor [@Pankhurst1982EthiopianTowns].
+
+Third, on the Gulf of Aden and Benadir coasts, commercial realignment shifted urban weight from decaying Harar (9,4k in 1855AD) and Zeila (2,5k in 1855AD) toward seasonal maritime fairs at Barbara, where dry-season caravans swelled coastal numbers to 18,2k in 1855AD, and toward eastern Somali ports under the Majeerteen, Warsangali and Isaaq sultanates [@Insoll2017FirstFootsteps; @Lewis1960TheSomali; @Khayre2016SomaliaOverview]. By 1880AD, 698,8k people inhabited the Benadir and Juba-Shabelle sub-region and 344,1k inhabited the northern Somali and Majeerteen littoral, closing the pre-colonial epoch on the eve of the 1885AD European partition and the Great Ethiopian Famine of 1888AD to 1892AD [@Lewis1996SongsFrom; @Khayre2016SomaliaOverview].
+
+# Limitations
+
+Three structural uncertainties bound historical demographic reconstruction in Ethiopia and the Horn prior to 1885AD. First, textual and traveller records heavily favour northern Christian royal capitals and Red Sea or Benadir ports while under-reporting dense agrarian populations in the south-western enset belt. Although 2,34M inhabitants lived in Kaffa, Wolayta and the Omotic south-west by 1880AD, only 13 settlements there enter the historical gazetteer compared with 36 in Aksum, Tigray and Medri Bahri [@GonzalezRuiba2024LandscapesMemory; @ARCCH2020EthiopiaInventory]. NICETHI mitigates that northern archaeological bias through ecological suitability covariates and backward pycnophylactic calibration to modern subadministrative census densities, yet early-period estimates (1000BC to 1300AD) in southern Ethiopia and Somalia carry wider uncertainty bounds than in surveyed northern Tigray [@Fattovich2010Aksum; @Agostini2020LuisaSernicola].
+
+Second, royal Ethiopian *katama* camps and Somali seasonal trading ports exhibited extreme intra-annual population swings. Traveller accounts of Barara, Gondar, Ankober, Magdala and Barbara often conflated permanent resident townspeople with campaigning armies or monsoon caravan fairs, while modern census baselines reflect settled administrative boundaries [@Pankhurst1982EthiopianTowns; @Assefa2016FertilityBelow]. Separating temporary military encampments from permanent urban cores therefore relies on architectural footprint checks and cross-observer triangulation, introducing roughly 20% to 30% uncertainty around individual pre-colonial city peaks [@Takele2020CulturalHeritage; @Insoll2017FirstFootsteps].
+
+Third, mobile pastoralists across the Danakil depression, Ogaden, northern Kenya and northern Somalia leave sparse architectural remains compared with stone-built highland towns [@Lewis1960TheSomali; @Zazzaro2013TheAncient]. While Matérn kriging incorporates regional pastoral-neolithic and iron-age surface loci across eastern Africa, low-density nomadic fluctuations during droughts or clan migrations before 1700AD remain smoother in the reconstructed curve than short-term climatic shocks likely produced in reality [@Mekonnen2017AncestralHuman; @Khayre2016SomaliaOverview].
+
+# Conclusion
+
+Across nearly three millennia from 1000BC to 1885AD, the population of Ethiopia and the Horn grew thirty-five-fold from 292,6k to 10,15M, transforming a cluster of northern Pre-Axumite townships and Kushitic river towns into a complex mosaic of highland plough states, intensive enset kingdoms, walled Islamic emirates and Indian Ocean trading ports. That expansion followed a pronounced southward and altitudinal drift: Aksum and Adulis dominated the first-millennium Red Sea horizon, Zagwe Lalibela and early Solomonic Shewa anchored the mediaeval plateau, Ifat, Adal, Harar and Ajuran-Benadir tied the eastern escarpment to monsoon commerce, and Oromo, Shewan and Omotic polities propelled eighteenth- and nineteenth-century growth to over 10M inhabitants. By uniting `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across eight modern jurisdictions with radial kriging substrata and mass-conserving subadministrative census boundaries [@Runfola2020GeoBoundaries], NICETHI establishes a continuous quantitative baseline leading directly into the colonial partition and modern demographic era after 1885AD.
+
+# Appendix
+
+## Sub-Regional Density and Territorial Shares
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all nine Horn sub-regions at eight representative benchmarks from 1000BC to 1880AD, contrasting the dense central highlands of Shewa (15,46 persons/km² in 1880AD) and Begemder-Gojjam (7,50 persons/km²) with the expansive Somali and Afar rangelands (1,15 to 2,90 persons/km²).
+
+```{r tab5-density-appendix, results='asis'}
+app_yrs <- c("-1000", "200", "500", "1000", "1300", "1600", "1800", "1880")
+df_t5 <- data.frame(
+  `Sub-Region` = vapply(sub_order, function (sid) sub_by_id[[sid]]$name, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+for (yk in app_yrs) {
+  col_nm <- fmt_era(yk)
+  df_t5[[col_nm]] <- vapply(sub_order, function (sid) {
+    ar <- as.numeric(sub_by_id[[sid]]$area_km2)
+    viscount_fmt_number(as.numeric(sub_by_id[[sid]]$population[[yk]]) / ar, 2L)
+  }, character(1))
+}
+tot_t5 <- data.frame(`Sub-Region` = "Mean Ethiopia and the Horn", check.names = FALSE, stringsAsFactors = FALSE)
+for (yk in app_yrs) {
+  tot_t5[[fmt_era(yk)]] <- viscount_fmt_number(as.numeric(headline_series[[yk]]) / total_area_km2, 2L)
+}
+df_t5 <- rbind(df_t5, tot_t5)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across the nine sub-regions of Ethiopia and the Horn at eight benchmark years from 1000BC to 1880AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+Table \ref{tab:shares-appendix} tracks each sub-region's percentage share of the regional total across the same eight benchmarks, documenting the long-term relative decline of Aksum, Tigray and Medri Bahri from 24,1% in 1000BC to 10,7% in 1880AD alongside the parallel rise of Shewa (5,7% to 16,6%) and the Omotic south-west (13,8% to 23,1%).
+
+```{r tab6-shares-appendix, results='asis'}
+df_t6 <- data.frame(
+  `Sub-Region` = vapply(sub_order, function (sid) sub_by_id[[sid]]$name, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+for (yk in app_yrs) {
+  col_nm <- paste0(fmt_era(yk), " (%)")
+  tot_y <- as.numeric(headline_series[[yk]])
+  df_t6[[col_nm]] <- vapply(sub_order, function (sid) {
+    viscount_fmt_number(100 * as.numeric(sub_by_id[[sid]]$population[[yk]]) / tot_y, 1L)
+  }, character(1))
+}
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of aggregate Horn population by sub-region across eight benchmark years from 1000BC to 1880AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+The 1880AD terminal benchmark precedes the 1888AD to 1892AD rinderpest panzootic and Great Ethiopian Famine, preserving pre-crisis plateau and pastoral population levels prior to colonial boundary demarcation. Twelve peripheral settlements in the 164-site gazetteer lie immediately outside the nine mapped Horn sub-region masks along the Sudanese Nile-Butana, Red Sea, Sobat and Kenyan Lamu-Winam corridors and are catalogued alongside the internal sub-regions in the companion settlement gazetteer.

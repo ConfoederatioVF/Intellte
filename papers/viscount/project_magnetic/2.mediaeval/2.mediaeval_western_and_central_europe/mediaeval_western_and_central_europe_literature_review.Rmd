@@ -1,0 +1,452 @@
+---
+title: "Mediaeval Western and Central Europe"
+subtitle: "France, British Isles, Holy Roman Empire, Low Countries and Northern Italy, 800-1347"
+date: "22 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/mediaeval_western_and_central_europe_regional_map.png"
+hero_caption: "Sub-regional boundaries and 2.830 recorded settlements across Western and Central Europe, 800-1347."
+bibliography: mediaeval_western_and_central_europe_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  results = "asis"
+)
+library(jsonlite)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_data <- fromJSON("mediaeval_western_and_central_europe_summary.json", simplifyVector = FALSE)
+settlements_raw <- fromJSON("mediaeval_western_and_central_europe_settlements.json", simplifyVector = FALSE)
+
+total_area_km2 <- as.numeric(summary_data$total_area_km2)
+settlement_count <- as.integer(summary_data$settlement_count)
+subregions_list <- summary_data$subregions
+domain_totals <- summary_data$domain_totals
+
+pop_800 <- as.numeric(domain_totals[["800"]])
+pop_1000 <- as.numeric(domain_totals[["1000"]])
+pop_1200 <- as.numeric(domain_totals[["1200"]])
+pop_1300 <- as.numeric(domain_totals[["1300"]])
+pop_1347 <- as.numeric(domain_totals[["1347"]])
+
+dens_800 <- pop_800 / total_area_km2
+dens_1000 <- pop_1000 / total_area_km2
+dens_1200 <- pop_1200 / total_area_km2
+dens_1300 <- pop_1300 / total_area_km2
+dens_1347 <- pop_1347 / total_area_km2
+
+cagr_full <- ((pop_1347 / pop_800)^(1 / 547) - 1) * 100
+cagr_800_1000 <- ((pop_1000 / pop_800)^(1 / 200) - 1) * 100
+cagr_1000_1200 <- ((pop_1200 / pop_1000)^(1 / 200) - 1) * 100
+cagr_1200_1300 <- ((pop_1300 / pop_1200)^(1 / 100) - 1) * 100
+cagr_1300_1347 <- ((pop_1347 / pop_1300)^(1 / 47) - 1) * 100
+
+fmt_source_label <- function (arg0_code) {
+  lbl <- gsub("_", " ", as.character(arg0_code), fixed = TRUE)
+  lbl <- sub("^Buringh European Urban 700 2000$", "Buringh European Urban Corpus (700-2000)", lbl)
+  lbl <- sub("^Pleiades Ancient World Gazetteer$", "Pleiades Ancient World Gazetteer", lbl)
+  lbl
+}
+
+region_name_map <- setNames(
+  vapply(subregions_list, function(x) as.character(x$name), character(1)),
+  vapply(subregions_list, function(x) as.character(x$id), character(1))
+)
+```
+
+```{r hero_markdown_fallback, results="asis"}
+if (!knitr::is_latex_output()) {
+  cat("![Sub-regional boundaries and 2.830 recorded settlements across Western and Central Europe, 800-1347.](figures/mediaeval_western_and_central_europe_regional_map.png)\n\n")
+}
+```
+
+# Abstract
+
+Between the Carolingian imperial coronation in 800AD and the eve of the Black Death in 1347AD, the population of Western and Central Europe nearly trebled from `r viscount_fmt_pop(pop_800)` to `r viscount_fmt_pop(pop_1347)` across `r viscount_fmt_number(total_area_km2, 1L)` km² spanning nine physiographic and institutional sub-regions. Mean territorial density rose from `r viscount_fmt_number(dens_800, 2L)` inhabitants per km² in 800AD to `r viscount_fmt_number(dens_1347, 2L)` per km² in 1347AD, peaking at 48,83 per km² across the Po plain of Northern Italy and 39,42 per km² along the Rhenish and North German plains while remaining at 13,1 per km² across upland Scotland and Ireland. Compound annual growth averaged `r viscount_fmt_number(cagr_full, 3L)`% over the five and a half centuries, accelerating from `r viscount_fmt_number(cagr_800_1000, 3L)`% per annum during 800-1000 to `r viscount_fmt_number(cagr_1000_1200, 3L)`% in 1000-1200 and a mediaeval high of `r viscount_fmt_number(cagr_1200_1300, 3L)`% during the thirteenth century before stalling at `r viscount_fmt_number(cagr_1300_1347, 3L)`% after 1300 under the combined blows of harvest failure, the Great Famine of 1315-1317 and the bovine panzootic of 1319-1321. Within MAGNETIC, territorial benchmarks at 800AD, 1000AD, 1200AD, 1300AD and 1347AD reconcile Carolingian monastic polyptychs, the English Domesday Book of 1086, the French 1328 *État des paroisses et des feux*, Italian communal *estimi* and hearth registers alongside a georeferenced settlement catalogue of `r formatC(settlement_count, format = "d", big.mark = ".")` localities compiled strictly from institutional urban and ancient-world archives with zero crowd-sourced entries. Together these records trace Europe's demographic pivot from the Mediterranean basin toward the heavy-soil plains, woollen cloth towns and river ports north of the Alps.
+
+# Background
+
+At 800AD Western and Central Europe emerged slowly from three centuries of post-Roman contraction and recurrent outbreaks of the First Plague Pandemic. When Charlemagne accepted the imperial crown in Rome on Christmas Day 800, the lands stretching from the Irish Sea to the Elbe and from the North Sea to Sicily held roughly `r viscount_fmt_pop(pop_800)` inhabitants at an average density of `r viscount_fmt_number(dens_800, 2L)` persons per km². Vast stretches of oak, beech and alder woodland separated cleared arable basins; Roman aqueducts and forum precincts stood half-ruined in towns reduced to episcopal strongholds of 3k to 10k souls; and only Rome (39k) and Milan (21k) exceeded 20k inhabitants within the entire nine-region domain [@Buringh2021; @Bairoch1988]. The demographic centre of gravity remained skewed toward the Mediterranean south: Italy alone held 5,4M people, or 28,35% of the macro-regional total on just 17,58% of its land area.
+
+Early Carolingian stability proved brief. Between 840 and 955 three overlapping waves of external predation—Scandinavian sea-raiders ascending the Seine, Loire, Scheldt, Thames and Rhine; Magyar light cavalry sweeping across Bavaria, Swabia, Lotharingia and Lombardy; and Aghlabid and Andalusi corsairs raiding Provence, Liguria and southern Italy—depressed coastal and riverine settlement while driving rural populations behind private timber and stone fortifications. Yet archaeology and monastic estate surveys show that demographic attrition during the ninth and tenth centuries was far less severe than once supposed [@Russell1958; @Campbell2016]. By the Battle of Lechfeld in 955 and the consolidation of the Ottonian Reich, Capetian France and the Anglo-Saxon kingdom of England, the macro-region had already grown by 30,45% to `r viscount_fmt_pop(pop_1000)` in 1000AD.
+
+What followed between 1000 and 1300 constituted the greatest sustained demographic expansion in European history prior to the eighteenth century. Population climbed from `r viscount_fmt_pop(pop_1000)` to `r viscount_fmt_pop(pop_1200)` by 1200 and reached `r viscount_fmt_pop(pop_1300)` by 1300, adding 27,75M inhabitants in three centuries. Five reinforcing mechanisms drove that surge. First, the Mediaeval Climate Anomaly brought warmer summers, longer growing seasons and lower inter-annual rainfall variance across northern and Alpine Europe, permitting cereal cultivation at elevations above 1.200 metres in the Alps and extending barley and oats northward into upland Britain and Scotland [@Campbell2016; @Dugmore2012]. Second, technological improvements diffused unevenly but cumulatively across northern arable plains: the heavy wheeled mouldboard plough (*carruca*) turned wet clay soils that light Mediterranean ards could barely scratch; the rigid horse collar and nailed iron horseshoes raised draught speed; watermills and, after 1180, post windmills mechanised grain grinding and cloth fulling; and three-field crop rotation trimmed annual fallow from half to one third of village arable while adding spring oats and nitrogen-fixing legumes.
+
+Third, peasants, Cistercian abbeys and secular lords organised a continent-wide internal colonisation. In France, *essartage* carved thousands of *villeneuves* and *bastides* out of royal forests and southern garrigue; in the Holy Roman Empire, *Landesausbau* pushed terraced vineyards, Alpine *Rodung* clearings and diked marsh settlements across Bavaria, Swabia, the Black Forest, Saxony and Holstein before feeding migrants eastward across the Elbe [@Ivarsson2019Baltic; @Guzowski2013]; and in Holland, Zeeland and Flanders, organised peatland drainage (*Grote Ontginning*) converted submerged fen and coastal clay into arable polders and dairy pastures [@Trierum1990Dertig]. Fourth, urban and commercial integration linked regional factor markets: English wool fleeces clothed Flemish and Brabant looms [@Holstein2016Provenancing]; Champagne fairs cleared debts between Bruges and Genoa; Alpine passes such as the St Gotthard (opened around 1230) connected Lombardy directly to the Upper Rhine; and Italian maritime republics re-established long-distance trade across the Levant and Black Sea [@Preiserkapeller2015Calculating; @Malanima1998].
+
+Fifth, relative peace inside core kingdoms—interrupted mainly by localised baronial wars, the Norman Conquest of England, the Investiture Conflict and the Albigensian Crusade—kept mortality below fertility for nearly ten generations. By 1300, however, the high-mediaeval expansion had met its ecological ceiling [@Campbell2016; @Broadberry2015]. Marginal uplands and acid heaths yielded diminishing returns; peasant holdings splintered through partible inheritance in Flanders, Normandy and Tuscany or through sub-letting in England until more than half of rural households occupied plots too small to feed a family in a lean harvest. Between 1315 and 1317 relentless Atlantic rainstorms rotted standing grain from Ireland to Poland, unleashing the Great Famine that killed roughly 10% to 15% of the population in England, Flanders and northern France [@Campbell2016; @Benedictow2004]. Close behind came the catastrophic bovine panzootic of 1319-1321, which wiped out up to two thirds of northern European plough oxen and dairy herds, depressing manure supply and grain yields for a decade. When Mediterranean droughts struck Italy in 1328-1330 and 1346-1347 and the opening campaigns of the Hundred Years' War ravaged Picardy, Normandy and Guyenne, demographic momentum all but ceased. Between 1300 and 1347 the entire nine-region domain added only 2,05M people (`r viscount_fmt_number(cagr_1300_1347, 3L)`% per annum), standing tightly coiled at `r viscount_fmt_pop(pop_1347)` when Genoese galleys carried *Yersinia pestis* from Caffa into Messina in October 1347 [@Benedictow2004; @Izdebski2022].
+
+# Methodology
+
+Reconstructing mediaeval European population between 800AD and 1347AD sits on the frontier between proto-statistical estate records and early fiscal enumerations. No European state conducted a head-by-head modern census before the eighteenth century, yet between the reign of Charlemagne and the mid-fourteenth century ecclesiastical landlords, feudal monarchies and urban communes produced an increasingly dense lattice of manorial surveys, hearth assessments, parish lists and municipal tax rolls [@Russell1958; @Broadberry2015; @Malanima1998]. MAGNETIC anchors its regional demographic curves at five benchmark dates (800AD, 1000AD, 1200AD, 1300AD and 1347AD) by converting these fiscal units into headcounts using regionally calibrated household multipliers and checking the resulting territorial totals against urban population shares, intramural built-area scaling and bioarchaeological proxies.
+
+## Archival Anchors and Fiscal Multipliers
+
+At the 800AD baseline, quantitative demography relies chiefly on the great Carolingian estate inventories known as polyptychs. The richest surviving specimen, compiled under Abbot Irminon for the Parisian abbey of Saint-Germain-des-Prés between 823 and 828, enumerates 25 manorial *fisci* containing roughly 1.646 tenanted *mansi* and more than 10.000 named peasants across the Île-de-France and neighbouring Beauce. Complementary polyptychs from Saint-Rémi of Reims, Saint-Bertin in Artois, Wissembourg in Alsace, Prüm in the Eifel and the northern Italian monasteries of Santa Giulia of Brescia and Bobbio reveal substantial local density on prime demesne estates—often 25 to 35 inhabitants per km²—surrounded by sparsely settled forest, royal hunting chases and uncultivated heath [@Russell1958]. Because early ninth-century *mansi* frequently housed two or more conjugal hearths (*socii*) sharing a single fiscal unit, translating Carolingian tenancies into regional headcounts requires distinguishing nuclear household sizes (roughly 4,2 to 4,8 persons) from multi-family *mansus* occupancy (5,5 to 6,5 persons) and scaling abbey estate densities downwards by territorial arable shares.
+
+For England, the Domesday Book of 1086 provides the single most comprehensive fiscal survey of eleventh-century Europe. Across 34 shires, royal commissioners recorded roughly 268.984 rural landholders, villeins, bordars, cottars and slaves alongside burgesses in more than 100 boroughs [@Russell1958; @Broadberry2015]. Converting Domesday counts into total English population requires three explicit adjustments: adding omitted northern shires (Northumberland, Durham, Cumberland and Westmorland) plus London and Winchester; applying a household multiplier of 4,5 to 5 persons to rural tenant heads while adjusting for slaves (*servi*) enumerated individually rather than as household heads; and incorporating smallholders and landless labourers omitted from lordly returns. Modern economic historians converge on an English total between 1,71M and 2,25M in 1086 [@Broadberry2015; @Campbell2016], which bridges neatly between our 1000AD benchmark of 2,05M for England and Wales combined (allowing roughly 0,25M for Wales) and the subsequent thirteenth-century manorial expansion tracked through hundred rolls, lay subsidies and manorial court series up to 5,1M in 1300 and 5,25M in 1347.
+
+On the continent, the landmark fourteenth-century fiscal benchmark is the French *État des paroisses et des feux* of 1328, assembled by royal clerks for Philip VI to assess war taxation across the crown domain. The surviving summary records 23.800 parishes and 2.469.987 hearths (*feux*) across the royal *bailliages* and *sénéchaussées*, covering roughly three quarters of the territory of modern France while omitting major autonomous fiefs including Flanders, Brittany, Guyenne, Burgundy, Provence, Dauphiné and Lorraine [@Russell1958; @Benedictow2004]. Applying standard hearth multipliers of 4,2 to 4,5 persons per fiscal *feu*—accounting for exempt clergy, nobles and indigent households—produces roughly 10,4M to 11,1M inside the enumerated royal domain and 17,5M to 18,5M across the full footprint of northern France and Occitania-Aquitaine-Provence combined, closely matching our 1347 total of 18,3M (11,2M north and 7,1M south).
+
+Across Italy, thirteenth- and early fourteenth-century fiscal evidence is unusually rich at the city-state level. Communal *estimi*, salt-tax quotas (*bocche del sale*), grain-provisioning censuses and *libri focorum* survive for Bologna, Florence, Siena, Perugia, Pisa, Lucca, Pistoia, Verona, Padua and Venice, supplemented in the Mezzogiorno by Angevin hearth schedules (*cedole di subventio*) for Naples and Sicily [@Malanima1998]. Where fiscal rolls omit rural *contadi* or non-taxable dependents, Italian urban totals are cross-checked against intramural wall circuits using observed built-area scaling laws that link enclosed urban area to inhabitant count across mediaeval European towns [@Cesaretti2016Population]. For the Holy Roman Empire, where imperial fiscal centralisation remained weak outside individual duchies and prince-bishoprics, regional series combine Rhenish and Bavarian monastic *Urbare*, imperial city burgher registers (*Bürgerbücher*), hearth lists (*Schossbücher*) and parish tithe series with systematic rural-to-urban ratio checks anchored against neighbouring France, Flanders and Northern Italy [@Russell1958; @Buringh2021].
+
+```{r table_archival_anchors}
+arch_df <- data.frame(
+  Benchmark = c("800AD", "1000AD", "1200AD", "1300AD", "1347AD"),
+  Primary_Records = c(
+    "Carolingian polyptychs (Saint-Germain, Reims, Prüm, Brescia)",
+    "Ottonian Urbare, Anglo-Saxon burghal hidage, early Italian charters",
+    "Plantagenet pipe rolls, Flemish keuren, Hohenstaufen city charters",
+    "English hundred rolls, Italian estimi, Rhenish Bürgerbücher",
+    "French 1328 État des feux, English lay subsidies, Florentine chronicle"
+  ),
+  Fiscal_Unit = c(
+    "Mansus and colonus family",
+    "Hide, mansus and urban hearth",
+    "Manorial tenant and burgher",
+    "Fiscal hearth (feu or fuoco)",
+    "Fiscal hearth and parish list"
+  ),
+  Multiplier = c(
+    "4,5-6 per mansus",
+    "4,5-5 per household",
+    "4,5-5 per tenant",
+    "4,2-4,8 per hearth",
+    "4-4,5 per hearth"
+  ),
+  Domain_Total = c(
+    viscount_fmt_pop(pop_800),
+    viscount_fmt_pop(pop_1000),
+    viscount_fmt_pop(pop_1200),
+    viscount_fmt_pop(pop_1300),
+    viscount_fmt_pop(pop_1347)
+  ),
+  stringsAsFactors = FALSE
+)
+rownames(arch_df) <- NULL
+viscount_table(
+  arch_df,
+  "Principal documentary anchors, fiscal units and household calibration multipliers across the five benchmark years, 800-1347.",
+  c("Benchmark", "Primary Documentary Sources", "Fiscal Unit", "Multiplier", "Domain Total")
+)
+```
+
+## Sub-Regional Partition and Benchmark Calibration
+
+To capture sharp agronomic, institutional and urban contrasts without fragmenting contiguous economic zones, MAGNETIC partitions the `r viscount_fmt_number(total_area_km2, 1L)` km² study domain into nine sub-regions. France splits along the traditional linguistic, legal and agricultural boundary between the open-field northern plains (Kingdom of France, North and Île-de-France, 297.474 km²) and the Mediterranean-Atlantic south (Occitania, Aquitaine and Provence, 248.497,1 km²). The British Isles separate into lowland-dominated England and Wales (151.531,4 km²) and upland-pastoral Scotland and Ireland (160.282,5 km²). The highly urbanised Rhine-Meuse-Scheldt delta forms the Low Countries (Flanders-Brabant-Holland, 69.122,5 km²). German-speaking Central Europe divides between the Rhenish-Westphalian-Saxon north (Northern and Rhineland Holy Roman Empire, 172.506 km²) and the upland Danubian-Alpine south (Southern Germany, Austria and Switzerland, 308.591,9 km²). Finally, Italy divides cleanly between the densely drained Po basin and maritime republics of Northern Italy (Lombardy-Venice-Piedmont, 123.905,3 km²) and the peninsular and insular corridor of Central and Southern Italy (Tuscany-Papal-Naples-Sicily, 176.502,9 km²).
+
+Sub-regional totals at each benchmark satisfy strict additive consistency with the macro-regional series while respecting agronomic carrying-capacity bounds. No sub-region is allowed to exceed plausible pre-industrial grain-deficit thresholds without documented maritime or riverine grain imports—a constraint critical for Flanders, Venice, Genoa and Florence, all of which relied by 1300 on long-distance wheat shipments from Artois, Picardy, the Baltic, Sicily, Apulia and the Black Sea [@Malanima1998; @Campbell2016]. Because no machine-readable historical GIS sub-administrative census tables exist prior to 1500, territorial allocation below the sub-regional level rests on the georeferenced settlement register and physiographic cropland weights.
+
+## Settlement Gazetteer and Urban Hierarchy Integration
+
+The companion settlement register enumerates `r formatC(settlement_count, format = "d", big.mark = ".")` georeferenced places active between 800AD and 1347AD across 20 modern jurisdictions (principally Italy, France, United Kingdom, Germany, Belgium, Netherlands, Switzerland, Austria and Ireland, plus small border overlaps along Alpine, Pyrenean and East-Central fringes). Every locality originates from two institutional scholarly corpora: Wave 1 ingested 1.255 urban settlements with longitudinal centennial headcounts from the Buringh European Urban Corpus covering 700-2000 [@Buringh2021], while Wave 2 added 1.575 persistent Roman and post-Roman places from the Pleiades Ancient World Gazetteer to anchor rural and secondary small-town spatial continuity, excluding 589 duplicate or out-of-domain entries. Waves 3 and 4 added zero records, resulting in a 0% crowd-sourced share.
+
+One technical feature of the settlement time series requires explicit notice. Buringh's urban dataset reports city populations at exact centennial benchmarks (800, 900, 1000, 1100, 1200, 1300 and 1400) [@Buringh2021]. Interpolating the 1347AD urban column smoothly between 1300 and 1400 inevitably transmits part of the post-Black Death demographic collapse recorded in 1400 backwards into the 1347 figure. As a result, while regional territorial totals edge up slightly from `r viscount_fmt_pop(pop_1300)` in 1300 to `r viscount_fmt_pop(pop_1347)` in 1347, recorded urban populations in settlements above 5k appear to dip from 3,45M across 290 towns in 1300 to 2,59M across 190 towns in 1347. Both our analytical commentary and our urban-ratio tables treat the 1300AD benchmark as the cleanest pre-plague urban cross-section, flagging the 1347 interpolation drag transparently rather than masking it.
+
+# Validation
+
+Evaluating mediaeval population estimates demands triangulation against independent quantitative benchmarks, urban scaling laws and physical environmental records because documentary fiscal series are everywhere vulnerable to tax evasion, shifting administrative borders and disputed household multipliers.
+
+## Cross-Checks Against Independent Demographic and Bioarchaeological Proxies
+
+In England, the most rigorous bottom-up mediaeval reconstruction combines manorial tenant counts from over 1.000 estates with arable acreage and grain-yield accounts [@Broadberry2015; @Campbell2016]. That independent series places England at 1,71M in 1086, 4,75M at its 1290 peak, 4,72M in 1300, 4,12M in 1325 after the Great Famine and cattle panzootic and 4,81M on the eve of plague in 1348. Adding Wales—estimated at 0,25M to 0,35M across the thirteenth and early fourteenth centuries—yields an England-and-Wales total of roughly 5,05M to 5,1M in 1300 and 5,15M to 5,2M in 1347. Our benchmark series (2,05M in 1000, 3,45M in 1200, 5,1M in 1300 and 5,25M in 1347) agrees within 2% at both late-mediaeval anchors.
+
+In Italy, Paolo Malanima's quantitative synthesis of northern, central and southern urban and rural sources puts total Italian population around 12,5M in 1300, with 13,5% to 21,4% of Northern and Central Italians living in cities of 5k or more depending on territorial cut-offs [@Malanima1998]. Our combined Italian benchmarks—5,85M in Northern Italy plus 6,15M in Central and Southern Italy in 1300 (12M total), rising to 12,4M in 1347—sit within 4% of Malanima's estimate. Across the Buringh urban register at 1300AD, cities of 5k or more account for 785k inhabitants in Northern Italy (13,42% of regional total) and 681k in Central and Southern Italy (11,07%), placing Italy decisively ahead of every European region except the Low Countries (315k in towns of 5k or more, or 12,35% of 2,55M). By contrast, northern France stands at 5,2% in towns above 5k, Occitania at 4,4%, Northern Rhineland Germany at 4,42%, Southern Germany and Austria at 4,45%, England and Wales at 3,59% and Scotland and Ireland at just 1,61%.
+
+Physical and bioarchaeological proxies corroborate both the timing of the High Mediaeval surge and the growing physiological stress of the late thirteenth and early fourteenth centuries. Continental syntheses of fossil pollen cores document widespread deforestation and sharp rises in cereal (*Cerealia*) and pastoral pollen percentages from 1000 to 1300 across France, Germany, Britain and Northern Italy, followed by localised woodland regeneration after 1347 [@Izdebski2022]. Sediment cores from the Baltic and North Sea basins similarly register an unmistakable jump in terrestrial nutrient runoff and coastal eutrophication after 1000AD driven by intensified ploughing and forest clearance across the North German drainage [@Ivarsson2019Baltic]. At the individual level, osteological studies of mediaeval Central European sub-adults detect growth faltering, enamel hypoplasia and rising indicators of physiological stress in crowded thirteenth- and fourteenth-century populations [@Marta2017Growth], while ancient pathogen genomics reveal a high genetic diversity of *Mycobacterium leprae* circulating along European trade and pilgrimage corridors throughout the high Middle Ages before declining alongside shifting immunity and demographic shocks [@Schuenemann2018Ancient; @Aborghetti2025Leprosy]. Isotopic provenancing of surviving woollen textiles confirms the long-distance integration of North Sea pastoral zones and continental weaving centres [@Holstein2016Provenancing], while early mediaeval funerary archaeology in southern France documents trans-Mediterranean human mobility along the Provençal and Languedocian littoral [@Gleize2016Early].
+
+## Urban Scaling and Pre-Plague Structural Consistency
+
+Testing the `r formatC(settlement_count, format = "d", big.mark = ".")` settlements in our gazetteer against settlement-scaling theory provides an additional structural check. Across mediaeval European towns, Cesaretti and colleagues demonstrated that intramural population scaled superlinearly with built area according to predictable agglomeration mechanics comparable to modern urban networks [@Cesaretti2016Population; @Alessandretti2022Urban]. In our register, the rank-size distribution of peak urban populations follows a clean power law across the upper two orders of magnitude ($\alpha = 0,64$, $R^2 = 0,98$), confirming that the European urban system had moved well beyond fragmented early-mediaeval autarky into a multi-polar polycentric network led by northern Italian communes, Paris, London, Ghent and Cologne without any single continental primate metropolis dominating the whole subcontinent.
+
+```{r table_urban_benchmarks}
+urb_yrs <- c("800", "1000", "1200", "1300", "1347")
+urb_rows <- lapply(urb_yrs, function(yk) {
+  pops <- unlist(lapply(settlements_raw, function(s) {
+    v <- s$population[[yk]]
+    if (is.null(v)) return(NULL)
+    as.numeric(v)
+  }))
+  n_act <- length(pops)
+  n_5k <- sum(pops >= 5000)
+  n_10k <- sum(pops >= 10000)
+  n_30k <- sum(pops >= 30000)
+  sum_5k <- sum(pops[pops >= 5000])
+  sum_10k <- sum(pops[pops >= 10000])
+  dom_p <- as.numeric(domain_totals[[yk]])
+  data.frame(
+    Year = paste0(yk, "AD"),
+    Active = formatC(n_act, format = "d", big.mark = "."),
+    Towns_5k = formatC(n_5k, format = "d", big.mark = "."),
+    Towns_10k = formatC(n_10k, format = "d", big.mark = "."),
+    Cities_30k = formatC(n_30k, format = "d", big.mark = "."),
+    Pop_5k = viscount_fmt_pop(sum_5k),
+    Share_5k = paste0(viscount_fmt_number(100 * sum_5k / dom_p, 2L), "%"),
+    Share_10k = paste0(viscount_fmt_number(100 * sum_10k / dom_p, 2L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+urb_df <- do.call(rbind, urb_rows)
+rownames(urb_df) <- NULL
+viscount_table(
+  urb_df,
+  "Evolution of the recorded urban hierarchy across five benchmarks, 800-1347 (note centennial interpolation drag at 1347AD).",
+  c("Benchmark", "Active Sites", "Towns >= 5k", "Towns >= 10k", "Cities >= 30k", "Pop. >= 5k", "Share >= 5k", "Share >= 10k")
+)
+```
+
+Table 2 brings out the scale of the high-mediaeval urban transformation. In 800AD only 24 settlements in Western and Central Europe reached 5k inhabitants, holding just 197k people (1,03% of the regional total), and only four cities—Rome, Milan, Verona and Naples—reached 10k. By 1000AD the tally of towns above 5k had nearly tripled to 67 (597k inhabitants, 2,4%). Between 1000 and 1300 urban expansion outpaced rural growth by more than two to one: towns of 5k or more multiplied to 172 in 1200 (1,84M inhabitants, 4,8%) and 290 in 1300 (3,45M inhabitants, 6,56%), while major cities above 30k expanded from a lone centre in 800 (Rome) to 23 metropolises in 1300. Seasonal fairs, pilgrimage surges and transient artisanal migration meant that effective peak populations in hubs such as Provins, Troyes, Bruges and Venice stood periodically even higher than permanent resident counts [@Thakur2016Curating].
+
+# Results
+
+## Macro-Regional Trajectory (800AD-1347AD)
+
+Across the 547 years from Charlemagne's coronation to the eve of the Black Death, total population across the nine sub-regions multiplied by a factor of 2,87, rising from `r viscount_fmt_pop(pop_800)` in 800AD to `r viscount_fmt_pop(pop_1000)` in 1000AD, `r viscount_fmt_pop(pop_1200)` in 1200AD, `r viscount_fmt_pop(pop_1300)` in 1300AD and `r viscount_fmt_pop(pop_1347)` in 1347AD (Figure 1; Table 3). Rather than expanding uniformly, the macro-region traced a classic S-shaped pre-industrial logistic curve. Growth was modest during the Viking and Magyar ninth and tenth centuries (`r viscount_fmt_number(cagr_800_1000, 3L)`% per annum), steepened across the agrarian clearances of the eleventh and twelfth centuries (`r viscount_fmt_number(cagr_1000_1200, 3L)`% per annum), peaked during the commercial thirteenth century (`r viscount_fmt_number(cagr_1200_1300, 3L)`% per annum, adding 14,25M inhabitants in a single century) and flattened sharply between 1300 and 1347 (`r viscount_fmt_number(cagr_1300_1347, 3L)`% per annum).
+
+```{r fig_population_trajectory}
+viscount_figure(
+  "figures/mediaeval_western_and_central_europe_population_trajectory.png",
+  caption = "Macro-regional and leading sub-regional population trajectories (800-1347) alongside sub-regional population density in 1347AD.",
+  label = "fig:trajectory"
+)
+```
+
+Geographically, the most durable shift of the period was the northward tilt of European human numbers. In 800AD Italy held 28,35% of the chapter's inhabitants; by 1347AD its share had slipped to 22,69% despite doubling its headcount from 5,4M to 12,4M. Over the same centuries the heavy-soil agricultural arc embracing France, England and Wales, the Low Countries and the German lands lifted its combined share from 66,93% (12,75M) to 73,47% (40,15M), establishing the trans-Alpine demographic balance that would govern European politics and economics into the modern era.
+
+```{r table_subregional_populations}
+sub_rows <- lapply(subregions_list, function(sr) {
+  a <- as.numeric(sr$area_km2)
+  p800 <- as.numeric(sr$population[["800"]])
+  p1000 <- as.numeric(sr$population[["1000"]])
+  p1200 <- as.numeric(sr$population[["1200"]])
+  p1300 <- as.numeric(sr$population[["1300"]])
+  p1347 <- as.numeric(sr$population[["1347"]])
+  data.frame(
+    Subregion = as.character(sr$name),
+    Area = viscount_fmt_number(a, 1L),
+    Y800 = viscount_fmt_pop(p800),
+    Y1000 = viscount_fmt_pop(p1000),
+    Y1200 = viscount_fmt_pop(p1200),
+    Y1300 = viscount_fmt_pop(p1300),
+    Y1347 = viscount_fmt_pop(p1347),
+    Dens1347 = viscount_fmt_number(p1347 / a, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+sub_rows[[length(sub_rows) + 1L]] <- data.frame(
+  Subregion = "Total Domain",
+  Area = viscount_fmt_number(total_area_km2, 1L),
+  Y800 = viscount_fmt_pop(pop_800),
+  Y1000 = viscount_fmt_pop(pop_1000),
+  Y1200 = viscount_fmt_pop(pop_1200),
+  Y1300 = viscount_fmt_pop(pop_1300),
+  Y1347 = viscount_fmt_pop(pop_1347),
+  Dens1347 = viscount_fmt_number(dens_1347, 2L),
+  stringsAsFactors = FALSE
+)
+sub_df <- do.call(rbind, sub_rows)
+rownames(sub_df) <- NULL
+viscount_table(
+  sub_df,
+  "Sub-regional population totals (800-1347), land area and terminal density in 1347AD across all nine sub-regions.",
+  c("Sub-Region", "Area (km²)", "800AD", "1000AD", "1200AD", "1300AD", "1347AD", "1347 Density")
+)
+```
+
+## Kingdom of France: Northern Plains and Southern Pays
+
+The Kingdom of France—combining the royal northern plains and the southern *pays* of Occitania, Aquitaine and Provence—was the demographic colossus of mediaeval Christendom. Taken together, its two sub-regions expanded from 6M inhabitants in 800AD (31,5% of the macro-region) to 18,3M in 1347AD (33,49%), outnumbering the German-speaking Holy Roman Empire by more than 4M and England and Wales by more than three to one.
+
+Within the northern Kingdom of France (North and Île-de-France, 297.474 km²), population more than tripled from 3,6M in 800AD (12,1 per km²) to 4,8M in 1000AD, 7,6M in 1200AD, 10,8M in 1300AD and 11,2M in 1347AD (37,65 per km²; 3,11-fold growth at 0,208% per annum). Deep loess loams across the Île-de-France, Picardy, Artois, Normandy and the Beauce responded vigorously to three-field cereal rotation and heavy mouldboard ploughing. Carolingian polyptychs from Saint-Germain-des-Prés and Saint-Rémi already show dense village networks along the Seine and Marne in the ninth century [@Russell1958]; once Viking raids subsided after the 911 settlement of Normandy, royal and monastic *essartage* cleared interior forests across Brie, Gâtinais and Champagne. By 1328 the *État des paroisses et des feux* reveals rural densities exceeding 45 to 55 persons per km² across upper Normandy, Artois and the Parisian basin. At the urban apex, Paris surged from a modest Carolingian island-city of 5k in 800AD to 44k by 1200 and 75k in Buringh's conservative 1300 panel (contemporary hearth counts suggest the capital's suburbs pushed its actual pre-plague total well past 150k by 1328 [@Bairoch1988; @Benedictow2004]), anchored regionally by Rouen (35k), Arras (30k) and Lille (30k). Heavy harvest losses during 1315-1317 across Picardy and Artois and early raids of the Hundred Years' War after 1337 held northern growth after 1300 to just 3,7%.
+
+South of the Loire, Occitania, Aquitaine and Provence (248.497,1 km²) traced a parallel yet ecologically distinct path, climbing from 2,4M in 800AD (9,66 per km²) to 3,1M in 1000AD, 4,9M in 1200AD, 6,8M in 1300AD and 7,1M in 1347AD (28,57 per km²; 2,96-fold growth at 0,198% per annum). Lighter Mediterranean soils, karst limestone plateaus in the Causses, the Massif Central uplands and biennial wheat-fallow rotations kept average southern density nearly one quarter below the northern plain, even where Gascon vineyards, Languedoc olive groves and Rhône river valleys supported dense clustered villages. Political shocks struck unevenly: early ninth-century Andalusi maritime raids left archaeological traces along the Provençal coast [@Gleize2016Early], while the Albigensian Crusade (1209-1229) devastated Béziers, Carcassonne and rural Lauragais before Capetian administration and more than 300 planned *bastides* across Gascony, Quercy and Périgord reignited thirteenth-century colonisation. Urban activity concentrated in Bordeaux (30k in 1300, enriched by Plantagenet claret exports to England), Toulouse (30k), Montpellier (28k, a renowned medical and spice entrepôt) and papal Avignon after 1309.
+
+## The British Isles: England, Wales, Scotland and Ireland
+
+No sub-region in Western and Central Europe achieved a faster relative multiplication between 800AD and 1347AD than England and Wales (151.531,4 km²). Starting from a modest 1,45M in 800AD (9,57 per km²) amid fragmented Heptarchy kingdoms and early Norse coastal raids, the population climbed to 2,05M in 1000AD, 3,45M in 1200AD, 5,1M in 1300AD and 5,25M in 1347AD (34,65 per km²), a 3,62-fold expansion averaging 0,235% per annum. By 1086 Domesday Book shows lowland Norfolk, Suffolk, Lincolnshire and Kent already approaching 20 to 30 inhabitants per km², whereas upland Yorkshire and the northern shires remained battered by William I's harrying of 1069-1070 [@Russell1958; @Broadberry2015]. During the twelfth and thirteenth centuries rapid internal assarting drained parts of the Lincolnshire and Cambridgeshire Fens, cleared the Weald and Midland royal forests and extended open-field village agriculture up onto Pennine and Welsh marcher slopes. English wool—sheared from vast Cistercian and lay flocks across Yorkshire, the Cotswolds and Lincolnshire—financed continental silver inflows and tied rural pasture directly to Flemish looms [@Holstein2016Provenancing]. London expanded more than elevenfold from 6k in 800AD to 40k in 1200 and 70k in 1300, towering over provincial ports and cathedral towns such as York, Norwich, Bristol, Winchester and Lincoln. Yet English vulnerability to overpopulation proved acute: real wages dropped steadily after 1270, the 1315-1317 famine killed roughly one tenth of the kingdom and the 1319-1321 cattle panzootic crippled demesne ploughing, capping net growth between 1300 and 1347 at barely 2,94% [@Broadberry2015; @Campbell2016].
+
+Across the Irish Sea and north of the Tweed, Scotland and Ireland (160.282,5 km²) operated under far tighter ecological ceilings. Acid upland peat, cool wet summers and short growing seasons kept population density the lowest in the macro-region throughout the Middle Ages, rising from 0,9M in 800AD (5,62 per km²) to 1,15M in 1000AD, 1,55M in 1200AD, 2,05M in 1300AD and 2,1M in 1347AD (13,1 per km²; 2,33-fold growth at 0,155% per annum). Both polities underwent significant twelfth- and thirteenth-century institutional reorganisation. In Scotland, monarchs from David I to Alexander III chartered royal burghs—Berwick, Edinburgh, Perth, Aberdeen and Dundee—and settled Flemish and Anglo-Norman knights across Lothian, Fife and the Tay valley. In Ireland, Anglo-Norman conquest after 1169 grafted manorial cereal farming onto Leinster, Meath and Munster alongside Hiberno-Norse trading ports at Dublin, Waterford, Cork and Limerick, while Gaelic pastoral lordships retained Connacht and Ulster. Severe climatic cooling after 1310, the Great Famine, Edward Bruce's destructive campaign across Ireland in 1315-1318 and protracted Anglo-Scottish border warfare stalled expansion across both lands well before 1347 [@Campbell2016].
+
+## The Low Countries: Flanders, Brabant and Holland
+
+Compact yet extraordinarily productive, the Low Countries (Flanders, Brabant and Holland, 69.122,5 km²) rose from 0,85M inhabitants in 800AD (12,3 per km²) to 1,15M in 1000AD, 1,85M in 1200AD, 2,55M in 1300AD and 2,65M in 1347AD (38,34 per km²; 3,12-fold expansion at 0,208% per annum). By 1347 only Northern Italy and the Rhenish-North German belt exceeded its regional density; no part of northern Europe matched its urbanisation rate (12,35% in towns of 5k or more by 1300). Two complementary transformations drove this growth. In Flanders, Artois and Hainaut, textile manufacturing clustered along the Scheldt and Lys rivers turned Ghent (64k in 1300), Bruges (40k), Tournai (27,7k by 1347) and Ypres into industrial workshops dependent on high-grade English wool and imported Baltic and French grain [@Holstein2016Provenancing; @Buringh2021]. Further east, Brabantine towns including Louvain, Brussels, Mechelen and Antwerp expanded rapidly along the overland corridor between Bruges and Cologne, joined by Meuse valley metalworking hubs such as Liège and Dinant.
+
+Simultaneously, the maritime marshes of Holland, Zeeland and Utrecht underwent the *Grote Ontginning* (Great Reclamation) between 1000 and 1300. Counts of Holland and bishops of Utrecht granted free *cope* leases to peasant colonisers who dug straight drainage ditches, raised ring dikes and converted vast raised peat bogs into rye, oat and dairy farms; regional archaeological surveys around Rotterdam and the Meuse estuary trace this rapid eleventh- to thirteenth-century colonisation in crisp stratigraphic detail [@Trierum1990Dertig]. As peat soils oxidised and subsided below sea level, coastal communities formed water boards (*waterschappen*) and shifted gradually toward cattle dairying, herring fishing and maritime grain imports. Extreme urban dependence on imported bread grains made Flanders the epicentre of the Great Famine: municipal burial accounts in Ypres record roughly 2.794 pauper deaths between May and October 1316 alone—nearly a tenth of the city's population in six months [@Campbell2016]—holding Low Countries net growth after 1300 to 3,92%.
+
+## The Holy Roman Empire: Rhineland, North German Plain and Alpine South
+
+Spanning 481.097,9 km² across our two central European sub-regions, the German-speaking lands of the Holy Roman Empire grew faster over 800-1347 than either Italy or southern France, climbing from 4,45M inhabitants in 800AD (23,36% of the macro-region) to 13,95M in 1347AD (25,53%).
+
+In the Northern and Rhineland Holy Roman Empire (172.506 km²), population expanded 3,24-fold from 2,1M in 800AD (12,17 per km²) to 2,85M in 1000AD, 4,65M in 1200AD, 6,45M in 1300AD and 6,8M in 1347AD (39,42 per km²; 0,215% per annum), making it the second-densest sub-region in Europe by 1347. Growth radiated outward from two fertile axes: the old Roman Rhineland wine-and-grain spine anchored by Cologne (44k in 1300, the largest city in Germany), Mainz, Trier, Koblenz and Aachen alongside the fertile loess strip (*Börde*) stretching from Westphalia through Brunswick and Magdeburg to Saxony. From the twelfth century onward, Flemish and Dutch hydraulic specialists diked the Lower Weser and Elbe marshes while Lübeck (re-founded in 1159), Hamburg and Bremen unlocked Baltic and North Sea trade. Equally consequential, rural demographic surplus from Flanders, the Rhineland, Westphalia and Lower Saxony supplied hundreds of thousands of peasant settlers (*locatores*) for the *Ostsiedlung* across the Elbe into Holstein, Mecklenburg, Brandenburg, Pomerania and Silesia, raising agricultural nutrient discharge into Baltic estuaries and transforming village legal and credit institutions across East-Central Europe [@Ivarsson2019Baltic; @Guzowski2013].
+
+In Southern Germany, Austria and Switzerland (308.591,9 km²), mountainous topography in the Alps, Black Forest, Vosges and Bohemian Forest kept mean territorial density lower, yet sustained clearance tripled the population from 2,35M in 800AD (7,62 per km²) to 3,15M in 1000AD, 4,95M in 1200AD, 6,85M in 1300AD and 7,15M in 1347AD (23,17 per km²; 3,04-fold growth at 0,204% per annum). Internal *Landesausbau* pushed peasant *Rodung* clearings deep into Swabian, Franconian and Bavarian forests, while high-altitude Walser migrants colonised Alpine valleys in Graubünden, Valais and Vorarlberg during the thirteenth century. Silver discoveries in the Black Forest (Freiburg), Alsace and Tyrol monetised regional commerce; opening the St Gotthard Pass linked Zurich, Basel, Ulm, Augsburg, Nuremberg, Strasbourg, Regensburg and Vienna directly to Lombard finance and Venetian spices. Bioarchaeological series from mediaeval Central European cemeteries confirm that rapid population growth and market integration also exposed children and adolescents to recurrent nutritional and infectious stress by the late thirteenth century [@Marta2017Growth].
+
+## Mediaeval Italy: Communal North and Southern Kingdoms
+
+Italy entered the Carolingian era as Western Europe's most populous and most urbanised peninsula and retained Europe's highest regional population density through 1347AD, yet its northern and southern halves diverged markedly in pace and institutional form.
+
+Northern Italy (Lombardy, Venice and Piedmont, 123.905,3 km²) expanded 2,63-fold from 2,3M in 800AD (18,56 per km²) to 2,95M in 1000AD, 4,45M in 1200AD, 5,85M in 1300AD and 6,05M in 1347AD, achieving a remarkable 48,83 inhabitants per km²—the highest density anywhere in Christendom. Behind that rural density lay centuries of communal and monastic land reclamation (*bonifiche*) across the Po valley: embanked rivers, irrigation canals such as the Naviglio Grande serving Milan and irrigated winter meadows (*marcite*) enabled multiple annual fodder harvests and dense mixed polyculture combining wheat, vines and livestock [@Malanima1998]. Above this productive rural *contado* rose the densest constellation of great cities in Europe: Milan reached 100k in 1300 (the largest recorded city in our gazetteer), Venice 90k, Genoa 85k, Bologna 40k in 1300 (42,3k in 1347), Padua 35k, Pavia 30k, Verona 30k, Brescia 25,4k, Mantua 25k and Piacenza 22,2k [@Buringh2021; @Malanima1998]. Maritime republics in Venice and Genoa tapped Levantine, Aegean and Black Sea grain, alum, silk and spice routes [@Preiserkapeller2015Calculating], while Lombard inland communes forged fustian, woollen and armour industries that exported across the Alps.
+
+Central and Southern Italy (Tuscany, the Papal States, Naples and Sicily, 176.502,9 km²) grew more slowly in relative terms—2,05-fold, from 3,1M in 800AD (17,56 per km²) to 3,65M in 1000AD, 4,95M in 1200AD, 6,15M in 1300AD and 6,35M in 1347AD (35,98 per km²; 0,131% per annum)—precisely because it started from a high Byzantine-Lombard-Papal baseline and housed two sharply contrasting economic regimes. In Tuscany and Umbria, communal expansion matched the Lombard pace: Florence surged from 3k in 800AD and 15k in 1200 to 65k in 1300 (chronicler Giovanni Villani's famed bread-and-baptism estimates place pre-plague Florence near 90k–100k [@Malanima1998]), accompanied by Pisa (38k), Perugia (34k) and Siena (25k). Rome, lacking an industrial hinterland and hit by the papacy's removal to Avignon in 1309, drifted downward from 39k in 800AD to 30k–31,4k in 1300–1347. Farther south, Sicily and the Mezzogiorno followed a Mediterranean geopolitical rhythm: under Kalbid Arab rule Palermo swelled from 5k in 800AD to an early mediaeval peak of 60k in 1000AD before declining amid Norman conquest, Hohenstaufen rebellions and the Sicilian Vespers (1282), while Angevin administrative centralisation propelled Naples from 8k in 800AD to 60k in 1300 alongside Messina (27k) [@Malanima1998; @Preiserkapeller2015Calculating]. Recurrent grain shortages in 1328-1330, the Florentine banking bankruptcies of 1343-1346 and severe harvest failure in 1346-1347 weakened central and southern Italy immediately prior to the autumn 1347 arrival of plague at Messina.
+
+## Urban Hierarchy and Spatial Structure
+
+Figure 2 and Table 4 summarise the summit of the Western and Central European urban hierarchy across the `r formatC(settlement_count, format = "d", big.mark = ".")`-locality register. Ten of the top 15 recorded cities lay in Italy (Milan, Venice, Genoa, Florence, Naples, Palermo, Bologna, Rome, Pisa and Padua), joined north of the Alps only by Paris, London, Ghent, Cologne and Bruges. That geographic concentration illustrates a central structural feature of the high Middle Ages: whereas northern Europe by 1347 held nearly three quarters of the total population, Italy still housed more than half of Christendom's metropolises above 30k inhabitants.
+
+```{r fig_urban_hierarchy}
+viscount_figure(
+  "figures/mediaeval_western_and_central_europe_urban_hierarchy.png",
+  caption = "Twelve largest recorded cities by peak population and log-log rank-size distribution across 2.830 localities, 800-1347.",
+  label = "fig:urban_hierarchy"
+)
+```
+
+```{r table_top_cities}
+top15 <- summary_data$top_settlements[seq_len(min(15L, length(summary_data$top_settlements)))]
+top_rows <- lapply(seq_along(top15), function(i) {
+  s <- top15[[i]]
+  p <- s$population
+  get_p <- function(yr) {
+    v <- p[[yr]]
+    if (is.null(v)) return("-")
+    viscount_fmt_pop(v)
+  }
+  data.frame(
+    Rank = as.character(i),
+    City = as.character(s$name),
+    Country = as.character(s$country),
+    Y800 = get_p("800"),
+    Y1000 = get_p("1000"),
+    Y1200 = get_p("1200"),
+    Y1300 = get_p("1300"),
+    Peak = paste0(viscount_fmt_pop(s$peak_pop), " (", s$peak_year, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, top_rows)
+rownames(top_df) <- NULL
+viscount_table(
+  top_df,
+  "Fifteen largest recorded cities in Western and Central Europe across 800-1347, ordered by peak population.",
+  c("Rank", "Settlement", "Jurisdiction", "800AD", "1000AD", "1200AD", "1300AD", "Peak (Year)")
+)
+```
+
+# Limitations
+
+Five methodological limitations govern the precision of this reconstruction and define sensible uncertainty bounds. First, fiscal-multiplier variance introduces an irreducible margin of roughly plus or minus 15% to 20% in 800AD and 1000AD and plus or minus 10% to 15% in 1300AD and 1347AD. Shifting the average hearth multiplier for the French 1328 *État des paroisses et des feux* from 4,2 to 4,8 persons per *feu* alters total French population by more than 2M; similarly, differing treatments of Domesday smallholders, sub-tenants and landless servants generate a 25% spread in 1086 English totals [@Russell1958; @Broadberry2015].
+
+Second, centennial interpolation between 1300 and 1400 in the Buringh urban corpus pulls 1347AD city figures downward toward the post-Black Death trough [@Buringh2021]. For Milan (95,2k in 1347 vs 100k in 1300), Venice (71,4k vs 90k), Paris (64,3k vs 75k) and London (56,9k vs 70k), the 1347 settlement entries understate actual pre-plague urban occupancy on the eve of autumn 1347, while Buringh's standardised centennial series also sits below local maximalist estimates for Paris (often placed at 150k to 200k by 1328) and Florence (90k to 100k) [@Bairoch1988; @Malanima1998].
+
+Third, spatial recording density across the `r formatC(settlement_count, format = "d", big.mark = ".")`-locality gazetteer is strongly uneven. Because classical Roman civic continuity feeds 1.575 Pleiades localities into the register, Italy holds 1.246 localities (44,03% of the entire chapter register, including 762 Pleiades sites in Central and Southern Italy alone), whereas Scotland and Ireland hold only 54 localities (1,91%). Raw site counts therefore cannot be read directly as population proxies without sub-regional calibration.
+
+Fourth, multi-decade and centennial benchmarks smooth over violent short-run mortality shocks. Our benchmarks at 1300AD and 1347AD show slow net positive growth (+3,9%) across the early fourteenth century, concealing the sharp V-shaped dip of 10% to 15% inflicted on England, Flanders and northern France during the Great Famine of 1315-1317 and the bovine panzootic of 1319-1321, followed by partial demographic recuperation during the 1330s and early 1340s [@Broadberry2015; @Campbell2016].
+
+Fifth, no machine-readable historical GIS sub-administrative census layer exists for Western and Central Europe prior to 1500. Spatial disaggregation inside each of the nine sub-regions therefore relies on urban point anchors and agro-ecological land suitability rather than county- or parish-level boundary tables.
+
+# Conclusion
+
+Between 800AD and 1347AD Western and Central Europe completed a structural demographic transformation that nearly tripled its human population from `r viscount_fmt_pop(pop_800)` to `r viscount_fmt_pop(pop_1347)` and raised continental density from `r viscount_fmt_number(dens_800, 2L)` to `r viscount_fmt_number(dens_1347, 2L)` inhabitants per km². Driven by heavy-plough cereal agriculture, three-field crop rotation, forest assarting, coastal polder reclamation, monastic and seigneurial colonisation and a warm centuries-long climatic optimum, population expansion shifted Europe's demographic centre of gravity decisively north of the Alps: France, England and Wales, the Low Countries and the Holy Roman Empire grew from 66,93% of the macro-region in 800AD to 73,47% in 1347AD. Simultaneously, urban life revived from 24 small centres above 5k inhabitants in 800AD to 290 towns housing 3,45M people in 1300AD, crowned by northern Italian maritime and industrial communes alongside Paris, London, Ghent and Cologne. Yet by the early fourteenth century peasant land fragmentation, declining soil fertility on marginal clearances and the onset of Little Ice Age climatic instability had brought this expansion to a halt. Weakened by the Great Famine of 1315-1317 and the cattle panzootic of 1319-1321, the densely packed agrarian and urban landscape of 1347 stood acutely exposed to the Eurasian plague pandemic that landed at Messina in October 1347 [@Benedictow2004; @Campbell2016; @Izdebski2022].
+
+# Appendix
+
+Tables 5 and 6 provide the full sub-regional compound annual growth rate schedule across every inter-benchmark interval and the provenance and spatial-recording audit of the `r formatC(settlement_count, format = "d", big.mark = ".")`-locality settlement register.
+
+```{r table_appendix_cagr}
+cagr_rows <- lapply(subregions_list, function(sr) {
+  a <- as.numeric(sr$area_km2)
+  p8 <- as.numeric(sr$population[["800"]])
+  p10 <- as.numeric(sr$population[["1000"]])
+  p12 <- as.numeric(sr$population[["1200"]])
+  p13 <- as.numeric(sr$population[["1300"]])
+  p1347 <- as.numeric(sr$population[["1347"]])
+  fmt_r <- function(v) paste0(viscount_fmt_number(v, 3L), "%")
+  data.frame(
+    Subregion = as.character(sr$name),
+    D800 = viscount_fmt_number(p8 / a, 2L),
+    D1347 = viscount_fmt_number(p1347 / a, 2L),
+    Mult = paste0(viscount_fmt_number(p1347 / p8, 2L), "x"),
+    R1 = fmt_r(((p10 / p8)^(1 / 200) - 1) * 100),
+    R2 = fmt_r(((p12 / p10)^(1 / 200) - 1) * 100),
+    R3 = fmt_r(((p13 / p12)^(1 / 100) - 1) * 100),
+    R4 = fmt_r(((p1347 / p13)^(1 / 47) - 1) * 100),
+    stringsAsFactors = FALSE
+  )
+})
+cagr_rows[[length(cagr_rows) + 1L]] <- data.frame(
+  Subregion = "Total Domain",
+  D800 = viscount_fmt_number(dens_800, 2L),
+  D1347 = viscount_fmt_number(dens_1347, 2L),
+  Mult = paste0(viscount_fmt_number(pop_1347 / pop_800, 2L), "x"),
+  R1 = paste0(viscount_fmt_number(cagr_800_1000, 3L), "%"),
+  R2 = paste0(viscount_fmt_number(cagr_1000_1200, 3L), "%"),
+  R3 = paste0(viscount_fmt_number(cagr_1200_1300, 3L), "%"),
+  R4 = paste0(viscount_fmt_number(cagr_1300_1347, 3L), "%"),
+  stringsAsFactors = FALSE
+)
+cagr_df <- do.call(rbind, cagr_rows)
+rownames(cagr_df) <- NULL
+viscount_table(
+  cagr_df,
+  "Sub-regional demographic densities (inhabitants per km²), cumulative expansion multiples and inter-benchmark compound annual growth rates, 800-1347.",
+  c("Sub-Region", "800 Dens.", "1347 Dens.", "800-1347 Mult.", "800-1000", "1000-1200", "1200-1300", "1300-1347")
+)
+```
+
+```{r table_appendix_provenance}
+site_reg_vec <- vapply(settlements_raw, function(x) as.character(x$region_id), character(1))
+site_prov_vec <- vapply(settlements_raw, function(x) as.character(x$provenance_source), character(1))
+
+audit_rows <- lapply(subregions_list, function(sr) {
+  sid <- as.character(sr$id)
+  a <- as.numeric(sr$area_km2)
+  p1347 <- as.numeric(sr$population[["1347"]])
+  idx <- which(site_reg_vec == sid)
+  n_tot <- length(idx)
+  n_bur <- sum(site_prov_vec[idx] == "Buringh_European_Urban_700_2000")
+  n_ple <- sum(site_prov_vec[idx] == "Pleiades_Ancient_World_Gazetteer")
+  data.frame(
+    Subregion = as.character(sr$name),
+    Sites = formatC(n_tot, format = "d", big.mark = "."),
+    Buringh = formatC(n_bur, format = "d", big.mark = "."),
+    Pleiades = formatC(n_ple, format = "d", big.mark = "."),
+    Site_Share = paste0(viscount_fmt_number(100 * n_tot / settlement_count, 2L), "%"),
+    Pop_Share = paste0(viscount_fmt_number(100 * p1347 / pop_1347, 2L), "%"),
+    Per_10k = viscount_fmt_number(10000 * n_tot / a, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+audit_df <- do.call(rbind, audit_rows)
+rownames(audit_df) <- NULL
+viscount_table(
+  audit_df,
+  "Sub-regional locality provenance audit comparing settlement shares against 1347AD demographic shares across 2.830 localities.",
+  c("Sub-Region", "Total Sites", "Buringh", "Pleiades", "Site Share", "1347 Pop. Share", "Sites per 10k km²")
+)
+```
+
+# Sources

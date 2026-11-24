@@ -1,0 +1,330 @@
+---
+title: "Hellenistic, Roman and Parthian-Sassanid Eras"
+subtitle: "Settlement Gazetteer of 15.862 Individually Assessed Classical Settlements, 539BC-632AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: hellenistic_roman_parthian_sassanid_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_hellenistic_roman_parthian_sassanid_spatial.png"
+hero_caption: "Spatial distribution of 15.862 individually assessed classical settlements across eleven classical subregions from 539BC to 632AD."
+hero_label: "fig:hero-hellenistic-roman-parthian-sassanid-settlements"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON(
+  "hellenistic_roman_parthian_sassanid_settlements.json",
+  simplifyVector = FALSE
+)
+summary_cache <- jsonlite::fromJSON(
+  "hellenistic_roman_parthian_sassanid_summary_cache.json",
+  simplifyVector = FALSE
+)
+
+sett_list <- if (is.null(names(sett_raw))) sett_raw else unname(sett_raw)
+
+normalise_site_name <- function (nm) {
+  s <- as.character(nm)
+  s <- gsub("u\u0308", "\u00fc", s, fixed = TRUE)
+  s <- gsub("I\u0307", "\u0130", s, fixed = TRUE)
+  s
+}
+
+fmt_eu_coord <- function (val) {
+  s <- formatC(as.numeric(val), format = "f", digits = 2L, decimal.mark = ",")
+  s
+}
+
+fmt_era_yr <- function (yr_int) {
+  y <- as.integer(yr_int)
+  if (y < 0L) return(paste0(abs(y), "BC"))
+  if (y == 0L) return("1AD")
+  paste0(y, "AD")
+}
+
+fmt_span_str <- function (pop_map) {
+  yrs <- sort(as.integer(names(pop_map)))
+  if (length(yrs) == 0L) return("-")
+  paste0(fmt_era_yr(min(yrs)), "-", fmt_era_yr(max(yrs)))
+}
+
+get_peak_info <- function (pop_map) {
+  vals <- as.numeric(unlist(pop_map))
+  yrs <- as.integer(names(pop_map))
+  idx <- which.max(vals)
+  list(peak_pop = vals[idx], peak_yr = yrs[idx])
+}
+
+build_gazetteer_df <- function (entries) {
+  if (length(entries) == 0L) return(data.frame())
+  pk_pops <- vapply(entries, function (e) get_peak_info(e$population)$peak_pop, numeric(1))
+  nms <- vapply(entries, function (e) normalise_site_name(e$name), character(1))
+  ord <- order(-pk_pops, nms)
+  entries <- entries[ord]
+
+  rows <- lapply(entries, function (e) {
+    pk <- get_peak_info(e$population)
+    data.frame(
+      Settlement = normalise_site_name(e$name),
+      Country = as.character(e$country),
+      Coordinates = paste0(fmt_eu_coord(e$coords[[1]]), "; ", fmt_eu_coord(e$coords[[2]])),
+      Span = fmt_span_str(e$population),
+      `Peak Year` = fmt_era_yr(pk$peak_yr),
+      `Peak Pop` = viscount_fmt_pop(pk$peak_pop),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+assign_macro_group <- function (country) {
+  if (country %in% c("Turkey", "Cyprus", "Greece")) return("anatolia_cyprus")
+  if (country %in% c("Tunisia", "Algeria", "Libya", "Morocco")) return("maghreb_libya")
+  if (country == "Egypt") return("egypt")
+  if (country %in% c("Syria", "Israel", "Jordan", "Lebanon", "Palestine", "Saudi Arabia", "Yemen", "Bahrain", "Oman", "United Arab Emirates", "Kuwait", "Qatar")) return("levant_arabia")
+  if (country %in% c("Iraq", "Iran")) return("mesopotamia_iran")
+  "caucasia_afghanistan"
+}
+
+group_ids <- vapply(sett_list, function (e) assign_macro_group(as.character(e$country)), character(1))
+
+fmt_int_str <- function (x) {
+  formatC(as.integer(round(as.numeric(x))), format = "d", big.mark = ".")
+}
+
+s_countries_all <- vapply(sett_list, function (e) as.character(e$country), character(1))
+s_peaks_all <- vapply(sett_list, function (e) get_peak_info(e$population)$peak_pop, numeric(1))
+cnt_tbl <- sort(table(s_countries_all), decreasing = TRUE)
+n_jur <- length(cnt_tbl)
+min_peak_pop <- min(s_peaks_all)
+
+fmt_jur_pair <- function (tbl) {
+  nms <- names(tbl)
+  vals <- as.integer(tbl)
+  parts <- paste0(nms, " (", vapply(vals, fmt_int_str, character(1)), ")")
+  if (length(parts) <= 1L) return(paste(parts, collapse = ""))
+  paste0(paste(parts[-length(parts)], collapse = ", "), " and ", parts[length(parts)])
+}
+
+top4_jur_str <- fmt_jur_pair(cnt_tbl[seq_len(min(4L, length(cnt_tbl)))])
+bot4_jur_str <- fmt_jur_pair(rev(cnt_tbl)[seq_len(min(4L, length(cnt_tbl)))])
+
+grp_labels <- c(
+  anatolia_cyprus = "Anatolia and Cyprus",
+  levant_arabia = "the Levant and Arabian Peninsula",
+  egypt = "Egypt",
+  maghreb_libya = "Carthage, the Maghreb and Libya",
+  mesopotamia_iran = "Mesopotamia and Iran",
+  caucasia_afghanistan = "Classical Caucasia alongside Greco-Bactrian and Kushan Afghanistan"
+)
+grp_counts <- sort(table(group_ids), decreasing = TRUE)
+grp_breakdown_str <- {
+  parts <- paste0(unname(grp_labels[names(grp_counts)]), " (", vapply(as.integer(grp_counts), fmt_int_str, character(1)), " settlements)")
+  paste0(paste(parts[-length(parts)], collapse = ", "), " and ", parts[length(parts)])
+}
+
+grp_n <- function (gid) {
+  fmt_int_str(sum(group_ids == gid))
+}
+
+block_countries_str <- function (gid) {
+  sub_c <- s_countries_all[group_ids == gid]
+  fmt_jur_pair(sort(table(sub_c), decreasing = TRUE))
+}
+
+n_active_at <- function (yr_num) {
+  sum(vapply(sett_list, function (e) {
+    yrs <- as.integer(names(e$population))
+    length(yrs) > 0L && min(yrs) <= yr_num && max(yrs) >= yr_num
+  }, logical(1)))
+}
+```
+
+# Abstract
+
+This gazetteer compiles coordinates, occupation spans and case-by-case evidence-assessed populations for 15.862 classical and late-antique settlements across North Africa, Southwest Asia, Iran, Afghanistan and Caucasia between 539BC and 632AD. Compiled out of 16.112 evaluated candidates after excluding 250 architectural sub-loci, fortification gates, sanctuary fragments and duplicate records with zero crowd-sourced fallback entries, the enriched catalogue anchors the spatial distribution of HANDBOOK across `r n_jur` modern countries and eleven classical subregions. Ranked by volume, the six geographic blocks comprise `r grp_breakdown_str`. Across all 15.862 individually assessed settlements, peak populations span `r viscount_fmt_pop(min_peak_pop)` to 465k inhabitants (Roman Alexandria), followed by Ctesiphon (415k), Antioch-on-the-Orontes (348k), Carthage (312k), Seleucia-on-the-Tigris (286k), Ephesus (192k), Babylon (146k), Pergamon (142k), Smyrna (126k), Antiochia (111,7k), Apamea (108k) and Tarsus (88,5k). Together with regional census papyri, epigraphic municipal registers, Matérn ($\nu = 3/2$) kriging surfaces and pycnophylactic subadministrative boundaries from geoBoundaries [@Runfola2020GeoBoundaries], these urban trajectories chart the rise of Hellenistic *poleis*, Roman provincial *municipia* and Sassanid hydraulic capitals prior to the Justinianic Plague and the transitions of 632AD.
+
+# Background
+
+Archaeological and documentary evidence for classical urbanism across the Near East and North Africa exhibits profound regional contrasts in preservation and survey coverage. In Egypt, dry-climate papyri from the Arsinoite, Oxyrhynchite and Hermopolite nomes record individual villages, tax rosters and household compositions down to named streets and canals [@Bagnall2020Missing; @Abdelwahed2019Alabanthis; @Hoogendijk2023Greek]. Along the Mediterranean rim of Tunisia, Libya, Syria and western Anatolia, monumental stone architecture, civic inscriptions and intensive regional field surveys permit dense mapping of Hellenistic and Roman urban hierarchies [@Mrozewicz2013Flavian; @Fabian2021Economic; @Carlsen2022Roman].
+
+East of the Euphrates and across the Iranian plateau, Bactria and Caucasia, mudbrick architecture and deep alluvial burial demand reliance on regional canal surveys, fort inventories and strategic trade-corridor excavations [@Farrokh2023Survey; @Spengler2021Journey; @Zakrzewski2025Defining]. In arid interior basins such as Roman Palmyra and Garamantian Fezzan, oasis archaeology demonstrates how engineered qanats, cisterns and wadi dams sustained sizeable urban nuclei in hyper-arid landscapes [@Jimenez2022Food; @Mattingly2020Introducti; @Anonymous2020Urbanisati]. This gazetteer brings those disparate regional registers into a single uniform schema spanning 539BC to 632AD.
+
+# Methodology
+
+## Evidence-Based Selection and Provenance Filtering
+
+Every settlement in this gazetteer was assessed from primary archaeological and historical evidence—harmonising baseline monograph estimates with the OXREP Roman Cities Database (Hanson 2016), the Stanford POLIS Greek *poleis* inventory, the Egypt Exploration Society (EES) Delta Survey, From Villages to Empires (Titolo and Palmisano 2025), the Near East Holocene Urban Settlement Database (Palmisano et al. 2021), the Near East Radiocarbon Database (NERD), the C-Turkey chronometric register, DARMC and Euratlas—anchored to excavated walled intramural footprints, period urban density schedules, theatre and amphitheatre capacities, Roman Egyptian census papyri, civic grain-dole rolls and regional excavation monographs [@Reden2019Documentar; @Reden2021Economic; @Capponi2024Augustus]. Candidate auditing of 16.112 evaluated records removed 250 non-settlement architectural fragments (isolated gates, shrines, necropolises, palaces and insulae) and coordinate duplicates, yielding 15.862 individually assessed classical settlements across all eleven subregions and `r n_jur` modern countries with 0% reliance on crowd-sourced fallback databases.
+
+Longitudinal series track each city across its documented occupation window between 539BC and 632AD, incorporating historical foundation dates (such as Alexandria in 331BC, Antioch-on-the-Orontes and Apamea in 300BC, Seleucia-on-the-Tigris in 305BC, Ctesiphon in 129BC, Antinoopolis in 130AD, Gor in 220AD, Gundeshapur in 271AD, Dvin in 335AD and Tbilisi in 458AD) alongside major sieges, earthquakes, harbour silting and abandonment horizons, verified for spatial containment against geoBoundaries polygons [@Runfola2020GeoBoundaries].
+
+## Urban Assessment, Kriging Integration and Grouping
+
+Instead of compressing cities beneath an artificial uniform ceiling, each catalogued entry represents a coherent classical settlement assessed on its own historical and archaeological footprint, spanning `r viscount_fmt_pop(min_peak_pop)` to 465k at Alexandria. These urban anchors complement HANDBOOK's continuous 5-arcminute population surfaces constructed from 27.539 horizon-specific archaeological records via metric-isotropic radial geodesic distance fields and non-stationary Matérn ($\nu = 3/2$) kriging ($\tau_1 = 1,35$, $\tau_2 = 2,9025$, $c_0 = 0,04$, $R^2 = 0,9993$), while pycnophylactic disaggregation enforces exact mass conservation across 29 historical and 2.629 modern subadministrative units [@Runfola2020GeoBoundaries].
+
+For presentation in the tables below, the 15.862 settlements are grouped into six geographic blocks matching the regional demographic narrative: Anatolia and Cyprus (`r grp_n("anatolia_cyprus")` settlements); Carthage, the Maghreb and Libya (`r grp_n("maghreb_libya")` settlements); Egypt (`r grp_n("egypt")` settlements); the Levant and Arabian Peninsula (`r grp_n("levant_arabia")` settlements); Mesopotamia and Iran (`r grp_n("mesopotamia_iran")` settlements); and Classical Caucasia alongside Greco-Bactrian and Kushan Afghanistan (`r grp_n("caucasia_afghanistan")` settlements). Within each table, entries are ordered descending by peak assessed population and alphabetically by site name.
+
+# Testing and Validation
+
+To verify internal consistency across the full 15.862-settlement corpus, rank-size behaviour was evaluated across all eleven classical subregions. Figure \ref{fig:gazetteer-ranksize} displays the resulting log-log rank-size curve alongside the twelve largest cities by peak population: Alexandria (465k), Ctesiphon (415k), Antioch-on-the-Orontes (348k), Carthage (312k), Seleucia-on-the-Tigris (286k), Ephesus (192k), Babylon (146k), Pergamon (142k), Smyrna (126k), Antiochia (111,7k), Apamea (108k) and Tarsus (88,5k). Removing non-settlement fragments and integrating surveyed Delta towns, Greek *poleis* and OXREP municipal areas yields a steep OLS rank-size slope of $\alpha = 1,32$ ($R^2 = 0,80$), reflecting a polycentric trans-imperial hierarchy stretching from small coastal and oasis towns to Mediterranean, Nilotic, Mesopotamian, Iranian and Kushan metropolises.
+
+Temporal occupancy checks show `r fmt_int_str(n_active_at(-539))` active settlements at the 539BC Achaemenid baseline, expanding to `r fmt_int_str(n_active_at(-300))` by 300BC during the Hellenistic urban wave, `r fmt_int_str(n_active_at(200))` in 200AD at the Roman-Parthian-Kushan apogee and `r fmt_int_str(n_active_at(500))` in 500AD following Sassanid and Late Antique royal foundations, before easing to `r fmt_int_str(n_active_at(632))` in 632AD after the abandonment of Red Sea, Euphrates and Arabian caravan sites such as Myos Hormos, Berenike, Dura-Europos, Hatra, Hegra, Qaryat al-Faw, Thaj and Sumhuram. Coordinate integrity checks confirm 100% spatial containment within the classical domain mask and zero duplicate coordinate-name collisions.
+
+```{r fig-gazetteer-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig4_hellenistic_roman_parthian_sassanid_settlements.png",
+  "Rank-size curve across all 15.862 individually assessed classical settlements and top twelve cities by peak population.",
+  "fig:gazetteer-ranksize",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Results
+
+## Anatolia and Cyprus
+
+Table \ref{tab:gaz-anatolia} catalogues `r grp_n("anatolia_cyprus")` individually assessed settlements across `r block_countries_str("anatolia_cyprus")`, spanning Ionian, Bithynian, Lydian, Pamphylian, Cilician, Cappadocian, Pontic and Cypriot landscapes (including Antioch-on-the-Orontes and Upper Mesopotamian border cities Edessa, Nisibis, Amida, Carrhae and Tigranocerta within modern Turkey) [@Fabian2021Economic; @Carlsen2022Roman]. Major coastal metropoleis—Antioch-on-the-Orontes (348k), Ephesus (192k), Pergamon (142k), Smyrna (126k), Tarsus (88,5k), Nicomedia (82,5k), Alexandria Troas (71,2k), Chios (68k), Kalchedon (63,4k), Cyzicus (58,5k), Salamis Cyprus (57,4k) and Miletus (48,5k)—sit alongside inland crossroads including Sardis (78k), Ancyra (54,2k), Nicaea (52,4k), Caesarea Mazaca (48,6k), Laodicea on the Lycus (44,8k) and Aphrodisias (22,8k).
+
+```{r tab-gaz-anatolia, results='asis'}
+df_anat <- build_gazetteer_df(sett_list[group_ids == "anatolia_cyprus"])
+viscount_table(
+  df_anat,
+  paste0("Individually assessed classical settlements across Anatolia and Cyprus from 539BC to 632AD (", fmt_int_str(nrow(df_anat)), " settlements)."),
+  names(df_anat),
+  list(label = "tab:gaz-anatolia")
+)
+```
+
+## Carthage, Maghreb and Libya
+
+Table \ref{tab:gaz-maghreb} lists `r grp_n("maghreb_libya")` individually assessed settlements across `r block_countries_str("maghreb_libya")`. Leading metropoleis and provincial capitals—Carthage (312k), Lepcis Magna (78,5k), Cyrene (58,2k), Hadrumetum (56,2k), Caesarea Mauretaniae (46,8k), Cirta (42,6k), Utica (42,5k), Thysdrus (38,6k), Ptolemais Cyrenaica (34,6k), Oea (28,8k), Hippo Regius (28,6k), Tingis (22,8k) and Volubilis (17,8k)—chart Flavian-Severan municipal urbanisation, olive-oil exports and *limes* garrisons [@Mrozewicz2013Flavian; @Toumi2025Agricultur; @Zakrzewski2025Defining], complementing Saharan oasis networks across interior Libya [@Mattingly2020Introducti; @Anonymous2020Urbanisati].
+
+```{r tab-gaz-maghreb, results='asis'}
+df_magh <- build_gazetteer_df(sett_list[group_ids == "maghreb_libya"])
+viscount_table(
+  df_magh,
+  paste0("Individually assessed classical settlements across Carthage, the Maghreb and Libya from 539BC to 632AD (", fmt_int_str(nrow(df_magh)), " settlements)."),
+  names(df_magh),
+  list(label = "tab:gaz-maghreb")
+)
+```
+
+## Ptolemaic and Roman Egypt
+
+Table \ref{tab:gaz-egypt} records `r grp_n("egypt")` individually assessed Egyptian settlements stretching from Mediterranean and Delta ports through Memphis and the reclaimed Arsinoite Fayum basin to Upper Egypt and the Red Sea [@Dogaer2023Property; @Capponi2024Augustus; @Abdelwahed2019Alabanthis; @Choat2019Egypt]. Alexandria (465k) leads the urban hierarchy above Memphis (73k), Sais (51,5k), Arsinoe (43,8k), Hermopolis Magna (42,4k), Oxyrhynchus (35,6k), Antinoopolis (33,2k), Tanis (31,8k), Pelusium (29,6k), Ptolemais Hermiou (29,2k), Coptos (22,6k), Syene (16,9k) and the Indo-Roman Red Sea ports Berenike (8,9k) and Myos Hormos (6,2k), enriched with EES Delta Survey sites and cross-checked against surviving nome census and house-register papyri [@Bagnall2020Missing; @Winkler2025Cavalrymen].
+
+```{r tab-gaz-egypt, results='asis'}
+df_egy <- build_gazetteer_df(sett_list[group_ids == "egypt"])
+viscount_table(
+  df_egy,
+  paste0("Individually assessed Ptolemaic, Roman and Late Antique settlements in Egypt from 539BC to 632AD (", fmt_int_str(nrow(df_egy)), " settlements)."),
+  names(df_egy),
+  list(label = "tab:gaz-egypt")
+)
+```
+
+## Seleucid and Roman Levant and Arabian Peninsula
+
+Table \ref{tab:gaz-levant} presents `r grp_n("levant_arabia")` individually assessed settlements spanning `r block_countries_str("levant_arabia")`. Highlights include Seleucid and Roman Levantine hubs such as Antiochia (111,7k), Apamea (108k), Jerusalem (72,5k), Damascus (64,8k), Palmyra (64,5k), Caesarea Maritima (58,4k), Tyre (57,2k), Berytus (46,8k), Laodicea ad Mare (45,6k), Emesa (44,5k), Gaza (38,6k), Sidon (38,4k), Scythopolis (36,8k) and Bostra (36,8k), alongside Nabataean, Himyarite and Gulf caravan-maritime centres including Ma'rib (34,8k), Petra (31,8k), Sanaa (29,2k), Zafar (28,6k), Yathrib (22,8k), Najran (21,8k), Thaj (18,6k), Sohar (15,4k), Qal'at al-Bahrain (12,9k) and Sumhuram (4,4k) [@Jimenez2022Food; @Reden2021Economic; @Dolganov2025Archives].
+
+```{r tab-gaz-levant, results='asis'}
+df_lev <- build_gazetteer_df(sett_list[group_ids == "levant_arabia"])
+viscount_table(
+  df_lev,
+  paste0("Individually assessed classical settlements across the Levant and Arabian Peninsula from 539BC to 632AD (", fmt_int_str(nrow(df_lev)), " settlements)."),
+  names(df_lev),
+  list(label = "tab:gaz-levant")
+)
+```
+
+## Parthian and Sassanid Mesopotamia and Iran
+
+Table \ref{tab:gaz-meso} brings together `r grp_n("mesopotamia_iran")` individually assessed settlements across `r block_countries_str("mesopotamia_iran")`. Prominent imperial and hydraulic capitals include Ctesiphon (415k), Seleucia-on-the-Tigris (286k), Babylon (146k), Susa (82,5k), Istakhr (68,5k), Gundeshapur (66,4k), Rhagae (64,8k), Ecbatana (58,5k), Charax Spasinu (52,4k), Hatra (51,5k), Nishapur (51,4k), Bishapur (48,6k), Hecatompylos (44,2k), Arbela (42,8k), Gor (42,6k), Jayy (42,6k) and Al-Hira (38,6k) [@Farrokh2023Survey; @Panaino2020Conceptual; @Spengler2021Journey].
+
+```{r tab-gaz-meso, results='asis'}
+df_meso <- build_gazetteer_df(sett_list[group_ids == "mesopotamia_iran"])
+viscount_table(
+  df_meso,
+  paste0("Individually assessed Parthian and Sassanid settlements in Mesopotamia and Iran from 539BC to 632AD (", fmt_int_str(nrow(df_meso)), " settlements)."),
+  names(df_meso),
+  list(label = "tab:gaz-meso")
+)
+```
+
+## Classical Caucasia and Kushan Afghanistan
+
+Table \ref{tab:gaz-cauc} details `r grp_n("caucasia_afghanistan")` individually assessed settlements across `r block_countries_str("caucasia_afghanistan")`, anchoring Greco-Bactrian, Kushan, Armenian, Iberian, Lazic and Caucasian Albanian corridors along the Oxus-Hindu Kush, Araxes, Kura and Black Sea routes: Bactra (85,5k), Artaxata (62,4k), Dvin (54,4k), Kapisa (49,2k), Alexandria in Aria (44,8k), Partaw (38,8k), Alexandria in Arachosia (36,4k), Vagharshapat (34,6k), Nagarahara (32,8k), Ai-Khanoum (32,4k), Mtskheta (32,4k), Zaranj (29,4k), Kunduz (28,6k), Qabala (28,4k) and Tbilisi (23,8k) [@Spengler2021Journey; @Arts2011Violets; @Kwon2009West; @Liu2026Research].
+
+```{r tab-gaz-cauc, results='asis'}
+df_cauc <- build_gazetteer_df(sett_list[group_ids == "caucasia_afghanistan"])
+viscount_table(
+  df_cauc,
+  paste0("Individually assessed classical settlements across Classical Caucasia and Kushan Afghanistan from 539BC to 632AD (", fmt_int_str(nrow(df_cauc)), " settlements)."),
+  names(df_cauc),
+  list(label = "tab:gaz-cauc")
+)
+```
+
+# Limitations
+
+Three structural constraints affect this settlement gazetteer. First, archaeological excavation intensity varies across modern jurisdictions: the largest national concentrations lie in `r top4_jur_str`, whereas smaller littoral and frontier territories such as `r bot4_jur_str` contribute fewer individually assessed settlements. Second, while excluding 250 architectural fragments, gates and sub-loci restores coherent urban centroids and yields a steep classical rank-size slope ($\alpha = 1,32$, $R^2 = 0,80$), walled-area and documentary estimates still carry ±20% to ±30% uncertainty for metropoleis with extensive extramural suburbs or multi-storey residential blocks. Third, alluvial sedimentation in lower Iraq and the Nile Delta conceals small unfortified classical farmsteads, making the continuous Matérn kriging surface essential for estimating rural biomass beyond urban nuclei.
+
+# Conclusion
+
+Across 15.862 individually assessed classical settlements and `r n_jur` modern national territories, this gazetteer documents the polycentric expansion of Hellenistic, Roman, Parthian, Sassanid and Kushan urban networks between 539BC and 632AD. Tracking `r fmt_int_str(n_active_at(-539))` active settlements at the 539BC Achaemenid baseline, `r fmt_int_str(n_active_at(-300))` by 300BC, `r fmt_int_str(n_active_at(200))` during the 200AD Roman-Parthian-Kushan apogee, `r fmt_int_str(n_active_at(500))` in 500AD following Sassanid royal foundations and `r fmt_int_str(n_active_at(632))` on the eve of the Islamic conquests in 632AD, the spatial record captures both the Mediterranean municipal boom and the eastward hydraulic surge under the Sassanids, supplying the urban foundation for HANDBOOK's continuous demographic surfaces and subadministrative audits.
+
+# Appendix
+
+Table \ref{tab:gaz-summary} summarises the 15.862 individually assessed classical settlements aggregated by modern country, reporting site counts, earliest active year, latest active year, median peak population and maximum peak population.
+
+```{r tab-gaz-summary, results='asis'}
+countries <- vapply(sett_list, function (e) as.character(e$country), character(1))
+c_uniq <- sort(unique(countries))
+sum_rows <- lapply(c_uniq, function (cn) {
+  sub_e <- sett_list[countries == cn]
+  yrs_all <- unlist(lapply(sub_e, function (e) as.integer(names(e$population))))
+  pks <- vapply(sub_e, function (e) get_peak_info(e$population)$peak_pop, numeric(1))
+  data.frame(
+    Country = cn,
+    Sites = formatC(length(sub_e), format = "d", big.mark = "."),
+    Earliest = fmt_era_yr(min(yrs_all)),
+    Latest = fmt_era_yr(max(yrs_all)),
+    `Median Peak` = viscount_fmt_pop(stats::median(pks)),
+    `Max Peak` = viscount_fmt_pop(max(pks)),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+sum_df <- sum_df[order(-as.numeric(gsub("\\.", "", sum_df$Sites))), ]
+rownames(sum_df) <- NULL
+viscount_table(
+  sum_df,
+  "Country-level summary of the 15.862 individually assessed classical settlements between 539BC and 632AD.",
+  names(sum_df),
+  list(label = "tab:gaz-summary")
+)
+```
+
+# Sources

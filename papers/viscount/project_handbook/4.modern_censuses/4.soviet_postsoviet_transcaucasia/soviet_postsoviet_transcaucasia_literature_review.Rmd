@@ -1,0 +1,385 @@
+---
+title: "Transcaucasia in the Soviet and Post-Soviet Eras"
+subtitle: "Georgia, Armenia and Azerbaijan from 1917AD to 2026AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/fig1_soviet_postsoviet_transcaucasia_spatial.png"
+hero_caption: "Subadministrative divisions and 6.067 catalogued settlements across Georgia, Armenia and Azerbaijan from 1917AD to 2026AD, spanning 12 Georgian regions, 11 Armenian provinces and 78 Azerbaijani districts."
+hero_label: "fig:hero-soviet-postsoviet-transcaucasia"
+bibliography: soviet_postsoviet_transcaucasia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("soviet_postsoviet_transcaucasia_summary_cache.json", simplifyVector = FALSE)
+region_json <- jsonlite::fromJSON("soviet_postsoviet_transcaucasia.json5", simplifyVector = FALSE)
+settlements_json <- jsonlite::fromJSON("soviet_postsoviet_transcaucasia_settlements.json", simplifyVector = FALSE)
+
+fmt_eu <- function (arg0_val, arg1_digits = 1L) {
+  viscount_fmt_number(arg0_val, arg1_digits)
+}
+
+fmt_pop_eu <- function (arg0_val) {
+  viscount_fmt_pop(arg0_val)
+}
+
+fmt_int_eu <- function (arg0_val) {
+  val <- suppressWarnings(as.numeric(arg0_val))
+  if (is.na(val) || !is.finite(val)) return("-")
+  formatC(as.integer(round(val)), format = "d", big.mark = ".")
+}
+```
+
+# Abstract
+
+Between the collapse of the Russian Empire in 1917AD and the mid-2020sAD, the population of Transcaucasia - comprising Georgia, Armenia and Azerbaijan - expanded nearly threefold, rising from 6M in 1917AD and 5,86M at the 1926AD First All-Union Census to 8,03M in 1939AD, 9,51M in 1959AD, 12,3M in 1970AD and 15,72M in 1989AD, before slowing to 15,56M in 2000AD and reaching 16,31M in 2014AD and 16,92M in 2025AD. Behind this aggregate curve lay two sharply contrasted demographic regimes. During seven decades of Soviet rule, state-directed industrialisation along the Baku-Sumqayıt oil peninsula, the Kura-Aras irrigation corridor, the Rustavi-Tbilisi industrial belt and the Yerevan basin combined with public health campaigns and universal schooling to cut infant mortality and triple regional numbers, interrupted only by the 1917AD-1922AD revolutionary wars, collectivisation and the Second World War. After the dissolution of the Soviet Union in December 1991, ethno-territorial wars and forced displacements in Abkhazia, South Ossetia and Nagorno-Karabakh, coupled with sustained labour emigration from Armenia and Georgia, cleaved the region in two. While Azerbaijan expanded briskly through natural increase and metropolitan concentration around Baku, Sumqayıt and Absheron, Georgia and Armenia experienced deep post-Soviet contraction, acute rural depopulation and rapid demographic ageing. Disaggregating these enumerations across 101 regional mask units and 150 matched modern districts from GeoStat, ArmStat and AzStat alongside 6.067 catalogued settlements recovers the spatial structure of modern South Caucasian demography.
+
+# Background
+
+Transcaucasia occupies the isthmus between the Black Sea and the Caspian Sea, bounded on the north by the glaciated crest of the Greater Caucasus and on the south by the Aras River and the Talysh range [@Gazi2025Historical]. Within this compact mountain-and-basin bridge, relief and rainfall divide human settlement into four distinct ecological zones. In western Georgia, humid Colchis (Samegrelo, Guria, Imereti and Ajaria) opens westward to the Black Sea along the Rioni plain, supporting dense subtropical orchards, tea and citrus terraces and port cities at Batumi and Poti [@Tukhashvili2016Socio]. East of the Likhi Range, the upper Kura (Mtkvari) basin links Shida Kartli and Tbilisi with the wine-growing Alazani valley of Kakheti and the semi-arid pastures of Kvemo Kartli. Southward, the Armenian volcanic highland rises above 1.000 m around Mount Aragats, the Shirak plateau and Lake Sevan, concentrating irrigated farming and urban industry in the Ararat plain around Yerevan [@Franklin2017Examining; @Saparov2003Alteration]. Eastward, the Kura and Aras rivers coalesce across the wide, dry Aran lowlands of central Azerbaijan before reaching the Caspian littoral, the humid Talysh-Lankaran coast and the oil-bearing Absheron peninsula [@Babashova2021Developmen; @Berglund2025Cause].
+
+Before the First World War, the territory belonged to the Caucasus Viceroyalty of the Russian Empire, whose late nineteenth-century demographic baseline was fixed by the 1897AD Russian Imperial Census (compiled under N. A. Troinitskii in 1905AD) and the 1914AD Imperial Statistical Committee estimates. Across the five principal guberniyas mapped in Table \ref{tab:historical-baseline}, Transcaucasia rose from 3,76M in 1886AD to 4,64M in 1897AD and 5,94M on the eve of war in 1914AD. Tiflis and Kutais guberniyas in Georgia expanded from 1,68M (1886AD) to 2,11M (1897AD) and 2,6M (1914AD); Erivan guberniya in Armenia grew from 670k to 829,6k and 1M; and Baku and Elizavetpol guberniyas in Azerbaijan climbed fastest of all, from 1,41M to 1,71M and 2,34M as the Baku oil boom drew Russian, Armenian, Persian and Volga Tatar labour to the Caspian shore [@Cordier2017Once].
+
+```{r tab-historical-baseline, echo=FALSE}
+hist_rows <- lapply(summary_cache$chapter_historical_subadmin, function (u) {
+  p86 <- fmt_pop_eu(u$pops[["1886"]])
+  p97 <- fmt_pop_eu(u$pops[["1897"]])
+  p14 <- fmt_pop_eu(u$pops[["1914"]])
+  g_pct <- ((as.numeric(u$pops[["1914"]]) / as.numeric(u$pops[["1886"]])) - 1.0) * 100.0
+  data.frame(
+    Unit = as.character(u$name),
+    ISO = as.character(u$iso3),
+    Y1886 = p86,
+    Y1897 = p97,
+    Y1914 = p14,
+    Growth = paste0("+", fmt_eu(g_pct, 1L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+df_hist <- do.call(rbind, hist_rows)
+tot_86 <- sum(vapply(summary_cache$chapter_historical_subadmin, function (u) as.numeric(u$pops[["1886"]]), numeric(1)))
+tot_97 <- sum(vapply(summary_cache$chapter_historical_subadmin, function (u) as.numeric(u$pops[["1897"]]), numeric(1)))
+tot_14 <- sum(vapply(summary_cache$chapter_historical_subadmin, function (u) as.numeric(u$pops[["1914"]]), numeric(1)))
+df_hist <- rbind(
+  df_hist,
+  data.frame(
+    Unit = "Transcaucasia Imperial Guberniyas Total",
+    ISO = "ALL",
+    Y1886 = fmt_pop_eu(tot_86),
+    Y1897 = fmt_pop_eu(tot_97),
+    Y1914 = fmt_pop_eu(tot_14),
+    Growth = paste0("+", fmt_eu(((tot_14 / tot_86) - 1.0) * 100.0, 1L), "%"),
+    stringsAsFactors = FALSE
+  )
+)
+rownames(df_hist) <- NULL
+viscount_table(
+  df_hist,
+  caption = "Late Russian Imperial guberniya population totals across Transcaucasia from 1886AD to 1914AD, forming the pre-revolutionary baseline for the 1917AD-2026AD series.",
+  col_names = c("Historical Guberniya Grouping", "ISO3", "1886AD", "1897AD", "1914AD", "1886-1914AD"),
+  arg3_options = list(label = "tab:historical-baseline")
+)
+```
+
+The collapse of the Tsarist front in 1917AD, the brief Transcaucasian Democratic Federative Republic of spring 1918AD, the independent republics of Georgia, Armenia and Azerbaijan (1918AD-1921AD) and the Sovietisation campaigns of 1920AD-1921AD shattered pre-war administrative continuity [@Hofmann2026Build; @Gazi2025Historical]. Western Armenia's refugee flight into Erivan guberniya, Ottoman and Allied interventions, the 1918AD-1920AD Armenian-Georgian and Armenian-Azerbaijani border wars, and epidemic typhus and famine depressed total regional numbers from 6M in 1917AD to 5,86M by the time of the first Soviet Union-wide enumeration in December 1926 [@Anderson1990Growth]. Between 1922AD and December 1936, Moscow administered the three republics inside the Transcaucasian Socialist Federative Soviet Republic (TSFSR) while carving out three internal ethno-territorial autonomies that would define post-Soviet conflict zones: the Abkhazian ASSR and South Ossetian Autonomous Oblast inside Georgia, and the Nakhchivan ASSR and Nagorno-Karabakh Autonomous Oblast inside Azerbaijan [@Lundstedt2024Territoria; @Arbatova2019Three; @Nouvelle2024Legal]. Following the 1936AD Stalin Constitution, Georgia, Armenia and Azerbaijan became separate union republics within boundaries that remained essentially unchanged until 1991AD [@Plotnikova2026Soviet; @Mironov2023Hadn].
+
+```{r fig-trajectory, echo=FALSE, results='asis'}
+viscount_figure(
+  "figures/fig2_soviet_postsoviet_transcaucasia_trajectory.png",
+  "Aggregate Transcaucasian population trajectory with uncertainty envelope (Panel A) and leading regional units in 2025AD across the Chapter 21 spatial mask (Panel B).",
+  "fig:trajectory",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+Figure \ref{fig:trajectory} charts the aggregate path of the three republics over the full 109-year span. From the 1926AD trough of 5,86M, Transcaucasia surged to 8,03M in 1939AD and - despite heavy Red Army wartime casualties and the November 1944 deportation of Meskhetian Turks, Kurds and Hemshins from southern Georgia - recovered to 9,51M by January 1959 [@Anderson1990Growth; @Hofler2020Boundaries]. Post-war public health investment, malaria eradication across the Colchis marshes and Kura-Aras lowlands, and industrial urban migration lifted the regional total to 12,3M in 1970AD and 15,72M in January 1989 [@Babashova2021Developmen; @Verdiyeva2019Population]. After 1991AD, armed conflict and out-migration halted this climb for more than a decade (15,56M in 2000AD), before renewed Caspian oil growth and gradual stabilisation brought the regional total to 16,31M in 2014AD and 16,92M in 2025AD [@Group2019South; @Adamski2023Farewell].
+
+# Methodology
+
+## Soviet All-Union and Post-Soviet National Censuses
+
+Quantitative reconstruction of Transcaucasia from 1917AD to 2026AD rests on two consecutive statistical architectures: six Soviet All-Union censuses (December 1926, January 1939, January 1959, January 1970, January 1979 and January 1989) and the post-1991 national censuses and current demographic registers maintained by the National Statistics Office of Georgia (GeoStat), the Statistical Committee of the Republic of Armenia (ArmStat) and the State Statistical Committee of the Republic of Azerbaijan (AzStat) [@Anderson1990Growth; @Anon2019Migration; @Verdiyeva2019Population; @Group2019South].
+
+The 1926AD All-Union Census was the last open, methodologically transparent Soviet survey to tabulate small rural settlements, mother tongue and detailed nationality categories before Stalinist centralisation [@Anderson1990Growth; @Plotnikova2026Soviet]. After the suppressed January 1937 census, the January 1939 enumeration introduced central redistributions of military and NKVD camp populations alongside strict *nalichnoe* (de facto present) vs *postoyannoe* (de jure permanent) tabulations. From 1959AD through 1989AD, the Central Statistical Administration (*TsSU SSSR*) published consistent republic, oblast, *rayon* and municipal volumes every nine to eleven years, recording both rural-to-urban shifts and widening fertility gaps between Azerbaijan and its two northern neighbours [@Anderson1990Growth; @group2016Soviet].
+
+After independence in 1991AD, census timing and coverage diverged across the three states. Azerbaijan held regular decennial enumerations in January 1999, April 2009 and October 2019, supplemented by continuous annual civil-registry series across 78 ADM2 districts and city municipalities from 1959AD to 2026AD [@Verdiyeva2019Population; @Babashova2021Developmen]. Armenia completed censuses in October 2001, October 2011 and October 2022 alongside annual series across 11 ADM1 provinces (*marzer* plus Yerevan city) from 1959AD to 2025AD [@Komakhidze2021Facing; @Saparov2003Alteration]. Georgia conducted general censuses in January 2002 and November 2014 (with a 2024AD census cycle and continuous annual series through 2026AD across 61 ADM2 municipalities), though Abkhazia after 1992AD and the Tskhinvali region (South Ossetia) after 1991AD lay outside GeoStat field access [@Lundstedt2024Territoria; @Kacka2021Migration].
+
+```{r tab-subadmin-coverage, echo=FALSE}
+sub_stats <- summary_cache$chapter_modern_subadmin_stats
+country_names <- c(GEO = "Georgia (GeoStat)", ARM = "Armenia (ArmStat)", AZE = "Azerbaijan (AzStat)")
+cov_rows <- lapply(c("GEO", "ARM", "AZE"), function (iso) {
+  st <- sub_stats[[iso]]
+  yrs <- unlist(st$years)
+  cens_yrs <- yrs[yrs %in% c(1959, 1970, 1979, 1989, 1999, 2001, 2002, 2009, 2011, 2014, 2019, 2022, 2024)]
+  data.frame(
+    Republic = country_names[[iso]],
+    Level = as.character(st$level),
+    Units = fmt_int_eu(st$matched_units),
+    Snapshots = fmt_int_eu(length(yrs)),
+    Span = paste0(min(yrs), "AD-", max(yrs), "AD"),
+    KeyCensuses = paste(cens_yrs, collapse = ", "),
+    stringsAsFactors = FALSE
+  )
+})
+df_cov <- do.call(rbind, cov_rows)
+tot_units <- sum(vapply(c("GEO", "ARM", "AZE"), function (iso) as.numeric(sub_stats[[iso]]$matched_units), numeric(1)))
+df_cov <- rbind(
+  df_cov,
+  data.frame(
+    Republic = "Transcaucasia Combined",
+    Level = "ADM1/ADM2",
+    Units = fmt_int_eu(tot_units),
+    Snapshots = "75",
+    Span = "1959AD-2026AD",
+    KeyCensuses = "All-Union 1959-1989; National 1999-2024",
+    stringsAsFactors = FALSE
+  )
+)
+rownames(df_cov) <- NULL
+viscount_table(
+  df_cov,
+  caption = "Subadministrative census polygon coverage matched against geoBoundaries across Georgia, Armenia and Azerbaijan from 1959AD to 2026AD.",
+  col_names = c("Republic & Agency", "GIS Level", "Matched Units", "Years", "Observed Span", "Principal Census Years"),
+  arg3_options = list(label = "tab:subadmin-coverage")
+)
+```
+
+## Pycnophylactic Subadministrative Disaggregation and Radial Kriging
+
+To place Soviet *rayons*, post-1995 Armenian *marzer*, Georgian municipalities and Azerbaijani districts on a common 5-arcminute grid without distorting total population mass, HANDBOOK pairs polygonal boundaries from the geoBoundaries global political administrative database [@Runfola2020GeoBoundaries] with strictly mass-conserving pycnophylactic scaling across 150 matched modern subadministrative units in Transcaucasia (61 ADM2 units in Georgia, 11 ADM1 units in Armenia and 78 ADM2 units in Azerbaijan, summarised in Table \ref{tab:subadmin-coverage}) within the wider 29 historical and 2.629 modern unit domain. Rather than spreading district counts evenly across barren alpine ridges of the Greater Caucasus or arid salt flats along the Caspian coast, internal allocation weights derive from a dasymetric habitability surface calibrated through non-stationary Matérn ($\nu = 3/2$) residual kriging over metric-isotropic radial distance fields and biophysical suitability covariates (elevation, slope, fluvial access and coastal proximity).
+
+Once each 5-arcminute cell receives its unscaled prior weight $w_{ij}$ inside administrative polygon $A_k$, pycnophylactic normalisation enforces exact conservation of the enumerated census count $P_k(t)$ across every polygon and benchmark year:
+$$\hat{p}_{ij}(t) = P_k(t) \frac{w_{ij}}{\sum_{(u,v) \in A_k} w_{uv}}, \qquad \text{subject to } \sum_{(i,j) \in A_k} \hat{p}_{ij}(t) = P_k(t).$$
+This two-stage formulation preserves subadministrative totals to machine precision while concentrating people along the Rioni, Kura, Alazani and Aras valley floors, the Yerevan oasis and the Absheron urban littoral (Figure \ref{fig:density}). Across the entire 101-subregion Chapter 21 mask (`r fmt_int_eu(summary_cache$total_pixels)` cells: 1.093 in Georgia, 442 in Armenia and 1.321 in Azerbaijan), every decennial benchmark from 1917AD to 2025AD reconciles cleanly with the 1917AD-2026AD regional series.
+
+```{r fig-density, echo=FALSE, results='asis'}
+viscount_figure(
+  "figures/fig3_soviet_postsoviet_transcaucasia_density.png",
+  "Subadministrative census population surface in 2010AD (Panel A) and mean regional densities across Georgia, Armenia and Azerbaijan in 2025AD (Panel B).",
+  "fig:density",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Testing and Validation
+
+Three quantitative checks anchor the Transcaucasian series before regional disaggregation is interpreted. First, splicing the 1914AD late-Imperial guberniya sum (5,94M across Tiflis, Kutais, Erivan, Baku and Elizavetpol guberniyas) into the 1917AD starting total (6M) and the 1926AD First All-Union Census (5,86M) yields an implied 1914AD-1917AD war-time growth of +1% followed by a -2,3% net contraction between 1917AD and 1926AD. That mild net drop conceals large gross transfers: up to 300k Armenian refugees from Ottoman eastern Anatolia entered Erivan guberniya and southern Georgia during 1915AD-1920AD, partially offsetting high excess mortality from the 1918AD-1920AD regional wars, Spanish influenza, typhus and the 1921AD-1922AD famine [@Hofmann2026Build; @Gazi2025Historical].
+
+Second, mass conservation across the geoBoundaries disaggregation grid was audited over 65.864 unit-year checks spanning 29 historical units and 2.629 modern units across HANDBOOK. Every polygon-year passed within the 0,01% conservation tolerance, with a global maximum relative error of $5{,}845 \times 10^{-8}$. Settlement hierarchy coherence across the 6.067 catalogued cities, towns and rural localities yields a Zipf rank-size slope of $\alpha = 1{,}059$ with $R^2 = 0{,}967$, confirming that metropolitan concentration in Baku, Tbilisi and Yerevan sits in regular observed proportion above secondary regional hubs such as Sumqayıt, Ganja, Batumi, Gyumri and Kutaisi.
+
+Third, comparing the 101-subregion spatial mask against the 18 leading raw ADM1 and ADM2 administrative enumerations from GeoStat, ArmStat and AzStat (Table \ref{tab:top-modern-units}) exposes an essential structural distinction. In the harmonised 101-subregion raster series, national shares were initially held at fixed baseline proportions across all benchmarks, leaving Armenia at 14,1%, Georgia at 22,8% and Azerbaijan at 63,1% of the 16,92M total in 2025AD. By contrast, the raw subadministrative enumerations in Table \ref{tab:top-modern-units} capture the true post-1991 demographic divergence: explosive growth across Baku City (2,64M), Lankaran City (933,3k), Ganja City (637,4k), Sumqayıt City (497k) and Absheron District (482,5k) alongside contraction in provincial Georgia (Gori, Zugdidi, Ozurgeti) and northern Armenia (Shirak, Lori). Reading both datasets side by side prevents baseline raster weights from masking real post-Soviet shifts.
+
+```{r tab-top-modern-units, echo=FALSE}
+top_u <- summary_cache$chapter_modern_top_units
+pick_pop <- function (pops_list, yr_cands) {
+  for (yc in yr_cands) {
+    v <- pops_list[[yc]]
+    if (!is.null(v)) return(fmt_pop_eu(v))
+  }
+  "-"
+}
+u_rows <- lapply(top_u[seq_len(min(14L, length(top_u)))], function (u) {
+  p_early <- pick_pop(u$pops, c("1979", "1970", "2001", "2002"))
+  p_1989 <- pick_pop(u$pops, c("1989", "2001", "2002"))
+  p_late <- pick_pop(u$pops, c("2026", "2025", "2024"))
+  data.frame(
+    Unit = paste0(u$name, " (", u$iso3, ")"),
+    Level = as.character(u$level),
+    Area = paste0(fmt_int_eu(u$area_km2), " km²"),
+    Early = p_early,
+    Y1989 = p_1989,
+    Latest = p_late,
+    stringsAsFactors = FALSE
+  )
+})
+df_top_u <- do.call(rbind, u_rows)
+rownames(df_top_u) <- NULL
+viscount_table(
+  df_top_u,
+  caption = "Leading modern subadministrative units across Georgia (ADM2), Armenia (ADM1) and Azerbaijan (ADM2), comparing late Soviet benchmarks against 2024AD-2026AD enumerations.",
+  col_names = c("Administrative Unit (ISO3)", "Level", "Area", "1979/2002AD", "1989AD", "2024-2026AD"),
+  arg3_options = list(label = "tab:top-modern-units")
+)
+```
+
+# Results
+
+## Soviet Industrialisation and Urban Transformation (1917AD to 1989AD)
+
+Between 1926AD and 1989AD, Transcaucasia underwent one of the fastest demographic and urban transformations in the Soviet Union, growing by 168,3% from 5,86M to 15,72M [@Anderson1990Growth]. Three economic engines drove this expansion. On the Caspian coast, the Baku oilfields - already the Empire's leading petroleum centre before 1917AD - anchored heavy engineering, refining and maritime shipping, lifting Baku City from 1,53M in 1979AD to 1,79M in 1989AD while prompting Soviet planners to construct new industrial satellite cities from bare steppe: Sumqayıt in 1949AD (chemical and metallurgical complex north of Baku, rising to 254,4k in the 1989AD city-district enumeration) and Mingachevir in 1948AD around the giant Kura hydroelectric reservoir [@Babashova2021Developmen; @Cordier2017Once]. Along the lower Kura-Aras irrigation canals, cotton cultivation, grain collectivisation and malaria control turned once-seasonal nomadic winter pastures (*qışlaq*) in the Aran lowlands into densely settled agrarian districts [@Babashova2021Developmen].
+
+In Georgia, heavy metallurgy at Rustavi (founded in 1948AD southeast of Tbilisi, reaching 159k in 1989AD), manganese mining at Chiatura, coal extraction at Tkibuli and Tkvarcheli, Black Sea port expansion at Batumi and Poti, and subtropical tea and citrus cultivation in Samegrelo, Guria and Ajaria propelled steady urban growth alongside Tbilisi, whose ADM2 population nearly doubled between 1959AD (703k) and 1989AD (1,26M) [@Tukhashvili2016Socio; @Anon2021Historical]. In Armenia, rapid industrialisation in the Ararat plain and northern Lori-Shirak corridor converted a predominantly rural agrarian republic into an urban manufacturing hub producing synthetic rubber, machine tools, electronics, copper and molybdenum [@Saparov2003Alteration]. Planned Soviet towns sprang up across Kotayk and Syunik - Charentsavan and Kajaran in 1947AD, Hrazdan in 1959AD, Abovyan in 1963AD and the Metsamor nuclear station settlement in 1969AD - while Yerevan surged from 517,7k in 1959AD to 1,22M in 1989AD.
+
+Growth rates across the three republics began to diverge noticeably after 1959AD [@Anderson1990Growth; @group2016Soviet]. Georgia had already entered the late phase of its demographic transition by the 1960sAD, with urban fertility falling toward replacement level while rural mountain districts in Racha-Lechkhumi, Zemo Svaneti and Mtskheta-Mtianeti began losing young adults to Tbilisi and coastal cities. Armenia maintained higher fertility into the 1970sAD and absorbed significant diaspora repatriation (*nerkaght*) after 1946AD, though urban crowding and early out-migration slowed growth by the 1980sAD [@Saparov2003Alteration]. Azerbaijan, by contrast, preserved high rural and small-town birth rates throughout the 1960sAD and 1970sAD alongside sharply falling infant mortality, steadily raising its share of Transcaucasia's population from 39,5% in 1959AD to roughly 45% by 1989AD [@Verdiyeva2019Population; @Anderson1990Growth]. Meanwhile, Soviet linguistic and nationalities policies reshaped local identities: rural toponymy in Armenia was systematically Armenised from the 1930sAD onward [@Saparov2003Alteration], Russian served as an inter-ethnic *lingua franca* in Baku, Tbilisi and Sukhumi [@Plotnikova2026Soviet; @Anon2026Role], and wartime deportations in November 1944 removed ~90k Meskhetian Turks and smaller Kurdish and Hemshin communities from southern Georgia [@Hofler2020Boundaries].
+
+## Georgia: Conflict Displacement, Emigration and Tbilisi Primacy
+
+Georgia entered independence in April 1991 with roughly 5,44M inhabitants, only to suffer one of the sharpest peacetime demographic contractions in Eurasia [@Group2019South; @Kacka2021Migration]. Between 1991AD and 1994AD, civil conflict in Tbilisi and western Georgia and secessionist wars in South Ossetia (1991AD-1992AD) and Abkhazia (1992AD-1993AD) tore away effective central administration over two autonomous territories and uprooted roughly 250k-300k internally displaced persons (IDPs), predominantly ethnic Georgians from Abkhazia alongside Ossetian refugees fleeing north into North Ossetia [@Lundstedt2024Territoria; @Arbatova2019Three; @Hofmann2026Build]. In Abkhazia itself (where the 1989AD Soviet census had recorded 525k residents, including 45,7% Georgians, 17,8% Abkhaz, 14,6% Armenians and 14,3% Russians), the exodus of more than 200k Georgians and tens of thousands of Russians, Greeks and Estonians halved the de facto population to ~240k [@Lundstedt2024Territoria; @Hofler2020Boundaries].
+
+Simultaneously, economic collapse, hyperinflation and power shortages triggered massive international emigration during the 1990sAD and 2000sAD. GeoStat's 2002AD census recorded 4,37M residents in government-controlled territory, a figure that proved inflated by unregistered migrants living in Russia, Greece, Turkey, Germany, Israel and the United States; the more rigorous November 2014 census revised Georgia's de facto population down to 3,71M [@Group2019South; @Anon2021Historical; @Chiswick2005Linguistic]. Historic minorities departed in disproportionate numbers: Pontic Greeks from Tsalka and Abkhazia emigrated to Greece and southern Russia [@Hofler2020Boundaries], Georgian Jews left Tbilisi, Kutaisi and Kulashi for Israel, Germany and North America [@Anon2021Historical; @Dietz2002Jewish; @Estraikh2022Jews], and ethnic Russians and Ukrainians departed urban garrisons and ports [@Anon2026Role].
+
+At the ADM2 district level documented in GeoStat enumerations, post-Soviet Georgia polarised sharply between Tbilisi and its western and southern provinces. Tbilisi dipped modestly from its 1991AD peak of 1,28M to 1,12M in 2002AD and 1,11M in 2014AD, before post-2015 internal migration, higher-education clustering and foreign-resident inflows pushed the capital back up to 1,24M in 2023AD, 1,33M in 2024AD and 1,37M in 2026AD - concentrating over a third of Georgia's entire population within 324 km². Along the Black Sea, Ajaria's port capital Batumi expanded strongly after the 2004AD reintegration of regional customs and Turkish cross-border trade, climbing to 235,7k by 2024AD and 246,3k in 2026AD [@Tukhashvili2016Socio]. Elsewhere, demographic attrition persisted: Zugdidi (736 km²) swelled temporarily from 124,8k in 1989AD to 167,8k in 2002AD as Abkhazian IDPs settled across the Inguri River, only to contract to 105,5k in 2014AD and 101,7k in 2024AD; Gori (2.179 km²), adjacent to the South Ossetian boundary line after August 2008, declined from 149,5k in 1989AD to 125,7k in 2014AD and 121,9k in 2024AD; Ozurgeti in Guria fell by more than a third from 89,7k in 1989AD to 58,4k in 2024AD; and Gardabani dropped from 93k in 2002AD to 83,5k in 2024AD. Only multi-ethnic Kvemo Kartli districts such as Marneuli (1.040 km², recovering from 104,3k in 2014AD to 115,7k in 2024AD) preserved positive rural-agricultural momentum [@Anon2026Role; @Group2019South].
+
+## Armenia: Earthquake, Blockade and Metropolitan Concentration
+
+Armenia's post-Soviet trajectory was scarred even before formal independence in September 1991 by three compounding shocks in 1988AD-1994AD: the devastating Spitak earthquake of 7 December 1988, which destroyed much of Leninakan (Gyumri), Kirovakan (Vanadzor) and Spitak while killing at least 25k-38k residents and leaving half a million homeless; the mutual flight of ~170k-200k Azerbaijanis from rural Armenia and ~350k-400k Armenians from Azerbaijan between 1988AD and 1990AD; and the transport blockade imposed during the First Nagorno-Karabakh War (1991AD-1994AD) [@Hofmann2026Build; @Nouvelle2024Legal; @Saparov2003Alteration]. ArmStat's ADM1 series in Table \ref{tab:top-modern-units} captures the earthquake's immediate impact: Shirak province fell from 332,5k in 1979AD to 261,2k in 1989AD, and Lori dropped from 339,9k to 229,5k over the same decade.
+
+Between 1992AD and 2015AD, high unemployment, winter energy shortages during the 1992AD-1995AD blockade and falling birth rates drove net emigration of roughly 700k-900k citizens, chiefly to the Russian Federation, Ukraine, Western Europe and the United States [@Kacka2021Migration; @Group2019South]. Whereas the 1989AD Soviet census enumerated 3,3M inhabitants in Armenia, the 2001AD national census counted 3,21M de jure (and ~3M de facto), the 2011AD census recorded 3,02M de jure (2,87M de facto), and the 2022AD census registered 2,93M resident inhabitants before the September 2023 exodus of over 100k Armenians from Nagorno-Karabakh lifted Armenia's 2025AD total back above 3,08M [@Nouvelle2024Legal; @Hofmann2026Build].
+
+Internally, population shifted steadily toward Yerevan and the surrounding Ararat valley. Yerevan (264 km²) dipped from 1,22M in 1989AD to 1,1M in 2001AD and 1,06M in 2011AD, then climbed back to 1,09M in 2022AD and 1,14M in 2025AD - nearly 37% of the republic's population. Adjacent Ararat-basin *marzer* held dense irrigated orchard and peri-urban populations: Kotayk (1.848 km², 293,3k in 2025AD), Armavir (1.386 km², 267,9k) and Ararat (1.782 km², 267,6k). By contrast, northern and highland provinces languished: Shirak declined further to 251,9k in 2011AD and 242,4k in 2025AD, Lori stood at 229,2k in 2025AD, and borderlands in Syunik, Gegharkunik and Vayots Dzor faced chronic youth out-migration alongside minority departures among Yezidi pastoralists and Molokan Russians [@Komakhidze2021Facing; @Group2019South].
+
+## Azerbaijan: Caspian Urbanisation and Regional Growth
+
+Unlike Georgia and Armenia, Azerbaijan experienced uninterrupted demographic expansion after 1991AD, moving from 7,02M in 1989AD to 7,95M in 1999AD, 8,92M in 2009AD, 10M in 2019AD and over 10,2M by 2025AD [@Verdiyeva2019Population; @Babashova2021Developmen]. Two forces propelled this divergence: a younger age structure inherited from sustained 1960sAD-1980sAD fertility that produced large cohorts of reproductive-age adults during the 1990sAD-2010sAD, and hydrocarbon-funded economic expansion after the 1994AD Caspian oil contracts, which curbed permanent family emigration even as temporary labour migration to Russia remained common [@Verdiyeva2019Population; @Huseynov2017Azerbaijan].
+
+Azerbaijan's internal geography was simultaneously reshaped by war displacement and Caspian hyper-urbanisation. Between 1988AD and 1994AD, the departure of ~350k-400k Armenians and ~200k-250k Russians, Jews and other minorities [@Cordier2017Once; @Estraikh2022Jews; @Hasanov2026Establishm] was dwarfed by the flight of 600k-700k ethnic Azerbaijanis from Armenia, Nagorno-Karabakh and the seven surrounding occupied districts (Kəlbəcər, Lachin, Qubadlı, Zəngilan, Jabrayil, Füzuli and Ağdam) [@Dadashov2024Comprehens; @Nouvelle2024Legal]. Tens of thousands of IDP families settled permanently in metropolitan Baku, Sumqayıt, Xırdalan, Gəncə, Mingəçevir and newly constructed settlements across the Aran economic region [@Babashova2021Developmen].
+
+AzStat's 78 ADM2 districts reveal the scale of this coastal concentration. Baku City (2.098 km²) expanded from 1,53M in 1979AD and 1,79M in 1989AD to 2,62M in 2019AD and 2,64M in 2025AD; Sumqayıt City (121 km²) almost doubled from 254,4k in 1989AD to 491,1k in 2019AD and 497k in 2025AD; and Absheron District (1.706 km², ringing Baku and Sumqayıt through Xırdalan and suburban townships) surged nearly seven-fold from 70,4k in 1989AD to 475,8k in 2019AD and 482,5k in 2025AD (435,2k in 2026AD following boundary adjustments). Secondary urban axes also grew briskly: Lankaran City in the humid Talysh-Mughan south rose from 602,9k in 1989AD to 933,3k in 2025AD [@Berglund2025Cause], Ganja City expanded from 484,5k to 637,4k, and Shirvan City in the lower Kura basin grew from 209,8k to 316,6k [@Babashova2021Developmen]. Yet fertility began falling rapidly below replacement after 2015AD, initiating gradual demographic ageing across both Baku and rural districts [@Verdiyeva2019Population]. Following the 2020AD and September 2023 wars and the dissolution of the unrecognized Nagorno-Karabakh republic, Azerbaijani state reconstruction programmes began resettling former IDPs into Füzuli, Aghdam, Lachin, Shusha and Khankendi while nearly the entire remaining Armenian population departed westward [@Nouvelle2024Legal; @Dadashov2024Comprehens].
+
+```{r tab-top-subregions-mask, echo=FALSE}
+top_sub <- summary_cache$top_subregions
+sub_rows <- lapply(top_sub[seq_len(min(16L, length(top_sub)))], function (sr) {
+  data.frame(
+    Region = as.character(sr$name),
+    Y1917 = fmt_pop_eu(sr$population[["1917"]]),
+    Y1939 = fmt_pop_eu(sr$population[["1939"]]),
+    Y1959 = fmt_pop_eu(sr$population[["1959"]]),
+    Y1989 = fmt_pop_eu(sr$population[["1989"]]),
+    Y2025 = fmt_pop_eu(sr$population[["2025"]]),
+    stringsAsFactors = FALSE
+  )
+})
+df_sub_m <- do.call(rbind, sub_rows)
+rownames(df_sub_m) <- NULL
+viscount_table(
+  df_sub_m,
+  caption = "Leading subregional mask trajectories across Georgia, Armenia and Azerbaijan from 1917AD to 2025AD under baseline spatial weighting.",
+  col_names = c("Subregion (Republic)", "1917AD", "1939AD", "1959AD", "1989AD", "2025AD"),
+  arg3_options = list(label = "tab:top-subregions-mask")
+)
+```
+
+```{r fig-settlements, echo=FALSE, results='asis'}
+viscount_figure(
+  "figures/fig4_soviet_postsoviet_transcaucasia_settlements.png",
+  "Rank-size distribution across all 6.067 catalogued Transcaucasian settlements (Panel A, Zipf exponent 1,059, R² = 0,967) and the 12 largest urban centres by peak population (Panel B).",
+  "fig:settlements",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+Across the 6.067 catalogued settlements plotted in Figure \ref{fig:settlements}, the urban summit is anchored by the three national capitals - Baku (2,3M peak in 2021AD; 1,31M core city in 2025AD), Tbilisi (1,4M peak in 1998AD; 1,27M in 2024AD-2025AD and 1,31M in 2026AD) and Yerevan (1,2M peak in 1989AD; 1,14M in 2025AD) - followed by Azerbaijan's industrial belt (Sumqayıt 440,9k, Ganja 354,6k, Xırdalan 215,8k, Mingəçevir 122,2k), Georgia's secondary ports and industrial nodes (Batumi 246,3k in 2026AD, Kutaisi 232,5k peak in 1989AD, Rustavi 159k peak in 1989AD, Sokhumi 119,2k peak in 1989AD) and Armenia's earthquake-scarred northern centres (Gyumri 238k peak in 1988AD down to 114,7k in 2025AD, Vanadzor 146k peak in 1979AD).
+
+## Minority Departures and Linguistic Realignment
+
+Beyond headline national totals, the period between 1979AD and 2025AD transformed the ethno-linguistic composition of every South Caucasian republic [@Plotnikova2026Soviet; @Adamski2023Farewell]. Under late Soviet rule, Baku, Tbilisi and Sukhumi functioned as cosmopolitan multi-ethnic cities housing large Slavic, Jewish, Greek and Caucasian minority populations alongside the titular nationalities [@Cordier2017Once; @Anon2021Historical]. Emigration began first among Soviet Jews during the 1970sAD and accelerated dramatically between 1989AD and 1995AD toward Israel, Germany and the United States [@Chiswick2005Linguistic; @Dietz2002Jewish; @Estraikh2022Jews], reducing Georgia's historic Georgian and Ashkenazi Jewish communities from over 55k in 1970AD to fewer than 4k by 2014AD [@Anon2021Historical], while Mountain Jewish towns such as Qırmızı Qəsəbə near Quba in northern Azerbaijan maintained closer bilateral ties with Israel despite heavy out-migration [@Hasanov2026Establishm].
+
+Over the same quarter-century, Pontic Greeks from Tsalka and Abkhazia departed largely for Greece and Stavropol [@Hofler2020Boundaries], ethnic Russians and Ukrainians left Baku, Sumqayıt, Tbilisi and Yerevan [@Cordier2017Once; @Anon2026Role], and rural Yezidi and Molokan minorities in Armenia and Georgia contracted through both economic migration and shifting communal boundaries [@Komakhidze2021Facing]. In place of the multilingual Soviet urban order, Armenia emerged after 1991AD as an overwhelmingly mono-ethnic republic, Azerbaijan consolidated around Azerbaijani-speaking coastal and lowland cities alongside Talysh, Lezgin and Avar border districts [@Berglund2025Cause], and Georgia combined a strongly Georgian-speaking core with compact Armenian (Samtskhe-Javakheti) and Azerbaijani (Kvemo Kartli) rural districts where Russian slowly ceded ground as a second language [@Anon2026Role; @Tukhashvili2016Socio].
+
+# Limitations
+
+Four structural uncertainties qualify these enumerations. First, post-1991 breakaway territories - Abkhazia after 1992AD, South Ossetia after 1991AD and Nagorno-Karabakh between 1991AD and September 2023 - lay outside regular international census verification, forcing demographic series to bridge pre-conflict 1989AD Soviet counts with contested de facto tallies and IDP registries [@Arbatova2019Three; @Lundstedt2024Territoria; @Nouvelle2024Legal]. Second, post-Soviet civil registries suffered from persistent de jure vs de facto divergence: hundreds of thousands of labour migrants living in Russia or Europe remained registered at their home addresses in Georgia (until corrected by the 2014AD census) and Armenia (between 2001AD and 2022AD), while Azerbaijani IDP households frequently retained official registration in origin districts (such as Kəlbəcər or Aghdam) while residing de facto in Baku, Absheron or Sumqayıt [@Group2019South; @Anon2019Migration].
+
+Third, subadministrative boundary reforms create sudden statistical step-changes that must be read as administrative rather than biological events. Armenia replaced 37 Soviet *rayons* with 10 *marzer* plus Yerevan in 1995AD, producing non-linear series shifts in Kotayk and Armavir around 2001AD and 2013AD-2022AD; Georgia consolidated districts into 11 *mkhare* plus Tbilisi; and Azerbaijan reallocated peri-urban settlements between Baku City and Absheron District in 2018AD-2019AD, driving Absheron's recorded jump from 210k in 2018AD to 475,8k in 2019AD. Fourth, inside the 101-subregion spatial mask, baseline polygon shares were held constant across benchmarks rather than dynamically reweighted by post-1991 republic divergence, and polygon areas rely on the 5-arcminute cell counts and ADM2 GIS vectors rather than pre-populated tabular area fields.
+
+# Conclusion
+
+Between 1917AD and 2026AD, Transcaucasia traversed a full demographic cycle from agrarian imperial periphery through rapid Soviet urbanisation to post-Soviet geopolitical fragmentation. Rising from 4,64M in 1897AD and 6M in 1917AD to 15,72M in 1989AD, the region absorbed war, revolution, forced deportations and earthquake destruction while building three million-plus capitals and a dense network of industrial, port and irrigated agricultural towns. Since 1991AD, the South Caucasus has split along clear demographic lines: Georgia and Armenia contracted through conflict displacement, labour emigration and low fertility before stabilising around Tbilisi and Yerevan, whereas Azerbaijan sustained natural increase and heavy urbanisation across the Baku-Sumqayıt-Absheron Caspian corridor, lifting the combined regional population to 16,92M in 2025AD. Harmonising imperial guberniyas, Soviet All-Union censuses and 150 geoBoundaries-matched modern subadministrative units preserves both the long-run unity of the isthmus and the sharp local contrasts that define it today.
+
+# Appendix
+
+```{r tab-country-macro-appendix, echo=FALSE}
+regs <- region_json$regions
+yrs_bench <- c("1917", "1926", "1939", "1959", "1970", "1989", "2000", "2014", "2025")
+sum_country <- function (prefix, yr) {
+  sum(vapply(names(regs), function (rid) {
+    if (!startsWith(rid, prefix)) return(0)
+    as.numeric(regs[[rid]]$population[[yr]] %||% 0)
+  }, numeric(1)))
+}
+`%||%` <- function (a, b) if (is.null(a)) b else a
+
+c_specs <- list(
+  list(label = "Georgia (12 regions, 1.093 cells)", prefix = "georgia_"),
+  list(label = "Armenia (11 regions, 442 cells)", prefix = "armenia_"),
+  list(label = "Azerbaijan (78 regions, 1.321 cells)", prefix = "azerbaijan_")
+)
+app_rows <- lapply(c_specs, function (sp) {
+  data.frame(
+    Territory = sp$label,
+    Y1917 = fmt_pop_eu(sum_country(sp$prefix, "1917")),
+    Y1939 = fmt_pop_eu(sum_country(sp$prefix, "1939")),
+    Y1959 = fmt_pop_eu(sum_country(sp$prefix, "1959")),
+    Y1989 = fmt_pop_eu(sum_country(sp$prefix, "1989")),
+    Y2025 = fmt_pop_eu(sum_country(sp$prefix, "2025")),
+    stringsAsFactors = FALSE
+  )
+})
+df_app <- do.call(rbind, app_rows)
+hl <- summary_cache$headline_series
+df_app <- rbind(
+  df_app,
+  data.frame(
+    Territory = "Transcaucasia Total (101 regions, 2.856 cells)",
+    Y1917 = fmt_pop_eu(hl[["1917"]]),
+    Y1939 = fmt_pop_eu(hl[["1939"]]),
+    Y1959 = fmt_pop_eu(hl[["1959"]]),
+    Y1989 = fmt_pop_eu(hl[["1989"]]),
+    Y2025 = fmt_pop_eu(hl[["2025"]]),
+    stringsAsFactors = FALSE
+  )
+)
+rownames(df_app) <- NULL
+viscount_table(
+  df_app,
+  caption = "Baseline spatial-mask population totals by constituent republic across five key benchmarks from 1917AD to 2025AD.",
+  col_names = c("Territory & Mask Coverage", "1917AD", "1939AD", "1959AD", "1989AD", "2025AD"),
+  arg3_options = list(label = "tab:country-macro-appendix")
+)
+```
+
+```{r tab-georgia-armenia-subregions-appendix, echo=FALSE}
+ga_ids <- names(regs)[startsWith(names(regs), "georgia_") | startsWith(names(regs), "armenia_")]
+ga_ids <- ga_ids[order(vapply(ga_ids, function (id) as.numeric(regs[[id]]$population[["2025"]]), numeric(1)), decreasing = TRUE)]
+ga_rows <- lapply(ga_ids, function (id) {
+  rv <- regs[[id]]
+  data.frame(
+    Subregion = as.character(rv$name),
+    Cells = fmt_int_eu(rv$pixel_count),
+    Y1917 = fmt_pop_eu(rv$population[["1917"]]),
+    Y1959 = fmt_pop_eu(rv$population[["1959"]]),
+    Y1989 = fmt_pop_eu(rv$population[["1989"]]),
+    Y2025 = fmt_pop_eu(rv$population[["2025"]]),
+    stringsAsFactors = FALSE
+  )
+})
+df_ga <- do.call(rbind, ga_rows)
+rownames(df_ga) <- NULL
+viscount_table(
+  df_ga,
+  caption = "All 12 Georgian and 11 Armenian subregions in the Chapter 21 spatial mask, listing 5-arcminute cell counts and harmonised population series from 1917AD to 2025AD.",
+  col_names = c("Subregion (Republic)", "Cells", "1917AD", "1959AD", "1989AD", "2025AD"),
+  arg3_options = list(label = "tab:georgia-armenia-subregions")
+)
+```
+
+# Sources

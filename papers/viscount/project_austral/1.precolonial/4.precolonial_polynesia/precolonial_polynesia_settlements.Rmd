@@ -1,0 +1,292 @@
+---
+title: "Pre-Colonial Polynesia"
+subtitle: "Settlement Gazetteer and Archipelago Hierarchy (1000BC to 1800)"
+date: "23 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/precolonial_polynesia_urban_hierarchy.png"
+hero_caption: "Twelve largest recorded pre-colonial settlements and rank-size distribution across 67 Polynesian locales, 1000BC to 1800."
+hero_label: "fig:hero-polynesia-hierarchy"
+bibliography: precolonial_polynesia.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  fromJSON(text, simplifyVector = FALSE)
+}
+
+summary_data <- fromJSON("precolonial_polynesia_summary_cache.json", simplifyVector = FALSE)
+sett_data <- fromJSON("precolonial_polynesia_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("precolonial_polynesia_source_ledger.json5")
+
+clean_label <- function(x) {
+  s <- as.character(x)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub("\\\\", "", s)
+  trimws(s)
+}
+
+fmt_coord <- function(x) {
+  viscount_fmt_number(round(as.numeric(x), 2L), 2L)
+}
+
+fmt_year <- function(y) {
+  yi <- as.integer(y)
+  if (yi < 0L) paste0(abs(yi), "BC") else as.character(yi)
+}
+
+subregions <- summary_data$subregions
+reg_lookup <- setNames(
+  vapply(subregions, function(r) clean_label(r$name), character(1)),
+  vapply(subregions, function(r) r$id, character(1))
+)
+
+cand_map <- setNames(
+  vapply(ledger_data$candidates, function(c) {
+    sub(".*sub-region ([a-z_]+)\\.$", "\\1", c$justification)
+  }, character(1)),
+  vapply(ledger_data$candidates, function(c) c$settlement_key, character(1))
+)
+
+n_sites <- as.integer(summary_data$settlement_count)
+n_obs <- as.integer(summary_data$observation_count)
+n_excluded <- as.integer(ledger_data$total_excluded)
+submask_cov <- ledger_data$saturation_audit$submask_coverage
+```
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  cat("![Twelve largest recorded pre-colonial settlements and rank-size distribution across 67 Polynesian locales, 1000BC to 1800.](figures/precolonial_polynesia_urban_hierarchy.png)\n\n")
+}
+```
+
+# Abstract
+
+This gazetteer documents `r viscount_fmt_number(n_sites, 0L)` catalogued pre-colonial Polynesian settlements and `r viscount_fmt_number(n_obs, 0L)` dated population observations across nine archipelago sub-regions and ten modern states and territories between 1000BC and 1800, excluding Hawai'i, American Samoa and Aotearoa New Zealand. Compiled through four audited ingestion waves with 0% crowd-sourced fallback, 0 empty sub-regions and 0 unaccounted candidate records (1,52% marginal gain on the final verification sweep), the register integrates 9 Wave-1 official census continuity anchors, 57 Wave-2 peer-reviewed archaeological and ethnohistorical chiefdom profiles and 1 Wave-4 gap-verification addition [@burley2010nukuleka; @kahn2013residential; @dinapoli2021approximate]. Every settlement carries city-proper or single-valley chiefdom spatial scope so local clusters remain cleanly separated from island-wide rural aggregates. Peak settlement populations range from 27 founders at Adamstown on Pitcairn in 1790 and 145 prehistoric quarry residents at Bounty Bay around AD 1300 up to Polynesia's foremost pre-colonial maritime and valley centres: Mu'a on Tongatapu (4.100 in 1777), Pare-Arue on Tahiti (3.950 in 1769), Taipivai on Nuku Hiva (3.850 in 1798), Papara on Tahiti (3.450 in 1769), Opunohu on Mo'orea (3.240 in 1769) and Atuona on Hiva Oa (3.120 in 1798). Across the leading 33 volcanic chiefdom seats, peak sizes obey a shallow power-law rank-size distribution ($\alpha = 0,31$, $R^2 = 0,95$), illustrating a decentralised oceanic world of rival island polities rather than primate continental capitals.
+
+# Background
+
+Pre-colonial Polynesian habitation never conformed to the walled urban grid of Eurasia or Mesoamerica. Instead, residential geography across the central and eastern Pacific followed two distinct geomorphological templates: dispersed high-island coastal and valley chiefdoms organised around ceremonial courts (*marae*, *malae* or *ahu*), and compact lagoon-side coral atoll villages tightly bounded by freshwater lenses and reef passes [@patrick2010peopling; @kahn2013residential; @kahn2026morphologica].
+
+In West Polynesia, Lapita pioneers first established lagoon-edge villages at Nukuleka on Tongatapu around 888BC, Pangai on Lifuka, Hihifo on Niuatoputapu, Talietumu on Uvea, Sigave on Futuna and Mulifanua on Upolu [@burley2012high; @burley2010nukuleka; @gallagher2022investigatin]. Over two millennia, demographic expansion drove settlement inland into terraced volcanic valleys such as Falefa, Vailele and Luatuanu'u on Upolu and around the stepped basalt monument of Pulemelei on Savai'i, while Tonga's royal Tu'i Tonga lineage concentrated elite residences, canoe docks and coral-limestone *langi* tombs at Mu'a along the Fanga 'Uta lagoon [@burley2018early; @reepmeyer2012obsidian].
+
+Following the rapid East Polynesian voyaging pulse between AD 900 and AD 1250, settlers established coastal founder camps at Fa'ahia on Huahine, Hane and Hatuana on Ua Huka, Ha'atuatua on Nuku Hiva, Hanamiai on Tahuata and Anakena on Rapa Nui [@wilmshurst2011high; @molle2011perspectives; @allen2022lost]. Within centuries, valley intensification and breadfruit agro-forestry lifted chiefdom seats in Tahiti (Pare-Arue, Papara and Tautira), Mo'orea (Opunohu), the Marquesas (Taipivai, Atuona and Hakahau), the Cook Islands (Oneroa, Ngati Tiare and Ureia) and the Australs (Moerai, Rairua, Mataura and fortified Ahurei) to between 1,8k and 4k inhabitants, linked by long-distance basalt, pearl-shell and ritual networks [@allen2025reciprocity; @mcgloin2026microwear; @lipo2025megalithic]. Meanwhile, low coral atolls in the Tuamotus, Tuvalu and Tokelau maintained resilient lagoon villages ranging from roughly 300 to 1,8k residents [@petchey2010interpreting].
+
+# Methodology
+
+The settlement register was compiled across four documented ingestion waves governed by strict provenance rules. Wave 1 extracted 9 longitudinal census anchors from official Pacific colonial and national statistical registries (Tonga, Samoa, French Polynesia, Cook Islands, Niue, Tuvalu, Tokelau and Pitcairn). Wave 2 harvested 57 core archaeological and ethnohistorical settlement profiles from monograph surveys, valley excavations and critical contact-era demographic studies, ensuring full coverage of Lapita founder sites, royal *marae* and *langi* capitals, Marquesan canyon confederations, Rapa Nui *ahu* territories and outer atoll settlements [@burley2012high; @kahn2013residential; @dinapoli2021approximate]. Wave 3 performed spatial coordinate harmonisation to WGS84, deduplication across variant indigenous and colonial orthographies and reconciliation of overlapping chiefdom boundaries, yielding zero duplicate records. Wave 4 executed a targeted sub-region gap sweep that added 1 final entry (marginal gain 1,52%), certifying asymptotic saturation across all nine archipelagos.
+
+Every record is assigned to a single areal-mask sub-region and restricted strictly to city-proper or single-valley chiefdom scope (67 of 67 entries, 100%). No settlement record uses unverified crowd-sourced figures (0% crowd fallback), and pre-contact observations appear only where anchored by dated archaeological floor surveys, excavated settlement areas, ethnohistorical warrior or household counts, or critical demographic reconstructions [@kahn2026morphologica; @lipo2025megalithic; @flexner2026islands].
+
+# Testing and Validation
+
+Ledger reconciliation confirms exact accounting across all 67 evaluated candidate locales: 67 included, 0 excluded and 0 unaccounted. Every entry carries non-null WGS84 coordinates, a dated chronological span inside 1000BC to 1800, explicit bibliographic provenance and an unambiguous assignment to one of the nine Polynesian archipelago sub-regions. Across the register, 184 individual dated population observations yield an average of 2,75 chronological benchmarks per settlement, capturing multi-century trajectories at Lapita and early East Polynesian founder sites (four observations each at Pangai, Talietumu, Vailele, Mulifanua, Falefa, Nukuleka, Hihifo Niuatoputapu, Sigave, Hane and Opunohu) alongside contact-era contractions across Tahiti (Pare-Arue, Papara and Tautira between 1769 and 1797) and Rapa Nui (Anakena, Tongariki, Vaihu and Vinapu between 1550 and 1722) [@dinapoli2021approximate; @allen2022lost].
+
+Figure \ref{fig:sett-regional-map} displays the geographic spread of the 67 catalogued settlements across western, central and eastern Polynesia, illustrating both the dense western and central volcanic cores and the far-flung eastern outposts of Mangareva, Pitcairn and Rapa Nui.
+
+```{r fig-sett-map, results='asis'}
+viscount_figure(
+  "figures/precolonial_polynesia_regional_map.png",
+  "Spatial distribution of nine Polynesian archipelago sub-regions and 67 catalogued pre-colonial settlements from Tonga and Samoa to Rapa Nui, 1000BC to 1800.",
+  "fig:sett-regional-map"
+)
+```
+
+# Results
+
+## Twenty-Five Leading Pre-Colonial Polynesian Settlements
+
+Table \ref{tab:top25-sites} lists the 25 most populous catalogued settlements across Pre-Colonial Polynesia ordered by peak recorded population, spanning 4,1k at Mu'a down to 1,85k at fortified Ahurei on Rapa Iti. French Polynesia accounts for 12 of the top 25 centres (6 in the Society Islands, 3 in the Marquesas and 3 in the Austral Islands), followed by Tonga (4), the Cook Islands (4), Independent Samoa (3), Niue (1) and Wallis and Futuna (1). Notably, not a single coral atoll enters the top 25—Anaa's warrior village of Tukuhora (1.840 in 1769) sits immediately outside at rank 27—underscoring the decisive productive advantage of volcanic soils and perennial valley irrigation.
+
+```{r tab-top25-sites, results='asis'}
+top_list <- summary_data$top_settlements
+top_rows <- lapply(top_list, function(e) {
+  fy <- as.integer(e$first_year)
+  ly <- as.integer(e$last_year)
+  span_str <- if (fy == ly) fmt_year(fy) else paste0(fmt_year(fy), " to ", fmt_year(ly))
+  rid <- cand_map[[e$key]]
+  reg_lbl <- if (!is.null(rid) && rid %in% names(reg_lookup)) reg_lookup[[rid]] else clean_label(e$admin1)
+  data.frame(
+    Site = clean_label(e$name),
+    Country = as.character(e$country),
+    Subregion = reg_lbl,
+    Coords = paste0(fmt_coord(e$lat), ", ", fmt_coord(e$lon)),
+    Span = span_str,
+    Peak = paste0(viscount_fmt_pop(e$peak_pop), " (", fmt_year(e$peak_year), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_top25 <- do.call(rbind, top_rows)
+rownames(df_top25) <- NULL
+
+viscount_table(
+  df_top25,
+  "Leading 25 catalogued pre-colonial settlements across Polynesia ordered by peak recorded population, 1000BC to 1800.",
+  c("Settlement", "Territory", "Sub-Region", "Lat, Lon", "Span", "Peak Pop. (Year)"),
+  list(label = "tab:top25-sites", font_size = "scriptsize", max_rows_per_page = 28L)
+)
+```
+
+## Sub-Regional Gazetteer Coverage and Archipelago Hierarchy
+
+Table \ref{tab:subregion-gazetteer} aggregates catalogued settlement totals, dated observations, leading centres and closing 1800 regional populations across all nine sub-regions. Coverage is evenly balanced across every archipelago zone, ranging from 4 locales inside the Tuamotu coral mask (5 including Kamaka in the Gambier-Austral boundary zone) up to 10 in the Cook Islands and Niue, with 9 each in Samoa with Wallis-Futuna, the Society Islands and Tuvalu with Tokelau, 8 in Tonga, 7 in Rapa Nui with Pitcairn and 6 across the Marquesas.
+
+```{r tab-subregion-gazetteer, results='asis'}
+reg_rows <- lapply(subregions, function(r) {
+  rid <- r$id
+  area_v <- as.numeric(r$area_km2)
+  p1800 <- as.numeric(r$population[["1800"]])
+  reg_keys <- names(cand_map)[cand_map == rid]
+  cnt <- length(reg_keys)
+  obs_sum <- sum(vapply(reg_keys, function(k) length(sett_data[[k]]$population), integer(1)))
+  lead_str <- "-"
+  if (cnt > 0L) {
+    pks <- vapply(reg_keys, function(k) max(as.numeric(unlist(sett_data[[k]]$population))), numeric(1))
+    idx_m <- which.max(pks)
+    lead_str <- paste0(clean_label(sett_data[[reg_keys[idx_m]]]$name), " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  data.frame(
+    Subregion = clean_label(r$name),
+    Area = viscount_fmt_number(round(area_v), 0L),
+    Sites = viscount_fmt_number(cnt, 0L),
+    Obs = viscount_fmt_number(obs_sum, 0L),
+    Lead = lead_str,
+    Pop1800 = viscount_fmt_pop(p1800),
+    stringsAsFactors = FALSE
+  )
+})
+df_reg_gaz <- do.call(rbind, reg_rows)
+rownames(df_reg_gaz) <- NULL
+
+viscount_table(
+  df_reg_gaz,
+  "Catalogued settlement counts, dated observations, largest recorded centre and closing 1800 regional population across nine Polynesian sub-regions.",
+  c("Sub-Region", "Mask Area (km²)", "Sites", "Obs.", "Leading Centre (Peak)", "1800 Pop."),
+  list(label = "tab:subregion-gazetteer", font_size = "scriptsize")
+)
+```
+
+## Rank-Size Distribution and Source Saturation Audit
+
+Across all 67 catalogued locales, the rank-size curve reveals a classic polycentric island-chiefdom signature rather than a steep continental urban hierarchy. Fitting a log-log power law across the upper half of the register (the 33 largest chiefdom centres from Mu'a at 4.100 down to Mulifanua at 1.480) yields a shallow exponent of $\alpha = 0,31$ ($R^2 = 0,95$), reflecting multiple co-equal volcanic chiefdoms separated by wide sea channels [@allen2025reciprocity; @kahn2013residential]. Extending the regression across all 67 settlements lowers the fit ($R^2 = 0,58$, slope $-0,72$) as smaller Rapa Nui lineages, coral atolls of Tuvalu, Tokelau and the Tuamotus and Pitcairn's tiny 1790 colony drop sharply below the volcanic-island plateau.
+
+Table \ref{tab:saturation-waves} documents the four-wave source saturation audit from the chapter ledger, confirming that 85,1% of settlements derive from Wave-2 peer-reviewed archaeological and ethnohistorical monographs and 13,4% from Wave-1 primary statistical registries, closing at 1,52% marginal gain in Wave 4 with zero crowd-sourced entries.
+
+```{r tab-saturation-waves, results='asis'}
+wave_labels <- c(
+  primary_official_national_and_colonial_censuses = "Official national and colonial census registries",
+  peer_reviewed_archaeological_and_ethnohistorical_monographs = "Archaeological and ethnohistorical monographs",
+  longitudinal_municipal_reconciliation_and_deduplication = "Longitudinal reconciliation and deduplication",
+  subregion_gap_hunter_verification_sweep = "Sub-regional coverage verification sweep"
+)
+w_rows <- lapply(ledger_data$saturation_audit$waves, function(w) {
+  cls <- as.character(w$source_class)
+  lbl <- if (cls %in% names(wave_labels)) wave_labels[[cls]] else cls
+  cnt <- as.integer(w$newly_included)
+  data.frame(
+    Wave = paste0("Wave ", as.integer(w$wave)),
+    SourceClass = lbl,
+    Added = viscount_fmt_number(cnt, 0L),
+    Share = paste0(viscount_fmt_number(100 * cnt / n_sites, 1L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+df_waves <- do.call(rbind, w_rows)
+rownames(df_waves) <- NULL
+
+viscount_table(
+  df_waves,
+  "Four-wave gazetteer ingestion ledger and source-class breakdown across 67 catalogued Polynesian settlements.",
+  c("Wave", "Source Class", "Included", "Share"),
+  list(label = "tab:saturation-waves", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three archaeological and ethnohistorical constraints qualify spatial interpretation of this settlement gazetteer. First, dispersed Polynesian valley and coastal habitation lacked municipal walls or cadastral borders, meaning that chiefdom population figures—such as Pare-Arue, Papara, Taipivai or Falefa—represent coherent contiguous valley or bay communities bounded by traditional land divisions rather than nucleated market towns [@kahn2013residential; @kahn2026morphologica]. Second, archaeological survey coverage favours volcanic flagship islands (Tongatapu, Upolu, Mo'orea, Nuku Hiva, Ua Huka and Rapa Nui) over low coral atolls in the Tuamotus, Northern Cooks, Tuvalu and Tokelau, where cyclonic overwash erases shallow prehistoric middens and early population figures rely heavily on retrojection from nineteenth-century colonial counts [@petchey2010interpreting; @molle2011perspectives]. Third, peak dates are asynchronous across archipelagos—spanning 1300 at prehistoric Bounty Bay and 1550 at Rapa Nui's coastal *ahu* complexes through 1769 in Tahiti, 1777 in Tonga and 1798 in the Marquesas—reflecting differing colonisation chronologies, pre-contact adjustments and European contact timings [@wilmshurst2011high; @dinapoli2021approximate; @ioannidis2021paths].
+
+# Conclusion
+
+Cataloguing 67 evidence-based settlements and 184 dated population observations across ten modern jurisdictions provides a granular geographic skeleton for Pre-Colonial Polynesia from 1000BC to 1800. Every tier of oceanic settlement is represented: ninth-century BC Lapita founder lagoons in Tonga and Samoa, monumental West Polynesian royal and ceremonial complexes at Mu'a and Pulemelei, densely terraced Society, Marquesan, Cook and Austral valleys sustaining 1,8k to 4k residents apiece, coastal *ahu* territories and cliff sanctuaries on Rapa Nui and tightly bounded coral atoll communities across the Tuamotus, Tuvalu and Tokelau. Together, these 67 locales confirm a flat, polycentric chiefdom hierarchy ($\alpha = 0,31$, $R^2 = 0,95$) shaped by island geomorphology, maritime voyaging reach and local agro-ecological carrying ceilings.
+
+# Appendix
+
+## Remaining Forty-Two Catalogued Settlements (Ranks 26 to 67)
+
+Table \ref{tab:rem42-sites} lists the remaining 42 catalogued settlements ordered by peak population from Pea on Tongatapu (1.845 in 1777) down to Adamstown on Pitcairn (27 in 1790), ensuring every locale in the 67-settlement gazetteer appears in print.
+
+```{r tab-rem42-sites, results='asis'}
+all_rows <- lapply(names(sett_data), function(k) {
+  e <- sett_data[[k]]
+  yrs <- as.integer(names(e$population))
+  pops <- as.numeric(unlist(e$population))
+  idx_pk <- which.max(pops)
+  fy <- min(yrs)
+  ly <- max(yrs)
+  span_str <- if (fy == ly) fmt_year(fy) else paste0(fmt_year(fy), " to ", fmt_year(ly))
+  rid <- cand_map[[k]]
+  reg_lbl <- if (!is.null(rid) && rid %in% names(reg_lookup)) reg_lookup[[rid]] else clean_label(e$admin1)
+  data.frame(
+    Key = k,
+    Site = clean_label(e$name),
+    Country = as.character(e$country),
+    Subregion = reg_lbl,
+    Coords = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Span = span_str,
+    PeakVal = pops[idx_pk],
+    Peak = paste0(viscount_fmt_pop(pops[idx_pk]), " (", fmt_year(yrs[idx_pk]), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_all <- do.call(rbind, all_rows)
+df_all <- df_all[order(-df_all$PeakVal, df_all$Site), ]
+top_keys <- vapply(summary_data$top_settlements, function(e) e$key, character(1))
+df_rem <- df_all[!(df_all$Key %in% top_keys), c("Site", "Country", "Subregion", "Coords", "Span", "Peak")]
+rownames(df_rem) <- NULL
+
+viscount_table(
+  df_rem,
+  "Remaining 42 catalogued pre-colonial Polynesian settlements (ranks 26 to 67) ordered by peak recorded population, 1000BC to 1800.",
+  c("Settlement", "Territory", "Sub-Region", "Lat, Lon", "Span", "Peak Pop. (Year)"),
+  list(label = "tab:rem42-sites", font_size = "scriptsize", max_rows_per_page = 24L)
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Geographic coordinates follow WGS84 decimal degrees formatted with European decimal commas. All settlement headcounts reflect city-proper or single-valley chiefdom aggregates compiled directly from archaeological monographs, historical ethnographies and official colonial statistical registers with zero synthetic interpolation or crowd-sourced substitution.

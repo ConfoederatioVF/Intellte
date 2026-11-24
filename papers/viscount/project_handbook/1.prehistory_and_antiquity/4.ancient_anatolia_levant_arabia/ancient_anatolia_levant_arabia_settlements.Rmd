@@ -1,0 +1,261 @@
+---
+title: "Ancient Anatolia, the Levant and Arabia"
+subtitle: "Settlement Gazetteer: Bronze and Iron Age Towns, Ports and Oases, 3200BC-539BC"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: ancient_anatolia_levant_arabia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_ancient_anatolia_levant_arabia_spatial.png"
+hero_caption: "Spatial footprint of the ten sub-regions spanning Anatolia, Cyprus, the Levant and the Arabian Peninsula from 3200BC to 539BC."
+hero_label: "fig:hero-settlements-anatolia-levant-arabia"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("ancient_anatolia_levant_arabia_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("ancient_anatolia_levant_arabia_summary_cache.json", simplifyVector = FALSE)
+
+fmt_era_yr <- function (yr_num) {
+  y <- as.integer(yr_num)
+  if (is.na(y)) return("-")
+  if (y < 0L) return(paste0(abs(y), "BC"))
+  paste0(y, "AD")
+}
+
+build_zone_df <- function (countries_vec, top_n = 28L, lat_min = -90, lat_max = 90, lon_min = -180, lon_max = 180) {
+  rows <- list()
+  for (k in names(sett_raw)) {
+    e <- sett_raw[[k]]
+    if (!(e$country %in% countries_vec)) next
+    lat <- as.numeric(e$coords[[1]])
+    lon <- as.numeric(e$coords[[2]])
+    if (lat < lat_min || lat > lat_max || lon < lon_min || lon > lon_max) next
+    yrs <- as.integer(names(e$population))
+    vals <- as.numeric(unlist(e$population))
+    pk_idx <- which.max(vals)
+    pk_val <- vals[pk_idx]
+    pk_yr <- yrs[pk_idx]
+    span_str <- paste0(fmt_era_yr(min(yrs)), "-", fmt_era_yr(max(yrs)))
+    coord_str <- paste0(viscount_fmt_number(lat, 2L), ", ", viscount_fmt_number(lon, 2L))
+    rows[[length(rows) + 1L]] <- list(
+      pk = pk_val,
+      df = data.frame(
+        Settlement = as.character(e$name),
+        Country = as.character(e$country),
+        Coords = coord_str,
+        Span = span_str,
+        PeakYr = fmt_era_yr(pk_yr),
+        PeakPop = viscount_fmt_pop(pk_val),
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+  if (length(rows) == 0L) return(data.frame())
+  ord <- order(vapply(rows, function(x) -x$pk, numeric(1)))
+  sel <- rows[ord[seq_len(min(length(ord), top_n))]]
+  out <- do.call(rbind, lapply(sel, function(x) x$df))
+  rownames(out) <- NULL
+  out
+}
+
+fmt_eu_int <- function (x) {
+  formatC(as.integer(round(as.numeric(x))), format = "d", big.mark = ".")
+}
+
+sett_countries <- vapply(sett_raw, function (e) as.character(e$country), character(1))
+cnt_tbl <- sort(table(sett_countries), decreasing = TRUE)
+n_jurisdictions <- length(cnt_tbl)
+
+cnt_of <- function (cn_vec) {
+  sum(sett_countries %in% cn_vec)
+}
+
+fmt_jur_list <- function (tbl) {
+  nms <- names(tbl)
+  vals <- as.integer(tbl)
+  parts <- paste0(nms, " (", vapply(vals, fmt_eu_int, character(1)), ")")
+  if (length(parts) <= 1L) return(paste(parts, collapse = ""))
+  paste0(paste(parts[-length(parts)], collapse = ", "), " and ", parts[length(parts)])
+}
+
+jur_breakdown_str <- fmt_jur_list(cnt_tbl)
+
+fmt_subset_jurs <- function (cn_vec) {
+  sub_tbl <- cnt_tbl[names(cnt_tbl) %in% cn_vec]
+  fmt_jur_list(sub_tbl)
+}
+
+n_active_at <- function (yr_num) {
+  sum(vapply(sett_raw, function (e) {
+    yrs <- as.integer(names(e$population))
+    length(yrs) > 0L && min(yrs) <= yr_num && max(yrs) >= yr_num
+  }, logical(1)))
+}
+```
+
+# Abstract
+
+This settlement gazetteer compiles individually assessed urban, town, tell and oasis population trajectories for 6.025 archaeological sites across Anatolia, Cyprus, the Levant and the Arabian Peninsula between 3200BC and 539BC. Selected from 6.275 candidate records after removing 250 duplicate, unquantified or non-residential monument entries, the enriched corpus spans `r n_jurisdictions` modern jurisdictions: `r jur_breakdown_str`. Combining baseline excavation monographs with empirical regional registers—including the Near East Holocene Urban Settlement Database (Palmisano et al. 2021), From Villages to Empires (Titolo and Palmisano 2025), the Near East Radiocarbon Database (NERD), the C-Turkey chronometric register, the Stanford POLIS Greek *poleis* inventory and late Archaic-classical anchors from the OXREP Roman Cities Database (Hanson 2016)—the settlement hierarchy exhibits a steep, well-fitted rank-size slope ($\alpha = 1{,}31$, $R^2 = 0{,}89$). Leading Archaic *poleis*, Bronze Age capitals, Phoenician ports and Sabaean oases span 34,2k to 64,4k inhabitants at the apex, led by Chios (64,4k), Kalchedon (60k), Lampsakos (55,4k), Parion (46,2k), Sardis (44,5k), Hattusa (41,5k), Tyre (41,2k), Apollonia (38,4k), Kios (38,4k), Skepsis (38,4k), Miletus (34,5k) and Marib (34,2k) alongside Halicarnassus, Byzantium, Damascus, Sidon, Karpasia, Kanesh, Gordium, Qatna, Salamis, Türkmen-Karahöyük, Aleppo, Jerusalem, Ephesus and Carchemish.
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_ancient_anatolia_levant_arabia_spatial.png",
+    "Spatial footprint of the ten sub-regions spanning Anatolia, Cyprus, the Levant and the Arabian Peninsula from 3200BC to 539BC.",
+    "fig:hero-settlements-anatolia-levant-arabia",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+# Background
+
+Urban life across Ancient Anatolia, the Levant, Cyprus and Arabia emerged along very different lines from the centralised temple-palace cities of riverine lowlands. Here, no single navigable flood artery bound hundreds of thousands of farmers into one administrative hierarchy. Instead, walled towns rose wherever reliable winter rainfall, perennial limestone springs, metal ores or strategic caravan passes permitted surplus accumulation [@Massa2017Change; @Massa2020Landscape]. In Early Bronze Age Anatolia, citadels at Troy, Beycesultan and Alişar Höyük controlled modest valley territories, before Middle Bronze Age long-distance merchants established an Assyrian trading quarter outside the walls of Kültepe-Kanesh [@Ghazaryan2022Administra; @Kaderli2024Evaluation; @Veenhof2008Mesopotami]. Across Syria and the coastal Levant, third- and second-millennium centres such as Ebla, Tell Tayinat, Ugarit and Byblos flourished on rain-fed wheat, cedar timber and maritime exchange [@Manning2020Beyond; @Gimenez2021Toponym]. Further south, Bronze Age copper extraction at Bat, Hili and Salut sustained fortified towers in Oman and the Emirates, while the first millennium BC witnessed the rise of Sabaean, Minaean, Qatabanian and Hadhrami oasis cities linked by camel caravans across the Hijaz [@EfratKowalsky2022Text].
+
+# Methodology
+
+The 6.025 individually assessed settlements in this gazetteer were assembled by auditing 6.275 candidate Bronze and Iron Age sites against excavation monographs, lower-town magnetometry, regional pedestrian surveys and enriched empirical archaeological registers—specifically the Near East Holocene Urban Settlement Database (Palmisano et al. 2021), From Villages to Empires (Titolo and Palmisano 2025), the Near East Radiocarbon Database (NERD), the C-Turkey chronometric register, the Stanford POLIS Greek *poleis* inventory and late Archaic-classical anchors from the OXREP Roman Cities Database (Hanson 2016)—across Anatolia and the Aegean littoral (`r fmt_eu_int(cnt_of(c("Turkey", "Greece")))` sites), the Northern Levant and upper Euphrates (`r fmt_eu_int(cnt_of(c("Syria", "Lebanon", "Iraq")))` sites), the Southern Levant and Sinai (`r fmt_eu_int(cnt_of(c("Israel", "Jordan", "Palestine", "Egypt")))` sites), Arabia and the Persian Gulf (`r fmt_eu_int(cnt_of(c("Saudi Arabia", "Yemen", "Oman", "United Arab Emirates", "Bahrain", "Kuwait", "Qatar")))` sites) and Cyprus (`r fmt_eu_int(cnt_of(c("Cyprus")))` sites), excluding 250 duplicate, unquantified or non-residential monument records. Every coordinate pair was checked against smooth sub-regional vector masks and geoBoundaries administrative polygons [@Runfola2020GeoBoundaries] to ensure exact geographic placement without coastal misregistration on Aegean islands, Cyprus or Bahrain. Where excavated architectural plans or lower-town mound surveys record occupied hectares, resident population is estimated using regional density benchmarks (100 to 180 persons per hectare in compact tell cities; 40 to 80 persons per hectare in dispersed highland and oasis settlements) [@Palmisano2017Confrontin; @Osborne2020City]. Every site trajectory is individually anchored to excavated site hectares, fortified circuit perimeters, destruction strata and historical foundations before Zipf rank-size diagnostics and radial Matérn ($\nu = 3/2$) kriging project background rural density across surrounding catchments.
+
+# Testing and Validation
+
+Temporal density across the 6.025 individually assessed sites captures the authentic wave of Bronze and Iron Age urbanisation without artificial uniform back-projection. Active settlement counts grow from `r fmt_eu_int(n_active_at(-3000))` sites by 3000BC to `r fmt_eu_int(n_active_at(-2500))` by 2500BC, `r fmt_eu_int(n_active_at(-2000))` by 2000BC, `r fmt_eu_int(n_active_at(-1500))` by 1500BC, `r fmt_eu_int(n_active_at(-1300))` at the 1300BC Late Bronze Age imperial zenith, `r fmt_eu_int(n_active_at(-1000))` by 1000BC, `r fmt_eu_int(n_active_at(-800))` at the 800BC Iron Age horizon and `r fmt_eu_int(n_active_at(-539))` at the 539BC Achaemenid threshold (incorporating late Archaic Greek *poleis* alongside surviving Iron Age cities, while earlier Bronze and Iron Age centres—including Ugarit, Emar, Enkomi, Hala Sultan Tekke, Ebla and Sapinuwa—had been abandoned or destroyed prior to 539BC). Figure 2 displays the rank-size regression across all 6.025 settlements alongside the twelve highest-peaking cities. The estimated Zipf slope ($\alpha = 1{,}31$, $R^2 = 0{,}89$) reflects the deep archaeological tail of surveyed tell mounds and villages paired with a polycentric urban summit spanning Aegean-Propontic *poleis*, Anatolian plateau capitals, Phoenician ports and Arabian oasis kingdoms.
+
+```{r fig4-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig4_ancient_anatolia_levant_arabia_settlements.png",
+  "Log-log rank-size curve across all 6.025 individually assessed settlements (left) and the twelve highest-peaking urban centres before 539BC (right).",
+  "fig:gazetteer-ranksize",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Results
+
+## Western, Southern and Central Anatolia
+
+Turkey accounts for `r fmt_eu_int(cnt_of(c("Turkey")))` of the 6.025 individually assessed settlements in this chapter, reflecting dense Bronze and Iron Age mound landscapes, Archaic Aegean-Propontic *poleis* and intensive archaeological investigation across the Aegean littoral, Cilicia, the Konya plain, the Kızılırmak bend and the Syro-Anatolian borderlands [@Massa2020Landscape; @Ross2019Anatolian]. Table 1 lists the twenty-five largest Anatolian centres by peak pre-539BC population. Along the western, Propontic and southern coasts, Archaic Greek *poleis*, Lydian and Cilician metropolises such as Chios (64,4k), Kalchedon (60k), Lampsakos (55,4k), Parion (46,2k), Sardis (44,5k), Apollonia (38,4k), Kios (38,4k), Skepsis (38,4k), Miletus (34,5k), Halicarnassus (34,2k), Byzantium (32,9k), Rhodos (29k), Tyrodiza (25,2k), Erythrae (24k) and Ephesus (21,4k) expanded strongly during the first millennium BC, joined inland by Hittite, Phrygian, Luwian and Old Assyrian-period capitals including Hattusa (41,5k), Kanesh (29,4k), Gordium (24,8k), Türkmen-Karahöyük (23,2k) and Carchemish (21,4k) [@Fairbairn2018Ceremonial; @KORKMAZ2021Modern].
+
+```{r tab-anatolia, results='asis'}
+df_tur <- build_zone_df(c("Turkey"), top_n = 25L)
+viscount_table(
+  df_tur,
+  "Leading individually assessed Bronze and Iron Age settlements in Anatolia (modern Turkey), 3200BC-539BC.",
+  c("Settlement", "Country", "Coords (Lat, Lon)", "Occupied Span", "Peak Year", "Peak Pop.")
+)
+```
+
+## Cyprus
+
+Cyprus (Alashiya) contributes `r fmt_eu_int(cnt_of(c("Cyprus")))` individually assessed sites across its coastal plains, Mesaoria basin and Troodos copper foothills. Table 2 presents the twenty highest-peaking Cypriot settlements. Unlike the continental Anatolian interior, Cypriot urbanism pivoted around copper metallurgy and eastern Mediterranean maritime access from the Late Bronze Age through the Archaic city-kingdoms [@Kelder2022Thutmose]. Late Bronze Age trading hubs at Enkomi (10,9k) and Hala Sultan Tekke (8,7k) gave way during the Cypro-Geometric and Archaic eras to a dense ring of coastal and inland royal capitals led by Karpasia (29,7k), Salamis (24,4k), Keryneia (22,7k), Kition (16,1k), Palaepaphos (11,6k), Amathus (9,8k), Idalion (8,4k), Kourion (7,9k), Soloi (7,2k), Tamassos (6,4k), Marion (5,9k) and Lapithos (5,3k).
+
+```{r tab-cyprus, results='asis'}
+df_cyp <- build_zone_df(c("Cyprus"), top_n = 20L)
+viscount_table(
+  df_cyp,
+  "Leading individually assessed Bronze and Iron Age settlements on Cyprus (Alashiya), 3200BC-539BC.",
+  c("Settlement", "Country", "Coords (Lat, Lon)", "Occupied Span", "Peak Year", "Peak Pop.")
+)
+```
+
+## Northern Levant: Syria and Phoenicia
+
+Syria (`r fmt_eu_int(cnt_of(c("Syria")))` sites) and Lebanon (`r fmt_eu_int(cnt_of(c("Lebanon")))` sites) together contribute `r fmt_eu_int(cnt_of(c("Syria", "Lebanon")))` individually assessed settlements along the Northern Levant corridor linking the upper Euphrates and Orontes valleys to the Phoenician ports (with borderland Syro-Hittite Carchemish and Alalakh-Tell Tayinat tabulated under Turkey in Table 1). Table 3 displays the twenty-five largest Northern Levantine centres. Inland, Damascus (32,5k), Qatna (24,6k), Aleppo (22,4k), Ebla (17,8k), Tell Rifaat/Arpad (16,8k), Hama (14,9k), Til Barsip (12,4k), Guzana (11,4k), Tell Afis (6,6k), Emar (6,6k), Kadesh (6,5k) and desert-oasis Palmyra (3,7k) anchored rain-fed grain plains and caravan crossings [@Manning2020Beyond; @Gimenez2021Toponym; @Warbinek2023Theonyms]. On the narrow Mediterranean littoral, Tyre (41,2k), Sidon (31,5k), Arwad (16,4k), Byblos (13,4k), Ugarit (9,3k), Beirut (9,2k), Tripoli (7,8k), Sarepta (5,7k) and Batroun (4,5k) drove maritime timber, purple-dye and silver trade across the Mediterranean [@Eshel2024Thousand; @Koiv2022Monarchy].
+
+```{r tab-north-levant, results='asis'}
+df_nl <- build_zone_df(c("Syria", "Lebanon"), top_n = 25L)
+viscount_table(
+  df_nl,
+  "Leading individually assessed Bronze and Iron Age settlements across Syria and Phoenicia (Lebanon), 3200BC-539BC.",
+  c("Settlement", "Country", "Coords (Lat, Lon)", "Occupied Span", "Peak Year", "Peak Pop.")
+)
+```
+
+## Southern Levant: Israel, Palestine, Jordan and Sinai
+
+The Southern Levant and adjacent northeastern Sinai contribute `r fmt_eu_int(cnt_of(c("Israel", "Jordan", "Palestine", "Egypt")))` individually assessed sites across `r fmt_subset_jurs(c("Israel", "Jordan", "Palestine", "Egypt"))`. Table 4 lists the twenty-five highest-peaking settlements across the coastal plain, Galilean and Judaean highlands and Transjordanian plateau. Major Bronze Age Canaanite cities such as Hazor (16,9k), Ashkelon (14,5k), Dan (5,4k), Pella (4,9k) and Megiddo (4,9k) were joined in the Iron Age by highland capitals, Philistine Pentapolis ports and Transjordanian royal strongholds including Jerusalem (21,8k), Samaria (16,2k), Gaza (16,1k), Gath (12,1k), Ashdod (9,8k), Ekron (8,9k), Rabbath-Ammon (8,8k), Akko (8,5k), Lachish (5,9k), Dibon (4,5k) and Bozrah (4,3k) [@Dziadosz2023Covenants; @Routledge2017There].
+
+```{r tab-south-levant, results='asis'}
+df_sl <- build_zone_df(c("Israel", "Jordan", "Palestine", "Egypt"), top_n = 25L)
+viscount_table(
+  df_sl,
+  "Leading individually assessed Bronze and Iron Age settlements across the Southern Levant and Transjordan, 3200BC-539BC.",
+  c("Settlement", "Country", "Coords (Lat, Lon)", "Occupied Span", "Peak Year", "Peak Pop.")
+)
+```
+
+## Arabian Peninsula and the Persian Gulf
+
+Across the Arabian Peninsula and Gulf littoral, `r fmt_eu_int(cnt_of(c("Oman", "Saudi Arabia", "Yemen", "Bahrain", "United Arab Emirates", "Kuwait", "Qatar")))` individually assessed sites span `r fmt_subset_jurs(c("Oman", "Saudi Arabia", "Yemen", "Bahrain", "United Arab Emirates", "Kuwait", "Qatar"))`. Table 5 records the twenty-five leading Arabian and Gulf centres. In Yemen and southwestern Arabia, dam-irrigated South Arabian capitals at Marib (34,2k), Shabwa (11,8k), Timna (9,6k), Qarnaw (8,4k), Najran (7,6k), Nashshan (5,9k), Raybun (5,7k) and Sirwah (5,6k) anchored monsoon-terraced agriculture and the frankincense monopoly [@EfratKowalsky2022Text]. Along the northern caravan corridor, walled Hejaz and desert oases led by Tayma (16,2k), Dedan (9,1k), Dumat al-Jandal (6,9k), Yathrib (5,2k) and Qurayyah (4,5k) connected Yemen to Syria and Gaza, while across the Persian Gulf and Oman Sea, Qalat al-Bahrain (8,6k), Hili (4,9k), Tarut (4,5k), Bat (4,1k), Salut (3,7k), Failaka (3,1k), Muweilah (2,95k) and Tell Abraq (2,65k) formed the maritime and copper-trading backbone of Dilmun and Magan.
+
+```{r tab-arabia, results='asis'}
+df_arb <- build_zone_df(c("Oman", "Saudi Arabia", "Yemen", "Bahrain", "United Arab Emirates", "Kuwait", "Qatar"), top_n = 25L)
+viscount_table(
+  df_arb,
+  "Leading individually assessed Bronze and Iron Age settlements across Arabia and the Persian Gulf, 3200BC-539BC.",
+  c("Settlement", "Country", "Coords (Lat, Lon)", "Occupied Span", "Peak Year", "Peak Pop.")
+)
+```
+
+# Limitations
+
+Three gazetteer constraints merit explicit caution when interpreting individual site rows. First, several first-millennium foundations—including Phocaea, Kerkenes Dag, Sinope, Trapezus, Amisos, Salamis, Samaria and Tripoli—began only during the Iron Age or Archaic colonial period and therefore have shorter active trajectories than multi-millennial tells, while major ancient metropolises beneath modern urban fabric (such as Aleppo, Damascus, Beirut, Gaza and Sidon) rely on partial soundings and historical-topographic reconstructions rather than full horizontal excavation. Second, where regional surveys record fortified stone circuits without full interior excavation, uniform residential multipliers smooth over intramural gardens, shrines and granary courtyards [@Palmisano2017Confrontin; @Burgin2016Aspects]. Third, settlement recovery in Yemen and interior Saudi Arabia lags behind Turkey, Israel and Oman due to modern fieldwork access, leaving rural highland hamlets under-enumerated in the point ledger relative to continuous sub-regional totals.
+
+# Conclusion
+
+Taken together, the 6.025 individually assessed settlements in this gazetteer confirm that Bronze and Iron Age urbanisation from the Aegean coast to the Indian Ocean combined a deep rural tell base with a polycentric urban summit ($\alpha = 1{,}31$, $R^2 = 0{,}89$). Across `r n_jurisdictions` modern jurisdictions, Archaic Greek *poleis*, regional capitals and trading metropolises of 34,2k to 64,4k inhabitants—led by Chios, Kalchedon, Lampsakos, Parion, Sardis, Hattusa, Tyre, Apollonia, Kios, Skepsis, Miletus and Marib—stood atop a wide middle tier of fortified towns, copper-smelting ports, walled caravan oases and farming tells. By anchoring coordinate-exact town trajectories to calibrated archaeological chronologies and geoBoundaries administrative polygons [@Runfola2020GeoBoundaries], this dataset provides the urban skeleton beneath the continuous 5-arcminute demographic surfaces from 3200BC to 539BC.
+
+# Appendix
+
+## Jurisdiction Summary across Constituent Modern States
+
+Table 6 summarises site counts, median and maximum peak settlement populations and earliest active dates across all `r n_jurisdictions` modern states and territories covered by Chapter 4.
+
+```{r tab-jurisdictions, results='asis'}
+countries <- sort(unique(vapply(sett_raw, function(e) as.character(e$country), character(1))))
+jur_rows <- lapply(countries, function(cnt) {
+  sub <- sett_raw[vapply(sett_raw, function(e) identical(e$country, cnt), logical(1))]
+  pks <- vapply(sub, function(e) max(as.numeric(unlist(e$population))), numeric(1))
+  mins <- vapply(sub, function(e) min(as.integer(names(e$population))), integer(1))
+  maxs <- vapply(sub, function(e) max(as.integer(names(e$population))), integer(1))
+  data.frame(
+    Jurisdiction = cnt,
+    Sites = formatC(length(sub), format = "d", big.mark = "."),
+    Earliest = fmt_era_yr(min(mins)),
+    Latest = fmt_era_yr(max(maxs)),
+    MedianPeak = viscount_fmt_pop(stats::median(pks)),
+    MaxPeak = viscount_fmt_pop(max(pks)),
+    stringsAsFactors = FALSE
+  )
+})
+df_jur <- do.call(rbind, jur_rows)
+df_jur <- df_jur[order(-as.numeric(gsub("\\.", "", df_jur$Sites))), ]
+rownames(df_jur) <- NULL
+viscount_table(
+  df_jur,
+  paste0("Individually assessed settlement counts, temporal spans, median peak sizes and maximum urban peaks across all ", n_jurisdictions, " jurisdictions (6.025 total sites), 3200BC-539BC."),
+  c("Jurisdiction", "Sites", "Earliest", "Latest", "Median Peak", "Max Peak")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

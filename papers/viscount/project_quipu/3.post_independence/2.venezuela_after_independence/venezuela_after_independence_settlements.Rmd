@@ -1,0 +1,291 @@
+---
+title: "Venezuela after Independence"
+subtitle: "Settlement Gazetteer and Urban Hierarchy, 1830-2025"
+date: "23 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/venezuela_after_independence_urban_hierarchy.png"
+hero_caption: "Twelve largest urban entities and rank-size distribution across 422 catalogued Venezuelan settlements from 1830 to 2026."
+hero_label: "fig:hero-venezuela-hierarchy"
+bibliography: venezuela_after_independence_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  fromJSON(text, simplifyVector = FALSE)
+}
+
+summary_data <- fromJSON("venezuela_after_independence_summary.json", simplifyVector = FALSE)
+sett_data <- fromJSON("venezuela_after_independence_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("venezuela_after_independence_source_ledger.json5")
+
+clean_site_name <- function(x) {
+  s <- as.character(x)
+  s <- gsub("\\\\", "", s)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  trimws(s)
+}
+
+clean_reg_name <- function(x) {
+  s <- as.character(x)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_coord <- function(x) {
+  viscount_fmt_number(round(as.numeric(x), 2L), 2L)
+}
+
+subregions <- summary_data$subregions
+reg_lookup <- setNames(
+  vapply(subregions, function(r) clean_reg_name(r$name), character(1)),
+  vapply(subregions, function(r) r$id, character(1))
+)
+
+n_sites <- as.integer(summary_data$settlement_count)
+n_excluded <- as.integer(ledger_data$total_excluded)
+n_total_eval <- n_sites + n_excluded
+```
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  cat("![Twelve largest urban entities and rank-size distribution across 422 catalogued Venezuelan settlements from 1830 to 2026.](figures/venezuela_after_independence_urban_hierarchy.png)\n\n")
+}
+```
+
+# Abstract
+
+This gazetteer documents `r viscount_fmt_number(n_sites, 0L)` catalogued Venezuelan cities, towns and municipal centres spanning all 25 modern federal entities between 1830 and 2026. Built exclusively from official national statistical registers without crowd-sourced fallback (0% crowd share), the archive integrates the 2011 National Institute of Statistics (INE) municipal census (290 entries, 68,72%), longitudinal 1981 to 2019 urban locality tables (130 entries, 30,81%), mid-century Caracas metropolitan series (1 entry, 0,24%) and Dependencias Federales insular enumerations (1 entry, 0,24%). Out of `r viscount_fmt_number(n_total_eval, 0L)` candidate municipal and urban entries audited in the source ledger, `r viscount_fmt_number(n_excluded, 0L)` entries (comprising 50 duplicate municipal-capital aliases and 34 unlocated toponyms) were removed during deduplication. Administrative scopes separate 387 unified city-proper centres from 34 distinct suburban municipalities and 1 metropolitan Caracas entry, preventing double counting across the capital valley and Lake Valencia basin while preserving historical trajectories from 1833 through 2019 [@Nacionales1926Quinto; @Garciaguadilla2009Crisis; @Ferrer2005Del].
+
+# Background
+
+Venezuela's post-independence urban network evolved from dispersed colonial agricultural towns into one of South America's most concentrated metropolitan systems [@Roitman1972Venezuela; @Garcia1999Transferencia]. In 1873, only Caracas (48.897), Valencia (28.594), Barquisimeto (25.664) and Maracaibo (21.954) exceeded 20k inhabitants, while interior savanna towns and Andean coffee hubs such as Maturín (12.944), San Cristóbal (11.903), Mérida (9.727), Cumaná (9.427), Ciudad Bolívar (8.486), Puerto Cabello (8.467), Coro (8.172), Barcelona (7.674) and Maracay (5.192) served modest provincial hinterlands [@Nacionales1926Quinto].
+
+Oil extraction on the eastern shore of Lake Maracaibo after 1922, nationwide DDT malaria eradication from 1945, selective European and Colombian immigration and state industrial projects at Ciudad Guayana transformed that hierarchy over two generations [@Ferrer2005Del; @Bustillos2023Politica; @Allen2013Politicas]. Caracas expanded beyond its colonial valley into neighbouring Miranda and coastal La Guaira municipalities [@Garciaguadilla2009Crisis; @Atehortua2017Barrio], Maracaibo and Cabimas anchored western petroleum production, Valencia and Maracay absorbed central manufacturing [@Roitman1972Venezuela], and Ciudad Guayana rose from 43k in 1961 to 893,4k by 2019 before post-2015 economic crisis drove millions abroad [@Arias2024Demography; @C2020Migracion].
+
+# Methodology
+
+Settlement compilation proceeded in four sequential ingestion waves logged in the chapter source ledger. Wave 1 harvested 333 primary national statistical entries from the 1950 to 2019 INE census corpus and OCHA/INE municipal tables. Wave 2 performed georeferencing alignment and metropolitan scope reconciliation, adding 59 distinct centres while tagging suburban municipalities separately from core cities. Wave 3 backfilled longitudinal 1833 to 1941 enumerations across 25 entries using published nineteenth- and early-twentieth-century census volumes [@Nacionales1926Quinto]. Wave 4 executed a sub-regional coverage sweep adding 5 final entries (1,2% marginal gain), achieving full coverage across all 25 sub-regions.
+
+Every candidate underwent WGS84 coordinate checking, sub-region polygon assignment and proximity deduplication. Fifty co-located municipal-capital aliases (such as *Iribarren* beside Barquisimeto, *Caroní* beside Ciudad Guayana, *Simón Bolívar* beside Barcelona, *Bermúdez* beside Carúpano and *Ciudad Ojeda* beside Lagunillas) were merged into their urban localities, alongside 34 unlocated historic parish labels. Across all 422 included settlements, peak populations follow a smooth Zipfian rank-size slope ($\alpha = 0,83$, $R^2 = 0,98$).
+
+# Testing and Validation
+
+Ledger reconciliation accounts exactly for all 506 evaluated records: 422 included settlements and 84 excluded aliases or unlocated entries. Every included entry carries non-null geographic coordinates, a unique sub-region identifier, a provenance string and an explicit population scope (city proper 387, suburb 34, metro 1). Figure \ref{fig:sett-regional-map} displays the spatial footprint of all 422 catalogued settlements across Venezuela's 25 federal entities, illustrating dense Andean, coastal-central and lakeside clustering contrasting with sparse Orinoco and Amazonian river settlements.
+
+```{r fig-sett-map, results='asis'}
+viscount_figure(
+  "figures/venezuela_after_independence_regional_map.png",
+  "Spatial distribution of 422 catalogued Venezuelan settlements across 25 federal entities, 1830 to 2026.",
+  "fig:sett-regional-map"
+)
+```
+
+# Results
+
+## Leading Recorded Settlements
+
+Table \ref{tab:top30-sites} presents the 30 largest urban entries in the Venezuelan register ranked by peak recorded population. Alongside Caracas (Metro) at 3,38M in 1981 and Caracas city proper at 2,09M in 2019, the ranking highlights rapid twentieth-century expansion across Maracaibo (2,26M), Valencia (1,59M), Barquisimeto (1,09M) and planned Ciudad Guayana (893,4k), followed by regional hubs and major metropolitan suburbs including Maturín (542,3k), Maracay (464,7k), Barcelona (454,2k), San Francisco (446,8k) and Petare (441,7k) [@Ferrer2005Del; @Garciaguadilla2009Crisis].
+
+```{r tab-top30-sites, results='asis'}
+top_list <- summary_data$top_settlements
+top_rows <- lapply(top_list, function(e) {
+  fy <- as.integer(e$first_year)
+  ly <- as.integer(e$last_year)
+  span_str <- if (fy == ly) as.character(fy) else paste0(fy, " to ", ly)
+  reg_lbl <- if (e$region_id %in% names(reg_lookup)) reg_lookup[[e$region_id]] else clean_reg_name(e$region_id)
+  scope_str <- "city proper"
+  for (sk in names(sett_data)) {
+    if (identical(sett_data[[sk]]$name, e$name) && identical(sett_data[[sk]]$region_id, e$region_id)) {
+      scope_str <- gsub("_", " ", as.character(sett_data[[sk]]$population_scope))
+      break
+    }
+  }
+  data.frame(
+    Site = clean_site_name(e$name),
+    Subregion = reg_lbl,
+    Scope = scope_str,
+    Coords = paste0(fmt_coord(e$lat), ", ", fmt_coord(e$lon)),
+    Span = span_str,
+    Peak = paste0(viscount_fmt_pop(e$peak_pop), " (", e$peak_year, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_top30 <- do.call(rbind, top_rows)
+rownames(df_top30) <- NULL
+
+viscount_table(
+  df_top30,
+  "Leading 30 Venezuelan urban entries by peak population across 422 catalogued settlements, 1830 to 2019.",
+  c("Settlement", "Entity", "Scope", "Lat, Lon", "Span", "Peak Pop. (Year)"),
+  list(label = "tab:top30-sites", font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+## Caracas City Proper, Metropolitan Aggregate and Suburban Ring
+
+Table \ref{tab:caracas-metro} separates the Caracas metropolitan aggregate from Libertador city proper and eleven surrounding suburban municipalities across Miranda and La Guaira [@Garciaguadilla2009Crisis; @Atehortua2017Barrio]. While Caracas city proper stabilised between 1,82M in 1981 and 2,09M in 2019, suburban growth shifted decisively to Petare (441,7k), Baruta (309,4k), Guarenas (244,6k), Los Teques (230,8k), Guatire (180,5k) and Catia La Mar (141,9k).
+
+```{r tab-caracas-metro, results='asis'}
+caracas_keys <- c(
+  "Caracas (Metro)-Venezuela",
+  "Caracas-Venezuela",
+  "Petare-Venezuela",
+  "Baruta-Venezuela",
+  "Guarenas-Venezuela",
+  "Los Teques-Venezuela",
+  "Guatire-Venezuela",
+  "Catia La Mar-Venezuela",
+  "El Hatillo-Venezuela",
+  "Chacao-Venezuela",
+  "San Antonio de los Altos-Venezuela",
+  "Maiquetía-Venezuela",
+  "Carrizal-Venezuela"
+)
+get_yr <- function(p_list, y) {
+  if (is.null(p_list[[y]])) "-" else viscount_fmt_pop(as.numeric(p_list[[y]]))
+}
+ccs_rows <- lapply(caracas_keys, function(k) {
+  e <- sett_data[[k]]
+  data.frame(
+    Name = clean_site_name(e$name),
+    Scope = gsub("_", " ", as.character(e$population_scope)),
+    Admin1 = clean_reg_name(e$admin1),
+    Y1950 = get_yr(e$population, "1950"),
+    Y1981 = get_yr(e$population, "1981"),
+    Y2001 = get_yr(e$population, "2001"),
+    Y2011 = get_yr(e$population, "2011"),
+    Y2019 = get_yr(e$population, "2019"),
+    stringsAsFactors = FALSE
+  )
+})
+df_ccs <- do.call(rbind, ccs_rows)
+rownames(df_ccs) <- NULL
+
+viscount_table(
+  df_ccs,
+  "Caracas metropolitan aggregate, city-proper municipality and major outer suburbs across Miranda and La Guaira, 1950 to 2019.",
+  c("Entity", "Scope", "Admin. Unit", "1950", "1981", "2001", "2011", "2019"),
+  list(label = "tab:caracas-metro", font_size = "scriptsize")
+)
+```
+
+## Sub-Regional Gazetteer Distribution
+
+Table \ref{tab:subregion-gazetteer} reports catalogued settlement totals, areal density per 10.000 km², leading urban centre and 2011 census population across all 25 federal entities. Andean states such as Táchira (36 sites, 27,49 per 10k km²) and Trujillo (28 sites, 25,62 per 10k km²), along with Distrito Capital (16 sites, 172,27 per 10k km²) and Nueva Esparta (13 sites, 77,11 per 10k km²), show the densest municipal subdivisions, contrasting with expansive Bolívar (12 sites, 0,48 per 10k km²) and Amazonas (9 sites, 0,47 per 10k km²).
+
+```{r tab-subregion-gazetteer, results='asis'}
+reg_rows <- lapply(subregions, function(r) {
+  rid <- r$id
+  area_v <- as.numeric(r$area_km2)
+  p2011 <- as.numeric(r$population[["2011"]])
+  sub_entries <- Filter(function(e) identical(e$region_id, rid), sett_data)
+  cnt <- length(sub_entries)
+  sdens <- if (area_v > 0) (cnt / area_v) * 10000 else 0
+  lead_str <- "-"
+  if (cnt > 0L) {
+    pks <- vapply(sub_entries, function(e) max(as.numeric(unlist(e$population))), numeric(1))
+    idx_m <- which.max(pks)
+    lead_str <- paste0(clean_site_name(sub_entries[[idx_m]]$name), " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  data.frame(
+    Subregion = clean_reg_name(r$name),
+    Area = viscount_fmt_number(round(area_v), 0L),
+    Sites = viscount_fmt_number(cnt, 0L),
+    SiteDens = viscount_fmt_number(sdens, 2L),
+    Lead = lead_str,
+    Pop2011 = viscount_fmt_pop(p2011),
+    stringsAsFactors = FALSE
+  )
+})
+df_reg_gaz <- do.call(rbind, reg_rows)
+rownames(df_reg_gaz) <- NULL
+
+viscount_table(
+  df_reg_gaz,
+  "Catalogued settlement counts, areal density (per 10.000 km²), leading settlement and 2011 population across 25 federal entities.",
+  c("Entity", "Area (km²)", "Sites", "Sites per 10k km²", "Leading Site (Peak)", "2011 Pop."),
+  list(label = "tab:subregion-gazetteer", font_size = "scriptsize", max_rows_per_page = 30L)
+)
+```
+
+## Source Ledger and Saturation Waves
+
+Table \ref{tab:provenance-ledger} summarises both primary provenance feeds and the four saturation-audit waves recorded in the chapter ledger. Marginal gain fell cleanly from 17,72% in Wave 2 to 6,38% in Wave 3 and 1,2% in Wave 4, confirming statistical exhaustiveness across all 25 federal units with 0% crowd-sourced fallback.
+
+```{r tab-provenance-ledger, results='asis'}
+prov_counts <- unlist(summary_data$provenance_counts)
+prov_map <- c(
+  "INE Venezuela Censo 2011 (via OCHA/HDX COD-PS ven_admpop_adm2_2011_v3)" = "INE Venezuela 2011 Census (OCHA/HDX COD-PS)",
+  "INE Venezuela Censuses 1981-2019 (via citypopulation.de)" = "INE Venezuela Censuses 1981 to 2019 (Urban Series)",
+  "INE Venezuela Censuses 1950-1981 (UCV/Fundación Polar)" = "INE Venezuela Censuses 1950 to 1981 (Metropolitan)",
+  "INE_Venezuela_Dependencias_Federales" = "INE Dependencias Federales Census"
+)
+tier_map <- c(
+  "INE Venezuela Censo 2011 (via OCHA/HDX COD-PS ven_admpop_adm2_2011_v3)" = "Primary national census (Waves 1 and 4)",
+  "INE Venezuela Censuses 1981-2019 (via citypopulation.de)" = "Primary multi-census urban series (Waves 2 and 3)",
+  "INE Venezuela Censuses 1950-1981 (UCV/Fundación Polar)" = "Primary metropolitan reconciliation (Wave 2)",
+  "INE_Venezuela_Dependencias_Federales" = "Primary insular census (Wave 4)"
+)
+p_ord <- sort(prov_counts, decreasing = TRUE)
+p_keys <- names(p_ord)
+df_prov <- data.frame(
+  Corpus = unname(ifelse(p_keys %in% names(prov_map), prov_map[p_keys], p_keys)),
+  Class = unname(ifelse(p_keys %in% names(tier_map), tier_map[p_keys], "Primary national census")),
+  Entries = vapply(as.integer(p_ord), function(v) viscount_fmt_number(v, 0L), character(1)),
+  Share = vapply(100 * as.integer(p_ord) / n_sites, function(v) paste0(viscount_fmt_number(v, 2L), "%"), character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(df_prov) <- NULL
+
+viscount_table(
+  df_prov,
+  "Provenance ledger across 422 catalogued Venezuelan settlements (with 84 excluded duplicate aliases and unlocated toponyms).",
+  c("Source Corpus", "Ledger Classification", "Entries", "Share"),
+  list(label = "tab:provenance-ledger", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three technical constraints govern this settlement register. First, because Venezuela's 2011 census remains the last published national enumeration, 2019 locality estimates reflect official pre-exodus projections rather than de facto post-2015 resident counts after mass emigration [@Arias2024Demography; @Camargo2023Migracion]. Second, administrative divisions in Venezuela pair territorial municipalities (*municipios*) with urban head towns (*capitales municipales*); although 50 co-located municipal aliases were removed, a handful of mid-century entries blend municipal and urban boundaries across 1950 to 2011 [@Calderon2020Censo]. Third, pre-1950 urban series exist for 16 principal cities and ports rather than all 422 modern towns, leaving nineteenth-century rural settlement populations aggregated within state totals [@Nacionales1926Quinto].
+
+# Conclusion
+
+Across 422 geocoded settlements and 506 audited candidate records, Venezuela's urban gazetteer documents the complete shift from an agrarian nineteenth-century town network to a highly centralised coastal, lakeside and industrial urban system led by Caracas, Maracaibo, Valencia, Barquisimeto and Ciudad Guayana [@Ferrer2005Del; @Garciaguadilla2009Crisis; @Garcia1999Transferencia]. Strict separation of metropolitan Caracas, city proper and outer suburbs ensures transparent accounting across overlapping capital jurisdictions, while clean primary provenance establishes a durable baseline for studying both Venezuela's twentieth-century urbanisation boom and its twenty-first-century emigration reversal [@Arias2024Demography; @Stonawski2025Heterogeneity].
+
+# Sources
+
+::: {#refs}
+:::

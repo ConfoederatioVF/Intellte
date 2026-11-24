@@ -1,0 +1,1069 @@
+Neolithic and Bronze Age Europe
+================
+Aust Kätzchen
+22 November 2026
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [Abstract](#abstract)
+- [Background](#background)
+- [Methodology](#methodology)
+  - [Sub-Regional Partition and Benchmark
+    Architecture](#sub-regional-partition-and-benchmark-architecture)
+  - [Radiocarbon Proxies, Juvenility Indices and Carrying
+    Capacity](#radiocarbon-proxies-juvenility-indices-and-carrying-capacity)
+  - [Archaeological Habitation Register and Provenance
+    Harmonisation](#archaeological-habitation-register-and-provenance-harmonisation)
+- [Validation](#validation)
+- [Results](#results)
+  - [Continental Trajectory and Growth
+    Regimes](#continental-trajectory-and-growth-regimes)
+  - [Sub-Regional Demographic
+    Narratives](#sub-regional-demographic-narratives)
+    - [Aegean-Balkan Tell Belt and Carpathian-Middle Danube
+      Basin](#aegean-balkan-tell-belt-and-carpathian-middle-danube-basin)
+    - [Mediterranean Peninsulas: Italian Peninsula and
+      Iberia](#mediterranean-peninsulas-italian-peninsula-and-iberia)
+    - [Western and Alpine Loess Belts: Franco-Aquitaine, Alpine Upper
+      Danube and
+      Rhine-Meuse](#western-and-alpine-loess-belts-franco-aquitaine-alpine-upper-danube-and-rhine-meuse)
+    - [British Isles, North European Plain and Nordic-Baltic
+      World](#british-isles-north-european-plain-and-nordic-baltic-world)
+    - [North Atlantic Margins and
+      Greenland](#north-atlantic-margins-and-greenland)
+  - [Settlement Hierarchy and Rank-Size
+    Structure](#settlement-hierarchy-and-rank-size-structure)
+- [Limitations](#limitations)
+- [Conclusion](#conclusion)
+- [Appendix](#appendix)
+- [Sources](#sources)
+
+<figure>
+<img src="figures/neolithic_and_bronze_age_europe_regional_map.png"
+alt="Sub-regional boundaries and recorded prehistoric habitation localities across Europe and Greenland between 6000BC and 1000BC." />
+<figcaption aria-hidden="true">Sub-regional boundaries and recorded
+prehistoric habitation localities across Europe and Greenland between
+6000BC and 1000BC.</figcaption>
+</figure>
+
+# Abstract
+
+Between 6000BC and 1000BC the human population of Europe outside the
+Pontic-Caspian and East European plain, together with the North Atlantic
+margins and Greenland, expanded nearly thirteenfold from 1,12M to 14,19M
+across 7.148.884,3 km² (5.072.076,2 km² excluding the Greenland ice
+sheet). This five-millennium span encompasses the continental transition
+from foraging to sedentary cereal farming, the rise and abandonment of
+Balkan tell networks, the Atlantic megalithic boom-and-bust cycles, the
+third-millennium steppe migrations associated with Corded Ware and Bell
+Beaker horizons, the initial Palaeo-Eskimo settlement of Greenland after
+2500BC and the Late Bronze Age agrarian intensification of the Urnfield,
+Terramare and Aegean palatial spheres. Average continental density rose
+from 0,16 inhabitants per km² in 6000BC (0,22 per km² excluding
+Greenland) to 1,98 per km² in 1000BC (2,8 per km² excluding Greenland),
+with the most densely farmed western and alpine loess belts approaching
+5 to 6 inhabitants per km² by the end of the Bronze Age. Synthesis
+within MAGNETIC integrates radiocarbon-based demographic proxies,
+skeletal juvenility indices, ancient genomic admixture chronologies,
+regional site-catchment density reconstructions and a georeferenced
+habitation register of 9.712 archaeological localities spanning 32
+modern jurisdictions and 12 ecological sub-regions. Long-run growth
+averaged 0,051% per annum, concealing sharp regional discontinuities
+between rapid pioneer expansions along the Mediterranean coast and
+Danubian loess and prolonged mid-Holocene demographic plateaus and
+contractions triggered by soil depletion, climatic oscillations and
+early epidemic pathogens.
+
+# Background
+
+At 6000BC Europe stood on the hinge between two incompatible economic
+worlds. Across the northern plains, the Atlantic peninsulas, the British
+Isles and Fennoscandia, Mesolithic hunter-fisher-gatherers occupied
+river terraces, coastal shell middens and post-glacial lake margins at
+densities seldom exceeding 0,1 to 0,25 inhabitants per km², maintaining
+the sparse post-glacial demographic regime that had followed the Last
+Glacial Maximum
+[\[1\]](#ref-BocquetAppel2005)[\[2\]](#ref-Tallavaara2015)[\[3\]](#ref-MaierZimmermann2017).
+At the same moment, farming communities originating in Anatolia and the
+Levant had already crossed the Aegean into Thessaly, Macedonia and
+Thrace, establishing permanent mud-brick villages surrounded by fields
+of einkorn, emmer, barley, lentils and herds of sheep, goat, cattle and
+pig [\[4\]](#ref-Pinhasi2005)[\[5\]](#ref-Ammerman2020Neolithic). Within
+two millennia that agricultural frontier crossed the entire landmass
+from the Struma valley to the Irish Sea and the western Baltic, raising
+the continental population from 1,12M in 6000BC to 4,34M in 4000BC.
+
+The spread of agriculture was neither uniform nor irreversible. Two
+primary axes carried the initial Neolithic package across Europe
+[\[5\]](#ref-Ammerman2020Neolithic)[\[6\]](#ref-Davison2006Multiple).
+Along the Mediterranean littoral, maritime pioneers bearing Impressa and
+Cardial wares leapfrogged from the Adriatic and southern Italy to
+Liguria, Languedoc and the Levant of Iberia between 6000BC and 5400BC,
+travelling by coastal cabotage at rates exceeding 5 km per year and
+establishing enclaves amidst indigenous Late Mesolithic foragers
+[\[7\]](#ref-Perrin2021Potential). Inland, the Starčevo-Körös-Criș
+complex pushed north through the Morava-Vardar corridor into the Great
+Hungarian Plain by 5900BC, where a pause of roughly three centuries
+allowed crop varieties and herding practices to adapt to continental
+winters
+[\[8\]](#ref-Porcic2016Demography)[\[9\]](#ref-Blagojevic2017Early).
+Around 5500BC the Linearbandkeramik (LBK) culture erupted from
+Transdanubia across the fertile loess soils of Central Europe, reaching
+the Rhine, the Paris Basin and the Vistula within two centuries and
+transforming temperate woodlands into longhouse villages separated by
+clearings of arable land
+[\[10\]](#ref-Zimmermann2009)[\[11\]](#ref-Shennan2013).
+
+Once initial clearance filled the prime loess and alluvial basins,
+Neolithic demography ceased to follow a smooth logistic curve. Summed
+probability distributions of radiocarbon dates and osteological
+juvenility indices show that pioneer farming booms were routinely
+followed by regional busts between 4800BC and 3200BC
+[\[11\]](#ref-Shennan2013)[\[12\]](#ref-Downey2014Neolithic)[\[13\]](#ref-Timpson2014).
+In the Aegean and Balkans, the fifth-millennium Chalcolithic climax
+produced stratified tell mounds and rich copper-gold necropolises such
+as Varna before widespread site abandonment around 4100-3800BC reduced
+regional nucleation. In the Atlantic facade, Ireland, Britain and
+southern Scandinavia, the arrival of farming around 4000-3800BC
+triggered a sharp demographic surge accompanied by earthen long barrows,
+causewayed enclosures and monumental passage tombs, followed by a
+pronounced contraction between 3500BC and 3100BC as early cereal
+cultivation retreated in favour of pastoralism
+[\[11\]](#ref-Shennan2013)[\[13\]](#ref-Timpson2014).
+
+The third millennium BC altered both the genetic and the economic
+structure of Europe. Beginning around 2900-2800BC, pastoralist
+populations carrying Pontic-Caspian steppe ancestry moved westwards into
+Central and Northern Europe, giving rise to the Corded Ware complex from
+the Volga to the Rhine and Jutland [\[14\]](#ref-Haak2015). Between
+2500BC and 2000BC, a second wave linked to the Bell Beaker phenomenon
+spread steppe-derived ancestry across Iberia, France, Britain and
+Ireland, replacing upwards of 90% of local ancestry in Britain within a
+few centuries [\[15\]](#ref-Olalde2018). These movements coincided with
+the emergence of ancestral strains of *Yersinia pestis*, the opening of
+permanent heath and pasture landscapes, the widespread adoption of the
+ard plough and wheeled vehicles and the exploitation of Alpine, Iberian
+and British copper and tin deposits. Far to the northwest, an unrelated
+Arctic migration brought Palaeo-Eskimo Saqqaq and Independence I hunters
+across Nares Strait into western and northern Greenland around 2500BC,
+ending millennia of uninhabited polar tundra.
+
+Between 2000BC and 1000BC European population climbed from 9,5M to
+14,19M. Bronze metallurgy knit distant mineral provinces into a
+continental exchange web linking Cornish and Erzgebirge tin, Alpine and
+Cypriot copper, Baltic amber and Mediterranean textiles. In the south,
+Minoan Crete and Mycenaean mainland Greece developed redistributive
+palace polities with Linear B administrative archives before suffering
+systemic collapse around 1200BC. In northern Italy, gridded moated
+Terramare settlements crowded the Po valley until hydrological
+exhaustion and demographic overshoot precipitated their abandonment
+around 1150BC. North of the Alps, the transition from Early Bronze Age
+Únětice and Middle Bronze Age Tumulus societies to Late Bronze Age
+Urnfield and Lusatian cremation-cemetery cultures coincided with
+agricultural diversification into spelt, millet and legumes
+[\[16\]](#ref-Pokorna2024Changes)[\[17\]](#ref-Bartczak2025Example),
+raising carrying capacity across heavier morainic and clay soils that
+Neolithic cultivators had avoided. By 1000BC Europe stood on the
+threshold of the Iron Age with more than 14M inhabitants and settled
+agrarian landscapes reaching from the Peloponnese to the Skagerrak.
+
+# Methodology
+
+Reconstructing prehistoric human numbers between 6000BC and 1000BC
+requires combining three distinct classes of evidence because no
+literate census exists anywhere in Europe during this interval, and even
+the Mycenaean Linear B tablets of Knossos and Pylos record only palatial
+rations, landholders and labour contingents rather than total
+territorial headcounts. MAGNETIC therefore anchors its benchmark series
+at 6000BC, 4000BC, 2000BC and 1000BC by triangulating archaeodemographic
+proxies, ecological carrying-capacity bounds and spatial settlement
+distributions across 12 physiographically coherent sub-regions.
+
+## Sub-Regional Partition and Benchmark Architecture
+
+The continental study area covers 7.148.884,3 km², excluding the East
+European Plain and Pontic-Caspian steppe treated separately under the
+Polaris Core, while incorporating the entire Balkan peninsula,
+Mediterranean Europe, Central, Western and Northern Europe, the British
+Isles, the North Atlantic archipelagos and Greenland. Sub-regional
+polygons follow agro-ecological and cultural-geographic divides rather
+than modern borders: the Aegean-Balkan Tell Belt captures Greece,
+Bulgaria, North Macedonia, Albania, Serbia and European Turkey; the
+Carpathian and Middle Danube Basin spans Hungary, Slovakia, Romania and
+adjacent Danubian lowlands; the Italian Peninsula and Po Basin unites
+mainland Italy, Sicily, Sardinia, Corsica and Malta; Iberian
+Mediterranean and Atlantic covers Spain and Portugal; the Alpine and
+Upper Danube Loess Belt encompasses Switzerland, Austria, Liechtenstein,
+southern Bavaria and adjacent Alpine valleys; Franco-Aquitaine and Paris
+Basin spans most of France; Rhine-Meuse and Low Countries covers
+Belgium, the Netherlands, Luxembourg and the Lower Rhine; British Isles
+and Irish Sea comprises Great Britain, Ireland and the Isle of Man;
+North European Plain and Lusatian-Vistula stretches from northern
+Germany across Poland; Nordic Bronze Age and Eastern Baltic covers
+Denmark, Norway, Sweden, Finland and the Baltic states; North Atlantic
+Margins covers Shetland, Orkney, the Faroes and Iceland; and Greenland
+forms a dedicated polar unit.
+
+Four chronological benchmarks — 6000BC, 4000BC, 2000BC and 1000BC —
+anchor the sub-regional trajectories. At each horizon, sub-regional
+population is computed as the product of habitable ecological area and
+empirically bounded period-specific density estimates, reconciled
+against radiocarbon relative-growth curves and osteological fertility
+indicators. Between benchmarks, exponential interpolation tracks secular
+trend without inventing spurious annual oscillations unsupported by
+chronological precision.
+
+## Radiocarbon Proxies, Juvenility Indices and Carrying Capacity
+
+Radiocarbon dates serve as the primary relative thermometer of
+prehistoric population change once taphonomic loss, sampling bias and
+atmospheric calibration wiggles are controlled
+[\[13\]](#ref-Timpson2014)[\[18\]](#ref-Dee2016Supernovae). Summed
+calibrated probability distributions (SCPDs) aggregate thousands of
+archaeological radiocarbon determinations binned by site and phase to
+suppress over-sampling of intensively excavated localities. Where
+independent osteological series are available, SCPD curves correlate
+closely with the Neolithic Demographic Transition juvenility index — the
+ratio of sub-adults aged 5 to 19 years to all skeletons aged 5 years and
+over — confirming that rapid increases in radiocarbon density after
+agricultural arrival reflect genuine surges in birth rates driven by
+sedentism, shorter birth intervals and cereal weaning gruels
+[\[12\]](#ref-Downey2014Neolithic).
+
+Relative curves alone cannot fix absolute headcounts. To convert
+relative trajectories into inhabitant totals, MAGNETIC calibrates
+regional baselines against house-count and site-catchment density
+reconstructions developed by Zimmermann and colleagues for the
+Rhineland, loess Central Europe and neighbouring zones
+[\[10\]](#ref-Zimmermann2009), together with Central Balkan tell-area
+scaling
+[\[8\]](#ref-Porcic2016Demography)[\[9\]](#ref-Blagojevic2017Early),
+Central European settlement-cluster modelling between 3550BC and 1550BC
+[\[19\]](#ref-Gromann2023Demographic) and Southern Scandinavian
+pollen-and-radiocarbon subsistence reconstructions
+[\[20\]](#ref-Johannsen2024Subsistence). For 6000BC, Late Mesolithic
+foraging bands outside the Aegean-Balkan farming zone are constrained to
+0,04 to 0,25 inhabitants per km² according to maritime productivity and
+latitude, consistent with palaeodemographic baselines
+[\[1\]](#ref-BocquetAppel2005)[\[2\]](#ref-Tallavaara2015). Early
+Neolithic loess farming lifts regional averages to 0,8 to 1,8 per km² by
+4000BC once uncultivated interfluves, uplands and marshes are averaged
+into sub-regional totals. Subsequent Bronze Age woodland clearance,
+secondary-products dairying, traction ploughing and crop diversification
+[\[16\]](#ref-Pokorna2024Changes)[\[21\]](#ref-Stolz2020Quick) sustain
+densities of 3,2 to 6 inhabitants per km² across core temperate and
+Mediterranean zones by 1000BC.
+
+## Archaeological Habitation Register and Provenance Harmonisation
+
+Alongside the macro-regional demographic surface, MAGNETIC compiles a
+georeferenced habitation register of 9.712 localities active within the
+6000-1000BC window. Ingestion followed a four-wave saturation protocol.
+Wave 1 harvested 9.568 radiocarbon-dated archaeological localities from
+the European Radiocarbon Settlement Corpus (91,7% of the final
+register). Wave 2 appended 106 classical and protohistoric Bronze Age
+sites with confirmed second- or third-millennium occupation from the
+Pleiades Ancient World Gazetteer (7,77%), concentrated in the Aegean,
+Italy, Iberia and southern France. Wave 3 audited longitudinal municipal
+backfills, yielding zero prehistoric additions. Wave 4 executed a polar
+gap sweep for Greenland, adding 6 coastal loci anchored via the National
+Statistical Census of Greenland and 6 supplementary coastal localities
+from the GeoNames Municipal Gazetteer Supplement to achieve complete
+sub-mask spatial representation across all 12 sub-regions while
+restricting crowd-sourced fallback share to 0% overall (and 0% across
+continental Europe).
+
+Because excavated prehistoric villages rarely permit direct floor-area
+headcounts across thousands of sites, the habitation register assigns
+standardised demographic bands by site class and chronological tier:
+1,5k inhabitants for fortified Aegean, Italian and southern French
+Bronze Age citadels and proto-urban centres attested in the Pleiades
+Ancient World Gazetteer; 632 to 798 for intensively occupied multi-phase
+radiocarbon habitation clusters scaling from 4000BC through 1000BC; 212
+to 464 for smaller regional hamlets; and 80 to 118 for Greenlandic
+coastal hunting stations. These site tiers supply spatial point anchors
+for sub-regional density interpolation and rank-size auditing rather
+than substituting for the regional carrying-capacity totals.
+
+# Validation
+
+Cross-checking prehistoric estimates demands testing internal
+consistency against independent archaeological, palaeobotanical,
+climatic and genomic lines of evidence rather than relying on any single
+proxy. Four orthogonal checks evaluate the MAGNETIC demographic series
+between 6000BC and 1000BC.
+
+First, density ceilings in core Central and Western European sub-regions
+were tested against multi-scalar archaeological extrapolations from the
+Rhineland and Aldenhovener Platte [\[10\]](#ref-Zimmermann2009).
+Detailed longhouse-count reconstructions of LBK settlement cells
+indicate local core densities of 5 to 12 inhabitants per km² inside
+occupied loess micro-regions, but when scaled up to large macro-regions
+incorporating wooded uplands, sandy heaths and floodplains, average
+regional densities fall to roughly 0,6 to 1,5 inhabitants per km² in the
+fifth millennium BC and 2 to 5 per km² by the Late Bronze Age. Our
+figures for the Rhine-Meuse and Low Countries (1,53 per km² in 4000BC,
+rising to 4,85 per km² in 1000BC) and the Alpine and Upper Danube Loess
+Belt (1,75 per km² in 4000BC and 5,05 per km² in 1000BC) fall directly
+inside those macro-regional bounds.
+
+Second, relative growth multiples between 6000BC and 4000BC were
+benchmarked against continental wave-of-advance and reaction-diffusion
+simulations
+[\[4\]](#ref-Pinhasi2005)[\[6\]](#ref-Davison2006Multiple)[\[22\]](#ref-Baggaley2013Inference)[\[23\]](#ref-Lemmen2012Sensitivity).
+Mathematical modelling constrained by radiocarbon arrival dates
+demonstrates that an intrinsic agricultural growth rate near 0,01 to
+0,03 per year on the moving frontier translates, once equilibrium
+carrying capacity and periodic mid-Neolithic downturns are factored in,
+into a three- to fourfold continental population expansion over the
+first two millennia of farming. The MAGNETIC continental multiplier from
+6000BC (1,12M) to 4000BC (4,34M) is 3,88×, corresponding to a net
+compound rate of 0,068% per year, matching the slower long-run net
+expansion produced by boom-and-bust dynamics
+[\[11\]](#ref-Shennan2013)[\[13\]](#ref-Timpson2014).
+
+Third, regional chronologies were checked against regional radiocarbon
+and palynological case studies. In the Central and Eastern Balkans and
+the Great Hungarian Plain, summed radiocarbon distributions show a rapid
+Early Neolithic surge around 6100-5600BC followed by a Late Neolithic
+and Chalcolithic plateau and decline after 4500BC
+[\[8\]](#ref-Porcic2016Demography)[\[9\]](#ref-Blagojevic2017Early)[\[24\]](#ref-Farago2017Differences).
+Accordingly, our Aegean-Balkan Tell Belt exhibits the highest starting
+population in 6000BC (210k, 18,8% of Europe) and a strong jump to 680k
+by 4000BC, but slower subsequent multiplication to 1000BC (8,81×
+overall) than late-starting Western European regions such as
+Franco-Aquitaine (16,79×) or the British Isles (15,45×). In Central
+Europe between 3550BC and 1550BC, multi-region demographic modelling
+identifies pronounced oscillations tied to climatic shifts and economic
+transitions around 2800BC and 2200BC
+[\[19\]](#ref-Gromann2023Demographic), while in Southern Scandinavia
+sustained expansion from the Middle Neolithic B (2800-2350BC) into the
+Late Neolithic (2350-1700BC) reflects the consolidation of mixed
+cereal-pastoral farming on morainic soils
+[\[20\]](#ref-Johannsen2024Subsistence), corroborated by northern German
+lake-sediment pollen records showing accelerating human woodland
+clearance and eutrophication after 4000BC [\[21\]](#ref-Stolz2020Quick).
+
+Fourth, third-millennium growth moderation between 4000BC and 2000BC
+(0,039% per annum, compared with 0,068% in 6000-4000BC) aligns with
+ancient DNA evidence of demographic turbulence and population turnover
+during the Corded Ware and Bell Beaker horizons
+[\[14\]](#ref-Haak2015)[\[15\]](#ref-Olalde2018). Large-scale
+replacement of local Neolithic lineages in Central Europe, Britain and
+Iberia would be demographically implausible if indigenous Neolithic
+densities had continued growing unchecked throughout the fourth
+millennium; the documented mid-to-late Neolithic demographic troughs
+created precisely the low-density ecological openings through which
+mobile steppe-descended pastoralists expanded.
+
+| Sub-Region | Horizon | MAGNETIC (per km²) | Published Range | Archaeological Basis |
+|:---|:---|:---|:---|:---|
+| **Aegean-Balkan Tell Belt** | 6000-4000BC | 0,42 to 1,37 | 0,4 to 1,6 | Balkan SCPD and tell scaling |
+| **Carpathian & Middle Danube Basin** | 6000-4000BC | 0,3 to 1,27 | 0,25 to 1,4 | Great Hungarian Plain SCPD and Polgár |
+| **Alpine & Upper Danube Loess Belt** | 4000-1000BC | 1,75 to 5,05 | 1,5 to 5,5 | Central European cluster modelling |
+| **Rhine-Meuse & Low Countries** | 4000-1000BC | 1,53 to 4,85 | 1,2 to 5 | Rhineland longhouse extrapolation |
+| **Nordic Bronze Age & Eastern Baltic** | 2000-1000BC | 0,3 to 0,45 | 0,25 to 0,6 | South Scandinavian pollen and SCPD |
+
+Cross-check of MAGNETIC sub-regional densities (inhabitants per km²)
+against regional archaeological benchmarks.
+
+# Results
+
+## Continental Trajectory and Growth Regimes
+
+Across the five millennia from 6000BC to 1000BC, the aggregate
+population of the study domain rose from 1.118.000 (1,12M) to 14.185.200
+(14,19M), a cumulative expansion of 12,72×. Growth unfolded in three
+distinct regimes visible in Table 2 and Figure 1.
+
+During the first regime (6000BC to 4000BC), continental population
+nearly quadrupled (3,88×), adding 3,22M inhabitants at a net compound
+rate of 0,068% per year. This was the fastest sustained expansion of
+European prehistory, driven by the replacement of broad-spectrum
+foraging with cereal-and-livestock farming across every temperate
+lowland from Thrace to Scotland. Between 4000BC and 2000BC, growth
+decelerated by nearly half to 0,039% per year (2,19×), adding 5,16M
+people over two millennia as regions experienced alternating
+Chalcolithic peaks, soil-exhaustion busts, climatic perturbations and
+the demographic shocks of third-millennium steppe migration
+[\[11\]](#ref-Shennan2013)[\[14\]](#ref-Haak2015)[\[19\]](#ref-Gromann2023Demographic).
+In the final millennium (2000BC to 1000BC), growth stabilised at 0,04%
+per year (1,49× over one millennium), adding a further 4,69M inhabitants
+as bronze-equipped agriculture expanded onto heavier upland and plain
+soils and intensified arable rotations
+[\[16\]](#ref-Pokorna2024Changes).
+
+| Benchmark | Population | Summary | Total Density (per km²) | Europe excl. Greenland | Interval Multiple | Annual Rate |
+|:---|:---|:---|:---|:---|:---|:---|
+| **6000BC** | 1.118.000 | 1,12M | 0,16 | 0,22 | \- | \- |
+| **4000BC** | 4.335.500 | 4,34M | 0,61 | 0,85 | 3,88× | 0,068% |
+| **2000BC** | 9.497.500 | 9,5M | 1,33 | 1,87 | 2,19× | 0,039% |
+| **1000BC** | 14.185.200 | 14,19M | 1,98 | 2,8 | 1,49× | 0,04% |
+
+Continental benchmark totals, land densities and interval growth rates
+across Europe and Greenland, 6000-1000BC.
+
+<img src="figures/neolithic_and_bronze_age_europe_population_trajectory.png" width="3227" />
+
+The geographic centre of gravity shifted steadily northwestwards over
+the five millennia. In 6000BC the Aegean-Balkan Tell Belt was the single
+most populous sub-region at 210k (18,8% of the continental total), ahead
+of Iberia (155k), Italy (150k) and Franco-Aquitaine (140k). By 4000BC
+the Aegean-Balkan Tell Belt still led marginally at 680k, closely
+followed by Franco-Aquitaine (650k), Iberia (620k) and Italy (580k). By
+2000BC, however, the broad arable plains of France had overtaken the
+fractured Balkan-Aegean terrain: Franco-Aquitaine reached 1,55M, Italy
+1,45M and Iberia 1,4M against 1,35M in the Aegean-Balkan belt. By 1000BC
+this western primacy had widened further, with Franco-Aquitaine at 2,35M
+(16,6% of Europe), Italy at 2,25M (15,9%), Iberia at 2,15M (15,2%) and
+the Aegean-Balkan belt at 1,85M (13%).
+
+| Sub-Region | Area (km²) | 6000BC | 4000BC | 2000BC | 1000BC | 1000BC (per km²) | Growth |
+|:---|:---|:---|:---|:---|:---|:---|:---|
+| **Aegean-Balkan Tell Belt** | 552.814,5 | 210k | 680k | 1,35M | 1,85M | 3,35 | 8,81× |
+| **Carpathian & Middle Danube Basin** | 376.403,7 | 100k | 420k | 780k | 1,05M | 2,79 | 10,5× |
+| **Italian Peninsula & Po Basin** | 387.483,6 | 150k | 580k | 1,45M | 2,25M | 5,81 | 15× |
+| **Iberian Mediterranean & Atlantic** | 623.682,3 | 155k | 620k | 1,4M | 2,15M | 3,45 | 13,87× |
+| **Alpine & Upper Danube Loess Belt** | 212.139,9 | 80k | 340k | 680k | 980k | 4,62 | 12,25× |
+| **Franco-Aquitaine & Paris Basin** | 418.916,9 | 140k | 650k | 1,55M | 2,35M | 5,61 | 16,79× |
+| **Rhine-Meuse & Low Countries** | 179.233,4 | 65k | 240k | 520k | 760k | 4,24 | 11,69× |
+| **British Isles & Irish Sea** | 311.645,6 | 55k | 210k | 480k | 850k | 2,73 | 15,45× |
+| **North European Plain & Lusatian-Vistula** | 604.508,7 | 98k | 410k | 890k | 1,35M | 2,23 | 13,78× |
+| **Nordic Bronze Age & Eastern Baltic** | 1.303.262,9 | 54k | 165k | 360k | 540k | 0,41 | 10× |
+| **North Atlantic Margins** | 101.984,7 | 8,5k | 18k | 35k | 52k | 0,51 | 6,12× |
+| **Greenland (Saqqaq & Independence I)** | 2.076.808,1 | 2,5k | 2,5k | 2,5k | 3,2k | \< 0,01 | 1,28× |
+| **Total Domain** | 7.148.884,3 | 1,12M | 4,34M | 9,5M | 14,19M | 1,98 | 12,69× |
+
+Sub-regional area, population benchmarks (6000-1000BC), terminal density
+and five-millennium growth multiple across 12 sub-regions.
+
+## Sub-Regional Demographic Narratives
+
+### Aegean-Balkan Tell Belt and Carpathian-Middle Danube Basin
+
+The Aegean-Balkan Tell Belt (496.909,3 km²) served as Europe’s earliest
+Neolithic hearth. Already by 6000BC permanent mud-brick villages studded
+the Thessalian plain, the Macedonian basins and Thrace, supporting 210k
+inhabitants at 0,42 per km². Rapid expansion through the Starčevo and
+Karanovo horizons lifted the population to 680k by 4000BC (1,37 per
+km²), anchored by multi-generation tell mounds in Bulgaria, Serbia and
+northern Greece and high-density Vinča settlements
+[\[8\]](#ref-Porcic2016Demography)[\[9\]](#ref-Blagojevic2017Early). Yet
+the Balkan tell system proved fragile: after 4300-4000BC many large
+Chalcolithic tells were burnt or abandoned as copper-metallurgy elites
+collapsed and dispersed pastoral hamlets replaced nucleated villages.
+During the second millennium BC, demographic vitality concentrated
+southward in the Aegean, where Minoan palaces on Crete (Knossos,
+Phaistos, Malia) and Mycenaean citadels on the mainland (Mycenae,
+Tiryns, Pylos, Thebes and fortified regional centres such as the
+Acropolis of Malthi, Hypsele and Agios Andreas on Siphnos) supported
+specialised craft populations and olive-vine-cereal polyculture. The
+Bronze Age collapse around 1200BC disrupted palatial redistribution and
+depressed mainland Greek numbers sharply before gradual recovery toward
+1000BC, when the sub-region stood at 1,85M (3,72 per km²).
+
+Immediately to the north, the Carpathian and Middle Danube Basin
+(330.528,4 km²) followed a parallel agricultural trajectory from 100k in
+6000BC to 420k in 4000BC, 780k in 2000BC and 1,05M in 1000BC (3,18 per
+km²). Early Körös and Starčevo farmers colonised the alluvial levees of
+the Tisza and Danube shortly after 6000BC, generating the demographic
+springboard for the Central European LBK
+[\[9\]](#ref-Blagojevic2017Early). By the Late Neolithic (5000-4500BC),
+hybrid tell-and-horizontal agglomerations such as Polgár-Csőszhalom on
+the Upper Tisza housed several hundred to over a thousand inhabitants in
+concentric ditched enclosures [\[24\]](#ref-Farago2017Differences).
+Copper Age Tiszapolgár, Bodrogkeresztúr and Baden communities
+subsequently dispersed across interfluve pastures before Early and
+Middle Bronze Age tell networks (Nagyrév, Hatvan, Otomani-Füzesabony)
+re-nucleated the Great Hungarian Plain and Transylvania, feeding into
+dense Late Bronze Age Gáva and Urnfield settlement landscapes by 1000BC.
+
+### Mediterranean Peninsulas: Italian Peninsula and Iberia
+
+The Italian Peninsula and Po Basin (491.068,8 km²) grew fifteenfold from
+150k in 6000BC to 2,25M in 1000BC (4,58 per km²), becoming Europe’s
+second most populous sub-region by the close of the Bronze Age. Impressa
+maritime pioneers arrived in Apulia and Calabria shortly after 6000BC,
+building dense ditched villages (*villaggi trincerati*) across the
+Tavoliere plain where hundreds of enclosures crowded favourable arable
+terraces before mid-Neolithic aridification thinned southern settlement
+[\[7\]](#ref-Perrin2021Potential). By 4000BC population stood at 580k
+(1,18 per km²), increasingly balanced by northern Italian square-mouthed
+pottery communities and Sardinian Ozieri villages. During the second
+millennium BC the Po valley experienced an extraordinary demographic
+surge under the Terramare culture (1650-1150BC): embanked, moated
+settlements laid out on orthogonal street grids reached 10 to 20
+hectares, supporting local densities above 15 inhabitants per km² across
+Emilia and the lower Po before ecological exhaustion, deforestation and
+drought triggered systemic abandonment around 1150BC. Elsewhere,
+Sardinian Nuragic stone-tower chiefdoms, Sicilian Thapsos coastal ports
+and central Italian proto-Villanovan villages (exemplified by sites such
+as San Giovenale in southern Etruria) maintained steady growth from
+1,45M in 2000BC to 2,25M in 1000BC.
+
+Iberian Mediterranean and Atlantic (652.463,9 km²) expanded nearly
+fourteenfold from 155k in 6000BC to 620k in 4000BC, 1,4M in 2000BC and
+2,15M in 1000BC (3,3 per km²). Coastal Cardial farming enclaves appeared
+in Valencia, Catalonia and southern Portugal around 5600-5400BC,
+coexisting for several centuries with Mesolithic shell-midden
+communities in the Tagus and Sado estuaries
+[\[7\]](#ref-Perrin2021Potential). Between 3200BC and 2200BC southern
+Iberia produced Western Europe’s most ambitious Copper Age fortified
+settlements, led by Los Millares in Almería, Valencina de la Concepción
+on the Guadalquivir and Zambujal in Estremadura, sustained by copper
+smelting, olive and vine arboriculture and expansive ditched enclosures.
+Following the 2200BC arid event and the influx of steppe-derived Bell
+Beaker ancestry [\[15\]](#ref-Olalde2018), Copper Age megasites
+contracted and gave way in the southeast to the stratified hilltop
+villages of El Argar (2200-1550BC), while the Atlantic façade and
+interior Meseta developed pastoral-metallurgical networks linking
+Galician tin (represented by sites such as A Lagoa) with coastal
+Brittany and Britain.
+
+### Western and Alpine Loess Belts: Franco-Aquitaine, Alpine Upper Danube and Rhine-Meuse
+
+Three interconnected belts of fertile loess, river terraces and mild
+Atlantic-continental rainfall formed the demographic spine of Bronze Age
+Europe. Franco-Aquitaine and Paris Basin (394.224,8 km²) recorded the
+largest absolute growth of any European sub-region, multiplying 16,79×
+from 140k in 6000BC to 650k in 4000BC, 1,55M in 2000BC and 2,35M in
+1000BC, reaching 5,96 inhabitants per km² — the highest terminal density
+in the continent. Both continental expansion waves converged here:
+Cardial settlers advanced up the Rhône and across Languedoc (including
+later Bronze Age hilltop anchors such as Les Castels), while Danubian
+LBK farmers swept into Alsace and the Paris Basin around 5300-5000BC
+[\[6\]](#ref-Davison2006Multiple)[\[7\]](#ref-Perrin2021Potential). In
+the fifth millennium BC Brittany and Normandy became the epicentre of
+Atlantic megalithic monumentality (Carnac, Barnenez, Locmariaquer),
+sustained by dense coastal-agrarian communities before fourth-millennium
+downturns intervened [\[11\]](#ref-Shennan2013). From the mid-third
+millennium onward, Seine-Oise-Marne, Bell Beaker, Atlantic Bronze Age
+and eastern Urnfield networks filled every major river basin from the
+Garonne to the Seine.
+
+The Alpine and Upper Danube Loess Belt (194.096,8 km²) grew from 80k in
+6000BC to 340k in 4000BC, 680k in 2000BC and 980k in 1000BC (5,05 per
+km²). Here dendrochronologically dated circum-Alpine wetland villages
+around Lakes Zurich, Constance, Biel, Neuchâtel and Geneva offer
+unmatched year-by-year visibility into Neolithic and Bronze Age
+demographic rhythms. Repeated phases of village foundation, expansion
+and sudden lake-transgression abandonment between 4300BC and 800BC
+illustrate how tightly pre-industrial highland-margin populations
+tracked decadal climate anomalies [\[19\]](#ref-Gromann2023Demographic).
+During the Bronze Age, Alpine copper mining in Tyrol and Salzburg
+(Mitterberg) and trans-Alpine salt extraction at Hallstatt drew
+substantial non-agrarian labour into valleys previously used only for
+seasonal transhumance.
+
+The Rhine-Meuse and Low Countries (156.544 km²) rose from 65k in 6000BC
+to 240k in 4000BC, 520k in 2000BC and 760k in 1000BC (4,85 per km²). The
+Aldenhovener Platte and Hesbaye loess zones hosted the westernmost core
+of LBK longhouse clusters around 5300-4900BC, while Mesolithic
+Swifterbant foragers persisted in the Rhine-Meuse delta wetlands for
+another millennium, gradually adopting pottery, livestock and
+small-scale cereal cultivation. By the second millennium BC, Hilversum,
+Elp and Urnfield farming communities had cleared large stretches of
+sandy coversands and river levees, creating a tightly integrated
+mixed-farming landscape bridging Britain and Central Europe
+[\[10\]](#ref-Zimmermann2009).
+
+### British Isles, North European Plain and Nordic-Baltic World
+
+The British Isles and Irish Sea (259.276,7 km²) experienced a late but
+abrupt Neolithic transition. Throughout the sixth and fifth millennia
+BC, Britain and Ireland remained exclusively Mesolithic after the
+submergence of Doggerland isolated them from continental loess
+frontiers, holding roughly 55k hunter-gatherers in 6000BC (0,21 per
+km²). Shortly after 4000BC, continental farming migrants crossed the
+Channel and Irish Sea, sparking an explosive population boom reflected
+in radiocarbon probability spikes across southern England, Scotland and
+Ireland [\[11\]](#ref-Shennan2013)[\[13\]](#ref-Timpson2014). Regional
+numbers quadrupled to 210k by 4000BC (including the early agricultural
+onset), then suffered a pronounced fourth-millennium bust between 3600BC
+and 3000BC even as ceremonial landscapes such as the Boyne Valley,
+Orkney and Stonehenge reached monumental scale. Around 2450BC Bell
+Beaker migrants carrying steppe ancestry arrived from the Lower Rhine,
+transforming the genomic profile of Britain and initiating rapid Bronze
+Age demographic recovery [\[15\]](#ref-Olalde2018): population climbed
+from 480k in 2000BC to 850k in 1000BC (3,28 per km²) as coaxial field
+systems (Dartmoor reaves, Thames Valley and Fenland droveways) enclosed
+lowland pastures and arable tracts.
+
+Across the North European Plain and Lusatian-Vistula sub-region
+(785.578,4 km²), population expanded from 98k in 6000BC to 410k in
+4000BC, 890k in 2000BC and 1,35M in 1000BC (1,72 per km²). Early LBK
+farming occupied only pockets of fertile Kuyavian and Silesian chernozem
+and loess, leaving vast glacial outwash plains to Mesolithic Ertebølle
+and Janisławice bands until the Funnelbeaker (TRB) expansion around
+4000-3600BC cleared lighter morainic soils
+[\[21\]](#ref-Stolz2020Quick). Corded Ware pastoralists reshaped the
+plain after 2800BC [\[14\]](#ref-Haak2015), followed by the Early Bronze
+Age Únětice chiefdoms of central Germany and Silesia and, after 1300BC,
+the expansive Lusatian culture of fortified timber-and-earth strongholds
+and vast urnfield cemeteries across the Oder and Vistula basins
+[\[17\]](#ref-Bartczak2025Example).
+
+In the Nordic Bronze Age and Eastern Baltic (1.208.169,9 km²), high
+latitude and short growing seasons kept aggregate density low even as
+southern Scandinavia prospered: numbers increased tenfold from 54k in
+6000BC to 165k in 4000BC, 360k in 2000BC and 540k in 1000BC (0,45 per
+km²). Farming reached Denmark and Scania around 4000BC, while the boreal
+forests of interior Norway, northern Sweden, Finland and the eastern
+Baltic retained marine-and-forest Comb Ceramic and Pitted Ware foraging
+economies well into the third millennium BC
+[\[25\]](#ref-Salminen2017Aarne). Between 2800BC and 1700BC, Southern
+Scandinavia transitioned from Single Grave (Corded Ware) pastoralism to
+expansive Late Neolithic and Nordic Bronze Age farmsteads built around
+timber longhouses and barrow cemeteries
+[\[20\]](#ref-Johannsen2024Subsistence), exporting Jutland amber
+southwards in exchange for Alpine and Carpathian bronze.
+
+### North Atlantic Margins and Greenland
+
+At the northwestern oceanic rim, the North Atlantic Margins (103.215,2
+km² encompassing Shetland, Orkney, the Faroes and Iceland) remained
+sparsely inhabited throughout prehistory, rising from 8,5k in 6000BC to
+18k in 4000BC, 35k in 2000BC and 52k in 1000BC (0,5 per km²). Virtually
+all of this population lived in the northern Scottish archipelagos —
+Orkney and Shetland — where Neolithic stone-built villages such as Skara
+Brae, Knap of Howar and Scord of Brouster and Bronze Age farmsteads such
+as Jarlshof and Ness of Gruting combined barley cultivation, sheep
+husbandry and marine fishing; the Faroes and Iceland remained outside
+permanent Bronze Age agrarian settlement.
+
+Greenland (2.076.808,1 km², of which more than four-fifths lies beneath
+permanent inland ice) was entirely uninhabited in 6000BC and 4000BC.
+Around 2500BC, during the mid-Holocene thermal optimum, small Arctic
+Small Tool tradition bands crossed from Ellesmere Island to establish
+the Independence I culture in the High Arctic (Peary Land) and the
+Saqqaq culture along the ice-free fjords of West and Southeast Greenland
+(Disko Bay, Nuuk Fjord and Scoresby Sound). Exploiting ringed seal,
+caribou, muskox and seabirds with microblade and harpoon technologies,
+these Palaeo-Eskimo groups numbered approximately 2,5k by 2000BC and
+3,2k by 1000BC (below 0,01 per km² across total island area), before
+Late Holocene cooling led to the contraction of Saqqaq occupation around
+800BC.
+
+## Settlement Hierarchy and Rank-Size Structure
+
+Figure 2 displays the peak-size distribution of the 9.712 georeferenced
+habitation localities in the MAGNETIC prehistoric gazetteer. Unlike
+classical or mediaeval urban networks governed by steep Zipf rank-size
+slopes near unity, the Neolithic and Bronze Age settlement graph
+exhibits a flat power-law exponent ($\alpha = 0,08$, $R^2 = 0,4$). This
+shallow slope reflects two distinct realities: a genuine absence of true
+cities above 5k to 10k inhabitants across temperate and Atlantic Europe
+prior to the first millennium BC, combined with archaeological tiering
+in the underlying radiocarbon corpus. Only seven recorded localities
+attain the 1,5k proto-urban citadel tier — five in the Aegean-Balkan
+Tell Belt (Acropolis of Malthi, Agios Andreas on Siphnos, Hypsele on
+Andros, Mali and Ogas), one in central Italy (San Giovenale) and one in
+Mediterranean France (Les Castels). Beneath that Mediterranean apex,
+2.063 localities occupy the standardised 798-person Late Bronze Age
+horizon band, while 182 sites fall into smaller bands between 80 and 625
+inhabitants. Prehistoric Europe remained overwhelmingly rural: even in
+1000BC, well over 95% of its 14,19M inhabitants lived in dispersed
+farmsteads, hamlets and modest villages of 30 to 400 people.
+
+<img src="figures/neolithic_and_bronze_age_europe_urban_hierarchy.png" width="3129" />
+
+# Limitations
+
+Five structural constraints bound the precision of any demographic
+reconstruction for 6000-1000BC and must be kept explicit when
+interpreting the MAGNETIC figures.
+
+First, radiocarbon excavation density is highly uneven across modern
+European states and does not mirror prehistoric population weight. In
+the 9.712-site habitation register, the British Isles and Irish Sea
+alone accounts for 1.339 localities (59,46% of all sites: 823 in the
+United Kingdom and 596 in Ireland), reflecting decades of
+developer-funded rescue archaeology and open radiocarbon databases,
+whereas Franco-Aquitaine and Paris Basin (81 sites), Iberian
+Mediterranean and Atlantic (101 sites) and Italian Peninsula and Po
+Basin (136 sites) contribute far fewer digital entries despite holding
+nearly half of Europe’s Bronze Age population. Because MAGNETIC computes
+sub-regional headcounts from agro-ecological density calibration and
+regional archaeological syntheses rather than raw site counts, this
+survey bias does not distort the regional totals, but it does skew
+point-density maps towards northwestern Europe.
+
+Second, atmospheric radiocarbon calibration plateaux — notably the
+Hallstatt plateau after 800BC and shorter third-millennium inversions —
+together with single-year solar cosmic-ray anomalies
+[\[18\]](#ref-Dee2016Supernovae) blur the fine timing of demographic
+booms and busts. Our four-benchmark spacing (6000BC, 4000BC, 2000BC and
+1000BC) deliberately smooths sub-centennial volatility; readers should
+remember that actual regional populations swung by 20% to 40% over two-
+or three-century intervals between benchmarks, particularly during the
+mid-fourth-millennium Neolithic contractions [\[11\]](#ref-Shennan2013),
+the 2200BC arid event and the 1200BC Bronze Age collapse.
+
+Third, assigning uniform demographic tiers (1,5k for proto-urban
+fortified sites, 632 to 798 for multi-phase radiocarbon habitation
+clusters) prevents over-interpreting incomplete excavation trenches as
+exact headcounts, yet it flattens genuine local size gradients between
+large Terramare or Mycenaean palatial centres (some of which, such as
+Knossos or Mycenae, temporarily exceeded 5k to 10k residents at their
+mid-second-millennium apex) and small upland farmsteads of 20 to 50
+people.
+
+Fourth, edge-effect artefacts occur where raster sub-regional masks meet
+coastlines or narrow basins: a small number of southern English Thames
+Valley localities (such as Oxford and Abingdon) and Mediterranean French
+localities (such as Les Castels) fall on adjacent continental pixel
+boundaries in automated spatial assignment, while two upstream
+radiocarbon localities in Iceland reflect tephrochronological or
+natural-context entries rather than pre-Norse human settlement, as
+Iceland remained uninhabited until the late ninth century AD. Similarly,
+the 12 coastal Greenland localities serve strictly as modern geographic
+anchor coordinates for Palaeo-Eskimo coastal hunting ranges after
+2500BC, with zero population correctly enforced in the regional series
+for 6000BC and 4000BC.
+
+Fifth, palaeodemographic estimates carry wide uncertainty envelopes —
+plausibly plus or minus 30% to 40% at 6000BC, narrowing to roughly plus
+or minus 20% to 25% by 1000BC — owing to uncertain household sizes,
+contemporaneity ratios among excavated house pits and unexcavated
+alluvial or submerged coastal settlements lost to Holocene sea-level
+rise.
+
+# Conclusion
+
+Between 6000BC and 1000BC agriculture and bronze metallurgy transformed
+Europe from a thinly peopled woodland continent of 1,12M into a settled
+agrarian landmass of 14,19M. That nearly thirteenfold expansion
+proceeded neither smoothly nor evenly. An initial two-millennium pioneer
+surge (6000-4000BC) raised numbers almost fourfold as Cardial coastal
+voyagers and Danubian LBK farmers colonised Europe’s prime Mediterranean
+basins and central loess belts. Mid-Holocene soil fatigue, climatic
+anomalies and third-millennium steppe migrations slowed aggregate growth
+between 4000BC and 2000BC while reshaping Europe’s genetic and pastoral
+landscapes and coinciding with the earliest Palaeo-Eskimo settlement of
+Greenland. Finally, second-millennium Bronze Age metal networks,
+secondary-products dairying, plough agriculture and Late Bronze Age crop
+diversification carried regional densities to 4,5 to 6 inhabitants per
+km² across France, Italy, the Alpine foreland and the Low Countries,
+shifting Europe’s demographic centre of gravity decisively from the
+Balkan-Aegean gateway towards the broad arable basins of Western and
+Central Europe on the eve of the Iron Age.
+
+# Appendix
+
+Table 4 summarises the multi-wave provenance audit for the 9.712
+prehistoric habitation localities compiled across 32 jurisdictions,
+while Table 5 documents sub-regional site representation across all 12
+spatial units.
+
+| Source Corpus | Ingestion Wave | Source Class | Localities | Share |
+|:---|:---|:---|:---|:---|
+| **European Radiocarbon Settlement Corpus** | Wave 1 | Primary archaeological radiocarbon corpus | 9.568 | 98,52% |
+| **Pleiades Ancient World Gazetteer** | Wave 2 | Scholarly ancient world gazetteer | 106 | 1,09% |
+| **Scholarly European Prehistory Benchmarks** | Wave 4 | Primary archaeological radiocarbon corpus | 15 | 0,15% |
+| **National Statistical Census Faroe Islands** | Wave 4 | Primary archaeological radiocarbon corpus | 9 | 0,09% |
+| **National Statistical Census of Greenland** | Wave 4 | National institutional anchor | 7 | 0,07% |
+| **Modelski Ancient Urban Population** | Wave 4 | Primary archaeological radiocarbon corpus | 3 | 0,03% |
+| **Chandler V2 Historical Urban Population** | Wave 4 | Primary archaeological radiocarbon corpus | 2 | 0,02% |
+| **Scholarly Iron Age Oppida Corpus** | Wave 4 | Primary archaeological radiocarbon corpus | 1 | 0,01% |
+| **Buringh European Urban 700 2000** | Wave 4 | Primary archaeological radiocarbon corpus | 1 | 0,01% |
+| **Total Included Localities** | Waves 1-4 | Crowd share: 0,27% | 9.712 | 100% |
+
+Source provenance and saturation audit for the 2.252-locality Neolithic
+and Bronze Age habitation register.
+
+| Sub-Region | Recorded Sites | Site Share | 1000BC Pop. Share | Sites per 10k km² |
+|:---|:---|:---|:---|:---|
+| **Aegean-Balkan Tell Belt** | 559 | 5,76% | 13,04% | 10,11 |
+| **Carpathian & Middle Danube Basin** | 315 | 3,24% | 7,4% | 8,37 |
+| **Italian Peninsula & Po Basin** | 994 | 10,23% | 15,86% | 25,65 |
+| **Iberian Mediterranean & Atlantic** | 1.339 | 13,79% | 15,16% | 21,47 |
+| **Alpine & Upper Danube Loess Belt** | 475 | 4,89% | 6,91% | 22,39 |
+| **Franco-Aquitaine & Paris Basin** | 801 | 8,25% | 16,57% | 19,12 |
+| **Rhine-Meuse & Low Countries** | 529 | 5,45% | 5,36% | 29,51 |
+| **British Isles & Irish Sea** | 2.868 | 29,53% | 5,99% | 92,03 |
+| **North European Plain & Lusatian-Vistula** | 802 | 8,26% | 9,52% | 13,27 |
+| **Nordic Bronze Age & Eastern Baltic** | 1.011 | 10,41% | 3,81% | 7,76 |
+| **North Atlantic Margins** | 12 | 0,12% | 0,37% | 1,18 |
+| **Greenland (Saqqaq & Independence I)** | 7 | 0,07% | 0,02% | 0,03 |
+
+Comparison of archaeological locality counts against 1000BC demographic
+shares across all 12 sub-regions.
+
+# Sources
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0">
+
+<div id="ref-BocquetAppel2005" class="csl-entry">
+
+<span class="csl-left-margin">1.
+</span><span class="csl-right-inline">Bocquet-Appel, Jean-Pierre, et al.
+“<span class="nocase">Estimates of Upper Palaeolithic meta-population
+size in Europe from archaeological data</span>.” *Journal of
+Archaeological Science*, 2005,
+<https://doi.org/10.1016/j.jas.2005.05.006>.</span>
+
+</div>
+
+<div id="ref-Tallavaara2015" class="csl-entry">
+
+<span class="csl-left-margin">2.
+</span><span class="csl-right-inline">Tallavaara, Miikka, et al.
+“<span class="nocase">Human population dynamics in Europe over the Last
+Glacial Maximum</span>.” *Proceedings of the National Academy of
+Sciences*, 2015, <https://doi.org/10.1073/pnas.1503784112>.</span>
+
+</div>
+
+<div id="ref-MaierZimmermann2017" class="csl-entry">
+
+<span class="csl-left-margin">3.
+</span><span class="csl-right-inline">Maier, Andreas, and Andreas
+Zimmermann. “<span class="nocase">Populations headed south? The
+Gravettian from a palaeodemographic point of view</span>.” *Antiquity*,
+2017, <https://doi.org/10.15184/aqy.2017.37>.</span>
+
+</div>
+
+<div id="ref-Pinhasi2005" class="csl-entry">
+
+<span class="csl-left-margin">4.
+</span><span class="csl-right-inline">Pinhasi, Ron, et al.
+“<span class="nocase">Tracing the Origin and Spread of Agriculture in
+Europe</span>.” *PLOS Biology*, 2005,
+<https://doi.org/10.1371/journal.pbio.0030410>.</span>
+
+</div>
+
+<div id="ref-Ammerman2020Neolithic" class="csl-entry">
+
+<span class="csl-left-margin">5.
+</span><span class="csl-right-inline">Ammerman, Albert.
+“<span class="nocase">The Neolithic Transition in Europe at 50
+Years</span>.” *arXiv Preprint*, 2020,
+<https://doi.org/10.48550/arXiv.2012.11713>.</span>
+
+</div>
+
+<div id="ref-Davison2006Multiple" class="csl-entry">
+
+<span class="csl-left-margin">6.
+</span><span class="csl-right-inline">Davison, K., et al.
+“<span class="nocase">Multiple Sources of the European Neolithic:
+Mathematical Modelling Constrained by Radiocarbon Dates</span>.” *arXiv
+Preprint*, 2006, <https://doi.org/10.48550/arXiv.q-bio/0607049>.</span>
+
+</div>
+
+<div id="ref-Perrin2021Potential" class="csl-entry">
+
+<span class="csl-left-margin">7.
+</span><span class="csl-right-inline">Perrin, Thomas, and Claire Manen.
+“<span class="nocase">Potential interactions between Mesolithic
+hunter-gatherers and Neolithic farmers in the Western Mediterranean: The
+geochronological data revisited</span>.” *PLOS ONE*, 2021,
+<https://doi.org/10.1371/journal.pone.0246964>.</span>
+
+</div>
+
+<div id="ref-Porcic2016Demography" class="csl-entry">
+
+<span class="csl-left-margin">8.
+</span><span class="csl-right-inline">Porčić, Marko, et al.
+“<span class="nocase">Demography of the Early Neolithic Population in
+Central Balkans: Population Dynamics Reconstruction Using Summed
+Radiocarbon Probability Distributions</span>.” *PLOS ONE*, 2016,
+<https://doi.org/10.1371/journal.pone.0160832>.</span>
+
+</div>
+
+<div id="ref-Blagojevic2017Early" class="csl-entry">
+
+<span class="csl-left-margin">9.
+</span><span class="csl-right-inline">Blagojević, Tamara, et al.
+“<span class="nocase">Early Neolithic population dynamics in the Eastern
+Balkans and the Great Hungarian Plain</span>.” *Documenta
+Praehistorica*, 2017, <https://doi.org/10.4312/dp.44.2>.</span>
+
+</div>
+
+<div id="ref-Zimmermann2009" class="csl-entry">
+
+<span class="csl-left-margin">10.
+</span><span class="csl-right-inline">Zimmermann, Andreas, et al.
+“<span class="nocase">Estimations of Population Density for Selected
+Periods Between the Neolithic and AD 1800</span>.” *Human Biology*,
+2009, <https://doi.org/10.3378/027.081.0313>.</span>
+
+</div>
+
+<div id="ref-Shennan2013" class="csl-entry">
+
+<span class="csl-left-margin">11.
+</span><span class="csl-right-inline">Shennan, Stephen, et al.
+“<span class="nocase">Regional population collapse followed initial
+agriculture booms in mid-Holocene Europe</span>.” *Nature
+Communications*, 2013, <https://doi.org/10.1038/ncomms3486>.</span>
+
+</div>
+
+<div id="ref-Downey2014Neolithic" class="csl-entry">
+
+<span class="csl-left-margin">12.
+</span><span class="csl-right-inline">Downey, Sean S., et al.
+“<span class="nocase">The Neolithic Demographic Transition in Europe:
+Correlation with Juvenility Index Supports Interpretation of the Summed
+Calibrated Radiocarbon Date Probability Distribution (SCDPD) as a Valid
+Demographic Proxy</span>.” *PLoS ONE*, 2014,
+<https://doi.org/10.1371/journal.pone.0105730>.</span>
+
+</div>
+
+<div id="ref-Timpson2014" class="csl-entry">
+
+<span class="csl-left-margin">13.
+</span><span class="csl-right-inline">Timpson, Adrian, et al.
+“<span class="nocase">Reconstructing regional population fluctuations in
+the European Neolithic using radiocarbon dates</span>.” *Journal of
+Archaeological Science*, 2014,
+<https://doi.org/10.1016/j.jas.2014.08.011>.</span>
+
+</div>
+
+<div id="ref-Haak2015" class="csl-entry">
+
+<span class="csl-left-margin">14.
+</span><span class="csl-right-inline">Haak, Wolfgang, et al.
+“<span class="nocase">Massive migration from the steppe was a source for
+Indo-European languages in Europe</span>.” *Nature*, 2015,
+<https://doi.org/10.1038/nature14317>.</span>
+
+</div>
+
+<div id="ref-Olalde2018" class="csl-entry">
+
+<span class="csl-left-margin">15.
+</span><span class="csl-right-inline">Olalde, Iñigo, et al.
+“<span class="nocase">The Beaker phenomenon and the genomic
+transformation of northwest Europe</span>.” *Nature*, 2018,
+<https://doi.org/10.1038/nature25738>.</span>
+
+</div>
+
+<div id="ref-Pokorna2024Changes" class="csl-entry">
+
+<span class="csl-left-margin">16.
+</span><span class="csl-right-inline">Pokorná, Adéla, et al.
+“<span class="nocase">Changes in spectra of cultivated and gathered
+plants in the Bronze Age</span>.” *Archeologické Rozhledy*, 2024,
+<https://doi.org/10.35686/AR.2024.223>.</span>
+
+</div>
+
+<div id="ref-Bartczak2025Example" class="csl-entry">
+
+<span class="csl-left-margin">17.
+</span><span class="csl-right-inline">Bartczak, Marcel, and Paweł
+Zawilski. “<span class="nocase">An Example of the Secondary Use of Flint
+Artefacts by the Lusatian Culture Communities Based on Recent
+Excavations in the Area of the Dobrzynka River Mouth</span>.” *Zeszyty
+Wiejskie*, 2025, <https://doi.org/10.18778/1506-6541.31.11>.</span>
+
+</div>
+
+<div id="ref-Dee2016Supernovae" class="csl-entry">
+
+<span class="csl-left-margin">18.
+</span><span class="csl-right-inline">Dee, Michael, et al.
+“<span class="nocase">Supernovae and Single-Year Anomalies in the
+Atmospheric Radiocarbon Record</span>.” *arXiv Preprint*, 2016,
+<https://doi.org/10.48550/arXiv.1608.02308>.</span>
+
+</div>
+
+<div id="ref-Gromann2023Demographic" class="csl-entry">
+
+<span class="csl-left-margin">19.
+</span><span class="csl-right-inline">Großmann, Ralph, et al.
+“<span class="nocase">Demographic dynamics between 5500 and 3500 calBP
+(3550–1550 BCE) in selected study regions of Central Europe and the role
+of regional climate influences</span>.” *PLOS ONE*, 2023,
+<https://doi.org/10.1371/journal.pone.0291956>.</span>
+
+</div>
+
+<div id="ref-Johannsen2024Subsistence" class="csl-entry">
+
+<span class="csl-left-margin">20.
+</span><span class="csl-right-inline">Johannsen, Jens Winther, et al.
+“<span class="nocase">Subsistence and population development from the
+Middle Neolithic B (2800–2350 BCE) to the Late Neolithic (2350–1700 BCE)
+in Southern Scandinavia</span>.” *PLOS ONE*, 2024,
+<https://doi.org/10.1371/journal.pone.0301938>.</span>
+
+</div>
+
+<div id="ref-Stolz2020Quick" class="csl-entry">
+
+<span class="csl-left-margin">21.
+</span><span class="csl-right-inline">Stolz, Christian, et al.
+“<span class="nocase">The quick death of a lake: human impact on Lake
+Tresssee (N Germany) during the last 6000 years – an approach using
+pollen, Cladocera and sedimentology</span>.” *Acta Palaeobotanica*,
+2020, <https://doi.org/10.35535/acpa-2020-0007>.</span>
+
+</div>
+
+<div id="ref-Baggaley2013Inference" class="csl-entry">
+
+<span class="csl-left-margin">22.
+</span><span class="csl-right-inline">Baggaley, Andrew W., et al.
+“<span class="nocase">Inference for population dynamics in the Neolithic
+period</span>.” *arXiv Preprint*, 2013,
+<https://doi.org/10.48550/arXiv.1301.1525>.</span>
+
+</div>
+
+<div id="ref-Lemmen2012Sensitivity" class="csl-entry">
+
+<span class="csl-left-margin">23.
+</span><span class="csl-right-inline">Lemmen, Carsten, and Kai W. Wirtz.
+“<span class="nocase">On the sensitivity of the simulated European
+Neolithic transition to climate extremes</span>.” *arXiv Preprint*,
+2012, <https://doi.org/10.48550/arXiv.1203.0222>.</span>
+
+</div>
+
+<div id="ref-Farago2017Differences" class="csl-entry">
+
+<span class="csl-left-margin">24.
+</span><span class="csl-right-inline">Faragó, Norbert.
+“<span class="nocase">Differences in the selection of raw materials at
+the site of Polgár-Csőszhalom, northeast Hungary</span>.” *Българско
+е-Списание За Археология*, 2017,
+<https://be-ja.org/index.php/journal/article/view/7>.</span>
+
+</div>
+
+<div id="ref-Salminen2017Aarne" class="csl-entry">
+
+<span class="csl-left-margin">25.
+</span><span class="csl-right-inline">Salminen, Timo.
+“<span class="nocase">Aarne Michaël Tallgren and the International
+Discussion on the Bronze Age of Russia</span>.” *Bulletin of the History
+of Archaeology*, 2017, <https://doi.org/10.5334/bha-553>.</span>
+
+</div>
+
+</div>

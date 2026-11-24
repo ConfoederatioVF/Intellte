@@ -1,0 +1,478 @@
+---
+title: "Pre-Colonial Southern Africa and the Cape Frontier"
+subtitle: "Cape Colony, Natal, Boer Republics and the Mfecane Era to 1902"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: precolonial_south_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Ten historical sub-regions and 163 individually assessed settlements across Southern Africa between 1500AD and 1902AD."
+hero_label: "fig:hero-precolonial-south-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("precolonial_south_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("precolonial_south_africa_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("1500", "1700", "1780", "1830", "1880", "1900")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+subregion_order <- c(
+  "western_cape_voc_colony",
+  "eastern_cape_xhosa_frontier",
+  "griqualand_northern_karoo",
+  "orange_free_state_basutoland",
+  "natal_zulu_kingdom",
+  "transvaal_zar_swazi_pedi",
+  "tswana_bechuanaland_kalahari",
+  "rozvi_ndebele_matabeleland",
+  "namaqua_herero_namibia",
+  "ovambo_kavango_north_namibia"
+)
+```
+
+# Abstract
+
+Between 1500AD and the Peace of Vereeniging in 1902, Southern Africa experienced a demographic transformation driven by epidemic shock, frontier colonisation, state consolidation during the Mfecane and late nineteenth-century mineral industrialisation. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning eight modern jurisdictions from the Cape Peninsula to the Zambezi and Cunene watersheds, NICETHI reconstructs an aggregate regional population that rose from `r viscount_fmt_pop(headline_vals[["1500"]])` inhabitants in 1500AD to `r viscount_fmt_pop(headline_vals[["1700"]])` in 1700AD before receding to `r viscount_fmt_pop(headline_vals[["1780"]])` by 1780AD as smallpox epidemics and frontier dispossession devastated Cape Khoikhoi and San bands. Subsequent warfare and migration during the early nineteenth-century Mfecane held regional numbers near `r viscount_fmt_pop(headline_vals[["1830"]])` in 1830AD, even as nucleated Tswana towns such as Kaditshwene and Dithakong, Moshoeshoe's Sotho stronghold at Thaba Bosiu and Zulu royal capitals around KwaBulawayo and uMgungundlovu reshaped interior settlement. After 1870, diamond extraction at Kimberley and gold mining on the Witwatersrand accelerated urban growth and rural integration, lifting total numbers to `r viscount_fmt_pop(headline_vals[["1880"]])` in 1880AD and `r viscount_fmt_pop(headline_vals[["1900"]])` by 1900AD at a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons per km². These trajectories rest on `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` dated observations, reconciled against Dutch East India Company *opgaaf* rolls, British colonial blue books, missionary tallies and archaeological site registers.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Ten historical sub-regions and 163 individually assessed settlements across Southern Africa between 1500AD and 1902AD.",
+    "fig:hero-precolonial-south-africa"
+  )
+}
+```
+
+# Background
+
+## Ecological Gradients and Pre-Colonial Foundations
+
+Southern Africa south of the Zambezi and Cunene rivers spans three sharply contrasting ecological regimes that governed population density long before European settlement at Table Bay. Along the humid eastern littoral and Drakensberg escarpment from the Eastern Cape through Natal to southern Mozambique, summer rainfall exceeding 700 mm sustained mixed sorghum, pearl millet and cattle farming among Nguni-speaking communities [@Killick2009CairoToCape; @Deflem2022WarfarePolitical]. Across the central Highveld, Limpopo plateau and Zimbabwe escarpment, moderate rainfall and iron-rich soils supported Shona stone-walled polities under the Mutapa and Changamire Rozvi dynasties alongside Sotho-Tswana agro-pastoral chiefdoms whose settlements clustered around perennial springs and defensible hilltops [@Pikirayi2001ZimbabweCulture; @Chirikure1820NewPathways; @Gulbrandsen1993TheRise]. By contrast, the semi-arid Karoo, Kalahari basin and Namib desert restricted pre-colonial carrying capacities to pastoral sheep and cattle transhumance among Khoikhoi clans and mobile San foraging bands, punctuated only by the floodplains of the northern Ovambo and Kavango rivers [@Roberts2016ClimateEnvironment; @LaCroix2016KhoikhoiPopulation].
+
+Before 1652, maritime contact along the southern African littoral was episodic and peripheral to interior demographic rhythms. Portuguese caravels rounded the Cape after 1488, suffered defeat at the hands of Khoikhoi herders in Table Bay in 1510 [@Johnson2009KhoikhoiVictory], and concentrated their permanent garrisons north-eastward at Sofala and along the lower Zambezi gold fairs of Masapa and Dambarare [@Horta2000EvidenceFor; @Pikirayi2001ZimbabweCulture]. Within the interior plateau, however, maize diffusion after the sixteenth century, expanding ivory and copper exchange and long-distance ironworking raised baseline carrying capacities across Zimbabwe, the Transvaal Highveld and Natal [@Killick2009CairoToCape; @Chirikure1820NewPathways].
+
+## Cape Settlement, Khoikhoi Collapse and Colonial Historiography
+
+The foundation of a Dutch East India Company (VOC) victualling station at Table Bay in 1652 opened a two-century demographic divergence between the expanding settler-and-slave society of the south-west and the indigenous pastoral polities of the Cape interior [@ElphickGiliomee1989Shaping; @Vink2019FromThe]. Early Company counts recorded just 90 European garrison and garden personnel at Table Bay in 1652, growing through free burgher grants along the Liesbeeck, Stellenbosch (1679) and Drakenstein valleys, Huguenot arrivals after 1688 and forced imports of enslaved Africans and Southeast Asians from Madagascar, Mozambique, India and the Indonesian archipelago [@Shell1994ChildrenBondage; @Beyers2016BeyondDenial; @Ross1975TheWhite]. Because free burghers married young and faced minimal land constraints on the pastoral frontier, the colonial *trekboer* population doubled roughly every generation despite modest European immigration [@Guelke1976FrontierSettlement; @Ross1975TheWhite].
+
+For indigenous Khoikhoi herders, Company expansion brought acute demographic collapse. Trade in cattle, competition for grazing and waterholes, and above all the devastating 1713 smallpox epidemic - followed by further outbreaks in 1755 and 1767 - shattered Western Cape Khoikhoi polities [@LaCroix2016KhoikhoiPopulation; @ElphickGiliomee1989Shaping]. While early twentieth-century writers often assumed tiny pre-contact Khoikhoi numbers, modern archival syntheses by Elphick, Malherbe, Guelke, Ross and La Croix place the 1652 southwestern Cape Khoikhoi population near 50k (within a wider literature range of 11k to 200k south of the Orange River), dropping by more than half to roughly 20k Khoikhoi and 3k San inside colonial bounds by 1780 [@LaCroix2016KhoikhoiPopulation; @ElphickGiliomee1989Shaping; @Guelke1976FrontierSettlement].
+
+## Mfecane State Formation, the Great Trek and the Mineral Revolution
+
+Between 1790 and 1840, demographic upheaval shifted decisively into the south-eastern and Highveld interior. Severe late eighteenth-century droughts, intensified ivory competition from Delagoa Bay and the rise of age-regiment militarisation under Dingiswayo's Mthethwa and Shaka's Zulu Kingdom triggered the Mfecane (or Difaqane on the Highveld), displacing populations across Natal, the Orange-Vaal plains, Swaziland, Lesotho and Zimbabwe [@Deflem2022WarfarePolitical; @Smith1849IllustrationsThe]. Mzilikazi's Ndebele broke away across the Transvaal before crossing the Limpopo to establish Bulawayo and Mhlahlandlela in Matabeleland, while Moshoeshoe fortified Thaba Bosiu to shelter Sotho refugees [@Leanya2024ChurchAnd; @Pikirayi2001ZimbabweCulture].
+
+British annexation of the Cape (1795 and 1806), emancipation of enslaved people between 1834 and 1838 and acute frontier tensions prompted roughly 12k to 15k Dutch-speaking *Voortrekkers* to leave the eastern Cape after 1835, founding Pietermaritzburg in Natal and later the Orange Free State (1854) and South African Republic in the Transvaal (1852) [@Barrow1801AccountTravels; @Barnard1950SouthAfrica; @Bunbury1848CapeGoodHope]. Yet until 1870, Southern Africa remained overwhelmingly rural and pastoral. That equilibrium broke abruptly with diamond discoveries at Kimberley in 1871 and deep-level gold reefs on the Witwatersrand in 1886, which drew hundreds of thousands of African migrant workers and European immigrants into new industrial towns before the South African War (1899-1902) closed the pre-Union era [@Catalog1800StatisticalRegister; @Shell1994ChildrenBondage].
+
+# Methodology
+
+## Territorial Partition and Accounting Domain
+
+The chapter encompasses `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells spanning eight modern jurisdictions: South Africa, Namibia, Zimbabwe, Lesotho, Mozambique, Botswana, eSwatini and southern Zambia. Within NICETHI, the chapter sits in Regime 2 (1500AD to 1902AD), linking late mediaeval Iron Age foundations directly to the post-1902 Union and colonial chapters. Ten contiguous sub-regions partition the landscape along OpenHistoricalMap polity polygons, late nineteenth-century colonial boundaries clipped to geoBoundaries outlines [@Runfola2020GeoBoundaries] and ethnographic watershed domains (Table \ref{tab:subregions}).
+
+Population trajectories are evaluated across 14 benchmark years between 1500AD and 1900AD, with six core checkpoints reported in comparative tables: 1500AD (pre-colonial baseline), 1700AD (pre-smallpox peak), 1780AD (late VOC frontier trough), 1830AD (Mfecane displacement equilibrium), 1880AD (post-diamond commercial expansion) and 1900AD (Witwatersrand industrial transition and war eve). All sub-regional figures measure full resident populations combining colonial towns, African royal capitals, missionary stations, pastoral kraals and agricultural homesteads [@LaCroix2016KhoikhoiPopulation; @ElphickGiliomee1989Shaping; @Chirikure1820NewPathways].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  `Era` = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    paste0(pts[1], "AD-", pts[2], "AD")
+  }, character(1)),
+  `Assessed Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Ten historical sub-regions of Southern Africa showing surface area, 5-arcminute pixel counts, regional spans and interior assessed settlements.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Screening and Evidence-Based Urban Reconstruction
+
+To chart urban centres and nucleated African capitals across four centuries, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate towns, military kraals, stone-walled *merafe*, mission stations and colonial ports were screened from four archival streams: Cape VOC *opgaafrollen* and British Blue Books [@Catalog1800StatisticalRegister; @Shell1994ChildrenBondage; @Vink2019FromThe], Natal, Orange Free State and Transvaal municipal censuses, nineteenth-century explorer and missionary itineraries [@Barrow1801AccountTravels; @Smith1849IllustrationsThe; @Bunbury1848CapeGoodHope; @Barnard1950SouthAfrica], and national archaeological registers [@SAHRIS2024SouthAfrica; @NMMZ2022ZimbabweSites]. After removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate aliases across variant orthographies (such as *Mandlakazi* and *Manjakaze* or merged Cape Town and Sofala records), `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements containing `r viscount_fmt_number(n_obs_total, 0L)` chronological observations were retained across all 10 sub-regions, achieving a wave-saturation marginal gain of 1,9% and zero empty inhabited territories (Figure \ref{fig:hero-precolonial-south-africa}).
+
+Every entry uses strictly city-proper limits (163 city-proper, 0 metropolitan agglomerations) to avoid conflating compact towns with surrounding rural districts. National counts span South Africa (98 sites, 276 observations), Namibia (20 sites, 49 observations), Zimbabwe (15 sites, 36 observations), Lesotho (9 sites, 14 observations), Mozambique (8 sites, 39 observations), Botswana (8 sites, 16 observations), eSwatini (4 sites, 6 observations) and Zambia (1 site, 3 observations). For pre-census Tswana and Rozvi stone towns such as Kaditshwene, Molokwane, Marothodi, Khami and Danamombe, headcounts calibrate mapped compound densities and enclosure perimeters against comparative African urban benchmarks (mean 12.724 and median 10.000 persons per km² across Storey's 59-city survey) and contemporary missionary estimates [@Gulbrandsen1993TheRise; @Pikirayi2001ZimbabweCulture; @Chirikure1820NewPathways].
+
+## Spatial Kriging and Pycnophylactic Sub-Administrative Disaggregation
+
+Because nucleated settlements account for roughly 10% to 15% of total inhabitants in pre-industrial Southern Africa, rural farming and pastoral households must be distributed continuously across `r viscount_fmt_number(total_area_km2, 0L)` km². NICETHI couples sub-regional carrying capacities with non-stationary Matérn residual kriging trained across Southern African archaeological registers including SAHRIS and NMMZ [@SAHRIS2024SouthAfrica; @NMMZ2022ZimbabweSites; @Killick2009CairoToCape] alongside historical GIS riverine and coastal covariates. Fluvial access along the Orange, Vaal, Limpopo, Tugela, Zambezi and Cunene corridors and coastal proximity around Table Bay, Algoa Bay, Port Natal and Delagoa Bay anchor deterministic trend surfaces, while a modern urban-core mask prevents twentieth-century sprawl around Johannesburg and Cape Town from distorting pre-1900 surfaces. Downward scaling into colonial districts and geoBoundaries units [@Runfola2020GeoBoundaries] applies mass-conserving pycnophylactic interpolation, ensuring that sub-regional totals sum exactly to enumerated 1904 colonial census baselines without artificial boundary cliffs.
+
+# Testing and Validation
+
+## Rank-Size Distribution and Urban Hierarchy Diagnostics
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements, ordinary least-squares rank-size regression on the upper half (`r viscount_fmt_number(summary_cache$rank_size$n_fit, 0L)` sites) yields a Zipf slope of $q = 0,89$ ($R^2 = 0,98$), while full-sample regression across all 163 settlements gives $q = 1,13$ ($R^2 = 0,93$; Figure \ref{fig:rank-size}). That moderately sub-unitary upper-tail slope matches a polycentric Southern African settlement hierarchy in which no single capital monopolised regional commerce before the rise of Johannesburg after 1886 [@Catalog1800StatisticalRegister; @Shell1994ChildrenBondage].
+
+At the upper tail stand the major nineteenth-century colonial ports and mining boomtowns - Cape Town (reaching 51.251 in 1891 and 79k in 1890, with an anomalous 1850 district figure of 290k discussed below), Johannesburg (102.078 in the 1896 Sanitary Board census), Durban (68k by 1900), Port Elizabeth (33k by 1900), Pretoria (33k by 1900) and Kimberley (28.718 in 1891) - closely followed by Tswana agro-towns led by Shoshong (26,4k in 1875), Old Palapye (19,2k in 1892), Kaditshwene (18,4k in 1820), Dithakong (16,8k in 1801) and Molepolole (15,8k in 1880) [@Gulbrandsen1993TheRise; @Smith1849IllustrationsThe]. Below 15k inhabitants lies a dense middle tier of Ndebele, Sotho, Zulu, Swazi and Boer centres, including Bulawayo (14,6k), Kanye (14,6k), Vila de Mandlakazi (14,5k), Taung (14,2k), Molokwane (13,4k), Thaba Nchu (12,6k), Grahamstown (10,5k), Mhlahlandlela (9,85k), KwaBulawayo (9,24k), Thaba Bosiu (8,92k) and uMgungundlovu (8,64k) [@Deflem2022WarfarePolitical; @Leanya2024ChurchAnd; @Pikirayi2001ZimbabweCulture].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size distribution across 163 settlements (OLS fit q = 0,89, R² = 0,98) and mean population density by sub-region in 1900AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Cape Opgaaf, 1904 Simultaneous Censuses and Historiographical Checks
+
+Direct archival enumerations anchor both ends of the colonial period (Table \ref{tab:colonial-censuses}). In the Western Cape, VOC *opgaafrollen* and the 1798 British Occupation return compiled by John Barrow document 61.947 enumerated colonial residents (burghers, Company servants, enslaved labourers and registered Khoikhoi servants) across the Cape, Stellenbosch, Swellendam and Graaff-Reinet districts [@Barrow1801AccountTravels; @Barnard1950SouthAfrica; @Vink2019FromThe]. By 1904, the first simultaneous colonial censuses across British South Africa recorded 2,41M inhabitants in the Cape Colony (including British Bechuanaland and Pondoland), 1,27M in the Transvaal, 1,11M in Natal and 387.315 in the Orange River Colony, totalling 5,18M across the four territories that formed the Union in 1910 [@Catalog1800StatisticalRegister; @Runfola2020GeoBoundaries]. Subtracting post-war immigration and natural growth between 1900 and 1904 leaves our 1900AD regional reconstruction (`r viscount_fmt_pop(headline_vals[["1900"]])`, inclusive of Zimbabwe, Namibia, Botswana, Lesotho, eSwatini and southern Mozambique) closely aligned with enumerated ground truth.
+
+```{r tab2-colonial-censuses, results='asis'}
+df_t2 <- data.frame(
+  Polity = c(
+    "Table Bay VOC Station",
+    "Cape Colony (4 Districts)",
+    "Cape Colony (incl. Transkei)",
+    "Transvaal Colony",
+    "Colony of Natal",
+    "Orange River Colony",
+    "Johannesburg (Sanitary Board)",
+    "Cape Town (Municipality)",
+    "Kimberley (Municipality)",
+    "Durban (Borough)"
+  ),
+  Year = c("1652", "1798", "1904", "1904", "1904", "1904", "1896", "1891", "1891", "1891"),
+  `Admin. Scope` = c(
+    "Garrison and garden",
+    "Colony aggregate",
+    "Colony aggregate",
+    "Colony aggregate",
+    "Colony aggregate",
+    "Colony aggregate",
+    "City proper",
+    "City proper",
+    "City proper",
+    "City proper"
+  ),
+  `Enumerated Pop.` = c(
+    "90",
+    "61.947",
+    "2.409.804",
+    "1.270.000",
+    "1.109.000",
+    "387.315",
+    "102.078",
+    "51.251",
+    "28.718",
+    "25.512"
+  ),
+  Source = c(
+    "VOC Opgaafrollen (1652)",
+    "First British Return (Barrow 1801)",
+    "Cape Colony Census (1904)",
+    "Simultaneous Censuses (1904)",
+    "Simultaneous Censuses (1904)",
+    "Simultaneous Censuses (1904)",
+    "Johannesburg Sanitary Census (1896)",
+    "Cape Colony Census (1891)",
+    "Cape Colony Census (1891)",
+    "Colony of Natal Census (1891)"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Historical administrative enumerations and late nineteenth-century municipal census benchmarks across Southern Africa (1652 to 1904).",
+  arg3_options = list(label = "tab:colonial-censuses")
+)
+```
+
+Independent regional reconstructions in Table \ref{tab:regional-benchmarks} reinforce these orders of magnitude while exposing why older macro-continental estimates diverged. Patrick Manning's 1990 macro-regional table assigned 10M inhabitants to Southern Africa in 1700 and 12M in 1790, far above both La Croix's Cape Khoikhoi series (50k in 1652 falling to 23k Khoikhoi and San by 1780) and Chirikure and Beach's Zimbabwe benchmarks (230k to 275k in 1600, 665k in 1850 and 600k in 1895) [@LaCroix2016KhoikhoiPopulation; @Chirikure1820NewPathways; @Pikirayi2001ZimbabweCulture]. Because NICETHI anchors rural densities to ecological carrying capacities and 1904 census totals rather than uncalibrated continental ratios, our 1700AD total (`r viscount_fmt_pop(headline_vals[["1700"]])`) and 1900AD total (`r viscount_fmt_pop(headline_vals[["1900"]])`) stay consistent with local South African and Zimbabwean historiography [@Ross1975TheWhite; @ElphickGiliomee1989Shaping].
+
+```{r tab3-regional-benchmarks, results='asis'}
+df_t3 <- data.frame(
+  Series = c(
+    "SW Cape Khoikhoi (Central)",
+    "SW Cape Khoikhoi (Kolb)",
+    "Cape Colony Khoikhoi and San",
+    "Zimbabwe Plateau (Low-High)",
+    "Zimbabwe National Midpoint",
+    "Southern Rhodesia Colonial Est.",
+    "Southern Africa (Manning 4.1)",
+    "Southern Africa (NICETHI)"
+  ),
+  Year = c("1652", "1707", "1780", "1600", "1850", "1895", "1700 / 1890", "1700 / 1900"),
+  `Benchmark Pop.` = c(
+    "50.000",
+    "50.000",
+    "23.000",
+    "230k-275k",
+    "665.000",
+    "600.000",
+    "10M / 10M",
+    "2,41M / 5,69M"
+  ),
+  `Derivation Basis` = c(
+    "Elphick, Guelke and La Croix review",
+    "Peter Kolb (~20k fighting men)",
+    "Guelke (54% decline 1652-1780)",
+    "Beach and Chirikure plateau synthesis",
+    "Frankema and Jerven 2014 baseline",
+    "Early colonial administrative tally",
+    "Macro-regional demographic projection",
+    "163 sites plus Matérn kriging"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Comparison of Cape Khoikhoi, Zimbabwe plateau and macro-regional Southern African demographic benchmarks (1600 to 1900).",
+  arg3_options = list(label = "tab:regional-benchmarks")
+)
+```
+
+# Results
+
+## Aggregate Trajectory: Epidemic Contraction, Mfecane and Industrial Surge
+
+Across all 10 sub-regions, regional population moved through four distinct demographic phases between 1500AD and 1900AD (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). During the sixteenth and seventeenth centuries, total numbers expanded by 82,8% from `r viscount_fmt_pop(headline_vals[["1500"]])` in 1500AD to `r viscount_fmt_pop(headline_vals[["1700"]])` in 1700AD as maize, iron metallurgy and cattle herding raised food output across the eastern coast and interior plateaus [@Killick2009CairoToCape; @Chirikure1820NewPathways]. Between 1700AD and 1780AD, however, regional population contracted by 28,1% to `r viscount_fmt_pop(headline_vals[["1780"]])` (`r viscount_fmt_pop(summary_cache$headline_series[["1710"]])` in 1710AD, `r viscount_fmt_pop(summary_cache$headline_series[["1750"]])` in 1750AD and `r viscount_fmt_pop(summary_cache$headline_series[["1760"]])` in 1760AD), driven by the 1713, 1755 and 1767 smallpox epidemics along the Cape frontier and severe late eighteenth-century droughts across the Karoo and Highveld [@LaCroix2016KhoikhoiPopulation; @Guelke1976FrontierSettlement].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories (Panel A), recorded settlement counts (Panel B) and leading urban centres (Panel C) from 1500AD to 1900AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Following modest recovery to `r viscount_fmt_pop(summary_cache$headline_series[["1800"]])` in 1800AD, the Mfecane wars and Ndebele-Ngoni migrations trimmed total population back to `r viscount_fmt_pop(summary_cache$headline_series[["1820"]])` in 1820AD and `r viscount_fmt_pop(headline_vals[["1830"]])` in 1830AD [@Deflem2022WarfarePolitical; @Smith1849IllustrationsThe]. Steady recovery resumed after 1850AD (`r viscount_fmt_pop(summary_cache$headline_series[["1850"]])`), accelerating sharply once Kimberley diamonds and Witwatersrand gold integrated Southern Africa into global capital and labour circuits: regional totals reached `r viscount_fmt_pop(summary_cache$headline_series[["1870"]])` in 1870AD, `r viscount_fmt_pop(headline_vals[["1880"]])` in 1880AD and `r viscount_fmt_pop(headline_vals[["1900"]])` in 1900AD. Meanwhile, active gazetteer settlements climbed from 4 in 1500AD (19,8k attested urban residents) to 15 in 1700AD (41,7k), 32 in 1800AD (125,5k), 82 in 1850AD (563,8k including Cape Town's broad 1850 district outlier) and a peak of 137 in 1880AD (525,1k), reaching 712,8k attested urban residents across 128 active towns in 1900AD.
+
+```{r tab4-trajectory, results='asis'}
+df_t4 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `1500AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1500"]]), character(1)),
+  `1700AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1700"]]), character(1)),
+  `1780AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1780"]]), character(1)),
+  `1830AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1830"]]), character(1)),
+  `1880AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1880"]]), character(1)),
+  `1900AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1900"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t4 <- data.frame(
+  Subregion = "Total Study Area",
+  `1500AD` = viscount_fmt_pop(headline_vals[["1500"]]),
+  `1700AD` = viscount_fmt_pop(headline_vals[["1700"]]),
+  `1780AD` = viscount_fmt_pop(headline_vals[["1780"]]),
+  `1830AD` = viscount_fmt_pop(headline_vals[["1830"]]),
+  `1880AD` = viscount_fmt_pop(headline_vals[["1880"]]),
+  `1900AD` = viscount_fmt_pop(headline_vals[["1900"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t4 <- rbind(df_t4, tot_row_t4)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Sub-regional and total population trajectories across six benchmark years from 1500AD to 1900AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Cape Colony, Khoikhoi Collapse and the Eastern Xhosa Frontier
+
+In the Western Cape VOC and British Heartland (197.635 km², 18 assessed sites), population stood at `r viscount_fmt_pop(sub_by_id[["western_cape_voc_colony"]]$population[["1500"]])` in 1500AD, rose to `r viscount_fmt_pop(sub_by_id[["western_cape_voc_colony"]]$population[["1700"]])` by 1700AD, and then dropped sharply to `r viscount_fmt_pop(sub_by_id[["western_cape_voc_colony"]]$population[["1780"]])` in 1780AD and `r viscount_fmt_pop(sub_by_id[["western_cape_voc_colony"]]$population[["1830"]])` in 1830AD as Khoikhoi clans such as Cochoqua Kraal (3.250 in 1652 to 2.150 in 1700) and Hessequa (2.680 in 1667 to 1.650 in 1710) dissolved into colonial farm labour or retreated north toward the Orange River [@LaCroix2016KhoikhoiPopulation; @ElphickGiliomee1989Shaping]. Meanwhile, Cape Town expanded steadily from 90 residents in 1652 and 1.120 in 1701 to 15.490 in 1798, 21.840 in 1840, 28.457 in 1865 and 51.251 in 1891 (with Stellenbosch, Paarl, Swellendam, Worcester and Oudtshoorn anchoring Boland and Little Karoo wheat and wine districts), lifting the Western Cape sub-region back to `r viscount_fmt_pop(sub_by_id[["western_cape_voc_colony"]]$population[["1900"]])` in 1900AD [@Shell1994ChildrenBondage; @Beyers2016BeyondDenial; @Vink2019FromThe].
+
+East of the Gamtoos and Great Fish rivers across the Eastern Cape Frontier, Xhosa kingdoms and Transkei (190.125 km², 22 assessed sites), population rose from `r viscount_fmt_pop(sub_by_id[["eastern_cape_xhosa_frontier"]]$population[["1500"]])` in 1500AD to `r viscount_fmt_pop(sub_by_id[["eastern_cape_xhosa_frontier"]]$population[["1700"]])` in 1700AD before frontier wars, cattle confiscation and the 1856-1857 cattle-killing crisis depressed numbers to `r viscount_fmt_pop(sub_by_id[["eastern_cape_xhosa_frontier"]]$population[["1850"]])` by 1850AD [@Barrow1801AccountTravels; @Bunbury1848CapeGoodHope]. After 1870, annexation of Ciskei and Transkei alongside commercial port growth at Port Elizabeth (450 in 1820 to 23.266 in 1891 and 33k in 1900), East London (500 in 1848 to 6.924 in 1891), Grahamstown (2.450 in 1823 to 10.498 in 1891) and King Williams Town (7.226 in 1891) lifted the Eastern Cape zone to `r viscount_fmt_pop(sub_by_id[["eastern_cape_xhosa_frontier"]]$population[["1900"]])` in 1900AD [@Catalog1800StatisticalRegister; @Ross1975TheWhite].
+
+## Griqualand West, the Karoo and the Diamond Frontier
+
+North of the Sneeuwberg across the Northern Karoo, Orange River frontier and Griqualand West (336.849 km², 7 assessed sites), sparse pastoral terrain supported just `r viscount_fmt_pop(sub_by_id[["griqualand_northern_karoo"]]$population[["1500"]])` inhabitants in 1500AD, `r viscount_fmt_pop(sub_by_id[["griqualand_northern_karoo"]]$population[["1780"]])` in 1780AD and `r viscount_fmt_pop(sub_by_id[["griqualand_northern_karoo"]]$population[["1850"]])` in 1850AD. Griqua captaincies settled along the Gariep corridor at Griekwastad (1.266 in 1813 to 1.920 in 1845) and Philippolis, while Tlhaping Tswana towns around Kuruman (8.400 in 1824) and Dithakong (16.800 in 1801) mediated ivory and cattle trade with the Cape [@Smith1849IllustrationsThe; @Guelke1976FrontierSettlement]. The 1867-1871 alluvial and dry-digging diamond rushes around Kimberley transformed this arid frontier: Kimberley (located on the Griqualand West border margin inside the Orange Free State polygon buffer) exploded from 5.400 diggers in 1871 to 18.500 in 1877 and 28.718 in 1891, while railway construction and labour migration lifted the Griqualand-Karoo sub-region nearly twentyfold from `r viscount_fmt_pop(sub_by_id[["griqualand_northern_karoo"]]$population[["1880"]])` in 1880AD to `r viscount_fmt_pop(sub_by_id[["griqualand_northern_karoo"]]$population[["1900"]])` by 1900AD (`r viscount_fmt_number(sub_by_id[["griqualand_northern_karoo"]]$end_density_km2, 2L)` persons per km²).
+
+## Natal, the Zulu Kingdom, Basutoland and the Orange Free State
+
+The humid eastern coastal belt of the Zulu Kingdom and Colony of Natal (134.550 km², 18 assessed sites) carried the highest demographic density in Southern Africa throughout the early modern era, expanding from `r viscount_fmt_pop(sub_by_id[["natal_zulu_kingdom"]]$population[["1500"]])` in 1500AD to `r viscount_fmt_pop(sub_by_id[["natal_zulu_kingdom"]]$population[["1700"]])` in 1700AD before Mfecane warfare lowered numbers to `r viscount_fmt_pop(sub_by_id[["natal_zulu_kingdom"]]$population[["1830"]])` in 1830AD [@Deflem2022WarfarePolitical]. Under Shaka, Dingane, Mpande and Cetshwayo, royal *amakhanda* barracks functioned as seasonal military capitals: KwaBulawayo reached 9.240 inhabitants in 1825, uMgungundlovu held 8.640 in 1836, Nodwengu numbered 5.420 in 1865 and Ulundi (Ondini) stood at 6.480 in 1878 ahead of the 1879 Anglo-Zulu War [@Deflem2022WarfarePolitical]. Simultaneously, British settlement and sugar-estate immigration of indentured Indian workers propelled Durban from 45 traders in 1824 to 5k in 1870, 25.512 in 1891 and 68k in 1900, alongside Pietermaritzburg (1.520 in 1845 to 17.500 in 1891), pushing Natal-Zululand to `r viscount_fmt_pop(sub_by_id[["natal_zulu_kingdom"]]$population[["1900"]])` inhabitants (`r viscount_fmt_number(sub_by_id[["natal_zulu_kingdom"]]$end_density_km2, 1L)` persons per km²) by 1900AD [@Catalog1800StatisticalRegister].
+
+On the Highveld plateau west of the Drakensberg, Orange Free State and Basutoland (217.727 km², 22 assessed sites) rose from `r viscount_fmt_pop(sub_by_id[["orange_free_state_basutoland"]]$population[["1500"]])` in 1500AD to `r viscount_fmt_pop(sub_by_id[["orange_free_state_basutoland"]]$population[["1700"]])` in 1700AD, dipped to `r viscount_fmt_pop(sub_by_id[["orange_free_state_basutoland"]]$population[["1830"]])` during the Difaqane, and grew rapidly thereafter to `r viscount_fmt_pop(sub_by_id[["orange_free_state_basutoland"]]$population[["1880"]])` in 1880AD and `r viscount_fmt_pop(sub_by_id[["orange_free_state_basutoland"]]$population[["1900"]])` in 1900AD. Moshoeshoe's mountain fortress at Thaba Bosiu rose from 4.850 inhabitants in 1833 to 8.920 in 1848 (assisted by Paris Evangelical missionaries at Morija and later colonial towns at Maseru, Mafeteng and Hlotse), while Rolong refugees settled at Thaba Nchu (11.400 in 1838 and 12.600 in 1880) and Boer republicans built Mangaung (Bloemfontein, growing from 310 in 1848 to 3.379 in 1890), Winburg, Harrismith and Kroonstad [@Leanya2024ChurchAnd; @Bunbury1848CapeGoodHope].
+
+## Transvaal, Pedi, Swazi and the Witwatersrand Gold Boom
+
+North of the Vaal River across the Transvaal (Zuid-Afrikaansche Republiek), Pedi heartland, Swazi kingdom and Gaza lowlands (331.548 km², 28 assessed sites), population stood at `r viscount_fmt_pop(sub_by_id[["transvaal_zar_swazi_pedi"]]$population[["1500"]])` in 1500AD and `r viscount_fmt_pop(sub_by_id[["transvaal_zar_swazi_pedi"]]$population[["1700"]])` in 1700AD, reflecting dense Late Iron Age stone-walled Tswana, Venda and Sotho-Pedi settlements [@SAHRIS2024SouthAfrica; @Killick2009CairoToCape]. Pre-Mfecane Tswana capitals in the Marico and Rustenburg valleys reached urban scale: Molokwane grew from 7.800 in 1720 to 13.400 in 1810, Marothodi held 5.850 in 1820, and Hurutshe capital Kaditshwene reached 18.400 in 1820 before Ndebele invasions sacked Mosega and western Transvaal towns in 1823-1832 [@Gulbrandsen1993TheRise; @Smith1849IllustrationsThe].
+
+From the 1840s onward, Sekhukhune's Pedi stronghold at Tshate (7.450 in 1876), Swazi royal seats at Lobamba (5.150 in 1894) and Gaza-Nguni capital Vila de Mandlakazi in southern Mozambique (14.500 in 1885) coexisted uneasily with Boer settlements at Potchefstroom, Pretoria (founded 1855; 11.800 in 1890 and 33k by 1900) and Lourenço Marques (Maputo, 4.860 in 1894) [@Deflem2022WarfarePolitical]. Discovery of the Witwatersrand main gold reef in 1886 transformed the Highveld overnight: Johannesburg surged from 3k diggers in 1886 to 26k in 1890 and 102.078 in the 1896 Sanitary Board census, flanked by Germiston, Krugersdorp and Boksburg, raising the Transvaal-Pedi-Swazi sub-region from `r viscount_fmt_pop(sub_by_id[["transvaal_zar_swazi_pedi"]]$population[["1880"]])` in 1880AD to `r viscount_fmt_pop(sub_by_id[["transvaal_zar_swazi_pedi"]]$population[["1900"]])` in 1900AD [@Catalog1800StatisticalRegister].
+
+## Tswana Merafe, Rozvi-Ndebele Zimbabwe and Namibia
+
+Across the semi-arid Kalahari margin of the Tswana chiefdoms and Bechuanaland (591.082 km², 8 assessed sites), population stayed remarkably stable around `r viscount_fmt_pop(sub_by_id[["tswana_bechuanaland_kalahari"]]$population[["1500"]])` in 1500AD, `r viscount_fmt_pop(sub_by_id[["tswana_bechuanaland_kalahari"]]$population[["1700"]])` in 1700AD, `r viscount_fmt_pop(sub_by_id[["tswana_bechuanaland_kalahari"]]$population[["1830"]])` in 1830AD and `r viscount_fmt_pop(sub_by_id[["tswana_bechuanaland_kalahari"]]$population[["1900"]])` in 1900AD (`r viscount_fmt_number(sub_by_id[["tswana_bechuanaland_kalahari"]]$end_density_km2, 2L)` persons per km²). Because seasonal drought and cattle raids favoured defensive concentration, Tswana *merafe* built the largest indigenous towns in nineteenth-century interior Southern Africa: Ngwato capital Shoshong peaked at 26.400 in 1875 before relocating to Old Palapye (19.200 in 1892), Kwena capital Molepolole reached 15.800 in 1880, Ngwaketse capital Kanye held 14.600 in 1885 and Mochudi reached 8.650 in 1890, while Kololo capitals Linyanti (7.250 in 1855) and Sesheke (5.400 in 1860) anchored the upper Zambezi floodplain [@Gulbrandsen1993TheRise; @Smith1849IllustrationsThe].
+
+North of the Limpopo in Rozvi, Ndebele and Mashonaland (503.704 km², 20 interior and 2 lower-Zambezi/coastal sites), population formed the largest single regional concentration before 1880, rising from `r viscount_fmt_pop(sub_by_id[["rozvi_ndebele_matabeleland"]]$population[["1500"]])` in 1500AD to `r viscount_fmt_pop(sub_by_id[["rozvi_ndebele_matabeleland"]]$population[["1700"]])` in 1700AD and `r viscount_fmt_pop(sub_by_id[["rozvi_ndebele_matabeleland"]]$population[["1900"]])` in 1900AD [@Pikirayi2001ZimbabweCulture; @NMMZ2022ZimbabweSites]. Torwa and Rozvi stone capitals at Khami (7.200 in 1550) and Danamombe (6.350 in 1780) succeeded Great Zimbabwe (2.800 in 1500 declining to 1.180 by 1650), while Portuguese Sofala dropped from 10k in 1505 to 720 by 1900 alongside Zambezi *prazo* towns at Massangano (11.240 in 1875) and Zumbo [@Horta2000EvidenceFor; @Chirikure1820NewPathways]. Following Ndebele migration across the Limpopo in 1838-1840, Mhlahlandlela (9.850 in 1860) and Bulawayo (14.600 in 1885) anchored Matabeleland until British South Africa Company conquest in 1893-1897 shifted colonial growth toward Harare (Salisbury, 5.120 in 1897) and the port of Beira (4.223 in 1900) [@Pikirayi2001ZimbabweCulture].
+
+In arid South-West Africa, the Namaqua and Herero polities (401.832 km², 13 assessed sites) contracted from `r viscount_fmt_pop(sub_by_id[["namaqua_herero_namibia"]]$population[["1500"]])` in 1500AD and `r viscount_fmt_pop(sub_by_id[["namaqua_herero_namibia"]]$population[["1700"]])` in 1700AD to `r viscount_fmt_pop(sub_by_id[["namaqua_herero_namibia"]]$population[["1830"]])` in 1830AD and `r viscount_fmt_pop(sub_by_id[["namaqua_herero_namibia"]]$population[["1900"]])` by 1900AD (`r viscount_fmt_number(sub_by_id[["namaqua_herero_namibia"]]$end_density_km2, 2L)` persons per km²) amid Orlam-Herero cattle wars, German colonial encroachment after 1884 and the 1897 rinderpest panzootic, with small mission and administrative centres at Okahandja (5.150 in 1894), Windhoek (2.940 in 1855, 1.960 in 1895), Otjimbingwe, Omaruru and Rehoboth [@Roberts2016ClimateEnvironment]. Farther north along the Cuvelai pans and Okavango river, the Ovambo kingdoms and Kavango floodplains (455.002 km², 5 assessed sites) remained far denser and insulated from direct colonial rule until after 1902, sustaining `r viscount_fmt_pop(sub_by_id[["ovambo_kavango_north_namibia"]]$population[["1500"]])` inhabitants in 1500AD, `r viscount_fmt_pop(sub_by_id[["ovambo_kavango_north_namibia"]]$population[["1700"]])` in 1700AD and `r viscount_fmt_pop(sub_by_id[["ovambo_kavango_north_namibia"]]$population[["1900"]])` in 1900AD around royal centres at Oshikango (7.600 in 1895) and Ondangwa (6.350 in 1895).
+
+## Leading Urban Centres and Nineteenth-Century Reordering
+
+Table \ref{tab:top-centres} lists the twelve largest individually assessed settlements in Southern Africa between 1500AD and 1902AD. The contrast between pre-mineral Tswana capitals (Shoshong, Old Palapye, Kaditshwene, Dithakong, Molepolole) and post-1870 colonial port and mining cities (Cape Town, Johannesburg, Durban, Port Elizabeth, Pretoria, Kimberley, Pietermaritzburg) captures the structural pivot from dispersed agro-pastoral towns of 10k to 26k residents toward rail-linked industrial and administrative metropolises exceeding 50k to 100k inhabitants by the close of the century [@Catalog1800StatisticalRegister; @Gulbrandsen1993TheRise].
+
+```{r tab5-top-centres, results='asis'}
+top_12 <- summary_cache$top_settlements[seq_len(min(12L, length(summary_cache$top_settlements)))]
+df_t5 <- data.frame(
+  Settlement = vapply(top_12, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_12, function (s) as.character(s$country), character(1)),
+  Span = vapply(top_12, function (s) {
+    if (s$min_year == s$max_year) paste0(s$min_year, "AD") else paste0(s$min_year, "-", s$max_year)
+  }, character(1)),
+  `Peak Pop.` = vapply(top_12, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Year` = vapply(top_12, function (s) as.character(s$peak_year), character(1)),
+  Obs = vapply(top_12, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Twelve largest individually assessed settlements in Southern Africa between 1500AD and 1902AD.",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Three evidentiary constraints bound these reconstructions. First, quantitative records before 1800 remain heavily skewed toward the Cape Colony littoral and Portuguese Zambezi fairs [@Vink2019FromThe; @Horta2000EvidenceFor; @Ross1975TheWhite]. While VOC *opgaafrollen* track Cape burghers and enslaved households down to single-digit precision, interior Nguni, Sotho-Tswana, Pedi, Ovambo and Herero populations before 1820 rely on retrospective colonial tallies, archaeological site densities and ecological carrying capacities carrying roughly 15% to 25% uncertainty [@LaCroix2016KhoikhoiPopulation; @SAHRIS2024SouthAfrica; @Killick2009CairoToCape].
+
+Second, thirty-nine of the 163 settlement entries hold only a single dated observation, mostly nineteenth-century mission stations, short-lived Mfecane capitals such as Marothodi (1820) and Mosega (1835), or late colonial mining camps. In addition, the Cape Town ledger retains a secondary 1850 synthesis entry of 290k derived from regional Cape Colony urban compilations, whereas municipal counts record 21.840 in 1840 and 28.457 in 1865; both are documented transparently so users separating municipal boundaries from wider Cape district counts can filter accordingly [@Catalog1800StatisticalRegister; @Shell1994ChildrenBondage].
+
+Third, colonial censuses in Natal, the Transvaal and the Orange Free State prior to 1904 frequently under-enumerated rural African populations outside magisterial tax districts, while wartime displacement during the South African War (1899-1902) caused temporary concentration-camp and refugee shifts between rural districts and garrison towns [@Catalog1800StatisticalRegister; @Leanya2024ChurchAnd]. Linking 1900AD benchmarks directly to the simultaneous 1904 British South African censuses mitigates under-enumeration bias, though rural-urban margins in 1899-1902 remain provisional.
+
+# Conclusion
+
+Between 1500AD and 1902AD, Southern Africa shifted from a sparsely settled agro-pastoral and foraging subcontinent of `r viscount_fmt_pop(headline_vals[["1500"]])` inhabitants into an industrialising mineral-and-settler region of `r viscount_fmt_pop(headline_vals[["1900"]])` people. That trajectory was neither linear nor uniform: seventeenth-century interior expansion to `r viscount_fmt_pop(headline_vals[["1700"]])` gave way to an eighteenth-century contraction to `r viscount_fmt_pop(headline_vals[["1780"]])` following Cape smallpox epidemics and Khoikhoi dispossession, followed by Mfecane dislocation around `r viscount_fmt_pop(headline_vals[["1830"]])` in 1830AD and rapid late nineteenth-century demographic growth after the Kimberley and Witwatersrand mineral discoveries. By uniting `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across 10 historical sub-regions with VOC *opgaafrollen*, simultaneous 1904 colonial censuses and spatial kriging, NICETHI supplies a continuous quantitative bridge into twentieth-century Southern African population history.
+
+# Appendix
+
+## Sub-Regional Population Density and Territorial Shares
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all 10 historical sub-regions from 1500AD to 1900AD, highlighting the persistent contrast between Natal-Zululand (`r viscount_fmt_number(sub_by_id[["natal_zulu_kingdom"]]$end_density_km2, 1L)` persons per km²) and the arid Namaqua-Herero and Kalahari-Tswana interiors (`r viscount_fmt_number(sub_by_id[["namaqua_herero_namibia"]]$end_density_km2, 2L)` and `r viscount_fmt_number(sub_by_id[["tswana_bechuanaland_kalahari"]]$end_density_km2, 2L)` persons per km²). Table \ref{tab:shares-appendix} records each sub-region's percentage share of the regional total, capturing the late nineteenth-century shift from the Rozvi-Zimbabwe plateau (35,5% in 1500AD to 14,1% in 1900AD) toward Natal, Griqualand West and the Transvaal.
+
+```{r tab6-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1500AD` = viscount_fmt_number(as.numeric(ps[["1500"]]) / ar, 2L),
+    `1700AD` = viscount_fmt_number(as.numeric(ps[["1700"]]) / ar, 2L),
+    `1780AD` = viscount_fmt_number(as.numeric(ps[["1780"]]) / ar, 2L),
+    `1830AD` = viscount_fmt_number(as.numeric(ps[["1830"]]) / ar, 2L),
+    `1880AD` = viscount_fmt_number(as.numeric(ps[["1880"]]) / ar, 2L),
+    `1900AD` = viscount_fmt_number(as.numeric(ps[["1900"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1500AD` = viscount_fmt_number(headline_vals[["1500"]] / total_area_km2, 2L),
+  `1700AD` = viscount_fmt_number(headline_vals[["1700"]] / total_area_km2, 2L),
+  `1780AD` = viscount_fmt_number(headline_vals[["1780"]] / total_area_km2, 2L),
+  `1830AD` = viscount_fmt_number(headline_vals[["1830"]] / total_area_km2, 2L),
+  `1880AD` = viscount_fmt_number(headline_vals[["1880"]] / total_area_km2, 2L),
+  `1900AD` = viscount_fmt_number(headline_vals[["1900"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t6 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Mean population density (persons per km²) across ten historical sub-regions from 1500AD to 1900AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab7-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1500AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1500"]]) / headline_vals[["1500"]], 1L),
+    `1700AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1700"]]) / headline_vals[["1700"]], 1L),
+    `1780AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1780"]]) / headline_vals[["1780"]], 1L),
+    `1830AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1830"]]) / headline_vals[["1830"]], 1L),
+    `1880AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1880"]]) / headline_vals[["1880"]], 1L),
+    `1900AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1900"]]) / headline_vals[["1900"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t7 <- do.call(rbind, share_rows)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Percentage share of regional population across ten historical sub-regions from 1500AD to 1900AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Historical spellings preserve attested colonial orthographies in administrative census tables (such as Graaff-Reinet and Lourenço Marques) alongside modern standardised indigenous names such as uMgungundlovu, Kaditshwene, Mangaung (Bloemfontein) and Ulundi (Ondini). Two lower-Zambezi and Inhambane coastal settlements (Massangano-Zambezi and Manyikeni) lie immediately outside the 0,25-degree spatial buffer of the Rozvi-Mashonaland raster mask (161 interior polygon matches in Table \ref{tab:subregions}) and are included in the companion gazetteer so all 163 settlements are catalogued.

@@ -1,0 +1,539 @@
+---
+title: "Colonial East Africa (1880s-1963)"
+subtitle: "Uganda, Kenya, Tanganyika, Zanzibar and Ruanda-Urundi"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_east_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Eight colonial sub-regions and 181 individually assessed settlements across East Africa between 1880AD and 1963AD."
+hero_label: "fig:hero-colonial-east-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("colonial_east_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("colonial_east_africa_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("1880", "1900", "1910", "1930", "1940", "1951", "1963")
+headline_vals <- vapply(
+  c("1880", "1900", "1910", "1930", "1940", "1951", "1957", "1960", "1963"),
+  function (k) as.numeric(summary_cache$headline_series[[k]]),
+  numeric(1)
+)
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(c(1880, 1900, 1910, 1930, 1940, 1951, 1957, 1960, 1963), function (yr) {
+    sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr))
+  }, integer(1)),
+  c("1880", "1900", "1910", "1930", "1940", "1951", "1957", "1960", "1963")
+)
+
+subregion_order <- c(
+  "uganda_protectorate",
+  "kenya_colony_highlands_nyanza",
+  "kenya_coast_northern_frontier",
+  "tanganyika_north_lake",
+  "tanganyika_central_coastal",
+  "tanganyika_southern_highlands",
+  "zanzibar_protectorate",
+  "ruanda_urundi_mandate"
+)
+
+subadmin_list <- summary_cache$subadmin_benchmark_tables
+find_subadmin <- function (polity, yr) {
+  for (tbl in subadmin_list) {
+    if (identical(tbl$polity_code, polity) && identical(as.integer(tbl$year), as.integer(yr))) {
+      return(tbl)
+    }
+  }
+  NULL
+}
+```
+
+# Abstract
+
+Between the 1880s and the eve of independence in 1963AD, European partition, railway construction, export agriculture, epidemic shocks and late-colonial census enumeration reshaped the population geography of Uganda, Kenya, Tanganyika, Zanzibar and Ruanda-Urundi. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning `r viscount_fmt_number(length(summary_cache$countries), 0L)` modern jurisdictions, NICETHI reconstructs an aggregate regional population that contracted from `r viscount_fmt_pop(headline_vals[["1880"]])` inhabitants in 1880AD to `r viscount_fmt_pop(headline_vals[["1900"]])` in 1900AD and `r viscount_fmt_pop(headline_vals[["1910"]])` in 1910AD under rinderpest, sleeping sickness, pacification campaigns and early colonial dislocation. After the First World War, demographic recovery accelerated across every territory, carrying regional population to `r viscount_fmt_pop(headline_vals[["1930"]])` in 1930AD, `r viscount_fmt_pop(headline_vals[["1940"]])` in 1940AD, `r viscount_fmt_pop(headline_vals[["1951"]])` in 1951AD and `r viscount_fmt_pop(headline_vals[["1963"]])` by 1963AD, at a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons per km². Urbanisation followed railway corridors and administrative hubs rather than pre-colonial caravan towns alone: Nairobi expanded from a Uganda Railway depot founded in 1899AD to `r viscount_fmt_pop(315000)` city-proper residents by 1960AD, outstripping Mombasa, Dar es Salaam, Kampala and Zanzibar while older entrepots such as Bagamoyo, Kilwa Kivinje and Tabora stagnated or grew slowly. Meanwhile, highland Ruanda-Urundi retained the highest rural crowding on the East African plateau (`r viscount_fmt_number(sub_by_id[["ruanda_urundi_mandate"]]$end_density_km2, 1L)` persons per km² in 1963AD) despite the 1943-1944 Ruzagayura famine. These estimates integrate `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations with colonial administrative Blue Books, League of Nations mandate reports, the 1948AD East African census, territorial enumerations of 1957AD to 1962AD and mass-conserving pycnophylactic spatial disaggregation.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Eight colonial sub-regions and 181 individually assessed settlements across East Africa between 1880AD and 1963AD.",
+    "fig:hero-colonial-east-africa"
+  )
+}
+```
+
+# Background
+
+## Partition, Ecological Shocks and the First World War (1880AD to 1919AD)
+
+On the eve of European partition in 1880AD, East Africa combined densely cultivated interlacustrine kingdoms, Swahili coastal towns linked to Zanzibar's clove and ivory economy, pastoral rift plains and long-distance Nyamwezi and Arab caravan corridors [@Gilbert1970CoastalEast; @Issa2023FromStinkibar]. Within fifteen years, Anglo-German treaties (1886AD and 1890AD) and Belgian Congo boundary conventions partitioned the region into the Uganda Protectorate, the East Africa Protectorate (later Kenya Colony and Protectorate), German East Africa (mainland Tanganyika alongside Ruanda and Urundi) and the British Protectorate of Zanzibar [@Johnston1902TheUganda; @Kuczynski1949DemographicSurvey2].
+
+Partition coincided with acute biological and subsistence crises. In the early 1890s, panzootic rinderpest swept across Kenya, Tanganyika and Uganda, destroying pastoral cattle herds and triggering severe famine among Maasai, Kikuyu, Kamba and interlacustrine communities [@Kuczynski1949DemographicSurvey2; @Office1933AnnualReport]. Between 1901AD and 1910AD, a catastrophic sleeping sickness (*Trypanosoma brucei gambiense*) epidemic around the northern shores and islands of Lake Victoria killed an estimated 200k to 300k inhabitants of Buganda and Busoga, prompting forced lakeside evacuations by the Uganda Protectorate administration [@Johnston1902TheUganda; @UgandaBlueBook1918]. Simultaneously, German military suppression of the Maji Maji uprising in southern Tanganyika (1905AD to 1907AD) caused widespread scorched-earth famine and depopulation across the Rufiji, Ruvuma and Songea basins [@Office1938ReportHis; @Ruiz2012AculturizacionDiferenciacion].
+
+The East African Campaign of 1914AD to 1918AD compounded those losses. Unlike the European Western Front, military logistics across bush tracks lacking motor roads relied on conscripted African porters (the Carrier Corps in British territories and *Träger* levies in German East Africa). Wartime requisitioning of grain and livestock, dysentery, malaria and the 1918-1919 influenza pandemic produced heavy excess mortality across Kenya, Tanganyika, Uganda and Ruanda-Urundi [@UgandaBlueBook1918; @Kuczynski1949DemographicSurvey2; @Ozkose2022TheHumanity]. Under the 1919-1922 League of Nations mandate settlement, Britain assumed Tanganyika Territory while Belgium administered Ruanda-Urundi [@Office1938ReportHis; @Ozkose2022TheHumanity].
+
+## Railways, Settler Alienation, Cash Crops and Post-1945 Censuses
+
+Interwar recovery rested on sharply contrasting colonial political economies. In Uganda, African smallholders expanded cotton and Robusta coffee cultivation along Lake Victoria and the Busoga-Teso rail spurs, while Nubian garrison settlements and northern labour reserves reshaped urban and rural districts [@Amone2018ContestedCitizenship; @UgandaBlueBook1923; @Okoboi2012ConstraintsFertilizer]. In Kenya, completion of the Uganda Railway from Mombasa to Kisumu (1901AD) anchored Nairobi (founded 1899AD) and alienated central and Rift Valley lands as the White Highlands, confining Kikuyu, Luo, Luhya and Kamba farmers to crowded reserves and generating male labour migration to settler farms and towns [@Office1933AnnualReport; @Mashara2016FactorsInfluencing]. Land hunger and forced villagisation culminated in the Mau Mau Emergency of 1952AD to 1960AD across central Kenya [@Kuczynski1949DemographicSurvey2; @Martin1961EastAfrica].
+
+In Tanganyika, sisal estates along the Tanga and Central railways, Chagga coffee on Kilimanjaro and Sukuma cotton south of Lake Victoria coexisted with forest reserve displacements in the Southern Highlands and uneven labour recruitment [@Tanganyika1930AgricultureReport; @Tanganyika1940AgricultureReport; @Mwandete2025ColonialScientific]. Zanzibar shifted from nineteenth-century slave-worked clove plantations toward urban sanitation reforms, migrant mainland labour and post-1945 population stabilisation on Unguja and Pemba [@Issa2023FromStinkibar; @Salum2026ReclaimingDarajani]. In Belgian Ruanda-Urundi, extreme highland population densities collided with mandatory coffee cultivation, *corvée* labour and drought in 1943-1944, producing the Ruzagayura famine that killed roughly 200k to 300k people and drove large-scale migration into Uganda and eastern Belgian Congo [@Ozkose2022TheHumanity; @Atozo2024TheImpact].
+
+Before 1948AD, territorial population figures rested largely on hut-and-poll tax registers compiled in Colonial Office annual reports and Uganda Blue Books [@UgandaBlueBook1918; @UgandaBlueBook1923; @Office1933AnnualReport; @Office1938ReportHis]. In 1948AD, the East African Statistical Department under C. J. Martin carried out the first synchronised African population census across Kenya, Tanganyika and Uganda alongside Zanzibar's parallel enumeration, establishing the modern baseline later refined in Tanganyika (1957AD), Uganda (1959AD) and Kenya (1962AD) [@EastAfrica1948Census; @Martin1961EastAfrica; @Golaz2011TheVulnerability].
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The study area covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells spanning `r viscount_fmt_number(length(summary_cache$countries), 0L)` modern jurisdictions. Within NICETHI, Chapter 14 occupies Regime 2 (1880AD to 1963AD), bridging nineteenth-century Swahili-Omani and interlacustrine baselines with post-independence national censuses. Eight contiguous colonial administrative sub-regions partition the territory along protectorate, colony, provincial and League of Nations mandate boundaries (Table \ref{tab:subregions}).
+
+Kenya is divided between the Highlands, Rift and Nyanza core (`r viscount_fmt_number(sub_by_id[["kenya_colony_highlands_nyanza"]]$area_km2, 0L)` km²) and the Coast Protectorate and Northern Frontier (`r viscount_fmt_number(sub_by_id[["kenya_coast_northern_frontier"]]$area_km2, 0L)` km²). Mainland Tanganyika is split into three provincial groupings reflecting agro-ecological and transport corridors: Lake, Northern and Tanga provinces (`r viscount_fmt_number(sub_by_id[["tanganyika_north_lake"]]$area_km2, 0L)` km²), Eastern, Central and Western provinces (`r viscount_fmt_number(sub_by_id[["tanganyika_central_coastal"]]$area_km2, 0L)` km²), and Southern and Southern Highlands (`r viscount_fmt_number(sub_by_id[["tanganyika_southern_highlands"]]$area_km2, 0L)` km²). Uganda Protectorate (`r viscount_fmt_number(sub_by_id[["uganda_protectorate"]]$area_km2, 0L)` km²), Ruanda-Urundi (`r viscount_fmt_number(sub_by_id[["ruanda_urundi_mandate"]]$area_km2, 0L)` km²) and the Zanzibar Protectorate islands of Unguja and Pemba (`r viscount_fmt_number(sub_by_id[["zanzibar_protectorate"]]$area_km2, 0L)` km²) round out the eight-part partition [@Runfola2020GeoBoundaries].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  Era = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    paste0(pts[1], "AD-", pts[2], "AD")
+  }, character(1)),
+  `Interior Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Eight colonial sub-regions of East Africa, showing surface area, 5-arcminute pixel counts, historical eras, interior assessed settlements and area shares.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Screening and Urban Scope Reconciliation
+
+To reconstruct the colonial urban hierarchy across `r viscount_fmt_number(n_candidate_sites, 0L)` candidate towns, railway stations, *bomas*, mining camps and ports, five duplicate Wave-3 alias records (Moyale in Kenya, Karonga in Malawi, and Malindi, Manda and Pate along the Kenya coast) were merged into canonical entries, leaving `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations (Figure \ref{fig:hero-colonial-east-africa}). Every settlement time series rests on colonial census returns, Deutsch-Ostafrika annual reports, Belgian Congo and Ruanda-Urundi administrative reports, East African Institute of Social Research urban surveys, National Museums of Kenya coastal inventories or Africapolis mid-century town delimitations [@EastAfrica1948Census; @NMK2021KenyaSites; @Issa2023FromStinkibar; @Office1938ReportHis].
+
+Unlike pre-colonial chapters where all settlements share a city-proper footprint, late-colonial urban growth around 1950AD to 1960AD created multi-node suburban agglomerations. The ledger therefore maintains `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city-proper series alongside `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` explicitly labelled metropolitan agglomerations: Nairobi, Mombasa, Dar es Salaam, Kampala, Bujumbura and Kigali [@Martin1961EastAfrica; @Salum2026ReclaimingDarajani]. Keeping city-proper and agglomeration records separate prevents artificial breaks between 1948AD municipal boundaries and 1950AD to 1960AD built-up urban extents while ensuring that regional totals never double-count peri-urban populations.
+
+## Sub-Administrative Census Harmonisation and Spatial Disaggregation
+
+Rural populations were anchored to colonial tax-roll revisions prior to 1948AD and directly to official provincial enumerations from 1948AD onward [@Kuczynski1949DemographicSurvey2; @EastAfrica1948Census; @Martin1961EastAfrica]. Kuczynski's critical audit of early British East African censuses demonstrated that pre-1948AD tax-based multipliers systematically undercounted women, children and pastoralists in northern Kenya, Karamoja and central Tanganyika [@Kuczynski1949DemographicSurvey2]. Accordingly, the 1948AD census serves as the primary calibration anchor from which interwar series are back-projected with territory-specific growth corrections for sleeping sickness, First World War porter losses and the 1943-1944 Ruanda-Urundi famine [@UgandaBlueBook1918; @Tanganyika1930AgricultureReport; @Ozkose2022TheHumanity].
+
+Continuous five-arcminute surfaces over the 14 benchmark years (1880AD to 1963AD) combine historical colonial province polygons (1914AD Colonial Africa, 1925AD League of Nations Mandates, 1940AD Colonial Africa and 1950AD to 1963AD modern provincial outlines), HYDE 3.5 and KK10 agricultural suitability priors and pycnophylactic mass-conserving disaggregation over geoBoundaries administrative outlines [@Runfola2020GeoBoundaries]. Across 81 disaggregated years and 30.911 administrative unit-year checks in the continental pipeline, 100% of units satisfy mass conservation within 0,01%, with a worst-case unit relative error of $5,603 \times 10^{-8}$ and zero residual boundary leakage.
+
+# Testing and Validation
+
+## Colonial Provincial Enumerations vs. Regional Reconstructions
+
+Comparing NICETHI sub-regional aggregates against published colonial census tables tests both territorial completeness and provincial boundary alignment (Table \ref{tab:colonial-censuses}). In 1948AD, the East African Statistical Department enumerated 5.405.966 inhabitants across Kenya's six provinces, 4.955.176 across Uganda's four provinces and 7.477.677 on mainland Tanganyika (7.741.839 including Zanzibar and Pemba's 264.162 residents) [@EastAfrica1948Census; @Martin1961EastAfrica]. That combined British East African census total of 18.103.001 in 1948AD aligns closely with NICETHI's 1951AD total of `r viscount_fmt_pop(headline_vals[["1951"]])` once Ruanda-Urundi (`r viscount_fmt_pop(sub_by_id[["ruanda_urundi_mandate"]]$population[["1951"]])` in 1951AD) and three years of post-war demographic growth (roughly 1,8% to 2,2% per year) are incorporated [@Kuczynski1949DemographicSurvey2; @Martin1961EastAfrica].
+
+```{r tab2-colonial-censuses, results='asis'}
+tza_48 <- find_subadmin("TZA", 1948L)
+tza_67 <- find_subadmin("TZA", 1967L)
+znz_10 <- find_subadmin("ZNZ", 1910L)
+znz_48 <- find_subadmin("ZNZ", 1948L)
+znz_67 <- find_subadmin("ZNZ", 1967L)
+ken_48 <- find_subadmin("KEN", 1948L)
+ken_62 <- find_subadmin("KEN", 1962L)
+uga_48 <- find_subadmin("UGA", 1948L)
+uga_59 <- find_subadmin("UGA", 1959L)
+uga_59_adm1 <- Filter(function (u) identical(u$admin_level, "ADM1"), uga_59$units)
+uga_59_adm1_tot <- sum(vapply(uga_59_adm1, function (u) as.numeric(u$population), numeric(1)))
+
+df_t2 <- data.frame(
+  Territory = c(
+    "Uganda Protectorate",
+    "Uganda Protectorate",
+    "Kenya Colony and Protectorate",
+    "Kenya Colony and Protectorate",
+    "Tanganyika and Zanzibar",
+    "Tanganyika and Zanzibar",
+    "Zanzibar Protectorate",
+    "Zanzibar Protectorate",
+    "Zanzibar Protectorate"
+  ),
+  `Census Year` = c("1948AD", "1959AD", "1948AD", "1962AD", "1948AD", "1967AD", "1910AD", "1948AD", "1967AD"),
+  Units = c(
+    viscount_fmt_number(uga_48$unit_count, 0L),
+    paste0(viscount_fmt_number(length(uga_59_adm1), 0L), " (ADM1)"),
+    viscount_fmt_number(ken_48$unit_count, 0L),
+    viscount_fmt_number(ken_62$unit_count, 0L),
+    viscount_fmt_number(tza_48$unit_count, 0L),
+    viscount_fmt_number(tza_67$unit_count, 0L),
+    viscount_fmt_number(znz_10$unit_count, 0L),
+    viscount_fmt_number(znz_48$unit_count, 0L),
+    viscount_fmt_number(znz_67$unit_count, 0L)
+  ),
+  `Enumerated Pop.` = c(
+    viscount_fmt_number(uga_48$total_enumerated_pop, 0L),
+    viscount_fmt_number(uga_59_adm1_tot, 0L),
+    viscount_fmt_number(ken_48$total_enumerated_pop, 0L),
+    viscount_fmt_number(ken_62$total_enumerated_pop, 0L),
+    viscount_fmt_number(tza_48$total_enumerated_pop, 0L),
+    viscount_fmt_number(tza_67$total_enumerated_pop, 0L),
+    viscount_fmt_number(znz_10$total_enumerated_pop, 0L),
+    viscount_fmt_number(znz_48$total_enumerated_pop, 0L),
+    viscount_fmt_number(znz_67$total_enumerated_pop, 0L)
+  ),
+  Source = c(
+    "East African Census (UGA)",
+    "Uganda Census 1959 (ADM1)",
+    "East African Census (KEN)",
+    "Kenya Population Census 1962",
+    "East African Census (TZA+ZNZ)",
+    "Tanzania Census 1967",
+    "Zanzibar Protectorate Census",
+    "Zanzibar Protectorate Census",
+    "Tanzania/OCGS Census 1967"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Official colonial and immediate post-colonial sub-administrative census enumerations across British East Africa.",
+  arg3_options = list(label = "tab:colonial-censuses")
+)
+```
+
+Subsequent territorial censuses confirm the late-colonial acceleration recorded in the spatial series. Uganda's 1959AD census counted 6.536.531 inhabitants across its four provinces (exceeding NICETHI's 1958AD estimate of `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1958"]])` and reaching `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1963"]])` by 1963AD), while Kenya's 1962AD census recorded 8.633.700 inhabitants against NICETHI's 1963AD combined Kenyan total of `r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1963"]] + sub_by_id[["kenya_coast_northern_frontier"]]$population[["1963"]])` [@Martin1961EastAfrica; @Golaz2011TheVulnerability]. Across Tanganyika, the 1948AD baseline of 7.477.677 mainland residents rose by 1967AD to 11.959.109 (12.313.469 with Zanzibar), bracketing NICETHI's 1963AD mainland Tanganyika total of `r viscount_fmt_pop(sub_by_id[["tanganyika_central_coastal"]]$population[["1963"]] + sub_by_id[["tanganyika_north_lake"]]$population[["1963"]] + sub_by_id[["tanganyika_southern_highlands"]]$population[["1963"]])` [@EastAfrica1948Census; @Ruiz2012AculturizacionDiferenciacion].
+
+Cross-checking against continental historical demography syntheses confirms both level and slope. Frankema and Jerven's backward-projected series estimates total Sub-Saharan and North African population rising from 127,7M in 1880AD to 137,1M in 1900AD, 141,9M in 1910AD, 166,4M in 1930AD, 221,8M in 1950AD and 279,2M in 1960AD, matching the post-1920AD inflection observed across all eight East African sub-regions while noting sharper pre-1914AD East African contractions from rinderpest and sleeping sickness [@Kuczynski1949DemographicSurvey2; @Martin1961EastAfrica].
+
+## Urban Rank-Size Calibration and Hierarchy Diagnostics
+
+Across the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements, ordinary least-squares rank-size regression on the upper half (`r paste0("n=", summary_cache$rank_size$n_fit)`) yields a Zipf exponent of $q = 1,18$ ($R^2 = 0,98$), and full-sample regression across all 181 entries yields $q = 1,18$ ($R^2 = 0,99$). Figure \ref{fig:rank-size} plots the `r viscount_fmt_number(174L, 0L)` spatially interior settlements against an OLS fit of $q = 1,06$ ($R^2 = 0,99$) beside end-epoch sub-regional population densities in 1963AD.
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size distribution across 174 spatially interior settlements (OLS slope q = 1,06, R² = 0,99) and mean 1963AD population density across the eight colonial sub-regions.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+That near-unit Zipf slope ($q \approx 1,06$ to $1,18$) reflects a polycentric colonial urban system anchored by five distinct administrative and port capitals rather than a single primate metropolis: Nairobi (`r viscount_fmt_pop(315000)` city-proper; `r viscount_fmt_pop(295220)` agglomeration), Mombasa (`r viscount_fmt_pop(161308)` agglomeration; `r viscount_fmt_pop(84746)` city-proper in 1948AD), Dar es Salaam (`r viscount_fmt_pop(159469)` agglomeration; `r viscount_fmt_pop(129000)` city-proper), Kampala (`r viscount_fmt_pop(158000)` city-proper; `r viscount_fmt_pop(134848)` agglomeration) and Zanzibar (`r viscount_fmt_pop(60756)`), followed closely by eastern Congolese border hub Bukavu (`r viscount_fmt_pop(57315)`) and Ruanda-Urundi's capital Bujumbura (`r viscount_fmt_pop(49218)` agglomeration) [@Issa2023FromStinkibar; @Salum2026ReclaimingDarajani; @Gilbert1970CoastalEast]. Below the 40k threshold, secondary provincial headquarters, railway junctions and agricultural market towns (Tanga, Nakuru, Jinja, Tabora, Mwanza, Kisumu, Kigali, Eldoret, Arusha, Moshi and Mbeya) form a smooth log-linear cascade down to 1k-seat *bomas* [@Tanganyika1930AgricultureReport; @UgandaBlueBook1923].
+
+# Results
+
+## Demographic Contraction and Early Colonial Dislocation (1880AD to 1910AD)
+
+At the onset of partition in 1880AD, East Africa held `r viscount_fmt_pop(headline_vals[["1880"]])` inhabitants (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). Over the ensuing three decades, regional population declined by 7,7% to `r viscount_fmt_pop(headline_vals[["1900"]])` in 1900AD and `r viscount_fmt_pop(headline_vals[["1910"]])` in 1910AD. Every mainland Tanganyika corridor contracted sharply during the rinderpest panzootic, German conquest and the Maji Maji aftermath: Tanganyika's Eastern, Central and Western provinces fell from `r viscount_fmt_pop(sub_by_id[["tanganyika_central_coastal"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["tanganyika_central_coastal"]]$population[["1910"]])` (-11,3%), Lake, Northern and Tanga provinces dropped from `r viscount_fmt_pop(sub_by_id[["tanganyika_north_lake"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["tanganyika_north_lake"]]$population[["1910"]])` (-10,9%), and the Southern and Southern Highlands declined from `r viscount_fmt_pop(sub_by_id[["tanganyika_southern_highlands"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["tanganyika_southern_highlands"]]$population[["1910"]])` (-10,9%) [@Office1938ReportHis; @Mwandete2025ColonialScientific].
+
+Across the interlacustrine north, Buganda and Busoga suffered severe sleeping sickness mortality after 1901AD, reversing late nineteenth-century gains in Uganda Protectorate from `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1900"]])` in 1900AD to `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1910"]])` in 1910AD [@Johnston1902TheUganda; @UgandaBlueBook1918]. Simultaneously, Ruanda-Urundi fell from `r viscount_fmt_pop(sub_by_id[["ruanda_urundi_mandate"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["ruanda_urundi_mandate"]]$population[["1910"]])`, while Kenya's Coast Protectorate and Northern Frontier dropped from `r viscount_fmt_pop(sub_by_id[["kenya_coast_northern_frontier"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["kenya_coast_northern_frontier"]]$population[["1910"]])` as the abolition of slave plantations and interior caravan shifts reduced coastal agricultural labour [@Gilbert1970CoastalEast; @Office1933AnnualReport]. Zanzibar town likewise declined from 58k in 1885AD to 35,3k in 1910AD (when the island protectorate enumerated 197.199 inhabitants across Unguja and Pemba) as mainland trade diverted toward Mombasa and Dar es Salaam [@Issa2023FromStinkibar; @Salum2026ReclaimingDarajani].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional total and attested urban population trajectories, active recorded settlement counts peaking near 162 in 1951 to 1952, and growth of five leading East African centres from 1880AD to 1963AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Interwar Railway Economy and Agricultural Recovery (1910AD to 1940AD)
+
+Between 1910AD and 1940AD, despite First World War carrier mortality and the 1918-1919 influenza shock, aggregate population expanded by 51,2% from `r viscount_fmt_pop(headline_vals[["1910"]])` to `r viscount_fmt_pop(headline_vals[["1940"]])` (Table \ref{tab:trajectory}). Uganda Protectorate led early growth, climbing from `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1910"]])` in 1910AD to `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1930"]])` in 1930AD and `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1940"]])` in 1940AD (+61,2%) as smallholder cotton and coffee revenues improved household nutrition and public health administration [@UgandaBlueBook1923; @Adong2013WhatFactors]. Kenya's Highlands, Rift and Nyanza sub-region expanded even faster (+66,1% over the same span), rising from `r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1910"]])` to `r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1940"]])` as rail extensions to Eldoret, Kitale and Nanyuki stimulated commercial maize, tea and sisal estates [@Office1933AnnualReport; @NMK2021KenyaSites].
+
+In Tanganyika, recovery was strongest in the Lake, Northern and Tanga provinces (`r viscount_fmt_pop(sub_by_id[["tanganyika_north_lake"]]$population[["1910"]])` to `r viscount_fmt_pop(sub_by_id[["tanganyika_north_lake"]]$population[["1940"]])`, +67,2%), driven by Kilimanjaro arabica coffee, Tanga sisal plantations and Mwanza-Shinyanga cotton and goldfields (Geita) [@Tanganyika1930AgricultureReport; @Tanganyika1940AgricultureReport]. Eastern, Central and Western Tanganyika grew more modestly (`r viscount_fmt_pop(sub_by_id[["tanganyika_central_coastal"]]$population[["1910"]])` to `r viscount_fmt_pop(sub_by_id[["tanganyika_central_coastal"]]$population[["1940"]])`), as did the Southern and Southern Highlands (`r viscount_fmt_pop(sub_by_id[["tanganyika_southern_highlands"]]$population[["1910"]])` to `r viscount_fmt_pop(sub_by_id[["tanganyika_southern_highlands"]]$population[["1940"]])`), where tsetse-infested miombo woodland and colonial forest reserve restrictions constrained arable settlement [@Office1938ReportHis; @Mwandete2025ColonialScientific]. Belgian Ruanda-Urundi rose from `r viscount_fmt_pop(sub_by_id[["ruanda_urundi_mandate"]]$population[["1910"]])` to `r viscount_fmt_pop(sub_by_id[["ruanda_urundi_mandate"]]$population[["1940"]])` prior to the devastating 1943-1944 Ruzagayura famine [@Ozkose2022TheHumanity].
+
+```{r tab3-trajectory, results='asis'}
+df_t3 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `1880AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1880"]]), character(1)),
+  `1900AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1900"]]), character(1)),
+  `1910AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1910"]]), character(1)),
+  `1930AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1930"]]), character(1)),
+  `1940AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1940"]]), character(1)),
+  `1951AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1951"]]), character(1)),
+  `1963AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1963"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t3 <- data.frame(
+  Subregion = "Total Study Area",
+  `1880AD` = viscount_fmt_pop(headline_vals[["1880"]]),
+  `1900AD` = viscount_fmt_pop(headline_vals[["1900"]]),
+  `1910AD` = viscount_fmt_pop(headline_vals[["1910"]]),
+  `1930AD` = viscount_fmt_pop(headline_vals[["1930"]]),
+  `1940AD` = viscount_fmt_pop(headline_vals[["1940"]]),
+  `1951AD` = viscount_fmt_pop(headline_vals[["1951"]]),
+  `1963AD` = viscount_fmt_pop(headline_vals[["1963"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_row_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Sub-regional and total population trajectories across seven benchmark years from 1880AD to 1963AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Post-War Acceleration, Mau Mau Disruption and Independence (1940AD to 1963AD)
+
+After 1940AD, declining infant mortality, smallpox and malaria control, and expanded cassava and maize cultivation drove unprecedented demographic acceleration, nearly doubling the regional total from `r viscount_fmt_pop(headline_vals[["1940"]])` in 1940AD to `r viscount_fmt_pop(headline_vals[["1963"]])` in 1963AD (Table \ref{tab:trajectory}). Uganda Protectorate doubled from `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1940"]])` to `r viscount_fmt_pop(sub_by_id[["uganda_protectorate"]]$population[["1963"]])` (`r viscount_fmt_number(sub_by_id[["uganda_protectorate"]]$end_density_km2, 1L)` persons per km²), supported by high fertility and rising cross-border labour inflows from Rwanda, Burundi and northern Congo [@Golaz2011TheVulnerability; @Olamijuwon2016FertilityBehaviour; @Atozo2024TheImpact].
+
+In Kenya's Highlands, Rift and Nyanza sub-region, expansion from `r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1940"]])` in 1940AD to `r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1951"]])` in 1951AD paused sharply during the Mau Mau Emergency (`r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1955"]])` in 1955AD and `r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1958"]])` in 1958AD) as detention camps and emergency villagisation disrupted Central Province before full census reconciliation in 1962-1963AD lifted the sub-region to `r viscount_fmt_pop(sub_by_id[["kenya_colony_highlands_nyanza"]]$population[["1963"]])` (`r viscount_fmt_number(sub_by_id[["kenya_colony_highlands_nyanza"]]$end_density_km2, 1L)` persons per km²) [@Martin1961EastAfrica; @Mashara2016FactorsInfluencing]. Meanwhile, Kenya's Coast and Northern Frontier climbed from `r viscount_fmt_pop(sub_by_id[["kenya_coast_northern_frontier"]]$population[["1940"]])` to `r viscount_fmt_pop(sub_by_id[["kenya_coast_northern_frontier"]]$population[["1963"]])` (`r viscount_fmt_number(sub_by_id[["kenya_coast_northern_frontier"]]$end_density_km2, 1L)` persons per km²), and Tanganyika's three mainland zones reached a combined `r viscount_fmt_pop(sub_by_id[["tanganyika_central_coastal"]]$population[["1963"]] + sub_by_id[["tanganyika_north_lake"]]$population[["1963"]] + sub_by_id[["tanganyika_southern_highlands"]]$population[["1963"]])` [@Ruiz2012AculturizacionDiferenciacion].
+
+## Urban Concentration and Leading Colonial Centres
+
+Table \ref{tab:top-centres} lists the fifteen largest individually assessed urban records in the chapter ledger. Colonial transport infrastructure decisively reordered East Africa's urban map (Figure \ref{fig:trends}C). Nairobi expanded from 1.350 railway workers in 1901AD to 14.161 in 1911AD, 47.919 in 1931AD, 118.976 in 1948AD and 315k city-proper inhabitants by 1960AD, overtaking Mombasa (84.746 in 1948AD; 161,3k agglomeration in 1960AD) [@Office1933AnnualReport; @EastAfrica1948Census]. Dar es Salaam rose from 4,5k in 1887AD and 22,5k in 1913AD to 69.227 in 1948AD and 129k city-proper (159,5k agglomeration) by 1960AD [@Office1938ReportHis].
+
+```{r tab4-top-centres, results='asis'}
+top_15 <- summary_cache$top_settlements[seq_len(min(15L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_15, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_15, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "United Republic of Tanzania")) "Tanzania"
+    else if (identical(c, "Democratic Republic of the Congo")) "DR Congo"
+    else c
+  }, character(1)),
+  Scope = vapply(top_15, function (s) {
+    if (identical(as.character(s$population_scope), "metro")) "Metro" else "City"
+  }, character(1)),
+  Span = vapply(top_15, function (s) {
+    if (s$min_year == s$max_year) paste0(s$min_year, "AD")
+    else paste0(s$min_year, "AD-", s$max_year, "AD")
+  }, character(1)),
+  `Peak Pop.` = vapply(top_15, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_15, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_15, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Fifteen largest individually assessed urban records in Colonial East Africa (1880AD to 1963AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+In Uganda, the pre-colonial Buganda royal capital of Kibuga (34k around 1885AD) gave way to colonial Kampala (2.400 in 1895AD, 24.203 in 1948AD and 158k by 1960AD), industrial Jinja (33,6k by 1960AD following the Owen Falls dam) and administrative Entebbe (7.942 in 1948AD) [@Johnston1902TheUganda; @UgandaBlueBook1923]. Along the western borderlands, eastern Congolese administrative and mining centres at Bukavu (57,3k in 1960AD), Bunia (13,3k) and Butembo (13k) grew alongside Bujumbura (49,2k agglomeration) on Lake Tanganyika [@Ozkose2022TheHumanity]. Conversely, pre-colonial caravan and dhow ports bypassed by trunk railways declined or stagnated: Bagamoyo fell from 18,5k in 1885AD to 5.112 in 1948AD, Kilwa Kivinje shrank, and Tabora peaked at 25k in 1913AD before settling at 16,8k in 1960AD [@Gilbert1970CoastalEast; @Salum2026ReclaimingDarajani].
+
+# Limitations
+
+Three structural constraints govern these reconstructions. First, pre-1948AD demographic series rely heavily on colonial hut-and-poll tax rolls and administrative estimates that systematically undercounted women, children and mobile pastoralists in northern Kenya, Karamoja and central Tanganyika [@Kuczynski1949DemographicSurvey2; @Martin1961EastAfrica]. Although backward calibration from the 1948AD East African census removes most systematic undercount bias, year-to-year mortality spikes during the 1890s rinderpest panzootic, the 1901-1910 sleeping sickness epidemic and First World War carrier conscription retain uncertainty margins of 15% to 25% [@UgandaBlueBook1918; @Office1938ReportHis].
+
+Second, settlement observation density drops abruptly after 1952AD (Figure \ref{fig:trends}B, falling from 162 active entries in 1951-1952AD to 30 in 1957-1960AD) because district *bomas* and smaller townships enumerated in 1948AD colonial tables transition into post-colonial national census ledgers beginning in 1961AD to 1969AD, while mid-century Africapolis series focus on towns above 10k inhabitants [@EastAfrica1948Census; @Golaz2011TheVulnerability]. Six settlements hold only single-date observations (including Kibuga at 1885AD and Bweranyange at 1890AD), limiting longitudinal interpolation for late nineteenth-century courts.
+
+Third, colonial census boundaries shifted across protectorate reorganisations, notably Kenya's 1962-1963 creation of Western and North-Eastern regions out of Nyanza and Northern Frontier, and Zanzibar's island-level versus mainland provincial aggregation [@Martin1961EastAfrica; @Runfola2020GeoBoundaries]. Discrepancies in Zanzibar's five-arcminute coastal pixel series (where coarse 31-pixel island raster aggregation understates the 1948AD and 1967AD official island counts of 264.162 and 354.360 shown in Table \ref{tab:colonial-censuses}) are flagged in the Appendix so readers use official island census totals for Zanzibar alongside mainland sub-regional series.
+
+# Conclusion
+
+Between 1880AD and 1963AD, East Africa experienced an initial three-decade demographic contraction from `r viscount_fmt_pop(headline_vals[["1880"]])` to `r viscount_fmt_pop(headline_vals[["1910"]])` under ecological and wartime shocks, followed by an almost three-fold recovery to `r viscount_fmt_pop(headline_vals[["1963"]])` inhabitants on the eve of decolonisation. Growth remained strongly uneven across space: by 1963AD, Ruanda-Urundi (`r viscount_fmt_number(sub_by_id[["ruanda_urundi_mandate"]]$end_density_km2, 1L)` persons per km²), Uganda (`r viscount_fmt_number(sub_by_id[["uganda_protectorate"]]$end_density_km2, 1L)` persons per km²) and the Kenya Highlands-Nyanza belt (`r viscount_fmt_number(sub_by_id[["kenya_colony_highlands_nyanza"]]$end_density_km2, 1L)` persons per km²) carried four to fifteen times the density of Tanganyika's central and southern woodlands or Kenya's northern frontier. Integrating `r viscount_fmt_number(n_total_sites, 0L)` colonial urban series with provincial census tables and mass-conserving spatial interpolation, NICETHI connects late nineteenth-century baselines directly to post-1961AD national demographic series.
+
+# Appendix
+
+## Sub-Regional Density, Share and Provincial Census Tables
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all eight colonial sub-regions from 1880AD to 1963AD, while Table \ref{tab:shares-appendix} tracks each sub-region's share of the regional total. Tables \ref{tab:ken-uga-adm1} and \ref{tab:tza-adm1} reproduce the full provincial census returns underlying testing and cross-checking from the chapter sub-administrative benchmark archive [@EastAfrica1948Census; @Martin1961EastAfrica].
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD` = viscount_fmt_number(as.numeric(ps[["1880"]]) / ar, 2L),
+    `1900AD` = viscount_fmt_number(as.numeric(ps[["1900"]]) / ar, 2L),
+    `1910AD` = viscount_fmt_number(as.numeric(ps[["1910"]]) / ar, 2L),
+    `1930AD` = viscount_fmt_number(as.numeric(ps[["1930"]]) / ar, 2L),
+    `1940AD` = viscount_fmt_number(as.numeric(ps[["1940"]]) / ar, 2L),
+    `1951AD` = viscount_fmt_number(as.numeric(ps[["1951"]]) / ar, 2L),
+    `1963AD` = viscount_fmt_number(as.numeric(ps[["1963"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1880AD` = viscount_fmt_number(headline_vals[["1880"]] / total_area_km2, 2L),
+  `1900AD` = viscount_fmt_number(headline_vals[["1900"]] / total_area_km2, 2L),
+  `1910AD` = viscount_fmt_number(headline_vals[["1910"]] / total_area_km2, 2L),
+  `1930AD` = viscount_fmt_number(headline_vals[["1930"]] / total_area_km2, 2L),
+  `1940AD` = viscount_fmt_number(headline_vals[["1940"]] / total_area_km2, 2L),
+  `1951AD` = viscount_fmt_number(headline_vals[["1951"]] / total_area_km2, 2L),
+  `1963AD` = viscount_fmt_number(headline_vals[["1963"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across the eight colonial sub-regions from 1880AD to 1963AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1880"]]) / headline_vals[["1880"]], 1L),
+    `1900AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1900"]]) / headline_vals[["1900"]], 1L),
+    `1910AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1910"]]) / headline_vals[["1910"]], 1L),
+    `1930AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1930"]]) / headline_vals[["1930"]], 1L),
+    `1940AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1940"]]) / headline_vals[["1940"]], 1L),
+    `1951AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1951"]]) / headline_vals[["1951"]], 1L),
+    `1963AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1963"]]) / headline_vals[["1963"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total regional population by colonial sub-region across seven benchmark years from 1880AD to 1963AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+```{r tab7-ken-uga-adm1, results='asis'}
+ken_48_rows <- lapply(find_subadmin("KEN", 1948L)$units, function (u) {
+  data.frame(
+    Territory = "Kenya (1948AD)",
+    Province = as.character(u$unit_name),
+    Level = as.character(u$admin_level),
+    Population = viscount_fmt_number(u$population, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+ken_62_rows <- lapply(find_subadmin("KEN", 1962L)$units, function (u) {
+  data.frame(
+    Territory = "Kenya (1962AD)",
+    Province = as.character(u$unit_name),
+    Level = as.character(u$admin_level),
+    Population = viscount_fmt_number(u$population, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+uga_48_rows <- lapply(find_subadmin("UGA", 1948L)$units, function (u) {
+  data.frame(
+    Territory = "Uganda (1948AD)",
+    Province = as.character(u$unit_name),
+    Level = as.character(u$admin_level),
+    Population = viscount_fmt_number(u$population, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+uga_59_rows <- lapply(Filter(function (u) identical(u$admin_level, "ADM1"), find_subadmin("UGA", 1959L)$units), function (u) {
+  data.frame(
+    Territory = "Uganda (1959AD)",
+    Province = as.character(u$unit_name),
+    Level = as.character(u$admin_level),
+    Population = viscount_fmt_number(u$population, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+df_t7 <- do.call(rbind, c(ken_48_rows, ken_62_rows, uga_48_rows, uga_59_rows))
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Provincial census enumerations for Kenya (1948AD and 1962AD) and Uganda (1948AD and 1959AD).",
+  arg3_options = list(label = "tab:ken-uga-adm1")
+)
+```
+
+```{r tab8-tza-adm1, results='asis'}
+tza_48_rows <- lapply(find_subadmin("TZA", 1948L)$units, function (u) {
+  data.frame(
+    Territory = "Tanganyika and Zanzibar (1948AD)",
+    Province = as.character(u$unit_name),
+    Level = as.character(u$admin_level),
+    Population = viscount_fmt_number(u$population, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+znz_10_rows <- lapply(find_subadmin("ZNZ", 1910L)$units, function (u) {
+  data.frame(
+    Territory = "Zanzibar Protectorate (1910AD)",
+    Province = as.character(u$unit_name),
+    Level = as.character(u$admin_level),
+    Population = viscount_fmt_number(u$population, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+znz_67_rows <- lapply(find_subadmin("ZNZ", 1967L)$units, function (u) {
+  data.frame(
+    Territory = "Zanzibar and Pemba (1967AD)",
+    Province = as.character(u$unit_name),
+    Level = as.character(u$admin_level),
+    Population = viscount_fmt_number(u$population, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+df_t8 <- do.call(rbind, c(tza_48_rows, znz_10_rows, znz_67_rows))
+rownames(df_t8) <- NULL
+viscount_table(
+  df_t8,
+  "Provincial and island census enumerations for Tanganyika (1948AD) and Zanzibar Protectorate (1910AD and 1967AD).",
+  arg3_options = list(label = "tab:tza-adm1")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Seven cross-border or perimeter buffer settlements (Beni, Bunia, Butembo in eastern Belgian Congo; Dolo and Mega in southern Ethiopia; Karonga in northern Nyasaland; and Yei in southern Sudan) plus Mbala in Northern Rhodesia lie along the immediate exterior border of the eight core East African sub-regions (`r viscount_fmt_number(174L, 0L)` strictly interior matches in Table \ref{tab:subregions}) and are assigned to their nearest East African sub-region in the companion settlement gazetteer so all `r viscount_fmt_number(n_total_sites, 0L)` ledger entries are catalogued. Separate city-proper and metropolitan agglomeration records are retained for Nairobi, Mombasa, Dar es Salaam, Kampala, Bujumbura and Kigali to preserve continuity across municipal and built-up statistical definitions.

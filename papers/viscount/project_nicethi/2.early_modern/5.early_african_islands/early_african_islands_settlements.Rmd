@@ -1,0 +1,487 @@
+---
+title: "Western Indian Ocean and Cape Verde Islands"
+subtitle: "Settlement Gazetteer: 96 Individually Assessed Sites (500BC-1895AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: early_african_islands_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 96 individually assessed settlements across ten island territories spanning ten sub-regions from 500BC to 1895AD."
+hero_label: "fig:hero-settlements-islands"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("early_african_islands_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("early_african_islands_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+subregion_lookup <- c(
+  "Alasora-Madagascar" = "merina_central_highlands",
+  "Ambatolampy-Madagascar" = "merina_central_highlands",
+  "Ambohimanga-Madagascar" = "merina_central_highlands",
+  "Antananarivo-Madagascar" = "merina_central_highlands",
+  "Antsirabe-Madagascar" = "merina_central_highlands",
+  "Fenoarivo Atsinanana-Madagascar" = "merina_central_highlands",
+  "Mahavelona-Madagascar" = "merina_central_highlands",
+  "Miarinarivo-Madagascar" = "merina_central_highlands",
+  "Toamasina-Madagascar" = "merina_central_highlands",
+  "Ambositra-Madagascar" = "betsileo_southern_highlands",
+  "Farafangana-Madagascar" = "betsileo_southern_highlands",
+  "Fianarantsoa-Madagascar" = "betsileo_southern_highlands",
+  "Ihosy-Madagascar" = "betsileo_southern_highlands",
+  "Manjanary-Madagascar" = "betsileo_southern_highlands",
+  "Morondava-Madagascar" = "betsileo_southern_highlands",
+  "Ambatondrazaka-Madagascar" = "betsimisaraka_east_madagascar",
+  "Ambodifototra-Madagascar" = "betsimisaraka_east_madagascar",
+  "Andoany-Madagascar" = "betsimisaraka_east_madagascar",
+  "Antsiranana-Madagascar" = "betsimisaraka_east_madagascar",
+  "Antsohihy-Madagascar" = "betsimisaraka_east_madagascar",
+  "Langany-Madagascar" = "betsimisaraka_east_madagascar",
+  "Mahajanga-Madagascar" = "betsimisaraka_east_madagascar",
+  "Mahilaka-Madagascar" = "betsimisaraka_east_madagascar",
+  "Maroantsetra-Madagascar" = "betsimisaraka_east_madagascar",
+  "Sambava-Madagascar" = "betsimisaraka_east_madagascar",
+  "Vohemar-Madagascar" = "betsimisaraka_east_madagascar",
+  "Andranosoa-Madagascar" = "antandroy_mahafaly_south_mdg",
+  "Fanjahira-Madagascar" = "antandroy_mahafaly_south_mdg",
+  "Morombe-Madagascar" = "antandroy_mahafaly_south_mdg",
+  "Talaky-Madagascar" = "antandroy_mahafaly_south_mdg",
+  "Toalagnaro-Madagascar" = "antandroy_mahafaly_south_mdg",
+  "Toliara-Madagascar" = "antandroy_mahafaly_south_mdg",
+  "Vangaindrano-Madagascar" = "antandroy_mahafaly_south_mdg",
+  "Boeny-Madagascar" = "sakalava_menabe_boina",
+  "Kingany-Madagascar" = "sakalava_menabe_boina",
+  "Maevatanana-Madagascar" = "sakalava_menabe_boina",
+  "Maintirano-Madagascar" = "sakalava_menabe_boina",
+  "Marovoay-Madagascar" = "sakalava_menabe_boina",
+  "Tsiromandidy-Madagascar" = "sakalava_menabe_boina",
+  "Beau-Bassin/Rose-Hill-Mauritius" = "mascarenes_mauritius_reunion",
+  "Centre de Flacq-Mauritius" = "mascarenes_mauritius_reunion",
+  "Curepipe-Mauritius" = "mascarenes_mauritius_reunion",
+  "Le Port-Reunion" = "mascarenes_mauritius_reunion",
+  "Mahébourg-Mauritius" = "mascarenes_mauritius_reunion",
+  "Pamplemousses-Mauritius" = "mascarenes_mauritius_reunion",
+  "Port Mathurin-Mauritius" = "mascarenes_mauritius_reunion",
+  "Port-Louis-Mauritius" = "mascarenes_mauritius_reunion",
+  "Quatre-Bornes-Mauritius" = "mascarenes_mauritius_reunion",
+  "Saint-André-Reunion" = "mascarenes_mauritius_reunion",
+  "Saint-Benoît-Reunion" = "mascarenes_mauritius_reunion",
+  "Saint-Denis-Reunion" = "mascarenes_mauritius_reunion",
+  "Saint-Louis-Reunion" = "mascarenes_mauritius_reunion",
+  "Saint-Paul-Reunion" = "mascarenes_mauritius_reunion",
+  "Saint-Pierre-Reunion" = "mascarenes_mauritius_reunion",
+  "Surinam-Mauritius" = "mascarenes_mauritius_reunion",
+  "Vacoas/Phoenix-Mauritius" = "mascarenes_mauritius_reunion",
+  "Dembéni-Mayotte" = "comoros_sultanates_mayotte",
+  "Domoni-Comoros" = "comoros_sultanates_mayotte",
+  "Dzaoudzi-Mayotte" = "comoros_sultanates_mayotte",
+  "Fomboni-Comoros" = "comoros_sultanates_mayotte",
+  "Foumbouni-Comoros" = "comoros_sultanates_mayotte",
+  "Iconi-Comoros" = "comoros_sultanates_mayotte",
+  "Mamoudzou-Mayotte" = "comoros_sultanates_mayotte",
+  "Mitsamiouli-Comoros" = "comoros_sultanates_mayotte",
+  "Moroni-Comoros" = "comoros_sultanates_mayotte",
+  "Mutsamudu-Comoros" = "comoros_sultanates_mayotte",
+  "Sima-Comoros" = "comoros_sultanates_mayotte",
+  "Tsingoni-Mayotte" = "comoros_sultanates_mayotte",
+  "Assomada-Cabo Verde" = "cabo_verde_atlantic",
+  "Mindelo-Cabo Verde" = "cabo_verde_atlantic",
+  "Nova Sintra-Cabo Verde" = "cabo_verde_atlantic",
+  "Ponta do Sol-Cabo Verde" = "cabo_verde_atlantic",
+  "Porto Inglês-Cabo Verde" = "cabo_verde_atlantic",
+  "Praia-Cabo Verde" = "cabo_verde_atlantic",
+  "Ribeira Brava-Cabo Verde" = "cabo_verde_atlantic",
+  "Ribeira Grande-Cabo Verde" = "cabo_verde_atlantic",
+  "Sal Rei-Cabo Verde" = "cabo_verde_atlantic",
+  "Santa Maria-Cabo Verde" = "cabo_verde_atlantic",
+  "Santiago de Cabo Verde-Cabo Verde" = "cabo_verde_atlantic",
+  "São Filipe-Cabo Verde" = "cabo_verde_atlantic",
+  "Tarrafal-Cabo Verde" = "cabo_verde_atlantic",
+  "Edinburgh of the Seven Seas-Saint Helena" = "sao_tome_principe_st_helena",
+  "Georgetown-Saint Helena" = "sao_tome_principe_st_helena",
+  "Jamestown-Saint Helena" = "sao_tome_principe_st_helena",
+  "Longwood-Saint Helena" = "sao_tome_principe_st_helena",
+  "Santo António-Sao Tome and Principe" = "sao_tome_principe_st_helena",
+  "São João dos Angolares-Sao Tome and Principe" = "sao_tome_principe_st_helena",
+  "São Tomé-Sao Tome and Principe" = "sao_tome_principe_st_helena",
+  "Trindade-Sao Tome and Principe" = "sao_tome_principe_st_helena",
+  "Anse Royale-Seychelles" = "seychelles_chagos_wio",
+  "Boddam-British Indian Ocean Territory" = "seychelles_chagos_wio",
+  "East Point (Diego Garcia)-British Indian Ocean Territory" = "seychelles_chagos_wio",
+  "Grand'Anse-Seychelles" = "seychelles_chagos_wio",
+  "La Digue-Seychelles" = "seychelles_chagos_wio",
+  "Victoria-Seychelles" = "seychelles_chagos_wio",
+  "Île du Coin-British Indian Ocean Territory" = "seychelles_chagos_wio"
+)
+
+iso3_map <- c(
+  "British Indian Ocean Territory" = "IOT",
+  "Cabo Verde" = "CPV",
+  "Comoros" = "COM",
+  "Madagascar" = "MDG",
+  "Mauritius" = "MUS",
+  "Mayotte" = "MYT",
+  "Reunion" = "REU",
+  "Saint Helena" = "SHN",
+  "Sao Tome and Principe" = "STP",
+  "Seychelles" = "SYC"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+fmt_era_yr <- function (y) {
+  yi <- as.integer(y)
+  if (yi < 0L) paste0(abs(yi), "BC") else if (yi == 0L) "1AD" else paste0(yi, "AD")
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", fmt_era_yr(yrs[i_pk]), ")")
+}
+
+subregion_order <- c(
+  "merina_central_highlands",
+  "betsileo_southern_highlands",
+  "betsimisaraka_east_madagascar",
+  "antandroy_mahafaly_south_mdg",
+  "sakalava_menabe_boina",
+  "mascarenes_mauritius_reunion",
+  "comoros_sultanates_mayotte",
+  "cabo_verde_atlantic",
+  "sao_tome_principe_st_helena",
+  "seychelles_chagos_wio"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, function (e) {
+  s <- subregion_lookup[[e$key]]
+  if (is.null(s)) "merina_central_highlands" else s
+}, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1100AD` = fmt_site_pop(e, 1100),
+      `1400AD` = fmt_site_pop(e, 1400),
+      `1700AD` = fmt_site_pop(e, 1700),
+      `1810AD` = fmt_site_pop(e, 1810),
+      `1890AD` = fmt_site_pop(e, 1890),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1100, 1400, 1700, 1810, 1890)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across ten island jurisdictions in the western Indian Ocean and African Atlantic between 500BC and 1895AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate archaeological sites, Malagasy royal hilltops, Comorian stone towns and European colonial ports (`r viscount_fmt_number(n_excluded, 0L)` duplicate alias removed), the entries span ten sub-regions across Madagascar, Mauritius, Réunion, Comoros, Mayotte, Cabo Verde, São Tomé e Príncipe, Seychelles, Saint Helena and the Chagos Archipelago. Active interpolated sites rise from `r viscount_fmt_number(n_active[["1100"]], 0L)` mediaeval centres at 1100AD and `r viscount_fmt_number(n_active[["1400"]], 0L)` at 1400AD to `r viscount_fmt_number(n_active[["1700"]], 0L)` at 1700AD, `r viscount_fmt_number(n_active[["1810"]], 0L)` at 1810AD and `r viscount_fmt_number(n_active[["1890"]], 0L)` at 1890AD, tracing urban development from Dembéni and Mahilaka to Antananarivo (75k peak), Port-Louis (74,5k), Saint-Denis (36,1k), Saint-Pierre (27,8k), Saint-Paul (24,9k), Mindelo (6,24k), São Tomé (6,85k) and Victoria (6,24k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 96 individually assessed settlements across ten island territories spanning ten sub-regions from 500BC to 1895AD.",
+    "fig:hero-settlements-islands"
+  )
+}
+```
+
+# Background
+
+Island urbanism around Africa developed along two contrasting archival tracks. On Madagascar and the Comoros, early Austronesian and Swahili-Bantu mariners built stone mosques, fortified hilltop enclosures and coastal entrepots centuries before European arrival [@Beaujard2007EastAfricaMadagascar; @ICM2020MadagascarAtlas]. Across the uninhabited Mascarenes, Seychelles, Chagos, Cabo Verde, São Tomé e Príncipe and Saint Helena, permanent settlement began only after 1460AD with Portuguese, Dutch, French and British colonial ports, slave-worked estates and nineteenth-century coaling stations [@Seibert2014CrioulizacaoCabo; @Allen1999SlavesFreedmen; @Oliver1950TheVoyage]. Uniting archaeological surveys with French East India Company returns, British colonial censuses and Lusophone *ultramar* registers yields a consistent settlement ledger across `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations.
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate localities were screened from regional archaeological inventories, nineteenth-century geographical monographs and colonial statistical returns [@ICM2020MadagascarAtlas; @Grandidier1885HistoirePhysique; @Escamps1858HistoireGeographie]. Within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study domain bounded by geoBoundaries national polygons [@Runfola2020GeoBoundaries], one duplicate Wave-3 entry for Antananarivo was merged, retaining `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across all ten sub-regions (`r viscount_fmt_number(summary_cache$observation_count, 0L)` observations).
+
+## Site-Specific Population Estimation
+
+Every entry holds a city-proper spatial scope (96 city-proper, 0 metro) anchored to surveyed enclosure hectares, compound counts, missionary estimates and official port or commune censuses [@Campbell1991ImperialMadagascar; @Larson2000HistoryMemory; @Allen1999SlavesFreedmen]. Tables 1 to 10 display linearly interpolated headcounts at five historical benchmarks (1100AD, 1400AD, 1700AD, 1810AD and 1890AD) alongside each settlement's observed peak population and date, marking eras outside a site's attested span with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements, rank-size regression on peak populations yields an upper-half (n=48) Zipf exponent of $q = 0,866$ ($R^2 = 0,9856$) and a full-sample slope of $q = 1,088$ ($R^2 = 0,8308$) (Figure \ref{fig:settlements-rank}). All ten sub-regions contain multiple attested centres, ranging from 6 sites in Betsileo and Sakalava up to 17 communes and port towns across Mauritius, Réunion and Rodrigues, with zero duplicate aliases remaining after screening.
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 96 island settlements (q = 0,87, R² = 0,99) and gridded sub-regional population densities in 1890AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Kingdom of Imerina and Central Highlands
+
+Table \ref{tab:sub-merina} documents `r viscount_fmt_number(length(zone_entries[["merina_central_highlands"]]), 0L)` settlements in central Madagascar and its eastern Merina corridor, led by Antananarivo (75k peak in 1817AD), Toamasina (10,2k), Ambohimanga (6,42k), Mahavelona (5,42k) and Alasora (4,12k) [@Raison1977PerceptionRealisation; @Campbell1991ImperialMadagascar; @Larson2000HistoryMemory].
+
+```{r tab-merina, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["merina_central_highlands"]]),
+  "Individually assessed settlements in the Kingdom of Imerina and Central Highlands (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-merina")
+)
+```
+
+## Betsileo and Southern Plateau Kingdoms
+
+Table \ref{tab:sub-betsileo} lists `r viscount_fmt_number(length(zone_entries[["betsileo_southern_highlands"]]), 0L)` settlements across the southern highland kingdoms and central western outlet, anchored by Fianarantsoa (9,4k), Ambositra (4,85k), Morondava (4,45k) and Manjanary (4,42k) [@Grandidier1885HistoirePhysique].
+
+```{r tab-betsileo, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["betsileo_southern_highlands"]]),
+  "Individually assessed settlements in the Betsileo and Southern Plateau Kingdoms (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-betsileo")
+)
+```
+
+## Betsimisaraka Confederation and Northern Littoral
+
+Table \ref{tab:sub-betsimisaraka} presents `r viscount_fmt_number(length(zone_entries[["betsimisaraka_east_madagascar"]]), 0L)` northern and eastern Malagasy centres, spanning mediaeval ports at Mahilaka (6,25k), Langany (4,65k) and Vohemar (3,82k) alongside Ambodifototra on Île Sainte-Marie (3,42k), Ambatondrazaka (4,48k), Andoany on Nosy Be (4,28k) and Mahajanga (14,2k) [@Beaujard2007EastAfricaMadagascar; @ICM2020MadagascarAtlas].
+
+```{r tab-betsimisaraka, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["betsimisaraka_east_madagascar"]]),
+  "Individually assessed settlements in the Betsimisaraka Confederation and Northern Littoral (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-betsimisaraka")
+)
+```
+
+## Antandroy, Mahafaly and Anosy South
+
+Table \ref{tab:sub-antandroy} compiles `r viscount_fmt_number(length(zone_entries[["antandroy_mahafaly_south_mdg"]]), 0L)` southern Malagasy sites, from mediaeval walled settlements at Andranosoa (2,94k) and Talaky (1,85k) to Fanjahira (4,45k), Vangaindrano (3,65k), Toliara (3,24k) and Toalagnaro (3,12k) [@ICM2020MadagascarAtlas; @Escamps1858HistoireGeographie].
+
+```{r tab-antandroy, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["antandroy_mahafaly_south_mdg"]]),
+  "Individually assessed settlements in Antandroy, Mahafaly and Anosy South (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-antandroy")
+)
+```
+
+## Sakalava Kingdoms of Menabe and Boina
+
+Table \ref{tab:sub-sakalava} records `r viscount_fmt_number(length(zone_entries[["sakalava_menabe_boina"]]), 0L)` western Malagasy centres, including the early royal capitals of Marovoay (8,4k), Boeny (6,45k) and Kingany (3,18k) alongside Maintirano (2,98k), Maevatanana (2,15k) and Tsiromandidy (1,42k) [@Berg1985TheSacred; @Grandidier1885HistoirePhysique].
+
+```{r tab-sakalava, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["sakalava_menabe_boina"]]),
+  "Individually assessed settlements in the Sakalava Kingdoms of Menabe and Boina (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-sakalava")
+)
+```
+
+## Mascarenes: Mauritius, Réunion and Rodrigues
+
+Table \ref{tab:sub-mascarenes} details `r viscount_fmt_number(length(zone_entries[["mascarenes_mauritius_reunion"]]), 0L)` Mascarene ports and plantation districts across 82 census observations, headed by Port-Louis (74,5k), Saint-Denis (36,1k), Saint-Pierre (27,8k), Saint-Paul (24,9k), Saint-Benoît (16,2k), Saint-Louis (14,7k) and Saint-André (13,8k) [@Allen1999SlavesFreedmen; @Oliver1950TheVoyage].
+
+```{r tab-mascarenes, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["mascarenes_mauritius_reunion"]]),
+  "Individually assessed settlements in the Mascarenes (Mauritius, Réunion and Rodrigues, 1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-mascarenes")
+)
+```
+
+## Comoros Sultanates and Mayotte
+
+Table \ref{tab:sub-comoros} covers `r viscount_fmt_number(length(zone_entries[["comoros_sultanates_mayotte"]]), 0L)` Swahili-Shirazi sultanate ports and towns across Grande Comore, Anjouan, Mohéli and Mayotte, led by Mutsamudu (6,42k), Moroni (5,42k), Domoni (5,12k), Iconi (3,12k), Tsingoni (2,85k), Dembéni (2,68k) and Sima (2,64k) [@Beaujard2007EastAfricaMadagascar].
+
+```{r tab-comoros, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["comoros_sultanates_mayotte"]]),
+  "Individually assessed settlements in the Comoros Sultanates and Mayotte (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-comoros")
+)
+```
+
+## Portuguese Cabo Verde Archipelago
+
+Table \ref{tab:sub-caboverde} lists `r viscount_fmt_number(length(zone_entries[["cabo_verde_atlantic"]]), 0L)` Cabo Verdean towns across the Sotavento and Barlavento islands, from early Ribeira Grande on Santiago (3,15k) and São Filipe on Fogo (3,24k) to Praia (4,65k), Ribeira Grande on Santo Antão (3,68k), Ribeira Brava (3,05k) and Mindelo (6,24k) [@Seibert2014CrioulizacaoCabo; @Keese2024BetweenLand; @Jung2015MigrationRemittances].
+
+```{r tab-caboverde, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["cabo_verde_atlantic"]]),
+  "Individually assessed settlements in the Portuguese Cabo Verde Archipelago (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-caboverde")
+)
+```
+
+## São Tomé, Príncipe and South Atlantic Islands
+
+Table \ref{tab:sub-stp} presents `r viscount_fmt_number(length(zone_entries[["sao_tome_principe_st_helena"]]), 0L)` Gulf of Guinea and South Atlantic settlements, pairing São Tomé (6,85k), Santo António (2,35k), São João dos Angolares (1,42k) and Trindade (1,24k) with Jamestown (2,45k) and Longwood (640) on Saint Helena, Georgetown on Ascension (310) and Edinburgh of the Seven Seas on Tristan da Cunha (109) [@Fonju2021ToticPortuguese; @Berthet2016SaoTome].
+
+```{r tab-stp, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["sao_tome_principe_st_helena"]]),
+  "Individually assessed settlements in São Tomé, Príncipe and the South Atlantic Islands (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-stp")
+)
+```
+
+## Seychelles and Chagos Archipelago
+
+Table \ref{tab:sub-seychelles} catalogues `r viscount_fmt_number(length(zone_entries[["seychelles_chagos_wio"]]), 0L)` settlements across the granitic Seychelles and Chagos copra stations: Victoria (6,24k), Grand'Anse on Praslin (1,18k), Anse Royale (1,12k) and La Digue (720) alongside East Point on Diego Garcia (428), Île du Coin in Peros Banhos (224) and Boddam in Salomon Islands (192).
+
+```{r tab-seychelles, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["seychelles_chagos_wio"]]),
+  "Individually assessed settlements in the Seychelles and Chagos Archipelago (1100AD to 1890AD).",
+  arg3_options = list(label = "tab:sub-seychelles")
+)
+```
+
+# Limitations
+
+Three caveats govern this gazetteer. First, 18 of the 96 settlements hold single-date observations (mostly 1878AD to 1895AD colonial surveys), so interpolated benchmark columns show a hyphen outside their attested span while reporting their full value in the peak column. Second, pre-colonial Malagasy and Comorian archaeological estimates carry wider uncertainty bounds than eighteenth- and nineteenth-century Mascarene or Portuguese enumerations [@ICM2020MadagascarAtlas; @Allen1999SlavesFreedmen]. Third, Seychelles and Chagos urban populations appear here in full even though those tiny island polygons register zero rural population on the coarse 5-arcminute regional raster.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document the long transition from Austronesian-Bantu and Swahili-Shirazi coastal townlands to colonial sugar ports, coaling stations and unified highland capitals across ten island jurisdictions between 500BC and 1895AD.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed site counts and combined interpolated urban populations across all ten sub-regions from 1100AD to 1890AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1100AD` = sums[["1100"]],
+    `1400AD` = sums[["1400"]],
+    `1700AD` = sums[["1700"]],
+    `1810AD` = sums[["1810"]],
+    `1890AD` = sums[["1890"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1100AD` = tot_sums[["1100"]],
+  `1400AD` = tot_sums[["1400"]],
+  `1700AD` = tot_sums[["1700"]],
+  `1810AD` = tot_sums[["1810"]],
+  `1890AD` = tot_sums[["1890"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated populations across ten sub-regions from 1100AD to 1890AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-foundation and post-abandonment benchmarks are left blank with a hyphen (-).

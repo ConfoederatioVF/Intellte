@@ -1,0 +1,461 @@
+---
+title: "Colonial Equatoria, Belgian Congo and Angola"
+subtitle: "French Equatorial Africa, Congo Free State, Belgian Congo and Angola"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_equatoria_congo_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Twelve colonial jurisdictions and leading urban centres across Equatorial Africa, the Belgian Congo and Angola between 1880AD and 1975AD."
+hero_label: "fig:hero-equatoria-congo"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("colonial_equatoria_congo_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("colonial_equatoria_congo_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+n_countries <- length(summary_cache$countries)
+
+bench_keys <- c("1880", "1900", "1930", "1950", "1960", "1975")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+subregion_order <- c(
+  "aef_chad",
+  "aef_ubangi_shari",
+  "aef_middle_congo",
+  "aef_gabon",
+  "kamerun_mandates",
+  "spanish_guinea",
+  "belgian_congo_leopoldville_equateur",
+  "belgian_congo_orientale_kivu",
+  "belgian_congo_kasai_katanga",
+  "portuguese_angola_north_cabinda",
+  "portuguese_angola_central_benguela",
+  "portuguese_angola_south_huila"
+)
+
+subadmin_list <- summary_cache$subadmin_benchmark_tables
+find_subadmin <- function (polity, yr) {
+  for (item in subadmin_list) {
+    if (identical(item$polity_code, polity) && as.integer(item$year) == as.integer(yr)) {
+      return(item)
+    }
+  }
+  NULL
+}
+```
+
+# Abstract
+
+Between 1880AD and 1975AD, Central and Equatorial Africa underwent a profound demographic reversal from early colonial conquest, forced rubber extraction and epidemic sleeping sickness to rapid mid-century medical recovery and urban industrialisation. Across a study area of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning `r viscount_fmt_number(n_countries, 0L)` modern jurisdictions, NICETHI reconstructs an aggregate regional population that declined from `r viscount_fmt_pop(headline_vals[["1880"]])` inhabitants in 1880AD to `r viscount_fmt_pop(headline_vals[["1900"]])` in 1900AD and `r viscount_fmt_pop(headline_vals[["1930"]])` in 1930AD before expanding sharply to `r viscount_fmt_pop(headline_vals[["1950"]])` in 1950AD, `r viscount_fmt_pop(headline_vals[["1960"]])` in 1960AD and `r viscount_fmt_pop(headline_vals[["1975"]])` by 1975AD, reaching a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Early population contraction struck the rubber concession zones of the Congo Free State, the Moyen-Congo and Gabon concessions of French Equatorial Africa and the construction corridor of the Congo-Océan railway, where sleeping sickness, smallpox and porterage mortality thinned rural basins between 1890AD and 1930AD. Subsequent mass trypanosomiasis campaigns, expanded maternity clinics, Katanga and Kasaï mining recruitment and post-1945AD rural-urban migration shifted demographic weight toward colonial port capitals and railheads including Kinshasa (Léopoldville), Luanda, Lubumbashi (Élisabethville), Brazzaville, Douala and Bangui. These trajectories rest on `r viscount_fmt_number(n_total_sites, 0L)` individually assessed urban and agglomeration series across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations, anchored to colonial territorial enumerations, Belgian Congo six-province surveys, Portuguese Angolan censuses and geoBoundaries administrative polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Twelve colonial jurisdictions and leading urban centres across Equatorial Africa, the Belgian Congo and Angola between 1880AD and 1975AD.",
+    "fig:hero-equatoria-congo"
+  )
+}
+```
+
+# Background
+
+## Imperial Partition, Concession Regimes and Demographic Crisis
+
+In the wake of the Berlin Conference of 1884-1885, five European powers partitioned the Congo Basin, the northern equatorial forest-savanna transition and the Atlantic littoral south to the Cunene river [@Starr1911TheCongo; @GreatBritain1920PeaceHandbooks; @Gouellain1975Douala]. Leopold II secured international recognition for the Congo Free State across the central basin, France consolidated Gabon, Moyen-Congo, Oubangui-Chari and Chad into French Equatorial Africa (AEF), Germany proclaimed a protectorate over Kamerun, Spain retained Fernando Po (Bioko) and Río Muni, and Portugal extended effective military occupation from Luanda and Benguela across the Angolan plateau [@Starr1911TheCongo; @Santos2026EntreConquista; @Oula2024CrossPerspective]. On the eve of partition in 1880AD, settlement remained predominantly rural and riverine, shaped by long-standing Bantu agrarian networks, Atlantic slave-trade disruptions in Angola and Lower Congo, and Sudanic sultanates such as Wadai and Baguirmi in the Chad basin [@Ehret1990PathsThe; @ThomasJBryan2025AngolaFive].
+
+Between 1890AD and 1920AD, extractive concession monopolies triggered one of the sharpest demographic contractions in modern African history. In the Congo Free State, royal domains and private concession companies such as ABIR and Anversoise imposed rubber quotas enforced through hostage-taking, armed sentries and punitive expeditions across Equateur, Kasai and the upper Congo [@Lowes2020ConcessionsViolence; @Hensey1924ChildrenThe]. Early missionary and consular observers speculated on catastrophic continent-wide losses, yet later historical demography introduced stricter source criticism. Jean Stengers challenged unsubstantiated 19th-century estimates of 20M to 30M pre-colonial Congolese inhabitants as speculative extrapolations, while Jan Vansina traced lineage-level population drops along the Kuba, Mongo and equatorial forest belts through oral traditions, baptismal registers and village abandonment surveys [@Ehret1990PathsThe; @Turke2026ContemporaryHistory]. Parallel scholarship by Sanderson and subsequent archival studies demonstrated how violent labour mobilisation interacted with ecological shock, displacing villagers into marshland refuges and accelerating the spread of *Trypanosoma brucei gambiense* sleeping sickness along steamer routes [@Lowes2020ConcessionsViolence; @Cooper1914HuntingAnd].
+
+Across the Congo river in French Equatorial Africa, the 1899AD division of Moyen-Congo, Gabon and Oubangui-Chari among forty private concession companies replicated coercive rubber and ivory extraction with even thinner administrative staffing [@AEFAnnuaire1950; @Oula2024CrossPerspective]. Construction of the 512 km Congo-Océan railway linking Brazzaville to Pointe-Noire between 1921AD and 1934AD compounded rural depopulation across Pool, Bouenza, Niari and southern Oubangui-Chari through forced conscription, dysentery and respiratory mortality in Mayombe forest work camps [@AEFAnnuaire1950; @Oula2024CrossPerspective]. In Portuguese Angola, military pacification campaigns between 1900AD and 1922AD coincided with compulsory *contratado* and *serviçal* labour exports from the central highlands to São Tomé cocoa estates and coastal plantations, depressing natural increase across Malanje, Bié and Huíla [@Coates2017PreliminaryConsiderations; @Neto2017EscravosServicais; @Santos2026EntreConquista].
+
+## Administrative Consolidation, Medical Campaigns and Post-War Urbanisation
+
+Following the 1908AD Belgian annexation of the Congo Free State, colonial rule shifted from predatory rubber gathering toward capital-intensive mining, rail transport and bureaucratic enumeration [@Starr1911TheCongo; @Depaepe2017ColonialEducation]. Between 1914AD and 1933AD, Belgian authorities reorganised the colony before settling on a six-province architecture centred on Léopoldville, Équateur (Coquilhatville), Orientale (Stanleyville), Kivu (Costermansville), Kasaï (Lusambo) and Katanga (Élisabethville) [@CongoBelge1958Enquete; @Depaepe2017ColonialEducation]. Under Union Minière du Haut-Katanga (UMHK) and Forminière, labour stabilisation policies after 1928AD replaced short-term migrant barracks with family mining compounds at Élisabethville, Jadotville (Likasi), Kipushi and Bakwanga (Mbuji-Mayi), driving sustained urban fertility and permanent settlement [@CongoBelge1958Enquete; @Turke2026ContemporaryHistory].
+
+Medical intervention altered regional mortality trends from the late 1920s onward. Eugene Jamot's mobile trypanosomiasis teams in French Cameroon and AEF, Belgian medical missions across Kwango and Lower Congo, and Portuguese *Assistência Médica aos Indígenas* services in Angola curtailed sleeping sickness, yaws and smallpox epidemics [@Linte2024SamuelCoghe; @AEFAnnuaire1950; @Gouellain1975Douala]. After 1945AD, commodity booms in copper, diamonds, palm oil, coffee and timber accelerated rural-to-urban migration across every territory in the region [@Rodrigues2022WhenModern; @Gouellain1975Douala; @Fru2021TheEmergence]. In Angola, post-war coffee expansion in Uíge and Cuanza Norte, Benguela railway traffic to Lobito and a sharp rise in Portuguese metropolitan immigration lifted European and mixed urban populations alongside African *musseques* around Luanda and Nova Lisboa (Huambo), even as the 1961-1975AD liberation war triggered major northern and eastern refugee movements into Zaire and Zambia [@Angola1940Censo; @Rodrigues2022WhenModern; @Silva2020TheFormal]. Across German Kamerun, divided into French and British League of Nations mandates in 1920AD before partial reunification in 1961AD, port expansion at Douala and cocoa-belt growth around Yaoundé and the Bamileke highlands made Cameroon the most densely populated jurisdiction in Central Africa [@Gouellain1975Douala; @Fru2021TheEmergence; @Tsafack2022CameroonEquatorial].
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The chapter encompasses `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute grid cells covering `r viscount_fmt_number(n_countries, 0L)` modern national territories and maritime enclaves. Within NICETHI, the study occupies Regime 2 (1880AD to 1975AD), bridging late pre-colonial baselines into decolonisation and early postcolonial national censuses. Twelve contiguous colonial sub-regions partition the domain according to historical administrative boundaries and League of Nations mandate limits (Table \ref{tab:subregions}): four AEF colonies (Chad, Ubangi-Shari, Middle Congo and Gabon), German Kamerun and the Mandate Cameroons, Spanish Guinea (Fernando Po and Río Muni), three paired Belgian Congo provincial zones (Léopoldville-Équateur, Orientale-Kivu and Kasaï-Katanga) and three Portuguese Angolan regional groupings (Cabinda-Congo-Luanda, Benguela-Malanje-Bié and Huíla-Moçâmedes-Moxico).
+
+Population series are evaluated across 14 benchmark years (1880AD, 1900AD, 1930AD, 1950AD, 1953AD, 1955AD, 1958AD, 1960AD, 1963AD, 1965AD, 1968AD, 1970AD, 1973AD and 1975AD). Compact comparative tables highlight six principal historical checkpoints: 1880AD (pre-partition baseline), 1900AD (early concession peak), 1930AD (interwar crisis trough and early medical recovery), 1950AD (post-war developmental takeoff), 1960AD (independence threshold for AEF, Belgian Congo and Cameroon) and 1975AD (Angolan independence and late post-colonial synthesis).
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  Era = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    paste0(pts[1], "AD-", pts[2], "AD")
+  }, character(1)),
+  `Assessed Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Twelve colonial sub-regions of Equatorial Africa, the Belgian Congo and Angola, showing surface area, 5-arcminute pixel counts, regional eras and interior assessed sites.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Ledger Screening and Scope Harmonisation
+
+To anchor urban growth from early river stations to million-city metropolises, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate colonial posts, mining camps, ports and provincial towns were screened from official territorial censuses, Belgian annual colony reports (*Rapports Annuels sur l'Administration de la Colonie du Congo Belge*), AEF statistical yearbooks, Angolan recenseamentos and Africapolis agglomeration tables [@AEFAnnuaire1950; @Angola1940Censo; @CongoBelge1958Enquete; @Gouellain1975Douala]. Removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records and unlocated stations left `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlement series supported by `r viscount_fmt_number(n_obs_total, 0L)` dated observations (Figure \ref{fig:hero-equatoria-congo}).
+
+Of the `r viscount_fmt_number(n_total_sites, 0L)` entries, `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` record municipal or city-proper boundaries and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` capture post-1950AD continuous urban agglomerations (including Kinshasa, Luanda, Lubumbashi, Brazzaville, Douala, Bangui, Yaoundé, Ndjamena, Pointe-Noire, Libreville, Bujumbura, Malabo, Bata and Manono). Keeping municipal and agglomeration trajectories explicitly tagged prevents double counting when reconciling pre-1950AD colonial township enumerations with late-colonial peri-urban expansion in Kinshasa, Luanda and Douala [@Rodrigues2022WhenModern; @Gouellain1975Douala; @Oula2024CrossPerspective].
+
+## Sub-Administrative Census Integration and Spatial Allocation
+
+Rural populations outside gazetted urban municipalities are anchored directly to colonial sub-administrative censuses and demographic sample surveys before spatial disaggregation onto 5-arcminute cells using geoBoundaries and historical colonial polygon masks [@Runfola2020GeoBoundaries; @CongoBelge1958Enquete; @AEFAnnuaire1950; @Angola1940Censo]. Key institutional benchmarks include the 1931AD and 1936AD territorial returns in the AEF Statistical Yearbook, the 1938AD and 1958AD Belgian Congo six-province series, the 1946AD French Cameroun 19-region census and 1976AD 11-province return, the 1940AD and 1970AD Portuguese Angolan censuses, and early post-independence prefectural counts for the Central African Republic (1960AD and 1968AD), Chad (1961AD) and Congo-Brazzaville (1960AD) [@AEFAnnuaire1950; @CongoBelge1958Enquete; @Angola1940Censo]. Where early colonial administrative headcounts suffered from tax-evasion under-enumeration prior to 1940AD, regional baselines reconcile reported totals against demographic backward-projection consensus and sleeping-sickness medical survey coverage [@Lowes2020ConcessionsViolence; @Linte2024SamuelCoghe; @Cornelissen2016RMCA].
+
+# Testing and Validation
+
+## Colonial Sub-Administrative Benchmark Reconciliation
+
+Cross-checking reconstructed sub-regional totals against preserved colonial sub-administrative census tables confirms strong structural alignment across the Belgian Congo and French Equatorial Africa (Table \ref{tab:subadmin-belgian-aef}). In the Belgian Congo, the 1938AD colonial administrative enumeration recorded 10.217.408 inhabitants across the six provinces (then named after their capitals Stanleyville, Léopoldville, Lusambo, Coquilhatville, Costermansville and Élisabethville), rising by 32,5% over two decades to 13.540.000 in the 1955-1957AD demographic sample survey and 1958AD annual report [@CongoBelge1958Enquete; @Depaepe2017ColonialEducation]. Over that twenty-year span, Léopoldville province grew by 59,6% (from 1.997.796 to 3.189.000) and Katanga by 61,8% (from 1.023.060 to 1.655.000), capturing rapid labour concentration along the Matadi-Kinshasa corridor and the southern copperbelt, whereas Orientale and Équateur grew far more slowly (3,9% and 15,7%) [@CongoBelge1958Enquete; @Turke2026ContemporaryHistory].
+
+In French Equatorial Africa, territorial returns rose modestly from 3.214.000 in 1931AD to 3.421.000 in 1936AD, though administrative border transfers between Oubangui-Chari and Chad shifted roughly 250k inhabitants across the Chari-Logone boundary between the two counts [@AEFAnnuaire1950]. Both Gabon (388k to 409k) and Moyen-Congo (663k to 746k) remained thinly peopled throughout the interwar decades, reflecting severe concession-era fertility suppression and railway labour losses [@AEFAnnuaire1950; @Oula2024CrossPerspective].
+
+```{r tab2-subadmin-belgian-aef, results='asis'}
+cod38 <- find_subadmin("COD", 1938)
+cod58 <- find_subadmin("COD", 1958)
+aef31 <- find_subadmin("AEF", 1931)
+aef36 <- find_subadmin("AEF", 1936)
+
+df_t2 <- data.frame(
+  Polity = c(
+    rep("Belgian Congo (1938)", length(cod38$units)),
+    "Belgian Congo Total (1938)",
+    rep("Belgian Congo (1958)", length(cod58$units)),
+    "Belgian Congo Total (1958)",
+    rep("AEF (1931)", length(aef31$units)),
+    "AEF Total (1931)",
+    rep("AEF (1936)", length(aef36$units)),
+    "AEF Total (1936)"
+  ),
+  `Administrative Unit` = c(
+    vapply(cod38$units, function (u) u$unit_name, character(1)),
+    "All 6 Provinces",
+    vapply(cod58$units, function (u) u$unit_name, character(1)),
+    "All 6 Provinces",
+    vapply(aef31$units, function (u) u$unit_name, character(1)),
+    "All 4 Territories",
+    vapply(aef36$units, function (u) u$unit_name, character(1)),
+    "All 4 Territories"
+  ),
+  `Enumerated Pop.` = c(
+    vapply(cod38$units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+    viscount_fmt_number(cod38$total_enumerated_pop, 0L),
+    vapply(cod58$units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+    viscount_fmt_number(cod58$total_enumerated_pop, 0L),
+    vapply(aef31$units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+    viscount_fmt_number(aef31$total_enumerated_pop, 0L),
+    vapply(aef36$units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+    viscount_fmt_number(aef36$total_enumerated_pop, 0L)
+  ),
+  Level = c(
+    vapply(cod38$units, function (u) u$admin_level, character(1)),
+    "COLONY",
+    vapply(cod58$units, function (u) u$admin_level, character(1)),
+    "COLONY",
+    vapply(aef31$units, function (u) u$admin_level, character(1)),
+    "FEDERATION",
+    vapply(aef36$units, function (u) u$admin_level, character(1)),
+    "FEDERATION"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Colonial sub-administrative census enumerations for the Belgian Congo (1938AD and 1958AD) and French Equatorial Africa (1931AD and 1936AD).",
+  arg3_options = list(label = "tab:subadmin-belgian-aef")
+)
+```
+
+## Settlement Rank-Size Calibration and Urban Hierarchy Diagnostics
+
+Ordinary least-squares rank-size regression across the upper half (n=`r viscount_fmt_number(summary_cache$rank_size$n_fit, 0L)`) of all `r viscount_fmt_number(n_total_sites, 0L)` peak settlement populations yields a near-unitary Zipf exponent of $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 2L)`$), while full-sample regression across all `r viscount_fmt_number(summary_cache$rank_size$n_with_pop, 0L)` entries produces $q = `r viscount_fmt_number(summary_cache$rank_size$full_zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$full_r2, 2L)`$). Figure \ref{fig:rank-size} plots the 343 spatially deduplicated urban peaks ($q = 0,93$, $R^2 = 0,99$), confirming a balanced colonial multi-port and interior railhead hierarchy rather than extreme single-city primacy. Kinshasa (1,29M municipal and 1,25M agglomeration in 1970AD) stood out as the clear regional primate metropolis, yet secondary colonial capitals and ports including Luanda (475,3k), Lubumbashi (318k), Brazzaville (290k), Douala (289,1k agglomeration), Bangui (279,8k by 1975AD), Mbuji-Mayi (256,2k), Kananga (203,4k) and Yaoundé (192,9k agglomeration) formed a deep secondary tier [@Rodrigues2022WhenModern; @Gouellain1975Douala; @Oula2024CrossPerspective].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 343 spatially deduplicated sites (q = 0,93, R² = 0,99) and top ten sub-regional population densities in 1975AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Below the 150k tier, provincial administrative seats, river ports and copperbelt towns between 20k and 150k inhabitants closely follow the Zipf slope down to rank 180 before tapering off among smaller district headquarters and agricultural stations between 1,5k and 10k residents (Figure \ref{fig:rank-size}). That tight alignment ($R^2 = 0,99$) reflects broad census coverage across Belgian Congo, AEF, Cameroon and Angola by 1950-1970AD [@CongoBelge1958Enquete; @AEFAnnuaire1950; @Angola1940Censo].
+
+# Results
+
+## Early Colonial Contraction and Concession-Era Depopulation (1880AD to 1930AD)
+
+At 1880AD, total population across the 12 colonial sub-regions stood at `r viscount_fmt_pop(headline_vals[["1880"]])` (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). Over the ensuing fifty years, aggregate regional population contracted to `r viscount_fmt_pop(headline_vals[["1900"]])` in 1900AD and `r viscount_fmt_pop(headline_vals[["1930"]])` in 1930AD, a cumulative fall of 21,1% across the half-century of military conquest, rubber concessions, forced porterage and sleeping-sickness epidemics [@Lowes2020ConcessionsViolence; @Starr1911TheCongo; @Ehret1990PathsThe]. Virtually every sub-region shared in this early decline, though its severity varied sharply with administrative coercion and disease ecology.
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading urban centres across Equatorial Africa, the Belgian Congo and Angola from 1880AD to 1975AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Across the Belgian Congo provinces, combined population fell from 5,52M in 1880AD to 5,14M in 1900AD and 4,50M in 1930AD (Table \ref{tab:trajectory}). Kasaï and Katanga declined most steeply in proportional terms, dropping 32,8% from `r viscount_fmt_pop(sub_by_id[["belgian_congo_kasai_katanga"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["belgian_congo_kasai_katanga"]]$population[["1930"]])` amid Congo Free State rubber exactions, Chokwe and Tetela upheaval, and early Katanga labour mobilisation [@Lowes2020ConcessionsViolence; @Hensey1924ChildrenThe]. Orientale and Kivu fell from `r viscount_fmt_pop(sub_by_id[["belgian_congo_orientale_kivu"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["belgian_congo_orientale_kivu"]]$population[["1930"]])`, while Léopoldville and Équateur contracted slightly earlier before stabilising at `r viscount_fmt_pop(sub_by_id[["belgian_congo_leopoldville_equateur"]]$population[["1930"]])` in 1930AD as riverine trade at Léopoldville (42,1k in 1929AD) and Matadi (11,5k in 1930AD) expanded [@Cooper1914HuntingAnd; @Starr1911TheCongo].
+
+In French Equatorial Africa, the demographic trough was even deeper in percentage terms. Gabon fell by 43,3% from `r viscount_fmt_pop(sub_by_id[["aef_gabon"]]$population[["1880"]])` in 1880AD to `r viscount_fmt_pop(sub_by_id[["aef_gabon"]]$population[["1930"]])` in 1930AD under concessionary logging, famine and endemic trypanosomiasis, while Moyen-Congo declined by 34,1% from `r viscount_fmt_pop(sub_by_id[["aef_middle_congo"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["aef_middle_congo"]]$population[["1930"]])` during the height of Congo-Océan railway construction [@AEFAnnuaire1950; @Oula2024CrossPerspective]. Farther north, Ubangi-Shari dropped from `r viscount_fmt_pop(sub_by_id[["aef_ubangi_shari"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["aef_ubangi_shari"]]$population[["1930"]])` and Chad declined from `r viscount_fmt_pop(sub_by_id[["aef_chad"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["aef_chad"]]$population[["1930"]])`, compounded by the 1909-1914AD French conquest of Wadai and severe 1913-1914AD Sahelian drought, which slashed Abéché from 24,6k in 1895AD to 6,2k in 1919AD [@AEFAnnuaire1950]. Portuguese Angola likewise contracted across all three zones between 1880AD and 1930AD, led by the central Benguela-Bié-Malanje plateau (`r viscount_fmt_pop(sub_by_id[["portuguese_angola_central_benguela"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["portuguese_angola_central_benguela"]]$population[["1930"]])`) and southern Huíla-Moxico (`r viscount_fmt_pop(sub_by_id[["portuguese_angola_south_huila"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["portuguese_angola_south_huila"]]$population[["1930"]])`), reflecting military pacification, *contratado* removals and 1918AD influenza mortality [@Coates2017PreliminaryConsiderations; @Neto2017EscravosServicais; @Santos2026EntreConquista].
+
+## Medical Recovery, Census Integration and Copperbelt Urbanisation (1930AD to 1960AD)
+
+From 1930AD to 1960AD, regional population more than doubled from `r viscount_fmt_pop(headline_vals[["1930"]])` to `r viscount_fmt_pop(headline_vals[["1960"]])`, while attested urban inhabitants rose fivefold from 1,11M across 212 active settlements in 1930AD to 3,77M across 269 settlements in 1950AD and 5,66M in 1960AD (Figure \ref{fig:trends}). Two forces drove this turnaround: declining epidemic mortality and accelerated industrial-commercial urbanisation [@Linte2024SamuelCoghe; @CongoBelge1958Enquete; @Gouellain1975Douala].
+
+In the Belgian Congo, improved provincial censuses and medical stabilisation lifted the western provinces of Léopoldville and Équateur from `r viscount_fmt_pop(sub_by_id[["belgian_congo_leopoldville_equateur"]]$population[["1930"]])` in 1930AD to `r viscount_fmt_pop(sub_by_id[["belgian_congo_leopoldville_equateur"]]$population[["1950"]])` in 1950AD and `r viscount_fmt_pop(sub_by_id[["belgian_congo_leopoldville_equateur"]]$population[["1960"]])` at independence in 1960AD (Table \ref{tab:trajectory}). Kasaï and Katanga tripled between 1930AD and 1950AD (`r viscount_fmt_pop(sub_by_id[["belgian_congo_kasai_katanga"]]$population[["1930"]])` to `r viscount_fmt_pop(sub_by_id[["belgian_congo_kasai_katanga"]]$population[["1950"]])`), sustained by copper, cobalt and diamond mining towns: Élisabethville (Lubumbashi) grew from 17k in 1930AD to 103k in 1950AD and 184k in 1960AD, Jadotville (Likasi) expanded from 12,4k in 1929AD to 79,1k in 1960AD, and Bakwanga (Mbuji-Mayi) climbed from 6,8k in 1930AD to 54,4k in 1960AD [@CongoBelge1958Enquete; @Depaepe2017ColonialEducation]. Across the river-rail axis, Léopoldville (Kinshasa) multiplied nearly tenfold from 40k in 1940AD to 209k in 1950AD and 402k in 1960AD, while Stanleyville (Kisangani) grew from 18k in 1938AD to 116,6k in 1960AD and Matadi rose from 11,5k to 64k [@CongoBelge1958Enquete; @Turke2026ContemporaryHistory].
+
+Across French Equatorial Africa, Brazzaville served as both federal capital and, from 1940AD to 1943AD, administrative headquarters of Free France, propelling its municipal population from 17k in 1930AD to 83k in 1950AD and 136k in 1960AD [@Oula2024CrossPerspective; @AEFAnnuaire1950]. Pointe-Noire emerged as AEF's deep-water Atlantic terminus (3,2k in 1926AD to 18,6k by 1948AD), Bangui tripled from 20k in 1930AD to 127k in 1960AD, and Fort-Lamy (Ndjamena) reached 65,6k by 1960AD [@AEFAnnuaire1950; @Oula2024CrossPerspective]. In Cameroon, Douala surged from 28k in 1930AD to 124k in 1950AD and 187k in 1960AD alongside cocoa-belt urbanisation in Yaoundé (6k to 69,8k agglomeration) and Bamenda [@Gouellain1975Douala; @Fru2021TheEmergence].
+
+In Portuguese Angola, the 1940AD census inaugurated modern territory-wide enumeration (`r viscount_fmt_number(find_subadmin("AGO", 1940)$total_enumerated_pop, 0L)` inhabitants), capturing rapid coastal and plateau recovery [@Angola1940Censo; @Linte2024SamuelCoghe]. Between 1930AD and 1960AD, northern Angola (Cabinda, Congo and Luanda) rose from `r viscount_fmt_pop(sub_by_id[["portuguese_angola_north_cabinda"]]$population[["1930"]])` to `r viscount_fmt_pop(sub_by_id[["portuguese_angola_north_cabinda"]]$population[["1960"]])`, while central Benguela-Malanje-Bié nearly tripled from `r viscount_fmt_pop(sub_by_id[["portuguese_angola_central_benguela"]]$population[["1930"]])` to `r viscount_fmt_pop(sub_by_id[["portuguese_angola_central_benguela"]]$population[["1960"]])` [@Angola1940Censo; @GreatBritain1920PeaceHandbooks]. Luanda expanded from 50,6k in 1930AD to 142k in 1950AD and 225k in 1960AD, Lobito grew fivefold from 9,9k to 50,2k as the Benguela Railway outlet for Katanga copper, and Nova Lisboa (Huambo) rose from 10,8k to 38,8k [@Rodrigues2022WhenModern; @ThomasJBryan2025AngolaFive].
+
+```{r tab3-trajectory, results='asis'}
+df_t3 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `1880AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1880"]]), character(1)),
+  `1900AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1900"]]), character(1)),
+  `1930AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1930"]]), character(1)),
+  `1950AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1950"]]), character(1)),
+  `1960AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1960"]]), character(1)),
+  `1975AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1975"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t3 <- data.frame(
+  Subregion = "Total Study Area",
+  `1880AD` = viscount_fmt_pop(headline_vals[["1880"]]),
+  `1900AD` = viscount_fmt_pop(headline_vals[["1900"]]),
+  `1930AD` = viscount_fmt_pop(headline_vals[["1930"]]),
+  `1950AD` = viscount_fmt_pop(headline_vals[["1950"]]),
+  `1960AD` = viscount_fmt_pop(headline_vals[["1960"]]),
+  `1975AD` = viscount_fmt_pop(headline_vals[["1975"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_row_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Sub-regional and total population trajectories across six benchmark years from 1880AD to 1975AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Decolonisation, Liberation Wars and Late-Era Urban Surge (1960AD to 1975AD)
+
+Between 1960AD and 1975AD, aggregate population across the region rose by 60,4% from `r viscount_fmt_pop(headline_vals[["1960"]])` to `r viscount_fmt_pop(headline_vals[["1975"]])`, driven by post-independence fertility, rural flight during civil conflicts and full national census integration in Cameroon, Gabon, Chad, Equatorial Guinea and Angola (Table \ref{tab:trajectory}). Attested urban populations more than doubled in a single decade from 5,66M in 1960AD to 11,82M across 205 active settlements by 1970AD (Figure \ref{fig:trends}). Kinshasa tripled from 402k in 1960AD to 1,29M in 1970AD, while Mbuji-Mayi swelled nearly fivefold from 54,4k to 256,2k during the Kasai secession refugee influx and Kananga grew from 135,3k to 203,4k [@Turke2026ContemporaryHistory; @Depaepe2017ColonialEducation].
+
+In Angola, the outbreak of the liberation war in northern Uíge and Cuanza Norte in 1961AD pushed rural civilians into Zaire or into fortified *aldeamentos* and coastal cities, accelerating Luanda's growth from 225k in 1960AD to 475,3k in 1970AD while total Angolan census population reached 5.715.153 across 16 districts in 1970AD [@Rodrigues2022WhenModern; @Silva2020TheFormal; @Miguel2025HistoriaEducacao; @Cumboto2026InfluenciaInterferencia]. In Spanish Guinea, independence as Equatorial Guinea in 1968AD was followed by severe political repression under Macías Nguema, causing substantial refugee flight across the border into Cameroon and Gabon even as Santa Isabel (Malabo) and Bata grew modestly as administrative and timber-export hubs [@Tsafack2022CameroonEquatorial]. Meanwhile, the reunification of French and British Cameroons and full national census coverage lifted the Cameroon sub-region to `r viscount_fmt_pop(sub_by_id[["kamerun_mandates"]]$population[["1975"]])` (`r viscount_fmt_number(sub_by_id[["kamerun_mandates"]]$end_density_km2, 2L)` persons/km²) by 1975AD, the highest regional density in the chapter [@Fru2021TheEmergence; @Gouellain1975Douala].
+
+## Urban Hierarchy and Leading Centres
+
+Table \ref{tab:top-centres} lists the 15 largest urban and agglomeration entries in the regional settlement ledger. Congolese cities occupy seven of the top 15 positions (led by Kinshasa, Lubumbashi, Mbuji-Mayi, Kananga and Kisangani), reflecting both early industrial mining towns and post-1960AD metropolitan expansion [@CongoBelge1958Enquete; @Turke2026ContemporaryHistory]. Luanda, Brazzaville, Douala, Bangui, Yaoundé, Ndjamena and northern Zambian Copperbelt neighbours Kitwe (186k) and Ndola (159,7k) on the Katanga-Zambia border round out the leading urban tier [@Rodrigues2022WhenModern; @Gouellain1975Douala; @Oula2024CrossPerspective].
+
+```{r tab4-top-centres, results='asis'}
+top_15 <- summary_cache$top_settlements[seq_len(min(15L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_15, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_15, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "Democratic Republic of the Congo")) "DR Congo" else if (identical(c, "Republic of the Congo")) "Congo" else if (identical(c, "Central African Republic")) "CAR" else c
+  }, character(1)),
+  Scope = vapply(top_15, function (s) if (identical(s$population_scope, "metro")) "Metro" else "City", character(1)),
+  Span = vapply(top_15, function (s) paste0(s$min_year, "AD-", s$max_year, "AD"), character(1)),
+  `Peak Pop.` = vapply(top_15, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_15, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_15, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Fifteen largest individually assessed urban settlements and agglomerations in Equatorial Africa, the Belgian Congo and Angola (1880AD to 1975AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Three structural constraints qualify these reconstructions. First, pre-1940AD demographic baselines remain unevenly attested across territories. Before the Belgian Congo administrative counts of the 1930s, the AEF statistical series and the 1940AD Angolan census, colonial tax and head-count rolls systematically omitted women, children and forest villages evading labour levies or porterage [@Starr1911TheCongo; @Coates2017PreliminaryConsiderations; @AEFAnnuaire1950; @Angola1940Censo]. Estimates for the 1880AD to 1930AD rubber-concession crisis therefore carry wider uncertainty (roughly 15% to 25% at territorial scale) than post-1945AD sample surveys, especially in sparsely staffed districts of Oubangui-Chari, Gabon and eastern Angola [@Lowes2020ConcessionsViolence; @Linte2024SamuelCoghe; @Neto2017EscravosServicais].
+
+Second, decolonisation and post-1960AD administrative boundary adjustments introduce step changes in several sub-regional series. When French and British mandate territories unified into Cameroon after 1961AD, and when post-colonial national statistical institutes in Chad, Gabon, Central African Republic, Equatorial Guinea and Congo replaced colonial *annuaires*, improved rural coverage lifted recorded sub-regional headcounts sharply between 1958AD and 1973AD [@AEFAnnuaire1950; @Tsafack2022CameroonEquatorial]. Conversely, Zaire's 1965-1973AD provincial boundary reorganisations temporarily shifted inhabitants between Kasaï-Katanga, Léopoldville-Équateur and Orientale-Kivu before stabilising at 1975AD [@Turke2026ContemporaryHistory].
+
+Third, conflict-era censuses in northern and eastern Angola after 1961AD and refugee displacement between Equatorial Guinea, Cameroon, Gabon, Zaire and Zambia complicate single-year point counts [@Silva2020TheFormal; @Tsafack2022CameroonEquatorial; @Cumboto2026InfluenciaInterferencia]. Single-date records (`r viscount_fmt_number(sum(vapply(settlements_raw, function (x) length(x$population) == 1L, logical(1))), 0L)` of `r viscount_fmt_number(n_total_sites, 0L)` entries in the settlement ledger) also limit intra-decade visibility for smaller district stations outside major cities.
+
+# Conclusion
+
+Between 1880AD and 1975AD, Equatorial Africa, the Belgian Congo and Angola experienced a two-stage demographic transformation: a steep 21,1% contraction from `r viscount_fmt_pop(headline_vals[["1880"]])` in 1880AD to `r viscount_fmt_pop(headline_vals[["1930"]])` in 1930AD driven by rubber concessions, forced railway labour, military pacification and epidemic sleeping sickness, followed by a fourfold rebound to `r viscount_fmt_pop(headline_vals[["1975"]])` by 1975AD. Medical control of trypanosomiasis, mining and port urbanisation across Kinshasa, Luanda, Lubumbashi, Brazzaville, Douala and Bangui, and improved mid-century census infrastructure reshaped regional density gradients from 1,96 persons/km² in 1880AD and 1,55 persons/km² in 1930AD to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km² by 1975AD. Integrating `r viscount_fmt_number(n_total_sites, 0L)` assessed urban trajectories with colonial sub-administrative census enumerations across 12 sub-regions yields a unified demographic record spanning the entire colonial and early independence era.
+
+# Appendix
+
+## Sub-Regional Density and Share Series
+
+Table \ref{tab:density-appendix} reports mean population density in persons/km² across all 12 colonial sub-regions from 1880AD to 1975AD, documenting the sharp contrast between Cameroon (`r viscount_fmt_number(sub_by_id[["kamerun_mandates"]]$end_density_km2, 2L)` persons/km²) and western Belgian Congo (`r viscount_fmt_number(sub_by_id[["belgian_congo_leopoldville_equateur"]]$end_density_km2, 2L)` persons/km²) against thinly populated southern Angola (`r viscount_fmt_number(sub_by_id[["portuguese_angola_south_huila"]]$end_density_km2, 2L)` persons/km²) and Moyen-Congo (`r viscount_fmt_number(sub_by_id[["aef_middle_congo"]]$end_density_km2, 2L)` persons/km²). Table \ref{tab:shares-appendix} tracks each sub-region's share of total regional population over the same six checkpoints.
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD` = viscount_fmt_number(as.numeric(ps[["1880"]]) / ar, 2L),
+    `1900AD` = viscount_fmt_number(as.numeric(ps[["1900"]]) / ar, 2L),
+    `1930AD` = viscount_fmt_number(as.numeric(ps[["1930"]]) / ar, 2L),
+    `1950AD` = viscount_fmt_number(as.numeric(ps[["1950"]]) / ar, 2L),
+    `1960AD` = viscount_fmt_number(as.numeric(ps[["1960"]]) / ar, 2L),
+    `1975AD` = viscount_fmt_number(as.numeric(ps[["1975"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1880AD` = viscount_fmt_number(headline_vals[["1880"]] / total_area_km2, 2L),
+  `1900AD` = viscount_fmt_number(headline_vals[["1900"]] / total_area_km2, 2L),
+  `1930AD` = viscount_fmt_number(headline_vals[["1930"]] / total_area_km2, 2L),
+  `1950AD` = viscount_fmt_number(headline_vals[["1950"]] / total_area_km2, 2L),
+  `1960AD` = viscount_fmt_number(headline_vals[["1960"]] / total_area_km2, 2L),
+  `1975AD` = viscount_fmt_number(headline_vals[["1975"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across twelve colonial sub-regions from 1880AD to 1975AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1880"]]) / headline_vals[["1880"]], 1L),
+    `1900AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1900"]]) / headline_vals[["1900"]], 1L),
+    `1930AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1930"]]) / headline_vals[["1930"]], 1L),
+    `1950AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1950"]]) / headline_vals[["1950"]], 1L),
+    `1960AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1960"]]) / headline_vals[["1960"]], 1L),
+    `1975AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1975"]]) / headline_vals[["1975"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total regional population by colonial sub-region across six benchmark years from 1880AD to 1975AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+## Sub-Administrative Census Units in Angola and Cameroon
+
+Table \ref{tab:subadmin-cameroon-angola} documents the 16 Angolan colonial districts enumerated in the 1970AD Portuguese census (total 5.715.153 inhabitants) alongside the 11 Cameroonian provinces enumerated in the 1976AD national census (total 10.909.290 inhabitants), complementing the Belgian Congo and AEF enumerations in Table \ref{tab:subadmin-belgian-aef} [@Angola1940Censo; @Rodrigues2022WhenModern; @Fru2021TheEmergence].
+
+```{r tab7-subadmin-cameroon-angola, results='asis'}
+ago70 <- find_subadmin("AGO", 1970)
+cmr76 <- find_subadmin("CMR", 1976)
+
+df_t7 <- data.frame(
+  Polity = c(
+    rep("Angola (1970)", length(ago70$units)),
+    "Angola Total (1970)",
+    rep("Cameroon (1976)", length(cmr76$units)),
+    "Cameroon Total (1976)"
+  ),
+  `Administrative Unit` = c(
+    vapply(ago70$units, function (u) u$unit_name, character(1)),
+    "All 16 Districts",
+    vapply(cmr76$units, function (u) u$unit_name, character(1)),
+    "All 11 Provinces"
+  ),
+  `Enumerated Pop.` = c(
+    vapply(ago70$units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+    viscount_fmt_number(ago70$total_enumerated_pop, 0L),
+    vapply(cmr76$units, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+    viscount_fmt_number(cmr76$total_enumerated_pop, 0L)
+  ),
+  Level = c(
+    vapply(ago70$units, function (u) u$admin_level, character(1)),
+    "COLONY",
+    vapply(cmr76$units, function (u) u$admin_level, character(1)),
+    "REPUBLIC"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Sub-administrative census enumerations for Portuguese Angola (1970AD) and Cameroon (1976AD).",
+  arg3_options = list(label = "tab:subadmin-cameroon-angola")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Of the 361 assessed settlements in the chapter ledger, 324 sit inside or immediately adjacent to the 5-arcminute territorial mask in Table \ref{tab:subregions}, while 37 cross-border catchment settlements (across Nigeria, Zambia, Uganda, Burundi, Rwanda, South Sudan, Sudan, Niger and Tanzania) lie just outside the colonial border pixels and are reconciled to their adjoining sub-regions in the companion gazetteer. Colonial territorial enumerations in Tables \ref{tab:subadmin-belgian-aef} and \ref{tab:subadmin-cameroon-angola} preserve historical province and district spellings from the underlying statistical archives [@CongoBelge1958Enquete; @AEFAnnuaire1950; @Angola1940Censo].

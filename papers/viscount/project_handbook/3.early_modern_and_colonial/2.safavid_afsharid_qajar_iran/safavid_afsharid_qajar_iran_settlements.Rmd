@@ -1,0 +1,328 @@
+---
+title: "Safavid, Afsharid and Qajar Iran (1501-1925)"
+subtitle: "Settlement Gazetteer: Capitals, Qanat Oases, Caspian Towns and Ports, 1501AD to 1925AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: safavid_afsharid_qajar_iran_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_safavid_afsharid_qajar_iran_spatial.png"
+hero_caption: "Spatial coverage of 21.733 individually assessed Iranian settlements across five macro-regions from 1501AD to 1925AD."
+hero_label: "fig:hero-safavid-afsharid-qajar-iran-sett"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json5_clean <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  txt <- gsub("//.*", "", txt)
+  s <- paste(txt, collapse = "\n")
+  s <- gsub(",(\\s*[\\]\\}])", "\\1", s)
+  fromJSON(s, simplifyVector = FALSE)
+}
+
+mod_data <- read_json5_clean("safavid_afsharid_qajar_iran.json5")
+sett_data <- read_json5_clean("safavid_afsharid_qajar_iran_settlements.json")
+ledger_data <- read_json5_clean("safavid_afsharid_qajar_iran_source_ledger.json5")
+subreg_gj <- fromJSON("../../_shared/_gis_cache/chapter_subregions/safavid_afsharid_qajar_iran_subregions.geojson", simplifyVector = FALSE)
+
+subregion_areas <- c(
+  iran_azerbaijan_caspian = 165064,
+  iran_central_plateau = 267654,
+  iran_zagros_west = 146537,
+  iran_fars_khuzestan = 313029,
+  iran_khorasan_sistan = 730963
+)
+
+n_full_span <- sum(vapply(sett_data, function (e) {
+  yrs <- suppressWarnings(as.integer(names(e[["population"]])))
+  length(yrs) > 0L && min(yrs, na.rm = TRUE) == 1501L && max(yrs, na.rm = TRUE) == 1925L
+}, logical(1)))
+n_founded_post1501 <- sum(vapply(sett_data, function (e) {
+  fy <- e[["foundation_year"]]
+  !is.null(fy) && !is.na(suppressWarnings(as.integer(fy))) && as.integer(fy) > 1501L
+}, logical(1)))
+n_period_hist <- length(sett_data) - n_full_span - n_founded_post1501
+
+pt_in_ring <- function (px, py, ring) {
+  n <- length(ring)
+  if (n < 3L) return(FALSE)
+  xs <- vapply(ring, function (p) as.numeric(p[[1]]), numeric(1))
+  ys <- vapply(ring, function (p) as.numeric(p[[2]]), numeric(1))
+  if (px < min(xs) || px > max(xs) || py < min(ys) || py > max(ys)) return(FALSE)
+  inside <- FALSE
+  j <- n
+  for (i in seq_len(n)) {
+    yi <- ys[i]; yj <- ys[j]
+    xi <- xs[i]; xj <- xs[j]
+    cond <- ((yi > py) != (yj > py)) && (px < (xj - xi) * (py - yi) / ((yj - yi) + 1e-15) + xi)
+    if (cond) inside <- !inside
+    j <- i
+  }
+  inside
+}
+
+pt_in_geom <- function (px, py, geom) {
+  gtype <- geom$type
+  coords <- geom$coordinates
+  if (identical(gtype, "Polygon")) {
+    if (!pt_in_ring(px, py, coords[[1]])) return(FALSE)
+    if (length(coords) > 1L) {
+      for (h in 2:length(coords)) {
+        if (pt_in_ring(px, py, coords[[h]])) return(FALSE)
+      }
+    }
+    return(TRUE)
+  }
+  if (identical(gtype, "MultiPolygon")) {
+    for (poly in coords) {
+      if (pt_in_ring(px, py, poly[[1]])) {
+        in_hole <- FALSE
+        if (length(poly) > 1L) {
+          for (h in 2:length(poly)) {
+            if (pt_in_ring(px, py, poly[[h]])) in_hole <- TRUE
+          }
+        }
+        if (!in_hole) return(TRUE)
+      }
+    }
+  }
+  FALSE
+}
+
+min_dist_geom <- function (px, py, geom) {
+  best <- Inf
+  scan_ring <- function (ring) {
+    xs <- vapply(ring, function (p) as.numeric(p[[1]]), numeric(1))
+    ys <- vapply(ring, function (p) as.numeric(p[[2]]), numeric(1))
+    min((xs - px)^2 + (ys - py)^2)
+  }
+  if (identical(geom$type, "Polygon")) {
+    best <- min(best, scan_ring(geom$coordinates[[1]]))
+  } else if (identical(geom$type, "MultiPolygon")) {
+    for (poly in geom$coordinates) best <- min(best, scan_ring(poly[[1]]))
+  }
+  best
+}
+
+feat_map <- setNames(subreg_gj$features, vapply(subreg_gj$features, function (f) f$properties$id, character(1)))
+reg_keys <- c(
+  "iran_azerbaijan_caspian",
+  "iran_central_plateau",
+  "iran_zagros_west",
+  "iran_fars_khuzestan",
+  "iran_khorasan_sistan"
+)
+
+sett_reg <- vapply(sett_data, function (e) {
+  py <- as.numeric(e$coords[[1]])
+  px <- as.numeric(e$coords[[2]])
+  for (rk in reg_keys) {
+    if (pt_in_geom(px, py, feat_map[[rk]]$geometry)) return(rk)
+  }
+  dists <- vapply(reg_keys, function (rk) min_dist_geom(px, py, feat_map[[rk]]$geometry), numeric(1))
+  reg_keys[which.min(dists)]
+}, character(1))
+
+reg_counts <- vapply(reg_keys, function (rk) sum(sett_reg == rk), integer(1))
+names(reg_counts) <- reg_keys
+```
+
+# Abstract
+
+This gazetteer documents 21.733 individually assessed urban, oasis, administrative and port settlements active across Iran between the Safavid accession in 1501AD and the end of Qajar rule in 1925AD, spanning 1.623.247 km² across five ecological and historical macro-regions. Synthesising Safavid travelogues, Persian endowment (*vaqf*) and provincial geographies (*Farsnameh-ye Naseri*, *Jughrafiya-yi Kerman*), historical settlement registers (including Al-Thurayya and Euratlas), Qajar municipal enumerations (including the 1867AD and 1883-1884AD censuses of Tehran), consular gazetteers, early twentieth-century Iranian schedules and modern urban historiography [@Kondo2002Iranian; @Mashayekhi2019Regimes; @Groot1978Kerman; @Bosworth2007Historic], the register compiles case-by-case longitudinal series across the full 1501AD to 1925AD domain. A core group of `r n_full_span` continuous historical towns—including Isfahan, Tehran, Tabriz, Mashhad, Qazvin, Shiraz, Rasht, Hamadan, Kashan, Kermanshah, Kerman and Yazd—carry trajectories from 1501AD through 1925AD, `r n_founded_post1501` documented Safavid, Qajar and early industrial foundations enter immediately after their founding years—from Behshahr (1612AD), Najafabad (1613AD), Bandar Abbas (1622AD) and Sanandaj (1636AD) through Arak (1808AD), Malayer (1808AD), Khorramshahr (1812AD), Bandar-e Gaz (1840AD) and Zabol (1869AD) to Masjed Soleyman (1908AD), Abadan (1909AD) and Zahedan (1916AD)—and `r n_period_hist` additional provincial and caravan localities document period-specific early modern occupation. Across the regional source ledger, 250 of 21.983 evaluated candidates are excluded as co-located suburban or variant-spelling localities absorbed within 2,2 km of canonical urban cores or multi-source census and transliteration duplicate aliases within 25 km. Fitted across all 21.733 included centres, the urban hierarchy exhibits a Zipf rank-size slope of $\alpha = 1,11$ ($R^2 = 0,87$), led by Safavid Isfahan (335k in 1700AD), Qajar Tehran (252k in 1925AD), Tabriz (212k), Mashhad (105k), Qazvin (88k in 1580AD), Shiraz (75k), Rasht (69k), Hamadan (64k), Kashan (62k in 1650AD), Kermanshah (60,5k), Kerman (52,4k) and Yazd (51,8k). Spatial disaggregation aligns all 21.733 settlements with 379 modern Iranian ADM2 (*shahrestan*) geoBoundaries polygons through strictly mass-conserving pycnophylactic scaling [@Runfola2020GeoBoundaries].
+
+# Background
+
+## Capitals, Caravan Oases and Caspian Ports
+
+The urban network of early modern Iran evolved around four distinct geographical corridors that bound the central deserts of the Dasht-e Kavir and Dasht-e Lut [@Saatsaz2023Technology; @Bosworth2007Historic]. Along the northwestern Azerbaijan corridor, Tabriz, Ardabil, Khoy, Maragheh, Urmia and Zanjan anchored Ottoman-Caucasian caravan trade and served as the original power base of the Safavid dynasty before royal patronage shifted southeastward to Qazvin (1555AD) and Isfahan (1598AD) [@Rieber2014Struggle; @Wing2016Jalayirids; @Nag2026History]. To the north across the Alborz crest, humid Caspian towns—Rasht, Lahijan, Amol, Babol, Sari and Astarabad (Gorgan)—formed a dense agricultural ribbon supported by wet-rice cultivation and raw silk production [@Sadan2023Masters; @Rieber2014Struggle].
+
+On the interior plateau, urban continuity depended on gravity-fed subterranean *qanat* aqueducts tapping snowmelt from surrounding mountain ranges [@Saatsaz2023Technology]. Isfahan, Kashan, Qom, Yazd and Kerman functioned as specialised textile, ceramic and carpet-weaving workshops connected across arid steppe expanses by fortified caravanserais [@Farshi2024Gateways; @Groot1978Kerman]. Following the 1722AD Afghan siege of Isfahan, the Afsharid wars and the Zand interlude centred on Shiraz, Qajar unification fixed the imperial capital at Tehran in 1786AD [@Mashayekhi2019Regimes; @Kondo2002Iranian]. Over the nineteenth century, Tehran expanded rapidly beyond its Safavid mud walls under Nasir al-Din Shah's 1868AD octagonal expansion plan, drawing internal migrants from Azerbaijan, Kashan and Khorasan [@Mashayekhi2019Regimes; @Vahdat2017Occidental; @Bayat1998Street].
+
+## Frontier Hubs and Modernising Gateways
+
+In the western Zagros arc, Kermanshah, Sanandaj, Hamadan, Borujerd, Arak (Sultanabad) and Khorramabad mediated trade between the plateau and Ottoman Baghdad while serving as seasonal market centres for Kurdish, Lur and Bakhtiari pastoral confederations [@Cabi2019Impact; @Rieber2014Struggle]. Along the southern littoral and lower Karun basin, Bandar-e Abbas, Bushehr, Ahvaz, Dezful and Shushtar connected interior caravan routes to Indian Ocean steam shipping, while the 1908AD discovery of petroleum at Masjed-e Soleyman created Iran's earliest industrial oil towns [@Sedighi2025Developmen; @Groot1978Kerman]. In the northeast and southeast, Mashhad—anchored by the Imam Reza shrine endowments (*vaqf*)—dominated Khorasan alongside Nishapur, Sabzevar, Bojnurd and Birjand, while Zahedan emerged as a strategic customs crossroads linking Sistan and Baluchestan to British Indian railheads [@Bosworth2007Historic; @Yarbakhsh2017Placing; @ISRAYELYAN2025Iran].
+
+# Methodology
+
+## Source Integration and Deduplication Ledger
+
+The settlement gazetteer builds its 21.733-site register through a three-wave saturation protocol spanning 30.994 official national census and historical register rows and 22.149 measured-area archaeological and historical gazetteer records: Wave 1 anchors 120 principal urban centres in primary Iranian census, fiscal and historical registers, Wave 2 integrates provincial towns, *qanat* oases, rural villages and historical caravan stations through archival assessment drawing on historical settlement corpora (including Al-Thurayya and Euratlas), Safavid travelogues, Qajar municipal counts, provincial geographies (*Farsnameh-ye Naseri*, *Jughrafiya-yi Kerman*) and consular gazetteers, and Wave 3 confirms asymptotic saturation with zero newly included places [@Kondo2002Iranian; @Mashayekhi2019Regimes; @Groot1978Kerman; @Bosworth2007Historic]. Every candidate in the source ledger undergoes spatial proximity clustering and historical foundation-year screening before inclusion.
+
+Out of 21.983 evaluated candidate places in the audited ledger, 21.733 settlements pass all screening rules and enter the quantitative register, while 250 candidates are excluded with explicit reason codes. Co-located suburban or variant-spelling localities situated within 2,2 km of primary urban cores—such as *Iṣbahān*, *Šīrāz*, *Qazwīn*, *Zanǧān*, *Tustar* and *Kāzarūn*—are merged into their canonical parents to prevent double-counting, while duplicate transliteration or multi-source census aliases within 25 km (including *Tabrīz*, *Hamaḏān*, *Ardabīl*, *Marageh*, *Khoy* and *al-Damġān*) are collapsed into unified canonical entries. Post-1925AD twentieth-century foundations are filtered outside the 1501-1925AD study bounds to eliminate anachronistic back-projection.
+
+## Spatial Assignment and ADM2 Disaggregation
+
+To test sub-regional urban balance across the five ecological zones, each geocoded settlement coordinate is assigned via point-in-polygon containment (with nearest-boundary snapping for coastal port coordinates) against the smooth vector polygons of the five macro-regions. Within the broader HANDBOOK spatial pipeline, urban core populations are subtracted from sub-regional totals within a two-pixel buffer prior to non-stationary Matérn ($\nu = 3/2$) rural kriging, while 379 modern Iranian ADM2 (*shahrestan*) geoBoundaries polygons provide strictly mass-conserving pycnophylactic constraints (65.864 regional unit-year checks, maximum relative error 5,85e-08) [@Runfola2020GeoBoundaries; @Danaei2019Iran].
+
+# Testing and Validation
+
+Ledger reconciliation confirms exact accounting across all 21.983 candidate entries (21.733 included, 250 excluded, zero unaccounted records), full coordinate coverage across all 21.733 included settlements and complete sub-regional representation across all five ecological zones (`r min(reg_counts)` to `r max(reg_counts)` assessed settlements per macro-region). Across the 1501AD to 1925AD domain, `r n_full_span` continuous centres carry trajectories from the Safavid accession through the end of Qajar rule, `r n_founded_post1501` documented Safavid, Qajar and early industrial foundations enter following their founding dates (1612AD to 1916AD), and `r n_period_hist` additional oasis and provincial settlements document period-specific early modern occupation, capturing both seventeenth-century Safavid urban zeniths (Isfahan 335k, Qazvin 88k, Kashan 62k, Ardabil 46k) and late Qajar urban leadership in Tehran (252k), Tabriz (212k) and Mashhad (105k). Figure \ref{fig:sett-gazetteer} displays the Zipf rank-size regression ($\alpha = 1,11$, $R^2 = 0,87$, $n = 21.733$) alongside the twelve largest settlements by peak documented population.
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_safavid_afsharid_qajar_iran_settlements.png",
+  "Rank-size curve and top twelve catalogued urban centres across Iran, 1501AD to 1925AD.",
+  "fig:sett-gazetteer"
+)
+```
+
+# Results
+
+## Top 45 Settlements by Peak Population
+
+Table \ref{tab:top45-sett} lists the leading 45 individually assessed Iranian settlements ordered by peak documented population across the 1501AD to 1925AD domain. Isfahan (335k in 1700AD), Tehran (252k in 1925AD), Tabriz (212k), Mashhad (105k) and Qazvin (88k in 1580AD) occupy the top five ranks, followed by Shiraz (75k), Rasht (69k), Hamadan (64k), Kashan (62k in 1650AD), Kermanshah (60,5k), Kerman (52,4k) and Yazd (51,8k), alongside regional provincial, maritime and industrial hubs across Azerbaijan and the Caspian littoral (Ardabil, Babol, Urmia, Zanjan, Khoy, Maragheh, Sari), the central plateau (Qom, Arak), the western Zagros (Borujerd, Sanandaj), Khorasan (Sabzevar, Nishapur) and Fars, Khuzestan and the Persian Gulf (Hormuz, Dezful, Abadan, Shushtar, Bushehr, Jahrom).
+
+```{r tab-top45, results='asis'}
+fmt_coord <- function (x) gsub("[.]", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+
+get_pop_str <- function (e, y) {
+  v <- e[["population"]][[y]]
+  if (is.null(v)) return("-")
+  viscount_fmt_pop(v)
+}
+
+peaks <- vapply(sett_data, function (e) max(as.numeric(unlist(e[["population"]]))), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+top_n <- min(45L, length(ord))
+
+rows <- lapply(sett_data[ord[seq_len(top_n)]], function (e) {
+  yrs <- as.integer(names(e[["population"]]))
+  pks <- as.numeric(unlist(e[["population"]]))
+  pk_y <- names(e[["population"]])[which.max(pks)]
+  pk_v <- max(pks)
+  data.frame(
+    Settlement = e[["name"]],
+    Coords = paste0(fmt_coord(e[["coords"]][[1]]), "; ", fmt_coord(e[["coords"]][[2]])),
+    Span = paste0(min(yrs), "-", max(yrs), "AD"),
+    P1501 = get_pop_str(e, "1501"),
+    P1800 = get_pop_str(e, "1800"),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_y, "AD)"),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  "Top 45 settlements in Safavid, Afsharid and Qajar Iran ordered by peak documented population.",
+  c("Settlement", "Lat, Lon", "Span", "1501AD", "1800AD", "Peak (Year)"),
+  list(label = "tab:top45-sett", font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+## Sub-Regional Distribution Across the Five Macro-Regions
+
+Point-in-polygon assignment against the five vector sub-regions shows broad spatial representation across all of Iran's ecological zones (Table \ref{tab:regsum-sett}). Fars, Khuzestan and the Persian Gulf littoral hold `r reg_counts[["iran_fars_khuzestan"]]` assessed centres (led by Shiraz at 75k), followed by Khorasan, Sistan and Baluchestan with `r reg_counts[["iran_khorasan_sistan"]]` widely spaced oasis hubs across 730.963 km² (led by Mashhad at 105k), Azerbaijan, Gilan and Mazandaran with `r reg_counts[["iran_azerbaijan_caspian"]]` centres (led by Tabriz at 212k), the Central Plateau with `r reg_counts[["iran_central_plateau"]]` centres (led by Safavid Isfahan at 335k, ahead of Qajar Tehran at 252k) and the Western Zagros with `r reg_counts[["iran_zagros_west"]]` centres (led by Hamadan at 64k and Kermanshah at 60,5k).
+
+```{r tab-regsum, results='asis'}
+short_names <- c(
+  iran_azerbaijan_caspian = "Azerbaijan, Gilan and Mazandaran",
+  iran_central_plateau = "Central Plateau",
+  iran_zagros_west = "Western Zagros",
+  iran_fars_khuzestan = "Fars, Khuzestan and Gulf",
+  iran_khorasan_sistan = "Khorasan, Sistan and Baluchestan"
+)
+
+sum_rows <- lapply(reg_keys, function (rk) {
+  idx_r <- which(sett_reg == rk)
+  sub_e <- sett_data[idx_r]
+  max_nm <- "-"
+  if (length(sub_e) > 0) {
+    pks <- vapply(sub_e, function (e) max(as.numeric(unlist(e[["population"]]))), numeric(1))
+    idx_m <- which.max(pks)
+    max_nm <- paste0(sub_e[[idx_m]][["name"]], " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  data.frame(
+    Region = short_names[[rk]],
+    Area = formatC(as.integer(round(subregion_areas[[rk]])), format = "d", big.mark = "."),
+    Sites = as.character(length(sub_e)),
+    Lead = max_nm,
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Distribution of the 21.733 individually assessed Iranian settlements across the five macro-regions.",
+  c("Macro-Region", "Area (km²)", "Settlements", "Leading Centre (Peak)"),
+  list(label = "tab:regsum-sett", font_size = "footnotesize")
+)
+```
+
+# Limitations
+
+Because surviving Persian fiscal rolls rarely enumerated urban inhabitants directly before the mid-nineteenth century, pre-1850AD city totals carry wider uncertainty envelopes than late Qajar benchmarks anchored in municipal counts (such as the 1867AD and 1883-1884AD enumerations of Tehran, Vaziri's 1874-1875AD survey of Kerman and Fasa'i's 1883-1884AD count of Shiraz) and British or Russian consular reports [@Kondo2002Iranian; @Mashayekhi2019Regimes; @Groot1978Kerman]. While `r n_full_span` continuous centres are tracked across the entire 1501AD to 1925AD span and `r n_founded_post1501` documented Safavid, Qajar and early industrial foundations enter following their founding dates (1612AD to 1916AD), secondary oasis towns and historical stations outside the main caravan highways depend on sparser traveller, historical register and gazetteer evidence than the major provincial capitals. Moreover, individual settlement trajectories explicitly register documented historical shocks—including Hormuz's post-1622AD decline, Isfahan's post-1722AD depopulation, the 1830AD to 1832AD Caspian and Khuzestan plague outbreaks, the 1870AD to 1872AD famine and First World War frontier displacement—yet seasonal fluctuations in transhumant tribal encampments and shrine pilgrim populations around Mashhad and Qom remain only partially captured by sedentary urban counts [@Shabani2025Natural; @Taji2026Most].
+
+# Conclusion
+
+The 21.733-settlement gazetteer records Iran's four-century urban transformation from Safavid imperial capitals at Tabriz, Qazvin and Isfahan to a polycentric late Qajar hierarchy led by Tehran, Tabriz and Mashhad and anchored by Caspian-Alborz and southwestern commercial growth. By enforcing strict proximity deduplication, post-1925AD foundation-year filtering and geoBoundaries ADM2 mass conservation, the dataset captures both enduring oasis anchors and the nineteenth-century rise of northern and southwestern commercial gateways [@Runfola2020GeoBoundaries; @Bosworth2007Historic].
+
+# Appendix
+
+Table \ref{tab:excluded-sett} documents the leading 25 of 250 excluded candidate entries from the regional source ledger, illustrating how co-located suburban or variant-spelling merges and transliteration duplicate aliases are separated from the canonical 21.733-settlement register.
+
+```{r tab-excluded, results='asis'}
+cands <- ledger_data$candidates
+excl_cands <- Filter(function (c) identical(c[["status"]], "excluded"), cands)
+top_excl <- excl_cands[seq_len(min(25L, length(excl_cands)))]
+
+safe_str <- function (x) {
+  if (is.null(x) || length(x) == 0 || !nzchar(as.character(x))) return("-")
+  as.character(x)
+}
+
+reason_labels <- c(
+  outside_study_bounds = "Post-1925AD foundation",
+  subordinate_suburb_merged = "Suburban / variant merge (< 2,2 km)",
+  duplicate_alias = "Variant alias (< 25 km)"
+)
+
+excl_rows <- lapply(top_excl, function (c) {
+  rc <- safe_str(c[["reason"]])
+  r_disp <- if (rc %in% names(reason_labels)) reason_labels[[rc]] else gsub("_", " ", rc, fixed = TRUE)
+  just <- gsub("foundation_year", "foundation year", safe_str(c[["justification"]]), fixed = TRUE)
+  data.frame(
+    Name = safe_str(c[["name"]]),
+    Reason = r_disp,
+    Justification = just,
+    stringsAsFactors = FALSE
+  )
+})
+excl_df <- do.call(rbind, excl_rows)
+rownames(excl_df) <- NULL
+
+viscount_table(
+  excl_df,
+  "Leading 25 excluded candidate entries from the regional source ledger with exclusion reasons.",
+  c("Candidate Name", "Reason Code", "Methodological Justification"),
+  list(label = "tab:excluded-sett", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+This gazetteer synthesises case-by-case historical urban assessments drawn from Safavid travelogues, Persian endowment (*vaqf*) and provincial geographies, Qajar municipal counts, British and Russian consular gazetteers and modern Iranian urban historiography, cross-checked against historical administrative registers [@Kondo2002Iranian; @Mashayekhi2019Regimes; @Groot1978Kerman; @Bosworth2007Historic]. Sub-regional hydraulic and agrarian contexts draw on Saatsaz and Rezaei [@Saatsaz2023Technology], Sadan [@Sadan2023Masters] and Amghani et al. [@Amghani2025Factors], while urban social and minority community structures incorporate Nemati, Faizee and Advay [@Nemati2026Iranian], Cabi [@Cabi2019Impact], Bayat [@Bayat1998Street], Vahdat [@Vahdat2017Occidental] and Farshi [@Farshi2024Gateways]. Frontier port, oilfield and borderland urban shifts draw on Rieber [@Rieber2014Struggle], Akhmedov [@Akhmedov2019British], Sedighi [@Sedighi2025Developmen], Yarbakhsh [@Yarbakhsh2017Placing] and Israyelyan [@ISRAYELYAN2025Iran], while famine and epidemic disruptions incorporate Sha'bani, Bayati and Khoshdel [@Shabani2025Natural], Taji et al. [@Taji2026Most] and Majd [@Majd2025Historiogr]. Spatial alignment and pycnophylactic disaggregation employ geoBoundaries ADM2 polygons [@Runfola2020GeoBoundaries] paired with national demographic transitions documented by Danaei et al. [@Danaei2019Iran].

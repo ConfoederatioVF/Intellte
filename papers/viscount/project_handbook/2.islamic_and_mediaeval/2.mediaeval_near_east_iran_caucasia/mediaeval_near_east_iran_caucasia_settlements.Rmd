@@ -1,0 +1,286 @@
+---
+title: "Mediaeval Near East, Iran and Caucasia (1000-1500)"
+subtitle: "Settlement Gazetteer and Urban Rank-Size Catalogue"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: mediaeval_near_east_iran_caucasia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_mediaeval_near_east_iran_caucasia_spatial.png"
+hero_caption: "Spatial distribution of 66.671 individually assessed mediaeval settlements across eight ecological and political sub-regions from Anatolia to Khorasan and Arabia between 1000AD and 1500AD."
+hero_label: "fig:hero-settlements-mediaeval-near-east-iran-caucasia"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("mediaeval_near_east_iran_caucasia_summary_cache.json", simplifyVector = FALSE)
+settlements_json <- jsonlite::fromJSON("mediaeval_near_east_iran_caucasia_settlements.json", simplifyVector = FALSE)
+
+fmt_coord <- function (val) {
+  s <- format(round(as.numeric(val), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+get_pop_yr <- function (entry, yr_str) {
+  p <- entry$population[[yr_str]]
+  if (!is.null(p)) return(as.numeric(p))
+  yrs <- as.numeric(names(entry$population))
+  vals <- as.numeric(unlist(entry$population))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  target <- as.numeric(yr_str)
+  if (length(yrs) < 2L || target < yrs[1] || target > yrs[length(yrs)]) return(NA_real_)
+  as.numeric(stats::approx(yrs, vals, xout = target)$y)
+}
+
+fmt_pop_cell <- function (val) {
+  if (is.na(val) || !is.finite(val)) return("-")
+  viscount_fmt_pop(val)
+}
+
+countries <- vapply(settlements_json, function (e) as.character(e$country), character(1))
+p1000_vec <- vapply(settlements_json, function (e) { v <- get_pop_yr(e, "1000"); if (is.na(v)) 0 else v }, numeric(1))
+p1500_vec <- vapply(settlements_json, function (e) { v <- get_pop_yr(e, "1500"); if (is.na(v)) 0 else v }, numeric(1))
+pk_vec <- vapply(settlements_json, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+
+n_total_sett <- length(settlements_json)
+ctry_tab <- sort(table(countries), decreasing = TRUE)
+n_jurisdictions <- length(ctry_tab)
+
+ctry_n_int <- function (cn) {
+  if (!(cn %in% names(ctry_tab))) return(0L)
+  as.integer(ctry_tab[[cn]])
+}
+
+ctry_n <- function (cn) viscount_fmt_number(ctry_n_int(cn), 0L)
+
+ctry_pct <- function (cn) {
+  paste0(viscount_fmt_number(100.0 * ctry_n_int(cn) / n_total_sett, 1L), "%")
+}
+
+sum_ctry_n <- function (cns) {
+  viscount_fmt_number(sum(vapply(cns, ctry_n_int, integer(1))), 0L)
+}
+
+fmt_ctry_ranked <- function (idx_vec, suffix_first = " places") {
+  idx_vec <- idx_vec[idx_vec <= length(ctry_tab)]
+  nms <- names(ctry_tab)[idx_vec]
+  cnts <- as.integer(ctry_tab[idx_vec])
+  items <- vapply(seq_along(nms), function (i) {
+    suf <- if (i == 1L && nzchar(suffix_first)) suffix_first else ""
+    paste0(nms[i], " (", viscount_fmt_number(cnts[i], 0L), suf, ")")
+  }, character(1))
+  if (length(items) == 0L) return("")
+  if (length(items) == 1L) return(items[1L])
+  paste0(paste(items[-length(items)], collapse = ", "), " and ", items[length(items)])
+}
+
+fmt_ctry_names <- function (idx_vec) {
+  idx_vec <- idx_vec[idx_vec <= length(ctry_tab)]
+  nms <- names(ctry_tab)[idx_vec]
+  if (length(nms) == 0L) return("")
+  if (length(nms) == 1L) return(nms[1L])
+  paste0(paste(nms[-length(nms)], collapse = ", "), " and ", nms[length(nms)])
+}
+
+fmt_ctry_subset <- function (cns) {
+  present <- cns[vapply(cns, ctry_n_int, integer(1)) > 0L]
+  cnts <- vapply(present, ctry_n_int, integer(1))
+  ord <- order(-cnts)
+  present <- present[ord]
+  cnts <- cnts[ord]
+  items <- paste0(present, " (", vapply(cnts, function (x) viscount_fmt_number(x, 0L), character(1)), ")")
+  if (length(items) == 0L) return("")
+  if (length(items) == 1L) return(items[1L])
+  paste0(paste(items[-length(items)], collapse = ", "), " and ", items[length(items)])
+}
+
+n_active_yr <- function (yr_str) {
+  cnt <- sum(vapply(settlements_json, function (e) {
+    v <- get_pop_yr(e, yr_str)
+    !is.na(v) && is.finite(v) && v > 0
+  }, logical(1)))
+  viscount_fmt_number(cnt, 0L)
+}
+```
+
+# Abstract
+
+This companion gazetteer documents the 66.671 individually assessed mediaeval settlements compiled for the Near East, Iran, Afghanistan, Caucasia, Cyprus and the Arabian Peninsula between 1000AD and 1500AD. Selected from an initial ledger pool of 66.921 candidate places after excluding 250 co-located localities, variant-spelling duplicates, uninhabited monuments, non-settlement fragments and unquantified minor scatters, the catalogue spans `r n_jurisdictions` modern jurisdictions anchored by `r fmt_ctry_ranked(1:10, " places")`, alongside smaller Levantine, Caucasian and Gulf networks in `r fmt_ctry_names(11:length(ctry_tab))`. Across the five-century interval, urban primacy shifted repeatedly in response to Seljuk frontier consolidation around Konya, Bagratid expansion in Tbilisi and Ani, Crusader-Mamluk contests along the Levantine seaboard, Mongol destruction in Khorasan and Baghdad, the Black Death of 1347-1349AD and Timurid-Turkmen reconstruction in Herat and Tabriz. Evaluated across all 66.671 settlements, the peak rank-size distribution exhibits a well-structured Zipf slope of $\alpha = 1,02$ ($R^2 = 0,88$), led by Baghdad (284k), Tabriz (235k), Herat (152k), Nishapur (132k), Ghazni (128k), Isfahan (112k), Damascus (108,5k) and Rayy (108k), reflecting a polycentric mediaeval urban network in which major imperial capitals stood above a deep second tier of regional seats, market towns and caravan entrepôts.
+
+```{r fig1-sett-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_mediaeval_near_east_iran_caucasia_spatial.png",
+    "Spatial distribution of 66.671 individually assessed mediaeval settlements across eight ecological and political sub-regions from Anatolia to Khorasan and Arabia between 1000AD and 1500AD.",
+    "fig:hero-settlements-mediaeval-near-east-iran-caucasia"
+  )
+}
+```
+
+# Background
+
+Urban networks across southwestern Asia between 1000AD and 1500AD did not conform to a single imperial hierarchy. Unlike late antique Rome or early Abbasid Baghdad, which had concentrated disproportionate fiscal and demographic weight in a single capital, the mediaeval Near East and Iranian world fragmented into competing regional courts and mercantile corridors [@Bosworth2007Historic; @Peacock2021Urban]. Great Seljuk and Khwarazmian rule elevated Nishapur, Rayy, Isfahan, Shiraz and Hamadan across the Iranian plateau while Rum Seljuk sultans turned Konya, Kayseri and Sivas into fortified caravanserai hubs across central Anatolia [@S2020History; @Mahmuluddin2024Myth]. In Transcaucasia, Bagratid kings expanded Tbilisi and Ani while Shaddadid and Eldiguzid rulers patronised Ganja and Tabriz [@Yusif2025Reflection; @Guven2024Seljuk]. Along the Mediterranean and Mesopotamian corridors, Damascus, Aleppo, Mosul and Baghdad sustained dense craft and transit quarters until thirteenth-century Mongol campaigns and mid-fourteenth-century plague curtailed urban heights across every subregion [@Katie2021Cities; @Wing2016Jalayirids; @MH2025Plague].
+
+# Methodology
+
+Candidate settlements were compiled and individually assessed from excavated wall-circuit and urban-footprint surveys (such as Baghdad, Nishapur, Rayy, Ani, Acre, Zabid, Qalhat and Al-Balid), early Islamic geographical itineraries and chronicles (including al-Muqaddasi, Nasir-i Khusraw, Ibn Jubayr, Yaqut, Ibn Battuta and Hamdallah Mustawfi), historical settlement registers (including Al-Thurayya, DARMC, Euratlas and regional Anatolian and Near Eastern survey corpora), Crusader, Lusignan and Mamluk administrative sources and late fifteenth-century Ottoman *tahrir* registers, with overlapping toponyms reconciled by verified WGS84 coordinates and historical nomenclature [@Bosworth2007Historic; @M2026Late; @AM2026Tale]. Screening of 66.921 initial ledger candidates excluded 250 records representing co-located localities, isolated forts, rural sanctuaries without residential quarters, unlocated itinerary stages, unquantified minor scatters or variant-spelling doublets within 25 km. Each of the 66.671 retained settlements carries an individually assessed population series across its documented occupation between 1000AD and 1500AD, combining fifty-year benchmarks with targeted event years for major foundations, sieges and epidemics, constrained by an explicit urban-core mask so modern suburban sprawl never inflates mediaeval urban totals.
+
+All spatial joins map settlement coordinates onto smooth vector sub-region polygons and 29 historical Ottoman, Russian and Mandate divisions alongside 2.629 modern geoBoundaries ADM1 and ADM2 polygons [@Runfola2020GeoBoundaries]. Strictly mass-conserving pycnophylactic scaling across 65.864 unit-year checks ensures that urban point totals remain consistent with regional rural densities across the 1500AD transition into early modern censuses.
+
+# Testing and Validation
+
+Internal validation of the 66.671-settlement gazetteer evaluates territorial completeness across all `r n_jurisdictions` jurisdictions, temporal density across fifty-year steps from 1000AD to 1500AD and rank-size conformity. Active coverage spans `r n_active_yr("1000")` settlements at 1000AD, `r n_active_yr("1300")` at 1300AD and `r n_active_yr("1500")` at 1500AD, registering documented mediaeval foundations (Hillah in 1101AD, Firuzkuh in 1146AD, Island Hormuz in 1300AD and Sultaniyya in 1304AD) alongside the post-Mongol abandonment of Firuzkuh after 1300AD and period-bounded regional survey horizons. Across all 66.671 settlements, the ordinary-least-squares log-log regression of peak population against rank yields $\alpha = 1,02$ ($R^2 = 0,88$). This near-unitary Zipfian slope across tens of thousands of urban and regional nodes reflects a multi-polar mediaeval urban world in which imperial capitals - Baghdad (284k), Tabriz (235k), Herat (152k), Nishapur (132k), Ghazni (128k), Isfahan (112k), Damascus (108,5k) and Rayy (108k) - stood above a robust second tier of regional capitals including Balkh (94k), Mosul (94k), Shiraz (93,5k), Aleppo (91k) and Konya (86k) [@Bosworth2007Historic; @Katie2021Cities].
+
+```{r fig4-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_mediaeval_near_east_iran_caucasia_settlements.png",
+  "Rank-size distribution across 66.671 individually assessed mediaeval settlements and leading urban centres by peak population between 1000AD and 1500AD.",
+  "fig:settlements-catalogue-mediaeval_near_east_iran_caucasia"
+)
+```
+
+# Results
+
+Territorial distribution reflects the underlying agrarian, hydraulic and caravan carrying capacity of southwestern Asia. `r names(ctry_tab)[1]` (`r viscount_fmt_number(ctry_tab[[1]], 0L)` settlements, `r ctry_pct(names(ctry_tab)[1])` of the catalogue) and `r names(ctry_tab)[2]` (`r viscount_fmt_number(ctry_tab[[2]], 0L)` settlements, `r ctry_pct(names(ctry_tab)[2])`) together account for `r paste0(viscount_fmt_number(100.0 * (ctry_tab[[1]] + ctry_tab[[2]]) / n_total_sett, 1L), "%")` of all assessed sites, followed by `r fmt_ctry_ranked(3:7, "")`. Across the Arabian Peninsula, `r sum_ctry_n(c("Yemen", "Saudi Arabia", "Oman", "Bahrain", "Kuwait", "Qatar", "United Arab Emirates"))` assessed centres span `r fmt_ctry_subset(c("Yemen", "Saudi Arabia", "Oman", "Bahrain", "Kuwait", "Qatar", "United Arab Emirates"))`, tracing Red Sea pilgrimage routes, Yemeni highland terraces and Gulf maritime entrepôts such as Qalhat, Sohar and Hormuz's Arabian partner ports. The modern Levantine jurisdictions contribute `r sum_ctry_n(c("Syria", "Lebanon", "Palestine", "Israel", "Jordan"))` centres across `r fmt_ctry_subset(c("Syria", "Lebanon", "Palestine", "Israel", "Jordan"))`, Transcaucasia contributes `r sum_ctry_n(c("Azerbaijan", "Georgia", "Armenia"))` settlements across `r fmt_ctry_subset(c("Azerbaijan", "Georgia", "Armenia"))`, and Cyprus adds `r ctry_n("Cyprus")` fortified and coastal centres including Nicosia and Famagusta [@Kaya2016History; @Yusif2025Reflection].
+
+```{r country-summary-table, results='asis'}
+u_ctry <- sort(unique(countries))
+ctry_df <- do.call(rbind, lapply(u_ctry, function (cn) {
+  idx <- which(countries == cn)
+  data.frame(
+    Country = cn,
+    Sites = length(idx),
+    Share = paste0(viscount_fmt_number(100.0 * length(idx) / length(countries), 1L), "%"),
+    U1000 = viscount_fmt_pop(sum(p1000_vec[idx])),
+    U1500 = viscount_fmt_pop(sum(p1500_vec[idx])),
+    MaxPeak = viscount_fmt_pop(max(pk_vec[idx])),
+    stringsAsFactors = FALSE
+  )
+}))
+ctry_df <- ctry_df[order(-ctry_df$Sites), ]
+ctry_df$Sites <- vapply(ctry_df$Sites, function (x) viscount_fmt_number(x, 0L), character(1))
+rownames(ctry_df) <- NULL
+viscount_table(
+  ctry_df,
+  "Territorial breakdown of the 66.671 individually assessed mediaeval settlements showing urban totals at 1000AD and 1500AD and maximum single-city peak.",
+  c("Territory", "Settlements", "Share", "1000AD Urban", "1500AD Urban", "Peak City")
+)
+```
+
+## Leading Mediaeval Urban Centres
+
+Between 1000AD and 1250AD, the upper urban tier was anchored by late Abbasid Baghdad (peaking at 284k in 1200AD), the pre-Mongol Iranian and Khorasan metropolises of Nishapur (132k in 1050AD), Ghazni (128k in 1050AD), Isfahan (112k in 1100AD), Rayy (108k in 1050AD) and Balkh (94k in 1100AD), alongside Mosul (94k), Aleppo (91k), Konya (86k), Ani (84,5k), Tbilisi (78,5k), Sivas (66,5k), Hamadan (62,5k), Antioch (61,5k), Ganja (58,5k) and Basra (58k) [@Bosworth2007Historic]. The thirteenth-century Mongol conquests shattered Khorasan, Afghanistan and Mesopotamia - cutting Baghdad from 268k in 1250AD to 72k after 1258AD and reducing Nishapur, Rayy, Balkh, Ghazni and Firuzkuh to fractions of their Seljuk and Ghurid scale - while Ilkhanid and Mamluk political consolidation elevated new peaks at Tabriz (235k in 1340AD), Damascus (108,5k in 1340AD), Sultaniyya (84k in 1335AD) and Maragha (58,5k in 1265AD) before the 1348AD Black Death [@Katie2021Cities; @Wing2016Jalayirids]. In the fifteenth century, Timurid, Turkmen and early Ottoman reconstruction propelled Herat (152k in 1500AD), Tabriz (198k), Shiraz (93,5k), Bursa (64,8k), Yazd (61,8k), Island Hormuz (56,4k), Mashhad (54,2k), Mecca (49,5k) and Aden (47,6k in 1400AD) to the forefront of southwestern Asian urbanisation [@Peacock2021Urban; @Darvish2025Comparativ].
+
+```{r top30-table, results='asis'}
+ord_idx <- order(-pk_vec, -p1000_vec)[seq_len(min(30L, length(settlements_json)))]
+top_df <- do.call(rbind, lapply(ord_idx, function (i) {
+  e <- settlements_json[[i]]
+  data.frame(
+    Settlement = as.character(e$name),
+    Territory = as.character(e$country),
+    Coords = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Y1000 = fmt_pop_cell(get_pop_yr(e, "1000")),
+    Y1250 = fmt_pop_cell(get_pop_yr(e, "1250")),
+    Y1500 = fmt_pop_cell(get_pop_yr(e, "1500")),
+    Peak = viscount_fmt_pop(pk_vec[i]),
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(top_df) <- NULL
+viscount_table(
+  top_df,
+  "Top 30 individually assessed mediaeval settlements ranked by peak population with coordinates and populations at 1000AD, 1250AD, 1500AD and peak horizon.",
+  c("Settlement", "Territory", "Lat, Lon", "1000AD", "1250AD", "1500AD", "Peak")
+)
+```
+
+# Limitations
+
+Three gazetteer constraints require care in local interpretation. First, early Islamic geographic compendia describe central Iran, Mesopotamia and northern Syria in much finer detail than interior Anatolia, highland Georgia or southern Arabia, producing denser documentary coverage along historic Iranian and Syrian trunk roads than in mountainous or pastoral districts [@Bosworth2007Historic; @Peacock2021Urban]. Second, archaeological population estimates derived from walled intra-mural areas (such as Rayy, Nishapur, Ani, Acre, Mosul or Antioch) depend on residential-density coefficients and the fluctuating extent of extra-mural suburbs (*rabads*), which expanded rapidly in imperial capitals and contracted sharply during prolonged sieges [@M2026Late; @Katie2021Cities]. Third, while targeted event-year benchmarks capture acute shocks such as the 1221AD Mongol sack of Nishapur, the 1258AD sack of Baghdad, the 1291AD razing of Acre and the 1348AD Black Death, smaller provincial towns rely on fifty-year intervals that smooth over localised famines and short-term dynastic raids [@Wing2016Jalayirids; @MH2025Plague].
+
+# Conclusion
+
+The 66.671-settlement gazetteer confirms that mediaeval southwestern Asia maintained a deeply polycentric yet well-ordered urban network ($\alpha = 1,02$, $R^2 = 0,88$) from 1000AD to 1500AD. Even after thirteenth-century conquests and fourteenth-century plague depressed older Abbasid and Khorasan metropolises, regional capitals and commercial nodes across Anatolia, Iran, Khorasan, the Levant, Transcaucasia and Yemen preserved the institutional and spatial skeleton upon which early modern urban growth resumed.
+
+# Appendix
+
+## Regional Sub-Catalogues: Anatolia, Levant and Transcaucasia
+
+The following table lists the twenty highest-ranking assessed settlements across Turkey, Syria, Lebanon, Israel, Palestine, Jordan, Cyprus, Georgia, Armenia and Azerbaijan.
+
+```{r appendix-west-table, results='asis'}
+west_countries <- c("Turkey", "Syria", "Lebanon", "Israel", "Palestine", "Jordan", "Cyprus", "Georgia", "Armenia", "Azerbaijan")
+west_idx <- which(countries %in% west_countries)
+west_ord <- west_idx[order(-pk_vec[west_idx], -p1000_vec[west_idx])[seq_len(min(20L, length(west_idx)))]]
+west_df <- do.call(rbind, lapply(west_ord, function (i) {
+  e <- settlements_json[[i]]
+  data.frame(
+    Settlement = as.character(e$name),
+    Territory = as.character(e$country),
+    Y1000 = fmt_pop_cell(get_pop_yr(e, "1000")),
+    Y1150 = fmt_pop_cell(get_pop_yr(e, "1150")),
+    Y1350 = fmt_pop_cell(get_pop_yr(e, "1350")),
+    Y1500 = fmt_pop_cell(get_pop_yr(e, "1500")),
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(west_df) <- NULL
+viscount_table(
+  west_df,
+  "Leading assessed settlements across Anatolia, the Levant, Cyprus and Transcaucasia (1000-1500AD).",
+  c("Settlement", "Territory", "1000AD", "1150AD", "1350AD", "1500AD")
+)
+```
+
+## Regional Sub-Catalogues: Iran, Iraq, Afghanistan and Arabia
+
+The complementary eastern and southern table enumerates the twenty highest-ranking assessed settlements across Iran, Iraq, Afghanistan, Saudi Arabia, Yemen, Oman and Bahrain.
+
+```{r appendix-east-table, results='asis'}
+east_countries <- c("Iran", "Iraq", "Afghanistan", "Saudi Arabia", "Yemen", "Oman", "Bahrain")
+east_idx <- which(countries %in% east_countries)
+east_ord <- east_idx[order(-pk_vec[east_idx], -p1000_vec[east_idx])[seq_len(min(20L, length(east_idx)))]]
+east_df <- do.call(rbind, lapply(east_ord, function (i) {
+  e <- settlements_json[[i]]
+  data.frame(
+    Settlement = as.character(e$name),
+    Territory = as.character(e$country),
+    Y1000 = fmt_pop_cell(get_pop_yr(e, "1000")),
+    Y1150 = fmt_pop_cell(get_pop_yr(e, "1150")),
+    Y1350 = fmt_pop_cell(get_pop_yr(e, "1350")),
+    Y1500 = fmt_pop_cell(get_pop_yr(e, "1500")),
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(east_df) <- NULL
+viscount_table(
+  east_df,
+  "Leading assessed settlements across Iran, Iraq, Afghanistan and the Arabian Peninsula (1000-1500AD).",
+  c("Settlement", "Territory", "1000AD", "1150AD", "1350AD", "1500AD")
+)
+```
+
+# Sources

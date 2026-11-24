@@ -1,0 +1,446 @@
+---
+title: "Colonial Equatoria, Belgian Congo and Angola"
+subtitle: "Settlement Gazetteer: 361 Individually Assessed Sites (1880AD-1975AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_equatoria_congo_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 361 individually assessed settlements across 18 countries spanning twelve colonial sub-regions from 1880AD to 1975AD."
+hero_label: "fig:hero-settlements-equatoria"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("colonial_equatoria_congo_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("colonial_equatoria_congo_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+assign_subregion <- function (e) {
+  c <- as.character(e$country)
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  if (c %in% c("Chad", "Niger", "Sudan")) return("aef_chad")
+  if (c %in% c("Central African Republic", "South Sudan")) return("aef_ubangi_shari")
+  if (identical(c, "Republic of the Congo")) return("aef_middle_congo")
+  if (identical(c, "Gabon")) return("aef_gabon")
+  if (identical(c, "Equatorial Guinea")) return("spanish_guinea")
+  if (c %in% c("Cameroon", "Nigeria")) {
+    if (identical(c, "Nigeria") && lat > 12.2) return("aef_chad")
+    return("kamerun_mandates")
+  }
+  if (c %in% c("Burundi", "Rwanda", "Uganda")) return("belgian_congo_orientale_kivu")
+  if (c %in% c("Zambia", "United Republic of Tanzania")) return("belgian_congo_kasai_katanga")
+  if (identical(c, "Namibia")) return("portuguese_angola_south_huila")
+  if (identical(c, "Democratic Republic of the Congo")) {
+    if (lon < 21.8 && lat > -8.5) return("belgian_congo_leopoldville_equateur")
+    if (lat < -3.8) return("belgian_congo_kasai_katanga")
+    return("belgian_congo_orientale_kivu")
+  }
+  if (identical(c, "Angola")) {
+    if (lat > -10.3 && lon < 17.5) return("portuguese_angola_north_cabinda")
+    if (lat < -13.6 || (lon > 18.5 && lat < -10.5)) return("portuguese_angola_south_huila")
+    return("portuguese_angola_central_benguela")
+  }
+  "belgian_congo_leopoldville_equateur"
+}
+
+iso3_map <- c(
+  "Angola" = "AGO",
+  "Burundi" = "BDI",
+  "Cameroon" = "CMR",
+  "Central African Republic" = "CAF",
+  "Chad" = "TCD",
+  "Democratic Republic of the Congo" = "COD",
+  "Equatorial Guinea" = "GNQ",
+  "Gabon" = "GAB",
+  "Namibia" = "NAM",
+  "Niger" = "NER",
+  "Nigeria" = "NGA",
+  "Republic of the Congo" = "COG",
+  "Rwanda" = "RWA",
+  "South Sudan" = "SSD",
+  "Sudan" = "SDN",
+  "Uganda" = "UGA",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yrs[i_pk], "AD)")
+}
+
+subregion_order <- c(
+  "aef_chad",
+  "aef_ubangi_shari",
+  "aef_middle_congo",
+  "aef_gabon",
+  "kamerun_mandates",
+  "spanish_guinea",
+  "belgian_congo_leopoldville_equateur",
+  "belgian_congo_orientale_kivu",
+  "belgian_congo_kasai_katanga",
+  "portuguese_angola_north_cabinda",
+  "portuguese_angola_central_benguela",
+  "portuguese_angola_south_huila"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, assign_subregion, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1885AD` = fmt_site_pop(e, 1885),
+      `1900AD` = fmt_site_pop(e, 1900),
+      `1930AD` = fmt_site_pop(e, 1930),
+      `1950AD` = fmt_site_pop(e, 1950),
+      `1960AD` = fmt_site_pop(e, 1960),
+      `1970AD` = fmt_site_pop(e, 1970),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1880, 1900, 1930, 1950, 1960, 1970)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates and colonial-era population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed urban settlements and metropolitan agglomerations across `r viscount_fmt_number(length(summary_cache$countries), 0L)` countries between 1880AD and 1975AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate colonial stations, mining centres, river ports and provincial capitals (`r viscount_fmt_number(n_excluded, 0L)` excluded), the retained entries span 12 colonial sub-regions across French Equatorial Africa, German and Mandate Cameroon, Spanish Guinea, the Belgian Congo and Portuguese Angola. Active interpolated entries rise from `r viscount_fmt_number(n_active[["1880"]], 0L)` settlements at 1880AD to `r viscount_fmt_number(n_active[["1900"]], 0L)` at 1900AD, `r viscount_fmt_number(n_active[["1930"]], 0L)` at 1930AD, `r viscount_fmt_number(n_active[["1950"]], 0L)` at 1950AD, `r viscount_fmt_number(n_active[["1960"]], 0L)` at 1960AD and `r viscount_fmt_number(n_active[["1970"]], 0L)` at 1970AD, tracing urban expansion from small concession posts to Kinshasa (1,29M), Luanda (475,3k), Lubumbashi (318k), Brazzaville (290k), Douala (289,1k agglomeration) and Bangui (279,8k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 361 individually assessed settlements across 18 countries spanning twelve colonial sub-regions from 1880AD to 1975AD.",
+    "fig:hero-settlements-equatoria"
+  )
+}
+```
+
+# Background
+
+Documenting urban growth across colonial Equatorial and West-Central Africa requires harmonising heterogeneous administrative enumerations across five imperial statistical traditions [@Starr1911TheCongo; @AEFAnnuaire1950; @Angola1940Censo]. Belgian annual reports (*Rapports Annuels sur l'Administration de la Colonie du Congo Belge*) and the 1955-1957AD demographic sample survey tracked *centres extra-coutumiers* and copperbelt labour towns in detail [@CongoBelge1958Enquete; @Depaepe2017ColonialEducation], whereas French Equatorial Africa's statistical yearbooks and Mandate Cameroon censuses separated European and African *commune* rolls [@AEFAnnuaire1950; @Gouellain1975Douala]. Portuguese Angolan censuses beginning in 1940AD and early post-independence national censuses provide late-colonial municipal totals alongside Africapolis metropolitan boundaries from 1950AD onward [@Angola1940Censo; @Rodrigues2022WhenModern; @Oula2024CrossPerspective].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate urban sites were screened from official territorial census tables, missionary and colonial expedition accounts and Africapolis urban-extent inventories [@AEFAnnuaire1950; @CongoBelge1958Enquete; @Angola1940Censo; @Gouellain1975Douala]. Within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² domain bounded by geoBoundaries national polygons [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records were removed, retaining `r viscount_fmt_number(length(all_entries), 0L)` entries across `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations. Each entry is assigned to one of 12 colonial sub-regions, grouping 37 immediate cross-border catchment towns in Nigeria, Zambia, Uganda, Burundi, Rwanda, South Sudan, Sudan, Niger and Tanzania into their adjoining sub-region [@Tsafack2022CameroonEquatorial; @Silva2020TheFormal].
+
+## Site-Specific Population Estimation and Spatial Scope
+
+Of the `r viscount_fmt_number(length(all_entries), 0L)` entries, `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` record municipal city-proper populations and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` trace continuous urban agglomerations labelled explicitly as "(Agglomeration)" in the tables below. Tables 1 to 12 report linearly interpolated populations at six colonial benchmarks (1885AD, 1900AD, 1930AD, 1950AD, 1960AD and 1970AD) together with each site's observed peak population and peak date, marking years outside an entry's attested span with a hyphen (-).
+
+# Testing and Validation
+
+Rank-size regression on peak populations over the upper half (n=`r viscount_fmt_number(summary_cache$rank_size$n_fit, 0L)`) of the `r viscount_fmt_number(length(all_entries), 0L)` settlements yields $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 2L)`$), closely matching the 343 spatially deduplicated entries plotted in Figure \ref{fig:settlements-rank} ($q = 0,93$, $R^2 = 0,99$). Separate municipal and agglomeration rows preserve consistency between pre-1950AD colonial township counts and post-1950AD metropolitan growth [@Rodrigues2022WhenModern; @Gouellain1975Douala].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 343 spatially deduplicated settlements (q = 0,93, R² = 0,99) and top ten sub-regional densities in 1975AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## French Equatorial Africa: Colony of Chad
+
+Table \ref{tab:sub-chad} compiles `r viscount_fmt_number(length(zone_entries[["aef_chad"]]), 0L)` settlements across Chad and the bordering Lake Chad and Darfur fringes, led by Fort-Lamy/Ndjamena (148,9k agglomeration), Sarh (43,7k), Moundou (39,6k) and Abéché (27,3k), reflecting the early decline of Wadai's capital followed by mid-century cotton-zone urbanisation [@AEFAnnuaire1950].
+
+```{r tab-chad, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aef_chad"]]),
+  "Individually assessed settlements in the AEF Colony of Chad and Lake Chad borderlands (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-chad")
+)
+```
+
+## French Equatorial Africa: Ubangi-Shari
+
+Table \ref{tab:sub-ubangi} lists `r viscount_fmt_number(length(zone_entries[["aef_ubangi_shari"]]), 0L)` settlements across Oubangui-Chari and adjacent south-western South Sudan, anchored by Bangui (279,8k city-proper by 1975AD and 199,1k agglomeration in 1970AD), Berbérati, Bambari and Bouar [@AEFAnnuaire1950].
+
+```{r tab-ubangi, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aef_ubangi_shari"]]),
+  "Individually assessed settlements in AEF Ubangi-Shari (Oubangui-Chari) and adjacent borderlands (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-ubangi")
+)
+```
+
+## French Equatorial Africa: Middle Congo
+
+Table \ref{tab:sub-middle-congo} records `r viscount_fmt_number(length(zone_entries[["aef_middle_congo"]]), 0L)` settlements across Moyen-Congo, dominated by the federal and Free French capital of Brazzaville (290k city-proper, 216,6k agglomeration) and the Congo-Océan rail terminus at Pointe-Noire (115k agglomeration) [@Oula2024CrossPerspective; @AEFAnnuaire1950].
+
+```{r tab-middle-congo, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aef_middle_congo"]]),
+  "Individually assessed settlements in AEF Middle Congo (Moyen-Congo) from 1885AD to 1970AD.",
+  arg3_options = list(label = "tab:sub-middle-congo")
+)
+```
+
+## French Equatorial Africa: Colony of Gabon
+
+Table \ref{tab:sub-gabon} documents `r viscount_fmt_number(length(zone_entries[["aef_gabon"]]), 0L)` coastal and riverine towns across Gabon, led by Libreville (71,4k agglomeration) and the timber and petroleum port of Port-Gentil (30,9k) alongside Lambaréné and Franceville [@AEFAnnuaire1950].
+
+```{r tab-gabon, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aef_gabon"]]),
+  "Individually assessed settlements in the AEF Colony of Gabon from 1885AD to 1970AD.",
+  arg3_options = list(label = "tab:sub-gabon")
+)
+```
+
+## German Kamerun and Mandate Cameroons
+
+Table \ref{tab:sub-kamerun} catalogues `r viscount_fmt_number(length(zone_entries[["kamerun_mandates"]]), 0L)` settlements across Cameroon and the adjacent Nigerian trust borderlands, headed by Douala (289,1k agglomeration, 250k city-proper), Yaoundé (192,9k agglomeration), Calabar, Nkongsamba, Bafoussam and Bamenda [@Gouellain1975Douala; @Fru2021TheEmergence].
+
+```{r tab-kamerun, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["kamerun_mandates"]]),
+  "Individually assessed settlements in German Kamerun, the Mandate Cameroons and Cross-Adamawa borderlands (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-kamerun")
+)
+```
+
+## Spanish Guinea
+
+Table \ref{tab:sub-spanish-guinea} details `r viscount_fmt_number(length(zone_entries[["spanish_guinea"]]), 0L)` settlements across Fernando Po (Bioko) and Río Muni, centred on Santa Isabel/Malabo (37,2k agglomeration) and Bata (27,2k agglomeration) [@Tsafack2022CameroonEquatorial].
+
+```{r tab-spanish-guinea, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["spanish_guinea"]]),
+  "Individually assessed settlements in Spanish Guinea (Fernando Po and Rio Muni) from 1885AD to 1970AD.",
+  arg3_options = list(label = "tab:sub-spanish-guinea")
+)
+```
+
+## Belgian Congo: Léopoldville and Équateur
+
+Table \ref{tab:sub-leopoldville} presents `r viscount_fmt_number(length(zone_entries[["belgian_congo_leopoldville_equateur"]]), 0L)` western Congolese river ports, rail centres and provincial seats, headed by Kinshasa (1,29M city-proper, 1,25M agglomeration), Kikwit, Matadi (110,4k), Mbandaka and Boma [@CongoBelge1958Enquete; @Depaepe2017ColonialEducation].
+
+```{r tab-leopoldville, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["belgian_congo_leopoldville_equateur"]]),
+  "Individually assessed settlements in the Belgian Congo provinces of Leopoldville and Equateur (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-leopoldville")
+)
+```
+
+## Belgian Congo: Orientale and Kivu
+
+Table \ref{tab:sub-orientale} records `r viscount_fmt_number(length(zone_entries[["belgian_congo_orientale_kivu"]]), 0L)` north-eastern Congolese and Great Lakes borderland towns, anchored by Stanleyville/Kisangani (158,5k), Bukavu, Bujumbura, Isiro, Goma and Kindu [@CongoBelge1958Enquete; @Turke2026ContemporaryHistory].
+
+```{r tab-orientale, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["belgian_congo_orientale_kivu"]]),
+  "Individually assessed settlements in the Belgian Congo provinces of Orientale and Kivu plus Great Lakes borderlands (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-orientale")
+)
+```
+
+## Belgian Congo: Kasaï and Katanga
+
+Table \ref{tab:sub-kasai-katanga} compiles `r viscount_fmt_number(length(zone_entries[["belgian_congo_kasai_katanga"]]), 0L)` mining and agricultural centres across southern Congo and the adjoining Zambian Copperbelt, led by Lubumbashi (318k), Mbuji-Mayi (256,2k), Kananga (203,4k), Kitwe (186k), Ndola (159,7k) and Likasi (146,4k) [@CongoBelge1958Enquete; @Turke2026ContemporaryHistory].
+
+```{r tab-kasai-katanga, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["belgian_congo_kasai_katanga"]]),
+  "Individually assessed settlements in the Belgian Congo provinces of Kasai and Katanga plus Copperbelt borderlands (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-kasai-katanga")
+)
+```
+
+## Portuguese Angola: Cabinda, Congo and Luanda
+
+Table \ref{tab:sub-angola-north} lists `r viscount_fmt_number(length(zone_entries[["portuguese_angola_north_cabinda"]]), 0L)` settlements across northern Angola and the Cabinda enclave, dominated by the colonial capital Luanda (475,3k in 1970AD) alongside Uíge, Malanje and Cabinda [@Angola1940Censo; @Rodrigues2022WhenModern; @GreatBritain1920PeaceHandbooks].
+
+```{r tab-angola-north, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["portuguese_angola_north_cabinda"]]),
+  "Individually assessed settlements in Portuguese Angola: Cabinda, Congo and Luanda (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-angola-north")
+)
+```
+
+## Portuguese Angola: Benguela, Malanje and Bié
+
+Table \ref{tab:sub-angola-central} documents `r viscount_fmt_number(length(zone_entries[["portuguese_angola_central_benguela"]]), 0L)` towns along the central plateau and Benguela Railway corridor, led by Nova Lisboa/Huambo (61,9k), Lobito (59,5k), Benguela (41k) and Silva Porto/Cuito [@Angola1940Censo; @Coates2017PreliminaryConsiderations; @Neto2017EscravosServicais].
+
+```{r tab-angola-central, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["portuguese_angola_central_benguela"]]),
+  "Individually assessed settlements in Portuguese Angola: Benguela, Malanje and Bie (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-angola-central")
+)
+```
+
+## Portuguese Angola: Huíla, Moçâmedes and Moxico
+
+Table \ref{tab:sub-angola-south} records `r viscount_fmt_number(length(zone_entries[["portuguese_angola_south_huila"]]), 0L)` southern and eastern Angolan towns and Cunene border crossings, led by Sá da Bandeira/Lubango, Moçâmedes/Namibe, Oshikango and Luena [@Silva2020TheFormal; @Santos2026EntreConquista].
+
+```{r tab-angola-south, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["portuguese_angola_south_huila"]]),
+  "Individually assessed settlements in Portuguese Angola: Huila, Mocamedes and Moxico (1885AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-angola-south")
+)
+```
+
+# Limitations
+
+Three caveats govern this urban gazetteer. First, `r viscount_fmt_number(sum(vapply(all_entries, function (x) length(x$population) == 1L, logical(1))), 0L)` of the `r viscount_fmt_number(length(all_entries), 0L)` settlements hold a single dated population observation, so benchmark columns outside their observed date display a hyphen (-). Second, early colonial urban enumerations before 1930AD frequently covered only European residents and taxed male workers, understating African suburban compounds around Libreville, Bangui, Luanda and Léopoldville [@Starr1911TheCongo; @AEFAnnuaire1950; @Angola1940Censo]. Third, both city-proper and post-1950AD agglomeration rows appear for 14 major capitals and ports; users aggregating regional urban totals must select one spatial scope per city rather than summing both rows.
+
+# Conclusion
+
+Taken together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document the rise of colonial port capitals, riverine administrative seats, copperbelt mining cities and late-colonial metropolitan agglomerations across 18 countries in Equatorial and West-Central Africa between 1880AD and 1975AD.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the assessed site counts and combined interpolated site populations across all 12 sub-regions from 1880AD to 1970AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1880AD` = sums[["1880"]],
+    `1900AD` = sums[["1900"]],
+    `1930AD` = sums[["1930"]],
+    `1950AD` = sums[["1950"]],
+    `1960AD` = sums[["1960"]],
+    `1970AD` = sums[["1970"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1880AD` = tot_sums[["1880"]],
+  `1900AD` = tot_sums[["1900"]],
+  `1930AD` = tot_sums[["1930"]],
+  `1950AD` = tot_sums[["1950"]],
+  `1960AD` = tot_sums[["1960"]],
+  `1970AD` = tot_sums[["1970"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated populations across twelve colonial sub-regions from 1880AD to 1970AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-observation and post-observation benchmarks are marked with a hyphen (-). Dual municipal and agglomeration entries exist for 14 major urban centres and should not be summed simultaneously when calculating city-proper urban totals.

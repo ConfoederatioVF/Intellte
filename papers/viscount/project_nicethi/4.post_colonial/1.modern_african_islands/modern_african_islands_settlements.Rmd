@@ -1,0 +1,416 @@
+---
+title: "Modern African Ocean Islands (1890s-Present)"
+subtitle: "Settlement Gazetteer: 339 Assessed Sites (1890AD-2025AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: modern_african_islands_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 339 individually assessed settlements across eleven island territories from 1890AD to 2025AD."
+hero_label: "fig:hero-settlements-modern-islands"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("modern_african_islands_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("modern_african_islands_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+country_order <- c(
+  "Madagascar",
+  "Mauritius",
+  "Reunion",
+  "Sao Tome and Principe",
+  "Comoros",
+  "Cabo Verde",
+  "Mayotte",
+  "Seychelles",
+  "Saint Helena",
+  "French Southern and Antarctic Lands",
+  "British Indian Ocean Territory"
+)
+
+country_labels <- c(
+  "Madagascar" = "Madagascar",
+  "Mauritius" = "Mauritius and Rodrigues",
+  "Reunion" = "La Réunion",
+  "Sao Tome and Principe" = "São Tomé and Príncipe",
+  "Comoros" = "Union of the Comoros",
+  "Cabo Verde" = "Cabo Verde",
+  "Mayotte" = "Mayotte",
+  "Seychelles" = "Seychelles",
+  "Saint Helena" = "Saint Helena, Ascension and Tristan da Cunha",
+  "French Southern and Antarctic Lands" = "Îles Éparses (TAAF)",
+  "British Indian Ocean Territory" = "Chagos Archipelago (BIOT)"
+)
+
+iso3_map <- c(
+  "British Indian Ocean Territory" = "IOT",
+  "Cabo Verde" = "CPV",
+  "Comoros" = "COM",
+  "French Southern and Antarctic Lands" = "ATF",
+  "Madagascar" = "MDG",
+  "Mauritius" = "MUS",
+  "Mayotte" = "MYT",
+  "Reunion" = "REU",
+  "Saint Helena" = "SHN",
+  "Sao Tome and Principe" = "STP",
+  "Seychelles" = "SYC"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+fmt_era_yr <- function (y) {
+  paste0(as.integer(y), "AD")
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", fmt_era_yr(yrs[i_pk]), ")")
+}
+
+country_entries <- setNames(lapply(country_order, function (cname) {
+  sub <- Filter(function (e) identical(as.character(e$country), cname), all_entries)
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), country_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    scope_lbl <- if (identical(e$population_scope, "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      Scope = scope_lbl,
+      `1890AD` = fmt_site_pop(e, 1890),
+      `1950AD` = fmt_site_pop(e, 1950),
+      `1975AD` = fmt_site_pop(e, 1975),
+      `2000AD` = fmt_site_pop(e, 2000),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1890, 1950, 1975, 2000, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates, spatial scopes and multi-period census series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across 11 island nations and overseas territories in the western Indian Ocean and African Atlantic between 1890AD and 2025AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate municipal rolls, town censuses, plantation villages and maritime outposts (`r viscount_fmt_number(n_excluded, 0L)` duplicate alias records excluded), the retained entries span 313 city-proper municipalities and 26 metropolitan agglomerations across `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations. Active interpolated series expand from `r viscount_fmt_number(n_active[["1890"]], 0L)` settlements recorded directly at 1890AD (plus 24 additional towns first enumerated in 1891AD-1901AD colonial censuses) to `r viscount_fmt_number(n_active[["1950"]], 0L)` at 1950AD, `r viscount_fmt_number(n_active[["1975"]], 0L)` at 1975AD and `r viscount_fmt_number(n_active[["2000"]], 0L)` at 2000AD, tracing urban trajectories from Antananarivo (3,49M agglomeration) and Port-Louis (640,1k agglomeration) to Toamasina (449,1k), Saint-Paul (243,1k agglomeration), Moroni (171,1k agglomeration), Praia (153,7k agglomeration) and São Tomé (134,7k agglomeration).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 339 individually assessed settlements across eleven island territories from 1890AD to 2025AD.",
+    "fig:hero-settlements-modern-islands"
+  )
+}
+```
+
+# Background
+
+Modern demographic enumeration across the ocean islands flanking Africa reflects three distinct administrative traditions: French municipal *populations légales* in Madagascar, Réunion, Comoros and Mayotte [@INSTAT2020MadagascarRGPH3; @INSEE2023ReunionMayotte], British parish and district censuses in Mauritius, Seychelles, Chagos and Saint Helena [@StatsMauritius2023Census2022], and Portuguese *freguesia* and *concelho* enumerations in Cabo Verde and São Tomé and Príncipe [@Monteiro2012CrescimentoUrbano; @Bank2023SouthernAfrica]. Combining these disparate municipal series alongside post-1950AD OECD/SWAC Africapolis urban-extent definitions enables systematic comparison between sprawling highland capitals, polycentric sugar-island towns and isolated mid-ocean outposts [@Bank2024MadagascarUrbanization].
+
+# Methodology
+
+## Candidate Screening and Territorial Grouping
+
+Candidate urban centres, communes, plantation townships and island outposts were screened across four waves from national statistical censuses, UNSD Demographic Yearbook Table 8 series, colonial statistical yearbooks and Africapolis urban-agglomeration tables [@INSTAT2020MadagascarRGPH3; @INSEE2023ReunionMayotte; @StatsMauritius2023Census2022]. Out of `r viscount_fmt_number(n_candidates, 0L)` candidates within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study domain bounded over geoBoundaries national outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records were merged or excluded, retaining `r viscount_fmt_number(length(all_entries), 0L)` settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations. For reader clarity, Tables 1 to 11 group all 339 settlements by island nation or overseas territory in descending order of peak population.
+
+## Interpolation Benchmarks and Scope Distinction
+
+Each entry distinguishes city-proper municipal jurisdiction (313 entries) from metropolitan agglomeration boundaries (26 entries) so historic town cores are never confused with expanded suburban conurbations [@Bank2024MadagascarUrbanization; @INSEE2023ReunionMayotte]. Tables 1 to 11 present linearly interpolated populations at five benchmark years (1890AD, 1950AD, 1975AD, 2000AD and 2025AD) alongside each settlement's observed peak population and year, marking eras outside the observed span with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` settlements, ordinary least-squares rank-size regression on the upper half (n=169) yields $q = 0,9075$ ($R^2 = 0,9838$), while full-sample regression yields $q = 1,5043$ ($R^2 = 0,6769$) with a unique-peak ratio of 0,9853 and log-interquartile spread of 0,854. Figure \ref{fig:settlements-rank} displays the 210 spatially deduplicated settlement peaks ($q = 0,92$, $R^2 = 0,98$) alongside 2025AD gridded densities across the ten leading sub-regions.
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 210 spatially deduplicated settlement peaks (q = 0,92, R² = 0,98) and mean sub-regional density in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Madagascar
+
+Table \ref{tab:sett-madagascar} catalogues `r viscount_fmt_number(length(country_entries[["Madagascar"]]), 0L)` settlements across Madagascar, led by Antananarivo (3,49M agglomeration; 1,27M city-proper), Toamasina (449,1k), Mahajanga (356,7k), Antsirabe (299,1k), Toliara (284,5k), Fianarantsoa (266k) and Antsiranana (172,7k) [@INSTAT2020MadagascarRGPH3; @Bank2024MadagascarUrbanization; @Iimi2019JobAccessibility].
+
+```{r tab-madagascar, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Madagascar"]]),
+  "Individually assessed settlements in Madagascar (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-madagascar")
+)
+```
+
+## Mauritius and Rodrigues
+
+Table \ref{tab:sett-mauritius} records `r viscount_fmt_number(length(country_entries[["Mauritius"]]), 0L)` settlements across Mauritius and Rodrigues, tracing the shift from Port-Louis (640,1k agglomeration; 142,4k city-proper) up the Plaines Wilhems urban axis through Beau-Bassin/Rose-Hill (93,9k), Vacoas/Phoenix (109,4k), Curepipe (78,9k) and Quatre-Bornes (75,9k) alongside Port Mathurin (8,1k) on Rodrigues [@StatsMauritius2023Census2022; @Bank2022MauritiusSystematic].
+
+```{r tab-mauritius, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Mauritius"]]),
+  "Individually assessed settlements in Mauritius and Rodrigues (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-mauritius")
+)
+```
+
+## La Réunion
+
+Table \ref{tab:sett-reunion} details `r viscount_fmt_number(length(country_entries[["Reunion"]]), 0L)` communes and urban agglomerations across La Réunion, anchored by Saint-Paul (243,1k metro), Saint-Denis (192,7k metro; 157,7k city-proper), Saint-Pierre (174,8k metro) and Le Tampon (82,9k) [@INSEE2023ReunionMayotte].
+
+```{r tab-reunion, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Reunion"]]),
+  "Individually assessed settlements in La Réunion (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-reunion")
+)
+```
+
+## São Tomé and Príncipe
+
+Table \ref{tab:sett-stp} lists `r viscount_fmt_number(length(country_entries[["Sao Tome and Principe"]]), 0L)` settlements across São Tomé and Príncipe, spanning the São Tomé agglomeration (134,7k peak; 66,9k city-proper), Santana (19k), Neves (14,7k), Ribeira Afonso (10,7k), Trindade (6,7k) and former cocoa *roça* estates [@Bank2023SouthernAfrica].
+
+```{r tab-stp, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Sao Tome and Principe"]]),
+  "Individually assessed settlements in São Tomé and Príncipe (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-stp")
+)
+```
+
+## Union of the Comoros
+
+Table \ref{tab:sett-comoros} documents `r viscount_fmt_number(length(country_entries[["Comoros"]]), 0L)` settlements across Grande Comore, Anjouan and Mohéli, led by Moroni (171,1k agglomeration; 74,7k city-proper), Mutsamudu (59k), Mrémani (39,8k), Fomboni (33,6k), Tsémbéhou (31,7k) and Domoni (28,9k) [@Bank1993ComorosPopulation; @Bank2023SouthernAfrica].
+
+```{r tab-comoros, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Comoros"]]),
+  "Individually assessed settlements in the Union of the Comoros (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-comoros")
+)
+```
+
+## Cabo Verde
+
+Table \ref{tab:sett-cabo-verde} compiles `r viscount_fmt_number(length(country_entries[["Cabo Verde"]]), 0L)` settlements across Sotavento and Barlavento, led by Praia (153,7k agglomeration; 141,2k city-proper), Mindelo (74,7k agglomeration; 70,7k city-proper), Espargos (25k), Assomada (21,3k), Pedra Badejo (11,6k) and Tarrafal (10,9k) [@Monteiro2012CrescimentoUrbano; @Goncalves2015UrbanPlanning; @Costa2013PercepcaoPerigo].
+
+```{r tab-cabo-verde, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Cabo Verde"]]),
+  "Individually assessed settlements in Cabo Verde (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-cabo-verde")
+)
+```
+
+## Mayotte
+
+Table \ref{tab:sett-mayotte} presents `r viscount_fmt_number(length(country_entries[["Mayotte"]]), 0L)` communes and urban areas across Mayotte, headed by Mamoudzou (103,6k agglomeration; 65,9k commune), Koungou (32,2k), Dzaoudzi (29,3k agglomeration; 17,8k commune), Dembéni (15,8k), Bandraboua (14k) and Tsingoni (13,9k) [@INSEE2023ReunionMayotte].
+
+```{r tab-mayotte, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Mayotte"]]),
+  "Individually assessed settlements in Mayotte (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-mayotte")
+)
+```
+
+## Seychelles
+
+Table \ref{tab:sett-seychelles} records `r viscount_fmt_number(length(country_entries[["Seychelles"]]), 0L)` urban districts and settlements across Mahé, Praslin and La Digue, led by Victoria (78k agglomeration; 29,7k city-proper), Cascade (7,3k), Anse Étoile (6,6k) and Perseverance (6,2k).
+
+```{r tab-seychelles, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Seychelles"]]),
+  "Individually assessed settlements in the Seychelles (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-seychelles")
+)
+```
+
+## Saint Helena, Ascension and Tristan da Cunha
+
+Table \ref{tab:sett-saint-helena} catalogues `r viscount_fmt_number(length(country_entries[["Saint Helena"]]), 0L)` parishes and island settlements across Saint Helena, Ascension and Tristan da Cunha, anchored by Jamestown (2,2k in 1891AD), St. Paul's (978), Longwood (951), Georgetown (450) and Edinburgh of the Seven Seas (293).
+
+```{r tab-saint-helena, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["Saint Helena"]]),
+  "Individually assessed settlements in Saint Helena, Ascension and Tristan da Cunha (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-saint-helena")
+)
+```
+
+## Îles Éparses (TAAF)
+
+Table \ref{tab:sett-taaf} documents `r viscount_fmt_number(length(country_entries[["French Southern and Antarctic Lands"]]), 0L)` meteorological and garrison stations across the Scattered Islands in the Mozambique Channel, led by Juan de Nova Station (112 in 1936AD) alongside Europa Island, Grande Glorieuse and Tromelin.
+
+```{r tab-taaf, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["French Southern and Antarctic Lands"]]),
+  "Individually assessed stations across the Îles Éparses (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-taaf")
+)
+```
+
+## Chagos Archipelago (BIOT)
+
+Table \ref{tab:sett-biot} lists `r viscount_fmt_number(length(country_entries[["British Indian Ocean Territory"]]), 0L)` former copra settlements across the Chagos Archipelago prior to their 1968-1973AD forced depopulation: East Point on Diego Garcia (619 in 1952AD), Île du Coin (318) and Boddam (215).
+
+```{r tab-biot, results='asis'}
+viscount_table(
+  build_gazetteer_df(country_entries[["British Indian Ocean Territory"]]),
+  "Individually assessed former settlements in the Chagos Archipelago (1890AD to 1971AD).",
+  arg3_options = list(label = "tab:sett-biot")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, many communes in Mayotte (2017AD latest INSEE census), Cabo Verde (2021AD), Seychelles (2022AD) and Saint Helena (2021AD) lack 2025AD official counts unless covered by Africapolis urban projections, so benchmark columns outside each settlement's observed span display a hyphen (-). Second, pairing 313 city-proper municipal cores with 26 metropolitan agglomerations preserves both administrative and morphological urban definitions, yet users summing rows within a territory must avoid adding an agglomeration to its core city. Third, 22 entries carry single-date observations (mostly recent commune or district splits such as Perseverance in Seychelles or 2023AD Réunion agglomerations).
+
+# Conclusion
+
+Taken together, the `r viscount_fmt_number(length(all_entries), 0L)` entries in this gazetteer document the transformation of African oceanic islands from modest colonial ports and plantation estates in the 1890s into a diverse network of metropolitan capitals, upland suburban corridors, tourist towns and abandoned atoll stations by 2025AD.
+
+# Appendix
+
+## Territorial Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} summarises settlement counts (separated by city-proper and metropolitan scope) and summed interpolated city-proper populations across all 11 territories from 1890AD to 2025AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(country_order, function (cname) {
+  sub <- country_entries[[cname]]
+  sub_city <- Filter(function (e) !identical(e$population_scope, "metro"), sub)
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub_city, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Territory (Total / Metro)` = paste0(
+      country_labels[[cname]], " (",
+      viscount_fmt_number(length(sub), 0L), " / ",
+      viscount_fmt_number(length(sub) - length(sub_city), 0L), ")"
+    ),
+    `1890AD` = sums[["1890"]],
+    `1950AD` = sums[["1950"]],
+    `1975AD` = sums[["1975"]],
+    `2000AD` = sums[["2000"]],
+    `2025AD` = sums[["2025"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+all_city <- Filter(function (e) !identical(e$population_scope, "metro"), all_entries)
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_city, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Territory (Total / Metro)` = paste0("All Territories (", viscount_fmt_number(length(all_entries), 0L), " / ", viscount_fmt_number(length(all_entries) - length(all_city), 0L), ")"),
+  `1890AD` = tot_sums[["1890"]],
+  `1950AD` = tot_sums[["1950"]],
+  `1975AD` = tot_sums[["1975"]],
+  `2000AD` = tot_sums[["2000"]],
+  `2025AD` = tot_sums[["2025"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Assessed site counts and combined interpolated city-proper populations across eleven island territories from 1890AD to 2025AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation in Tables 1 to 11 is bounded strictly between each settlement's earliest and latest observed dates; periods prior to first enumeration or after final observation appear with a hyphen (-). To prevent double counting in Table \ref{tab:gazetteer-summary}, interpolated totals sum only the 313 city-proper entries while displaying total and metropolitan entry counts in parentheses.

@@ -1,0 +1,488 @@
+---
+title: "Early Modern Sahel and Sudan (1500-1898)"
+subtitle: "Settlement Gazetteer: 398 Cities, Capitals and Towns (1500-1898)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: early_modern_sahel_sudan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 398 individually assessed settlements across 21 modern countries and ten historical sub-regions from Mauritania to Sudan and Ethiopia between 1500AD and 1898AD."
+hero_label: "fig:hero-settlements-sahel"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("early_modern_sahel_sudan_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("early_modern_sahel_sudan_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", as.integer(yrs[i_pk]), "AD)")
+}
+
+iso_map <- c(
+  Benin = "BEN",
+  `Burkina Faso` = "BFA",
+  Cameroon = "CMR",
+  `Central African Republic` = "CAF",
+  Chad = "TCD",
+  Eritrea = "ERI",
+  Ethiopia = "ETH",
+  Gambia = "GMB",
+  Ghana = "GHA",
+  Guinea = "GIN",
+  `Guinea-Bissau` = "GNB",
+  `Ivory Coast` = "CIV",
+  Mali = "MLI",
+  Mauritania = "MRT",
+  Niger = "NER",
+  Nigeria = "NGA",
+  Senegal = "SEN",
+  `Sierra Leone` = "SLE",
+  `South Sudan` = "SSD",
+  Sudan = "SDN",
+  Togo = "TGO"
+)
+
+subregion_order <- c(
+  "trarza_brakna_mauritania",
+  "futa_toro_segou_toucouleur",
+  "massina_timbuktu_arma",
+  "mossi_kong_wassoulou",
+  "sokoto_caliphate_hausaland",
+  "bornu_kanem_bagirmi",
+  "wadai_dar_al_kuti_tibesti",
+  "darfur_kordofan_mahdist",
+  "turco_egyptian_mahdist_nile",
+  "bahr_el_ghazal_azande_eq"
+)
+
+zone_overrides <- c(
+  "Oualata-Mauritania" = "massina_timbuktu_arma",
+  "Diré-Mali" = "futa_toro_segou_toucouleur",
+  "Djenné-Mali" = "futa_toro_segou_toucouleur",
+  "Hamdallahi-Mali" = "futa_toro_segou_toucouleur",
+  "Mopti-Mali" = "futa_toro_segou_toucouleur",
+  "Sofara-Mali" = "futa_toro_segou_toucouleur",
+  "Tombouctou-Mali" = "futa_toro_segou_toucouleur",
+  "Ménaka-Mali" = "mossi_kong_wassoulou",
+  "San-Mali" = "mossi_kong_wassoulou",
+  "Sikasso-Mali" = "mossi_kong_wassoulou",
+  "Oussouye-Senegal" = "trarza_brakna_mauritania",
+  "Misau-Nigeria" = "bornu_kanem_bagirmi",
+  "Mubi-Nigeria" = "bornu_kanem_bagirmi",
+  "Saka-Ethiopia" = "turco_egyptian_mahdist_nile",
+  "Nekemte-Ethiopia" = "bahr_el_ghazal_azande_eq",
+  "Zouar-Chad" = "bornu_kanem_bagirmi",
+  "Bardaï-Chad" = "wadai_dar_al_kuti_tibesti",
+  "Ain Farah Settlement-Sudan" = "wadai_dar_al_kuti_tibesti",
+  "Al-Junaynah-Sudan" = "wadai_dar_al_kuti_tibesti",
+  "al-Dalanj-Sudan" = "darfur_kordofan_mahdist",
+  "An-Nuhūd-Sudan" = "darfur_kordofan_mahdist"
+)
+
+classify_sahel_zone <- function (e) {
+  k <- as.character(e$key)
+  if (k %in% names(zone_overrides)) return(unname(zone_overrides[[k]]))
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  ctry <- as.character(e$country)
+  if (ctry %in% c("Burkina Faso", "Ghana", "Togo")) return("mossi_kong_wassoulou")
+  if (ctry %in% c("Guinea", "Guinea-Bissau", "Ivory Coast", "Sierra Leone")) return("futa_toro_segou_toucouleur")
+  if (identical(ctry, "Eritrea")) return("turco_egyptian_mahdist_nile")
+  if (identical(ctry, "South Sudan")) return("bahr_el_ghazal_azande_eq")
+  if (identical(ctry, "Benin")) {
+    if (lon >= 2.9) return("sokoto_caliphate_hausaland")
+    return("mossi_kong_wassoulou")
+  }
+  if (identical(ctry, "Cameroon")) {
+    if (lat < 7.0) return("sokoto_caliphate_hausaland")
+    return("bornu_kanem_bagirmi")
+  }
+  if (identical(ctry, "Central African Republic")) {
+    if (lat >= 7.0) return("wadai_dar_al_kuti_tibesti")
+    return("bahr_el_ghazal_azande_eq")
+  }
+  if (identical(ctry, "Chad")) {
+    if (lon >= 18.0) return("wadai_dar_al_kuti_tibesti")
+    return("bornu_kanem_bagirmi")
+  }
+  if (identical(ctry, "Ethiopia")) {
+    if (lat >= 8.5) return("turco_egyptian_mahdist_nile")
+    return("bahr_el_ghazal_azande_eq")
+  }
+  if (identical(ctry, "Gambia")) {
+    if (lon < -14.5) return("trarza_brakna_mauritania")
+    return("futa_toro_segou_toucouleur")
+  }
+  if (identical(ctry, "Mali")) {
+    if (lon >= -5.0) return("massina_timbuktu_arma")
+    return("futa_toro_segou_toucouleur")
+  }
+  if (identical(ctry, "Mauritania")) {
+    if (lon >= -8.5) return("futa_toro_segou_toucouleur")
+    return("trarza_brakna_mauritania")
+  }
+  if (identical(ctry, "Niger")) {
+    if (lon < 3.0) return("mossi_kong_wassoulou")
+    if (lon >= 11.5) return("bornu_kanem_bagirmi")
+    return("sokoto_caliphate_hausaland")
+  }
+  if (identical(ctry, "Nigeria")) {
+    if (lon >= 12.25 && lat >= 10.0) return("bornu_kanem_bagirmi")
+    return("sokoto_caliphate_hausaland")
+  }
+  if (identical(ctry, "Senegal")) {
+    if (lat >= 13.8 || (lat >= 13.7 && lon < -15.0)) return("trarza_brakna_mauritania")
+    return("futa_toro_segou_toucouleur")
+  }
+  if (identical(ctry, "Sudan")) {
+    if (lat < 12.0 && lon < 31.5) return("bahr_el_ghazal_azande_eq")
+    if (lon < 26.0) return("darfur_kordofan_mahdist")
+    return("turco_egyptian_mahdist_nile")
+  }
+  "turco_egyptian_mahdist_nile"
+}
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, classify_sahel_zone, character(1))
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- unname(iso_map[as.character(e$country)])
+    if (is.na(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(
+      iso_code,
+      ": ",
+      fmt_eu_coord(e$coords[[1]]),
+      ", ",
+      fmt_eu_coord(e$coords[[2]])
+    )
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1500AD` = fmt_site_pop(e, 1500),
+      `1700AD` = fmt_site_pop(e, 1700),
+      `1780AD` = fmt_site_pop(e, 1780),
+      `1860AD` = fmt_site_pop(e, 1860),
+      `1890AD` = fmt_site_pop(e, 1890),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+n_obs <- as.integer(summary_cache$observation_count)
+n_countries <- length(summary_cache$countries)
+
+bench_nums <- c(1500, 1700, 1780, 1810, 1860, 1890)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles geographic coordinates and dated population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across the Sahel and Sudan between 1500AD and 1898AD, spanning `r viscount_fmt_number(n_obs, 0L)` historical observations across `r n_countries` modern countries. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate walled capitals, caravan oases, river ports and colonial communes (`r viscount_fmt_number(n_excluded, 0L)` duplicate orthographies and historical aliases excluded), the retained entries partition deterministically across ten historical sub-regions from Mauritania, Senegambia and the Niger Bend through Hausaland and Lake Chad to Darfur, the Turco-Egyptian Nile and Equatoria. Active interpolated sites rise from `r viscount_fmt_number(n_active[["1500"]], 0L)` settlements in 1500AD to `r viscount_fmt_number(n_active[["1700"]], 0L)` in 1700AD, `r viscount_fmt_number(n_active[["1780"]], 0L)` in 1780AD and `r viscount_fmt_number(n_active[["1860"]], 0L)` in 1860AD before consolidating at `r viscount_fmt_number(n_active[["1890"]], 0L)` in 1890AD, tracing urban trajectories from imperial Gao (68,6k), Birnin Gazargamu (62,4k), Gondar (62k), Niani (60k) and Timbuktu (58,4k) to nineteenth-century Kano (58,4k), Khartoum (60k), Kukawa (60k), Nioro du Sahel (95k) and Mahdist Omdurman (148k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 398 individually assessed settlements across 21 modern countries and ten historical sub-regions from Mauritania to Sudan and Ethiopia between 1500AD and 1898AD.",
+    "fig:hero-settlements-sahel"
+  )
+}
+```
+
+# Background
+
+Early modern Sahelian and Sudanic urbanism operated across a vast savanna-and-steppe belt uniting trans-Saharan caravan terminals, riverine ports and fortified agrarian capitals [@Caillie1830TravelsThrough; @MacDonald2012WalledSegou; @Crawford1951FungSennar]. Along the western Saharan and Senegambian margin, oasis towns such as Chinguetti and Tichitt exchanged desert salt for gold and millet from Futa Toro, Segou and the Inland Niger Delta [@Chastanet1992SurvivalStrategies; @Houdoy1881SoudanFrancais]. Across the central and eastern Sudan, walled manufacturing capitals in Hausaland, fired-brick elite centres in Kanem-Bornu and caravan seats across Wadai, Darfur and Sennar sustained dense urban populations shaped by nineteenth-century Islamic reform movements, Turco-Egyptian expansion and Mahdist state formation [@Last1967SokotoCaliphate; @Magnavita2025NewLuminescence; @Ofahey1980StateDarFur; @Spaulding1985HeroicAge].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate settlements were gathered from French Senegalese communal censuses, British Gambian and Sierra Leonean colonial returns, nineteenth-century traveller surveys [@Lyon1821NarrativeTravels; @Baikie1862NotesJourney], Arabic chronicles and archaeological wall-circuit mappings [@MacDonald2012WalledSegou; @Suleiman2007BirninZaria]. Out of `r viscount_fmt_number(n_candidates, 0L)` candidates situated within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² domain bounded by geoBoundaries polygons [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate orthographies and historical aliases were merged, leaving `r viscount_fmt_number(length(all_entries), 0L)` city-proper settlements across `r n_countries` countries. Each settlement maps cleanly to one of the ten historical sub-regions defined in the companion study.
+
+## Population Interpolation and Table Layout
+
+Every entry records city-proper populations anchored to attested historical dates without synthetic extrapolations or flat caps [@Hamza2004DorayiKano; @Aouatef2026PoliticalStructures]. Tables 1 to 10 present linearly interpolated populations at five benchmark years (1500AD, 1700AD, 1780AD, 1860AD and 1890AD) alongside each site's observed peak population and peak date, marking years outside a settlement's recorded chronological span with a hyphen (-).
+
+# Testing and Validation
+
+Across 397 spatially deduplicated city peaks (merging two co-located historical entries at Freetown), ordinary least-squares rank-size regression across the upper 180 settlements yields a Pareto slope of $q = 0,77$ ($R^2 = 0,98$; Figure \ref{fig:settlements-rank}), matching a multi-polar belt of regional capitals across West, Central and Nilotic Sudan rather than single-metropolis primacy [@Azarya1980TradersAnd; @Smaldone1962WarfareThe]. Cross-checking chronological bounds ensures alignment with documented foundation and abandonment dates, from post-1821AD Khartoum and post-1881AD Omdurman back to sixteenth-century Songhai and Funj capitals [@Crawford1951FungSennar; @Spaulding1985HeroicAge].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size scaling across 397 spatially deduplicated settlements (top-180 OLS slope q = 0,77, R² = 0,98) and mean sub-regional density in 1890AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Trarza, Brakna and Adrar Emirates
+
+Table \ref{tab:zone1-sites} compiles `r viscount_fmt_number(length(zone_entries[["trarza_brakna_mauritania"]]), 0L)` settlements across Mauritania, northern and central Senegal and western Gambia, led by Saint-Louis (20,2k in 1891AD), Bakel (10,9k in 1863AD), Dakar (8,74k in 1891AD), Tichitt (8,35k in 1750AD), Rufisque (8,09k in 1891AD) and Chinguetti (6,85k in 1650AD) [@Chastanet1992SurvivalStrategies; @Houdoy1881SoudanFrancais].
+
+```{r tab-zone1, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["trarza_brakna_mauritania"]]),
+  "Individually assessed settlements in Trarza, Brakna and Adrar Emirates from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone1-sites")
+)
+```
+
+## Futa Toro, Segou Bamana and Toucouleur
+
+Table \ref{tab:zone2-sites} lists `r viscount_fmt_number(length(zone_entries[["futa_toro_segou_toucouleur"]]), 0L)` settlements across western and central Mali, Guinea, Guinea-Bissau, Sierra Leone, southern Senegal, eastern Gambia, south-eastern Mauritania and northern Ivory Coast, headed by Nioro du Sahel (95k wartime congregation in 1892AD), Niani (60k in 1550AD), Tombouctou (58,4k in 1550AD), Hamdallahi (42,6k in 1855AD), Ségou (40k in 1858AD), Djenné (32,4k in 1550AD) and Freetown (30k in 1891AD) [@MacDonald2012WalledSegou; @Azarya1980TradersAnd; @Ill1999MandeAnd; @Bellagamba2004EntrustmentAnd].
+
+```{r tab-zone2, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["futa_toro_segou_toucouleur"]]),
+  "Individually assessed settlements in Futa Toro, Segou Bamana and Toucouleur from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone2-sites")
+)
+```
+
+## Pashalik of Timbuktu, Massina and Niger Bend
+
+Table \ref{tab:zone3-sites} records `r viscount_fmt_number(length(zone_entries[["massina_timbuktu_arma"]]), 0L)` settlements across the Niger Bend, Dogon plateau, Adrar des Ifoghas and eastern Mauritania, led by Gao (68,6k in 1585AD), Bandiagara (6,42k in 1893AD), Dia (6,42k in 1650AD), Ténenkou (4,64k in 1850AD), Goundam (4,62k in 1894AD) and Oualata (4,19k in 1600AD) [@Caillie1830TravelsThrough; @Dijk2000DroughtAnd].
+
+```{r tab-zone3, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["massina_timbuktu_arma"]]),
+  "Individually assessed settlements in the Pashalik of Timbuktu, Massina and Niger Bend from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone3-sites")
+)
+```
+
+## Mossi Kingdoms, Kong and Wassoulou
+
+Table \ref{tab:zone4-sites} documents `r viscount_fmt_number(length(zone_entries[["mossi_kong_wassoulou"]]), 0L)` settlements across Burkina Faso, northern Ghana, northern Togo, northern Benin, south-eastern Mali and western Niger, topped by Sikasso (16,8k in 1898AD), Ouagadougou (14,8k in 1888AD), Tillabéri (8,64k in 1854AD), Bobo-Dioulasso (8,42k in 1888AD), Yendi (8,42k in 1850AD) and Ouahigouya (8,24k in 1895AD) [@Azarya1980TradersAnd].
+
+```{r tab-zone4, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["mossi_kong_wassoulou"]]),
+  "Individually assessed settlements in Mossi Kingdoms, Kong and Wassoulou from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone4-sites")
+)
+```
+
+## Sokoto Caliphate and Adamawa Emirates
+
+Table \ref{tab:zone5-sites} catalogues `r viscount_fmt_number(length(zone_entries[["sokoto_caliphate_hausaland"]]), 0L)` settlements across northern Nigeria, central Niger, northern Benin and southern Adamawa in Cameroon, led by Kano (58,4k in 1885AD), Katsina (46,2k in 1780AD), Zaria (42k in 1826AD), Sokoto (34,2k in 1824AD), Bauchi (30k in 1866AD), Alkalawa (24,8k in 1795AD) and Yola (20k in 1879AD) [@Last1967SokotoCaliphate; @Smaldone1962WarfareThe; @Hamza2004DorayiKano; @Suleiman2007BirninZaria; @Baikie1862NotesJourney].
+
+```{r tab-zone5, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["sokoto_caliphate_hausaland"]]),
+  "Individually assessed settlements in the Sokoto Caliphate and Adamawa Emirates from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone5-sites")
+)
+```
+
+## Kanem-Bornu Empire and Bagirmi Sultanate
+
+Table \ref{tab:zone6-sites} compiles `r viscount_fmt_number(length(zone_entries[["bornu_kanem_bagirmi"]]), 0L)` settlements across north-eastern Nigeria, western Chad, northern Cameroon and eastern Niger, led by Birnin Gazargamu (62,4k in 1700AD), Kukawa (60k in 1870AD), Dikwa (34,2k in 1894AD), Massenya (24,6k in 1852AD), Maroua (16,8k in 1895AD) and Logone-Birni (15k in 1824AD) [@Aouatef2026PoliticalStructures; @Magnavita2025NewLuminescence; @Lyon1821NarrativeTravels].
+
+```{r tab-zone6, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["bornu_kanem_bagirmi"]]),
+  "Individually assessed settlements in the Kanem-Bornu Empire and Bagirmi Sultanate from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone6-sites")
+)
+```
+
+## Sultanate of Wadai, Tibesti and Dar al-Kuti
+
+Table \ref{tab:zone7-sites} lists `r viscount_fmt_number(length(zone_entries[["wadai_dar_al_kuti_tibesti"]]), 0L)` settlements across eastern and northern Chad, northern Central African Republic and westernmost Sudan, led by Abéché (28k in 1873AD), Wara (22,4k in 1840AD), Ndélé (16,8k in 1898AD) and Al-Junaynah (5,47k in 1885AD) [@Ofahey1980StateDarFur].
+
+```{r tab-zone7, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["wadai_dar_al_kuti_tibesti"]]),
+  "Individually assessed settlements in the Sultanate of Wadai, Tibesti and Dar al-Kuti from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone7-sites")
+)
+```
+
+## Darfur Sultanate and Kordofan
+
+Table \ref{tab:zone8-sites} records `r viscount_fmt_number(length(zone_entries[["darfur_kordofan_mahdist"]]), 0L)` settlements across Darfur and western Kordofan, topped by Al-Fāshir (14,8k in 1874AD), Kobbei (8,42k in 1803AD), An-Nuhūd (7,9k in 1885AD), Nyālā (5,9k in 1898AD) and Shoba (5,28k in 1780AD) [@Ofahey1980StateDarFur; @Totten2006GenocideDarfur].
+
+```{r tab-zone8, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["darfur_kordofan_mahdist"]]),
+  "Individually assessed settlements in the Darfur Sultanate and Kordofan from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone8-sites")
+)
+```
+
+## Funj, Turco-Egyptian and Mahdist Nile
+
+Table \ref{tab:zone9-sites} documents `r viscount_fmt_number(length(zone_entries[["turco_egyptian_mahdist_nile"]]), 0L)` settlements across the Nile valley, Red Sea coast, Eritrea and the northern Ethiopian highlands, led by Umm Durmān (148k in 1895AD), Gonder (62k in 1700AD), Al-Kharṭūm (60k in 1847AD), Sannār (28,6k in 1701AD), Al-Ubayyiḍ (28,5k in 1882AD), Adis Abeba (20k in 1890AD) and Kassalā (15,2k in 1880AD) [@Crawford1951FungSennar; @Spaulding1985HeroicAge].
+
+```{r tab-zone9, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["turco_egyptian_mahdist_nile"]]),
+  "Individually assessed settlements in Funj, Turco-Egyptian and Mahdist Nile from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone9-sites")
+)
+```
+
+## Bahr el Ghazal, Azande and Equatoria
+
+Table \ref{tab:zone10-sites} compiles `r viscount_fmt_number(length(zone_entries[["bahr_el_ghazal_azande_eq"]]), 0L)` settlements across South Sudan, southern Ethiopia, eastern Central African Republic and southern Kordofan, led by Jima (12,4k in 1895AD), Deim Zubeir (12,2k in 1879AD), Yambio (8,42k in 1895AD), Bonga (7,88k in 1843AD) and Bangassou (7,84k in 1890AD) [@Lovejoy2012Transformations].
+
+```{r tab-zone10, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["bahr_el_ghazal_azande_eq"]]),
+  "Individually assessed settlements in Bahr el Ghazal, Azande and Equatoria from 1500AD to 1890AD with peak populations.",
+  arg3_options = list(label = "tab:zone10-sites")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, documentary coverage is thickest in Senegambia, Sokoto Hausaland and the Nile corridor, whereas 65 of the 398 entries rest on single-date historical records and display hyphens outside their attested date [@Ofahey1980StateDarFur; @Dijk2000DroughtAnd]. Second, linear interpolation smooths sudden wartime evacuations or refugee peaks between recorded observations, as seen at Nioro du Sahel in 1892AD and Omdurman in 1895AD [@Houdoy1881SoudanFrancais]. Third, combined urban totals in Tables 1 to 10 exclude dispersed agrarian villages and pastoral groups, which are reconstructed in the companion regional study [@Meek1934BlackByzantium].
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document four centuries of Sahelian and Sudanic urban transformation from Songhai Gao and Funj Sennar through Hausa walled manufacturing capitals and nineteenth-century Islamic reform seats to Mahdist Omdurman, providing the urban anchor for NICETHI across `r n_countries` modern jurisdictions.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} aggregates the individually assessed settlement counts and combined interpolated urban populations across all ten sub-regions at the six chapter benchmarks from 1500AD to 1890AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1500AD` = sums[["1500"]],
+    `1700AD` = sums[["1700"]],
+    `1780AD` = sums[["1780"]],
+    `1810AD` = sums[["1810"]],
+    `1860AD` = sums[["1860"]],
+    `1890AD` = sums[["1890"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Sub-Regions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1500AD` = tot_sums[["1500"]],
+  `1700AD` = tot_sums[["1700"]],
+  `1780AD` = tot_sums[["1780"]],
+  `1810AD` = tot_sums[["1810"]],
+  `1860AD` = tot_sums[["1860"]],
+  `1890AD` = tot_sums[["1890"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed settlement counts and combined interpolated urban populations across ten historical sub-regions from 1500AD to 1890AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Settlement coordinates follow decimal degrees (latitude, longitude) formatted with European decimal commas. Co-located historical series for Freetown (30.033 at peak vs 1.190 early entry) remain separate in the 398-entry ledger and are deduplicated to 397 distinct urban peaks in rank-size diagnostics.

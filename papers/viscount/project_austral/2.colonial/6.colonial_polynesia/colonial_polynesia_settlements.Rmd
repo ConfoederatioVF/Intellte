@@ -1,0 +1,318 @@
+---
+title: "Colonial Polynesia"
+subtitle: "Settlement Gazetteer and Colonial Island Hierarchy (1800 to 1962)"
+date: "23 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/colonial_polynesia_urban_hierarchy.png"
+hero_caption: "Twelve largest recorded colonial settlements and rank-size distribution across 92 Polynesian centres, 1800 to 1962."
+hero_label: "fig:hero-polynesia-hierarchy"
+bibliography: colonial_polynesia.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  fromJSON(text, simplifyVector = FALSE)
+}
+
+summary_data <- fromJSON("colonial_polynesia_summary_cache.json", simplifyVector = FALSE)
+sett_data <- fromJSON("colonial_polynesia_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("colonial_polynesia_source_ledger.json5")
+
+clean_label <- function(x) {
+  s <- as.character(x)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  s <- gsub("\\\\", "", s)
+  trimws(s)
+}
+
+fmt_coord <- function(x) {
+  viscount_fmt_number(round(as.numeric(x), 2L), 2L)
+}
+
+fmt_scope <- function(s) {
+  val <- as.character(s)
+  if (identical(val, "metro")) return("Metro")
+  if (identical(val, "suburb")) return("Suburb")
+  "City"
+}
+
+subregions <- summary_data$subregions
+inc_cands <- Filter(function(c) identical(c$status, "included"), ledger_data$candidates)
+cand_map <- setNames(
+  vapply(inc_cands, function(c) {
+    sub(".*sub-region ([a-z_]+)\\.$", "\\1", c$justification)
+  }, character(1)),
+  vapply(inc_cands, function(c) c$settlement_key, character(1))
+)
+
+n_sites <- as.integer(summary_data$settlement_count)
+n_obs <- as.integer(summary_data$observation_count)
+n_excluded <- as.integer(ledger_data$total_excluded)
+submask_cov <- ledger_data$saturation_audit$submask_coverage
+```
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  cat("![Twelve largest recorded colonial settlements and rank-size distribution across 92 Polynesian centres, 1800 to 1962.](figures/colonial_polynesia_urban_hierarchy.png)\n\n")
+}
+```
+
+# Abstract
+
+This gazetteer documents `r viscount_fmt_number(n_sites, 0L)` catalogued settlements and `r viscount_fmt_number(n_obs, 0L)` dated population observations across all seven colonial Polynesian jurisdictions (spanning ten modern island nations and territories outside Hawai'i and American Samoa) from 1800 to 1962. Compiled through four audited ingestion waves with 0% crowd-sourced fallback, 0 empty sub-regions and 0 unaccounted candidate entries—merging 10 duplicate colonial and pre-colonial alias records into canonical settlements and closing at 1,1% marginal gain on the final verification sweep—the register combines official colonial censuses (EFO/ISPF, German and New Zealand Western Samoa, Tonga, Cook Islands, Niue, GEIC, Tokelau, Pitcairn and Chilean INE) with peer-reviewed Pacific historical demography [@mcarthur1967island; @rallu1991population; @jupp1958territory; @hayes1983population]. Spatial scope distinguishes 2 metropolitan island envelopes (Rarotonga Metro and Funafuti Metro), 3 urbanising suburban communes flanking Papeete (Pirae, Faa'a and Puna'auia) and 87 city-proper ports, administrative towns and principal island villages. Peak populations span nearly three orders of magnitude, from tiny southern coral outpost Niulakita (46 residents in 1956) and Nassau in the Cook Islands (124 in 1951) up to Western Samoa's capital Apia (21.699 in 1961) and Tahiti's capital Papeete (19.903 in 1962), followed by Nuku'alofa (9.202 in 1956), Rarotonga Metro (8.676 in 1961) and early nineteenth-century Marquesan centre Taiohae (4.500 in 1813 before epidemic collapse). Upper-half peak populations follow a shallow multi-archipelagic power law ($\alpha = 0,65$, $R^2 = 0,91$ across the top 46 centres; $\alpha = 0,66$, $R^2 = 0,89$ excluding suburbs), reflecting the absence of any single regional metropolis across seven fragmented island administrations [@fages1974migrations; @pirie1964geography].
+
+# Background
+
+Settlement geography across Colonial Polynesia between 1800 and 1962 evolved through the collision of four distinct spatial layers: ancient chiefly capitals, missionary coastal stations, colonial trading and administrative ports, and twentieth-century extractive or suburban enclaves [@mcarthur1967island; @cochrane2021using].
+
+The oldest stratum consisted of pre-contact ceremonial and political centres that survived into the nineteenth century before yielding primacy to European deep-water harbours. On Tongatapu, the sacred capital of Mu'a (2.600 in 1840) gradually relinquished authority to Nuku'alofa after George Tupou I consolidated royal administration around the northern anchorage [@walsh1970population]. On Upolu and Savai'i, traditional district seats at Mulinu'u (2.800 in 1889), Leulumoega (2.490 in 1956), Falefa (2.380 in 1800), Safotulafai (2.120 in 1961) and Lufilufi (1.980 in 1961) persisted as enduring focal points of *fa'a Samoa* alongside the rising commercial port of Apia [@pirie1964geography; @sand2016geological]. Across Eastern Polynesia, classical chiefly hubs—Pare-Arue (2.150 in 1848) and Opunohu (1.980 in 1800) in the Society Islands, Taputapuātea (940 in 1820) on Raiatea, Taiohae (4.500 in 1813) and Atuona (1.840 in 1842) in the Marquesas, Rikitea (1.150 in 1834) on Mangareva, and Orongo (380 in 1850) on Rapa Nui—experienced sharp nineteenth-century contraction under epidemic waves and colonial reorganisation [@rallu2022patterns; @rallu2024tahiti; @dinapoli2021approximate].
+
+A second stratum emerged from London Missionary Society and Marist Catholic beachheads, which gathered dispersed valley and upland households into nucleated coastal villages around churches and reefs. Avarua (2.400 in 1827), Ngatangiia (1.920) and Arorangi (1.580) on Rarotonga, Ureia (2.556 in 1956) on Aitutaki, Oneroa (2.150 in 1845) on Mangaia, Alofi (1.450 in 1862) on Niue and Mata-Utu (1.940 in 1962) with Mu'a Uvea (2.180) on Wallis exemplified this missionary coastal nucleation [@hayes1983population; @rallu1991population].
+
+Third came the colonial port capitals and outer-island administrative centres that monopolised copra exports, customs revenue and inter-island steamers after 1880: Apia (growing from 1.650 in 1850 to 21.699 in 1961), Papeete (1.850 in 1843 to 19.903 in 1962), Nuku'alofa (1.950 in 1845 to 9.202 in 1956), Uturoa in the Leeward Islands (740 in 1888 to 2.376 in 1962), Neiafu in Vava'u (1.580 in 1891 to 2.873 in 1956), Pangai in Ha'apai (2.340) and Hanga Roa on Rapa Nui (collapsing from 1.800 in 1864 to 111 in 1877 before rebuilding to 1.135 in 1960) [@jupp1958territory; @walsh1970population; @maude1981slavers; @cook2017sauerkraut]. Finally, mid-twentieth-century economic specialisation added two new urban forms: the Tuamotu phosphate mining enclave of Makatea (peaking at 2.331 in 1956) and Tahiti's fast-growing suburban ring communes of Pirae (3.948 in 1962), Faa'a (3.681) and Puna'auia (2.046), which together signalled the arrival of modern metropolitan sprawl in Polynesia [@fages1974migrations; @teiti2023unravelling].
+
+# Methodology
+
+The settlement register was assembled across four audited ledger waves governed by strict archival provenance criteria. Wave 1 extracted 20 foundational territorial capitals, deep-water ports and administrative centres directly from official colonial and national census schedules: ISPF and INSEE enumerations of the EFO (1881–1962), German and New Zealand Western Samoa censuses (1906–1961), Kingdom of Tonga censuses (1891–1956), Cook Islands and Niue censuses (1902–1961), GEIC Ellice Islands censuses (1911–1963), Tokelau censuses (1900–1961), Pitcairn annual registers (1808–1961) and Chilean INE Rapa Nui censuses (1916–1960) [@jupp1958territory; @hayes1983population; @rallu1991population]. Wave 2 added 71 documented island centres, chiefly villages, mission stations and atoll communities from peer-reviewed historical demography and Pacific archaeological monographs [@mcarthur1967island; @pirie1964geography; @hooper1973demographic; @rallu2022patterns; @maude1981slavers]. Wave 3 standardised WGS84 coordinates, harmonised orthographic variants across Polynesian languages and merged 10 duplicate colonial and pre-colonial alias records within 25 km of canonical entities (eliminating double-counted records for Papeete, Apia, Nuku'alofa, Neiafu, Adamstown, Hanga Roa, Fakaofo, Atafu, Nukunonu and Taipivai into Taiohae). Wave 4 executed a sub-region gap sweep that added 1 closing verification entry (marginal gain 1,1%), confirming zero empty sub-regions and zero unaccounted candidates.
+
+Explicit spatial-scope tags keep island-wide urban rings separate from individual towns and villages. Two entries carry metropolitan scope—Rarotonga Metro (tracking the consolidated island urban ring around Avarua from 1902 to 1961) and Funafuti Metro (tracking the administrative atoll from 1911 to 1947)—three entries carry suburban scope for Papeete's contiguous urban ring communes (Pirae, Faa'a and Puna'auia) and 87 entries carry city-proper scope covering urban centres, traditional district seats and principal atoll settlements. Crowd-sourced population fallback stands at 0% across all 92 entries.
+
+# Testing and Validation
+
+Source-ledger reconciliation confirms exact accounting across all 102 evaluated candidate records: `r viscount_fmt_number(n_sites, 0L)` included, `r viscount_fmt_number(n_excluded, 0L)` excluded (exclusively duplicate colonial or pre-colonial alias entries merged within 25 km of their canonical settlement) and 0 unaccounted. Every included record carries non-null WGS84 coordinates, a documented temporal span inside 1800 to 1962, explicit archival citations and assignment to one of the seven colonial sub-regions. Across the 92 settlements, `r viscount_fmt_number(n_obs, 0L)` dated observations yield a mean of 4,09 temporal benchmarks per settlement. Longitudinal density is richest in colonial administrative capitals and continuously registered micro-islands: Adamstown on Pitcairn leads with 16 benchmarks (1808–1961), followed by Papeete with 15 (1843–1962), Hanga Roa with 13 (1864–1960), Apia with 8 (1850–1961) and Rarotonga Metro, Nuku'alofa, Fakaofo and Mata-Utu with 7 benchmarks apiece [@mcarthur1967island; @hooper1973demographic; @rallu1991population].
+
+Cross-checking submask geographic assignments against modern national boundaries confirms 100% one-to-one alignment across all seven sub-regions with zero cross-border pixel leakage: French Establishments in Oceania holds 32 settlements (116 observations), Cook Islands and Niue holds 16 (13 Cook Islands plus 3 Niue; 73 observations), Western Samoa holds 13 (50 observations), Ellice Islands and Tokelau holds 13 (10 Tuvalu plus 3 Tokelau; 51 observations), Tonga holds 10 (31 observations), Wallis and Futuna holds 5 (25 observations) and Pitcairn with Rapa Nui holds 3 (30 observations). Figure \ref{fig:sett-regional-map} displays the geographic spread of all 92 catalogued settlements across Western, Central and Eastern Polynesia.
+
+```{r fig-sett-map, results='asis'}
+viscount_figure(
+  "figures/colonial_polynesia_regional_map.png",
+  "Geographic distribution of the seven colonial Polynesian jurisdictions and 92 catalogued settlements across Western, Central and Eastern Polynesia, 1800 to 1962.",
+  "fig:sett-regional-map"
+)
+```
+
+# Results
+
+## Twenty-Five Leading Colonial Polynesian Settlements
+
+Table \ref{tab:top25-sites} lists the 25 largest catalogued settlements across Colonial Polynesia ordered by peak recorded population, ranging from Western Samoa's capital Apia (21.699 in 1961) down to Samoan district seat Lufilufi (1.980 in 1961). Three jurisdictions supply 20 of the top 25 entries: French Polynesia contributes 8 (Papeete, Taiohae, Pirae, Faa'a, Uturoa, Makatea, Pare-Arue and Puna'auia), Western Samoa contributes 8 (Apia, Falealili, Mulinu'u, Salelologa, Leulumoega, Falefa, Safotulafai and Lufilufi) and Tonga contributes 4 (Nuku'alofa, Neiafu, Mu'a and Pangai), alongside 4 from the Cook Islands (Rarotonga Metro, Ureia, Avarua and Oneroa) and 1 from Wallis and Futuna (Mu'a Uvea). Notably, seven of these 25 leading centres reached their historical peaks during the nineteenth century rather than in 1956–1962—Taiohae (1813), Falefa (1800), Avarua core (1827), Mu'a (1840), Oneroa (1845), Pare-Arue (1848) and Mulinu'u (1889)—preserving direct archival testimony to both nineteenth-century depopulation and administrative relocation toward colonial ports [@rallu2022patterns; @mcarthur1967island; @walsh1970population].
+
+```{r tab-top25-sites, results='asis'}
+top_list <- summary_data$top_settlements
+top_rows <- lapply(top_list, function(e) {
+  fy <- as.integer(e$first_year)
+  ly <- as.integer(e$last_year)
+  span_str <- if (fy == ly) as.character(fy) else paste0(fy, " to ", ly)
+  data.frame(
+    Site = clean_label(e$name),
+    Territory = clean_label(e$country),
+    Scope = fmt_scope(e$population_scope),
+    Coords = paste0(fmt_coord(e$lat), ", ", fmt_coord(e$lon)),
+    Span = span_str,
+    Peak = paste0(viscount_fmt_pop(e$peak_pop), " (", as.integer(e$peak_year), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_top25 <- do.call(rbind, top_rows)
+rownames(df_top25) <- NULL
+
+viscount_table(
+  df_top25,
+  "Leading 25 catalogued colonial Polynesian settlements ordered by peak recorded population, 1800 to 1962.",
+  c("Settlement", "Territory", "Scope", "Lat, Lon", "Span", "Peak Pop. (Year)"),
+  list(label = "tab:top25-sites", font_size = "scriptsize", max_rows_per_page = 28L)
+)
+```
+
+## Sub-Regional Gazetteer Coverage and Urban Concentration
+
+Table \ref{tab:subregion-gazetteer} pairs settlement counts, dated observation depth, leading recorded centres and closing 1962 regional populations across all seven colonial jurisdictions. Every island group from populous volcanic archipelagos down to isolated southeastern micro-islands achieves balanced documentary coverage: observation depth peaks per site in Pitcairn and Rapa Nui (mean 10,0 observations per site across Adamstown, Hanga Roa and Orongo) and Wallis and Futuna (5,0 per site), while French Polynesia (32 sites, 116 observations) and the Cook Islands with Niue (16 sites, 73 observations) capture multi-archipelagic outer-island dispersion from the Marquesas to the Northern Cooks [@hayes1983population; @fages1974migrations; @hooper1973demographic].
+
+```{r tab-subregion-gazetteer, results='asis'}
+reg_rows <- lapply(subregions, function(r) {
+  rid <- r$id
+  area_v <- as.numeric(r$area_km2)
+  p1962 <- as.numeric(r$population[["1962"]])
+  reg_keys <- names(cand_map)[cand_map == rid]
+  cnt <- length(reg_keys)
+  obs_sum <- sum(vapply(reg_keys, function(k) length(sett_data[[k]]$population), integer(1)))
+  lead_str <- "-"
+  if (cnt > 0L) {
+    pks <- vapply(reg_keys, function(k) max(as.numeric(unlist(sett_data[[k]]$population))), numeric(1))
+    idx_m <- which.max(pks)
+    lead_str <- paste0(clean_label(sett_data[[reg_keys[idx_m]]]$name), " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  data.frame(
+    Jurisdiction = clean_label(r$name),
+    Area = viscount_fmt_number(round(area_v), 0L),
+    Sites = viscount_fmt_number(cnt, 0L),
+    Obs = viscount_fmt_number(obs_sum, 0L),
+    Lead = lead_str,
+    Pop1962 = viscount_fmt_pop(p1962),
+    stringsAsFactors = FALSE
+  )
+})
+df_reg_gaz <- do.call(rbind, reg_rows)
+rownames(df_reg_gaz) <- NULL
+
+viscount_table(
+  df_reg_gaz,
+  "Catalogued settlement counts, dated observations, leading recorded centre and closing 1962 population across the seven colonial Polynesian jurisdictions.",
+  c("Jurisdiction", "Mask Area (km²)", "Sites", "Obs.", "Leading Centre (Peak)", "1962 Pop."),
+  list(label = "tab:subregion-gazetteer", font_size = "scriptsize")
+)
+```
+
+## Rank-Size Distribution and Source Saturation Audit
+
+Log-log rank-size analysis quantifies the polycentric island structure of Colonial Polynesia [@fages1974migrations; @pirie1964geography]. Across all 92 settlements, the upper-half power-law fit (ranks 1 to 46, spanning Apia at 21.699 down to Mulifanua at 1.480) yields a shallow slope of $\alpha = 0,65$ ($R^2 = 0,91$; full 92-centre slope $-0,90$, $R^2 = 0,79$). Excluding Papeete's three suburban ring communes leaves the upper-half exponent virtually unchanged at $\alpha = 0,66$ ($R^2 = 0,89$ across the top 44 centres; full 89-centre slope $-0,90$, $R^2 = 0,79$). Unlike primate continental settler colonies where one or two ports capture over a third of total population, seven separate colonial flags generated four mid-tier capitals (Apia, Papeete, Nuku'alofa and Rarotonga) sitting above a broad shelf of island villages constrained by atoll carrying capacity and reef passages [@kazarinova2025alternative; @kristinsson2016adapting].
+
+Table \ref{tab:scope-breakdown} summarises the spatial-scope stratification of the 92-entry register, and Table \ref{tab:saturation-waves} reports the four-wave source saturation audit from the chapter ledger.
+
+```{r tab-scope-breakdown, results='asis'}
+sc_counts <- summary_data$population_scope_counts
+sc_df <- data.frame(
+  Scope = c("Metropolitan Island Ring (metro)", "City Proper or Island Village (city proper)", "Suburban Ring Commune (suburb)"),
+  Count = c(
+    viscount_fmt_number(as.integer(sc_counts$metro), 0L),
+    viscount_fmt_number(as.integer(sc_counts$city_proper), 0L),
+    viscount_fmt_number(as.integer(sc_counts$suburb), 0L)
+  ),
+  Share = c(
+    paste0(viscount_fmt_number(100 * as.integer(sc_counts$metro) / n_sites, 1L), "%"),
+    paste0(viscount_fmt_number(100 * as.integer(sc_counts$city_proper) / n_sites, 1L), "%"),
+    paste0(viscount_fmt_number(100 * as.integer(sc_counts$suburb) / n_sites, 1L), "%")
+  ),
+  Leader = c("Rarotonga Metro (8,7k)", "Apia (21,7k)", "Pirae (3,9k)"),
+  stringsAsFactors = FALSE
+)
+rownames(sc_df) <- NULL
+
+viscount_table(
+  sc_df,
+  "Spatial-scope stratification across 92 catalogued colonial Polynesian settlements, 1800 to 1962.",
+  c("Spatial Scope", "Settlements", "Share", "Largest Example (Peak)"),
+  list(label = "tab:scope-breakdown", font_size = "scriptsize")
+)
+```
+
+```{r tab-saturation-waves, results='asis'}
+wave_labels <- c(
+  primary_official_national_and_colonial_censuses = "Official colonial and territorial censuses",
+  peer_reviewed_archaeological_and_ethnohistorical_monographs = "Historical demography and archaeological monographs",
+  longitudinal_municipal_reconciliation_and_deduplication = "Coordinate harmonisation and alias deduplication",
+  subregion_gap_hunter_verification_sweep = "Sub-regional coverage verification sweep"
+)
+w_rows <- lapply(ledger_data$saturation_audit$waves, function(w) {
+  cls <- as.character(w$source_class)
+  lbl <- if (cls %in% names(wave_labels)) wave_labels[[cls]] else cls
+  cnt <- as.integer(w$newly_included)
+  data.frame(
+    Wave = paste0("Wave ", as.integer(w$wave)),
+    SourceClass = lbl,
+    Added = viscount_fmt_number(cnt, 0L),
+    Notes = if (as.integer(w$wave) == 3L) "10 duplicate aliases merged" else if (as.integer(w$wave) == 4L) "1,1% marginal gain" else "0% crowd fallback",
+    stringsAsFactors = FALSE
+  )
+})
+df_waves <- do.call(rbind, w_rows)
+rownames(df_waves) <- NULL
+
+viscount_table(
+  df_waves,
+  "Four-wave gazetteer ingestion ledger and reconciliation summary across 92 catalogued Polynesian settlements.",
+  c("Wave", "Source Class", "Records", "Audit Outcome"),
+  list(label = "tab:saturation-waves", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Four archival and spatial constraints govern interpretation of this settlement gazetteer. First, settlement definitions differ across Pacific census offices: French Polynesian returns tabulate discrete *communes* and suburban districts (separating Papeete from Pirae, Faa'a and Puna'auia), whereas New Zealand Cook Islands returns tabulate whole-island Rarotonga alongside individual traditional villages (Avarua, Ngatangiia and Arorangi), and Samoan enumerations shift between municipal Apia and contiguous *Tuamasaga* villages [@fages1974migrations; @hayes1983population; @jupp1958territory]. Maintaining explicit spatial-scope tags prevents accidental double counting when summing urban shares.
+
+Second, nine early nineteenth-century traditional seats—Opunohu, Vailele, Mulifanua, Maeva, Taputapuātea, Tautira, Hanamiai, Maupiti and Orongo—carry single-date archival benchmarks because later colonial censuses subsumed their dwindling districts into broader parish or commune aggregates [@rallu2022patterns; @mcarthur1967island]. Third, acute single-year shocks—the 1862–1864 Peruvian slaving raids on Nukulaelae, Fakaofo, Nukunonu, Omoka and Hanga Roa, the November 1918 influenza mortality in Apia and the 1946 volcanic evacuation of Esia on Niuafo'ou—produced steep intercensal drops that multi-year census intervals only partially capture [@maude1981slavers; @tomkins1992influenza; @hooper1973demographic]. Fourth, peak recorded populations compare non-synchronous eras (1813 Taiohae alongside 1961 Apia and 1962 Papeete), so readers tracking twentieth-century urbanisation should distinguish expanding colonial port capitals from nineteenth-century chiefly settlements whose maxima preceded depopulation.
+
+# Conclusion
+
+Cataloguing `r viscount_fmt_number(n_sites, 0L)` evidence-based settlements and `r viscount_fmt_number(n_obs, 0L)` dated observations between 1800 and 1962 traces the spatial restructuring of Polynesia under colonial rule in fine geographical detail. From the collapse of nineteenth-century Marquesan and Rapanui centres (Taiohae and Hanga Roa) and the survival of atoll micro-communities across Tokelau and the Ellice Islands (Fakaofo, Atafu, Lolua and Asau Vaitupu) to the mid-twentieth-century rise of Apia (21,7k), Papeete (19,9k plus 9,7k in Pirae, Faa'a and Puna'auia), Nuku'alofa (9,2k), Rarotonga (8,7k) and phosphate boomtown Makatea (2,3k), the register documents a shallow, multi-centred oceanic settlement system ($\alpha = 0,65$) entering decolonisation with rapid demographic momentum [@rallu1991population; @pirie1964geography; @walsh1970population; @eric1985eric].
+
+# Appendix
+
+## Remaining Sixty-Seven Catalogued Settlements (Ranks 26 to 92)
+
+Table \ref{tab:rem67-sites} prints all remaining 67 catalogued colonial Polynesian settlements ordered by peak recorded population from Opunohu on Moorea (1.980 in 1800) down to Niulakita in Tuvalu (46 in 1956), ensuring every one of the 92 settlements in the register appears in print.
+
+```{r tab-rem67-sites, results='asis'}
+all_rows <- lapply(names(sett_data), function(k) {
+  e <- sett_data[[k]]
+  yrs <- as.integer(names(e$population))
+  pops <- as.numeric(unlist(e$population))
+  idx_pk <- which.max(pops)
+  fy <- min(yrs)
+  ly <- max(yrs)
+  span_str <- if (fy == ly) as.character(fy) else paste0(fy, " to ", ly)
+  data.frame(
+    Key = k,
+    Site = clean_label(e$name),
+    Territory = clean_label(e$country),
+    Scope = fmt_scope(e$population_scope),
+    Coords = paste0(fmt_coord(e$coords[[1]]), ", ", fmt_coord(e$coords[[2]])),
+    Span = span_str,
+    PeakVal = pops[idx_pk],
+    Peak = paste0(viscount_fmt_pop(pops[idx_pk]), " (", yrs[idx_pk], ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_all <- do.call(rbind, all_rows)
+df_all <- df_all[order(-df_all$PeakVal, df_all$Site), ]
+top_keys <- vapply(summary_data$top_settlements, function(e) e$key, character(1))
+df_rem <- df_all[!(df_all$Key %in% top_keys), c("Site", "Territory", "Scope", "Coords", "Span", "Peak")]
+rownames(df_rem) <- NULL
+
+viscount_table(
+  df_rem,
+  "Remaining 67 catalogued colonial Polynesian settlements (ranks 26 to 92) ordered by peak recorded population, 1800 to 1962.",
+  c("Settlement", "Territory", "Scope", "Lat, Lon", "Span", "Peak Pop. (Year)"),
+  list(label = "tab:rem67-sites", font_size = "scriptsize", max_rows_per_page = 26L)
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Geographic coordinates follow WGS84 decimal degrees formatted with European decimal commas. Spatial scope distinguishes metropolitan island rings (Metro), suburban ring communes (Suburb) and municipal ports or principal island villages (City). All settlement headcounts derive directly from official colonial and territorial censuses and peer-reviewed Pacific historical demography with zero crowd-sourced substitution.

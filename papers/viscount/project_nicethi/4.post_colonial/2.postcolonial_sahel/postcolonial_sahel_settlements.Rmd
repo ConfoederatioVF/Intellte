@@ -1,0 +1,367 @@
+---
+title: "Post-Colonial Sahel States (1960-Present)"
+subtitle: "Settlement Gazetteer: 3.089 Assessed Localities and 402 Major Centres"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_sahel_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 3.089 assessed settlements across seven core Sahelian states and ten neighbouring jurisdictions between 1960AD and 2025AD."
+hero_label: "fig:hero-settlements-sahel"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("postcolonial_sahel_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("postcolonial_sahel_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  vals <- as.numeric(unlist(e$population))
+  yrs <- as.numeric(names(e$population))
+  i_pk <- which.max(vals)
+  e$peak_pop_val <- vals[i_pk]
+  e$peak_year_val <- yrs[i_pk]
+  e$min_year_val <- min(yrs)
+  e$max_year_val <- max(yrs)
+  e$obs_count_val <- length(vals)
+  e
+})
+
+iso3_map <- c(
+  "Benin" = "BEN",
+  "Burkina Faso" = "BFA",
+  "Cameroon" = "CMR",
+  "Central African Republic" = "CAF",
+  "Chad" = "TCD",
+  "Gambia" = "GMB",
+  "Ghana" = "GHA",
+  "Guinea" = "GIN",
+  "Guinea-Bissau" = "GNB",
+  "Ivory Coast" = "CIV",
+  "Mali" = "MLI",
+  "Mauritania" = "MRT",
+  "Niger" = "NER",
+  "Nigeria" = "NGA",
+  "Senegal" = "SEN",
+  "Sudan" = "SDN",
+  "Togo" = "TGO"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  paste0(viscount_fmt_pop(e$peak_pop_val), " (", as.integer(e$peak_year_val), "AD)")
+}
+
+major_threshold <- 25000
+major_entries <- Filter(function (e) e$peak_pop_val >= major_threshold, all_entries)
+
+core_countries <- c("Mauritania", "Mali", "Niger", "Chad", "Senegal", "Burkina Faso", "Gambia")
+border_countries <- setdiff(sort(unique(vapply(all_entries, function (e) as.character(e$country), character(1)))), core_countries)
+
+entries_for_countries <- function (c_vec, pool) {
+  sub <- Filter(function (e) as.character(e$country) %in% c_vec, pool)
+  pks <- vapply(sub, function (e) e$peak_pop_val, numeric(1))
+  sub[order(-pks, vapply(sub, function (e) as.character(e$name), character(1)))]
+}
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    c_str <- as.character(e$country)
+    iso_code <- iso3_map[[c_str]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(c_str, 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    scope_lbl <- if (identical(e$population_scope, "metro")) "M" else "C"
+    data.frame(
+      Settlement = paste0(as.character(e$name), " [", scope_lbl, "]"),
+      Location = loc_str,
+      `1960AD` = fmt_site_pop(e, 1960),
+      `1980AD` = fmt_site_pop(e, 1980),
+      `2000AD` = fmt_site_pop(e, 2000),
+      `2015AD` = fmt_site_pop(e, 2015),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1960, 1980, 2000, 2010, 2020, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This companion gazetteer catalogues spatial coordinates, administrative scope and multi-decade population series across `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements (`r viscount_fmt_number(summary_cache$observation_count, 0L)` dated observations) spanning seven core Sahelian states and ten bordering jurisdictions from 1960AD to 2025AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate census localities and Africapolis urban polygons (`r viscount_fmt_number(n_excluded, 0L)` excluded), the full ledger covers `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city-proper units and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` metropolitan agglomerations across all 84 Admin-1 Sahelian sub-regions. To preserve compact tabular readability without losing full accounting coverage, this volume presents complete summary tables across all 17 jurisdictions and all 84 sub-regions alongside detailed multi-benchmark tables for every urban centre reaching at least 25k residents (`r viscount_fmt_number(length(major_entries), 0L)` cities and towns). Active interpolated settlements grow from `r viscount_fmt_number(n_active[["1960"]], 0L)` in 1960AD to `r viscount_fmt_number(n_active[["1980"]], 0L)` in 1980AD, `r viscount_fmt_number(n_active[["2000"]], 0L)` in 2000AD and `r viscount_fmt_number(n_active[["2010"]], 0L)` in 2010AD before moderating to `r viscount_fmt_number(n_active[["2025"]], 0L)` in 2025AD, anchored at the summit by Dakar (4,39M), Bamako (4,24M), Ouagadougou (3,41M), N'Djamena (1,99M), Nouakchott (1,45M) and Niamey (1,43M).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 3.089 assessed settlements across seven core Sahelian states and ten neighbouring jurisdictions between 1960AD and 2025AD.",
+    "fig:hero-settlements-sahel"
+  )
+}
+```
+
+# Background
+
+Post-colonial Sahelian urbanisation exhibits an acute contrast between primate capital agglomerations and dispersed rural communes. Whereas coastal capitals such as Dakar inherited colonial port infrastructure [@Bank2015ReviewUrbanization; @Cheikh2025ImpactsUrbanization], inland capitals - Nouakchott, Bamako, Ouagadougou, Niamey and N'Djamena - absorbed successive waves of drought-displaced pastoralists after 1968AD and 1983AD alongside high natural increase [@Doumbia2019EthnographyUrban; @Bank2021RevueUrbanisation; @Younoussi2013MigrationEmploi]. Concurrently, secondary regional centres such as Touba, Bobo-Dioulasso, Maradi, Zinder, Sikasso, Moundou and Nouadhibou expanded into multi-hundred-thousand-inhabitant nodes linking agricultural hinterlands with trans-Saharan and coastal markets [@ANSD2024SenegalRGPH5; @INSD2022BurkinaRGPH5; @INSTAT2023MaliRGPH5; @OECD2024Africapolis].
+
+# Methodology
+
+## Candidate Screening and Scope Separation
+
+Settlement records were compiled from national General Population and Housing Censuses (RGPH) across Senegal, Mauritania, Mali, Burkina Faso, Niger, Chad and The Gambia, UNSD Demographic Yearbook tables and the OECD/SWAC Africapolis 2024 Update [@ANSD2024SenegalRGPH5; @INSD2022BurkinaRGPH5; @INSTAT2023MaliRGPH5; @OECD2024Africapolis]. Of `r viscount_fmt_number(n_candidates, 0L)` raw records, `r viscount_fmt_number(n_excluded, 0L)` duplicate aliases and unverified loci were removed, leaving `r viscount_fmt_number(length(all_entries), 0L)` assessed settlements (`r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city proper, marked C; `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` metropolitan agglomerations, marked M).
+
+## Country-Level Gazetteer Overview
+
+Table \ref{tab:country-summary} summarises all `r viscount_fmt_number(length(all_entries), 0L)` settlements by jurisdiction, reporting total entries, city-proper versus metropolitan counts, chronological observations, counts of centres reaching 25k or higher, and the leading city or agglomeration in each state. Interpolated country gazetteer tables below report values at 1960AD, 1980AD, 2000AD, 2015AD and 2025AD bounded strictly within each site's observed chronological span, with a hyphen (-) indicating pre-foundation or unenumerated intervals.
+
+```{r tab-country-summary, results='asis'}
+all_c_names <- c(core_countries, border_countries)
+df_csum <- do.call(rbind, lapply(all_c_names, function (cname) {
+  sub <- Filter(function (e) identical(as.character(e$country), cname), all_entries)
+  n_cp <- sum(vapply(sub, function (e) !identical(e$population_scope, "metro"), logical(1)))
+  n_m <- length(sub) - n_cp
+  n_obs <- sum(vapply(sub, function (e) e$obs_count_val, integer(1)))
+  n_maj <- sum(vapply(sub, function (e) e$peak_pop_val >= major_threshold, logical(1)))
+  top_e <- sub[[which.max(vapply(sub, function (e) e$peak_pop_val, numeric(1)))]]
+  disp_name <- if (identical(cname, "Gambia")) "The Gambia" else cname
+  data.frame(
+    Jurisdiction = disp_name,
+    Role = if (cname %in% core_countries) "Core" else "Border",
+    Sites = viscount_fmt_number(length(sub), 0L),
+    `City / Metro` = paste0(viscount_fmt_number(n_cp, 0L), "/", viscount_fmt_number(n_m, 0L)),
+    `>= 25k` = viscount_fmt_number(n_maj, 0L),
+    Obs = viscount_fmt_number(n_obs, 0L),
+    `Leading Centre` = paste0(top_e$name, " (", viscount_fmt_pop(top_e$peak_pop_val), ")"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_csum <- data.frame(
+  Jurisdiction = "Total (17 Jurisdictions)",
+  Role = "All",
+  Sites = viscount_fmt_number(length(all_entries), 0L),
+  `City / Metro` = paste0(
+    viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L), "/",
+    viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)
+  ),
+  `>= 25k` = viscount_fmt_number(length(major_entries), 0L),
+  Obs = viscount_fmt_number(summary_cache$observation_count, 0L),
+  `Leading Centre` = "Dakar (Agglomeration) (4,39M)",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_csum <- rbind(df_csum, tot_csum)
+rownames(df_csum) <- NULL
+viscount_table(
+  df_csum,
+  "Jurisdictional summary of all 3.089 assessed settlements across seven core Sahelian states and ten neighbouring buffer countries.",
+  arg3_options = list(label = "tab:country-summary")
+)
+```
+
+# Testing and Validation
+
+Ordinary least-squares rank-size regression across the upper urban hierarchy (n=180 fitted settlements) gives $q = 1,07$ ($R^2 = 0,98$), while regression across 2.951 spatially deduplicated peaks in Figure \ref{fig:settlements-rank} yields $q = 0,98$ ($R^2 = 0,99$). Sub-national consistency checks confirm full 84/84 Admin-1 coverage with zero empty inhabited regions and strict separation between municipal boundaries and Africapolis urban extents [@Runfola2020GeoBoundaries; @OECD2024Africapolis].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size distribution across 2.951 spatially deduplicated peaks (q = 0,98, R² = 0,99) and top ten sub-regional densities in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Mauritania
+
+Table \ref{tab:mrt} lists all `r viscount_fmt_number(length(entries_for_countries("Mauritania", major_entries)), 0L)` Mauritanian centres reaching 25k residents (out of 96 assessed Mauritanian localities), led by Nouakchott (1,45M), the iron-ore and fishing port of Nouadhibou (173,5k), the Hodh ech Chargui refugee town of Mbera (117k) and Kiffa (84,1k) [@OECD2024Africapolis].
+
+```{r tab-mrt, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_for_countries("Mauritania", major_entries)),
+  "Mauritanian urban centres reaching 25k residents or more (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:mrt")
+)
+```
+
+## Mali
+
+Table \ref{tab:mli} details all `r viscount_fmt_number(length(entries_for_countries("Mali", major_entries)), 0L)` Malian centres reaching 25k residents (out of 150 assessed Malian localities), anchored by Bamako (4,24M agglomeration; 4,17M city proper in 2023AD), Sikasso (434,7k), Kalabancoro (422,5k), Ségou (372,4k), Kayes (306,4k), Koutiala (271,2k), Kati (214,6k) and Mopti-Sévaré (200,8k) [@INSTAT2023MaliRGPH5; @Doumbia2019EthnographyUrban].
+
+```{r tab-mli, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_for_countries("Mali", major_entries)),
+  "Malian urban centres reaching 25k residents or more (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:mli")
+)
+```
+
+## Niger
+
+Table \ref{tab:ner} documents all `r viscount_fmt_number(length(entries_for_countries("Niger", major_entries)), 0L)` Nigerien urban centres reaching 25k residents (selected from 2.043 assessed Nigerien communes), led by Niamey (1,43M agglomeration; 978k city proper in 2012AD), Maradi (554,4k), Zinder (322,9k), Tahoua (149,5k), Agadez (118,2k) and Dosso (91,2k) [@Bank2021RevueUrbanisation; @Spoorenberg2018FertilityCompression].
+
+```{r tab-ner, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_for_countries("Niger", major_entries)),
+  "Nigerien urban centres reaching 25k residents or more (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:ner")
+)
+```
+
+## Chad
+
+Table \ref{tab:tcd} records all `r viscount_fmt_number(length(entries_for_countries("Chad", major_entries)), 0L)` Chadian centres reaching 25k residents (out of 152 assessed Chadian localities), headed by N'Djamena (1,99M agglomeration; 951,4k city proper in 2009AD), Moundou (222,7k), Abéché (184,3k), Sarh (153,1k) and Kélo (92,2k) [@OECD2024Africapolis].
+
+```{r tab-tcd, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_for_countries("Chad", major_entries)),
+  "Chadian urban centres reaching 25k residents or more (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:tcd")
+)
+```
+
+## Senegal and The Gambia
+
+Table \ref{tab:sen-gmb} presents all `r viscount_fmt_number(length(entries_for_countries(c("Senegal", "Gambia"), major_entries)), 0L)` Senegalese and Gambian urban centres reaching 25k residents (out of 169 Senegalese and 59 Gambian localities), led by Dakar (4,39M agglomeration; 3,19M city proper), Touba (1,22M), Greater Banjul (1,15M), Pikine (1,10M), Thiès (618,4k), Mbour (483,3k), Saint-Louis (402,2k) and Kaolack (382,7k) [@ANSD2024SenegalRGPH5; @Bank2015ReviewUrbanization; @Jasseh2022AssessmentThe].
+
+```{r tab-sen-gmb, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_for_countries(c("Senegal", "Gambia"), major_entries)),
+  "Senegalese and Gambian urban centres reaching 25k residents or more (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:sen-gmb")
+)
+```
+
+## Burkina Faso
+
+Table \ref{tab:bfa} compiles all `r viscount_fmt_number(length(entries_for_countries("Burkina Faso", major_entries)), 0L)` Burkinabè centres reaching 25k residents (out of 151 assessed localities), led by Ouagadougou (3,41M agglomeration; 2,42M city proper in 2019AD), Bobo-Dioulasso (1,22M agglomeration; 904,9k city proper), Koudougou (185,5k), Kaya (163,8k), Banfora (150,2k) and Ouahigouya (144,6k) [@INSD2022BurkinaRGPH5; @Younoussi2013MigrationEmploi].
+
+```{r tab-bfa, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_for_countries("Burkina Faso", major_entries)),
+  "Burkinabè urban centres reaching 25k residents or more (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:bfa")
+)
+```
+
+## Neighbouring Frontier Buffer Cities
+
+Table \ref{tab:border} catalogues all `r viscount_fmt_number(length(entries_for_countries(border_countries, major_entries)), 0L)` frontier-buffer cities reaching 25k residents across ten adjacent states (out of 269 border-buffer localities), anchoring cross-border spatial interpolation along the southern Sahelian border, including Katsina (1,27M), Siguiri (303k), Birnin Kebbi (270,3k), Hadejia (249k), Al-Junaynah (231,6k), Bolgatanga (207,7k) and Kousséri (144,9k).
+
+```{r tab-border, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_for_countries(border_countries, major_entries)),
+  "Neighbouring frontier buffer cities reaching 25k residents or more across ten adjacent jurisdictions (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:border")
+)
+```
+
+# Limitations
+
+Three constraints govern this gazetteer. First, settlement-level census granularity differs across countries: Niger's 2012AD RGPH provides 2.043 mostly rural commune records whose single-year peak inflates total ledger size relative to Chad, Mali and Mauritania, where coverage concentrates on cities above 10k inhabitants [@Bank2021RevueUrbanisation; @OECD2024Africapolis]. Second, interpolation applies strictly between each locality's earliest and latest dated records, producing hyphens (-) for recent 2025AD Africapolis projections on localities whose most recent municipal census dates to 2009AD or 2012AD. Third, rapid peri-urban expansion around Dakar, Bamako, Ouagadougou and Niamey requires reading city-proper (C) and metropolitan (M) entries side by side to avoid administrative boundary artefacts [@Doumbia2019EthnographyUrban; @Cheikh2025ImpactsUrbanization].
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` assessed settlements and `r viscount_fmt_number(length(major_entries), 0L)` major urban centres documented here capture the post-colonial transformation of Sahelian settlement from sparse independence-era administrative towns to multi-million-inhabitant metropolitan corridors, grounding the regional demographic series in the companion review.
+
+# Appendix
+
+## Sub-Regional Settlement Distribution Across All Eighty-Four Divisions
+
+Table \ref{tab:appendix-subreg-dist} summarises interior settlement counts, chronological observations, combined peak site totals and leading centres across every one of the 84 first-level administrative divisions in the Sahelian accounting mask.
+
+```{r tab-appendix-subreg-dist, results='asis'}
+dist_list <- summary_cache$subregion_settlement_distribution
+ord_d <- order(vapply(dist_list, function (x) as.character(x$name), character(1)))
+dist_sorted <- dist_list[ord_d]
+df_app <- data.frame(
+  `Admin-1 Division` = vapply(dist_sorted, function (d) as.character(d$name), character(1)),
+  Sites = vapply(dist_sorted, function (d) viscount_fmt_number(d$settlement_count, 0L), character(1)),
+  Obs = vapply(dist_sorted, function (d) viscount_fmt_number(d$observation_count, 0L), character(1)),
+  `Peak Sum` = vapply(dist_sorted, function (d) viscount_fmt_pop(d$peak_pop_sum), character(1)),
+  `Leading Localities` = vapply(dist_sorted, function (d) {
+    ts <- unlist(d$top_settlements)
+    if (length(ts) == 0L) "-" else paste(ts[seq_len(min(3L, length(ts)))], collapse = ", ")
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_app) <- NULL
+viscount_table(
+  df_app,
+  "Interior settlement counts, observation counts, combined peak totals and leading localities across all 84 Admin-1 divisions.",
+  arg3_options = list(label = "tab:appendix-subreg-dist")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation between dated census and Africapolis observations is strictly bounded between each settlement's earliest and latest attested year; pre-foundation and unupdated intervals display a hyphen (-). Bracketed codes denote administrative city-proper units (C) versus continuous built-up metropolitan agglomerations (M).

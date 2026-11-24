@@ -1,0 +1,501 @@
+---
+title: "Modern Southern Africa (1902-Present)"
+subtitle: "South Africa, Namibia, Botswana, Lesotho and Eswatini"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: modern_southern_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Forty-six first-level administrative sub-regions and 1.499 settlements across Modern Southern Africa between 1902AD and 2026AD."
+hero_label: "fig:hero-modern-southern-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("modern_southern_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("modern_southern_africa_settlements.json", simplifyVector = FALSE)
+
+clean_sub_name <- function (x) {
+  gsub("Nothern Cape", "Northern Cape", as.character(x), fixed = TRUE)
+}
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("1910", "1952", "1970", "1989", "2001", "2025")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+country_prefixes <- c("zaf", "nam", "bwa", "lso", "swz")
+country_labels <- c(
+  zaf = "South Africa",
+  nam = "Namibia",
+  bwa = "Botswana",
+  lso = "Lesotho",
+  swz = "Eswatini"
+)
+country_json_names <- c(
+  zaf = "South Africa",
+  nam = "Namibia",
+  bwa = "Botswana",
+  lso = "Lesotho",
+  swz = "eSwatini"
+)
+
+subregion_order <- unlist(lapply(country_prefixes, function (pfx) {
+  hits <- Filter(function (sr) startsWith(sr$id, paste0(pfx, "_")), subregs)
+  p25 <- vapply(hits, function (sr) as.numeric(sr$end_pop), numeric(1))
+  ids <- vapply(hits, function (sr) sr$id, character(1))
+  ids[order(-p25, ids)]
+}), use.names = FALSE)
+
+sum_country_pop <- function (pfx, yr_key) {
+  hits <- Filter(function (sr) startsWith(sr$id, paste0(pfx, "_")), subregs)
+  sum(vapply(hits, function (sr) as.numeric(sr$population[[yr_key]]), numeric(1)))
+}
+
+sum_country_area <- function (pfx) {
+  hits <- Filter(function (sr) startsWith(sr$id, paste0(pfx, "_")), subregs)
+  sum(vapply(hits, function (sr) as.numeric(sr$area_km2), numeric(1)))
+}
+
+sum_country_subregs <- function (pfx) {
+  sum(vapply(subregs, function (sr) startsWith(sr$id, paste0(pfx, "_")), logical(1)))
+}
+
+bantustan_1970 <- Filter(function (t) t$polity_code == "ZAF_BANTUSTANS" && t$year == 1970, summary_cache$subadmin_benchmark_tables)[[1]]
+bantustan_1991 <- Filter(function (t) t$polity_code == "ZAF_BANTUSTANS" && t$year == 1991, summary_cache$subadmin_benchmark_tables)[[1]]
+zaf_2022_tbl <- Filter(function (t) t$polity_code == "ZAF" && t$year == 2022, summary_cache$subadmin_benchmark_tables)[[1]]
+nam_2001_tbl <- Filter(function (t) t$polity_code == "NAM" && t$year == 2001, summary_cache$subadmin_benchmark_tables)[[1]]
+nam_2023_tbl <- Filter(function (t) t$polity_code == "NAM" && t$year == 2023, summary_cache$subadmin_benchmark_tables)[[1]]
+bwa_2022_tbl <- Filter(function (t) t$polity_code == "BWA" && t$year == 2022, summary_cache$subadmin_benchmark_tables)[[1]]
+lso_1946_tbl <- Filter(function (t) t$polity_code == "LSO" && t$year == 1946, summary_cache$subadmin_benchmark_tables)[[1]]
+```
+
+# Abstract
+
+Between 1902AD and 2025AD, Southern Africa underwent an almost ninefold demographic expansion alongside rapid industrial urbanisation and sharp political and epidemiological shocks. Across `r viscount_fmt_number(total_area_km2, 0L)` km² spanning South Africa, Namibia, Botswana, Lesotho and Eswatini, NICETHI reconstructs an aggregate regional population rising from `r viscount_fmt_pop(headline_vals[["1910"]])` inhabitants in 1910AD to `r viscount_fmt_pop(headline_vals[["1952"]])` in 1952AD, `r viscount_fmt_pop(headline_vals[["1970"]])` in 1970AD, `r viscount_fmt_pop(headline_vals[["2001"]])` in 2001AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD, lifting mean regional density to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth was shaped by four forces: Witwatersrand gold and diamond industrialisation drawing circular migrant labour across all five territories; Apartheid statistical severance of the Transkei, Bophuthatswana, Venda and Ciskei homelands between 1976AD and 1991AD before unified post-1994AD censuses restored national accounting; post-1966AD diamond-financed urbanisation in Botswana and post-1990AD independence growth in Namibia; and the 1995AD to 2008AD HIV/AIDS mortality surge followed by antiretroviral survival recovery. These results rest on `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations, anchored to national censuses and disaggregated across 46 first-level administrative divisions.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Forty-six first-level administrative sub-regions and 1.499 settlements across Modern Southern Africa between 1902AD and 2026AD.",
+    "fig:hero-modern-southern-africa"
+  )
+}
+```
+
+# Background
+
+## Physical Geography, Mining Hearths and Colonial Partition
+
+Southern Africa south of the Kunene, Okavango, Zambezi and Limpopo watersheds spans an environmental gradient from the subtropical KwaZulu-Natal littoral and well-watered Highveld maize plateau to the arid Karoo, Kalahari basin and Namib coastal desert [@Modiba2025PopulationGrowth; @SAHRIS2024SouthAfrica]. At the close of the South African War in May 1902, political consolidation forged five territorial units that remained economically intertwined throughout the twentieth century: the four British settler colonies united in May 1910 as the Union of South Africa, the three British High Commission Territories of Bechuanaland (Botswana), Basutoland (Lesotho) and Swaziland (Eswatini), and German South West Africa (Namibia), placed under South African League of Nations Mandate after 1915AD [@Paiment2025BeyondApartheid; @ChimereDan2013ApartheidAnd].
+
+Urban and rural settlement patterns diverged sharply from older agrarian distributions once diamond extraction at Kimberley (1871AD) and deep-level gold mining along the Witwatersrand (1886AD) created an industrial core on the central Highveld [@Simkins2011SouthAfrica; @Cilliers2012NewEstimates]. Railway lines linking Cape Town, Port Elizabeth, East London, Durban and Maputo to Johannesburg transformed port towns into commercial entrepots while turning rural reserves across the Eastern Cape, KwaZulu-Natal, Lesotho, Eswatini, Botswana and northern Namibia into labour-sending peripheries [@Simkins2011SouthAfrica; @Madhavan2017HouseholdStructure]. Protected conservation corridors such as Kruger National Park along the eastern Lowveld frontier further channelled human settlement into dense peri-reserve margins rather than continuous rural dispersion [@Hughes2017ModelingThe; @Deleu2015ImprovingAfripop].
+
+## Historiography of Twentieth-Century Southern African Censuses
+
+Modern demographic reconstruction in Southern Africa begins with the simultaneous colonial censuses of April 1904 in the Cape, Natal, Transvaal and Orange River Colony, followed by regular Union enumerations in 1911AD, 1921AD, 1936AD, 1946AD, 1951AD and 1960AD [@Garenne2016CenturyNuptiality; @Cilliers2012NewEstimates]. Early twentieth-century counts combined European vital registration with administrative headcounts in African reserves, leaving systematic under-enumeration in remote districts of the Kalahari, Kaokaveld and Transkei [@Caldwell2002HistoricalPopulation]. Even so, longitudinal analyses of marriage, settler lifespan and colonial tax rolls confirm that the 1918AD influenza pandemic produced an acute single-year mortality spike before declining infant mortality and rising fertility accelerated growth from the 1930s onward [@Cilliers2012NewEstimates; @Garenne2016CenturyNuptiality].
+
+Between 1970AD and 1991AD, Apartheid population accounting fractured deliberately. Following the grant of nominal independence to Transkei (1976AD), Bophuthatswana (1977AD), Venda (1979AD) and Ciskei (1981AD), Pretoria's official 1980AD, 1985AD and 1991AD censuses excluded these four TBVC territories, creating an artificial drop in South Africa's reported national population [@ChimereDan2013ApartheidAnd; @Omideyi2013TheDemography]. Unified national counting resumed only in October 1996 under Statistics South Africa, continuing in 2001AD, 2011AD, the 2016AD Community Survey and Census 2022AD [@Udjo2014EstimatingDemographic; @Spencer2017CostBenefit; @StatsSA2023Census2022]. Parallel post-independence statistical agencies established unbroken series in Botswana (1964AD through 2022AD), Lesotho (1966AD through 2016AD), Eswatini (1966AD through 2017AD) and Namibia (1991AD through 2023AD) [@StatsBotswana2022Census; @NSA2024NamibiaCensus; @Monamo2026EstimationDistrict].
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The chapter encompasses `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells, partitioned into `r viscount_fmt_number(length(subregs), 0L)` first-level administrative divisions over geoBoundaries polygons [@Runfola2020GeoBoundaries]. Nine provinces compose South Africa (1.218.287 km²), thirteen regions compose Namibia (824.800 km²), ten districts compose Botswana (580.069 km²), ten districts compose Lesotho (30.616 km²) and four regions compose Eswatini (17.739 km²). Because South Africa replaced its four historical provinces and ten Bantustans with nine new provinces in April 1994, NICETHI harmonises historical 1960AD provincial and district lineage polygons across South Africa, Botswana, Lesotho and Eswatini into the contemporary 46-unit grid (Table \ref{tab:countries}).
+
+```{r tab1-countries, results='asis'}
+df_c <- do.call(rbind, lapply(country_prefixes, function (pfx) {
+  ar <- sum_country_area(pfx)
+  p25 <- sum_country_pop(pfx, "2025")
+  jname <- country_json_names[[pfx]]
+  scnt <- as.integer(summary_cache$settlements_by_country[[jname]])
+  data.frame(
+    Country = country_labels[[pfx]],
+    `Units` = viscount_fmt_number(sum_country_subregs(pfx), 0L),
+    `Area (km²)` = viscount_fmt_number(ar, 0L),
+    `1910AD` = viscount_fmt_pop(sum_country_pop(pfx, "1910")),
+    `1952AD` = viscount_fmt_pop(sum_country_pop(pfx, "1952")),
+    `1970AD` = viscount_fmt_pop(sum_country_pop(pfx, "1970")),
+    `1995AD` = viscount_fmt_pop(sum_country_pop(pfx, "1995")),
+    `2025AD` = viscount_fmt_pop(p25),
+    `Density 2025AD` = viscount_fmt_number(p25 / ar, 2L),
+    `Sites` = viscount_fmt_number(scnt, 0L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_c <- data.frame(
+  Country = "Regional Total",
+  `Units` = viscount_fmt_number(length(subregs), 0L),
+  `Area (km²)` = viscount_fmt_number(total_area_km2, 0L),
+  `1910AD` = viscount_fmt_pop(headline_vals[["1910"]]),
+  `1952AD` = viscount_fmt_pop(headline_vals[["1952"]]),
+  `1970AD` = viscount_fmt_pop(headline_vals[["1970"]]),
+  `1995AD` = viscount_fmt_pop(as.numeric(summary_cache$headline_series[["1995"]])),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  `Density 2025AD` = viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L),
+  `Sites` = viscount_fmt_number(sum(vapply(country_json_names, function (cn) as.integer(summary_cache$settlements_by_country[[cn]]), integer(1))), 0L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_c <- rbind(df_c, tot_c)
+rownames(df_c) <- NULL
+viscount_table(
+  df_c,
+  "Sovereign country totals across 46 first-level sub-regions from 1910AD to 2025AD, showing area, density (persons/km²) and interior national settlements.",
+  arg3_options = list(label = "tab:countries")
+)
+```
+
+## Settlement Screening, Scope Separation and Spatial Disaggregation
+
+Across the study domain and its immediate northern and eastern borderlands, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate towns, townships, mining camps and rural centres were screened from national census gazettes, OECD/SWAC Africapolis urban polygons, the UNSD Demographic Yearbook and historical statistical compendia [@StatsSA2023Census2022; @NSA2024NamibiaCensus; @StatsBotswana2022Census]. Removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records and overlapping boundary shells left `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations (Figure \ref{fig:hero-modern-southern-africa}). Of these, `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` records track city-proper or municipal units and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` track metropolitan agglomerations, preventing rural hinterlands from being double-counted against municipal cores [@Bakker2020MigrationAnd; @Bank2021NigerUrbanization].
+
+Twenty-two cross-border settlements lie in adjoining corridors of Mozambique (10, led by Maputo and Matola), Angola (6), Zambia (3) and Zimbabwe (3) to stabilise spatial edge interpolation along the Limpopo, Kunene, Zambezi and Komati frontiers [@Deleu2015ImprovingAfripop]. Within the five sovereign territories, 1.477 settlements anchor urban peaks while rural populations are distributed across the 46 administrative polygons using mass-conserving pycnophylactic disaggregation weighted by baseline habitability, satellite settlement footprints and protected-area exclusions such as Kruger National Park [@Deleu2015ImprovingAfripop; @Hughes2017ModelingThe]. Benchmarking runs across 14 chronological slices from 1910AD to 2025AD (1910AD, 1952AD, 1958AD, 1964AD, 1970AD, 1976AD, 1982AD, 1989AD, 1995AD, 2001AD, 2007AD, 2013AD, 2019AD, 2025AD), capturing both pre-1994AD administrative divisions and post-1994AD unified enumerations [@Spencer2017CostBenefit; @Mkhatha2024ResponseMoultrie].
+
+# Testing and Validation
+
+## Colonial, Apartheid and Post-1994 Census Continuity Checks
+
+Comparing NICETHI's reconstructed 46-unit trajectories against sub-national census tables exposes the decisive impact of Apartheid territorial fragmentation on South African historical series (Table \ref{tab:zaf-bantustans}). In 1904AD, the four British colonies enumerated 5,18M inhabitants across the Cape (2,41M), Transvaal (1,27M), Natal (1,11M) and Orange River Colony (387,3k). By 1970AD, official Republic tables split 17,09M residents across the four provinces from 7,04M residents enumerated inside the ten ethnic homelands led by KwaZulu (2,10M), Transkei (1,73M) and Lebowa (1,08M) [@ChimereDan2013ApartheidAnd; @Omideyi2013TheDemography]. When Transkei, Bophuthatswana, Venda and Ciskei were excluded from Republic counts after 1976AD, reported metropolitan South Africa stalled near 17,89M in 1989AD even as homeland populations climbed to 17,12M by 1991AD [@ChimereDan2013ApartheidAnd; @Bakker2020MigrationAnd]. Reintegrating those territories in 1995AD explains the apparent discontinuity from 21,93M (1989AD) to 46,91M (1995AD) in the unadjusted raw provincial mask series, whereas unified national totals rose smoothly from 22,1M (1970AD) to 40,58M (1996AD) and 62,03M (2022AD) [@StatsSA2023Census2022; @Udjo2014EstimatingDemographic].
+
+```{r tab2-zaf-bantustans, results='asis'}
+df_bant <- data.frame(
+  Homeland = vapply(bantustan_1970$units, function (u) as.character(u$unit_name), character(1)),
+  `1970AD Pop.` = vapply(bantustan_1970$units, function (u) viscount_fmt_pop(u$population), character(1)),
+  `1991AD Pop.` = vapply(bantustan_1991$units, function (u) viscount_fmt_pop(u$population), character(1)),
+  `Growth (%)` = vapply(seq_along(bantustan_1970$units), function (i) {
+    p70 <- as.numeric(bantustan_1970$units[[i]]$population)
+    p91 <- as.numeric(bantustan_1991$units[[i]]$population)
+    viscount_fmt_number(100 * (p91 - p70) / p70, 1L)
+  }, character(1)),
+  `Post-1994 Province` = c(
+    "KwaZulu-Natal", "Eastern Cape", "Limpopo", "North West / Free State",
+    "Eastern Cape", "Limpopo", "Limpopo", "Mpumalanga", "Mpumalanga", "Free State"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_bant <- data.frame(
+  Homeland = "Total Ten Homelands",
+  `1970AD Pop.` = viscount_fmt_pop(bantustan_1970$total_enumerated_pop),
+  `1991AD Pop.` = viscount_fmt_pop(bantustan_1991$total_enumerated_pop),
+  `Growth (%)` = viscount_fmt_number(100 * (bantustan_1991$total_enumerated_pop - bantustan_1970$total_enumerated_pop) / bantustan_1970$total_enumerated_pop, 1L),
+  `Post-1994 Province` = "Reintegrated April 1994",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_bant <- rbind(df_bant, tot_bant)
+rownames(df_bant) <- NULL
+viscount_table(
+  df_bant,
+  "South African Bantu Homeland (TBVC and self-governing territory) enumerated populations in 1970AD and 1991AD prior to April 1994 reintegration.",
+  arg3_options = list(label = "tab:zaf-bantustans")
+)
+```
+
+Cross-checking neighbouring censuses confirms broad structural coherence alongside post-1990AD boundary realignments (Table \ref{tab:nam-bwa-censuses}). In Namibia, South African Mandate counts in 1946AD recorded 360,0k residents (184,1k in northern Kaokaveld and Ovamboland), rising to 1,83M in 2001AD and 3,02M in 2023AD [@NSA2024NamibiaCensus]. In Botswana, colonial district counts rose from 265,8k in 1936AD to 1,33M in 1991AD and 2,36M in 2022AD [@StatsBotswana2022Census; @Monamo2026EstimationDistrict]. Similarly, Basutoland enumerated 563,9k in 1946AD, aligning with NICETHI's 619,4k Lesotho interpolation for 1952AD [@Caldwell2002HistoricalPopulation].
+
+```{r tab3-nam-bwa-censuses, results='asis'}
+zaf_prov_2022 <- Filter(function (u) u$admin_level == "ADM1", zaf_2022_tbl$units)
+nam_reg_2023 <- Filter(function (u) u$admin_level == "ADM1", nam_2023_tbl$units)
+bwa_dist_2022 <- Filter(function (u) u$admin_level == "ADM1", bwa_2022_tbl$units)
+
+top_zaf_22 <- zaf_prov_2022[seq_len(min(5L, length(zaf_prov_2022)))]
+top_nam_23 <- nam_reg_2023[seq_len(min(5L, length(nam_reg_2023)))]
+top_bwa_22 <- bwa_dist_2022[seq_len(min(5L, length(bwa_dist_2022)))]
+
+df_bench <- data.frame(
+  Country = c(rep("South Africa (2022AD)", length(top_zaf_22)),
+              rep("Namibia (2023AD)", length(top_nam_23)),
+              rep("Botswana (2022AD)", length(top_bwa_22))),
+  `Administrative Unit` = c(
+    vapply(top_zaf_22, function (u) as.character(u$unit_name), character(1)),
+    vapply(top_nam_23, function (u) gsub("ǁ", "", as.character(u$unit_name), fixed = TRUE), character(1)),
+    vapply(top_bwa_22, function (u) as.character(u$unit_name), character(1))
+  ),
+  `Census Pop.` = c(
+    vapply(top_zaf_22, function (u) viscount_fmt_pop(u$population), character(1)),
+    vapply(top_nam_23, function (u) viscount_fmt_pop(u$population), character(1)),
+    vapply(top_bwa_22, function (u) viscount_fmt_pop(u$population), character(1))
+  ),
+  `Share of National (%)` = c(
+    vapply(top_zaf_22, function (u) viscount_fmt_number(100 * u$population / 62027503, 1L), character(1)),
+    vapply(top_nam_23, function (u) viscount_fmt_number(100 * u$population / 3022401, 1L), character(1)),
+    vapply(top_bwa_22, function (u) viscount_fmt_number(100 * u$population / 2359609, 1L), character(1))
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_bench) <- NULL
+viscount_table(
+  df_bench,
+  "Five largest first-level census divisions in South Africa (2022AD), Namibia (2023AD) and Botswana (2022AD) from official statistical releases.",
+  arg3_options = list(label = "tab:nam-bwa-censuses")
+)
+```
+
+## Settlement Rank-Size Calibration and Urban Hierarchy Diagnostics
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements, ordinary least-squares rank-size regression on the top 180 urban peaks yields a near-Zipf exponent of $q = 0,98$ ($R^2 = 0,9922$), while full-sample regression across all 1.499 entries yields $q = 1,40$ ($R^2 = 0,8893$). Figure \ref{fig:rank-size} plots the 1.414 spatially deduplicated settlement peaks ($q = 0,99$, $R^2 = 0,99$) alongside the ten densest first-level sub-regions in 2025AD. That tight upper-tail alignment mirrors Southern Africa's polycentric urban hierarchy, led by the Witwatersrand-Johannesburg conurbation (11,01M), Cape Town (4,39M) and Durban (3,52M) rather than a single primate capital [@Simkins2011SouthAfrica; @Bakker2020MigrationAnd].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 1.414 spatially deduplicated peaks (q = 0,99, R² = 0,99) and ten densest sub-regions in 2025AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Two diagnostic features in Figure \ref{fig:trends} merit explicit notice. First, in Panel B, active settlement counts jump from roughly 310 in 1989AD to 960 in 1995AD and 1.275 around 2011AD before falling to 730 in 2025AD: this reflects the fine village- and township-level granularity of the unified 1996AD, 2001AD and 2011AD South African and regional censuses compared with aggregated 2022AD municipal releases and 2025AD Africapolis projections [@Spencer2017CostBenefit; @Mkhatha2024ResponseMoultrie; @Deleu2015ImprovingAfripop]. Second, in Panel C, Johannesburg, Cape Town and Durban dip transiently at 1996AD because municipal city-proper enumerations (987,0k for Cape Town and 904,2k for Soweto separately) sit alongside post-2000AD metropolitan agglomeration polygons [@Bakker2020MigrationAnd; @Africa2024ProvincialProfile].
+
+# Results
+
+## South Africa: Industrial Urbanisation, Homeland Containment and Democratic Reintegration
+
+South Africa dominates the regional demographic mass, holding roughly 88,6% of Southern Africa's population in 2025AD (65,82M of 74,33M) across 45,6% of its land area (Table \ref{tab:countries} and Table \ref{tab:trajectory}). At 1910AD, demographic weight still rested in the rural agricultural and reserve belt of the Eastern Cape (2,87M), North West (1,84M) and KwaZulu-Natal (1,71M), while Gauteng held just 277,6k residents (15,2 persons/km²). Over the next eight decades, Witwatersrand gold mining, secondary manufacturing in the Pretoria-Witwatersrand-Vereeniging triangle and coastal port expansion reversed that geography [@Simkins2011SouthAfrica; @Paiment2025BeyondApartheid]. Gauteng grew fiftyfold from 277,6k in 1910AD to 14,01M in 2025AD (766,7 persons/km²), anchored by Johannesburg (11,01M agglomeration), Pretoria (1,76M agglomeration in 2011AD), Soshanguve (1,91M) and Evaton (1,09M), while the Western Cape expanded thirty-fourfold from 239,1k to 8,20M around Cape Town (4,39M agglomeration) [@StatsSA2023Census2022; @Africa2024ProvincialProfile].
+
+Between 1948AD and 1990AD, Group Areas zoning, pass laws and forced removals under the Bantu Homelands policy restricted permanent African urbanisation inside industrial corridors and shifted millions into dense peri-urban settlements inside KwaZulu, Bophuthatswana, Lebowa, Transkei and Ciskei [@ChimereDan2013ApartheidAnd; @Bakker2020MigrationAnd]. Consequently, towns such as Soshanguve, Mdantsane, Khayelitsha, Umlazi and Thohoyandou expanded rapidly at the outer margins of metropolitan labour markets, while circular male mine migration reshaped marriage rates and female-headed rural households across Limpopo, Mpumalanga and the Eastern Cape [@Garenne2016CenturyNuptiality; @Madhavan2017HouseholdStructure]. Following the abolition of influx control in 1986AD and the democratic transition of April 1994, net internal migration accelerated sharply toward Gauteng and the Western Cape, lifting South Africa's urban share above two-thirds by 2022AD while moderating growth in the Free State (3,22M) and North West (3,56M) [@Bakker2020MigrationAnd; @StatsSA2023Census2022; @Modiba2025PopulationGrowth].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and urban population trajectories, active settlement counts and five leading urban centres in Southern Africa from 1902AD to 2025AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## HIV/AIDS Mortality Surge (1995AD to 2008AD), ART Recovery and Fertility Transition
+
+The sharpest post-apartheid demographic shock across all five countries was the generalised HIV/AIDS and tuberculosis epidemic that peaked between 1995AD and 2008AD [@Johnson2006ModellingThe; @Bank2010SouthernAfrica]. Using 2001AD census mortality modules, Garenne, McCaa and Nacro documented severe adult female and maternal mortality surges across South Africa, while actuarial demographic models showed crude death rates more than doubling in KwaZulu-Natal, Free State, Eswatini and Lesotho [@Garenne2008MaternalMortality; @Johnson2006ModellingThe]. In NICETHI's regional series, that mortality crisis slowed net annual growth across the late 1990s and early 2000s: Lesotho rose only modestly from 1,62M (1995AD) to 1,67M (2007AD), and the Free State declined slightly from 2,94M (1995AD) to 2,87M (2001AD) before stabilising [@Udjo2014EstimatingDemographic; @Omideyi2013TheDemography].
+
+Large-scale public antiretroviral therapy rollout after 2005AD reversed the mortality trajectory across South Africa, Botswana, Namibia, Lesotho and Eswatini, restoring life expectancy above 60 years by the mid-2010s [@Johnson2006ModellingThe; @Bank2010SouthernAfrica]. Simultaneously, sustained fertility decline reshaped age structures throughout the subcontinent. South Africa's total fertility rate fell from above 6,0 births per woman in the 1950s to roughly 2,3 by 2011AD [@Udjo2014EstimatingDemographic; @Omideyi2013TheDemography], while district-level analysis of Botswana's 2022AD census shows urban centres such as Gaborone and Francistown near replacement fertility alongside higher rural rates in Ghanzi and Kgalagadi [@Monamo2026EstimationDistrict].
+
+```{r tab4-trajectory, results='asis'}
+df_t4 <- do.call(rbind, lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  data.frame(
+    Subregion = clean_sub_name(sr$name),
+    `1910AD` = viscount_fmt_pop(sr$population[["1910"]]),
+    `1952AD` = viscount_fmt_pop(sr$population[["1952"]]),
+    `1970AD` = viscount_fmt_pop(sr$population[["1970"]]),
+    `1989AD` = viscount_fmt_pop(sr$population[["1989"]]),
+    `2001AD` = viscount_fmt_pop(sr$population[["2001"]]),
+    `2025AD` = viscount_fmt_pop(sr$population[["2025"]]),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_t4 <- data.frame(
+  Subregion = "Total Study Area",
+  `1910AD` = viscount_fmt_pop(headline_vals[["1910"]]),
+  `1952AD` = viscount_fmt_pop(headline_vals[["1952"]]),
+  `1970AD` = viscount_fmt_pop(headline_vals[["1970"]]),
+  `1989AD` = viscount_fmt_pop(headline_vals[["1989"]]),
+  `2001AD` = viscount_fmt_pop(headline_vals[["2001"]]),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t4 <- rbind(df_t4, tot_t4)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Population trajectories across all 46 first-level sub-regions of Southern Africa at six benchmark years from 1910AD to 2025AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Namibia: Post-Genocide Recovery, Mandate Era and Northern Demographic Weight
+
+Namibia enters the chapter in 1902AD-1910AD immediately after the German colonial war and Herero and Nama genocide of 1904AD to 1908AD, which devastated central and southern pastoral communities across Khomas, Hardap, Karas and Omaheke [@Caldwell2002HistoricalPopulation]. At 1910AD, total reconstructed population across the 13 Namibian regions stood at just 126,7k, concentrated in the northern Ovamboland and Kavango floodplains (Omusati 23,3k, Ohangwena 20,3k, Oshikoto 18,9k, Kavango 14,8k), while southern Karas held 4,8k and Khomas held 4,7k (Table \ref{tab:trajectory}). Under South African Mandate rule (1915AD to 1990AD), colonial Police Zone boundaries restricted African mobility from the northern communal areas into central ranching and diamond zones around Lüderitz and Oranjemund, keeping recorded southern totals low until post-1970AD urban easing [@NSA2024NamibiaCensus].
+
+Following independence in March 1990, Namibia's national population nearly doubled from 1,53M in 1995AD to 3,08M in 2025AD (3,73 persons/km²), matching the 3,02M preliminary count of the 2023AD Population and Housing Census [@NSA2024NamibiaCensus]. Urban growth concentrated strongly in Khomas (525,9k in 2025AD), led by the Windhoek agglomeration (566,2k), alongside coastal logistics and mining towns in Erongo (259,2k, Walvis Bay 102,7k and Swakopmund 99,6k) and northern commercial hubs at Rundu (118,6k) and Oshakati (91,6k) [@NSA2024NamibiaCensus; @Bank2010SouthernAfrica]. Even after rapid urban migration, five northern regions (Ohangwena, Omusati, Oshikoto, Kavango and Oshana) still account for more than two-fifths of Namibia's inhabitants.
+
+## Botswana, Lesotho and Eswatini: Diamond Urbanisation and Labour-Remittance Economies
+
+Botswana experienced the highest proportional growth of any country in Southern Africa after 1966AD, expanding twenty-fourfold from 100,8k in 1910AD to 224,2k in 1952AD, 514,9k in 1970AD, 1,63M in 2001AD and 2,41M by 2025AD (4,16 persons/km²; Table \ref{tab:countries}). At independence in September 1966, Bechuanaland was predominantly pastoral and lacked a major domestic city, having transferred its administrative capital from Mafeking in South Africa to the newly planned city of Gaborone in 1964AD [@StatsBotswana2022Census]. The discovery of kimberlite diamond pipes at Orapa (1967AD), Letlhakane (1975AD) and Jwaneng (1973AD), combined with copper-nickel mining at Selebi-Phikwe, funded rapid infrastructure investment and urban settlement growth across the eastern railway corridor [@Monamo2026EstimationDistrict; @Bank2021NigerUrbanization]. By 2025AD, Gaborone (534,8k agglomeration), adjacent Kweneng (551,9k, including Mogoditshane 88,0k and Molepolole 78,8k) and Francistown (173,8k agglomeration) formed dense urban nodes surrounded by vast semi-arid grazing districts in Ghanzi (0,52 persons/km²) and Kgalagadi (0,58 persons/km²) [@StatsBotswana2022Census; @Monamo2026EstimationDistrict].
+
+Lesotho and Eswatini present contrasting high-density enclaves embedded within South Africa's economic orbit. Lesotho grew nearly thirteenfold from 149,8k in 1910AD to 619,4k in 1952AD, 988,3k in 1970AD and 1,93M in 2025AD, reaching 63,03 persons/km² overall and 157,2 persons/km² in Maseru District (621,8k; Figure \ref{fig:rank-size}) [@Caldwell2002HistoricalPopulation; @Garenne2016CenturyNuptiality]. For most of the twentieth century, male mine-labour remittances from the Witwatersrand and Free State goldfields sustained rural Basotho households before mine retrenchments after 1990AD drove rapid textile-linked urbanisation along the Maseru (505,7k agglomeration) and Maputsoe (99,2k) lowland strip [@Bank2010SouthernAfrica]. Eswatini followed a similar trajectory from 85,3k in 1910AD to 340,2k in 1970AD and 1,08M in 2025AD (61,02 persons/km²), anchored by the Manzini-Mbabane industrial corridor (328,9k and 127,5k agglomerations respectively) and sugar-estate towns in Lubombo [@Deleu2015ImprovingAfripop; @Bank2010SouthernAfrica].
+
+```{r tab5-top-centres, results='asis'}
+top_15 <- summary_cache$top_settlements[seq_len(min(15L, length(summary_cache$top_settlements)))]
+df_t5 <- data.frame(
+  Settlement = vapply(top_15, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_15, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "eSwatini")) "Eswatini" else c
+  }, character(1)),
+  Scope = vapply(top_15, function (s) {
+    if (identical(as.character(s$population_scope), "metro")) "Metropolitan" else "City proper"
+  }, character(1)),
+  Span = vapply(top_15, function (s) paste0(s$min_year, "AD-", s$max_year, "AD"), character(1)),
+  `Peak Pop.` = vapply(top_15, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_15, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_15, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Fifteen largest individually assessed settlements and metropolitan agglomerations in the Modern Southern Africa ledger (1902AD to 2025AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Three structural constraints bound these reconstructions. First, colonial and Apartheid censuses prior to 1991AD suffered from uneven geographic coverage and political manipulation. Early Bechuanaland, Basutoland and South West Africa counts relied heavily on tax registers and administrative estimates in arid or pastoral districts [@Caldwell2002HistoricalPopulation; @Cilliers2012NewEstimates], while Apartheid-era Republic enumerations from 1976AD to 1991AD omitted the four TBVC Bantustans entirely and understated urban informal settlements [@ChimereDan2013ApartheidAnd; @Omideyi2013TheDemography]. Even after reunification, statistical debates surround South Africa's 2022AD Census post-enumeration survey adjustment of roughly 31% and its implications for provincial migration estimates [@Mkhatha2024ResponseMoultrie; @Spencer2017CostBenefit; @Udjo2014EstimatingDemographic].
+
+Second, municipal boundary redefinitions complicate city-level continuity between 1996AD and 2025AD. South Africa's transition to wall-to-wall metropolitan and local municipalities in 2000AD merged formerly segregated townships such as Soweto, Khayelitsha and Umlazi into larger metro structures, while Africapolis footprints isolate contiguous built-up agglomerations that cross administrative borders [@Bakker2020MigrationAnd; @Deleu2015ImprovingAfripop]. In Table \ref{tab:top-centres}, retaining 21 metropolitan agglomerations alongside 1.478 city-proper entries preserves comparability across census regimes but requires keeping both scopes separate when summing urban shares.
+
+Third, 22 cross-border buffer settlements in southern Mozambique, southern Angola, southern Zambia and south-western Zimbabwe, including the Maputo agglomeration (2,98M), appear in the chapter ledger and Figure \ref{fig:trends} to prevent spatial edge distortion along international boundaries [@Deleu2015ImprovingAfripop; @Hughes2017ModelingThe]. Those external entries are excluded from the 46-polygon national sums in Table \ref{tab:countries} and Table \ref{tab:trajectory}, and readers comparing city rankings should separate cross-border buffer towns from the five core states.
+
+# Conclusion
+
+Between 1902AD and 2025AD, Modern Southern Africa expanded nearly ninefold from 8,43M to 74,33M inhabitants across 2,67M km². Gold and diamond extraction anchored an enduring Highveld urban core in Gauteng (14,01M by 2025AD) alongside maritime metropolises at Cape Town and Durban, while post-1966AD diamond revenues transformed Botswana from a sparse pastoral protectorate into an urbanised economy centred on Gaborone. Equally decisive were non-linear demographic shocks: the 1904AD to 1908AD genocide in Namibia, Apartheid homeland containment and TBVC statistical severance between 1970AD and 1994AD, and the 1995AD to 2008AD HIV/AIDS mortality surge followed by antiretroviral recovery. By pairing 1.499 settlement trajectories across 6.006 observations with harmonised 46-unit administrative series, NICETHI provides a continuous quantitative baseline across the twentieth and early twenty-first centuries.
+
+# Appendix
+
+## Sub-Regional Density Series (1910AD to 2025AD)
+
+Table \ref{tab:density-appendix} reports mean population density in persons/km² across all 46 first-level administrative divisions from 1910AD to 2025AD, illustrating the three-order-of-magnitude gradient separating Gauteng (766,68 persons/km²), Maseru District (157,15) and KwaZulu-Natal (150,05) from arid Kalahari and Karoo zones such as Ghanzi (0,52), Kgalagadi (0,58) and Karas (0,72).
+
+```{r tab6-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = clean_sub_name(sr$name),
+    `1910AD` = viscount_fmt_number(as.numeric(ps[["1910"]]) / ar, 2L),
+    `1952AD` = viscount_fmt_number(as.numeric(ps[["1952"]]) / ar, 2L),
+    `1970AD` = viscount_fmt_number(as.numeric(ps[["1970"]]) / ar, 2L),
+    `1989AD` = viscount_fmt_number(as.numeric(ps[["1989"]]) / ar, 2L),
+    `2001AD` = viscount_fmt_number(as.numeric(ps[["2001"]]) / ar, 2L),
+    `2025AD` = viscount_fmt_number(as.numeric(ps[["2025"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1910AD` = viscount_fmt_number(headline_vals[["1910"]] / total_area_km2, 2L),
+  `1952AD` = viscount_fmt_number(headline_vals[["1952"]] / total_area_km2, 2L),
+  `1970AD` = viscount_fmt_number(headline_vals[["1970"]] / total_area_km2, 2L),
+  `1989AD` = viscount_fmt_number(headline_vals[["1989"]] / total_area_km2, 2L),
+  `2001AD` = viscount_fmt_number(headline_vals[["2001"]] / total_area_km2, 2L),
+  `2025AD` = viscount_fmt_number(headline_vals[["2025"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t6 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Mean population density (persons/km²) across all 46 first-level sub-regions of Modern Southern Africa from 1910AD to 2025AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+## Historical Administrative Lineage and Regional Macro-Series
+
+Table \ref{tab:hgis-regimes} lists representative 1960AD historical administrative lineage units from the contemporary regime mask linking pre-1994AD South African provinces and protectorate districts to the modern 46-unit grid, while Table \ref{tab:arf-macro} situates Southern Africa within continental long-run series from Frankema-Jerven (1850AD to 1960AD) and Manning (1700AD to 2000AD).
+
+```{r tab7-hgis-regimes, results='asis'}
+hgis_list <- summary_cache$hgis_regime_units
+sel_hgis <- hgis_list[seq_len(min(12L, length(hgis_list)))]
+df_t7 <- data.frame(
+  `Unit Code` = vapply(sel_hgis, function (x) as.character(x$unit_code), character(1)),
+  `Historical Lineage Unit` = vapply(sel_hgis, function (x) as.character(x$unit_name), character(1)),
+  Country = vapply(sel_hgis, function (x) as.character(x$country), character(1)),
+  `Area (km²)` = vapply(sel_hgis, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Representative 1960AD historical administrative lineage units bridging colonial and post-1994AD sub-national polygons.",
+  arg3_options = list(label = "tab:hgis-regimes")
+)
+```
+
+```{r tab8-arf-macro, results='asis'}
+fj_tbl <- Filter(function (t) identical(t$table_id, "Frankema_Jerven_2014_Table_10_Africa_1850_1960"), summary_cache$arf_regional_tables)[[1]]
+sel_rows <- Filter(function (r) r$year >= 1900, fj_tbl$rows)
+df_t8 <- data.frame(
+  Year = vapply(sel_rows, function (r) paste0(r$year, "AD"), character(1)),
+  `Manning Africa (M)` = vapply(sel_rows, function (r) viscount_fmt_number(r$manning_m, 1L), character(1)),
+  `Frankema-Jerven Raw (M)` = vapply(sel_rows, function (r) viscount_fmt_number(r$fj_m, 1L), character(1)),
+  `Frankema-Jerven Adj. (M)` = vapply(sel_rows, function (r) {
+    if (is.null(r$fj_adj1950_m)) "-" else viscount_fmt_number(r$fj_adj1950_m, 1L)
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t8) <- NULL
+viscount_table(
+  df_t8,
+  "Continental twentieth-century reference benchmarks comparing Manning and Frankema-Jerven African population series (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:arf-macro")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+In the underlying spatial database, the Northern Cape sub-region carries the identifier string Nothern Cape; tables and prose above normalise that spelling to Northern Cape while preserving exact numeric aggregations. Across the 1.499 ledger entries, 1.477 sit inside South Africa, Namibia, Botswana, Lesotho and Eswatini, while 22 border settlements in Mozambique, Angola, Zambia and Zimbabwe support edge kriging and are excluded from Table \ref{tab:countries} national sums.

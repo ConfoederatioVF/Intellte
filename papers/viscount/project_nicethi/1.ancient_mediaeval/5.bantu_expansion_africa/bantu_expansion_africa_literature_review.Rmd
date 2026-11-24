@@ -1,0 +1,423 @@
+---
+title: "The Bantu Expansion Across Sub-Saharan Africa"
+subtitle: "Equatoria, Congo Basin, East, South-Central and Southern Africa"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: bantu_expansion_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Twelve ecological sub-regions and 142 individually assessed Iron Age and early state settlements across Sub-Saharan Africa between 1000BC and 1500AD."
+hero_label: "fig:hero-bantu-expansion"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("bantu_expansion_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("bantu_expansion_africa_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("-1000", "0", "500", "1000", "1300", "1500")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+subregion_order <- c(
+  "cameroon_bantu_homeland",
+  "western_equatorial_forest",
+  "central_congo_mongo_ubangi",
+  "kongo_lower_congo_angola",
+  "great_lakes_urewe_kitara",
+  "east_african_rift_savanna",
+  "swahili_kilwa_coast",
+  "upemba_katanga_luba_lunda",
+  "zambezi_maravi_ingombe",
+  "great_zimbabwe_mapungubwe",
+  "southeastern_nguni_sotho",
+  "khoisan_kalahari_cape_namib"
+)
+```
+
+# Abstract
+
+Between 1000BC and 1500AD, Bantu-speaking farmers, ironworkers and herders transformed the demography of Equatoria, the Congo Basin and eastern, south-central and southern Africa. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning 23 modern countries, NICETHI reconstructs an aggregate regional population that rose from `r viscount_fmt_pop(headline_vals[["-1000"]])` inhabitants at 1000BC to `r viscount_fmt_pop(headline_vals[["0"]])` at 1AD, `r viscount_fmt_pop(headline_vals[["500"]])` at 500AD, `r viscount_fmt_pop(headline_vals[["1000"]])` at 1000AD and `r viscount_fmt_pop(headline_vals[["1500"]])` by 1500AD, reaching a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth was neither continuous nor ecologically uniform. Early yam, oil-palm and pearl-millet cultivation expanded outward from the Cameroon Grassfields homeland along rainforest rivers and climate-opened savanna corridors before encountering a sharp mid-first-millennium AD contraction in the inner Congo Basin. By contrast, Urewe ironworking communities around Lake Victoria, Kisalian copper-working chiefdoms in the Upemba Depression, Swahili stone towns along the Indian Ocean rim, the Lower Congo polity of Mbanza Congo and the Limpopo-Zimbabwe plateau states of Mapungubwe and Great Zimbabwe sustained dense agricultural and commercial cores. These trajectories rest on `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations, paired with non-stationary Matérn residual kriging over regional radiocarbon registers and mass-conserving pycnophylactic disaggregation across sub-administrative polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Twelve ecological sub-regions and 142 individually assessed Iron Age and early state settlements across Sub-Saharan Africa between 1000BC and 1500AD.",
+    "fig:hero-bantu-expansion"
+  )
+}
+```
+
+# Background
+
+## Ecological Corridors, Climatic Openers and Agricultural Foundations
+
+Sub-Saharan Africa south of the Benue-Cross and Ubangi-Uele watersheds presents a mosaic of humid equatorial forest, seasonal miombo woodland, highland lake basins, semi-arid rift steppes and southern winter-rainfall margins. Around 1000BC, food production in most of this 12,15M km² expanse remained confined to the northern forest fringe, where proto-Bantu cultivators in the Cameroon Grassfields and Cross-Sanaga valleys combined pearl millet, cowpeas, yams and oil palm with polished stone axes and early ceramic traditions [@Bostoen2018BantuFirst; @Russell2014ModellingThe]. South and east of the Sanaga river, dense closed-canopy rainforest initially constrained rapid overland movement, leaving vast tracts of the central Congo Basin, the Zambezi trough and the southern plateaus sparsely inhabited by Late Stone Age foragers [@Doman2025HumanRemains; @Cornelissen2016RMCA].
+
+Palynological cores from Lakes Barombi Mbo, Ossa and Nguène demonstrate that a late Holocene arid phase between roughly 1000BC and 400BC fragmented the Atlantic equatorial forest belt and opened grass-woodland corridors across Gabon, southern Cameroon and the lower Sangha valley [@Bostoen2018BantuFirst; @Cornelissen2016RMCA]. Those climatic corridors lowered the labour threshold for slash-and-burn clearing and accelerated the dispersal of western Bantu speakers toward the lower Congo and Angola, while eastern streams bypassed the northern forest edge toward the Great Lakes [@Russell2014ModellingThe; @Tallman2023WholeGenomes]. Within centuries of entering the interlacustrine uplands, farming households integrated iron metallurgy, sorghum, finger millet and cattle herding from neighbouring Cushitic and Nilotic pastoralists [@Vicente2021MaleBiased; @Connah2001AfricanCivilizations].
+
+Yet forest clearance did not guarantee uninterrupted demographic expansion. Radiocarbon summed-probability syntheses compiled through ADRAC and BantuFirst reveal a marked settlement and population lull across much of the inner Congo Basin between 400AD and 600AD, followed by a second wave of ceramic diversification and recolonisation after 800AD to 1000AD [@Bostoen2018BantuFirst; @Cornelissen2016RMCA; @Seidensticker2025SurveyFrom]. Along the southern savanna margins, rainfall variability around the Limpopo-Shashe basin similarly alternated between high-carrying-capacity episodes at K2 and Mapungubwe and periods of political relocation north onto the Zimbabwe plateau [@Huffman2011DebatingGreat; @Chirikure2019NewPerspectives].
+
+## Historiography of Bantu Historical Demography
+
+For much of the twentieth century, quantitative estimates of Iron Age African population depended on backward projections from colonial tax rolls or sweeping linguistic trees that treated the Bantu dispersal as a single rapid wave [@Russell2014ModellingThe]. Over the past three decades, regional excavation campaigns, multi-site radiocarbon databases and whole-genome sequencing have replaced that monolithic picture with a multi-stage demographic history [@BIRD2022P3K14C; @Tallman2023WholeGenomes; @Vicente2021MaleBiased]. Excavations in the Kwilu-Kasai and Bandundu corridors have tied linguistic branching to dated pottery horizons such as Imbonga, Batalimo-Maluba and Ngovo [@Seidensticker2025SurveyFrom; @Coutros2025SurveyAnd; @Nziem2025TowardsOral], while genomic analyses from Angola and Mozambique confirm that western and eastern Bantu streams mixed differently with resident Khoe-San foragers and East African pastoralists [@Tallman2023WholeGenomes; @Vicente2021MaleBiased].
+
+Parallel advances in African urban archaeology have revised headcount models for late mediaeval capitals and maritime ports [@Connah2001AfricanCivilizations; @CoqueryVidrovitch2005BantuCities]. At Great Zimbabwe, chronological re-evaluations of dry-stone enclosures and domestic middens showed that earlier static estimates overstated simultaneous occupation, pointing instead to fluctuating residence across hill, valley and perimeter quarters [@ShadreckChiri1800WhatWas; @Chirikure2019NewPerspectives; @Huffman2011DebatingGreat]. Along the East African littoral, field surveys of earthen-and-coral townlands at Kilwa Kisiwani, Shanga, Manda, Gedi and Zanzibar demonstrated that Swahili ports combined compact stone cores with wide surrounding earthen neighbourhoods [@Spear2000EarlySwahili; @Alders2026TownlandsThe; @Lubao2023FishingSongs]. Similarly, Kongo archival studies established how Mbanza Congo concentrated royal courts, craft quarters and rural food corridors into a pre-contact metropolis by 1491AD [@Thornton1982TheKingdom; @CoqueryVidrovitch2005BantuCities]. NICETHI synthesises these archaeological, chronometric and documentary strands across all 12 sub-regions from 1000BC to 1500AD.
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The study area encompasses `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells spanning `r viscount_fmt_number(length(summary_cache$countries), 0L)` modern jurisdictions from south-eastern Nigeria and Cameroon south to the Western Cape and east to the Somali-Swahili littoral. Within NICETHI, the chapter occupies Regime 2 and 3 (1000BC to 1500AD), bridging Holocene foraging and early food-production baselines with the post-1500AD Atlantic and early modern era. Twelve contiguous ecological and cultural sub-regions partition the landscape along watershed basins, OpenHistoricalMap polity footprints and historical ethnographic distributions (Table \ref{tab:subregions}).
+
+Population trajectories are evaluated across 14 benchmark years spanning 1000BC to 1500AD, with six core chronological checkpoints reported in compact tables: 1000BC (proto-Bantu Cameroon hearth), 1AD (Early Iron Age forest and Urewe emergence), 500AD (Congo hiatus and Upemba-Natal consolidation), 1000AD (Swahili stone-town takeoff and K2 Limpopo rise), 1300AD (Great Zimbabwe, Kilwa and Kitara peak) and 1500AD (late pre-contact synthesis at Kongo, Khami and Maravi). Sub-regional totals represent full resident populations, combining urban towns, walled capitals, rural farming villages and seasonal herding or foraging camps [@Connah2001AfricanCivilizations; @Alders2026TownlandsThe].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  `Era` = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    fmt_yr <- function (y) {
+      yi <- as.integer(y)
+      if (yi < 0L) paste0(abs(yi), "BC") else if (yi == 0L) "1AD" else paste0(yi, "AD")
+    }
+    paste0(fmt_yr(pts[1]), "-", fmt_yr(pts[2]))
+  }, character(1)),
+  `Assessed Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Twelve ecological sub-regions of the Bantu Expansion study area, showing surface area, 5-arcminute pixel counts, regional eras and interior assessed sites.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Screening and Evidence-Based Population Reconstruction
+
+To anchor urban and nucleated village hierarchies, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate archaeological sites, rock shelters, walled capitals and historic ports between 1000BC and 1500AD were screened from excavation monographs, Swahili stone-town surveys, Upemba cemetery censuses, Zimbabwe-plateau mapping and Nigerian-Congolese historical records [@Chirikure2014MapelaHill; @Mukwende2017ArchaeologicalStudy; @Alders2026TownlandsThe]. After removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records and non-settlement loci, `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements were retained across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations (Figure \ref{fig:hero-bantu-expansion}).
+
+Every settlement estimate is grounded in primary archaeological footprints, radiocarbon phase extents or early eyewitness counts rather than flat demographic multipliers [@ShadreckChiri1800WhatWas; @Thornton1982TheKingdom]. For example, pre-industrial African urban density benchmarks in Storey's 59-city survey (mean 12.724 persons/km², median 10.000, range 1.250 to 57.735) and Agbaje-Williams's Igboho transect calibration (60 to 88 persons/ha across 69,5 ha and 324 compounds) provide empirically bounded area-to-headcount ratios for forest and savanna towns [@CoqueryVidrovitch2005BantuCities]. At Kilwa Kisiwani, the 47 ha nucleated stone core and Portuguese eyewitness descriptions yield 950 inhabitants around 850AD, rising to 6.400 by 1200AD and 14.800 by 1450AD [@Alders2026TownlandsThe; @Lubao2023FishingSongs]. At Great Zimbabwe, re-evaluated phase chronologies trace growth from early plateau occupation around 1000AD through peaks of 10.800 at 1350AD and 18.200 at 1420AD before contraction to 2.800 by 1500AD [@ShadreckChiri1800WhatWas; @Chirikure2019NewPerspectives]. All 142 entries carry city-proper spatial scopes (142 city-proper, 0 metropolitan agglomerations), preventing double counting of rural hinterlands.
+
+## Metric-Isotropic Radial Kriging and Sub-Administrative Disaggregation
+
+Excavated towns and major sites capture only the upper tier of Iron Age population. To distribute rural agricultural and pastoral households continuously across 12,15M km², NICETHI couples sub-regional carrying capacities with non-stationary Paciorek-Schervish Matérn ($\nu = 3/2$) residual kriging trained across 11.199 domestic archaeological site records (6.970 unique-coordinate sites) and 2.732 cross-frontier buffer records across 6.431 domestic Voronoi catchments and 383 frontier catchments [@Cornelissen2016RMCA; @BIRD2022P3K14C]. Regional archaeological registers and monograph tables supply 82,94% of kriging records (including ADRAC, BantuFirst, SARD, KITE and p3k14c), with zero crowd-sourced entries [@Cornelissen2016RMCA; @BIRD2022P3K14C; @Russell2014ModellingThe].
+
+Catchment geometry scales locally with combined HYDE 3.5 and KK10 density estimates subject to a strict ceiling of 25.000 km² per catchment (observed maximum 23.489 km², median Voronoi radius 31,72 km, 90th percentile 49,29 km). Five kriging horizons span 1000BC to 1500AD, progressing from Early Iron Age Kush-Nok-Bantu (2.517 active sites across 1.108 catchments) to High Mediaeval Mali-Zimbabwe-Solomonic (2.344 active sites across 1.200 catchments). Weighted least-squares variogram fitting fixes dimensionless short-range correlation at $\tau_1 = 1,35$ (raw 1,38 to 1,42), secondary range $\tau_2 = 2,9025$ and nugget-to-sill ratio 0,04, yielding effective short-range correlation distances of 43,83 to 45,16 km ($R^2 = 0,9992$ across all five horizons). Deterministic trend surfaces weight baseline habitability, natural productivity, ecological suitability, fluvial proximity ($\beta_3 = 0,0757$ to $0,1062$) and coastal access ($\beta_4 = 0,0816$ to $0,0993$), shielded by a two-pixel modern urban buffer mask. Downward links to colonial and post-colonial geoBoundaries administrative units [@Runfola2020GeoBoundaries] preserve mass within 0,01% across 30.911 unit-year checks over 81 disaggregated years (worst unit relative error $5,603 \times 10^{-8}$).
+
+# Testing and Validation
+
+## Kriging Horizon Stability and Radiocarbon Coverage
+
+Testing across the five Iron Age and mediaeval kriging horizons confirms that spatial interpolation tracks genuine ecological corridors rather than isolated survey clusters (Table \ref{tab:kriging-horizons}). Fluvial proximity remains the strongest positive covariate across the sequence ($\beta_3 = 0,1062$ in the Early Iron Age and $0,0757$ in the High Mediaeval horizon), reflecting the role of the Sanaga, Ogooue, Sangha, Congo, Kasai, Lualaba and Zambezi river networks as axes of early Bantu farming and ironworking settlement [@Bostoen2018BantuFirst; @Seidensticker2025SurveyFrom; @Coutros2025SurveyAnd]. Coastal access weights remain similarly steady ($\beta_4 = 0,0993$ to $0,0816$), accurately concentrating late first- and second-millennium AD settlement along the Swahili coast and the Lower Congo littoral [@Spear2000EarlySwahili; @Alders2026TownlandsThe]. Across Central Africa, 2.559 out of 3.238 site records (79,03%) derive from regional registers such as ADRAC and BantuFirst; across East Africa, regional registers account for 93,91% of 2.708 records; and across Southern Africa, regional databases contribute 83,62% of 2.662 records [@Cornelissen2016RMCA; @BIRD2022P3K14C].
+
+```{r tab2-kriging-horizons, results='asis'}
+df_t2 <- data.frame(
+  Horizon = c(
+    "Early Iron Age (Kush, Nok, Bantu)",
+    "Classical (Aksum, Meroe, Jenne-Jeno)",
+    "Late Antique (Nubia, Ghana, Swahili)",
+    "Early Mediaeval (Sahel, Great Lakes)",
+    "High Mediaeval (Mali, Zimbabwe, Solomonic)"
+  ),
+  `Sites` = c("2.517", "3.497", "2.212", "2.459", "2.344"),
+  Catchments = c("1.108", "1.323", "1.125", "1.218", "1.200"),
+  `Range (km)` = c("44,06", "43,83", "44,49", "45,16", "45,12"),
+  `Fluvial Beta` = c("0,1062", "0,101", "0,0923", "0,0849", "0,0757"),
+  `Coastal Beta` = c("0,0993", "0,0969", "0,0922", "0,0883", "0,0816"),
+  `R²` = rep("0,9992", 5L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Kriging variogram parameters and deterministic trend coefficients across the five archaeological horizons overlapping 1000BC to 1500AD.",
+  arg3_options = list(label = "tab:kriging-horizons")
+)
+```
+
+## Settlement Rank-Size Calibration and Urban Hierarchy Diagnostics
+
+Across the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements, ordinary least-squares rank-size regression on the upper half (n=71) yields a sub-primate Zipf exponent of $q = 0,89$ ($R^2 = 0,94$), while full-sample regression across all 142 sites yields $q = 1,31$ ($R^2 = 0,84$). Figure \ref{fig:rank-size} displays the rank-size curve across the 141 spatially deduplicated peaks ($q = 0,88$, $R^2 = 0,94$) alongside end-epoch sub-regional densities in 1500AD. That moderate upper-tier slope ($q < 1$) matches a polycentric continent without a single pan-regional imperial capital: West-Central Niger Delta trade towns such as Nembe (87,5k around 1000AD), the Kongo royal capital of Mbanza Congo (38k by 1491AD), Somali-Swahili ports led by Muqdisho (24,8k at 1331AD) and Kilwa Kisiwani (14,8k at 1450AD), the plateau citadel of Great Zimbabwe (20k peak), and Yoruba-Edo borderland centres such as Owo (18,6k by 1500AD) anchored distinct regional urban systems [@CoqueryVidrovitch2005BantuCities; @Thornton1982TheKingdom; @ShadreckChiri1800WhatWas; @Alders2026TownlandsThe].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 141 spatially deduplicated sites (q = 0,88, R² = 0,94) and mean sub-regional population densities in 1500AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Below the primate 15k to 87,5k tier lies a broad middle rank of 2k to 8k regional centres, including Igbo Ukwu (7,6k), Marka (6,8k), Mombasa (6,8k), Buali on the Loango coast (6,2k), Malindi (6k), Pate (5,6k), Idah (5,4k), Khami (5,4k), Mapungubwe (5k), Foumban (4,9k), Toutswemogala (4,9k), Nsukka (4,8k), Bigo bya Mugenyi (4,8k), Sofala (4,8k) and Mbanza Nsundi (4,2k) [@Mukwende2017ArchaeologicalStudy; @Connah2001AfricanCivilizations; @CoqueryVidrovitch2005BantuCities]. Downward in the distribution, excavated Early Iron Age villages, salt-making camps and Upemba funerary centres sit between 200 and 2,7k inhabitants, creating the steeper tail visible beyond rank 70 in Figure \ref{fig:rank-size}.
+
+# Results
+
+## From Cameroon Grassfields to the Equatorial Rainforests (1000BC to 1AD)
+
+At 1000BC, total population across the 12 sub-regions stood at `r viscount_fmt_pop(headline_vals[["-1000"]])` (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). The densest populations lay in the northern and interlacustrine margins: `r viscount_fmt_pop(sub_by_id[["great_lakes_urewe_kitara"]]$population[["-1000"]])` in the Great Lakes Urewe core, `r viscount_fmt_pop(sub_by_id[["cameroon_bantu_homeland"]]$population[["-1000"]])` in the Cameroon Grassfields homeland (`r viscount_fmt_number(sub_by_id[["cameroon_bantu_homeland"]]$population[["-1000"]] / sub_by_id[["cameroon_bantu_homeland"]]$area_km2, 2L)` persons/km², the highest initial density), `r viscount_fmt_pop(sub_by_id[["central_congo_mongo_ubangi"]]$population[["-1000"]])` in the Inner Congo and Ubangi-Uele corridor and `r viscount_fmt_pop(sub_by_id[["swahili_kilwa_coast"]]$population[["-1000"]])` along the eastern coast. Farther south, pre-agricultural Khoekhoe and San bands across the 1,56M km² Namib, Kalahari and Cape zone numbered roughly `r viscount_fmt_pop(sub_by_id[["khoisan_kalahari_cape_namib"]]$population[["-1000"]])` (0,01 persons/km²).
+
+Between 1000BC and 1AD, the clearing of seasonal savanna corridors across the Sangha-Ogooue gap and the adoption of iron smelting propelled a fourfold expansion in total regional population to `r viscount_fmt_pop(headline_vals[["0"]])` [@Bostoen2018BantuFirst; @Russell2014ModellingThe]. In Cameroon and southern Nigeria, settlements such as Obobogo, Oliga, Nkometou, Bwambe-Sommet, Nachtigal and Shum Laka multiplied across forest-savanna ecotones, lifting the Cameroon homeland to `r viscount_fmt_pop(sub_by_id[["cameroon_bantu_homeland"]]$population[["0"]])` [@Cornelissen2016RMCA]. Western equatorial riverine sites at Okala, Moanda, Kitina and Otoumbi carried the western stream south toward Tchissanga and Ngovo Cave in the Lower Congo (`r viscount_fmt_pop(sub_by_id[["kongo_lower_congo_angola"]]$population[["0"]])`), while early Imbonga and Batalimo villages pushed deep along the Congo and Ubangi waterways (`r viscount_fmt_pop(sub_by_id[["central_congo_mongo_ubangi"]]$population[["0"]])`) [@Seidensticker2025SurveyFrom; @Doman2025HumanRemains]. Simultaneously, Urewe-pottery ironworkers established dense agrarian communities west of Lake Victoria, raising the Great Lakes core to `r viscount_fmt_pop(sub_by_id[["great_lakes_urewe_kitara"]]$population[["0"]])` [@Connah2001AfricanCivilizations].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading urban centres across Sub-Saharan Africa from 1000BC to 1500AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Congo Basin Hiatus, Urewe Metallurgy and Upemba Consolidation (1AD to 1000AD)
+
+The first millennium AD reveals a sharp demographic divergence between the equatorial rainforest interior and the savanna belts to its east and south. Aggregate regional population paused briefly from `r viscount_fmt_pop(headline_vals[["0"]])` at 1AD to `r viscount_fmt_pop(summary_cache$headline_series[["100"]])` at 100AD before climbing steadily to `r viscount_fmt_pop(headline_vals[["500"]])` at 500AD and `r viscount_fmt_pop(headline_vals[["1000"]])` by 1000AD (Table \ref{tab:trajectory}). Radiocarbon frequencies across the inner Congo Basin document a pronounced settlement contraction between 400AD and 600AD, interpreted by ADRAC and BantuFirst researchers as either climatic forest regeneration or epidemic disruption along riverine exchange corridors [@Bostoen2018BantuFirst; @Cornelissen2016RMCA]. Even so, subsequent re-expansion after 800AD carried the Inner Congo Basin and Ubangi-Uele zone to `r viscount_fmt_pop(sub_by_id[["central_congo_mongo_ubangi"]]$population[["1000"]])` by 1000AD, supported by sites such as Iyonda and Bolondo alongside Kwilu-Kasai farming communities [@Coutros2025SurveyAnd; @Nziem2025TowardsOral].
+
+East and south of the forest, Early Iron Age expansion proceeded rapidly. Around Lakes Victoria, Kivu and Tanganyika, Urewe metallurgical specialists at Urewe, Kabusanze, Mucucu and Mirama cleared hillside soils for sorghum, bananas and cattle, pushing the Great Lakes zone to `r viscount_fmt_pop(sub_by_id[["great_lakes_urewe_kitara"]]$population[["500"]])` at 500AD and `r viscount_fmt_pop(sub_by_id[["great_lakes_urewe_kitara"]]$population[["1000"]])` at 1000AD [@Connah2001AfricanCivilizations]. In the Upemba Depression along the upper Lualaba river, lacustrine fisheries, ironworking and Katanga copper smelting sustained the Kisalian chiefdoms centred on Sanga, Kamilamba and Malemba-Nkulu, lifting the Upemba-Katanga sub-region from `r viscount_fmt_pop(sub_by_id[["upemba_katanga_luba_lunda"]]$population[["500"]])` at 500AD to `r viscount_fmt_pop(sub_by_id[["upemba_katanga_luba_lunda"]]$population[["1000"]])` by 1000AD [@Stephens2023ReconstructingThe].
+
+Farther south and east, the Eastern Stream and Early Iron Age agro-pastoralism reached the Zambezi corridor, Lake Malawi (Nkope Bay), the Limpopo valley and Natal between 300AD and 900AD [@Russell2014ModellingThe; @Tallman2023WholeGenomes]. On the Indian Ocean rim, Early Tana Tradition villages at Kwale, Unguja Ukuu, Tumbe, Shanga, Manda and Kilwa Kisiwani integrated interior Bantu farming with dhow commerce, boosting the Swahili coast from `r viscount_fmt_pop(sub_by_id[["swahili_kilwa_coast"]]$population[["500"]])` at 500AD to `r viscount_fmt_pop(sub_by_id[["swahili_kilwa_coast"]]$population[["1000"]])` at 1000AD [@Spear2000EarlySwahili; @Alders2026TownlandsThe]. Meanwhile, Highveld and Natal communities at Broederstroom, Ndondondwane and KwaGandaganda reached `r viscount_fmt_pop(sub_by_id[["southeastern_nguni_sotho"]]$population[["1000"]])`, while East African Rift pastoral-agricultural mosaics reached `r viscount_fmt_pop(sub_by_id[["east_african_rift_savanna"]]$population[["1000"]])` [@Vicente2021MaleBiased].
+
+## Mediaeval States, Stone Capitals and Maritime Littoral Growth (1000AD to 1500AD)
+
+Between 1000AD and 1500AD, total population nearly doubled from `r viscount_fmt_pop(headline_vals[["1000"]])` to `r viscount_fmt_pop(headline_vals[["1500"]])`, while attested active settlements in the gazetteer rose to a peak of 79 around 1400AD (Figure \ref{fig:trends}). Four interconnected regional state systems drove this expansion. In the interlacustrine uplands, Late Iron Age pastoral-agrarian kingdoms built monumental earthen ditch complexes at Ntusi (100 ha), Bigo bya Mugenyi (320 ha outer trench) and Munsa alongside salt production at Kibiro, raising the Great Lakes core to `r viscount_fmt_pop(sub_by_id[["great_lakes_urewe_kitara"]]$population[["1500"]])` (`r viscount_fmt_number(sub_by_id[["great_lakes_urewe_kitara"]]$end_density_km2, 2L)` persons/km²) [@Connah2001AfricanCivilizations].
+
+Along the Swahili coast from Muqdisho, Marka and Barawa in southern Somalia through Lamu, Pate, Manda, Malindi, Gedi and Mombasa down to Tumbatu, Kilwa Kisiwani, Songo Mnara and Mozambique Island, coral-rag mosques and earthen-and-masonry townlands sustained maritime trade in gold, ivory, mangrove poles and cloth [@Spear2000EarlySwahili; @Alders2026TownlandsThe; @Lubao2023FishingSongs]. The Swahili coastal zone grew from `r viscount_fmt_pop(sub_by_id[["swahili_kilwa_coast"]]$population[["1000"]])` in 1000AD to `r viscount_fmt_pop(sub_by_id[["swahili_kilwa_coast"]]$population[["1400"]])` in 1400AD before plateauing at `r viscount_fmt_pop(sub_by_id[["swahili_kilwa_coast"]]$population[["1500"]])` on the eve of Portuguese naval intervention. Across the interior Zambezi-Maravi corridor, trade entrepots at Ingombe Ilede and Mankhamba linked Katanga copper ingots (rectangular, fishtail and croisette currencies from Kansanshi and Kambove) to coastal ports, lifting Zambezi-Maravi from `r viscount_fmt_pop(sub_by_id[["zambezi_maravi_ingombe"]]$population[["1000"]])` to `r viscount_fmt_pop(sub_by_id[["zambezi_maravi_ingombe"]]$population[["1500"]])` [@Stephens2023ReconstructingThe].
+
+On the Limpopo and Zimbabwe plateaus, cattle wealth and Indian Ocean gold exports funded terraced hill capitals at Mapela Hill, Bambandyanalo (K2), Mapungubwe and Toutswemogala, followed by the stone-walled apogee of Great Zimbabwe and its western Torwa successor at Khami [@Chirikure2014MapelaHill; @Huffman2011DebatingGreat; @Mukwende2017ArchaeologicalStudy]. Population in the Zimbabwe-Mapungubwe sub-region more than doubled from `r viscount_fmt_pop(sub_by_id[["great_zimbabwe_mapungubwe"]]$population[["1000"]])` in 1000AD to `r viscount_fmt_pop(sub_by_id[["great_zimbabwe_mapungubwe"]]$population[["1500"]])` in 1500AD [@ShadreckChiri1800WhatWas; @Chirikure2019NewPerspectives]. On the Atlantic side, the Lower Congo and Angola sub-region doubled from `r viscount_fmt_pop(sub_by_id[["kongo_lower_congo_angola"]]$population[["1000"]])` to `r viscount_fmt_pop(sub_by_id[["kongo_lower_congo_angola"]]$population[["1500"]])`, anchored by the royal metropolis of Mbanza Congo (38k by 1491AD) and provincial seats at Mbanza Nsundi, Mbanza Mbata and Soyo [@Thornton1982TheKingdom; @CoqueryVidrovitch2005BantuCities].
+
+```{r tab3-trajectory, results='asis'}
+df_t3 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `1000BC` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["-1000"]]), character(1)),
+  `1AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["0"]]), character(1)),
+  `500AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["500"]]), character(1)),
+  `1000AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1000"]]), character(1)),
+  `1300AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1300"]]), character(1)),
+  `1500AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1500"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t3 <- data.frame(
+  Subregion = "Total Study Area",
+  `1000BC` = viscount_fmt_pop(headline_vals[["-1000"]]),
+  `1AD` = viscount_fmt_pop(headline_vals[["0"]]),
+  `500AD` = viscount_fmt_pop(headline_vals[["500"]]),
+  `1000AD` = viscount_fmt_pop(headline_vals[["1000"]]),
+  `1300AD` = viscount_fmt_pop(headline_vals[["1300"]]),
+  `1500AD` = viscount_fmt_pop(headline_vals[["1500"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_row_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Sub-regional and total population trajectories across six benchmark years from 1000BC to 1500AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Urban Centres and Sub-Regional Density Contrasts
+
+Table \ref{tab:top-centres} summarises the twelve largest individually assessed settlements in the chapter ledger alongside their chronological span and peak population. At the northern forest-delta interface, Nembe (87,5k around 1000AD) and eastern Nigerian-Cameroonian centres such as Owo (18,6k), Igbo Ukwu (7,6k), Idah (5,4k), Foumban (4,9k) and Nsukka (4,8k) illustrate the long continuity of settlement density around the Cross-Niger-Grassfields hearth, which held `r viscount_fmt_pop(sub_by_id[["cameroon_bantu_homeland"]]$population[["1500"]])` residents at `r viscount_fmt_number(sub_by_id[["cameroon_bantu_homeland"]]$end_density_km2, 2L)` persons/km² in 1500AD [@Connah2001AfricanCivilizations; @CoqueryVidrovitch2005BantuCities].
+
+```{r tab4-top-centres, results='asis'}
+top_12 <- summary_cache$top_settlements[seq_len(min(12L, length(summary_cache$top_settlements)))]
+fmt_era_yr <- function (y) {
+  yi <- as.integer(y)
+  if (yi < 0L) paste0(abs(yi), "BC") else paste0(yi, "AD")
+}
+df_t4 <- data.frame(
+  Settlement = vapply(top_12, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_12, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "United Republic of Tanzania")) "Tanzania" else if (identical(c, "Republic of the Congo")) "Congo" else c
+  }, character(1)),
+  Span = vapply(top_12, function (s) {
+    if (s$min_year == s$max_year) fmt_era_yr(s$min_year) else paste0(fmt_era_yr(s$min_year), "-", fmt_era_yr(s$max_year))
+  }, character(1)),
+  `Peak Pop.` = vapply(top_12, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_12, function (s) fmt_era_yr(s$peak_year), character(1)),
+  Obs = vapply(top_12, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Twelve largest individually assessed settlements in the Bantu Expansion study area (1000BC to 1500AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+In contrast, humid rainforest and semi-arid southern margins sustained far lower rural densities. Western Equatorial Rainforest populations reached `r viscount_fmt_pop(sub_by_id[["western_equatorial_forest"]]$population[["1500"]])` (`r viscount_fmt_number(sub_by_id[["western_equatorial_forest"]]$end_density_km2, 2L)` persons/km²) by 1500AD, Mapungubwe-Great Zimbabwe averaged `r viscount_fmt_number(sub_by_id[["great_zimbabwe_mapungubwe"]]$end_density_km2, 2L)` persons/km², Highveld and Natal Iron Age zones stood at `r viscount_fmt_number(sub_by_id[["southeastern_nguni_sotho"]]$end_density_km2, 2L)` persons/km² and the arid Kalahari-Namib-Cape sub-region held `r viscount_fmt_number(sub_by_id[["khoisan_kalahari_cape_namib"]]$end_density_km2, 2L)` persons/km² [@Vicente2021MaleBiased; @ShadreckChiri1800WhatWas].
+
+# Limitations
+
+Three structural constraints bound these reconstructions. First, archaeological visibility varies sharply by ecology and colonial excavation history. Acidic tropical soils and dense forest canopy across Gabon, Equatorial Guinea and the inner Congo Basin destroy uncarbonised bone and obscure small village sites compared with dry-stone walls on the Zimbabwe plateau or coral-rag ruins on the Swahili littoral [@Bostoen2018BantuFirst; @Seidensticker2025SurveyFrom; @Alders2026TownlandsThe]. Although ADRAC, BantuFirst and recent surveys in Kwilu-Kasai and Idiofa have narrowed that gap [@Cornelissen2016RMCA; @Coutros2025SurveyAnd; @Nziem2025TowardsOral], raw site counts remain sparser in the Inner Congo Basin (`r viscount_fmt_number(dist_by_id[["central_congo_mongo_ubangi"]]$settlement_count, 0L)` assessed sites) and Zambezi-Maravi (`r viscount_fmt_number(dist_by_id[["zambezi_maravi_ingombe"]]$settlement_count, 0L)` sites) than along the Swahili coast (`r viscount_fmt_number(dist_by_id[["swahili_kilwa_coast"]]$settlement_count, 0L)` sites).
+
+Second, early pre-1500AD urban figures rely on varying combinations of mapped enclosure hectares, midden volumes and earliest Portuguese or Arabic eyewitness accounts [@Thornton1982TheKingdom; @ShadreckChiri1800WhatWas]. Distinguishing compact stone-built cores from dispersed earthen compounds introduces roughly 20% to 35% uncertainty around individual urban peaks at Mbanza Congo, Kilwa Kisiwani, Bigo bya Mugenyi and Great Zimbabwe [@Huffman2011DebatingGreat; @Chirikure2019NewPerspectives; @Alders2026TownlandsThe]. Single-date records, which represent 39 of the 142 ledger entries, also limit visibility into intra-century growth and abandonment outside multi-phase excavated capitals.
+
+Third, non-Bantu foraging, Cushitic and Nilotic herding communities within the study perimeter remain less visible in Iron Age ceramic sequences than nucleated agricultural villages. Rock-shelter and pastoralist sites such as Shum Laka, Luani, Nsongezi, Lukenya Hill, Luxmanda, Gogo Falls, Geduld and Kasteelberg anchor baseline densities [@Doman2025HumanRemains; @Vicente2021MaleBiased], yet mobile pastoral and foraging groups contribute modest ceramic footprints despite substantial genetic and economic exchange with Bantu neighbours [@Tallman2023WholeGenomes].
+
+# Conclusion
+
+Between 1000BC and 1500AD, Sub-Saharan Africa south of the Benue-Cross and Ubangi frontiers experienced a twenty-two-fold demographic expansion from `r viscount_fmt_pop(headline_vals[["-1000"]])` to `r viscount_fmt_pop(headline_vals[["1500"]])` inhabitants. Far from a uniform agricultural wave, population growth moved in distinct ecological pulses: rapid early clearance along climate-opened equatorial corridors and the Great Lakes Urewe core before 1AD, mid-first-millennium AD contraction and post-800AD recovery across the inner Congo Basin, Kisalian copper-driven consolidation in Katanga, and late mediaeval urban state formation along the Swahili coast, at Mbanza Congo, around Bigo and Ntusi, and across the Mapungubwe-Great Zimbabwe-Khami plateau. By integrating `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements, regional radiocarbon syntheses and mass-conserving spatial interpolation, NICETHI provides a continuous quantitative baseline leading directly into the post-1500AD Atlantic, Swahili-Omani and early modern chapters.
+
+# Appendix
+
+## Sub-Regional Density and Share Series
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all twelve ecological sub-regions from 1000BC to 1500AD, illustrating the sustained four- to thirty-fold density gradient between the Cameroon Grassfields and Great Lakes cores and the semi-arid southern steppe. Table \ref{tab:shares-appendix} tracks each sub-region's percentage share of the regional total, highlighting the steady rise of Lower Congo-Angola (from 6,9% to 12,4%) and Great Lakes-Urewe (maintaining 19,3% to 20,4%) alongside the relative shift of Swahili coastal and Katanga populations over the mediaeval millennium.
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1000BC` = viscount_fmt_number(as.numeric(ps[["-1000"]]) / ar, 2L),
+    `1AD` = viscount_fmt_number(as.numeric(ps[["0"]]) / ar, 2L),
+    `500AD` = viscount_fmt_number(as.numeric(ps[["500"]]) / ar, 2L),
+    `1000AD` = viscount_fmt_number(as.numeric(ps[["1000"]]) / ar, 2L),
+    `1300AD` = viscount_fmt_number(as.numeric(ps[["1300"]]) / ar, 2L),
+    `1500AD` = viscount_fmt_number(as.numeric(ps[["1500"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1000BC` = viscount_fmt_number(headline_vals[["-1000"]] / total_area_km2, 2L),
+  `1AD` = viscount_fmt_number(headline_vals[["0"]] / total_area_km2, 2L),
+  `500AD` = viscount_fmt_number(headline_vals[["500"]] / total_area_km2, 2L),
+  `1000AD` = viscount_fmt_number(headline_vals[["1000"]] / total_area_km2, 2L),
+  `1300AD` = viscount_fmt_number(headline_vals[["1300"]] / total_area_km2, 2L),
+  `1500AD` = viscount_fmt_number(headline_vals[["1500"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across the twelve ecological sub-regions from 1000BC to 1500AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1000BC (%)` = viscount_fmt_number(100 * as.numeric(ps[["-1000"]]) / headline_vals[["-1000"]], 1L),
+    `1AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["0"]]) / headline_vals[["0"]], 1L),
+    `500AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["500"]]) / headline_vals[["500"]], 1L),
+    `1000AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1000"]]) / headline_vals[["1000"]], 1L),
+    `1300AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1300"]]) / headline_vals[["1300"]], 1L),
+    `1500AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1500"]]) / headline_vals[["1500"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total regional population by ecological sub-region across six benchmark years from 1000BC to 1500AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+## Hydrological Basin Units and Urban Density Benchmarks
+
+Table \ref{tab:hgis-basins} documents representative HydroBASINS Level-6 hydrological catchments from the ancient African regime mask falling across the Bantu Expansion territory, complementing the sub-regional division in Table \ref{tab:subregions}.
+
+```{r tab7-hgis-basins, results='asis'}
+hgis_list <- summary_cache$hgis_regime_units
+sel_codes <- c(
+  "ECO0_LUAL", "ECO0_LIMP", "ECO0_KASA", "ECO0_UBAN", "ECO0_CUNE",
+  "ECO0_CONU", "ECO0_OKAV", "ECO0_ZAMM", "ECO0_TANG", "ECO0_CUAN",
+  "ECO0_CONW", "ECO0_KALA"
+)
+hgis_sub <- Filter(function (x) x$unit_code %in% sel_codes, hgis_list)
+df_t7 <- data.frame(
+  `Basin Code` = vapply(hgis_sub, function (x) as.character(x$unit_code), character(1)),
+  `Hydrological Basin Unit` = vapply(hgis_sub, function (x) as.character(x$unit_name), character(1)),
+  `Area (km²)` = vapply(hgis_sub, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  Source = vapply(hgis_sub, function (x) "HydroBASINS L6", character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Representative ancient HydroBASINS Level-6 catchment units overlapping the Bantu Expansion study area.",
+  arg3_options = list(label = "tab:hgis-basins")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Chronological benchmarks follow astronomical integer conventions in the underlying spatial rasters, where year 0 corresponds to 1AD in historical prose tables. Five border-margin or offshore settlements (Carboneras, Owo, Koton Karifi, Umaisha and Dirre Sheikh Hussein) lie immediately outside the 5-arcminute coastline or northern perimeter pixels (137 strictly interior matches in Table \ref{tab:subregions}) and are reconciled in the companion gazetteer so all 142 sites are catalogued.

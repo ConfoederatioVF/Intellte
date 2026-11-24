@@ -1,0 +1,557 @@
+---
+title: "Post-Colonial West Africa (1957-Present)"
+subtitle: "Nigeria and the Guinea-Region States from Independence to the Present"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_west_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Nine Guinea-region sovereign states, 120 Admin-1 divisions and seven leading urban centres across Post-Colonial West Africa between 1957AD and 2025AD."
+hero_label: "fig:hero-postcolonial-west-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("postcolonial_west_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("postcolonial_west_africa_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+n_subregions <- as.integer(summary_cache$subregion_count)
+
+bench_keys <- c("1957", "1962", "1967", "1973", "1978", "1983", "1988", "1994", "1999", "2004", "2009", "2015", "2020", "2025")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+iso_order <- c("nga", "gha", "civ", "gin", "ben", "tgo", "sle", "lbr", "gnb")
+iso_names <- c(
+  nga = "Nigeria",
+  gha = "Ghana",
+  civ = "Côte d'Ivoire",
+  gin = "Guinea",
+  ben = "Benin",
+  tgo = "Togo",
+  sle = "Sierra Leone",
+  lbr = "Liberia",
+  gnb = "Guinea-Bissau"
+)
+
+country_stats <- setNames(lapply(iso_order, function (iso) {
+  srs <- Filter(function (sr) identical(strsplit(sr$id, "_")[[1]][1], iso), subregs)
+  dists <- lapply(srs, function (sr) dist_by_id[[sr$id]])
+  pops <- setNames(vapply(bench_keys, function (yr) {
+    sum(vapply(srs, function (sr) as.numeric(sr$population[[yr]]), numeric(1)))
+  }, numeric(1)), bench_keys)
+  list(
+    iso = iso,
+    name = iso_names[[iso]],
+    subregion_count = length(srs),
+    area_km2 = sum(vapply(srs, function (sr) as.numeric(sr$area_km2), numeric(1))),
+    pixels = sum(vapply(srs, function (sr) as.integer(sr$pixel_count), integer(1))),
+    interior_sites = sum(vapply(dists, function (d) as.integer(d$settlement_count), integer(1))),
+    interior_obs = sum(vapply(dists, function (d) as.integer(d$observation_count), integer(1))),
+    population = pops
+  )
+}), iso_order)
+
+subadmin_list <- summary_cache$subadmin_benchmark_tables
+find_subadmin <- function (polity, yr) {
+  for (item in subadmin_list) {
+    if (identical(item$polity_code, polity) && as.integer(item$year) == as.integer(yr)) {
+      return(item)
+    }
+  }
+  NULL
+}
+
+arf_list <- summary_cache$arf_regional_tables
+find_arf_table <- function (tid) {
+  for (item in arf_list) {
+    if (identical(item$table_id, tid)) return(item)
+  }
+  NULL
+}
+
+all_entries <- unname(settlements_raw)
+single_date_sites <- sum(vapply(all_entries, function (e) length(e$population) == 1L, logical(1)))
+
+interp_urban_total <- function (yr_num) {
+  vals <- vapply(all_entries, function (e) {
+    ps <- e$population
+    if (is.null(ps) || length(ps) == 0L) return(0)
+    yrs <- as.numeric(names(ps))
+    vs <- as.numeric(unlist(ps))
+    ord <- order(yrs)
+    yrs <- yrs[ord]
+    vs <- vs[ord]
+    if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(0)
+    idx <- which(yrs == yr_num)
+    if (length(idx) > 0L) return(vs[idx[1]])
+    stats::approx(x = yrs, y = vs, xout = yr_num, method = "linear")$y
+  }, numeric(1))
+  sum(vals)
+}
+```
+
+# Abstract
+
+Between Ghana's independence in 1957AD and 2025AD, post-colonial West Africa along the Gulf of Guinea and Upper Guinea littoral underwent one of the fastest demographic and urban transformations in modern world history. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning nine sovereign states and `r viscount_fmt_number(n_subregions, 0L)` first-level administrative divisions, NICETHI reconstructs an aggregate regional population that stood at `r viscount_fmt_pop(headline_vals[["1957"]])` inhabitants in 1957AD and `r viscount_fmt_pop(headline_vals[["1962"]])` in 1962AD, fell sharply to `r viscount_fmt_pop(headline_vals[["1967"]])` in 1967AD during the outbreak of the Nigerian Civil War and federal state reorganisation, and then expanded nearly sevenfold to `r viscount_fmt_pop(headline_vals[["1978"]])` in 1978AD, `r viscount_fmt_pop(headline_vals[["1988"]])` in 1988AD, `r viscount_fmt_pop(headline_vals[["1999"]])` in 1999AD, `r viscount_fmt_pop(headline_vals[["2009"]])` in 2009AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD, reaching a mean density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth was propelled by sustained declines in infant and childhood mortality, persistently high fertility outside coastal southern Ghana and explosive rural-to-urban migration toward port capitals and interior commercial nodes. Lagos expanded from an agglomeration of 822,3k residents in 1960AD to 16,11M by 2025AD, alongside multi-million urban corridors around Onitsha, Abidjan, Kano, Accra, Ibadan, Abuja, Port Harcourt, Lomé, Conakry and Cotonou, even as civil wars disrupted Sierra Leone, Liberia, Côte d'Ivoire and north-eastern Nigeria. These reconstructions integrate `r viscount_fmt_number(n_total_sites, 0L)` individually assessed urban centres and towns across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations with national census archives, demographic sample surveys and sub-administrative geoBoundaries polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Nine Guinea-region sovereign states, 120 Admin-1 divisions and seven leading urban centres across Post-Colonial West Africa between 1957AD and 2025AD.",
+    "fig:hero-postcolonial-west-africa"
+  )
+}
+```
+
+# Background
+
+## Decolonisation, Administrative Partition and Post-Colonial State Formation
+
+Between March 1957 and September 1974, colonial rule ended across the coastal and forest-savanna states of West Africa [@Caldwell2013AfricanDemographic; @Runfola2020GeoBoundaries]. Ghana inaugurated sub-Saharan decolonisation in 1957AD, followed by Guinea in 1958AD, Togo, Benin (then Dahomey), Côte d'Ivoire and the Federation of Nigeria in 1960AD, Sierra Leone in 1961AD and Guinea-Bissau after an eleven-year liberation war in 1973-1974AD, joining the older Republic of Liberia along the Upper Guinea coast [@Bank2015RisingThrough; @Bank2021SierraLeone; @Souza2014EvidenceFor]. Although Sahelian neighbours to the north such as Senegal, Burkina Faso, Mali, Niger and The Gambia shared monetary or ecological ties with the forest belt, the nine Guinea-region states formed a distinct coastal demographic system anchored by dense Yoruba, Igbo, Akan, Baule, Fon, Ewe and Hausa-Fulani agrarian basins [@Caldwell2013AfricanDemographic; @OECD2024Africapolis].
+
+Post-independence demographic trajectories diverged rapidly according to state capacity, export commodities and institutional continuity [@Caldwell2013AfricanDemographic; @Folawewo2024UrbanizationWithout]. Ghana inherited a comparatively unified civil registration and census apparatus that conducted continuous modern enumerations in 1960AD, 1970AD, 1984AD, 2000AD, 2010AD and 2021AD [@GSS2021GhanaPHC; @Codjoe2007IntegratingRemote; @Lattof2018ContemporaryFemale]. Côte d'Ivoire sustained rapid cocoa and coffee frontier expansion across its southern and western forest districts between 1960AD and 1985AD, attracting millions of labour migrants from Burkina Faso, Mali and Guinea while compiling national censuses in 1975AD, 1988AD, 1998AD, 2014AD and 2021AD [@INS2022CoteIvoireRGPH; @OECD2024Africapolis]. By contrast, political turbulence in Nigeria, Guinea, Liberia, Sierra Leone and Guinea-Bissau repeatedly interrupted statistical series and altered regional population balances [@NPC2010NigeriaCensus; @Souza2014EvidenceFor; @Bank2021SierraLeone].
+
+## Contested Censuses, Civil Wars and the West African Fertility Transition
+
+Nowhere in Africa were post-colonial population counts more politically charged than in Nigeria, where federal revenue allocation and parliamentary seats depended directly on regional headcounts [@Caldwell2013AfricanDemographic; @NPC2010NigeriaCensus]. The 1962AD census was cancelled amid accusations of regional inflation; the replacement count of 1963AD reported 55,66M inhabitants, roughly 7,4M higher than contemporary backward projections by historical demographers [@Caldwell2013AfricanDemographic; @NPC2010NigeriaCensus]. Following the 1966AD coups, the creation of twelve federal states in May 1967 and the 1967-1970AD Nigerian Civil War (Biafran War), heavy civilian mortality, blockade-induced famine and mass displacement devastated the former Eastern Region, while the subsequent 1973AD census was formally annulled [@Caldwell2013AfricanDemographic; @NPC2010NigeriaCensus]. Only with the 1991AD census (88,99M) and the 2006AD census (140,43M across 36 states and the Federal Capital Territory) did Nigeria establish a nationally accepted sub-administrative baseline [@NPC2010NigeriaCensus; @Oyediran2016ExplainingTrends].
+
+Alongside enumeration politics, two structural processes reshaped Guinea-region demography after 1975AD: uneven fertility decline and internal conflict [@Ifelunini2018DeterminantsFertility; @Gaisie2013FertilityTrend]. Ghana led West Africa's fertility transition, dropping from roughly 6,4 births per woman in the late 1980s to near 4,0 by the 2010s as female schooling, delayed marriage and urban residence expanded [@Gaisie2013FertilityTrend; @Amoateng2018ChangesThe; @Agyekum2024PrevalenceAnd]. In Nigeria, by contrast, fertility remained high across northern states while declining more modestly in the urban south-west and south-east, driving rapid demographic divergence and straining public services [@Ifelunini2018DeterminantsFertility; @Oyediran2016ExplainingTrends; @Oduoye2026CholeraLagos]. Meanwhile, civil conflicts in Liberia (1989-2003AD), Sierra Leone (1991-2002AD), Guinea-Bissau (1998-1999AD), Côte d'Ivoire (2002-2011AD) and north-eastern Nigeria's Lake Chad Basin (from 2009AD onward) displaced millions of rural villagers into coastal capitals and cross-border refugee corridors [@Souza2014EvidenceFor; @Bank2021SierraLeone; @INS2022CoteIvoireRGPH].
+
+# Methodology
+
+## Territorial Domain, Admin-1 Partition and Sovereign Aggregation
+
+The study domain spans `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute raster cells partitioned into `r viscount_fmt_number(n_subregions, 0L)` modern first-level administrative divisions (Admin-1) drawn from geoBoundaries across nine sovereign states (Table \ref{tab:countries}) [@Runfola2020GeoBoundaries]. Within NICETHI, the chapter occupies Regime 3 (1957AD to 2025AD), linking late-colonial baselines into contemporary national statistical series across 14 benchmark years (1957AD, 1962AD, 1967AD, 1973AD, 1978AD, 1983AD, 1988AD, 1994AD, 1999AD, 2004AD, 2009AD, 2015AD, 2020AD and 2025AD). Nigeria contributes 37 Admin-1 units (36 states and Abuja FCT) covering 43,6% of the study area, followed by Côte d'Ivoire (14 districts, 15,4%), Guinea (8 regions, 11,7%), Ghana (16 regions, 11,5%), Benin (12 departments, 5,5%), Liberia (15 counties, 4,6%), Sierra Leone (4 provinces and Western Area, 3,5%), Togo (5 regions, 2,7%) and Guinea-Bissau (9 regions, 1,6%).
+
+```{r tab1-countries, results='asis'}
+df_t1 <- data.frame(
+  Country = vapply(iso_order, function (iso) country_stats[[iso]]$name, character(1)),
+  `Admin-1 Units` = vapply(iso_order, function (iso) viscount_fmt_number(country_stats[[iso]]$subregion_count, 0L), character(1)),
+  `Area (km²)` = vapply(iso_order, function (iso) viscount_fmt_number(country_stats[[iso]]$area_km2, 0L), character(1)),
+  Pixels = vapply(iso_order, function (iso) viscount_fmt_number(country_stats[[iso]]$pixels, 0L), character(1)),
+  `Interior Sites` = vapply(iso_order, function (iso) viscount_fmt_number(country_stats[[iso]]$interior_sites, 0L), character(1)),
+  `Area Share (%)` = vapply(iso_order, function (iso) viscount_fmt_number(100 * country_stats[[iso]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_t1 <- data.frame(
+  Country = "All 9 Sovereign States",
+  `Admin-1 Units` = viscount_fmt_number(n_subregions, 0L),
+  `Area (km²)` = viscount_fmt_number(total_area_km2, 0L),
+  Pixels = viscount_fmt_number(total_pixels, 0L),
+  `Interior Sites` = viscount_fmt_number(sum(vapply(iso_order, function (iso) country_stats[[iso]]$interior_sites, integer(1))), 0L),
+  `Area Share (%)` = "100",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t1 <- rbind(df_t1, tot_t1)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Nine sovereign Guinea-region states in the study domain, showing Admin-1 division counts, surface area, 5-arcminute pixels and interior assessed settlements.",
+  arg3_options = list(label = "tab:countries")
+)
+```
+
+## Settlement Ledger Screening and Scope Harmonisation
+
+To capture rapid post-colonial urbanisation across metropolitan corridors and secondary market towns, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate municipal and agglomeration records were screened from national statistical reports, United Nations Demographic Yearbook city tables and OECD/SWAC Africapolis urban morphology footprints [@OECD2024Africapolis; @NPC2010NigeriaCensus; @GSS2021GhanaPHC; @INS2022CoteIvoireRGPH]. Removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records and overlapping boundary variants left `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` dated observations (Figure \ref{fig:hero-postcolonial-west-africa}). Strictly inside the 120 Admin-1 polygons sit 3.588 settlements covering 119 of the 120 divisions (with only sparsely urbanised Grand Cape Mount in north-western Liberia lacking an interior point entry), while 538 additional settlements sit along cross-border catchment margins in southern Niger, northern Cameroon, southern Burkina Faso, southern Senegal, southern Mali and western Chad to prevent edge clipping during spatial interpolation.
+
+Each entry carries an explicit spatial scope tag separating `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city-proper municipalities from `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` continuous urban agglomerations [@OECD2024Africapolis]. Maintaining both tiers side by side resolves a major source of error in post-colonial West African urban history: Lagos municipality (5,20M in 1991AD) stopped reflecting the true built-up city once suburban growth spilled into Ikeja, Agege, Ikorodu and adjoining Ogun State, whereas the continuous Lagos agglomeration reached 16,11M by 2025AD [@Onilude2023AnalysisLand; @Folawewo2024UrbanizationWithout; @Oduoye2026CholeraLagos]. Similar municipal-versus-agglomeration distinctions are preserved for Abidjan, Accra, Kumasi, Lomé, Cotonou, Monrovia, Freetown and Bissau [@Bank2015RisingThrough; @Bank2021SierraLeone; @OECD2024Africapolis].
+
+## Sub-Administrative Census Integration and Disaggregation
+
+Rural and non-gazetted populations are anchored to official sub-administrative census enumerations and demographic surveys before pycnophylactic allocation onto 5-arcminute cells [@Runfola2020GeoBoundaries; @Codjoe2007IntegratingRemote]. Reference series incorporate Nigeria's 1953AD provincial census, 1991AD state-and-LGA returns and 2022AD NBS official projections [@NPC2010NigeriaCensus]; Ghana's 1948AD, 1960AD, 1970AD, 1984AD, 2000AD, 2010AD and 2021AD district censuses [@GSS2021GhanaPHC; @Lattof2018ContemporaryFemale; @Oduro2026InterplayGender]; Côte d'Ivoire's 1975AD, 1988AD, 1998AD, 2014AD and 2021AD *Recensement Général de la Population et de l'Habitat* [@INS2022CoteIvoireRGPH]; Benin's 1979AD and 2013AD departmental counts; and Togo's 1960AD, 1970AD, 1981AD, 2010AD and 2022AD regional enumerations. Where early post-independence state boundaries shifted, most notably Nigeria's transition from three colonial regions in 1957-1962AD to twelve states in 1967AD, nineteen in 1976AD and thirty-six plus Abuja FCT by 1996AD, historical headcounts are mapped onto modern geoBoundaries polygons using parent-to-child lineage tables [@NPC2010NigeriaCensus; @Runfola2020GeoBoundaries].
+
+# Testing and Validation
+
+## Sub-Administrative Census Benchmark Reconciliation
+
+Comparing historical demographic projections against preserved colonial and post-colonial census benchmarks highlights both strong long-run consistency and well-documented enumeration anomalies (Table \ref{tab:census-benchmarks}). In Ghana, colonial censuses from 1911AD (1,50M) to 1948AD (4,12M enumerated; 4,69M across overlapping Trans-Volta Togoland and Volta administrative tabs) systematically under-counted northern and rural households relative to backward projections, before the landmark 1960AD post-independence census (6,73M) achieved full national coverage [@GSS2021GhanaPHC; @Caldwell2013AfricanDemographic]. By 1984AD Ghana enumerated 12,30M across 10 regions, rising to 30,83M across 16 regions and 261 districts in 2021AD [@GSS2021GhanaPHC; @Agyekum2024PrevalenceAnd].
+
+In Nigeria, by contrast, the 1953AD census (30,42M across Northern, Eastern, Western and Colony provinces, plus 59,46M summed across provincial and regional reporting tiers in historical archives) under-enumerated households relative to 1991AD-anchored backward projections (39,00M), whereas the 1963AD census (55,66M) overshot the demographic projection (48,22M) by 15,4% [@NPC2010NigeriaCensus; @Caldwell2013AfricanDemographic]. Subsequent national counts converged closely: Nigeria's 1991AD census recorded 88,99M, 2006AD reached 140,00M (versus 144,00M projected) and official 2022AD NBS state projections summed to 216,78M [@NPC2010NigeriaCensus; @Ifelunini2018DeterminantsFertility]. Across Francophone West Africa, Côte d'Ivoire grew from 5,34M across 26 departments in 1975AD to 15,37M in 1998AD and 29,39M in 2021AD, while Benin expanded from 3,33M in 1979AD to 10,01M in 2013AD [@INS2022CoteIvoireRGPH].
+
+```{r tab2-census-benchmarks, results='asis'}
+nga53 <- find_subadmin("NGA", 1953)
+nga91 <- find_subadmin("NGA", 1991)
+nga22 <- find_subadmin("NGA", 2022)
+gha48 <- find_subadmin("GHA", 1948)
+gha84 <- find_subadmin("GHA", 1984)
+gha21 <- find_subadmin("GHA", 2021)
+civ75 <- find_subadmin("CIV", 1975)
+civ98 <- find_subadmin("CIV", 1998)
+civ21 <- find_subadmin("CIV", 2021)
+ben79 <- find_subadmin("BEN", 1979)
+ben13 <- find_subadmin("BEN", 2013)
+tgo60 <- find_subadmin("TGO", 1960)
+
+df_t2 <- data.frame(
+  Polity = c(
+    "Nigeria (1953AD)",
+    "Nigeria (1991AD)",
+    "Nigeria (2022AD)",
+    "Ghana (1948AD)",
+    "Ghana (1984AD)",
+    "Ghana (2021AD)",
+    "Côte d'Ivoire (1975AD)",
+    "Côte d'Ivoire (1998AD)",
+    "Côte d'Ivoire (2021AD)",
+    "Benin (1979AD)",
+    "Benin (2013AD)",
+    "Togo (1960AD)"
+  ),
+  `Units Recorded` = c(
+    viscount_fmt_number(nga53$unit_count, 0L),
+    viscount_fmt_number(nga91$unit_count, 0L),
+    viscount_fmt_number(nga22$unit_count, 0L),
+    viscount_fmt_number(gha48$unit_count, 0L),
+    viscount_fmt_number(gha84$unit_count, 0L),
+    viscount_fmt_number(gha21$unit_count, 0L),
+    viscount_fmt_number(civ75$unit_count, 0L),
+    viscount_fmt_number(civ98$unit_count, 0L),
+    viscount_fmt_number(civ21$unit_count, 0L),
+    viscount_fmt_number(ben79$unit_count, 0L),
+    viscount_fmt_number(ben13$unit_count, 0L),
+    viscount_fmt_number(tgo60$unit_count, 0L)
+  ),
+  `National Total` = c(
+    "30,42M",
+    viscount_fmt_pop(nga91$units[[1]]$population),
+    viscount_fmt_pop(nga22$units[[1]]$population),
+    "4,12M",
+    viscount_fmt_pop(gha84$total_enumerated_pop),
+    viscount_fmt_pop(gha21$units[[1]]$population),
+    viscount_fmt_pop(civ75$total_enumerated_pop),
+    viscount_fmt_pop(civ98$units[[1]]$population),
+    viscount_fmt_pop(civ21$units[[1]]$population),
+    viscount_fmt_pop(ben79$units[[1]]$population),
+    viscount_fmt_pop(ben13$units[[1]]$population),
+    viscount_fmt_pop(tgo60$total_enumerated_pop)
+  ),
+  `Leading Admin-1 Division` = c(
+    paste0(nga53$units[[1]]$unit_name, " (", viscount_fmt_pop(nga53$units[[1]]$population), ")"),
+    paste0(nga91$units[[2]]$unit_name, " (", viscount_fmt_pop(nga91$units[[2]]$population), ")"),
+    paste0(nga22$units[[2]]$unit_name, " (", viscount_fmt_pop(nga22$units[[2]]$population), ")"),
+    paste0(gha48$units[[1]]$unit_name, " (", viscount_fmt_pop(gha48$units[[1]]$population), ")"),
+    paste0(gha84$units[[1]]$unit_name, " (", viscount_fmt_pop(gha84$units[[1]]$population), ")"),
+    paste0(gha21$units[[2]]$unit_name, " (", viscount_fmt_pop(gha21$units[[2]]$population), ")"),
+    paste0(civ75$units[[1]]$unit_name, " (", viscount_fmt_pop(civ75$units[[1]]$population), ")"),
+    paste0(civ98$units[[2]]$unit_name, " (", viscount_fmt_pop(civ98$units[[2]]$population), ")"),
+    paste0(civ21$units[[2]]$unit_name, " (", viscount_fmt_pop(civ21$units[[2]]$population), ")"),
+    paste0(ben79$units[[2]]$unit_name, " (", viscount_fmt_pop(ben79$units[[2]]$population), ")"),
+    paste0(ben13$units[[2]]$unit_name, " (", viscount_fmt_pop(ben13$units[[2]]$population), ")"),
+    paste0(tgo60$units[[1]]$unit_name, " (", viscount_fmt_pop(tgo60$units[[1]]$population), ")")
+  ),
+  `Archival Source` = c(
+    "Statoids NGA",
+    "NPC 1991 Census",
+    "NBS 2022 Projection",
+    "Statoids GHA",
+    "Statoids GHA",
+    "GSS 2021 PHC",
+    "Statoids CIV",
+    "INS RGPH 1998",
+    "INS RGPH 2021",
+    "INSAE RGPH 1979",
+    "INSAE RGPH 2013",
+    "Statoids TGO"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Twelve preserved sub-administrative census benchmark tables across Nigeria, Ghana, Côte d'Ivoire, Benin and Togo.",
+  arg3_options = list(label = "tab:census-benchmarks")
+)
+```
+
+## Settlement Rank-Size Calibration and Metropolitan Density Gradients
+
+Ordinary least-squares rank-size regression across all `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements yields an upper-tier Zipf exponent of $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 2L)`$, n=180), rising to $q = `r viscount_fmt_number(summary_cache$rank_size$full_zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$full_r2, 2L)`$) across the entire sample. Figure \ref{fig:rank-size} plots the 3.927 spatially deduplicated urban peaks ($q = 1,07$, $R^2 = 0,99$) alongside the ten densest Admin-1 units in 2025AD. Unlike mono-primate urban systems dominated by a single capital, post-colonial West Africa exhibits an exceptionally close fit to the theoretical Zipf reference ($q = 1$) across more than two orders of magnitude from 100k to 16,11M inhabitants, before dropping sharply below the Africapolis 10k-inhabitant agglomeration threshold [@OECD2024Africapolis; @Folawewo2024UrbanizationWithout].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 3.927 spatially deduplicated sites (q = 1,07, R² = 0,99) and top ten Admin-1 population densities in 2025AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+The density bars in Figure \ref{fig:rank-size} highlight how compact coastal administrative enclaves and Igbo-Yoruba heartlands pack urban growth into tight footprints: Conakry (8.091 persons/km²), Lagos State (3.623 persons/km²), Western Area around Freetown (3.002 persons/km²), Littoral around Cotonou (2.894 persons/km²) and Greater Accra (1.549 persons/km²) sit atop Imo (1.234 persons/km²), Anambra (1.168 persons/km²), Montserrado around Monrovia (1.048 persons/km²), Ouémé (1.030 persons/km²) and Rivers (908 persons/km²). Remote-sensing and land-cover studies across Lagos, Ibadan, Calabar, Igbokoda and coastal Ghana confirm that this peripheral urban sprawl converted agricultural and wetland belts into residential estates faster than piped water or sanitation networks expanded [@Onilude2023AnalysisLand; @Yaro2016TheEcological; @Adewumi2016ApplicationGis; @Oduoye2026CholeraLagos; @Codjoe2007IntegratingRemote].
+
+# Results
+
+## Regional Growth, the Biafran Contraction and Demographic Acceleration (1957AD to 2025AD)
+
+At Ghana's independence in 1957AD, total population across the nine Guinea-region states stood at `r viscount_fmt_pop(headline_vals[["1957"]])` (34,46 persons/km²), rising slightly to `r viscount_fmt_pop(headline_vals[["1962"]])` in 1962AD (Table \ref{tab:country-trajectory} and Figure \ref{fig:trends}). Between 1962AD and 1967AD, however, regional population recorded a sharp trough down to `r viscount_fmt_pop(headline_vals[["1967"]])`, driven almost entirely by Nigeria, where aggregate Admin-1 population dropped from 52,51M in 1962AD to 30,16M in 1967AD. Two distinct mechanisms combined in that 1967AD dip: genuine war mortality, famine and refugee flight across the nine eastern Nigerian states during the Nigerian Civil War (which fell from 12,39M in 1962AD to 5,82M in 1967AD and 6,59M in 1973AD), and the statistical transition away from Nigeria's inflated 1963AD regional census during the 1967AD twelve-state reorganisation [@Caldwell2013AfricanDemographic; @NPC2010NigeriaCensus].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading urban centres across Post-Colonial West Africa from 1957AD to 2025AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+From 1973AD onward, every major sub-region entered sustained rapid expansion (Table \ref{tab:country-trajectory}). Regional population climbed from `r viscount_fmt_pop(headline_vals[["1973"]])` in 1973AD to `r viscount_fmt_pop(headline_vals[["1978"]])` in 1978AD, `r viscount_fmt_pop(headline_vals[["1988"]])` in 1988AD, `r viscount_fmt_pop(headline_vals[["1999"]])` in 1999AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD, a nearly fivefold increase from the 1957AD baseline and a 6,7-fold expansion above the 1967AD trough. Attested urban population in the settlement ledger grew even faster, rising twenty-fold from 10,43M across 296 active sites in 1957AD to 32,37M across 597 sites in 1978AD, 80,91M across 999 sites in 1999AD and 215,70M across 2.694 active entries in 2025AD (Figure \ref{fig:trends}).
+
+```{r tab3-country-trajectory, results='asis'}
+sel_yrs <- c("1957", "1967", "1978", "1994", "2009", "2025")
+df_t3 <- data.frame(
+  Country = vapply(iso_order, function (iso) country_stats[[iso]]$name, character(1)),
+  `1957AD` = vapply(iso_order, function (iso) viscount_fmt_pop(country_stats[[iso]]$population[["1957"]]), character(1)),
+  `1967AD` = vapply(iso_order, function (iso) viscount_fmt_pop(country_stats[[iso]]$population[["1967"]]), character(1)),
+  `1978AD` = vapply(iso_order, function (iso) viscount_fmt_pop(country_stats[[iso]]$population[["1978"]]), character(1)),
+  `1994AD` = vapply(iso_order, function (iso) viscount_fmt_pop(country_stats[[iso]]$population[["1994"]]), character(1)),
+  `2009AD` = vapply(iso_order, function (iso) viscount_fmt_pop(country_stats[[iso]]$population[["2009"]]), character(1)),
+  `2025AD` = vapply(iso_order, function (iso) viscount_fmt_pop(country_stats[[iso]]$population[["2025"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_t3 <- data.frame(
+  Country = "Total Study Area",
+  `1957AD` = viscount_fmt_pop(headline_vals[["1957"]]),
+  `1967AD` = viscount_fmt_pop(headline_vals[["1967"]]),
+  `1978AD` = viscount_fmt_pop(headline_vals[["1978"]]),
+  `1994AD` = viscount_fmt_pop(headline_vals[["1994"]]),
+  `2009AD` = viscount_fmt_pop(headline_vals[["2009"]]),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "National and total study-area population trajectories across six benchmark years from 1957AD to 2025AD.",
+  arg3_options = list(label = "tab:country-trajectory")
+)
+```
+
+## Nigeria: Megacity Corridors, Northern Basins and Oil-Delta Settlement
+
+Nigeria accounted for 68,3% of total regional population by 2025AD, rising from 52,45M in 1957AD and 46,18M in 1978AD to 88,22M in 1994AD (aligned with the 1991AD census), 152,41M in 2009AD and 235,67M in 2025AD (Table \ref{tab:country-trajectory}). Three contrasting urban-regional belts structured that growth [@NPC2010NigeriaCensus; @Ifelunini2018DeterminantsFertility; @Folawewo2024UrbanizationWithout]. First, the south-western Yoruba metropolitan corridor anchored by Lagos expanded continuously from coastal island wards into a transnational urban region spanning Lagos State (11,44M in 2025AD) and neighbouring Ogun State (10,43M) alongside Ibadan (4,60M municipal) and Oyo State (8,92M) [@Onilude2023AnalysisLand; @Folawewo2024UrbanizationWithout]. Within the Lagos agglomeration (16,11M by 2025AD), peripheral municipalities such as Ikorodu grew to 2,59M, while rapid informal settlement over lagoon wetlands heightened seasonal cholera and drainage vulnerability [@Oduoye2026CholeraLagos; @Adewumi2016ApplicationGis].
+
+Second, the south-eastern Igbo and Niger Delta corridor transformed from predominantly rural compound clusters into dense continuous urbanised landscapes [@Yaro2016TheEcological; @NPC2010NigeriaCensus]. Along the lower Niger and Anambra-Imo ridge, Onitsha coalesced into a contiguous urban agglomeration of 10,35M residents by 2025AD across Anambra (5,68M, 1.168 persons/km²) and Imo (6,22M, 1.234 persons/km²), linked southward to Aba (2,00M), oil-export hub Port Harcourt (3,77M; Rivers State 8,78M) and Uyo (3,27M; Akwa Ibom 5,48M) [@NPC2010NigeriaCensus; @Yaro2016TheEcological]. Third, the northern savanna belt sustained rapid natural increase alongside major inland urban growth: Kano State reached 16,97M (Kano city 6,43M), Katsina 11,56M, Kaduna 9,74M (Kaduna city 2,38M), Bauchi 9,26M and Jigawa 8,30M, while the planned federal capital at Abuja expanded from negligible rural villages in 1980AD to a metropolitan region of 3,86M by 2025AD and improved Niger-Benue bridge transport revitalised Lokoja [@Ali2024AccessibilityThe; @Oyediran2016ExplainingTrends]. In the north-east, Borno (6,59M; Maiduguri 2,39M), Yobe (3,97M) and Adamawa (5,36M) absorbed prolonged insurgent conflict and internal displacement after 2009AD [@NPC2010NigeriaCensus].
+
+## Ghana and Côte d'Ivoire: Cocoa Frontiers, Fertility Decline and Coastal Metropolises
+
+Ghana recorded steadier, census-backed expansion from 8,41M in 1957AD to 12,03M in 1978AD, 15,49M in 1988AD, 24,17M in 2009AD and 33,69M by 2025AD (Table \ref{tab:country-trajectory}), closely tracking the 2021AD Population and Housing Census total of 30,83M [@GSS2021GhanaPHC; @Bank2015RisingThrough]. Unlike Nigeria's sustained high fertility, Ghana experienced an early fertility decline from roughly 6,4 births per woman in 1988AD to 4,2 by 2008-2014AD and under 3,9 by 2021AD, paired with rising urbanisation exceeding 56% and measurable demographic ageing [@Gaisie2013FertilityTrend; @Amoateng2018ChangesThe; @Agyekum2024PrevalenceAnd; @Oduro2026InterplayGender]. Internal migration, increasingly female as well as male, redirected labour from the Northern, Upper East and Upper West savannas and the Volta basin toward Ashanti Region (5,79M in 2025AD; Kumasi agglomeration 3,64M), Greater Accra (5,16M; Accra-Tema agglomeration 5,43M), Central Region (3,65M) and the twin port of Sekondi-Takoradi (938,7k), while Tamale (562,8k agglomeration) anchored northern urbanisation [@Lattof2018ContemporaryFemale; @Reed2010MensAnd; @Codjoe2007IntegratingRemote; @Bank2015RisingThrough].
+
+Côte d'Ivoire exhibited the sharpest proportional expansion of any large Guinea-coast state, surging almost elevenfold from 1,88M in 1957AD to 5,33M in 1978AD, 11,42M in 1988AD, 18,30M in 2009AD and 20,45M in 2025AD (Table \ref{tab:country-trajectory}), while the 2021AD national RGPH census reached 29,39M once full northern and western enumeration resumed [@INS2022CoteIvoireRGPH; @OECD2024Africapolis]. Post-independence cocoa and timber colonisation shifted Côte d'Ivoire's demographic centre of gravity westward into Bas-Sassandra (3,24M in 2025AD; port of San-Pédro 293,4k), Montagnes (2,37M), Sassandra-Marahoué (2,33M; Daloa 366,4k) and the central Lacs region (1,95M) around the official political capital Yamoussoukro (280,0k) [@INS2022CoteIvoireRGPH]. Meanwhile, Abidjan remained the undisputed commercial metropolis of Francophone West Africa, expanding from 224,6k in 1960AD to 2,11M in 1990AD, 3,04M in 2000AD and 6,72M in 2025AD, while the 2002-2011AD political partition accelerated displacement southward from Bouaké (804,1k) and Korhogo (418,3k) [@INS2022CoteIvoireRGPH; @OECD2024Africapolis].
+
+## Guinea, the Gulf of Guinea Strip and the Mano River States
+
+Between Nigeria and Côte d'Ivoire, Benin and Togo formed a densely settled coastal corridor linking Lagos westward to Accra [@OECD2024Africapolis]. Benin grew from 1,71M in 1957AD to 3,08M in 1988AD and 12,81M in 2025AD, led by the Cotonou-Abomey-Calavi-Sèmè-Kpodji coastal conurbation (2,27M agglomeration) and Porto-Novo (1,04M agglomeration) across Littoral (2.894 persons/km²) and Ouémé (1.030 persons/km²), alongside interior Borgou (1,92M; Parakou 366,9k). Togo expanded nearly sixfold from 1,41M in 1957AD to 8,31M in 2025AD, concentrated overwhelmingly in Maritime Region (3,48M, 551 persons/km²), where the border-straddling capital Lomé surged to 3,41M (2,19M city-proper) ahead of inland hubs Tsévié (181,0k), Kara (177,4k) and Sokodé (140,5k) [@OECD2024Africapolis].
+
+Along the Upper Guinea littoral, Guinea rose from 2,35M in 1957AD to 6,07M in 1988AD and 17,57M in 2025AD, anchored by Conakry (3,41M municipal; 8.091 persons/km² across the Kaloum-Camayenne peninsula) and inland Kankan (4,11M region; Kankan town 410,5k, Siguiri 303,0k) and Nzérékoré (2,49M region; 316,1k town), which absorbed hundreds of thousands of Liberian and Sierra Leonean refugees during the 1990s [@OECD2024Africapolis]. Sierra Leone climbed from 1,96M in 1957AD to 9,78M in 2025AD; during the 1991-2002AD civil war, rural-to-urban flight swelled Freetown from roughly 600k to an agglomeration of 2,05M (1,06M city-proper) alongside eastern and southern provincial centres Kenema (269,2k), Bo (264,3k) and Koidu (216,7k) [@Souza2014EvidenceFor; @Bank2021SierraLeone]. Liberia similarly expanded from 1,48M in 1957AD to 5,62M in 2025AD, concentrating one-third of its national population inside Montserrado County (1,70M) and Greater Monrovia (1,89M agglomeration) after two devastating civil wars (1989-1997AD and 1999-2003AD) left secondary towns such as Kakata (68,6k), Buchanan (63,6k) and Gbarnga (58,8k) far smaller [@Souza2014EvidenceFor]. Smallest of all, Guinea-Bissau rose from 337,9k in 1957AD to 1,83M in 2020AD and 1,28M in 2025AD raster aggregation, dominated by Bissau (612,3k agglomeration, 387,9k city-proper) ahead of Gabú (86,7k) and Bafatá (41,6k) [@OECD2024Africapolis].
+
+## Leading Urban Centres Across the Guinea Region
+
+Table \ref{tab:top-centres} summarises the sixteen largest urban entries in the chapter settlement ledger. Nine of the sixteen lie in Nigeria, led by Lagos (16,11M agglomeration), Onitsha (10,35M), Kano (6,43M), Lagos municipality (5,20M in 1991AD), Ibadan (4,60M), Abuja (3,86M), Port Harcourt (3,77M), Uyo (3,27M) and the Lagos satellite Ikorodu (2,59M). Abidjan (6,72M agglomeration and 5,62M city-proper), Accra (5,43M), Kumasi (3,64M), Lomé (3,41M) and Conakry (3,41M city-proper and 3,19M agglomeration) complete the multi-million tier across Côte d'Ivoire, Ghana, Togo and Guinea [@OECD2024Africapolis; @Folawewo2024UrbanizationWithout; @Bank2015RisingThrough].
+
+```{r tab4-top-centres, results='asis'}
+top_16 <- summary_cache$top_settlements[seq_len(min(16L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_16, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_16, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "Ivory Coast")) "Côte d'Ivoire" else c
+  }, character(1)),
+  Scope = vapply(top_16, function (s) if (identical(s$population_scope, "metro")) "Metro" else "City", character(1)),
+  Span = vapply(top_16, function (s) paste0(s$min_year, "AD-", s$max_year, "AD"), character(1)),
+  `Peak Pop.` = vapply(top_16, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_16, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_16, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Sixteen largest individually assessed urban centres and agglomerations in Post-Colonial West Africa (1957AD to 2025AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Three structural constraints bound these demographic reconstructions. First, Nigeria's contested early census record (the cancelled 1962AD enumeration, the widely disputed 1963AD return of 55,66M, the annulled 1973AD census and repeated federal state subdivisions from three regions in 1957AD to 36 states plus Abuja FCT in 1996AD) creates a visible structural break in the 1967-1973AD benchmark series alongside genuine Biafran War mortality [@Caldwell2013AfricanDemographic; @NPC2010NigeriaCensus]. Until the 1991AD and 2006AD censuses anchored sub-state totals cleanly across all 774 Local Government Areas, sub-national Nigerian trajectories between 1963AD and 1988AD carry wider uncertainty than Ghana's continuous post-1960AD GSS census series [@GSS2021GhanaPHC].
+
+Second, 5-arcminute rasterisation (~85 km² per cell) introduces coastal clipping and urban-spillover discrepancies for compact capital enclaves and cross-border conurbations. Most noticeably, Bissau (84 km², 1 pixel in Guinea-Bissau) records only 4.881 persons on the 2025AD raster cell compared with 456,9k in 2020AD and 612,3k in the settlement agglomeration ledger, while District Autonome d'Abidjan (717,7k on the 2025AD Admin-1 raster versus 6,72M in the Africapolis agglomeration and 6,32M in the 2021AD INS census) and Littoral in Benin (494,0k versus 2,27M for Greater Cotonou) spill mass into adjoining suburban units (Lagunes, Atlantique, Biombo) [@INS2022CoteIvoireRGPH; @OECD2024Africapolis]. Similarly, Onitsha in Africapolis (10,35M in 2025AD) represents a continuous multi-city Igbo urban corridor spanning Anambra and Imo rather than the historic Onitsha municipal core alone.
+
+Third, conflict and single-date coverage gaps remain uneven across smaller towns. In the 4.126-entry settlement ledger, `r viscount_fmt_number(single_date_sites, 0L)` settlements hold only a single dated observation, mostly small Africapolis agglomerations or secondary district centres enumerated in 2015-2025AD, and civil wars in Liberia, Sierra Leone, Guinea-Bissau and Côte d'Ivoire left decade-long gaps between censuses [@Souza2014EvidenceFor; @Bank2021SierraLeone; @INS2022CoteIvoireRGPH]. Borderland settlements from Sahelian and Central African neighbours (Niger, Cameroon, Burkina Faso, Senegal, Mali and Chad) appear in the catchment ledger to stabilise boundary kriging while their national territories are analysed in companion NICETHI chapters.
+
+# Conclusion
+
+Between 1957AD and 2025AD, Post-Colonial West Africa expanded nearly fivefold from `r viscount_fmt_pop(headline_vals[["1957"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])` inhabitants across `r viscount_fmt_number(total_area_km2, 0L)` km², raising mean regional density from 34,46 to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². After an acute 1967AD trough (51,51M) caused by the Nigerian Civil War and post-1963AD state-boundary transitions, sustained mortality decline, cocoa-frontier colonisation and rapid rural-to-urban migration turned the Gulf of Guinea littoral into one of the world's most densely urbanised regions. Nigeria reached 235,67M alongside the 16,11M Lagos and 10,35M Onitsha conurbations, Ghana achieved an early fertility transition on its way to 33,69M, Côte d'Ivoire surged to 20,45M anchored by 6,72M Abidjan, and coastal capitals from Conakry and Freetown to Monrovia, Lomé and Cotonou absorbed massive post-war and post-independence growth. By pairing `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements and `r viscount_fmt_number(n_obs_total, 0L)` observations with 120 Admin-1 census polygons, NICETHI supplies a unified quantitative foundation for contemporary West African demographic history.
+
+# Appendix
+
+## National Density and Population Share Series
+
+Table \ref{tab:density-appendix} reports mean population density in persons/km² across all nine Guinea-region sovereign states from 1957AD to 2025AD, documenting the sustained density lead of Nigeria (259,09 persons/km² by 2025AD), Togo (145,20), Ghana (140,62), Sierra Leone (134,70) and Benin (111,24) over larger forest-savanna interiors such as Guinea (71,78), Côte d'Ivoire (63,62), Liberia (58,89) and Guinea-Bissau (39,18). Table \ref{tab:shares-appendix} tracks each sovereign state's percentage share of the nine-country total across the same six benchmarks.
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(iso_order, function (iso) {
+  cs <- country_stats[[iso]]
+  ar <- cs$area_km2
+  ps <- cs$population
+  data.frame(
+    Country = cs$name,
+    `1957AD` = viscount_fmt_number(ps[["1957"]] / ar, 2L),
+    `1967AD` = viscount_fmt_number(ps[["1967"]] / ar, 2L),
+    `1978AD` = viscount_fmt_number(ps[["1978"]] / ar, 2L),
+    `1994AD` = viscount_fmt_number(ps[["1994"]] / ar, 2L),
+    `2009AD` = viscount_fmt_number(ps[["2009"]] / ar, 2L),
+    `2025AD` = viscount_fmt_number(ps[["2025"]] / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens <- data.frame(
+  Country = "Mean Study Area",
+  `1957AD` = viscount_fmt_number(headline_vals[["1957"]] / total_area_km2, 2L),
+  `1967AD` = viscount_fmt_number(headline_vals[["1967"]] / total_area_km2, 2L),
+  `1978AD` = viscount_fmt_number(headline_vals[["1978"]] / total_area_km2, 2L),
+  `1994AD` = viscount_fmt_number(headline_vals[["1994"]] / total_area_km2, 2L),
+  `2009AD` = viscount_fmt_number(headline_vals[["2009"]] / total_area_km2, 2L),
+  `2025AD` = viscount_fmt_number(headline_vals[["2025"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across nine Guinea-region states from 1957AD to 2025AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(iso_order, function (iso) {
+  cs <- country_stats[[iso]]
+  ps <- cs$population
+  data.frame(
+    Country = cs$name,
+    `1957AD (%)` = viscount_fmt_number(100 * ps[["1957"]] / headline_vals[["1957"]], 1L),
+    `1967AD (%)` = viscount_fmt_number(100 * ps[["1967"]] / headline_vals[["1967"]], 1L),
+    `1978AD (%)` = viscount_fmt_number(100 * ps[["1978"]] / headline_vals[["1978"]], 1L),
+    `1994AD (%)` = viscount_fmt_number(100 * ps[["1994"]] / headline_vals[["1994"]], 1L),
+    `2009AD (%)` = viscount_fmt_number(100 * ps[["2009"]] / headline_vals[["2009"]], 1L),
+    `2025AD (%)` = viscount_fmt_number(100 * ps[["2025"]] / headline_vals[["2025"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total regional population by sovereign state across six benchmark years from 1957AD to 2025AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+## Leading Admin-1 Divisions and Historical Nigerian State Benchmarks
+
+Table \ref{tab:top-admin1} presents the twenty-four largest first-level administrative divisions by 2025AD population across the 120-division study domain, while Table \ref{tab:nga-state-census} compares Nigeria's eighteen most populous states in the 1991AD national census against 2022AD NBS state projections [@NPC2010NigeriaCensus].
+
+```{r tab7-top-admin1, results='asis'}
+ord_sr <- order(-vapply(subregs, function (x) as.numeric(x$end_pop), numeric(1)))
+top24_sr <- subregs[ord_sr[seq_len(24L)]]
+df_t7 <- data.frame(
+  `Admin-1 Division` = vapply(top24_sr, function (x) as.character(x$name), character(1)),
+  `Area (km²)` = vapply(top24_sr, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  `1957AD` = vapply(top24_sr, function (x) viscount_fmt_pop(x$population[["1957"]]), character(1)),
+  `1978AD` = vapply(top24_sr, function (x) viscount_fmt_pop(x$population[["1978"]]), character(1)),
+  `1999AD` = vapply(top24_sr, function (x) viscount_fmt_pop(x$population[["1999"]]), character(1)),
+  `2025AD` = vapply(top24_sr, function (x) viscount_fmt_pop(x$end_pop), character(1)),
+  `2025AD Density` = vapply(top24_sr, function (x) viscount_fmt_number(x$end_density_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Twenty-four most populous Admin-1 divisions across Post-Colonial West Africa from 1957AD to 2025AD.",
+  arg3_options = list(label = "tab:top-admin1")
+)
+```
+
+```{r tab8-nga-state-census, results='asis'}
+nga91_adm1 <- Filter(function (u) identical(u$admin_level, "ADM1"), nga91$units)
+nga22_adm1 <- Filter(function (u) identical(u$admin_level, "ADM1"), nga22$units)
+n22_map <- setNames(vapply(nga22_adm1, function (u) as.numeric(u$population), numeric(1)),
+                    vapply(nga22_adm1, function (u) as.character(u$unit_name), character(1)))
+top18_91 <- nga91_adm1[seq_len(min(18L, length(nga91_adm1)))]
+df_t8 <- data.frame(
+  `Nigerian State` = vapply(top18_91, function (u) as.character(u$unit_name), character(1)),
+  `1991AD Census` = vapply(top18_91, function (u) viscount_fmt_number(u$population, 0L), character(1)),
+  `2022AD NBS Proj.` = vapply(top18_91, function (u) {
+    nm <- as.character(u$unit_name)
+    if (nm %in% names(n22_map)) viscount_fmt_number(n22_map[[nm]], 0L) else "-"
+  }, character(1)),
+  `Ratio (2022/1991)` = vapply(top18_91, function (u) {
+    nm <- as.character(u$unit_name)
+    if (nm %in% names(n22_map)) viscount_fmt_number(n22_map[[nm]] / as.numeric(u$population), 2L) else "-"
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t8) <- NULL
+viscount_table(
+  df_t8,
+  "Eighteen largest Nigerian states in the 1991AD national census compared with 2022AD NBS official state projections.",
+  arg3_options = list(label = "tab:nga-state-census")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Of the 4.126 individually assessed settlements in the chapter ledger, 3.588 lie strictly within the 120 Admin-1 polygons across the nine Guinea-region sovereign states in Table \ref{tab:countries}, while 538 cross-border catchment settlements (across Niger, Cameroon, Burkina Faso, Senegal, Mali and Chad) sit inside the neighbouring border buffer used to stabilise spatial interpolation; Sahelian West Africa (Senegal, The Gambia, Mali, Burkina Faso and Niger) forms a separate companion chapter. Benin's 2025AD Africapolis raster layer retains four unnamed minor agglomerations recorded as (n.d.) between 13,9k and 26,7k inhabitants, which are excluded from ranked named city tables while retained in aggregate urban totals.

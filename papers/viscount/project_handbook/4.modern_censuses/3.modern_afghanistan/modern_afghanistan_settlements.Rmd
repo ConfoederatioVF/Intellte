@@ -1,0 +1,261 @@
+---
+title: "Afghanistan after 1919"
+subtitle: "Settlement Gazetteer: Capitals, Oasis Towns and Industrial Centres"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: modern_afghanistan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_modern_afghanistan_spatial.png"
+hero_caption: "Spatial distribution of 1.148 catalogued urban and administrative centres across Afghanistan from 1919AD to 2026AD."
+hero_label: "fig:hero-modern-afghanistan-settlements"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, fig.pos = "htbp")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  lines <- gsub("//.*$", "", lines)
+  clean_str <- paste(lines, collapse = "\n")
+  clean_str <- gsub("/\\*.*?\\*/", "", clean_str)
+  clean_str <- gsub(",(\\s*[\\]\\}])", "\\1", clean_str)
+  fromJSON(clean_str, simplifyVector = FALSE)
+}
+
+summary_cache <- fromJSON("modern_afghanistan_summary_cache.json", simplifyVector = FALSE)
+mod_data <- read_json5_clean("modern_afghanistan.json5")
+sett_data <- fromJSON("modern_afghanistan_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("modern_afghanistan_source_ledger.json5")
+
+prov_display_names <- c(
+  afghanistan_21_parwan = "Parwan (Panjshir)",
+  afghanistan_33_uruzgan = "Uruzgan (Daykundi)"
+)
+
+get_prov_name <- function(rk, raw_name) {
+  if (rk %in% names(prov_display_names)) return(unname(prov_display_names[[rk]]))
+  raw_name
+}
+
+fmt_int_eu <- function(x) formatC(as.integer(round(as.numeric(x))), format = "d", big.mark = ".")
+
+n_obs <- sum(vapply(sett_data, function(e) length(e[["population"]]), integer(1)))
+sum_sett_yr <- function(yr) {
+  sum(vapply(sett_data, function(e) {
+    v <- e[["population"]][[yr]]
+    if (is.null(v)) 0 else as.numeric(v)
+  }, numeric(1)))
+}
+u_1920 <- sum_sett_yr("1920")
+u_1950 <- sum_sett_yr("1950")
+u_1979 <- sum_sett_yr("1979")
+u_2000 <- sum_sett_yr("2000")
+u_2020 <- sum_sett_yr("2020")
+u_2025 <- sum_sett_yr("2025")
+kabul_2025 <- as.numeric(sett_data[["Kābul-Afghanistan"]][["population"]][["2025"]])
+rest_2025 <- u_2025 - kabul_2025
+```
+
+# Abstract
+
+This gazetteer documents the 1.148 urban, administrative and district settlements catalogued across Afghanistan between full independence in 1919AD and 2026AD, spanning all 34 provincial sub-regions across 638,54k km². Synthesising the partial June 1979 national census, municipal and district projections compiled by the National Statistics and Information Authority (NSIA), provincial repatriation surveys and historical monographs [@Anonymous1990Herat; @Anonymous1991Afghanista; @Anonymous2014Municipali; @Wafayezada2025Demographi], the dataset records `r fmt_int_eu(n_obs)` settlement-year population observations (averaging `r viscount_fmt_number(n_obs / length(sett_data), 2L)` observations per locality) screened across 3.976 official census and register rows in bounds, with duplicate aliases and co-located records merged and excluded. Combined enumerated population across catalogued centres rose from `r viscount_fmt_pop(u_1920)` in 1920AD to `r viscount_fmt_pop(u_1950)` in 1950AD, `r viscount_fmt_pop(u_1979)` in 1979AD, `r viscount_fmt_pop(u_2000)` in 2000AD, `r viscount_fmt_pop(u_2020)` in 2020AD and `r viscount_fmt_pop(u_2025)` in 2025AD. Urban growth was overwhelmingly concentrated in Kabul, which expanded more than 63-fold from 75k in 1920AD to 4,76M in 2025AD, producing a steep Zipf rank-size slope of $\alpha = 1{,}473$ ($R^2 = 0{,}831$) far above classical polycentric equilibria. Secondary ring-road cities—Herat (615,9k), Kandahar (561,2k), Mazar-e Sharif (523,3k peak in 2015AD, 519,6k in 2025AD) and Jalalabad (291,6k)—anchored regional trade, while planned twentieth-century towns such as Pul-e Khumri (founded 1936AD) and Lashkargah (founded 1953AD) alongside newly designated provincial capitals such as Bazarak and Nili completed sub-regional territorial coverage across all 34 provinces.
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_modern_afghanistan_spatial.png",
+    "Spatial distribution of 1.148 catalogued urban and administrative centres across Afghanistan from 1919AD to 2026AD.",
+    "fig:hero-modern-afghanistan-settlements",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+# Background
+
+Throughout the twentieth and early twenty-first centuries, Afghanistan's urban network remained structurally tied to oasis irrigation basins, mountain passes and caravan junctions flanking the Hindu Kush [@Anonymous1989Afghanista; @Anonymous2014Municipali; @Hugo2019Patterns]. Whereas coastal or river-delta nations concentrated millions in maritime ports, landlocked Afghanistan evolved around an interior ring of historic bazaar cities connected by the Kabul-Kandahar-Herat-Mazar-e Sharif highway loop. At the 1920AD post-independence baseline, only Kabul (75k) exceeded 50k inhabitants, followed by Kandahar (42k), Herat (40k) and Mazar-e Sharif (30k), which together anchored the bulk of the country's urban trade [@Anonymous2014Municipali; @Kakar1968Consolidat]. Smaller provincial market towns—such as Meymaneh (16k), Jalalabad (15k) guarding the Khyber approaches, Khulm (15k), Khan Abad (12,5k), Ghazni (12k), Kunduz (8k) and Baghlan (5,5k)—served primarily as grain markets, garrison posts and administrative seats for surrounding rural valleys [@Anonymous1989Afghanista; @Anonymous2000Understand].
+
+Mid-century state modernisation introduced Afghanistan's first planned industrial and hydraulic settlements. In the northern province of Baghlan, malaria eradication and cotton-textile industrialisation under the Bank-e Milli initiative created Pul-e Khumri in 1936AD, which grew rapidly from 2,5k at founding past its older neighbour Baghlan to reach 31,1k in 1979AD and 132,7k by 2025AD [@Pain2000Afghanista; @Anonymous1989Afghanista]. In the arid south-west, the Helmand and Arghandab Valley Authority (HAVA) established Lashkargah in 1953AD adjacent to the mediaeval ruins of Bost as an American-designed administrative and engineering headquarters, lifting the new town from 2,5k at its founding to 21,6k in 1979AD, 89,3k in 2020AD and 95,8k in 2025AD [@Anonymous2000Afghanistab; @Anonymous2000Understand].
+
+Four decades of conflict after 1978AD fundamentally reshaped urban settlement dynamics [@Pain2000Afghanista; @Sharp2002Challenges; @Wafayezada2025Demographi]. Rather than depopulating cities, warfare, landmines and drought displaced millions of rural villagers inward toward fortified provincial hubs and above all into Kabul, which swelled from 913,2k in 1979AD to 2,02M in 2000AD before post-2001 refugee repatriation from Pakistan and Iran lifted it to 2,54M in 2006AD, 4,43M in 2020AD and 4,76M in 2025AD [@Bukhari2025Pakistan; @Anonymous2014Municipali; @Hugo2019Patterns]. Simultaneously, administrative decentralisation after 2004AD elevated remote highland centres such as Nili in Daykundi and Bazarak in Panjshir to full provincial capital status, integrating the central Hazarajat and Panjshir valley into the national municipal hierarchy [@Abbasi2024Displaceme; @Anonymous2014Municipali].
+
+# Methodology
+
+The settlement register was compiled and audited across 3.976 official census and register rows in the regional source ledger [@Anonymous2014Municipali; @Runfola2020GeoBoundaries]. Primary municipal and district-town records were ingested from the June 1979 partial census returns, NSIA official provincial and town registers (covering 1979AD, 2006AD, 2015AD and 2020AD) and provincial socio-economic profiles for Herat and Kandahar [@Anonymous1990Herat; @Anonymous1991Afghanista; @Anonymous2000Afghanista; @Kakar1968Consolidat]. Deduplication and co-location screening merged duplicate aliases and overlapping town variants into canonical anchors, yielding 1.148 retained localities across all 34 provincial sub-regions with zero reliance on crowd-sourced fallback registries. Strict foundation-year cut-offs preserve twentieth-century planned foundations—truncating Pul-e Khumri before 1936AD and Lashkargah before 1953AD so anachronistic early-twentieth-century estimates never appear.
+
+To preserve scholarly toponymic precision across Dari, Pashto and English administrative usage, primary provincial seats retain standard BGN/PCGN Latin transliteration with diacritics (such as Kābul, Herāt, Kandahār, Mazār-e Sharīf, Jalālābād, Gardēz and Khōst) alongside Perso-Arabic script forms in the underlying archive. Pre-1979 municipal series for historic towns are anchored to historical benchmarks (1920AD, 1950AD and 1965AD, plus 1930AD–1935AD for leading cities) corroborated against the 1965AD Greater Kabul survey and geographical monographs, while post-2020 projections to 2025AD follow NSIA urban growth schedules tempered by post-2021 outward migration adjustments [@Hakeemi2026Migration; @Hashimy2024Goodbye; @Singh2026Kabul].
+
+# Testing and Validation
+
+Ledger reconciliation confirms 1.148 included settlements out of 3.976 processed official register rows (with duplicate aliases and co-located records excluded) and complete coverage across all 34 provincial territories. All 1.148 entries carry verified WGS84 geographic coordinates, combining continuous 1920AD to 2025AD trajectories for historic provincial capitals (from 1936AD for Pul-e Khumri and 1953AD for Lashkargah) with single- and multi-benchmark district towns enumerated in 1979AD, 2003AD, 2015AD and 2020AD. Figure 1 displays the log-log Zipf rank-size regression and the twelve largest settlements by peak observed population.
+
+```{r fig-sett-rank, results='asis'}
+viscount_figure(
+  "figures/fig4_modern_afghanistan_settlements.png",
+  "Rank-size distribution across 1.148 catalogued Afghan settlements (left, Zipf alpha = 1,473, R² = 0,831) and the twelve largest urban centres by peak observed population (right).",
+  "fig:sett-gazetteer-afg",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+Across all 1.148 settlements, the Zipf rank-size exponent reaches $\alpha = 1{,}473$ ($R^2 = 0{,}831$), confirming extreme metropolitan primacy rather than a balanced rank-size distribution ($\alpha \approx 1{,}0$). Kabul's 2025AD population of 4,76M stands 7,72 times larger than second-ranked Herat (615,9k) and exceeds the combined 2025AD total of all other catalogued settlements with 2025AD enumerations (`r viscount_fmt_pop(rest_2025)`). Beneath the top five cities (Kabul, Herat, Kandahar, Mazar-e Sharif at 523,3k peak and Jalalabad at 291,6k), secondary provincial centres including Taloqan (258,8k in 2020AD), Kunduz (203k), Sheberghan (175,6k peak), Charikar (171,2k peak), Ghazni (143,4k peak), Pul-e Khumri (132,7k) and Paghman (120k peak) form a steep mid-tier that drops off rapidly toward rural district seats [@Pain2000Afghanista; @Anonymous2014Municipali].
+
+# Results
+
+## Gazetteer of 1.148 Settlements (1920AD to 2025AD)
+
+Table 1 lists all 1.148 catalogued settlements in descending order of peak observed population, reporting WGS84 coordinates, active temporal span and population benchmarks for 1920AD, 1979AD and peak observed year. Notice that for Pul-e Khumri (founded 1936AD) and Lashkargah (founded 1953AD), as well as district towns first enumerated in 1979AD, 2003AD or 2015AD, the 1920AD column is appropriately blank.
+
+```{r tab-all-123, results='asis'}
+fmt_coord <- function(x) gsub("[.]", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+
+get_pop_str <- function(e, y) {
+  v <- e[["population"]][[y]]
+  if (is.null(v)) return("-")
+  viscount_fmt_pop(v)
+}
+
+peaks <- vapply(sett_data, function(e) max(as.numeric(unlist(e[["population"]]))), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+
+rows <- lapply(sett_data[ord], function(e) {
+  yrs <- as.integer(names(e[["population"]]))
+  pks <- as.numeric(unlist(e[["population"]]))
+  pk_idx <- which.max(pks)
+  pk_v <- pks[pk_idx]
+  pk_y <- yrs[pk_idx]
+  data.frame(
+    Settlement = e[["name"]],
+    Coords = paste0(fmt_coord(e[["coords"]][[1]]), ", ", fmt_coord(e[["coords"]][[2]])),
+    Span = paste0(min(yrs), "-", max(yrs), "AD"),
+    P1920 = get_pop_str(e, "1920"),
+    P1979 = get_pop_str(e, "1979"),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_y, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  paste0("All 1.148 catalogued settlements in Afghanistan ordered by peak observed population (", fmt_int_eu(n_obs), " settlement-year observations)."),
+  c("Settlement", "Lat, Lon", "Span", "1920AD", "1979AD", "Peak (Year)"),
+  list(label = "tab:all123-afg", font_size = "scriptsize", max_rows_per_page = 30L)
+)
+```
+
+## Sub-Regional Territorial Coverage Across 34 Provinces
+
+Table 2 summarises settlement representation across all 34 provincial territorial masks from the regional source ledger alongside provincial population allocations. Major riverine, northern and eastern agricultural provinces—led by Nangarhar, Badakhshan, Baghlan, Kunduz, Ghor, Ghazni and Kunar—hold dense clusters of catalogued urban, district and village nodes, while arid southern and central highland provinces are anchored by their provincial capitals and principal market centres.
+
+```{r tab-submask-cov, results='asis'}
+sub_cov <- ledger_data$saturation_audit$submask_coverage
+reg_keys <- names(mod_data$regions)
+
+cov_rows <- lapply(reg_keys, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  cnt <- if (!is.null(sub_cov[[rk]])) as.integer(sub_cov[[rk]]) else 0L
+  p25 <- as.numeric(rv$population[["2025"]])
+  data.frame(
+    Subregion = get_prov_name(rk, rv$name),
+    Sites = as.character(cnt),
+    P1919 = viscount_fmt_pop(rv$population[["1919"]]),
+    P1979 = viscount_fmt_pop(rv$population[["1979"]]),
+    P2025 = viscount_fmt_pop(p25),
+    stringsAsFactors = FALSE
+  )
+})
+cov_df <- do.call(rbind, cov_rows)
+rownames(cov_df) <- NULL
+
+viscount_table(
+  cov_df,
+  "Catalogued urban site counts and provincial territorial population benchmarks across all 34 sub-regions of Afghanistan.",
+  c("Sub-Region", "Catalogued Sites", "1919AD", "1979AD", "2025AD"),
+  list(label = "tab:submask-afg", font_size = "scriptsize", max_rows_per_page = 24L)
+)
+```
+
+# Limitations
+
+Three methodological caveats apply to this gazetteer. First, municipal boundaries in Afghanistan are defined administratively rather than by built-up morphological continuity, meaning that rapid peri-urban sprawl beyond Kabul's formal municipal districts (such as spilling into Paghman, Deh Sabz and Bagrami) or across the Herat-Injil oasis plain is captured only partially in strict municipal core figures [@Anonymous2014Municipali; @Hugo2019Patterns]. Second, three highland and north-western centres added in Wave 4 to complete 34-province coverage—Bazarak, Nili and Qala i Naw—lack separate 1979AD and 2006AD municipal returns because Panjshir and Daykundi became separate provinces only in 2004AD, while Qal'ah-ye Now appears both in an earlier geocoded variant and as the Badghis provincial seat Qala i Naw; their pre-2020 series rely on historical back-projection rather than direct municipal tallies. Third, because no post-1979 door-to-door census has been conducted, recent urban benchmarks for 2020AD and 2025AD depend on NSIA projection schedules that may smooth sudden wartime influxes or post-2021 outflows [@Wafayezada2025Demographi; @Hakeemi2026Migration].
+
+# Conclusion
+
+The 1.148-settlement gazetteer traces Afghanistan's urban transformation from a dispersed network of oasis bazaars and frontier garrisons in 1920AD (`r viscount_fmt_pop(u_1920)` enumerated residents) into an intensely primate urban hierarchy ($\alpha = 1{,}473$, $R^2 = 0{,}831$) dominated by metropolitan Kabul (4,76M out of `r viscount_fmt_pop(u_2025)` enumerated across catalogued centres in 2025AD). By pairing longitudinal pre-1979 series with June 1979 partial census baselines, NSIA district registers, strict foundation-year cut-offs on modern planned towns and complete 34-province spatial coverage, this register anchors the spatial distribution of Afghan settlement population from 1919AD to 2026AD.
+
+# Appendix
+
+## Twentieth-Century Planned Foundations and Post-2004 Provincial Capitals
+
+Table 3 isolates the six settlements with distinct twentieth-century foundation horizons or post-2004 administrative elevations, illustrating how state-led irrigation, industrial development and provincial redistricting created new urban anchors outside the classical caravan cities.
+
+```{r tab-foundations, results='asis'}
+special_keys <- c(
+  "Pul-e Khumrī-Afghanistan",
+  "Lashkargāh-Afghanistan",
+  "Khōst-Afghanistan",
+  "Bazarak-Afghanistan",
+  "Nili-Afghanistan",
+  "Qala i Naw-Afghanistan"
+)
+notes_map <- c(
+  "Pul-e Khumrī-Afghanistan" = "Textile and cement industrial town (founded 1936AD)",
+  "Lashkargāh-Afghanistan" = "HAVA planned irrigation capital (founded 1953AD)",
+  "Khōst-Afghanistan" = "Eastern frontier garrison; elevated province 1995AD",
+  "Bazarak-Afghanistan" = "Capital of Panjshir province (created 2004AD)",
+  "Nili-Afghanistan" = "Capital of Daykundi province (created 2004AD)",
+  "Qala i Naw-Afghanistan" = "Capital of Badghis province (Wave 4 anchor)"
+)
+
+sp_rows <- lapply(special_keys, function(k) {
+  e <- sett_data[[k]]
+  yrs <- as.integer(names(e[["population"]]))
+  fy <- if (!is.null(e[["foundation_year"]])) paste0(e[["foundation_year"]], "AD") else "Pre-1919AD"
+  p79 <- if (!is.null(e[["population"]][["1979"]])) viscount_fmt_pop(e[["population"]][["1979"]]) else "-"
+  p20 <- viscount_fmt_pop(e[["population"]][["2020"]])
+  p25 <- viscount_fmt_pop(e[["population"]][["2025"]])
+  data.frame(
+    Settlement = e[["name"]],
+    Foundation = fy,
+    P1979 = p79,
+    P2020 = p20,
+    P2025 = p25,
+    Context = unname(notes_map[[k]]),
+    stringsAsFactors = FALSE
+  )
+})
+sp_df <- do.call(rbind, sp_rows)
+rownames(sp_df) <- NULL
+
+viscount_table(
+  sp_df,
+  "Twentieth-century planned towns and post-2004 provincial capitals in Afghanistan with foundation horizons and recent population totals.",
+  c("Settlement", "Foundation", "1979AD", "2020AD", "2025AD", "Administrative Context"),
+  list(label = "tab:foundations-afg", font_size = "footnotesize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

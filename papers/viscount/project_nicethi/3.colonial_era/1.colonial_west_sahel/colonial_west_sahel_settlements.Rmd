@@ -1,0 +1,474 @@
+---
+title: "Colonial West Africa and the Sahel"
+subtitle: "Settlement Gazetteer: 738 Cities, Ports and Towns (1880-1975)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_west_sahel_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 738 individually assessed settlements across 17 modern countries and fourteen colonial jurisdictions between 1880AD and 1975AD."
+hero_label: "fig:hero-settlements-cws"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("colonial_west_sahel_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("colonial_west_sahel_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", as.integer(yrs[i_pk]), "AD)")
+}
+
+iso3_map <- c(
+  Benin = "BEN",
+  `Burkina Faso` = "BFA",
+  Cameroon = "CMR",
+  Chad = "TCD",
+  Gambia = "GMB",
+  Ghana = "GHA",
+  Guinea = "GIN",
+  `Guinea-Bissau` = "GNB",
+  `Ivory Coast` = "CIV",
+  Liberia = "LBR",
+  Mali = "MLI",
+  Mauritania = "MRT",
+  Niger = "NER",
+  Nigeria = "NGA",
+  Senegal = "SEN",
+  `Sierra Leone` = "SLE",
+  Togo = "TGO"
+)
+
+classify_cws_zone <- function (e) {
+  ctry <- as.character(e$country)
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  if (ctry %in% c("Senegal", "Mauritania")) return("aof_senegal_mauritania")
+  if (identical(ctry, "Mali")) return("aof_french_sudan")
+  if (ctry %in% c("Burkina Faso", "Niger")) return("aof_upper_volta_niger")
+  if (identical(ctry, "Guinea")) return("aof_french_guinea")
+  if (identical(ctry, "Ivory Coast")) return("aof_cote_divoire")
+  if (identical(ctry, "Benin")) return("aof_dahomey")
+  if (identical(ctry, "Ghana")) return("british_gold_coast")
+  if (identical(ctry, "Sierra Leone")) return("british_sierra_leone")
+  if (identical(ctry, "Gambia")) return("british_gambia")
+  if (identical(ctry, "Togo")) return("togoland_mandate")
+  if (identical(ctry, "Guinea-Bissau")) return("portuguese_guinea")
+  if (identical(ctry, "Liberia")) return("republic_of_liberia")
+  if (identical(ctry, "Chad")) return("british_northern_nigeria")
+  if (identical(ctry, "Cameroon")) {
+    if (lat < 6.6 && lon < 10.5) return("british_southern_nigeria_lagos")
+    return("british_northern_nigeria")
+  }
+  if (identical(ctry, "Nigeria")) {
+    if (lon >= 7.8 && lat >= 6.8) return("british_northern_nigeria")
+    if (lon >= 5.95 && lat >= 7.12) return("british_northern_nigeria")
+    if (lon >= 4.45 && lat >= 8.10) return("british_northern_nigeria")
+    if (lat >= 8.85) return("british_northern_nigeria")
+    return("british_southern_nigeria_lagos")
+  }
+  "british_northern_nigeria"
+}
+
+subregion_order <- c(
+  "aof_senegal_mauritania",
+  "aof_french_sudan",
+  "aof_upper_volta_niger",
+  "aof_french_guinea",
+  "aof_cote_divoire",
+  "aof_dahomey",
+  "british_northern_nigeria",
+  "british_southern_nigeria_lagos",
+  "british_gold_coast",
+  "british_sierra_leone",
+  "british_gambia",
+  "togoland_mandate",
+  "portuguese_guinea",
+  "republic_of_liberia"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+entry_sub_ids <- vapply(all_entries, classify_cws_zone, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1880AD` = fmt_site_pop(e, 1880),
+      `1900AD` = fmt_site_pop(e, 1900),
+      `1930AD` = fmt_site_pop(e, 1930),
+      `1950AD` = fmt_site_pop(e, 1950),
+      `1960AD` = fmt_site_pop(e, 1960),
+      `1970AD` = fmt_site_pop(e, 1970),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+n_city_proper <- as.integer(summary_cache$population_scope_counts$city_proper)
+n_metro <- as.integer(summary_cache$population_scope_counts$metro)
+bench_nums <- c(1880, 1900, 1930, 1950, 1960, 1970)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across 17 West African and Sahelian countries between 1880AD and 1975AD, encompassing `r viscount_fmt_number(summary_cache$observation_count, 0L)` archival observations. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate towns, colonial stations, ports and metropolitan agglomerations (`r viscount_fmt_number(n_excluded, 0L)` excluded), the retained entries span fourteen colonial territorial sub-regions across French West Africa, British West Africa, Togoland, Portuguese Guinea and Liberia. Active interpolated series expand from `r viscount_fmt_number(n_active[["1880"]], 0L)` towns in 1880AD to `r viscount_fmt_number(n_active[["1900"]], 0L)` in 1900AD, `r viscount_fmt_number(n_active[["1930"]], 0L)` in 1930AD, `r viscount_fmt_number(n_active[["1950"]], 0L)` in 1950AD and `r viscount_fmt_number(n_active[["1970"]], 0L)` by 1970AD, tracing urban development from early port settlements to metropolitan Lagos (1,49M), Abidjan (951,2k), Ibadan (768k), Accra (624,1k), Dakar (591k) and Kano (390k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 738 individually assessed settlements across 17 modern countries and fourteen colonial jurisdictions between 1880AD and 1975AD.",
+    "fig:hero-settlements-cws"
+  )
+}
+```
+
+# Background
+
+Colonial rule across West Africa and the Sahel transformed urban hierarchies built during the precolonial savanna and forest eras [@Services2013WritingHistory; @Ittmann2010DemographicsEmpire]. While older overland caravan centres such as Timbuktu, Saint-Louis and Kong grew modestly or stagnated, deep-water Atlantic ports and railway junctions - Dakar, Abidjan, Lagos, Port Harcourt, Accra, Takoradi, Conakry, Lomé and Cotonou - expanded rapidly as colonial fiscal systems channelled groundnuts, cocoa, palm produce and mineral exports toward ocean shipping [@AOFAnnuaire1936; @Manchuelle1997WillingMigrants; @Adjepong2013StrangersAnd]. Compiling these enumerations into one unified settlement ledger illuminates how transport geography and post-1945 public health campaigns shifted demographic gravity toward the coast [@Vrooman2025TheColonial; @Faye2021WaterResources].
+
+# Methodology
+
+## Candidate Screening and Territorial Assignment
+
+Candidate settlements were assembled from colonial decennial censuses in Nigeria, the Gold Coast, Sierra Leone and The Gambia [@Kuczynski1948DemographicSurvey1; @Cardinall1932GoldCoast; @Office1951AnnualReport], five-year federal enumerations in French West Africa [@AOFAnnuaire1936], Portuguese Guinea and Liberian administrative records, and post-1950 national statistical yearbooks [@Akinyoade2017CensusTaking]. From `r viscount_fmt_number(n_candidates, 0L)` candidates within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study perimeter bounded by geoBoundaries polygons [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate orthographies and non-settlement fragments were excluded across four screening waves, retaining `r viscount_fmt_number(length(all_entries), 0L)` entries (`r viscount_fmt_number(n_city_proper, 0L)` city-proper and `r viscount_fmt_number(n_metro, 0L)` metropolitan agglomerations). Each settlement is assigned deterministically to its historical colonial territory among the 14 sub-regions, placing Nigerian Western Region towns (including Ibadan, Abeokuta, Ogbomosho and Oyo) in Southern Nigeria, Ilorin and Benue-Plateau towns in Northern Nigeria, and nine Cameroon-Chad frontier towns in the adjoining Nigerian colonial zones.
+
+## Interpolation and Scope Conventions
+
+Where colonial or national censuses provide multi-year series, Tables 1 to 14 report linearly interpolated populations at six chapter benchmarks (1880AD, 1900AD, 1930AD, 1950AD, 1960AD and 1970AD) alongside each entry's peak population and peak date, marking years outside the documented observation span with a hyphen (-). Post-1950 metropolitan agglomerations are retained alongside city-proper municipal counts and labelled explicitly with "(Agglomeration)" so urban corridor expansion can be tracked without conflating municipal and peri-urban boundaries [@Faye2021WaterResources].
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` individually assessed entries, upper-tier rank-size regression ($n = 180$) yields a Zipf exponent of $q = 0,93$ ($R^2 = 0,98$), while the 679 spatially deduplicated towns plotted in Figure \ref{fig:settlements-rank} yield $q = 0,88$ ($R^2 = 0,99$), confirming consistent multi-port urban scaling across French, British, German, Portuguese and Liberian territories [@FrankemaJerven2014AfricanPop; @Akinyoade2017CensusTaking].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 679 deduplicated colonial settlements (q = 0,88, R² = 0,99) and mean sub-regional density in 1975AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## AOF: Senegal and Mauritania
+
+Table \ref{tab:sub-senegal} documents `r viscount_fmt_number(length(zone_entries[["aof_senegal_mauritania"]]), 0L)` settlements across Senegal and Mauritania, led by Dakar (591k in 1970AD), Thiès (90,1k), Kaolack (85,1k) and Saint-Louis (65,8k) [@AOFAnnuaire1936; @Keese2016WolofSenegal; @Faye2021WaterResources].
+
+```{r tab-senegal, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aof_senegal_mauritania"]]),
+  "Individually assessed settlements in AOF Senegal and Mauritania (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-senegal")
+)
+```
+
+## AOF: French Sudan (Soudan Français)
+
+Table \ref{tab:sub-sudan} compiles `r viscount_fmt_number(length(zone_entries[["aof_french_sudan"]]), 0L)` settlements across French Sudan (modern Mali), headed by Bamako (202k agglomeration, 182k city-proper), Nioro du Sahel, Sikasso and Ségou [@Manchuelle1997WillingMigrants; @AOFAnnuaire1936].
+
+```{r tab-sudan, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aof_french_sudan"]]),
+  "Individually assessed settlements in AOF French Sudan (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-sudan")
+)
+```
+
+## AOF: Upper Volta and Niger Territory
+
+Table \ref{tab:sub-volta-niger} records `r viscount_fmt_number(length(zone_entries[["aof_upper_volta_niger"]]), 0L)` settlements across Upper Volta (Burkina Faso) and Niger, anchored by Ouagadougou (146,4k), Niamey (100,8k), Bobo-Dioulasso (89,7k) and Zinder (37,8k) [@AOFAnnuaire1936; @Adjepong2013StrangersAnd].
+
+```{r tab-volta-niger, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aof_upper_volta_niger"]]),
+  "Individually assessed settlements in AOF Upper Volta and Niger Territory (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-volta-niger")
+)
+```
+
+## AOF: French Guinea (Guinée Française)
+
+Table \ref{tab:sub-guinea} lists `r viscount_fmt_number(length(zone_entries[["aof_french_guinea"]]), 0L)` settlements in French Guinea, led by Conakry (355,2k agglomeration), Kankan (48,3k) and Kindia (38,8k) [@AOFAnnuaire1936].
+
+```{r tab-guinea, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aof_french_guinea"]]),
+  "Individually assessed settlements in AOF French Guinea (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-guinea")
+)
+```
+
+## AOF: Côte d'Ivoire
+
+Table \ref{tab:sub-civ} presents `r viscount_fmt_number(length(zone_entries[["aof_cote_divoire"]]), 0L)` settlements across Côte d'Ivoire, headed by Abidjan (951,2k in 1975AD), Bouaké (175,3k), Daloa (60,8k) and Man (50,3k) [@Vrooman2025TheColonial; @AOFAnnuaire1936].
+
+```{r tab-civ, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aof_cote_divoire"]]),
+  "Individually assessed settlements in AOF Côte d'Ivoire (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-civ")
+)
+```
+
+## AOF: Colony of Dahomey
+
+Table \ref{tab:sub-dahomey} details `r viscount_fmt_number(length(zone_entries[["aof_dahomey"]]), 0L)` settlements in Dahomey (modern Benin), led by Cotonou (162,2k), Porto-Novo (91,7k) and Abomey (26,4k in 1890AD) [@AOFAnnuaire1936].
+
+```{r tab-dahomey, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aof_dahomey"]]),
+  "Individually assessed settlements in AOF Colony of Dahomey (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-dahomey")
+)
+```
+
+## Northern Nigeria Protectorate and Provinces
+
+Table \ref{tab:sub-north-nga} catalogues `r viscount_fmt_number(length(zone_entries[["british_northern_nigeria"]]), 0L)` settlements across Northern Nigeria and adjoining Lake Chad-Adamawa frontier districts, anchored by Kano (390k), Ilorin (248k), Kaduna (211k), Maiduguri (166k) and Ndjamena (148,9k) [@Kuczynski1948DemographicSurvey1; @Akinyoade2017CensusTaking; @Adedini2014NeighbourhoodCharacteristics].
+
+```{r tab-north-nga, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["british_northern_nigeria"]]),
+  "Individually assessed settlements in Northern Nigeria Protectorate and Provinces (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-north-nga")
+)
+```
+
+## Southern Nigeria, Lagos and Eastern Provinces
+
+Table \ref{tab:sub-south-nga} records `r viscount_fmt_number(length(zone_entries[["british_southern_nigeria_lagos"]]), 0L)` settlements across Lagos, Western, Mid-Western and Eastern Nigeria (plus Mamfé and Wum in Southern Cameroons), topped by Lagos (1,49M agglomeration, 901k city-proper), Ibadan (768k), Onitsha (248k), Port Harcourt (237k) and Abeokuta (209k) [@Akinyoade2017CensusTaking; @Afaha2013MigrationRemittance; @Akanle2017RemittancesAnd].
+
+```{r tab-south-nga, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["british_southern_nigeria_lagos"]]),
+  "Individually assessed settlements in Southern Nigeria, Lagos and Eastern Provinces (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-south-nga")
+)
+```
+
+## British Gold Coast, Ashanti and Northern Territories
+
+Table \ref{tab:sub-gold-coast} lists `r viscount_fmt_number(length(zone_entries[["british_gold_coast"]]), 0L)` settlements across the Gold Coast (modern Ghana), led by Accra (624,1k), Kumasi (346,3k), Tamale (83,7k) and Sekondi-Takoradi [@Cardinall1932GoldCoast; @Adjepong2013StrangersAnd; @Vrooman2025TheColonial].
+
+```{r tab-gold-coast, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["british_gold_coast"]]),
+  "Individually assessed settlements in the British Gold Coast, Ashanti and Northern Territories (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-gold-coast")
+)
+```
+
+## Colony and Protectorate of Sierra Leone
+
+Table \ref{tab:sub-sierra-leone} compiles `r viscount_fmt_number(length(zone_entries[["british_sierra_leone"]]), 0L)` settlements across Sierra Leone, headed by Freetown (276,2k in 1974AD), Koidu (75,8k), Bo (39,4k) and Kenema (31,5k) [@History1899ReportThe; @Northcote1970AnthropologicalReport; @Office1951AnnualReport].
+
+```{r tab-sierra-leone, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["british_sierra_leone"]]),
+  "Individually assessed settlements in the Colony and Protectorate of Sierra Leone (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-sierra-leone")
+)
+```
+
+## Gambia Colony and Protectorate
+
+Table \ref{tab:sub-gambia} records `r viscount_fmt_number(length(zone_entries[["british_gambia"]]), 0L)` settlements along the Gambia river valley, headed by Banjul (35,9k city-proper, 28,5k agglomeration), Brikama and Basse Santa Su [@Slrobbins1996GambianStudies; @Gamble1946GambianStudies; @Gamble1996GambianStudies; @Gamble1999NorthBankGambia].
+
+```{r tab-gambia, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["british_gambia"]]),
+  "Individually assessed settlements in the Gambia Colony and Protectorate (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-gambia")
+)
+```
+
+## German Togoland and Mandate Togo
+
+Table \ref{tab:sub-togo} documents `r viscount_fmt_number(length(zone_entries[["togoland_mandate"]]), 0L)` settlements across Togo, led by Lomé (188,9k agglomeration), Sokodé (32,4k) and Kpalimé (23,8k) [@Kuczynski1948DemographicSurvey1; @Cardinall1932GoldCoast].
+
+```{r tab-togo, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["togoland_mandate"]]),
+  "Individually assessed settlements in German Togoland and Mandate Togo (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-togo")
+)
+```
+
+## Portuguese Guinea (Guiné Portuguesa)
+
+Table \ref{tab:sub-portuguese-guinea} lists `r viscount_fmt_number(length(zone_entries[["portuguese_guinea"]]), 0L)` settlements in Portuguese Guinea (modern Guinea-Bissau), led by Bissau (118,6k agglomeration), Bolama (4.890) and Bafatá (4.620) [@Ittmann2010DemographicsEmpire].
+
+```{r tab-portuguese-guinea, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["portuguese_guinea"]]),
+  "Individually assessed settlements in Portuguese Guinea (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-portuguese-guinea")
+)
+```
+
+## Republic of Liberia
+
+Table \ref{tab:sub-liberia} compiles `r viscount_fmt_number(length(zone_entries[["republic_of_liberia"]]), 0L)` settlements across Liberia, led by Monrovia (204,2k agglomeration in 1974AD), Buchanan (24k) and Tubmanburg (14,1k) [@Ittmann2010DemographicsEmpire; @FrankemaJerven2014AfricanPop].
+
+```{r tab-liberia, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["republic_of_liberia"]]),
+  "Individually assessed settlements in the Republic of Liberia (1880AD to 1970AD).",
+  arg3_options = list(label = "tab:sub-liberia")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, 207 of the 738 settlements hold single-date observations, meaning benchmark columns display a hyphen outside their recorded census or survey span. Second, early colonial records under-counted dispersed rural towns across interior protectorates relative to coastal municipal ports [@Kuczynski1948DemographicSurvey1; @Services2013WritingHistory]. Third, 55 post-1950 metropolitan agglomerations sit alongside municipal city-proper records for the same capitals and should not be summed mechanically without separating spatial scopes [@Akinyoade2017CensusTaking; @Faye2021WaterResources].
+
+# Conclusion
+
+Taken together, these `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document the urban transformation of West Africa and the Sahel between 1880AD and 1975AD, tracing the expansion of colonial railway towns, port capitals and cash-crop market hubs from Dakar and Bathurst to Lagos and Kano.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed settlement counts and combined interpolated urban populations across all fourteen colonial sub-regions at the six chapter benchmarks from 1880AD to 1970AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1880AD` = sums[["1880"]],
+    `1900AD` = sums[["1900"]],
+    `1930AD` = sums[["1930"]],
+    `1950AD` = sums[["1950"]],
+    `1960AD` = sums[["1960"]],
+    `1970AD` = sums[["1970"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1880AD` = tot_sums[["1880"]],
+  `1900AD` = tot_sums[["1900"]],
+  `1930AD` = tot_sums[["1930"]],
+  `1950AD` = tot_sums[["1950"]],
+  `1960AD` = tot_sums[["1960"]],
+  `1970AD` = tot_sums[["1970"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed settlement counts and combined interpolated populations across fourteen colonial sub-regions from 1880AD to 1970AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-foundation and post-abandonment benchmarks are marked with a hyphen (-). Note that Table \ref{tab:gazetteer-summary} sums all retained entries directly (including 55 post-1950 metropolitan agglomerations alongside city-proper municipal series).

@@ -1,0 +1,530 @@
+---
+title: "Prehistoric Sub-Saharan Africa"
+subtitle: "Settlement Gazetteer: 199 Individually Assessed Holocene Sites (10000BC-1000BC)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: prehistoric_ssa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 199 individually assessed prehistoric settlements across sixteen HydroBASINS catchments in Sub-Saharan Africa from 10000BC to 1000BC."
+hero_label: "fig:hero-settlements-prehistoric-ssa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("prehistoric_ssa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("prehistoric_ssa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+sub_list <- summary_cache$subregions
+sub_ids <- vapply(sub_list, function (x) x$id, character(1))
+sub_names <- setNames(vapply(sub_list, function (x) x$name, character(1)), sub_ids)
+
+fallback_groups <- list(
+  chad_mega_basin = c("Adrar Bous Settlement-Niger", "Angamma Escarpment Site-Chad", "Areschima Settlement-Niger", "Bilma-Niger", "Delebo Cave-Chad", "Dufuna Canoe Site-Nigeria", "Enneri Bardague Shelter-Chad", "Gobero Settlement-Niger", "Iwelen Settlement-Niger", "Konduga Site-Nigeria", "Kursakata Mound-Nigeria", "Mege Mound-Nigeria", "Tagalagal Site-Niger", "Zunfur-Nigeria"),
+  zambezi_okavango_limpopo = c("Bambata Cave-Zimbabwe", "Calunda Site-Angola", "Chencherere II Rock Shelter-Malawi", "Gwisho Hot Springs Settlement-Zambia", "Kalemba Rock Shelter-Zambia", "Kamoa Site-Democratic Republic of the Congo", "Nachikufu Cave-Zambia", "Pomongwe Cave-Zimbabwe", "Tshisiku Shelter-South Africa", "Txina-Txina Shelter-Mozambique"),
+  nile_nubia_sudd = c("Abu Darbein Mesolithic Site-Sudan", "Abu Tabari Site-Sudan", "Aksha Settlement-Sudan", "Al Khiday Settlement-Sudan", "Amara West-Sudan", "Aneibis Mesolithic Site-Sudan", "Askut Settlement-Sudan", "Buhen Settlement-Sudan", "Djabarona Settlement-Sudan", "El Barga Settlement-Sudan", "El Geili Settlement-Sudan", "El Kadada Settlement-Sudan", "El Kadero Neolithic Settlement-Sudan", "El Multaga Settlement-Sudan", "Esh Shaheinab Settlement-Sudan", "Faras-Sudan", "Kawa-Sudan", "Kerma-Sudan", "Khartoum Hospital Site-Sudan", "Kurgus Settlement-Sudan", "Mahal Teglinos Site-Sudan", "Mirgissa Settlement-Sudan", "Napata-Sudan", "Nauri Settlement-Sudan", "R12 Neolithic Settlement-Sudan", "Saggai Settlement-Sudan", "Sai Island Settlement-Sudan", "Sarurab Site-Sudan", "Sedeinga-Sudan", "Selima Oasis Camp-Sudan", "Semna Settlement-Sudan", "Sesebi-Sudan", "Shaqadud Cave and Midden-Sudan", "Soleb-Sudan", "Tombos-Sudan", "Uronarti Settlement-Sudan", "Wadi El Arab Settlement-Sudan", "Wadi Shaw Camp-Sudan"),
+  congo_ubangi_basin = c("Batalimo-Maluba Site-Central African Republic", "Betume Site-Central African Republic", "Bokuma Site-Democratic Republic of the Congo", "Imbonga Settlement-Democratic Republic of the Congo", "Iyonda Site-Democratic Republic of the Congo", "Nangara-Komba Site-Central African Republic", "Oboui Settlement-Central African Republic", "Potoli River Site-Republic of the Congo"),
+  upper_middle_niger = c("Agorgott Site-Mali", "Bonoase Kintampo Settlement-Ghana", "Daboya-Ghana", "Dhar Nema Settlement-Mauritania", "Fanfannyegene Cave-Mali", "Hassi el Abiod Settlement-Mali", "In Sakane Site-Mali", "Karkarichinkat Settlement-Mali", "Kintampo-Ghana", "Kobadi Neolithic Settlement-Mali", "Kourounkorokale Shelter-Mali", "Oualata-Mauritania", "Ounjougou Complex-Mali", "Oursi Neolithic Mound-Burkina Faso", "Rim Neolithic Site-Burkina Faso", "Tin Akof Settlement-Burkina Faso", "Winde Koroji Ouest Site-Mali"),
+  lower_niger_benue_volta = c("Afunfun Settlement-Niger", "Arlit Neolithic Site-Niger", "Birimi Kintampo Settlement-Ghana", "Bosumpra Cave-Ghana", "Boyasi Hill Settlement-Ghana", "Chin Tafidet Pastoral Site-Niger", "Dutsen Kongba Shelter-Nigeria", "Ezi-Ukwu Ukpa Shelter-Nigeria", "Iwo Eleru Rock Shelter-Nigeria", "Ntereso Kintampo Settlement-Ghana", "Rop Rock Shelter-Nigeria", "Shum Laka Rock Shelter-Cameroon", "Tamaya Mellet Site-Niger"),
+  kalahari_namib_arid = c("Apollo 11 Cave-Namibia", "Drotsky's Cave-Botswana", "Jakkalsberg N Settlement-South Africa", "Leopard Cave-Namibia", "Lower Numas Cave-Namibia", "Mirabib Hill Shelter-Namibia", "Namtib Shelter-Namibia", "Sesfontein Shelter-Namibia", "White Paintings Shelter-Botswana"),
+  lower_guinea_ogowe_cuanza = c("Benfica Shellmidden-Angola", "Camissombo Site-Angola", "Campo Coastal Site-Cameroon", "Gombe Point Settlement-Democratic Republic of the Congo", "Ikengue 1 Site-Gabon", "Lope 2 Settlement-Gabon", "Mosumu Shelter-Equatorial Guinea", "Mukila Shelter-Democratic Republic of the Congo", "Ngovo Cave-Democratic Republic of the Congo", "Obobogo Neolithic Settlement-Cameroon", "Pointe-Noire Coastal Site-Republic of the Congo", "Sinnda Site-Republic of the Congo"),
+  east_african_great_lakes = c("Ele Bor Rock Shelter-Kenya", "Enkapune Ya Muto Shelter-Kenya", "Gamble's Cave-Kenya", "Gogo Falls Settlement-Kenya", "Hyrax Hill Settlement-Kenya", "Ishango Lakeside Settlement-Democratic Republic of the Congo", "Kansyore Island Settlement-Uganda", "Kisese II Rock Shelter-United Republic of Tanzania", "Lokabulo Rock Shelter-South Sudan", "Lothagam Lakeside Settlement-Kenya", "Lukenya Hill Shelter-Kenya", "Luxmanda Pastoral Settlement-United Republic of Tanzania", "Magosi Rock Shelter-Uganda", "Matupi Cave-Democratic Republic of the Congo", "Mumba Rock Shelter-United Republic of Tanzania", "Nasera Rock Shelter-United Republic of Tanzania", "Njoro-Kenya", "Nsongezi Rock Shelter-Uganda"),
+  orange_cape_drakensberg = c("Blombos Cave-South Africa", "Boomplaas Cave-South Africa", "Border Cave-South Africa", "Byneskranskop 1 Cave-South Africa", "Elands Bay Cave-South Africa", "Grassridge Rock Shelter-South Africa", "Ha Makotoko Rock Shelter-Lesotho", "Klasies River Mouth Cave-South Africa", "Maqonqo Shelter-South Africa", "Nelson Bay Cave-South Africa", "Oakhurst Shelter-South Africa", "Rose Cottage Cave-South Africa", "Sehonghong Rock Shelter-Lesotho", "Siphiso Rock Shelter-eSwatini", "Wonderwerk Cave-South Africa"),
+  senegal_gambia_atlantic = c("Chami Neolithic Settlement-Mauritania", "Chebka Settlement-Mauritania", "Dakhlet el Atrous-Mauritania", "Dakhlet el Atrouss Settlement-Mauritania", "Fatandi Site-Senegal", "Khant Shellmound-Senegal", "Nouamghar Shellmidden-Mauritania", "Tichitt-Mauritania", "Tintan Shellmidden-Mauritania"),
+  ethiopian_highlands_horn = c("Asa Koma Neolithic Settlement-Djibouti", "Bulbula-Ethiopia", "Fincha Habera Rock Shelter-Ethiopia", "Gobedra Rock Shelter-Ethiopia", "Laga Oda Rock Shelter-Ethiopia", "Lalibela Cave-Ethiopia", "Mezber Settlement-Ethiopia", "Mochena Borago Rock Shelter-Ethiopia", "Mota Cave-Ethiopia", "Porc-Epic Cave-Ethiopia", "Sembel Ona Settlement-Eritrea"),
+  swahili_rufiji_coast = c("Chicaza Shelter-Mozambique", "Deva-Deva Site-United Republic of Tanzania", "Fingira Rock Shelter-Malawi", "Hora 1 Rock Shelter-Malawi", "Kahinju Site-Kenya", "Kalambo Falls Settlement-Zambia", "Kuumbi Cave-United Republic of Tanzania", "Mlambalasi Rock Shelter-United Republic of Tanzania", "Panga ya Saidi Cave-Kenya"),
+  somali_arid_horn = c("Dhambalin Rock Shelter-Somaliland", "Gogoshiis Qabe Shelter-Somalia", "Gud Gud Rock Shelter-Somalia", "Laas Geel Shelter-Somaliland", "Midhishi 2 Rock Shelter-Somaliland"),
+  upper_guinea_forest = c("Blande Cave-Guinea", "Ehoussou-Ivory Coast", "Kakimbon Cave-Guinea", "Kamabai Rock Shelter-Sierra Leone", "Siola Shelter-Ivory Coast", "Songon-Dagbe Shellmidden-Ivory Coast", "Sopie Rock Shelter-Liberia", "Yagala Rock Shelter-Sierra Leone", "Yengema Cave-Sierra Leone"),
+  madagascar_wio_atlantic_isl = c("Ambohiposa Shelter-Madagascar", "Lakaton'i Anja Rock Shelter-Madagascar")
+)
+
+key_to_subregion <- setNames(character(length(all_keys)), all_keys)
+if (requireNamespace("png", quietly = TRUE) && file.exists("prehistoric_ssa_areal_mask.png")) {
+  mask_img <- png::readPNG("prehistoric_ssa_areal_mask.png")
+  h_px <- dim(mask_img)[1]
+  w_px <- dim(mask_img)[2]
+  rgb_keys <- vapply(sub_list, function (sr) {
+    paste(as.integer(sr$rgb), collapse = "_")
+  }, character(1))
+  rgb_map <- as.list(setNames(sub_ids, rgb_keys))
+  for (i in seq_along(all_entries)) {
+    e <- all_entries[[i]]
+    lat <- as.numeric(e$coords[[1]])
+    lon <- as.numeric(e$coords[[2]])
+    r_idx <- min(max(as.integer(floor((90 - lat) * 12)) + 1L, 1L), h_px)
+    c_idx <- min(max(as.integer(floor((lon + 180) * 12)) + 1L, 1L), w_px)
+    px_key <- paste(
+      as.integer(round(mask_img[r_idx, c_idx, 1] * 255)),
+      as.integer(round(mask_img[r_idx, c_idx, 2] * 255)),
+      as.integer(round(mask_img[r_idx, c_idx, 3] * 255)),
+      sep = "_"
+    )
+    sid <- rgb_map[[px_key]]
+    if (is.null(sid) || is.na(sid)) {
+      best_d <- 1e9
+      for (dr in -4:4) {
+        for (dc in -4:4) {
+          rr <- min(max(r_idx + dr, 1L), h_px)
+          cc <- min(max(c_idx + dc, 1L), w_px)
+          p2 <- paste(
+            as.integer(round(mask_img[rr, cc, 1] * 255)),
+            as.integer(round(mask_img[rr, cc, 2] * 255)),
+            as.integer(round(mask_img[rr, cc, 3] * 255)),
+            sep = "_"
+          )
+          cand <- rgb_map[[p2]]
+          if (!is.null(cand) && !is.na(cand)) {
+            d <- dr * dr + dc * dc
+            if (d < best_d) {
+              best_d <- d
+              sid <- cand
+            }
+          }
+        }
+      }
+    }
+    key_to_subregion[[e$key]] <- sid
+  }
+} else {
+  for (sid in names(fallback_groups)) {
+    for (k in fallback_groups[[sid]]) {
+      key_to_subregion[[k]] <- sid
+    }
+  }
+}
+
+sr_entries <- setNames(lapply(sub_ids, function (sid) {
+  sub <- all_entries[vapply(all_entries, function (e) identical(key_to_subregion[[e$key]], sid), logical(1))]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), sub_ids)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", abs(as.integer(yrs[i_pk])), "BC)")
+}
+
+iso_map <- c(
+  "Angola" = "AGO", "Botswana" = "BWA", "Burkina Faso" = "BFA", "Cameroon" = "CMR",
+  "Central African Republic" = "CAF", "Chad" = "TCD", "Democratic Republic of the Congo" = "COD",
+  "Djibouti" = "DJI", "Equatorial Guinea" = "GNQ", "Eritrea" = "ERI", "Ethiopia" = "ETH",
+  "Gabon" = "GAB", "Ghana" = "GHA", "Guinea" = "GIN", "Ivory Coast" = "CIV",
+  "Kenya" = "KEN", "Lesotho" = "LSO", "Liberia" = "LBR", "Madagascar" = "MDG",
+  "Malawi" = "MWI", "Mali" = "MLI", "Mauritania" = "MRT", "Mozambique" = "MOZ",
+  "Namibia" = "NAM", "Niger" = "NER", "Nigeria" = "NGA", "Republic of the Congo" = "COG",
+  "Senegal" = "SEN", "Sierra Leone" = "SLE", "Somalia" = "SOM", "Somaliland" = "SML",
+  "South Africa" = "ZAF", "South Sudan" = "SSD", "Sudan" = "SDN", "Uganda" = "UGA",
+  "United Republic of Tanzania" = "TZA", "Zambia" = "ZMB", "Zimbabwe" = "ZWE", "eSwatini" = "SWZ"
+)
+
+fmt_primary_src <- function (e) {
+  srcs <- e$sources
+  if (is.null(srcs) || length(srcs) == 0L) return("-")
+  s <- as.character(srcs[[1]])
+  if (grepl("Africapolis", s, fixed = TRUE) && length(srcs) >= 2L) {
+    s <- as.character(srcs[[2]])
+  }
+  s <- gsub(" & ", " and ", s, fixed = TRUE)
+  if (nchar(s) > 48L) s <- paste0(substr(s, 1L, 45L), "...")
+  s
+}
+
+build_gazetteer_df <- function (sub_list_entries) {
+  rows <- lapply(sub_list_entries, function (e) {
+    iso_code <- iso_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(
+      iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]])
+    )
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `7000BC` = fmt_site_pop(e, -7000),
+      `4000BC` = fmt_site_pop(e, -4000),
+      `2000BC` = fmt_site_pop(e, -2000),
+      `1000BC` = fmt_site_pop(e, -1000),
+      Peak = fmt_site_peak(e),
+      `Primary Source` = fmt_primary_src(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_total_sites <- length(all_entries)
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- n_total_sites + n_excluded
+n_obs_total <- as.integer(summary_cache$observation_count)
+n_countries <- length(summary_cache$countries)
+
+bench_nums <- c(-9000, -7000, -5000, -3000, -2000, -1000)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) {
+    sum(vapply(all_entries, function (e) {
+      p <- interp_site_pop(e, yr)
+      !is.na(p) && p > 0
+    }, logical(1)))
+  }, integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles decimal coordinates, hydrological basin assignments, primary bibliographic citations and multi-period population series for `r viscount_fmt_number(n_total_sites, 0L)` individually assessed prehistoric settlements across Sub-Saharan Africa between 10000BC and 1000BC. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate rockshelters, coastal shellmiddens, lakeside fishing camps, pastoral homesteads and early mudbrick or dry-stone towns (`r viscount_fmt_number(n_excluded, 0L)` excluded), the retained sites span `r viscount_fmt_number(n_countries, 0L)` modern jurisdictions and `r viscount_fmt_number(n_obs_total, 0L)` dated population observations across sixteen HydroBASINS Level 6 catchments. Active recorded loci rise from `r viscount_fmt_number(n_active[["-9000"]], 0L)` early Holocene camps at 9000BC and `r viscount_fmt_number(n_active[["-7000"]], 0L)` at 7000BC to `r viscount_fmt_number(n_active[["-5000"]], 0L)` at 5000BC, `r viscount_fmt_number(n_active[["-3000"]], 0L)` at 3000BC and `r viscount_fmt_number(n_active[["-2000"]], 0L)` at 2000BC before consolidating to `r viscount_fmt_number(n_active[["-1000"]], 0L)` larger nucleated villages and fortified towns at 1000BC, tracing site sizes from small foraging shelters of 15 to 90 inhabitants up to Dakhlet el Atrous (6,84k) and Kerma (14,7k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 199 individually assessed prehistoric settlements across sixteen HydroBASINS catchments in Sub-Saharan Africa from 10000BC to 1000BC.",
+    "fig:hero-settlements-prehistoric-ssa"
+  )
+}
+```
+
+# Methodology
+
+## Screening, Radiocarbon Anchors and HydroBASINS Grouping
+
+Candidate prehistoric loci were compiled from excavated cave sequences, regional surface surveys, radiocarbon compendia including p3k14c, XRONOS and OSAAR, and published regional monographs [@BIRD2022P3K14C; @Hinz2023XRONOS; @Besse2020OSAAR; @Boisard2024CriticalInventory; @Phillipson2005AfricanArch]. Screening `r viscount_fmt_number(n_candidates, 0L)` initial entries removed `r viscount_fmt_number(n_excluded, 0L)` duplicate or non-habitation records, retaining `r viscount_fmt_number(n_total_sites, 0L)` individually assessed sites across `r viscount_fmt_number(n_countries, 0L)` jurisdictions (`r viscount_fmt_number(length(sr_entries[["nile_nubia_sudd"]]), 0L)` in the Nubian Nile, Atbara and Sudd alone). Each entry is mapped by its decimal coordinates onto the 16 HydroBASINS Level 6 macro-catchments clipped to geoBoundaries territorial masks [@LehnerGrill2013HydroBASINS; @Runfola2020GeoBoundaries].
+
+Site population trajectories reflect excavated habitation areas, compound enclosures, midden volumes and cave floor capacities converted using period-appropriate hunter-gatherer, pastoral and agropastoral density coefficients [@Goldstein2025CulturalEconomic; @Marks2026TheHolocene; @Humphris2017NewRadiocarbon; @Mcintosh1988FromStone]. Because archaeological occupation spans vary between regions, Tables 1 to 16 display linearly interpolated resident counts at four continental benchmarks (7000BC, 4000BC, 2000BC and 1000BC) alongside each site's exact assessed peak, peak date and primary bibliographic source, marking pre-foundation or post-abandonment benchmarks with a hyphen (-).
+
+## Rank-Size Distribution and Spatial Coverage
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` individually assessed sites, rank-size regression on the upper 99 settlements conforms closely to Zipf scaling with an exponent of $q = 1,05$ ($R^2 = 0,985$; Figure \ref{fig:settlements-rank}), while full-sample scaling yields a tail slope of 1,35 ($R^2 = 0,94$) reflecting the wide base of Later Stone Age foraging rockshelters below 60 inhabitants [@Mitchell2015DiscontinuitiesHunter; @Will2022CoastalAdaptations; @Dusseldorp2013PleistoceneHomo]. Every one of the 16 HydroBASINS catchments contains between 2 and 38 dated settlements with zero unpopulated basins.
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size scaling across the 199 prehistoric settlements (left) and mean population density across the ten leading HydroBASINS catchments in 1000BC (right).",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.40\\textheight")
+)
+```
+
+# Results
+
+## Nubian Nile, Atbara and Sudd Wetlands
+
+Table \ref{tab:sr-nile} catalogues `r viscount_fmt_number(length(sr_entries[["nile_nubia_sudd"]]), 0L)` individually assessed settlements along the Nile cataracts, Wadi Howar, Gash delta and Sudd marshes. Early Khartoum Mesolithic fishing settlements such as Abu Darbein, Aneibis, Saggai and El Barga gave way to Neolithic pastoral villages at El Kadero, El Kadada, R12 and Esh Shaheinab, culminating in the Kingdom of Kush capital at Kerma (14,7k) and Egyptian fortified towns at Buhen (3,85k), Sai Island (3,47k), Napata (2,85k) and Amara West (2,34k) [@Humphris2017NewRadiocarbon; @Phillipson2005AfricanArch; @Adriansen2000TheDevelopment].
+
+```{r tab-sr-nile, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["nile_nubia_sudd"]]),
+  "Individually assessed settlements in the Nubian Nile, Atbara and Sudd Wetlands from 7000BC to 1000BC with assessed peak populations.",
+  arg3_options = list(label = "tab:sr-nile")
+)
+```
+
+## Mega-Lake Chad and Chari-Logone Basin
+
+Table \ref{tab:sr-chad} lists `r viscount_fmt_number(length(sr_entries[["chad_mega_basin"]]), 0L)` settlements across the Holocene Mega-Lake Chad catchment, spanning early lakeside cemeteries and camps at Gobero (460), Tagalagal and Adrar Bous (268) to late Holocene clay-plain mounds at Zunfur (940), Kursakata (560) and Mege (465) [@Maley2015PopulationsAnd; @Toba2026EmergenceSocial; @Cerezo2011NewInsights; @Vamborg2011TheEffect].
+
+```{r tab-sr-chad, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["chad_mega_basin"]]),
+  "Individually assessed settlements in the Mega-Lake Chad and Chari-Logone Basin from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-chad")
+)
+```
+
+## Upper and Middle Niger Inland Delta
+
+Table \ref{tab:sr-upper-niger} documents `r viscount_fmt_number(length(sr_entries[["upper_middle_niger"]]), 0L)` sites across the Niger Bend, Dogon plateau, eastern Mauritanian dhars and Volta headwaters, led by Oualata (1,82k), Dhar Nema (1,16k), Karkarichinkat (695), Ounjougou (580) and Kobadi (540) [@Mcintosh1988FromStone; @Besse2020OSAAR; @Maley2015PopulationsAnd].
+
+```{r tab-sr-upper-niger, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["upper_middle_niger"]]),
+  "Individually assessed settlements in the Upper and Middle Niger Inland Delta from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-upper-niger")
+)
+```
+
+## Lower Niger, Benue and Volta Basins
+
+Table \ref{tab:sr-lower-niger} compiles `r viscount_fmt_number(length(sr_entries[["lower_niger_benue_volta"]]), 0L)` settlements across the Kintampo, Azawagh and Niger-Benue savannas, led by Birimi (438), Ntereso (362), Chin Tafidet (340), Afunfun (325) and the long-stratified rockshelters at Shum Laka and Iwo Eleru [@Mcintosh1988FromStone; @Oriji2011PoliticalOrganization; @Besse2020OSAAR].
+
+```{r tab-sr-lower-niger, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["lower_niger_benue_volta"]]),
+  "Individually assessed settlements in the Lower Niger, Benue and Volta Basins from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-lower-niger")
+)
+```
+
+## Senegal-Gambia and Atlantic Sahel Basins
+
+Table \ref{tab:sr-senegal} records `r viscount_fmt_number(length(sr_entries[["senegal_gambia_atlantic"]]), 0L)` settlements spanning Mauritanian Atlantic shellmiddens at Tintan (285) and Chami and the monumental second-millennium BC dry-stone villages of Dhar Tichitt, including Dakhlet el Atrous (6,84k), Dakhlet el Atrouss Settlement (5,12k), Tichitt (2,19k) and Chebka (1,34k) [@Mcintosh1988FromStone; @Maley2015PopulationsAnd; @Boisard2024CriticalInventory].
+
+```{r tab-sr-senegal, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["senegal_gambia_atlantic"]]),
+  "Individually assessed settlements in the Senegal-Gambia and Atlantic Sahel Basins from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-senegal")
+)
+```
+
+## Upper Guinea Forest and Coastal Rivers
+
+Table \ref{tab:sr-upper-guinea} lists `r viscount_fmt_number(length(sr_entries[["upper_guinea_forest"]]), 0L)` sites across Guinea, Sierra Leone, Liberia and Ivory Coast, led by coastal shellmiddens at Songon-Dagbe (238) and Ehoussou (197) alongside inland shelters at Kakimbon (55) and Yengema (48) [@Besse2020OSAAR; @Phillipson2005AfricanArch].
+
+```{r tab-sr-upper-guinea, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["upper_guinea_forest"]]),
+  "Individually assessed settlements in the Upper Guinea Forest and Coastal Rivers from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-upper-guinea")
+)
+```
+
+## Lower Guinea Coast, Ogooue and Cuanza
+
+Table \ref{tab:sr-lower-guinea} reports `r viscount_fmt_number(length(sr_entries[["lower_guinea_ogowe_cuanza"]]), 0L)` settlements stretching from southern Cameroon through Gabon and the Atlantic Congo to Angola, led by Obobogo (345), Benfica (218), Pointe-Noire (215), Gombe Point (196) and Lope 2 (184) [@KarenDLupo1889IntensiveLate; @Phillipson2005AfricanArch].
+
+```{r tab-sr-lower-guinea, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["lower_guinea_ogowe_cuanza"]]),
+  "Individually assessed settlements in the Lower Guinea Coast, Ogooue and Cuanza catchments from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-lower-guinea")
+)
+```
+
+## Central Congo, Ubangi and Kasai Basin
+
+Table \ref{tab:sr-congo} records `r viscount_fmt_number(length(sr_entries[["congo_ubangi_basin"]]), 0L)` ceramic-using and foraging settlements within the equatorial forest interior, led by Imbonga (248), Nangara-Komba (235), Oboui (228) and Batalimo-Maluba (209) [@KarenDLupo1889IntensiveLate; @Phillipson2005AfricanArch].
+
+```{r tab-sr-congo, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["congo_ubangi_basin"]]),
+  "Individually assessed settlements in the Central Congo, Ubangi and Kasai Basin from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-congo")
+)
+```
+
+## Ethiopian Highlands and Rift Escarpment
+
+Table \ref{tab:sr-ethiopia} catalogues `r viscount_fmt_number(length(sr_entries[["ethiopian_highlands_horn"]]), 0L)` highland and Rift-margin sites, rising from Pleistocene-Holocene cave occupations at Mota, Fincha Habera and Mochena Borago to pre-Aksumite farming villages at Mezber (765), Sembel Ona (640) and Asa Koma (235) [@Adriansen2000TheDevelopment; @Phillipson2005AfricanArch].
+
+```{r tab-sr-ethiopia, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["ethiopian_highlands_horn"]]),
+  "Individually assessed settlements in the Ethiopian Highlands and Rift Escarpment from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-ethiopia")
+)
+```
+
+## Somali Plateau and Juba-Shabelle Catchments
+
+Table \ref{tab:sr-somali} documents `r viscount_fmt_number(length(sr_entries[["somali_arid_horn"]]), 0L)` rockshelters across the Horn plateau, including the pastoral rock-art complexes at Laas Geel (116) and Dhambalin (41) and the southern Somali site of Gogoshiis Qabe (109) [@Bendrey2015ReviewEthnoarchaeology; @Adriansen2000TheDevelopment].
+
+```{r tab-sr-somali, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["somali_arid_horn"]]),
+  "Individually assessed settlements in the Somali Plateau and Juba-Shabelle Catchments from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-somali")
+)
+```
+
+## East African Great Lakes and Rift Highlands
+
+Table \ref{tab:sr-great-lakes} compiles `r viscount_fmt_number(length(sr_entries[["east_african_great_lakes"]]), 0L)` settlements across the Victoria, Turkana, Edward and Tanganyika basins, led by Savanna Pastoral Neolithic Luxmanda (485), early Holocene lacustrine Lothagam (345), Gogo Falls (318), Hyrax Hill (285) and Ishango [@Goldstein2025CulturalEconomic; @Miller2019OstrichEggshell].
+
+```{r tab-sr-great-lakes, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["east_african_great_lakes"]]),
+  "Individually assessed settlements in the East African Great Lakes and Rift Highlands from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-great-lakes")
+)
+```
+
+## East African Coastal and Rufiji-Ruvuma Basins
+
+Table \ref{tab:sr-swahili} records `r viscount_fmt_number(length(sr_entries[["swahili_rufiji_coast"]]), 0L)` coastal and interior corridor sites from Kenya through Tanzania and Malawi to northern Zambia and Mozambique, led by Kalambo Falls (171), Kahinju (116) and Panga ya Saidi (73) [@Phillipson2005AfricanArch; @Miller2019OstrichEggshell].
+
+```{r tab-sr-swahili, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["swahili_rufiji_coast"]]),
+  "Individually assessed settlements in the East African Coastal and Rufiji-Ruvuma Basins from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-swahili")
+)
+```
+
+## Zambezi, Lake Malawi and Limpopo Basins
+
+Table \ref{tab:sr-zambezi} lists `r viscount_fmt_number(length(sr_entries[["zambezi_okavango_limpopo"]]), 0L)` south-central savanna and woodland sites, led by Gwisho Hot Springs (164), Kamoa (118), Kalemba (56) and Matopos shelters at Bambata and Pomongwe [@Mitchell2015DiscontinuitiesHunter; @Phillipson2005AfricanArch].
+
+```{r tab-sr-zambezi, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["zambezi_okavango_limpopo"]]),
+  "Individually assessed settlements in the Zambezi, Lake Malawi and Limpopo Basins from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-zambezi")
+)
+```
+
+## Orange-Vaal Basin, Drakensberg and Cape
+
+Table \ref{tab:sr-cape} catalogues `r viscount_fmt_number(length(sr_entries[["orange_cape_drakensberg"]]), 0L)` caves and coastal shellmiddens across South Africa, Lesotho and eSwatini, including Elands Bay (87), Nelson Bay (79), Oakhurst (68), Klasies River Mouth (57), Blombos and Boomplaas [@Will2022CoastalAdaptations; @Dusseldorp2013PleistoceneHomo; @Pearce2009LaterStone; @Mole2024BioarchaeologyAnd].
+
+```{r tab-sr-cape, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["orange_cape_drakensberg"]]),
+  "Individually assessed settlements in the Orange-Vaal Basin, Drakensberg and Cape from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-cape")
+)
+```
+
+## Kalahari Endorheic and Namib Escarpment
+
+Table \ref{tab:sr-kalahari} documents `r viscount_fmt_number(length(sr_entries[["kalahari_namib_arid"]]), 0L)` arid-zone rockshelters across Botswana, Namibia and the northern Cape, led by White Paintings Shelter (47), Jakkalsberg N (38), Apollo 11 Cave (29) and Leopard Cave (28) [@Mitchell2015DiscontinuitiesHunter; @Marks2026TheHolocene].
+
+```{r tab-sr-kalahari, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["kalahari_namib_arid"]]),
+  "Individually assessed settlements in the Kalahari Endorheic and Namib Escarpment from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-kalahari")
+)
+```
+
+## Madagascar and African Ocean Islands
+
+Table \ref{tab:sr-madagascar} records `r viscount_fmt_number(length(sr_entries[["madagascar_wio_atlantic_isl"]]), 0L)` early foraging shelters in northern Madagascar at Lakaton'i Anja (26) and Ambohiposa (17) prior to late Holocene maritime colonisation [@Phillipson2005AfricanArch].
+
+```{r tab-sr-madagascar, results='asis'}
+viscount_table(
+  build_gazetteer_df(sr_entries[["madagascar_wio_atlantic_isl"]]),
+  "Individually assessed settlements in Madagascar and African Ocean Islands from 7000BC to 1000BC.",
+  arg3_options = list(label = "tab:sr-madagascar")
+)
+```
+
+# Limitations
+
+Three limitations govern interpretation of this prehistoric settlement ledger. First, caves, rockshelters and dry-stone escarpment walls preserve far better than open-air wooden camps in humid rainforests or seasonally flooded plains, biasing raw site counts toward Nubia and southern Africa relative to the Congo basin [@Will2024TheGeneric; @KarenDLupo1889IntensiveLate; @Boisard2024CriticalInventory]. Second, site-level population figures carry 30% to 50% uncertainty where seasonal band aggregation cannot be separated cleanly from year-round occupation [@Mitchell2015DiscontinuitiesHunter; @Goldstein2025CulturalEconomic; @Marks2026TheHolocene]. Third, because the `r viscount_fmt_number(n_total_sites, 0L)` retained sites document excavated loci rather than the full dispersed foraging and pastoral landscape, their combined sums represent attested site populations and must be read alongside the basin-wide totals in the companion review [@BIRD2022P3K14C; @Hinz2023XRONOS].
+
+# Conclusion
+
+Taken together, the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements document nine millennia of Sub-Saharan prehistory across `r viscount_fmt_number(n_countries, 0L)` modern jurisdictions and 16 HydroBASINS catchments [@LehnerGrill2013HydroBASINS; @Runfola2020GeoBoundaries]. They trace how early Holocene aquatic camps and southern African rockshelters coexisted with Saharan pastoralism before mid-Holocene desiccation concentrated population into Nubian towns around Kerma and stone-walled Sahelian villages along the Dhar Tichitt escarpment ahead of the Iron Age [@Humphris2017NewRadiocarbon; @Mcintosh1988FromStone; @Toba2026EmergenceSocial].
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} aggregates site counts and combined interpolated populations across all 16 HydroBASINS catchments at five benchmark years from 8000BC to 1000BC.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(sub_ids, function (sid) {
+  sub <- sr_entries[[sid]]
+  sums <- setNames(vapply(c(-8000, -6000, -4000, -2000, -1000), function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), c("-8000", "-6000", "-4000", "-2000", "-1000"))
+  data.frame(
+    `Sub-Region (Sites)` = paste0(sub_names[[sid]], " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `8000BC` = sums[["-8000"]],
+    `6000BC` = sums[["-6000"]],
+    `4000BC` = sums[["-4000"]],
+    `2000BC` = sums[["-2000"]],
+    `1000BC` = sums[["-1000"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(c(-8000, -6000, -4000, -2000, -1000), function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), c("-8000", "-6000", "-4000", "-2000", "-1000"))
+tot_row <- data.frame(
+  `Sub-Region (Sites)` = paste0("All Sub-Regions (", viscount_fmt_number(n_total_sites, 0L), ")"),
+  `8000BC` = tot_sums[["-8000"]],
+  `6000BC` = tot_sums[["-6000"]],
+  `4000BC` = tot_sums[["-4000"]],
+  `2000BC` = tot_sums[["-2000"]],
+  `1000BC` = tot_sums[["-1000"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated site populations across sixteen Sub-Saharan African hydrological sub-regions from 8000BC to 1000BC.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+1. Coordinates are reported in decimal degrees with European comma separators preceded by three-letter country or territory codes; linear interpolation operates strictly within each settlement's dated stratigraphic span.

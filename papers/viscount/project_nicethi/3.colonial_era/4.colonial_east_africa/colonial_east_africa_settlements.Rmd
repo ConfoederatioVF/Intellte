@@ -1,0 +1,549 @@
+---
+title: "Colonial East Africa (1880s-1963)"
+subtitle: "Settlement Gazetteer: 181 Individually Assessed Sites (1880AD-1960AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_east_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 181 individually assessed settlements across ten countries spanning eight colonial East African sub-regions from 1880AD to 1963AD."
+hero_label: "fig:hero-settlements-colonial-east-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("colonial_east_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("colonial_east_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+subregion_lookup <- c(
+  "Arua-Uganda" = "uganda_protectorate",
+  "Arusha-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Babati-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Bagamoyo-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Beni-Democratic Republic of the Congo" = "uganda_protectorate",
+  "Biharamulo Mjini-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Bujumbura (Agglomeration)-Burundi" = "ruanda_urundi_mandate",
+  "Bujumbura-Burundi" = "ruanda_urundi_mandate",
+  "Bukavu-Democratic Republic of the Congo" = "ruanda_urundi_mandate",
+  "Bukoba-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Bunda-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Bungoma-Kenya" = "kenya_colony_highlands_nyanza",
+  "Bunia-Democratic Republic of the Congo" = "uganda_protectorate",
+  "Bururi-Burundi" = "ruanda_urundi_mandate",
+  "Busasama-Rwanda" = "ruanda_urundi_mandate",
+  "Butare-Rwanda" = "ruanda_urundi_mandate",
+  "Butembo-Democratic Republic of the Congo" = "uganda_protectorate",
+  "Bweranyange-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Byumba-Rwanda" = "ruanda_urundi_mandate",
+  "Chake Chake-United Republic of Tanzania" = "zanzibar_protectorate",
+  "Chunya-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Dar es Salaam (Agglomeration)-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Dar es Salaam-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Dodoma-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Dolo-Ethiopia" = "kenya_coast_northern_frontier",
+  "Eldoret-Kenya" = "kenya_colony_highlands_nyanza",
+  "Embu (2)-Kenya" = "kenya_colony_highlands_nyanza",
+  "Entebbe-Uganda" = "uganda_protectorate",
+  "Faza-Kenya" = "kenya_coast_northern_frontier",
+  "Fort Portal-Uganda" = "uganda_protectorate",
+  "Garissa-Kenya" = "kenya_coast_northern_frontier",
+  "Geita-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Gilgil-Kenya" = "kenya_colony_highlands_nyanza",
+  "Gitarama-Rwanda" = "ruanda_urundi_mandate",
+  "Gitega-Burundi" = "ruanda_urundi_mandate",
+  "Goma-Democratic Republic of the Congo" = "ruanda_urundi_mandate",
+  "Gulu-Uganda" = "uganda_protectorate",
+  "Handeni-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Hoima-Uganda" = "uganda_protectorate",
+  "Homa Bay-Kenya" = "kenya_colony_highlands_nyanza",
+  "Ifakara-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Iganga-Uganda" = "uganda_protectorate",
+  "Iringa-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Isiolo-Kenya" = "kenya_coast_northern_frontier",
+  "Jinja-Uganda" = "uganda_protectorate",
+  "Kabale-Uganda" = "uganda_protectorate",
+  "Kabarnet-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kahama-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Kajiado-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kakamega-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kalenga-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Kampala (Agglomeration)-Uganda" = "uganda_protectorate",
+  "Kampala-Uganda" = "uganda_protectorate",
+  "Kamuli-Uganda" = "uganda_protectorate",
+  "Kapsabet-Kenya" = "kenya_colony_highlands_nyanza",
+  "Karatina-Kenya" = "kenya_colony_highlands_nyanza",
+  "Karema-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Karonga-Malawi" = "tanganyika_southern_highlands",
+  "Kasese-Uganda" = "uganda_protectorate",
+  "Kasulu-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Kericho-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kiambu-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kibiro-Uganda" = "uganda_protectorate",
+  "Kibondo-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Kibuga-Uganda" = "uganda_protectorate",
+  "Kibungo-Rwanda" = "ruanda_urundi_mandate",
+  "Kibuye-Rwanda" = "ruanda_urundi_mandate",
+  "Kigali (Agglomeration)-Rwanda" = "ruanda_urundi_mandate",
+  "Kigali-Rwanda" = "ruanda_urundi_mandate",
+  "Kigoma-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Kilifi-Kenya" = "kenya_coast_northern_frontier",
+  "Kilwa Kivinje-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Kisii-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kisumu-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kitale-Kenya" = "kenya_colony_highlands_nyanza",
+  "Kitgum-Uganda" = "uganda_protectorate",
+  "Kitui-Kenya" = "kenya_coast_northern_frontier",
+  "Kondoa-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Korogwe-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Kumi-Uganda" = "uganda_protectorate",
+  "Lamu-Kenya" = "kenya_coast_northern_frontier",
+  "Limuru-Kenya" = "kenya_colony_highlands_nyanza",
+  "Lindi-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Lira-Uganda" = "uganda_protectorate",
+  "Liwale-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Lodwar-Kenya" = "kenya_colony_highlands_nyanza",
+  "Lushoto-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Machakos-Kenya" = "kenya_colony_highlands_nyanza",
+  "Magadi-Kenya" = "kenya_colony_highlands_nyanza",
+  "Magomeni-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Mahagi-Democratic Republic of the Congo" = "uganda_protectorate",
+  "Makutano-Kenya" = "kenya_colony_highlands_nyanza",
+  "Malindi-Kenya" = "kenya_coast_northern_frontier",
+  "Manda-Kenya" = "kenya_coast_northern_frontier",
+  "Mandera-Kenya" = "kenya_coast_northern_frontier",
+  "Marsabit-Kenya" = "kenya_coast_northern_frontier",
+  "Masaka-Uganda" = "uganda_protectorate",
+  "Masasi-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Masindi-Uganda" = "uganda_protectorate",
+  "Mbala-Zambia" = "tanganyika_central_coastal",
+  "Mbale-Uganda" = "uganda_protectorate",
+  "Mbarara-Uganda" = "uganda_protectorate",
+  "Mbeya-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Mbulu-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Mega-Ethiopia" = "kenya_coast_northern_frontier",
+  "Meru-Kenya" = "kenya_colony_highlands_nyanza",
+  "Mikindani-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Mityana-Uganda" = "uganda_protectorate",
+  "Mkoani-United Republic of Tanzania" = "zanzibar_protectorate",
+  "Mombasa (Agglomeration)-Kenya" = "kenya_coast_northern_frontier",
+  "Mombasa-Kenya" = "kenya_coast_northern_frontier",
+  "Morogoro-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Moroto-Uganda" = "uganda_protectorate",
+  "Moshi-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Moyale-Kenya" = "kenya_coast_northern_frontier",
+  "Moyo-Uganda" = "uganda_protectorate",
+  "Mpanda-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Mpwapwa-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Mtwara-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Mubende-Uganda" = "uganda_protectorate",
+  "Muheza-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Mukono-Uganda" = "uganda_protectorate",
+  "Mumias-Kenya" = "kenya_colony_highlands_nyanza",
+  "Muramvya-Burundi" = "ruanda_urundi_mandate",
+  "Murang'a-Kenya" = "kenya_colony_highlands_nyanza",
+  "Musoma-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Muyinga-Burundi" = "ruanda_urundi_mandate",
+  "Mwanza-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Nachingwea-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Nairobi (Agglomeration)-Kenya" = "kenya_colony_highlands_nyanza",
+  "Nairobi-Kenya" = "kenya_colony_highlands_nyanza",
+  "Naivasha-Kenya" = "kenya_colony_highlands_nyanza",
+  "Nakuru-Kenya" = "kenya_colony_highlands_nyanza",
+  "Nanyuky-Kenya" = "kenya_colony_highlands_nyanza",
+  "Narok-Kenya" = "kenya_colony_highlands_nyanza",
+  "Newala-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Ngozi-Burundi" = "ruanda_urundi_mandate",
+  "Njombe-United Republic of the Tanzania" = "tanganyika_southern_highlands",
+  "Njombe-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Nyahururu (2)-Kenya" = "kenya_colony_highlands_nyanza",
+  "Nyeri-Kenya" = "kenya_colony_highlands_nyanza",
+  "Nzega-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Pangani Magharibi-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Pate-Kenya" = "kenya_coast_northern_frontier",
+  "Rabai-Kenya" = "kenya_coast_northern_frontier",
+  "Rubavu-Rwanda" = "ruanda_urundi_mandate",
+  "Ruhengeri-Rwanda" = "ruanda_urundi_mandate",
+  "Rumonge-Burundi" = "ruanda_urundi_mandate",
+  "Rusizi-Rwanda" = "ruanda_urundi_mandate",
+  "Rutana-Burundi" = "ruanda_urundi_mandate",
+  "Rutshuru-Democratic Republic of the Congo" = "uganda_protectorate",
+  "Ruyigi-Burundi" = "ruanda_urundi_mandate",
+  "Saadani-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Same-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Shinyanga-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Singida-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Siyu-Kenya" = "kenya_coast_northern_frontier",
+  "Songea-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Soroti-Uganda" = "uganda_protectorate",
+  "Sumbawanga-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Tabora-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Takaungu-Kenya" = "kenya_coast_northern_frontier",
+  "Tanga 1-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Tanga-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Tarime-United Republic of Tanzania" = "tanganyika_north_lake",
+  "Taveta-Kenya" = "kenya_coast_northern_frontier",
+  "Thika-Kenya" = "kenya_colony_highlands_nyanza",
+  "Tororo-Uganda" = "uganda_protectorate",
+  "Tukuyu-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Tunduru-United Republic of Tanzania" = "tanganyika_southern_highlands",
+  "Ujiji-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Urambo-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Utete-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Uvira-Democratic Republic of the Congo" = "ruanda_urundi_mandate",
+  "Vanga-Kenya" = "kenya_coast_northern_frontier",
+  "Vigoi-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Voi-Kenya" = "kenya_coast_northern_frontier",
+  "Vuga-United Republic of Tanzania" = "tanganyika_central_coastal",
+  "Wajir-Kenya" = "kenya_coast_northern_frontier",
+  "Wete-United Republic of Tanzania" = "zanzibar_protectorate",
+  "Yei-South Sudan" = "uganda_protectorate",
+  "Zanzibar-United Republic of Tanzania" = "zanzibar_protectorate"
+)
+
+iso3_map <- c(
+  "Burundi" = "BDI",
+  "Democratic Republic of the Congo" = "COD",
+  "Ethiopia" = "ETH",
+  "Kenya" = "KEN",
+  "Malawi" = "MWI",
+  "Rwanda" = "RWA",
+  "South Sudan" = "SSD",
+  "Uganda" = "UGA",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yrs[i_pk], "AD)")
+}
+
+subregion_order <- c(
+  "uganda_protectorate",
+  "kenya_colony_highlands_nyanza",
+  "kenya_coast_northern_frontier",
+  "tanganyika_north_lake",
+  "tanganyika_central_coastal",
+  "tanganyika_southern_highlands",
+  "zanzibar_protectorate",
+  "ruanda_urundi_mandate"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, function (e) {
+  s <- subregion_lookup[[e$key]]
+  if (is.null(s)) "tanganyika_central_coastal" else s
+}, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    scope_lbl <- if (identical(as.character(e$population_scope), "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = as.character(e$name),
+      Scope = scope_lbl,
+      Location = loc_str,
+      `1900AD` = fmt_site_pop(e, 1900),
+      `1910AD` = fmt_site_pop(e, 1910),
+      `1930AD` = fmt_site_pop(e, 1930),
+      `1940AD` = fmt_site_pop(e, 1940),
+      `1950AD` = fmt_site_pop(e, 1950),
+      `1960AD` = fmt_site_pop(e, 1960),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1880, 1900, 1910, 1930, 1940, 1950, 1960)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates, spatial scopes and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed towns, railway depots, *bomas* and coastal ports across ten modern jurisdictions in Colonial East Africa between 1880AD and 1960AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate colonial records (`r viscount_fmt_number(n_excluded, 0L)` duplicate aliases merged), the ledger spans eight colonial sub-regions across Uganda, Kenya, Tanganyika, Zanzibar and Ruanda-Urundi together with contiguous borderland posts. Active interpolated entries rise from `r viscount_fmt_number(n_active[["1880"]], 0L)` early pre-partition hubs in 1880AD to `r viscount_fmt_number(n_active[["1900"]], 0L)` in 1900AD, `r viscount_fmt_number(n_active[["1910"]], 0L)` in 1910AD, `r viscount_fmt_number(n_active[["1930"]], 0L)` in 1930AD and `r viscount_fmt_number(n_active[["1940"]], 0L)` in 1940AD before narrowing to `r viscount_fmt_number(n_active[["1960"]], 0L)` late-colonial municipal and metropolitan series in 1960AD, led by Nairobi (315k), Mombasa (161,3k agglomeration), Dar es Salaam (159,5k agglomeration), Kampala (158k) and Zanzibar (60,8k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 181 individually assessed settlements across ten countries spanning eight colonial East African sub-regions from 1880AD to 1963AD.",
+    "fig:hero-settlements-colonial-east-africa"
+  )
+}
+```
+
+# Background
+
+Between 1880AD and 1963AD, East Africa's urban network shifted away from nineteenth-century dhow ports and royal courts toward railway junctions, highland settler capitals and colonial district *bomas* [@Gilbert1970CoastalEast; @Johnston1902TheUganda; @Issa2023FromStinkibar]. Early enumerations in Uganda Blue Books, Colonial Office reports and German East African annual surveys captured major ports and administrative stations, while the 1948AD synchronised East African census and Belgian Ruanda-Urundi reports extended uniform headcounts across secondary market towns [@EastAfrica1948Census; @Martin1961EastAfrica; @Office1938ReportHis]. Compiling these dispersed municipal and agglomeration records into a single gazetteer preserves direct traceability between urban trajectories and colonial provincial totals [@Kuczynski1949DemographicSurvey2].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate towns were screened from colonial census tables, Africapolis urban delimitations, East African Institute of Social Research monographs and coastal archaeological inventories [@EastAfrica1948Census; @NMK2021KenyaSites; @Office1933AnnualReport]. Of `r viscount_fmt_number(n_candidates, 0L)` candidate entries inside and immediately adjacent to the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study perimeter bounded over geoBoundaries outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate Wave-3 alias records were merged, retaining `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations (174 strictly interior matches and 7 contiguous cross-border stations assigned to their nearest East African sub-region).
+
+## Spatial Scope and Benchmark Interpolation
+
+To preserve municipal continuity without double-counting peri-urban hinterlands, `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city-proper series are catalogued alongside `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` metropolitan agglomerations (Nairobi, Mombasa, Dar es Salaam, Kampala, Bujumbura and Kigali) [@Salum2026ReclaimingDarajani]. Tables 1 to 8 report linearly interpolated populations at six chronological checkpoints (1900AD, 1910AD, 1930AD, 1940AD, 1950AD and 1960AD) alongside each entry's observed peak and peak year, marking periods before first enumeration or outside the colonial span with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` settlements, upper-half Zipf rank-size regression (`r paste0("n=", summary_cache$rank_size$n_fit)`) yields $q = 1,18$ ($R^2 = 0,98$) and full-sample regression yields $q = 1,18$ ($R^2 = 0,99$), aligning closely with the 174 spatially interior peaks plotted in Figure \ref{fig:settlements-rank} ($q = 1,06$, $R^2 = 0,99$). Cross-checking against official 1948AD, 1959AD and 1962AD census tables confirms consistent ordering across colonial capitals, port towns and provincial headquarters [@EastAfrica1948Census; @Martin1961EastAfrica].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 174 spatially interior settlements (q = 1,06, R² = 0,99) and mean sub-regional density in 1963AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Uganda Protectorate
+
+Table \ref{tab:sub-uganda} records `r viscount_fmt_number(length(zone_entries[["uganda_protectorate"]]), 0L)` individually assessed settlements across Uganda Protectorate and adjacent northern Congo and southern Sudan border stations, led by Kampala (158k city-proper; 134,8k agglomeration), pre-colonial Kibuga (34k in 1885AD), Jinja (33,6k), Mbale (13,6k in 1960AD) and Entebbe (7,9k in 1948AD) [@Johnston1902TheUganda; @UgandaBlueBook1923; @Amone2018ContestedCitizenship].
+
+```{r tab-uganda, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["uganda_protectorate"]]),
+  "Individually assessed settlements in Uganda Protectorate and contiguous northern borderlands (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-uganda")
+)
+```
+
+## Kenya Colony: Highlands, Rift and Nyanza
+
+Table \ref{tab:sub-kenya-highlands} compiles `r viscount_fmt_number(length(zone_entries[["kenya_colony_highlands_nyanza"]]), 0L)` centres across Kenya's Highlands, Rift Valley and Lake Victoria Nyanza basin, anchored by Nairobi (315k city-proper; 295,2k agglomeration), Nakuru (34,2k), Kisumu (21,1k), Thika (14k), Eldoret (8,2k in 1948AD) and Nanyuki (10,4k) [@Office1933AnnualReport; @EastAfrica1948Census].
+
+```{r tab-kenya-highlands, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["kenya_colony_highlands_nyanza"]]),
+  "Individually assessed settlements in Kenya Colony Highlands, Rift and Nyanza (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-kenya-highlands")
+)
+```
+
+## Kenya Coast Protectorate and Northern Frontier
+
+Table \ref{tab:sub-kenya-coast} lists `r viscount_fmt_number(length(zone_entries[["kenya_coast_northern_frontier"]]), 0L)` coastal Swahili towns and Northern Frontier District stations alongside southern Ethiopian border posts, led by Mombasa (161,3k agglomeration; 84,7k city-proper in 1948AD), Pate (31,2k in 1902AD), Lamu (5,9k in 1948AD), Malindi (4,3k) and Garissa (2,1k) [@Gilbert1970CoastalEast; @NMK2021KenyaSites].
+
+```{r tab-kenya-coast, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["kenya_coast_northern_frontier"]]),
+  "Individually assessed settlements in Kenya Coast Protectorate, Northern Frontier and southern Ethiopian border stations (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-kenya-coast")
+)
+```
+
+## Tanganyika: Lake, Northern and Tanga Provinces
+
+Table \ref{tab:sub-tza-north} presents `r viscount_fmt_number(length(zone_entries[["tanganyika_north_lake"]]), 0L)` settlements across northern Tanganyika, spanning the Lake Victoria ports of Mwanza (23,3k) and Musoma (7,5k), Kilimanjaro-Meru centres at Moshi (14,3k) and Arusha (14k), and the Geita goldfield (4,9k) [@Tanganyika1930AgricultureReport; @Tanganyika1940AgricultureReport].
+
+```{r tab-tza-north, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["tanganyika_north_lake"]]),
+  "Individually assessed settlements in Tanganyika Lake, Northern and Tanga provinces (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-tza-north")
+)
+```
+
+## Tanganyika: Eastern, Central and Western
+
+Table \ref{tab:sub-tza-central} documents `r viscount_fmt_number(length(zone_entries[["tanganyika_central_coastal"]]), 0L)` towns along Tanganyika's Central Railway and northern coast, led by Dar es Salaam (159,5k agglomeration; 129k city-proper), Tanga 1 (43,5k), Tanga (20,6k in 1948AD), Tabora (25k in 1913AD), Dodoma (15,8k), Morogoro (14,8k), Ujiji (13,2k) and Kigoma (15,3k) [@Office1938ReportHis; @Ruiz2012AculturizacionDiferenciacion].
+
+```{r tab-tza-central, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["tanganyika_central_coastal"]]),
+  "Individually assessed settlements in Tanganyika Eastern, Central and Western provinces (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-tza-central")
+)
+```
+
+## Tanganyika: Southern and Southern Highlands
+
+Table \ref{tab:sub-tza-south} compiles `r viscount_fmt_number(length(zone_entries[["tanganyika_southern_highlands"]]), 0L)` towns across southern Tanganyika and northern Nyasaland, including the post-war port of Mtwara (14,4k), Kilwa Kivinje (13,5k in 1885AD), Lindi (11,5k), Mbeya (8,2k), Nachingwea (7k) and the Lupa goldfield centre at Chunya (6,4k in 1938AD) [@Mwandete2025ColonialScientific; @Office1938ReportHis].
+
+```{r tab-tza-south, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["tanganyika_southern_highlands"]]),
+  "Individually assessed settlements in Tanganyika Southern and Southern Highlands provinces (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-tza-south")
+)
+```
+
+## Sultanate and British Protectorate of Zanzibar
+
+Table \ref{tab:sub-zanzibar} records the `r viscount_fmt_number(length(zone_entries[["zanzibar_protectorate"]]), 0L)` urban centres of Unguja and Pemba islands: Zanzibar Stone Town and Ng'ambo (60,8k in 1960AD), Chake Chake (6,2k in 1885AD; 3k in 1948AD), Wete (3,8k) and Mkoani (1,9k) [@Issa2023FromStinkibar; @Salum2026ReclaimingDarajani].
+
+```{r tab-zanzibar, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["zanzibar_protectorate"]]),
+  "Individually assessed urban centres of the Sultanate and British Protectorate of Zanzibar (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-zanzibar")
+)
+```
+
+## German East Africa and Belgian Ruanda-Urundi
+
+Table \ref{tab:sub-ruanda} lists `r viscount_fmt_number(length(zone_entries[["ruanda_urundi_mandate"]]), 0L)` centres across Rwanda, Burundi and the Lake Kivu-Tanganyika littoral, led by Bukavu (57,3k), Bujumbura (49,2k agglomeration), Goma (12k), Uvira (9k), Kigali (8,9k agglomeration; 6,9k city-proper) and the pre-colonial royal court at Busasama-Nyanza (8,4k in 1885AD) [@Ozkose2022TheHumanity; @EastAfrica1948Census].
+
+```{r tab-ruanda, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["ruanda_urundi_mandate"]]),
+  "Individually assessed settlements in Ruanda-Urundi and contiguous Lake Kivu borderlands (1900AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-ruanda")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, 6 of the 181 settlements hold single-date observations (notably pre-colonial courts such as Kibuga and Bweranyange), so interpolated checkpoint columns display a hyphen outside their recorded span. Second, active entries decline from 159 in 1940AD to 30 in 1960AD because colonial district *bomas* enumerated in 1948AD transition into post-colonial national census ledgers beginning after 1960AD [@Martin1961EastAfrica]. Third, separate city-proper and metropolitan agglomeration rows are provided for the six largest capitals and ports to preserve compatibility with both municipal censuses and mid-century Africapolis built-up footprints.
+
+# Conclusion
+
+Taken together, these `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document the transformation of East African urbanism from nineteenth-century clove, caravan and lacustrine courts to twentieth-century railway capitals, mining hubs and colonial provincial towns across ten jurisdictions between 1880AD and 1960AD.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed site counts and combined interpolated urban populations across all eight colonial sub-regions from 1880AD to 1960AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1880AD` = sums[["1880"]],
+    `1900AD` = sums[["1900"]],
+    `1910AD` = sums[["1910"]],
+    `1930AD` = sums[["1930"]],
+    `1940AD` = sums[["1940"]],
+    `1950AD` = sums[["1950"]],
+    `1960AD` = sums[["1960"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1880AD` = tot_sums[["1880"]],
+  `1900AD` = tot_sums[["1900"]],
+  `1910AD` = tot_sums[["1910"]],
+  `1930AD` = tot_sums[["1930"]],
+  `1940AD` = tot_sums[["1940"]],
+  `1950AD` = tot_sums[["1950"]],
+  `1960AD` = tot_sums[["1960"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated urban populations across eight colonial sub-regions from 1880AD to 1960AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-foundation and post-transition benchmarks are left blank with a hyphen (-). For Mombasa, Tanga and Dar es Salaam, city-proper municipal returns and late-colonial Africapolis urban-cluster series are catalogued separately.

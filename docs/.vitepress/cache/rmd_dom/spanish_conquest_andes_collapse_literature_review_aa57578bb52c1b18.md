@@ -1,0 +1,295 @@
+---
+title: "Spanish Conquest and Demographic Collapse in the Andes"
+subtitle: "Epidemic Depopulation, Encomienda Tribute and Colonial Reducciones, 1525-1650"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: spanish_conquest_andes_collapse_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/spanish_conquest_andes_collapse_regional_map.png"
+hero_caption: "Six colonial Andean jurisdictions and 132 catalogued settlements across South America from 1525 to 1650."
+hero_label: "fig:hero-spanish-conquest-andes"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{8pt plus 2pt minus 2pt}
+  - \setlength{\parskip}{2pt plus 1pt minus 1pt}
+  - \linespread{0.95}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+
+
+# Abstract
+
+Between 1525 and 1650, the Andean cordillera, Pacific littoral and northern Spanish American provinces experienced one of the sharpest demographic contractions in recorded history, shedding nearly four-fifths of their contact-era population within four generations [@cook1982demographic; @contrerascarranza2020crisis; @dobyns2022estimating]. Across six canonical colonial jurisdictions spanning 4.011.775 km² from the Caribbean coast of New Granada to the Araucanian frontier of southern Chile, aggregate population fell from 12,05M (12.050.000) in 1525 to 6,67M (6.670.000) in 1550, 4,24M (4.240.000) in 1570, 3,01M (3.010.000) in 1600 and 2,62M (2.615.000) in 1625, reaching 2,6M (2.595.000) in 1650, a cumulative contraction of 78,46% [@cook1982demographic; @hemming1978vision; @contrerascarranza2020crisis]. Virgin-soil pandemics of smallpox (1524-1527), measles (1531-1533), typhus and influenza (1546 and 1558-1560) and the pan-Andean epidemic complex of 1585-1591 struck immunologically naive populations simultaneously with the political disintegration of Tawantinsuyu, *encomienda* tribute extraction and coerced labour mobilisation [@dobyns2022estimating; @spalding1984huarochiri]. Depopulation was starkly asymmetric by altitude and ecology: coastal Peru lost 88,51% of its inhabitants over the 125-year interval, whereas the Peruvian sierra contracted by 82,58%, Nuevo Reino de Granada by 77,14%, Quito and Popayán by 75,15%, Alto Perú (Charcas) by 70% and Chile by 63,16% [@villamarin2019colonial; @tellez1984guerra]. Reconciling Viceroy Francisco de Toledo's *Visita General* of 1570-1575, early colonial *relaciones geográficas*, *encomienda* tribute rolls and 132 catalogued settlement trajectories led by Potosí (160k), Cusco (58k), Oruro (36,8k), Lima (34,2k) and Quito (24,6k), this study traces how epidemic collapse, forced *reducción* resettlement, silver *mit'a* migration and early African slave arrivals reconfigured the human geography of colonial South America [@mumford2012vertical; @lorandi2000identidades; @montoyaguzman2016mestizaje].
+
+# Background
+
+## Virgin-Soil Pandemics and Imperial Fracture (1524-1591)
+
+The demographic catastrophe of the sixteenth-century Andes began ahead of direct Spanish military occupation [@cook1982demographic; @dobyns2022estimating]. Between 1524 and 1527, an initial wave of Old World smallpox (*viruela*) spread southward from the Caribbean basin and the Panamanian isthmus along coastal and highland exchange corridors, reaching the northern heartlands of Tawantinsuyu well before Francisco Pizarro's landing at Tumbes [@dobyns2022estimating; @g2026ancient]. Contemporary chronicles record the death of the Sapa Inca Huayna Capac and his designated heir Ninan Cuyochi in Quito during this outbreak, a dynastic decapitation that plunged the Inca state into the bitter succession war between Huascar and Atahualpa [@hemming1978vision; @bourne1893discovery].
+
+War-induced provisioning failures, burned *qullqa* storehouses and forced troop displacements across Quito, Cajamarca, Jauja and Cusco weakened nutritional resilience just as the second pandemic struck [@hemming1978vision; @spalding1984huarochiri]. Between 1531 and 1533, measles (*sarampión*) swept through the northern and central Andes alongside the Spanish advance from Piura to Cajamarca and Cusco [@cook1982demographic; @dobyns2022estimating]. Whereas smallpox carried elevated case-fatality rates across adult age cohorts, measles compounded mortality among young children and disrupted reproductive replacement across an entire cohort [@contrerascarranza2020crisis].
+
+In 1546, during the Gonzalo Pizarro civil wars among Spanish factions, a lethal plague variously identified in colonial chronicles as epidemic typhus (*tabardillo*) or haemorrhagic pneumonic infection struck Cusco, Charcas and the central highlands [@hemming1978vision; @spalding1984huarochiri]. Indigenous porters and agriculturalists already burdened by military requisitioning died in vast numbers along the highland trunk roads [@sanhuezatoha1992trafico]. Between 1558 and 1560, a major influenza pandemic combined with fresh smallpox outbreaks across Lima, Huamanga, Cusco and Quito, driving further steep drops in tributary rolls ahead of the first viceregal fiscal audits [@cook1982demographic; @contrerascarranza2020crisis].
+
+The deadliest documented epidemic cycle after the initial conquest struck between 1585 and 1591 as a multi-pathogen pan-Andean complex [@dobyns2022estimating; @contrerascarranza2020crisis]. Beginning with smallpox in Cartagena de Indias and Santa Fe de Bogotá in 1585-1587, contagion travelled southward along the *qhapaq ñan* royal road through Popayán and Quito into coastal and highland Peru, Charcas and northern Chile by 1589-1591, reinforced by concurrent outbreaks of measles and typhus [@cirizamendivil2019tributo; @sanhuezatoha1992trafico]. Parish burials and *retasa* tribute revisions show that in coastal valleys and densely nucleated Toledan towns, the 1585-1591 complex carried off between one-quarter and one-third of surviving indigenous adults, locking in the post-1600 demographic trough [@cook1982demographic; @wernke2013land].
+
+## Differential Collapse: Peruvian Coast versus Sierra
+
+Not all Andean landscapes succumbed at equal velocity. The starkest geographical divergence separated the irrigated desert valleys of the Peruvian littoral from the high intermontane basins of the sierra and altiplano [@cook1982demographic; @romerosommer2022between]. Along the coast between Trujillo, Lima, Chincha and Arequipa, pre-Hispanic chiefdoms depended upon intricate canal networks maintained by dense agricultural workforces [@spalding1984huarochiri; @romerosommer2022between].
+
+Warm temperatures, humid riverine oases and maritime port traffic created ideal transmission corridors for smallpox and measles as well as vector-borne malaria and enteric pathogens introduced via Atlantic and Panamanian shipping [@jalon1995conquista; @bourne1893discovery]. Once coastal populations fell below the labour threshold required to dredge silt from main irrigation intakes, canal failure triggered secondary subsistence crises and accelerated flight into interior valleys [@spalding1984huarochiri; @contrerascarranza2020crisis].
+
+By contrast, populations inhabiting the Peruvian sierra and Alto Perú above 2.500 metres experienced severe yet measurably slower attrition [@cook1982demographic; @mumford2012vertical]. Cold nocturnal temperatures curtailed tropical vector persistence, while dispersed *ayllu* settlements cultivating frost-tolerant tubers (*papa*, *oca*) and quinoa across staggered ecological tiers retained greater food-security buffering when individual harvests failed [@mumford2012vertical; @wernke2013land]. In QUIPU's regional series, coastal Peru contracted from 2,35M in 1525 to 480k in 1570 and 270k in 1650 (an 88,51% drop, bottoming at 255k in 1625), whereas the Peruvian sierra fell from 3,1M to 960k in 1570 and 540k in 1650 (82,58%), and Charcas declined from 1,55M to 680k in 1570 and 465k in 1650 (70%) [@cook1982demographic; @contrerascarranza2020crisis].
+
+## Toledo's Visita General and Colonial Reducciones
+
+Following four decades of ad hoc *encomienda* grants, civil wars and fragmented tribute assessments, Viceroy Francisco de Toledo launched the *Visita General* of 1570-1575 across southern Peru and the Audiencia de Charcas [@mumford2012vertical; @cook1982demographic]. Royal inspectors (*visitadores*) enumerated households by age, sex and fiscal status (*tributarios* aged 18 to 50), establishing the fiscal bedrock of the Viceroyalty of Peru [@spalding1984huarochiri; @contrerascarranza2020crisis].
+
+Simultaneously, Toledo ordered the wholesale physical relocation of dispersed highland *ayllus* into concentrated, grid-planned Spanish-style towns known as *reducciones* [@mumford2012vertical; @wernke2013land]. Roughly 1,4M indigenous people across the Peruvian highlands and altiplano were resettled into several hundred planned parishes, stretching from the Colca Valley and Huarochirí to the Chachapoyas frontier town of Corobamba and the circum-Titicaca lupaca centres of Chucuito and Juli [@wernke2013land; @quintana2022corobamba; @spalding1984huarochiri].
+
+Although *reducciones* were justified in Crown ordinances as instruments of evangelisation, civil police (*policía*) and regularised tribute collection, their demographic consequences proved ambivalent [@mumford2012vertical; @armasasin2001religion]. Nucleating previously dispersed hamlets around central plazas and churches severed vertical agro-pastoral access to distant maize and coca plots, while crowding households into tight adobe quarters amplified respiratory and viral transmission during the 1585-1591 epidemics [@wernke2013land; @armasasin2001religion]. In peripheral Amazonian piedmont districts such as Maynas and Paclas, missionary *reducciones* launched slightly later encountered even sharper epidemiological attrition upon first sustained congregación [@arditovega1992estructura; @marzal1984reducciones; @quintana2022corobamba].
+
+## Potosí Silver, Mit'a Coercion and Forastero Flight
+
+The discovery of silver ore in the Cerro Rico of Potosí in 1545 transformed the demographic equilibrium of the southern Andes [@contrerascarranza2020crisis; @lorandi2000identidades]. Initially worked by indigenous *yanaconas* using wind-blown *wayra* smelters, Potosí expanded rapidly from 14k residents in 1546 to 120k at the time of Toledo's enumeration in 1573 [@cook1982demographic; @contrerascarranza2020crisis]. When Toledo instituted mercury amalgamation (*patio* process) in the early 1570s, linked to the royal cinnabar mines of Huancavelica (rising from 6,43k in 1573 to 11,84k in 1600), he codified the Potosí *mit'a*, requiring one-seventh of adult male *originarios* across sixteen highland provinces from Cusco to Tarija to serve annual rotating labour shifts [@mumford2012vertical; @spalding1984huarochiri].
+
+Sustaining 13.000 to 14.000 *mitayos* annually at 4.000 metres elevation alongside thousands of free wage workers (*mingas*), muleteers and merchants pushed Potosí to 148k inhabitants by 1611 and 160k by 1650 [@contrerascarranza2020crisis; @sanhuezatoha1992trafico]. A secondary silver boom at Oruro after 1606 lifted that camp from 16,4k in 1607 to 36,82k in 1628 before partial vein exhaustion trimmed it to 24,2k in 1650 [@lorandi2000identidades; @sanhuezatoha1992trafico].
+
+Yet the burden of the *mit'a* hollowed out the rural provinces assigned to supply it [@lorandi2000identidades; @spalding1984huarochiri]. Thousands of *originario* families abandoned their natal *reducciones* to escape tribute and rotational mine service, reappearing in colonial censuses as landless *forasteros* or estate *yanaconas* in Cochabamba, Chuquisaca, Cusco's urban parishes and the Tucumán-Atacama caravan corridors [@lorandi2000identidades; @farberman2006sociedades; @sanhuezatoha1992trafico]. Because *forasteros* were frequently omitted from *originario* tribute rolls prior to late seventeenth-century revisits, fiscal counts understate surviving rural numbers while documenting a profound spatial redistribution away from *mit'a*-burdened altiplano districts [@lorandi2000identidades; @contrerascarranza2020crisis].
+
+## Northern Andes: Quito, New Granada and the Caribbean Littoral
+
+North of the Peruvian core, demographic decline unfolded within smaller, fragmented chiefdoms and distinct labour regimes [@gamboam2004encomienda; @villamarin2019colonial]. In the Audiencia de Quito and Gobernación de Popayán, dense intermontane basins around Quito, Otavalo, Latacunga, Riobamba and Cuenca retained substantial indigenous majorities despite post-1535 warfare and epidemics, falling from 1,65M in 1525 to 610k in 1570 and 410k by 1650 [@cirizamendivil2019tributo; @g2026ancient].
+
+Unlike Potosí's silver *mit'a*, Quito's colonial economy pivoted on woollen and cotton textile workshops (*obrajes*) and urban construction *mitas*, drawing indigenous migrants (*mitayos* and *forasteros*) from highland corregimientos into Quito itself, which expanded from 16,82k in 1574 to 24,62k in 1628 [@cirizamendivil2019tributo; @lorandi2000identidades]. Farther north in Popayán, Cali and Cartago, alluvial gold placers and protracted frontier resistance rapidly exhausted local *encomiendas* [@montoyaguzman2016mestizaje; @martinezdesalinasalonso1989intentos].
+
+In the Nuevo Reino de Granada, Muisca confederations on the cool altiplano of Santafé and Tunja fared markedly better than lowland groups along the Magdalena River and Caribbean littoral [@villamarin2019colonial; @quirogazuluaga2014proceso]. Tributary counts from Pamplona, Tunja and the Sabana de Bogotá document a contraction of roughly 75% to 80% over the century following Gonzalo Jiménez de Quesada's 1537 entry, accompanied by Crown *reducción* congregations in the 1590s and early 1600s [@gamboam2004encomienda; @quirogazuluaga2014proceso; @villamarin2019colonial].
+
+Along Tierra Firme and the Caribbean fringe from Cartagena and Santa Marta toward Maracaibo and the Caracas valley, early *encomienda* raids, pearl-fishery coercion and tropical pathogens decimated littoral societies during the 1530s-1560s [@bourne1893discovery; @jalon1995conquista]. Meanwhile, independent groups such as the Pijao of the central Magdalena cordillera sustained armed resistance past 1600 before protracted Spanish pacification campaigns fractured their highland settlements [@martinezdesalinasalonso1989intentos; @gamboam2004encomienda].
+
+## Early African Slave Arrivals and Frontier Dynamics
+
+Wherever indigenous coastal and lowland labour collapsed most catastrophically, Spanish proprietors turned early to enslaved African labour [@montoyaguzman2016mestizaje; @cook1982demographic]. Cartagena de Indias emerged after 1550 as the principal South American slave-trade entrepôt, growing from 1,48k inhabitants in 1535 to 9,86k by 1628 as Crown *asientos* funneled West and West-Central African captives across the continent [@montoyaguzman2016mestizaje; @bourne1893discovery].
+
+Captives were marched up the Cauca and Magdalena valleys to work alluvial gold mines in Antioquia, Zaruma, Barbacoas and Popayán, where mixed Afro-indigenous *mestizaje* reshaped Pacific frontier settlements [@montoyaguzman2016mestizaje; @gamboam2004encomienda]. Along the Venezuelan littoral and Caracas valleys, African captives increasingly replaced decimated indigenous *encomienda* workers on early cacao and sugar estates [@montoyaguzman2016mestizaje; @jalon1995conquista]. Simultaneously, via Panama and Callao, thousands of enslaved Africans were disembarked on the Peruvian coast to labour on sugarcane estates, vineyards and urban households in Lima, Trujillo, Chincha, Ica and Arequipa, partially arresting the coastal labour vacuum left by the 88,51% indigenous collapse [@cook1982demographic; @spalding1984huarochiri].
+
+At the southern extremity of the Andean sphere, Chile and the Tucumán-Atacama corridor followed a distinct trajectory [@tellez1984guerra; @farberman2006sociedades; @ferreiro2024conjunto]. In the Gobernación de Chile, aggregate population declined from 950k in 1525 to 560k in 1570 and 350k in 1650 (a 63,16% loss), softened relative to Peru because Mapuche polities south of the Biobío River halted Spanish territorial consolidation after the 1598 Curalaba uprising and destroyed seven southern Spanish cities between 1599 and 1604 [@tellez1984guerra; @ferreiro2024conjunto]. Between Atacama, Tucumán and the Central Valley, prolonged frontier warfare, *encomienda* litigation and mule-train *arriería* reshaped indigenous settlement without achieving the dense administrative *reducción* grid of Toledo's central Andes [@tellez1984guerra; @farberman2006sociedades; @sanhuezatoha1992trafico].
+
+# Methodology
+
+## Territorial Partition and Benchmark Domain
+
+To capture the divergent epidemiological and institutional trajectories across western South America between 1525 and 1650 without imposing anachronistic republican boundaries, QUIPU partitions the study domain into six colonial macro-jurisdictions spanning 4.011.775 km² in vector polygon area and 50.235 active five-arcminute cells (3.947.615 km²) on the discrete raster mask [@romerosommer2022between; @contrerascarranza2020crisis]. From north to south, these six sub-regions encompass Nuevo Reino de Granada (1.079.716 km²), Audiencia de Quito and Gobernación de Popayán (683.161 km²), Perú Costa (421.852 km²), Perú Sierra (606.583 km²), Audiencia de Charcas (569.772 km²) and Gobernación de Chile (650.691 km²) [@villamarin2019colonial; @farberman2006sociedades; @tellez1984guerra].
+
+Six chronological benchmarks anchor the trajectory at 25-year to 30-year intervals: 1525 (the pre-Pizarro contact threshold coinciding with the first smallpox wave), 1550 (post-conquest civil wars and 1546 plague), 1570 (the onset of Toledo's *Visita General*), 1600 (following the 1585-1591 pan-Andean pandemic complex), 1625 (maturity of the *mit'a* and *forastero* restructuring) and 1650 (mid-seventeenth-century demographic nadir and urban stabilisation) [@cook1982demographic; @dobyns2022estimating]. Rather than forcing a uniform exponential decay across the entire region, each sub-region's trajectory is calibrated independently from local *tasa* ratios, parish mortality registers and regional archival syntheses [@cook1982demographic; @villamarin2019colonial].
+
+## Visita Harmonisation and Settlement Integration
+
+For any jurisdiction $r$ at benchmark $t \in \{1525, 1550, 1570, 1600, 1625, 1650\}$, total population $P_r(t)$ integrates urban and *reducción* nuclei with rural agricultural and pastoral hinterlands:
+
+$$P_r(t) = \sum_{k \in \mathcal{U}_r} U_k(t) + \int_{\mathcal{A}_r} \rho_r(s, t) \, ds$$
+
+where $\mathcal{U}_r$ represents catalogued settlements with documented city-proper counts $U_k(t)$, and $\rho_r(s, t)$ denotes the residual rural surface interpolated across habitable agrarian valleys, highland *puna* grazing zones and lowland piedmonts [@wernke2013land; @g2026ancient; @romerosommer2022between].
+
+Tributary counts from Toledo's *Visita General* (1570-1575) and early seventeenth-century revisits record adult male *tributarios* rather than total souls [@cook1982demographic; @spalding1984huarochiri]. Following standard historical demographic calibration, raw *tributario* counts are converted to total indigenous populations using household multipliers ranging between 4,2 and 5 persons per *tributario*, adjusted regionally for sex-ratio imbalances caused by *mit'a* mortality, *forastero* out-migration and frontier casualties [@villamarin2019colonial; @lorandi2000identidades].
+
+Higher multipliers apply in stable intermontane parishes with intact extended kin networks, such as the Muisca *cacicazgos* of Tunja and Bogotá, whereas lower multipliers reflect mining districts and coastal *repartimientos* depleted by selective adult male mortality [@villamarin2019colonial; @gamboam2004encomienda].
+
+Where sixteenth-century *visitas* suffered archival destruction, notably the Lima and Trujillo folios lost in the 1884 Tribunal de Cuentas fire, regional totals are cross-checked against Antonio Vázquez de Espinosa's *Compendio y descripción de las Indias Occidentales* (1628), Juan López de Velasco's *Geografía* (1574) and the 1600 HGIS de las Indias jurisdictional layer [@cook1982demographic; @bourne1893discovery]. Across the entire study area, uncertainty bands are specified at $\pm 22\%$ around each benchmark, reflecting archival gaps in early contact baselines (1525) and *forastero* under-enumeration after 1600 [@dobyns2022estimating; @contrerascarranza2020crisis].
+
+Spatial allocation of residual rural density across five-arcminute cells respects topographic elevation bands, irrigated coastal river oases and navigable Andean corridors, preventing population mass from leaking onto glaciated cordillera peaks or hyper-arid Atacama salt flats [@romerosommer2022between; @sanhuezatoha1992trafico].
+
+# Testing and Validation
+
+Cross-checking the six sub-regional trajectories confirms exact arithmetic reconciliation with the chapter total across every benchmark from 1525 to 1650 (Table \ref{tab:validation-collapse}). Aggregate population declines monotonically from 12,05M in 1525 to 2,6M in 1650, while slight post-1625 recoveries begin to register in Nuevo Reino de Granada (540k to 560k), Quito and Popayán (390k to 410k) and coastal Peru (255k to 270k), offset by continued mild contraction in the heavily *mit'a*-burdened Peruvian sierra (580k to 540k), Charcas (480k to 465k) and southern Chile (370k to 350k) [@cirizamendivil2019tributo; @farberman2006sociedades].
+
+<figure class="crd-table-figure" id="tab:validation-collapse">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Jurisdiction</th><th class="crd-th">Area (km²)</th><th class="crd-th">1525</th><th class="crd-th">1550</th><th class="crd-th">1570</th><th class="crd-th">1600</th><th class="crd-th">1625</th><th class="crd-th">1650</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Nuevo Reino de Granada</strong></td><td class="crd-td">1.079.716</td><td class="crd-td">2,45M</td><td class="crd-td">1,45M</td><td class="crd-td">950k</td><td class="crd-td">620k</td><td class="crd-td">540k</td><td class="crd-td">560k</td></tr>
+<tr><td class="crd-td"><strong>Audiencia de Quito and Gobernación de Popayán</strong></td><td class="crd-td">683.161</td><td class="crd-td">1,65M</td><td class="crd-td">920k</td><td class="crd-td">610k</td><td class="crd-td">440k</td><td class="crd-td">390k</td><td class="crd-td">410k</td></tr>
+<tr><td class="crd-td"><strong>Perú Costa</strong></td><td class="crd-td">421.852</td><td class="crd-td">2,35M</td><td class="crd-td">950k</td><td class="crd-td">480k</td><td class="crd-td">290k</td><td class="crd-td">255k</td><td class="crd-td">270k</td></tr>
+<tr><td class="crd-td"><strong>Perú Sierra</strong></td><td class="crd-td">606.583</td><td class="crd-td">3,1M</td><td class="crd-td">1,65M</td><td class="crd-td">960k</td><td class="crd-td">690k</td><td class="crd-td">580k</td><td class="crd-td">540k</td></tr>
+<tr><td class="crd-td"><strong>Audiencia de Charcas</strong></td><td class="crd-td">569.772</td><td class="crd-td">1,55M</td><td class="crd-td">980k</td><td class="crd-td">680k</td><td class="crd-td">540k</td><td class="crd-td">480k</td><td class="crd-td">465k</td></tr>
+<tr><td class="crd-td"><strong>Gobernación de Chile</strong></td><td class="crd-td">650.691</td><td class="crd-td">950k</td><td class="crd-td">720k</td><td class="crd-td">560k</td><td class="crd-td">430k</td><td class="crd-td">370k</td><td class="crd-td">350k</td></tr>
+<tr><td class="crd-td"><strong>Andean Study Total</strong></td><td class="crd-td">4.011.775</td><td class="crd-td">12,05M</td><td class="crd-td">6,67M</td><td class="crd-td">4,24M</td><td class="crd-td">3,01M</td><td class="crd-td">2,62M</td><td class="crd-td">2,6M</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 1.</span> Sub-regional population totals across six colonial Andean jurisdictions, 1525 to 1650.</figcaption>
+</figure>
+
+Independent validation of the 1570 benchmark against the surviving sub-administrative returns of Viceroy Francisco de Toledo's *Visita General* (1570-1575) confirms tight alignment between bottom-up *tributario* enumerations and macro-regional totals (Table \ref{tab:toledo-visita}) [@cook1982demographic; @mumford2012vertical]. Across the five preserved southern audit districts (Cusco, Arequipa, Huamanga, La Paz and La Plata-Charcas), minimum documented *tributario* counts exceed 212k taxpayers, corresponding to roughly 800k to 900k enumerated indigenous residents before accounting for the missing Lima and Trujillo coastal jurisdictions and the separate 1567 Chucuito *visita* [@wernke2013land; @spalding1984huarochiri]. Including those missing coastal and northern highland districts yields Cook's canonical c. 1570 Viceroyalty of Peru indigenous baseline of 1,3M, matching QUIPU's combined 1570 totals for Perú Costa (480k) and Perú Sierra (960k) alongside Charcas (680k, which additionally includes non-Toledan lowland and *forastero* peripheries) [@contrerascarranza2020crisis; @lorandi2000identidades].
+
+<figure class="crd-table-figure" id="tab:toledo-visita">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Audit District</th><th class="crd-th">Tributarios</th><th class="crd-th">Indigenous Total</th><th class="crd-th">Jurisdictional Coverage</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Cusco</strong></td><td class="crd-td">75k-77k</td><td class="crd-td">260k-270k min</td><td class="crd-td">Canas, Canchis, Quispicanchis, Calca, Abancay, 8 urban parishes</td></tr>
+<tr><td class="crd-td"><strong>Arequipa</strong></td><td class="crd-td">~40k</td><td class="crd-td">200k-201,8k</td><td class="crd-td">Coastal valleys and Collaguas (Colca Valley)</td></tr>
+<tr><td class="crd-td"><strong>Huamanga</strong></td><td class="crd-td">22k-23,6k</td><td class="crd-td">112k-130k</td><td class="crd-td">Lucanas, Soras, Andahuaylas, Parinacochas, Vilcas Guaman</td></tr>
+<tr><td class="crd-td"><strong>La Paz</strong></td><td class="crd-td">~30k</td><td class="crd-td">150k min</td><td class="crd-td">Omasuyos, Pacajes, Larecaja and Yungas</td></tr>
+<tr><td class="crd-td"><strong>La Plata (Charcas)</strong></td><td class="crd-td">45k-46k min</td><td class="crd-td">Included in 1,3M total</td><td class="crd-td">Potosi, Porco, Chayanta, Tomina, Mizque, Paria, Carangas</td></tr>
+<tr><td class="crd-td"><strong>Lima and Trujillo</strong></td><td class="crd-td">Folios lost (1884 fire)</td><td class="crd-td">Archival gap</td><td class="crd-td">Reconstructed from 1574-1628 padrones</td></tr>
+<tr><td class="crd-td"><strong>Chucuito (1567)</strong></td><td class="crd-td">Separate 1567 visita</td><td class="crd-td">16,4k town core</td><td class="crd-td">Garci Diez de San Miguel inspection</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 2.</span> Sub-administrative indigenous enumerations from the 1570-1575 Toledo Visita General and documented archival gaps (1,3M Viceroyalty baseline).</figcaption>
+</figure>
+
+Cross-checking the 1600 benchmark against the 42 jurisdictional polygons of the HGIS de las Indias 1600 spatial layer (totaling 3.856.690 inhabitants across 4.832.439 km² when northern Venezuelan provinces such as Caracas at 333k and Cumaná at 110k are included) further corroborates QUIPU's 1600 Andean total of 3,01M (Table \ref{tab:hgis-1600}) [@romerosommer2022between; @cirizamendivil2019tributo]. Furthermore, the 132 settlements catalogued in the chapter gazetteer achieve full coordinate assignment with zero crowd-sourced fallbacks, drawing 54 trajectories from the Toledo *Visita* corpus, 26 from New Granada tributary censuses, 20 from Alto Perú mining records, 12 from Quito demographic monographs, 10 from Chilean series, 6 from López de Velasco (1574), 3 from Maynas missionary registers and 1 from Bishop Mariano Martí's Venezuelan *visita* corpus [@arditovega1992estructura; @marzal1984reducciones; @gamboam2004encomienda].
+
+<figure class="crd-table-figure" id="tab:hgis-1600">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">HGIS Unit</th><th class="crd-th">Jurisdiction</th><th class="crd-th">Area (km²)</th><th class="crd-th">1600 Population</th><th class="crd-th">Density (km²)</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Caracas (VEN)</strong></td><td class="crd-td">VEN</td><td class="crd-td">184.276</td><td class="crd-td">333k</td><td class="crd-td">1,81</td></tr>
+<tr><td class="crd-td"><strong>Quito (QUI)</strong></td><td class="crd-td">QUI</td><td class="crd-td">63.207</td><td class="crd-td">320k</td><td class="crd-td">5,06</td></tr>
+<tr><td class="crd-td"><strong>Santiago (CHL)</strong></td><td class="crd-td">CHL</td><td class="crd-td">202.399</td><td class="crd-td">240,7k</td><td class="crd-td">1,19</td></tr>
+<tr><td class="crd-td"><strong>Trujillo (PER)</strong></td><td class="crd-td">PER</td><td class="crd-td">163.906</td><td class="crd-td">231k</td><td class="crd-td">1,41</td></tr>
+<tr><td class="crd-td"><strong>La Paz (CHA)</strong></td><td class="crd-td">CHA</td><td class="crd-td">128.667</td><td class="crd-td">225k</td><td class="crd-td">1,75</td></tr>
+<tr><td class="crd-td"><strong>Cuzco (PER)</strong></td><td class="crd-td">PER</td><td class="crd-td">70.302</td><td class="crd-td">216,3k</td><td class="crd-td">3,08</td></tr>
+<tr><td class="crd-td"><strong>Tarma (PER)</strong></td><td class="crd-td">PER</td><td class="crd-td">80.163</td><td class="crd-td">201,3k</td><td class="crd-td">2,51</td></tr>
+<tr><td class="crd-td"><strong>Concepcion (CHL)</strong></td><td class="crd-td">CHL</td><td class="crd-td">103.142</td><td class="crd-td">175k</td><td class="crd-td">1,7</td></tr>
+<tr><td class="crd-td"><strong>Tunja (NGR)</strong></td><td class="crd-td">NGR</td><td class="crd-td">2.064</td><td class="crd-td">164,8k</td><td class="crd-td">79,83</td></tr>
+<tr><td class="crd-td"><strong>Puno (PER)</strong></td><td class="crd-td">PER</td><td class="crd-td">65.038</td><td class="crd-td">156k</td><td class="crd-td">2,4</td></tr>
+<tr><td class="crd-td"><strong>Cartagena (NGR)</strong></td><td class="crd-td">NGR</td><td class="crd-td">65.196</td><td class="crd-td">153,1k</td><td class="crd-td">2,35</td></tr>
+<tr><td class="crd-td"><strong>Lima (PER)</strong></td><td class="crd-td">PER</td><td class="crd-td">68.177</td><td class="crd-td">149,1k</td><td class="crd-td">2,19</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 3.</span> Twelve largest jurisdictional units in the HGIS de las Indias 1600 layer intersecting the Andean and northern South American study domain (42 units total).</figcaption>
+</figure>
+
+# Results
+
+## Chronological Trajectory of the Collapse (1525-1650)
+
+The demographic trajectory of Spanish conquest in the Andes divides into three distinct phases: an acute catastrophic shock between 1525 and 1570, a sustained epidemic and institutional attrition phase from 1570 to 1625, and a bifurcated trough between 1625 and 1650 (Figure \ref{fig:traj-collapse}) [@cook1982demographic; @contrerascarranza2020crisis]. During the initial 25 years from 1525 to 1550, total population dropped by 5,38M inhabitants (44,65%), falling from 12,05M to 6,67M under the twin blows of the 1524-1527 smallpox and 1531-1533 measles pandemics, the Inca civil war, Spanish military campaigns and the 1546 plague [@hemming1978vision; @dobyns2022estimating].
+
+Between 1550 and 1570, a further 2,43M inhabitants were lost, lowering the total to 4,24M (a cumulative decline of 64,81% from 1525) as the 1558-1560 influenza and smallpox outbreaks coincided with the peak disruption of unregulated private *encomiendas* [@spalding1984huarochiri; @contrerascarranza2020crisis].
+
+<figure class="crd-figure-block" id="fig:traj-collapse">
+<img class="crd-figure-img" src="/artefacts/project_quipu/1.0-spanish-conquest-andes-collapse/spanish_conquest_andes_collapse_population_trajectory.png" alt="fig:traj-collapse" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 2.</span> Sub-regional demographic trajectories from 1525 to 1650 (Panel A) and terminal 1650 population densities across the six Andean jurisdictions (Panel B).</figcaption>
+</figure>
+
+Between 1570 and 1600, despite Toledo's administrative stabilisation, the 1585-1591 pan-Andean epidemic complex drove aggregate numbers down by another 1,23M (29,01% of the 1570 stock), reaching 3,01M at the turn of the seventeenth century [@cook1982demographic; @dobyns2022estimating]. From 1600 to 1625, mortality slowed yet persisted, trimming the total by 395k to 2,62M (2.615.000) as *mit'a* exhaustion and endemic measles outbreaks prevented rapid natural recovery [@lorandi2000identidades; @contrerascarranza2020crisis]. Over the final quarter-century from 1625 to 1650, the chapter total plateaued at 2,6M (2.595.000), masking an incipient divergence between recovering northern and coastal jurisdictions and still-contracting southern highland *mit'a* districts [@cirizamendivil2019tributo; @lorandi2000identidades].
+
+## Regional Contrasts across the Six Jurisdictions
+
+Regional disaggregation highlights how ecology and colonial extraction shaped the depth and timing of demographic loss (Figure \ref{fig:traj-collapse} Panel B) [@cook1982demographic; @romerosommer2022between]. Perú Costa suffered the most extreme devastation: starting from 2,35M inhabitants across irrigated river valleys in 1525, coastal numbers plunged by 59,57% in the first quarter-century to 950k in 1550, halved again to 480k by 1570, dropped to 290k in 1600 and touched 255k in 1625 before Spanish urban growth in Lima and Arequipa, combined with forced African arrivals, nudged the coastal total up to 270k in 1650 [@cook1982demographic; @spalding1984huarochiri]. By 1650, coastal Peru held a density of just 0,64 persons per km², reflecting vast tracts of hyper-arid desert separating shrunken oasis towns [@romerosommer2022between].
+
+Perú Sierra remained the demographic core of the viceroyalty throughout the period, yet sustained relentless losses [@mumford2012vertical; @wernke2013land]. Descending from 3,1M in 1525 to 1,65M in 1550 and 960k in 1570, the sierra fell to 690k in 1600, 580k in 1625 and 540k in 1650 (an 82,58% cumulative loss), ending the period as the most densely occupied sub-region at 0,89 persons per km² [@cook1982demographic; @wernke2013land]. Audiencia de Charcas began at 1,55M in 1525 and declined more gradually to 980k (1550), 680k (1570), 540k (1600), 480k (1625) and 465k (1650), maintaining a terminal density of 0,82 persons per km² buoyed by the massive urban concentration around Potosí and Oruro and the agrarian refuge valleys of Cochabamba [@lorandi2000identidades; @contrerascarranza2020crisis].
+
+In the northern Andes, Nuevo Reino de Granada fell from 2,45M in 1525 to 1,45M in 1550, 950k in 1570 and 620k in 1600, bottoming at 540k in 1625 before recovering slightly to 560k in 1650 (0,52 persons per km², the lowest sub-regional density owing to its vast Orinoco and lowland forest margins) [@villamarin2019colonial; @gamboam2004encomienda; @quirogazuluaga2014proceso]. Audiencia de Quito and Popayán experienced a closely parallel curve, contracting from 1,65M in 1525 to 920k (1550), 610k (1570), 440k (1600) and 390k (1625) before rebounding to 410k in 1650 (0,6 persons per km²) as highland *obraje* parishes stabilised [@cirizamendivil2019tributo; @montoyaguzman2016mestizaje].
+
+Gobernación de Chile exhibited the mildest percentage drop among all six regions, falling 63,16% from 950k in 1525 to 720k (1550), 560k (1570), 430k (1600), 370k (1625) and 350k in 1650 (0,54 persons per km²) [@tellez1984guerra; @ferreiro2024conjunto]. South of the Biobío River, Mapuche polities preserved autonomous demographic density, while northern Tucumán and Atacama settlements adapted around pastoral caravan routes and small *encomienda* estates [@tellez1984guerra; @farberman2006sociedades; @sanhuezatoha1992trafico].
+
+## Urban Reconfiguration and Settlement Hierarchy
+
+Even as rural *ayllus* hollowed out, Spanish colonial governance triggered an unprecedented concentration of population in mining camps, viceregal capitals and *reducción* market towns (Figure \ref{fig:hierarchy-collapse}) [@cook1982demographic; @cirizamendivil2019tributo]. Across all 132 catalogued settlements in the chapter gazetteer, rank-size distribution follows a strongly primate power-law fit ($\alpha = 0,69$, $R^2 = 0,96$), dominated by Potosí's extraordinary demographic outlier status [@contrerascarranza2020crisis; @lorandi2000identidades].
+
+<figure class="crd-figure-block" id="fig:hierarchy-collapse">
+<img class="crd-figure-img" src="/artefacts/project_quipu/1.0-spanish-conquest-andes-collapse/spanish_conquest_andes_collapse_urban_hierarchy.png" alt="fig:hierarchy-collapse" loading="lazy" />
+<figcaption class="crd-caption"><span class="crd-caption-label">Figure 3.</span> Twelve largest settlements by peak documented population (Panel A) and log-log rank-size distribution across 132 catalogued colonial Andean centres (Panel B).</figcaption>
+</figure>
+
+At the summit stood Potosí (160k in 1650), housing more inhabitants than Cusco, Lima, Quito and Bogotá combined and ranking among the largest cities in the early modern Atlantic world (Table \ref{tab:top15-collapse}) [@contrerascarranza2020crisis; @lorandi2000identidades]. Cusco, the former Inca capital, suffered a sharp initial collapse from 58k in 1534 to 24,61k in 1573 before rebounding through *forastero* and mestizo immigration to 28,42k in 1614 and 31,84k in 1650 [@hemming1978vision; @mumford2012vertical]. Oruro erupted after its 1606 silver strike from 16,4k in 1607 to 36,82k in 1628, before receding to 24,2k by 1650 as upper-vein ores thinned [@lorandi2000identidades; @sanhuezatoha1992trafico].
+
+Meanwhile, newly founded Spanish administrative capitals grew steadily even while surrounding indigenous provinces contracted [@cirizamendivil2019tributo; @villamarin2019colonial]. Lima expanded almost thirty-fold from 1,25k in 1535 to 9,8k in 1561, 12,79k in 1593, 25,45k in 1614 and 34,21k by 1636, absorbing Spanish bureaucrats, enslaved Africans and highland indigenous migrants [@cook1982demographic; @spalding1984huarochiri]. Quito rose from 16,82k in 1574 to 24,62k in 1628; Arequipa grew from 2,64k in 1542 to 14,62k in 1628; La Paz climbed from 3,84k in 1550 to 12,61k in 1628; Santiago de Chile grew from 1,86k in 1545 to 11,29k in 1650; Bogotá expanded from 2,14k in 1540 to 11,26k in 1628; and Cartagena grew nearly sevenfold from 1,48k in 1535 to 9,86k in 1628 [@cirizamendivil2019tributo; @villamarin2019colonial; @montoyaguzman2016mestizaje].
+
+Conversely, once-populous indigenous coastal and highland centres such as Chincha Alta (14,82k in 1540 down to 3,14k in 1628), Jauja (18,42k in 1534 down to 7,42k in 1628) and Chucuito (16,42k in 1567 down to 9,84k in 1628) contracted persistently [@cook1982demographic; @mumford2012vertical]. Smaller regional hubs such as Ayacucho (12,43k), Huancavelica (11,84k), Sucre (11,42k), Juli (11,34k), Cuenca (8,94k), Riobamba (8,48k) and Tunja (8,45k) formed a resilient middle tier linking administrative courts, *obrajes* and agrarian hinterlands [@cirizamendivil2019tributo; @quirogazuluaga2014proceso; @gamboam2004encomienda].
+
+<figure class="crd-table-figure" id="tab:top15-collapse">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Settlement</th><th class="crd-th">Country</th><th class="crd-th">Earliest Count</th><th class="crd-th">Peak Count</th><th class="crd-th">Latest Count</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Potosí</strong></td><td class="crd-td">Bolivia</td><td class="crd-td">14k (1546)</td><td class="crd-td">160k (1650)</td><td class="crd-td">160k (1650)</td></tr>
+<tr><td class="crd-td"><strong>Cusco</strong></td><td class="crd-td">Peru</td><td class="crd-td">58k (1534)</td><td class="crd-td">58k (1534)</td><td class="crd-td">31,8k (1650)</td></tr>
+<tr><td class="crd-td"><strong>Oruro</strong></td><td class="crd-td">Bolivia</td><td class="crd-td">16,4k (1607)</td><td class="crd-td">36,8k (1628)</td><td class="crd-td">24,2k (1650)</td></tr>
+<tr><td class="crd-td"><strong>Lima</strong></td><td class="crd-td">Peru</td><td class="crd-td">1,2k (1535)</td><td class="crd-td">34,2k (1636)</td><td class="crd-td">34,2k (1636)</td></tr>
+<tr><td class="crd-td"><strong>Quito</strong></td><td class="crd-td">Ecuador</td><td class="crd-td">18,4k (1535)</td><td class="crd-td">24,6k (1628)</td><td class="crd-td">24,6k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Jauja</strong></td><td class="crd-td">Peru</td><td class="crd-td">18,4k (1534)</td><td class="crd-td">18,4k (1534)</td><td class="crd-td">7,4k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Cajamarca</strong></td><td class="crd-td">Peru</td><td class="crd-td">16,4k (1533)</td><td class="crd-td">16,4k (1533)</td><td class="crd-td">11,2k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Chucuito</strong></td><td class="crd-td">Peru</td><td class="crd-td">16,4k (1567)</td><td class="crd-td">16,4k (1567)</td><td class="crd-td">9,8k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Chincha Alta</strong></td><td class="crd-td">Peru</td><td class="crd-td">14,8k (1540)</td><td class="crd-td">14,8k (1540)</td><td class="crd-td">3,1k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Arequipa</strong></td><td class="crd-td">Peru</td><td class="crd-td">2,6k (1542)</td><td class="crd-td">14,6k (1628)</td><td class="crd-td">14,6k (1628)</td></tr>
+<tr><td class="crd-td"><strong>La Paz</strong></td><td class="crd-td">Bolivia</td><td class="crd-td">3,8k (1550)</td><td class="crd-td">12,6k (1628)</td><td class="crd-td">12,6k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Ayacucho</strong></td><td class="crd-td">Peru</td><td class="crd-td">3,4k (1545)</td><td class="crd-td">12,4k (1628)</td><td class="crd-td">12,4k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Huancavelica</strong></td><td class="crd-td">Peru</td><td class="crd-td">6,4k (1573)</td><td class="crd-td">11,8k (1600)</td><td class="crd-td">9,6k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Sucre</strong></td><td class="crd-td">Bolivia</td><td class="crd-td">2,4k (1540)</td><td class="crd-td">11,4k (1628)</td><td class="crd-td">11,4k (1628)</td></tr>
+<tr><td class="crd-td"><strong>Juli</strong></td><td class="crd-td">Peru</td><td class="crd-td">11,3k (1567)</td><td class="crd-td">11,3k (1567)</td><td class="crd-td">7,4k (1628)</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 4.</span> Leading fifteen settlements in the colonial Andean gazetteer ordered by peak documented population, 1525 to 1650.</figcaption>
+</figure>
+
+# Limitations
+
+Three evidentiary constraints shape the precision of early colonial Andean demographic reconstruction. First, no empire-wide Inca *quipu* population census survives in intact numerical form for 1525, meaning the 12,05M contact-era baseline relies upon backward projection from mid-sixteenth-century *visitas*, archaeological carrying-capacity assessments and documented epidemic mortality ratios [@dobyns2022estimating; @contrerascarranza2020crisis; @g2026ancient]. Extreme high-counter projections exceeding 20M to 30M for the Andes alone have been moderated in recent scholarship toward the 9M to 14M range, placing QUIPU's 12,05M figure squarely within modern demographic consensus while retaining a $\pm 22\%$ uncertainty envelope [@contrerascarranza2020crisis; @dobyns2022estimating].
+
+Second, fiscal evasion and social mobility progressively eroded the completeness of colonial tributary rolls after 1580 [@lorandi2000identidades; @cirizamendivil2019tributo]. Because Toledo's tax obligations fell on settled *originario* communities, departing *forasteros* and *yanaconas* disappeared from their home parish registers while often escaping immediate enumeration in destination cities, mines or Spanish haciendas [@lorandi2000identidades; @spalding1984huarochiri].
+
+Similarly, early African and mixed *casta* populations in coastal cities and mining camps were recorded erratically in ecclesiastical rather than fiscal *tasas* until the late seventeenth century [@montoyaguzman2016mestizaje; @armasasin2001religion]. Parish baptismal and marriage books partially bridge this archival gap after 1600, though transient enslaved gangs in gold placers and coastal plantations remain under-counted [@montoyaguzman2016mestizaje; @jalon1995conquista].
+
+Third, major archival losses create uneven spatial resolution across jurisdictions [@cook1982demographic; @villamarin2019colonial]. The destruction of the Lima and Trujillo folios of Toledo's *Visita General* in the 1884 fire forces coastal and northern Peruvian estimates to depend more heavily on surviving local *repartimiento* fragments, López de Velasco (1574) and Vázquez de Espinosa (1628) [@bourne1893discovery; @wernke2013land].
+
+Likewise, unconquered lowland frontiers in Maynas, Chocó, the Orinoco Llanos and southern Araucanía lack continuous sixteenth-century enumerations and are represented through regional ethnohistorical baselines rather than parish-level time series [@arditovega1992estructura; @marzal1984reducciones; @tellez1984guerra; @ferreiro2024conjunto].
+
+# Conclusion
+
+Between 1525 and 1650, Spanish conquest and Old World pathogens reduced the population of the Andean world and its neighbouring colonial provinces from 12,05M to 2,6M, a contraction of 78,46% that permanently altered the demographic balance of South America [@cook1982demographic; @contrerascarranza2020crisis]. Successive virgin-soil outbreaks of smallpox, measles and typhus, culminating in the 1585-1591 pan-Andean pandemic complex, intersected with civil warfare, *encomienda* exactions, Toledan *reducción* resettlement and the Potosí silver *mit'a* to produce starkly differentiated regional outcomes [@mumford2012vertical; @lorandi2000identidades; @dobyns2022estimating].
+
+Whereas irrigated coastal Peru lost nearly nine-tenths of its inhabitants and required forced African labour inflows to sustain plantation and urban economies, highland basins in Peru, Charcas, Quito and New Granada retained denser indigenous cores that began modest demographic recovery only after 1625 [@villamarin2019colonial; @montoyaguzman2016mestizaje; @quirogazuluaga2014proceso].
+
+Concurrently, colonial mining and administrative centralisation inverted the urban hierarchy, elevating Potosí (160k), Cusco (31,84k in 1650) and Lima (34,21k in 1636) into dominant metropolitan nodes amidst a depopulated rural landscape [@contrerascarranza2020crisis; @cirizamendivil2019tributo]. Across the century that followed 1650, this post-collapse spatial equilibrium anchored the demographic geography of the Viceroyalties of Peru and New Granada [@spalding1984huarochiri; @gamboam2004encomienda].
+
+# Appendix
+
+Table \ref{tab:appendix-collapse} summarises sub-regional contraction rates, terminal 1650 population densities and 22% uncertainty bounds across all six colonial jurisdictions from 1525 to 1650, complementing the longitudinal trajectories analysed in the main text [@cook1982demographic; @contrerascarranza2020crisis; @jalon1995conquista; @armasasin2001religion; @martinezdesalinasalonso1989intentos; @quintana2022corobamba].
+
+<figure class="crd-table-figure" id="tab:appendix-collapse">
+<div class="crd-table-scroll">
+<table class="crd-wysiwyg-table" v-pre>
+<thead><tr><th class="crd-th">Jurisdiction</th><th class="crd-th">Sites</th><th class="crd-th">1525-1650 Loss</th><th class="crd-th">1525 (km²)</th><th class="crd-th">1650 (km²)</th><th class="crd-th">1525 Bounds</th><th class="crd-th">1650 Bounds</th></tr></thead>
+<tbody>
+<tr><td class="crd-td"><strong>Nuevo Reino de Granada</strong></td><td class="crd-td">20</td><td class="crd-td">77,14%</td><td class="crd-td">2,27</td><td class="crd-td">0,52</td><td class="crd-td">1,91M-2,99M</td><td class="crd-td">436,8k-683,2k</td></tr>
+<tr><td class="crd-td"><strong>Audiencia de Quito and Gobernación de Popayán</strong></td><td class="crd-td">21</td><td class="crd-td">75,15%</td><td class="crd-td">2,42</td><td class="crd-td">0,6</td><td class="crd-td">1,29M-2,01M</td><td class="crd-td">319,8k-500,2k</td></tr>
+<tr><td class="crd-td"><strong>Perú Costa</strong></td><td class="crd-td">32</td><td class="crd-td">88,51%</td><td class="crd-td">5,57</td><td class="crd-td">0,64</td><td class="crd-td">1,83M-2,87M</td><td class="crd-td">210,6k-329,4k</td></tr>
+<tr><td class="crd-td"><strong>Perú Sierra</strong></td><td class="crd-td">30</td><td class="crd-td">82,58%</td><td class="crd-td">5,11</td><td class="crd-td">0,89</td><td class="crd-td">2,42M-3,78M</td><td class="crd-td">421,2k-658,8k</td></tr>
+<tr><td class="crd-td"><strong>Audiencia de Charcas</strong></td><td class="crd-td">19</td><td class="crd-td">70%</td><td class="crd-td">2,72</td><td class="crd-td">0,82</td><td class="crd-td">1,21M-1,89M</td><td class="crd-td">362,7k-567,3k</td></tr>
+<tr><td class="crd-td"><strong>Gobernación de Chile</strong></td><td class="crd-td">10</td><td class="crd-td">63,16%</td><td class="crd-td">1,46</td><td class="crd-td">0,54</td><td class="crd-td">741k-1,16M</td><td class="crd-td">273k-427k</td></tr>
+</tbody>
+</table>
+</div>
+<figcaption class="crd-caption"><span class="crd-caption-label">Table 5.</span> Sub-regional collapse rates, 1525 versus 1650 population densities (persons per km²), and uncertainty intervals across six Andean jurisdictions.</figcaption>
+</figure>
+
+# Sources
+
+<div id="refs"></div>

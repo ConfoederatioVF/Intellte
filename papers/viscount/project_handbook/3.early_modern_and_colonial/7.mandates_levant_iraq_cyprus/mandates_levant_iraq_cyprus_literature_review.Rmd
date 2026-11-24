@@ -1,0 +1,490 @@
+---
+title: "British and French Mandates in the Levant, Iraq and Cyprus"
+subtitle: "Population, Urbanisation and Subadministrative Censuses, 1918AD to 1960AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: mandates_levant_iraq_cyprus_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_mandates_levant_iraq_cyprus_spatial.png"
+hero_caption: "Six British and French Mandate and colonial jurisdictions across Iraq, Syria, Greater Lebanon, Transjordan, Palestine and Cyprus between 1918AD and 1960AD, showing 10.343 individually assessed Mandate-era towns, administrative centres and villages."
+hero_label: "fig:hero-mandates-levant-iraq-cyprus"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{8pt plus 2pt minus 2pt}
+  - \setlength{\parskip}{2pt plus 1pt minus 1pt}
+  - \linespread{0.97}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("mandates_levant_iraq_cyprus_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("mandates_levant_iraq_cyprus_settlements.json", simplifyVector = FALSE)
+sett_list <- unname(settlements_raw)
+
+filter_country <- function (entries, ct) {
+  Filter(function (e) {
+    if (identical(ct, "Cyprus")) e$country %in% c("Cyprus", "Northern Cyprus")
+    else identical(e$country, ct)
+  }, entries)
+}
+
+n_ctry <- function (ct) length(filter_country(sett_list, ct))
+
+fmt_pop_dash <- function (val) {
+  if (is.null(val) || length(val) == 0 || is.na(val)) return("-")
+  v <- suppressWarnings(as.numeric(val))
+  if (is.na(v) || v <= 0) return("-")
+  viscount_fmt_pop(v)
+}
+
+fmt_exact_int <- function (val) {
+  if (is.null(val) || length(val) == 0 || is.na(val)) return("-")
+  v <- suppressWarnings(as.numeric(val))
+  if (is.na(v) || v <= 0) return("-")
+  formatC(as.integer(round(v)), format = "d", big.mark = ".")
+}
+
+get_sett_window_pop <- function (entry, yr_min, yr_max, target_yr) {
+  p <- entry$population
+  if (is.null(p) || length(p) == 0) return(NA_real_)
+  yrs <- suppressWarnings(as.integer(names(p)))
+  keep <- which(!is.na(yrs) & yrs >= yr_min & yrs <= yr_max)
+  if (length(keep) == 0) return(NA_real_)
+  yrs_k <- yrs[keep]
+  best <- keep[order(abs(yrs_k - target_yr), yrs_k)[1L]]
+  v <- suppressWarnings(as.numeric(p[[best]]))
+  if (is.na(v) || v <= 0) NA_real_ else v
+}
+
+get_sett_window_label <- function (entry, yr_min, yr_max, target_yr) {
+  p <- entry$population
+  if (is.null(p) || length(p) == 0) return("-")
+  yrs <- suppressWarnings(as.integer(names(p)))
+  keep <- which(!is.na(yrs) & yrs >= yr_min & yrs <= yr_max)
+  if (length(keep) == 0) return("-")
+  yrs_k <- yrs[keep]
+  best <- keep[order(abs(yrs_k - target_yr), yrs_k)[1L]]
+  v <- suppressWarnings(as.numeric(p[[best]]))
+  if (is.na(v) || v <= 0) return("-")
+  paste0(viscount_fmt_pop(v), " (", yrs[best], ")")
+}
+
+sum_window_pop <- function (entries, yr_min, yr_max, target_yr) {
+  vals <- vapply(entries, function (e) {
+    v <- get_sett_window_pop(e, yr_min, yr_max, target_yr)
+    if (is.na(v)) 0 else v
+  }, numeric(1))
+  sum(vals)
+}
+
+sum_peak_pop <- function (entries) {
+  vals <- vapply(entries, function (e) {
+    v <- unlist(e$population)
+    if (length(v) == 0) return(0)
+    max(as.numeric(v))
+  }, numeric(1))
+  sum(vals)
+}
+```
+
+# Abstract
+
+This study reconstructs population and urban growth across the British and French Mandates of the Levant and Mesopotamia alongside British Cyprus from the armistice of 1918AD until Cypriot independence in 1960AD. Covering roughly 760,7k km² across six jurisdictions — Iraq, Syria, Greater Lebanon, Transjordan, Palestine and Cyprus — the combined population stood at 6,49M in 1918AD after wartime famine, conscription and typhus had thinned rural districts and coastal ports alike. Over the next three decades, public sanitation, road and railway construction, citrus and grain commercialisation, oil extraction in northern Iraq and sustained immigration transformed the region. By the mid-Mandate benchmarks of 1931AD and 1932AD the six territories held roughly 8,18M inhabitants, rising to about 11,9M across 1946–1947AD despite the territorial cession of the Sanjak of Alexandretta in 1939AD. Disaggregated across nine historical subadministrative provinces and 169 modern administrative districts linked through geoBoundaries polygons [@Runfola2020GeoBoundaries] and non-stationary Matérn kriging ($\nu = 3/2$), the settlement system grew even faster than the rural hinterland: 10.343 individually assessed Mandate-era towns, administrative centres and villages—incorporating full Mandatory Palestine 1922–1945AD Village Statistics, CBS Israel locality returns and British Cyprus colonial village censuses—expanded from `r fmt_pop_dash(sum_window_pop(sett_list, 1918L, 1922L, 1921L))` inhabitants across early-Mandate counts (1918–1922AD) to `r fmt_pop_dash(sum_window_pop(sett_list, 1945L, 1947L, 1946L))` across 1945–1947AD and `r fmt_pop_dash(sum_peak_pop(sett_list))` in combined peak population (`r fmt_pop_dash(sum_window_pop(sett_list, 1957L, 1960L, 1960L))` across documented 1957–1960AD enumerations), led by Baghdad (202k in 1920AD to 515,5k in 1947AD and 793,2k in 1957AD), Damascus (170k in 1922AD to 530k in 1960AD), Beirut (115k in 1920AD to 450k in 1960AD), Aleppo (156,7k in 1922AD to 425,5k in 1960AD) and Amman (3,5k in 1918AD to 108,3k in 1952AD and 218k in 1960AD), alongside Jerusalem (62,6k in 1922AD to 157,1k in 1945AD and 205,1k in 1946AD), Haifa (24,6k in 1922AD to 128,8k in 1945AD and 180,4k in 1960AD), Mosul (72k to 178,2k), Tel Aviv (15,2k in 1922AD to 166,7k in 1945AD) and Basra (54k to 164,9k), while the 1948AD Nakba displaced roughly 700k–750k Palestinian Arabs across the West Bank, Gaza, Transjordan, Lebanon and Syria.
+
+# Background
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_mandates_levant_iraq_cyprus_spatial.png",
+    "Six British and French Mandate and colonial jurisdictions across Iraq, Syria, Greater Lebanon, Transjordan, Palestine and Cyprus between 1918AD and 1960AD, showing 10.343 individually assessed Mandate-era towns, administrative centres and villages.",
+    "fig:hero-mandates-levant-iraq-cyprus",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+## Post-Ottoman Territorial Partition and Ecological Frame
+
+When Ottoman armies retreated northwards across Palestine, Syria and Mesopotamia in autumn 1918AD, Britain and France partitioned the Fertile Crescent into five League of Nations Class A Mandates ratified at San Remo in April 1920 and confirmed between 1922AD and 1923AD, while confirming British sovereignty over Cyprus, occupied since 1878AD and formally proclaimed a Crown Colony in 1925AD [@Saber2023French; @Galletti2007Some]. Together these six jurisdictions spanned 760,7k km² (10.880 five-arcminute cells), stretching from the Troodos Mountains and Mesaoria Plain of Cyprus across the Lebanese range, Galilee and Judean highlands, the Jordan Rift and the Syrian steppe to the alluvial floodplains of the Tigris and Euphrates.
+
+Population density across this expanse followed rainfall, irrigation and port access rather than straight-line diplomatic frontiers. Along the humid Mediterranean littoral — Cyprus (9,3k km²), Greater Lebanon (10k km²) and the Palestinian coastal plain (28,3k km² total Mandate area) — winter rains above 400 mm supported dense olive, citrus, vine and wheat cultivation alongside ancient maritime outlets at Beirut, Haifa, Jaffa, Limassol and Larnaca [@Kastrissianakis2016Exploring; @Beenstock2025Origins]. Inland across Syria (186,2k km²), the Orontes valley, the Ghouta oasis around Damascus and the Aleppo rain-fed crescent formed narrow ribbons of intense settlement hemmed in by the semi-arid Badiya steppe, while the upper Jazira east of the Euphrates remained sparsely grazed pasture until Mandate security and railway branches drew Kurdish, Armenian, Assyrian and Arab cultivators north-eastwards [@Chukov2022Kurdish; @Galletti2007Some; @Pashayan2026Minority]. Transjordan (88,8k km²) held most of its villages in the Ajlun, Balqa and Karak highlands overlooking the Jordan valley, leaving four-fifths of the emirate to seasonal pastoralists [@Frantzman2011Bedouin]. Mesopotamia (438k km²) concentrated the bulk of its rural population along the Euphrates canals south of Ramadi, the lower Tigris marshes and the Assyrian piedmont around Mosul, Erbil and Kirkuk [@Bosworth2007Historic].
+
+## Demographic Trajectory across Six Jurisdictions
+
+The baseline of 6,49M inhabitants in 1918AD reflects severe late-war demographic contraction rather than pre-1914 levels. Between 1915AD and 1918AD, Allied naval blockades, Ottoman grain requisitioning, locust swarms and epidemic typhus killed a fifth or more of the Mount Lebanon population and sharply reduced urban numbers in Jerusalem, Beirut, Damascus and Baghdad [@Saber2023French; @Greenshields2025Settlment]. Recovery began immediately after 1919AD as demobilised soldiers returned, maritime food imports resumed and Mandate health services curtailed malaria, cholera and smallpox [@Scott2001Mortality; @Hasso2021Children].
+
+In Iraq, the largest territory in the group, British civil administrators estimated 2,85M inhabitants in 1918AD and 2,849M in 1920AD across the former Baghdad, Basra and Mosul vilayets. By 1932AD, when Iraq entered the League of Nations as an independent kingdom and passed out of Mandate jurisdiction, its population had climbed to 3,45M, continuing afterwards to 4,82M at the first national census of 1947AD. French Mandate Syria recovered from 1,85M in 1918AD to 1,95M in 1922AD, 2,25M in 1932AD and 3,05M upon French evacuation in April 1946, even though the transfer of the Sanjak of Alexandretta (Hatay) to Turkey in 1939AD removed roughly 220k residents and triggered an exodus of Armenians and Arabs into Aleppo and Beirut [@USTUN2016Example; @Hovhannisyan2025Catholicos; @Abdulla2022].
+
+Greater Lebanon expanded from 580k in 1918AD to 640k in 1922AD, 793,4k at the landmark 1932AD census and 1,18M in 1946AD, reinforced by Armenian refugees from Cilicia and Alexandretta who settled in Bourj Hammoud and Beirut [@Greenshields2025Settlment; @Dionigi2017Statehood; @Orall2023Lebanese]. Transjordan doubled under British supervision from 225k in 1918AD to 240k in 1922AD, 300k in 1931AD and 430k at independence in May 1946, before absorbing hundreds of thousands of Palestinian refugees after 1948AD to reach 586,9k at the 1952AD housing census. British Mandate Palestine experienced the fastest relative growth of any Mandate territory: from 680k in 1918AD to 757,2k in 1922AD, 1,036M in 1931AD, 1,97M in 1947AD and 1,95M in early 1948AD on the eve of partition and war, driven both by Jewish immigration from Europe and by sharp declines in Arab infant and child mortality [@Beenstock2025Origins; @Scott2001Mortality; @Kreiner2025British]. British Cyprus, sheltered from continental warfare and retaining colonial status until August 1960, traced a steady demographic climb from 300k in 1918AD through 310,7k (1921AD), 348k (1931AD) and 450,1k (1946AD) to 573,6k in 1960AD.
+
+```{r tab1-subregions, results='asis'}
+sub_areas <- c(
+  mandate_iraq = 437968,
+  mandate_syria = 186202,
+  mandate_transjordan = 88844,
+  mandate_palestine = 28315,
+  mandate_lebanon = 10035,
+  crown_colony_cyprus = 9346
+)
+sub_spans <- c(
+  mandate_iraq = "1918-1932AD",
+  mandate_syria = "1918-1946AD",
+  mandate_transjordan = "1918-1946AD",
+  mandate_palestine = "1918-1948AD",
+  mandate_lebanon = "1918-1946AD",
+  crown_colony_cyprus = "1918-1960AD"
+)
+sub_order <- c("mandate_iraq", "mandate_syria", "mandate_lebanon", "mandate_palestine", "mandate_transjordan", "crown_colony_cyprus")
+sub_by_id <- setNames(summary_cache$top_subregions, vapply(summary_cache$top_subregions, function (x) x$id, character(1)))
+
+df_sub <- do.call(rbind, lapply(sub_order, function (sid) {
+  r <- sub_by_id[[sid]]
+  p <- r$population
+  mid_p <- if (!is.null(p[["1932"]])) p[["1932"]] else p[["1931"]]
+  end_p <- if (!is.null(p[["1960"]])) p[["1960"]] else if (!is.null(p[["1948"]])) p[["1948"]] else if (!is.null(p[["1946"]])) p[["1946"]] else p[["1932"]]
+  data.frame(
+    Territory = r$name,
+    `Area (km²)` = fmt_exact_int(sub_areas[[sid]]),
+    `1918AD` = fmt_pop_dash(p[["1918"]]),
+    `1931-1932AD` = fmt_pop_dash(mid_p),
+    `End Benchmark` = fmt_pop_dash(end_p),
+    Span = sub_spans[[sid]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_sub) <- NULL
+
+viscount_table(
+  df_sub,
+  "Territorial areas, baseline 1918AD populations, mid-Mandate enumerations and terminal Mandate or colonial benchmarks across the six jurisdictions.",
+  col_names = c("Jurisdiction", "Area (km²)", "1918AD", "1931-1932AD", "End Benchmark", "Domain Span"),
+  arg3_options = list(label = "tab:subregions", font_size = "footnotesize")
+)
+```
+
+# Methodology
+
+## Census Sources, Enumeration Mechanics and Staggered Mandate Spans
+
+Demographic reconstruction across the Mandate era rests on an uneven patchwork of colonial censuses, confessional registers and village tax assessments rather than uniform decennial counts. British administrations inherited the Indian and Colonial Office census tradition and conducted systematic household enumerations wherever political conditions permitted. Cyprus possessed the longest continuous record, with full island-wide censuses every ten years from 1881AD to 1931AD, followed by post-war counts in 1946AD and 1960AD [@Runfola2020GeoBoundaries]. Palestine conducted two formal censuses in October 1922 (757.182 inhabitants) and November 1931 (1.035.821 inhabitants), supplemented in April 1945 by the Mandate Department of Statistics Village Statistics (1.764.520 settled inhabitants before adding nomadic Beersheba Bedouin estimates) and regular quarterly vital-registration bulletins [@Frantzman2011Bedouin; @Marom2021Jind; @Marom2024Lajjun].
+
+Iraq and Transjordan presented greater enumeration obstacles because pastoral confederations resisted conscription-linked headcounts. Iraq's 1920AD British Civil Administration estimate tallied 2.931.372 persons across its three former Ottoman vilayets (adjusted to 2,849M in the Mandate series), but political unrest in 1920AD and rapid independence in October 1932 delayed a full modern household census until October 1947 (4.816.000 inhabitants across fourteen liwas). Transjordan relied on district tax lists and tribal estimates until its 1952AD Housing Census recorded 586.885 residents. Under French administration, Greater Lebanon held its only comprehensive Mandate census in January 1932 (793.426 residents, including emigrants registered for confessional seat apportionment), while Syria combined Ottoman 1914AD civil registers with French Mandate estimates in 1922AD, 1932AD and 1938AD and civil-registry tabulations in 1946–1947AD [@Saber2023French; @Abdulla2022].
+
+Because each jurisdiction terminated Mandate or colonial status in a different year — Iraq in October 1932, Syria and Lebanon in April 1946 (following formal 1943AD–1944AD constitutional transfers), Transjordan in May 1946, Palestine in May 1948 and Cyprus in August 1960 — HANDBOOK records territorial totals only while a region remains inside this chapter's Mandate or colonial domain. Consequently, the unadjusted chapter headline sum moves from 6,49M across all six territories in 1918AD to 6,49M across Iraq, Syria and Lebanon in 1932AD, 5,11M across Syria, Lebanon, Transjordan and Cyprus in 1946AD, 1,95M for Palestine in 1948AD and 574k for Cyprus alone in 1960AD. In the settlement gazetteer, all 10.343 individually assessed towns and villages are anchored strictly to their documented Mandate and successor-state census years: 1920–1957AD in Iraq, 1922–1960AD in Syria, 1920–1960AD in Lebanon, 1918–1960AD in Transjordan and Jordan, 1921–1960AD in British Cyprus, 1922–1945AD (through 1948AD for Jerusalem and selected Mandate centres) in Mandatory Palestine Village Statistics and 1948–1960AD in CBS Israel locality series.
+
+## Historical Subadministrative Units and Modern Polygon Disaggregation
+
+To prevent population totals from being smeared evenly across deserts and mountain ridges, historical subadministrative enumerations were assembled into nine territorial polygons spanning the seven modern successor states (Syria, Lebanon, Jordan, Israel, Palestine, Iraq and Cyprus). Syria is represented by the combined Aleppo and Damascus vilayet frame (1,45M in 1881AD, 1,95M in 1914AD, 2,14M in 1922AD, 2,62M in 1938AD and 3,04M in 1947AD); Lebanon by the Mutasarrifate of Mount Lebanon and Beirut extended to Greater Lebanon's 1920AD borders; Transjordan by the Sanjaks of Karak and Balqa; Mandate Palestine split analytically between the northern, coastal and Negev sub-districts (Israel frame) and the Jerusalem, Hebron, Nablus and Gaza sub-districts (Palestine frame); Iraq partitioned across its three historic vilayet liwa clusters (Baghdad Central Liwas, Basra Southern Liwas and Mosul Northern Liwas); and Cyprus across its six British colonial districts.
+
+These nine historical aggregates link directly onto 169 modern ADM1 and ADM2 polygons retrieved from geoBoundaries [@Runfola2020GeoBoundaries]: 13 governorates in Syria, 21 districts in Lebanon, 12 governorates in Jordan, 14 sub-districts in Israel, 16 governorates in Palestine, 88 districts in Iraq and 5 districts in Cyprus. Disaggregation from provincial totals onto the five-arcminute grid uses strictly mass-conserving pycnophylactic scaling, ensuring that pixel sums within every polygon reproduce the enumerated census figure to machine precision while respecting local environmental carrying capacity.
+
+## Radial Distance Fields, Matérn Kriging and Urban-Rural Partitioning
+
+Between urban centres, rural population density is distributed using non-stationary Matérn kriging ($\nu = 3/2$) conditioned on metric-isotropic radial distance fields from settlements and biophysical suitability covariates. Across the wider MENA calibration surface, the isotropic two-scale Matérn semivariogram attains a dimensionless short-range correlation scale $\tau_1 = 1{,}52$ and long-range scale $\tau_2 = 2{,}9$ with nugget-to-sill ratio $0{,}04$ and residual $R^2 = 0{,}999$, corresponding to an effective short-range correlation distance near 48 to 50 km across alluvial valleys and coastal plains. Weighted least-squares covariates give positive weight to baseline habitability ($\beta_{0,\text{hab}} > 0$), fluvial proximity along the Tigris, Euphrates, Orontes and Jordan basins ($\beta_{3,\text{fluvial}}$) and Mediterranean coastal access ($\beta_{4,\text{coastal}}$).
+
+Urban and village populations from the 10.343 individually assessed settlements are separated cleanly via an urban mask before residual rural densities are scaled within each historical subadministrative unit. A further 250 redundant, suburban or co-located variant candidates out of 10.593 evaluated ledger entries in the regional ledger were excluded or consolidated into parent municipalities so that suburban sprawl and spelling twins never double-count metropolitan residents or create spurious secondary peaks on the rural background surface.
+
+# Testing and Validation
+
+## Subadministrative Mass Conservation and Cross-Census Consistency
+
+Pycnophylactic disaggregation across the wider regional domain was evaluated across 65.864 unit-year checks spanning 29 historical provincial units and 2.629 modern subadministrative units over 83 benchmark years. Every single unit-year check (100%) conserved enumerated mass within 0,01%, with a global maximum relative error of $5{,}85 \times 10^{-8}$ and representative decennial errors in 1920AD, 1930AD, 1940AD, 1950AD and 1960AD remaining below $1{,}33 \times 10^{-8}$. Within the Mandate chapter itself, summing the three Iraqi vilayet liwa clusters in 1920AD (1.360.304 in Baghdad, 785.600 in Basra and 785.468 in Mosul) yields 2.931.372, matching the Mandate administrative total of 2,849M within 2,9% once tribal nomad adjustments on the desert fringes are accounted for. In Palestine, summing the two sub-district groups reproduces the official 1922AD (472k plus 285,2k = 757,2k) and 1931AD (685k plus 350,8k = 1.035,8k) censuses exactly, and matches the 1945AD settled total of 1.764.520 prior to nomadic adjustments.
+
+```{r tab2-modern-subadmin, results='asis'}
+mod_stats <- summary_cache$chapter_modern_subadmin_stats
+iso_labels <- c(
+  IRQ = "Iraq",
+  SYR = "Syria",
+  LBN = "Lebanon",
+  JOR = "Jordan",
+  ISR = "Israel",
+  PSE = "Palestine",
+  CYP = "Cyprus"
+)
+top_units_by_iso <- list()
+for (u in summary_cache$chapter_modern_top_units) {
+  iso <- u$iso3
+  if (is.null(top_units_by_iso[[iso]])) {
+    yrs_u <- names(u$pops)
+    last_y <- yrs_u[length(yrs_u)]
+    top_units_by_iso[[iso]] <- paste0(u$name, " (", viscount_fmt_pop(u$pops[[last_y]]), " in ", last_y, "AD)")
+  }
+}
+
+df_mod <- do.call(rbind, lapply(names(iso_labels), function (iso) {
+  st <- mod_stats[[iso]]
+  yrs <- unlist(st$years)
+  top_txt <- if (!is.null(top_units_by_iso[[iso]])) top_units_by_iso[[iso]] else "District series"
+  data.frame(
+    State = iso_labels[[iso]],
+    Level = st$level,
+    Units = as.integer(st$matched_units),
+    `Census Span` = paste0(min(yrs), "-", max(yrs), "AD"),
+    `Leading Polygon` = top_txt,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_mod) <- NULL
+
+viscount_table(
+  df_mod,
+  "Modern geoBoundaries subadministrative units matched across the seven successor jurisdictions, showing administrative level, unit count, census span and leading polygon.",
+  col_names = c("Jurisdiction", "Level", "Matched Units", "Modern Span", "Leading Disaggregation Unit"),
+  arg3_options = list(label = "tab:modern-subadmin", font_size = "footnotesize")
+)
+```
+
+## Settlement Ledger Saturation, Foundation Truncation and Zipf Structure
+
+Direct case-by-case assessment from official Mandate and successor-state censuses evaluated towns and villages across Iraq's 1920AD Civil Administration estimates and 1947AD and 1957AD censuses, Syria's French Mandate civil registries and 1960AD census, Lebanon's 1932AD census and caza registries, British Mandate Palestine's 1922AD and 1931AD censuses and 1945AD Village Statistics (supplemented by CBS Israel 1948–1960AD locality returns), Transjordan's colonial reports and Jordan's 1952AD and 1961AD censuses, and British Cyprus's 1881–1931AD, 1946AD and 1960AD colonial censuses alongside archival monographs [@Greenshields2025Settlment; @Marom2021Jind; @Marom2024Lajjun]. After excluding 250 redundant, suburban or co-located variant candidates out of 10.593 evaluated entries from the ledger, 10.343 individually assessed Mandate-era settlements enter the final gazetteer with 0% back-projected or crowd-sourced fallback entries: `r n_ctry("Cyprus")` in British Cyprus, `r n_ctry("Israel")` in Israel, `r n_ctry("Palestine")` in Palestine, `r n_ctry("Iraq")` in Iraq, `r n_ctry("Syria")` in Syria, `r n_ctry("Lebanon")` in Lebanon and `r n_ctry("Jordan")` in Jordan.
+
+To prevent twentieth-century planned settlements, agricultural colonies and post-1948AD development towns from receiving anachronistic early-Mandate populations, explicit foundation-year truncation was applied across newly founded localities—including Zarqa (1902AD) in Transjordan, Tel Aviv (1909AD), Ramat Gan (1921AD), Bnei Brak (1924AD), Herzliya (1924AD), Afula (1925AD), Bat Yam (1926AD), Netanya (1929AD), Holon (1935AD), Yehud (1948AD), Yavne (1949AD) and Beit Shemesh (1950AD) in the Palestine-Israel frame, and Qamishli (1926AD) in the Syrian Jazira [@Beenstock2025Origins; @Remer2025Degania]. None of these settlements carry any positive population prior to their historical foundation date. Across all $n = 10.343$ individually assessed settlements at peak population, log-log rank-size testing yields a Zipf exponent $\alpha = 1{,}747$ with $R^2 = 0{,}945$, confirming a steep, primate urban hierarchy dominated by Mandate administrative capitals and Mediterranean ports alongside a dense lower tail of enumerated Palestinian and Cypriot villages.
+
+# Results
+
+## Regional Totals and Mandate-Era Growth
+
+Across the four decades between 1918AD and 1960AD, every territory under British or French administration experienced sustained demographic expansion once post-1918AD famine recovery gave way to falling crude death rates. Figure \ref{fig:trajectory} traces the aggregate population across the active Mandate domains alongside the leading jurisdictions at the close of the period. While Iraq dominated the regional total throughout (rising from 2,85M in 1918AD to 3,45M at independence in 1932AD and 4,82M by the 1947AD census), Syria grew by 64,9% between 1918AD and 1946AD (1,85M to 3,05M), Greater Lebanon doubled from 580k to 1,18M over the same span, Transjordan rose by 91,1% (225k to 430k) and Mandate Palestine nearly tripled from 680k in 1918AD to 1,97M in 1947AD. Cyprus, tracked across the full 42-year span to 1960AD, grew by 91,2% from 300k to 573,6k.
+
+```{r fig2-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_mandates_levant_iraq_cyprus_trajectory.png",
+  "Aggregate Mandate population trajectory across active jurisdictions from 1918AD to 1960AD and leading regional units at terminal benchmarks.",
+  "fig:trajectory",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+## Subadministrative Enumerations across Syria, Lebanon, Jordan, Palestine, Iraq and Cyprus
+
+Provincial and district enumerations reveal sharp internal shifts hidden behind national totals. Table \ref{tab:hist-subadmin} compiles the nine historical subadministrative series extending back to the late Ottoman baseline of 1881AD and 1914AD through the inter-war Mandate censuses. In Syria, the combined Aleppo and Damascus vilayet zone climbed from 1,95M in 1914AD to 2,14M in 1922AD, 2,62M in 1938AD and 3,043M in 1947AD [@Abdulla2022; @Stanley2019Syria]. Within northern Syria, agricultural settlement of the Jazira and Kurdish-Armenian migration transformed sparsely populated frontier kazas around Qamishli and Hasakeh into permanent market towns, even as the 1939AD transfer of Alexandretta detached Antioch and Iskenderun [@Chukov2022Kurdish; @Tillo2022Lights; @Galletti2007Some; @Pashayan2026Minority]. Alawite mountain districts along the Latakia coast grew steadily under French autonomous administration before integration into the Syrian Republic in 1936–1946AD [@Goldsmith2012Politics].
+
+In Lebanon, the 1932AD census enumerated 793.426 inhabitants across Beirut and the four provincial districts of Mount Lebanon, North Lebanon, South Lebanon and the Bekaa, rebounding decisively from the wartime famine losses reflected in the dip from 680k (1914AD) to 609k (1922AD) [@Saber2023French; @Kastrissianakis2016Exploring]. By 1945AD Lebanon's population reached 1,147M. In Iraq, growth between the 1920AD British administration estimate and the 1947AD census was fastest in the Baghdad Central Liwas (1.360.304 to 2.305.000, +69,4%) and the Mosul Northern Liwas (785.468 to 1.365.000, +73,8%), where Kirkuk oil development and northern cereal cultivation expanded rapidly, while the Basra Southern Liwas (Basra, Muntafiq and Amara) grew more moderately from 785.600 to 1.146.000 (+45,9%) as rural marsh and sharecropping populations migrated towards Baghdad and Basra port.
+
+In Mandate Palestine, the split between the northern, coastal and Negev sub-districts on one hand and the Jerusalem, Hebron, Nablus and Gaza sub-districts on the other captures diverging demographic dynamics prior to 1948AD. Between 1922AD and 1945AD, the coastal and northern sub-districts grew by 156,4% (from 472k to 1,21M), fuelled by Zionist immigration into Tel Aviv, Haifa and the Sharon plain alongside Arab coastal labour migration, whereas the central hill country and Gaza rose by 94,4% (from 285.182 to 554.520) primarily through high natural increase [@Beenstock2025Origins; @Anderson2017British; @Marom2024Lajjun]. Across the sea in Cyprus, six British colonial districts recorded unbroken growth from 186.173 in 1881AD through 274.108 (1911AD), 310.715 (1921AD), 347.959 (1931AD) and 450.114 (1946AD) to 573.566 in 1960AD, driven by malaria eradication and falling post-war infant mortality.
+
+```{r tab3-hist-subadmin, results='asis'}
+df_hist <- do.call(rbind, lapply(summary_cache$chapter_historical_subadmin, function (h) {
+  p <- h$pops
+  yrs <- names(p)
+  y1914 <- fmt_pop_dash(p[["1914"]])
+  y_early <- if (!is.null(p[["1922"]])) {
+    paste0(fmt_pop_dash(p[["1922"]]), " (1922)")
+  } else if (!is.null(p[["1920"]])) {
+    paste0(fmt_pop_dash(p[["1920"]]), " (1920)")
+  } else {
+    paste0(fmt_pop_dash(p[["1921"]]), " (1921)")
+  }
+  y_mid <- if (!is.null(p[["1931"]])) {
+    paste0(fmt_pop_dash(p[["1931"]]), " (1931)")
+  } else if (!is.null(p[["1932"]])) {
+    paste0(fmt_pop_dash(p[["1932"]]), " (1932)")
+  } else if (!is.null(p[["1938"]])) {
+    paste0(fmt_pop_dash(p[["1938"]]), " (1938)")
+  } else {
+    "-"
+  }
+  last_y <- yrs[length(yrs)]
+  y_end <- paste0(fmt_pop_dash(p[[last_y]]), " (", last_y, ")")
+  data.frame(
+    Unit = h$name,
+    `1881AD` = fmt_pop_dash(p[["1881"]]),
+    `1914AD` = y1914,
+    `Early Mandate` = y_early,
+    `Mid Mandate` = y_mid,
+    `Terminal Census` = y_end,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_hist) <- NULL
+
+viscount_table(
+  df_hist,
+  "Historical subadministrative census enumerations from 1881AD to 1960AD across Ottoman vilayets, Mandate districts, Iraqi liwas and British Cyprus.",
+  col_names = c("Subadministrative Unit", "1881AD", "1914AD", "Early Mandate", "Mid Mandate", "Terminal Count"),
+  arg3_options = list(label = "tab:hist-subadmin", font_size = "scriptsize")
+)
+```
+
+## Spatial Density, Urban Expansion and Metropolitan Primacy
+
+As Figure \ref{fig:density} illustrates, continuous population density in 1930AD remained overwhelmingly concentrated along a crescent linking the Nile-Sinai approaches, coastal Palestine, Mount Lebanon, western Syria and the Mesopotamian river axis, leaving the Syrian desert and southern Transjordan below 1 inhabitant per km². Mean territory densities at terminal benchmarks varied by more than an order of magnitude, from around 4,8 persons per km² in Transjordan (1946AD) and 7,9 in Iraq (1932AD) to 16,4 in Syria (1946AD), 61,4 in Cyprus (1960AD), 68,9 in Palestine (1948AD) and 117,6 in Greater Lebanon (1946AD).
+
+```{r fig3-density, results='asis'}
+viscount_figure(
+  "figures/fig3_mandates_levant_iraq_cyprus_density.png",
+  "Continuous kriged and census-scaled population surface at the 1930AD Mandate benchmark alongside mean territory densities in inhabitants per km².",
+  "fig:density",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+Urban expansion outpaced national growth across all seven successor territories, raising the combined population of the 10.343 individually assessed Mandate-era towns and villages from `r fmt_pop_dash(sum_window_pop(sett_list, 1918L, 1922L, 1921L))` across early-Mandate enumerations (1918–1922AD) to `r fmt_pop_dash(sum_window_pop(sett_list, 1930L, 1936L, 1932L))` at mid-Mandate (1930–1936AD) and `r fmt_pop_dash(sum_window_pop(sett_list, 1945L, 1947L, 1946L))` across 1945–1947AD, with documented 1957–1960AD enumerations reaching `r fmt_pop_dash(sum_window_pop(sett_list, 1957L, 1960L, 1960L))` and the full 10.343-site gazetteer totalling `r fmt_pop_dash(sum_peak_pop(sett_list))` in combined peak population (Figure \ref{fig:settlements} and Table \ref{tab:top-cities}). Baghdad nearly quadrupled from 202k in 1920AD to 340k in 1935AD, 515,5k at the 1947AD census and 793,2k in 1957AD as railways, British-built administrative ministries and southern rural migration concentrated Iraq's urban growth in the capital [@Bosworth2007Historic]. Across northern and southern Iraq, Mosul grew from 72k in 1920AD to 133,6k (1947AD) and 178,2k (1957AD), Basra from 54k to 164,9k as Iraq's sole deep-water oil and maritime outlet, Kirkuk more than quadrupled from 28k to 120,4k following the 1927AD Baba Gurgur oil discovery, Sulaymaniyah expanded from 18,5k to 48,8k and Erbil from 15,5k to 39,9k.
+
+In the Levant, Beirut nearly quadrupled from 115k in 1920AD to 161k at the 1932AD census, 240k in 1946AD and 450k in 1960AD as port transit, banking and Armenian and Palestinian refugee quarters turned it into the commercial hub of the French Levant, while Tripoli expanded from 38k to 115k [@Kastrissianakis2016Exploring; @Greenshields2025Settlment]. Damascus grew from 170k in 1922AD to 291,2k in 1946AD and 530k at the 1960AD Syrian census, Aleppo from 156,7k to 324,9k and 425,5k, and Homs from 52k to 137,2k. The most dramatic transformation among inland capitals occurred in Amman: from a Circassian and Arab Hejaz Railway village of 3,5k in 1918AD, it grew to 10,5k in 1930AD and 30k in 1945AD after becoming Emirate capital in 1921AD before post-1948AD Palestinian refugee settlement propelled it to 108,3k at the 1952AD housing census and 218k in 1960AD, alongside neighbouring Zarqa (1,8k in 1918AD to 28,5k in 1952AD and 82k in 1960AD). Along the Palestinian coast, Tel Aviv (consolidating adjacent Jaffa in the canonical ledger) expanded eleven-fold from 15,2k in 1922AD to 46,1k in 1931AD and 166,7k in 1945AD, flanked by newly founded metropolitan satellites Ramat Gan (reaching 88,4k in 1960AD), Petah Tikva (52,9k), Holon (47,4k) and Bnei Brak (45,2k), driven by agglomeration economies, municipal administration and white-collar service employment [@Beenstock2025Origins; @VRIES1997Productive; @Remer2025Degania]. Haifa grew more than sevenfold from 24,6k in 1922AD to 50,4k in 1931AD, 128,8k in 1945AD and 180,4k in 1960AD around the deep-water harbour opened in 1933AD and the Kirkuk-Haifa oil pipeline terminus, while Mandate Jerusalem more than tripled from 62,6k in 1922AD to 90,5k in 1931AD, 157,1k in 1945AD and 205,1k in 1946AD [@Daam2022Chapter; @Rioli2020Breach].
+
+```{r fig4-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_mandates_levant_iraq_cyprus_settlements.png",
+  "Rank-size distribution across 10.343 individually assessed Mandate-era settlements and peak populations of the twelve largest urban centres from 1918AD to 1960AD.",
+  "fig:settlements",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+```{r tab4-top-cities, results='asis'}
+peaks_vec <- vapply(sett_list, function (e) {
+  vals <- unlist(e$population)
+  if (length(vals) == 0) return(0)
+  max(as.numeric(vals))
+}, numeric(1))
+top15 <- sett_list[order(-peaks_vec)[1:15]]
+
+df_top <- do.call(rbind, lapply(top15, function (e) {
+  data.frame(
+    Settlement = e$name,
+    Country = e$country,
+    `Early (1918-1922)` = get_sett_window_label(e, 1918L, 1922L, 1921L),
+    `Mid (1930-1936)` = get_sett_window_label(e, 1930L, 1936L, 1932L),
+    `Late (1945-1947)` = get_sett_window_label(e, 1945L, 1947L, 1946L),
+    `Terminal (1957-1960)` = get_sett_window_label(e, 1957L, 1960L, 1960L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_top) <- NULL
+
+viscount_table(
+  df_top,
+  "Leading fifteen urban centres in the Mandate and colonial settlement ledger across documented census windows, 1918AD to 1960AD.",
+  col_names = c("Settlement", "Jurisdiction", "1918-1922AD", "1930-1936AD", "1945-1947AD", "1957-1960AD"),
+  arg3_options = list(label = "tab:top-cities", font_size = "footnotesize")
+)
+```
+
+## Palestinian Landlessness, Bedouin Sedentarisation and the 1948AD Nakba
+
+Behind the aggregate growth of Mandate Palestine lay acute structural tension over land tenure, public health and political representation. Between 1929AD and 1936AD, rising rural natural increase collided with land sales from absentee landlords to Zionist purchasing agencies, creating a growing class of landless Arab cultivators who drifted into shantytowns around Haifa and Jaffa [@Anderson2017British; @Kreiner2025British]. In the Beersheba sub-district and the Jordan Rift, Mandate registration policies and drought pressures gradually sedentarised semi-nomadic Bedouin encampments into permanent stone and mudbrick hamlets [@Frantzman2011Bedouin]. At the same time, village-level studies around Lydda and al-Lajjun document expanding grain and citrus output alongside falling mortality, while archival investigations of Gaza City quarters and British medical missions trace an early mortality transition in which infant survival rose faster than fertility fell [@Marom2021Jind; @Marom2024Lajjun; @Scott2001Mortality; @Hasso2021Children].
+
+These cumulative pressures culminated in the 1947–1949AD conflict and the 1948AD Nakba, which violently reordered the population map of the southern Levant [@Koylu2025Israel; @Moran2025Religious; @Rioli2020Breach]. Roughly 700k–750k Palestinian Arabs fled or were expelled from coastal, Galilee and mixed-urban districts inside the newly established State of Israel, shifting demographic mass abruptly across armistice lines. In the subadministrative series (Table \ref{tab:hist-subadmin}), the northern, coastal and Negev sub-districts fell from 1,21M in 1945AD to 872,7k in 1948AD even as Jewish mass immigration began, whereas the West Bank and Gaza sub-districts jumped from 554.520 inhabitants in 1945AD to 1,02M by 1952AD. Even prior to 1948AD, Mandate-era Gaza City had nearly doubled from 17,5k in 1922AD to 34,2k in 1945AD alongside Khan Yunis (3,9k to 11,2k), Hebron (16,6k to 24,6k), Nablus (15,9k to 23,3k), Ramallah (3,1k to 5,1k) and Rafah (599 to 2,2k); after 1948AD, the permanent incorporation of refugee camps drove explosive post-Mandate growth across Gaza, the West Bank, Lebanon and Jordan, visible most starkly in Amman (30k in 1945AD to 108,3k in 1952AD and 218k in 1960AD) and Zarqa (10,5k to 28,5k and 82k) [@Scott2001Mortality; @Muhsen2017Urban; @Dionigi2017Statehood].
+
+# Limitations
+
+Four structural constraints qualify the precision of these estimates. First, nomadic pastoralists in the Iraqi Jazira, the Syrian Badiya, eastern Transjordan and the Beersheba Negev were consistently under-counted in early Mandate tax lists and 1920–1922AD estimates, while rural female and infant under-registration persisted in conservative agrarian districts until mid-century [@Frantzman2011Bedouin; @Galletti2007Some]. Second, political and confessional sensitivities prevented Lebanon from conducting any national census after 1932AD [@Saber2023French; @Dionigi2017Statehood], so Lebanese towns in the settlement gazetteer rely on the 1932AD enumeration paired with Mandate civil registries, 1943AD Admiralty handbooks and 1946–1960AD municipal projections rather than decennial post-war censuses.
+
+Third, international boundary changes complicate continuous longitudinal comparison: the 1939AD transfer of the Sanjak of Alexandretta to Turkey excised a major mixed Turkish-Arab-Armenian population from Mandate Syria [@USTUN2016Example; @Hovhannisyan2025Catholicos], while the 1948AD armistice lines bisected Jerusalem and severed rural villages such as Jindas and al-Lajjun from their pre-war market towns [@Marom2021Jind; @Marom2024Lajjun; @Oron2021Century]. Fourth, because each jurisdiction's settlement series preserve authentic Mandate and successor-state census dates rather than synthetic decennial interpolations — closing at 1945AD across Mandatory Palestine village statistics (1948AD for Jerusalem), at 1957AD in Iraq and continuing to 1960AD in Syria, Lebanon, Jordan, Cyprus and CBS Israel municipalities — abrupt single-year shocks such as the 1941AD Anglo-Iraqi war displacements or the 1948–1949AD Nakba appear across inter-censal jumps (such as Amman's leap from 30k in 1945AD to 72k in 1949AD and 108,3k in 1952AD) rather than annual time series.
+
+# Conclusion
+
+Between 1918AD and 1960AD the Mandate and colonial territories of the Levant, Iraq and Cyprus underwent a decisive transition from war-ravaged late Ottoman provinces to urbanising nation-states. Across six jurisdictions covering 760,7k km², population nearly doubled from 6,49M in 1918AD to roughly 11,9M at the 1946–1947AD transition, while Cyprus continued upward to 573,6k by 1960AD. Simultaneously, urban concentration reshaped regional geography: 10.343 individually assessed Mandate-era towns and villages expanded from `r fmt_pop_dash(sum_window_pop(sett_list, 1918L, 1922L, 1921L))` inhabitants across 1918–1922AD to `r fmt_pop_dash(sum_window_pop(sett_list, 1945L, 1947L, 1946L))` in 1945–1947AD and `r fmt_pop_dash(sum_peak_pop(sett_list))` in combined peak population (`r fmt_pop_dash(sum_window_pop(sett_list, 1957L, 1960L, 1960L))` across 1957–1960AD counts), anchored by primate capitals in Baghdad, Damascus, Beirut, Aleppo and Amman alongside Jerusalem, Haifa, Mosul, Tel Aviv, Basra, Nicosia and Limassol ($\alpha = 1{,}747$, $R^2 = 0{,}945$). Disaggregating historical vilayet, liwa and Mandate district censuses onto 169 modern administrative polygons via mass-conserving pycnophylactic scaling and Matérn ($\nu = 3/2$) kriging preserves exact enumerated totals while exposing the ecological corridors, refugee ruptures and metropolitan agglomerations that defined the twentieth-century Near East.
+
+# Appendix
+
+## Country-Level Urban Ledger Summary
+
+Table \ref{tab:appendix-country-summary} aggregates all 10.343 individually assessed Mandate-era settlements by modern successor jurisdiction across four documented census windows from 1918AD to 1960AD alongside combined peak totals.
+
+```{r tab5-appendix-country, results='asis'}
+countries_ord <- c("Iraq", "Syria", "Israel", "Lebanon", "Jordan", "Cyprus", "Palestine")
+df_ctry <- do.call(rbind, lapply(countries_ord, function (ct) {
+  sub <- filter_country(sett_list, ct)
+  s_early <- sum_window_pop(sub, 1918L, 1922L, 1921L)
+  s_mid <- sum_window_pop(sub, 1930L, 1936L, 1932L)
+  s_late <- sum_window_pop(sub, 1945L, 1947L, 1946L)
+  s_term <- sum_window_pop(sub, 1957L, 1960L, 1960L)
+  s_peak <- sum_peak_pop(sub)
+  data.frame(
+    Country = ct,
+    Sites = length(sub),
+    `1918-1922AD` = fmt_pop_dash(s_early),
+    `1930-1936AD` = fmt_pop_dash(s_mid),
+    `1945-1947AD` = fmt_pop_dash(s_late),
+    `1957-1960AD` = fmt_pop_dash(s_term),
+    `Peak Sum` = fmt_pop_dash(s_peak),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_row <- data.frame(
+  Country = "All Jurisdictions",
+  Sites = length(sett_list),
+  `1918-1922AD` = fmt_pop_dash(sum_window_pop(sett_list, 1918L, 1922L, 1921L)),
+  `1930-1936AD` = fmt_pop_dash(sum_window_pop(sett_list, 1930L, 1936L, 1932L)),
+  `1945-1947AD` = fmt_pop_dash(sum_window_pop(sett_list, 1945L, 1947L, 1946L)),
+  `1957-1960AD` = fmt_pop_dash(sum_window_pop(sett_list, 1957L, 1960L, 1960L)),
+  `Peak Sum` = fmt_pop_dash(sum_peak_pop(sett_list)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_ctry <- rbind(df_ctry, tot_row)
+rownames(df_ctry) <- NULL
+
+viscount_table(
+  df_ctry,
+  "Catalogued settlement populations across all 10.343 individually assessed Mandate-era towns and villages grouped by successor jurisdiction across census windows, 1918AD to 1960AD.",
+  col_names = c("Jurisdiction", "Sites", "1918-1922AD", "1930-1936AD", "1945-1947AD", "1957-1960AD", "Peak Sum"),
+  arg3_options = list(label = "tab:appendix-country-summary", font_size = "footnotesize")
+)
+```
+
+## Leading Modern Subadministrative Units
+
+Table \ref{tab:appendix-modern-top} lists the ten largest modern geoBoundaries subadministrative polygons intersecting the Mandate domain alongside their areas and earliest and latest recorded modern census counts.
+
+```{r tab6-appendix-modern-top, results='asis'}
+top_u <- summary_cache$chapter_modern_top_units[1:min(10L, length(summary_cache$chapter_modern_top_units))]
+df_u <- do.call(rbind, lapply(top_u, function (u) {
+  yrs <- names(u$pops)
+  y0 <- yrs[1]
+  y1 <- yrs[length(yrs)]
+  data.frame(
+    Unit = paste0(u$name, " (", u$iso3, ")"),
+    Level = u$level,
+    `Area (km²)` = fmt_exact_int(u$area_km2),
+    `Earliest Modern` = paste0(viscount_fmt_pop(u$pops[[y0]]), " (", y0, ")"),
+    `Latest Modern` = paste0(viscount_fmt_pop(u$pops[[y1]]), " (", y1, ")"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_u) <- NULL
+
+viscount_table(
+  df_u,
+  "Ten largest modern geoBoundaries polygons anchoring pycnophylactic disaggregation across the Levant and Iraq.",
+  col_names = c("Administrative Unit", "Level", "Area (km²)", "Earliest Census", "Latest Census"),
+  arg3_options = list(label = "tab:appendix-modern-top", font_size = "footnotesize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+```{r crd_footnotes, echo=FALSE, results='asis'}
+if (exists("emit_crd_footnotes", mode = "function")) emit_crd_footnotes()
+```

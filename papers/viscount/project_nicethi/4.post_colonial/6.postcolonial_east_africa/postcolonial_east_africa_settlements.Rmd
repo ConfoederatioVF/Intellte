@@ -1,0 +1,426 @@
+---
+title: "Post-Colonial East Africa (1961-Present)"
+subtitle: "Settlement Gazetteer Across Twelve East African Countries (1961-2025)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_east_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 1.880 assessed towns and agglomerations across Uganda, Kenya, Tanzania, Rwanda, Burundi and border zones from 1961AD to 2025AD."
+hero_label: "fig:hero-settlements-east-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("postcolonial_east_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("postcolonial_east_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+iso3_map <- c(
+  "Burundi" = "BDI",
+  "Democratic Republic of the Congo" = "COD",
+  "Ethiopia" = "ETH",
+  "Kenya" = "KEN",
+  "Malawi" = "MWI",
+  "Mozambique" = "MOZ",
+  "Rwanda" = "RWA",
+  "Somalia" = "SOM",
+  "South Sudan" = "SSD",
+  "Uganda" = "UGA",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yrs[i_pk], "AD)")
+}
+
+entry_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(0)
+  max(as.numeric(unlist(ps)))
+}
+
+sort_entries_desc <- function (sub_list) {
+  pks <- vapply(sub_list, entry_peak, numeric(1))
+  nms <- vapply(sub_list, function (e) as.character(e$name), character(1))
+  sub_list[order(-pks, nms)]
+}
+
+core_countries <- c(
+  "Kenya",
+  "United Republic of Tanzania",
+  "Uganda",
+  "Rwanda",
+  "Burundi",
+  "Democratic Republic of the Congo"
+)
+
+border_countries <- c("Malawi", "Zambia", "South Sudan", "Somalia", "Ethiopia", "Mozambique")
+all_country_order <- c(core_countries, border_countries)
+
+entries_by_country <- setNames(lapply(all_country_order, function (cn) {
+  sub <- Filter(function (e) identical(as.character(e$country), cn), all_entries)
+  sort_entries_desc(sub)
+}), all_country_order)
+
+border_entries <- sort_entries_desc(
+  Filter(function (e) as.character(e$country) %in% border_countries, all_entries)
+)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    sc_str <- if (identical(e$population_scope, "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = as.character(e$name),
+      Scope = sc_str,
+      Location = loc_str,
+      `1961AD` = fmt_site_pop(e, 1961),
+      `1981AD` = fmt_site_pop(e, 1981),
+      `2000AD` = fmt_site_pop(e, 2000),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1961, 1976, 1991, 2000, 2015, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates, spatial scope classifications and multi-decade population series for `r viscount_fmt_number(length(all_entries), 0L)` assessed towns and metropolitan agglomerations across twelve East and Central African countries between 1961AD and 2025AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate municipal and urban entries (`r viscount_fmt_number(n_excluded, 0L)` duplicate aliases excluded), the retained ledger spans `r viscount_fmt_number(summary_cache$observation_count, 0L)` dated observations across `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city-proper units and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` metropolitan agglomerations. Active interpolated entries rise from `r viscount_fmt_number(n_active[["1961"]], 0L)` towns in 1961AD to `r viscount_fmt_number(n_active[["1991"]], 0L)` in 1991AD, `r viscount_fmt_number(n_active[["2000"]], 0L)` in 2000AD, `r viscount_fmt_number(n_active[["2015"]], 0L)` in 2015AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` in 2025AD, documenting urban hierarchies from primate national capitals such as Nairobi, Dar es Salaam, Kampala, Kigali and Bujumbura down to rural market towns across Uganda, Kenya, Tanzania, Rwanda, Burundi and adjacent border corridors.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 1.880 assessed towns and agglomerations across Uganda, Kenya, Tanzania, Rwanda, Burundi and border zones from 1961AD to 2025AD.",
+    "fig:hero-settlements-east-africa"
+  )
+}
+```
+
+# Background
+
+Reconstructing urban settlement hierarchies in post-colonial East Africa requires harmonising statutory municipal census divisions with satellite-detected built-up footprints [@KNBS2019KenyaCensus; @NBSTanzania2022Census; @UBOS2024UgandaCensus; @OECD2024Africapolis]. Whereas administrative city limits in Nairobi, Dar es Salaam, Kampala, Kigali and Bujumbura capture core municipal districts, rapid peri-urban expansion after 1990AD pushed urban populations far beyond colonial town boundaries into surrounding counties and highland corridors [@Bank2012EastAfrican; @Bank2017RwandaEconomic; @Hayashi2007LongTerm]. Compiling both city-proper census series and metropolitan agglomerations within a single ledger preserves comparability across all twelve jurisdictions inside the East African study rectangle [@Tatem2007HighResolution; @Runfola2020GeoBoundaries].
+
+# Methodology
+
+## Candidate Screening and Territorial Scope
+
+Candidate urban records were screened from KNBS, NBS/OCGS, UBOS, NISR and ISTEEBU census volumes, UNSD Demographic Yearbook tables and Africapolis [@KNBS2019KenyaCensus; @NBSTanzania2022Census; @UBOS2024UgandaCensus; @OECD2024Africapolis]. Of `r viscount_fmt_number(n_candidates, 0L)` candidates within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study frame, `r viscount_fmt_number(n_excluded, 0L)` overlapping synonym records were merged or excluded, retaining `r viscount_fmt_number(length(all_entries), 0L)` assessed settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations. Five core republics account for 1.735 entries - Tanzania (522), Uganda (519), Kenya (418), Burundi (198) and Rwanda (78) - alongside 145 adjacent border-zone towns in eastern Democratic Republic of the Congo (112), Malawi (10), Zambia (6), South Sudan (6), Somalia (4), Ethiopia (4) and Mozambique (3).
+
+## Interpolation and Scope Conventions
+
+Each entry reports either municipal city-proper populations (*City*) or continuous morphological agglomerations (*Metro*). Regional tables present linearly interpolated populations at four benchmark dates (1961AD, 1981AD, 2000AD and 2025AD) alongside each entry's peak population and peak year; benchmarks outside a town's observed span are marked with a hyphen (-). Notice that in densely farmed Lake Victoria, Mount Kenya, Mount Elgon and northern Burundi corridors, Africapolis morphological clusters merge extensive rural-urban settlements into multi-million conurbations (such as Kisumu, Embu, Mbale and Kayanza) that far exceed statutory town boundaries [@OECD2024Africapolis].
+
+# Testing and Validation
+
+Rank-size regression across the upper 180 urban peaks yields $q = 1,06$ ($R^2 = 0,99$), while full-sample regression across all `r viscount_fmt_number(length(all_entries), 0L)` entries yields $q = 1,14$ ($R^2 = 0,95$), aligning closely with the 1.764 spatially deduplicated centres plotted in Figure \ref{fig:settlements-rank} [@Hayashi2007LongTerm; @OECD2024Africapolis]. Cross-checking city-proper and metropolitan entries confirms zero duplicate alias keys and clear separation between municipal and agglomeration series [@KNBS2019KenyaCensus; @UBOS2024UgandaCensus].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 1.764 deduplicated urban settlements (upper-tier q = 1,06, R² = 0,99) and top ten sub-regional densities in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Country-Level Urban Ledger Summary
+
+Table \ref{tab:country-summary-gazetteer} summarises settlement counts, city-proper versus metropolitan splits, observation totals and active interpolated counts at four benchmarks across all twelve countries in the gazetteer.
+
+```{r tab-country-summary, results='asis'}
+sum_rows <- lapply(all_country_order, function (cn) {
+  sub <- entries_by_country[[cn]]
+  c_disp <- if (identical(cn, "United Republic of Tanzania")) {
+    "Tanzania"
+  } else if (identical(cn, "Democratic Republic of the Congo")) {
+    "DR Congo"
+  } else {
+    cn
+  }
+  n_cp <- sum(vapply(sub, function (e) !identical(e$population_scope, "metro"), logical(1)))
+  n_me <- sum(vapply(sub, function (e) identical(e$population_scope, "metro"), logical(1)))
+  n_obs <- sum(vapply(sub, function (e) length(e$population), integer(1)))
+  act_61 <- sum(vapply(sub, function (e) !is.na(interp_site_pop(e, 1961)), logical(1)))
+  act_00 <- sum(vapply(sub, function (e) !is.na(interp_site_pop(e, 2000)), logical(1)))
+  act_25 <- sum(vapply(sub, function (e) !is.na(interp_site_pop(e, 2025)), logical(1)))
+  top_nm <- if (length(sub) > 0L) paste0(sub[[1]]$name, " (", viscount_fmt_pop(entry_peak(sub[[1]])), ")") else "-"
+  data.frame(
+    Polity = c_disp,
+    Sites = viscount_fmt_number(length(sub), 0L),
+    City = viscount_fmt_number(n_cp, 0L),
+    Metro = viscount_fmt_number(n_me, 0L),
+    Obs = viscount_fmt_number(n_obs, 0L),
+    `1961AD` = viscount_fmt_number(act_61, 0L),
+    `2000AD` = viscount_fmt_number(act_00, 0L),
+    `2025AD` = viscount_fmt_number(act_25, 0L),
+    `Leading Entry` = top_nm,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_cp <- sum(vapply(all_entries, function (e) !identical(e$population_scope, "metro"), logical(1)))
+tot_me <- sum(vapply(all_entries, function (e) identical(e$population_scope, "metro"), logical(1)))
+tot_row <- data.frame(
+  Polity = "All Countries",
+  Sites = viscount_fmt_number(length(all_entries), 0L),
+  City = viscount_fmt_number(tot_cp, 0L),
+  Metro = viscount_fmt_number(tot_me, 0L),
+  Obs = viscount_fmt_number(summary_cache$observation_count, 0L),
+  `1961AD` = viscount_fmt_number(n_active[["1961"]], 0L),
+  `2000AD` = viscount_fmt_number(n_active[["2000"]], 0L),
+  `2025AD` = viscount_fmt_number(n_active[["2025"]], 0L),
+  `Leading Entry` = "Kisumu / Nairobi (17,56M / 15,95M)",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_csum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_csum) <- NULL
+viscount_table(
+  df_csum,
+  "Country-level summary of assessed settlements, spatial scopes, dated observations and active counts at 1961AD, 2000AD and 2025AD.",
+  arg3_options = list(label = "tab:country-summary-gazetteer")
+)
+```
+
+## Kenya Urban Hierarchy
+
+Table \ref{tab:gaz-kenya} records all `r viscount_fmt_number(length(entries_by_country[["Kenya"]]), 0L)` assessed towns and agglomerations in Kenya (389 city-proper and 29 metropolitan entries), led by Nairobi (4,40M city-proper in 2019; 15,95M agglomeration in 2025AD), Mombasa (2,13M agglomeration), Nakuru (2,31M), Kisumu and Eldoret [@KNBS2019KenyaCensus; @Clark2013TransitionsAdulthood].
+
+```{r tab-gaz-kenya, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_by_country[["Kenya"]]),
+  "Assessed settlements and metropolitan agglomerations in Kenya (1961AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-kenya")
+)
+```
+
+## Tanzania and Zanzibar Urban Hierarchy
+
+Table \ref{tab:gaz-tanzania} documents all `r viscount_fmt_number(length(entries_by_country[["United Republic of Tanzania"]]), 0L)` settlements across mainland Tanzania and Zanzibar (521 city-proper and one metropolitan entry), headed by Dar es Salaam (5,38M municipal in 2022; 6,89M agglomeration in 2025AD), Mwanza (1,25M), Arusha (1,16M), Zanzibar (840,1k) and Dodoma (765,2k) [@NBSTanzania2022Census; @Masanja2014RuralUrban].
+
+```{r tab-gaz-tanzania, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_by_country[["United Republic of Tanzania"]]),
+  "Assessed settlements and metropolitan agglomerations in Tanzania and Zanzibar (1961AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-tanzania")
+)
+```
+
+## Uganda Urban Hierarchy
+
+Table \ref{tab:gaz-uganda} catalogues all `r viscount_fmt_number(length(entries_by_country[["Uganda"]]), 0L)` assessed towns and agglomerations in Uganda (511 city-proper and eight metropolitan entries), anchored by Kampala (1,80M city-proper in 2024; 6,11M agglomeration in 2025AD), Mbale, Fort Portal (1,01M), Jinja (755,5k) and Bunagana (1,49M) [@UBOS2024UgandaCensus; @Nzabona2018CorrelatesYouth].
+
+```{r tab-gaz-uganda, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_by_country[["Uganda"]]),
+  "Assessed settlements and metropolitan agglomerations in Uganda (1961AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-uganda")
+)
+```
+
+## Rwanda Urban Hierarchy
+
+Table \ref{tab:gaz-rwanda} presents all `r viscount_fmt_number(length(entries_by_country[["Rwanda"]]), 0L)` assessed settlements in Rwanda (77 city-proper and one metropolitan entry), led by Kigali (1,52M city-proper in 2022; 3,62M agglomeration in 2025AD), Gisenyi (1,47M), Ruhango (944,2k), Umutara (653,9k) and Rubavu (546,7k) [@Shipsey2022MakingThe; @Bank2017RwandaEconomic].
+
+```{r tab-gaz-rwanda, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_by_country[["Rwanda"]]),
+  "Assessed settlements and metropolitan agglomerations in Rwanda (1961AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-rwanda")
+)
+```
+
+## Burundi Urban Hierarchy
+
+Table \ref{tab:gaz-burundi} records all `r viscount_fmt_number(length(entries_by_country[["Burundi"]]), 0L)` assessed settlements in Burundi (195 city-proper and three metropolitan entries), led by Bujumbura (497,2k city-proper in 2008; 2,25M agglomeration in 2025AD), Kayanza (3,86M northern highland agglomeration), Muyinga (620,2k) and Kirundo (492,1k) [@Verwimp2020ForcedDisplacement; @OECD2024Africapolis].
+
+```{r tab-gaz-burundi, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_by_country[["Burundi"]]),
+  "Assessed settlements and metropolitan agglomerations in Burundi (1961AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-burundi")
+)
+```
+
+## Eastern Democratic Republic of the Congo Border Corridor
+
+Table \ref{tab:gaz-drc} lists `r viscount_fmt_number(length(entries_by_country[["Democratic Republic of the Congo"]]), 0L)` eastern Congolese towns falling inside the chapter bounding rectangle along Lakes Kivu, Edward and Tanganyika, led by Goma (1,77M), Bukavu (1,48M), Beni (481,6k) and Uvira (351,6k) [@OECD2024Africapolis].
+
+```{r tab-gaz-drc, results='asis'}
+viscount_table(
+  build_gazetteer_df(entries_by_country[["Democratic Republic of the Congo"]]),
+  "Border-corridor settlements in eastern Democratic Republic of the Congo within the East African geographic frame (1961AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-drc")
+)
+```
+
+## Adjacent Border Towns (Malawi, Zambia, South Sudan, Somalia, Ethiopia and Mozambique)
+
+Table \ref{tab:gaz-border} compiles the remaining `r viscount_fmt_number(length(border_entries), 0L)` peripheral border-zone towns across Malawi, Zambia, South Sudan, Somalia, Ethiopia and Mozambique included within the chapter bounding rectangle [@Runfola2020GeoBoundaries; @OECD2024Africapolis].
+
+```{r tab-gaz-border, results='asis'}
+viscount_table(
+  build_gazetteer_df(border_entries),
+  "Peripheral border-zone settlements across Malawi, Zambia, South Sudan, Somalia, Ethiopia and Mozambique (1961AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-border")
+)
+```
+
+# Limitations
+
+Three caveats govern this gazetteer. First, combining city-proper census series with Africapolis morphological agglomerations means summed column totals across Tables \ref{tab:gaz-kenya} to \ref{tab:gaz-border} overlap where metropolitan entries encompass nested constituent towns. Second, linear interpolation leaves hyphens (-) outside each settlement's earliest and latest observed dates, so 1961AD counts (157 entries) understate smaller district towns first enumerated after 1990AD. Third, 145 cross-border towns lie outside the five East African republics and are omitted from national admin-1 area totals in the companion review.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` entries in this gazetteer trace the post-colonial transformation of East Africa's urban network from 157 recorded towns in 1961AD to 1.240 active centres in 2025AD, documenting both statutory municipal growth and cross-border conurbation expansion across all twelve countries.
+
+# Appendix
+
+## Interpolated Urban Ledger Totals by Country
+
+Table \ref{tab:appendix-gaz-totals} reports combined interpolated populations across each country's city-proper subset at six post-colonial benchmarks, avoiding double counting from metropolitan entries.
+
+```{r tab-appendix-totals, results='asis'}
+app_rows <- lapply(all_country_order, function (cn) {
+  sub <- Filter(function (e) !identical(e$population_scope, "metro"), entries_by_country[[cn]])
+  c_disp <- if (identical(cn, "United Republic of Tanzania")) {
+    "Tanzania"
+  } else if (identical(cn, "Democratic Republic of the Congo")) {
+    "DR Congo"
+  } else {
+    cn
+  }
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Polity (City-Proper)` = paste0(c_disp, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1961AD` = sums[["1961"]],
+    `1976AD` = sums[["1976"]],
+    `1991AD` = sums[["1991"]],
+    `2000AD` = sums[["2000"]],
+    `2015AD` = sums[["2015"]],
+    `2025AD` = sums[["2025"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+all_cp <- Filter(function (e) !identical(e$population_scope, "metro"), all_entries)
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_cp, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_app <- data.frame(
+  `Polity (City-Proper)` = paste0("All City-Proper (", viscount_fmt_number(length(all_cp), 0L), ")"),
+  `1961AD` = tot_sums[["1961"]],
+  `1976AD` = tot_sums[["1976"]],
+  `1991AD` = tot_sums[["1991"]],
+  `2000AD` = tot_sums[["2000"]],
+  `2015AD` = tot_sums[["2015"]],
+  `2025AD` = tot_sums[["2025"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_app <- rbind(do.call(rbind, app_rows), tot_app)
+rownames(df_app) <- NULL
+viscount_table(
+  df_app,
+  "Combined interpolated populations across all 1.838 city-proper settlement entries by country from 1961AD to 2025AD.",
+  arg3_options = list(label = "tab:appendix-gaz-totals")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest dated observation; periods outside an entry's observed span are marked with a hyphen (-). City-proper and metropolitan scopes are explicitly separated in Table \ref{tab:country-summary-gazetteer} and Table \ref{tab:appendix-gaz-totals} to prevent double counting of peri-urban suburbs.

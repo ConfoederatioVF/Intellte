@@ -1,0 +1,304 @@
+---
+title: "Syria, Lebanon, Jordan, Israel and Palestine after 1946"
+subtitle: "Settlement Gazetteer: 6.386 Cities, Towns and Localities, 1946AD-2026AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: modern_levant_israel_palestine_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_modern_levant_israel_palestine_spatial.png"
+hero_caption: "Spatial distribution of 6.386 catalogued settlements and 41 sub-regional mask units across Syria, Lebanon, Jordan, Israel and Palestine between 1946AD and 2026AD."
+hero_label: "fig:hero-settlements-modern-levant-israel-palestine"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+read_json5_clean <- function (path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  jsonlite::fromJSON(text, simplifyVector = FALSE)
+}
+
+sett_raw <- jsonlite::fromJSON("modern_levant_israel_palestine_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("modern_levant_israel_palestine_summary_cache.json", simplifyVector = FALSE)
+ledger_raw <- read_json5_clean("modern_levant_israel_palestine_source_ledger.json5")
+
+get_pop_safe <- function (entry, yr_str) {
+  v <- entry$population[[yr_str]]
+  if (is.null(v) || is.na(v)) return("-")
+  viscount_fmt_pop(as.numeric(v))
+}
+
+build_country_df <- function (country_name, top_n = 100L) {
+  rows <- list()
+  for (k in names(sett_raw)) {
+    e <- sett_raw[[k]]
+    if (!identical(as.character(e$country), country_name)) next
+    yrs <- as.integer(names(e$population))
+    vals <- as.numeric(unlist(e$population))
+    pk_idx <- which.max(vals)
+    pk_val <- vals[pk_idx]
+    pk_yr <- yrs[pk_idx]
+    lat <- as.numeric(e$coords[[1]])
+    lon <- as.numeric(e$coords[[2]])
+    coord_str <- paste0(viscount_fmt_number(lat, 2L), ", ", viscount_fmt_number(lon, 2L))
+    rows[[length(rows) + 1L]] <- list(
+      pk = pk_val,
+      df = data.frame(
+        Settlement = as.character(e$name),
+        Coords = coord_str,
+        P1946 = get_pop_safe(e, "1946"),
+        P1990 = get_pop_safe(e, "1990"),
+        P2025 = get_pop_safe(e, "2025"),
+        Peak = paste0(viscount_fmt_pop(pk_val), " (", pk_yr, ")"),
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+  if (length(rows) == 0L) return(data.frame())
+  ord <- order(vapply(rows, function(x) -x$pk, numeric(1)))
+  sel <- rows[ord[seq_len(min(length(ord), top_n))]]
+  out <- do.call(rbind, lapply(sel, function(x) x$df))
+  rownames(out) <- NULL
+  out
+}
+
+fmt_int_eu <- function (x) formatC(as.integer(round(as.numeric(x))), format = "d", big.mark = ".")
+cnt_country <- function (cn) sum(vapply(sett_raw, function (e) identical(as.character(e$country), cn), logical(1)))
+cnt_exc_country <- function (cn) sum(vapply(ledger_raw$candidates, function (c) identical(as.character(c$country), cn) && !identical(as.character(c$status), "included"), logical(1)))
+sum_sett_yr <- function (yr) {
+  sum(vapply(sett_raw, function (e) {
+    v <- e$population[[yr]]
+    if (is.null(v)) 0 else as.numeric(v)
+  }, numeric(1)))
+}
+cnt_sett_yr <- function (yr) sum(vapply(sett_raw, function (e) !is.null(e$population[[yr]]), logical(1)))
+sum_country_yr <- function (cn, yr) {
+  sum(vapply(sett_raw, function (e) {
+    if (!identical(as.character(e$country), cn)) return(0)
+    v <- e$population[[yr]]
+    if (is.null(v)) 0 else as.numeric(v)
+  }, numeric(1)))
+}
+sum_country_latest <- function (cn) {
+  sum(vapply(sett_raw, function (e) {
+    if (!identical(as.character(e$country), cn)) return(0)
+    if (!is.null(e$population[["2025"]])) return(as.numeric(e$population[["2025"]]))
+    ys <- sort(as.integer(names(e$population)))
+    as.numeric(e$population[[as.character(tail(ys, 1))]])
+  }, numeric(1)))
+}
+```
+
+# Abstract
+
+This settlement gazetteer compiles coordinate-exact population trajectories for 6.386 cities, towns and rural localities across Syria, Lebanon, Jordan, Israel and Palestine between 1946AD and 2025AD. Screened from 15.251 official census rows across five national statistical bureaus—CBS Syria (`r fmt_int_eu(cnt_country("Syria"))` included), CBS Israel (`r fmt_int_eu(cnt_country("Israel"))`), PCBS Palestine (`r fmt_int_eu(cnt_country("Palestine"))`), DOS Jordan (`r fmt_int_eu(cnt_country("Jordan"))`) and CAS Lebanon (`r fmt_int_eu(cnt_country("Lebanon"))`)—with duplicate aliases and contiguous suburban municipalities excluded or merged into metropolitan cores to prevent double counting, the corpus captures an enumerated settlement expansion from `r viscount_fmt_pop(sum_sett_yr("1946"))` inhabitants in 1946AD (`r fmt_int_eu(cnt_sett_yr("1946"))` active localities) to `r viscount_fmt_pop(sum_sett_yr("1990"))` in 1990AD and `r viscount_fmt_pop(sum_sett_yr("2025"))` in 2025AD. Combining major capitals with full national village registers yields a steep, tightly fitted Zipf rank-size slope ($\alpha = 1{,}556$, $R^2 = 0{,}967$), anchored by Aleppo (2,86M peak), Damascus (2,69M metropolitan peak in 2024AD), Beirut (2,42M metropolitan peak in 2023AD; 484,6k municipal proper), Amman (2,08M), Dayr az-Zawr (1,92M governorate peak in 2009AD), Irbid (1,91M governorate peak in 2018AD), Jerusalem (1,05M peak in 2024AD), Homs (875,7k), Gaza City (749,1k in 2023AD), Zarqa (730,6k), Latakia (709k in 2004AD) and Tel Aviv-Yafo (494,9k core in 2024AD). Each entry preserves founding-year truncation for post-1948 planned towns and aligns directly with geoBoundaries subadministrative polygons for pycnophylactic disaggregation.
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_modern_levant_israel_palestine_spatial.png",
+    "Spatial distribution of 6.386 catalogued settlements and 41 sub-regional mask units across Syria, Lebanon, Jordan, Israel and Palestine between 1946AD and 2026AD.",
+    "fig:hero-settlements-modern-levant-israel-palestine",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+# Background
+
+Between the close of the French and British Mandates in 1946AD-1948AD and the mid-2020s, the eastern Mediterranean littoral and its Syro-Jordanian hinterland shifted from an agrarian society of provincial market towns into a deeply urbanised landscape. At the 1946AD post-Mandate baseline, only Aleppo (324,9k), Damascus (291,2k), Beirut (240k) and Jerusalem (205,1k) exceeded 200k inhabitants, while Amman stood near 72k in 1949AD (108,3k at the 1952AD census) and vast reaches of the Euphrates valley, the Hauran, southern Jordan and the northern Negev consisted of small villages and nomadic encampments [@Ahmad2012Syria; @Anon2008Population]. Over the next eight decades, four forces transformed that urban map: rapid post-war mortality decline and rural-urban migration toward national capitals; the 1948 and 1967 Palestinian refugee waves that created permanent camp-cities in Gaza, the West Bank, Jordan, Lebanon and Syria [@Scott2001Mortality; @Muhsen2017Urban; @Fayad2025Political]; state-planned Israeli new towns built during the 1950s and 1960s and later expanded by the 1990s post-Soviet *aliyah* [@SimardGendron2011Fertility; @Grinberg2013Ments]; and post-2011 Syrian war displacements that swelled Amman, Irbid, Zarqa, Beirut and the Beqaa while hollowing out contested districts of Aleppo and Homs [@Omran2017Urban; @Morrison2018Providing; @Knudsen2024Urban].
+
+# Methodology
+
+Settlement series were compiled from five primary national census systems: CBS Syria (1960AD, 1970AD, 1981AD, 1994AD, 2004AD full locality census and post-2011 projections), CAS Lebanon (1932AD Mandate census, 1970AD survey and 1996AD-2017AD district benchmarks), DOS Jordan (1952AD, 1961AD, 1979AD, 1994AD, 2004AD and 2015AD censuses), CBS Israel (1948AD, 1961AD, 1972AD, 1983AD, 1995AD, 2008AD and 2022AD censuses plus complete locality files) and PCBS Palestine (1997AD, 2007AD, 2017AD full locality censuses and 2023AD estimates). Every coordinate pair was checked against geoBoundaries ADM1 and ADM2 polygons [@Runfola2020GeoBoundaries] and the 41 regional areal-mask units to ensure zero coastal or border misregistration.
+
+Two critical data-hygiene rules prevent distortion in the urban ledger. First, duplicate aliases, overlapping spelling variants and contiguous suburban municipalities—spanning `r fmt_int_eu(cnt_exc_country("Syria"))` exclusions in Syria, `r fmt_int_eu(cnt_exc_country("Israel"))` in Israel, `r fmt_int_eu(cnt_exc_country("Palestine"))` in Palestine, `r fmt_int_eu(cnt_exc_country("Jordan"))` in Jordan and `r fmt_int_eu(cnt_exc_country("Lebanon"))` in Lebanon—were excluded or merged into canonical parent anchors prior to kriging so dense conurbations never double-count inhabitants. Second, documented founding dates govern post-1948 Israeli planned towns: Qiryat Gat (1955AD), Dimona (1955AD), Ashdod (1956AD), Arad (1962AD) and Karmi'el (1964AD) remain absent prior to foundation rather than receiving synthetic 1946AD back-projections.
+
+# Testing and Validation
+
+Across the 6.386 catalogued settlements, temporal coverage expands from `r fmt_int_eu(cnt_sett_yr("1946"))` active localities in 1946AD (`r viscount_fmt_pop(sum_sett_yr("1946"))` combined inhabitants) to `r fmt_int_eu(cnt_sett_yr("1960"))` in 1960AD (`r viscount_fmt_pop(sum_sett_yr("1960"))`), `r fmt_int_eu(cnt_sett_yr("1990"))` in 1990AD (`r viscount_fmt_pop(sum_sett_yr("1990"))`) and `r fmt_int_eu(cnt_sett_yr("2025"))` with direct 2025AD benchmarks (`r viscount_fmt_pop(sum_sett_yr("2025"))`), supplemented by comprehensive 2004AD Syrian, 2017AD Palestinian and 2022AD-2024AD Israeli village enumerations. Figure \ref{fig:gazetteer-ranksize} plots the log-log rank-size curve alongside the twelve highest-peaking cities. Across all 6.386 localities spanning the full urban-to-village spectrum, ordinary least-squares Zipf regression yields $\alpha = 1{,}556$ ($R^2 = 0{,}967$), confirming a steep, tightly structured settlement hierarchy led by Aleppo, Damascus, Beirut, Amman and Jerusalem.
+
+```{r fig4-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig4_modern_levant_israel_palestine_settlements.png",
+  "Log-log rank-size regression across all 6.386 catalogued settlements (left, Zipf alpha = 1,556, R² = 0,967) and the twelve highest-peaking cities in the Levant, 1946AD-2025AD (right).",
+  "fig:gazetteer-ranksize",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Results
+
+## Syria
+
+Syria contributes `r fmt_int_eu(cnt_country("Syria"))` catalogued settlements (incorporating the full CBS Syria 2004 locality register), with leading urban anchors expanding from `r viscount_fmt_pop(sum_country_yr("Syria", "1946"))` enumerated residents in 1946AD to `r viscount_fmt_pop(sum_country_latest("Syria"))` at latest benchmarks (Table \ref{tab:syr-sites}). Aleppo (324,9k in 1946AD to 2,86M peak in 2025AD) and Damascus (291,2k to 2,69M metropolitan peak in 2024AD and 1,9M core in 2025AD, flanked by Rif Dimashq centres such as Duma at 400k peak) dominate the upper hierarchy, followed by Dayr az-Zawr (1,92M governorate peak in 2009AD; 284,3k core in 2025AD), central Syrian hubs at Homs (875,7k) and Hama (696,9k peak in 2009AD), coastal port Latakia (709k peak in 2004AD) and Euphrates-Jazira capitals at Ar-Raqqah (299,8k peak), Al-Hasakeh (252,5k) and Al-Qamishli (247,2k) [@Ahmad2012Syria; @Omran2017Urban; @Mohamed2020Monitoring; @Younes2023Understand].
+
+```{r tab-syria, results='asis'}
+df_syr <- build_country_df("Syria", top_n = 40L)
+viscount_table(
+  df_syr,
+  paste0("Leading 40 of ", fmt_int_eu(cnt_country("Syria")), " catalogued cities, towns and localities in Syria, showing coordinates, 1946AD, 1990AD and 2025AD estimates and peak population."),
+  c("Settlement", "Coords (Lat, Lon)", "1946AD", "1990AD", "2025AD", "Peak (Year)"),
+  list(label = "tab:syr-sites")
+)
+```
+
+## Israel
+
+Israel contributes `r fmt_int_eu(cnt_country("Israel"))` catalogued localities from CBS Israel census and municipal files, expanding from `r viscount_fmt_pop(sum_country_yr("Israel", "1946"))` in 1946AD to `r viscount_fmt_pop(sum_country_latest("Israel"))` at latest benchmarks (Table \ref{tab:isr-sites}). Rather than concentrating into a single primate municipality, urban population distributes across Jerusalem/Yerushalayim (205,1k in 1946AD to 1,05M peak in 2024AD and 1,02M in 2025AD), Tel Aviv-Yafo (494,9k peak in 2024AD) and its surrounding Gush Dan ring cities—Netanya (276,8k peak), Rishon LeZiyyon (271,9k), Petah Tiqwa (270,4k peak), Ashdod (founded 1956AD), Bene Beraq, Holon and Ramat Gan—alongside northern Haifa (299,1k) and Negev capital Beersheba [@SimardGendron2011Fertility; @Grinberg2013Ments].
+
+```{r tab-israel, results='asis'}
+df_isr <- build_country_df("Israel", top_n = 40L)
+viscount_table(
+  df_isr,
+  paste0("Leading 40 of ", fmt_int_eu(cnt_country("Israel")), " catalogued cities, towns and localities in Israel, showing coordinates, 1946AD, 1990AD and 2025AD estimates and peak population."),
+  c("Settlement", "Coords (Lat, Lon)", "1946AD", "1990AD", "2025AD", "Peak (Year)"),
+  list(label = "tab:isr-sites")
+)
+```
+
+## Jordan
+
+Jordan contributes `r fmt_int_eu(cnt_country("Jordan"))` catalogued settlements from DOS Jordan census archives, reaching `r viscount_fmt_pop(sum_country_latest("Jordan"))` at latest benchmarks (Table \ref{tab:jor-sites}). Greater Amman (2,08M in 2025AD), Irbid (1,91M governorate-level 2018AD peak; 578,3k city proper in 2025AD), Az-Zarqa' (730,6k), Ar-Rusayfah (543,6k) and Wadi as-Sir (278,2k) anchor the northwestern highland corridor that absorbed successive waves of Palestinian, Gulf-returnee, Iraqi and post-2011 Syrian migrants, complemented by southern nodes at Al-Karak, Ma'an, At-Tafilah and Red Sea port Al-'Aqabah [@Knudsen2024Urban].
+
+```{r tab-jordan, results='asis'}
+df_jor <- build_country_df("Jordan", top_n = 40L)
+viscount_table(
+  df_jor,
+  paste0("Leading ", nrow(df_jor), " of ", fmt_int_eu(cnt_country("Jordan")), " catalogued cities and towns in Jordan, showing coordinates, 1946AD, 1990AD and 2025AD estimates and peak population."),
+  c("Settlement", "Coords (Lat, Lon)", "1946AD", "1990AD", "2025AD", "Peak (Year)"),
+  list(label = "tab:jor-sites")
+)
+```
+
+## Palestine
+
+Palestine contributes `r fmt_int_eu(cnt_country("Palestine"))` catalogued localities from PCBS censuses and Mandate Village Statistics, reaching `r viscount_fmt_pop(sum_country_latest("Palestine"))` at latest benchmarks (Table \ref{tab:pse-sites}). In the Gaza Strip, Gaza City (749,1k peak in 2023AD), Khan Yunis (275,5k), Jabalyah (248,5k) and Rafah form one of the most densely packed urban strips on the Mediterranean littoral [@Scott2001Mortality; @Fayad2025Political]. Across the West Bank uplands, Hebron/Al-Khalil, Nablus, Tulkarm, Qalqilyah, Bethlehem, Ramallah and hundreds of rural villages sustain dense highland populations despite territorial fragmentation [@Muhsen2017Urban; @Harker2012Precarious; @Courbage2006Enjeux].
+
+```{r tab-palestine, results='asis'}
+df_pse <- build_country_df("Palestine", top_n = 40L)
+viscount_table(
+  df_pse,
+  paste0("Leading 40 of ", fmt_int_eu(cnt_country("Palestine")), " catalogued cities, towns and villages in Palestine (West Bank and Gaza Strip), 1946AD-2025AD."),
+  c("Settlement", "Coords (Lat, Lon)", "1946AD", "1990AD", "2025AD", "Peak (Year)"),
+  list(label = "tab:pse-sites")
+)
+```
+
+## Lebanon
+
+Lebanon contributes `r fmt_int_eu(cnt_country("Lebanon"))` catalogued urban centres and governorate-cluster entries reaching `r viscount_fmt_pop(sum_country_latest("Lebanon"))` at latest benchmarks (Table \ref{tab:lbn-sites}). Because CAS Lebanon reports post-1970 estimates primarily at the governorate and qada scale alongside municipal estimates, the ledger pairs Beirut (2,42M Greater Beirut metropolitan peak in 2023AD; 484,6k municipal proper in 2025AD) with North Lebanon (791k in 2017AD), Al-Biqa' (597,7k), Ba'albak-Al-Harmal (512,2k), 'Akkar (473,8k), An-Nabatiyah (429,3k) and coastal and mountain towns across Mount Lebanon and the South [@Knudsen2024Urban].
+
+```{r tab-lebanon, results='asis'}
+df_lbn <- build_country_df("Lebanon", top_n = 40L)
+viscount_table(
+  df_lbn,
+  paste0("Leading ", nrow(df_lbn), " of ", fmt_int_eu(cnt_country("Lebanon")), " catalogued settlements and urbanised district anchors in Lebanon, 1946AD-2025AD."),
+  c("Settlement", "Coords (Lat, Lon)", "1946AD", "1990AD", "2025AD", "Peak (Year)"),
+  list(label = "tab:lbn-sites")
+)
+```
+
+# Limitations
+
+Three methodological limitations frame this urban gazetteer. First, Lebanon's lack of a national census since 1932AD limits municipal-level resolution, compressing suburban Beirut and Tripoli growth into governorate aggregates that carry wider uncertainty than Israeli or Jordanian municipal counts [@Knudsen2024Urban]. Second, Syrian series after 2004AD rely on civil-registry extrapolations and wartime displacement surveys; local urban peaks at Aleppo, Homs, Dayr az-Zawr and Ar-Raqqah reflect pre-war trend projections alongside 2015AD-2021AD adjustments rather than post-war house-by-house censuses [@Omran2017Urban; @Morrison2018Providing]. Third, acute conflict in the Gaza Strip and southern Lebanon since October 2023 has caused severe displacement and structural destruction not yet reflected in pre-war 2023AD PCBS projections [@Koylu2025Israel; @Fayad2025Political].
+
+# Conclusion
+
+Together, the 6.386 settlements catalogued in Chapter 22 document an extraordinary urban and rural transformation from `r viscount_fmt_pop(sum_sett_yr("1946"))` enumerated inhabitants in 1946AD to `r viscount_fmt_pop(sum_sett_yr("2025"))` across 2025AD urban series in Syria, Lebanon, Jordan, Israel and Palestine. Anchored to geoBoundaries administrative polygons [@Runfola2020GeoBoundaries], deduplicated of duplicate aliases and overlapping suburban satellites and adhering strictly to founding-year truncation for new Israeli towns, the corpus follows a steep Zipf rank-size law ($\alpha = 1{,}556$, $R^2 = 0{,}967$) that cleanly captures metropolitan primacy, refugee-camp urbanisation and full rural locality density.
+
+# Appendix
+
+## Jurisdiction Summary
+
+Table \ref{tab:app-jur-summary} summarises catalogued settlement counts, temporal spans, median peak sizes and maximum urban peaks across all five states and territories.
+
+```{r tab-app-jur-summary, results='asis'}
+countries <- sort(unique(vapply(sett_raw, function(e) as.character(e$country), character(1))))
+jur_rows <- lapply(countries, function (cnt) {
+  sub <- sett_raw[vapply(sett_raw, function(e) identical(e$country, cnt), logical(1))]
+  pks <- vapply(sub, function(e) max(as.numeric(unlist(e$population))), numeric(1))
+  mins <- vapply(sub, function(e) min(as.integer(names(e$population))), integer(1))
+  maxs <- vapply(sub, function(e) max(as.integer(names(e$population))), integer(1))
+  data.frame(
+    Jurisdiction = cnt,
+    Sites = formatC(length(sub), format = "d", big.mark = "."),
+    Span = paste0(min(mins), "-", max(maxs), "AD"),
+    MedianPeak = viscount_fmt_pop(stats::median(pks)),
+    MaxPeak = viscount_fmt_pop(max(pks)),
+    TotalLatest = viscount_fmt_pop(sum(vapply(sub, function(e) {
+      if (!is.null(e$population[["2025"]])) return(as.numeric(e$population[["2025"]]))
+      ys <- sort(as.integer(names(e$population)))
+      as.numeric(e$population[[as.character(tail(ys, 1))]])
+    }, numeric(1)))),
+    stringsAsFactors = FALSE
+  )
+})
+df_jur <- do.call(rbind, jur_rows)
+df_jur <- df_jur[order(-as.numeric(gsub("\\.", "", df_jur$Sites))), ]
+rownames(df_jur) <- NULL
+viscount_table(
+  df_jur,
+  "Catalogued settlement counts (6.386 total), temporal spans, median and maximum peaks and latest-benchmark totals across five Levantine jurisdictions.",
+  c("Jurisdiction", "Sites", "Span", "Median Peak", "Max Peak", "Latest Sum"),
+  list(label = "tab:app-jur-summary")
+)
+```
+
+## Excluded Duplicates and Merged Subordinate Suburbs
+
+Table \ref{tab:app-excluded} summarises the excluded candidates across the five jurisdictions whose duplicate aliases or contiguous suburban footprints were merged into canonical parent cores in the regional source ledger.
+
+```{r tab-app-excluded, results='asis'}
+exc_list <- Filter(function(c) !identical(as.character(c$status), "included"), ledger_raw$candidates)
+exc_jurs <- sort(unique(vapply(exc_list, function (c) as.character(c$country), character(1))))
+exc_rows <- lapply(exc_jurs, function (jr) {
+  sub <- Filter(function (c) identical(as.character(c$country), jr), exc_list)
+  n_dup <- sum(vapply(sub, function (c) identical(as.character(c$reason), "duplicate_alias"), logical(1)))
+  n_sub <- length(sub) - n_dup
+  ex_nm <- paste(head(vapply(sub, function (c) as.character(c$name), character(1)), 5L), collapse = ", ")
+  data.frame(
+    Jurisdiction = jr,
+    Total = formatC(length(sub), format = "d", big.mark = "."),
+    Duplicates = formatC(n_dup, format = "d", big.mark = "."),
+    Suburbs = formatC(n_sub, format = "d", big.mark = "."),
+    Examples = ex_nm,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+df_exc <- df_exc[order(-as.numeric(gsub("\\.", "", df_exc$Total))), ]
+rownames(df_exc) <- NULL
+viscount_table(
+  df_exc,
+  "Summary of excluded duplicate aliases and merged suburban candidates by jurisdiction in the Chapter 22 source ledger.",
+  c("Jurisdiction", "Excluded", "Duplicate Aliases", "Merged Suburbs", "Representative Examples"),
+  list(label = "tab:app-excluded")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

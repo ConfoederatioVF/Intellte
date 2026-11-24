@@ -1,0 +1,268 @@
+---
+title: "Arabian Peninsula after 1971"
+subtitle: "Settlement Gazetteer: Metropolises, Oil Towns and Highland Centres, 1971-2026"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: modern_arabian_peninsula_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_modern_arabian_peninsula_spatial.png"
+hero_caption: "Spatial distribution of 5.250 catalogued settlements across 72 sub-regions in Saudi Arabia, Yemen, Oman, Kuwait, Bahrain, Qatar and the United Arab Emirates, 1971AD to 2026AD."
+hero_label: "fig:hero-settlements-modern-arabian-peninsula"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+read_json5_clean <- function (path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  jsonlite::fromJSON(text, simplifyVector = FALSE)
+}
+
+sett_raw <- jsonlite::fromJSON("modern_arabian_peninsula_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("modern_arabian_peninsula_summary_cache.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("modern_arabian_peninsula_source_ledger.json5")
+
+fmt_ad_yr <- function (yr_num) {
+  y <- as.integer(yr_num)
+  if (is.na(y)) return("-")
+  paste0(y, "AD")
+}
+
+build_zone_df <- function (countries_vec, top_n = 25L) {
+  rows <- list()
+  for (k in names(sett_raw)) {
+    e <- sett_raw[[k]]
+    if (!(e$country %in% countries_vec)) next
+    lat <- as.numeric(e$coords[[1]])
+    lon <- as.numeric(e$coords[[2]])
+    yrs <- as.integer(names(e$population))
+    vals <- as.numeric(unlist(e$population))
+    pk_idx <- which.max(vals)
+    pk_val <- vals[pk_idx]
+    pk_yr <- yrs[pk_idx]
+    span_str <- paste0(fmt_ad_yr(min(yrs)), "-", fmt_ad_yr(max(yrs)))
+    coord_str <- paste0(viscount_fmt_number(lat, 2L), ", ", viscount_fmt_number(lon, 2L))
+    rows[[length(rows) + 1L]] <- list(
+      pk = pk_val,
+      df = data.frame(
+        Settlement = as.character(e$name),
+        Country = as.character(e$country),
+        Coords = coord_str,
+        Span = span_str,
+        PeakYr = fmt_ad_yr(pk_yr),
+        PeakPop = viscount_fmt_pop(pk_val),
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+  if (length(rows) == 0L) return(data.frame())
+  ord <- order(vapply(rows, function (x) -x$pk, numeric(1)))
+  sel <- rows[ord[seq_len(min(length(ord), top_n))]]
+  out <- do.call(rbind, lapply(sel, function (x) x$df))
+  rownames(out) <- NULL
+  out
+}
+```
+
+# Abstract
+
+This settlement gazetteer compiles longitudinal and census-anchored population series for 5.250 urban centres, rural localities, industrial new towns, coastal ports and oasis municipalities across the Arabian Peninsula from 1971AD to 2026AD. Selected out of 5.500 evaluated candidates after consolidating 250 duplicate aliases and proximate suburbs into their canonical urban cores, the ledger spans all seven sovereign states in the domain—expanded substantially through Yemen's 2004 CSO locality register alongside GASTAT Saudi Arabia, NCSI Oman and Gulf national census tables. Harmonised against official enumerations from GASTAT, CSO Yemen, NCSI Oman, FCSA UAE, PSA Qatar, iGA Bahrain and CSB Kuwait within geoBoundaries administrative frames, the urban hierarchy exhibits a steep Zipf rank-size slope ($\alpha = 1{,}334$, $R^2 = 0{,}948$). Fourteen metropolitan nodes exceed 900k inhabitants at peak—thirteen surpassing one million—led by Ar-Riyāḍ (7,68M peak; 7,46M in 2025AD), Jiddah (4,7M peak; 4M in 2025AD), Dubayy (3,75M), Al-Kuwayt (2,99M metropolitan peak), Ṣan'ā' (2,58M peak; 2,29M in 2025AD), Makkah (2,57M), Abū Ẓaby (1,84M), Al-Madīnah (1,52M), Ad-Dammām (1,49M), Muscat (1,42M), Ad-Dawḥah (1,31M peak), Aden (1,15M) and Ḥawallī (1,02M), reflecting intense concentration along desalinated coastal corridors, petrochemical terminals and highland capital basins.
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_modern_arabian_peninsula_spatial.png",
+    "Spatial distribution of 5.250 catalogued settlements across 72 sub-regions in Saudi Arabia, Yemen, Oman, Kuwait, Bahrain, Qatar and the United Arab Emirates, 1971AD to 2026AD.",
+    "fig:hero-settlements-modern-arabian-peninsula",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+# Background
+
+Prior to the mid-twentieth century, permanent towns across the Arabian Peninsula were constrained tightly by local groundwater, seasonal flood irrigation and shallow maritime anchorages. Oasis capitals such as Ar-Riyāḍ, Buraydah, Al-Hufūf and Al-'Ayn depended on date-palm gardens fed by springs or subterranean *aflaj* conduits, Red Sea and Indian Ocean ports such as Jiddah, 'Adan, Al-Ḥudaydah and Maṭraḥ handled pilgrimage traffic and regional coastal trade, while fortified pearling towns from Kuwait Bay to Dubayy rarely held more than a few tens of thousands of residents. Inside the monsoon-watered south-western mountains, Ṣan'ā', Ta'izz, Ibb and Dhamār functioned as compact highland market and administrative seats serving densely terraced agrarian valleys [@Arabia2022Saudi].
+
+Following British military withdrawal from the Gulf in 1971AD and the oil-price surge of 1973–1974, sovereign state revenues transformed urban scale across every sub-region except interior Yemen [@Wagle2024Labor; @Dito2013Arab]. Desalination plants decoupled coastal megacities from scarce aquifers, six-lane expressways linked Najd and the Hijaz to Gulf industrial complexes such as Al-Jubaīl and Yanbu', and temporary migrant recruitment under the *kafala* sponsorship system filled construction, hospital, port and service sectors across Saudi Arabia, the Emirates, Qatar, Kuwait, Bahrain and Oman [@Valenta2017Comparativ; @Hameed2021India; @AlNawafleh2015Managing]. Across Yemen, by contrast, urban growth reflected high natural increase, the abrupt repatriation of roughly 800k workers from Saudi Arabia and Kuwait during the 1990–1991 Gulf crisis and wartime displacement into Ṣan'ā', 'Adan, Ibb and Ma'rib after 2015 [@VERWIMP2007Child].
+
+# Methodology
+
+Every settlement in this gazetteer derives directly from national statistical bureau census publications rather than secondary global compilations. Saudi urban populations follow GASTAT censuses (1974, 1992, 2004, 2010 and 2022) [@Arabia2022Saudi; @Arabia2023Correction]; Yemeni localities follow CSO censuses (1975, 1986, 1988, 1994 and 2004) supplemented by post-2004 sub-national growth trajectories; Omani towns follow NCSI enumerations (1993, 2003, 2010 and 2020); Emirati cities follow FCSA censuses (1968 through 2020 and 2023 emirate totals); Qatari municipalities follow PSA counts (1970 through 2020); Bahraini centres follow iGA registers (1941 through 2020 and 2024); and Kuwaiti districts follow CSB censuses (1957 through 2021).
+
+To prevent twentieth-century industrial towns from casting phantom populations backward, the gazetteer enforces documented foundation years: Al-Jubaīl enters at 1975AD and Badr at 1982AD, while earlier modern foundations—Ad-Dammām (1923AD), Al-Aḥmadī (1946AD), Ḥawallī (1906AD), Al-Jahrā' (1850AD), Al-Bayḍā' (1840AD), Al-Wakrah (1828AD), Al-Muḥarraq (1810AD), Khamīs Mushaīṭ (1760AD) and Ṣalālah (1200AD)—carry unbroken series across 1971AD to 2025AD. Every entry holds WGS84 coordinates matched against geoBoundaries polygons [@Runfola2020GeoBoundaries] and undergoes ledger deduplication, consolidating 250 duplicate aliases and suburbs into canonical cores. Within HANDBOOK, these 5.250 nodes anchor metric-isotropic radial distance fields and two-cell urban masks inside non-stationary Matérn ($\nu = 3/2$) kriging alongside mass-conserving pycnophylactic disaggregation across 65.864 continental checks [@Runfola2020GeoBoundaries].
+
+# Testing and Validation
+
+Source-ledger accounting reconciles all 5.500 evaluated settlement candidates without discrepancy: 5.250 primary urban and rural centres are retained and 250 duplicate aliases or proximate suburban units are consolidated into canonical entries. Every retained locality carries verified WGS84 coordinates and census-anchored population observations within the 1971AD–2025AD horizon, pairing multi-decadal national census trajectories for principal cities with complete single-round locality registers (notably Yemen's 2004 CSO enumeration and contemporary GASTAT/NCSI town lists).
+
+```{r fig4-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig4_modern_arabian_peninsula_settlements.png",
+  "Log-log rank-size curve across all 5.250 catalogued settlements (left) and the twelve highest-peaking urban centres by peak population (right).",
+  "fig:gazetteer-ranksize",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+Figure 2 displays the rank-size regression across all 5.250 catalogued settlements alongside the twelve highest-peaking cities. Because the full register of 5.250 localities captures both metropolitan gateways and dense highland village networks, the fitted Zipf slope ($\alpha = 1{,}334$, $R^2 = 0{,}948$) reflects strong structural concentration: hydrocarbon revenue and international labour recruitment funnelled residents disproportionately into capital metropolises, port gateways and industrial enclaves even alongside Yemen's vast rural village tail.
+
+# Results
+
+## Jurisdiction Summary across Seven States
+
+Table 1 summarises site counts, territorial shares, median peak sizes, maximum urban peaks and active spans across all seven sovereign jurisdictions. Following ingestion of Yemen's 2004 CSO locality register, Yemen contributes over four-fifths of all catalogued sites across its densely settled mountain governorates, followed by Saudi Arabia (GASTAT), Oman (NCSI) and the four compact Gulf maritime states (Qatar, the United Arab Emirates, Kuwait and Bahrain), while Saudi Arabia holds the highest metropolitan peak (Ar-Riyāḍ at 7,68M in 2017AD; 7,46M in 2025AD) [@Arabia2022Saudi; @ALFARHAN2019Migrant].
+
+```{r tab-jurisdictions, results='asis'}
+countries <- sort(unique(vapply(sett_raw, function (e) as.character(e$country), character(1))))
+tot_sites <- length(sett_raw)
+jur_rows <- lapply(countries, function (cnt) {
+  sub <- sett_raw[vapply(sett_raw, function (e) identical(e$country, cnt), logical(1))]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  mins <- vapply(sub, function (e) min(as.integer(names(e$population))), integer(1))
+  maxs <- vapply(sub, function (e) max(as.integer(names(e$population))), integer(1))
+  lead_name <- sub[[which.max(pks)]]$name
+  data.frame(
+    Jurisdiction = cnt,
+    Sites = formatC(length(sub), format = "d", big.mark = "."),
+    Share = paste0(viscount_fmt_number(100 * length(sub) / tot_sites, 1L), "%"),
+    MedianPeak = viscount_fmt_pop(stats::median(pks)),
+    MaxPeak = paste0(lead_name, " (", viscount_fmt_pop(max(pks)), ")"),
+    Span = paste0(fmt_ad_yr(min(mins)), "-", fmt_ad_yr(max(maxs))),
+    stringsAsFactors = FALSE
+  )
+})
+df_jur <- do.call(rbind, jur_rows)
+df_jur <- df_jur[order(-as.numeric(gsub("\\.", "", df_jur$Sites))), ]
+rownames(df_jur) <- NULL
+viscount_table(
+  df_jur,
+  paste0("Catalogued settlement counts, territorial share, median peak size and leading metropolis across seven Arabian states (", formatC(tot_sites, format = "d", big.mark = "."), " total localities)."),
+  c("Jurisdiction", "Sites", "Share", "Median Peak", "Leading Metropolis (Peak)", "Active Span")
+)
+```
+
+## Saudi Arabia
+
+Saudi Arabia's enriched GASTAT settlement register maps the rapid transformation of a continental kingdom from dispersed oasis towns into a multi-corridor urban network (Table 2). Ar-Riyāḍ expanded from 420k in 1971AD to a peak of 7,68M in 2017AD (7,46M in 2025AD), Jiddah climbed from 380k to 4,7M at peak (4M in 2025AD), Makkah from 310k to 2,57M, Al-Madīnah from 160k to 1,52M and Ad-Dammām from 95k to 1,49M [@Arabia2022Saudi; @Ageeli2019Applicatio]. Alongside the Big Five, regional hubs above 400k—Al-Hufūf (786,4k), Tabūk (640,6k), Buraydah (615,7k), Aṭ-Ṭa'if (607,2k), Khamīs Mushaīṭ (576,7k), Al-Jubaīl (511,6k), Ḥā'il (483,6k), Al-Khubar (441,4k), Ḥafar al-Bāṭin (417,2k) and Najrān (411,1k)—anchor provincial administration, military garrisons and industrial estates across Najd, Asir, the Hijaz and the Gulf littoral [@Hkiri2025Correlatin].
+
+```{r tab-saudi, results='asis'}
+n_sau <- sum(vapply(sett_raw, function (e) identical(e$country, "Saudi Arabia"), logical(1)))
+df_sau <- build_zone_df(c("Saudi Arabia"), top_n = 25L)
+viscount_table(
+  df_sau,
+  paste0("Leading 25 of ", formatC(n_sau, format = "d", big.mark = "."), " catalogued settlements in Saudi Arabia ordered by peak population (1971AD-2025AD)."),
+  c("Settlement", "Jurisdiction", "Coords (Lat, Lon)", "Span", "Peak Year", "Peak Pop.")
+)
+```
+
+## Yemen
+
+Yemen's CSO-enriched settlement corpus spans over 1.630 highland, Tihama and Hadhramaut localities, tracing sustained indigenous urbanisation across steep terraces and coastal ports despite low per-capita income and prolonged post-2014 conflict (Table 3). Capital Ṣan'ā' surged twentyfold from 115k in 1971AD to a peak of 2,58M in 2012AD (2,29M in 2025AD), overtaking former southern port capital Aden (235k in 1971AD to 1,15M in 2025AD) [@VERWIMP2007Child]. Mid-tier highland and coastal cities—Ta'izz (626,6k), Al-Ḥudaydah (550,1k), Ibb (285,8k), Al-Mukallā (244,8k), Dhamār (196,4k) and 'Amrān (104,4k)—experienced acute crowding from 1990–1991 remittance returnees and internal war displacement [@Wagle2024Labor].
+
+```{r tab-yemen, results='asis'}
+n_yem <- sum(vapply(sett_raw, function (e) identical(e$country, "Yemen"), logical(1)))
+df_yem <- build_zone_df(c("Yemen"), top_n = 20L)
+viscount_table(
+  df_yem,
+  paste0("Leading 20 of ", formatC(n_yem, format = "d", big.mark = "."), " catalogued settlements in Yemen ordered by peak population (1971AD-2025AD)."),
+  c("Settlement", "Jurisdiction", "Coords (Lat, Lon)", "Span", "Peak Year", "Peak Pop.")
+)
+```
+
+## Oman
+
+Oman's NCSI-enriched gazetteer reflects balanced dual-corridor growth linking the Greater Muscat conurbation (reaching 1,42M across metropolitan Muscat in 2019AD) along the Batinah coast to interior oasis towns and southern Dhofar (Table 4). Suburban As-Sīb (533,6k) and Bawshar (410,8k) outpaced walled Maṭraḥ (261,6k) inside the capital basin, while Ṣuḥār (248,5k) anchored northern heavy industry and Ṣalālah (333,1k) anchored Dhofar's southern port and monsoon agricultural hinterland [@ALFARHAN2019Migrant].
+
+```{r tab-oman, results='asis'}
+n_omn <- sum(vapply(sett_raw, function (e) identical(e$country, "Oman"), logical(1)))
+df_omn <- build_zone_df(c("Oman"), top_n = 20L)
+viscount_table(
+  df_omn,
+  paste0("Leading 20 of ", formatC(n_omn, format = "d", big.mark = "."), " catalogued settlements in Oman ordered by peak population (1971AD-2025AD)."),
+  c("Settlement", "Jurisdiction", "Coords (Lat, Lon)", "Span", "Peak Year", "Peak Pop.")
+)
+```
+
+## United Arab Emirates, Qatar, Kuwait and Bahrain
+
+Together, the four upper- and lower-Gulf maritime states exhibit urban growth rates unmatched globally (Table 5). Dubayy (3,75M), Abū Ẓaby (1,84M), Al-'Ayn (766,9k peak), 'Ajmān (585,6k) and Mileīḥah (519k peak) lead the Emirates [@Emirates2011Employer]; Ad-Dawḥah (1,31M peak; 988,2k in 2025AD) and Ar-Rayyān (906,4k) dominate Qatar alongside Umm Ṣalāl Muḥammad (169,6k) and Al-Wukaīr (165,2k peak in 2015AD); Al-Kuwayt (2,99M metropolitan peak), Ḥawallī (1,02M), Al-Farwānīyah (875k), Al-Jahrā' (503,7k) and Al-Finṭās (494k) form Kuwait's metropolitan ring; and Al-Manāmah (260,6k), Al-Muḥarraq (166,4k) and Ar-Rifā' (145k) concentrate Bahrain's island population [@Dito2013Arab; @sheikh2025Navigating].
+
+```{r tab-gulf, results='asis'}
+gulf_c <- c("United Arab Emirates", "Qatar", "Kuwait", "Bahrain")
+n_gulf <- sum(vapply(sett_raw, function (e) e$country %in% gulf_c, logical(1)))
+df_gulf <- build_zone_df(gulf_c, top_n = 25L)
+viscount_table(
+  df_gulf,
+  paste0("Leading 25 of ", formatC(n_gulf, format = "d", big.mark = "."), " catalogued settlements across the United Arab Emirates, Qatar, Kuwait and Bahrain (1971AD-2025AD)."),
+  c("Settlement", "Jurisdiction", "Coords (Lat, Lon)", "Span", "Peak Year", "Peak Pop.")
+)
+```
+
+# Limitations
+
+Three structural caveats apply when reading individual city rows. First, municipal boundaries across GCC conurbations split contiguous urban areas differently by jurisdiction: Kuwait enumerates Ḥawallī, Al-Farwānīyah and inner Al-Kuwayt alongside wider metropolitan counts, whereas Riyadh and Dubai publish consolidated metropolitan totals. Second, temporary contract workers living in peripheral labour camps fluctuate rapidly between census years, particularly during oil-price contractions and 2020 pandemic repatriations [@Thomas2025Employabil; @Wagle2024Labor]. Third, Yemen's lack of a national census since 2004 means 2015AD–2025AD city trajectories combine pre-war growth baselines with displacement-adjusted urban projections rather than direct physical headcounts, while rural Yemeni localities rely directly on the 2004 CSO census [@VERWIMP2007Child].
+
+# Conclusion
+
+Across 5.250 catalogued urban and rural localities spanning seven sovereign states, this gazetteer documents the rapid emergence of an urbanised peninsula anchored by Riyadh, Jeddah, Dubai, Kuwait City, Sana'a, Abu Dhabi, Muscat, Doha and Aden ($\alpha = 1{,}334$, $R^2 = 0{,}948$). Paired with geoBoundaries subadministrative totals and foundation-year controls, the ledger supplies a consistent quantitative anchor for demographic mapping from 1971AD through 2026AD [@Runfola2020GeoBoundaries; @Arabia2022Saudi].
+
+# Appendix
+
+## Source Ledger Exclusions
+
+Table 6 presents a representative sample (first 30 of 250) of excluded candidate settlements from the 5.500-entry chapter source ledger, consolidated into canonical urban cores to prevent double-counting across variant spellings and proximate suburbs.
+
+```{r tab-excluded, results='asis'}
+exc_list <- Filter(function (c) identical(c$status, "excluded"), ledger_data$candidates)
+tot_exc <- length(exc_list)
+exc_show <- exc_list[seq_len(min(tot_exc, 30L))]
+map_reason <- function (r) {
+  if (is.null(r) || !nzchar(r) || identical(r, "duplicate_alias")) return("Duplicate alias")
+  if (identical(r, "subordinate_suburb_merged")) return("Subordinate suburb")
+  gsub("_", " ", r)
+}
+exc_rows <- lapply(exc_show, function (c) {
+  just <- if (!is.null(c$justification)) as.character(c$justification) else "Merged into canonical core"
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", just, perl = TRUE)
+  data.frame(
+    Candidate = c$name,
+    Country = c$country,
+    Classification = map_reason(c$reason),
+    Justification = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+viscount_table(
+  exc_df,
+  paste0("Representative sample (first ", nrow(exc_df), " of ", formatC(tot_exc, format = "d", big.mark = "."), ") of excluded duplicate aliases and subordinate candidate settlements in the chapter source ledger."),
+  c("Candidate Site", "Jurisdiction", "Classification", "Consolidation Note")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

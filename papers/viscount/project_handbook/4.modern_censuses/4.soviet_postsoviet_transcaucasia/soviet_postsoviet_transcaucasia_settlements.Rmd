@@ -1,0 +1,256 @@
+---
+title: "Transcaucasia in the Soviet and Post-Soviet Eras"
+subtitle: "Settlement Gazetteer of Georgia, Armenia and Azerbaijan, 1917AD to 2026AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+hero_figure: "figures/fig1_soviet_postsoviet_transcaucasia_spatial.png"
+hero_caption: "Spatial distribution of 6.067 catalogued cities, towns and rural localities across Georgia, Armenia and Azerbaijan from 1917AD to 2026AD."
+hero_label: "fig:hero-soviet-postsoviet-transcaucasia-settlements"
+bibliography: soviet_postsoviet_transcaucasia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("soviet_postsoviet_transcaucasia_summary_cache.json", simplifyVector = FALSE)
+gaz_raw <- jsonlite::fromJSON("soviet_postsoviet_transcaucasia_settlements.json", simplifyVector = FALSE)
+
+settlements_list <- unname(Map(function (entry, k) {
+  if (is.null(entry$key)) entry$key <- k
+  entry
+}, gaz_raw, names(gaz_raw)))
+
+peak_pop_val <- function (arg0_s) {
+  vals <- as.numeric(unlist(arg0_s$population))
+  if (length(vals) == 0) return(0)
+  max(vals, na.rm = TRUE)
+}
+
+peak_year_val <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  vals <- as.numeric(unlist(arg0_s$population))
+  if (length(vals) == 0) return(NA_real_)
+  yrs[which.max(vals)]
+}
+
+first_year_val <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(NA_real_)
+  min(yrs)
+}
+
+last_year_val <- function (arg0_s) {
+  yrs <- as.numeric(names(arg0_s$population))
+  if (length(yrs) == 0) return(NA_real_)
+  max(yrs)
+}
+
+fmt_pop_eu <- function (arg0_val) {
+  viscount_fmt_pop(arg0_val)
+}
+
+fmt_int_eu <- function (arg0_val) {
+  val <- suppressWarnings(as.numeric(arg0_val))
+  if (is.na(val) || !is.finite(val)) return("-")
+  formatC(as.integer(round(val)), format = "d", big.mark = ".")
+}
+
+fmt_coord_eu <- function (arg0_coords) {
+  lat <- as.numeric(arg0_coords[[1]])
+  lon <- as.numeric(arg0_coords[[2]])
+  lat_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lat))), if (lat >= 0) "°N" else "°S")
+  lon_s <- paste0(gsub("\\.", ",", sprintf("%.2f", abs(lon))), if (lon >= 0) "°E" else "°W")
+  paste0(lat_s, ", ", lon_s)
+}
+
+get_pop_at_or_near <- function (arg0_s, arg1_yr, arg2_tol = 3L) {
+  pop_map <- arg0_s$population
+  yrs <- as.numeric(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  if (length(yrs) == 0) return("-")
+  diffs <- abs(yrs - arg1_yr)
+  idx <- which.min(diffs)
+  if (diffs[idx] > arg2_tol) return("-")
+  fmt_pop_eu(vals[idx])
+}
+
+ord_peak <- order(
+  vapply(settlements_list, peak_pop_val, numeric(1)),
+  decreasing = TRUE
+)
+settlements_by_peak <- settlements_list[ord_peak]
+n_geo <- sum(vapply(settlements_list, function (s) identical(s$country, "Georgia"), logical(1)))
+n_arm <- sum(vapply(settlements_list, function (s) identical(s$country, "Armenia"), logical(1)))
+n_aze <- sum(vapply(settlements_list, function (s) identical(s$country, "Azerbaijan"), logical(1)))
+```
+
+# Abstract
+
+This gazetteer compiles population histories for 6.067 catalogued cities, towns and rural localities across Georgia (`r fmt_int_eu(n_geo)` localities), Armenia (`r fmt_int_eu(n_arm)` localities) and Azerbaijan (`r fmt_int_eu(n_aze)` localities) from 1917AD to 2026AD. Drawn from the 1917AD-1923AD early Soviet regional lists, the six Soviet All-Union censuses (1926AD, 1939AD, 1959AD, 1970AD, 1979AD and 1989AD) and the post-1991 national locality registers of GeoStat, ArmStat and AzStat, the inventory documents historic capitals, ports and market centres - led by Baku, Tbilisi and Yerevan - alongside planned Soviet industrial cities and thousands of village enumerations. Across 13.613 official national census and register rows processed in bounds, duplicate aliases, mis-assigned rayon totals and overlapping sub-district records are excluded in the source ledger to prevent double counting. Across the full 6.067-locality corpus, settlement peaks conform closely to a Zipf rank-size slope of $\alpha = 1{,}059$ ($R^2 = 0{,}967$), illuminating the divergence between post-Soviet contraction in Georgia and northern Armenia and rapid metropolitan expansion along the Baku-Sumqayıt-Abşeron Caspian corridor.
+
+# Background
+
+At the close of Tsarist rule in 1917AD, Transcaucasia possessed an asymmetric urban hierarchy rooted in imperial transport and resource extraction [@Gazi2025Historical; @Cordier2017Once]. Baku, propelled by the late nineteenth-century Caspian petroleum boom, and Tbilisi, the administrative, commercial and rail hub of the Caucasus Viceroyalty, already overshadowed every inland market town [@Anon2021Historical]. On the Black Sea littoral, Batumi served as the terminus of the Baku-Batumi kerosene pipeline and railway alongside the port of Poti (founded as a modern port city in 1858AD), while inland Georgia looked to Kutaisi and Gori [@Tukhashvili2016Socio]. In Armenia, Yerevan remained a modest provincial seat compared with its post-1920 expansion, whereas Alexandropol (Gyumri, established as a Russian garrison town in 1837AD) and Karaklis (Vanadzor, 1828AD) anchored the northern rail corridor across Shirak and Lori alongside Sevan (founded in 1842AD) [@Saparov2003Alteration; @Franklin2017Examining].
+
+Under Soviet Five-Year Plans between 1928AD and 1975AD, state planners reshaped this sparse urban map by creating purpose-built heavy industrial, metallurgical, petrochemical and hydroelectric cities. In Azerbaijan, Mingachevir rose in 1948AD beside the Kura hydroelectric dam and Sumqayıt was founded in 1949AD on the northern Absheron coast to house chemical and aluminium plants, growing into the fourth largest city in the South Caucasus [@Babashova2021Developmen]. In Georgia, Rustavi was laid out in 1948AD around a major integrated steelworks southeast of Tbilisi. In Armenia, Charentsavan and Kajaran (1947AD), Hrazdan (1959AD), Abovyan (1963AD) and Metsamor (1969AD) concentrated machine building, copper-molybdenum extraction and nuclear power generation around Yerevan and southern Syunik [@Saparov2003Alteration].
+
+After December 1991, war displacement, industrial closure and international labour migration reversed or redirected urban trajectories across all three republics [@Group2019South; @Kacka2021Migration]. Earthquakes and economic blockade cut Gyumri and Vanadzor to barely half their late Soviet sizes, Abkhazia's war depopulated Sokhumi and surrounding Black Sea towns [@Lundstedt2024Territoria; @Arbatova2019Three], and provincial Georgian and Armenian towns lost young workers abroad, while Baku, Sumqayıt and Xırdalan absorbed hundreds of thousands of internal migrants and displaced families from Karabakh [@Babashova2021Developmen; @Nouvelle2024Legal].
+
+# Methodology
+
+Settlement series in this gazetteer were assembled from early Soviet 1917AD-1923AD provincial locality registers, the 1926AD, 1939AD, 1959AD, 1970AD, 1979AD and 1989AD Soviet All-Union censuses and the post-1991 national censuses and complete locality yearbooks of GeoStat (Georgia, 2002AD-2024AD), ArmStat (Armenia, 2001AD-2022AD) and AzStat (Azerbaijan, 1999AD-2025AD) [@Anderson1990Growth; @Anon2019Migration; @Verdiyeva2019Population]. Inter-censal annual benchmarks interpolate smoothly between observed census enumerations while preserving exact breaks at foundation years and conflict shocks.
+
+Three compilation safeguards govern inclusion. First, explicit foundation-year bounds prevent synthetic backward extrapolation into decades before a Soviet or nineteenth-century planned settlement existed: twelve settlements carry documented foundation truncations ranging from Vanadzor (1828AD) and Gyumri (1837AD) to Rustavi (1948AD), Mingəçevir (1948AD), Sumqayıt (1949AD), Hrazdan (1959AD), Abovyan (1963AD) and Metsamor (1969AD). Second, duplicate aliases, overlapping exonym twins (such as Bakı merged into Baku and Gəncə merged into Ganja) and mis-assigned sub-district records were excluded across 13.613 processed census and register rows in the source ledger to prevent double counting. Third, all 6.067 retained entries are geolocated to verified WGS84 coordinates and linked to geoBoundaries ADM1 and ADM2 administrative polygons [@Runfola2020GeoBoundaries]. Table \ref{tab:gazetteer-republic-summary} summarises settlement counts and aggregate enumerated populations by republic across four key census benchmarks.
+
+```{r tab-gazetteer-republic-summary, echo=FALSE}
+countries <- c("Azerbaijan", "Georgia", "Armenia")
+sum_c_yr <- function (cname, yr) {
+  sub <- Filter(function (s) identical(s$country, cname), settlements_list)
+  sum(vapply(sub, function (s) {
+    v <- s$population[[yr]]
+    if (is.null(v)) 0 else as.numeric(v)
+  }, numeric(1)))
+}
+rep_rows <- lapply(countries, function (cn) {
+  sub <- Filter(function (s) identical(s$country, cn), settlements_list)
+  data.frame(
+    Republic = cn,
+    Count = fmt_int_eu(length(sub)),
+    Y1917 = fmt_pop_eu(sum_c_yr(cn, "1917")),
+    Y1959 = fmt_pop_eu(sum_c_yr(cn, "1959")),
+    Y1989 = fmt_pop_eu(sum_c_yr(cn, "1989")),
+    Y2025 = fmt_pop_eu(sum_c_yr(cn, "2025")),
+    stringsAsFactors = FALSE
+  )
+})
+df_rep <- do.call(rbind, rep_rows)
+tot_all <- function (yr) {
+  sum(vapply(settlements_list, function (s) {
+    v <- s$population[[yr]]
+    if (is.null(v)) 0 else as.numeric(v)
+  }, numeric(1)))
+}
+df_rep <- rbind(
+  df_rep,
+  data.frame(
+    Republic = "Transcaucasia Gazetteer Total",
+    Count = fmt_int_eu(length(settlements_list)),
+    Y1917 = fmt_pop_eu(tot_all("1917")),
+    Y1959 = fmt_pop_eu(tot_all("1959")),
+    Y1989 = fmt_pop_eu(tot_all("1989")),
+    Y2025 = fmt_pop_eu(tot_all("2025")),
+    stringsAsFactors = FALSE
+  )
+)
+rownames(df_rep) <- NULL
+viscount_table(
+  df_rep,
+  caption = "Number of catalogued settlements (6.067 total) and summed enumerated populations across Azerbaijan, Georgia and Armenia at four benchmark dates from 1917AD to 2025AD.",
+  col_names = c("Republic", "Settlements", "1917AD", "1959AD", "1989AD", "2025AD"),
+  arg3_options = list(label = "tab:gazetteer-republic-summary")
+)
+```
+
+# Testing and Validation
+
+Settlement hierarchy consistency across all 6.067 catalogued cities, towns and rural localities was evaluated against a log-linear Zipf rank-size model using peak observed populations across 1917AD-2026AD. As shown in Figure \ref{fig:settlements-zipf}, the distribution yields a Zipf exponent of $\alpha = 1{,}059$ with $R^2 = 0{,}967$, demonstrating tight power-law regularity from the three million-plus capitals down through secondary cities (100k-450k), district centres and rural village registers. Cross-checks against GeoStat, ArmStat and AzStat municipal boundaries [@Runfola2020GeoBoundaries] confirm the exclusion of duplicate aliases and overlapping sub-districts across 13.613 processed census and register rows, resolving earlier exonym twins such as Bakı/Baku and Gəncə/Ganja while retaining transparent metropolitan vs core-city distinctions across the full locality corpus.
+
+```{r fig-settlements-zipf, echo=FALSE, results='asis'}
+viscount_figure(
+  "figures/fig4_soviet_postsoviet_transcaucasia_settlements.png",
+  "Rank-size Zipf distribution across 6.067 Transcaucasian settlements (Panel A, slope 1,059, R² = 0,967) and the 12 leading urban centres by peak population (Panel B).",
+  "fig:settlements-zipf",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Results
+
+Three tiers define Transcaucasia's modern urban system. At the summit stands the triad of national capitals: Baku (rising from 248k in 1917AD and 446,8k in 1926AD to 1,15M in 1989AD and a metropolitan peak of 2,3M in 2021AD, with 1,31M in the 2025AD core-city series and 2,64M across the Baku City ADM2 unit), Tbilisi (expanding from 278k in 1917AD to 1,24M in 1989AD and a 1,4M peak in 1998AD, dipping to 1,08M in 2014AD and rebounding to 1,27M in 2024AD-2025AD and 1,31M in 2026AD) and Yerevan (climbing from 42,5k in 1917AD and 64,6k in 1926AD to a peak of 1,2M in 1989AD before post-1991 emigration reduced it to 1,06M in 2011AD and 1,14M in 2025AD).
+
+In the second tier (100k to 450k), national divergence becomes unmistakable. Azerbaijan's Caspian corridor surged after 1991AD: Sumqayıt nearly doubled from 231,1k in 1989AD to 440,9k in 2025AD, Xırdalan grew nearly eight-fold from 28,2k in 1989AD to 215,8k in 2025AD as Baku's western spillover town, and Absheron townships such as Maştağa (109,1k peak), Binə (90,8k), Biləcəri (87k) and Qaraçuxur (86,3k) expanded rapidly alongside interior cities Ganja (354,6k) and Mingəçevir (122,2k). Georgia's second-tier towns diverged sharply by geography: Batumi expanded on Turkish border trade and tourism to 235,7k in 2024AD and 246,3k in 2026AD [@Tukhashvili2016Socio], whereas Soviet industrial and western inland centres contracted - Kutaisi fell from 232,5k in 1989AD to 147,6k in 2014AD (160,6k in 2025AD), Rustavi declined from 159k in 1989AD, and Sokhumi dropped sharply after the 1992AD-1993AD war [@Lundstedt2024Territoria]. In Armenia, Gyumri never regained its pre-earthquake peak of 238k in 1988AD (falling to 122,6k in 1989AD and 114,7k in 2025AD) and Vanadzor dropped sharply from its 146k 1979AD peak [@Hofmann2026Build].
+
+Table \ref{tab:top-30-settlements} reports benchmark populations from 1917AD to 2025AD for the 30 largest catalogued settlements, illustrating both metropolitan concentration and regional industrial growth.
+
+```{r tab-top-30-settlements, echo=FALSE}
+top30 <- settlements_by_peak[seq_len(min(30L, length(settlements_by_peak)))]
+t30_rows <- lapply(top30, function (s) {
+  data.frame(
+    Settlement = as.character(s$name),
+    Country = as.character(s$country),
+    Y1917 = get_pop_at_or_near(s, 1917, 2L),
+    Y1959 = get_pop_at_or_near(s, 1959, 2L),
+    Y1989 = get_pop_at_or_near(s, 1989, 2L),
+    Y2025 = get_pop_at_or_near(s, 2025, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+df_t30 <- do.call(rbind, t30_rows)
+rownames(df_t30) <- NULL
+viscount_table(
+  df_t30,
+  caption = "Thirty largest catalogued settlements in Transcaucasia ranked by peak population across 1917AD-2026AD, with hyphens marking dates prior to foundation or outside reported municipal series.",
+  col_names = c("Settlement", "Republic", "1917AD", "1959AD", "1989AD", "2025AD"),
+  arg3_options = list(label = "tab:top-30-settlements")
+)
+```
+
+# Limitations
+
+Three constraints affect settlement-level comparisons. First, post-1991 municipal tallies in Abkhazia (Sokhumi, Gagra, Ochamchire, Gudauta, Tkvarcheli) and Nagorno-Karabakh (Xankəndi, Khojaly, Shusha) rely on interrupted or contested local estimates rather than internationally audited censuses [@Arbatova2019Three; @Nouvelle2024Legal]. Second, municipal boundaries in Azerbaijan distinguish the Baku City administrative district (2,64M across 2.098 km²) and metropolitan city series (2,3M in 2021AD) from the inner urban core (1,31M in 2025AD) and outlying Absheron settlements (*qəsəbələr*), whereas Tbilisi and Yerevan encompass wider consolidated urban boundaries. Third, integrating 1923AD early Soviet district-level returns alongside modern village registers introduces occasional historical peaks in rural districts (such as Telavi at 91,9k and Akhaltsikhe at 73,4k in 1923AD) and partial temporal coverage for small mountain villages enumerated only in 2002AD-2024AD national censuses.
+
+# Appendix
+
+Table \ref{tab:full-settlement-directory} lists the 150 largest settlements by peak population drawn from the full `r fmt_int_eu(length(settlements_list))`-locality Transcaucasian corpus across Georgia, Armenia and Azerbaijan sorted by republic and name, reporting geographic coordinates, active series span, peak population with peak year and 2025AD population. The complete 6.067-locality archive is preserved in the chapter JSON dataset.
+
+```{r tab-full-settlement-directory, echo=FALSE}
+top_dir <- settlements_by_peak[seq_len(min(150L, length(settlements_by_peak)))]
+ord_alpha <- order(
+  vapply(top_dir, function (s) as.character(s$country), character(1)),
+  vapply(top_dir, function (s) as.character(s$name), character(1))
+)
+sett_alpha <- top_dir[ord_alpha]
+dir_rows <- lapply(sett_alpha, function (s) {
+  y1 <- first_year_val(s)
+  y2 <- last_year_val(s)
+  pk <- peak_pop_val(s)
+  pky <- peak_year_val(s)
+  data.frame(
+    Settlement = as.character(s$name),
+    Republic = as.character(s$country),
+    Coords = fmt_coord_eu(s$coords),
+    Span = paste0(y1, "AD-", y2, "AD"),
+    Peak = paste0(fmt_pop_eu(pk), " (", pky, "AD)"),
+    Latest = get_pop_at_or_near(s, 2025, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+df_dir <- do.call(rbind, dir_rows)
+rownames(df_dir) <- NULL
+viscount_table(
+  df_dir,
+  caption = paste0("Directory of the 150 largest settlements out of ", fmt_int_eu(length(settlements_list)), " catalogued Transcaucasian localities from 1917AD to 2026AD, sorted by republic and name."),
+  col_names = c("Settlement", "Republic", "Coordinates", "Active Span", "Peak (Year)", "Latest (2025AD)"),
+  arg3_options = list(label = "tab:full-settlement-directory")
+)
+```
+
+# Sources

@@ -1,0 +1,484 @@
+---
+title: "Colonial South-Central Africa and Mozambique"
+subtitle: "Settlement Gazetteer: 122 Individually Assessed Sites (1890AD-1980AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_south_central_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 122 individually assessed settlements across 10 countries spanning eight colonial sub-regions from 1890AD to 1980AD."
+hero_label: "fig:hero-settlements-csc"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("colonial_south_central_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("colonial_south_central_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+subregion_lookup <- c(
+  "Balamba/Kasumbalela [ZAR]-Democratic Republic of the Congo" = "northern_rhodesia_copperbelt",
+  "Chibuluma-Zambia" = "northern_rhodesia_copperbelt",
+  "Chililabombwe-Zambia" = "northern_rhodesia_copperbelt",
+  "Chingola-Zambia" = "northern_rhodesia_copperbelt",
+  "Kabwe-Zambia" = "northern_rhodesia_copperbelt",
+  "Kafue-Zambia" = "northern_rhodesia_copperbelt",
+  "Kapiri Mposhi-Zambia" = "northern_rhodesia_copperbelt",
+  "Kitwe-Zambia" = "northern_rhodesia_copperbelt",
+  "Luanshya-Zambia" = "northern_rhodesia_copperbelt",
+  "Lusaka (Agglomeration)-Zambia" = "northern_rhodesia_copperbelt",
+  "Lusaka-Zambia" = "northern_rhodesia_copperbelt",
+  "Mufulira-Zambia" = "northern_rhodesia_copperbelt",
+  "Ndola-Zambia" = "northern_rhodesia_copperbelt",
+  "Sakania-Democratic Republic of the Congo" = "northern_rhodesia_copperbelt",
+  "Choma-Zambia" = "northern_rhodesia_barotseland",
+  "Kalomo-Zambia" = "northern_rhodesia_barotseland",
+  "Kasane-Botswana" = "northern_rhodesia_barotseland",
+  "Katima Mulilo-Namibia" = "northern_rhodesia_barotseland",
+  "Kipushi-Democratic Republic of the Congo" = "northern_rhodesia_barotseland",
+  "Lealui-Zambia" = "northern_rhodesia_barotseland",
+  "Livingstone-Zambia" = "northern_rhodesia_barotseland",
+  "Lubumbashi (Agglomeration)-Democratic Republic of the Congo" = "northern_rhodesia_barotseland",
+  "Lubumbashi-Democratic Republic of the Congo" = "northern_rhodesia_barotseland",
+  "Mazabuka-Zambia" = "northern_rhodesia_barotseland",
+  "Mongu-Zambia" = "northern_rhodesia_barotseland",
+  "Monze-Zambia" = "northern_rhodesia_barotseland",
+  "Sesheke-Zambia" = "northern_rhodesia_barotseland",
+  "Solwezi-Zambia" = "northern_rhodesia_barotseland",
+  "Chipata-Zambia" = "northern_rhodesia_north_east",
+  "Kasama-Zambia" = "northern_rhodesia_north_east",
+  "Kasenga 1-Democratic Republic of the Congo" = "northern_rhodesia_north_east",
+  "Mansa-Zambia" = "northern_rhodesia_north_east",
+  "Mbala-Zambia" = "northern_rhodesia_north_east",
+  "Mpika-Zambia" = "northern_rhodesia_north_east",
+  "Mwansabombwe-Zambia" = "northern_rhodesia_north_east",
+  "Nakonde/Tunduma [ZMB]-Zambia" = "northern_rhodesia_north_east",
+  "Pweto-Democratic Republic of the Congo" = "northern_rhodesia_north_east",
+  "Samfya-Zambia" = "northern_rhodesia_north_east",
+  "Bindura-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Chegutu-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Chinhoyi-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Harare (Agglomeration)-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Harare-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Kadoma-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Marondera-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Mutare-Zimbabwe" = "southern_rhodesia_mashonaland",
+  "Bulawayo (Agglomeration)-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Bulawayo-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Francistown-Botswana" = "southern_rhodesia_matabeleland",
+  "Great Zimbabwe-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Gwanda-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Gweru-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Hwange-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Inyati-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Kwekwe-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Masvingo South-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Masvingo-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Nancefield-South Africa" = "southern_rhodesia_matabeleland",
+  "Platinum Mine-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Redcliff-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Selebi-Phikwe-Botswana" = "southern_rhodesia_matabeleland",
+  "Shurugwi-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Zvishavane-Zimbabwe" = "southern_rhodesia_matabeleland",
+  "Blantyre (Agglomeration)-Malawi" = "nyasaland_protectorate",
+  "Blantyre-Malawi" = "nyasaland_protectorate",
+  "Dedza-Malawi" = "nyasaland_protectorate",
+  "Dowa-Malawi" = "nyasaland_protectorate",
+  "Karonga-Malawi" = "nyasaland_protectorate",
+  "Kyela-United Republic of Tanzania" = "nyasaland_protectorate",
+  "Lilongwe (Agglomeration)-Malawi" = "nyasaland_protectorate",
+  "Lilongwe-Malawi" = "nyasaland_protectorate",
+  "Limbe-Malawi" = "nyasaland_protectorate",
+  "Livingstonia-Malawi" = "nyasaland_protectorate",
+  "Mangochi-Malawi" = "nyasaland_protectorate",
+  "Mbinga-United Republic of Tanzania" = "nyasaland_protectorate",
+  "Mchinji-Malawi" = "nyasaland_protectorate",
+  "Mzimba-Malawi" = "nyasaland_protectorate",
+  "Mzuzu-Malawi" = "nyasaland_protectorate",
+  "Nkhotakota-Malawi" = "nyasaland_protectorate",
+  "Nsanje-Malawi" = "nyasaland_protectorate",
+  "Rumphi-Malawi" = "nyasaland_protectorate",
+  "Salima-Malawi" = "nyasaland_protectorate",
+  "Thyolo-Malawi" = "nyasaland_protectorate",
+  "Tukuyu-United Republic of Tanzania" = "nyasaland_protectorate",
+  "Vwawa-United Republic of Tanzania" = "nyasaland_protectorate",
+  "Zomba-Malawi" = "nyasaland_protectorate",
+  "Angoche-Mozambique" = "portuguese_mozambique_north",
+  "Ibo-Mozambique" = "portuguese_mozambique_north",
+  "Lichinga-Mozambique" = "portuguese_mozambique_north",
+  "Mikindani-United Republic of Tanzania" = "portuguese_mozambique_north",
+  "Moçambique-Mozambique" = "portuguese_mozambique_north",
+  "Mtwara-United Republic of Tanzania" = "portuguese_mozambique_north",
+  "Nacala Porto-Mozambique" = "portuguese_mozambique_north",
+  "Nampula-Mozambique" = "portuguese_mozambique_north",
+  "Newala-United Republic of Tanzania" = "portuguese_mozambique_north",
+  "Pemba-Mozambique" = "portuguese_mozambique_north",
+  "Quelimane-Mozambique" = "portuguese_mozambique_north",
+  "Tete-Mozambique" = "portuguese_mozambique_north",
+  "Vila de Mocimboa da Praia-Mozambique" = "portuguese_mozambique_north",
+  "Vila de Nacala A Velha-Mozambique" = "portuguese_mozambique_north",
+  "Zumbo-Mozambique" = "portuguese_mozambique_north",
+  "Beira-Mozambique" = "portuguese_mozambique_south",
+  "Big Bend-eSwatini" = "portuguese_mozambique_south",
+  "Chimoio-Mozambique" = "portuguese_mozambique_south",
+  "Chinde-Mozambique" = "portuguese_mozambique_south",
+  "Cidade da Beira-Mozambique" = "portuguese_mozambique_south",
+  "Cidade de Chibuto-Mozambique" = "portuguese_mozambique_south",
+  "Cidade de Inhambane-Mozambique" = "portuguese_mozambique_south",
+  "Cidade de Manica-Mozambique" = "portuguese_mozambique_south",
+  "Inhambane-Mozambique" = "portuguese_mozambique_south",
+  "Maputo (Agglomeration)-Mozambique" = "portuguese_mozambique_south",
+  "Maputo-Mozambique" = "portuguese_mozambique_south",
+  "Maxixe-Mozambique" = "portuguese_mozambique_south",
+  "Mhlume-eSwatini" = "portuguese_mozambique_south",
+  "Sena-Mozambique" = "portuguese_mozambique_south",
+  "Siteki-eSwatini" = "portuguese_mozambique_south",
+  "Sofala-Mozambique" = "portuguese_mozambique_south",
+  "Tembe-South Africa" = "portuguese_mozambique_south",
+  "Tjaneni-eSwatini" = "portuguese_mozambique_south",
+  "Vila de Chokwe-Mozambique" = "portuguese_mozambique_south",
+  "Vila de Mandlakazi-Mozambique" = "portuguese_mozambique_south",
+  "Xai-Xai-Mozambique" = "portuguese_mozambique_south"
+)
+
+iso3_map <- c(
+  "Botswana" = "BWA",
+  "Democratic Republic of the Congo" = "COD",
+  "Malawi" = "MWI",
+  "Mozambique" = "MOZ",
+  "Namibia" = "NAM",
+  "South Africa" = "ZAF",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB",
+  "Zimbabwe" = "ZWE",
+  "eSwatini" = "SWZ"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", as.integer(yrs[i_pk]), "AD)")
+}
+
+subregion_order <- c(
+  "northern_rhodesia_copperbelt",
+  "northern_rhodesia_barotseland",
+  "northern_rhodesia_north_east",
+  "southern_rhodesia_mashonaland",
+  "southern_rhodesia_matabeleland",
+  "nyasaland_protectorate",
+  "portuguese_mozambique_north",
+  "portuguese_mozambique_south"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, function (e) {
+  s <- subregion_lookup[[e$key]]
+  if (is.null(s)) "northern_rhodesia_copperbelt" else s
+}, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1900AD` = fmt_site_pop(e, 1900),
+      `1920AD` = fmt_site_pop(e, 1920),
+      `1950AD` = fmt_site_pop(e, 1950),
+      `1963AD` = fmt_site_pop(e, 1963),
+      `1980AD` = fmt_site_pop(e, 1980),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+n_city_proper <- as.integer(summary_cache$population_scope_counts$city_proper)
+n_metro <- as.integer(summary_cache$population_scope_counts$metro)
+bench_nums <- c(1900, 1920, 1950, 1963, 1980)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles spatial coordinates and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across 10 countries in South-Central Africa and Mozambique between 1890AD and 1980AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate colonial towns, mining camps, ports and district stations (`r viscount_fmt_number(n_excluded, 0L)` duplicate alias entries excluded), the retained entries span eight colonial sub-regions across Northern Rhodesia, Southern Rhodesia, Nyasaland, Portuguese Mozambique and adjacent Katanga, Tanzania, Botswana, South Africa, Namibia and eSwatini. Active interpolated entries expand from `r viscount_fmt_number(n_active[["1900"]], 0L)` early centres in 1900AD to `r viscount_fmt_number(n_active[["1920"]], 0L)` in 1920AD, `r viscount_fmt_number(n_active[["1950"]], 0L)` in 1950AD, `r viscount_fmt_number(n_active[["1963"]], 0L)` in 1963AD and `r viscount_fmt_number(n_active[["1980"]], 0L)` in 1980AD, capturing the rise of Maputo agglomeration (718,4k), Harare (656k), Lubumbashi (604k), Lusaka (536k), Bulawayo agglomeration (378k), Ndola (281,3k) and Kitwe (266,3k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 122 individually assessed settlements across 10 countries spanning eight colonial sub-regions from 1890AD to 1980AD.",
+    "fig:hero-settlements-csc"
+  )
+}
+```
+
+# Background
+
+Colonial urbanisation across South-Central Africa and Mozambique fused mining camp development, railway administration and Indian Ocean port commerce into a distinct regional settlement hierarchy. Whereas coastal centres such as Ilha de Moçambique, Ibo, Sofala, Quelimane, Sena and Tete carried multi-century Portuguese documentary records prior to 1890AD, interior capitals and industrial nodes (Salisbury, Bulawayo, Lusaka, Ndola, Kitwe, Mufulira, Luanshya, Chingola, Lubumbashi and Blantyre) expanded rapidly along newly surveyed railways and mineral belts between 1890AD and 1980AD [@Frederiksen2013SeeingThe; @CASO1960FederationCensus; @Mozambique1940Censo]. Consolidating those series into one harmonised gazetteer clarifies how colonial boundaries, labour reserves and post-colonial independence realigned urban populations [@Mitchell2007IHS; @Moyo2012NamingPractices].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate centres were screened from colonial Southern and Northern Rhodesian censuses (1901AD to 1951AD), Nyasaland protectorate enumerations (1911AD to 1945AD), Federation of Rhodesia and Nyasaland statistics, Mozambique general censuses (1940AD to 1980AD), Belgian Congo annual reports and post-independence national statistical archives [@CASO1960FederationCensus; @Mozambique1940Censo; @Office1949AnnualReport]. Of `r viscount_fmt_number(n_candidates, 0L)` candidate entries inside the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study domain bounded over geoBoundaries national polygons [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records were merged or excluded, retaining `r viscount_fmt_number(length(all_entries), 0L)` individually assessed entries across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations. Each entry is assigned to one of eight colonial sub-regions (113 inside the core mask perimeter and 9 border-margin towns grouped with their adjacent colonial sub-region).
+
+## Spatial Scope and Benchmark Interpolation
+
+The ledger records `r n_city_proper` city-proper series and `r n_metro` metropolitan agglomerations (Maputo, Harare, Lubumbashi, Lusaka, Bulawayo, Blantyre and Lilongwe), preserving explicit separation between municipal boundaries and post-1950AD suburban footprints [@Domingos2013DosSuburbios; @Hassane2026InstrumentosLegais]. Tables 1 to 8 report linearly interpolated populations at five historical checkpoints (1900AD, 1920AD, 1950AD, 1963AD and 1980AD) alongside each record's exact peak population and peak year, marking periods prior to foundation or outside observed census series with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` entries, rank-size regression on the upper half ($n = 61$) yields a Zipf exponent of $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 2L)`$), while full-sample regression gives $q = `r viscount_fmt_number(summary_cache$rank_size$full_zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$full_r2, 2L)`$). Deduplicating paired city-proper and metropolitan coordinates into 111 distinct urban peaks produces the curve shown in Figure \ref{fig:settlements-rank} ($q = 1,12$, $R^2 = 0,97$), confirming close log-linear alignment between regional capitals, Copperbelt mining towns and secondary district stations [@Frederiksen2013SeeingThe; @Mitchell2007IHS].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 111 deduplicated settlements (q = 1,12, R² = 0,97) and mean sub-regional density in 1980AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Northern Rhodesia: Copperbelt and Central
+
+Table \ref{tab:sub-nr-copperbelt} records `r viscount_fmt_number(length(zone_entries[["northern_rhodesia_copperbelt"]]), 0L)` entries across the Zambian Copperbelt, Lusaka, Broken Hill (Kabwe) and adjacent Katanga border posts, led by Lusaka (536k), Ndola (281,3k), Kitwe (266,3k), Kabwe (136k), Mufulira (135,5k), Chingola (130,9k) and Luanshya (110,9k) [@Frederiksen2013SeeingThe; @Macola2008OneZambia].
+
+```{r tab-nr-copperbelt, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["northern_rhodesia_copperbelt"]]),
+  "Individually assessed settlements in Northern Rhodesia: Copperbelt and Central (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-nr-copperbelt")
+)
+```
+
+## Northern Rhodesia: Barotseland and Southern
+
+Table \ref{tab:sub-nr-barotse} details `r viscount_fmt_number(length(zone_entries[["northern_rhodesia_barotseland"]]), 0L)` settlements across Barotseland, Southern and North-Western Provinces and the adjacent Katanga-Caprivi frontier, anchored by Lubumbashi (604k city-proper; 435,4k agglomeration), Livingstone (63,3k), Kipushi (46,4k), Mazabuka (29,6k) and Mongu (24,9k) [@Office1949AnnualReport; @CASO1960FederationCensus].
+
+```{r tab-nr-barotse, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["northern_rhodesia_barotseland"]]),
+  "Individually assessed settlements in Northern Rhodesia: Barotseland and Southern (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-nr-barotse")
+)
+```
+
+## Northern Rhodesia: Northern, Luapula and East
+
+Table \ref{tab:sub-nr-northeast} lists `r viscount_fmt_number(length(zone_entries[["northern_rhodesia_north_east"]]), 0L)` settlements across Northern, Luapula and Eastern Provinces and the Luapula-Mweru border, led by Kasama (38,1k), Mansa (34,8k), Chipata (32,3k) and Mpika (14,4k) [@Hellen1962SomeAspects; @NorthernRhodesia1938Report].
+
+```{r tab-nr-northeast, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["northern_rhodesia_north_east"]]),
+  "Individually assessed settlements in Northern Rhodesia: Northern, Luapula and East (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-nr-northeast")
+)
+```
+
+## Southern Rhodesia: Mashonaland and Manicaland
+
+Table \ref{tab:sub-sr-mashona} presents `r viscount_fmt_number(length(zone_entries[["southern_rhodesia_mashonaland"]]), 0L)` settlements across Mashonaland and Manicaland, led by Harare (656k city-proper; 596,5k agglomeration), Mutare (64,2k), Kadoma (40,6k) and Chinhoyi (22,1k) [@ThomasJBryan2026BritishSouthern; @Mudeka2016GenderedExclusion; @Chingozha2019TheComplementarity].
+
+```{r tab-sr-mashona, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["southern_rhodesia_mashonaland"]]),
+  "Individually assessed settlements in Southern Rhodesia: Mashonaland and Manicaland (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-sr-mashona")
+)
+```
+
+## Southern Rhodesia: Matabeleland and Midlands
+
+Table \ref{tab:sub-sr-matabele} catalogues `r viscount_fmt_number(length(zone_entries[["southern_rhodesia_matabeleland"]]), 0L)` sites across Matabeleland, Midlands, Masvingo and the Tati-Limpopo border, anchored by Bulawayo (378k agglomeration; 92,2k colonial city-proper), Kwekwe (41,4k), Hwange (35,2k), Gweru (31,2k) and Francistown (29,4k) [@CASO1960FederationCensus; @NMMZ2022ZimbabweSites].
+
+```{r tab-sr-matabele, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["southern_rhodesia_matabeleland"]]),
+  "Individually assessed settlements in Southern Rhodesia: Matabeleland and Midlands (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-sr-matabele")
+)
+```
+
+## Nyasaland Protectorate
+
+Table \ref{tab:sub-nyasaland} documents `r viscount_fmt_number(length(zone_entries[["nyasaland_protectorate"]]), 0L)` settlements across Malawi and the northern Lake Malawi Tanzanian rim, led by Blantyre (248k agglomeration; 222,2k city-proper), Lilongwe (127,9k agglomeration; 102,9k city-proper), Zomba (28,8k) and Mzuzu (21,8k) [@Sawasawa2014LabourExploitation; @Nyasaland1943AgricultureReport; @Moyo2012NamingPractices].
+
+```{r tab-nyasaland, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["nyasaland_protectorate"]]),
+  "Individually assessed settlements in the Nyasaland Protectorate (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-nyasaland")
+)
+```
+
+## Portuguese Mozambique: North and Zambezia
+
+Table \ref{tab:sub-moz-north} compiles `r viscount_fmt_number(length(zone_entries[["portuguese_mozambique_north"]]), 0L)` centres across Niassa, Cabo Delgado, Nampula, Zambézia, Tete and the lower Ruvuma margin, headed by Nampula (145,6k), Nacala Porto (74,9k), Quelimane (58,8k), Mtwara (48,5k), Tete (44,9k) and Pemba (41,1k) [@Mozambique1940Censo; @Machaqueiro2013EnsinoPolitica; @Pereira2016CuttingBack].
+
+```{r tab-moz-north, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["portuguese_mozambique_north"]]),
+  "Individually assessed settlements in Portuguese Mozambique: North and Zambezia (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-moz-north")
+)
+```
+
+## Portuguese Mozambique: Central and South
+
+Table \ref{tab:sub-moz-south} records `r viscount_fmt_number(length(zone_entries[["portuguese_mozambique_south"]]), 0L)` settlements across Manica, Sofala, Inhambane, Gaza, Maputo and adjacent eSwatini and Maputaland, led by Maputo agglomeration (718,4k), Cidade da Beira (213,4k), Chimoio (68k), Cidade de Inhambane (56,3k), Maxixe (55k) and Xai-Xai (43,6k) [@Domingos2013DosSuburbios; @Hassane2026InstrumentosLegais; @Weeks2013EricAllina].
+
+```{r tab-moz-south, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["portuguese_mozambique_south"]]),
+  "Individually assessed settlements in Portuguese Mozambique: Central and South (1900AD to 1980AD).",
+  arg3_options = list(label = "tab:sub-moz-south")
+)
+```
+
+# Limitations
+
+Three caveats apply to this settlement ledger. First, 24 entries contain single-date census observations (chiefly 1976AD in eSwatini, 1977AD in Malawi, 1978AD in Tanzania and 1980AD in Zambia and Mozambique), leaving earlier benchmark columns marked with a hyphen. Second, seven major cities appear with separate city-proper and metropolitan agglomeration records, and Beira transitions from colonial city-proper counts (1891AD to 1950AD) to *Cidade da Beira* (1950AD to 1980AD); paired rows must not be summed together. Third, colonial-era censuses prior to 1962AD in Southern Rhodesia and 1963AD in Northern Rhodesia selectively omitted peri-urban African squatter quarters outside surveyed municipal boundaries [@CASO1960FederationCensus; @Mudeka2016GenderedExclusion].
+
+# Conclusion
+
+Together, these `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlement series document the growth of colonial capitals, Copperbelt mining towns, Indian Ocean ports and district centres across South-Central Africa and Mozambique from 1890AD to 1980AD, grounding the regional spatial reconstruction in the companion review.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed site counts and combined interpolated ledger populations across all eight colonial sub-regions at five benchmarks from 1900AD to 1980AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1900AD` = sums[["1900"]],
+    `1920AD` = sums[["1920"]],
+    `1950AD` = sums[["1950"]],
+    `1963AD` = sums[["1963"]],
+    `1980AD` = sums[["1980"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1900AD` = tot_sums[["1900"]],
+  `1920AD` = tot_sums[["1920"]],
+  `1950AD` = tot_sums[["1950"]],
+  `1963AD` = tot_sums[["1963"]],
+  `1980AD` = tot_sums[["1980"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated ledger totals across eight colonial sub-regions from 1900AD to 1980AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed census dates; pre-foundation and unrecorded intervals are indicated with a hyphen (-). Combined ledger sums in Table \ref{tab:gazetteer-summary} include both city-proper and paired agglomeration records as catalogued in the raw archive.

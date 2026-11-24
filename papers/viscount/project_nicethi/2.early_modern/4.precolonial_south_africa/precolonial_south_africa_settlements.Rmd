@@ -1,0 +1,549 @@
+---
+title: "Pre-Colonial Southern Africa and the Cape Frontier"
+subtitle: "Settlement Gazetteer: 163 Individually Assessed Sites (1500AD-1902)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: precolonial_south_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 163 individually assessed settlements across eight Southern African countries spanning ten historical sub-regions from 1500AD to 1902AD."
+hero_label: "fig:hero-settlements-south-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("precolonial_south_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("precolonial_south_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+subregion_lookup <- c(
+  "Kanye-Botswana" = "tswana_bechuanaland_kalahari",
+  "Linyanti-Namibia" = "tswana_bechuanaland_kalahari",
+  "Mochudi-Botswana" = "tswana_bechuanaland_kalahari",
+  "Molepolole-Botswana" = "tswana_bechuanaland_kalahari",
+  "Old Palapye-Botswana" = "tswana_bechuanaland_kalahari",
+  "Sesheke-Zambia" = "tswana_bechuanaland_kalahari",
+  "Shoshong-Botswana" = "tswana_bechuanaland_kalahari",
+  "Toteng-Botswana" = "tswana_bechuanaland_kalahari",
+  "Beira-Mozambique" = "rozvi_ndebele_matabeleland",
+  "Bosutswe-Botswana" = "rozvi_ndebele_matabeleland",
+  "Bulawayo-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Cidade de Manica-Mozambique" = "rozvi_ndebele_matabeleland",
+  "Dambarare-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Danamombe-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Great Zimbabwe-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Gweru-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Harare-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Inyati-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Khami-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Manyanga-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Manyikeni-Mozambique" = "rozvi_ndebele_matabeleland",
+  "Masapa-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Massangano-Zambezi-Mozambique" = "rozvi_ndebele_matabeleland",
+  "Masvingo-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Mhlahlandlela-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Mutare-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Sofala-Mozambique" = "rozvi_ndebele_matabeleland",
+  "Tsindi-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Ziwa-Zimbabwe" = "rozvi_ndebele_matabeleland",
+  "Zumbo-Mozambique" = "rozvi_ndebele_matabeleland",
+  "Grootfontein-Namibia" = "ovambo_kavango_north_namibia",
+  "Okahao-Namibia" = "ovambo_kavango_north_namibia",
+  "Ondangwa-Namibia" = "ovambo_kavango_north_namibia",
+  "Oshikango-Namibia" = "ovambo_kavango_north_namibia",
+  "Rundu-Namibia" = "ovambo_kavango_north_namibia",
+  "Berseba-Namibia" = "namaqua_herero_namibia",
+  "Bethanie-Namibia" = "namaqua_herero_namibia",
+  "Gibeon-Namibia" = "namaqua_herero_namibia",
+  "Gobabis-Namibia" = "namaqua_herero_namibia",
+  "Keetmanshoop-Namibia" = "namaqua_herero_namibia",
+  "Lüderitz-Namibia" = "namaqua_herero_namibia",
+  "Okahandja-Namibia" = "namaqua_herero_namibia",
+  "Omaruru-Namibia" = "namaqua_herero_namibia",
+  "Otjimbingwe-Namibia" = "namaqua_herero_namibia",
+  "Rehoboth-Namibia" = "namaqua_herero_namibia",
+  "Swakopmund-Namibia" = "namaqua_herero_namibia",
+  "Walvis Bay-Namibia" = "namaqua_herero_namibia",
+  "Windhoek-Namibia" = "namaqua_herero_namibia",
+  "Dithakong-South Africa" = "griqualand_northern_karoo",
+  "Griekwastad-South Africa" = "griqualand_northern_karoo",
+  "Kuruman-South Africa" = "griqualand_northern_karoo",
+  "Port Nolloth-South Africa" = "griqualand_northern_karoo",
+  "Upington-South Africa" = "griqualand_northern_karoo",
+  "Victoria West-South Africa" = "griqualand_northern_karoo",
+  "Warmbad-Namibia" = "griqualand_northern_karoo",
+  "Barberton-South Africa" = "transvaal_zar_swazi_pedi",
+  "Boksburg-South Africa" = "transvaal_zar_swazi_pedi",
+  "Dzata-South Africa" = "transvaal_zar_swazi_pedi",
+  "Germiston-South Africa" = "transvaal_zar_swazi_pedi",
+  "Heidelberg-South Africa" = "transvaal_zar_swazi_pedi",
+  "Johannesburg-South Africa" = "transvaal_zar_swazi_pedi",
+  "Kaditshwene-South Africa" = "transvaal_zar_swazi_pedi",
+  "Krugersdorp-South Africa" = "transvaal_zar_swazi_pedi",
+  "Maputo-Mozambique" = "transvaal_zar_swazi_pedi",
+  "Marothodi-South Africa" = "transvaal_zar_swazi_pedi",
+  "Mashishing-South Africa" = "transvaal_zar_swazi_pedi",
+  "Middelburg-South Africa" = "transvaal_zar_swazi_pedi",
+  "Mokopane-South Africa" = "transvaal_zar_swazi_pedi",
+  "Molokwane-South Africa" = "transvaal_zar_swazi_pedi",
+  "Mosega-South Africa" = "transvaal_zar_swazi_pedi",
+  "Moxomatsi-South Africa" = "transvaal_zar_swazi_pedi",
+  "Pietersburg-South Africa" = "transvaal_zar_swazi_pedi",
+  "Pigg's Peak-eSwatini" = "transvaal_zar_swazi_pedi",
+  "Pilgrim's Rest-South Africa" = "transvaal_zar_swazi_pedi",
+  "Potchefstroom-South Africa" = "transvaal_zar_swazi_pedi",
+  "Pretoria-South Africa" = "transvaal_zar_swazi_pedi",
+  "Ramotswa-Botswana" = "transvaal_zar_swazi_pedi",
+  "Rustenburg-South Africa" = "transvaal_zar_swazi_pedi",
+  "Schoemansdal-South Africa" = "transvaal_zar_swazi_pedi",
+  "Thulamela-South Africa" = "transvaal_zar_swazi_pedi",
+  "Tshate-South Africa" = "transvaal_zar_swazi_pedi",
+  "Vila de Mandlakazi-Mozambique" = "transvaal_zar_swazi_pedi",
+  "Zeerust-South Africa" = "transvaal_zar_swazi_pedi",
+  "Bethlehem-South Africa" = "orange_free_state_basutoland",
+  "Butha-Buthe-Lesotho" = "orange_free_state_basutoland",
+  "Harrismith-South Africa" = "orange_free_state_basutoland",
+  "Hlotse-Lesotho" = "orange_free_state_basutoland",
+  "Jagersfontein-South Africa" = "orange_free_state_basutoland",
+  "Kimberley-South Africa" = "orange_free_state_basutoland",
+  "Klerksdorp-South Africa" = "orange_free_state_basutoland",
+  "Kroonstad-South Africa" = "orange_free_state_basutoland",
+  "Mafeteng-Lesotho" = "orange_free_state_basutoland",
+  "Mafikeng-South Africa" = "orange_free_state_basutoland",
+  "Makgwareng-South Africa" = "orange_free_state_basutoland",
+  "Mangaung-South Africa" = "orange_free_state_basutoland",
+  "Maseru-Lesotho" = "orange_free_state_basutoland",
+  "Mohale's Hoek-Lesotho" = "orange_free_state_basutoland",
+  "Morija-Lesotho" = "orange_free_state_basutoland",
+  "Quthing-Lesotho" = "orange_free_state_basutoland",
+  "Taung-South Africa" = "orange_free_state_basutoland",
+  "Teyateyaneng-Lesotho" = "orange_free_state_basutoland",
+  "Thaba Bosiu-Lesotho" = "orange_free_state_basutoland",
+  "Thaba Nchu-South Africa" = "orange_free_state_basutoland",
+  "Vryburg-South Africa" = "orange_free_state_basutoland",
+  "Winburg-South Africa" = "orange_free_state_basutoland",
+  "Beaufort West-South Africa" = "western_cape_voc_colony",
+  "Caledon-South Africa" = "western_cape_voc_colony",
+  "Calvinia-South Africa" = "western_cape_voc_colony",
+  "Cape Town-South Africa" = "western_cape_voc_colony",
+  "Clanwilliam-South Africa" = "western_cape_voc_colony",
+  "Cochoqua Kraal-South Africa" = "western_cape_voc_colony",
+  "Genadendal-South Africa" = "western_cape_voc_colony",
+  "Hessequa-South Africa" = "western_cape_voc_colony",
+  "Malmesbury-South Africa" = "western_cape_voc_colony",
+  "Okiep-South Africa" = "western_cape_voc_colony",
+  "Oudtshoorn-South Africa" = "western_cape_voc_colony",
+  "Paarl-South Africa" = "western_cape_voc_colony",
+  "Simon's Town-South Africa" = "western_cape_voc_colony",
+  "Springbok-South Africa" = "western_cape_voc_colony",
+  "Stellenbosch-South Africa" = "western_cape_voc_colony",
+  "Swellendam-South Africa" = "western_cape_voc_colony",
+  "Witzenville-South Africa" = "western_cape_voc_colony",
+  "Worcester-South Africa" = "western_cape_voc_colony",
+  "Aliwal North-South Africa" = "eastern_cape_xhosa_frontier",
+  "Bethelsdorp-South Africa" = "eastern_cape_xhosa_frontier",
+  "Butterworth-South Africa" = "eastern_cape_xhosa_frontier",
+  "Colesberg-South Africa" = "eastern_cape_xhosa_frontier",
+  "Cradock-South Africa" = "eastern_cape_xhosa_frontier",
+  "East London-South Africa" = "eastern_cape_xhosa_frontier",
+  "Fort Beaufort-South Africa" = "eastern_cape_xhosa_frontier",
+  "George-South Africa" = "eastern_cape_xhosa_frontier",
+  "Graaff Reinet-South Africa" = "eastern_cape_xhosa_frontier",
+  "Grahamstown-South Africa" = "eastern_cape_xhosa_frontier",
+  "King Williams Town-South Africa" = "eastern_cape_xhosa_frontier",
+  "Knysna-South Africa" = "eastern_cape_xhosa_frontier",
+  "Kokstad-South Africa" = "eastern_cape_xhosa_frontier",
+  "Mossel Bay-South Africa" = "eastern_cape_xhosa_frontier",
+  "Ntaba kaNdoda-South Africa" = "eastern_cape_xhosa_frontier",
+  "Philippolis-South Africa" = "eastern_cape_xhosa_frontier",
+  "Port Elizabeth-South Africa" = "eastern_cape_xhosa_frontier",
+  "Qaukeni-South Africa" = "eastern_cape_xhosa_frontier",
+  "Queenstown-South Africa" = "eastern_cape_xhosa_frontier",
+  "Somerset East-South Africa" = "eastern_cape_xhosa_frontier",
+  "Uitenhage-South Africa" = "eastern_cape_xhosa_frontier",
+  "Umtata-South Africa" = "eastern_cape_xhosa_frontier",
+  "Bhekuzulu-South Africa" = "natal_zulu_kingdom",
+  "Durban-South Africa" = "natal_zulu_kingdom",
+  "Ermelo-South Africa" = "natal_zulu_kingdom",
+  "Eshowe-South Africa" = "natal_zulu_kingdom",
+  "KwaBulawayo-South Africa" = "natal_zulu_kingdom",
+  "Ladysmith Central-South Africa" = "natal_zulu_kingdom",
+  "Lennoxton-South Africa" = "natal_zulu_kingdom",
+  "Lobamba-eSwatini" = "natal_zulu_kingdom",
+  "Manzini-eSwatini" = "natal_zulu_kingdom",
+  "Mbabane-eSwatini" = "natal_zulu_kingdom",
+  "Nodwengu-South Africa" = "natal_zulu_kingdom",
+  "Oyengweni-South Africa" = "natal_zulu_kingdom",
+  "Pietermaritzburg-South Africa" = "natal_zulu_kingdom",
+  "Standerton-South Africa" = "natal_zulu_kingdom",
+  "Stanger-South Africa" = "natal_zulu_kingdom",
+  "Ulundi-South Africa" = "natal_zulu_kingdom",
+  "eSibongile-South Africa" = "natal_zulu_kingdom",
+  "uMgungundlovu-South Africa" = "natal_zulu_kingdom"
+)
+
+iso3_map <- c(
+  "Botswana" = "BWA",
+  "Lesotho" = "LSO",
+  "Mozambique" = "MOZ",
+  "Namibia" = "NAM",
+  "South Africa" = "ZAF",
+  "Zambia" = "ZMB",
+  "Zimbabwe" = "ZWE",
+  "eSwatini" = "SWZ"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", as.integer(yrs[i_pk]), ")")
+}
+
+subregion_order <- c(
+  "western_cape_voc_colony",
+  "eastern_cape_xhosa_frontier",
+  "griqualand_northern_karoo",
+  "orange_free_state_basutoland",
+  "natal_zulu_kingdom",
+  "transvaal_zar_swazi_pedi",
+  "tswana_bechuanaland_kalahari",
+  "rozvi_ndebele_matabeleland",
+  "namaqua_herero_namibia",
+  "ovambo_kavango_north_namibia"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, function (e) {
+  s <- subregion_lookup[[e$key]]
+  if (is.null(s)) "western_cape_voc_colony" else s
+}, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1700` = fmt_site_pop(e, 1700),
+      `1800` = fmt_site_pop(e, 1800),
+      `1850` = fmt_site_pop(e, 1850),
+      `1875` = fmt_site_pop(e, 1875),
+      `1890` = fmt_site_pop(e, 1890),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1500, 1700, 1800, 1850, 1875, 1890)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across eight Southern African countries between 1500AD and 1902AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate towns, royal capitals, mission stations, Boer republic seats, stone-walled Tswana *merafe* and colonial ports (`r viscount_fmt_number(n_excluded, 0L)` duplicate records excluded), the retained entries span ten historical sub-regions from the Western Cape to Matabeleland, Ovamboland and the lower Zambezi. Active interpolated sites grow from `r viscount_fmt_number(n_active[["1500"]], 0L)` in 1500AD to `r viscount_fmt_number(n_active[["1700"]], 0L)` in 1700AD, `r viscount_fmt_number(n_active[["1800"]], 0L)` in 1800AD, `r viscount_fmt_number(n_active[["1850"]], 0L)` in 1850AD, `r viscount_fmt_number(n_active[["1875"]], 0L)` in 1875 and `r viscount_fmt_number(n_active[["1890"]], 0L)` in 1890, tracing the shift from indigenous capitals such as Shoshong (26,4k), Kaditshwene (18,4k) and Dithakong (16,8k) to colonial ports and mining hubs led by Johannesburg (102,1k in 1896), Durban (68k in 1900), Cape Town (51,3k in 1891), Port Elizabeth (33k), Pretoria (33k) and Kimberley (28,7k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 163 individually assessed settlements across eight Southern African countries spanning ten historical sub-regions from 1500AD to 1902AD.",
+    "fig:hero-settlements-south-africa"
+  )
+}
+```
+
+# Background
+
+Assembling a unified urban ledger for Southern Africa from 1500AD to 1902AD requires bridging distinct documentary and archaeological traditions. Along the Cape Colony and Natal littoral, Dutch VOC *opgaafrollen* and British municipal census returns provide regular headcounts for administrative towns and mission villages [@Shell1994ChildrenBondage; @Catalog1800StatisticalRegister; @Vink2019FromThe]. Across the interior plateaus of the Highveld, Bechuanaland, Zululand, Lesotho and Zimbabwe, urban scale is attested instead through nineteenth-century traveller itineraries, missionary journals and archaeological surveys of dry-stone compounds and royal *amakhanda* barracks [@Gulbrandsen1993TheRise; @Pikirayi2001ZimbabweCulture; @SAHRIS2024SouthAfrica; @NMMZ2022ZimbabweSites]. Uniting those sources under uniform spatial bounds exposes the demographic transition from pre-colonial Tswana and Rozvi agro-towns to late nineteenth-century mining and railway centres [@Barrow1801AccountTravels; @Smith1849IllustrationsThe].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate localities were compiled from colonial blue books, Cape archives, missionary station returns and regional archaeological registers [@Catalog1800StatisticalRegister; @SAHRIS2024SouthAfrica; @NMMZ2022ZimbabweSites]. Within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study domain bounded over geoBoundaries outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate orthographies and overlapping historical records were merged, retaining `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` dated observations. Each settlement is assigned to one of ten historical sub-regions (161 within the 0,25-degree polygon mask plus Massangano-Zambezi and Manyikeni assigned to the neighbouring Rozvi-Mashonaland division).
+
+## Site-Specific Population Estimation
+
+All `r viscount_fmt_number(length(all_entries), 0L)` entries record city-proper limits (163 city-proper, 0 metro) grounded in enumerated census returns, missionary residence tallies or mapped compound footprints [@LaCroix2016KhoikhoiPopulation; @ElphickGiliomee1989Shaping; @Deflem2022WarfarePolitical]. Tables 1 to 10 present linearly interpolated populations at five benchmark years (1700, 1800, 1850, 1875 and 1890) alongside each settlement's exact peak population and peak year, leaving pre-foundation and post-abandonment benchmarks marked by a hyphen (-).
+
+# Testing and Validation
+
+Across the `r viscount_fmt_number(length(all_entries), 0L)` settlements, ordinary least-squares rank-size regression on the upper half (`r viscount_fmt_number(summary_cache$rank_size$n_fit, 0L)` sites) produces a Zipf exponent of $q = 0,89$ ($R^2 = 0,98$; full-sample $q = 1,13$, $R^2 = 0,93$; Figure \ref{fig:settlements-rank}). Screening eliminates duplicate colonial and indigenous toponyms while preserving historical continuity across renamings such as Mangaung (Bloemfontein) and Ulundi (Ondini) [@Leanya2024ChurchAnd; @Deflem2022WarfarePolitical].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 163 settlements (q = 0,89, R² = 0,98) and mean sub-regional density in 1900AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Western Cape and VOC-British Heartland
+
+Table \ref{tab:sub-western-cape} records `r viscount_fmt_number(length(zone_entries[["western_cape_voc_colony"]]), 0L)` settlements across the Western Cape, Boland and Namaqualand copper margin, tracing Cape Town, Stellenbosch, Paarl, Worcester, Oudtshoorn and Swellendam alongside early Khoikhoi polities at Cochoqua Kraal and Hessequa [@LaCroix2016KhoikhoiPopulation; @Guelke1976FrontierSettlement].
+
+```{r tab-western-cape, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["western_cape_voc_colony"]]),
+  "Individually assessed settlements in the Western Cape and VOC-British Heartland (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-western-cape")
+)
+```
+
+## Eastern Cape Frontier, Xhosa and Transkei
+
+Table \ref{tab:sub-eastern-cape} lists `r viscount_fmt_number(length(zone_entries[["eastern_cape_xhosa_frontier"]]), 0L)` settlements across the Eastern Cape, Karoo margin and Transkei, led by Port Elizabeth, Grahamstown, King Williams Town, East London and Graaff-Reinet [@Barrow1801AccountTravels; @Catalog1800StatisticalRegister].
+
+```{r tab-eastern-cape, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["eastern_cape_xhosa_frontier"]]),
+  "Individually assessed settlements in the Eastern Cape Frontier, Xhosa and Transkei (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-eastern-cape")
+)
+```
+
+## Griqualand West, Karoo and Orange Frontier
+
+Table \ref{tab:sub-griqualand} details `r viscount_fmt_number(length(zone_entries[["griqualand_northern_karoo"]]), 0L)` settlements across Griqualand West, the Orange River valley and the Northern Karoo, led by Dithakong (16,8k), Kuruman (8,4k) and Griekwastad (1,92k) [@Smith1849IllustrationsThe].
+
+```{r tab-griqualand, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["griqualand_northern_karoo"]]),
+  "Individually assessed settlements in Griqualand West, Karoo and the Orange Frontier (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-griqualand")
+)
+```
+
+## Orange Free State and Basutoland
+
+Table \ref{tab:sub-ofs} compiles `r viscount_fmt_number(length(zone_entries[["orange_free_state_basutoland"]]), 0L)` settlements across the Orange Free State, Lesotho and the Kimberley diamond borderland, anchored by Kimberley (28,7k), Taung (14,2k), Thaba Nchu (12,6k), Thaba Bosiu (8,92k) and Mangaung or Bloemfontein (3,38k) [@Leanya2024ChurchAnd; @Catalog1800StatisticalRegister].
+
+```{r tab-ofs, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["orange_free_state_basutoland"]]),
+  "Individually assessed settlements in the Orange Free State and Basutoland (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-ofs")
+)
+```
+
+## Zulu Kingdom and Colony of Natal
+
+Table \ref{tab:sub-natal} presents `r viscount_fmt_number(length(zone_entries[["natal_zulu_kingdom"]]), 0L)` settlements across Natal, Zululand and eSwatini, contrasting colonial ports and towns (Durban at 68k, Pietermaritzburg at 17,5k) with Zulu and Swazi royal capitals at KwaBulawayo (9,24k), uMgungundlovu (8,64k), Ulundi or Ondini (6,48k), Nodwengu (5,42k) and Lobamba (5,15k) [@Deflem2022WarfarePolitical].
+
+```{r tab-natal, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["natal_zulu_kingdom"]]),
+  "Individually assessed settlements in the Zulu Kingdom and Colony of Natal (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-natal")
+)
+```
+
+## Transvaal (ZAR), Pedi and Swazi Kingdom
+
+Table \ref{tab:sub-transvaal} records `r viscount_fmt_number(length(zone_entries[["transvaal_zar_swazi_pedi"]]), 0L)` settlements across the Transvaal Highveld, Limpopo valley and southern Mozambique littoral, spanning early Tswana mega-towns (Kaditshwene at 18,4k, Molokwane at 13,4k, Marothodi at 5,85k), Pedi and Gaza capitals (Tshate at 7,45k, Vila de Mandlakazi at 14,5k) and late nineteenth-century gold and republican centres led by Johannesburg (102,1k), Pretoria (33k) and Barberton (6,8k) [@Gulbrandsen1993TheRise; @SAHRIS2024SouthAfrica].
+
+```{r tab-transvaal, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["transvaal_zar_swazi_pedi"]]),
+  "Individually assessed settlements in the Transvaal (ZAR), Pedi and Swazi Kingdom (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-transvaal")
+)
+```
+
+## Tswana Chiefdoms and Bechuanaland
+
+Table \ref{tab:sub-tswana} documents `r viscount_fmt_number(length(zone_entries[["tswana_bechuanaland_kalahari"]]), 0L)` settlements across Botswana, the Caprivi Strip and western Zambia, led by Shoshong (26,4k), Old Palapye (19,2k), Molepolole (15,8k), Kanye (14,6k) and Linyanti (7,25k) [@Gulbrandsen1993TheRise].
+
+```{r tab-tswana, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["tswana_bechuanaland_kalahari"]]),
+  "Individually assessed settlements in the Tswana Chiefdoms and Bechuanaland (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-tswana")
+)
+```
+
+## Rozvi Empire, Ndebele and Mashonaland
+
+Table \ref{tab:sub-rozvi} compiles `r viscount_fmt_number(length(zone_entries[["rozvi_ndebele_matabeleland"]]), 0L)` settlements across Zimbabwe and central Mozambique, encompassing Great Zimbabwe, Khami (7,2k), Danamombe (6,35k), Sofala (10k), Massangano-Zambezi (11,2k), Mhlahlandlela (9,85k), Bulawayo (14,6k), Harare (5,12k) and Beira (4,22k) [@Pikirayi2001ZimbabweCulture; @Chirikure1820NewPathways; @NMMZ2022ZimbabweSites].
+
+```{r tab-rozvi, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["rozvi_ndebele_matabeleland"]]),
+  "Individually assessed settlements in the Rozvi Empire, Ndebele and Mashonaland (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-rozvi")
+)
+```
+
+## Namaqua and Herero Polities of SW Africa
+
+Table \ref{tab:sub-namaqua} records `r viscount_fmt_number(length(zone_entries[["namaqua_herero_namibia"]]), 0L)` pastoral, mission and coastal centres in central and southern Namibia, led by Okahandja (5,15k), Windhoek (2,94k), Otjimbingwe (2,84k), Omaruru (2,68k) and Gibeon (2,38k) [@Roberts2016ClimateEnvironment].
+
+```{r tab-namaqua, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["namaqua_herero_namibia"]]),
+  "Individually assessed settlements in the Namaqua and Herero Polities of SW Africa (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-namaqua")
+)
+```
+
+## Ovambo Kingdoms and Kavango Floodplains
+
+Table \ref{tab:sub-ovambo} lists `r viscount_fmt_number(length(zone_entries[["ovambo_kavango_north_namibia"]]), 0L)` royal and riverine centres across northern Namibia: Oshikango (7,6k), Ondangwa (6,35k), Okahao (3,45k), Rundu (2,15k) and Grootfontein (1,18k).
+
+```{r tab-ovambo, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["ovambo_kavango_north_namibia"]]),
+  "Individually assessed settlements in the Ovambo Kingdoms and Kavango Floodplains (1500AD to 1902AD).",
+  arg3_options = list(label = "tab:sub-ovambo")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement gazetteer. First, 39 of the 163 settlements possess single-date entries, so benchmark columns outside their attested occupation display a hyphen (-). Second, Cape Town's 1850 synthesis outlier of 290k derives from regional Cape Colony urban compilations and contrasts with municipal headcounts of 21.840 in 1840 and 28.457 in 1865 [@Catalog1800StatisticalRegister; @Shell1994ChildrenBondage]. Third, gazetteer sums represent nucleated urban and royal settlements rather than full rural populations, which are reconstructed in the companion literature review.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements trace four centuries of Southern African urbanisation across eight modern states, charting the transition from Rozvi stone citadels, Tswana *merafe* and Zulu *amakhanda* to the Cape-Natal ports and diamond-and-gold cities of 1902.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums site counts and linearly interpolated settlement totals across all ten historical sub-regions at six benchmark years between 1500AD and 1890AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1500AD` = sums[["1500"]],
+    `1700AD` = sums[["1700"]],
+    `1800AD` = sums[["1800"]],
+    `1850AD` = sums[["1850"]],
+    `1875` = sums[["1875"]],
+    `1890` = sums[["1890"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1500AD` = tot_sums[["1500"]],
+  `1700AD` = tot_sums[["1700"]],
+  `1800AD` = tot_sums[["1800"]],
+  `1850AD` = tot_sums[["1850"]],
+  `1875` = tot_sums[["1875"]],
+  `1890` = tot_sums[["1890"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated populations across ten Southern African sub-regions (1500AD to 1890AD).",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-foundation and post-abandonment benchmarks are left blank with a hyphen (-). Coordinates use European decimal commas in southern and eastern hemispheres (latitude, longitude).

@@ -1,0 +1,404 @@
+---
+title: "Post-Colonial West Africa (1957-Present)"
+subtitle: "Settlement Gazetteer: 4.126 Urban Centres and Towns (1957AD-2025AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_west_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 4.126 assessed urban centres and towns across nine Guinea-region states and six neighbouring border buffers between 1957AD and 2025AD."
+hero_label: "fig:hero-settlements-west-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("postcolonial_west_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("postcolonial_west_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+iso3_map <- c(
+  "Benin" = "BEN",
+  "Burkina Faso" = "BFA",
+  "Cameroon" = "CMR",
+  "Chad" = "TCD",
+  "Ghana" = "GHA",
+  "Guinea" = "GIN",
+  "Guinea-Bissau" = "GNB",
+  "Ivory Coast" = "CIV",
+  "Liberia" = "LBR",
+  "Mali" = "MLI",
+  "Niger" = "NER",
+  "Nigeria" = "NGA",
+  "Senegal" = "SEN",
+  "Sierra Leone" = "SLE",
+  "Togo" = "TGO"
+)
+
+display_country_name <- function (c) {
+  if (identical(c, "Ivory Coast")) "Côte d'Ivoire" else as.character(c)
+}
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yrs[i_pk], "AD)")
+}
+
+n_total_sites <- length(all_entries)
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- n_total_sites + n_excluded
+n_obs_total <- as.integer(summary_cache$observation_count)
+n_city_proper <- as.integer(summary_cache$population_scope_counts$city_proper)
+n_metro <- as.integer(summary_cache$population_scope_counts$metro)
+
+core_countries <- c("Nigeria", "Ghana", "Ivory Coast", "Benin", "Togo", "Guinea", "Sierra Leone", "Liberia", "Guinea-Bissau")
+buffer_countries <- c("Niger", "Cameroon", "Burkina Faso", "Senegal", "Mali", "Chad")
+all_jurisdictions <- c(core_countries, buffer_countries)
+
+entries_by_country <- setNames(lapply(all_jurisdictions, function (cn) {
+  sub <- Filter(function (e) identical(as.character(e$country), cn), all_entries)
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) as.character(e$name), character(1)))]
+}), all_jurisdictions)
+
+named_top_entries <- function (cn, top_n) {
+  sub <- Filter(function (e) {
+    nm <- trimws(as.character(e$name))
+    !(nm %in% c("(n.d.)", "", "n.d."))
+  }, entries_by_country[[cn]])
+  sub[seq_len(min(as.integer(top_n), length(sub)))]
+}
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    scope_lbl <- if (identical(e$population_scope, "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      Scope = scope_lbl,
+      `1960AD` = fmt_site_pop(e, 1960),
+      `1980AD` = fmt_site_pop(e, 1980),
+      `2000AD` = fmt_site_pop(e, 2000),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+bench_nums <- c(1957, 1978, 1999, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles spatial coordinates, administrative provenance and multi-year population series for `r viscount_fmt_number(n_total_sites, 0L)` individually assessed urban centres and towns across nine Guinea-region sovereign states and six bordering catchment zones between 1957AD and 2025AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate municipal and agglomeration records (`r viscount_fmt_number(n_excluded, 0L)` duplicate alias records excluded), the retained entries span `r viscount_fmt_number(n_obs_total, 0L)` dated observations, distinguishing `r viscount_fmt_number(n_city_proper, 0L)` municipal city-proper records from `r viscount_fmt_number(n_metro, 0L)` continuous urban agglomerations. Active interpolated entries rise from `r viscount_fmt_number(n_active[["1957"]], 0L)` towns in 1957AD to `r viscount_fmt_number(n_active[["1978"]], 0L)` in 1978AD, `r viscount_fmt_number(n_active[["1999"]], 0L)` in 1999AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` in 2025AD, tracing West Africa's metropolitan surge from Lagos (16,11M agglomeration), Onitsha (10,35M), Abidjan (6,72M), Kano (6,43M) and Accra (5,43M) down to regional market centres across Benin, Togo, Guinea, Sierra Leone, Liberia and Guinea-Bissau.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 4.126 assessed urban centres and towns across nine Guinea-region states and six neighbouring border buffers between 1957AD and 2025AD.",
+    "fig:hero-settlements-west-africa"
+  )
+}
+```
+
+# Background
+
+Tracking urban populations across post-colonial West Africa requires harmonising three distinct statistical traditions: Anglophone national census authorities in Nigeria, Ghana, Sierra Leone and Liberia; Francophone *recensements généraux* across Côte d'Ivoire, Guinea, Benin and Togo; and Lusophone enumerations in Guinea-Bissau [@NPC2010NigeriaCensus; @GSS2021GhanaPHC; @INS2022CoteIvoireRGPH; @Caldwell2013AfricanDemographic]. Because municipal boundaries remained static for decades in many capitals even as built-up suburbs spilled across provincial and state lines, municipal counts alone understate real metropolitan scale in Lagos, Abidjan, Accra, Lomé and Cotonou [@Onilude2023AnalysisLand; @Folawewo2024UrbanizationWithout; @Bank2015RisingThrough]. Pairing official municipal series with satellite-delimited urban agglomerations from OECD/SWAC Africapolis permits consistent comparison across all fifteen jurisdictions represented in the settlement ledger [@OECD2024Africapolis].
+
+# Methodology
+
+## Candidate Screening and Scope Classification
+
+Candidate settlement records were screened across official Nigerian, Ghanaian, Ivorian, Beninese, Togolese, Guinean, Sierra Leonean, Liberian and Guinea-Bissau statistical series alongside Africapolis urban morphology footprints [@NPC2010NigeriaCensus; @GSS2021GhanaPHC; @INS2022CoteIvoireRGPH; @OECD2024Africapolis]. Removing `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records within the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study domain bounded over geoBoundaries Admin-1 polygons [@Runfola2020GeoBoundaries] retained `r viscount_fmt_number(n_total_sites, 0L)` settlements across `r viscount_fmt_number(n_obs_total, 0L)` dated observations. Table \ref{tab:jurisdiction-summary} summarises site counts, observation totals, spatial scope splits and combined interpolated urban populations across all nine sovereign Guinea-region states and six neighbouring border buffers.
+
+```{r tab1-jurisdiction-summary, results='asis'}
+jur_rows <- lapply(all_jurisdictions, function (cn) {
+  sub <- entries_by_country[[cn]]
+  n_cp <- sum(vapply(sub, function (e) identical(e$population_scope, "city_proper"), logical(1)))
+  n_mt <- sum(vapply(sub, function (e) identical(e$population_scope, "metro"), logical(1)))
+  n_ob <- sum(vapply(sub, function (e) length(e$population), integer(1)))
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  role_tag <- if (cn %in% core_countries) display_country_name(cn) else paste0(display_country_name(cn), " (Buffer)")
+  data.frame(
+    Jurisdiction = role_tag,
+    Sites = viscount_fmt_number(length(sub), 0L),
+    City = viscount_fmt_number(n_cp, 0L),
+    Metro = viscount_fmt_number(n_mt, 0L),
+    Obs = viscount_fmt_number(n_ob, 0L),
+    `1957AD` = sums[["1957"]],
+    `1999AD` = sums[["1999"]],
+    `2025AD` = sums[["2025"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_row_j <- data.frame(
+  Jurisdiction = "All 15 Jurisdictions",
+  Sites = viscount_fmt_number(n_total_sites, 0L),
+  City = viscount_fmt_number(n_city_proper, 0L),
+  Metro = viscount_fmt_number(n_metro, 0L),
+  Obs = viscount_fmt_number(n_obs_total, 0L),
+  `1957AD` = viscount_fmt_pop(sum(vapply(all_entries, function (e) { p <- interp_site_pop(e, 1957); if (is.na(p) || p <= 0) 0 else p }, numeric(1)))),
+  `1999AD` = viscount_fmt_pop(sum(vapply(all_entries, function (e) { p <- interp_site_pop(e, 1999); if (is.na(p) || p <= 0) 0 else p }, numeric(1)))),
+  `2025AD` = viscount_fmt_pop(sum(vapply(all_entries, function (e) { p <- interp_site_pop(e, 2025); if (is.na(p) || p <= 0) 0 else p }, numeric(1)))),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_j <- rbind(do.call(rbind, jur_rows), tot_row_j)
+rownames(df_j) <- NULL
+viscount_table(
+  df_j,
+  "Summary of 4.126 assessed settlements across nine Guinea-region sovereign states and six cross-border catchment buffers (1957AD to 2025AD).",
+  arg3_options = list(label = "tab:jurisdiction-summary")
+)
+```
+
+## Benchmark Interpolation and Table Selection
+
+Because printing all 4.126 entries verbatim would exceed 140 pages, Tables \ref{tab:urb-nigeria} through \ref{tab:urb-buffer} present the leading urban hierarchy and regional administrative centres for every Guinea-region state alongside the cross-border buffer, reporting linearly interpolated populations at 1960AD, 1980AD, 2000AD and 2025AD together with each settlement's exact peak population and date. Eras prior to initial observation or following municipal boundary absorption are marked with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements, rank-size regression on peak populations yields $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 2L)`$, n=180) in the upper urban tier and $q = `r viscount_fmt_number(summary_cache$rank_size$full_zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$full_r2, 2L)`$) across the full ledger, matching the 3.927 spatially deduplicated urban peaks plotted in Figure \ref{fig:settlements-rank}. Preserving city-proper and metropolitan entries in separate tagged rows ensures zero double-counting when calibrating urban primacy against national census totals [@OECD2024Africapolis; @Folawewo2024UrbanizationWithout].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 3.927 deduplicated settlements (q = 1,07, R² = 0,99) and top ten Admin-1 densities in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Nigeria
+
+Table \ref{tab:urb-nigeria} lists the 24 leading Nigerian urban centres and agglomerations out of `r viscount_fmt_number(length(entries_by_country[["Nigeria"]]), 0L)` assessed Nigerian entries, spanning Lagos (16,11M), Onitsha (10,35M), Kano (6,43M), Ibadan (4,60M), Abuja (3,86M), Port Harcourt (3,77M), Uyo (3,27M), Ikorodu (2,59M), Maiduguri (2,39M), Kaduna (2,38M) and Aba (2,00M) [@NPC2010NigeriaCensus; @Onilude2023AnalysisLand; @Ali2024AccessibilityThe].
+
+```{r tab-nga, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Nigeria", 24L)),
+  "Leading twenty-four urban centres and agglomerations in Nigeria (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-nigeria")
+)
+```
+
+## Ghana
+
+Table \ref{tab:urb-gha} records the 18 largest Ghanaian urban entries out of `r viscount_fmt_number(length(entries_by_country[["Ghana"]]), 0L)` assessed settlements, anchored by Accra (5,43M agglomeration, 2,07M proper), Kumasi (3,64M agglomeration, 2,04M proper), Sekondi-Takoradi (938,7k), Tamale (562,8k), Sunyani (322,0k), Techiman (264,6k), Cape Coast (238,4k) and Koforidua (237,5k) [@GSS2021GhanaPHC; @Bank2015RisingThrough].
+
+```{r tab-gha, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Ghana", 18L)),
+  "Leading eighteen urban centres and agglomerations in Ghana (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-gha")
+)
+```
+
+## Côte d'Ivoire
+
+Table \ref{tab:urb-civ} documents the 18 largest Ivorian urban centres out of `r viscount_fmt_number(length(entries_by_country[["Ivory Coast"]]), 0L)` entries, led by Abidjan (6,72M agglomeration, 5,62M proper), Bouaké (804,1k), Korhogo (418,3k), Daloa (366,4k), Anyama (325,2k), San-Pédro (293,4k), Yamoussoukro (280,0k), Gagnoa (229,5k), Divo (225,2k) and Man (214,5k) [@INS2022CoteIvoireRGPH].
+
+```{r tab-civ, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Ivory Coast", 18L)),
+  "Leading eighteen urban centres and agglomerations in Côte d'Ivoire (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-civ")
+)
+```
+
+## Benin and Togo
+
+Tables \ref{tab:urb-ben} and \ref{tab:urb-tgo} compile the 14 leading named urban centres in Benin (`r viscount_fmt_number(length(entries_by_country[["Benin"]]), 0L)` total entries) and 12 leading centres in Togo (`r viscount_fmt_number(length(entries_by_country[["Togo"]]), 0L)` total entries), highlighting the twin coastal conurbations of Greater Cotonou (2,27M), Porto-Novo (1,04M) and Lomé (3,41M) alongside interior hubs Parakou, Abomey, Djougou, Tsévié, Kara and Sokodé [@OECD2024Africapolis].
+
+```{r tab-ben, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Benin", 14L)),
+  "Leading fourteen named urban centres and agglomerations in Benin (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-ben")
+)
+```
+
+```{r tab-tgo, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Togo", 12L)),
+  "Leading twelve urban centres and agglomerations in Togo (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-tgo")
+)
+```
+
+## Guinea, Sierra Leone, Liberia and Guinea-Bissau
+
+Tables \ref{tab:urb-gin} through \ref{tab:urb-gnb} present the leading urban centres across the four Upper Guinea states: Guinea (`r viscount_fmt_number(length(entries_by_country[["Guinea"]]), 0L)` entries led by Conakry 3,41M, Kankan 410,5k, Nzérékoré 316,1k and Siguiri 303,0k), Sierra Leone (`r viscount_fmt_number(length(entries_by_country[["Sierra Leone"]]), 0L)` entries led by Freetown 2,05M, Kenema 269,2k, Bo 264,3k and Koidu 216,7k), Liberia (`r viscount_fmt_number(length(entries_by_country[["Liberia"]]), 0L)` entries led by Monrovia 1,89M agglomeration) and Guinea-Bissau (`r viscount_fmt_number(length(entries_by_country[["Guinea-Bissau"]]), 0L)` entries led by Bissau 612,3k agglomeration) [@Souza2014EvidenceFor; @Bank2021SierraLeone; @OECD2024Africapolis].
+
+```{r tab-gin, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Guinea", 12L)),
+  "Leading twelve urban centres and agglomerations in Guinea (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-gin")
+)
+```
+
+```{r tab-sle, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Sierra Leone", 10L)),
+  "Leading ten urban centres and agglomerations in Sierra Leone (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-sle")
+)
+```
+
+```{r tab-lbr, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Liberia", 10L)),
+  "Leading ten urban centres and agglomerations in Liberia (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-lbr")
+)
+```
+
+```{r tab-gnb, results='asis'}
+viscount_table(
+  build_gazetteer_df(named_top_entries("Guinea-Bissau", 10L)),
+  "Leading ten urban centres and agglomerations in Guinea-Bissau (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-gnb")
+)
+```
+
+## Cross-Border Catchment Buffer Centres
+
+Table \ref{tab:urb-buffer} records the 18 largest towns across the six neighbouring border buffers (Niger, Cameroon, Burkina Faso, Senegal, Mali and Chad), led by Ndjamena (1,99M agglomeration), Garoua (561,5k), Maradi (554,4k), Ziguinchor (337,3k), Kousséri (144,9k), Banfora (138,0k), Kolda (131,5k) and Birni N'Konni (100,2k) [@OECD2024Africapolis].
+
+```{r tab-buffer, results='asis'}
+buf_all <- do.call(c, lapply(buffer_countries, function (cn) named_top_entries(cn, 5L)))
+buf_pks <- vapply(buf_all, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+buf_top18 <- buf_all[order(-buf_pks)][seq_len(min(18L, length(buf_all)))]
+viscount_table(
+  build_gazetteer_df(buf_top18),
+  "Eighteen largest cross-border catchment buffer centres across Niger, Cameroon, Burkina Faso, Senegal, Mali and Chad (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:urb-buffer")
+)
+```
+
+# Limitations
+
+Three caveats apply to this settlement ledger. First, 685 of the 4.126 entries hold single-date observations (mostly recent Africapolis towns appearing in 2020-2025AD), so pre-foundation benchmarks display a hyphen (-). Second, municipal city-proper records such as Lagos (5,20M in 1991AD, ending in 2000AD) and continuous Africapolis agglomerations (16,11M in 2025AD) measure distinct spatial definitions and must never be summed together [@OECD2024Africapolis; @Folawewo2024UrbanizationWithout]. Third, Benin includes four minor unnamed Africapolis polygons recorded as (n.d.) between 13,9k and 26,7k, which are included in Table \ref{tab:jurisdiction-summary} totals but omitted from the ranked named city tables.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements document the transformation of West Africa from a predominantly rural colonial periphery (10,43M attested urban residents in 1957AD) into one of the continent's densest metropolitan networks (215,70M across 2.694 active entries by 2025AD), anchoring every Admin-1 census series in the companion literature review.
+
+# Appendix
+
+## Admin-1 Settlement Distribution Across the Nine Sovereign States
+
+Table \ref{tab:admin1-distribution} reports surface area, interior assessed settlement count, observation count, 2025AD Admin-1 population and leading interior settlements across all 120 Admin-1 divisions in the study domain.
+
+```{r tab-appendix-admin1, results='asis'}
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+dist_list <- summary_cache$subregion_settlement_distribution
+dist_ord <- order(-vapply(dist_list, function (d) as.numeric(sub_by_id[[d$id]]$end_pop), numeric(1)))
+dist_sorted <- dist_list[dist_ord]
+df_app <- data.frame(
+  `Admin-1 Division` = vapply(dist_sorted, function (d) as.character(d$name), character(1)),
+  `Area (km²)` = vapply(dist_sorted, function (d) viscount_fmt_number(sub_by_id[[d$id]]$area_km2, 0L), character(1)),
+  Sites = vapply(dist_sorted, function (d) viscount_fmt_number(d$settlement_count, 0L), character(1)),
+  Obs = vapply(dist_sorted, function (d) viscount_fmt_number(d$observation_count, 0L), character(1)),
+  `2025AD Pop.` = vapply(dist_sorted, function (d) viscount_fmt_pop(sub_by_id[[d$id]]$end_pop), character(1)),
+  `Leading Towns` = vapply(dist_sorted, function (d) {
+    ts <- unlist(d$top_settlements)
+    if (length(ts) == 0L) "-" else paste(ts[seq_len(min(2L, length(ts)))], collapse = ", ")
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_app) <- NULL
+viscount_table(
+  df_app,
+  "All 120 Admin-1 divisions across the nine Guinea-region states showing surface area, interior assessed sites, observations, 2025AD population and leading towns.",
+  arg3_options = list(label = "tab:admin1-distribution")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-observation and post-absorption benchmarks are marked with a hyphen (-). Only Grand Cape Mount (Liberia) records zero interior points in Table \ref{tab:admin1-distribution}, as its rural population is allocated directly from county-level Admin-1 kriging rasters.

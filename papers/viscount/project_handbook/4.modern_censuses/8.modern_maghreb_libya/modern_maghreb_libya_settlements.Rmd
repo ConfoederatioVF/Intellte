@@ -1,0 +1,288 @@
+---
+title: "The Maghreb and Libya after Independence"
+subtitle: "Settlement Gazetteer for Morocco, Algeria, Tunisia, Libya and Western Sahara"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: modern_maghreb_libya_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_modern_maghreb_libya_spatial.png"
+hero_caption: "Spatial distribution of 12.559 catalogued urban, communal and oasis settlements across Morocco, Algeria, Tunisia, Libya and Western Sahara from 1951AD to 2026AD."
+hero_label: "fig:hero-modern-maghreb-libya-settlements"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("modern_maghreb_libya_summary_cache.json", simplifyVector = FALSE)
+settlements_data <- jsonlite::fromJSON("modern_maghreb_libya_settlements.json", simplifyVector = FALSE)
+all_entries <- unname(settlements_data)
+
+fmt_eu_coord <- function(x) {
+  viscount_fmt_number(as.numeric(x), 2L)
+}
+
+get_pop <- function(entry, yr_str) {
+  p <- entry$population[[yr_str]]
+  if (is.null(p)) return(NA_real_)
+  as.numeric(p)
+}
+
+fmt_pop_cell <- function(val) {
+  if (is.na(val) || val <= 0) return("-")
+  viscount_fmt_pop(val)
+}
+
+fmt_ratio_cell <- function(entry) {
+  p1 <- get_pop(entry, "1951")
+  p2 <- get_pop(entry, "2025")
+  if (is.na(p1) || p1 <= 0) {
+    p1 <- get_pop(entry, "1975")
+    if (is.na(p1) || p1 <= 0 || is.na(p2)) return("-")
+    return(paste0(viscount_fmt_number(p2 / p1, 1L), "x (1975)"))
+  }
+  if (is.na(p2)) return("-")
+  paste0(viscount_fmt_number(p2 / p1, 1L), "x")
+}
+
+count_country <- function(country_name) {
+  sum(vapply(all_entries, function(e) identical(as.character(e$country), country_name), logical(1)))
+}
+
+build_country_df <- function(country_name, top_n = 35L) {
+  sub_e <- Filter(function(e) identical(as.character(e$country), country_name), all_entries)
+  pks <- vapply(sub_e, function(e) max(as.numeric(unlist(e$population))), numeric(1))
+  ord <- order(pks, decreasing = TRUE)
+  sub_e <- sub_e[ord[seq_len(min(length(ord), top_n))]]
+  rows <- lapply(sub_e, function(e) {
+    nm <- as.character(e$name)
+    nm <- gsub("([[:alpha:]]{9})([[:alpha:]]{6,})", "\\1-\\2", nm, perl = TRUE)
+    coords_s <- paste0(fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    yrs <- as.integer(names(e$population))
+    vals <- as.numeric(unlist(e$population))
+    pk_idx <- which.max(vals)
+    pk_val <- vals[pk_idx]
+    pk_yr <- yrs[pk_idx]
+    y_min <- min(yrs)
+    y_max <- max(yrs)
+    span_s <- if (y_min == y_max) paste0(y_min, "AD") else paste0(y_min, "AD-", y_max, "AD")
+    data.frame(
+      Settlement = nm,
+      Coords = coords_s,
+      Span = span_s,
+      `2000AD` = fmt_pop_cell(get_pop(e, "2000")),
+      `2025AD` = fmt_pop_cell(get_pop(e, "2025")),
+      Peak = paste0(viscount_fmt_pop(pk_val), " (", pk_yr, "AD)"),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+```
+
+# Abstract
+
+This settlement gazetteer catalogues 12.559 urban centres, rural communes, secondary provincial capitals, steppe market towns and Saharan oasis settlements across Morocco, Algeria, Tunisia, Libya and Western Sahara from 1951AD to 2026AD. Drawing on national census publications from HCP Morocco (1960–2024, including full 2014 and 2024 communal enumerations), ONS Algeria (1966–2008, including 1998 and 2008 commune tables), INS Tunisia (1956–2024), BSC Libya (1954–2006) and Spanish colonial and Moroccan regional enumerations in Western Sahara, the ledger consolidates 12.809 initial candidate localities after merging 250 duplicate aliases and subordinate metropolitan suburbs into canonical cores. Spanning the entire 103,8M macro-domain at the contemporary horizon, the register conforms closely to a near-unitary Zipf rank-size slope ($\alpha = 1{,}021$, $R^2 = 0{,}908$). Ordered by national jurisdiction, the tables document the emergence of coastal metropolitan corridors around Casablanca, Rabat-Salé, Tanger, Algiers, Oran, Tūnis, Ṣafāqis, Ṭarābulus and Banghāzī alongside high-growth High Plateaux and Saharan hubs at Djelfa, Batna, Ouargla, Ghardaïa, Sabhā, Tamanrasset, Adrar and Boujdour.
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_modern_maghreb_libya_spatial.png",
+    "Spatial distribution of 12.559 catalogued urban, communal and oasis settlements across Morocco, Algeria, Tunisia, Libya and Western Sahara from 1951AD to 2026AD.",
+    "fig:hero-modern-maghreb-libya-settlements",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+# Background
+
+Urbanisation across the post-colonial Maghreb and Libya proceeded at a pace unmatched by earlier centuries. In the early 1950s, when Libya attained independence and Morocco and Tunisia stood in the final five years of their French and Spanish protectorates, the largest cities across the five territories were Casablanca (682,4k in 1952AD), Algiers (587,6k in 1954AD), Tūnis (401,6k), Oran (277,6k), Rabat (266k), Fès (244,8k), Marrakech (222,3k), Banghāzī (214,3k) and Ṭarābulus (129,7k in 1954AD). Over the ensuing seven decades, post-colonial public health advances lowered infant mortality sharply while rural land fragmentation, drought cycles and industrialisation pushed millions of villagers into littoral ports and provincial capitals [@Amara2018Rural; @Conte2024Marriage; @O2026Oncogeriat; @D2026Spatial].
+
+Regional urban trajectories reflect distinct political economies. In Algeria, wartime regroupment between 1954AD and 1962AD and the 1962AD departure of European settlers restructured urban housing overnight before state industrialisation, fertility shifts and post-1980s administrative subdivisions elevated steppe and Saharan towns [@Kamilia2025Relationsh; @Abbas2024Impact; @Saidi2025Role; @OuadahBedidi2013Fertility]. In Morocco, an export-oriented Atlantic corridor from Kénitra and Rabat-Salé through Casablanca to Safi was joined after 1990AD by rapid port-industrial expansion in Tangier-Assilah and tourism-service growth in Marrakech and Agadir [@Bouhoudan2024Impact; @M2026Systematic]. Tunisia concentrated industry and services along the Tunis-Sousse-Sfax littoral arc [@Amara2018Rural], while Libya's oil wealth funded simultaneous hyper-urbanisation in Tripoli, Misratah and Benghazi and aquifer-fed oasis cities across Fezzan.
+
+# Methodology
+
+Each settlement record in HANDBOOK reconciles municipal and communal census counts across national statistical archives onto fixed WGS84 coordinates, harmonising French, Spanish, Italian and Arabic transliterations into canonical Latin forms. To prevent metropolitan double counting and variant-spelling duplication, 250 duplicate aliases and subordinate suburbs identified in the ledger reconciliation pass were folded into their parent urban agglomerations, leaving 12.559 independent urban, communal and oasis localities across Morocco (HCP 2014/2024 enrichment), Algeria (ONS 1998/2008 enrichment), Tunisia (INS), Libya (BSC) and Western Sahara (detailed by jurisdiction in Table 1). Municipal series are anchored to national census benchmarks—HCP Morocco (1960, 1971, 1982, 1994, 2004, 2014 and 2024), ONS Algeria (1966, 1977, 1987, 1998 and 2008), INS Tunisia (1956, 1966, 1975, 1984, 1994, 2004, 2014 and 2024), BSC Libya (1954, 1964, 1973, 1984, 1995 and 2006) and Spanish colonial and HCP regional counts for Western Sahara. Spatial disaggregation pairs these settlement anchors with geoBoundaries administrative polygons [@Runfola2020GeoBoundaries] under strictly mass-conserving pycnophylactic scaling and non-stationary Matérn ($\nu = 3/2$) kriging.
+
+# Testing and Validation
+
+Across all 12.559 catalogued settlements, rank-size calibration produces a Zipf exponent of $\alpha = 1{,}021$ ($R^2 = 0{,}908$), confirming that post-independence state formation produced a balanced national and regional urban pyramid rather than extreme primacy [@Bousmaha2021Growth; @Bousmaha2024Review]. Combining multi-decadal metropolitan series (1952AD–2025AD) with comprehensive communal enumerations across Morocco (HCP 2014/2024), Algeria (ONS 1998/2008) and Tunisia (INS) eliminates lower-tail truncation across rural and semi-arid districts. Figure 2 plots the aggregate regional trajectory alongside leading sub-regional benchmarks, while Table 1 summarises jurisdiction-level settlement counts, median peak populations and leading metropolises across all five territories.
+
+```{r fig2-traj-sett, results='asis'}
+viscount_figure(
+  "figures/fig2_modern_maghreb_libya_trajectory.png",
+  "Aggregate population growth across the Maghreb and Libya from 1951AD to 2025AD (left) and leading sub-regional benchmarks at the contemporary horizon (right).",
+  "fig:trajectory-settlements",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+```{r tab-country-summary, results='asis'}
+countries_ord <- c("Morocco", "Algeria", "Tunisia", "Libya", "Western Sahara")
+tot_n <- length(all_entries)
+sum_rows <- lapply(countries_ord, function(cn) {
+  sub_e <- Filter(function(e) identical(as.character(e$country), cn), all_entries)
+  pks <- vapply(sub_e, function(e) max(as.numeric(unlist(e$population))), numeric(1))
+  mins <- vapply(sub_e, function(e) min(as.integer(names(e$population))), integer(1))
+  maxs <- vapply(sub_e, function(e) max(as.integer(names(e$population))), integer(1))
+  lead_e <- sub_e[[which.max(pks)]]
+  data.frame(
+    Jurisdiction = cn,
+    Sites = formatC(length(sub_e), format = "d", big.mark = "."),
+    Share = paste0(viscount_fmt_number(100 * length(sub_e) / tot_n, 1L), "%"),
+    MedianPeak = viscount_fmt_pop(stats::median(pks)),
+    Lead = paste0(lead_e$name, " (", viscount_fmt_pop(max(pks)), ")"),
+    Span = paste0(min(mins), "AD-", max(maxs), "AD"),
+    stringsAsFactors = FALSE
+  )
+})
+df_csum <- do.call(rbind, sum_rows)
+all_pks <- vapply(all_entries, function(e) max(as.numeric(unlist(e$population))), numeric(1))
+all_lead <- all_entries[[which.max(all_pks)]]
+tot_row <- data.frame(
+  Jurisdiction = "Total Gazetteer",
+  Sites = formatC(tot_n, format = "d", big.mark = "."),
+  Share = "100,0%",
+  MedianPeak = viscount_fmt_pop(stats::median(all_pks)),
+  Lead = paste0(all_lead$name, " (", viscount_fmt_pop(max(all_pks)), ")"),
+  Span = "1951AD-2025AD",
+  stringsAsFactors = FALSE
+)
+df_csum <- rbind(df_csum, tot_row)
+rownames(df_csum) <- NULL
+viscount_table(
+  df_csum,
+  "Catalogued settlement counts, territorial shares, median peak sizes and leading metropolises across the five Maghreb and Libyan jurisdictions (12.559 total localities).",
+  c("Jurisdiction", "Sites", "Share", "Median Peak", "Leading Centre (Peak)", "Active Span")
+)
+```
+
+# Results
+
+## Morocco
+
+Morocco's enriched HCP urban and communal gazetteer (over 1,4k localities across all sixteen territorial sub-regions) is paced by the Atlantic corridor from Casablanca (682,4k in 1952AD to 3,26M in 2025AD, peaking at 4,37M across its wider agglomeration in 2016AD and 3,36M in its prefecture in 2014AD), Salé (958,4k), Sidi Moumen (551,4k in 2024AD), Kénitra (514,9k), Témara (313,5k peak in 2014AD) and Dar Bouazza (307,2k in 2025AD), alongside Tanger's surge from 128,5k in 1952AD to 1,29M in 2025AD and interior expansion in Fès (1,2M), Marrakech (1,03M), Oujda (614k peak), Meknès (601k peak) and Agadir (538k peak) (Table 2).
+
+```{r tab-morocco, results='asis'}
+n_ma <- count_country("Morocco")
+df_ma <- build_country_df("Morocco", top_n = 35L)
+viscount_table(
+  df_ma,
+  paste0("Leading ", nrow(df_ma), " of ", formatC(n_ma, format = "d", big.mark = "."), " catalogued settlements in Morocco ordered by peak population (1952AD-2025AD)."),
+  c("Settlement", "Lat, Lon", "Span", "2000AD", "2025AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+## Algeria
+
+Algeria's enriched ONS municipal and communal cohort (over 1,3k localities spanning all 48 wilayas) captures both northern metropolitan growth and interior steppe expansion. Alongside the northern coastal hubs of Algiers (587,6k in 1954AD to a peak of 3,42M in 2011AD and 3,0M in 2025AD), Oran (1,02M), Constantine (568,4k), Annaba (434,8k) and Blida (420,9k), High Plateaux and Saharan cities recorded extraordinary multipliers: Batna reached 367,3k, Djelfa 337,3k, Sétif 319,9k, Biskra 259,7k, El Oued 236,6k, Ouargla 215,6k, Béchar 209,6k, Ghardaïa 181,3k, Tamanrasset 103,7k and Adrar 86,6k (Table 3) [@Abdelhafid2023Problem; @Saidi2025Role].
+
+```{r tab-algeria, results='asis'}
+n_dz <- count_country("Algeria")
+df_dz <- build_country_df("Algeria", top_n = 35L)
+viscount_table(
+  df_dz,
+  paste0("Leading ", nrow(df_dz), " of ", formatC(n_dz, format = "d", big.mark = "."), " catalogued settlements in Algeria ordered by peak population (1954AD-2025AD)."),
+  c("Settlement", "Lat, Lon", "Span", "2000AD", "2025AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+## Tunisia
+
+Tunisia's INS municipal gazetteer reflects both early fertility decline and persistent coastal concentration [@Conte2024Marriage; @Amara2018Rural]. Central Tūnis peaked at 693,5k in 2002AD (616,4k in 2025AD) as suburban municipalities such as Sukrah (157,7k), Sīdī Ḥusayn (134k) and Rawād (127,5k) absorbed metropolitan growth, while Sahel and northern ports such as Ṣafāqis (294,8k), Sūsah (257,7k) and Banzart (158,7k) expanded steadily ahead of inland Al-Qayrawān (158,3k) (Table 4).
+
+```{r tab-tunisia, results='asis'}
+n_tn <- count_country("Tunisia")
+df_tn <- build_country_df("Tunisia", top_n = 30L)
+viscount_table(
+  df_tn,
+  paste0("Leading ", nrow(df_tn), " of ", formatC(n_tn, format = "d", big.mark = "."), " catalogued settlements in Tunisia ordered by peak population (1956AD-2025AD)."),
+  c("Settlement", "Lat, Lon", "Span", "2000AD", "2025AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+## Libya and Western Sahara
+
+Libya's BSC urban and oasis corpus traces hydrocarbon-financed urbanisation along the Tripolitanian and Cyrenaican coasts and Fezzan aquifers, led by Ṭarābulus (129,7k in 1954AD to a peak of 1,78M in 2007AD and 1,39M in 2025AD), Banghāzī (806,8k), Miṣrātah (378,8k), Zlīṭan (217k), Az-Zāwiyah (184,8k) and Sabhā (159k) (Table 5). In Western Sahara, catalogued coastal and interior localities under the Western Sahara jurisdiction—including Boujdour and Meharrize—anchor Saharan settlement points alongside Moroccan-enumerated Laâyoune (262,8k in 2024AD), Dakhla (165,5k) and Es Semara (56,6k) (Table 6).
+
+```{r tab-libya, results='asis'}
+n_ly <- count_country("Libya")
+df_ly <- build_country_df("Libya", top_n = 30L)
+viscount_table(
+  df_ly,
+  paste0("Leading ", nrow(df_ly), " of ", formatC(n_ly, format = "d", big.mark = "."), " catalogued settlements in Libya ordered by peak population (1954AD-2025AD)."),
+  c("Settlement", "Lat, Lon", "Span", "2000AD", "2025AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+```{r tab-western-sahara, results='asis'}
+n_eh <- count_country("Western Sahara")
+df_eh <- build_country_df("Western Sahara", top_n = 20L)
+viscount_table(
+  df_eh,
+  paste0("Catalogued settlements in Western Sahara (", formatC(n_eh, format = "d", big.mark = "."), " sites) ordered by peak population (1951AD-2025AD)."),
+  c("Settlement", "Lat, Lon", "Span", "2000AD", "2025AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three principal caveats attach to these municipal time series. First, Algeria (last census 2008AD) and Libya (last census 2006AD, 2020AD registry estimates) lack 2024AD census benchmarks comparable to HCP Morocco and INS Tunisia, widening post-2010AD municipal extrapolation variance, especially in Libyan cities affected by post-2011AD displacement. Second, strict administrative boundaries separate inner municipalities from adjoining commuter communes in Greater Tunis, Rabat-Salé and Casablanca, causing statutory core cities to plateau once peripheral infill saturates. Third, Western Sahara's territorial partition divides Moroccan-administered urban communes (such as Laâyoune and Dakhla, captured at the regional and ADM1 polygon scale) from eastern interior towns and Sahrawi camps near Tindouf.
+
+# Conclusion
+
+From 1951AD to 2026AD, the 12.559 catalogued urban, communal and oasis centres of Morocco, Algeria, Tunisia, Libya and Western Sahara anchor a near-unitary Zipf urban hierarchy ($\alpha = 1{,}021$, $R^2 = 0{,}908$) across coastal metropolises, High Plateaux towns and Saharan oases. Paired with 2.629 geoBoundaries administrative polygons and mass-conserving spatial kriging, this gazetteer supplies the municipal and communal foundation for modern North African demographic mapping.
+
+# Appendix
+
+## Settlement Rank-Size and Density Diagnostics
+
+Figure 3 and Figure 4 display the continuous spatial density surface and the Zipf rank-size regression across all 12.559 catalogued settlements, illustrating both coastal concentration and the balanced upper metropolitan tier led by Casablanca and Algiers.
+
+```{r fig3-density-sett, results='asis'}
+viscount_figure(
+  "figures/fig3_modern_maghreb_libya_density.png",
+  "Continuous population density surface across the Maghreb and Libya (left) and sub-regional population densities at the contemporary horizon (right).",
+  "fig:density-settlements",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+```{r fig4-rank-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_modern_maghreb_libya_settlements.png",
+  "Zipf rank-size distribution across 12.559 catalogued Maghreb and Libyan settlements (left) and the twelve largest urban centres by peak population (right).",
+  "fig:rank-settlements",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

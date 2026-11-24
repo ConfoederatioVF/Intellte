@@ -1,0 +1,392 @@
+---
+title: "Post-Colonial Sahel States (1960-Present)"
+subtitle: "Mauritania, Mali, Niger and Chad from Independence to the Present"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_sahel_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Eighty-four first-level administrative divisions across seven independent Sahelian states and 3.089 assessed settlements between 1960AD and 2025AD."
+hero_label: "fig:hero-postcolonial-sahel"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("postcolonial_sahel_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("postcolonial_sahel_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+n_subregions <- as.integer(summary_cache$subregion_count)
+
+bench_keys <- c("1960", "1970", "1980", "1990", "2000", "2010", "2020", "2025")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+iso_map <- c(
+  "MRT" = "Mauritania",
+  "MLI" = "Mali",
+  "NER" = "Niger",
+  "TCD" = "Chad",
+  "SEN" = "Senegal",
+  "BFA" = "Burkina Faso",
+  "GMB" = "The Gambia"
+)
+
+iso_order <- c("MRT", "MLI", "NER", "TCD", "SEN", "BFA", "GMB")
+all_yrs <- c("1960", "1965", "1970", "1975", "1980", "1985", "1990", "1995", "2000", "2005", "2010", "2015", "2020", "2025")
+
+country_agg <- setNames(lapply(iso_order, function (iso) {
+  members <- Filter(function (sr) toupper(strsplit(sr$id, "_")[[1]][1]) == iso, subregs)
+  pops <- setNames(vapply(all_yrs, function (y) {
+    sum(vapply(members, function (sr) as.numeric(sr$population[[y]]), numeric(1)))
+  }, numeric(1)), all_yrs)
+  area_sum <- sum(vapply(members, function (sr) as.numeric(sr$area_km2), numeric(1)))
+  pix_sum <- sum(vapply(members, function (sr) as.integer(sr$pixel_count), integer(1)))
+  list(
+    iso = iso,
+    name = iso_map[[iso]],
+    units = length(members),
+    area_km2 = area_sum,
+    pixels = pix_sum,
+    pop = pops,
+    end_density = pops[["2025"]] / area_sum
+  )
+}), iso_order)
+
+j_cov <- summary_cache$wave_saturation_stats$jurisdiction_coverage
+cov_name_map <- c(
+  "MRT" = "Mauritania",
+  "MLI" = "Mali",
+  "NER" = "Niger",
+  "TCD" = "Chad",
+  "SEN" = "Senegal",
+  "BFA" = "Burkina Faso",
+  "GMB" = "Gambia"
+)
+```
+
+# Abstract
+
+Between independence in 1960AD and 2025AD, the post-colonial Sahel experienced one of the fastest sustained demographic expansions in modern history. Across a spatial accounting domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning 84 first-level administrative divisions across Mauritania, Mali, Niger, Chad, Senegal, Burkina Faso and The Gambia, NICETHI traces aggregate regional population from `r viscount_fmt_pop(headline_vals[["1960"]])` inhabitants in 1960AD to `r viscount_fmt_pop(headline_vals[["1980"]])` in 1980AD, `r viscount_fmt_pop(headline_vals[["2000"]])` in 2000AD, `r viscount_fmt_pop(headline_vals[["2010"]])` in 2010AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD, raising mean end-epoch density to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth was propelled by rapidly falling infant mortality alongside persistent high fertility across Niger, Chad and Mali, even as the catastrophic Sahelian droughts of 1968AD to 1974AD and 1983AD to 1985AD broke transhumant pastoral livelihoods and drove permanent sedentarisation and hyper-urbanisation. Planned or formerly modest colonial capitals expanded into metropolitan centres: Nouakchott grew from a fishing and administrative outpost founded in 1957AD to `r viscount_fmt_pop(1448753)` residents, while Dakar (`r viscount_fmt_pop(4391325)`), Bamako (`r viscount_fmt_pop(4243183)`), Ouagadougou (`r viscount_fmt_pop(3407057)`), N'Djamena (`r viscount_fmt_pop(1991719)`) and Niamey (`r viscount_fmt_pop(1433074)`) absorbed displaced herders, drought migrants and rural youth. After 2012AD, armed conflict across northern Mali, the Liptako-Gourma tri-border zone and the Lake Chad basin redirected internal migration toward fortified provincial towns and southern agricultural corridors. These reconstructions integrate `r viscount_fmt_number(n_total_sites, 0L)` individually assessed urban and rural settlements (`r viscount_fmt_number(n_obs_total, 0L)` chronological observations) with national General Population and Housing Censuses (RGPH), Africapolis agglomeration footprints and mass-conserving sub-administrative disaggregation.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Eighty-four first-level administrative divisions across seven independent Sahelian states and 3.089 assessed settlements between 1960AD and 2025AD.",
+    "fig:hero-postcolonial-sahel"
+  )
+}
+```
+
+# Background
+
+## Ecological Zones, Independence Borders and Stalled Demographic Transition
+
+Stretching from the Atlantic littoral of Senegal, The Gambia and Mauritania across the inland Niger delta of Mali and the Mossi plateau of Burkina Faso to the Air massif, Lake Chad and the Tibesti mountains, the Sahel forms a semi-arid ecological transition between the Sahara and the Sudanian savannas. Annual rainfall declines steeply from 800 to 1.100 mm in southern Mali, Casamance and southern Chad to below 150 mm across Tiris Zemmour, Adrar, Tombouctou, Kidal, Agadez, Borkou and Tibesti. When French West Africa, French Equatorial Africa and British Gambia dissolved into sovereign republics between 1958AD and 1965AD (with Mauritania, Mali, Niger, Chad, Senegal and Upper Volta all attaining independence in 1960AD), their new international borders cut across centuries-old Tuareg, Moorish, Fulani, Songhay, Hausa and Kanuri pastoral and commercial circuits [@Tuki2023WhatDoes; @Diallo2023MigrationDeveloppement].
+
+Demographically, the post-colonial Sahel diverged sharply from East Asia, Latin America and even coastal West Africa. As public health campaigns, vaccination drives and basic maternal clinics lowered infant and child mortality from the 1960s onward, birth rates remained near biological ceilings [@Spoorenberg2019FortyYears; @Mbaye2023FertilityEmployment]. Across the arid core of Niger, Chad and Mali, total fertility rates (TFR) held above six to seven children per woman well into the early twenty-first century, producing a stalled demographic transition and youthful age structures in which roughly half of the population is under 18 years of age [@Spoorenberg2019FortyYears; @Spoorenberg2018FertilityCompression]. In Niger, parity-specific fertility compression documented between 1977AD and 2011AD remained modest and largely confined to educated urban women in Niamey, leaving rural Hausa and Zarma regions in Maradi, Zinder, Tahoua and Dosso among the highest-fertility populations on earth [@Spoorenberg2018FertilityCompression; @Bank2021RevueUrbanisation]. In Mali, early marriage, polygyny and household prestige norms sustained high fertility across rural Kayes, Koulikoro and Mopti, delaying any substantial demographic dividend [@Fulton2023HouseholdsWomen; @Mbaye2023FertilityEmployment]. Even where fertility began easing earlier - notably urban Dakar, Saint-Louis and coastal Senegal alongside Ouagadougou in Burkina Faso - population momentum kept annual national growth rates between 2,4% and 3,8% [@ANSD2024SenegalRGPH5; @INSD2022BurkinaRGPH5].
+
+## Drought Shocks, Sedentarisation and Post-2012 Displacement
+
+Two severe multi-year meteorological droughts reshaped the human geography of the independent Sahel. Between 1968AD and 1974AD, and again from 1983AD to 1985AD, monsoon failure across the 150 to 400 mm isohyet wiped out millet harvests and decimated cattle, camel and small-ruminant herds across Mauritania, northern Mali, northern Burkina Faso, Niger and central Chad [@Belesova2026FieldFlight; @Spoorenberg2019FortyYears]. Pastoralist households that had historically weathered seasonal dry spells through transhumance lost breeding stock on an irreversible scale, forcing mass sedentarisation along permanent boreholes, river valleys and urban fringes [@Bank2021RevueUrbanisation; @Doumbia2019EthnographyUrban]. In Mauritania, where nomadic pastoralists still constituted the majority of the population at independence in 1960AD, the droughts compressed rural-pastoral shares below one fifth of the national total within a single generation, funnelled into Nouakchott, Nouadhibou and southern Senegal-river towns such as Rosso and Kaédi [@OECD2024Africapolis].
+
+Over the last two decades, ecological volatility has been compounded by armed insurgency and political instability. Beginning with the 2012AD rebellion and jihadist expansion in northern Mali (Kidal, Gao, Tombouctou and Ménaka) and spreading after 2015AD into the Liptako-Gourma tri-border corridor (Mopti, Tillabéri, Burkina Faso's Sahel, Est and Centre-Nord regions) and the Lake Chad basin (Diffa in Niger and Lac in Chad), insecurity disrupted rural censuses and displaced hundreds of thousands of villagers [@Tuki2023WhatDoes; @INSTAT2023MaliRGPH5; @Belesova2026FieldFlight]. Refugees and internally displaced persons crowded into regional administrative capitals and cross-border camps such as Mbera in south-eastern Mauritania, Kaya and Dori in Burkina Faso, Diffa and Maradi in Niger, and Bol and N'Djamena in Chad, accelerating urban concentration even in regions experiencing severe rural contraction [@Bank2021RevueUrbanisation; @OECD2024Africapolis].
+
+## Historiography and Modern Census Architecture
+
+Unlike pre-colonial or early colonial chapters that rely on explorer estimates or head-tax assessments, post-colonial Sahelian demography rests on five successive rounds of modern national General Population and Housing Censuses (RGPH), supplemented by Demographic and Health Surveys (DHS), Health and Demographic Surveillance Systems (HDSS) such as Nouna in Burkina Faso and Farafenni and Basse in The Gambia, and harmonised satellite-and-census urban footprints [@Jasseh2022AssessmentThe; @Louis2016DoubleFardeau; @OECD2024Africapolis]. National statistical agencies - ANSD in Senegal [@ANSD2024SenegalRGPH5], INSD in Burkina Faso [@INSD2022BurkinaRGPH5], INSTAT in Mali [@INSTAT2023MaliRGPH5], INS in Niger, INSEED in Chad, ANSADE in Mauritania and GBoS in The Gambia - conducted modern enumerations beginning in the mid-1970s (Mauritania 1977AD, Mali 1976AD, Burkina Faso 1975AD, Senegal 1976AD, Niger 1977AD, The Gambia 1973AD, Chad 1993AD following civil conflict). Subsequent rounds in the late 1980s, 1998AD to 2001AD, 2009AD to 2013AD and 2019AD to 2024AD established detailed sub-national demographic trajectories [@ANSD2024SenegalRGPH5; @INSD2022BurkinaRGPH5; @INSTAT2023MaliRGPH5]. NICETHI integrates these census schedules with World Bank urbanisation reviews, Africapolis morphological boundaries and parish-to-commune population series across all 84 Admin-1 territories [@Bank2015ReviewUrbanization; @Bank2021RevueUrbanisation; @OECD2024Africapolis].
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The study area covers `r viscount_fmt_number(total_area_km2, 0L)` km² (`r viscount_fmt_number(total_pixels, 0L)` five-arcminute grid cells) across seven sovereign states: Chad (`r viscount_fmt_number(country_agg[["TCD"]]$area_km2, 0L)` km²), Mali (`r viscount_fmt_number(country_agg[["MLI"]]$area_km2, 0L)` km²), Niger (`r viscount_fmt_number(country_agg[["NER"]]$area_km2, 0L)` km²), Mauritania (`r viscount_fmt_number(country_agg[["MRT"]]$area_km2, 0L)` km²), Burkina Faso (`r viscount_fmt_number(country_agg[["BFA"]]$area_km2, 0L)` km²), Senegal (`r viscount_fmt_number(country_agg[["SEN"]]$area_km2, 0L)` km²) and The Gambia (`r viscount_fmt_number(country_agg[["GMB"]]$area_km2, 0L)` km²). Within NICETHI, the chapter sits in Regime 3 (1960AD to 2026AD) and partitions the territory into `r viscount_fmt_number(n_subregions, 0L)` first-level administrative divisions (Admin-1 regions, wilayas and provinces) derived from Natural Earth, geoBoundaries [@Runfola2020GeoBoundaries] and HDX COD-AB polygons (Table \ref{tab:countries}). Because post-colonial boundary reforms repeatedly subdivided earlier colonial provinces - for instance splitting Haut-Sénégal-Niger and Upper Volta's ten 1975AD departments into Burkina Faso's 13 modern regions, expanding Chad from 11 prefectures in 1961AD to 23 provinces by 2019AD, and reorganising Senegal from seven regions in 1960AD to 14 by 2008AD - 1960AD historical lineage geometries are harmonised forward onto modern Admin-1 divisions [@Runfola2020GeoBoundaries].
+
+```{r tab1-countries, results='asis'}
+df_t1 <- do.call(rbind, lapply(iso_order, function (iso) {
+  ca <- country_agg[[iso]]
+  cov_key <- cov_name_map[[iso]]
+  n_sett <- if (!is.null(j_cov[[cov_key]])) as.integer(j_cov[[cov_key]]$settlements) else 0L
+  data.frame(
+    Country = ca$name,
+    `Admin-1` = viscount_fmt_number(ca$units, 0L),
+    `Area (km²)` = viscount_fmt_number(ca$area_km2, 0L),
+    `1960AD` = viscount_fmt_pop(ca$pop[["1960"]]),
+    `1980AD` = viscount_fmt_pop(ca$pop[["1980"]]),
+    `2000AD` = viscount_fmt_pop(ca$pop[["2000"]]),
+    `2020AD` = viscount_fmt_pop(ca$pop[["2020"]]),
+    `2025AD` = viscount_fmt_pop(ca$pop[["2025"]]),
+    `2025 Density` = viscount_fmt_number(ca$end_density, 1L),
+    Sites = viscount_fmt_number(n_sett, 0L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_t1 <- data.frame(
+  Country = "Total Study Area",
+  `Admin-1` = viscount_fmt_number(n_subregions, 0L),
+  `Area (km²)` = viscount_fmt_number(total_area_km2, 0L),
+  `1960AD` = viscount_fmt_pop(headline_vals[["1960"]]),
+  `1980AD` = viscount_fmt_pop(headline_vals[["1980"]]),
+  `2000AD` = viscount_fmt_pop(headline_vals[["2000"]]),
+  `2020AD` = viscount_fmt_pop(headline_vals[["2020"]]),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  `2025 Density` = viscount_fmt_number(summary_cache$end_epoch_density_km2, 1L),
+  Sites = viscount_fmt_number(sum(vapply(iso_order, function (iso) as.integer(j_cov[[cov_name_map[[iso]]]]$settlements), integer(1))), 0L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t1 <- rbind(df_t1, tot_t1)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Seven core Sahelian jurisdictions of the NICETHI study area, showing Admin-1 divisions, surface area, population from 1960AD to 2025AD, end-epoch density (persons/km²) and interior assessed settlements.",
+  arg3_options = list(label = "tab:countries")
+)
+```
+
+## Settlement Screening and Urban-Rural Disaggregation
+
+To anchor urban concentration and secondary town networks across the Sahel and its southern Sudanian-Guinean borderlands, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate towns, rural communes, oasis outposts and metropolitan agglomerations were screened from national RGPH commune tables, UNSD Demographic Yearbook schedules and the OECD/SWAC Africapolis 2024 database [@OECD2024Africapolis; @ANSD2024SenegalRGPH5; @INSD2022BurkinaRGPH5; @INSTAT2023MaliRGPH5]. After excluding `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate aliases, unlocated localities and redundant sub-records across four screening waves, `r viscount_fmt_number(n_total_sites, 0L)` settlements spanning `r viscount_fmt_number(n_obs_total, 0L)` dated observations were retained across all 84 Sahelian sub-regions (84/84 coverage, 0 empty inhabited sub-regions) and 10 adjacent cross-border buffer zones (including Katsina, Birnin Kebbi and Hadejia in northern Nigeria; Siguiri in Guinea; Bolgatanga and Wa in northern Ghana; Kousséri and Guider in northern Cameroon; Ferkessédougou in Ivory Coast; Malanville in Benin; Al-Junaynah in Darfur, Sudan; Dapaong in Togo; Gabú in Guinea-Bissau; and Paoua in Central African Republic).
+
+Of the `r viscount_fmt_number(n_total_sites, 0L)` ledger entries, `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` carry city-proper administrative boundaries and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` represent built-up Africapolis metropolitan agglomerations [@OECD2024Africapolis]. Keeping city-proper series separate from agglomeration series prevents silent inflation of administrative capitals while capturing suburban sprawl across peri-urban communes such as Pikine, Guédiawaye, Rufisque and Keur Massar outside Dakar [@Bank2015ReviewUrbanization; @Cheikh2025ImpactsUrbanization], Kalabancoro and Kati around Bamako [@Doumbia2019EthnographyUrban; @INSTAT2023MaliRGPH5], and Saaba and Tanghin-Dassouri around Ouagadougou [@Younoussi2013MigrationEmploi; @Korbeogo2018OrderingUrban]. Across the seven core states, Niger accounts for 2.043 entries (4.566 observations) owing to complete rural commune enumeration in the 2012AD RGPH, followed by Senegal (169), Chad (152), Burkina Faso (151), Mali (150), Mauritania (96) and The Gambia (59).
+
+For continuous spatial population grids at five-year benchmarks from 1960AD to 2025AD, NICETHI couples national and Admin-1 census totals with mass-conserving pycnophylactic redistribution over WorldPop-era urban masks, fluvial corridors along the Senegal, Niger, Bani, Mouhoun and Chari-Logone basins, and historical settlement density weights [@Runfola2020GeoBoundaries; @OECD2024Africapolis]. Because post-colonial censuses directly enumerate administrative divisions, sub-regional totals reflect primary demographic enumeration rather than unanchored archaeological kriging, with cross-border settlement buffers preventing edge distortion along the Sahelian-Sudanian border.
+
+# Testing and Validation
+
+## Census Reconciliation Across Twelve Sub-Administrative Benchmarks
+
+Testing across twelve historical and modern sub-administrative census schedules confirms strong alignment between post-colonial archival tallies and modern regional distributions, while exposing boundary reforms and enumeration gaps during civil conflict (Table \ref{tab:census-benchmarks}). At independence, Statoids provincial tabulations record 3,24M inhabitants across seven Nigerien regions in 1960AD, 3,11M across seven Senegalese regions in 1960AD and 2,67M across eleven Chadian prefectures in 1961AD, followed by 5,64M across ten Upper Volta departments in 1975AD and 6,31M across eight Malian regions in 1976AD. Over the subsequent half-century, Burkina Faso's regional censuses track expansion from 5,64M in 1975AD to 14,02M across 13 regions in 2006AD and 23,41M by 2024AD [@INSD2022BurkinaRGPH5], while Senegal climbs from 3,11M in 1960AD to 9,80M in 2001AD and 18,13M in the 2023AD RGPH-5 [@ANSD2024SenegalRGPH5]. Chad's 2019AD official projection series registers 15,78M inhabitants across 23 provinces, led by N'Djamena (1,52M), Logone Oriental (1,12M) and Mayo-Kebbi Est (1,11M).
+
+```{r tab2-census-benchmarks, results='asis'}
+sub_tbls <- summary_cache$subadmin_benchmark_tables
+df_t2 <- do.call(rbind, lapply(sub_tbls, function (tb) {
+  adm1_units <- Filter(function (u) identical(u$admin_level, "ADM1"), tb$units)
+  adm1_sum <- sum(vapply(adm1_units, function (u) as.numeric(u$population), numeric(1)))
+  nat_match <- Filter(function (u) u$unit_name %in% c("Niger", "Sénégal", "Burkina Faso"), tb$units)
+  rep_tot <- if (length(nat_match) > 0L) as.numeric(nat_match[[1]]$population) else adm1_sum
+  top_u <- adm1_units[[which.max(vapply(adm1_units, function (u) as.numeric(u$population), numeric(1)))]]
+  data.frame(
+    Country = iso_map[[tb$polity_code]],
+    Year = paste0(as.character(tb$year), "AD"),
+    `ADM1 Units` = viscount_fmt_number(length(adm1_units), 0L),
+    `Enumerated Pop.` = viscount_fmt_pop(rep_tot),
+    `Largest Division` = paste0(top_u$unit_name, " (", viscount_fmt_pop(top_u$population), ")"),
+    Source = as.character(tb$primary_source),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Twelve official sub-administrative census benchmark schedules compiled across Niger, Senegal, Chad, Burkina Faso and Mali (1960AD to 2024AD).",
+  arg3_options = list(label = "tab:census-benchmarks")
+)
+```
+
+Cross-checking Table \ref{tab:countries} against Table \ref{tab:census-benchmarks} highlights an important spatial-allocation artefact in the coarse 5-arcminute raster for Niger between 1995AD and 2020AD and for compact city-enclave polygons such as Niamey and N'Djamena. Whereas official Nigerien censuses grew monotonically from 3,24M in 1960AD to 7,22M in 1988AD and 17,14M in 2012AD, the intermediate 5-arcminute raster series for Niger drops from 5,38M in 1985AD to 2,49M in 2000AD before snapping back to 22,14M in 2025AD. Similarly, the tiny 667,9 km² Niamey polygon captures only 164,5k inhabitants in the 2025AD raster against 1,43M in the metropolitan settlement record, and N'Djamena Region (419,7 km²) captures 169,6k against 1,99M in the agglomeration series. This discrepancy stems from sub-administrative boundary harmonisation mismatches during intermediate census years and raster cell leakage across tiny capital enclaves surrounded by Tillabéri and Chari-Baguirmi.
+
+## Settlement Rank-Size Calibration and Urban Hierarchy Diagnostics
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` settlements in the ledger, ordinary least-squares rank-size regression on peak populations over the upper urban tier (n=180 fitted settlements above the secondary inflection) yields a Zipf exponent of $q = 1,07$ ($R^2 = 0,98$), while full-sample regression across all 3.089 records produces $q = 1,41$ ($R^2 = 0,95$) because of the dense tail of 2.043 small Nigerien communes between 1k and 10k inhabitants. When co-located city-proper and metropolitan entries are deduplicated to 2.951 spatially distinct peaks in Figure \ref{fig:rank-size}, the upper-tier regression converges closely to canonical Zipf parity ($q = 0,98$, $R^2 = 0,99$). A pronounced step kink appears precisely at rank 1.000 (10k inhabitants), marking the boundary between the OECD/SWAC Africapolis 10k urban agglomeration floor and sub-10k rural commune counts from Niger's 2012AD census [@OECD2024Africapolis].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 2.951 spatially deduplicated peaks (q = 0,98, R² = 0,99) and top ten sub-regional densities in 2025AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Panel B of Figure \ref{fig:rank-size} contrasts the extreme spatial concentration of post-colonial capital enclaves against the surrounding Sahelian plains. By 2025AD, Bamako (10.785 persons/km²) and Dakar (9.314 persons/km²) sit an order of magnitude above Centre around Ouagadougou (1.156 persons/km²) and Nouakchott (922 persons/km²), followed by Greater Banjul (563), Thiès (432), N'Djamena Region (404), Diourbel (377), Niamey (246) and Kaolack (243 persons/km²).
+
+# Results
+
+## Independence, Drought Crises and Demographic Take-Off (1960AD to 1990AD)
+
+At independence in 1960AD, the seven Sahelian states held `r viscount_fmt_pop(headline_vals[["1960"]])` inhabitants across 5,23M km², a mean density of just 2,63 persons/km² (Table \ref{tab:countries} and Figure \ref{fig:trends}). Chad (3,89M), Niger (2,97M), Burkina Faso (2,66M) and Mali (2,34M) already held over four-fifths of regional population, concentrated along the southern 400 to 900 mm rainfall belt: the Logone-Chari valleys of southern Chad (Logone Occidental, Logone Oriental, Mayo-Kebbi Est and Ouest), the Mossi plateau around Ouagadougou and Nord in Burkina Faso, the Segou-Mopti-Sikasso agricultural core of Mali, and Hausaland across Tahoua, Zinder and Maradi in Niger [@Spoorenberg2019FortyYears]. By contrast, Mauritania numbered only 402,7k inhabitants in the 1960AD baseline, thinly spread across 1,04M km² of Saharan and Sahelian rangeland (0,39 persons/km²), while The Gambia held 177k along its narrow riverine corridor.
+
+Between 1960AD and 1990AD, aggregate regional population nearly tripled to `r viscount_fmt_pop(headline_vals[["1990"]])` despite recurring famine and pastoral collapse (Figure \ref{fig:trends}). Mortality decline outpaced any downward shift in marital fertility [@Spoorenberg2019FortyYears; @Mbaye2023FertilityEmployment]. During the 1968AD to 1974AD and 1983AD to 1985AD droughts, rural out-migration accelerated sharply in two directions: first toward coastal West African ports (Abidjan, Accra, Dakar) and the groundnut basin of Senegal [@Almanza2020ChildhoodDeterminants; @Bank2015ReviewUrbanization], and second toward nascent national capitals that became permanent humanitarian and administrative sanctuaries [@Jeune2013EmergenceUne; @Doumbia2019EthnographyUrban]. Nouakchott provides the sharpest post-colonial transformation. Laid out on bare coastal dunes only in 1957AD to replace Saint-Louis (in Senegal) as Mauritania's capital, Nouakchott held roughly 4k to 5k residents at independence in 1960AD, reached 135k by 1977AD and 404k by 1990AD as drought refugees erected vast informal *kebbe* tent and mudbrick quarters around the city perimeter [@OECD2024Africapolis]. Across the region, Dakar's agglomeration surged from 315,7k in 1960AD to 1,59M in 1990AD, Bamako expanded nearly sixfold from 128,3k to 747,8k, Ouagadougou multiplied nearly tenfold from 60,2k to 579,2k, and N'Djamena and Niamey rose past 450k despite civil war in Chad during 1979AD to 1982AD [@Bank2015ReviewUrbanization; @Younoussi2013MigrationEmploi].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading Sahelian metropolitan centres from 1960AD to 2025AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Stalled Fertility Transition and Hyper-Urbanisation (1990AD to 2010AD)
+
+From 1990AD to 2010AD, aggregate population expanded from `r viscount_fmt_pop(headline_vals[["1990"]])` to `r viscount_fmt_pop(headline_vals[["2010"]])`, while attested active settlements in Figure \ref{fig:trends} surged from under 500 to over 2,6k as modern digital censuses began enumerating rural communes alongside towns [@INSD2022BurkinaRGPH5; @ANSD2024SenegalRGPH5]. Unlike coastal Ghana or urban Kenya, where TFR fell below 4,0 during this period, Sahelian fertility decline remained slow and uneven [@Spoorenberg2019FortyYears]. In Niger, national TFR still hovered above 7,0 in the 2006AD and 2012AD DHS rounds, with parity compression confined largely to second- and third-order births among urban educated cohorts [@Spoorenberg2018FertilityCompression; @Bank2021RevueUrbanisation]. In Burkina Faso and Mali, child fostering networks, early female marriage and rural labour demands sustained high fertility even as autonomous female migration to Ouagadougou and Bamako gained momentum [@Jeune2013EmergenceUne; @Younoussi2013LesDeterminants; @Fulton2023HouseholdsWomen].
+
+Urban growth increasingly spilled beyond municipal boundaries into multi-commune agglomerations and secondary religious or commercial centres (Table \ref{tab:top-centres}). By 2010AD, Dakar's built-up agglomeration reached 2,61M (with Pikine alone exceeding 1M), Bamako passed 2,20M, Ouagadougou reached 1,81M, N'Djamena climbed to 1,03M and Niamey neared 1M [@OECD2024Africapolis; @Doumbia2019EthnographyUrban]. Meanwhile, non-capital secondary cities emerged as major demographic nodes: Touba in Senegal's Diourbel region - driven by Mouride pilgrimage infrastructure and groundnut-trade remittances - grew from 29,6k in 1976AD to over 750k by 2013AD and 1,22M by 2025AD [@Bank2015ReviewUrbanization; @ANSD2024SenegalRGPH5]; Bobo-Dioulasso in western Burkina Faso exceeded 500k en route to 1,22M [@INSD2022BurkinaRGPH5]; and Maradi (554,4k peak), Zinder (322,9k peak), Sikasso (434,7k peak) and Moundou (222,7k peak) anchored inland commercial corridors [@Bank2021RevueUrbanisation; @INSTAT2023MaliRGPH5].
+
+```{r tab3-top-centres, results='asis'}
+top_20 <- summary_cache$top_settlements[seq_len(min(20L, length(summary_cache$top_settlements)))]
+df_t3 <- data.frame(
+  Settlement = vapply(top_20, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_20, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "Gambia")) "The Gambia" else c
+  }, character(1)),
+  Scope = vapply(top_20, function (s) {
+    if (identical(s$population_scope, "metro")) "Metro" else "City proper"
+  }, character(1)),
+  Span = vapply(top_20, function (s) {
+    paste0(s$min_year, "AD-", s$max_year, "AD")
+  }, character(1)),
+  `Peak Pop.` = vapply(top_20, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_20, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_20, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Twenty largest urban agglomerations and cities proper in the Post-Colonial Sahel settlement ledger (1950AD to 2025AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+## Insurgency, Climate Volatility and Metropolitan Concentration (2010AD to 2025AD)
+
+Between 2010AD and 2025AD, aggregate Sahelian population rose by 86,4%, climbing from `r viscount_fmt_pop(headline_vals[["2010"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])` (Table \ref{tab:countries}). Rapid growth persisted across both arid core and Sudanian margins: Burkina Faso reached 24,29M, Niger 22,14M, Senegal 19,65M, Chad 17,84M, Mali 16,58M, Mauritania 5,15M and The Gambia 1,61M. Yet post-2012AD insecurity across northern Mali, Liptako-Gourma and the Lake Chad basin altered settlement dynamics. In Mali's Kidal, Gao, Tombouctou and Ménaka regions, and in Niger's Tillabéri and Diffa divisions, rural farming and herding communities fled armed clashes and livestock raids toward garrisoned regional towns and southern corridors [@Tuki2023WhatDoes; @Belesova2026FieldFlight; @Diallo2023MigrationDeveloppement]. In Mauritania's Hodh ech Chargui, the Mbera refugee settlement alone swelled into one of the largest urban-scale concentrations in the eastern desert (117k in peak records), while in Burkina Faso's Centre-Nord and Est provinces insecurity accelerated flight into Ouagadougou (3,41M metro) and Bobo-Dioulasso (1,22M metro) [@INSD2022BurkinaRGPH5; @Belesova2026FieldFlight].
+
+Table \ref{tab:top-subregions} ranks the 20 most populous first-level administrative divisions at 2025AD. Southern Nigerien Hausa provinces (Zinder 5,23M, Maradi 4,86M, Tahoua 4,37M, Tillabéri 3,88M and Dosso 2,95M) stand out alongside the dense peri-capital corridors of Koulikoro (4,19M), Dakar (3,87M), Centre in Burkina Faso (3,39M), Thiès (2,83M), Bamako (2,71M) and Hauts-Bassins (2,64M). Across the desert north, by contrast, Agadez (623.562 km²) held just 215,4k residents (0,35 persons/km²), Tiris Zemmour (259.186 km²) held 85,4k (0,33 persons/km²), Adrar (221.807 km²) held 73,6k (0,33 persons/km²) and Tibesti (211.231 km²) held 45,3k (0,21 persons/km²), confirming a 500-fold density gradient between the southern agricultural belt and the Saharan interior.
+
+```{r tab4-top-subregions, results='asis'}
+ord_top <- order(-vapply(subregs, function (x) as.numeric(x$end_pop), numeric(1)))
+top_sr <- subregs[ord_top[seq_len(20L)]]
+df_t4 <- data.frame(
+  `Admin-1 Division` = vapply(top_sr, function (sr) as.character(sr$name), character(1)),
+  `Area (km²)` = vapply(top_sr, function (sr) viscount_fmt_number(sr$area_km2, 0L), character(1)),
+  `1960AD` = vapply(top_sr, function (sr) viscount_fmt_pop(sr$population[["1960"]]), character(1)),
+  `1980AD` = vapply(top_sr, function (sr) viscount_fmt_pop(sr$population[["1980"]]), character(1)),
+  `2000AD` = vapply(top_sr, function (sr) viscount_fmt_pop(sr$population[["2000"]]), character(1)),
+  `2025AD` = vapply(top_sr, function (sr) viscount_fmt_pop(sr$population[["2025"]]), character(1)),
+  `2025 Density` = vapply(top_sr, function (sr) viscount_fmt_number(sr$end_density_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Twenty most populous first-level administrative divisions across the Sahel study area at 2025AD, showing population from 1960AD to 2025AD and end-epoch density (persons/km²).",
+  arg3_options = list(label = "tab:top-subregions")
+)
+```
+
+# Limitations
+
+Three structural constraints govern these post-colonial Sahelian reconstructions. First, census periodicity and conflict interruptions create uneven chronological resolution across jurisdictions. While Senegal conducted regular RGPH enumerations in 1976AD, 1988AD, 2002AD, 2013AD and 2023AD [@ANSD2024SenegalRGPH5] and Burkina Faso completed rounds in 1975AD, 1985AD, 1996AD, 2006AD and 2019AD [@INSD2022BurkinaRGPH5], Chad carried out only two national censuses after independence (1993AD and 2009AD), relying on demographic projections for 2019AD to 2025AD, and Mali's 2022AD RGPH-5 faced access restrictions across parts of Kidal, Ménaka, Gao and Mopti [@INSTAT2023MaliRGPH5]. Mobile pastoralists in northern Mauritania, Agadez and Borkou-Tibesti remain particularly liable to seasonal under-enumeration, and even settled rural HDSS sites show divergence across household surveys [@Jasseh2022AssessmentThe; @Louis2016DoubleFardeau].
+
+Second, as documented in Section 3, harmonising 5-arcminute raster disaggregation across changing Admin-1 borders introduces temporary dips in intermediate Nigerien totals (1995AD to 2020AD) and under-allocates population within compact municipal capital polygons such as Niamey (668 km²), N'Djamena Region (420 km²) and Dakar (415 km²) when peripheral suburbs spill across surrounding regional borders [@Cheikh2025ImpactsUrbanization; @Bank2015ReviewUrbanization]. Users analysing individual capital populations should therefore consult the city-proper and Africapolis agglomeration series in Table \ref{tab:top-centres} and the companion gazetteer rather than relying solely on compact polygon cell sums.
+
+Third, settlement-ledger completeness varies across national statistical releases. Niger's 2012AD RGPH supplied 2.043 discrete rural and urban localities, creating the sharp post-2000AD surge and post-2015AD drop in active settlement counts visible in Figure \ref{fig:trends} (Panel B) because most Nigerien rural communes lack matched 2020AD or 2025AD updates [@Bank2021RevueUrbanisation; @OECD2024Africapolis]. Conversely, Chad, Mauritania and Mali are weighted toward settlements above the 10k Africapolis threshold, explaining the step discontinuity at rank 1.000 in Figure \ref{fig:rank-size}.
+
+# Conclusion
+
+Between 1960AD and 2025AD, the post-colonial Sahel underwent a nearly eightfold demographic expansion from `r viscount_fmt_pop(headline_vals[["1960"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])` inhabitants, raising regional population density from 2,63 to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Mortality decline paired with high marital fertility in Niger, Chad and Mali drove rapid natural increase, while the 1968AD to 1974AD and 1983AD to 1985AD droughts and post-2012AD armed conflicts dismantled nomadic livelihoods and concentrated millions into rapidly sprawling capitals and secondary commercial hubs. By integrating 84 Admin-1 regional trajectories, twelve sub-administrative census benchmark series and `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across 17 Sahelian and borderland jurisdictions, NICETHI provides a unified quantitative record of Sahelian population transformation from independence to the present.
+
+# Appendix
+
+## Full Eighty-Four Sub-Regional Administrative Series (1960AD to 2025AD)
+
+Table \ref{tab:appendix-all-subregions} documents surface area, five-arcminute pixel count, benchmark populations (1960AD, 1980AD, 2000AD and 2025AD), end-epoch density and interior assessed settlements for every one of the 84 first-level administrative divisions in the post-colonial Sahel mask.
+
+```{r tab5-appendix-subregions, results='asis'}
+ord_alpha <- order(vapply(subregs, function (x) as.character(x$name), character(1)))
+sr_all <- subregs[ord_alpha]
+df_t5 <- data.frame(
+  `Admin-1 Division` = vapply(sr_all, function (sr) as.character(sr$name), character(1)),
+  `Area (km²)` = vapply(sr_all, function (sr) viscount_fmt_number(sr$area_km2, 0L), character(1)),
+  `1960AD` = vapply(sr_all, function (sr) viscount_fmt_pop(sr$population[["1960"]]), character(1)),
+  `1980AD` = vapply(sr_all, function (sr) viscount_fmt_pop(sr$population[["1980"]]), character(1)),
+  `2000AD` = vapply(sr_all, function (sr) viscount_fmt_pop(sr$population[["2000"]]), character(1)),
+  `2025AD` = vapply(sr_all, function (sr) viscount_fmt_pop(sr$population[["2025"]]), character(1)),
+  `2025 Dens.` = vapply(sr_all, function (sr) viscount_fmt_number(sr$end_density_km2, 1L), character(1)),
+  Sites = vapply(sr_all, function (sr) {
+    d <- dist_by_id[[sr$id]]
+    viscount_fmt_number(if (is.null(d)) 0L else d$settlement_count, 0L)
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "All eighty-four first-level administrative divisions of the Post-Colonial Sahel study area (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:appendix-all-subregions")
+)
+```
+
+## Independence-Era Historical Administrative Lineage Units (1960AD)
+
+Table \ref{tab:appendix-hgis} records the 24 independence-era historical administrative lineage polygons across Mali, Mauritania, Niger and Chad compiled from the 1960AD regime inventory, documenting how vast northern colonial circles (such as Gao at 829.988 km² and Agadez at 627.594 km²) were later subdivided into modern regional administrations.
+
+```{r tab6-appendix-hgis, results='asis'}
+hgis_list <- summary_cache$hgis_regime_units
+df_t6 <- data.frame(
+  Country = vapply(hgis_list, function (x) iso_map[[as.character(x$country)]], character(1)),
+  `Unit Code` = vapply(hgis_list, function (x) as.character(x$unit_code), character(1)),
+  `1960AD Lineage Unit` = vapply(hgis_list, function (x) as.character(x$unit_name), character(1)),
+  `Area (km²)` = vapply(hgis_list, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  Source = vapply(hgis_list, function (x) as.character(x$source), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Twenty-four 1960AD historical administrative lineage units across Mali, Mauritania, Niger and Chad.",
+  arg3_options = list(label = "tab:appendix-hgis")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Historical sub-regional population figures are rounded in tables using European decimal commas and semantic suffixes (k for thousands, M for millions), while area and density retain full-stop European thousands separators. Border-margin settlements in Table \ref{tab:top-centres} such as Katsina (Nigeria) fall inside the rectangular Sahelian frontier buffer rather than the 84-division sovereign perimeter (3.089 total ledger entries across 17 jurisdictions) and are catalogued alongside core Sahelian cities in the companion gazetteer.

@@ -1,0 +1,534 @@
+---
+title: "The Aztec Empire and Late Post-Classic Mexico"
+subtitle: "Central, Western and Northern Mexico to 1519"
+date: "23 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/aztec_late_postclassic_mexico_regional_map.png"
+hero_caption: "Eight Late Post-Classic sub-regions and 289 catalogued settlements across central, western and northern Mexico from 1200AD to 1519."
+hero_label: "fig:hero-aztec-map"
+bibliography: aztec_late_postclassic_mexico_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  fromJSON(text, simplifyVector = FALSE)
+}
+
+summary_data <- fromJSON("aztec_late_postclassic_mexico_summary_cache.json", simplifyVector = FALSE)
+sett_data <- fromJSON("aztec_late_postclassic_mexico_settlements.json", simplifyVector = FALSE)
+bench_data <- read_json5_clean("aztec_late_postclassic_mexico.json5")
+ledger_data <- read_json5_clean("aztec_late_postclassic_mexico_source_ledger.json5")
+
+clean_label <- function(x) {
+  s <- as.character(x)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub("Purepecha \\(Tarascan\\) Michoacan Empire", "Purépecha (Tarascan) Michoacán Empire", s)
+  s <- gsub("Aridoamerica", "Aridoamerica", s, fixed = TRUE)
+  s <- gsub(" Settlement$", "", s)
+  s <- gsub("Cuauhnahuac Cuernavaca", "Cuauhnáhuac (Cuernavaca)", s, fixed = TRUE)
+  s <- gsub("Tehuantepec Guiengola", "Tehuantepec-Guiengola", s, fixed = TRUE)
+  s <- gsub("Angamuco Zacapu", "Angamuco-Zacapu", s, fixed = TRUE)
+  s <- gsub("Coyoacan", "Coyoacán", s, fixed = TRUE)
+  s <- gsub("Chimalhuacan", "Chimalhuacán", s, fixed = TRUE)
+  s <- gsub("Yanhuitlan", "Yanhuitlán", s, fixed = TRUE)
+  s <- gsub("Cuautitlan", "Cuautitlán", s, fixed = TRUE)
+  s <- gsub("Izucar", "Izúcar", s, fixed = TRUE)
+  s <- gsub("Tonala", "Tonalá", s, fixed = TRUE)
+  s <- gsub("Culiacan", "Culiacán", s, fixed = TRUE)
+  s <- gsub("Metztitlan", "Metztitlán", s, fixed = TRUE)
+  s <- gsub("Patzcuaro", "Pátzcuaro", s, fixed = TRUE)
+  s <- gsub("Panuco Chila", "Pánuco-Chila", s, fixed = TRUE)
+  s <- gsub("Almoloyan Colima", "Almoloyan (Colima)", s, fixed = TRUE)
+  s <- gsub("Etzatlan", "Etzatlán", s, fixed = TRUE)
+  s <- gsub("Zapotlan", "Zapotlán", s, fixed = TRUE)
+  s <- gsub("Nochistlan", "Nochistlán", s, fixed = TRUE)
+  s <- gsub("Paquime Casas Grandes", "Paquimé (Casas Grandes)", s, fixed = TRUE)
+  s <- gsub("Queretaro Tlachco", "Querétaro (Tlachco)", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_year_era <- function(y) {
+  yi <- as.integer(y)
+  if (yi <= 1500L) paste0(yi, "AD") else as.character(yi)
+}
+
+subregions <- summary_data$subregions
+reg_lookup <- setNames(
+  vapply(subregions, function(r) clean_label(r$name), character(1)),
+  vapply(subregions, function(r) r$id, character(1))
+)
+
+bench_lookup <- setNames(
+  bench_data$regions,
+  vapply(bench_data$regions, function(r) r$id, character(1))
+)
+
+tot_area <- as.numeric(summary_data$area_km2)
+tot_1200 <- as.numeric(summary_data$domain_trajectory[["1200"]])
+tot_1300 <- as.numeric(summary_data$domain_trajectory[["1300"]])
+tot_1400 <- as.numeric(summary_data$domain_trajectory[["1400"]])
+tot_1500 <- as.numeric(summary_data$domain_trajectory[["1500"]])
+
+bench_tot_1200 <- sum(vapply(bench_data$regions, function(r) as.numeric(r$population[["1200"]]), numeric(1)))
+bench_tot_1350 <- sum(vapply(bench_data$regions, function(r) as.numeric(r$population[["1350"]]), numeric(1)))
+bench_tot_1450 <- sum(vapply(bench_data$regions, function(r) as.numeric(r$population[["1450"]]), numeric(1)))
+bench_tot_1519 <- sum(vapply(bench_data$regions, function(r) as.numeric(r$population[["1519"]]), numeric(1)))
+
+n_sites <- as.integer(summary_data$settlement_stats$total_settlements)
+zipf_alpha <- as.numeric(summary_data$settlement_stats$zipf_stats$alpha)
+zipf_r2 <- as.numeric(summary_data$settlement_stats$zipf_stats$r2)
+```
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  cat("![Eight Late Post-Classic sub-regions and 289 catalogued settlements across central, western and northern Mexico from 1200AD to 1519.](figures/aztec_late_postclassic_mexico_regional_map.png)\n\n")
+}
+```
+
+# Abstract
+
+Between the fragmentation of the Toltec sphere around 1200AD and the arrival of Hernán Cortés on the Veracruz shore in 1519, central, western and northern Mexico sustained the largest and most urbanised demographic expansion of pre-Columbian North America. Across eight political and ecological sub-regions spanning `r viscount_fmt_number(tot_area, 1L)` km², the harmonised gridded substratum doubles from 1,62M inhabitants in 1200AD to 2,05M in 1300AD, 2,57M in 1400AD and 3,2M in 1500AD, while ethnohistoric and archaeological benchmark totals anchored to Basin of Mexico settlement surveys, tribute rolls and contact-eve demographic simulations climb from 5,91M in 1200AD to 7,86M in 1350AD, 10,22M in 1450AD and 12,8M on the eve of conquest in 1519 [@SandersParsonsSantley1979; @Smith2012Aztecs; @Whitmore1992]. Growth was led by the hydrographic Basin of Mexico, where raised-field *chinampa* reclamation across Lakes Xochimilco, Chalco and Texcoco fed the island capital of Tenochtitlan-Tlatelolco (212,5k inhabitants by 1519) alongside its Triple Alliance partners Texcoco (24,8k) and Tlacopan (12,6k) and dozens of dense *altepetl* city-states [@Calnek1972; @Rojas2012; @Carrasco1999]. Outside the imperial core, rival and autonomous polities sustained parallel urban concentrations: the Puebla-Tlaxcala valley enclaves of Cholula (36,8k), Tlaxcala (31,4k) and Huejotzingo (24,9k); the centralised Purépecha (Tarascan) empire of Michoacán, shifting from Angamuco-Zacapu (34,4k in 1350AD) to Tzintzuntzan (31,9k in 1519) on Lake Pátzcuaro; the Mixtec and Zapotec kingdoms of Oaxaca (Tututepec, Tehuantepec-Guiengola, Zaachila, Yanhuitlán and Mitla); Gulf Huasteca and Totonacapan around Cempoala (24,4k); West Mexico *cacicazgos* from Jalisco to Colima; and a vast northern Chichimeca and Aridoamerican frontier spanning 1,24M km² from Paquimé (Casas Grandes) to Sinaloa [@Pollard1993; @Berdan2014; @Smith2008AztecCity]. Reconciling the gridded substratum against HydroBASINS historical watershed strata and a gazetteer of `r viscount_fmt_number(n_sites, 0L)` settlements reveals a strongly primate rank-size hierarchy ($\alpha = 0,86$, $R^2 = 0,75$) in which highland hydraulic intensification and long-distance tribute logistics outweighed raw territorial extent by an order of magnitude.
+
+# Background
+
+## From Toltec Fragmentation to the *Altepetl* World (1200AD to 1325AD)
+
+When the Toltec metropolis of Tula collapsed in the late twelfth century, political authority across the Mexican central highlands shattered into dozens of competing city-states known in Nahuatl as *altepetl* (literally "water-mountain", expressing the union of territory, spring water and dynastic lineage) [@Smith2008AztecCity; @Berdan2014]. Rather than provoking demographic retreat, this political fragmentation accompanied a steady southward drift of Nahuatl-speaking and Otomanguean frontier peoples—grouped in later chronicles as *Chichimeca*—from the drying margins of the Bajío and northern Zacatecas into the fertile volcanic valleys of Mexico, Toluca, Puebla-Tlaxcala and Morelos [@Villaislas2023Demographic; @Smith2012Aztecs]. Ancient genomic evidence from pre-Hispanic Central Mexico confirms that Late Post-Classic populations were not wholesale replacements of Classic Teotihuacan or Epiclassic inhabitants, but deeply rooted highland lineages enriched by selective northern gene flow during the thirteenth and fourteenth centuries [@Villaislas2023Demographic].
+
+By 1200AD, the endorheic Basin of Mexico—a high volcanic plateau at 2.240 m elevation ringed by snow-capped stratovolcanoes and carpeted by five interconnected lakes (Zumpango, Xaltocan, Texcoco, Xochimilco and Chalco)—had already absorbed several hundred thousand farmers [@SandersParsonsSantley1979; @Rodriguez2025Another]. Early Post-Classic polities such as Culhuacán, Coatlinchán, Chalco, Xochimilco, Tenayuca and Azcapotzalco staked out lakeshore plains and alluvial piedmont fans, each organised around a royal palace (*tecpan*), central market plaza, twin pyramid temple and federated wards (*calpulli*) [@Smith2008AztecCity; @Offner1983]. Latecomers found the finest lakeshore soils already taken. Among these marginal migrants were the Mexica, who arrived in the basin during the thirteenth century, served briefly as mercenaries for Azcapotzalco and Culhuacán, and around 1325AD settled on a marshy cluster of islets in western Lake Texcoco—founding Tenochtitlan and its twin commercial islet of Tlatelolco [@Rojas2012; @Smith2012Aztecs].
+
+## Hydraulic Intensification and *Chinampa* Reclamation
+
+What converted a precarious swamp refuge into the demographic fulcrum of Mesoamerica was water engineering on an unprecedented scale. Across the shallow freshwater southern lakes of Xochimilco and Chalco, and progressively along the western margins of Lake Texcoco itself, indigenous farmers built rectangular artificial agricultural plots (*chinampas*) anchored by willow stakes (*Salix bonplandiana*) and layered with organic lake-bottom muck, aquatic vegetation and canal silt [@Calnek1972; @SandersParsonsSantley1979]. Irrigated continuously by capillary seepage and renewed by periodic dredging, mature *chinampa* zones delivered multiple maize, amaranth, squash, bean and chilli harvests every calendar year without fallow intervals, sustaining rural densities above 200 inhabitants per km² and freeing tens of thousands of urban artisans, porters and warriors from subsistence cultivation [@Calnek1972; @Rojas2012].
+
+Scale brought hydraulic risk. Lake Texcoco lay lower than the southern freshwater lakes and turned brackish during dry seasons, while torrential summer rains periodically flooded Tenochtitlan's low-lying causeways. In the mid-fifteenth century, following catastrophic floods in 1449AD, King Nezahualcoyotl of Texcoco engineered a sixteen-kilometre stone-and-earth dyke (*albarradón*) stretching across Lake Texcoco from Atzacoalco to Iztapalapa, shielding the western freshwater basin around Tenochtitlan from saline eastern backflow and regulating seasonal lake levels [@Rodriguez2025Another; @Offner1983]. Paired with twin terracotta aqueducts tapping the Chapultepec springs and three raised stone causeways connecting the island city to Tepeyac, Tlacopan and Iztapalapa, this hydraulic armature turned the central lakes into an integrated transport lagoon. Dug-out canoes (*acalli*) moved bulk maize, firewood, building stone and salt across the water at a fraction of the energy cost of human porters (*tlameme*), effectively expanding Tenochtitlan's economic hinterland across the entire lacustrine rim [@Hassig1985; @Lugo2019Nonlinearity]. Beneath the engineered lake floor, deep lacustrine sediment sequences in Lake Chalco also preserve volcanic tephra horizons that attest to the active Popocatépetl-Iztaccíhuatl geological margin framing this fertile yet hazardous basin [@Abadi2024Predicting].
+
+## The Tepanec Ascendancy and the Triple Alliance (1428 to 1519)
+
+Before the rise of Tenochtitlan, imperial hegemony inside the Basin of Mexico belonged to the Tepanec kingdom of Azcapotzalco on the western shore of Lake Texcoco. Under the long reign of Tezozomoc (c. 1371AD to 1426AD), Azcapotzalco expanded to roughly 26,8k inhabitants around 1400AD, subjugated Acolhuacán (Texcoco) and collected tribute across the western valleys [@Carrasco1999; @Offner1983]. Upon Tezozomoc's death, a violent succession war broke out. In 1428, the Mexica ruler Itzcoatl forged a military coalition with the exiled Acolhua prince Nezahualcoyotl of Texcoco and the dissident Tepanec lord of Tlacopan, storming Azcapotzalco and establishing the *Excan Tlahtoloyan*—the Triple Alliance [@Carrasco1999; @Smith2012Aztecs].
+
+Over the ensuing ninety years, under Motecuhzoma I (1440AD to 1469AD), Axayacatl (1469AD to 1481AD), Tizoc (1481AD to 1486AD), Ahuitzotl (1486AD to 1502AD) and Motecuhzoma II (1502 to 1519), the Triple Alliance grew from a Basin confederation into a hegemonic tribute empire encompassing thirty-eight tributary provinces recorded in the *Matrícula de Tributos* and the post-conquest *Codex Mendoza*, plus more than twenty strategic client states guarding contested frontiers [@Berdan2014; @Carrasco1999]. Unlike Old World territorial empires relying on permanent standing garrisons everywhere, Aztec imperial rule worked largely through indirect coercion: conquered local dynasts kept their thrones provided they delivered scheduled semiannual or quarterly shipments of maize, beans, cotton mantles, cacao, cochineal, jade, gold dust, quetzal feathers and warrior costumes to imperial tax collectors (*calpixque*) [@Berdan2014; @Arcuri2003Trade].
+
+Imperial expansion reshaped urban geography far beyond Lake Texcoco. In 1473AD, Tenochtitlan absorbed its twin commercial city of Tlatelolco into a single metropolis of more than 200k residents, whose great market amazed Spanish eyewitnesses with daily gatherings of tens of thousands of buyers and sellers [@Rojas2012; @Mantecon2014Historia]. Long-distance state-sanctioned merchants (*pochteca*) operated beyond imperial borders as diplomats, spies and luxury traders, weaving cotton-producing Morelos (Cuauhnáhuac, Huaxtepec, Yautepec), cacao-rich Soconusco and the Gulf lowlands into a continental commercial web [@Arcuri2003Trade; @Hassig1985]. Craft specialisation deepened inside the core, with distinct lapidary workshops and artisan traditions flourishing across Basin centres from Tenochtitlan and Texcoco to Otumba and Huexotla [@Ciriaco2020Escuelas; @Smith2008AztecCity]. Even the brutal famine of One Rabbit (1450AD to 1454AD), caused by consecutive frosts and drought, accelerated imperial expansion as Mexica armies marched into the warmer tropical lowlands of Veracruz and Morelos to secure food-producing provinces against highland harvest failure [@Hassig1985; @Berdan2014].
+
+## Independent Highland Enclaves, the Purépecha Rival and Provincial Polities
+
+Triple Alliance hegemony was never uncontested. Directly east of the volcanic divide of Popocatépetl and Iztaccíhuatl lay the Puebla-Tlaxcala plateau, where a ring of proud Nahuatl city-states—above all the four-lordship confederacy of Tlaxcala (31,4k inhabitants), the sacred pilgrimage and market centre of Cholula (36,8k) and the warring principality of Huejotzingo (24,9k), together with Tepeaca, Tecamachalco, Cuauhtinchan and Calpan—preserved fierce political autonomy or fought protracted "flower wars" (*xochiyaoyotl*) against Mexica encirclement [@Smith2008AztecCity; @Berdan2014]. Further north in the rugged Sierra Madre Oriental canyons, the highland lordship of Metztitlán (11,6k) similarly defied Mexica subjugation down to 1519.
+
+Far more formidable was the empire rising to the west across the Lerma river and the volcanic lakes of Michoacán: the Purépecha (Tarascan) state of *Iréchecua Tzintzuntzani* [@Pollard1993]. Beginning in the thirteenth and early fourteenth centuries, dense urban centres flourished across the Zacapu marsh and Lake Pátzcuaro basin; airborne LiDAR and architectural surveys at Angamuco-Zacapu have revealed a sprawling planned city of roughly 34,4k people by 1350AD containing over 40.000 mapped structures, terraced neighbourhoods and oriented temple-pyramid complexes (*yácatas*) [@Bush2007Architectural; @Harris2019Viewed; @Friedl2019Pyramids]. Around 1350AD to 1450AD, dynastic consolidation under the Uacúsecha lineage shifted political and demographic gravity southward from Zacapu to Lake Pátzcuaro, raising Tzintzuntzan to 31,9k residents alongside Ihuatzio and Pátzcuaro [@Pollard1993; @Diaz2012Colonial]. Unlike the loose hegemonic tribute network of the Aztecs, the Purépecha state forged a tightly centralised administrative monarchy with direct royal governors, copper-bronze metallurgy and fortified frontier garrisons at Acámbaro, Taximaroa and Cutzamala. When Aztec Emperor Axayacatl invaded Michoacán around 1478AD with an army of over twenty thousand warriors, Purépecha forces shattered the Mexica host near Taximaroa—the gravest military defeat in Aztec history—freezing the western imperial frontier permanently until the Spanish arrival [@Pollard1993; @Hassig1985].
+
+South of the central highlands, the fractured mountain valleys and Pacific coast of Oaxaca formed a dense mosaic of Mixtec (*Ñudzavui*) and Zapotec (*Bènizàa*) kingdoms linked by dynastic marriage alliances, painted screenfold codices and terraced hillside farming. In the Mixteca Alta, urban *yuhuitayu* capitals such as Coixtlahuaca (16,9k in 1450AD, conquered by Motecuhzoma I), Yanhuitlán (13,8k), Teposcolula (11,9k), Tlaxiaco and ancient Tilantongo anchored densely terraced valleys; along the Pacific littoral, the expansionist Mixtec coastal empire of Tututepec reached 17,4k inhabitants; and in the Central Valleys and Isthmus, Zapotec rulers based at Zaachila (13,9k), religious Mitla (10,9k), Cuilapan (12,7k) and the fortified Isthmian stronghold of Tehuantepec-Guiengola (16,5k) checked Mexica advances along the Soconusco trade corridor [@Berdan2014; @Smith2008AztecCity].
+
+Along the humid Gulf Coast, Totonac city-states centred on Cempoala (24,4k) and Papantla and northern Huastec (Teenek) river ports such as Tamohi (10k) and Pánuco-Chila (9,8k) thrived on cotton, vanilla, cacao and coastal fisheries, chafing under late Aztec tribute demands—a grievance Cortés immediately exploited at Cempoala in 1519 [@Hassig1985; @Berdan2014]. West of Purépecha Michoacán, independent *cacicazgos* across Jalisco, Colima and Nayarit—led by Tonalá (12,8k), Sayula (9,4k), Almoloyan-Colima (9k), Etzatlán (8,6k), Zapotlán, Sentispac and Nochistlán—sustained productive lacustrine and piedmont farming basins linked by Pacific obsidian and shell exchange [@Pollard1993; @Lugo2019Nonlinearity]. Beyond the Lerma-Santiago river and the Tropic of Cancer stretched the vast arid expanse of northern Mexico (1,24M km²): home to mobile Chichimeca hunter-gatherers across the central desert plateau, but anchored on its northwestern river valleys by the irrigated Mesoamerican-linked towns of Culiacán (11,9k) and Chametla (5,8k) in Sinaloa and, in the far Chihuahua desert, the adobe trading metropolis of Paquimé (Casas Grandes, peaking at 4,3k around 1350AD before declining in the fifteenth century) [@Smith2012Aztecs; @Whitmore1992].
+
+# Methodology
+
+## Sub-Regional Partition and Boundary Architecture
+
+To capture the sharp ecological and geopolitical contrast between high-density lacustrine states, tributary provinces, rival monarchies and arid northern steppes, JAGUAR partitions Late Post-Classic central, western and northern Mexico (1200AD to 1519) into eight contiguous sub-regions covering `r viscount_fmt_number(tot_area, 1L)` km² (22.960 raster cells at equal-area projection). The spatial mask excludes the Maya lowlands and Chiapas-Tabasco littoral, which belong to the preceding chapter on Classic and Post-Classic Maya lands, thereby isolating the central Mexican imperial core and its western, southern, Gulf and northern spheres.
+
+The eight sub-regions correspond directly to Late Post-Classic political economies and HydroBASINS Level 6 watershed divides: the Basin of Mexico Triple Alliance Core (19.706,2 km²); Tlaxcala and Independent Highland Enclaves across the Puebla-Tlaxcala plateau (19.395,4 km²); Central Aztec Tributary Provinces spanning Morelos, Guerrero, the Toluca valley, southern Puebla and central Veracruz corridors (122.981,2 km²); the Purépecha (Tarascan) Michoacán Empire across the Lake Pátzcuaro, Balsas-Tepalcatepec and western Michoacán basins (89.548,9 km²); Mixtec-Zapotec Oaxaca spanning the Mixteca Alta, Central Valleys, Sierra Juárez, Coast and Isthmus (112.640,4 km²); Gulf Huasteca and Totonacapan from central Veracruz through the Pánuco drainage (87.114,2 km²); West Mexico Cacicazgos across Jalisco, Colima and Nayarit (97.927,8 km²); and Northern Chichimeca and Aridoamerica extending across 1.237.024,2 km² from the Bajío desert edge to Sonora, Chihuahua and Baja California.
+
+## Dual-Scale Population Reconstruction: Gridded Substrata and Ethnohistoric Benchmarks
+
+Reconstructing pre-Columbian Mexican population requires confronting one of the deepest quantitative divides in historical demography: the gap between conservative global gridded land-use reconstructions and high-resolution regional archaeological and ethnohistoric estimates [@SandersParsonsSantley1979; @Whitmore1992; @Smith2012Aztecs]. Rather than concealing that divergence behind a single opaque curve, this study tracks both scales explicitly and quantifies their ratio across every sub-region.
+
+At the continental raster scale, the gridded substratum $P^{\text{grid}}_r(t)$ integrates century-step spatial density surfaces across each sub-regional polygon $r$ for $t \in \{1200, 1300, 1400, 1500\}$:
+
+$$P^{\text{grid}}_r(t) = \sum_{i \in \Omega_r} \rho_i(t) \cdot a_i$$
+
+where $\Omega_r$ denotes the set of equal-area raster cells inside sub-region $r$, $\rho_i(t)$ is the gridded demographic density of cell $i$, and $a_i$ is its terrestrial area in km². Inter-century compound annual growth rates follow standard geometric compounding:
+
+$$g_r(t_1, t_2) = \left(\frac{P_r(t_2)}{P_r(t_1)}\right)^{\frac{1}{t_2 - t_1}} - 1$$
+
+Alongside the gridded substratum, ethnohistoric and archaeological benchmark trajectories $P^{\text{bench}}_r(t)$ at $t \in \{1200, 1350, 1450, 1519\}$ are calibrated from four independent regional evidence streams: full-coverage archaeological settlement surveys in the Basin of Mexico, Morelos, Oaxaca and the Lake Pátzcuaro basin [@SandersParsonsSantley1979; @Pollard1993; @Smith2008AztecCity]; imperial tribute schedules from the *Matrícula de Tributos* and *Codex Mendoza* coupled with sixteenth-century *Suma de Visitas* (1548) and *Relaciones Geográficas* (1577 to 1585) fiscal counts back-projected across epidemic mortality trajectories [@Berdan2014; @Whitmore1992]; airborne LiDAR structural house-count censuses at sites such as Angamuco-Zacapu [@Bush2007Architectural; @Harris2019Viewed]; and historical watershed polygons harmonised through HydroBASINS Level 6 units. Where modern comparative Mexican demographic studies show how migration, age-specific fertility and urban residential stratification reshape regional vital rates [@Contributors2014Fertility; @Contributors2016Migration; @Contributors2018Uninsured], Late Post-Classic highland growth rates (+0,23% to +0,39% per annum) similarly reflect sustained natural increase reinforced by net migration toward irrigated valley cores rather than static carrying-capacity ceilings.
+
+## Settlement Gazetteer Assembly and Rank-Size Scaling
+
+The chapter settlement gazetteer compiles `r viscount_fmt_number(n_sites, 0L)` geocoded Late Post-Classic towns, *altepetl* capitals and surveyed archaeological settlements across four sequential ingestion waves tracked in the chapter source ledger. Wave 1 harvested 264 primary records from the ASU Basin of Mexico Settlement Persistence Dataset (building directly on the monumental pedestrian surveys of Sanders, Parsons and Santley) together with colonial historical geography registers and archaeological site syntheses [@SandersParsonsSantley1979; @Smith2008AztecCity]. Wave 2 added 19 monograph-derived provincial capitals and regional centres (marginal gain 7,2%), Wave 3 backfilled 4 longitudinal archaeological survey series (1,41%), and Wave 4 closed sub-regional spatial gaps with 2 final entries (0,7%, falling below the 1% saturation stop threshold). Crowd-sourced fallback share stands strictly at 0,0%. Two out-of-bounds Gulf trading ports—Potonchán and Xicalango on the Tabasco-Campeche lagoon coast—were excluded during mask clipping because they lie inside the neighbouring Maya chapter footprint.
+
+Every catalogued settlement records a city-proper population series within 1200AD to 1519, eliminating suburban double-counting across adjacent lakeshore wards (with Tenochtitlan and Tlatelolco consolidated as one continuous island metropolis of 212,5k inhabitants by 1519) [@Rojas2012; @Calnek1972]. Urban hierarchy structure is evaluated through log-log rank-size regression across the upper half of the settlement distribution ($n_{\text{fit}} = 144$ of $n = 289$):
+
+$$\log_{10} P_{(k)} = \beta_0 - \alpha \log_{10} k$$
+
+where $P_{(k)}$ is the peak population of the $k$-th largest settlement and $\alpha$ measures urban concentration ($\alpha \approx 1$ indicating a classic Zipfian cascade, $\alpha < 0,8$ flattened multi-polar competition, and elevated top-rank residuals indicating imperial primacy) [@Lugo2019Nonlinearity; @Smith2008AztecCity].
+
+# Testing and Validation
+
+## Reconciliation of Gridded Substrata, Ethnohistoric Benchmarks and Watershed Strata
+
+Validating pre-Columbian population reconstructions requires testing how global gridded land-use models behave against dense archaeological and documentary ground truth. Table \ref{tab:subregion-trajectories} presents the complete eight-region demographic ledger from 1200AD to 1500AD drawn directly from the gridded substratum alongside the contact-eve 1519 ethnohistoric benchmark total and catalogued settlement counts for each sub-region.
+
+```{r tab-subregion-trajectories, results='asis'}
+scov <- ledger_data$saturation_audit$submask_coverage
+rows_sub <- lapply(subregions, function(r) {
+  rid <- r$id
+  a <- as.numeric(r$area_km2)
+  p12 <- as.numeric(r$trajectory[["1200"]])
+  p13 <- as.numeric(r$trajectory[["1300"]])
+  p14 <- as.numeric(r$trajectory[["1400"]])
+  p15 <- as.numeric(r$trajectory[["1500"]])
+  d15 <- as.numeric(r$end_density_km2)
+  b1519 <- as.numeric(bench_lookup[[rid]]$population[["1519"]])
+  sc_val <- if (!is.null(scov[[rid]])) as.integer(scov[[rid]]) else 0L
+  data.frame(
+    Subregion = clean_label(r$name),
+    Area = viscount_fmt_number(round(a), 0L),
+    P1200 = viscount_fmt_pop(p12),
+    P1300 = viscount_fmt_pop(p13),
+    P1400 = viscount_fmt_pop(p14),
+    P1500 = viscount_fmt_pop(p15),
+    Dens1500 = viscount_fmt_number(d15, 2L),
+    Bench1519 = viscount_fmt_pop(b1519),
+    Sites = viscount_fmt_number(sc_val, 0L),
+    stringsAsFactors = FALSE
+  )
+})
+df_sub <- do.call(rbind, rows_sub)
+df_tot <- data.frame(
+  Subregion = "Domain Total (8 Regions)",
+  Area = viscount_fmt_number(round(tot_area), 0L),
+  P1200 = viscount_fmt_pop(tot_1200),
+  P1300 = viscount_fmt_pop(tot_1300),
+  P1400 = viscount_fmt_pop(tot_1400),
+  P1500 = viscount_fmt_pop(tot_1500),
+  Dens1500 = viscount_fmt_number(tot_1500 / tot_area, 2L),
+  Bench1519 = viscount_fmt_pop(bench_tot_1519),
+  Sites = viscount_fmt_number(n_sites, 0L),
+  stringsAsFactors = FALSE
+)
+df_sub <- rbind(df_sub, df_tot)
+rownames(df_sub) <- NULL
+
+viscount_table(
+  df_sub,
+  "Sub-regional gridded population trajectories (1200AD to 1500AD), 1500AD gridded densities (inhabitants per km²), contact-eve 1519 ethnohistoric benchmarks and catalogued settlement counts across eight Mexican sub-regions.",
+  c("Sub-Region", "Area (km²)", "1200AD", "1300AD", "1400AD", "1500AD", "1500AD Dens.", "1519 Benchmark", "Sites"),
+  list(label = "tab:subregion-trajectories", font_size = "scriptsize")
+)
+```
+
+The diagnostic contrast in Table \ref{tab:subregion-trajectories} is immediately revealing and validates why regional archaeological calibration is indispensable. Across the full 1,79M km² domain, the gridded substratum rises smoothly from 1,62M in 1200AD to 3,2M in 1500AD (+97,8%, or +0,228% per annum), while the ethnohistoric-archaeological benchmark series climbs from 5,91M in 1200AD to 12,8M in 1519 (+116,6%, or +0,242% per annum). Although both series agree remarkably closely on the long-run rate of Late Post-Classic demographic expansion (+0,23% to +0,24% annually), they diverge sharply in spatial amplitude. Inside the Basin of Mexico Triple Alliance Core (19.706 km²), the coarse gridded substratum assigns only 141,7k inhabitants in 1500AD (7,19 inhabitants per km²)—less than the 212,5k residents living inside Tenochtitlan-Tlatelolco alone, and far below the 2,35M ethnohistoric benchmark for the wider core zone (or roughly 1M to 1,2M inside the 7.000 km² hydrographic Basin proper) [@SandersParsonsSantley1979; @Whitmore1992; @Rojas2012]. Conversely, across the 1,24M km² northern Chichimeca and Aridoamerican steppe, diffuse gridded cell floors accumulate 1,24M inhabitants (1 inhabitant per km²), exceeding the 890k ethnohistoric estimate by nearly 40%. Coarse global cropland grids therefore flatten Mesoamerica's steep urban-hydraulic gradient, under-allocating dense *chinampa* basins by a factor of ten to sixteen while over-populating arid northern deserts.
+
+## Cross-Checking Against HydroBASINS Historical Sub-Administrative Units
+
+To audit spatial boundary consistency between modern raster masks and pre-Columbian drainage basins, Table \ref{tab:hgis-subadmin} compiles the sixteen harmonised watershed-polity rows scraped from the historical GIS sub-administrative archive at 1000AD and 1500AD.
+
+```{r tab-hgis-subadmin, results='asis'}
+clean_hgis_src <- function(s) {
+  s <- as.character(s)
+  s <- gsub("HydroBASINS_L6_PreColumbian_Base", "HydroBASINS L6 Pre-Columbian Base", s, fixed = TRUE)
+  s <- gsub("HydroBASINS_L6_DECM_1500", "HydroBASINS L6 DECM (1500AD)", s, fixed = TRUE)
+  s <- gsub("atlas_defacto_fallback_1000", "De Facto Polity Fallback (1000AD)", s, fixed = TRUE)
+  s <- gsub("atlas_defacto_fallback_1500", "De Facto Polity Fallback (1500AD)", s, fixed = TRUE)
+  s
+}
+
+clean_hgis_name <- function(s) {
+  s <- as.character(s)
+  s <- gsub("Bajio North Central", "Bajío North Central", s, fixed = TRUE)
+  s <- gsub("Basin Mexico Highlands", "Basin of Mexico Highlands", s, fixed = TRUE)
+  s <- gsub("West Mexico Santiago Balsas", "West Mexico (Santiago-Balsas)", s, fixed = TRUE)
+  s <- gsub("Gulf Olmec Huasteca", "Gulf Coast and Huasteca", s, fixed = TRUE)
+  s <- gsub("Aridoamerica Baja", "Aridoamerica and Baja California", s, fixed = TRUE)
+  s
+}
+
+hgis_rows <- lapply(summary_data$hgis_subadmin_table, function(h) {
+  pop_v <- as.numeric(h$population)
+  area_v <- as.numeric(h$area_km2)
+  dens_v <- if (area_v > 0) pop_v / area_v else 0
+  data.frame(
+    Unit = clean_hgis_name(h$unit_name),
+    Year = fmt_year_era(h$year),
+    Area = viscount_fmt_number(round(area_v), 0L),
+    Pop = viscount_fmt_pop(pop_v),
+    Dens = viscount_fmt_number(dens_v, 2L),
+    Source = clean_hgis_src(h$source),
+    stringsAsFactors = FALSE
+  )
+})
+df_hgis <- do.call(rbind, hgis_rows)
+rownames(df_hgis) <- NULL
+
+viscount_table(
+  df_hgis,
+  "Historical watershed and pre-Columbian sub-administrative benchmark units scraped for 1000AD and 1500AD across Mexico.",
+  c("Watershed or Polity Unit", "Year", "Area (km²)", "Population", "Density (per km²)", "Spatial Source"),
+  list(label = "tab:hgis-subadmin", font_size = "scriptsize")
+)
+```
+
+Auditing Table \ref{tab:hgis-subadmin} exposes two critical geometric artefacts that our chapter calibration corrects. First, the unclipped HydroBASINS Level 6 units assign identical static population totals at 1000AD and 1500AD (for instance 2,09M across Aridoamerica and Baja California and 300,2k across the Basin of Mexico Highlands), while changing polygon clip areas between the two time slices—producing artificial apparent density drops from 175,65 inhabitants per km² inside the tight 1.709 km² Basin core clip at 1000AD to 2,24 inhabitants per km² across the broader 134.209 km² highland watershed clip at 1500AD. Second, the Zapotec fallback polygon shrinks to a 49 km² sliver at 1500AD while retaining 122,6k inhabitants, creating a spurious density spike. Reconciling these watershed strata against fixed equal-area regional masks and independently surveyed settlement counts eliminates such clip-boundary distortions.
+
+## Settlement-to-Region Consistency and Boundary Audit
+
+A further validation test checks the sum of recorded urban populations against regional totals and verifies polygon placement along contested frontiers. Across all 191 catalogued settlements inside the Basin of Mexico Triple Alliance Core, summed peak populations reach 643,8k inhabitants (643.847)—4,55 times larger than the raw gridded substratum (141,7k) yet representing a realistic urban share of 27,4% within the 2,35M ethnohistoric core benchmark (and roughly half within the strictly lacustrine Basin proper once asynchronous fourteenth-century and contact-eve peaks are discounted) [@SandersParsonsSantley1979; @Smith2008AztecCity; @Whitmore1992]. Along the western highland boundary, rasterising HydroBASINS sub-catchments places the northeastern Lake Pátzcuaro and Zacapu settlements of Tzintzuntzan (31,9k), Angamuco-Zacapu (34,4k), Pátzcuaro and Ihuatzio inside the western shoulder of the Central Aztec Tributary Provinces polygon rather than the Purépecha Michoacán polygon, while Tonalá (12,8k) sits on the eastern Purépecha-Jalisco edge. Flagging this watershed-to-polity offset preserves strict geometric fidelity to the underlying mask while ensuring historical analysis assigns Tzintzuntzan and Angamuco squarely to the Purépecha monarchy [@Pollard1993; @Bush2007Architectural].
+
+# Results
+
+## Macro-Regional Demographic Growth and Density Gradients (1200AD to 1519)
+
+Between 1200AD and the arrival of Spanish ships off San Juan de Ulúa in 1519, every major zone of central, western and northern Mexico experienced sustained population growth, yet the spatial gap between intensively farmed highland basins and semi-arid frontiers widened markedly (Figure \ref{fig:aztec-trajectory}). In the gridded substratum, aggregate population expanded 1,98-fold from 1,62M in 1200AD to 2,05M in 1300AD (+26,4%), 2,57M in 1400AD (+25,5%) and 3,2M in 1500AD (+24,7%). Across the same three centuries, ethnohistoric benchmark totals more than doubled from 5,91M in 1200AD to 7,86M in 1350AD, 10,22M in 1450AD and 12,8M in 1519 (2,17x).
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/aztec_late_postclassic_mexico_population_trajectory.png",
+  "Gridded population trajectories for central, western and northern Mexico and its four largest sub-regions from 1200AD to 1500AD (Panel A) and sub-regional population densities in 1500AD (Panel B).",
+  "fig:aztec-trajectory"
+)
+```
+
+Even in the conservative gridded substratum, the density ranking in 1500AD faithfully reproduces Mesoamerica's true geopolitical hierarchy: the Basin of Mexico Triple Alliance Core leads at 7,19 inhabitants per km² (expanding 2,17x from 65,2k to 141,7k), followed closely by Tlaxcala and Independent Highland Enclaves at 6,1 inhabitants per km² (the fastest relative expansion in the entire domain, multiplying 3,36x from 35,3k to 118,3k). Behind these twin volcanic highland cores sit Central Aztec Tributary Provinces at 3,89 inhabitants per km² (growing 2,45x from 194,8k to 478,3k), the Purépecha Michoacán Empire at 3,49 inhabitants per km² (2,65x from 118k to 312,3k), Mixtec-Zapotec Oaxaca at 3,32 inhabitants per km² (1,94x from 192,7k to 374,4k), West Mexico Cacicazgos at 3,01 inhabitants per km² (2,43x from 121,2k to 294,6k), Gulf Huasteca and Totonacapan at 2,78 inhabitants per km² (2,25x from 107,7k to 242,4k) and Northern Chichimeca and Aridoamerica at exactly 1 inhabitant per km² (growing slowest at 1,58x from 785,1k to 1,24M). On the ethnohistoric benchmark scale, that core-to-frontier contrast is vastly steeper: the Basin of Mexico Triple Alliance Core reaches 119,3 inhabitants per km² (2,35M across 19.706 km², or over 150 per km² on the valley floor proper), Tlaxcala-Puebla reaches 35,1 per km² (680k) and Central Aztec Tributary Provinces reach 30,5 per km² (3,75M), contrasting with 0,72 inhabitants per km² across Northern Chichimeca and Aridoamerica (890k).
+
+## The Basin of Mexico Core and the Tenochtitlan Metropolis
+
+No pre-industrial metropolis in the Western Hemisphere rivalled the scale or urban complexity of Tenochtitlan-Tlatelolco in 1519. Growing from an island refuge of roughly 3,8k inhabitants at its legendary founding in 1325AD to 48,5k by 1400AD, 118k by 1450AD, 188k by 1500AD and 212,5k on the eve of conquest, the island capital covered roughly 13,5 km² at an astonishing urban density exceeding 15.000 inhabitants per km² [@Rojas2012; @Calnek1972; @Smith2012Aztecs]. Divided into four monumental quarters (*campan*—Cuepopan, Atzacualco, Moyotlan and Zoquiapan) radiating from the walled Sacred Precinct of the Templo Mayor, plus the annexed commercial twin of Tlatelolco to the north, Tenochtitlan operated as a vast consumer and administrative machine fed by canal-borne *chinampa* harvests and imperial tribute [@Mantecon2014Historia; @Rodriguez2025Another; @Hassig1985].
+
+Yet Tenochtitlan did not stand in an empty countryside. Across the Basin of Mexico, full-coverage archaeological surveys document 191 catalogued Late Post-Classic settlements ringing the five lakes [@SandersParsonsSantley1979; @Smith2008AztecCity]. Along the eastern shore stood Texcoco (24,8k in 1519), the intellectual, legal and poetic capital of the Acolhua domain governed by Nezahualcoyotl and Nezahualpilli, flanked by prosperous *altepetl* such as Huexotla (16,4k), Coatlinchán, Chimalhuacán (peaking at 28,3k around 1412AD during Early-to-Late Aztec expansion before partially consolidating toward imperial centres) and the obsidian craft town of Otumba [@Offner1983; @Ciriaco2020Escuelas]. To the south, the freshwater *chinampa* breadbasket supported dense urban towns at Xochimilco (23,4k), Chalco (peaking at 26,8k), Tlalmanalco (20,4k), Amecameca (15,8k), Iztapalapa (14,4k), Cuitláhuac (Tláhuac) and Mixquic, while on the western shore sat Tlacopan (12,6k), Coyoacán (16,6k), Cuautitlán (13,8k), Tenayuca, Tepotzotlán and defeated Azcapotzalco (whose population subsided from its 26,8k Tepanec imperial zenith in 1400AD after the 1428 conquest) [@Carrasco1999; @Calnek1972]. In ethnohistoric terms, this lacustrine core alone surged 3,46-fold from 680k in 1200AD to 1,15M in 1350AD, 1,75M in 1450AD and 2,35M in 1519, lifting its share of the entire chapter's benchmark population from 11,5% to 18,4%.
+
+## Independent Puebla-Tlaxcala Enclaves and Central Tributary Provinces
+
+Immediately east of the volcanic cordillera, the Tlaxcala and Independent Highland Enclaves sub-region (19.395,4 km²) displayed the highest relative gridded expansion of any territory in Mexico (3,36x from 35,3k in 1200AD to 118,3k in 1500AD, and 2,62x on the ethnohistoric scale from 260k to 680k in 1519). Its seven major catalogued urban capitals formed an unusually dense polycentric cluster: sacred Cholula led at 36,8k inhabitants—the second largest city in Late Post-Classic Mexico—followed by the collective-action hilltop republic of Tlaxcala (31,4k), military rival Huejotzingo (24,9k), the commercial crossroads of Tepeaca (14,4k, conquered by Tenochtitlan as an eastern garrison and market hub), Tecamachalco (9,4k), Cuauhtinchan (8,7k) and Calpan (7,9k) [@Smith2008AztecCity; @Berdan2014]. Blocked from coastal salt and cotton by Triple Alliance embargoes, Tlaxcala and Huejotzingo nevertheless sustained dense terraced maize agriculture on the slopes of La Malinche and Iztaccíhuatl—a demographic reserve that enabled Tlaxcala to field tens of thousands of allied troops alongside Cortés in 1519 to 1521 [@Hassig1985].
+
+Surrounding both highland cores lay the Central Aztec Tributary Provinces (122.981,2 km²), the single largest demographic bloc in the ethnohistoric series at 3,75M inhabitants in 1519 (up from 1,65M in 1200AD, 2,25M in 1350AD and 2,95M in 1450AD) and the second largest in the gridded substratum at 478,3k in 1500AD. South of the Ajusco mountains, the warm irrigated valleys of Morelos supplied Tenochtitlan with vast quantities of cotton textiles, paper (*amatl*) and tropical fruit through provincial capitals such as Cuauhnáhuac/Cuernavaca (16,9k—an urban core whose spatial stratification still echoed across colonial and modern Morelos [@Rosas2009Socio]), Yautepec (14,8k), Huaxtepec (12,4k) and Tepoztlán [@Smith2008AztecCity; @Berdan2014]. West of the Basin, the high Matlatzinca valley of Toluca—anchored by Calixtlahuaca (11,8k at its 1400AD peak) and Tolocan (Toluca)—was conquered by Axayacatl in the 1470s as a strategic buffer against the Purépecha, while southern Puebla and Guerrero provinces centred on Izúcar (12,9k), Tehuacán, Huaquechula, Tlapa, Tepecuacuilco and Chilapa, alongside Veracruz transit towns such as Cuetlaxtlan (Cotaxtla) and Orizaba (Ahauializapan), channelled coastal cacao, gold and feathers up the nonlinear mountain trails mapped into Tenochtitlan's imperial road network [@Lugo2019Nonlinearity; @Arcuri2003Trade].
+
+## The Purépecha State of Michoacán
+
+Across the volcanic lakes and sierra of Michoacán, the Purépecha (Tarascan) Empire (89.548,9 km²) formed Mesoamerica's second great Late Post-Classic state. Its gridded population grew 2,65-fold from 118k in 1200AD to 312,3k in 1500AD (3,49 inhabitants per km²), while ethnohistoric reconstructions place the Tarascan realm at 480k in 1200AD, 680k in 1350AD, 950k in 1450AD and 1,25M by 1519 [@Pollard1993]. Demographic evolution inside Michoacán unfolded in two dramatic urban phases. During the Middle-to-Late Post-Classic transition (1250AD to 1350AD), the Zacapu malpaís hosted the massive planned city of Angamuco-Zacapu, whose 34,4k inhabitants occupied terraced residential blocks, plazas and ritually oriented pyramid precincts mapped in extraordinary detail through airborne LiDAR and architectural ground-truthing [@Bush2007Architectural; @Harris2019Viewed; @Friedl2019Pyramids].
+
+Between 1350AD and 1450AD, as the royal Uacúsecha dynasty unified the Lake Pátzcuaro basin and pushed outward to the Lerma river and the Pacific coast, Angamuco contracted sharply (to 12,9k in 1450AD and 5,4k in 1519) while imperial Tzintzuntzan surged from 8,6k in 1350AD to 24,8k in 1450AD and 31,9k by 1519—fourth largest city in our entire Mexican gazetteer—supported by secondary royal centres at Pátzcuaro and Ihuatzio [@Pollard1993; @Diaz2012Colonial]. Carved volcanic-stone blocks (*janamus*) set into Tzintzuntzan's great terraced platform and five rounded *yácatas* embodied a royal ideology so potent that indigenous nobles reused them visibly in sixteenth-century colonial architecture [@Diaz2012Colonial]. Beyond the lacustrine heartland, Purépecha provincial administration spanned Uruapan (6,4k), Jacona (5,8k), the heavily fortified eastern frontier garrison of Taximaroa (5,4k), Apatzingán (5,1k) and Huetamo (4,2k) in the hot Balsas depression, creating a dense metallic-bronze and obsidian economy that withstood repeated Mexica invasions [@Pollard1993].
+
+## Oaxaca, the Gulf Littoral, West Mexico and the Northern Frontier
+
+Outside the twin central-western imperial cores, four distinct macro-regions sustained more than a third of Mexico's Late Post-Classic population. Mixtec-Zapotec Oaxaca (112.640,4 km²) remained a demographic heavyweight throughout the period, rising from 192,7k to 374,4k in the gridded substratum (3,32 inhabitants per km²) and from 960k in 1200AD to 1,65M in 1519 on the ethnohistoric benchmark scale. Because Oaxaca's steep sierra fragmented arable land into dozens of upland valleys and coastal strips, no single primate metropolis dominated the south; instead, fourteen major catalogued capitals distributed urban weight evenly across coastal Tututepec (17,4k), Isthmian Tehuantepec-Guiengola (16,5k), highland Coixtlahuaca (16,9k at its 1450AD peak), Zapotec Zaachila (13,9k) and Cuilapan (12,7k), Mixtec Yanhuitlán (13,8k), Teposcolula (11,9k) and Tlaxiaco (9,6k), ceremonial Mitla (10,9k), ancestral Tilantongo and the Mexica strategic garrison at Huaxyacac [@Berdan2014; @Smith2008AztecCity].
+
+Along the humid eastern littoral, Gulf Huasteca and Totonacapan (87.114,2 km²) expanded from 107,7k to 242,4k in the gridded series (2,78 inhabitants per km²) and from 620k to 1,15M in ethnohistoric benchmarks. Eleven catalogued centres anchor this tropical corridor, led by the Totonac confederate metropolis of Cempoala (24,4k)—renowned for its plastered lime-concrete architecture and irrigated orchards—alongside mountain Metztitlán (11,6k), the Huastec riverine centres of Tamohi (10k in 1450AD) and Pánuco-Chila (9,8k), Tulancingo (9,4k), Papantla (7,6k), Tuxpan (7k) and Xalapa (6,4k) [@Hassig1985; @Berdan2014].
+
+To the northwest of Michoacán, West Mexico Cacicazgos across Jalisco, Colima and Nayarit (97.927,8 km²) grew robustly from 121,2k to 294,6k in the gridded substratum (3,01 inhabitants per km²) and from 580k to 1,08M in ethnohistoric totals. Rather than forming a single territorial state, West Mexico sustained a resilient federation of independent lordships—Tonalá (12,8k, later site of Guadalajara), salt-producing Sayula (9,4k), Almoloyan-Colima (9k), obsidian-rich Etzatlán (8,6k), Zapotlán (7,6k), coastal Sentispac (7,4k), Caxcan Nochistlán (7,4k), Ameca (7k), Xalisco (7k), Autlán and Juchipila—that repeatedly repelled Purépecha expansion during the Saltpetre War of the late fifteenth century [@Pollard1993].
+
+Finally, Northern Chichimeca and Aridoamerica spanned 1.237.024,2 km² (69,25% of the study area), encompassing the semi-arid Chihuahuan and Sonoran deserts, the Sierra Madre Occidental, the Gran Chichimeca steppe and Baja California. While mobile hunter-gatherer bands (Guachichiles, Zacatecos, Guamares, Pames and Seri) lived at very low densities across the arid interior plateau—yielding an ethnohistoric benchmark of 680k in 1200AD rising modestly to 890k in 1519 (0,72 inhabitants per km²), below the overly diffuse 1,24M gridded estimate—sedentary irrigated towns lined the northwestern river valleys of Sinaloa and Sonora. Our gazetteer documents seventeen northern anchors, led by the lush coastal river kingdom of Culiacán (11,9k) and Chametla (5,8k), the northern Chihuahuan trading hub of Paquimé/Casas Grandes (peaking at 4,3k around 1350AD with ballcourts, macaw aviaries and turquoise exchange linking Mesoamerica to the Pueblo Southwest before its fifteenth-century decline), frontier Querétaro/Tlachco (3,9k), Petatlán (3,5k), Río Verde (3,3k), Guasave (3k) and Topia (2,2k) [@Smith2012Aztecs; @Whitmore1992].
+
+## Urban Hierarchy and Imperial Primacy
+
+Late Post-Classic Mexico's settlement network displays the unmistakable mathematical signature of a tribute-collecting highland empire superimposed upon older polycentric regional city-state systems (Figure \ref{fig:aztec-hierarchy}). Across all `r viscount_fmt_number(n_sites, 0L)` catalogued settlements, the log-log rank-size fit over the upper 144 locales yields a slope of $\alpha = 0,86$ ($R^2 = 0,75$). Unlike the flattened pre-urban slope of early agrarian landscapes, Late Post-Classic Mexico approaches classic Zipfian scaling through ranks 2 to 100—where regional capitals step smoothly from Cholula (36,8k), Angamuco-Zacapu (34,4k), Tzintzuntzan (31,9k) and Tlaxcala (31,4k) down through dozens of provincial *altepetl* between 5k and 28k—yet leaps upward dramatically at Rank 1: Tenochtitlan-Tlatelolco (212,5k) towers 5,77 times above second-ranked Cholula and 6,66 times above rival Purépecha Tzintzuntzan [@Rojas2012; @Smith2008AztecCity; @Lugo2019Nonlinearity].
+
+```{r fig-hierarchy, results='asis'}
+viscount_figure(
+  "figures/aztec_late_postclassic_mexico_urban_hierarchy.png",
+  "Twelve largest Late Post-Classic settlements across Mexico (Panel A) and log-log rank-size distribution across 289 settlements showing imperial primacy around Tenochtitlan ($\\alpha = 0,86$, $R^2 = 0,75$, Panel B), 1200AD to 1519.",
+  "fig:aztec-hierarchy"
+)
+```
+
+Table \ref{tab:top20-settlements} lists the twenty largest catalogued settlements from the chapter summary register alongside their coordinates, sub-regional assignment, peak calendar year and primary historical or archaeological provenance.
+
+```{r tab-top20-settlements, results='asis'}
+top20 <- summary_data$settlement_stats$top_settlements
+sett_reg_map <- setNames(
+  vapply(sett_data, function(e) as.character(e$region_id), character(1)),
+  vapply(sett_data, function(e) as.character(e$name), character(1))
+)
+
+shorten_src <- function(s) {
+  s <- as.character(s)
+  s <- gsub("Cesaretti et al\\. \\(2022\\) ASU Basin of Mexico Settlement Persistence Dataset; Sanders, Parsons & Santley \\(1979\\)", "ASU Basin Survey; Sanders et al. (1979)", s)
+  s <- gsub("Smith \\(2008\\) Aztec City-State Capitals; Rojas \\(2012\\) Tenochtitlan; Calnek \\(1972\\)", "Smith (2008); Rojas (2012); Calnek (1972)", s)
+  s <- gsub("Plunket & Urunuela \\(2012\\) Cholula; Smith \\(2008\\)", "Plunket and Uruñuela (2012); Smith (2008)", s)
+  s <- gsub("Fisher et al\\. \\(2019\\) LiDAR Survey of Angamuco, Michoacan", "Fisher et al. (2019) LiDAR Survey", s)
+  s <- gsub("Pollard \\(1993\\) Tariacuri's Legacy: The Prehispanic Tarascan State", "Pollard (1993) Tarascan State", s)
+  s <- gsub("Fargher et al\\. \\(2011\\) Tlaxcallan: Collective Action and Urbanization", "Fargher et al. (2011) Tlaxcallan", s)
+  s <- gsub("Santamarina Novillo \\(2006\\) El sistema de dominacion azteca; Gibson \\(1964\\)", "Santamarina (2006); Gibson (1964)", s)
+  s <- gsub("Dyckerhoff \\(1988\\); Prem \\(1978\\) Milpa y Hacienda en Huejotzingo", "Dyckerhoff (1988); Prem (1978)", s)
+  s <- gsub("Smith \\(2008\\) Aztec City-State Capitals; Hicks \\(1982\\) Tetzcoco", "Smith (2008); Hicks (1982)", s)
+  s <- gsub("Bruggemann \\(1991\\); Hassig \\(1985\\); Diaz del Castillo \\(1568\\)", "Brüggemann (1991); Hassig (1985)", s)
+  s <- gsub("Parsons et al\\. \\(1982\\); Smith \\(2008\\)", "Parsons et al. (1982); Smith (2008)", s)
+  s <- gsub("Joyce et al\\. \\(2004\\) Tututepec, Coastal Oaxaca", "Joyce et al. (2004) Tututepec", s)
+  s <- gsub("Smith \\(2008\\) Aztec City-State Capitals", "Smith (2008) City-State Capitals", s)
+  s <- gsub("Kowalewski et al\\. \\(2009\\) Origins of the Nuu: Mixteca Alta Survey", "Kowalewski et al. (2009) Mixteca Alta", s)
+  s <- gsub("Zeitlin \\(2005\\) Cultural Politics in Colonial Tehuantepec", "Zeitlin (2005) Tehuantepec", s)
+  s <- gsub("Brumfiel \\(1980\\) Specialization, Market Exchange, and the Aztec State; Parsons \\(1971\\)", "Brumfiel (1980); Parsons (1971)", s)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s
+}
+
+top20_rows <- lapply(seq_along(top20), function(idx) {
+  e <- top20[[idx]]
+  rid <- sett_reg_map[[e$name]]
+  rlbl <- if (!is.null(rid) && rid %in% names(reg_lookup)) reg_lookup[[rid]] else "Central Mexico"
+  rlbl <- gsub("Basin of Mexico Triple Alliance Core", "Basin of Mexico Core", rlbl, fixed = TRUE)
+  rlbl <- gsub("Tlaxcala and Independent Highland Enclaves", "Tlaxcala-Puebla Enclaves", rlbl, fixed = TRUE)
+  rlbl <- gsub("Central Aztec Tributary Provinces", "Central Tributary Prov.", rlbl, fixed = TRUE)
+  rlbl <- gsub("Gulf Huasteca and Totonacapan", "Gulf Huasteca-Totonac.", rlbl, fixed = TRUE)
+  src_str <- if (length(e$sources) > 0) shorten_src(e$sources[[1]]) else "Regional survey"
+  data.frame(
+    Rank = as.character(idx),
+    Name = clean_label(e$name),
+    Subregion = rlbl,
+    Coords = paste0(viscount_fmt_number(e$lat, 2L), ", ", viscount_fmt_number(e$lon, 2L)),
+    PeakYear = fmt_year_era(e$peak_year),
+    PeakPop = viscount_fmt_pop(e$peak_pop),
+    Source = src_str,
+    stringsAsFactors = FALSE
+  )
+})
+df_top20 <- do.call(rbind, top20_rows)
+rownames(df_top20) <- NULL
+
+viscount_table(
+  df_top20,
+  "Twenty largest catalogued Late Post-Classic settlements across central, western and northern Mexico, 1200AD to 1519.",
+  c("Rank", "Settlement", "Sub-Region", "Lat, Lon", "Peak Year", "Peak Pop.", "Primary Reference"),
+  list(label = "tab:top20-settlements", font_size = "scriptsize")
+)
+```
+
+Ten of the top twenty cities in Table \ref{tab:top20-settlements} sit inside the Basin of Mexico Triple Alliance Core (Tenochtitlan, Chimalhuacán, Chalco, Azcapotzalco, Texcoco, Xochimilco, Tlalmanalco, Coyoacán, Huexotla and Amecameca), underscoring the extraordinary concentration of urban life around Lake Texcoco. Yet the remaining ten reveal a genuinely continental urban constellation: Cholula and Tlaxcala plus Huejotzingo on the Puebla-Tlaxcala plateau, Angamuco-Zacapu and Tzintzuntzan in Michoacán, Cempoala on the Gulf coast, Cuauhnáhuac in Morelos, and Tututepec, Coixtlahuaca and Tehuantepec-Guiengola across Oaxaca. Beneath rank 110, the rank-size curve drops steeply into 172 smaller Basin of Mexico rural villages and hamlets (from 26 to 2.500 inhabitants) recovered through systematic pedestrian fieldwalking—demonstrating high rural survey resolution inside the Basin relative to outlying provinces [@SandersParsonsSantley1979].
+
+# Limitations
+
+Four structural uncertainties govern demographic reconstruction across Late Post-Classic Mexico.
+
+First, no surviving pre-Columbian manuscript preserves an empire-wide headcount. Imperial tribute rolls such as the *Matrícula de Tributos* and *Codex Mendoza* record commodity deliveries by province rather than total households, while sixteenth-century Spanish fiscal surveys (*Suma de Visitas* of 1548 and *Relaciones Geográficas* of 1577 to 1585) were compiled only after devastating Old World smallpox (1520), measles (1531) and *cocoliztli* haemorrhagic epidemics (1545 and 1576) had already cut indigenous numbers dramatically [@Whitmore1992; @Berdan2014]. Back-projecting contact-eve 1519 population therefore remains sensitive to assumed cumulative epidemic mortality rates: central Mexico estimates in the modern scholarship span roughly 10M to 18M, with our 12,8M eight-region ethnohistoric benchmark sitting squarely in the moderated consensus band [@Whitmore1992; @Smith2012Aztecs].
+
+Second, archaeological survey intensity is heavily asymmetric across the eight sub-regions. Full-coverage pedestrian fieldwalking across the Basin of Mexico produces 191 of our 289 catalogued settlements (66,1% of the entire chapter register), capturing hamlets down to 26 inhabitants, whereas modern urban sprawl across Mexico City, Cuernavaca and Morelia has sealed or altered substantial tracts of ancient residential and peri-urban terrain [@SandersParsonsSantley1979; @Rosas2009Socio; @Maldonadocarrizales2021Riqueza]. By contrast, West Mexico, Gulf Huasteca, Michoacán outside the Lake Pátzcuaro-Zacapu LiDAR block and arid northern Mexico are represented chiefly by major named *cabeceras* above 1.000 inhabitants, producing the steep lower-tail bend visible in Figure \ref{fig:aztec-hierarchy}.
+
+Third, coarse gridded cropland substrata and watershed polygon boundaries introduce known spatial smoothing artefacts. As shown in Table \ref{tab:subregion-trajectories}, the 1500AD gridded series under-weights hyper-intensive *chinampa* basins by an order of magnitude while spreading residual population too broadly across arid northern deserts. Similarly, snapping political frontiers to HydroBASINS Level 6 divides shifts Lake Pátzcuaro's eastern margin (Tzintzuntzan and Angamuco-Zacapu) into the adjacent Central Tributary polygon in automated point-in-polygon tallies, requiring explicit ethnohistoric annotation [@Pollard1993; @Harris2019Viewed].
+
+Fourth, pre-Hispanic chronological resolution varies across sources. Whereas Tenochtitlan, Texcoco, Tlaxcala, Tzintzuntzan and Cempoala enjoy tight contact-eve 1519 estimates, pedestrian-survey ceramic phases in the Basin of Mexico aggregate Late Aztec occupations around mid-phase centroids (such as 1412AD and 1498AD), and northern frontier towns such as Paquimé peaked in the fourteenth century before declining well before Spanish arrival [@SandersParsonsSantley1979; @Smith2012Aztecs]. Cross-chapter demographic comparisons should therefore treat individual settlement peaks as multi-decadal phase envelopes rather than simultaneous single-year censuses.
+
+# Conclusion
+
+From the breakup of Toltec hegemony around 1200AD to the arrival of Hernán Cortés in 1519, central, western and northern Mexico experienced three centuries of remarkable demographic vitality, state formation and urban concentration. Both the conservative gridded substratum (rising 1,98x from 1,62M in 1200AD to 3,2M in 1500AD) and the ethnohistoric-archaeological benchmark reconstruction (expanding 2,17x from 5,91M in 1200AD to 12,8M in 1519) trace a steady long-run expansion averaging +0,23% to +0,24% per annum across 1,79M km².
+
+That growth reshaped the human geography of North America. Hydraulic *chinampa* engineering, causeway-and-canoe lagoon logistics and Triple Alliance tribute extraction raised Tenochtitlan-Tlatelolco from a marsh settlement of 3,8k inhabitants in 1325AD to a metropolis of 212,5k people in 1519, anchoring a Basin of Mexico core of 2,35M inhabitants [@Calnek1972; @Rojas2012; @Hassig1985]. Yet Late Post-Classic Mexico was never a monolith: autonomous Puebla-Tlaxcala republics led by Cholula (36,8k) and Tlaxcala (31,4k), the centralised Purépecha monarchy of Tzintzuntzan (31,9k) and Angamuco-Zacapu, the dense Mixtec-Zapotec valleys of Oaxaca, coastal Totonacapan around Cempoala (24,4k), independent West Mexico *cacicazgos* and irrigated Sinaloan river towns together constituted a populous, interconnected urban civilisation standing at its demographic peak on the very eve of the sixteenth-century biological catastrophe [@Pollard1993; @Berdan2014; @Whitmore1992].
+
+# Appendix
+
+## Ethnohistoric Benchmark Trajectory and Gridded Calibration Ratios
+
+Table \ref{tab:ethnohistoric-benchmarks} details the full four-epoch ethnohistoric benchmark trajectory (1200AD, 1350AD, 1450AD and 1519) across all eight sub-regions alongside 1519 benchmark density and the calibration ratio between contact-eve regional benchmarks and the 1500AD gridded substratum.
+
+```{r tab-ethnohistoric-benchmarks, results='asis'}
+grid_lookup <- setNames(subregions, vapply(subregions, function(r) r$id, character(1)))
+eth_rows <- lapply(bench_data$regions, function(br) {
+  rid <- br$id
+  gr <- grid_lookup[[rid]]
+  a <- as.numeric(gr$area_km2)
+  b12 <- as.numeric(br$population[["1200"]])
+  b135 <- as.numeric(br$population[["1350"]])
+  b145 <- as.numeric(br$population[["1450"]])
+  b1519 <- as.numeric(br$population[["1519"]])
+  g1500 <- as.numeric(gr$end_pop)
+  d1519 <- if (a > 0) b1519 / a else 0
+  ratio <- if (g1500 > 0) b1519 / g1500 else 0
+  data.frame(
+    Subregion = clean_label(br$name),
+    B1200 = viscount_fmt_pop(b12),
+    B1350 = viscount_fmt_pop(b135),
+    B1450 = viscount_fmt_pop(b145),
+    B1519 = viscount_fmt_pop(b1519),
+    Dens1519 = viscount_fmt_number(d1519, 2L),
+    Ratio = paste0(viscount_fmt_number(ratio, 2L), "x"),
+    stringsAsFactors = FALSE
+  )
+})
+df_eth <- do.call(rbind, eth_rows)
+df_eth_tot <- data.frame(
+  Subregion = "Domain Total (8 Regions)",
+  B1200 = viscount_fmt_pop(bench_tot_1200),
+  B1350 = viscount_fmt_pop(bench_tot_1350),
+  B1450 = viscount_fmt_pop(bench_tot_1450),
+  B1519 = viscount_fmt_pop(bench_tot_1519),
+  Dens1519 = viscount_fmt_number(bench_tot_1519 / tot_area, 2L),
+  Ratio = paste0(viscount_fmt_number(bench_tot_1519 / tot_1500, 2L), "x"),
+  stringsAsFactors = FALSE
+)
+df_eth <- rbind(df_eth, df_eth_tot)
+rownames(df_eth) <- NULL
+
+viscount_table(
+  df_eth,
+  "Ethnohistoric and archaeological regional population benchmarks (1200AD to 1519), 1519 regional densities (inhabitants per km²) and ratio to 1500AD gridded substratum.",
+  c("Sub-Region", "1200AD", "1350AD", "1450AD", "1519", "1519 Dens.", "Benchmark/Grid"),
+  list(label = "tab:ethnohistoric-benchmarks", font_size = "scriptsize")
+)
+```
+
+## Gazetteer Ingestion Saturation Ledger
+
+Table \ref{tab:saturation-waves} summarises the four sequential ingestion waves recorded in the chapter source ledger across 291 evaluated candidate settlements (289 included inside the eight-region mask and 2 out-of-bounds Maya littoral exclusions at Potonchán and Xicalango).
+
+```{r tab-saturation-waves, results='asis'}
+wave_labels <- c(
+  primary_official_national_censuses_and_archival_registers = "Primary archaeological surveys and colonial historical registers",
+  verified_peer_reviewed_demographic_papers_and_monographs = "Peer-reviewed regional demographic monographs and LiDAR studies",
+  longitudinal_census_and_archaeological_survey_backfill = "Longitudinal archaeological and tributary backfill series",
+  subregion_gap_hunter_verification_sweep = "Sub-regional frontier gap closure sweep"
+)
+waves <- ledger_data$saturation_audit$waves
+w_rows <- lapply(waves, function(w) {
+  cls_key <- as.character(w$source_class)
+  cls_lbl <- if (cls_key %in% names(wave_labels)) unname(wave_labels[cls_key]) else cls_key
+  cum_n <- as.integer(w$prior_cumulative_included) + as.integer(w$newly_included)
+  data.frame(
+    Wave = paste("Wave", w$wave),
+    Class = cls_lbl,
+    Added = viscount_fmt_number(as.integer(w$newly_included), 0L),
+    Cumulative = viscount_fmt_number(cum_n, 0L),
+    Gain = paste0(viscount_fmt_number(as.numeric(w$marginal_gain_pct), 2L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+df_waves <- do.call(rbind, w_rows)
+rownames(df_waves) <- NULL
+
+viscount_table(
+  df_waves,
+  "Four-wave gazetteer ingestion ledger and marginal gain convergence across 289 included Late Post-Classic settlements.",
+  c("Wave", "Source Class", "Added", "Cumulative", "Marginal Gain"),
+  list(label = "tab:saturation-waves", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+1. All regional land areas follow the chapter equal-area projection sum of 1.786.338,3 km² across 22.960 raster cells; minor discrepancies against unprojected polygonal estimates reflect equal-area reprojection along the Pacific and Gulf coastlines.
+2. Tenochtitlan and Tlatelolco were formally united under Tenochca political administration after 1473AD and occupied a contiguous engineered island footprint in western Lake Texcoco; the gazetteer therefore reports their combined city-proper population of 212,5k inhabitants in 1519 rather than splitting adjacent urban wards.
+3. Because HydroBASINS Level 6 drainage boundaries cross the eastern Lake Pátzcuaro divide, automated spatial polygon assignment places Tzintzuntzan, Angamuco-Zacapu, Pátzcuaro and Ihuatzio within the western margin of the Central Aztec Tributary Provinces polygon; all historical narratives and political attributions assign these cities strictly to the Purépecha (Tarascan) state of Michoacán.
+4. Two Gulf littoral trading entrepôts evaluated in the source ledger—Potonchán (18,55°N, 92,64°W) and Xicalango (18,63°N, 91,91°W)—lie east of the Coatzacoalcos boundary inside the Chontal Maya maritime sphere and are archived in Chapter 02 (Classic and Post-Classic Maya Lands).

@@ -1,0 +1,456 @@
+---
+title: "Early Modern East Africa and Mozambique"
+subtitle: "Swahili Coast, Interior Kingdoms, Indian Ocean Trade and Mozambique"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: early_modern_east_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Nine historical sub-regions and 97 individually assessed settlements across East Africa and Mozambique between 1500AD and 1885AD."
+hero_label: "fig:hero-east-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("early_modern_east_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("early_modern_east_africa_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+n_countries <- length(summary_cache$countries)
+
+bench_keys <- c("1500", "1700", "1770", "1800", "1850", "1880")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+subregion_order <- c(
+  "zanzibar_swahili_omani_coast",
+  "kenya_highlands_maasai_rift",
+  "buganda_bunyoro_ankole",
+  "rwanda_burundi_kivu",
+  "nyamwezi_unyamwezi_tabora",
+  "hehe_southern_tanganyika",
+  "maravi_yao_lake_malawi",
+  "bemba_lozi_zambezi_plateau",
+  "portuguese_mozambique_gaza"
+)
+
+full_site_counts <- c(
+  zanzibar_swahili_omani_coast = 29L,
+  kenya_highlands_maasai_rift = 12L,
+  buganda_bunyoro_ankole = 7L,
+  rwanda_burundi_kivu = 6L,
+  nyamwezi_unyamwezi_tabora = 4L,
+  hehe_southern_tanganyika = 8L,
+  maravi_yao_lake_malawi = 10L,
+  bemba_lozi_zambezi_plateau = 5L,
+  portuguese_mozambique_gaza = 16L
+)
+```
+
+# Abstract
+
+Between the arrival of Portuguese fleets off Sofala and Kilwa at the start of the sixteenth century and the European colonial partition of the 1880s, East Africa and Mozambique moved from a maritime littoral loosely coupled to interior subsistence zones into an integrated continental economy of caravan highways, plantation islands and centralised kingdoms. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning `r n_countries` modern countries from the Banadir coast and Lake Victoria to the Zambezi delta and Delagoa Bay, NICETHI reconstructs an aggregate regional population that rose from `r viscount_fmt_pop(headline_vals[["1500"]])` inhabitants in 1500AD to `r viscount_fmt_pop(headline_vals[["1700"]])` in 1700AD, `r viscount_fmt_pop(headline_vals[["1770"]])` in 1770AD, `r viscount_fmt_pop(headline_vals[["1800"]])` in 1800AD, `r viscount_fmt_pop(headline_vals[["1850"]])` in 1850AD and `r viscount_fmt_pop(headline_vals[["1880"]])` by 1880AD, reaching a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth was uneven across ecological belts and repeatedly checked by drought, slaving and military upheaval. Portuguese disruption curtailed the late mediaeval ports of Kilwa Kisiwani and Sofala, yet Lamu, Pate and Siyu expanded during the seventeenth and eighteenth centuries before Omani-Zanzibar supremacy shifted the commercial centre of gravity south to Zanzibar Town, Bagamoyo and Kilwa Kivinje. Inland, banana-and-cattle kingdoms in Buganda, Rwanda and Burundi achieved the highest rural densities in eastern Africa, while Nyamwezi and Yao caravan networks linked Tabora, Ujiji and Lake Malawi to Indian Ocean markets and Portuguese *prazo* warlords contested the lower Zambezi. These curves rest on `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations, paired with non-stationary Matérn residual kriging over regional site registers and mass-conserving pycnophylactic disaggregation across administrative polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Nine historical sub-regions and 97 individually assessed settlements across East Africa and Mozambique between 1500AD and 1885AD.",
+    "fig:hero-east-africa"
+  )
+}
+```
+
+# Background
+
+## Monsoon Harbours, Highland Basins and Zambezi Valleys
+
+East Africa and Mozambique present a sharper topographic contrast between coast and interior than almost any other sector of Sub-Saharan Africa. Along the Indian Ocean shore from Muqdisho, Marka and Barawa in southern Somalia through the Lamu Archipelago, Mombasa, Zanzibar and Kilwa down to Mozambique Island, Sofala, Inhambane and Delagoa Bay, seasonal monsoon winds sustained a narrow coral-rag littoral anchored by mangrove creeks, sheltered anchorages and limestone town quarters [@HortonMiddleton2000Swahili; @WynneJones2018SwahiliWorld; @Kassim1995IslamAnd_2]. Immediately behind this humid coastal strip rises a broad belt of dry *nyika* thornbush and miombo woodland stretching across eastern Kenya, central Tanzania and northern Mozambique, where unreliable rainfall and tsetse fly restricted intensive cattle keeping and held rural densities low across wide tracts [@Kusimba1999SwahiliStates; @Spear1900SwahiliHistory].
+
+Beyond the dry plateau, three well-watered highland and lacustrine regions supported far denser populations. In the Great Lakes basin around Lakes Victoria, Albert, Kivu and Tanganyika, rich volcanic and alluvial soils combined with perennial plantain cultivation, finger millet and long-horned cattle to sustain the centralised states of Bunyoro-Kitara, Buganda, Ankole, Karagwe, Rwanda and Burundi [@Kafuuma2019HeritageSignificance; @Brandl1975EarlyChristianity]. East of Lake Victoria, the central Kenyan highlands and Rift Valley accommodated both Kikuyu-Kamba ridge cultivators and specialised Maa-speaking pastoralists occupying the open steppe between Mount Kenya and northern Tanzania [@NMK2021KenyaSites]. To the south, the Lake Malawi basin and the Shire-Zambezi river system formed an agricultural corridor linking the Maravi confederacy and Yao hill towns to the goldfields of the Zimbabwe escarpment and the floodplains of the lower Zambezi [@Newitt1995Mozambique; @Pugliesi1977ResenhaLivro].
+
+After 1500AD, maritime contacts introduced American crops - above all maize, cassava and sweet potatoes - alongside Asian rice varieties and coconuts, slowly raising caloric output across the Swahili littoral, the Zambezi *prazos* and the caravan corridors of Tanzania and Malawi [@HortonMiddleton2000Swahili; @Pugliesi1977ResenhaLivro]. Yet ecological gains were repeatedly offset by nineteenth-century rinderpest, smallpox, cholera epidemics along caravan tracks and the prolonged *mfecane* migrations that carried Nguni warbands north into Gaza, eastern Zambia and southern Tanganyika after 1820AD [@Newitt1995Mozambique; @Bryndina2023TheMost].
+
+## Historiography of Early Modern East Africa and Mozambique
+
+Quantitative demographic reconstruction across early modern East Africa faces a sharp archival divide between coast and interior. For the sixteenth and seventeenth centuries, Portuguese chroniclers, royal *tombo* surveys and fortress garrisons at Sofala, Mozambique Island, Kilwa and Mombasa provide dated headcounts, tax rolls and parish baptismal series, though they cover only coastal enclaves and the Zambezi *feira* network [@Pradines2016PortugueseFortresses; @Newitt1995Mozambique; @Berg1900TheSwahili]. From the 1770s onward, French slaving captains, Omani chroniclers and British naval anti-slavery commissioners added detailed port figures for Kilwa, Zanzibar, Pemba, Ibo and Quelimane [@Lyne1905ZanzibarContemporary; @Parliament1898CorrespondenceRespecting; @Alders2023OpenAccess].
+
+For the interior, reliable direct observations arrive much later. Outside the eighteenth-century Portuguese expeditions of Lacerda e Almeida and Gamitto to Kazembe on the Luapula, most interior urban counts date to the 1840s through 1880s, when European travellers, missionaries and consular agents reached Tabora, Ujiji, Buganda's *Kibuga*, Bweranyange, Nkhotakota and Gaza [@Burton1904FirstFootsteps; @Bryndina2023TheMost; @Bourguignat1879DescriptionDiverses]. Twentieth-century archaeology filled part of the earlier void by mapping stone-house blocks, earthen ditch complexes at Bigo bya Mugenyi and Munsa, irrigated terraces at Engaruka and terraced fields at Ziwa, establishing spatial footprints for settlements lacking written censuses [@Allen1981SwahiliCulture; @WynneJones2018TheMultiple; @NMK2021KenyaSites].
+
+Historical interpretation has shifted decisively away from older colonial models that treated the Swahili coast as an alien Arab-Persian implant and the interior as demographically stagnant prior to European rule [@Spear1900SwahiliHistory; @Allen1981SwahiliCulture; @Baumanova2022WhatsName]. Excavations and settlement surveys across Zanzibar, Pemba, Shanga, Pate, Mombasa and Kilwa show that Swahili stone towns were predominantly African urban communities embedded within local agricultural hinterlands [@HortonMiddleton2000Swahili; @WynneJones2018SwahiliWorld; @Alders2023OpenAccess]. Likewise, studies of the Zambezi *prazos* demonstrate how Portuguese crown land grants Africanised into Afro-Portuguese warrior-patronage estates whose *chikunda* slave armies reshaped population distribution along the lower Zambezi [@Pugliesi1977ResenhaLivro; @Newitt1995Mozambique]. NICETHI brings these coastal, island, caravan and highland strands into a single quantitative accounting grid between 1500AD and 1885AD.
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The study area covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute pixels spanning `r n_countries` modern countries from southern Somalia and southern Ethiopia south to Mozambique, Zimbabwe and eSwatini. Within NICETHI, the chapter occupies Regime 2 (1500AD to 1885AD), bridging the mediaeval Bantu and Swahili synthesis with the post-1885AD colonial era. Nine historical sub-regions partition the territory using OpenHistoricalMap polity extents, Harvard WorldMap state polygons and Nunn-Murdock ethnographic distributions clipped to HydroBASINS Level-6 catchments and geoBoundaries coastlines [@Runfola2020GeoBoundaries] (Table \ref{tab:subregions}).
+
+Population trajectories are computed across 14 benchmark years tracked in the regional series (1500AD, 1700AD, 1710AD, 1730AD, 1740AD, 1760AD, 1770AD, 1790AD, 1800AD, 1820AD, 1830AD, 1850AD, 1860AD and 1880AD) and reported in compact tables at six historical checkpoints: 1500AD (early Portuguese contact), 1700AD (Omani capture of Fort Jesus at Mombasa), 1770AD (late eighteenth-century Pate, Maravi and *prazo* maturity), 1800AD (rise of the Kilwa-Zanzibar ivory and slave trades), 1850AD (Seyyid Said's Zanzibar clove boom and caravan expansion) and 1880AD (eve of European partition). All regional totals encompass full resident populations across coastal stone towns, earthen capitals, caravan entrepôts, agrarian villages and pastoral camps [@HortonMiddleton2000Swahili; @WynneJones2018SwahiliWorld].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  Era = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    paste0(pts[1], "AD-", pts[2], "AD")
+  }, character(1)),
+  `Interior Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `All Sites` = vapply(subregion_order, function (id) viscount_fmt_number(full_site_counts[[id]], 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Nine historical sub-regions of East Africa and Mozambique showing surface area, 5-arcminute pixels, era span, interior mask matches (91) and full gazetteer site counts (97).",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Screening and Evidence-Based Urban Reconstruction
+
+To anchor urban hierarchies across coast and interior, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate coastal ports, fortresses, royal enclosures, caravan stations and upland towns between 1500AD and 1885AD were screened from Portuguese *tombo* and fortress archives, Omani-Zanzibar consular dispatches, nineteenth-century explorer journals and site inventories [@Pradines2016PortugueseFortresses; @Parliament1898CorrespondenceRespecting; @NMK2021KenyaSites]. Screening proceeded across four saturation waves (57 initial entries, expanding to 97 after reconciliation and adding 7 entries in the final gap sweep for a 1,9% marginal gain), removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate aliases - such as alternative names for Ilha de Moçambique, Vila de Mandlakazi, Kasama, Chipata and Zanzibar - and retaining `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements with `r viscount_fmt_number(n_obs_total, 0L)` dated observations and zero empty inhabited sub-regions (Figure \ref{fig:hero-east-africa}).
+
+All `r viscount_fmt_number(n_total_sites, 0L)` settlements carry strict city-proper spatial limits (97 city-proper, 0 metropolitan agglomerations) to avoid double counting rural hinterlands. Tanzania holds the largest share with 29 settlements (83 observations), followed by Kenya (15 sites, 51 observations), Mozambique (15 sites, 91 observations), Somalia (8 sites, 18 observations), Uganda (7 sites, 22 observations), Malawi (5 sites, 13 observations), Zimbabwe (5 sites, 12 observations), Zambia (4 sites, 11 observations), Burundi (3 sites, 8 observations), Ethiopia (3 sites, 5 observations), and 1 site each in Rwanda (3 observations), eSwatini (2 observations) and South Africa (3 observations). Where contemporaneous headcounts were unavailable, populations were anchored to mapped stone-core and earthwork areas using Storey's 59-city African preindustrial density benchmark (mean 12.724 persons/km², median 10.000, range 1.250 to 57.735) and East African transect ratios [@Alders2023OpenAccess; @WynneJones2018TheMultiple]. At Kilwa Kisiwani, the 47 ha nucleated stone core and Portuguese accounts of 1502AD to 1505AD place the town at 12.000 inhabitants before the Portuguese sack and 4.000 immediately thereafter, declining to 2.600 by 1776AD and 950 by 1859AD [@Pradines2016PortugueseFortresses; @WynneJones2018TheMultiple]. At Zanzibar, the 60 ha Stone Town core and surrounding Ng'ambo quarters track rapid growth from 4.200 in 1650AD and 11.500 in 1776AD to 38.000 in 1846AD and 65.000 at the 1870AD clove-and-ivory peak [@Lyne1905ZanzibarContemporary; @Alders2023OpenAccess].
+
+## Non-Stationary Kriging and Sub-Administrative Disaggregation
+
+Recorded towns capture urban hubs along the coast and caravan routes, leaving rural farming populations across the Tanzanian plateau, Malawi hills and Great Lakes ridges unenumerated prior to colonial tax rolls [@Kafuuma2019HeritageSignificance; @Lira2024Plot24Urban]. NICETHI therefore pairs sub-regional demographic series with continuous spatial surfaces built via non-stationary Paciorek-Schervish Matérn ($\nu = 3/2$) residual kriging across the Sub-Saharan archaeological and historical register (11.199 domestic records across 6.970 unique coordinate loci, of which 82,9% derive from regional archaeological inventories and scholarly monographs with zero crowdsourced entries) [@NMK2021KenyaSites; @Alders2023OpenAccess].
+
+Voronoi catchment tessellation partitions the continental domain into 6.431 domestic catchments bounded strictly below 25.000 km² (observed maximum 23.489 km², median radius 31,72 km, 90th percentile 49,29 km) and buffered across 383 border catchments so no artificial boundary cliff separates East Africa from the Horn, the Nile basin or Southern Africa. Two chronological kriging horizons cover 1500AD to 1885AD: Horizon 9 (Early Modern, 1500AD to 1750AD; 2.096 active domain sites across 1.034 catchments) and Horizon 10 (Late Precolonial, 1750AD to 1900AD; 1.130 active sites across 547 catchments). Weighted least-squares variogram fitting yields dimensionless short-range correlation $\tau_1 = 1,35$ (raw 1,405 in Horizon 9 and 1,376 in Horizon 10), secondary range $\tau_2 = 2,9025$ and nugget-to-sill ratio 0,04, producing effective short-range correlation distances of 44,55 km and 43,63 km ($R^2 = 0,9992$ in both horizons). Deterministic trend weights reflect coastal access ($\beta_4 = 0,0717$ in Horizon 9 and $0,0475$ in Horizon 10) and fluvial proximity ($\beta_3 = 0,0595$ and $0,0342$) above baseline habitability ($\beta_0 = 0,01$), while a two-pixel modern urban buffer shields early modern surfaces from twentieth-century metropolitan sprawl around Nairobi, Kampala, Dar es Salaam or Maputo. Downward reconciliation to geoBoundaries administrative units [@Runfola2020GeoBoundaries] uses strictly mass-conserving pycnophylactic scaling, maintaining cell-sum conservation within 0,01% across 30.911 unit-year checks from 1900AD onward (worst relative error $5,60 \times 10^{-8}$).
+
+# Testing and Validation
+
+## Settlement Rank-Size Scaling and Urban Hierarchy Diagnostics
+
+Rank-size diagnostics across the `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements test whether coastal ports, interior capitals and *prazo* strongholds form a coherent regional urban hierarchy rather than an arbitrary sample of isolated sites [@Baumanova2022WhatsName; @Alders2023OpenAccess]. Ordinary least-squares regression on the upper half of the peak-population distribution ($n = 48$ sites) yields a Pareto rank-size exponent of $q = 0,73$ ($R^2 = 0,99$), while full-sample regression across all 97 settlements gives $q = 0,98$ ($R^2 = 0,88$; Figure \ref{fig:rank-size}). An upper-tier slope below unity ($q = 0,73$) reflects a polycentric trading and political landscape where no single imperial capital monopolised East Africa: rather than one dominant primate city, distinct regional nodes led separate sub-systems - Bigo bya Mugenyi in sixteenth-century Kitara (100k), Zanzibar Town on the Omani littoral (65k in 1870AD), Buganda's *Kibuga* on Lake Victoria (38,5k in 1875AD), Mombasa on the Kenyan coast (30k in 1850AD), Muqdisho on the Banadir shore (21,2k in 1516AD) and Tabora along the Unyamwezi caravan axis (20k in 1871AD) [@Berg1900TheSwahili; @Lyne1905ZanzibarContemporary; @Kassim1995IslamAnd_2].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size distribution across 97 individually assessed settlements (top-48 OLS slope q = 0,73, R² = 0,99) and mean sub-regional densities in 1880AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Middle-rank towns between 10k and 19k inhabitants form a continuous log-linear band in Figure \ref{fig:rank-size}, spanning Bagamoyo (18,5k), Pate (16,8k), Urambo (16,2k), Lamu (15,2k), Kilwa Kivinje (15k), Vila de Mandlakazi (14,5k), Ujiji (14k), Kilwa Kisiwani (12k), Massangano-Zambezi (11,2k), Ilha de Moçambique (11,2k), Nkhotakota (11,2k), Siyu (11,2k) and Sofala (10k) [@Kusimba1999SwahiliStates; @Pradines2016PortugueseFortresses; @Bryndina2023TheMost]. Below rank 50, smaller *feiras*, mission depots, lakeside markets and stone ruins drop more steeply between 3,8k and 600 inhabitants, reflecting the physical boundary between regional entrepôts and local garrisons or agricultural centres (unique peak-value ratio 0,8041, interquartile range $\log_{10} = 0,503$).
+
+## External Demographic Cross-Checks and Coastal Benchmarks
+
+To verify that regional totals align with independent historical demographic syntheses and archival port enumerations, Table \ref{tab:validation-benchmarks} compares NICETHI regional and national-scale aggregates against established African macro-demographic series and colonial urban censuses. At the macro level, NICETHI's trajectory from `r viscount_fmt_pop(headline_vals[["1500"]])` in 1500AD to `r viscount_fmt_pop(headline_vals[["1700"]])` in 1700AD, `r viscount_fmt_pop(headline_vals[["1800"]])` in 1800AD and `r viscount_fmt_pop(headline_vals[["1880"]])` in 1880AD sits coherently inside regional bounds once differing geographic perimeters are accounted for: Patrick Manning's broader East Africa category (20M in 1700AD, 22M in 1790AD and 26M in 1890AD) includes Ethiopia and the northern Horn, whereas NICETHI excludes northern Ethiopia and southern Sudan (covered in the companion Horn and Nile chapters). Likewise, summing Manning's 1850AD mid-level estimates across the comparable Tanzania (11,21M), Kenya (8,26M) and Mozambique (8,39M) trade-zone definitions gives a substantially higher figure because Manning projected twentieth-century totals backward over wider administrative envelopes, whereas Frankema and Jerven's continent-wide upward revision of colonial growth rates (114,1M to 122,7M for Africa in 1850AD rising to 127,7M to 137,3M in 1880AD) supports a steadier mid-nineteenth-century expansion consistent with NICETHI's 1,01% annualised continental pace and 15,31M to 15,50M regional trajectory [@Parliament1898CorrespondenceRespecting; @Spear1900SwahiliHistory].
+
+```{r tab2-validation, results='asis'}
+df_t2 <- data.frame(
+  Benchmark = c(
+    "NICETHI East Africa & Mozambique",
+    "Manning Table 4.1 (Broader East Africa)",
+    "Chirikure et al. (Zimbabwe Plateau)",
+    "Ilha de Moçambique (Port Census)",
+    "Zanzibar Town (Consular & Census Series)",
+    "Tete & Quelimane (Zambezi Towns)"
+  ),
+  Scope = c(
+    "9 sub-regions (3,40M km²)",
+    "Horn, Lakes & Coast",
+    "Zimbabwe national bounds",
+    "Island capital city-proper",
+    "Stone Town & Ng'ambo",
+    "Lower Zambezi port & town"
+  ),
+  `Early Anchor` = c(
+    "5,72M (1500AD)",
+    "20,0M (1700AD)",
+    "230k-275k (1600AD)",
+    "2,45k (1540AD)",
+    "4,2k (1650AD)",
+    "1,48k / 1,45k (1570AD)"
+  ),
+  `Mid Anchor` = c(
+    "12,60M (1800AD)",
+    "22,0M (1790AD)",
+    "-",
+    "9,5k (1810AD)",
+    "15,0k (1819AD)",
+    "6,2k / 6,8k (1767-1815)"
+  ),
+  `Late Anchor` = c(
+    "15,50M (1880AD)",
+    "26,0M (1890AD)",
+    "665k (1850AD)",
+    "9,8k (1885AD)",
+    "58,0k (1885AD)",
+    "5,8k / 8,6k (1885AD)"
+  ),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Comparison of NICETHI regional and urban benchmarks against external historical demographic series and Portuguese-Zanzibari port counts.",
+  arg3_options = list(label = "tab:validation-benchmarks")
+)
+```
+
+At the local urban scale, Portuguese provincial censuses at Ilha de Moçambique (9.500 in 1810AD, 11.200 in 1850AD and 9.800 in 1885AD) and Livingstone's 1856AD count at Tete (4.500 inhabitants) match the gazetteer series directly [@Newitt1995Mozambique]. Similarly, British Foreign Office abolition correspondence and Zanzibar Protectorate enumerations reconcile Zanzibar Town's transition from 58.000 in 1885AD to 35.262 in 1910AD after the end of the mainland caravan boom and the transfer of the German East African capital to Dar es Salaam [@Parliament1898CorrespondenceRespecting; @Lyne1905ZanzibarContemporary]. For the Zimbabwe escarpment borderland, Chirikure's national benchmark (230k to 275k in 1600AD and 665k in 1850AD) aligns cleanly with the southern *prazo*-Mutapa-Gaza density of 3,76 persons/km² in 1880AD [@Pugliesi1977ResenhaLivro].
+
+# Results
+
+## Portuguese Littoral Disruption and Swahili Coast Realignment (1500AD to 1700AD)
+
+At 1500AD, the combined population of the nine sub-regions stood at `r viscount_fmt_pop(headline_vals[["1500"]])` (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). The highest rural concentrations lay in the Great Lakes basin, where `r viscount_fmt_pop(sub_by_id[["buganda_bunyoro_ankole"]]$population[["1500"]])` lived in Buganda, Bunyoro-Kitara and Ankole (`r viscount_fmt_number(as.numeric(sub_by_id[["buganda_bunyoro_ankole"]]$population[["1500"]]) / as.numeric(sub_by_id[["buganda_bunyoro_ankole"]]$area_km2), 2L)` persons/km²) and `r viscount_fmt_pop(sub_by_id[["rwanda_burundi_kivu"]]$population[["1500"]])` inhabited Rwanda, Burundi and the Kivu highlands (`r viscount_fmt_number(as.numeric(sub_by_id[["rwanda_burundi_kivu"]]$population[["1500"]]) / as.numeric(sub_by_id[["rwanda_burundi_kivu"]]$area_km2), 2L)` persons/km²). By contrast, the Swahili coastal strip held `r viscount_fmt_pop(sub_by_id[["zanzibar_swahili_omani_coast"]]$population[["1500"]])` residents (`r viscount_fmt_number(as.numeric(sub_by_id[["zanzibar_swahili_omani_coast"]]$population[["1500"]]) / as.numeric(sub_by_id[["zanzibar_swahili_omani_coast"]]$area_km2), 2L)` persons/km²) and the southern Zambezi-Sofala zone held `r viscount_fmt_pop(sub_by_id[["portuguese_mozambique_gaza"]]$population[["1500"]])` [@HortonMiddleton2000Swahili; @Brandl1975EarlyChristianity].
+
+Between 1500AD and 1700AD, regional population nearly doubled to `r viscount_fmt_pop(headline_vals[["1700"]])` as American crops dispersed across coastal and riverine gardens and inland agricultural states consolidated, even while maritime commerce underwent violent restructuring (Table \ref{tab:trajectory}). Portuguese naval raids and customs monopolies shattered the southern gold-exporting ports: Kilwa Kisiwani dropped from 12.000 inhabitants in 1502AD to 4.000 after Francisco de Almeida's sack in 1505AD and 3.200 in 1587AD, while Sofala contracted from 10.000 in 1505AD to 2.850 in 1590AD and 2.100 in 1680AD [@Pradines2016PortugueseFortresses; @WynneJones2018SwahiliWorld]. Farther north, Muqdisho declined from 21.200 in 1516AD to 12.600 by 1650AD, and Ungwana and Gedi were abandoned during the seventeenth-century Oromo and Zimba upheavals [@Kassim1995IslamAnd_2; @Kusimba1999SwahiliStates].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading urban centres across East Africa and Mozambique from 1500AD to 1885AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Commerce did not vanish; instead it migrated north of Mombasa to Portuguese-allied Malindi (5,4k in 1580AD) and especially to the Lamu Archipelago, where Pate expanded from 11,5k in 1600AD to 16,8k in 1700AD, Lamu climbed from 5,8k to 8,2k, and Siyu rose from 4,8k toward 9,5k [@Allen1981SwahiliCulture; @Berg1900TheSwahili]. Meanwhile, Portuguese fortress construction at Ilha de Moçambique (Fort São Sebastião, growing from 2,45k in 1540AD to 5,4k in 1650AD) and Mombasa (Fort Jesus, 10k in 1505AD to 11,8k in 1593AD) re-routed oceanic shipping until the Ya'arubi Omani siege expelled the Portuguese north of Cape Delgado in 1698AD [@Pradines2016PortugueseFortresses; @Berg1900TheSwahili].
+
+## Omani Littoral, Interlacustrine Kingdoms and Zambezi Prazos (1700AD to 1800AD)
+
+The eighteenth century opens with a sharp demographic pause from `r viscount_fmt_pop(headline_vals[["1700"]])` in 1700AD to `r viscount_fmt_pop(summary_cache$headline_series[["1710"]])` in 1710AD and `r viscount_fmt_pop(summary_cache$headline_series[["1790"]])` in 1790AD amid severe regional droughts and late-century coastal warfare, before rebounding to `r viscount_fmt_pop(headline_vals[["1800"]])` in 1800AD (Table \ref{tab:trajectory}). On the northern coast, Mombasa settled under Mazrui autonomy (9,4k in 1698AD to 8,6k in 1760AD) while Lamu grew from 8,2k in 1650AD to 12,4k in 1780AD and Pate remained near 14,2k [@Berg1900TheSwahili; @Baumanova2022WhatsName]. Farther south, Kilwa Kisiwani remained depressed (2,6k in 1776AD) until French sugar-island demand for captives from Île de France and Bourbon sparked the founding of Kilwa Kivinje around 1785AD and lifted Zanzibar Town from 4,2k in 1650AD to 11,5k in 1776AD [@Lyne1905ZanzibarContemporary; @Alders2023OpenAccess].
+
+In the Great Lakes interior, state consolidation followed an indigenous agrarian rhythm. Around the western shores of Lake Victoria, Buganda supplanted the older pastoral hegemony of Bunyoro-Kitara, expanding its royal capital at the *Kibuga* from 9,5k inhabitants in 1700AD to 18,5k by 1780AD, while salt production at Kibiro (1,58k to 1,75k) and the Karagwe court at Bweranyange (3,4k in 1750AD) anchored regional exchange [@Kafuuma2019HeritageSignificance; @Brandl1975EarlyChristianity]. In Rwanda and Burundi, royal centralisation under the Nyiginya dynasty around Nyanza-Busasama (3,6k in 1750AD) and Muramvya (3,1k) supported dense hillside farming that raised the Rwanda-Burundi-Kivu sub-region to `r viscount_fmt_pop(sub_by_id[["rwanda_burundi_kivu"]]$population[["1800"]])` by 1800AD [@Brandl1975EarlyChristianity].
+
+South of the Ruvuma, two contrasting formations shaped demography between 1700AD and 1800AD. Around Lake Malawi and northern Mozambique, the Kalonga Maravi court at Mankhamba (7,2k in 1650AD, easing to 4,1k in 1750AD) gave way to decentralised Yao and Makua ivory-and-slave traders linking the lake to Ilha de Moçambique (7,8k in 1760AD) and Ibo (2,38k in 1761AD), driving steady growth across the Maravi-Yao sub-region from `r viscount_fmt_pop(sub_by_id[["maravi_yao_lake_malawi"]]$population[["1700"]])` in 1700AD to `r viscount_fmt_pop(sub_by_id[["maravi_yao_lake_malawi"]]$population[["1800"]])` in 1800AD [@Newitt1995Mozambique]. Along the Zambezi itself, Portuguese crown estates (*prazos da coroa*) and interior trading fairs at Sena (2,89k in 1750AD), Tete (6,2k in 1767AD), Zumbo (2,95k in 1780AD) and Quelimane (3,2k in 1700AD) survived Mutapa and Rozvi counter-offensives, while Kazembe's Lunda kingdom on the Luapula held 6,8k to 7,2k at Mwansabombwe between 1760AD and 1798AD [@Pugliesi1977ResenhaLivro; @Newitt1995Mozambique].
+
+```{r tab3-trajectory, results='asis'}
+df_t3 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `1500AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1500"]]), character(1)),
+  `1700AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1700"]]), character(1)),
+  `1770AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1770"]]), character(1)),
+  `1800AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1800"]]), character(1)),
+  `1850AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1850"]]), character(1)),
+  `1880AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1880"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t3 <- data.frame(
+  Subregion = "Total Study Area",
+  `1500AD` = viscount_fmt_pop(headline_vals[["1500"]]),
+  `1700AD` = viscount_fmt_pop(headline_vals[["1700"]]),
+  `1770AD` = viscount_fmt_pop(headline_vals[["1770"]]),
+  `1800AD` = viscount_fmt_pop(headline_vals[["1800"]]),
+  `1850AD` = viscount_fmt_pop(headline_vals[["1850"]]),
+  `1880AD` = viscount_fmt_pop(headline_vals[["1880"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_row_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Sub-regional and total population trajectories across six benchmark years from 1500AD to 1880AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Zanzibar Clove Empire, Caravan Highways and Mfecane Upheaval (1800AD to 1885AD)
+
+During the nineteenth century, East Africa's economic axis turned sharply inward as Seyyid Said of Oman transferred his court to Zanzibar in the 1830s and 1840s, turning Zanzibar and Pemba into the world's leading clove plantations worked by enslaved mainland labour [@Lyne1905ZanzibarContemporary; @Parliament1898CorrespondenceRespecting; @Alders2023OpenAccess]. Zanzibar Town surged from 15k inhabitants in 1819AD to 48k in 1857AD and 65k in 1870AD, while Bagamoyo (2,6k in 1800AD to 18,5k in 1885AD), Kilwa Kivinje (4,8k in 1820AD to 15k in 1865AD), Pangani Magharibi (9,5k in 1878AD), Chake Chake (6,2k in 1885AD), Saadani (5,4k) and Dar es Salaam (founded 1862AD, 4,8k in 1875AD) expanded as mainland caravan termini and coastal plantation ports [@Lyne1905ZanzibarContemporary; @Baumanova2022WhatsName]. The Omani-Zanzibar coastal sub-region rose fastest of all nine zones, climbing from `r viscount_fmt_pop(sub_by_id[["zanzibar_swahili_omani_coast"]]$population[["1800"]])` in 1800AD to `r viscount_fmt_pop(sub_by_id[["zanzibar_swahili_omani_coast"]]$population[["1880"]])` by 1880AD. Meanwhile, older northern rivals such as Pate (14,2k in 1780AD to 2,1k in 1885AD) and Muqdisho (12,6k in 1650AD to 5,4k in 1848AD) contracted sharply under Omani blockades and shifting trade winds [@Allen1981SwahiliCulture; @Kassim1995IslamAnd_2].
+
+Along the central caravan trunk road from Bagamoyo to Lake Tanganyika, Nyamwezi porters and merchant chiefs built a commercial empire across the Unyamwezi plateau [@Burton1904FirstFootsteps; @Bryndina2023TheMost]. Tabora (Kazeh) grew from 6,5k at its 1845AD foundation to 20k in 1871AD, Mirambo's fortified capital at Urambo reached 16,2k by 1884AD, and Ujiji on Lake Tanganyika expanded from 5,8k in 1858AD to 14k in 1879AD as Arab-Swahili traders including Tippu Tip pushed into Manyema [@Bryndina2023TheMost; @Bourguignat1879DescriptionDiverses]. Further north, Buganda's *Kibuga* grew to 38,5k by 1875AD under Mutesa I, while Bunyoro capitals at Hoima (9,6k in 1885AD) and Masindi (6,8k in 1872AD) and Rwanda's court at Busasama (8,4k in 1885AD) anchored dense interlacustrine populations that pushed Rwanda-Burundi to `r viscount_fmt_pop(sub_by_id[["rwanda_burundi_kivu"]]$population[["1880"]])` (`r viscount_fmt_number(sub_by_id[["rwanda_burundi_kivu"]]$end_density_km2, 2L)` persons/km²) and Buganda-Bunyoro to `r viscount_fmt_pop(sub_by_id[["buganda_bunyoro_ankole"]]$population[["1880"]])` (`r viscount_fmt_number(sub_by_id[["buganda_bunyoro_ankole"]]$end_density_km2, 2L)` persons/km²) by 1880AD [@Kafuuma2019HeritageSignificance; @Lira2024Plot24Urban].
+
+Farther south, nineteenth-century population change followed a more turbulent trajectory. Across the Maasai steppe and Kenya highlands (`r viscount_fmt_pop(sub_by_id[["kenya_highlands_maasai_rift"]]$population[["1880"]])` in 1880AD), Iloikop-Maasai civil wars emptied older Rift irrigation hubs such as Engaruka (7,8k in 1650AD down to 950 in 1780AD) while caravan towns such as Mumias (5,4k in 1883AD), Taveta (4k) and Old Moshi (6,8k in 1885AD) grew along the Kilimanjaro-Nyanza trade corridor [@NMK2021KenyaSites]. In Malawi and northern Mozambique, Yao chieftaincies and Jumbe's lakeside sultanate at Nkhotakota (3,8k in 1855AD to 11,2k in 1885AD) fed captives to Kilwa Kivinje and Angoche (9,8k in 1845AD), yet agricultural stability in the Shire and plateau valleys raised Maravi-Yao to `r viscount_fmt_pop(sub_by_id[["maravi_yao_lake_malawi"]]$population[["1880"]])` in 1880AD [@Newitt1995Mozambique]. Conversely, the Bemba-Lozi-Kazembe plateau experienced mid-century contraction from `r viscount_fmt_pop(sub_by_id[["bemba_lozi_zambezi_plateau"]]$population[["1820"]])` in 1820AD to `r viscount_fmt_pop(sub_by_id[["bemba_lozi_zambezi_plateau"]]$population[["1860"]])` in 1860AD before recovering to `r viscount_fmt_pop(sub_by_id[["bemba_lozi_zambezi_plateau"]]$population[["1880"]])` in 1880AD as Bemba raids and Kololo-Lozi conflicts stabilised around Kasama (7,4k) and Chipata (6,8k) [@Brandl1975EarlyChristianity]. In southern Mozambique, Soshangane's Nguni Gaza Empire centred at Vila de Mandlakazi (14,5k in 1885AD) and the Cruz family's fortified *aringa* at Massangano-Zambezi (11,24k in 1875AD) eclipsed weak Portuguese garrisons at Sena (3,1k) and Lourenço Marques (3,4k) on the eve of the Scramble for Africa [@Pugliesi1977ResenhaLivro; @Newitt1995Mozambique].
+
+## Urban Centres and Sub-Regional Density Contrasts
+
+Table \ref{tab:top-centres} lists the twelve largest individually assessed settlements in the chapter ledger alongside their observed chronological spans and peak headcounts. Across the entire 385-year window, attested urban population rose steadily from under 90k in 1500AD to roughly 460k by 1885AD as active documented settlements grew from `r viscount_fmt_number(n_active[["1500"]], 0L)` in 1500AD to `r viscount_fmt_number(n_active[["1850"]], 0L)` in 1850AD and `r viscount_fmt_number(n_active[["1880"]], 0L)` in 1880AD (Figure \ref{fig:trends}). Only Bigo bya Mugenyi (1550AD earthwork peak) and Muqdisho (1516AD) reached their maxima in the sixteenth century; Pate (1700AD) peaked during the post-Portuguese northern Swahili revival, whereas nine of the top twelve centres peaked between 1845AD and 1885AD under the combined pull of Zanzibar cloves, ivory caravans and late precolonial state formation [@Lyne1905ZanzibarContemporary; @Bryndina2023TheMost; @Spear1900SwahiliHistory].
+
+```{r tab4-top-centres, results='asis'}
+top_12 <- summary_cache$top_settlements[seq_len(min(12L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_12, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_12, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "United Republic of Tanzania")) "Tanzania" else c
+  }, character(1)),
+  Span = vapply(top_12, function (s) {
+    if (s$min_year == s$max_year) paste0(s$min_year, "AD") else paste0(s$min_year, "AD-", s$max_year, "AD")
+  }, character(1)),
+  `Peak Pop.` = vapply(top_12, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_12, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_12, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Twelve largest individually assessed settlements in East Africa and Mozambique between 1500AD and 1885AD.",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+End-epoch population density in 1880AD reveals an eightfold gradient across the nine sub-regions (Figure \ref{fig:rank-size}). High-rainfall volcanic and lacustrine highlands in Rwanda and Burundi (`r viscount_fmt_number(sub_by_id[["rwanda_burundi_kivu"]]$end_density_km2, 2L)` persons/km²) and Buganda-Bunyoro (`r viscount_fmt_number(sub_by_id[["buganda_bunyoro_ankole"]]$end_density_km2, 2L)` persons/km²) carried far higher rural densities than the semi-arid miombo plateaus of Bemba-Lozi (`r viscount_fmt_number(sub_by_id[["bemba_lozi_zambezi_plateau"]]$end_density_km2, 2L)` persons/km²) and Hehe-Rufiji (`r viscount_fmt_number(sub_by_id[["hehe_southern_tanganyika"]]$end_density_km2, 2L)` persons/km²), while Maravi-Yao (`r viscount_fmt_number(sub_by_id[["maravi_yao_lake_malawi"]]$end_density_km2, 2L)`), the Omani-Zanzibar littoral (`r viscount_fmt_number(sub_by_id[["zanzibar_swahili_omani_coast"]]$end_density_km2, 2L)`) and the Maasai-Kenya highland zone (`r viscount_fmt_number(sub_by_id[["kenya_highlands_maasai_rift"]]$end_density_km2, 2L)`) held intermediate values.
+
+# Limitations
+
+Three structural constraints govern these demographic reconstructions. First, documentary density tilts heavily toward the coast and nineteenth-century caravan corridors. While Mombasa, Ilha de Moçambique, Sena, Tete and Zanzibar possess multi-century records spanning Portuguese *tombo* accounts, Omani annals and consular reports [@Pradines2016PortugueseFortresses; @Parliament1898CorrespondenceRespecting; @Newitt1995Mozambique], interior highlands in central Tanzania, Rwanda, Burundi and northern Zambia have very few pre-1850AD written headcounts, requiring spatial kriging to bridge between archaeological registers and late nineteenth-century eyewitness counts [@NMK2021KenyaSites; @Alders2023OpenAccess].
+
+Second, eyewitness urban estimates of large African capitals carry wide error margins - commonly 20% to 35% - when observers estimated dispersed garden-and-compound settlements rather than compact walled quarters. Bigo bya Mugenyi's 100k peak around 1550AD represents an outer-ditch synthesis figure across its 320 ha earthwork perimeter that remains debated relative to its 24 ha royal enclosure, while nineteenth-century counts for Buganda's shifting *Kibuga* (between Banda, Rubaga and Mengo) and Mirambo's Urambo depend on missionary and expeditionary estimates across composite compounds [@Kafuuma2019HeritageSignificance; @Bryndina2023TheMost]. Single-date records, accounting for 13 of the 97 entries (such as Kaole, Manda, Tsindi, Kalenga and Masasi), likewise offer snapshots rather than full secular trajectories.
+
+Third, mortality shocks from the nineteenth-century Indian Ocean slave trade and epidemic waves are imperfectly resolved at ten-year intervals. Although aggregate drops appear clearly in the 1710AD, 1790AD, 1830AD and 1860AD regional benchmarks (falling from 15,31M in 1850AD to 14,68M in 1860AD during peak coastal cholera outbreaks and interior raiding), sub-annual famine mortality along the Ruvuma, Shire and Pangani corridors cannot be recovered precisely from decadal rasters [@Parliament1898CorrespondenceRespecting; @Bourguignat1879DescriptionDiverses].
+
+# Conclusion
+
+Between 1500AD and 1880AD, East Africa and Mozambique experienced a nearly threefold population increase from `r viscount_fmt_pop(headline_vals[["1500"]])` to `r viscount_fmt_pop(headline_vals[["1880"]])` inhabitants, accompanied by a profound spatial reorganisation of urban and political power. Sixteenth-century Portuguese naval dominance broke the mediaeval monopoly of Kilwa Kisiwani and Sofala, prompting a northern Swahili revival centred on Pate and Lamu before Omani-Zanzibar rule welded coastal ports, clove islands and interior Nyamwezi and Yao caravan highways into a single commercial system by the mid-nineteenth century. Inland, highland agriculture sustained high rural densities in Rwanda, Burundi and Buganda even as *prazo* wars, Nguni migrations and caravan slaving reshaped settlement patterns across Mozambique, Malawi and Zambia. By uniting `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements with non-stationary kriging and pycnophylactic administrative disaggregation, NICETHI supplies an integrated demographic bridge from early modern polities into the twentieth-century colonial census era.
+
+# Appendix
+
+## Sub-Regional Density and Share Series
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all nine historical sub-regions from 1500AD to 1880AD, highlighting the persistent five- to eightfold density gradient between the Great Lakes kingdoms and the southern savanna plateaus. Table \ref{tab:shares-appendix} tracks each sub-region's percentage share of the regional population across the same six benchmarks, showing the coastal share rising from 4,9% in 1500AD to 6,9% in 1850AD and 6,5% in 1880AD alongside the dramatic expansion of Maravi-Yao (11,0% to 17,0%) and the relative stabilisation of Buganda-Bunyoro (17,8% to 12,1%).
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1500AD` = viscount_fmt_number(as.numeric(ps[["1500"]]) / ar, 2L),
+    `1700AD` = viscount_fmt_number(as.numeric(ps[["1700"]]) / ar, 2L),
+    `1770AD` = viscount_fmt_number(as.numeric(ps[["1770"]]) / ar, 2L),
+    `1800AD` = viscount_fmt_number(as.numeric(ps[["1800"]]) / ar, 2L),
+    `1850AD` = viscount_fmt_number(as.numeric(ps[["1850"]]) / ar, 2L),
+    `1880AD` = viscount_fmt_number(as.numeric(ps[["1880"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1500AD` = viscount_fmt_number(headline_vals[["1500"]] / total_area_km2, 2L),
+  `1700AD` = viscount_fmt_number(headline_vals[["1700"]] / total_area_km2, 2L),
+  `1770AD` = viscount_fmt_number(headline_vals[["1770"]] / total_area_km2, 2L),
+  `1800AD` = viscount_fmt_number(headline_vals[["1800"]] / total_area_km2, 2L),
+  `1850AD` = viscount_fmt_number(headline_vals[["1850"]] / total_area_km2, 2L),
+  `1880AD` = viscount_fmt_number(headline_vals[["1880"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across nine historical sub-regions from 1500AD to 1880AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1500AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1500"]]) / headline_vals[["1500"]], 1L),
+    `1700AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1700"]]) / headline_vals[["1700"]], 1L),
+    `1770AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1770"]]) / headline_vals[["1770"]], 1L),
+    `1800AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1800"]]) / headline_vals[["1800"]], 1L),
+    `1850AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1850"]]) / headline_vals[["1850"]], 1L),
+    `1880AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1880"]]) / headline_vals[["1880"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total regional population by historical sub-region across six benchmark years from 1500AD to 1880AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+## Sub-Regional Gazetteer Distribution Summary
+
+Table \ref{tab:subregion-sites-appendix} summarises the interior spatial match counts, full gazetteer counts, observation totals, combined peak-population sums and leading urban centres across all nine historical sub-regions, linking the regional analysis directly to the companion settlement gazetteer [@Spear1900SwahiliHistory; @WynneJones2018SwahiliWorld].
+
+```{r tab7-subregion-sites, results='asis'}
+df_t7 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Interior` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Full Ledger` = vapply(subregion_order, function (id) viscount_fmt_number(full_site_counts[[id]], 0L), character(1)),
+  `Obs.` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$observation_count, 0L), character(1)),
+  `Peak Sum` = vapply(subregion_order, function (id) viscount_fmt_pop(dist_by_id[[id]]$peak_pop_sum), character(1)),
+  `Leading Centres` = vapply(subregion_order, function (id) {
+    paste(unlist(dist_by_id[[id]]$top_settlements)[seq_len(min(3L, length(dist_by_id[[id]]$top_settlements)))], collapse = ", ")
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Sub-regional settlement match counts, observation totals, interior peak sums and leading urban centres.",
+  arg3_options = list(label = "tab:subregion-sites-appendix")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+In Table \ref{tab:subregions}, 91 of the 97 individually assessed settlements fall strictly inside the 5-arcminute regional mask pixels, whereas 6 border-margin or northern Banadir-frontier sites (Muqdisho, Afgoye, Baar Dheere and Chencha on the northern Banadir-Ethiopian edge, and Great Zimbabwe and Thulamela along the southern Limpopo-Zimbabwe plateau margin) lie just outside the raster interior perimeter and are reconciled to their adjacent cultural sub-regions in the companion settlement gazetteer so all 97 sites are catalogued.

@@ -1,0 +1,615 @@
+---
+title: "Colonial Horn of Africa and Anglo-Egyptian Sudan"
+subtitle: "Settlement Gazetteer: 239 Individually Assessed Sites (1880AD-1960AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_horn_sudan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 239 individually assessed settlements across nine colonial and imperial sub-regions in the Horn of Africa and Anglo-Egyptian Sudan (1880AD to 1960AD)."
+hero_label: "fig:hero-settlements-horn"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("colonial_horn_sudan_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("colonial_horn_sudan_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+subregion_lookup <- c(
+  "Abu Haraz-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Adré-Chad" = "anglo_egyptian_sudan_darfur_kord",
+  "al-Dalanj-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "al-Duaiym-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Al-Fāshir-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Al-Junaynah-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "al-Nuhud-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "al-Rahad-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Al-Ubayyiḍ-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "An-Nuhūd-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Bara-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Birao-Central African Republic" = "anglo_egyptian_sudan_darfur_kord",
+  "El Fula-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Kāduqlī-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Kajmar-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Kaka-South Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Kotum-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Madinat Kabkabiyya-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Mellit-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Nyālā-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Rashad-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Taludy-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Um Rowaba-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "Zālingay-Sudan" = "anglo_egyptian_sudan_darfur_kord",
+  "'Aṭbarah-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Abri-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Abu Hamad-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "al-Damir-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "al-Duwaym-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "al-Jazira Aba-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Al-Kharṭūm Baḥrī-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Al-Kharṭūm-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Al-Manāqil-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Al-Qaḍārif-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "al-Qatayna-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "al-Roseires-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Argo-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Aroma-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Barbar-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Būr Sūdān-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Derudeb-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Dungunab-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Dunqulā-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Ed-Debba-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "El Hasaheisa-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "El-Kamlin-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "El-Khandaq-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "El-Mesellemiya-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Erkowit-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Fazogli-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Goz Regeb-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Karima-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Karkoj-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Kassalā-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Khartoum (Agglomeration)-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Korti-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Kosty-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Kūstī-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Merowe-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Metemma-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Mohamed Qol-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Rufa-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Sannār-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Sawākin-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Shandī-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Sinjah-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Sinkāt-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Ṭawkar-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Trinkitat-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Umm Durmān-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Wad Madanī-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Wad Medani-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Wadi Halfa-Sudan" = "anglo_egyptian_sudan_north_nile",
+  "Aweil-South Sudan" = "anglo_egyptian_sudan_south",
+  "Bor-South Sudan" = "anglo_egyptian_sudan_south",
+  "Deim Zubeir-South Sudan" = "anglo_egyptian_sudan_south",
+  "Detwok-South Sudan" = "anglo_egyptian_sudan_south",
+  "Gondokoro-South Sudan" = "anglo_egyptian_sudan_south",
+  "Juba (Agglomeration)-South Sudan" = "anglo_egyptian_sudan_south",
+  "Juba-South Sudan" = "anglo_egyptian_sudan_south",
+  "Kodok-South Sudan" = "anglo_egyptian_sudan_south",
+  "Malakal-South Sudan" = "anglo_egyptian_sudan_south",
+  "Maridi-South Sudan" = "anglo_egyptian_sudan_south",
+  "Meshra er-Req-South Sudan" = "anglo_egyptian_sudan_south",
+  "Moyo-Uganda" = "anglo_egyptian_sudan_south",
+  "Nasir-South Sudan" = "anglo_egyptian_sudan_south",
+  "Raga-South Sudan" = "anglo_egyptian_sudan_south",
+  "Renk-South Sudan" = "anglo_egyptian_sudan_south",
+  "Rumbek-South Sudan" = "anglo_egyptian_sudan_south",
+  "Shambe-South Sudan" = "anglo_egyptian_sudan_south",
+  "Tonga-South Sudan" = "anglo_egyptian_sudan_south",
+  "Tonj-South Sudan" = "anglo_egyptian_sudan_south",
+  "Torit-South Sudan" = "anglo_egyptian_sudan_south",
+  "Wau-South Sudan" = "anglo_egyptian_sudan_south",
+  "Yambio-South Sudan" = "anglo_egyptian_sudan_south",
+  "Yei-South Sudan" = "anglo_egyptian_sudan_south",
+  "Yirol-South Sudan" = "anglo_egyptian_sudan_south",
+  "'Erigavo-Somaliland" = "french_british_somaliland",
+  "Ali-Sabieh-Djibouti" = "french_british_somaliland",
+  "Barbara-Somaliland" = "french_british_somaliland",
+  "Borama-Somaliland" = "french_british_somaliland",
+  "Bulhar-Somaliland" = "french_british_somaliland",
+  "Burao-Somaliland" = "french_british_somaliland",
+  "Dikhil-Djibouti" = "french_british_somaliland",
+  "Djibouti (Agglomeration)-Djibouti" = "french_british_somaliland",
+  "Djibouti-Djibouti" = "french_british_somaliland",
+  "Hargeisa (Agglomeration)-Somaliland" = "french_british_somaliland",
+  "Hargeysa-Somaliland" = "french_british_somaliland",
+  "Las Anod-Somaliland" = "french_british_somaliland",
+  "Las Khorey-Somaliland" = "french_british_somaliland",
+  "Maydh-Somaliland" = "french_british_somaliland",
+  "Obock-Djibouti" = "french_british_somaliland",
+  "Tadjourah-Djibouti" = "french_british_somaliland",
+  "Zeila-Somaliland" = "french_british_somaliland",
+  "Degehabur-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Dire Dawa-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Dolo-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Fik-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Harar-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Harare-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Jijiga-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Kebri Dehar-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Kelafo-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Korahe-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Mandera-Kenya" = "imperial_ethiopia_hararghe_ogaden",
+  "Misrak Imi-Ethiopia" = "imperial_ethiopia_hararghe_ogaden",
+  "Addis Ababa (Agglomeration)-Ethiopia" = "imperial_ethiopia_north_central",
+  "Adigrat-Ethiopia" = "imperial_ethiopia_north_central",
+  "Adis Abeba-Ethiopia" = "imperial_ethiopia_north_central",
+  "Adwa-Ethiopia" = "imperial_ethiopia_north_central",
+  "Aksum-Ethiopia" = "imperial_ethiopia_north_central",
+  "Aliyu Amba-Ethiopia" = "imperial_ethiopia_north_central",
+  "Ankober-Ethiopia" = "imperial_ethiopia_north_central",
+  "Asayta-Ethiopia" = "imperial_ethiopia_north_central",
+  "Azezo-Ethiopia" = "imperial_ethiopia_north_central",
+  "Bahir Dar-Ethiopia" = "imperial_ethiopia_north_central",
+  "Bichena-Ethiopia" = "imperial_ethiopia_north_central",
+  "Dangila-Ethiopia" = "imperial_ethiopia_north_central",
+  "Debere Markos-Ethiopia" = "imperial_ethiopia_north_central",
+  "Debre Birhan-Ethiopia" = "imperial_ethiopia_north_central",
+  "Debretabor-Ethiopia" = "imperial_ethiopia_north_central",
+  "Dese-Ethiopia" = "imperial_ethiopia_north_central",
+  "Entoto-Ethiopia" = "imperial_ethiopia_north_central",
+  "Gonder-Ethiopia" = "imperial_ethiopia_north_central",
+  "Gorgora-Ethiopia" = "imperial_ethiopia_north_central",
+  "Kombolcha-Ethiopia" = "imperial_ethiopia_north_central",
+  "Lalibela-Ethiopia" = "imperial_ethiopia_north_central",
+  "Liche-Ethiopia" = "imperial_ethiopia_north_central",
+  "Mehal Meda-Ethiopia" = "imperial_ethiopia_north_central",
+  "Mekele-Ethiopia" = "imperial_ethiopia_north_central",
+  "Mota-Ethiopia" = "imperial_ethiopia_north_central",
+  "Sekota-Ethiopia" = "imperial_ethiopia_north_central",
+  "Shire Inda Silase-Ethiopia" = "imperial_ethiopia_north_central",
+  "Weldiya-Ethiopia" = "imperial_ethiopia_north_central",
+  "Were Ilu-Ethiopia" = "imperial_ethiopia_north_central",
+  "Wukro-Ethiopia" = "imperial_ethiopia_north_central",
+  "Adama-Ethiopia" = "imperial_ethiopia_south_west",
+  "Agaro-Ethiopia" = "imperial_ethiopia_south_west",
+  "Ambo-Ethiopia" = "imperial_ethiopia_south_west",
+  "Anderacha-Ethiopia" = "imperial_ethiopia_south_west",
+  "Asela-Ethiopia" = "imperial_ethiopia_south_west",
+  "Awasa-Ethiopia" = "imperial_ethiopia_south_west",
+  "Bedele-Ethiopia" = "imperial_ethiopia_south_west",
+  "Bishoftu-Ethiopia" = "imperial_ethiopia_south_west",
+  "Bonga-Ethiopia" = "imperial_ethiopia_south_west",
+  "Chencha-Ethiopia" = "imperial_ethiopia_south_west",
+  "Chiro-Ethiopia" = "imperial_ethiopia_south_west",
+  "Dalbo-Ethiopia" = "imperial_ethiopia_south_west",
+  "Dembi Dolo-Ethiopia" = "imperial_ethiopia_south_west",
+  "Dila-Ethiopia" = "imperial_ethiopia_south_west",
+  "Dirre Sheikh Hussein-Ethiopia" = "imperial_ethiopia_south_west",
+  "Dodola-Ethiopia" = "imperial_ethiopia_south_west",
+  "Fiche-Ethiopia" = "imperial_ethiopia_south_west",
+  "Fofa-Ethiopia" = "imperial_ethiopia_south_west",
+  "Funyan Bira-Ethiopia" = "imperial_ethiopia_south_west",
+  "Gambela-Ethiopia" = "imperial_ethiopia_south_west",
+  "Gimbi-Ethiopia" = "imperial_ethiopia_south_west",
+  "Ginir-Ethiopia" = "imperial_ethiopia_south_west",
+  "Goba-Ethiopia" = "imperial_ethiopia_south_west",
+  "Gore-Ethiopia" = "imperial_ethiopia_south_west",
+  "Hosaena-Ethiopia" = "imperial_ethiopia_south_west",
+  "Jima-Ethiopia" = "imperial_ethiopia_south_west",
+  "Mega-Ethiopia" = "imperial_ethiopia_south_west",
+  "Moyale-Kenya" = "imperial_ethiopia_south_west",
+  "Negele-Ethiopia" = "imperial_ethiopia_south_west",
+  "Nekemte-Ethiopia" = "imperial_ethiopia_south_west",
+  "Robe-Ethiopia" = "imperial_ethiopia_south_west",
+  "Shashemene-Ethiopia" = "imperial_ethiopia_south_west",
+  "Soddo-Ethiopia" = "imperial_ethiopia_south_west",
+  "Tarcha-Ethiopia" = "imperial_ethiopia_south_west",
+  "Yabelo-Ethiopia" = "imperial_ethiopia_south_west",
+  "Ādī K'eyih-Eritrea" = "italian_eritrea",
+  "Ādī Kwala-Eritrea" = "italian_eritrea",
+  "Ādī Ugrī-Eritrea" = "italian_eritrea",
+  "Āk'ordat-Eritrea" = "italian_eritrea",
+  "Arkiko-Eritrea" = "italian_eritrea",
+  "Āseb-Eritrea" = "italian_eritrea",
+  "Asmara (Agglomeration)-Eritrea" = "italian_eritrea",
+  "Āsmera-Eritrea" = "italian_eritrea",
+  "Barentu-Eritrea" = "italian_eritrea",
+  "Beylul-Eritrea" = "italian_eritrea",
+  "Debarwa-Eritrea" = "italian_eritrea",
+  "Dek'emhāre-Eritrea" = "italian_eritrea",
+  "Edd-Eritrea" = "italian_eritrea",
+  "Gīnda-Eritrea" = "italian_eritrea",
+  "Keren-Eritrea" = "italian_eritrea",
+  "Mits'iwa-Eritrea" = "italian_eritrea",
+  "Nak'fa-Eritrea" = "italian_eritrea",
+  "Raheita-Eritrea" = "italian_eritrea",
+  "Sen'afē-Eritrea" = "italian_eritrea",
+  "Teseney-Eritrea" = "italian_eritrea",
+  "Afgoye-Somalia" = "italian_somaliland",
+  "Alula-Somalia" = "italian_somaliland",
+  "Baar Dheere-Somalia" = "italian_somaliland",
+  "Baidoa-Somalia" = "italian_somaliland",
+  "Barawa E Al Bambar-Somalia" = "italian_somaliland",
+  "Bargal-Somalia" = "italian_somaliland",
+  "Beledweyne-Somalia" = "italian_somaliland",
+  "Bosaso-Somalia" = "italian_somaliland",
+  "Buur Hakaba-Somalia" = "italian_somaliland",
+  "Eyl-Somalia" = "italian_somaliland",
+  "Faza-Kenya" = "italian_somaliland",
+  "Gaalkayo-Somalia" = "italian_somaliland",
+  "Garoowe-Somalia" = "italian_somaliland",
+  "Hafun Settlement-Somalia" = "italian_somaliland",
+  "Hobyo-Somalia" = "italian_somaliland",
+  "Jamaame-Somalia" = "italian_somaliland",
+  "Jilib-Somalia" = "italian_somaliland",
+  "Jowhar-Somalia" = "italian_somaliland",
+  "Kismaayo-Somalia" = "italian_somaliland",
+  "Luuq-Somalia" = "italian_somaliland",
+  "Mareg-Somalia" = "italian_somaliland",
+  "Marka-Somalia" = "italian_somaliland",
+  "Mogadishu (Agglomeration)-Somalia" = "italian_somaliland",
+  "Muqdisho-Somalia" = "italian_somaliland",
+  "Qandala-Somalia" = "italian_somaliland",
+  "Qardho-Somalia" = "italian_somaliland",
+  "Qoryoley-Somalia" = "italian_somaliland",
+  "Warsheikh-Somalia" = "italian_somaliland"
+)
+
+iso3_map <- c(
+  "Central African Republic" = "CAF",
+  "Chad" = "TCD",
+  "Djibouti" = "DJI",
+  "Eritrea" = "ERI",
+  "Ethiopia" = "ETH",
+  "Kenya" = "KEN",
+  "Somalia" = "SOM",
+  "Somaliland" = "SML",
+  "South Sudan" = "SSD",
+  "Sudan" = "SDN",
+  "Uganda" = "UGA"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yrs[i_pk], "AD)")
+}
+
+subregion_order <- c(
+  "imperial_ethiopia_north_central",
+  "imperial_ethiopia_south_west",
+  "imperial_ethiopia_hararghe_ogaden",
+  "italian_eritrea",
+  "french_british_somaliland",
+  "italian_somaliland",
+  "anglo_egyptian_sudan_north_nile",
+  "anglo_egyptian_sudan_darfur_kord",
+  "anglo_egyptian_sudan_south"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, function (e) {
+  s <- subregion_lookup[[e$key]]
+  if (is.null(s)) "imperial_ethiopia_north_central" else s
+}, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1880AD` = fmt_site_pop(e, 1880),
+      `1910AD` = fmt_site_pop(e, 1910),
+      `1930AD` = fmt_site_pop(e, 1930),
+      `1950AD` = fmt_site_pop(e, 1950),
+      `1960AD` = fmt_site_pop(e, 1960),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1880, 1910, 1930, 1950, 1956, 1960)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates and multi-date population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across eleven modern jurisdictions in the Horn of Africa and Anglo-Egyptian Sudan between 1880AD and 1960AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate towns, railway stations, colonial administrative posts and historic ports (`r viscount_fmt_number(n_excluded, 0L)` duplicate aliases excluded), the retained entries span nine sub-regions across Imperial Ethiopia, Italian Eritrea, French and British Somaliland, Italian Somaliland and the nine Condominium provinces of Sudan. Active interpolated records expand from `r viscount_fmt_number(n_active[["1880"]], 0L)` settlements in 1880AD to `r viscount_fmt_number(n_active[["1910"]], 0L)` in 1910AD, `r viscount_fmt_number(n_active[["1930"]], 0L)` in 1930AD and `r viscount_fmt_number(n_active[["1950"]], 0L)` in 1950AD, led by Addis Ababa (541,7k agglomeration, 444k city proper), Khartoum (342,7k agglomeration), Omdurman (148k), Asmara (123,5k) and Mogadishu (101,5k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 239 individually assessed settlements across nine colonial and imperial sub-regions in the Horn of Africa and Anglo-Egyptian Sudan (1880AD to 1960AD).",
+    "fig:hero-settlements-horn"
+  )
+}
+```
+
+# Background
+
+Compiling an urban and small-town ledger across Northeast Africa between 1880AD and 1960AD requires integrating divergent archival traditions. Imperial Ethiopia lacked national censuses prior to 1984AD, leaving Addis Ababa, Harar, Dire Dawa, Gonder and Dese documented through traveller counts, Italian occupation municipal surveys and post-war statistical tallies [@Pankhurst1968EconomicHistory; @ARCCH2020EthiopiaInventory]. By contrast, Italian Eritrea produced systematic enumerations from 1905AD to 1939AD [@Fuller2011ItalyColonial], British and Italian Somalilands relied on port Blue Books and protectorate returns [@Omar2001ScrambleHorn; @Kuczynski1949DemographicSurvey2], and Anglo-Egyptian Sudan transitioned from early Condominium tax rolls to the 1955-1956 First Population Census [@Division1922HandbookThe; @Sudan1956Census].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Assignment
+
+Of `r viscount_fmt_number(n_candidates, 0L)` candidate entries inside the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study domain bounded over geoBoundaries national outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate transliteration aliases were removed, retaining `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations. Each entry is assigned to one of the nine colonial or imperial sub-regions (237 inside the 5-arcminute interior raster plus Birao and Faza reconciled on the western Darfur and southern Somali margins).
+
+## Scope Conventions and Linear Interpolation
+
+The ledger distinguishes 232 city-proper municipal records from 7 post-1950 metropolitan agglomerations (Addis Ababa, Khartoum, Asmara, Mogadishu, Hargeisa, Djibouti and Juba) [@Demisse2024UrbanLand; @Darwich2025PortInfrastructures]. Tables 1 to 9 report linearly interpolated headcounts at five benchmarks (1880AD, 1910AD, 1930AD, 1950AD and 1960AD) alongside each entry's peak population and date, marking benchmarks outside an entry's observed span with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` retained settlements, upper-half Zipf regression (119 entries) yields $q = 1,07$ ($R^2 = 0,99$) and full-sample regression yields $q = 1,21$ ($R^2 = 0,96$), aligning closely with the 230 spatially deduplicated settlement peaks displayed in Figure \ref{fig:settlements-rank} ($q = 0,98$, $R^2 = 0,99$).
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 230 spatially deduplicated settlements (q = 0,98, R² = 0,99) and mean sub-regional density in 1960AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Imperial Ethiopia: Northern and Central Highlands
+
+Table \ref{tab:sub-eth-north} records `r viscount_fmt_number(length(zone_entries[["imperial_ethiopia_north_central"]]), 0L)` settlements across Shewa, Tigray, Begemder, Gojjam and Wollo, anchored by Addis Ababa (541,7k agglomeration, 444k city proper), Dese (46,9k), Gonder (22,8k), Entoto (18,5k), Mekele (15,3k), Debere Markos (15k) and Aksum (13k) [@Pankhurst1968EconomicHistory; @Sulas2014AksumWater].
+
+```{r tab-eth-north, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["imperial_ethiopia_north_central"]]),
+  "Individually assessed settlements in Imperial Ethiopia: Northern and Central Highlands (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-eth-north")
+)
+```
+
+## Imperial Ethiopia: Oromo, Kaffa and Southwest
+
+Table \ref{tab:sub-eth-south} lists `r viscount_fmt_number(length(zone_entries[["imperial_ethiopia_south_west"]]), 0L)` settlements across Oromia, Kaffa, Sidamo, Gemu Gofa, Illubabor and Gambela, led by Jima (22k), Adama (12,4k), Nekemte (10,8k), Asela (10,7k), Bishoftu (9,8k) and Gore (8,5k) [@Braukamper2013IndigenousViews].
+
+```{r tab-eth-south, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["imperial_ethiopia_south_west"]]),
+  "Individually assessed settlements in Imperial Ethiopia: Oromo, Kaffa and Southwest (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-eth-south")
+)
+```
+
+## Imperial Ethiopia: Hararghe, Bale and Ogaden
+
+Table \ref{tab:sub-eth-east} documents `r viscount_fmt_number(length(zone_entries[["imperial_ethiopia_hararghe_ogaden"]]), 0L)` settlements across Hararghe, the Ogaden lowlands and the Mandera border post, headed by Harar (45k), Dire Dawa (42,1k), the Africapolis Harare urban series (41,9k) and Jijiga (12,8k) [@Pankhurst1968EconomicHistory].
+
+```{r tab-eth-east, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["imperial_ethiopia_hararghe_ogaden"]]),
+  "Individually assessed settlements in Imperial Ethiopia: Hararghe, Bale and Ogaden (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-eth-east")
+)
+```
+
+## Italian Eritrea and BMA Eritrea
+
+Table \ref{tab:sub-eritrea} compiles `r viscount_fmt_number(length(zone_entries[["italian_eritrea"]]), 0L)` settlements across Colonia Eritrea and the post-1941AD British Military Administration, led by Asmara (123,5k agglomeration, 120,4k city proper), Massawa (17,2k), Keren (15k), Dek'emhāre (12,8k), Assab (10,4k) and Āk'ordat (10,3k) [@Fuller2011ItalyColonial; @Beyan2021UnemploymentAnd].
+
+```{r tab-eritrea, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["italian_eritrea"]]),
+  "Individually assessed settlements in Italian Eritrea and BMA Eritrea (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-eritrea")
+)
+```
+
+## French Somaliland and British Somaliland
+
+Table \ref{tab:sub-fr-br-som} presents `r viscount_fmt_number(length(zone_entries[["french_british_somaliland"]]), 0L)` settlements across French Cote des Somalis and the British Somaliland Protectorate, anchored by Hargeisa (38,4k agglomeration, 34,3k city proper), Djibouti (37,4k agglomeration, 31,5k city proper), Berbera (18,1k), Burao (11,4k), Bulhar (7,2k) and Zeila (6k) [@Darwich2025PortInfrastructures; @Kuczynski1949DemographicSurvey2].
+
+```{r tab-fr-br-som, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["french_british_somaliland"]]),
+  "Individually assessed settlements in French Somaliland and British Somaliland (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-fr-br-som")
+)
+```
+
+## Italian Somaliland
+
+Table \ref{tab:sub-it-som} details `r viscount_fmt_number(length(zone_entries[["italian_somaliland"]]), 0L)` settlements across Somalia Italiana and the UN Trusteeship Territory alongside border-margin Faza, led by Mogadishu (101,5k agglomeration, 63,3k city proper), Marka (61,6k), Qoryoley (15k), Afgoye (14,9k), Jowhar (14,5k), Kismaayo (11,3k) and Baidoa (11,2k) [@Omar2001ScrambleHorn].
+
+```{r tab-it-som, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["italian_somaliland"]]),
+  "Individually assessed settlements in Italian Somaliland and UN Trusteeship Somalia (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-it-som")
+)
+```
+
+## Anglo-Egyptian Sudan: Nile, Khartoum and Kassala
+
+Table \ref{tab:sub-sdn-north} catalogues `r viscount_fmt_number(length(zone_entries[["anglo_egyptian_sudan_north_nile"]]), 0L)` settlements across Northern, Khartoum, Kassala and Blue Nile provinces, led by Khartoum (342,7k agglomeration, 124k city proper), Omdurman (148k), Port Sudan (62,7k), Wad Madanī (56,9k), Kassalā (50,7k) and Atbara (42k) [@Division1922HandbookThe; @Sudan1956Census].
+
+```{r tab-sdn-north, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["anglo_egyptian_sudan_north_nile"]]),
+  "Individually assessed settlements in Anglo-Egyptian Sudan: Nile, Khartoum and Kassala (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-sdn-north")
+)
+```
+
+## Anglo-Egyptian Sudan: Darfur and Kordofan
+
+Table \ref{tab:sub-sdn-west} records `r viscount_fmt_number(length(zone_entries[["anglo_egyptian_sudan_darfur_kord"]]), 0L)` settlements across Darfur and Kordofan together with frontier posts at Adré and Birao, headed by Al-Ubayyiḍ (58,2k), Al-Fāshir (33,5k), Nyālā (18,8k), al-Nuhud (18,5k) and Al-Junaynah (15,6k) [@Sudan1956Census].
+
+```{r tab-sdn-west, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["anglo_egyptian_sudan_darfur_kord"]]),
+  "Individually assessed settlements in Anglo-Egyptian Sudan: Darfur and Kordofan (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-sdn-west")
+)
+```
+
+## Anglo-Egyptian Sudan: Southern Provinces
+
+Table \ref{tab:sub-sdn-south} compiles `r viscount_fmt_number(length(zone_entries[["anglo_egyptian_sudan_south"]]), 0L)` settlements across Bahr el Ghazal, Upper Nile and Equatoria together with border-post Moyo, led by Juba (18k agglomeration, 10,7k city proper), Malakal (13,8k), Wau (13,6k) and Yambio (8,4k) [@Sudan1956Census].
+
+```{r tab-sdn-south, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["anglo_egyptian_sudan_south"]]),
+  "Individually assessed settlements in Anglo-Egyptian Sudan: Southern Provinces (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:sub-sdn-south")
+)
+```
+
+# Limitations
+
+Three constraints bound this settlement gazetteer. First, 28 of the 239 records carry single-date observations, producing hyphens outside their observed date. Second, seven capitals pair metropolitan agglomerations (1950AD to 1960AD) with municipal cores, while two towns (Wad Madanī alongside Wad Medani, and Harar alongside Harare) preserve distinct source series that should not be summed as independent cities. Third, combined settlement counts reflect attested towns and administrative stations rather than full rural populations reported in the companion review.
+
+# Conclusion
+
+Together, these `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements trace the transformation of Northeast Africa's urban system from Mahdist Omdurman and late nineteenth-century caravan centres to the railway, irrigated and metropolitan capitals of 1960AD.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums site counts and combined interpolated settlement populations across all nine sub-regions at the six chapter benchmarks from 1880AD to 1960AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1880AD` = sums[["1880"]],
+    `1910AD` = sums[["1910"]],
+    `1930AD` = sums[["1930"]],
+    `1950AD` = sums[["1950"]],
+    `1956AD` = sums[["1956"]],
+    `1960AD` = sums[["1960"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1880AD` = tot_sums[["1880"]],
+  `1910AD` = tot_sums[["1910"]],
+  `1930AD` = tot_sums[["1930"]],
+  `1950AD` = tot_sums[["1950"]],
+  `1956AD` = tot_sums[["1956"]],
+  `1960AD` = tot_sums[["1960"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated populations across nine sub-regions (1880AD to 1960AD).",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-foundation and post-abandonment benchmarks are marked with a hyphen (-).

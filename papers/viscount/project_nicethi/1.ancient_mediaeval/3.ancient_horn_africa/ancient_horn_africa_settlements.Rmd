@@ -1,0 +1,452 @@
+---
+title: "Ancient and Mediaeval Ethiopia and the Horn"
+subtitle: "Settlement Gazetteer: 164 Cities, Ports and Archaeological Sites (1000BC-1885AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: ancient_horn_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 164 individually assessed settlements across Ethiopia, Eritrea, Somalia, Somaliland, Djibouti and bordering Sudanese and Kenyan corridors from 1000BC to 1885AD."
+hero_label: "fig:hero-settlements-horn-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("ancient_horn_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("ancient_horn_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+sr_site_map <- list(
+  aksum_tigray_medri_bahri = c(
+    "Adi Grameten Settlement-Ethiopia", "Adigrat-Ethiopia", "Adulis-Eritrea", "Adwa-Ethiopia",
+    "Aksum-Ethiopia", "Antalo-Ethiopia", "Aqiq Settlement-Sudan", "Arkiko-Eritrea",
+    "Basa Settlement-Sudan", "Beta Samati Settlement-Ethiopia", "Chelicut-Ethiopia",
+    "Dahlak Kebir-Eritrea", "Debarwa-Eritrea", "Derudeb-Sudan", "Goz Regeb-Sudan",
+    "Hawelti-Melazo Settlement-Ethiopia", "Henzat Settlement-Ethiopia", "Kassalā-Sudan",
+    "Keren-Eritrea", "Keskese-Eritrea", "Mahal Teglinos Site-Sudan", "Matara-Eritrea",
+    "Mekele-Ethiopia", "Mezber Settlement-Ethiopia", "Mits'iwa-Eritrea",
+    "Ona Adi Settlement-Ethiopia", "Qohaito-Eritrea", "Sabderat-Sudan", "Sekota-Ethiopia",
+    "Sembel Ona Settlement-Eritrea", "Shire Inda Silase-Ethiopia", "Tokonda-Eritrea",
+    "Wukro-Ethiopia", "Yeha-Ethiopia", "al-Damir-Sudan", "Ṭawkar-Sudan"
+  ),
+  afar_red_sea_habesh = c(
+    "Abasa Ruins-Somaliland", "Amud Ruins-Somaliland", "Asayta-Ethiopia", "Awubere-Ethiopia",
+    "Barbara-Somaliland", "Beylul-Eritrea", "Bulhar-Somaliland", "Edd-Eritrea",
+    "Hargaya-Ethiopia", "Hargeysa-Somaliland", "Harlaa Settlement-Ethiopia", "Heis-Somaliland",
+    "Jijiga-Ethiopia", "Maduna Ruins-Somaliland", "Maydh-Somaliland", "Obock-Djibouti",
+    "Raheita-Eritrea", "Tadjourah-Djibouti", "Zeila-Somaliland", "Āseb-Eritrea"
+  ),
+  amhara_gondar_gojjam = c(
+    "Al-Qaḍārif-Sudan", "Azezo-Ethiopia", "Bahir Dar-Ethiopia", "Bichena-Ethiopia",
+    "Dangila-Ethiopia", "Danqaz-Ethiopia", "Debere Markos-Ethiopia", "Debretabor-Ethiopia",
+    "Emfraz-Ethiopia", "Fazogli-Sudan", "Gonder-Ethiopia", "Gorgora-Ethiopia",
+    "Karkoj-Sudan", "Lalibela Cave-Ethiopia", "Lalibela-Ethiopia", "Magdala-Ethiopia",
+    "Mota-Ethiopia", "Yifag-Ethiopia", "al-Roseires-Sudan"
+  ),
+  shewa_central_highlands = c(
+    "Aliyu Amba-Ethiopia", "Angolala-Ethiopia", "Ankober-Ethiopia", "Asbari Settlement-Ethiopia",
+    "Barara-Ethiopia", "Debre Birhan-Ethiopia", "Dese-Ethiopia", "Dima-Ethiopia",
+    "Entoto-Ethiopia", "Fiche-Ethiopia", "Gendebelo-Ethiopia", "Liche-Ethiopia",
+    "Mehal Meda-Ethiopia", "Nora Settlement-Ethiopia", "Saka-Ethiopia", "Tegulet-Ethiopia",
+    "Were Ilu-Ethiopia"
+  ),
+  ifat_adal_harar = c(
+    "Dakar Settlement-Ethiopia", "Fik-Ethiopia", "Funyan Bira-Ethiopia",
+    "Gidaya-Ethiopia", "Harar-Ethiopia", "Korahe-Ethiopia"
+  ),
+  ajuran_benadir_geledi = c(
+    "Afgoye-Somalia", "Baar Dheere-Somalia", "Barawa E Al Bambar-Somalia", "Buur Hakaba-Somalia",
+    "Dolo-Ethiopia", "Faza-Kenya", "Gondershe-Somalia", "Kelafo-Ethiopia",
+    "Kismaayo-Somalia", "Luuq-Somalia", "Marka-Somalia", "Muqdisho-Somalia",
+    "Pate-Kenya", "Qoryoley-Somalia", "Shanga-Kenya", "Siyu-Kenya", "Warsheikh-Somalia"
+  ),
+  northern_somali_majeerteen = c(
+    "Alula-Somalia", "Bargal-Somalia", "Bosaso-Somalia", "Eyl-Somalia",
+    "Hafun Settlement-Somalia", "Hobyo-Somalia", "Las Khorey-Somaliland",
+    "Mareg-Somalia", "Qandala-Somalia"
+  ),
+  oromo_borana_bale = c(
+    "Awasa-Ethiopia", "Chencha-Ethiopia", "Dalbo-Ethiopia", "Dirre Sheikh Hussein-Ethiopia",
+    "Dodola-Ethiopia", "Ele Bor Rock Shelter-Kenya", "Ginir-Ethiopia", "Goba-Ethiopia",
+    "Mega-Ethiopia", "Misrak Imi-Ethiopia", "Moyale-Kenya", "Negele-Ethiopia",
+    "Robe-Ethiopia", "Soddo-Ethiopia", "Yabelo-Ethiopia"
+  ),
+  kaffa_omotic_southwest = c(
+    "Anderacha-Ethiopia", "Bonga-Ethiopia", "Deloraine-Kenya", "Fofa-Ethiopia",
+    "Gore-Ethiopia", "Hyrax Hill Settlement-Kenya", "Jima-Ethiopia", "Mumias-Kenya",
+    "Nekemte-Ethiopia", "Njoro-Kenya", "Tarcha-Ethiopia", "Urewe-Kenya", "Usenge-Kenya"
+  ),
+  borderland_external = c(
+    "Barbar-Sudan", "El-Hassa-Sudan", "Jebel Qeili Settlement-Sudan", "Kaboshyah-Sudan",
+    "Lamu-Kenya", "Manda-Kenya", "Meroe-Sudan", "Nasir-South Sudan",
+    "Trinkitat-Sudan", "Wad Madanī-Sudan", "Wad Medani-Sudan", "Wadh Lang'o-Kenya"
+  )
+)
+
+key_to_zone <- character(0)
+for (zid in names(sr_site_map)) {
+  for (sk in sr_site_map[[zid]]) key_to_zone[[sk]] <- zid
+}
+
+zone_order <- names(sr_site_map)
+zone_labels <- c(
+  aksum_tigray_medri_bahri = "Aksum, Tigray and Medri Bahri",
+  afar_red_sea_habesh = "Afar Danakil, Massawa and Habesh Littoral",
+  amhara_gondar_gojjam = "Zagwe, Begemder, Gojjam and Lake Tana",
+  shewa_central_highlands = "Shewa and Central Ethiopian Highlands",
+  ifat_adal_harar = "Sultanates of Ifat, Adal and Harar",
+  ajuran_benadir_geledi = "Ajuran Empire, Benadir and Juba-Shabelle",
+  northern_somali_majeerteen = "Northern Somali Clans and Majeerteen",
+  oromo_borana_bale = "Oromo Gadaa Confederacies and Bale",
+  kaffa_omotic_southwest = "Kingdom of Kaffa, Wolayta and Omotic SW",
+  borderland_external = "Adjacent Nile, Sobat and Kenyan Borderlands"
+)
+
+iso_map <- c(
+  Ethiopia = "ETH",
+  Sudan = "SDN",
+  Somalia = "SOM",
+  Eritrea = "ERI",
+  Kenya = "KEN",
+  Somaliland = "SOL",
+  Djibouti = "DJI",
+  `South Sudan` = "SSD"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  y_pk <- as.integer(yrs[i_pk])
+  yr_lbl <- if (y_pk < 0L) paste0(abs(y_pk), "BC") else paste0(y_pk, "AD")
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yr_lbl, ")")
+}
+
+clean_site_name <- function (nm) {
+  s <- as.character(nm)
+  s <- gsub("ḍ", "d", s, fixed = TRUE)
+  s <- gsub("Ṭ", "T", s, fixed = TRUE)
+  s <- gsub("Ā", "A", s, fixed = TRUE)
+  s <- gsub("ā", "a", s, fixed = TRUE)
+  s <- gsub("ī", "i", s, fixed = TRUE)
+  s
+}
+
+zone_entries <- lapply(zone_order, function (zid) {
+  sub <- Filter(function (e) identical(key_to_zone[[e$key]], zid), all_entries)
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+})
+names(zone_entries) <- zone_order
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- if (!is.na(iso_map[e$country])) unname(iso_map[e$country]) else toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(
+      iso_code,
+      ": ",
+      fmt_eu_coord(e$coords[[1]]),
+      ", ",
+      fmt_eu_coord(e$coords[[2]])
+    )
+    data.frame(
+      Settlement = clean_site_name(e$name),
+      Location = loc_str,
+      `500AD` = fmt_site_pop(e, 500),
+      `1300AD` = fmt_site_pop(e, 1300),
+      `1600AD` = fmt_site_pop(e, 1600),
+      `1800AD` = fmt_site_pop(e, 1800),
+      `1850AD` = fmt_site_pop(e, 1850),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+n_obs_total <- as.integer(summary_cache$observation_count)
+
+bench_nums <- c(-1000, 200, 500, 1000, 1300, 1600, 1800, 1850)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles verified spatial coordinates and evidence-assessed multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across Ethiopia and the Horn between 1000BC and 1885AD (`r viscount_fmt_number(n_obs_total, 0L)` observations across 81 sites in Ethiopia, 21 in Sudan, 19 in Somalia, 15 in Eritrea, 15 in Kenya, 10 in Somaliland, 2 in Djibouti and 1 in South Sudan). Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate towns, ports and archaeological sites (`r viscount_fmt_number(n_excluded, 0L)` duplicate alias records excluded), the retained settlements span all nine Horn sub-regions plus adjacent Sudanese Nile-Butana, Sobat and Kenyan Swahili-Winam borderlands. Active assessed centres rise from `r viscount_fmt_number(n_active[["-1000"]], 0L)` early loci in 1000BC to `r viscount_fmt_number(n_active[["200"]], 0L)` in 200AD, `r viscount_fmt_number(n_active[["1300"]], 0L)` in 1300AD, `r viscount_fmt_number(n_active[["1600"]], 0L)` in 1600AD and `r viscount_fmt_number(n_active[["1850"]], 0L)` in 1850AD, tracing urban trajectories from Yeha (5,5k), Meroe (29,4k), Adulis (13,4k) and Aksum (34,2k) through Lalibela (9,7k), Muqdisho (24,8k), Harar (18,2k) and Gondar (62k) to nineteenth-century Ankober (12,4k), Barbara (18,2k) and Entoto (18,5k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 164 individually assessed settlements across Ethiopia, Eritrea, Somalia, Somaliland, Djibouti and bordering Sudanese and Kenyan corridors from 1000BC to 1885AD.",
+    "fig:hero-settlements-horn-africa"
+  )
+}
+```
+
+# Background
+
+Reconstructing the urban network of Ethiopia and the Horn between 1000BC and 1885AD requires combining archaeological excavation surveys with royal chronicles, Arabic coastal itineraries and nineteenth-century eyewitness accounts [@Phillipson2000FoundationsAfrican; @Pankhurst1982EthiopianTowns; @Kassim1995IslamAnd]. Unlike regions with continuous civic tax rolls, the Horn combined long-lived stone ports such as Adulis, Zeila and Muqdisho with mobile royal *katama* encampments on the Abyssinian plateau and pastoral market junctions across the Somali and Oromo interior [@Zazzaro2013TheAncient; @Lewis1960TheSomali]. Grouping all `r viscount_fmt_number(length(all_entries), 0L)` retained settlements by sub-region exposes how urban density shifted from the Pre-Axumite and Aksumite north to Zagwe Lasta, Shewa, Hararghe, the Benadir coast and the south-western forest kingdoms [@Fattovich2010Aksum; @Insoll2017FirstFootsteps; @GonzalezRuiba2024LandscapesMemory].
+
+# Methodology
+
+Candidate entries were screened across four saturation waves from published archaeological monographs, heritage inventories, classical gazetteers and urban historical syntheses [@ARCCH2020EthiopiaInventory; @Pleiades2024Africa; @Pankhurst1982EthiopianTowns]. Purging `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records left `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements, each scoped to city-proper extents and mapped onto the nine chapter sub-regions (152 internal sites) or the adjacent borderland tier (12 external Nile-Butana, Red Sea, Sobat and Kenyan sites). Tables 1 to 10 report linearly interpolated resident populations at five representative benchmarks (500AD, 1300AD, 1600AD, 1800AD and 1850AD) alongside each settlement's assessed peak and peak date, marking pre-foundation or post-abandonment benchmarks with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` settlements, rank-size regression on peak populations yields an upper-tier Zipf slope of $q = 0,67$ ($R^2 = 0,97$ across $n = 82$) and a full-ledger slope of $q = 1,01$ ($R^2 = 0,81$), confirming balanced polycentric scaling from Gondar (62k), Aksum (34,2k), Meroe (29,4k) and Muqdisho (24,8k) down to minor rock-shelter and caravan loci [@Agostini2020LuisaSernicola; @Uhlig2013DavidPhillipson]. All nine sub-regions contain multiple dated settlements (0 empty sub-regions), and unique peak populations account for 84,15% of entries with zero synthetic flat caps.
+
+# Results
+
+## Aksum, Tigray and Medri Bahri
+
+Table \ref{tab:zone-aksum} lists `r viscount_fmt_number(length(zone_entries[["aksum_tigray_medri_bahri"]]), 0L)` settlements across the northern plateau and Eritrean Red Sea coast, led by Aksum (34,2k), Kassalā (15,2k), Adulis (13,4k), Mekele (11,8k), Adwa (8k), Qohaito (7,9k), Matara (6,3k) and Yeha (5,5k) [@Fattovich2010Aksum; @Phillipson2000FoundationsAfrican; @Zazzaro2013TheAncient].
+
+```{r tab-zone-aksum, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["aksum_tigray_medri_bahri"]]),
+  "Individually assessed settlements in Aksum, Tigray and Medri Bahri from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-aksum")
+)
+```
+
+## Afar Danakil, Massawa and Habesh Littoral
+
+Table \ref{tab:zone-afar} compiles `r viscount_fmt_number(length(zone_entries[["afar_red_sea_habesh"]]), 0L)` settlements across the Danakil corridor, northern Somali coast and Harlaa-Jijiga marchlands, anchored by Barbara (18,2k), Zeila (11,4k), Harlaa Settlement (9,9k), Bulhar, Jijiga and Tadjourah [@Lewis1960TheSomali; @Insoll2017FirstFootsteps].
+
+```{r tab-zone-afar, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["afar_red_sea_habesh"]]),
+  "Individually assessed settlements in the Afar Danakil, Massawa and Habesh Littoral from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-afar")
+)
+```
+
+## Zagwe, Begemder, Gojjam and Lake Tana
+
+Table \ref{tab:zone-amhara} catalogues `r viscount_fmt_number(length(zone_entries[["amhara_gondar_gojjam"]]), 0L)` settlements across Lasta, Begemder, Gojjam and the western Blue Nile marches, led by Gondar (62k), Debretabor (14,6k), Magdala (11,5k), Al-Qaḍārif (11,2k), Lalibela (9,7k), Debere Markos (9,6k), Gorgora (9,4k) and Danqaz (7,8k) [@Pankhurst1982EthiopianTowns; @Smith1998LalibelaKonjowa].
+
+```{r tab-zone-amhara, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["amhara_gondar_gojjam"]]),
+  "Individually assessed settlements in Zagwe, Begemder, Gojjam and Lake Tana from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-amhara")
+)
+```
+
+## Shewa and Central Ethiopian Highlands
+
+Table \ref{tab:zone-shewa} documents `r viscount_fmt_number(length(zone_entries[["shewa_central_highlands"]]), 0L)` settlements across the central Solomonic and Shewan plateaus, led by Entoto (18,5k), Ankober (12,4k), Barara (11,4k), Liche (11,2k) and Debre Birhan (7,4k) [@Pankhurst1982EthiopianTowns; @ARCCH2020EthiopiaInventory].
+
+```{r tab-zone-shewa, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["shewa_central_highlands"]]),
+  "Individually assessed settlements in Shewa and the Central Ethiopian Highlands from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-shewa")
+)
+```
+
+## Sultanates of Ifat, Adal and Harar
+
+Table \ref{tab:zone-adal} records `r viscount_fmt_number(length(zone_entries[["ifat_adal_harar"]]), 0L)` eastern highland and Ogaden centres across Ifat, Adal and Hararghe, led by Harar (18,2k) and Dakar Settlement (7,3k) [@Addawe2026ConflictBetween; @Insoll2017FirstFootsteps; @Siraj2024PreliminarySurvey].
+
+```{r tab-zone-adal, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["ifat_adal_harar"]]),
+  "Individually assessed settlements in the Sultanates of Ifat, Adal and Harar from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-adal")
+)
+```
+
+## Ajuran Empire, Benadir and Juba-Shabelle
+
+Table \ref{tab:zone-benadir} details `r viscount_fmt_number(length(zone_entries[["ajuran_benadir_geledi"]]), 0L)` Benadir, lower Shabelle-Juba and northern Swahili settlements, anchored by Muqdisho (24,8k), Pate (16,8k), Siyu (11,2k), Afgoye (7,4k), Marka, Barawa and Kismaayo [@Kassim1995IslamAnd; @Lewis1996SongsFrom].
+
+```{r tab-zone-benadir, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["ajuran_benadir_geledi"]]),
+  "Individually assessed settlements in the Ajuran Empire, Benadir and Juba-Shabelle from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-benadir")
+)
+```
+
+## Northern Somali Clans and Majeerteen
+
+Table \ref{tab:zone-nsomali} lists `r viscount_fmt_number(length(zone_entries[["northern_somali_majeerteen"]]), 0L)` coastal ports and dryland stations along the Guardafui and Mudug littoral, including Mareg, Bosaso, Hafun Settlement, Las Khorey and Hobyo [@Lewis1960TheSomali; @Khayre2016SomaliaOverview].
+
+```{r tab-zone-nsomali, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["northern_somali_majeerteen"]]),
+  "Individually assessed settlements among the Northern Somali Clans and Majeerteen from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-nsomali")
+)
+```
+
+## Oromo Gadaa Confederacies and Bale
+
+Table \ref{tab:zone-oromo} compiles `r viscount_fmt_number(length(zone_entries[["oromo_borana_bale"]]), 0L)` settlements across Bale, Borana and the southern Rift corridor, including Dalbo, Dirre Sheikh Hussein, Soddo, Goba and Awasa [@Lewis1960TheSomali; @GonzalezRuiba2024LandscapesMemory].
+
+```{r tab-zone-oromo, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["oromo_borana_bale"]]),
+  "Individually assessed settlements in the Oromo Gadaa Confederacies and Bale from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-oromo")
+)
+```
+
+## Kingdom of Kaffa, Wolayta and Omotic South-West
+
+Table \ref{tab:zone-kaffa} catalogues `r viscount_fmt_number(length(zone_entries[["kaffa_omotic_southwest"]]), 0L)` settlements in the Omo-Gibe forest kingdoms and Rift lakes margin, led by Jima (11,8k) and Bonga (7,9k) [@GonzalezRuiba2024LandscapesMemory; @Pankhurst1982EthiopianTowns].
+
+```{r tab-zone-kaffa, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["kaffa_omotic_southwest"]]),
+  "Individually assessed settlements in the Kingdom of Kaffa, Wolayta and Omotic South-West from 500AD to 1850AD with assessed peaks.",
+  arg3_options = list(label = "tab:zone-kaffa")
+)
+```
+
+## Adjacent Nile, Sobat and Kenyan Borderlands
+
+Table \ref{tab:zone-border} documents the `r viscount_fmt_number(length(zone_entries[["borderland_external"]]), 0L)` borderland settlements in the chapter ledger lying immediately beyond the nine Horn sub-region masks, led by Meroe (29,4k), Lamu (15,2k), Wad Medani (12,4k), Barbar (11,5k) and Wad Madanī (11,2k) [@Pleiades2024Africa; @Runfola2020GeoBoundaries].
+
+```{r tab-zone-border, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["borderland_external"]]),
+  "Twelve borderland settlements along the Sudanese Nile-Butana, Sobat and Kenyan Swahili-Winam corridors from 500AD to 1850AD.",
+  arg3_options = list(label = "tab:zone-border")
+)
+```
+
+# Limitations
+
+Three caveats govern use of this settlement ledger. First, northern Tigray and Eritrea contain far more archaeologically surveyed towns (36 sites) than the densely populated Omotic south-west (13 sites) because stone construction and surface surveys favour dry highland plateaus over humid forest soils [@Fattovich2010Aksum; @GonzalezRuiba2024LandscapesMemory]. Second, nineteenth-century traveller figures for royal *katama* capitals and seasonal Red Sea fairs fluctuate sharply between peacetime and campaigning seasons [@Pankhurst1982EthiopianTowns]. Third, because these `r viscount_fmt_number(length(all_entries), 0L)` entries measure only nucleated urban and excavated archaeological loci, combined site sums represent the attested urban tier and must be read alongside the full regional population totals in the companion review.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document three millennia of urban evolution across Ethiopia and the Horn from 1000BC to 1885AD. Early northern centres at Yeha, Aksum and Adulis gave way to mediaeval highland capitals at Lalibela, Barara and Gondar, eastern Islamic entrepots at Harlaa, Zeila and Harar, Benadir ports led by Muqdisho, and nineteenth-century Shewan and Gibe centres on the threshold of modern state formation.
+
+# Appendix
+
+## Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed site counts and combined interpolated urban populations across all nine Horn sub-regions and the borderland tier across eight representative benchmarks from 1000BC to 1850AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(zone_order, function (zid) {
+  sub <- zone_entries[[zid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Zone (Sites)` = paste0(zone_labels[[zid]], " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1000BC` = sums[["-1000"]],
+    `200AD` = sums[["200"]],
+    `500AD` = sums[["500"]],
+    `1300AD` = sums[["1300"]],
+    `1600AD` = sums[["1600"]],
+    `1800AD` = sums[["1800"]],
+    `1850AD` = sums[["1850"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Zone (Sites)` = paste0("All Settlements (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1000BC` = tot_sums[["-1000"]],
+  `200AD` = tot_sums[["200"]],
+  `500AD` = tot_sums[["500"]],
+  `1300AD` = tot_sums[["1300"]],
+  `1600AD` = tot_sums[["1600"]],
+  `1800AD` = tot_sums[["1800"]],
+  `1850AD` = tot_sums[["1850"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated urban populations across Ethiopia and the Horn from 1000BC to 1850AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

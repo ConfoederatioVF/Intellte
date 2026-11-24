@@ -1,0 +1,336 @@
+---
+title: "Colonial Island Melanesia"
+subtitle: "Settlement Gazetteer and Colonial Port Hierarchy (1850 to 1970)"
+date: "23 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/colonial_island_melanesia_urban_hierarchy.png"
+hero_caption: "Largest colonial ports, mining towns and island centres alongside rank-size scaling across 73 settlements in Island Melanesia, 1850 to 1970."
+hero_label: "fig:hero-melanesia-hierarchy"
+bibliography: colonial_island_melanesia.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  fromJSON(text, simplifyVector = FALSE)
+}
+
+summary_data <- fromJSON("colonial_island_melanesia_summary_cache.json", simplifyVector = FALSE)
+sett_data <- fromJSON("colonial_island_melanesia_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("colonial_island_melanesia_source_ledger.json5")
+
+clean_label <- function(x) {
+  s <- as.character(x)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub(" / ", ", ", s, fixed = TRUE)
+  s <- gsub("\\\\", "", s)
+  trimws(s)
+}
+
+clean_authority <- function(x) {
+  s <- trimws(as.character(x))
+  if (identical(s, "British Colony of Fiji / FBoS Historical Decennial Censuses")) {
+    return("British Colony of Fiji and FBoS Historical Censuses")
+  }
+  if (identical(s, "British Solomon Islands Protectorate Censuses 1959, 1970 & 1")) {
+    return("British Solomon Islands Protectorate Censuses 1959 to 1976")
+  }
+  if (identical(s, "INSEE Recensements de Nouvelle-Calédonie 1956 & 1969")) {
+    return("INSEE Recensements de Nouvelle-Calédonie 1956 and 1969")
+  }
+  if (identical(s, "INSEE Recensements 1956 & 1969")) {
+    return("INSEE Recensements 1956 and 1969")
+  }
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub(" / ", " and ", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_coord <- function(x) {
+  viscount_fmt_number(round(as.numeric(x), 2L), 2L)
+}
+
+subregions <- summary_data$subregions
+reg_lookup <- setNames(
+  vapply(subregions, function(r) clean_label(r$name), character(1)),
+  vapply(subregions, function(r) r$id, character(1))
+)
+
+site_sub_map <- list()
+for (cand in ledger_data$candidates) {
+  if (identical(cand$status, "included")) {
+    m <- regexec("sub-region ([a-z0-9_]+)", cand$justification)
+    mm <- regmatches(cand$justification, m)[[1]]
+    rid <- if (length(mm) >= 2L) mm[2] else "unknown"
+    site_sub_map[[cand$settlement_key]] <- rid
+  }
+}
+
+all_rows <- lapply(names(sett_data), function(k) {
+  e <- sett_data[[k]]
+  pop_map <- e$population
+  yrs <- as.integer(names(pop_map))
+  vals <- as.numeric(unlist(pop_map))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  pk_idx <- which.max(vals)
+  rid <- if (!is.null(site_sub_map[[k]])) site_sub_map[[k]] else "unknown"
+  r_lbl <- if (rid %in% names(reg_lookup)) reg_lookup[[rid]] else rid
+  list(
+    key = k,
+    name = clean_label(e$name),
+    country = as.character(e$country),
+    admin1 = clean_label(e$admin1),
+    region_id = rid,
+    region_name = r_lbl,
+    lat = as.numeric(e$coords[[1]]),
+    lon = as.numeric(e$coords[[2]]),
+    first_year = yrs[1],
+    last_year = yrs[length(yrs)],
+    peak_year = yrs[pk_idx],
+    peak_pop = vals[pk_idx],
+    n_obs = length(yrs)
+  )
+})
+pk_vec <- vapply(all_rows, function(x) x$peak_pop, numeric(1))
+nm_vec <- vapply(all_rows, function(x) x$name, character(1))
+all_rows <- all_rows[order(-pk_vec, nm_vec)]
+
+n_sites <- as.integer(summary_data$settlement_count)
+n_obs <- as.integer(summary_data$observation_count)
+n_excluded <- as.integer(ledger_data$total_excluded)
+n_total_eval <- n_sites + n_excluded
+```
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  cat("![Largest colonial ports, mining towns and island centres alongside rank-size scaling across 73 settlements in Island Melanesia, 1850 to 1970.](figures/colonial_island_melanesia_urban_hierarchy.png)\n\n")
+}
+```
+
+# Abstract
+
+This gazetteer documents `r viscount_fmt_number(n_sites, 0L)` colonial ports, mining camps, sugar-mill towns, administrative stations and Indigenous island centres across the four jurisdictions of Colonial Island Melanesia — the British Solomon Islands Protectorate, the Anglo-French New Hebrides, French New Caledonia and the Colony of Fiji and Rotuma — between 1850 and 1970, compiling `r viscount_fmt_number(n_obs, 0L)` dated demographic observations. Assembled through four sequential source-ledger audit waves with 0,0% crowd-sourced fallback reliance and zero empty colonial jurisdictions, the register evaluates `r viscount_fmt_number(n_total_eval, 0L)` candidate census and monograph records, retaining 73 canonical settlements after consolidating `r viscount_fmt_number(n_excluded, 0L)` duplicate colonial or variant aliases within 25 km. Reflecting the transition from decentralised pre-colonial coastal polities to port-centred imperial economies [@mcarthur1967island; @rallu1990populations; @stevens2022supreme], peak settlement sizes span 54.157 inhabitants at Suva down to 115 at Vanikoro's Buma along a textbook near-Zipfian rank-size curve ($\alpha = 0,93$, $R^2 = 0,93$ across the leading 36 settlements; $\alpha = 1,00$, $R^2 = 0,88$ across all 73 locales). Twin territorial primate capitals — Suva (54.157 in 1966) and Nouméa (41.853 in 1969) — lead the hierarchy, followed by a secondary tier of sugar, gold, nickel and wartime-born urban centres headed by Lautoka (11.287), Honiara (11.191), Port Vila (7.738), Vatukoula (5.045), Ambrym (4.246), Ba (3.849), Houaïlou (3.440), Ahau on Rotuma (3.235) and Thio (3.176).
+
+# Background
+
+Before European annexation in the mid-nineteenth century, Island Melanesia possessed no cities in the Eurasian sense. Large coastal chiefdom seats — such as Bau and Rewa in Fiji, Hienghène and Balade in New Caledonia, Roviana and Langa Langa in the Solomon Islands and Aneityum's irrigated valleys in the New Hebrides — typically held between 800 and 2.600 people supported by intensive yam and taro horticulture, marine fishing and inter-island canoe trade [@mcarthur1967island; @posth2018language; @mcarthur1981new]. Colonial rule transformed this horizontal network into a steep maritime hierarchy structured around deep-water shipping ports, extractive enclaves and administrative capitals.
+
+Five distinct functional classes of settlement populate the 1850 to 1970 gazetteer. First stand the four imperial capitals: Suva (replacing Levuka as Fiji's capital in 1882), Nouméa (founded as Port-de-France in 1854), Port Vila (seat of the Anglo-French Condominium from 1906) and Honiara (founded in 1945 after wartime combat destroyed Tulagi, capital of the British Solomons since 1896) [@stevens2022supreme; @rallu1990populations; @mcarthur1968condominium; @groenewegen1972report]. Second are Fiji's agro-industrial sugar towns built around Colonial Sugar Refining Company and allied mills settled heavily by *girmitiyas* and free Indo-Fijian cane farmers: Lautoka, Ba, Nadi, Labasa, Nausori, Rakiraki, Navua and Sigatoka [@lal1983girmitiyas; @kataoka2022reconceptual; @khan2011study]. Third are industrial mining and penal-colonisation centres: Thio (nickel), Koumac-Tiébaghi (chrome), Bourail, Païta and La Foa in New Caledonia; Vatukoula's Emperor Goldfield in Fiji; and the brief French manganese mine at Forari on Efate [@rallu1990populations; @lindenmann2014blood; @mcarthur1968condominium]. Fourth are wartime-born bases and copra-plantation depots — Luganville on Espiritu Santo, Yandina in the Russell Islands, Norsup and Lamap on Malakula, Gizo, Auki and Kirakira [@bedford1973new; @groenewegen1972report]. Fifth are enduring Indigenous island centres, Kanak communes and Polynesian outliers — Bau, Tubou, Ahau (Rotuma), Wé (Lifou), Tadine (Maré), Houaïlou, Canala, Ambrym, Port Resolution (Tanna), Langa Langa, Sulufou, Roviana, Matautu Tikopia, Tegano (Rennell) and Anuta — whose trajectories chart both nineteenth-century epidemic collapse and postwar recovery [@mcarthur1967island; @mcarthur1981new; @gajdusek1985journal].
+
+# Methodology
+
+The settlement register was compiled across four audited ingestion waves governed by the chapter source ledger. Wave 1 harvested 29 municipal and administrative centres directly from official territorial census compilations: the Fiji Bureau of Statistics and Colonial Census Office (1881 to 1966), ISEE and INSEE New Caledonia (1887 to 1969), the British Solomon Islands Protectorate censuses (1931, 1959 and 1970) and the 1967 New Hebrides Condominium census [@zwart1968report; @groenewegen1972report; @mcarthur1968condominium; @rallu1990populations]. Wave 2 added 43 historically attested sugar towns, mining settlements, mission stations and Indigenous chiefly or island centres drawn from peer-reviewed Pacific historical and anthropological monographs [@mcarthur1967island; @mcarthur1981new; @shineberg1999people; @bedford1973new].
+
+Wave 3 executed longitudinal toponymy harmonisation and 25 km spatial deduplication, resolving dual colonial/Indigenous names (such as Port-de-France into Nouméa, Napoléonville into Canala, Bushman's Bay into Norsup, Port Sandwich into Lamap and Vaileka/Penang into Rakiraki) and merging eight overlapping duplicate records into their canonical parents. Wave 4 performed a final sub-regional gap sweep across all four colonial masks, adding one final station (marginal gain 1,39%) and achieving full sub-regional representation with zero empty jurisdictions and 0,0% crowd-sourced fallback reliance. Every retained entry carries city-proper population scope, WGS84 coordinates, modern country and administrative division labels and explicit primary provenance. Rank-size scaling was fitted via ordinary least squares in log-log space on peak 1850 to 1970 headcounts across both the upper half of the register (top 36 settlements) and the full 73-site distribution.
+
+# Testing and Validation
+
+Source-ledger accounting verifies exact reconciliation across all 81 evaluated candidates: 73 canonical settlements retained plus eight excluded duplicate aliases, with zero unaccounted entries. Every included locale carries valid coordinates, a colonial jurisdiction attribution, an administrative division and between one and nine chronological census or monograph benchmarks (mean 3,19 observations per settlement; nine observations each for Nouméa and Levuka, eight for Suva and seven for Lautoka). Figure \ref{fig:sett-regional-map} displays the archipelagic distribution of all 73 settlements across the four colonial jurisdictions, capturing the coastal clustering of sugar ports on Viti Levu, mining and penal communes along Grande Terre and mission-and-district stations strung across the Solomons and New Hebrides.
+
+```{r fig-sett-map, results='asis'}
+viscount_figure(
+  "figures/colonial_island_melanesia_regional_map.png",
+  "Spatial distribution of 73 catalogued ports, mining towns and island centres across four colonial jurisdictions of Island Melanesia, 1850 to 1970.",
+  "fig:sett-regional-map"
+)
+```
+
+Cross-checking urban totals against jurisdictional aggregates confirms coherent late-colonial urbanisation ratios across each territory. In Fiji, the nine leading urban centres active in 1966 (Suva, Lautoka, Vatukoula, Ba, Nadi, Labasa, Nausori, Levuka and Sigatoka) totalled 83.240 inhabitants — 17,5% of Fiji's 476.727 census total, matching Zwart's formal urban share [@zwart1968report]. In New Caledonia, Nouméa alone (41.853) accounted for 41,6% of the territory's 100.579 residents in 1969, reflecting extreme settler-capital primacy [@bradley2023decolonisati; @cassourret2024development]. Conversely, in the British Solomon Islands, Honiara (11.191) plus district centres Gizo (1.020), Auki (709), Kirakira (695) and Tulagi (518) represented just 8,8% of the Protectorate's 160.998 population in 1970, while Port Vila (7.738) and Luganville (2.564) held 13,2% of the New Hebrides's 77.988 residents in 1967 [@groenewegen1972report; @mcarthur1968condominium].
+
+# Results
+
+## Leading Colonial Ports, Mining Towns and Island Centres (Ranks 1 to 37)
+
+Table \ref{tab:top37-sites} catalogues the upper half of the register (ranks 1 to 37), spanning Suva (54.157 in 1966) down to Rewa (1.450 in 1881). The upper tier captures the full functional arc of colonial Island Melanesia: twin metropolitan ports (Suva and Nouméa), Fiji's sugar-and-gold belt (Lautoka, Vatukoula, Ba, Nadi, Labasa, Nausori, Rakiraki and Navua), New Caledonia's nickel, penal and Kanak communes (Houaïlou, Thio, Canala, Païta, Koné, Poindimié, Bourail, Wé, Hienghène, Tadine and La Foa), wartime-born Melanesian towns (Honiara and Luganville), the Condominium capital (Port Vila) and major nineteenth-century Indigenous centres (Ambrym, Ahau, Bau, Langa Langa, Anelgauhat, Levuka, Port Resolution, Roviana, Matautu Tikopia, Yandina, Marovo, Bilua and Rewa).
+
+```{r tab-top37-sites, results='asis'}
+build_site_df <- function(sub_list) {
+  rows <- lapply(sub_list, function(e) {
+    span_str <- if (e$first_year == e$last_year) as.character(e$first_year) else paste0(e$first_year, " to ", e$last_year)
+    data.frame(
+      Site = e$name,
+      Territory = e$country,
+      Division = e$admin1,
+      Coords = paste0(fmt_coord(e$lat), ", ", fmt_coord(e$lon)),
+      Span = span_str,
+      Peak = paste0(viscount_fmt_number(e$peak_pop, 0L), " (", e$peak_year, ")"),
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+df_top37 <- build_site_df(all_rows[1:37])
+viscount_table(
+  df_top37,
+  "Leading 37 catalogued settlements in Colonial Island Melanesia, ordered by peak recorded headcount (1850 to 1970).",
+  c("Settlement", "Territory", "Admin. Division", "Lat, Lon", "Span", "Peak (Year)"),
+  list(label = "tab:top37-sites", font_size = "scriptsize", max_rows_per_page = 38L)
+)
+```
+
+## Secondary Stations, Plantations and Outer-Island Centres (Ranks 38 to 73)
+
+Table \ref{tab:rem36-sites} documents the remaining 36 catalogued locales (ranks 38 to 73), ranging from Koumac (1.420 at its 1936 chrome-mining peak) and Fayaoué on Ouvéa (1.380) down to tiny Polynesian Anuta (118) and malaria-scarred Buma on Vanikoro (115). This lower tier records the dispersed administrative and ethnographic skeleton of the colonial southwest Pacific: former Protectorate capital Tulagi (peaking at 1.240 in 1941 before WWII destruction), district ports Auki (1.140), Gizo (1.020), Kirakira (695) and Faisi (440), Efate's manganese town Forari (1.142), Malakula's plantation centres Norsup (920) and Lamap (785), Fiji's early Tovata Confederacy capital Lomaloma (1.120) and Lau seat Tubou (1.150), plus classic ethnohistorical island communities across the Solomons, New Hebrides and Loyalty Islands [@rivers1922essays; @mcarthur1981new; @gajdusek1985journal].
+
+```{r tab-rem36-sites, results='asis'}
+df_rem36 <- build_site_df(all_rows[38:length(all_rows)])
+viscount_table(
+  df_rem36,
+  "Catalogued settlements ranked 38 to 73 in Colonial Island Melanesia, ordered by peak recorded headcount (1850 to 1970).",
+  c("Settlement", "Territory", "Admin. Division", "Lat, Lon", "Span", "Peak (Year)"),
+  list(label = "tab:rem36-sites", font_size = "scriptsize", max_rows_per_page = 38L)
+)
+```
+
+## Sub-Regional Gazetteer Coverage
+
+Table \ref{tab:subregion-gazetteer} aggregates catalogued site counts, spatial sampling density per 10.000 km² of mask area, leading urban centre and 1970 jurisdictional population across all four colonial territories. Coverage is remarkably balanced across the four administrations: the British Solomon Islands contribute 21 locales (28,8% of the gazetteer; 4,08 sites per 10.000 km²), Fiji contributes 19 (26,0%; 4,91), New Caledonia contributes 18 (24,7%; 5,16) and the compact New Hebrides achieve the highest areal density at 5,43 sites per 10.000 km² (15 locales; 20,5%).
+
+```{r tab-subregion-gazetteer, results='asis'}
+reg_rows <- lapply(subregions, function(r) {
+  rid <- r$id
+  area_v <- as.numeric(r$area_km2)
+  p1970 <- as.numeric(r$population[["1970"]])
+  sub_entries <- Filter(function(e) identical(e$region_id, rid), all_rows)
+  cnt <- length(sub_entries)
+  sdens <- if (area_v > 0) (cnt / area_v) * 10000 else 0
+  lead_str <- "-"
+  if (cnt > 0L) {
+    lead_str <- paste0(sub_entries[[1]]$name, " (", viscount_fmt_pop(sub_entries[[1]]$peak_pop), ")")
+  }
+  data.frame(
+    Subregion = clean_label(r$name),
+    Area = viscount_fmt_number(round(area_v), 0L),
+    Sites = viscount_fmt_number(cnt, 0L),
+    SiteDens = viscount_fmt_number(sdens, 2L),
+    Lead = lead_str,
+    Pop1970 = viscount_fmt_pop(p1970),
+    stringsAsFactors = FALSE
+  )
+})
+df_reg_gaz <- do.call(rbind, reg_rows)
+rownames(df_reg_gaz) <- NULL
+
+viscount_table(
+  df_reg_gaz,
+  "Catalogued settlement counts, areal site density (per 10.000 km²), leading centre and 1970 population across four jurisdictions of Colonial Island Melanesia.",
+  c("Colonial Jurisdiction", "Mask Area (km²)", "Sites", "Sites per 10k km²", "Leading Centre (Peak)", "1970 Pop."),
+  list(label = "tab:subregion-gazetteer", font_size = "scriptsize")
+)
+```
+
+## Rank-Size Geometry and Colonial Urban Structure
+
+Log-log rank-size regression across the 73 catalogued settlements quantifies how colonial governance reshaped Island Melanesia's urban geometry. Fitting the upper 36 settlements (Suva at 54.157 down to La Foa at 1.564) yields a power-law slope $\alpha = 0,93$ ($R^2 = 0,93$, intercept $4,564$), while the full 73-site series conforms almost exactly to a unitary Zipf slope at $\alpha = 1,00$ ($R^2 = 0,88$). Unlike pre-colonial archipelagos where dozens of chiefly villages clustered tightly between 500 and 2.500 inhabitants without a primate capital, colonial trade, sugar refining, nickel smelting and imperial administration concentrated over two-fifths of catalogued urban residents inside Suva and Nouméa alone [@stevens2022supreme; @zwart1968report; @bradley2023decolonisati]. Below the twin capitals, a sharp step separates the emerging 10k-class secondary ports — Lautoka (11,3k) and Honiara (11,2k) — and Port Vila (7,7k) from a broad rural tail of 1k-to-4k district centres, plantations and island communities.
+
+# Limitations
+
+Three methodological caveats govern interpretation of this settlement gazetteer. First, peak population comparisons juxtapose different historical moments across the 1850 to 1970 window. While colonial port and mining towns peaked at the late-colonial census horizon (1966 in Fiji, 1967 in New Hebrides, 1969 in New Caledonia and 1970 in the Solomon Islands), several nineteenth-century chiefly or mission hubs peaked near the start of the period before suffering severe demographic decline: Bau peaked at 2.600 in 1860, Anelgauhat peaked at 2.200 in 1861, Levuka peaked at 2.150 in 1871, Hienghène peaked at 1.820 in 1850 and Tulagi peaked at 1.240 in 1941 immediately before Pacific War destruction [@mcarthur1967island; @mcarthur1981new]. Readers should therefore always interpret peak figures alongside the peak year recorded in Tables \ref{tab:top37-sites} and \ref{tab:rem36-sites}.
+
+Second, colonial municipal boundaries did not uniformly capture functional urban agglomerations. In Fiji, rapid Indo-Fijian cane-belt settlement outside legal town boundaries meant that peri-urban populations around Suva, Lautoka, Ba and Nadi exceeded strict city-proper counts [@zwart1968report; @fonmanu1999dispute; @robie2007paradox]. Similarly, in New Caledonia, postwar Kanak and Wallisian workers settling across Dumbéa, Mont-Dore and surrounding *tribu* fringes formed a wider Greater Nouméa labour shed beyond the municipal boundary of Nouméa proper [@cassourret2024development; @bradley2023decolonisati].
+
+Third, several small outer-island entries (such as Avunatari on Malo, Tiouandé, Kia, Ifo on Erromango, Tiga, Anuta and Buma on Vanikoro) rest on single surviving colonial or monograph benchmarks rather than multi-decadal time-series, reflecting the late arrival of comprehensive rural censuses across the New Hebrides and outer Solomon Islands [@mcarthur1968condominium; @groenewegen1972report; @gajdusek1985journal].
+
+# Conclusion
+
+Cataloguing 73 settlements and 233 dated observations across four colonial administrations maps the spatial architecture of Island Melanesia's 1850 to 1970 transformation. Stretching from metropolitan Suva (54.157) and Nouméa (41.853) through Fiji's indentured sugar belt (Lautoka, Ba, Nadi, Labasa, Nausori), New Caledonia's mining and penal communes (Thio, Bourail, Païta, Koumac) and wartime-born Melanesian ports (Honiara, Luganville) down to epidemic-scarred outer islands (Anelgauhat, Mota, Buma), the gazetteer captures a steep, port-primate urban hierarchy ($\alpha = 0,93$ across the top 36 locales; $\alpha = 1,00$ overall) [@mcarthur1967island; @lal1983girmitiyas; @rallu1990populations; @groenewegen1972report]. With 0,0% crowd-sourced fallback share, full coverage across all four colonial jurisdictions and exact accounting of 81 evaluated candidates, this register anchors the urban and spatial record of Colonial Island Melanesia at the 1970 threshold of decolonisation.
+
+# Appendix
+
+## Excluded Duplicate Aliases
+
+Table \ref{tab:excluded-aliases} records all eight candidate entries consolidated during Wave-3 spatial deduplication, each representing a colonial-prefixed variant or neighbouring village alias merged into a canonical settlement located within 25 km.
+
+```{r tab-excluded-aliases, results='asis'}
+ex_cands <- Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates)
+ex_rows <- lapply(ex_cands, function(c) {
+  just <- as.character(c$justification)
+  m <- regexec("canonical entity (.+?) \\([^)]+\\)", just)
+  mm <- regmatches(just, m)[[1]]
+  canon <- if (length(mm) >= 2L) clean_label(mm[2]) else clean_label(c$name)
+  data.frame(
+    Alias = clean_label(c$settlement_key),
+    Canonical = paste0(canon, " (", clean_label(c$country), ")"),
+    Reason = "Duplicate alias",
+    Rule = "Merged within 25 km",
+    stringsAsFactors = FALSE
+  )
+})
+df_ex <- do.call(rbind, ex_rows)
+rownames(df_ex) <- NULL
+
+viscount_table(
+  df_ex,
+  "Eight variant candidate records merged into canonical settlements during Wave-3 spatial deduplication.",
+  c("Excluded Candidate Key", "Canonical Settlement", "Classification", "Spatial Rule"),
+  list(label = "tab:excluded-aliases", font_size = "scriptsize")
+)
+```
+
+## Primary Provenance Authorities
+
+Table \ref{tab:top-authorities} lists the leading official statistical offices and scholarly corpora cited across the 73-settlement register, illustrating deep reliance on colonial censuses and primary Pacific historical monographs rather than secondary crowd-sourced gazetteers.
+
+```{r tab-top-authorities, results='asis'}
+tsrc <- summary_data$source_provenance_summary$top_sources
+ts_vec <- sort(unlist(tsrc), decreasing = TRUE)
+df_auth <- data.frame(
+  Authority = vapply(names(ts_vec), clean_authority, character(1)),
+  CitedSites = vapply(as.integer(ts_vec), function(v) viscount_fmt_number(v, 0L), character(1)),
+  Share = vapply(100 * as.integer(ts_vec) / n_sites, function(v) paste0(viscount_fmt_number(v, 1L), "%"), character(1)),
+  stringsAsFactors = FALSE
+)
+rownames(df_auth) <- NULL
+
+viscount_table(
+  df_auth,
+  "Leading official census agencies and scholarly authorities cited across 73 catalogued settlements in Colonial Island Melanesia.",
+  c("Primary Authority", "Cited Settlements", "Share of Gazetteer"),
+  list(label = "tab:top-authorities", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Note 1 (Coordinate Datum). All site coordinates in Tables \ref{tab:top37-sites} and \ref{tab:rem36-sites} follow WGS84 decimal degrees rounded to two decimal places using European decimal commas; negative longitudes east of the antimeridian (such as Tubou, Somosomo and Lomaloma in eastern Fiji) retain standard signed WGS84 conventions.
+
+Note 2 (Historical Toponymy). Canonical settlement names follow modern national gazetteer usage while incorporating colonial and Indigenous historical identifiers during Wave-3 deduplication — including Port-de-France (Nouméa), Napoléonville (Canala), Port Sandwich (Lamap), Bushman's Bay (Norsup), Santo (Luganville), Eddystone (Simbo) and Ovalau (Levuka).

@@ -1,0 +1,312 @@
+---
+title: "Egypt after 1952"
+subtitle: "Settlement Gazetteer: Governorates, Delta Towns and Desert Cities, 1952AD-2026AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: modern_egypt_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_modern_egypt_spatial.png"
+hero_caption: "Spatial distribution of 3.072 catalogued urban settlements across Egypt's 27 governorates between 1952AD and 2026AD."
+hero_label: "fig:hero-settlements-modern-egypt"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  lines <- gsub("//.*$", "", lines)
+  clean_str <- paste(lines, collapse = "\n")
+  clean_str <- gsub("/\\*.*?\\*/", "", clean_str)
+  clean_str <- gsub(",(\\s*[\\]\\}])", "\\1", clean_str)
+  jsonlite::fromJSON(clean_str, simplifyVector = FALSE)
+}
+
+sett_raw <- jsonlite::fromJSON("modern_egypt_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("modern_egypt_summary_cache.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("modern_egypt_source_ledger.json5")
+region_json <- read_json5_clean("modern_egypt.json5")
+
+subreg_gj_path <- "../../_shared/_gis_cache/chapter_subregions/modern_egypt_subregions.geojson"
+subreg_gj <- if (file.exists(subreg_gj_path)) jsonlite::fromJSON(subreg_gj_path, simplifyVector = FALSE) else NULL
+
+point_in_ring <- function(px, py, ring) {
+  n <- length(ring)
+  if (n < 3L) return(FALSE)
+  xs <- vapply(ring, function(pt) as.numeric(pt[[1]]), numeric(1))
+  ys <- vapply(ring, function(pt) as.numeric(pt[[2]]), numeric(1))
+  inside <- FALSE
+  j <- n
+  for (i in seq_len(n)) {
+    yi <- ys[i]; yj <- ys[j]
+    xi <- xs[i]; xj <- xs[j]
+    if (((yi > py) != (yj > py)) && (px < (xj - xi) * (py - yi) / ((yj - yi) + 1e-15) + xi)) {
+      inside <- !inside
+    }
+    j <- i
+  }
+  inside
+}
+
+assign_governorate <- function(lat, lon) {
+  if (is.null(subreg_gj)) return("Egypt")
+  best_nm <- "Egypt"
+  best_d2 <- Inf
+  for (f in subreg_gj$features) {
+    nm <- f$properties$name
+    gtype <- f$geometry$type
+    coords <- f$geometry$coordinates
+    if (identical(gtype, "Polygon")) {
+      if (point_in_ring(lon, lat, coords[[1]])) return(nm)
+      xs <- vapply(coords[[1]], function(pt) as.numeric(pt[[1]]), numeric(1))
+      ys <- vapply(coords[[1]], function(pt) as.numeric(pt[[2]]), numeric(1))
+      d2 <- min((xs - lon)^2 + (ys - lat)^2)
+      if (d2 < best_d2) { best_d2 <- d2; best_nm <- nm }
+    } else if (identical(gtype, "MultiPolygon")) {
+      for (poly in coords) {
+        if (point_in_ring(lon, lat, poly[[1]])) return(nm)
+        xs <- vapply(poly[[1]], function(pt) as.numeric(pt[[1]]), numeric(1))
+        ys <- vapply(poly[[1]], function(pt) as.numeric(pt[[2]]), numeric(1))
+        d2 <- min((xs - lon)^2 + (ys - lat)^2)
+        if (d2 < best_d2) { best_d2 <- d2; best_nm <- nm }
+      }
+    }
+  }
+  best_nm
+}
+
+sett_gov <- list()
+for (k in names(sett_raw)) {
+  e <- sett_raw[[k]]
+  sett_gov[[k]] <- assign_governorate(as.numeric(e$coords[[1]]), as.numeric(e$coords[[2]]))
+}
+
+build_settlement_df <- function(keys_vec, top_n = 30L) {
+  rows <- list()
+  for (k in keys_vec) {
+    e <- sett_raw[[k]]
+    p52 <- if (!is.null(e$population[["1952"]])) viscount_fmt_pop(e$population[["1952"]]) else "-"
+    p80 <- if (!is.null(e$population[["1980"]])) viscount_fmt_pop(e$population[["1980"]]) else "-"
+    p06 <- if (!is.null(e$population[["2006"]])) viscount_fmt_pop(e$population[["2006"]]) else "-"
+    vals <- as.numeric(unlist(e$population))
+    yrs <- as.integer(names(e$population))
+    pk_idx <- which.max(vals)
+    pk_val <- vals[pk_idx]
+    pk_yr <- yrs[pk_idx]
+    rows[[length(rows) + 1L]] <- list(
+      pk = pk_val,
+      df = data.frame(
+        Settlement = as.character(e$name),
+        Governorate = as.character(sett_gov[[k]]),
+        Coords = paste0(viscount_fmt_number(e$coords[[1]], 2L), ", ", viscount_fmt_number(e$coords[[2]], 2L)),
+        P1952 = p52,
+        P2006 = p06,
+        Peak = paste0(viscount_fmt_pop(pk_val), " (", pk_yr, "AD)"),
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+  if (length(rows) == 0L) return(data.frame())
+  ord <- order(vapply(rows, function(x) -x$pk, numeric(1)))
+  sel <- rows[ord[seq_len(min(length(ord), top_n))]]
+  out <- do.call(rbind, lapply(sel, function(x) x$df))
+  rownames(out) <- NULL
+  out
+}
+```
+
+# Abstract
+
+This settlement gazetteer compiles urban, industrial and administrative town trajectories for 3.072 catalogued Egyptian centres between 1952AD and 2026AD across 27 governorates. Screened from 3.322 evaluated municipal and district candidates in the regional source ledger after consolidating 250 duplicate aliases and subordinate suburbs into canonical cores, the expanded dataset combines continuous multi-decadal national census trajectories (1952AD–2025AD) with contemporary CAPMAS urban *qism* and desert-city enumerations. Growth remains heavily top-heavy, yielding a steep Zipf rank-size exponent of $\alpha = 1{,}452$ ($R^2 = 0{,}79$): six million-plus centres at peak—Cairo (10,25M in 2023AD; 10,08M in 2025AD), Giza (5,6M in 2020AD; 4,58M in 2025AD), Al-Iskandariyah (5,51M in 2025AD), New Cairo (1,5M in 2023AD), Shubrā al-Khaymah (1,31M in 2025AD) and Boulaq Ad Dakrour (1,04M in 2024AD)—anchor the metropolitan apex. Beneath this metropolitan core, the register traces Suez Canal recovery ports, dense Delta provincial centres, Upper Egyptian river towns reshaped by the Aswan High Dam, frontier oasis and Red Sea resort hubs, and satellite desert cities including New Cairo (1,5M), Al-'Āshir min Ramaḍān (500k peak), Madinat Sittah Uktubar (387k), Al-'Ubur (147k), Ash-Shuruq (96,4k), Madinat as-Sadat (76,3k) and Madinat Badr (34,6k).
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_modern_egypt_spatial.png",
+    "Spatial distribution of 3.072 catalogued urban settlements across Egypt's 27 governorates between 1952AD and 2026AD.",
+    "fig:hero-settlements-modern-egypt",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+# Background
+
+Egypt's post-1952 urban system combines ancient riverine continuity with rapid twentieth-century metropolitan polarisation. Almost every major provincial capital—from Aswan, Qina, Sawhaj, Asyut and Al-Minya in Upper Egypt to Tanta, Al-Mansurah, Az-Zaqaziq and Damanhur in the Delta—occupied historic mound or market sites anchored to Nile branches and main railway junctions [@Taiema2023Urban; @Bayoumi2020City]. Only Alexandria, the Suez Canal cities of Port Said, Ismailia and Suez, and twentieth-century Red Sea or desert-edge towns broke away from the pre-modern river axis [@Zayyan2017Role; @Hawash2022Detection].
+
+After 1952AD, agrarian reform, state-led industrialisation at Helwan, Shubra al-Khaymah and Al-Mahallah al-Kubra, and centralised university and civil-service expansion concentrated modern employment inside Greater Cairo and Alexandria [@Hereher2012Urban; @Paredes2025Rural]. Simultaneously, population pressure inside the Nile Delta pushed rural market centres across the official threshold of town status, blurring the boundary between dense agricultural villages and municipal *madinas* [@Hareedy2009Rural; @Borhamy2026Coupling]. From the late 1970s onward, consecutive national housing plans carved new desert cities out of state-owned wasteland around Cairo, Alexandria and Middle Egypt to redirect housing construction off shrinking alluvial cropland [@Gamal2025Critical; @Abdelkader2023Analyzing; @Toth2009Strategic].
+
+# Methodology
+
+Settlement trajectories were compiled primarily from official CAPMAS decennial censuses (1960AD, 1976AD, 1986AD, 1996AD, 2006AD and 2017AD) supplemented by 1952AD post-revolutionary baselines and 2018AD–2025AD CAPMAS municipal estimates, with zero reliance on crowd-sourced fallback shares. Every included entry carries WGS84 coordinates verified against Egypt's 27 governorate polygons and matched to the 296 second-order geoBoundaries administrative units [@Runfola2020GeoBoundaries]. Arabic toponyms follow ALA-LC/BGN scholarly romanisation with diacritics preserved alongside original Arabic script aliases in the underlying archive.
+
+To prevent artificial double counting of contiguous metropolitan agglomerations or variant transliterations, the regional source ledger enforces strict spatial and orthographic deduplication across all 3.322 screened records. Where exonym/transliteration twins (such as Al-Qāhirah and Al-Jīzah alongside canonical Cairo and Giza), multi-source variant duplicates within 25 km or co-located subordinate suburbs within 1,6 to 2 km duplicate a primary settlement, they are excluded from the independent point ledger and consolidated into the parent entry—totalling 250 excluded candidates and leaving 3.072 retained settlements.
+
+# Testing and Validation
+
+Cross-checking the 3.072 included entries verifies full spatial coverage across all 27 Egyptian governorates, pairing continuous 1952AD–2025AD national census trajectories for historic cities and provincial *markaz* towns with contemporary 2022AD–2024AD CAPMAS urban *qism* and desert-city enumerations (including New Cairo, Boulaq Ad Dakrour, El-Marg, El Warraq, Nasr City, Al Ahram, Imbabah and Ain Shams). Figure 2 presents the log-log Zipf rank-size regression ($\alpha = 1{,}452$, $R^2 = 0{,}79$) alongside the twelve highest-peaking urban centres. Unlike fragmented pre-industrial settlement networks, Egypt's post-1952 urban system exhibits a steep, primate-leaning rank-size gradient dominated by Cairo, Giza and Alexandria [@Bayoumi2020City; @Hereher2012Urban].
+
+```{r fig4-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig4_modern_egypt_settlements.png",
+  "Log-log rank-size curve across all 3.072 catalogued Egyptian settlements (left) and the twelve largest urban centres by peak population (right).",
+  "fig:gazetteer-ranksize",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Results
+
+## Top 45 Settlements by Peak Population
+
+Table 1 lists the 45 largest catalogued Egyptian settlements ordered by peak population across 1952AD–2025AD. The upper tier is led by six million-plus centres at peak—Cairo (10,25M), Giza (5,6M), Al-Iskandariyah (5,51M), New Cairo (1,5M), Shubrā al-Khaymah (1,31M) and Boulaq Ad Dakrour (1,04M)—followed by twenty additional urban centres and metropolitan *qisms* at or above 500k inhabitants (including El-Marg, Būr Sa'īd, El Warraq, As-Suways, Nasr City, Al Ahram, Imbabah, Ain Shams, Al-Manṣūrah, Al-Maḥallah al-Kubrā, Helwan, Ṭanṭā, Asyūṭ, Shibīn al-Qanāṭir, Dar El Salam, Al-Fayyūm, Al Basatin, Al Salam First, Al-Khuṣūṣ and Al-'Āshir min Ramaḍān).
+
+```{r tab-top45-egypt, results='asis'}
+df_top45 <- build_settlement_df(names(sett_raw), top_n = 45L)
+viscount_table(
+  df_top45,
+  "Top 45 catalogued Egyptian settlements ordered by peak population (n = 3.072 total sites, 1952AD-2025AD).",
+  c("Settlement", "Governorate", "Coords (Lat, Lon)", "1952AD", "2006AD", "Peak (Year)"),
+  list(font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+## Greater Cairo, Alexandria and the Suez Canal Corridor
+
+Metropolitan concentration across Cairo, Giza, Qalyubiyah, Alexandria and the three Suez Canal governorates forms the primary demographic spine of modern Egypt. Table 2 extracts the leading catalogued centres across Al Qahirah, Al Jizah, Al Qalyubiyah, Al Iskandariyah, Bur Sa'id, Al Isma'iliyah and As Suways. Cairo proper rose from 2,45M in 1952AD to 7,74M in 2006AD, peaking at 10,25M in 2023AD (10,08M in 2025AD), while Giza expanded from 96k in 1952AD to a peak of 5,6M in 2020AD (4,58M in 2025AD), Shubrā al-Khaymah climbed to 1,31M, New Cairo reached 1,5M (2023AD), Boulaq Ad Dakrour reached 1,04M (2024AD), Al-Khuṣūṣ reached 517,1k and Madinat Sittah Uktubar surged from 38,8k in 1996AD to 387k by 2025AD [@Hereher2012Urban; @Gamal2025Critical]. On the eastern desert ring, Al-'Āshir min Ramaḍān (500k peak in 2018AD), Al-'Ubur (147k), Ash-Shuruq (96,4k) and Madinat Badr (34,6k) added secondary suburban poles, while Alexandria (5,51M) anchored the Mediterranean coast ahead of Būr Sa'īd (814,2k), As-Suways (740,9k peak in 2018AD; 736,8k in 2025AD) and Al-Ismā'īliyah (463,2k).
+
+```{r tab-metro-canal, results='asis'}
+metro_govs <- c("Al Qahirah", "Al Jizah", "Al Qalyubiyah", "Al Iskandariyah", "Bur Sa`id", "Al Isma`iliyah", "As Suways")
+metro_keys <- names(sett_raw)[vapply(names(sett_raw), function(k) sett_gov[[k]] %in% metro_govs, logical(1))]
+df_metro <- build_settlement_df(metro_keys, top_n = 28L)
+viscount_table(
+  df_metro,
+  "Catalogued settlements across Greater Cairo, Alexandria and the Suez Canal governorates (1952AD-2025AD).",
+  c("Settlement", "Governorate", "Coords (Lat, Lon)", "1952AD", "2006AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+## The Nile Delta Urban Lattice
+
+Inside the seven central and northern Delta governorates—Ad Daqahliyah, Al Gharbiyah, Ash Sharqiyah, Al Buhayrah, Al Minufiyah, Kafr ash Shaykh and Dumyat—urban growth reflects dense multi-nodal agro-commercial towns spaced 15 to 30 km apart along canals and rail lines [@Taiema2023Urban; @Hareedy2009Rural]. Table 3 profiles the top 25 Delta centres. Al-Mansurah (650,3k), Al-Mahallah al-Kubra (631,6k), Tanta (614,7k) and Az-Zaqaziq (473,6k) lead a dense second tier alongside Damanhur (338,9k), Dumyat (321,7k), Shibin al-Kawm (285,9k), Kafr ash-Shaykh (203,8k), Bilbays (203,8k) and the coastal fishing and port town of Idku (188,7k). Rural land conversion and coastal aquifer salinisation press directly upon these Delta municipalities [@Elnaggar2013Spatial; @Mostafa2026Coupling; @Keshta2022Loss; @Selim2021Impact].
+
+```{r tab-delta-towns, results='asis'}
+delta_govs <- c("Ad Daqahliyah", "Al Gharbiyah", "Ash Sharqiyah", "Al Buhayrah", "Al Minufiyah", "Kafr ash Shaykh", "Dumyat")
+delta_keys <- names(sett_raw)[vapply(names(sett_raw), function(k) sett_gov[[k]] %in% delta_govs, logical(1))]
+df_delta <- build_settlement_df(delta_keys, top_n = 25L)
+viscount_table(
+  df_delta,
+  "Top 25 catalogued urban settlements across the seven central and northern Nile Delta governorates (1952AD-2025AD).",
+  c("Settlement", "Governorate", "Coords (Lat, Lon)", "1952AD", "2006AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+## Upper Egypt, Fayyum and the Frontier Governorates
+
+South of Giza and across the eastern and western deserts, urban settlements line the narrow Nile valley, the Fayyum basin, Mediterranean borderlands, Red Sea bays and Sinai wadis. Table 4 compiles the 25 largest centres across Upper Egypt and the five frontier governorates. Asyut (578k) and Al-Fayyum (547k) serve as the twin demographic anchors of Middle and Upper Egypt, followed by Aswan (413,3k), Al-Minya (306,5k), Bani Suwayf (302,5k), Luxor (Al-Uqsur, 293k), Sawhaj (286,3k), Qina (272k) and Mallawi (229,8k). Along the desert margins, Al-Ghurdaqah (220,3k), Al-'Arish (210,2k) and Marsa Matruh (198,8k) grew rapidly through tourism, border trade and coastal administration, while oasis hubs like Al-Kharijah (90k) and Al-Bawiti (16,4k) and distant southern outposts like Ash-Shalatin (13,2k) reflect sparse frontier settlement [@Zayyan2017Role; @Hawash2022Detection].
+
+```{r tab-upper-frontier, results='asis'}
+upper_govs <- c("Al Fayyum", "Bani Suwayf", "Al Minya", "Asyut", "Suhaj", "Qina", "Luxor", "Aswan",
+                "Al Wadi at Jadid", "Al Bahr al Ahmar", "Matruh", "Shamal Sina'", "Janub Sina'")
+upper_keys <- names(sett_raw)[vapply(names(sett_raw), function(k) sett_gov[[k]] %in% upper_govs, logical(1))]
+df_upper <- build_settlement_df(upper_keys, top_n = 25L)
+viscount_table(
+  df_upper,
+  "Top 25 catalogued settlements across Upper Egypt, the Fayyum Oasis and Egypt's five frontier governorates (1952AD-2025AD).",
+  c("Settlement", "Governorate", "Coords (Lat, Lon)", "1952AD", "2006AD", "Peak (Year)"),
+  list(font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three methodological limitations affect interpretation of the settlement gazetteer. First, Egyptian municipal definitions classify entire districts (*markaz* seats) as urban while leaving large contiguous agro-villages of 20k to 50k residents classified administratively as rural *qarya* units [@Hareedy2009Rural]. As a result, official town counts understate de facto urbanised density across the central Nile Delta and Middle Egypt. Second, new desert cities split across multiple *qisms*—such as New Cairo and 10th of Ramadan—or falling within the 2 km consolidation buffer of Greater Cairo are represented either through parent metropolitan aggregates or as discrete satellite cores, meaning their internal suburban shares must be cross-referenced against the 296-unit ADM2 polygon layer [@Runfola2020GeoBoundaries; @Gamal2025Critical]. Third, post-2017AD settlement figures rely on governorate and municipal civil-registration projections rather than a completed decennial field count, leaving recent growth differentials between informal Delta fringes and state-planned desert extensions subject to revision after the next national census.
+
+# Conclusion
+
+Across 3.072 catalogued towns, urban districts and desert cities spanning 27 governorates, this gazetteer documents the post-1952 transformation of Egypt's urban hierarchy from historic riverine municipalities to a dense metropolitan and *markaz* lattice. Anchored by primary CAPMAS censuses and geoBoundaries administrative matching, the corpus reveals a steep, primate-leaning rank-size structure ($\alpha = 1{,}452$, $R^2 = 0{,}79$) where Greater Cairo, Giza and Alexandria dominate the upper tier while dense Delta *markaz* towns, Upper Egyptian provincial capitals and new desert cities fill out the mid-tier network. Paired with the 296-unit ADM2 pycnophylactic surfaces, these 3.072 settlement records supply the empirical urban backbone for Egypt after 1952AD.
+
+# Appendix
+
+## Governorate Coverage and Excluded Source-Ledger Candidates
+
+Table 5 summarises catalogued settlement counts, median and maximum peak sizes, and leading urban centres across all 27 Egyptian governorates, followed by Table 6 presenting a representative sample (first 30 of 250) of excluded duplicate aliases and subordinate candidates consolidated in the regional source ledger.
+
+```{r tab-gov-sites, results='asis'}
+gov_names <- vapply(region_json$regions, function(r) r$name, character(1))
+gs_rows <- lapply(gov_names, function(gnm) {
+  keys_g <- names(sett_raw)[vapply(names(sett_raw), function(k) identical(sett_gov[[k]], gnm), logical(1))]
+  if (length(keys_g) == 0L) {
+    return(data.frame(Governorate = gnm, Sites = "0", MedianPeak = "-", Lead = "-", stringsAsFactors = FALSE))
+  }
+  pks <- vapply(keys_g, function(k) max(as.numeric(unlist(sett_raw[[k]]$population))), numeric(1))
+  idx_m <- which.max(pks)
+  lead_nm <- sett_raw[[keys_g[idx_m]]]$name
+  data.frame(
+    Governorate = gnm,
+    Sites = as.character(length(keys_g)),
+    MedianPeak = viscount_fmt_pop(stats::median(pks)),
+    Lead = paste0(lead_nm, " (", viscount_fmt_pop(pks[idx_m]), ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df_gs <- do.call(rbind, gs_rows)
+df_gs <- df_gs[order(-as.integer(df_gs$Sites), df_gs$Governorate), ]
+rownames(df_gs) <- NULL
+viscount_table(
+  df_gs,
+  "Catalogued urban settlement counts, median peak populations and leading centres across all 27 Egyptian governorates (1952AD-2025AD).",
+  c("Governorate", "Catalogued Sites", "Median Peak", "Leading Centre (2025AD Peak)"),
+  list(font_size = "scriptsize", max_rows_per_page = 30L)
+)
+```
+
+```{r tab-excluded-egypt, results='asis'}
+exc_list <- Filter(function(c) identical(c$status, "excluded"), ledger_data$candidates)
+tot_exc <- length(exc_list)
+exc_show <- exc_list[seq_len(min(tot_exc, 30L))]
+exc_rows <- lapply(exc_show, function(c) {
+  just <- as.character(c$justification)
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", just, perl = TRUE)
+  rsn <- if (identical(c$reason, "duplicate_alias")) "Duplicate alias" else "Subordinate suburb merged"
+  data.frame(
+    Candidate = as.character(c$name),
+    Territory = as.character(c$country),
+    Status = rsn,
+    Justification = just,
+    stringsAsFactors = FALSE
+  )
+})
+df_exc <- do.call(rbind, exc_rows)
+rownames(df_exc) <- NULL
+viscount_table(
+  df_exc,
+  paste0("Representative sample (first ", nrow(df_exc), " of ", formatC(tot_exc, format = "d", big.mark = "."), ") of excluded duplicate aliases and subordinate municipal candidates in the Egypt source ledger."),
+  c("Candidate", "Territory", "Classification", "Consolidation Justification"),
+  list(font_size = "scriptsize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

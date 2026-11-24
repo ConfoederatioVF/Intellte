@@ -1,0 +1,289 @@
+---
+title: "Russian Conquest and Imperial Rule in Transcaucasia"
+subtitle: "Settlement Gazetteer and Urban Chronology (1801AD to 1917AD)"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: russian_transcaucasia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_russian_transcaucasia_spatial.png"
+hero_caption: "Subregions and 4.875 catalogued settlements of Russian Transcaucasia from 1801AD to 1917AD."
+hero_label: "fig:hero-settlements"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+    citation_package: default
+  md_document:
+    variant: gfm
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+sett_data <- jsonlite::fromJSON("russian_transcaucasia_settlements.json", simplifyVector = FALSE)
+sum_cache <- jsonlite::fromJSON("russian_transcaucasia_summary_cache.json", simplifyVector = FALSE)
+all_entries <- unname(sett_data)
+
+clean_sett_name <- function (x) {
+  s <- as.character(x)
+  s <- gsub("[\u2018\u2019]", "", s)
+  s <- gsub("\u2013", "-", s, fixed = TRUE)
+  s <- gsub("\u2014", "-", s, fixed = TRUE)
+  trimws(s)
+}
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+get_pop_yr <- function (entry, yr_str) {
+  val <- entry$population[[yr_str]]
+  if (is.null(val)) return(NA_real_)
+  as.numeric(val)
+}
+
+fmt_cell_pop <- function (val) {
+  if (is.null(val) || is.na(val) || val <= 0) return("-")
+  viscount_fmt_pop(val)
+}
+
+peak_pop <- function (entry) {
+  vals <- unlist(entry$population)
+  if (length(vals) == 0) return(0)
+  max(as.numeric(vals), na.rm = TRUE)
+}
+
+country_entries <- function (cname) {
+  sub <- Filter(function (e) identical(as.character(e$country), cname), all_entries)
+  ord <- order(vapply(sub, peak_pop, numeric(1)), decreasing = TRUE)
+  sub[ord]
+}
+
+build_country_df <- function (cname, max_n = 40L) {
+  sub <- country_entries(cname)
+  take_n <- min(as.integer(max_n), length(sub))
+  rows <- lapply(sub[seq_len(take_n)], function (e) {
+    nm <- clean_sett_name(e$name)
+    coords_str <- paste0(
+      fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]])
+    )
+    data.frame(
+      Settlement = nm,
+      Coordinates = coords_str,
+      Y1801 = fmt_cell_pop(get_pop_yr(e, "1801")),
+      Y1886 = fmt_cell_pop(get_pop_yr(e, "1886")),
+      Y1897 = fmt_cell_pop(get_pop_yr(e, "1897")),
+      Y1917 = fmt_cell_pop(get_pop_yr(e, "1917")),
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+sum_country_yr <- function (cname, yr_str) {
+  sub <- country_entries(cname)
+  vals <- vapply(sub, function (e) {
+    v <- get_pop_yr(e, yr_str)
+    if (is.na(v)) 0 else v
+  }, numeric(1))
+  sum(vals)
+}
+
+sum_all_yr <- function (yr_str) {
+  sum(vapply(c("Georgia", "Azerbaijan", "Armenia"), sum_country_yr, numeric(1), yr_str = yr_str))
+}
+
+n_fnd_post1801 <- length(Filter(function (e) !is.null(e$foundation_year), all_entries))
+```
+
+# Abstract
+
+This gazetteer compiles longitudinal population estimates for 4.875 individually assessed cities, uyezd seats, garrison fortresses, mining towns, railway junctions, port settlements and census-enumerated rural villages across Russian Transcaucasia between 1801AD and 1917AD. Anchored directly to Russian military cameral descriptions, the 1886AD Transcaucasian family-list surveys, the 1897AD First All-Russian General Census, the 1917AD Eastern Georgia enumeration and late-imperial *Kavkazskiy kalendar* yearbooks, the catalogue spans Georgia, Azerbaijan and Armenia out of 5.125 evaluated ledger candidates (with 250 audited exclusions) [@Shafiyev2015Russian; @Taghiyeva2026Social; @Amrahov2025Numeral]. Across the imperial century, Transcaucasian urbanism shifted from walled khanate capitals and mediaeval royal seats toward a bipolar metropolitan hierarchy anchored by Tbilisi (159,6k in 1897AD; 278k in 1917AD) and Baku (111,9k in 1897AD; 248k in 1917AD), supported by regional administrative, port and garrison centres including Ganja (60,2k in 1917AD), Kutaisi (52,8k), Gyumri (51,9k), Batumi (44,5k in 1915AD), Shusha (43,9k in 1917AD), Yerevan (29k in 1897AD; 34,2k in 1915AD; 42,5k in 1917AD), Shaki (38,9k) and Quba (24,6k in 1917AD) [@Anonymous2019Baku; @Anon2026Ethnodemog; @Chichekian1967Territoria]. Rank-size calibration across all 4.875 entries confirms a tight Zipf distribution ($\alpha = 1{,}16$, $R^2 = 0{,}96$; exact $\alpha = 1{,}163$, $R^2 = 0{,}964$), while explicit establishment-year flags prevent anachronistic back-projection onto `r n_fnd_post1801` nineteenth-century colonial, resort, mining and garrison foundations.
+
+```{r fig1-md-only, echo=FALSE, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_russian_transcaucasia_spatial.png",
+    "Subregions and 4.875 catalogued settlements of Russian Transcaucasia from 1801AD to 1917AD.",
+    "fig:hero-settlements",
+    list(max_height = "0.52\\textheight")
+  )
+}
+```
+
+# Background
+
+At the outset of Russian rule in 1801AD, urban settlement across Transcaucasia reflected centuries of caravan commerce, highland fortification and agrarian administration under Bagrationi Georgia, Ottoman frontier pashaliks and autonomous Caucasian khanates [@LeDonne2006Building; @Bosworth2007Historic]. Tbilisi stood on the narrow Kura crossing as the historic royal capital of Kartli-Kakheti despite having suffered severe devastation during Agha Mohammad Khan Qajar's 1795AD sack, while Kutaisi anchored western Imereti above the Rioni plain [@Khonelidze2022Georgian; @Sadleir2025Spravedliv]. Across the Muslim khanates of eastern and southern Transcaucasia, walled seats such as Ganja, Shamakhi, Shaki, Shusha, Erivan, Nakhchivan and the small Caspian anchorage of Baku served primarily as regional craft bazaars and garrison citadels rather than industrial hubs [@Aliyev2026Impact; @Isaxanli2021Karabakh; @Amrahov2026History].
+
+Over the ensuing century, Tsarist military highways, railway lines and mineral extraction completely reordered this settlement geography. The construction of the Georgian Military Highway over the Darial Pass, the opening of the Poti-Tbilisi railway in 1872AD and the Tbilisi-Baku and Batumi branches in 1883AD concentrated commercial capital along the central Kura-Rioni corridor [@LeDonne2006Building; @Taghiyeva2026Social]. Simultaneously, the abolition of state petroleum farming in 1872AD ignited an unprecedented industrial boom on the Absheron Peninsula, turning Baku from a modest provincial harbour into one of the Russian Empire's fastest-growing port cities and spawning satellite drilling settlements across Sabunçu, Balaxanı and Suraxanı [@Anonymous2019Baku; @Anon2026Ethnodemog; @Ibishov2023Migrations].
+
+Elsewhere, strategic fortifications and extractive concessions planted new urban nodes where only villages or seasonal camps had previously stood. On the Arpa River frontier facing Ottoman Kars, Russian engineers erected the fortress of Aleksandropol (modern Gyumri) in 1837AD beside earlier Armenian settlements, while Karaklis (Vanadzor, 1828AD), Nor Bayazet (Gavar, 1830AD) and Yelenovka (Sevan, 1842AD) grew along highland military and sectarian routes [@Amrahov2023Ethnic; @Chichekian1967Territoria]. On the Black Sea coast, imperial engineers chartered Poti as a commercial port in 1858AD at the mouth of the Rioni before acquiring the deeper natural harbour of Batumi in 1878AD [@Hajiyev2017Socio]. In the interior foothills, copper smelting at Alaverdi, Kapan and Siemens-run Gadabay (1865AD), manganese mining at Chiatura (1879AD) and cotton irrigation in the Mughan Steppe sustained fast-growing provincial towns down to the 1917AD Revolution [@Asadov2025Socio; @Ibishov2025Resettleme].
+
+# Methodology
+
+The settlement ledger was assembled through multi-wave cross-referencing of imperial cameral rolls, the 1886AD Transcaucasian family lists, exact 1897AD Russian Imperial Census volumes, the 1917AD Eastern Georgia enumeration, *Kavkazskiy kalendar* municipal returns and historical gazetteers [@Taghiyeva2026Social; @Amrahov2025Numeral; @Bosworth2007Historic]. Out of 5.125 audited ledger candidates evaluated across the 185,24k km² three-republic core, 4.875 individually assessed settlements met strict archival, spatial and demographic inclusion thresholds, whereas 250 duplicate variants or co-located localities within 2,2 km to 25 km were merged or excluded. Every retained settlement is linked to verified WGS84 decimal coordinates, canonical modern territory assignment (Georgia, Azerbaijan or Armenia) and evidence-anchored population benchmarks spanning 1801AD to 1917AD, combining full multi-benchmark trajectories for 94 principal cities and towns with census enumerations and historical settlement records across 4.781 secondary market towns and villages.
+
+Strict chronological truncation governs nineteenth-century foundations. Settlements established as imperial fortresses, Swabian German colonies, chartered ports, mineral-spring resorts or industrial mining towns after 1801AD are assigned null entries prior to their documented founding year so that backward interpolation never invents anachronistic populations. In the ledger, `r n_fnd_post1801` catalogued settlements carry explicit post-1801AD establishment flags, including Stepanavan (1810AD), Bolnisi and Shamkir (1818AD), Goygol (1819AD), Vanadzor (1828AD), Borjomi (1829AD), Lagodekhi and Gavar (1830AD), Gyumri (1837AD), Sevan (1842AD), Poti (1858AD), Gadabay (1865AD), Chiatura (1879AD) and Sabirabad (1887AD). To prevent missing-glyph replacement boxes under XeLaTeX compilation, non-Latin Georgian, Armenian and Cyrillic aliases are excluded from printed table cells while preserving scholarly historical names in the prose. Table \ref{tab:urban-summary} summarises settlement counts and aggregate catalogued totals across all three territorial groupings.
+
+```{r tab-urban-summary, echo=FALSE, results='asis'}
+countries <- c("Georgia", "Azerbaijan", "Armenia")
+country_labels <- c(
+  Georgia = "Georgia",
+  Azerbaijan = "Azerbaijan",
+  Armenia = "Armenia"
+)
+df_usum <- do.call(rbind, lapply(countries, function (cn) {
+  sub <- country_entries(cn)
+  top_e <- sub[[1]]
+  data.frame(
+    Territory = unname(country_labels[[cn]]),
+    Towns = as.character(length(sub)),
+    Y1801 = viscount_fmt_pop(sum_country_yr(cn, "1801")),
+    Y1897 = viscount_fmt_pop(sum_country_yr(cn, "1897")),
+    Y1917 = viscount_fmt_pop(sum_country_yr(cn, "1917")),
+    Leading = paste0(clean_sett_name(top_e$name), " (", viscount_fmt_pop(peak_pop(top_e)), ")"),
+    stringsAsFactors = FALSE
+  )
+}))
+top_all <- all_entries[[which.max(vapply(all_entries, peak_pop, numeric(1)))]]
+df_usum <- rbind(df_usum, data.frame(
+  Territory = "Total Domain",
+  Towns = as.character(length(all_entries)),
+  Y1801 = viscount_fmt_pop(sum(vapply(countries, sum_country_yr, numeric(1), yr_str = "1801"))),
+  Y1897 = viscount_fmt_pop(sum(vapply(countries, sum_country_yr, numeric(1), yr_str = "1897"))),
+  Y1917 = viscount_fmt_pop(sum(vapply(countries, sum_country_yr, numeric(1), yr_str = "1917"))),
+  Leading = paste0(clean_sett_name(top_all$name), " (", viscount_fmt_pop(peak_pop(top_all)), ")"),
+  stringsAsFactors = FALSE
+))
+rownames(df_usum) <- NULL
+viscount_table(
+  df_usum,
+  "Territorial distribution and aggregate population of the 4.875 catalogued Transcaucasian settlements across 1801AD, 1897AD and 1917AD.",
+  c("Territory", "Settlements", "1801AD Sum", "1897AD Sum", "1917AD Sum", "Leading City"),
+  list(label = "tab:urban-summary")
+)
+```
+
+# Testing and Validation
+
+Hierarchical consistency across the 4.875-settlement catalogue is evaluated by fitting an ordinary least-squares Zipf rank-size regression on log-transformed peak populations and ranks. Across the full sample ($n = 4.875$), the observed slope yields a Zipf exponent of $\alpha = 1{,}16$ with $R^2 = 0{,}96$ (Figure \ref{fig:settlements-zipf}), tracking the Pareto-Zipf power law closely across every urban and rural settlement tier. At the apex, Tbilisi (278k in 1917AD) and Baku (248k) form a twin metropolitan peak far above the secondary provincial capitals of Ganja (60,2k), Kutaisi (52,8k), Gyumri (51,9k), Batumi (44,5k in 1915AD), Shusha (43,9k), Yerevan (42,5k), Shaki (38,9k) and Quba (24,6k), followed by a clean log-linear descent across uyezd seats, Black Sea ports, mining centres and census-enumerated rural villages [@Anon2026Ethnodemog; @Taghiyeva2026Social].
+
+```{r fig-settlements-zipf, echo=FALSE, results='asis'}
+viscount_figure(
+  "figures/fig4_russian_transcaucasia_settlements.png",
+  "Log-log Zipf rank-size calibration across 4.875 Transcaucasian settlements (left) and leading catalogued cities by peak population (right).",
+  "fig:settlements-zipf",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Results
+
+## Tiflis, Kutaisi and Batumi Governorates (Georgia)
+
+Table \ref{tab:geo-sites} lists the leading 40 catalogued settlements across the Georgian provinces of Tiflis and Kutaisi, including Abkhazia (Sukhumi Okrug) and Ajaria (Batumi Oblast), where the enriched register incorporates additional towns and rural villages from the 1897AD Russian Imperial Census, the 1917AD Eastern Georgia enumeration and regional registers. In 1801AD, catalogued population across Georgia totalled `r viscount_fmt_pop(sum_country_yr("Georgia", "1801"))`, rising to `r viscount_fmt_pop(sum_country_yr("Georgia", "1897"))` at the 1897AD Russian Imperial Census and `r viscount_fmt_pop(sum_country_yr("Georgia", "1917"))` by 1917AD. Tbilisi (historically Tiflis) anchored Georgia's urban hierarchy throughout the late imperial period, expanding from 20k in 1801AD to 159,6k in 1897AD and 278k in 1917AD as the Viceroyalty capital and junction of the Georgian Military Highway and the Transcaucasian Railway [@Sadleir2025Spravedliv; @Khonelidze2022Georgian]. In western Georgia, Kutaisi (32,5k in 1897AD; 52,8k in 1917AD) served as the administrative hub of Imereti, flanked by the Black Sea ports of Batumi (28,5k in 1897AD; peaking at 44,5k in 1915AD before wartime evacuations lowered it to 31,2k in 1917AD), Sukhumi (21,8k in 1917AD) and Poti (chartered 1858AD; peaking at 18,2k in 1915AD), alongside interior administrative, rail and mining centres including Akhaltsikhe (22,4k in 1915AD), Telavi (16,9k in 1917AD), Gori (16,8k), Sighnaghi (11,2k), Ozurgeti (peaking at 11,2k in 1916AD; 6,8k in 1917AD), Chiatura (founded 1879AD; 9,4k in 1915AD), Samtredia (8,9k), Khashuri (7,2k), Akhalkalaki (7,1k), Tskhinvali (5,3k), Zugdidi (5,2k) and Borjomi (founded 1829AD; 4,9k) [@Wier2026Conflict; @Hajiyev2017Socio].
+
+```{r tab-geo-sites, echo=FALSE, results='asis'}
+df_geo <- build_country_df("Georgia", 40L)
+viscount_table(
+  df_geo,
+  "Leading 40 catalogued settlements in Georgia (Tiflis, Kutaisi and Batumi Governorates) ordered by peak population from 1801AD to 1917AD.",
+  c("Settlement", "Lat, Lon", "1801AD", "1886AD", "1897AD", "1917AD"),
+  list(label = "tab:geo-sites", max_rows_per_page = 32L)
+)
+```
+
+## Baku and Elisabethpol Governorates (Azerbaijan)
+
+Table \ref{tab:aze-sites} presents the leading 40 catalogued settlements in Azerbaijan across the Baku and Elisabethpol governorates, Nakhchivan uyezd and Zakataly Okrug, integrating additional 1897AD Russian Imperial Census and regional Azerbaijani settlement records (including Lahic at 6,9k in 1886AD and Mastaga at 6,4k in 1897AD). Aggregate catalogued population in the Azerbaijani zone rose from `r viscount_fmt_pop(sum_country_yr("Azerbaijan", "1801"))` in 1801AD (excluding Ganja's 1804AD conquest baseline of 10k and post-1801AD foundations) to `r viscount_fmt_pop(sum_country_yr("Azerbaijan", "1897"))` at the 1897AD Census and `r viscount_fmt_pop(sum_country_yr("Azerbaijan", "1917"))` by 1917AD, propelled primarily by the industrial transformation of Baku from 3,5k in 1801AD to 111,9k in 1897AD, 214,7k in 1913AD and 248k in 1917AD [@Anonymous2019Baku; @Anon2026Ethnodemog; @BAYRAMOV2026Ideologica]. Inland, Ganja (Elisavetpol, rising from 10k in 1804AD to 33,6k in 1897AD and 60,2k in 1917AD), Shusha (25,9k in 1897AD; 43,9k in 1917AD), Shaki (Nukha, 24,7k in 1897AD; 38,9k in 1917AD), Quba (24,6k), earthquake-affected Shamakhi (peaking at 22,4k in 1855AD before the 1859AD and 1902AD quakes; 20k in 1897AD; 21,8k in 1917AD), Salyan (17,2k), Lankaran (16,1k), Nakhchivan (11,9k), Ordubad (5,6k), Balakan (5,6k), Goychay (4,6k), Zaqatala (4,3k) and the Siemens copper-smelting town of Gadabay (founded 1865AD; 3,9k in 1915AD) anchored silk processing, cotton trade, fisheries and railway transit across the Kura-Aras plains and Karabakh foothills [@Taghiyeva2026Social; @Ibishov2025Resettleme; @Asadov2025Socio].
+
+```{r tab-aze-sites, echo=FALSE, results='asis'}
+df_aze <- build_country_df("Azerbaijan", 40L)
+viscount_table(
+  df_aze,
+  "Leading 40 catalogued settlements in Azerbaijan (Baku and Elisabethpol Governorates) ordered by peak population from 1801AD to 1917AD.",
+  c("Settlement", "Lat, Lon", "1801AD", "1886AD", "1897AD", "1917AD"),
+  list(label = "tab:aze-sites", max_rows_per_page = 32L)
+)
+```
+
+## Erivan Governorate and the Armenian Highlands
+
+Table \ref{tab:arm-sites} compiles the leading 46 catalogued settlements across Erivan Governorate and the northern Lori and Zangezur highlands, incorporating additional rural and market settlements documented in the 1897AD Russian Imperial Census and regional Armenian enumerations. Catalogued settlement totals climbed from `r viscount_fmt_pop(sum_country_yr("Armenia", "1801"))` in 1801AD to `r viscount_fmt_pop(sum_country_yr("Armenia", "1897"))` at the 1897AD Census and `r viscount_fmt_pop(sum_country_yr("Armenia", "1917"))` by 1917AD, reflecting post-1828AD resettlement, late nineteenth-century rail expansion and First World War refugee inflows [@Amrahov2023Ethnic; @Amrahov2025Numeral; @Shafiyev2015Russian]. The fortress and railway hub of Gyumri (Aleksandropol, founded 1837AD) led the Armenian hierarchy throughout the late imperial period at 30,6k in 1897AD and 51,9k in 1917AD, outpacing the provincial capital of Yerevan (10,8k in 1801AD; 29k in 1897AD; 34,2k in 1915AD; 42,5k in 1917AD). Secondary towns included Gavar (Nor Bayazet, refounded 1830AD, 14,8k in 1917AD), the ecclesiastical seat of Vagharshapat (Etchmiadzin, 7,9k), Vanadzor (Karakilisa, settled 1828AD, 6,3k), Ashtarak (5k), Dilijan (3,8k), the copper-smelting towns of Alaverdi (4k in 1915AD; 3,7k in 1917AD) and Kapan (3,7k in 1915AD; 3,5k in 1917AD), Vardenis (3,5k) and Armavir (Sardarapat, 3,4k) [@Chichekian1967Territoria; @Asadov2025Socio; @Darieva2023Making].
+
+```{r tab-arm-sites, echo=FALSE, results='asis'}
+df_arm <- build_country_df("Armenia", 46L)
+viscount_table(
+  df_arm,
+  "Leading 46 catalogued settlements in Armenia (Erivan Governorate and Armenian Highlands) ordered by peak population from 1801AD to 1917AD.",
+  c("Settlement", "Lat, Lon", "1801AD", "1886AD", "1897AD", "1917AD"),
+  list(label = "tab:arm-sites", max_rows_per_page = 32L)
+)
+```
+
+## Kars Oblast, Artvin Okrug and Surmalu Uyezd (Frontier Annexes)
+
+Although the Caucasus Viceroyalty ruled Kars Oblast, Artvin Okrug and Surmalu uyezd of Erivan Governorate until 1917AD—encompassing the fortress capital of Kars (20,8k in 1897AD; peaking at 31,8k in 1915AD after the 1899AD railway link) alongside Kagizman (10,5k in 1897AD), Artvin (7,1k), Igdir (4,7k), Ardahan (4,1k) and Oltu (2,4k)—those territories were retroceded to Turkey under the 1921AD Treaties of Moscow and Kars [@Hajiyev2017Socio; @Chichekian1967Territoria]. To maintain strict geometric consistency with the 185,24k km² three-republic spatial mask, retroceded Turkish frontier towns are excluded from the 4.875-settlement gazetteer while their 1897AD Imperial Census provincial aggregates are reported in the companion regional literature review.
+
+# Limitations
+
+Four technical caveats govern the interpretation of these settlement series. First, early nineteenth-century baselines (1801-1850sAD) precede systematic municipal enumerations and rely on Russian military cameral descriptions (*kameralnye opisaniya*) and hearth multipliers, carrying wider uncertainty envelopes than the exact 1886AD family lists, 1897AD Imperial Census and 1917AD Eastern Georgia anchors [@Shafiyev2015Russian; @Amrahov2025Numeral]. Second, whereas the 94 core cities and towns carry continuous longitudinal trajectories from 1801AD (or foundation) to 1917AD, the 4.781 additional settlements integrated from the 1897AD Russian Imperial Census, the 1917AD Eastern Georgia enumeration and regional historical registers record exact populations only for their enumerated years and therefore display dashes in unenumerated columns.
+
+Third, wartime mobilisation forced cancellation of the planned 1915AD Second All-Russian Census [@Belova2018Dmitriy]; terminal 1917AD totals therefore combine the 1917AD Eastern Georgia enumeration and *Kavkazskiy kalendar* returns with wartime adjustments for Caucasus Front evacuations (notably Batumi) and Anatolian refugee inflows into Erivan, Gyumri and Tbilisi [@Hajiyev2017Socio; @Chichekian1967Territoria]. Fourth, retroceded imperial frontier towns in Kars Oblast, Artvin Okrug and Surmalu uyezd lie outside the 185,24k km² three-republic spatial mask and are excluded from the 4.875-settlement register to avoid cross-border leakage into modern Turkish territory.
+
+# Conclusion
+
+Between 1801AD and 1917AD, aggregate catalogued population across the 4.875 assessed Transcaucasian settlements expanded from `r viscount_fmt_pop(sum_all_yr("1801"))` in 1801AD to `r viscount_fmt_pop(sum_all_yr("1897"))` at the 1897AD Imperial Census and `r viscount_fmt_pop(sum_all_yr("1917"))` in 1917AD as the region's centre of gravity shifted from walled caravan khanates toward rail-connected industrial and port metropoles. The ascent of Tbilisi and Baku as twin imperial metropoles - supported by Ganja, Kutaisi, Gyumri, Batumi, Shusha, Yerevan, Shaki and Quba - forged the modern urban hierarchy of Georgia, Azerbaijan and Armenia prior to the collapse of Tsarist rule [@Anonymous2019Baku; @Taghiyeva2026Social; @TerMatevosyan2023Transcauca].
+
+# Appendix
+
+Table \ref{tab:foundation-dates} records all `r n_fnd_post1801` catalogued settlements carrying explicit post-1801AD foundation dates in the ledger, ensuring that no demographic mass is projected before documented establishment.
+
+```{r tab-foundation-dates, echo=FALSE, results='asis'}
+fnd_entries <- Filter(function (e) !is.null(e$foundation_year), all_entries)
+fnd_ord <- order(vapply(fnd_entries, function (e) as.numeric(e$foundation_year), numeric(1)))
+fnd_entries <- fnd_entries[fnd_ord]
+df_fnd <- do.call(rbind, lapply(fnd_entries, function (e) {
+  yr_f <- as.character(e$foundation_year)
+  p_init <- get_pop_yr(e, yr_f)
+  p_1897 <- get_pop_yr(e, "1897")
+  p_1917 <- get_pop_yr(e, "1917")
+  data.frame(
+    Settlement = clean_sett_name(e$name),
+    Territory = as.character(e$country),
+    Founded = paste0(yr_f, "AD"),
+    Initial = fmt_cell_pop(p_init),
+    Y1897 = fmt_cell_pop(p_1897),
+    Y1917 = fmt_cell_pop(p_1917),
+    stringsAsFactors = FALSE
+  )
+}))
+rownames(df_fnd) <- NULL
+viscount_table(
+  df_fnd,
+  paste0("Catalogued settlements with documented post-1801AD foundation years (n=", nrow(df_fnd), "), showing initial post-foundation populations, exact 1897AD Imperial Census counts and 1917AD totals."),
+  c("Settlement", "Territory", "Foundation", "Initial Pop.", "1897AD", "1917AD"),
+  list(label = "tab:foundation-dates")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

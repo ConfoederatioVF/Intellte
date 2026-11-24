@@ -1,0 +1,451 @@
+---
+title: "Ancient and Mediaeval Sudan and Nubia"
+subtitle: "Settlement Gazetteer: 132 Assessed Centres and Towns (2500BC-1821AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: ancient_mediaeval_nubia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 132 individually assessed settlements across Sudan, South Sudan and adjoining Eritrean and Ethiopian borderlands from 2500BC to 1821AD."
+hero_label: "fig:hero-settlements-nubia"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("ancient_mediaeval_nubia_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("ancient_mediaeval_nubia_summary_cache.json", simplifyVector = FALSE)
+gj_sub <- jsonlite::fromJSON("../../_shared/_gis_cache/chapter_subregions/ancient_mediaeval_nubia_subregions.geojson", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+point_in_ring <- function (px, py, ring) {
+  n <- length(ring)
+  if (n < 3L) return(FALSE)
+  xs <- vapply(ring, function (pt) as.numeric(pt[[1]]), numeric(1))
+  ys <- vapply(ring, function (pt) as.numeric(pt[[2]]), numeric(1))
+  inside <- FALSE
+  j <- n
+  for (i in seq_len(n)) {
+    xi <- xs[i]
+    yi <- ys[i]
+    xj <- xs[j]
+    yj <- ys[j]
+    if (((yi > py) != (yj > py)) && (px < (xj - xi) * (py - yi) / ((yj - yi) + 1e-18) + xi)) {
+      inside <- !inside
+    }
+    j <- i
+  }
+  inside
+}
+
+point_in_geom <- function (lon, lat, geom) {
+  gtype <- geom$type
+  coords <- geom$coordinates
+  if (identical(gtype, "Polygon")) {
+    if (!point_in_ring(lon, lat, coords[[1]])) return(FALSE)
+    if (length(coords) > 1L) {
+      for (h in 2:length(coords)) {
+        if (point_in_ring(lon, lat, coords[[h]])) return(FALSE)
+      }
+    }
+    return(TRUE)
+  }
+  if (identical(gtype, "MultiPolygon")) {
+    for (p in seq_along(coords)) {
+      poly <- coords[[p]]
+      if (point_in_ring(lon, lat, poly[[1]])) {
+        in_hole <- FALSE
+        if (length(poly) > 1L) {
+          for (h in 2:length(poly)) {
+            if (point_in_ring(lon, lat, poly[[h]])) {
+              in_hole <- TRUE
+              break
+            }
+          }
+        }
+        if (!in_hole) return(TRUE)
+      }
+    }
+  }
+  FALSE
+}
+
+ring_min_dist2 <- function (lon, lat, geom) {
+  gtype <- geom$type
+  coords <- geom$coordinates
+  rings <- if (identical(gtype, "Polygon")) list(coords[[1]]) else lapply(coords, function (p) p[[1]])
+  best <- Inf
+  for (rg in rings) {
+    xs <- vapply(rg, function (pt) as.numeric(pt[[1]]), numeric(1))
+    ys <- vapply(rg, function (pt) as.numeric(pt[[2]]), numeric(1))
+    d2 <- min((xs - lon)^2 + (ys - lat)^2)
+    if (d2 < best) best <- d2
+  }
+  best
+}
+
+feat_list <- gj_sub$features
+sub_order <- c(
+  "nobatia_lower_nubia",
+  "makuria_dongola_napata",
+  "meroe_alodia_butana",
+  "beja_red_sea_suakin",
+  "funj_sennar_gezira",
+  "darfur_keira_sultanate",
+  "kordofan_nuba_hills",
+  "shilluk_sudd_upper_nile"
+)
+
+classify_nubia_subregion <- function (e) {
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  for (f in feat_list) {
+    if (point_in_geom(lon, lat, f$geometry)) {
+      return(as.character(f$properties$id))
+    }
+  }
+  d2s <- vapply(feat_list, function (f) ring_min_dist2(lon, lat, f$geometry), numeric(1))
+  as.character(feat_list[[which.min(d2s)]]$properties$id)
+}
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+fmt_era <- function (yr) {
+  y <- as.integer(yr)
+  if (y < 0L) return(paste0(abs(y), "BC"))
+  if (y == 0L) return("0")
+  paste0(y, "AD")
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", fmt_era(yrs[i_pk]), ")")
+}
+
+iso_for_country <- function (ctry) {
+  if (identical(ctry, "Sudan")) return("SDN")
+  if (identical(ctry, "South Sudan")) return("SSD")
+  if (identical(ctry, "Ethiopia")) return("ETH")
+  if (identical(ctry, "Eritrea")) return("ERI")
+  toupper(substr(as.character(ctry), 1L, 3L))
+}
+
+sub_ids <- vapply(all_entries, classify_nubia_subregion, character(1))
+sub_entries <- setNames(lapply(sub_order, function (sid) {
+  sub <- all_entries[sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), sub_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    loc_str <- paste0(
+      iso_for_country(e$country),
+      ": ",
+      fmt_eu_coord(e$coords[[1]]),
+      ", ",
+      fmt_eu_coord(e$coords[[2]])
+    )
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `2000BC` = fmt_site_pop(e, -2000),
+      `0` = fmt_site_pop(e, 0),
+      `500AD` = fmt_site_pop(e, 500),
+      `1000AD` = fmt_site_pop(e, 1000),
+      `1500AD` = fmt_site_pop(e, 1500),
+      `1820AD` = fmt_site_pop(e, 1820),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_sudan <- sum(vapply(all_entries, function (e) identical(e$country, "Sudan"), logical(1)))
+n_ssd <- sum(vapply(all_entries, function (e) identical(e$country, "South Sudan"), logical(1)))
+n_eth <- sum(vapply(all_entries, function (e) identical(e$country, "Ethiopia"), logical(1)))
+n_eri <- sum(vapply(all_entries, function (e) identical(e$country, "Eritrea"), logical(1)))
+n_excluded <- 8L
+n_candidates <- length(all_entries) + n_excluded
+
+bench_nums <- c(-2000, 0, 500, 1000, 1500, 1820)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles spatial coordinates and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across ancient and mediaeval Sudan and Nubia between 2500BC and 1821AD (`r viscount_fmt_number(n_sudan, 0L)` in Sudan, `r viscount_fmt_number(n_ssd, 0L)` in South Sudan, `r viscount_fmt_number(n_eth, 0L)` in Ethiopia and `r viscount_fmt_number(n_eri, 0L)` in Eritrea). Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate towns, archaeological tells, royal cemeteries, river forts and caravan depots (`r viscount_fmt_number(n_excluded, 0L)` duplicate aliases merged), the retained sites span eight ecological and political sub-regions from Lower Nubia and the Dongola Reach through Butana, the Beja Red Sea coast, the Funj Gezira, Darfur, Kordofan and the Shilluk-Upper Nile wetlands. Active assessed centres expand from `r viscount_fmt_number(n_active[["-2000"]], 0L)` at 2000BC to `r viscount_fmt_number(n_active[["0"]], 0L)` at year 0, `r viscount_fmt_number(n_active[["500"]], 0L)` at 500AD, `r viscount_fmt_number(n_active[["1000"]], 0L)` at 1000AD, `r viscount_fmt_number(n_active[["1500"]], 0L)` at 1500AD and `r viscount_fmt_number(n_active[["1820"]], 0L)` at 1820AD, tracing urban leadership from Kerma (14,7k) and Napata (16,4k) to Meroe (29,4k), Old Dongola (23,8k), Soba (32,4k) and Sennar (28,6k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 132 individually assessed settlements across Sudan, South Sudan and adjoining Eritrean and Ethiopian borderlands from 2500BC to 1821AD.",
+    "fig:hero-settlements-nubia"
+  )
+}
+```
+
+# Background
+
+Reconstructing urban settlement across ancient and mediaeval Sudan requires integrating rescue archaeology from the Nile cataracts with mediaeval Arabic chronicles, early modern travel narratives and regional historical syntheses [@Adams1977Nubia; @Edwards2004NubianPast; @Pleiades2024Africa]. Unlike densely surveyed river plains in Egypt or Mesopotamia, Sudanese settlements divide sharply between fortified mudbrick river towns along the Nile cataracts, rain-fed *hafir* complexes across the Butana steppe, Red Sea coral ports and dispersed upland or caravan towns in Darfur and Kordofan [@Bobrowski2023Ltd1Kerma; @Costanzo2021CreatingThe; @Spaulding1985HeroicAge]. Uniting these trajectories in one coordinate-anchored ledger tracks the four-millennium southward migration of Sudan's urban core.
+
+# Methodology
+
+## Screening, Sub-Regional Assignment and Benchmarks
+
+Candidate settlements were compiled from excavation reports, surface surveys, Pleiades coordinates [@Pleiades2024Africa] and historical monographs [@Adams1977Nubia; @Edwards2004NubianPast; @Spaulding1985HeroicAge]. Eight duplicate spelling aliases were merged into canonical records, leaving `r viscount_fmt_number(length(all_entries), 0L)` unique settlements (`r viscount_fmt_number(summary_cache$observation_count, 0L)` dated observations), all recorded on a city-proper basis. Each settlement is assigned to one of the eight vector sub-regions defined for the chapter domain (with the four sites sitting immediately outside the five-arcminute interior mask grouped into their nearest contiguous hydrological corridor). Tables 1 to 8 present linearly interpolated resident populations at six benchmarks (2000BC, year 0, 500AD, 1000AD, 1500AD and 1820AD) alongside each site's peak population and peak date, marking pre-foundation or post-abandonment intervals with a hyphen (-).
+
+# Testing and Validation
+
+Across the 131 spatially deduplicated centres (merging overlapping Wad Medani coordinates), peak populations follow a sub-unitary Pareto rank-size slope of $q = 0,74$ ($R^2 = 0,98$) over the leading 66 settlements and $q = 1,03$ ($R^2 = 0,79$) across the full ledger (Figure \ref{fig:settlements-rank}). All 132 sites match modern national boundaries [@Runfola2020GeoBoundaries] and align chronologically with their documented foundation and abandonment horizons [@Budka2023DayThe; @Nasreldein2026ContinuityChange].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size distribution across 131 deduplicated Sudanese and Nubian settlements (Panel A) and 1820AD sub-regional densities (Panel B).",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Lower Nubia and Nobatia
+
+Table \ref{tab:zone-nobatia} lists `r viscount_fmt_number(length(sub_entries[["nobatia_lower_nubia"]]), 0L)` assessed settlements between the First and Third Cataracts, led by Faras (7,42k at 800AD), Buhen (3,85k), Sai Island (3,47k) and Amara West (2,84k) [@Budka2023DayThe; @Adams1977Nubia].
+
+```{r tab-nobatia, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["nobatia_lower_nubia"]]),
+  "Assessed settlements in Lower Nubia and Nobatia from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-nobatia")
+)
+```
+
+## Makuria, Napata and the Dongola Reach
+
+Table \ref{tab:zone-makuria} compiles `r viscount_fmt_number(length(sub_entries[["makuria_dongola_napata"]]), 0L)` sites along the Dongola Reach and adjacent Wadi Howar margins, anchored by Old Dongola (23,8k), Napata (16,4k), Kerma (14,68k), Kawa (8,95k) and Sanam (8,17k) [@Osypinski2023NewAdvances; @Bobrowski2023Ltd1Kerma; @Nasreldein2026ContinuityChange].
+
+```{r tab-makuria, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["makuria_dongola_napata"]]),
+  "Assessed settlements in Makuria, Napata and the Dongola Reach from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-makuria")
+)
+```
+
+## Island of Meroe, Alodia and Atbara-Butana
+
+Table \ref{tab:zone-meroe} records `r viscount_fmt_number(length(sub_entries[["meroe_alodia_butana"]]), 0L)` settlements across the Butana steppe and Atbara corridor, led by Soba (32,4k), Meroe (29,4k), Arbaji (11,2k), Shandi (5,45k) and Naqa (5,24k) [@Humphris2018IronSmelting; @Yvanez2018ClothingThe].
+
+```{r tab-meroe, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["meroe_alodia_butana"]]),
+  "Assessed settlements on the Island of Meroe, Alodia and Atbara-Butana from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-meroe")
+)
+```
+
+## Beja Highlands, Blemmyes and Suakin Littoral
+
+Table \ref{tab:zone-beja} presents `r viscount_fmt_number(length(sub_entries[["beja_red_sea_suakin"]]), 0L)` coastal ports and eastern highland sites, led by Suakin (8,15k), Debarwa (4,2k), Aqiq (3,45k) and Deraheib (3,24k) [@Costanzo2021CreatingThe; @GonzalezRuibal2017SudansEastern].
+
+```{r tab-beja, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["beja_red_sea_suakin"]]),
+  "Assessed settlements in the Beja Highlands, Red Sea littoral and Eritrean margins from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-beja")
+)
+```
+
+## Funj Sultanate of Sennar and Blue Nile Gezira
+
+Table \ref{tab:zone-funj} catalogues `r viscount_fmt_number(length(sub_entries[["funj_sennar_gezira"]]), 0L)` settlements across the Blue Nile and Gezira plains, headed by Sennar (28,6k), Wad Medani (6,4k), Tegali (3,6k) and El-Kamlin [@Spaulding1985HeroicAge; @AbuManga2017OldFulani].
+
+```{r tab-funj, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["funj_sennar_gezira"]]),
+  "Assessed settlements in the Funj Sultanate of Sennar and Blue Nile Gezira from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-funj")
+)
+```
+
+## Daju, Tunjur and Keira Sultanate of Darfur
+
+Table \ref{tab:zone-darfur} lists `r viscount_fmt_number(length(sub_entries[["darfur_keira_sultanate"]]), 0L)` centres across Jebel Marra and Darfur, led by Uri (8,64k), El Fasher (8,6k), Kobbei (8,42k), Shoba (5,28k) and Ain Farah (4,15k) [@Arkell1937FasherDarfur; @Runfola2020GeoBoundaries].
+
+```{r tab-darfur, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["darfur_keira_sultanate"]]),
+  "Assessed settlements in Daju, Tunjur and Keira Darfur from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-darfur")
+)
+```
+
+## Kordofan Savanna and Nuba Mountains
+
+Table \ref{tab:zone-kordofan} records `r viscount_fmt_number(length(sub_entries[["kordofan_nuba_hills"]]), 0L)` towns and upland sites across Kordofan and the Nuba Hills, headed by El Obeid (8,5k), Bara (3,2k) and An-Nuhud (2,95k) [@Gregory2025CapturingEmpire; @AbuManga2017OldFulani].
+
+```{r tab-kordofan, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["kordofan_nuba_hills"]]),
+  "Assessed settlements in Kordofan Savanna and the Nuba Mountains from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-kordofan")
+)
+```
+
+## Shilluk Kingdom, Sudd and Southern Nilotes
+
+Table \ref{tab:zone-shilluk} compiles `r viscount_fmt_number(length(sub_entries[["shilluk_sudd_upper_nile"]]), 0L)` White Nile, Sudd and upper Sobat-Kaffa borderland settlements, led by Bonga (6,27k), Kodok (5,16k), Anderacha (3,24k), Gondokoro (2,85k) and Tonga (2,42k) [@Dercole2021SeventyYears].
+
+```{r tab-shilluk, results='asis'}
+viscount_table(
+  build_gazetteer_df(sub_entries[["shilluk_sudd_upper_nile"]]),
+  "Assessed settlements in the Shilluk Kingdom, Sudd and Southern Nilotes from 2000BC to 1820AD with peak populations.",
+  arg3_options = list(label = "tab:zone-shilluk")
+)
+```
+
+# Limitations
+
+Three caveats govern use of this settlement ledger. First, northern cataract towns salvaged prior to reservoir inundation benefit from far denser excavation coverage than western or southern Sudanese savanna towns [@Naser2019DialoguesThe; @Bashir2026ArchaeologyAnd]. Second, urban estimates derived from walled footprints or eighteenth-century traveller house counts carry roughly 15% to 25% uncertainty [@Budka2023DayThe]. Third, the `r viscount_fmt_number(length(all_entries), 0L)` retained centres represent the nucleated urban and royal tier and should be read alongside the kriged rural population totals in the companion review.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` settlements trace four millennia of urban transformation from Kerma and Napata to Meroe, Old Dongola, Soba, Suakin, Sennar, El Fasher and Kodok, documenting Sudan's long shift from northern riverine cataracts to the rain-fed savanna interior by 1821AD.
+
+# Appendix
+
+## Sub-Regional Gazetteer Totals
+
+Table \ref{tab:gazetteer-summary} sums the assessed site counts and combined interpolated urban populations across all eight sub-regions at the six primary benchmark years.
+
+```{r tab-appendix-summary, results='asis'}
+sub_labels <- c(
+  nobatia_lower_nubia = "1. Lower Nubia and Nobatia",
+  makuria_dongola_napata = "2. Makuria, Napata and Dongola",
+  meroe_alodia_butana = "3. Meroe, Alodia and Butana",
+  beja_red_sea_suakin = "4. Beja Highlands and Suakin",
+  funj_sennar_gezira = "5. Funj Sennar and Gezira",
+  darfur_keira_sultanate = "6. Darfur Keira Sultanate",
+  kordofan_nuba_hills = "7. Kordofan and Nuba Hills",
+  shilluk_sudd_upper_nile = "8. Shilluk and Upper Nile"
+)
+sum_rows <- lapply(sub_order, function (sid) {
+  sub <- sub_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Sub-Region (Sites)` = paste0(sub_labels[[sid]], " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `2000BC` = sums[["-2000"]],
+    `0` = sums[["0"]],
+    `500AD` = sums[["500"]],
+    `1000AD` = sums[["1000"]],
+    `1500AD` = sums[["1500"]],
+    `1820AD` = sums[["1820"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Sub-Region (Sites)` = paste0("All Sub-Regions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `2000BC` = tot_sums[["-2000"]],
+  `0` = tot_sums[["0"]],
+  `500AD` = tot_sums[["500"]],
+  `1000AD` = tot_sums[["1000"]],
+  `1500AD` = tot_sums[["1500"]],
+  `1820AD` = tot_sums[["1820"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Assessed settlement counts and combined interpolated urban populations across eight Sudanese and Nubian sub-regions from 2000BC to 1820AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+All coordinates are decimal degrees (WGS 84) formatted with European decimal commas. Pre-1821 dates use attached astronomical suffixes (2000BC, 0, 1820AD), and hyphens (-) mark intervals prior to site foundation or after abandonment.

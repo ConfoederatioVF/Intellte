@@ -1,0 +1,443 @@
+---
+title: "Colonial Australia from First Fleet to Federation"
+subtitle: "Convict, Pastoral and Gold-Rush Colonies, 1788–1901"
+date: "23 November 2026"
+author: "Aust Kätzchen"
+authors_line: "Aust Kätzchen"
+emails: [austkaeztchen@confoederatio.org]
+hero_figure: "figures/colonial_australia_regional_map.png"
+hero_caption: "Six pre-Federation Australian colonies and 74 catalogued settlements across mainland Australia, Tasmania and Norfolk Island, 1788 to 1901."
+hero_label: "fig:hero-australia-map"
+bibliography: colonial_australia.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    latex_engine: xelatex
+    template: ../../_shared/template/template.tex
+    keep_tex: false
+  github_document:
+    html_preview: false
+    toc: true
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  text <- paste(lines, collapse = "\n")
+  text <- gsub("//[^\n]*", "", text, perl = TRUE)
+  text <- gsub("/\\*.*?\\*/", "", text, perl = TRUE)
+  text <- gsub(",\\s*([}\\]])", "\\1", text, perl = TRUE)
+  fromJSON(text, simplifyVector = FALSE)
+}
+
+summary_data <- fromJSON("colonial_australia_summary_cache.json", simplifyVector = FALSE)
+sett_data <- fromJSON("colonial_australia_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("colonial_australia_source_ledger.json5")
+
+clean_label <- function(x) {
+  s <- as.character(x)
+  s <- gsub("&", "and", s, fixed = TRUE)
+  s <- gsub("\\\\", "", s)
+  trimws(s)
+}
+
+subregions <- summary_data$subregions
+submask_cov <- ledger_data$saturation_audit$submask_coverage
+
+tot_1788 <- as.numeric(summary_data$domain_totals[["1788"]])
+tot_1820 <- as.numeric(summary_data$domain_totals[["1820"]])
+tot_1836 <- as.numeric(summary_data$domain_totals[["1836"]])
+tot_1860 <- as.numeric(summary_data$domain_totals[["1860"]])
+tot_1881 <- as.numeric(summary_data$domain_totals[["1881"]])
+tot_1901 <- as.numeric(summary_data$domain_totals[["1901"]])
+tot_area <- as.numeric(summary_data$total_area_km2)
+n_sites <- as.integer(summary_data$settlement_count)
+n_obs <- as.integer(summary_data$observation_count)
+```
+
+```{r hero-md-fallback, results='asis'}
+if (!knitr::is_latex_output()) {
+  cat("![Six pre-Federation Australian colonies and 74 catalogued settlements across mainland Australia, Tasmania and Norfolk Island, 1788 to 1901.](figures/colonial_australia_regional_map.png)\n\n")
+}
+```
+
+# Abstract
+
+Between the landing of the First Fleet at Sydney Cove in January 1788 and the inauguration of the Commonwealth of Australia on 1 January 1901, the Australian continent underwent one of the sharpest demographic inversions of the modern world. Across six pre-Federation colonies occupying `r viscount_fmt_number(tot_area, 1L)` km² of buffered continental and island mask footprint (New South Wales including the future Australian Capital Territory, Victoria, Queensland, South Australia united with the Northern Territory, Western Australia and Tasmania), combined Indigenous and settler population followed a stark U-shaped opening curve before surging twelvefold over the ensuing century [@mcnicoll1996european; @kippen2004sources]. From an initial 1788 baseline of `r viscount_fmt_pop(tot_1788)` inhabitants—overwhelmingly Aboriginal and Torres Strait Islander societies alongside 859 landed Britons—continental numbers contracted under introduced smallpox, respiratory infections and frontier dispossession to a decadal raster trough of 272,2k in 1810, recovered past their starting level around 1836 (385,8k on the benchmark curve; 399k on the 1840 decadal raster) and doubled within a single decade during the 1850s Victorian gold rushes from 600,3k in 1850 to 1,33M in 1860 [@mccalman2016family; @corporation2016space; @de_looper2014death]. Sustained immigration and high settler natural increase lifted total population to `r viscount_fmt_pop(tot_1881)` in 1881 and `r viscount_fmt_pop(tot_1901)` (`r viscount_fmt_number(tot_1901, 0L)`, density 0,50 inhabitants per km²) at Federation in 1901, comprising 3.824.913 non-Indigenous residents enumerated across the synchronous colonial censuses and roughly 94,6k surviving Indigenous Australians [@anon1897australasian; @nsw1902nsw; @carmichael2019indigenous]. Regional supremacy shifted twice across the period: New South Wales led until the 1850s goldfields propelled compact Victoria (5,23 inhabitants per km² by 1901) into first place from 1861 through 1891, before the 1890s banking crisis and Western Australian goldfields exodus restored New South Wales (1,38M, 35,3% of the continent) ahead of Victoria (1,21M, 30,9%), Queensland (534,2k, 13,6%), South Australia with the Northern Territory (396,1k, 10,1%), Western Australia (220,1k, 5,6%) and Tasmania (175,4k, 4,5%). Across `r viscount_fmt_number(n_sites, 0L)` catalogued colonial settlements and `r viscount_fmt_number(n_obs, 0L)` dated observations, urban development displayed extreme coastal primacy ($\alpha = 1,26$, $R^2 = 0,99$ across the top 37 centres), with the six colonial capitals holding 1,39M residents (35,4% of Australia) led by Melbourne (501,6k) and Sydney (497k).
+
+# Background
+
+## First Fleet, Convict Transportation and Early Penal Settlements (1788 to 1840)
+
+British colonisation of Australia began not as an agrarian plantation venture but as an imperial penal expedient following the loss of the North American convict destinations in 1783 [@mcnicoll1996european; @finnane2019australia]. On 26 January 1788, Captain Arthur Phillip established the garrison and convict camp at Sydney Cove on Port Jackson, counting 859 souls in the opening colonial return alongside a small detachment dispatched weeks later to Kingston on Norfolk Island (24 settlers in 1788, rising to 961 by 1800) [@kippen2004sources]. Among the earliest arrivals were English, Irish and Scottish felons and marines alongside a small contingent of Black convicts of African and Caribbean origin sentenced in British courts, marking an overlooked thread in Australia's first settler generation [@abur2023migration]. Female convicts petitioned authorities before embarkation under rigid social hierarchies yet proved indispensable to early colonial household formation in an overwhelmingly male outpost [@cortes2024politeness].
+
+For its first thirty years, European settlement clung to coastal pockets and alluvial river flats of the Sydney Basin and Van Diemen's Land. Starvation during the opening seasons forced rapid agricultural expansion inland to Parramatta (340 residents in 1790; 1,8k by 1810) and the fertile Hawkesbury flats at Windsor (820 in 1800; 2,4k in 1810), while coal and cedar drew a secondary penal post to Newcastle at the mouth of the Hunter River in 1804 [@mcnicoll1996european]. Across Bass Strait, fear of French maritime reconnaissance prompted Governor King to establish Hobart Town on the Derwent River in 1804 (433 settlers) and Launceston on the Tamar estuary in 1806 (259 in 1810). Even after the Napoleonic Wars swelled convict shipments across the Tasman Sea, the European headcount remained tiny: non-Indigenous numbers stood at 5.217 in 1800, 33.543 in 1820 (28.024 in New South Wales and 5.519 in Van Diemen's Land) and 58.197 at the landmark 1828 census [@kippen2004sources; @hull2007strange].
+
+Convict transportation reshaped demographic structure across eastern Australia until abolition in New South Wales in 1840, Van Diemen's Land in 1853 and Western Australia in 1868 [@finnane2019australia; @finnane2022upholding]. Roughly 162k convicts landed across the six colonies over eighty years, heavily skewed toward young adult men. Severe sex-ratio imbalances suppressed formal marriage rates in early penal decades while generating high shares of common-law unions and premarital conceptions, documented closely in nineteenth-century Tasmanian parish and civil records [@kippen2011convict]. Penal discipline also imprinted colonial jurisprudence, extending capital punishment, police surveillance and secondary exile stations—from Port Macquarie (1.500 convicts and guards in 1828) and Moreton Bay (1.241 in 1831) to the harsh second settlement on Norfolk Island (1.900 in 1844)—across the eastern seaboard [@finnane2022upholding; @kaladelfos2012politics; @wimshurst2012intersection].
+
+## Pastoral Expansion, Free Settlement and Colonial Separations (1825 to 1859)
+
+After explorers crossed the Blue Mountains to found Bathurst in 1815, fine-wool merino grazing broke the coastal confinement of New South Wales and Van Diemen's Land [@mcnicoll1996european]. Assisted and unassisted British labour emigration—pushed by post-war rural distress in England, Scotland and Ireland and pulled by colonial land bounties—gradually overtook convict inflows during the 1830s and 1840s [@harper2019obstacles]. Colonial administrative geometry fractured in step with pastoral reach. Van Diemen's Land separated from New South Wales as an independent colony in 1825, swelling from 18.128 non-Indigenous inhabitants in 1828 to 57.420 in 1841 as convict assignment and pastoral estates filled the Midlands corridor between Hobart and Launceston [@kippen2011convict].
+
+On the western margin of the continent, Britain claimed the Swan River in 1829 to forestall French interest, establishing Perth and Fremantle alongside the earlier 1826 military garrison at Albany on King George Sound. Poor coastal sands, labour shortages and vast distances from eastern markets stifled early growth: non-Indigenous Western Australia numbered just 1.956 in 1836 and 7.186 in 1851, prompting local landowners to request British convicts between 1850 and 1868 merely to sustain public works and pastoral labour [@mcnicoll1996european; @harper2019obstacles]. By contrast, the Province of South Australia—proclaimed in December 1836 as a convict-free experiment in Edward Gibbon Wakefield's systematic colonisation—sold surveyed land at sufficient prices to subsidise family immigration [@gurr2025complex]. Adelaide laid out a planned park-ringed grid that reached 8.489 inhabitants by 1840, though rapid arrival outstripped water, sanitation and employment, exposing early British and German migrants to acute enteric morbidity, infant mortality and temporary urban retreat during the 1841–1844 slump [@gurr2025complex]. Rich copper strikes at Kapunda (1842) and Burra (1845, reaching 4,4k miners by 1851) quickly rescued provincial finances and carried non-Indigenous South Australia from 15.485 in 1841 to 66.538 in 1851.
+
+Simultaneously, pastoralists from Van Diemen's Land and southern New South Wales crossed Bass Strait and the Murray River to occupy the Port Phillip District, founding Portland in 1834 and Melbourne in 1835 [@vitelli2025ornamentalis]. Despite official efforts to check unauthorised squatting, Melbourne grew from 177 settlers in 1836 to 23.143 by 1851, anchoring a wealthy wool hinterland that separated from New South Wales as the Colony of Victoria on 1 July 1851. Settler pastoralism also bred distinct cultural narratives of domestic vulnerability and frontier childhood across the thinly peopled bush [@torney2002babes]. North of Sydney, the closure of the Moreton Bay penal station in 1839 opened the Darling Downs and Brisbane valley to free squatters in 1842; Brisbane recovered from 200 residents in 1841 to 2.543 in 1851 and 6.051 by 1861 following Queensland's separation from New South Wales in December 1859 [@wimshurst2012intersection; @ree2010policing]. By 1851, on the eve of gold, non-Indigenous Australia had reached 437.665 across five distinct colonies.
+
+## The Gold-Rush Inflection and Late-Century Boom and Bust (1851 to 1901)
+
+Gold transformed Australia overnight from an agrarian wool dependency into one of the wealthiest, most urbanised settler economies on earth [@mcnicoll1996european]. Following Edward Hargraves's announcement near Bathurst in May 1851 and vastly richer alluvial strikes at Clunes, Ballarat, Mount Alexander (Castlemaine) and Bendigo later that year, hundreds of thousands of diggers poured into Victoria from Britain, Ireland, continental Europe, North America, China and neighbouring Australian colonies [@harper2019obstacles; @finnane2013law]. Between 1851 and 1861, Victoria's enumerated population multiplied more than fivefold from 97.489 to 539.764, catapulting the small southern colony past New South Wales (357.362) and lifting total non-Indigenous Australia from 437.665 to 1.168.149. Instant canvas cities hardened into stone municipalities: Melbourne surged from 23,1k in 1851 to 139,9k in 1861, Geelong jumped from 8,3k to 23k, Ballarat reached 22,1k (rising to 47,2k in 1871) and Bendigo stood at 13k (climbing to 38,4k in 1881). Rapid goldfield crowding overwhelmed colonial sanitation and triggered acute outbreaks of typhoid, scarlet fever and dysentery, catalysing medical professionalisation and public-health reform in 1850s and 1860s Victoria [@orrell2020communicable; @de_looper2014death].
+
+Gold also introduced substantial non-European immigration to the eastern colonies. Tens of thousands of Cantonese miners worked the Victorian, New South Wales and later Palmer River fields, prompting discriminatory poll taxes and immigration restrictions while Chinese litigants actively contested property and civil rights inside Australian colonial courts [@finnane2013law; @finnane2019australia]. Meanwhile, successive mineral waves opened Australia's interior and tropical north long after Victorian alluvial yields faded: copper smelting on South Australia's Yorke Peninsula (Moonta, Kadina and Wallaroo, 6,5k in 1871), Queensland gold strikes at Gympie (1867), Charters Towers (1872, 21k by 1901), Palmer River via Cooktown (1873) and Mount Morgan (1882), the great silver-lead-zinc lode at Broken Hill in far-western New South Wales (1883, surging to 27,5k by 1901) and silver and copper mines in western Tasmania at Zeehan (5k) and Queenstown (5,1k).
+
+During the long pastoral, railway and urban building boom of 1860 to 1890, non-Indigenous Australia nearly tripled from 1,17M to 3,24M [@mcnicoll1996european; @anon1897australasian]. Victoria and New South Wales ran neck and neck—1.158.372 against 1.153.170 in 1891—while metropolitan Melbourne ("Marvellous Melbourne") climbed to 490.896 inhabitants, reshaping household formation, youth transitions to adulthood and municipal planning [@larson1986growing; @vitelli2025ornamentalis]. That speculative boom ruptured violently in the 1891–1893 Melbourne banking crash and continental drought. Victorian net migration turned sharply negative throughout the 1890s, freezing Greater Melbourne at 501.580 in 1901 while Sydney added 113,7k residents to reach 496.990 and New South Wales reclaimed continental leadership (1.375.455 non-Indigenous against Victoria's 1.209.900). Unemployed Victorian and South Australian miners streamed west to newly discovered Coolgardie (1892) and Kalgoorlie-Boulder (1893), nearly quadrupling Western Australia's settler population in a single decade from 53.177 in 1891 to 193.601 in 1901. Concurrently, Australian women led one of the earliest sustained marital fertility declines outside France and New England between 1870 and 1910, combining later marriage with deliberate family limitation inside urban and rural households [@mcdonald2018women; @reimondos2025decomposing; @nsw1903nsw]. By 1 January 1901, the six self-governing colonies federated into the Commonwealth of Australia, immediately debating intercolonial freedom of movement, public health and restrictive racial policing across the new national border [@finnane2022absolutely; @ree2010policing].
+
+## Indigenous Depopulation, Frontier Conflict and Colonial Administration
+
+The rapid multiplication of European settlers unfolded directly over a catastrophic collapse of Australia's Indigenous peoples [@mccalman2016family; @norman2025coming]. Prior to 1788, Aboriginal and Torres Strait Islander nations occupied every ecological zone of the continent; the conservative demographic baseline adopted in our constant-boundary series places continental Indigenous population at roughly 315k in 1788, distributed most densely across Queensland (120k), South Australia with the Northern Territory (65k), Western Australia (62k) and New South Wales (49k), alongside Victoria (15k) and Tasmania (4,5k), though later economic-demographic and archaeological reassessments argue for substantially larger pre-contact totals [@carmichael2019indigenous; @norman2025coming].
+
+Within fifteen months of First Fleet landing, a devastating smallpox epidemic swept the Sydney Basin in April 1789, killing roughly half of the coastal Eora and inland Darug clans; a second continental smallpox wave descended the Murray-Darling basin in 1829–1831 ahead of white overlanders, hollowing out riverine populations before squatters even arrived [@corporation2016space; @morton2025suffering]. Measles, influenza, tuberculosis and introduced venereal disease—which sharply depressed Indigenous fecundity for generations—compounded ecological disruption as sheep and cattle trampled native yam beds and excluded clans from permanent waterholes [@mccalman2016family; @carmichael2019indigenous].
+
+Direct frontier violence accelerated demographic collapse across every pastoral horizon. In Van Diemen's Land, the Black War of the 1820s and subsequent removal of survivors to Wybalenna on Flinders Island reduced the Tasmanian Aboriginal population from roughly 4,5k in 1788 to fewer than 200 people in institutional custody by mid-century [@kippen2004sources]. Along the western Central Murray in South Australia between 1830 and 1841, overland cattle drives triggered repeated ambushes and punitive reprisals culminating in the Rufus River massacre [@corporation2016space]. In Victoria, Port Phillip's rapid pastoral occupation shrank Indigenous numbers from an estimated 12k–15k in 1835 to fewer than 2k by 1861, leaving fractured families confined to missions and reserves under exclusionary colonial boards [@mccalman2016family; @stephens2003white]. In Queensland, where the pastoral and mining frontier swept north and west across 1,78M km² between 1859 and 1890, clashes involving settlers and the paramilitary Native Police inflicted severe mortality before the 1897 Protection Act inaugurated systematic forced removals onto government reserves and missions [@finnane2010aboriginal; @copland2005calculating; @finnane2011settler]. Across northern Queensland and the Torres Strait, colonial racial administration further entangled Aboriginal communities with indentured Melanesian ("Kanaka") sugar workers and Asian pearling crews around Mackay, Bundaberg, Cairns, Thursday Island and Broome [@richardson2025other; @ree2010policing]. By 1901, surviving Indigenous Australians had fallen to roughly 94,6k continent-wide—less than a third of the conservative 1788 baseline—while colonial monuments and official histories long muted the scale of dispossession [@segovia2024carlson; @norman2025coming; @morton2025suffering].
+
+# Methodology
+
+## Six-Colony Partition and Changing Jurisdictional Boundaries
+
+To preserve longitudinal comparability across a century of shifting colonial borders, AUSTRAL partitions Colonial Australia (1788 to 1901) into the six pre-Federation colonies at their 1901 Federation geometry, spanning `r viscount_fmt_number(tot_area, 1L)` km² of buffered coastal and island mask footprint. Two federal territorial arrangements post-dating 1901 remain integrated within their colonial parent jurisdictions throughout this chapter: the future Australian Capital Territory (transferred from New South Wales only in 1911) and Norfolk Island remain inside New South Wales (821.749,9 km²), while the Northern Territory—annexed from New South Wales to South Australia in 1863 and transferred to the Commonwealth only in 1911—remains united with South Australia (2.385.557,5 km²). The remaining four sub-regions correspond directly to Western Australia (2.590.850,2 km²), Queensland (1.781.286,9 km²), Victoria (231.469 km²) and Tasmania (82.134,1 km²).
+
+Because actual nineteenth-century colonial boundaries shifted repeatedly, our study pairs this constant-boundary six-colony series with a 24-row Historical GIS (HGIS) territorial regime panel capturing five historical border geometries: the 1800 partition between New South Wales east of 135°E (3.816.201 km²) and unannexed Western New Holland west of 135°E (3.908.224 km²); the 1840 four-colony map (New South Wales, Western Australia, Van Diemen's Land and the 1836–1861 Province of South Australia between 132°E and 141°E); the 1860 six-colony map immediately after Queensland separation (while the Northern Territory still belonged to New South Wales); and the post-1863 six-colony geometry in 1890 and 1900. Note that the buffered continental raster mask footprint (7,89M km²) exceeds the strict subaerial HGIS land area (7,72M km²) by 2,2% owing to coastal rasterisation along indented estuaries, Bass Strait islands and offshore territories.
+
+## Colonial Musters, Synchronous Censuses and Indigenous Population Reconstruction
+
+Australia possesses one of the richest continuous statistical archives of any nineteenth-century settler society, yet its early and late enumerations differ sharply in administrative coverage [@kippen2004sources; @kippen2016sources; @hull2007strange]. From 1788 to 1825, colonial governors in New South Wales and Van Diemen's Land conducted periodic military and civilian musters—headcounts originally designed to ration commissariat stores and track convict assignments [@kippen2004sources]. New South Wales replaced musters with its first statutory householder census in November 1828, followed by quinquennial or decennial counts in 1833, 1836, 1841, 1846, 1851, 1861 and 1871. Sister colonies ran independent schedules (South Australia in 1840, 1844, 1846, 1851, 1855, 1861, 1866, 1871 and 1876; Victoria in 1854, 1857, 1861 and 1871; Queensland in 1861, 1864, 1868, 1871 and 1876; Western Australia in 1832, 1848, 1854, 1859 and 1870; Tasmania in 1841, 1847, 1851, 1861 and 1870) until colonial government statisticians—led by New South Wales statistician Timothy Coghlan and Victoria's Henry Heylyn Hayter—synchronised their enumerations on identical spring census nights in 1881, 1891 and 1901 [@anon1897australasian; @hull2007strange; @nsw1902nsw; @nsw1903nsw]. Modern longitudinal linkage projects continue to cross-check these colonial censuses against convict indents, passenger lists and civil vital registers [@mccalman2021building; @kippen2016sources].
+
+Critically, colonial censuses systematically excluded "full-blood" Aboriginal people living beyond settled districts, a practice later codified in Section 127 of the 1901 Commonwealth Constitution and leaving long-running methodological legacies in Australian census classification of ancestry, households and identity [@hull2007strange; @allen2021understandin; @gray2023reporting]. To prevent an artificial appearance of an "empty continent" in 1788 or distorted nineteenth-century growth rates, total population $P_c(t)$ in each colony $c$ at year $t$ combines official non-Indigenous enumerated series $P_c^{\text{enum}}(t)$ (anchored in Australian Bureau of Statistics historical colonial estimates) with explicit Indigenous demographic trajectories $P_c^{\text{indig}}(t)$ reconstructed from historical demographic syntheses [@carmichael2019indigenous; @mccalman2016family]:
+
+$$P_c(t) = P_c^{\text{enum}}(t) + P_c^{\text{indig}}(t)$$
+
+Compound annual growth rates between any two benchmark horizons $t_1$ and $t_2$ are evaluated uniformly across all six colonies:
+
+$$g_c(t_1, t_2) = \left(\frac{P_c(t_2)}{P_c(t_1)}\right)^{\frac{1}{t_2 - t_1}} - 1$$
+
+Between raw regional anchor dates (five anchors per colony across 1788 to 1901), the harmonised benchmark table applies log-linear interpolation to common comparison dates ($1788, 1820, 1836, 1860, 1881, 1901$), whereas the decadal raster panel ($1790, 1800, \dots, 1900$) integrates annual non-Indigenous census trajectories directly with decadal Indigenous curves so rapid gold-rush shocks remain fully resolved. Vital-rate decomposition of late nineteenth-century natural increase draws on colonial death-registration series from 1856 onward and marital-fertility analyses across 1870–1910 [@de_looper2014death; @mcdonald2018women; @reimondos2025decomposing].
+
+## Four-Wave Settlement Gazetteer Assembly and Metropolitan Scope
+
+In parallel with colonial totals, AUSTRAL compiles an evidence-based settlement gazetteer containing `r viscount_fmt_number(n_sites, 0L)` Australian urban centres and `r viscount_fmt_number(n_obs, 0L)` dated population observations (mean 6,24 observations per settlement) spanning 1788 to 1901. Every record derives strictly from official colonial musters, colonial census reports, statistical registers and Australian Bureau of Statistics historical metropolitan series, maintaining a 0% crowd-sourced fallback share across all six colonies.
+
+Assembly proceeded across four audited ledger waves. Wave 1 harvested all 74 primary official census and muster series covering colonial capitals, penal posts, coastal ports, agricultural service towns and gold, copper and silver-lead mining centres. Wave 2 cross-checked peer-reviewed historical demography and regional urban monographs without requiring synthetic additions. Wave 3 conducted longitudinal municipal reconciliation and deduplication, merging 6 variant colonial-capital alias entries into canonical metropolitan records so every capital appears unambiguously with zero double counting. Wave 4 executed a targeted sub-region gap sweep confirming asymptotic saturation (1 final verification record, marginal gain 1,37%, well beneath the 2% ceiling), zero empty sub-regions and zero unaccounted candidates. To keep metropolitan sprawl distinct from narrow nineteenth-century municipal cores, every settlement carries an explicit spatial scope: 6 metropolitan areas (Greater Melbourne, Sydney, Adelaide, Brisbane, Perth and Hobart), 6 suburban or outer-metropolitan ring towns (Fremantle, Port Adelaide, Parramatta, Ipswich, Liverpool and Gawler) and 62 city-proper centres, including the four municipal city cores of Sydney, Melbourne, Adelaide and Perth tracked separately from their metropolitan envelopes.
+
+# Testing and Validation
+
+## Reconciliation Against Historical GIS Regimes and Official Colonial Censuses
+
+Comparing our decadal raster domain totals against the 24-row Historical GIS territorial regime panel across five shared decadal snapshots (1800, 1840, 1860, 1890 and 1900) confirms tight numerical convergence across changing nineteenth-century borders. In 1800, the two HGIS territories (New South Wales east of 135°E at 165.265 plus Western New Holland at 122.253) sum to 287.518 inhabitants—within 0,31% of our 1800 raster total (288.405). In 1840, the four HGIS colonies sum to 398.037 against 399.037 on the decadal raster (0,25% difference). Across the post-gold-rush six-colony regime, divergence falls below one tenth of one percent: 1.327.150 HGIS against 1.327.940 raster in 1860 (0,06%), 3.264.184 against 3.265.891 in 1890 (0,05%) and 3.861.421 against 3.863.304 in 1900 (0,05%).
+
+A critical diagnostic contrast emerges at the 1860 benchmark column and merits transparent explanation. In the sparse five-anchor colony config, Victoria and New South Wales carry raw anchor points at 1851 (97,5k and 215k) and 1881 (874k and 788k) without an intermediate 1860 raw anchor. Log-linear interpolation across that thirty-year span smooths out the sudden 1851–1860 alluvial gold boom, producing interpolated benchmark values of 188,2k for Victoria and 317,4k for New South Wales (continental benchmark sum 916,1k in 1860). By contrast, both the 1860 HGIS/raster panel (Victoria 540,7k HGIS and 524,8k raster; New South Wales 384,7k raster; continental sum 1,33M) and the official 1861 colonial censuses (Victoria 539.764; New South Wales 357.362; non-Indigenous total 1.168.149) capture the true gold-rush surge accurately. A smaller reverse smoothing appears in Tasmania at 1836 (30,1k interpolated between 1825 and 1851 raw anchors against 43.689 non-Indigenous enumerated during peak convict inflow). All regional narratives below therefore cite both the constant-boundary benchmark series and the exact official census and decadal raster series at 1836 and 1860–1861.
+
+## Civil Registration Quality, Mortality Trends and Census Completeness
+
+Independent cross-checks from nineteenth-century vital registration reinforce the reliability of post-1856 settler enumerations [@kippen2004sources; @kippen2016sources]. Compulsory civil registration of births, deaths and marriages commenced in Tasmania in 1838, Western Australia in 1841, South Australia in 1842, Victoria in 1853 and New South Wales (including future Queensland) in 1856 [@de_looper2014death]. Michael de Looper's evaluation of colonial death registers across 1856–1906 demonstrates rapid improvements in registration completeness and cause-of-death certification during the 1860s and 1870s, capturing both the sharp mortality toll of urban diarrhoeal and infectious diseases and the secular decline in crude death rates after 1885 [@de_looper2014death; @orrell2020communicable; @ree2010policing]. Similarly, comparative 1901 census bulletins compiling habitations and conjugal condition across all six states and New Zealand demonstrate high statistical consistency by Federation [@nsw1902nsw; @nsw1903nsw; @anon1897australasian].
+
+Remaining biases concentrate in three administrative margins documented across colonial legal and demographic records: persistent under-counting of mobile Aboriginal groups in pastoral and desert interiors [@carmichael2019indigenous; @copland2005calculating]; fluctuating enumeration of Chinese miners and Pacific Islander plantation labourers subject to discriminatory policing and poll taxes [@finnane2013law; @richardson2025other; @finnane2019australia]; and transient single male workers on remote mining fields, pastoral stations and coastal vessels, whose sex-ratio distortions shaped colonial marriage, criminal justice and public-order politics [@kaladelfos2012politics; @wimshurst2012intersection].
+
+Table \ref{tab:colony-benchmarks} summarises buffered mask areas, constant-boundary total population (Indigenous plus non-Indigenous) across five milestone horizons and closing 1901 densities for all six colonies.
+
+```{r tab-colony-benchmarks, results='asis'}
+rows <- lapply(subregions, function(r) {
+  a <- as.numeric(r$area_km2)
+  p1788 <- as.numeric(r$population[["1788"]])
+  p1836 <- as.numeric(r$population[["1836"]])
+  p1881 <- as.numeric(r$population[["1881"]])
+  p1901 <- as.numeric(r$population[["1901"]])
+  d1901 <- as.numeric(r$end_epoch_density_km2)
+  data.frame(
+    Colony = clean_label(r$name),
+    Area = viscount_fmt_number(round(a), 0L),
+    P1788 = viscount_fmt_pop(p1788),
+    P1836 = viscount_fmt_pop(p1836),
+    P1881 = viscount_fmt_pop(p1881),
+    P1901 = viscount_fmt_pop(p1901),
+    Dens1901 = viscount_fmt_number(d1901, 2L),
+    stringsAsFactors = FALSE
+  )
+})
+df_bench <- do.call(rbind, rows)
+df_tot <- data.frame(
+  Colony = "Continental Total (6 Colonies)",
+  Area = viscount_fmt_number(round(tot_area), 0L),
+  P1788 = viscount_fmt_pop(tot_1788),
+  P1836 = viscount_fmt_pop(tot_1836),
+  P1881 = viscount_fmt_pop(tot_1881),
+  P1901 = viscount_fmt_pop(tot_1901),
+  Dens1901 = viscount_fmt_number(tot_1901 / tot_area, 2L),
+  stringsAsFactors = FALSE
+)
+df_bench <- rbind(df_bench, df_tot)
+rownames(df_bench) <- NULL
+
+viscount_table(
+  df_bench,
+  "Harmonised total population (Indigenous and non-Indigenous) across four benchmark dates, buffered mask areas and 1901 densities (inhabitants per km²) for the six Australian colonies.",
+  c("Colony", "Mask Area (km²)", "1788", "1836", "1881", "1901", "1901 Dens."),
+  list(label = "tab:colony-benchmarks", font_size = "scriptsize")
+)
+```
+
+# Results
+
+## Continental Demographic Trajectory (1788 to 1901)
+
+Colonial Australia's demographic history unfolded in four sharply defined phases visible across Figure \ref{fig:aus-trajectory}: an opening demographic contraction (1788 to 1810), a pastoral crossover (1810 to 1850), the gold-rush discontinuity (1851 to 1861) and four decades of sustained settler expansion closing at Federation (1861 to 1901). Starting from 315,5k inhabitants in 1788, aggregate continental population initially fell—not rose—dropping to 311,5k in 1790, 288,4k in 1800 and a historic low of 272,2k in 1810 on the decadal raster curve because epidemic mortality and dispossession across Aboriginal southeastern Australia far exceeded early convict landings in New South Wales and Van Diemen's Land [@mcnicoll1996european; @mccalman2016family].
+
+```{r fig-trajectory, results='asis'}
+viscount_figure(
+  "figures/colonial_australia_population_trajectory.png",
+  "Colonial Australian demographic trajectory from 1788 to 1901 across the six pre-Federation colonies (Panel A) and colony-level population density rankings at Federation in 1901 (Panel B).",
+  "fig:aus-trajectory"
+)
+```
+
+Only during the late 1820s and 1830s did accelerating free British immigration and convict inflows push total continental population decisively back past its 1788 level: 294,1k in 1830, 385,8k on the 1836 benchmark (399k on the 1840 decadal raster) and 600,3k by 1850 [@harper2019obstacles]. Then came the single steepest demographic discontinuity in Australian history. Between 1850 and 1860, gold-rush migration more than doubled continental numbers from 600,3k to 1,33M (raster 1.327.940; compound growth 8,3% per annum across the decade), permanently tipping the demographic balance from Indigenous majority to overwhelming European settler majority. From 1860 to 1901, growth moderated yet remained remarkably brisk by international standards: 1,81M in 1870 (+3,1% per annum), 2,37M in 1880 (+2,7%), 3,27M in 1890 (+3,3% during the 1880s railway and urban boom) and 3,86M in 1900 (+1,7% amid the 1890s depression), reaching 3,92M (3.919.477) in 1901 [@anon1897australasian; @mcnicoll1996european]. Across the full 113-year colonial span, Australia's combined population expanded 12,4-fold (compound growth 2,25% per annum), while its non-Indigenous population multiplied more than 4.450-fold from 859 to 3.824.913. Table \ref{tab:census-series} displays the official non-Indigenous colonial census series across six landmark enumerations from 1828 to 1901.
+
+```{r tab-census-series, results='asis'}
+pce <- summary_data$primary_census_enumerations
+get_pce <- function(uname, yr) {
+  for (item in pce) {
+    if (identical(item$unit_name, uname) && identical(as.integer(item$year), as.integer(yr))) {
+      return(as.numeric(item$population))
+    }
+  }
+  return(NA_real_)
+}
+fmt_pce <- function(v) {
+  if (is.na(v)) return("-")
+  viscount_fmt_pop(v)
+}
+units_order <- c("New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", "Tasmania", "Australia")
+disp_names <- c("New South Wales", "Victoria", "Queensland", "South Australia (incl. NT)", "Western Australia", "Tasmania", "Australia (Non-Indigenous)")
+c_rows <- lapply(seq_along(units_order), function(i) {
+  u <- units_order[i]
+  data.frame(
+    Colony = disp_names[i],
+    Y1828 = fmt_pce(get_pce(u, 1828)),
+    Y1851 = fmt_pce(get_pce(u, 1851)),
+    Y1861 = fmt_pce(get_pce(u, 1861)),
+    Y1881 = fmt_pce(get_pce(u, 1881)),
+    Y1891 = fmt_pce(get_pce(u, 1891)),
+    Y1901 = fmt_pce(get_pce(u, 1901)),
+    stringsAsFactors = FALSE
+  )
+})
+df_cen <- do.call(rbind, c_rows)
+rownames(df_cen) <- NULL
+
+viscount_table(
+  df_cen,
+  "Official non-Indigenous enumerated population across the six Australian colonies at six colonial census milestones, 1828 to 1901 (ABS Historical Population series).",
+  c("Colony", "1828", "1851", "1861", "1881", "1891", "1901"),
+  list(label = "tab:census-series", font_size = "scriptsize")
+)
+```
+
+## Southeastern Core: New South Wales and Victoria
+
+By Federation in 1901, the two southeastern colonies of New South Wales and Victoria held 66,2% of Australia's total population (2,59M of 3,92M) on just 13,3% of its land area. Their fifty-year demographic rivalry defined colonial politics, railway gauges and tariff policy. New South Wales (821.749,9 km² mask area) began with 49k total residents in 1788, rose to 72k in 1820 and 126,6k in 1836, and held 197.265 non-Indigenous inhabitants at the 1851 census (215k including Indigenous residents) immediately prior to Victorian separation. Even after losing Port Phillip in 1851 and Queensland in 1859, New South Wales expanded rapidly on wool, Hunter Valley coal, coastal shipping and Broken Hill silver, climbing from 357.362 non-Indigenous residents in 1861 to 516.704 in 1871, 777.025 in 1881 (788k total), 1.153.170 in 1891 and 1.375.455 in 1901 (1.382.889 total; density 1,68 inhabitants per km²) [@nsw1902nsw; @anon1897australasian]. Outside Greater Sydney (497k), a dense provincial urban web took root across Newcastle (55k, fuelled by Hunter coal exports), Broken Hill (27,5k), Parramatta (12,6k), Goulburn (10,6k in 1901; peak 10,9k in 1891), Maitland (10,1k; peak 10,2k in 1891), Bathurst (9,2k), Orange (6,3k), Albury (5,8k), Tamworth (5,8k), Lithgow (5,3k), Grafton (5,1k) and Wagga Wagga (5,1k).
+
+Compact, well-watered Victoria (231.469 km², barely 2,9% of the continent) experienced the most explosive ascent of any Australian territory. From 15k Indigenous inhabitants in 1788 and 12k in 1836 (when Melbourne counted 177 Europeans), pastoral squatting lifted the Port Phillip District to 97.489 residents upon separation in 1851. Within ten years, alluvial gold multiplied Victoria's population 5,5-fold to 539.764 in 1861—exceeding New South Wales by 182,4k people—and established a demographic lead that Victoria defended across four successive censuses: 746.450 in 1871, 873.965 in 1881 (874k total) and 1.158.372 in 1891 [@orrell2020communicable; @larson1986growing]. Deep-lead quartz mining, protected urban manufacturing and speculative land banking pushed Greater Melbourne to 490.896 in 1891 (42,4% of the entire colony), supported by formidable inland gold cities at Ballarat (49,4k in 1901), Bendigo (42,7k), Geelong (25k), Castlemaine (peak 9,7k in 1861; 7,9k in 1901), Warrnambool (6,4k), Maryborough (5,6k) and Stawell (5,3k), alongside river port Echuca (4,1k) and the Chaffey irrigation colony at Mildura (3,3k) [@vitelli2025ornamentalis]. When Melbourne's property bubble burst in 1891–1893, net emigration cut Victoria's decade growth to just 4,4% (reaching 1.210.750 total in 1901), yielding first place back to New South Wales while preserving Victoria's unrivalled continental density of 5,23 inhabitants per km²—more than ten times the Australian mean.
+
+## Northern and Southern Pastoral Frontiers: Queensland and South Australia
+
+Queensland (1.781.286,9 km²) exhibited the sharpest Indigenous-to-settler crossover of any Australian colony. Holding an estimated 120k Indigenous inhabitants in 1788 (38% of Australia's pre-contact total), the northern territory saw combined numbers decline to 100,2k in 1820, 94,6k in 1836 and 88,1k in 1860—when the newly separated colony counted 34.367 non-Indigenous settlers in 1861 alongside roughly 54k surviving Aboriginal and Torres Strait Islander people [@copland2005calculating; @finnane2010aboriginal]. Thereafter, aggressive British and German assisted immigration, coastal sugar plantations worked heavily by indentured Melanesian labourers, pastoral runs across the Darling Downs and western plains, and successive goldfields drove rapid settler expansion: non-Indigenous Queensland climbed from 34.367 in 1861 to 121.743 in 1871, 221.849 in 1881 (262k total), 400.395 in 1891 and 506.721 in 1901 (534.221 total, 0,30 inhabitants per km²) [@richardson2025other; @ree2010policing]. Unlike Melbourne or Sydney, Queensland's vast subtropical and tropical coastline fostered a genuinely decentralised chain of regional ports and mining hubs outside Greater Brisbane (120,7k): Charters Towers (21k, Queensland's second city in 1901), Rockhampton (19,7k), Townsville (15,5k), Gympie (14,4k), Toowoomba (14,1k), Maryborough (12,9k), Bundaberg (9,7k), Ipswich (8,6k), Mount Morgan (8,5k), Mackay (5,2k), Cairns (3,6k), Cooktown (peak 2,6k in 1891) and the Torres Strait pearling entrepôt of Thursday Island (1,5k).
+
+South Australia united with the Northern Territory (2.385.557,5 km²) paired a fertile southern wheat-and-copper core around Gulf St Vincent with immense arid and tropical northern reaches. From 65k Indigenous inhabitants in 1788 and 64k in 1836 (plus 546 newly landed Wakefield settlers), non-Indigenous population expanded steadily to 66.538 in 1851, 130.812 in 1861 (188k total raw anchor), 188.644 in 1871, 285.971 in 1881 (332k total), 324.721 in 1891 and 364.003 in 1901 (396.126 total including an estimated 32,1k Indigenous residents across South Australia and the Northern Territory; density 0,17 inhabitants per km²) [@gurr2025complex; @corporation2016space]. After Goyder's Line exposed the arid limits of northern wheat farming during the 1880s droughts, provincial growth slowed and population concentrated heavily in Greater Adelaide (162,2k in 1901, 44,6% of South Australia's enumerated population), backed by Port Adelaide (20,1k), the Broken Hill lead-smelting port of Port Pirie (8k), the Copper Triangle of Moonta, Kadina and Wallaroo (6,3k), Mount Gambier (3,2k) and declining Burra (2k). Across the vast Northern Territory annexed in 1863, European and Chinese settlement remained tiny—anchored by Palmerston/Darwin (1.280 in 1901, majority Chinese during the 1880s railway boom) and the Overland Telegraph repeater station at Alice Springs (90 residents in 1901) [@finnane2013law].
+
+## Western Goldfields and Island Tasmania
+
+For sixty years after 1829, Western Australia (2.590.850,2 km², one third of the entire continent) was the demographic laggard of colonial Australia. Total population barely moved from 62k in 1788 to 58,9k in 1820, 60,1k in 1860 and 65,6k in 1881, as slow settler gains (15.936 non-Indigenous in 1861; 30.156 in 1881) merely offset Indigenous losses in the southwest and Pilbara [@mcnicoll1996european]. Even the admission of nearly ten thousand British convicts between 1850 and 1868 left Perth a quiet river town of 5.822 people in 1881 and 8.447 in 1891. Rich gold strikes at Southern Cross, Coolgardie (1892) and Hannan's Find at Kalgoorlie-Boulder (1893) shattered that isolation overnight. Tens of thousands of Easterners ("t'othersiders") flooded through Fremantle and Albany, lifting non-Indigenous Western Australia from 53.177 in 1891 to 193.601 in 1901 (+13,8% per annum across the decade!) and raising combined population to 220.101 (density 0,09 inhabitants per km²). Greater Perth (including Fremantle) multiplied more than eightfold from 8,4k to 70,7k, Kalgoorlie-Boulder surged from 4,5k in 1896 to 25,9k in 1901, Fremantle reached 20,4k, Coolgardie spiked to 11k in 1896 before receding to 4,2k in 1901, and northern coastal trade raised Albany (3,6k), Geraldton (2,5k), Bunbury (2,5k) and the pearling port of Broome (1k).
+
+Island Tasmania (82.134,1 km²) traced the inverse chronology: early penal prominence followed by mid-century emigration and late-century mineral recovery. Starting from roughly 4,5k Tasmanian Aboriginal people in 1788, heavy convict shipments lifted non-Indigenous Van Diemen's Land to 43.689 by 1836 (35% of all Europeans in Australia) and 69.187 by 1851 [@kippen2011convict]. Abolition of transportation in 1853 and the magnetic pull of Victorian goldfields across Bass Strait then siphoned off young Tasmanian men for two decades, holding settler growth to a crawl (89.908 in 1861; 101.900 in 1871; 117.770 in 1881). Tin, silver-lead and copper strikes on the wet, rugged West Coast—creating Zeehan (5k) and Queenstown (5,1k) alongside the northern port of Devonport (2,8k)—revived late-century momentum, carrying Tasmania to 175.390 inhabitants in 1901 (175.233 non-Indigenous; density 2,14 inhabitants per km², second highest in Australia behind Victoria), anchored by Greater Hobart (36,1k) and Launceston (21,2k).
+
+## Metropolitan Primacy and the Colonial Urban Hierarchy
+
+Australia's nineteenth-century demographic expansion was extraordinarily urban from the outset. Lacking an ancient peasant village layer and tied directly to British capital and wool-export shipping, each colony funnelled radial railway networks into a single deep-water capital port that concentrated customs houses, banks, wholesale warehouses, parliament and manufacturing [@vitelli2025ornamentalis; @larson1986growing]. Figure \ref{fig:aus-hierarchy} illustrates both the twelve largest catalogued settlements and the steeply sloped log-log rank-size distribution across all `r viscount_fmt_number(n_sites, 0L)` colonial centres.
+
+```{r fig-hierarchy, results='asis'}
+viscount_figure(
+  "figures/colonial_australia_urban_hierarchy.png",
+  "Twelve largest catalogued Australian colonial settlements (Panel A) and rank-size distribution across 74 centres with upper-half power-law fit ($\\alpha = 1,26$, $R^2 = 0,99$ across the top 37 settlements, Panel B), 1788 to 1901.",
+  "fig:aus-hierarchy"
+)
+```
+
+By 1901, the six colonial capital metropolitan areas—Melbourne (501.580), Sydney (496.990), Adelaide (162.200), Brisbane (120.650), Perth (70.700) and Hobart (36.060)—contained 1.388.180 inhabitants, or 35,4% of Australia's entire continental population (36,3% of its enumerated settler population). Melbourne and Sydney alone held 998.570 residents—one Australian in four—placing both cities among the foremost metropolises of the British Empire outside London. Below the six capitals, secondary cities grew large only where mineral wealth or coalfields generated independent export bases: Newcastle (55k), Ballarat (49,4k), Bendigo (42,7k), Broken Hill (27,5k), Kalgoorlie-Boulder (25,9k), Geelong (25k), Launceston (21,2k) and Charters Towers (21k). Consequently, Australia's upper-half rank-size exponent reaches $\alpha = 1,26$ ($R^2 = 0,99$ across the top 37 entries; $\alpha = 1,33$, $R^2 = 0,98$ when the 6 suburban municipalities are excluded), far steeper than a neutral Zipf slope ($\alpha = 1$) and contrasting starkly with pre-colonial Oceanic chiefdom hierarchies. Table \ref{tab:colony-shares} pairs each colony's evolving share of continental population across 1788, 1881 and 1901 with its catalogued settlement count and leading recorded centre.
+
+```{r tab-colony-shares, results='asis'}
+inc_cands <- Filter(function(c) identical(c$status, "included"), ledger_data$candidates)
+cand_map <- setNames(
+  vapply(inc_cands, function(c) {
+    sub(".*sub-region ([a-z_]+)\\.$", "\\1", c$justification)
+  }, character(1)),
+  vapply(inc_cands, function(c) c$settlement_key, character(1))
+)
+
+share_rows <- lapply(subregions, function(r) {
+  rid <- r$id
+  p1788 <- as.numeric(r$population[["1788"]])
+  p1881 <- as.numeric(r$population[["1881"]])
+  p1901 <- as.numeric(r$population[["1901"]])
+  sh1788 <- 100 * p1788 / tot_1788
+  sh1881 <- 100 * p1881 / tot_1881
+  sh1901 <- 100 * p1901 / tot_1901
+  sc <- as.integer(submask_cov[[rid]])
+  reg_keys <- names(cand_map)[cand_map == rid]
+  lead_str <- "-"
+  if (length(reg_keys) > 0L) {
+    pks <- vapply(reg_keys, function(k) {
+      e <- sett_data[[k]]
+      if (is.null(e)) return(0)
+      max(as.numeric(unlist(e$population)))
+    }, numeric(1))
+    idx_m <- which.max(pks)
+    lead_e <- sett_data[[reg_keys[idx_m]]]
+    lead_str <- paste0(clean_label(lead_e$name), " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  data.frame(
+    Colony = clean_label(r$name),
+    Sh1788 = paste0(viscount_fmt_number(sh1788, 1L), "%"),
+    Sh1881 = paste0(viscount_fmt_number(sh1881, 1L), "%"),
+    Sh1901 = paste0(viscount_fmt_number(sh1901, 1L), "%"),
+    Sites = viscount_fmt_number(sc, 0L),
+    Leading = lead_str,
+    stringsAsFactors = FALSE
+  )
+})
+df_shares <- do.call(rbind, share_rows)
+rownames(df_shares) <- NULL
+
+viscount_table(
+  df_shares,
+  "Colony shares of Australian population in 1788, 1881 and 1901 paired with catalogued settlement counts and leading recorded centres.",
+  c("Colony", "1788", "1881", "1901", "Sites", "Leading Centre (Peak)"),
+  list(label = "tab:colony-shares", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Four structural uncertainties qualify historical demographic reconstructions for Colonial Australia between 1788 and 1901.
+
+First, the pre-1788 and early nineteenth-century Indigenous population baseline remains the widest band of uncertainty in Australian historical demography [@carmichael2019indigenous; @norman2025coming]. Our regional series adopts the conservative 315k baseline anchored in classical twentieth-century census-retrojection studies (falling to roughly 94,6k in 1901), ensuring continuity with official Australian Bureau of Statistics historical tables. Economic historians and archaeologists—citing unrecorded 1789 and 1829 smallpox waves across the Murray-Darling basin and intensive wetland aquaculture in western Victoria—have repeatedly argued for much higher 1788 totals ranging from 750k to over 1M [@mccalman2016family; @corporation2016space]. Adopting a higher pre-contact floor would steepen the 1788–1860 continental trough markedly without altering non-Indigenous colonial censuses after 1828 or closing 1901 totals beyond $\pm 3\%$.
+
+Second, coarse five-anchor log-linear interpolation cannot resolve abrupt decadal migration shocks without intermediate anchors. As demonstrated above, interpolating Victoria and New South Wales smoothly between 1851 and 1881 depresses the 1860 benchmark table sum (916,1k) far beneath both the 1860 HGIS/raster count (1,33M) and the 1861 official colonial census (1,17M non-Indigenous), just as interpolating Tasmania between 1825 and 1851 understates peak 1836 convict numbers. Readers examining mid-century inflection points should rely on the decadal raster panel and official colonial census table rather than raw benchmark interpolation.
+
+Third, nineteenth-century urban boundaries shifted across colonies and census years, complicating strict city-to-city comparisons [@hull2007strange; @nsw1902nsw]. Melbourne and Sydney expanded rapidly beyond narrow inner corporate boundaries (City of Melbourne peaked at 73,4k in 1891 within a 490,9k metropolis; City of Sydney stood at 112,1k inside 497k in 1901), whereas Adelaide and Brisbane switched from inner-city counts to 5-mile and 10-mile metropolitan rings in 1861 and 1886, and Greater Perth's 1901 benchmark (70,7k) incorporates Fremantle alongside Perth and its inner suburbs (36,3k). Retaining both metropolitan and municipal-core entries inside the gazetteer preserves documentary transparency while requiring care when summing urban shares.
+
+Fourth, pre-1881 intercolonial movement across porous land borders and coastal steamers went poorly recorded, particularly among mobile gold diggers, shearers, maritime crews and Chinese or Pacific Islander labourers whose enumeration shifted with colonial policing and border legislation [@finnane2013law; @finnane2022absolutely; @richardson2025other]. Similarly, on the coarse continental raster mask, two Murray River border towns in Victoria (Echuca and Mildura) fall inside adjacent New South Wales border pixels in the submask ledger tally, a minor cartographic boundary effect with zero impact on colonial census totals.
+
+# Conclusion
+
+Between January 1788 and January 1901, colonial settlement recast Australia's human geography from a dispersed continental mosaic of Indigenous nations into a federated, coastal-metropolitan British dominion of `r viscount_fmt_pop(tot_1901)` people (`r viscount_fmt_number(tot_1901, 0L)`, density 0,50 inhabitants per km²). That transformation was neither smooth nor uniform. During its opening two decades, epidemic disease and dispossession dragged total continental population downward from 315,5k in 1788 to a decadal raster trough of 272,2k in 1810, even as penal beachheads took hold around Sydney, Parramatta, Hobart and Launceston [@mcnicoll1996european; @mccalman2016family]. Pastoral squatting and assisted British migration carried combined numbers past their starting point during the late 1830s, before the 1851 Victorian gold rushes triggered a historic doubling from 600,3k in 1850 to 1,33M in 1860—vaulting Victoria ahead of New South Wales for three decades and accelerating Indigenous marginalisation across the eastern and northern frontiers [@harper2019obstacles; @copland2005calculating; @finnane2010aboriginal].
+
+By Federation in 1901, every enduring feature of modern Australian demographic geography was already locked in place. Two thirds of the continent's population lived in New South Wales (1,38M) and Victoria (1,21M), while Queensland (534,2k), South Australia with the Northern Territory (396,1k), gold-booming Western Australia (220,1k) and Tasmania (175,4k) filled out the continental perimeter [@anon1897australasian; @nsw1902nsw]. Marital fertility had begun its long twentieth-century descent, mortality was falling behind urban public-health reform and the six colonial capitals already concentrated 35,4% of Australia's people—led by twin half-million metropolises at Melbourne (501,6k) and Sydney (497k)—establishing the steep coastal urban primacy ($\alpha = 1,26$) that still defines the continent today [@mcdonald2018women; @de_looper2014death; @vitelli2025ornamentalis].
+
+# Appendix
+
+## Historical GIS Territorial Regime Totals (1800 to 1900)
+
+Table \ref{tab:hgis-regimes} aggregates the 24-row Historical GIS territorial regime panel by decadal snapshot across 1800, 1840, 1860, 1890 and 1900 and pairs each regime sum against the corresponding continental decadal raster estimate.
+
+```{r tab-hgis-regimes, results='asis'}
+hgis_list <- summary_data$hgis_regime_summary
+reg_yrs <- sort(unique(vapply(hgis_list, function(h) as.integer(h$snapshot_regime), integer(1))))
+hgis_rows <- lapply(reg_yrs, function(yr) {
+  sub_h <- Filter(function(h) as.integer(h$snapshot_regime) == yr, hgis_list)
+  u_sum <- sum(vapply(sub_h, function(h) as.integer(h$units), integer(1)))
+  p_sum <- sum(vapply(sub_h, function(h) as.numeric(h$population_sum), numeric(1)))
+  a_sum <- sum(vapply(sub_h, function(h) as.numeric(h$area_km2_sum), numeric(1)))
+  r_tot <- as.numeric(summary_data$raster_domain_totals[[as.character(yr)]])
+  diff_pct <- 100 * (p_sum - r_tot) / r_tot
+  data.frame(
+    Year = as.character(yr),
+    Units = viscount_fmt_number(u_sum, 0L),
+    Area = viscount_fmt_number(round(a_sum), 0L),
+    HGIS = viscount_fmt_number(round(p_sum), 0L),
+    Raster = viscount_fmt_number(round(r_tot), 0L),
+    Diff = paste0(viscount_fmt_number(diff_pct, 2L), "%"),
+    stringsAsFactors = FALSE
+  )
+})
+df_hgis <- do.call(rbind, hgis_rows)
+rownames(df_hgis) <- NULL
+
+viscount_table(
+  df_hgis,
+  "Historical GIS territorial regime totals reconciled against continental decadal raster estimates across five colonial border configurations, 1800 to 1900.",
+  c("Year", "Units", "HGIS Area (km²)", "HGIS Pop.", "Raster Pop.", "Diff."),
+  list(label = "tab:hgis-regimes", font_size = "scriptsize")
+)
+```
+
+## Decadal Continental Raster Trajectory (1790 to 1900)
+
+Table \ref{tab:raster-decadal} reports decadal total population estimates (Indigenous plus non-Indigenous) across all twelve colonial raster slices from 1790 to 1900, highlighting the 1810 continental nadir (272,2k), the 1850–1860 gold-rush doubling and Western Australia's 1890–1900 surge.
+
+```{r tab-raster-decadal, results='asis'}
+r_yrs <- as.character(unlist(summary_data$raster_years))
+get_sub_r <- function(id_str, yr_str) {
+  for (sr in subregions) {
+    if (identical(sr$id, id_str)) return(as.numeric(sr$raster_population[[yr_str]]))
+  }
+  return(NA_real_)
+}
+dec_rows <- lapply(r_yrs, function(y) {
+  tot_y <- as.numeric(summary_data$raster_domain_totals[[y]])
+  nsw_y <- get_sub_r("colony_nsw", y)
+  vic_y <- get_sub_r("colony_victoria", y)
+  qld_y <- get_sub_r("colony_queensland", y)
+  sa_y <- get_sub_r("colony_south_australia_nt", y)
+  wa_tas_y <- get_sub_r("colony_western_australia", y) + get_sub_r("colony_tasmania", y)
+  data.frame(
+    Year = y,
+    Total = viscount_fmt_pop(tot_y),
+    NSW = viscount_fmt_pop(nsw_y),
+    VIC = viscount_fmt_pop(vic_y),
+    QLD = viscount_fmt_pop(qld_y),
+    SA = viscount_fmt_pop(sa_y),
+    WATAS = viscount_fmt_pop(wa_tas_y),
+    stringsAsFactors = FALSE
+  )
+})
+df_dec <- do.call(rbind, dec_rows)
+rownames(df_dec) <- NULL
+
+viscount_table(
+  df_dec,
+  "Decadal continental and colonial raster population estimates (Indigenous plus non-Indigenous) from 1790 to 1900.",
+  c("Year", "Continent", "NSW", "Victoria", "Queensland", "SA (incl. NT)", "WA and Tas."),
+  list(label = "tab:raster-decadal", font_size = "scriptsize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+All numerical values follow European decimal formatting (comma decimals and dot thousands separators) paired with semantic magnitude suffixes (k for thousands, M for millions). Constant-boundary colony tables retain 1901 Federation borders throughout 1788 to 1901, keeping the future Australian Capital Territory and Norfolk Island within New South Wales and the Northern Territory within South Australia prior to their 1911 Commonwealth transfers. Continental totals integrate official Australian Bureau of Statistics non-Indigenous colonial census series with explicit historical Indigenous population reconstructions across every colony.

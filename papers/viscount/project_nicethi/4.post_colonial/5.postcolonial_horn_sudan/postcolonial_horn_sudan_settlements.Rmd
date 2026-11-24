@@ -1,0 +1,396 @@
+---
+title: "Post-Colonial Sudan, Ethiopia and the Horn"
+subtitle: "Settlement Gazetteer: 1.221 Assessed Localities (1956-2025)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_horn_sudan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 1.221 assessed settlements across Sudan, Ethiopia, South Sudan, Somalia, Somaliland, Eritrea, Djibouti and border zones from 1956AD to 2025AD."
+hero_label: "fig:hero-settlements-horn"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("postcolonial_horn_sudan_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("postcolonial_horn_sudan_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+iso3_map <- c(
+  "Central African Republic" = "CAF",
+  "Chad" = "TCD",
+  "Democratic Republic of the Congo" = "COD",
+  "Djibouti" = "DJI",
+  "Eritrea" = "ERI",
+  "Ethiopia" = "ETH",
+  "Kenya" = "KEN",
+  "Somalia" = "SOM",
+  "Somaliland" = "SOL",
+  "South Sudan" = "SSD",
+  "Sudan" = "SDN",
+  "Uganda" = "UGA"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", as.integer(yrs[i_pk]), "AD)")
+}
+
+entry_peak_pop <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(0)
+  max(as.numeric(unlist(ps)))
+}
+
+get_country_top <- function (country_names, limit_n = NULL) {
+  sub <- Filter(function (e) as.character(e$country) %in% country_names, all_entries)
+  pks <- vapply(sub, entry_peak_pop, numeric(1))
+  sub <- sub[order(-pks, vapply(sub, function (e) as.character(e$name), character(1)))]
+  if (!is.null(limit_n) && length(sub) > limit_n) {
+    sub <- sub[seq_len(limit_n)]
+  }
+  sub
+}
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    scope_lbl <- if (identical(e$population_scope, "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      Scope = scope_lbl,
+      `1960AD` = fmt_site_pop(e, 1960),
+      `1983AD` = fmt_site_pop(e, 1983),
+      `2008AD` = fmt_site_pop(e, 2008),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1956, 1972, 1983, 1993, 2009, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+
+eth_top <- get_country_top("Ethiopia", 40L)
+sdn_top <- get_country_top("Sudan", 40L)
+ssd_top <- get_country_top("South Sudan", 30L)
+som_top <- get_country_top("Somalia", 30L)
+sol_all <- get_country_top("Somaliland")
+eri_all <- get_country_top("Eritrea")
+dji_all <- get_country_top("Djibouti")
+border_countries <- c("Uganda", "Chad", "Kenya", "Democratic Republic of the Congo", "Central African Republic")
+border_top <- get_country_top(border_countries, 25L)
+```
+
+# Abstract
+
+This companion gazetteer compiles spatial coordinates, administrative scopes and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` assessed settlements across Sudan, Ethiopia, South Sudan, Somalia, Somaliland, Eritrea, Djibouti and adjacent frontier buffer zones between 1956AD and 2025AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate municipal enumerations, morphological urban footprints and humanitarian camp surveys (`r viscount_fmt_number(n_excluded, 0L)` duplicate aliases excluded), the retained entries span `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations across 71 first-level administrative divisions. Active interpolated localities rise from `r viscount_fmt_number(n_active[["1956"]], 0L)` in 1956AD to `r viscount_fmt_number(n_active[["1972"]], 0L)` in 1972AD, `r viscount_fmt_number(n_active[["1983"]], 0L)` in 1983AD, `r viscount_fmt_number(n_active[["1993"]], 0L)` in 1993AD, `r viscount_fmt_number(n_active[["2009"]], 0L)` in 2009AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` in 2025AD, documenting urban concentration from Khartoum (`r viscount_fmt_pop(9621739)` agglomeration) and Addis Ababa (`r viscount_fmt_pop(4889613)`) to Mogadishu (`r viscount_fmt_pop(2054983)`), Hargeisa (`r viscount_fmt_pop(1360983)`), Juba (`r viscount_fmt_pop(1220440)`), Asmara (`r viscount_fmt_pop(896000)`) and Djibouti City (`r viscount_fmt_pop(767250)`).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 1.221 assessed settlements across Sudan, Ethiopia, South Sudan, Somalia, Somaliland, Eritrea, Djibouti and border zones from 1956AD to 2025AD.",
+    "fig:hero-settlements-horn"
+  )
+}
+```
+
+# Background
+
+Urban population documentation across north-eastern Africa reflects sharp administrative contrasts between countries with long post-colonial municipal census series and territories disrupted by decades of conflict [@CSA2010EthiopiaCensus; @CBS2009SudanCensus; @Bank2022SomaliaUrban]. Sudan enumerated major towns in 1955-1956, 1973AD, 1983AD, 1993AD and 2008AD, whereas Ethiopia instituted national censuses in 1984AD, 1994AD and 2007AD alongside subsequent Central Statistical Agency municipal projections [@CSA2010EthiopiaCensus; @CBS2009SudanCensus]. In Somalia, Eritrea and South Sudan, multi-decade census interruptions shifted urban tracking onto United Nations surveys, humanitarian displacement assessments and satellite built-up mappings [@OECD2024Africapolis; @Tesfay2024LotQuality]. Unifying these records into a single spatial ledger illuminates how state formation, famine, drought and forced migration restructured the regional urban hierarchy since 1956AD [@Bank2015EasternAfrica; @Hussein2024TheImpact].
+
+# Methodology
+
+## Candidate Screening and Spatial Scope Classification
+
+Candidate settlements were screened across four waves from national statistical agencies, historical gazetteers [@ARCCH2020EthiopiaInventory], OECD/SWAC Africapolis 2024 morphological footprints [@OECD2024Africapolis] and refugee camp registers [@Bank2015EasternAfrica; @Tesfay2024LotQuality]. Inside the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² domain bounded by HDX COD-AB and geoBoundaries polygons [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias or out-of-epoch records were excluded, leaving `r viscount_fmt_number(length(all_entries), 0L)` assessed settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations. Of those entries, 1.211 carry city-proper municipal or town-level scopes and 10 represent multi-municipality metropolitan agglomerations (Khartoum 2025 and 2008, Addis Ababa, Mogadishu, Hargeisa, Juba, Asmara, Djibouti, Mandera and Qarya 2).
+
+## Country-Level Summary and Regional Centre Selection
+
+Table \ref{tab:country-summary} summarises all 1.221 settlements by jurisdiction, reporting city-proper counts, metropolitan entries, observation totals and peak populations. In Section 5, Tables \ref{tab:gaz-eth} to \ref{tab:gaz-border} present linearly interpolated populations at four historical checkpoints (1960AD, 1983AD, 2008AD and 2025AD) alongside each centre's exact peak population and year, marking gaps outside observed spans with a hyphen (-). For high-count jurisdictions (Ethiopia 591, Sudan 364, South Sudan 75, Somalia 59 and the five border states 60), tables report the leading regional centres by peak population; for Somaliland (12), Eritrea (34) and Djibouti (26), every assessed settlement is listed.
+
+```{r tab1-country-summary, results='asis'}
+all_countries <- c(
+  "Ethiopia", "Sudan", "South Sudan", "Somalia", "Eritrea", "Djibouti", "Somaliland",
+  "Uganda", "Chad", "Kenya", "Democratic Republic of the Congo", "Central African Republic"
+)
+sum_c_rows <- lapply(all_countries, function (cn) {
+  sub <- Filter(function (e) identical(as.character(e$country), cn), all_entries)
+  n_tot <- length(sub)
+  n_met <- sum(vapply(sub, function (e) identical(e$population_scope, "metro"), logical(1)))
+  n_cit <- n_tot - n_met
+  n_ob <- sum(vapply(sub, function (e) length(e$population), integer(1)))
+  pks <- vapply(sub, entry_peak_pop, numeric(1))
+  top_e <- sub[[which.max(pks)]]
+  cn_disp <- if (identical(cn, "Democratic Republic of the Congo")) "DR Congo" else if (identical(cn, "Central African Republic")) "Central African Rep." else cn
+  data.frame(
+    Jurisdiction = cn_disp,
+    Localities = viscount_fmt_number(n_tot, 0L),
+    `City-Proper` = viscount_fmt_number(n_cit, 0L),
+    Metro = viscount_fmt_number(n_met, 0L),
+    Observations = viscount_fmt_number(n_ob, 0L),
+    `Leading Centre` = paste0(as.character(top_e$name), " (", viscount_fmt_pop(max(pks)), ")"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_c_row <- data.frame(
+  Jurisdiction = "Total Ledger",
+  Localities = viscount_fmt_number(length(all_entries), 0L),
+  `City-Proper` = viscount_fmt_number(sum(vapply(all_entries, function (e) !identical(e$population_scope, "metro"), logical(1))), 0L),
+  Metro = viscount_fmt_number(sum(vapply(all_entries, function (e) identical(e$population_scope, "metro"), logical(1))), 0L),
+  Observations = viscount_fmt_number(summary_cache$observation_count, 0L),
+  `Leading Centre` = paste0("Khartoum (", viscount_fmt_pop(9621739), ")"),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_c_sum <- rbind(do.call(rbind, sum_c_rows), tot_c_row)
+rownames(df_c_sum) <- NULL
+viscount_table(
+  df_c_sum,
+  "Country-level summary of all 1.221 assessed settlements across the Horn, Sudan and adjacent border corridors.",
+  arg3_options = list(label = "tab:country-summary")
+)
+```
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` assessed settlements, ordinary least-squares rank-size calibration on peak populations yields $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 3L)`$) over the upper 180 centres and $q = `r viscount_fmt_number(summary_cache$rank_size$full_zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$full_r2, 2L)`$) across the full ledger, matching the 1.199 spatially deduplicated peaks plotted in Figure \ref{fig:settlements-rank} ($q = 0,95$, $R^2 = 1$). Zero Admin-1 polygons lack interior settlements, and city-proper records remain structurally separated from metropolitan agglomerations [@OECD2024Africapolis; @Runfola2020GeoBoundaries].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size distribution across 1.199 spatially deduplicated settlements (q = 0,95, R² = 1) and the ten densest Admin-1 divisions in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Ethiopia: Leading Regional Centres
+
+Table \ref{tab:gaz-eth} presents the 40 largest localities out of Ethiopia's 591 assessed settlements, spanning Addis Ababa (`r viscount_fmt_pop(4889613)` agglomeration; 3,86M city proper), regional capitals (Adama, Mekelle, Bahir Dar, Dire Dawa, Gondar, Dessie, Jimma, Jijiga) and dense southern highland urban corridors around Wolayta Sodo, Hawassa and Harar [@CSA2010EthiopiaCensus; @Ayenachew2024NavigatingUrbanization; @Mehari2017ChallengesAnd].
+
+```{r tab-gaz-eth, results='asis'}
+viscount_table(
+  build_gazetteer_df(eth_top),
+  "Forty leading regional centres and agglomerations in Ethiopia out of 591 assessed settlements (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-eth")
+)
+```
+
+## Sudan: Leading Regional Centres
+
+Table \ref{tab:gaz-sdn} details the 40 largest entries among Sudan's 364 assessed settlements, tracing the Khartoum-Omdurman-Khartoum Bahri tri-city alongside Darfur centres (Nyala, El Fasher, Geneina), eastern agricultural and port hubs (Al-Qadarif, Kassala, Port Sudan, Wad Madani) and Kordofan towns (Al-Ubayyid, Kosti) [@CBS2009SudanCensus; @Omer2014TheEffects].
+
+```{r tab-gaz-sdn, results='asis'}
+viscount_table(
+  build_gazetteer_df(sdn_top),
+  "Forty leading regional centres and agglomerations in Sudan out of 364 assessed settlements (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-sdn")
+)
+```
+
+## South Sudan: Leading Regional Centres
+
+Table \ref{tab:gaz-ssd} catalogues the 30 largest settlements among South Sudan's 75 entries, capturing Juba's rapid post-2005 expansion (`r viscount_fmt_pop(1220440)` agglomeration in 2025AD) alongside Rumbek, Yambio, Yirol, Wau, Aweil, Maridi, Malakal and displacement sites such as Bentiu [@CBS2009SudanCensus; @Tesfay2024LotQuality].
+
+```{r tab-gaz-ssd, results='asis'}
+viscount_table(
+  build_gazetteer_df(ssd_top),
+  "Thirty leading regional centres in South Sudan out of 75 assessed settlements (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-ssd")
+)
+```
+
+## Somalia: Leading Regional Centres
+
+Table \ref{tab:gaz-som} presents the 30 leading entries among Somalia's 59 assessed settlements, documenting IDP-driven urbanisation in Mogadishu (`r viscount_fmt_pop(2054983)` agglomeration; 1,65M city proper), Marka, Kismayo, Baidoa, Gaalkacyo, Beledweyne, Garoowe and Bosaso [@Bank2022SomaliaUrban; @Hussein2024TheImpact].
+
+```{r tab-gaz-som, results='asis'}
+viscount_table(
+  build_gazetteer_df(som_top),
+  "Thirty leading regional centres in the Federal Republic of Somalia out of 59 assessed settlements (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-som")
+)
+```
+
+## Somaliland: Assessed Regional Centres
+
+Table \ref{tab:gaz-sol} lists all `r viscount_fmt_number(length(sol_all), 0L)` assessed settlements in de facto Somaliland, led by the Hargeisa agglomeration (`r viscount_fmt_pop(1360983)`), Berbera (374k), Burao (235k), Borama (163,6k), Las Anod (75,6k) and Gebilay (69,9k) [@Bank2022SomaliaUrban].
+
+```{r tab-gaz-sol, results='asis'}
+viscount_table(
+  build_gazetteer_df(sol_all),
+  "All twelve assessed regional centres and agglomerations in Somaliland (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:gaz-sol")
+)
+```
+
+## Eritrea: Assessed Regional Centres
+
+Table \ref{tab:gaz-eri} compiles all `r viscount_fmt_number(length(eri_all), 0L)` assessed Eritrean localities, anchored by Asmara (896k city estimate in 2018AD; 542,7k agglomeration in 2025AD), Teseney (177k), Keren (88,5k), Barentu (84,3k), Dek'emhare (82,6k) and Massawa [@Woldemicael2008RecentFertility].
+
+```{r tab-gaz-eri, results='asis'}
+viscount_table(
+  build_gazetteer_df(eri_all),
+  "All 34 assessed settlements across Eritrea from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:gaz-eri")
+)
+```
+
+## Djibouti: Assessed Regional Centres
+
+Table \ref{tab:gaz-dji} documents all `r viscount_fmt_number(length(dji_all), 0L)` Djiboutian entries, illustrating extreme port-state primacy in Djibouti City (767,3k in 2024AD; 614,8k agglomeration) above Ali-Sabieh, Dikhil, Obock, Tadjourah and Arta [@OECD2024Africapolis].
+
+```{r tab-gaz-dji, results='asis'}
+viscount_table(
+  build_gazetteer_df(dji_all),
+  "All 26 assessed localities across Djibouti from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:gaz-dji")
+)
+```
+
+## Cross-Border Frontier Towns and Refugee Camps
+
+Table \ref{tab:gaz-border} lists the 25 largest localities among the 60 peripheral border settlements falling inside the chapter bounding corridor across Uganda, Chad, Kenya, Democratic Republic of the Congo and Central African Republic, capturing major refugee-hosting settlements (Yumbe, Bredjing, Farchana, Touloum) and cross-border commercial towns (Mandera, Ariwara, Moyale) [@Bank2015EasternAfrica].
+
+```{r tab-gaz-border, results='asis'}
+viscount_table(
+  build_gazetteer_df(border_top),
+  "Twenty-five leading cross-border towns and refugee settlements across Uganda, Chad, Kenya, DR Congo and Central African Republic.",
+  arg3_options = list(label = "tab:gaz-border")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, interpolation across 1960AD, 1983AD, 2008AD and 2025AD operates strictly between each locality's earliest and latest observed records; entries first recorded in recent censuses or satellite sweeps display a hyphen prior to foundation or initial enumeration. Second, morphological agglomerations in southern Ethiopia merge adjacent towns and dense rural homesteads around Sodo and Hawassa, inflating post-2015 Africapolis values relative to CSA municipal boundaries [@OECD2024Africapolis; @CSA2010EthiopiaCensus]. Third, ongoing wars in Sudan since April 2023 and recent displacement across Tigray and South Sudan render current urban headcounts provisional [@Abadi2018TheImpact; @Tesfay2024LotQuality].
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` assessed settlements trace seven decades of urban expansion across the Horn and Nile valley, linking colonial-era administrative outposts to contemporary multi-million agglomerations, regional capitals and humanitarian displacement centres.
+
+# Appendix
+
+## Interpolated Active Settlement Totals by Benchmark
+
+Table \ref{tab:gazetteer-appendix} sums active settlement counts and combined interpolated populations across the six primary regional benchmarks from 1956AD to 2025AD, separating city-proper entries from metropolitan agglomerations to avoid spatial overlap.
+
+```{r tab-appendix-gaz, results='asis'}
+scope_groups <- list(
+  list(label = "City-Proper Localities", fn = function (e) !identical(e$population_scope, "metro")),
+  list(label = "Metropolitan Agglomerations", fn = function (e) identical(e$population_scope, "metro")),
+  list(label = "All Ledger Entries", fn = function (e) TRUE)
+)
+app_rows <- lapply(scope_groups, function (sg) {
+  sub <- Filter(sg$fn, all_entries)
+  cnts <- vapply(bench_nums, function (yr) sum(vapply(sub, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1))
+  sums <- vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1))
+  data.frame(
+    `Scope Category` = paste0(sg$label, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1956AD` = paste0(sums[1], " (", viscount_fmt_number(cnts[1], 0L), ")"),
+    `1972AD` = paste0(sums[2], " (", viscount_fmt_number(cnts[2], 0L), ")"),
+    `1983AD` = paste0(sums[3], " (", viscount_fmt_number(cnts[3], 0L), ")"),
+    `1993AD` = paste0(sums[4], " (", viscount_fmt_number(cnts[4], 0L), ")"),
+    `2009AD` = paste0(sums[5], " (", viscount_fmt_number(cnts[5], 0L), ")"),
+    `2025AD` = paste0(sums[6], " (", viscount_fmt_number(cnts[6], 0L), ")"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_app <- do.call(rbind, app_rows)
+rownames(df_app) <- NULL
+viscount_table(
+  df_app,
+  "Combined interpolated population and active locality counts (in parentheses) by spatial scope from 1956AD to 2025AD.",
+  arg3_options = list(label = "tab:gazetteer-appendix")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed years; pre-observation and post-observation benchmarks are marked with a hyphen (-). City-proper and metropolitan agglomeration records are listed separately in all gazetteer tables and summed independently in Table \ref{tab:gazetteer-appendix}.

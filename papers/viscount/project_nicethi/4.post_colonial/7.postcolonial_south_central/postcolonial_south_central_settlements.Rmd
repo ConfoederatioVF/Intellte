@@ -1,0 +1,323 @@
+---
+title: "Post-Colonial South-Central Africa and Mozambique"
+subtitle: "Settlement Gazetteer: 838 Individually Assessed Sites (1964-2025)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_south_central_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 838 individually assessed settlements across Zambia, Zimbabwe, Malawi, Mozambique and adjacent border buffers (1964AD to 2025AD)."
+hero_label: "fig:hero-settlements-postcolonial-sc"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("postcolonial_south_central_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("postcolonial_south_central_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+iso3_map <- c(
+  "Botswana" = "BWA",
+  "Democratic Republic of the Congo" = "COD",
+  "Malawi" = "MWI",
+  "Mozambique" = "MOZ",
+  "Namibia" = "NAM",
+  "South Africa" = "ZAF",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB",
+  "Zimbabwe" = "ZWE",
+  "eSwatini" = "SWZ"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yrs[i_pk], "AD)")
+}
+
+entry_country <- vapply(all_entries, function (e) as.character(e$country), character(1))
+
+sort_by_peak <- function (sub_list) {
+  pks <- vapply(sub_list, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub_list[order(-pks, vapply(sub_list, function (e) as.character(e$name), character(1)))]
+}
+
+zmb_entries <- sort_by_peak(all_entries[entry_country == "Zambia"])
+zwe_entries <- sort_by_peak(all_entries[entry_country == "Zimbabwe"])
+mwi_entries <- sort_by_peak(all_entries[entry_country == "Malawi"])
+moz_entries <- sort_by_peak(all_entries[entry_country == "Mozambique"])
+buf_countries <- c("Democratic Republic of the Congo", "United Republic of Tanzania", "South Africa", "Botswana", "eSwatini", "Namibia")
+buf_entries <- sort_by_peak(all_entries[entry_country %in% buf_countries])
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    scope_lbl <- if (identical(e$population_scope, "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = as.character(e$name),
+      Scope = scope_lbl,
+      Location = loc_str,
+      `1970AD` = fmt_site_pop(e, 1970),
+      `1980AD` = fmt_site_pop(e, 1980),
+      `1990AD` = fmt_site_pop(e, 1990),
+      `2000AD` = fmt_site_pop(e, 2000),
+      `2010AD` = fmt_site_pop(e, 2010),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+n_city_proper <- as.integer(summary_cache$population_scope_counts$city_proper)
+n_metro <- as.integer(summary_cache$population_scope_counts$metro)
+bench_nums <- c(1964, 1973, 1983, 1992, 2002, 2011, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles spatial coordinates, spatial-scope tags and post-colonial population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across Zambia, Zimbabwe, Malawi, Mozambique and six neighbouring border buffers between 1964AD and 2025AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate municipal records and satellite-delineated urban agglomerations (`r viscount_fmt_number(n_excluded, 0L)` duplicate aliases excluded), the retained ledger spans `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations partitioned into `r viscount_fmt_number(n_city_proper, 0L)` city-proper settlements and `r viscount_fmt_number(n_metro, 0L)` metropolitan agglomerations. Active interpolated settlements expand from `r viscount_fmt_number(n_active[["1964"]], 0L)` entries in 1964AD to `r viscount_fmt_number(n_active[["1983"]], 0L)` in 1983AD, `r viscount_fmt_number(n_active[["2002"]], 0L)` in 2002AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` in 2025AD, documenting urban growth from Copperbelt mining towns and colonial administrative hubs to multi-million agglomerations at Lubumbashi (3,92M), Lusaka (3,23M), Maputo (2,98M), Harare (2,92M), Lilongwe (1,38M) and Blantyre (1,31M).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 838 individually assessed settlements across Zambia, Zimbabwe, Malawi, Mozambique and adjacent border buffers (1964AD to 2025AD).",
+    "fig:hero-settlements-postcolonial-sc"
+  )
+}
+```
+
+# Background
+
+Post-colonial urban hierarchies across Zambia, Zimbabwe, Malawi and Mozambique reflect markedly different colonial baselines, resource endowments and post-independence policies [@Bank2022ZambiaUrbanization; @Bank2021MozambiqueNorthern]. Zambia entered independence in 1964AD with an unusually urbanised mining belt alongside a sparsely populated interior, before shifting administrative and demographic weight toward Lusaka after the 1975AD copper downturn [@ZamStats2023ZambiaCensus; @Wotela2025UsingCensus]. Zimbabwe combined industrial Highveld corridors anchored by Harare and Bulawayo with late-colonial mobility restrictions that yielded rapid peri-urban growth in Chitungwiza and Epworth after 1980AD [@ZIMSTAT2023ZimbabweCensus; @Muzondi2014UrbanizationAnd]. Malawi sustained extreme rural smallholder density across its Shire Highlands and Central plains while relocating its national capital from Zomba to Lilongwe [@NSOMalawi2019Census; @Maviko2025ImpactSustainable]. Mozambique endured civil war disruption between 1977AD and 1992AD before rapid coastal and northern urban expansion in Maputo-Matola, Beira, Nampula, Pemba and Montepuez [@INEMozambique2019RGPH; @Mottelson2023UrbanDensity; @Shannon2018SustainableUrbanization].
+
+# Methodology
+
+## Candidate Screening and Territorial Accounting
+
+Candidate entries were compiled from national census tables published by ZamStats, ZIMSTAT, the National Statistical Office of Malawi and INE Mozambique, supplemented by late-colonial enumerations and satellite-delineated urban agglomeration polygons [@ZamStats2023ZambiaCensus; @ZIMSTAT2023ZimbabweCensus; @NSOMalawi2019Census; @INEMozambique2019RGPH; @Wagenaar2018DevelopingRepresentative]. Out of `r viscount_fmt_number(n_candidates, 0L)` candidate entries inside and adjacent to the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² study perimeter bounded on geoBoundaries outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias or overlapping district records were excluded, retaining `r viscount_fmt_number(length(all_entries), 0L)` settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations. Of those, 762 entries fall inside the 33 first-level administrative sub-regions while 76 sit in contiguous border-buffer corridors across six neighbouring countries.
+
+## Scope Classification and Benchmark Interpolation
+
+Each record carries an explicit spatial scope distinguishing `r viscount_fmt_number(n_city_proper, 0L)` city-proper municipalities from `r viscount_fmt_number(n_metro, 0L)` metropolitan agglomerations so core cities and adjacent dormitory municipalities such as Maputo and Matola or Harare, Chitungwiza and Epworth remain traceable without double counting [@Jorge2014ProcessosDinamicas; @Muzondi2014UrbanizationAnd; @Biza2025SanitaryCivility]. Country tables below report linearly interpolated populations across six decennial-scale benchmarks (1970AD, 1980AD, 1990AD, 2000AD, 2010AD and 2025AD) alongside each settlement's observed peak population and year, marking eras prior to or beyond observed records with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` entries, ordinary least-squares rank-size regression on peak populations returns $q = 1,04$ ($R^2 = 0,98$) over the upper fitted sample (n=180) and $q = 1,06$ ($R^2 = 0,97$) across the full ledger. Figure \ref{fig:settlements-rank} displays the 766 spatially deduplicated settlements ($q = 0,98$, $R^2 = 0,99$) alongside 2025AD sub-regional densities, confirming close alignment between urban agglomeration counts and national census distributions [@Bank2022ZambiaUrbanization; @Bank2021MozambiqueNorthern].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size distribution across 766 deduplicated settlements (q = 0,98, R² = 0,99) and top ten sub-regional densities in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## National and Cross-Frontier Summary
+
+Table \ref{tab:country-summary} summarises settlement counts, city-proper versus metropolitan scopes, total chronological observations, combined peak populations and leading centres across all ten constituent jurisdictions. Core study states contribute 714 settlements (Mozambique 317, Malawi 184, Zambia 127 and Zimbabwe 86), while neighbouring frontier buffers contribute 124 entries.
+
+```{r tab-country-summary, results='asis'}
+jcov <- summary_cache$wave_saturation_stats$jurisdiction_coverage
+j_names <- names(jcov)
+j_counts <- vapply(j_names, function (nm) as.integer(jcov[[nm]]$settlements), integer(1))
+j_ord <- j_names[order(-j_counts, j_names)]
+c_sum_rows <- lapply(j_ord, function (nm) {
+  rec <- jcov[[nm]]
+  sub <- sort_by_peak(all_entries[entry_country == nm])
+  lead_e <- sub[[1]]
+  lead_pk <- max(as.numeric(unlist(lead_e$population)))
+  disp_nm <- if (identical(nm, "United Republic of Tanzania")) "Tanzania" else nm
+  data.frame(
+    Jurisdiction = disp_nm,
+    Settlements = viscount_fmt_number(rec$settlements, 0L),
+    `City Proper` = viscount_fmt_number(rec$city_proper, 0L),
+    Metro = viscount_fmt_number(rec$metro, 0L),
+    Observations = viscount_fmt_number(rec$observations, 0L),
+    `Leading Entry` = paste0(lead_e$name, " (", viscount_fmt_pop(lead_pk), ")"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_csum <- do.call(rbind, c_sum_rows)
+rownames(df_csum) <- NULL
+viscount_table(
+  df_csum,
+  "Settlement counts, spatial-scope breakdown, chronological observations and leading centres across ten jurisdictions (1964AD to 2025AD).",
+  arg3_options = list(label = "tab:country-summary")
+)
+```
+
+## Zambia Urban Hierarchy
+
+Table \ref{tab:sett-zambia} documents all `r viscount_fmt_number(length(zmb_entries), 0L)` individually assessed Zambian settlements, led by the Lusaka agglomeration (3,23M) and Lusaka city proper (2,21M in 2022AD), Copperbelt mining hubs Kitwe (816,3k), Ndola (683,7k), Chingola (310,5k), Mufulira (205,1k) and Luanshya (193,3k), alongside Kabwe (299,8k) and Livingstone (209,8k) [@ZamStats2023ZambiaCensus; @Bank2022ZambiaUrbanization].
+
+```{r tab-zambia, results='asis'}
+viscount_table(
+  build_gazetteer_df(zmb_entries),
+  "Individually assessed settlements in Zambia sorted by peak population (1970AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-zambia")
+)
+```
+
+## Zimbabwe Urban Hierarchy
+
+Table \ref{tab:sett-zimbabwe} catalogues all `r viscount_fmt_number(length(zwe_entries), 0L)` Zimbabwean settlements, tracing the Harare agglomeration (2,92M) alongside municipal Harare (1,49M), Bulawayo (676,7k peak), Chitungwiza (371,2k), Mutare (224,8k), Epworth (206,4k) and Gweru (159,1k) [@ZIMSTAT2023ZimbabweCensus; @Muzondi2014UrbanizationAnd; @NMMZ2022ZimbabweSites].
+
+```{r tab-zimbabwe, results='asis'}
+viscount_table(
+  build_gazetteer_df(zwe_entries),
+  "Individually assessed settlements in Zimbabwe sorted by peak population (1970AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-zimbabwe")
+)
+```
+
+## Malawi Urban Hierarchy
+
+Table \ref{tab:sett-malawi} compiles all `r viscount_fmt_number(length(mwi_entries), 0L)` Malawian settlements, led by Lilongwe (1,38M agglomeration; 1,16M city proper), Blantyre (1,31M agglomeration; 871,8k city proper), Zomba (539,9k extended urban unit in 2025AD) and northern hub Mzuzu (307,1k) [@NSOMalawi2019Census; @Maviko2025ImpactSustainable].
+
+```{r tab-malawi, results='asis'}
+viscount_table(
+  build_gazetteer_df(mwi_entries),
+  "Individually assessed settlements in Malawi sorted by peak population (1970AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-malawi")
+)
+```
+
+## Mozambique Urban Hierarchy
+
+Table \ref{tab:sett-mozambique} presents all `r viscount_fmt_number(length(moz_entries), 0L)` Mozambican settlements, anchored by the Maputo agglomeration (2,98M), Maputo city proper (1,09M), Nampula (1,04M), Matola (1,03M), Cidade da Beira (803,9k), Chimoio (476,3k), Tete (468,2k), Pemba (321,6k) and Quelimane (253,8k) [@INEMozambique2019RGPH; @Mottelson2023UrbanDensity; @Shannon2018SustainableUrbanization; @Bank2021MozambiqueNorthern].
+
+```{r tab-mozambique, results='asis'}
+viscount_table(
+  build_gazetteer_df(moz_entries),
+  "Individually assessed settlements in Mozambique sorted by peak population (1970AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-mozambique")
+)
+```
+
+## Cross-Frontier Buffer Settlements
+
+Table \ref{tab:sett-buffers} lists the `r viscount_fmt_number(length(buf_entries), 0L)` border-buffer settlements in DR Congo, Tanzania, South Africa, Botswana, eSwatini and Namibia included to prevent interpolation edge effects along international frontiers, led by Lubumbashi (3,92M agglomeration; 1,28M city proper), Tunduma (219,3k), Francistown (173,8k agglomeration) and Mtwara (140,8k) [@Runfola2020GeoBoundaries].
+
+```{r tab-buffers, results='asis'}
+viscount_table(
+  build_gazetteer_df(buf_entries),
+  "Cross-frontier buffer settlements in neighbouring jurisdictions sorted by peak population (1970AD to 2025AD).",
+  arg3_options = list(label = "tab:sett-buffers")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, 128 of the 838 entries carry single-date observations, primarily newly threshold-crossing peri-urban agglomerations recorded only in 2020AD-2025AD satellite grids; benchmark columns outside their observed span appear as a hyphen (-). Second, municipal census boundaries frozen over time separate city-proper cores from extra-municipal satellites such as Matola, Chitungwiza and Epworth, meaning both individual municipal rows and metropolitan agglomerations must be consulted together [@Jorge2014ProcessosDinamicas; @Muzondi2014UrbanizationAnd]. Third, wartime census interruption in Mozambique between 1980AD and 1997AD and recent Cabo Delgado displacement leave intercensal urban series reliant on satellite-assisted demographic reconciliation [@Wagenaar2018DevelopingRepresentative; @Bank2021MozambiqueNorthern].
+
+# Conclusion
+
+Taken together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements trace six decades of post-colonial urban restructuring across Zambia, Zimbabwe, Malawi, Mozambique and their borderlands, documenting the pivot from colonial mining and railway towns toward multi-million capital agglomerations, secondary regional ports and dense peri-urban corridors.
+
+# Appendix
+
+## Sub-Regional Gazetteer Distribution
+
+Table \ref{tab:gazetteer-subregions} summarises interior settlement counts, chronological observations and combined peak populations across all 33 first-level administrative divisions of Mozambique, Zambia, Zimbabwe and Malawi.
+
+```{r tab-appendix-subregions, results='asis'}
+dist_list <- summary_cache$subregion_settlement_distribution
+df_app <- data.frame(
+  Subregion = vapply(dist_list, function (d) trimws(sub("\\s*\\[.*\\]$", "", as.character(d$name))), character(1)),
+  Settlements = vapply(dist_list, function (d) viscount_fmt_number(d$settlement_count, 0L), character(1)),
+  Observations = vapply(dist_list, function (d) viscount_fmt_number(d$observation_count, 0L), character(1)),
+  `Summed Peaks` = vapply(dist_list, function (d) viscount_fmt_pop(d$peak_pop_sum), character(1)),
+  `Leading Settlements` = vapply(dist_list, function (d) paste(unlist(d$top_settlements[seq_len(min(3L, length(d$top_settlements)))]), collapse = ", "), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_app) <- NULL
+viscount_table(
+  df_app,
+  "Interior settlement counts, chronological observations and leading centres across 33 administrative divisions (1964AD to 2025AD).",
+  arg3_options = list(label = "tab:gazetteer-subregions")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; eras outside a settlement's observed span are marked with a hyphen (-).

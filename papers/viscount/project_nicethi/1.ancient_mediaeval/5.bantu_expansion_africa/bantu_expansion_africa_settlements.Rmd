@@ -1,0 +1,574 @@
+---
+title: "The Bantu Expansion Across Sub-Saharan Africa"
+subtitle: "Settlement Gazetteer: 142 Individually Assessed Sites (1000BC-1500AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: bantu_expansion_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 142 individually assessed settlements across 23 Sub-Saharan countries spanning twelve ecological sub-regions from 1000BC to 1500AD."
+hero_label: "fig:hero-settlements-bantu"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("bantu_expansion_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("bantu_expansion_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+subregion_lookup <- c(
+  "Geduld-Namibia" = "khoisan_kalahari_cape_namib",
+  "Kasteelberg-South Africa" = "khoisan_kalahari_cape_namib",
+  "Nqoma-Botswana" = "khoisan_kalahari_cape_namib",
+  "Barawa E Al Bambar-Somalia" = "swahili_kilwa_coast",
+  "Dirre Sheikh Hussein-Ethiopia" = "swahili_kilwa_coast",
+  "Ele Bor Rock Shelter-Kenya" = "swahili_kilwa_coast",
+  "Faza-Kenya" = "swahili_kilwa_coast",
+  "Gedi-Kenya" = "swahili_kilwa_coast",
+  "Gondershe-Somalia" = "swahili_kilwa_coast",
+  "Kahinju Site-Kenya" = "swahili_kilwa_coast",
+  "Kaole-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Kilwa Kisiwani-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Kisimani Mafia-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Kwale-Kenya" = "swahili_kilwa_coast",
+  "Lamu-Kenya" = "swahili_kilwa_coast",
+  "Malindi-Kenya" = "swahili_kilwa_coast",
+  "Manda-Kenya" = "swahili_kilwa_coast",
+  "Mareg-Somalia" = "swahili_kilwa_coast",
+  "Marka-Somalia" = "swahili_kilwa_coast",
+  "Mlambalasi-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Mombasa-Kenya" = "swahili_kilwa_coast",
+  "Moçambique-Mozambique" = "swahili_kilwa_coast",
+  "Mtwapa-Kenya" = "swahili_kilwa_coast",
+  "Muqdisho-Somalia" = "swahili_kilwa_coast",
+  "Pate-Kenya" = "swahili_kilwa_coast",
+  "Shanga-Kenya" = "swahili_kilwa_coast",
+  "Siyu-Kenya" = "swahili_kilwa_coast",
+  "Songo Mnara-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Tumbatu-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Tumbe-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Unguja Ukuu-United Republic of Tanzania" = "swahili_kilwa_coast",
+  "Ungwana-Kenya" = "swahili_kilwa_coast",
+  "Kambove-Precolonial-Democratic Republic of the Congo" = "upemba_katanga_luba_lunda",
+  "Kamilamba-Democratic Republic of the Congo" = "upemba_katanga_luba_lunda",
+  "Kansanshi-Zambia" = "upemba_katanga_luba_lunda",
+  "Katoto-Democratic Republic of the Congo" = "upemba_katanga_luba_lunda",
+  "Kikulu-Democratic Republic of the Congo" = "upemba_katanga_luba_lunda",
+  "Malemba-Nkulu-Democratic Republic of the Congo" = "upemba_katanga_luba_lunda",
+  "Sanga-Democratic Republic of the Congo" = "upemba_katanga_luba_lunda",
+  "Bambandyanalo-South Africa" = "great_zimbabwe_mapungubwe",
+  "Bosutswe-Botswana" = "great_zimbabwe_mapungubwe",
+  "Chibuene-Mozambique" = "great_zimbabwe_mapungubwe",
+  "Eiland-South Africa" = "great_zimbabwe_mapungubwe",
+  "Great Zimbabwe-Zimbabwe" = "great_zimbabwe_mapungubwe",
+  "Ingombe Ilede-Zambia" = "great_zimbabwe_mapungubwe",
+  "Kalomo-Zambia" = "great_zimbabwe_mapungubwe",
+  "Khami-Zimbabwe" = "great_zimbabwe_mapungubwe",
+  "Kumadzulo-Zambia" = "great_zimbabwe_mapungubwe",
+  "Malumba-Zimbabwe" = "great_zimbabwe_mapungubwe",
+  "Manyikeni-Mozambique" = "great_zimbabwe_mapungubwe",
+  "Mapela Hill-Zimbabwe" = "great_zimbabwe_mapungubwe",
+  "Mapungubwe-South Africa" = "great_zimbabwe_mapungubwe",
+  "Silver Leaves-South Africa" = "great_zimbabwe_mapungubwe",
+  "Sofala-Mozambique" = "great_zimbabwe_mapungubwe",
+  "Thulamela-South Africa" = "great_zimbabwe_mapungubwe",
+  "Toteng-Botswana" = "great_zimbabwe_mapungubwe",
+  "Toutswemogala-Botswana" = "great_zimbabwe_mapungubwe",
+  "Tsindi-Zimbabwe" = "great_zimbabwe_mapungubwe",
+  "Batalimo-Central African Republic" = "central_congo_mongo_ubangi",
+  "Batalimo-Maluba Site-Central African Republic" = "central_congo_mongo_ubangi",
+  "Bolondo-Democratic Republic of the Congo" = "central_congo_mongo_ubangi",
+  "Imbonga Settlement-Democratic Republic of the Congo" = "central_congo_mongo_ubangi",
+  "Iyonda Site-Democratic Republic of the Congo" = "central_congo_mongo_ubangi",
+  "Benfica Shellmidden-Angola" = "kongo_lower_congo_angola",
+  "Benfica-Luanda-Angola" = "kongo_lower_congo_angola",
+  "Camissombo Site-Angola" = "kongo_lower_congo_angola",
+  "Mbanza 2-Nduizi-Democratic Republic of the Congo" = "kongo_lower_congo_angola",
+  "Mbanza Congo-Angola" = "kongo_lower_congo_angola",
+  "Mbanza Mbata-Angola" = "kongo_lower_congo_angola",
+  "Mbanza Nsundi-Democratic Republic of the Congo" = "kongo_lower_congo_angola",
+  "Ngovo Cave-Democratic Republic of the Congo" = "kongo_lower_congo_angola",
+  "Sakuzi-Democratic Republic of the Congo" = "kongo_lower_congo_angola",
+  "Soyo-Angola" = "kongo_lower_congo_angola",
+  "Tchissanga-Republic of the Congo" = "kongo_lower_congo_angola",
+  "Broederstroom-South Africa" = "southeastern_nguni_sotho",
+  "KwaGandaganda-South Africa" = "southeastern_nguni_sotho",
+  "Ndondondwane-South Africa" = "southeastern_nguni_sotho",
+  "Phalaborwa-Kgopolwe-South Africa" = "southeastern_nguni_sotho",
+  "Bigo bya Mugenyi-Uganda" = "great_lakes_urewe_kitara",
+  "Ituri-Matangai-Democratic Republic of the Congo" = "great_lakes_urewe_kitara",
+  "Kabusanze-Rwanda" = "great_lakes_urewe_kitara",
+  "Kibiro-Uganda" = "great_lakes_urewe_kitara",
+  "Lokabulo Rock Shelter-South Sudan" = "great_lakes_urewe_kitara",
+  "Mirama-Burundi" = "great_lakes_urewe_kitara",
+  "Mucucu-Rwanda" = "great_lakes_urewe_kitara",
+  "Munsa-Uganda" = "great_lakes_urewe_kitara",
+  "Nsongezi Rock Shelter-Uganda" = "great_lakes_urewe_kitara",
+  "Ntusi-Uganda" = "great_lakes_urewe_kitara",
+  "Fingira Rock Shelter-Malawi" = "zambezi_maravi_ingombe",
+  "Kalemba Rock Shelter-Zambia" = "zambezi_maravi_ingombe",
+  "Mankhamba-Malawi" = "zambezi_maravi_ingombe",
+  "Nkope Bay-Malawi" = "zambezi_maravi_ingombe",
+  "Ntandabale-Zambia" = "zambezi_maravi_ingombe",
+  "Buali-Republic of the Congo" = "western_equatorial_forest",
+  "Iroungou-Gabon" = "western_equatorial_forest",
+  "Kitina-Republic of the Congo" = "western_equatorial_forest",
+  "Moanda-Gabon" = "western_equatorial_forest",
+  "Motaba-Republic of the Congo" = "western_equatorial_forest",
+  "Munda-Republic of the Congo" = "western_equatorial_forest",
+  "Nanda-Corisco-Equatorial Guinea" = "western_equatorial_forest",
+  "Okala-Gabon" = "western_equatorial_forest",
+  "Otoumbi-Gabon" = "western_equatorial_forest",
+  "Deloraine-Kenya" = "east_african_rift_savanna",
+  "Engaruka-United Republic of Tanzania" = "east_african_rift_savanna",
+  "Gogo Falls Settlement-Kenya" = "east_african_rift_savanna",
+  "Hyrax Hill Settlement-Kenya" = "east_african_rift_savanna",
+  "Lukenya Hill Shelter-Kenya" = "east_african_rift_savanna",
+  "Luxmanda Pastoral Settlement-United Republic of Tanzania" = "east_african_rift_savanna",
+  "Njoro-Kenya" = "east_african_rift_savanna",
+  "Urewe-Kenya" = "east_african_rift_savanna",
+  "Usenge-Kenya" = "east_african_rift_savanna",
+  "Wadh Lang'o-Kenya" = "east_african_rift_savanna",
+  "Afikpo-Nigeria" = "cameroon_bantu_homeland",
+  "Agbor-Nigeria" = "cameroon_bantu_homeland",
+  "Akonetye-Cameroon" = "cameroon_bantu_homeland",
+  "Asaba-Nigeria" = "cameroon_bantu_homeland",
+  "Babungo-Cameroon" = "cameroon_bantu_homeland",
+  "Bonny-Nigeria" = "cameroon_bantu_homeland",
+  "Bwambe-Sommet-Cameroon" = "cameroon_bantu_homeland",
+  "Campo Coastal Site-Cameroon" = "cameroon_bantu_homeland",
+  "Carboneras-Equatorial Guinea" = "cameroon_bantu_homeland",
+  "Dibamba-Cameroon" = "cameroon_bantu_homeland",
+  "Foumban-Cameroon" = "cameroon_bantu_homeland",
+  "Idah-Nigeria" = "cameroon_bantu_homeland",
+  "Igbo Ukwu-Nigeria" = "cameroon_bantu_homeland",
+  "Koton Karifi-Nigeria" = "cameroon_bantu_homeland",
+  "Lom Pangar-Cameroon" = "cameroon_bantu_homeland",
+  "Mouanko-Lobethal-Cameroon" = "cameroon_bantu_homeland",
+  "Nachtigal-Cameroon" = "cameroon_bantu_homeland",
+  "Nangara-Komba Site-Central African Republic" = "cameroon_bantu_homeland",
+  "Ndeba-Somie-Cameroon" = "cameroon_bantu_homeland",
+  "Nembe-Nigeria" = "cameroon_bantu_homeland",
+  "Nkometou-Cameroon" = "cameroon_bantu_homeland",
+  "Nsukka-Nigeria" = "cameroon_bantu_homeland",
+  "Obobogo Neolithic Settlement-Cameroon" = "cameroon_bantu_homeland",
+  "Oboui Settlement-Central African Republic" = "cameroon_bantu_homeland",
+  "Oliga-Cameroon" = "cameroon_bantu_homeland",
+  "Owo-Nigeria" = "cameroon_bantu_homeland",
+  "Shum Laka Rock Shelter-Cameroon" = "cameroon_bantu_homeland",
+  "Tazunu Beforo-Central African Republic" = "cameroon_bantu_homeland",
+  "Umaisha-Nigeria" = "cameroon_bantu_homeland",
+  "Uromi-Nigeria" = "cameroon_bantu_homeland"
+)
+
+iso3_map <- c(
+  "Angola" = "AGO",
+  "Botswana" = "BWA",
+  "Burundi" = "BDI",
+  "Cameroon" = "CMR",
+  "Central African Republic" = "CAF",
+  "Democratic Republic of the Congo" = "COD",
+  "Equatorial Guinea" = "GNQ",
+  "Ethiopia" = "ETH",
+  "Gabon" = "GAB",
+  "Kenya" = "KEN",
+  "Malawi" = "MWI",
+  "Mozambique" = "MOZ",
+  "Namibia" = "NAM",
+  "Nigeria" = "NGA",
+  "Republic of the Congo" = "COG",
+  "Rwanda" = "RWA",
+  "Somalia" = "SOM",
+  "South Africa" = "ZAF",
+  "South Sudan" = "SSD",
+  "Uganda" = "UGA",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB",
+  "Zimbabwe" = "ZWE"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+fmt_era_yr <- function (y) {
+  yi <- as.integer(y)
+  if (yi < 0L) paste0(abs(yi), "BC") else if (yi == 0L) "1AD" else paste0(yi, "AD")
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", fmt_era_yr(yrs[i_pk]), ")")
+}
+
+subregion_order <- c(
+  "cameroon_bantu_homeland",
+  "western_equatorial_forest",
+  "central_congo_mongo_ubangi",
+  "kongo_lower_congo_angola",
+  "great_lakes_urewe_kitara",
+  "east_african_rift_savanna",
+  "swahili_kilwa_coast",
+  "upemba_katanga_luba_lunda",
+  "zambezi_maravi_ingombe",
+  "great_zimbabwe_mapungubwe",
+  "southeastern_nguni_sotho",
+  "khoisan_kalahari_cape_namib"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, function (e) {
+  s <- subregion_lookup[[e$key]]
+  if (is.null(s)) "cameroon_bantu_homeland" else s
+}, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1AD` = fmt_site_pop(e, 0),
+      `500AD` = fmt_site_pop(e, 500),
+      `1000AD` = fmt_site_pop(e, 1000),
+      `1300AD` = fmt_site_pop(e, 1300),
+      `1500AD` = fmt_site_pop(e, 1500),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(-1000, 0, 500, 1000, 1300, 1500)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles spatial coordinates and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across 23 Sub-Saharan African countries between 1000BC and 1500AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate archaeological sites, rock shelters, walled capitals and coastal ports (`r viscount_fmt_number(n_excluded, 0L)` excluded), the retained entries span twelve ecological and cultural sub-regions from the Cameroon Grassfields homeland and the Congo Basin to the Great Lakes, the Swahili littoral, Katanga, the Zimbabwe plateau and the Cape. Active interpolated entries expand from `r viscount_fmt_number(n_active[["-1000"]], 0L)` early sites at 1000BC to `r viscount_fmt_number(n_active[["0"]], 0L)` at 1AD, `r viscount_fmt_number(n_active[["500"]], 0L)` at 500AD, `r viscount_fmt_number(n_active[["1000"]], 0L)` at 1000AD and `r viscount_fmt_number(n_active[["1300"]], 0L)` at 1300AD, tracing urban development from Early Iron Age farming villages to Mbanza Congo (38k), Muqdisho (24,8k), Great Zimbabwe (20k), Owo (18,6k) and Kilwa Kisiwani (14,8k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 142 individually assessed settlements across 23 Sub-Saharan countries spanning twelve ecological sub-regions from 1000BC to 1500AD.",
+    "fig:hero-settlements-bantu"
+  )
+}
+```
+
+# Background
+
+Reconstructing Iron Age settlement hierarchies across Equatoria, East Africa and Southern Africa requires combining disparate archaeological and documentary archives. Unlike Mediterranean or Near Eastern landscapes dominated by durable mudbrick tells, Sub-Saharan Africa south of the Benue-Cross and Ubangi rivers spans tropical forest clearings where timber-and-daub hamlets decompose quickly, dry-stone plateau citadels, coral-rag coastal towns and lacustrine burial complexes [@Connah2001AfricanCivilizations; @CoqueryVidrovitch2005BantuCities; @Bostoen2018BantuFirst]. Assembling those traditions into one unified gazetteer highlights how ecological corridors shaped settlement scale from the Cameroon Grassfields to the Limpopo valley [@Russell2014ModellingThe; @BIRD2022P3K14C].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate loci were screened from regional radiocarbon surveys, excavated town plans and early historical accounts [@Cornelissen2016RMCA; @Alders2026TownlandsThe; @ShadreckChiri1800WhatWas]. Of `r viscount_fmt_number(n_candidates, 0L)` candidate entries inside the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² territorial domain bounded over geoBoundaries national outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records were merged or excluded, retaining `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` chronological observations. Each entry is assigned to one of twelve ecological sub-regions (137 within interior 5-arcminute pixels and 5 on the immediate border or island margin, namely Carboneras on Bioko, Owo, Koton Karifi and Umaisha on the Cross-Niger margin, and Dirre Sheikh Hussein on the eastern Horn fringe).
+
+## Site-Specific Population Estimation
+
+Every entry carries a city-proper spatial scope (142 city-proper, 0 metro) calibrated from mapped enclosure hectares, midden sequences, compound counts and early eyewitness records [@Thornton1982TheKingdom; @Huffman2011DebatingGreat; @Chirikure2019NewPerspectives]. Tables 1 to 12 present linearly interpolated populations at five historical benchmarks (1AD, 500AD, 1000AD, 1300AD, 1500AD) alongside each site's exact peak population and date, marking eras prior to occupation or following abandonment with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements, rank-size regression on peak populations yields $q = 0,89$ ($R^2 = 0,94$) over the upper half (n=71) and $q = 1,31$ ($R^2 = 0,84$) across the full sample, matching the 141 deduplicated entries plotted in Figure \ref{fig:settlements-rank}. Chronological screening ensures zero duplicate site synonyms and strict alignment between radiocarbon phase horizons and historical town trajectories [@Stephens2023ReconstructingThe; @Seidensticker2025SurveyFrom].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 141 deduplicated settlements (q = 0,88, R² = 0,94) and mean sub-regional density in 1500AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Cameroon Grassfields Bantu Homeland
+
+Table \ref{tab:sub-cameroon} records `r viscount_fmt_number(length(zone_entries[["cameroon_bantu_homeland"]]), 0L)` individually assessed sites across Cameroon, south-eastern Nigeria, Bioko and western Central African Republic, spanning Early Iron Age villages (Obobogo, Oliga, Shum Laka, Tazunu Beforo) and late mediaeval delta and forest-edge towns led by Nembe (87,5k), Owo (18,6k), Igbo Ukwu (7,6k), Idah (5,4k), Foumban (4,9k) and Nsukka (4,8k) [@CoqueryVidrovitch2005BantuCities; @Bostoen2018BantuFirst].
+
+```{r tab-cameroon, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["cameroon_bantu_homeland"]]),
+  "Individually assessed settlements in the Cameroon Grassfields Bantu Homeland and Niger-Cross fringe (1AD to 1500AD).",
+  arg3_options = list(label = "tab:sub-cameroon")
+)
+```
+
+## Western Equatorial Rainforest
+
+Table \ref{tab:sub-west-eq} lists `r viscount_fmt_number(length(zone_entries[["western_equatorial_forest"]]), 0L)` sites across Gabon, coastal Republic of the Congo and Equatorial Guinea, from early iron-smelting hubs at Otoumbi, Okala, Moanda and Kitina to the Loango capital of Buali (6,2k) [@Cornelissen2016RMCA].
+
+```{r tab-west-eq, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["western_equatorial_forest"]]),
+  "Individually assessed settlements in the Western Equatorial Rainforest (Ogooue-Sangha) from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-west-eq")
+)
+```
+
+## Inner Congo Basin, Mongo and Ubangi-Uele
+
+Table \ref{tab:sub-central-congo} documents `r viscount_fmt_number(length(zone_entries[["central_congo_mongo_ubangi"]]), 0L)` settlements across the inner Congo and Ubangi waterways, capturing Imbonga, Batalimo, Batalimo-Maluba, Bolondo and Iyonda [@Seidensticker2025SurveyFrom; @Coutros2025SurveyAnd].
+
+```{r tab-central-congo, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["central_congo_mongo_ubangi"]]),
+  "Individually assessed settlements in the Inner Congo Basin, Mongo and Ubangi-Uele zone from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-central-congo")
+)
+```
+
+## Lower Congo, Kingdom of Kongo and Angola
+
+Table \ref{tab:sub-kongo} compiles `r viscount_fmt_number(length(zone_entries[["kongo_lower_congo_angola"]]), 0L)` settlements across Angola, western Democratic Republic of the Congo and coastal Republic of the Congo, anchored by Mbanza Congo (38k by 1491AD), Soyo (4,8k), Mbanza Nsundi (4,2k) and Mbanza Mbata (3,9k) [@Thornton1982TheKingdom; @Doman2025HumanRemains].
+
+```{r tab-kongo, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["kongo_lower_congo_angola"]]),
+  "Individually assessed settlements in the Lower Congo, Kingdom of Kongo and Angola from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-kongo")
+)
+```
+
+## Great Lakes Urewe Core
+
+Table \ref{tab:sub-great-lakes} presents `r viscount_fmt_number(length(zone_entries[["great_lakes_urewe_kitara"]]), 0L)` settlements across Uganda, Rwanda, Burundi, eastern Democratic Republic of the Congo and southern South Sudan, from Urewe iron-smelting hubs at Kabusanze, Mucucu and Mirama to the earthwork complexes of Bigo bya Mugenyi (4,8k), Ntusi (3,6k) and Munsa (2,2k) [@Connah2001AfricanCivilizations].
+
+```{r tab-great-lakes, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["great_lakes_urewe_kitara"]]),
+  "Individually assessed settlements in the Great Lakes Urewe Core (Kitara, Rwanda) from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-great-lakes")
+)
+```
+
+## East African Rift Pastoralists and Savanna
+
+Table \ref{tab:sub-east-rift} catalogues `r viscount_fmt_number(length(zone_entries[["east_african_rift_savanna"]]), 0L)` sites across highland Kenya and northern Tanzania, combining early pastoralist and Urewe localities (Luxmanda, Gogo Falls, Njoro, Urewe) with the irrigated terraced town of Engaruka (2,8k) [@Vicente2021MaleBiased].
+
+```{r tab-east-rift, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["east_african_rift_savanna"]]),
+  "Individually assessed settlements in the East African Rift Pastoralists and Savanna zone from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-east-rift")
+)
+```
+
+## Swahili City-States and Maritime Coast
+
+Table \ref{tab:sub-swahili} records `r viscount_fmt_number(length(zone_entries[["swahili_kilwa_coast"]]), 0L)` coastal ports and hinterland sites from southern Somalia and eastern Ethiopia down to Mozambique Island, led by Muqdisho (24,8k), Kilwa Kisiwani (14,8k), Marka (6,8k), Mombasa (6,8k), Malindi (6k) and Pate (5,6k) [@Spear2000EarlySwahili; @Alders2026TownlandsThe; @Lubao2023FishingSongs].
+
+```{r tab-swahili, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["swahili_kilwa_coast"]]),
+  "Individually assessed settlements along the Swahili City-States littoral from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-swahili")
+)
+```
+
+## Upemba Depression, Katanga and Proto-Luba
+
+Table \ref{tab:sub-upemba} covers `r viscount_fmt_number(length(zone_entries[["upemba_katanga_luba_lunda"]]), 0L)` Kisalian-Kabambian and Copperbelt sites across southern Democratic Republic of the Congo and north-western Zambia, anchored by Sanga (2,6k), Malemba-Nkulu (2k), Kamilamba (1,5k) and Kansanshi (1,5k) [@Stephens2023ReconstructingThe].
+
+```{r tab-upemba, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["upemba_katanga_luba_lunda"]]),
+  "Individually assessed settlements in the Upemba Depression, Katanga and Proto-Luba zone from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-upemba")
+)
+```
+
+## Zambezi Corridor, Maravi and Ingombe Ilede
+
+Table \ref{tab:sub-zambezi} lists `r viscount_fmt_number(length(zone_entries[["zambezi_maravi_ingombe"]]), 0L)` settlements across Malawi and central-eastern Zambia, spanning early lakeside villages at Nkope Bay and Ntandabale to the Maravi capital of Mankhamba (2,4k) [@Stephens2023ReconstructingThe].
+
+```{r tab-zambezi, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["zambezi_maravi_ingombe"]]),
+  "Individually assessed settlements in the Zambezi Corridor and Maravi zone from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-zambezi")
+)
+```
+
+## Mapungubwe, Great Zimbabwe and Mutapa
+
+Table \ref{tab:sub-zimbabwe} presents `r viscount_fmt_number(length(zone_entries[["great_zimbabwe_mapungubwe"]]), 0L)` plateau and Limpopo valley sites across Zimbabwe, eastern Botswana, northern South Africa, southern Zambia and central Mozambique, led by Great Zimbabwe (20k), Khami (5,4k), Mapungubwe (5k), Toutswemogala (4,9k), Sofala (4,8k), Bosutswe (3,2k) and Ingombe Ilede (2,7k) [@ShadreckChiri1800WhatWas; @Chirikure2014MapelaHill; @Mukwende2017ArchaeologicalStudy].
+
+```{r tab-zimbabwe, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["great_zimbabwe_mapungubwe"]]),
+  "Individually assessed settlements in the Mapungubwe, Great Zimbabwe and Mutapa zone from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-zimbabwe")
+)
+```
+
+## Highveld Sotho-Tswana and Nguni Iron Age
+
+Table \ref{tab:sub-nguni} details `r viscount_fmt_number(length(zone_entries[["southeastern_nguni_sotho"]]), 0L)` Early and Late Iron Age agro-pastoral centres in South Africa: Phalaborwa-Kgopolwe (1,5k), KwaGandaganda (790), Ndondondwane (620) and Broederstroom (490) [@Tallman2023WholeGenomes; @Vicente2021MaleBiased].
+
+```{r tab-nguni, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["southeastern_nguni_sotho"]]),
+  "Individually assessed settlements in the Highveld Sotho-Tswana and Nguni Iron Age zone from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-nguni")
+)
+```
+
+## Khoekhoe and San Cape, Namib and Kalahari
+
+Table \ref{tab:sub-khoisan} records `r viscount_fmt_number(length(zone_entries[["khoisan_kalahari_cape_namib"]]), 0L)` pastoral and foraging sites across north-western Botswana, the Western Cape and Namibia: Nqoma (890), Kasteelberg (395) and Geduld (230) [@Vicente2021MaleBiased].
+
+```{r tab-khoisan, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["khoisan_kalahari_cape_namib"]]),
+  "Individually assessed settlements in the Khoekhoe and San Cape, Namib and Kalahari zone from 1AD to 1500AD.",
+  arg3_options = list(label = "tab:sub-khoisan")
+)
+```
+
+# Limitations
+
+Three caveats govern this settlement ledger. First, 39 of the 142 sites hold single-date observations, meaning interpolated benchmark columns display a hyphen outside their recorded occupation span. Second, site recovery favours monumental stone enclosures, Swahili coral towns and major Nigerian or Kongo centres over perishable rainforest hamlets [@Bostoen2018BantuFirst; @Alders2026TownlandsThe]. Third, combined table totals represent nucleated and excavated settlements rather than full regional headcounts, which appear in the companion review.
+
+# Conclusion
+
+Taken together, the `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements document the spatial expansion of farming villages, metallurgical centres, maritime ports and plateau capitals across 23 Sub-Saharan countries between 1000BC and 1500AD, anchoring the regional demographic series ahead of the early modern era.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums the individually assessed site counts and combined interpolated site populations across all twelve sub-regions from 1000BC to 1500AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1000BC` = sums[["-1000"]],
+    `1AD` = sums[["0"]],
+    `500AD` = sums[["500"]],
+    `1000AD` = sums[["1000"]],
+    `1300AD` = sums[["1300"]],
+    `1500AD` = sums[["1500"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1000BC` = tot_sums[["-1000"]],
+  `1AD` = tot_sums[["0"]],
+  `500AD` = tot_sums[["500"]],
+  `1000AD` = tot_sums[["1000"]],
+  `1300AD` = tot_sums[["1300"]],
+  `1500AD` = tot_sums[["1500"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated populations across twelve ecological sub-regions from 1000BC to 1500AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-foundation and post-abandonment benchmarks are left blank with a hyphen (-).

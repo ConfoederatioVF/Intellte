@@ -1,0 +1,499 @@
+---
+title: "Modern African Ocean Islands (1890s-Present)"
+subtitle: "Madagascar, Mascarenes, Comoros, Seychelles, Cabo Verde and Sao Tome"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: modern_african_islands_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Thirty-five sub-regions and 339 individually assessed settlements across Madagascar, the Mascarenes, Comoros, Mayotte, Seychelles, Cabo Verde, São Tomé and Príncipe and Saint Helena between 1890AD and 2025AD."
+hero_label: "fig:hero-modern-islands"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("modern_african_islands_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("modern_african_islands_settlements.json", simplifyVector = FALSE)
+
+clean_sub_name <- function (nm) {
+  s <- as.character(nm)
+  gsub(" \u2014 ", " - ", s, fixed = TRUE)
+}
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("1890", "1950", "1975", "2000", "2025")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+mdg_ids <- vapply(Filter(function (x) startsWith(x$id, "mdg_"), subregs), function (x) x$id, character(1))
+mdg_pops <- vapply(bench_keys, function (k) {
+  sum(vapply(mdg_ids, function (id) as.numeric(sub_by_id[[id]]$population[[k]]), numeric(1)))
+}, numeric(1))
+
+subregion_order <- c(
+  "mdg_analamanga",
+  "mdg_vakinankaratra",
+  "mdg_itasy",
+  "mdg_bongolava",
+  "mdg_amoron_i_mania",
+  "mdg_matsiatra_ambony",
+  "mdg_ihorombe",
+  "mdg_vatovavy_fitovinany",
+  "mdg_atsimo_atsinanana",
+  "mdg_atsinanana",
+  "mdg_analanjirofo",
+  "mdg_alaotra_mangoro",
+  "mdg_sava",
+  "mdg_diana",
+  "mdg_sofia",
+  "mdg_boeny",
+  "mdg_betsiboka",
+  "mdg_melaky",
+  "mdg_menabe",
+  "mdg_atsimo_andrefana",
+  "mdg_androy",
+  "mdg_anosy",
+  "mus_mauritius_main",
+  "mus_rodrigues_outer",
+  "reu_reunion",
+  "com_grande_comore",
+  "com_anjouan_moheli",
+  "myt_mayotte",
+  "syc_seychelles",
+  "iot_chagos",
+  "atf_iles_eparses",
+  "cpv_sotavento",
+  "cpv_barlavento",
+  "stp_sao_tome_principe",
+  "shn_saint_helena_asc_tdc"
+)
+
+fmt_era_yr <- function (y) {
+  yi <- as.integer(y)
+  paste0(yi, "AD")
+}
+```
+
+# Abstract
+
+Between the 1890s and 2025AD, the ocean islands flanking Africa experienced two starkly divergent demographic transitions. Across a gridded study domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning 11 sovereign states and overseas territories in the western Indian Ocean and South and Central Atlantic, NICETHI reconstructs an aggregate gridded population rising fifteen-fold from `r viscount_fmt_pop(headline_vals[["1890"]])` inhabitants at 1890AD to `r viscount_fmt_pop(headline_vals[["1950"]])` at 1950AD, `r viscount_fmt_pop(headline_vals[["1975"]])` at 1975AD, `r viscount_fmt_pop(headline_vals[["2000"]])` at 2000AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD, reaching a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Madagascar accounts for the bulk of continental-scale growth, expanding from `r viscount_fmt_pop(mdg_pops[["1890"]])` to `r viscount_fmt_pop(mdg_pops[["2025"]])` under persistent high fertility and accelerating urbanisation around Antananarivo (3,49M agglomeration). By contrast, Mauritius achieved rapid post-1950AD malaria eradication and one of the earliest fertility transitions in the tropical world, while Réunion and Seychelles stabilised under post-departmental and service-led transitions, Mayotte absorbed heavy Comorian migration, Cabo Verde offset recurring mid-century famines through transatlantic diaspora emigration before late-century urban growth, São Tomé and Príncipe shifted from cocoa plantations to urban concentration, and the Chagos Archipelago was emptied between 1968AD and 1973AD. Pairing `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` observations with national and sub-administrative censuses reconciles coarse 5-arcminute grid totals with compact oceanic island enumerations.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Thirty-five sub-regions and 339 individually assessed settlements across Madagascar, the Mascarenes, Comoros, Mayotte, Seychelles, Cabo Verde, São Tomé and Príncipe and Saint Helena between 1890AD and 2025AD.",
+    "fig:hero-modern-islands"
+  )
+}
+```
+
+# Background
+
+## Malaria Eradication, Fertility Transitions and Indian Ocean Divergence
+
+At the close of the nineteenth century, the islands of the western Indian Ocean already differed sharply in density and epidemiological exposure. Madagascar entered French colonial rule after 1895AD with roughly two million inhabitants distributed unevenly between irrigated highland rice basins in Imerina and Betsileo and lightly settled western savanna plains [@ICM2020MadagascarAtlas; @INSTAT2020MadagascarRGPH3]. Mauritius and Réunion, conversely, were already densely cultivated sugar colonies shaped by eighteenth-century slave imports and nineteenth-century Indian indentured migration [@Tadaka2025IndianIndentured; @Fregel2014MultipleEthnic]. Endemic malaria, first introduced to the Mascarenes in the 1860s, depressed Port-Louis growth and pushed middle-class settlement upland onto the Plaines Wilhems plateau along the new railway [@StatsMauritius2023Census2022; @Bank2022MauritiusSystematic].
+
+Following the Second World War, demographic paths across the southwestern Indian Ocean split along policy, epidemiological and institutional lines. In Mauritius, an intensive post-1948AD residual-spraying campaign eradicated endemic malaria within five years, cutting infant mortality and igniting a rapid baby boom that alarmed colonial planners [@Bank2022MauritiusSystematic]. Between 1962AD and 1975AD, state-backed family planning, female schooling and export-zone textile employment drove total fertility down from over six births per woman to near replacement, converting a vulnerable sugar monoculture into a low-fertility manufacturing and service economy with growing skilled emigration [@Bank2022MauritiusSystematic; @Ragoobur2020MigrationIntentions]. On neighbouring Réunion, departmentalisation in 1946AD extended French metropolitan public health, family allowances and INSEE civil registration across all communes, producing steep mortality decline after 1950AD followed by a slower fertility transition and sustained coastal suburbanisation [@INSEE2023ReunionMayotte].
+
+Across the Mozambique Channel, political partition shaped Comorian and Mahoran trajectories differently. When the Comoros archipelago voted on independence in 1974AD, Grande Comore, Anjouan and Mohéli formed an independent republic burdened by high population density, fragile volcanic soils and low public investment [@Bank1993ComorosPopulation; @Bank2023SouthernAfrica]. Mayotte remained under French administration and became an overseas department in 2011AD, generating a steep income and health-care gradient across a 70 km sea strait that fuelled sustained migration into Mamoudzou and Koungou [@INSEE2023ReunionMayotte]. Madagascar followed neither the Mascarene fertility decline nor French welfare integration. After colonial forced labour, the 1947AD anti-colonial uprising and modest post-1950AD health improvements lifted population past seven million by 1975AD, persistent rural poverty, slow fertility decline and recurrent political crises left total fertility above four children per woman into the 2010s while highland migration and rural-to-urban drift crowded Antananarivo and secondary regional capitals [@Rakotonarivo2012MigrationLien; @Bank2024MadagascarUrbanization; @Garchitorena2025ChangesChild].
+
+## Atlantic Archipelagos, Plantation Legacies and Small-Island Outposts
+
+The African Atlantic islands entered the modern era under Portuguese and British administration with distinct demographic vulnerabilities. In Cabo Verde, an arid Sahelian climate repeatedly turned multi-year droughts into catastrophic subsistence crises during the late colonial period, most severely in the famines of 1903AD, 1920AD-1922AD, 1941AD-1943AD and 1946AD-1948AD. Out-migration to São Tomé contract plantations, mainland West Africa, the United States and metropolitan Portugal acted as a permanent demographic valve, forging a transnational diaspora whose remittances reshaped housing and social identity both on the islands and in European peripheral estates [@Rocha2013MigracaoAfrica; @Mourao2012TheCape]. After independence in 1975AD, expanded clinics, vaccination, clean water and secondary schooling drove a swift fertility transition comparable to Mauritius, while internal migration concentrated population in Praia on Santiago and Mindelo on São Vicente alongside new tourism growth on Sal and Boa Vista [@Monteiro2012CrescimentoUrbano; @Costa2013PercepcaoPerigo; @Goncalves2015UrbanPlanning; @Fernandes2023TheBurden].
+
+In the Gulf of Guinea, São Tomé and Príncipe entered the twentieth century at the height of a cocoa boom based on large plantation *roças* worked by coerced *serviçais* recruited from Angola, Mozambique and Cabo Verde [@Bank2023SouthernAfrica]. Following the 1953AD Batepá massacre, Portuguese late-colonial reforms and abrupt independence in 1975AD, the collapse of the *roça* estates triggered rapid rural-to-urban migration into Água Grande and the capital of São Tomé, alongside rising birth rates that tripled national population over half a century [@Bank2023SouthernAfrica]. Elsewhere in the oceanic periphery, the granitic Seychelles transitioned after 1976AD into a high-income tourism and fisheries microstate concentrated around Victoria on Mahé, while Britain's South Atlantic territories of Saint Helena, Ascension and Tristan da Cunha experienced long stagnation and youth out-migration partially offset by airport and military-base employment. Finally, between 1968AD and 1973AD, the British Indian Ocean Territory saw the complete forced removal of roughly two thousand Chagossian plantation workers and residents from Diego Garcia, Peros Banhos and the Salomon Islands to Mauritius and Seychelles, creating an abrupt modern demographic zero.
+
+# Methodology
+
+## Administrative Accounting Domain and Sub-Regional Partition
+
+The chapter covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells spanning 11 island states and overseas territories: Madagascar, Mauritius, Réunion, Comoros, Mayotte, Seychelles, British Indian Ocean Territory (Chagos), French Southern and Antarctic Lands (Îles Éparses), Cabo Verde, São Tomé and Príncipe, and Saint Helena (with Ascension and Tristan da Cunha). Within NICETHI, the chapter represents Regime 3 (1890AD to 2026AD), bridging early twentieth-century colonial enumerations with contemporary post-colonial national censuses. Thirty-five sub-regions partition the domain along first-level geoBoundaries Admin-1 and GADM 4.1 polygons [@Runfola2020GeoBoundaries]: 22 Malagasy *faritra* regions and 13 oceanic archipelagic divisions (Table \ref{tab:subregions}).
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) clean_sub_name(sub_by_id[[id]]$name), character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  Era = vapply(subregion_order, function (id) "1890AD-2026AD", character(1)),
+  `Assessed Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Thirty-five administrative sub-regions of the modern African ocean islands study area, showing surface area, 5-arcminute pixel counts and assessed settlements.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Census Screening, Scope Separation and Spatial Disaggregation
+
+To establish a continuous urban and village hierarchy from 1890AD to 2025AD, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate municipal records, census towns, plantation seats and island outposts were screened from national statistical agencies, colonial *Annuaires Statistiques*, UNSD Demographic Yearbook Table 8 series and OECD/SWAC Africapolis updates [@INSTAT2020MadagascarRGPH3; @INSEE2023ReunionMayotte; @StatsMauritius2023Census2022]. Four structured screening waves removed `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records and sub-neighbourhood overlaps (reaching 0% marginal addition in Wave 4 with all 35 subregions populated), retaining `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations (Figure \ref{fig:hero-modern-islands}).
+
+Every entry carries an explicit spatial scope tag so compact municipal cores are separated from continuous built-up metropolitan belts: 313 entries represent city-proper municipalities or island towns, while 26 entries record metropolitan agglomerations (such as Antananarivo, Port-Louis, Saint-Paul, Saint-Denis, Saint-Pierre, Moroni, Praia, Mindelo, São Tomé, Mamoudzou and Victoria) derived from Africapolis and INSEE *unités urbaines* [@INSEE2023ReunionMayotte; @Bank2024MadagascarUrbanization]. On the continuous 5-arcminute spatial grid, rural and urban densities disaggregate national and colonial censuses across geoBoundaries Admin-1 polygons [@Runfola2020GeoBoundaries] using non-stationary Matérn interpolation constrained by HYDE 3.5 and KK10 agricultural surfaces and sub-administrative historical census tables [@Bank2023SouthernAfrica; @ICM2020MadagascarAtlas].
+
+# Testing and Validation
+
+## Island Census Reconciliation and Five-Arcminute Scale Effects
+
+Cross-checking the 5-arcminute gridded series against official sub-administrative censuses exposes both strong continental agreement on Madagascar and acute coastline truncation on small volcanic islands (Tables \ref{tab:subadmin-censuses} and \ref{tab:mdg-stp-censuses}). Across Madagascar, the 1900AD French colonial estimate of 2,24M (2.244.872) sits close to the gridded 1890AD Malagasy sum of `r viscount_fmt_pop(mdg_pops[["1890"]])`, while the 1993AD RGPH-2 total of 12,24M (12.238.914) and the 2020AD official projection of 27,19M (27.190.927) align smoothly with NICETHI's gridded Malagasy trajectory from 11,7M in 1994AD to 27,82M in 2019AD and 31,2M in 2025AD [@INSTAT2020MadagascarRGPH3; @Bank2024MadagascarUrbanization]. At the regional tier, Analamanga rises in official records from 1,76M (1993AD) to 3,81M (2020AD) and 4,33M on the 2025AD grid, while Vakinankaratra grows from 1,14M to 2,21M and 2,58M.
+
+```{r tab2-subadmin-censuses, results='asis'}
+get_subadmin_tbl <- function (code, yr) {
+  Filter(function (x) identical(x$polity_code, code) && x$year == yr, summary_cache$subadmin_benchmark_tables)[[1]]
+}
+
+mus_1881 <- get_subadmin_tbl("MUS", 1881)$units
+mus_1952 <- get_subadmin_tbl("MUS", 1952)$units
+mus_2011 <- get_subadmin_tbl("MUS", 2011)$units
+m81 <- setNames(vapply(mus_1881, function (u) as.numeric(u$population), numeric(1)), vapply(mus_1881, function (u) u$unit_name, character(1)))
+m52 <- setNames(vapply(mus_1952, function (u) as.numeric(u$population), numeric(1)), vapply(mus_1952, function (u) u$unit_name, character(1)))
+m11 <- setNames(vapply(mus_2011, function (u) as.numeric(u$population), numeric(1)), vapply(mus_2011, function (u) u$unit_name, character(1)))
+
+mus_order <- c("Plaines Wilhems", "Pamplemousses", "Flacq", "Port Louis", "Grand Port", "Rivière du Rempart", "Moka", "Black River", "Savanne", "Rodrigues")
+df_mus <- data.frame(
+  `Territory / District` = paste0("Mauritius: ", mus_order),
+  `1881AD` = vapply(mus_order, function (d) viscount_fmt_pop(m81[[d]]), character(1)),
+  `1952AD / 1974AD` = vapply(mus_order, function (d) viscount_fmt_pop(m52[[d]]), character(1)),
+  `2011AD / 2010AD` = vapply(mus_order, function (d) viscount_fmt_pop(m11[[d]]), character(1)),
+  `Change (%)` = vapply(mus_order, function (d) viscount_fmt_number(100 * (m11[[d]] - m81[[d]]) / m81[[d]], 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_mus_tot <- data.frame(
+  `Territory / District` = "Mauritius Total (incl. outer islands)",
+  `1881AD` = viscount_fmt_pop(361305),
+  `1952AD / 1974AD` = viscount_fmt_pop(516285),
+  `2011AD / 2010AD` = viscount_fmt_pop(1237091),
+  `Change (%)` = viscount_fmt_number(100 * (1237091 - 361305) / 361305, 1L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+
+reu_1974 <- get_subadmin_tbl("REU", 1974)$units
+reu_2010 <- get_subadmin_tbl("REU", 2010)$units
+r74 <- setNames(vapply(reu_1974, function (u) as.numeric(u$population), numeric(1)), vapply(reu_1974, function (u) u$unit_name, character(1)))
+r10 <- setNames(vapply(reu_2010, function (u) as.numeric(u$population), numeric(1)), vapply(reu_2010, function (u) u$unit_name, character(1)))
+reu_order <- c("Saint-Pierre", "Saint-Paul", "Saint-Denis", "Saint-Benoît")
+df_reu <- data.frame(
+  `Territory / District` = paste0("Réunion: ", reu_order),
+  `1881AD` = rep("-", length(reu_order)),
+  `1952AD / 1974AD` = vapply(reu_order, function (d) viscount_fmt_pop(r74[[d]]), character(1)),
+  `2011AD / 2010AD` = vapply(reu_order, function (d) viscount_fmt_pop(r10[[d]]), character(1)),
+  `Change (%)` = vapply(reu_order, function (d) viscount_fmt_number(100 * (r10[[d]] - r74[[d]]) / r74[[d]], 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_reu_tot <- data.frame(
+  `Territory / District` = "Réunion Total",
+  `1881AD` = viscount_fmt_pop(170518),
+  `1952AD / 1974AD` = viscount_fmt_pop(476675),
+  `2011AD / 2010AD` = viscount_fmt_pop(829903),
+  `Change (%)` = viscount_fmt_number(100 * (829903 - 170518) / 170518, 1L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+
+df_t2 <- rbind(df_mus, df_mus_tot, df_reu, df_reu_tot)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Official sub-administrative census enumerations across Mauritius (1881AD, 1952AD, 2011AD) and Réunion (1881AD, 1974AD, 2010AD).",
+  arg3_options = list(label = "tab:subadmin-censuses")
+)
+```
+
+On the small oceanic archipelagos, however, 5-arcminute grid resolution (roughly 85 km² per cell) introduces severe coastal masking effects at the margins of the timeline. Throughout 1950AD to 2019AD, the gridded values for Mauritius (479,2k in 1950AD to 1,24M in 2019AD) and Réunion (241,9k in 1950AD to 978,6k in 2019AD) track official census growth closely (516,3k in 1952AD to 1,24M in 2011AD for Mauritius; 476,7k in 1974AD to 829,9k in 2010AD for Réunion) [@StatsMauritius2023Census2022; @INSEE2023ReunionMayotte]. At 2025AD, by contrast, coastal raster truncation drops gridded totals on Mauritius Island to 323,6k, Rodrigues to zero and Réunion to 109,2k, whereas settlement-level census series sustain Port-Louis at 640,1k (agglomeration), Vacoas/Phoenix at 109,4k, Beau-Bassin/Rose-Hill at 93,9k, Saint-Denis at 192,7k (agglomeration) and Saint-Pierre at 174,8k [@StatsMauritius2023Census2022; @INSEE2023ReunionMayotte]. Similarly, Seychelles registers zero on the coarse grid before 1988AD and only 35,3k in 2025AD, well below the enumerated national population near 100k anchored by Victoria (78k agglomeration).
+
+```{r tab3-mdg-stp-censuses, results='asis'}
+mdg93 <- Filter(function (u) identical(u$admin_level, "ADM1"), get_subadmin_tbl("MDG", 1993)$units)
+mdg20 <- Filter(function (u) identical(u$admin_level, "ADM1"), get_subadmin_tbl("MDG", 2020)$units)
+m93_map <- setNames(vapply(mdg93, function (u) as.numeric(u$population), numeric(1)), vapply(mdg93, function (u) u$unit_name, character(1)))
+m20_map <- setNames(vapply(mdg20, function (u) as.numeric(u$population), numeric(1)), vapply(mdg20, function (u) u$unit_name, character(1)))
+mdg_sel <- c("Analamanga", "Vakinankaratra", "Atsimo-Andrefana", "Sofia", "Atsinanana", "Vatovavy-Fitovinany", "Haute Matsiatra (Matsiatra Ambony)", "Alaotra-Mangoro", "Analanjirofo", "Sava", "Boeny", "Diana")
+
+df_mdg_sub <- data.frame(
+  `Administrative Unit` = paste0("MDG: ", gsub("Haute Matsiatra \\(Matsiatra Ambony\\)", "Matsiatra Ambony", mdg_sel)),
+  `Baseline` = vapply(mdg_sel, function (n) viscount_fmt_pop(m93_map[[n]]), character(1)),
+  `Recent Census` = vapply(mdg_sel, function (n) viscount_fmt_pop(m20_map[[n]]), character(1)),
+  `Period` = rep("1993AD to 2020AD", length(mdg_sel)),
+  `Change (%)` = vapply(mdg_sel, function (n) viscount_fmt_number(100 * (m20_map[[n]] - m93_map[[n]]) / m93_map[[n]], 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_mdg_tot <- data.frame(
+  `Administrative Unit` = "Madagascar National Total",
+  `Baseline` = viscount_fmt_pop(12238914),
+  `Recent Census` = viscount_fmt_pop(27190927),
+  `Period` = "1993AD to 2020AD",
+  `Change (%)` = viscount_fmt_number(100 * (27190927 - 12238914) / 12238914, 1L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+
+stp24 <- Filter(function (u) identical(u$admin_level, "ADM2") && !identical(u$unit_name, "São Tomé e Príncipe"), get_subadmin_tbl("STP", 2024)$units)
+df_stp <- data.frame(
+  `Administrative Unit` = paste0("STP: ", vapply(stp24, function (u) as.character(u$unit_name), character(1))),
+  `Baseline` = rep("-", length(stp24)),
+  `Recent Census` = vapply(stp24, function (u) viscount_fmt_pop(u$population), character(1)),
+  `Period` = rep("2024AD (ADM2)", length(stp24)),
+  `Change (%)` = rep("-", length(stp24)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_stp_tot <- data.frame(
+  `Administrative Unit` = "São Tomé and Príncipe Total",
+  `Baseline` = viscount_fmt_pop(42103),
+  `Recent Census` = viscount_fmt_pop(209607),
+  `Period` = "1900AD to 2024AD",
+  `Change (%)` = viscount_fmt_number(100 * (209607 - 42103) / 42103, 1L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+
+df_t3 <- rbind(df_mdg_sub, df_mdg_tot, df_stp, df_stp_tot)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Enumerated sub-administrative populations across leading Madagascar regions (1993AD to 2020AD) and São Tomé and Príncipe districts (2024AD).",
+  arg3_options = list(label = "tab:mdg-stp-censuses")
+)
+```
+
+## Rank-Size Distribution and Ledger Saturation
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements, ordinary least-squares rank-size regression over the upper half (n=169) yields a Zipf exponent of $q = 0,9075$ ($R^2 = 0,9838$), while full-sample regression across all 339 entries yields $q = 1,5043$ ($R^2 = 0,6769$) with a unique-peak ratio of 0,9853 and log-interquartile spread of 0,854. Figure \ref{fig:rank-size} plots the 210 spatially deduplicated urban peaks ($q = 0,92$, $R^2 = 0,98$) alongside the ten densest sub-regions on the 2025AD grid.
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 210 spatially deduplicated peaks (q = 0,92, R² = 0,98) and the ten densest sub-regions in 2025AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+An upper-half slope just below unity reflects a strongly hierarchical central capital in Antananarivo (3,49M agglomeration; 1,27M city-proper) balanced against substantial secondary national capitals and Mascarene urban corridors: Port-Louis (640,1k metro), Toamasina (449,1k), Mahajanga (356,7k), Antsirabe (299,1k), Toliara (284,5k), Fianarantsoa (266k), Saint-Paul (243,1k metro), Saint-Denis (192,7k metro), Saint-Pierre (174,8k metro), Antsiranana (172,7k), Moroni (171,1k metro), Praia (153,7k metro) and São Tomé (134,7k metro) [@Bank2024MadagascarUrbanization; @INSEE2023ReunionMayotte; @Monteiro2012CrescimentoUrbano]. Beyond rank 100, small Comorian communes, Cabo Verdean rural municipalities, São Toméan *roça* villages, Seychellois outer districts, Saint Helena parishes and French meteorological stations pull the lower tail steeply downward (Figure \ref{fig:rank-size}A).
+
+# Results
+
+## Madagascar: Colonial Consolidation, 1947 Disruption and Highland-Coastal Growth
+
+Aggregate gridded population across the 35 subregions increased from `r viscount_fmt_pop(headline_vals[["1890"]])` at 1890AD to `r viscount_fmt_pop(headline_vals[["1950"]])` at 1950AD, `r viscount_fmt_pop(headline_vals[["1975"]])` at 1975AD, `r viscount_fmt_pop(headline_vals[["2000"]])` at 2000AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). Within Madagascar alone, total population grew slowly during the early colonial decades from `r viscount_fmt_pop(mdg_pops[["1890"]])` in 1890AD to `r viscount_fmt_pop(mdg_pops[["1950"]])` in 1950AD. Forced-labour *SMOTIG* conscription, wartime requisitions, the 1918-1919 influenza pandemic and the violent suppression of the 1947AD insurrection kept growth subdued outside the central highlands; in several western and southern pastoral zones such as Menabe (65,8k to 34,6k), Melaky (37,5k to 15,6k), Ihorombe (52,8k to 18,7k) and Androy (59,5k to 43,4k), early colonial figures actually dipped before post-war health campaigns took hold [@INSTAT2020MadagascarRGPH3; @Garchitorena2025ChangesChild].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and five leading urban centres across the island domain from 1890AD to 2025AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+After 1950AD, malaria spraying on the central plateau, expanded smallpox vaccination and rural clinic construction triggered rapid demographic acceleration. Madagascar climbed to `r viscount_fmt_pop(mdg_pops[["1975"]])` by the 1975AD RGPH-1 benchmark, `r viscount_fmt_pop(mdg_pops[["2000"]])` by 2000AD and `r viscount_fmt_pop(mdg_pops[["2025"]])` by 2025AD [@INSTAT2020MadagascarRGPH3; @Bank2024MadagascarUrbanization]. Population concentrated heavily along the central highland axis and the eastern coffee-and-port littoral. Analamanga expanded thirty-three-fold from `r viscount_fmt_pop(sub_by_id[["mdg_analamanga"]]$population[["1890"]])` in 1890AD to `r viscount_fmt_pop(sub_by_id[["mdg_analamanga"]]$population[["2025"]])` in 2025AD (`r viscount_fmt_number(sub_by_id[["mdg_analamanga"]]$end_density_km2, 2L)` persons/km²), anchored by Antananarivo (50k in 1895AD, 163k in 1950AD, 451,8k in 1975AD and 1,27M city-proper in 2018AD, or 3,49M across the 2025AD urban agglomeration) [@Iimi2019JobAccessibility; @Fara2026ProjectedIntensification]. Neighbouring Vakinankaratra (`r viscount_fmt_pop(sub_by_id[["mdg_vakinankaratra"]]$population[["2025"]])`, 155,72 persons/km²) and Itasy (`r viscount_fmt_pop(sub_by_id[["mdg_itasy"]]$population[["2025"]])`, 127,7 persons/km²) absorbed dense smallholder rice and vegetable cultivation around Antsirabe (299,1k) and Imerintsiatosika [@Rakotonarivo2012MigrationLien].
+
+```{r tab4-trajectory, results='asis'}
+df_t4 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) clean_sub_name(sub_by_id[[id]]$name), character(1)),
+  `1890AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1890"]]), character(1)),
+  `1950AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1950"]]), character(1)),
+  `1975AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1975"]]), character(1)),
+  `2000AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["2000"]]), character(1)),
+  `2025AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["2025"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t4 <- data.frame(
+  Subregion = "Total Study Area (Gridded)",
+  `1890AD` = viscount_fmt_pop(headline_vals[["1890"]]),
+  `1950AD` = viscount_fmt_pop(headline_vals[["1950"]]),
+  `1975AD` = viscount_fmt_pop(headline_vals[["1975"]]),
+  `2000AD` = viscount_fmt_pop(headline_vals[["2000"]]),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t4 <- rbind(df_t4, tot_row_t4)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Sub-regional and total gridded population trajectories across five benchmark years from 1890AD to 2025AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+Secondary Malagasy ports and provincial hubs grew strongly alongside the capital corridor [@Bank2024MadagascarUrbanization]. On the Indian Ocean coast, Toamasina rose from 10,2k in 1895AD to 77,4k in 1975AD and 449,1k by 2025AD, lifting Atsinanana to `r viscount_fmt_pop(sub_by_id[["mdg_atsinanana"]]$population[["2025"]])`, while Vatovavy-Fitovinany (`r viscount_fmt_pop(sub_by_id[["mdg_vatovavy_fitovinany"]]$population[["2025"]])`), Matsiatra Ambony around Fianarantsoa (266k), Alaotra-Mangoro (`r viscount_fmt_pop(sub_by_id[["mdg_alaotra_mangoro"]]$population[["2025"]])`), Sava (`r viscount_fmt_pop(sub_by_id[["mdg_sava"]]$population[["2025"]])`) and Analanjirofo (`r viscount_fmt_pop(sub_by_id[["mdg_analanjirofo"]]$population[["2025"]])`) each exceeded 1,3M residents. Along the Mozambique Channel, Mahajanga (356,7k) and Toliara (284,5k) anchored Boeny (1,11M) and Atsimo-Andrefana (2,15M), while Antsiranana (172,7k) led northern Diana (1,07M).
+
+## Mascarenes, Comoros, Mayotte, Seychelles and Chagos
+
+In Mauritius, official census totals rose from 361,3k in 1881AD to 516,3k in 1952AD and 1,24M in 2011AD (Table \ref{tab:subadmin-censuses}), tracking closely with the gridded peak of 1,24M in 2019AD before stabilizing near 1,26M in the 2022AD census [@StatsMauritius2023Census2022; @Bank2022MauritiusSystematic]. Urban population shifted away from historic Port-Louis (62,2k in 1891AD, 154,3k peak in 2000AD, 142,4k in 2025AD) up the Plaines Wilhems ridge through Beau-Bassin/Rose-Hill (93,9k), Vacoas/Phoenix (109,4k), Curepipe (78,9k in 2000AD) and Quatre-Bornes (75,9k in 2000AD), forming a continuous 640,1k Port-Louis agglomeration by 2025AD [@StatsMauritius2023Census2022; @Tadaka2025IndianIndentured; @Fregel2014MultipleEthnic]. Outer Rodrigues expanded from 1,43k in 1881AD to 13,3k in 1952AD and 40,4k in 2011AD (with Port Mathurin reaching 8,1k), while modern Mauritian migration flows increasingly involve skilled emigration alongside imported textile and construction labour [@Ragoobur2020MigrationIntentions].
+
+Réunion expanded nearly five-fold from 170,5k in 1881AD to 476,7k in 1974AD and 829,9k in 2010AD (Table \ref{tab:subadmin-censuses}), reaching 978,6k on the 2019AD grid [@INSEE2023ReunionMayotte]. Growth shifted toward the dry leeward west and southern agricultural plains: between 1974AD and 2010AD, Saint-Pierre (156,9k to 296,5k) and Saint-Paul (86,3k to 212,8k) outpaced the northern capital arrondissement of Saint-Denis (167,2k to 199,4k), while Le Tampon climbed above 82k [@INSEE2023ReunionMayotte]. In the Comoros, sustained fertility lifted Grande Comore (Ngazidja) from 39,9k (1890AD) to 419,1k (2025AD, 237,36 persons/km²) around Moroni (171,1k metro) and Anjouan-Mohéli from 15,4k to 357,7k (193,78 persons/km²) led by Mutsamudu (59k), Mrémani (39,8k), Fomboni (33,6k) and Tsémbéhou (31,7k) [@Bank1993ComorosPopulation; @Bank2023SouthernAfrica]. Across the strait, Mayotte surged from 8,3k in 1950AD to 43,1k in 1975AD and 255,6k by 2019AD (with Mamoudzou reaching 103,6k metro and Koungou 32,2k in 2017AD) [@INSEE2023ReunionMayotte]. Victoria concentrated Seychelles's urban growth (78k metro in 2025AD; 29,7k city-proper in 2022AD), whereas on the Chagos Archipelago, East Point on Diego Garcia (619 peak in 1952AD), Île du Coin (318) and Boddam (215) fell empty by 1973AD (1.101 on the 1969AD grid to 0 from 1975AD onward).
+
+## Cabo Verde, Sao Tome e Principe and South Atlantic Territories
+
+In Cabo Verde, gridded populations across Sotavento (14,95k in 1890AD to 162,9k in 1950AD, 339,5k in 1975AD and 319,1k in 2025AD) and Barlavento (9,5k in 1890AD to 72,7k in 1950AD and 174,1k in 2025AD) trace a sharp rural-to-urban restructuring after mid-century famines [@Rocha2013MigracaoAfrica; @Mourao2012TheCape]. Praia expanded twenty-five-fold from 6,2k in 1900AD and 10k in 1950AD to 153,7k (agglomeration) by 2025AD, overtaking Mindelo (74,7k agglomeration peak in 2015AD; 70,7k city-proper in 2021AD), while Assomada (21,3k) and Sal's airport town Espargos (25k) emerged as secondary nodes [@Monteiro2012CrescimentoUrbano; @Goncalves2015UrbanPlanning; @Costa2013PercepcaoPerigo; @Fernandes2023TheBurden].
+
+```{r tab5-top-centres, results='asis'}
+top_12 <- summary_cache$top_settlements[seq_len(min(12L, length(summary_cache$top_settlements)))]
+df_t5 <- data.frame(
+  Settlement = vapply(top_12, function (s) as.character(s$name), character(1)),
+  Territory = vapply(top_12, function (s) as.character(s$country), character(1)),
+  Scope = vapply(top_12, function (s) if (identical(s$population_scope, "metro")) "Metro" else "City-proper", character(1)),
+  Span = vapply(top_12, function (s) {
+    if (s$min_year == s$max_year) fmt_era_yr(s$min_year) else paste0(fmt_era_yr(s$min_year), "-", fmt_era_yr(s$max_year))
+  }, character(1)),
+  `Peak Pop.` = vapply(top_12, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_12, function (s) fmt_era_yr(s$peak_year), character(1)),
+  Obs = vapply(top_12, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Twelve largest individually assessed settlements across the modern African ocean islands (1890AD to 2025AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+São Tomé and Príncipe grew from 42,1k in the 1900AD colonial census (12,1k on the coarse 1890AD grid) to 64,6k in 1970AD, 135,7k in 2000AD and 209,6k in the 2024AD census (222,4k on the 2025AD grid) [@Bank2023SouthernAfrica]. By 2024AD, the capital district of Água Grande (80,6k) and adjacent Mé-Zóchi (50,7k) held 62,7% of the nation's population, led by the São Tomé agglomeration (134,7k peak in 2015AD), Santana (19k) and Neves (14,7k), while Príncipe held 9,8k (Table \ref{tab:mdg-stp-censuses}). In the South Atlantic, Saint Helena's parishes declined gradually around Jamestown (2,2k in 1891AD) and St. Paul's (978 in 1987AD), alongside 450 at Georgetown on Ascension (2008AD) and 293 at Edinburgh of the Seven Seas on Tristan da Cunha (2016AD), while the Îles Éparses in the Mozambique Channel hosted tiny meteorological and military detachments peaking at 112 on Juan de Nova in 1936AD.
+
+# Limitations
+
+Three technical constraints govern these figures. First, five-arcminute raster resolution (approximately 85 km² per cell) remains coarse relative to small volcanic and coral islands. While Madagascar's continental-scale grid series (2,09M in 1890AD to 31,2M in 2025AD) aligns closely with national enumerations, coastline masking and end-epoch boundary misalignment sharply undercount Mauritius (323,6k vs 1,26M census), Rodrigues (0 on the 2025AD grid), Réunion (109,2k vs 880k) and Seychelles (35,3k vs 100k) in 2025AD. Both gridded series and direct sub-administrative census tables (Tables \ref{tab:subadmin-censuses} and \ref{tab:mdg-stp-censuses}) must therefore be read together.
+
+Second, the 339-entry settlement ledger integrates 313 city-proper records with 26 metropolitan agglomerations. Because Africapolis and INSEE agglomerations span wider commuting zones than municipal boundaries (Antananarivo 3,49M vs 1,27M; Port-Louis 640,1k vs 142,4k; Praia 153,7k vs 141,2k), raw plots that stack both scopes without filtering can show artificial step changes between late-census city-proper dates and 2025AD agglomeration projections. Third, early twentieth-century coverage varies sharply across colonial empires: British Mauritius and French Réunion kept regular decennial censuses from the 1880s onward, whereas early colonial Madagascar (1900AD-1950AD), the Comoros before 1958AD and Cabo Verdean intercensal famine years rely on administrative tax estimates and uneven vital registration [@Bank2023SouthernAfrica; @INSTAT2020MadagascarRGPH3; @Rocha2013MigracaoAfrica].
+
+# Conclusion
+
+Between the 1890s and 2025AD, the ocean islands of Africa moved along sharply contrasting demographic paths that raised total gridded population fifteen-fold from `r viscount_fmt_pop(headline_vals[["1890"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])`. Madagascar drove the bulk of absolute growth, climbing past 31,2M inhabitants by 2025AD under sustained high fertility and rapid highland-to-port urbanisation centred on Antananarivo (3,49M agglomeration). Across the smaller islands, early malaria eradication, public health investment and schooling produced swift fertility transitions in Mauritius, Réunion, Seychelles and Cabo Verde, contrasting with continued high growth in the Comoros, migration-fuelled expansion on Mayotte, post-plantation urban concentration in São Tomé and Príncipe and the complete 1968-1973AD depopulation of the Chagos Archipelago. By uniting 339 individually assessed settlements, official sub-administrative censuses and continuous gridded estimates across 35 divisions, NICETHI provides a unified modern baseline for African oceanic demography.
+
+# Appendix
+
+## Sub-Regional Density, Share Series and 1960AD Administrative Lineage
+
+Table \ref{tab:density-appendix} reports gridded population density in persons per km² across all 35 sub-regions from 1890AD to 2025AD, while Table \ref{tab:shares-appendix} presents each sub-region's share of total gridded population across the five benchmark years. Table \ref{tab:hgis-units} documents the 24 historical administrative units from the 1960AD independence-era lineage masks (covering Madagascar's six provinces alongside Mauritius, Réunion, Comoros, Cabo Verde, São Tomé and Príncipe and Saint Helena) that anchor post-colonial sub-national disaggregation [@Runfola2020GeoBoundaries].
+
+```{r tab6-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = clean_sub_name(sr$name),
+    `1890AD` = viscount_fmt_number(as.numeric(ps[["1890"]]) / ar, 2L),
+    `1950AD` = viscount_fmt_number(as.numeric(ps[["1950"]]) / ar, 2L),
+    `1975AD` = viscount_fmt_number(as.numeric(ps[["1975"]]) / ar, 2L),
+    `2000AD` = viscount_fmt_number(as.numeric(ps[["2000"]]) / ar, 2L),
+    `2025AD` = viscount_fmt_number(as.numeric(ps[["2025"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area (Gridded)",
+  `1890AD` = viscount_fmt_number(headline_vals[["1890"]] / total_area_km2, 2L),
+  `1950AD` = viscount_fmt_number(headline_vals[["1950"]] / total_area_km2, 2L),
+  `1975AD` = viscount_fmt_number(headline_vals[["1975"]] / total_area_km2, 2L),
+  `2000AD` = viscount_fmt_number(headline_vals[["2000"]] / total_area_km2, 2L),
+  `2025AD` = viscount_fmt_number(headline_vals[["2025"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t6 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Mean gridded population density (persons per km²) across thirty-five sub-regions from 1890AD to 2025AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab7-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = clean_sub_name(sr$name),
+    `1890AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1890"]]) / headline_vals[["1890"]], 1L),
+    `1950AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1950"]]) / headline_vals[["1950"]], 1L),
+    `1975AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1975"]]) / headline_vals[["1975"]], 1L),
+    `2000AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["2000"]]) / headline_vals[["2000"]], 1L),
+    `2025AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["2025"]]) / headline_vals[["2025"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t7 <- do.call(rbind, share_rows)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Percentage share of gridded regional population by sub-region across five benchmark years from 1890AD to 2025AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+```{r tab8-hgis-units, results='asis'}
+hgis_list <- summary_cache$hgis_regime_units
+df_t8 <- data.frame(
+  `Unit Code` = vapply(hgis_list, function (x) as.character(x$unit_code), character(1)),
+  `Historical Administrative Unit` = vapply(hgis_list, function (x) as.character(x$unit_name), character(1)),
+  Country = vapply(hgis_list, function (x) as.character(x$country), character(1)),
+  `Area (km²)` = vapply(hgis_list, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  `Epoch` = vapply(hgis_list, function (x) fmt_era_yr(x$year_start), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t8) <- NULL
+viscount_table(
+  df_t8,
+  "Twenty-four 1960AD historical administrative lineage units overlapping the modern African ocean islands study area.",
+  arg3_options = list(label = "tab:hgis-units")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Gridded population values in Tables \ref{tab:trajectory}, \ref{tab:density-appendix} and \ref{tab:shares-appendix} reflect 5-arcminute raster aggregations across geoBoundaries Admin-1 polygons, whereas Tables \ref{tab:subadmin-censuses} and \ref{tab:mdg-stp-censuses} report direct national and sub-administrative census enumerations. Both city-proper (313 entries) and metropolitan agglomeration (26 entries) records appear in the settlement ledger with explicit scope flags in the companion gazetteer.

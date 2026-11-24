@@ -1,0 +1,524 @@
+---
+title: "Post-Colonial South-Central Africa and Mozambique"
+subtitle: "Zambia, Zimbabwe, Malawi and Mozambique from Independence to the Present"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_south_central_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Thirty-three first-level administrative divisions across Zambia, Zimbabwe, Malawi and Mozambique with 838 individually assessed settlements between 1964AD and 2025AD."
+hero_label: "fig:hero-postcolonial-sc"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("postcolonial_south_central_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("postcolonial_south_central_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+n_city_proper <- as.integer(summary_cache$population_scope_counts$city_proper)
+n_metro <- as.integer(summary_cache$population_scope_counts$metro)
+
+bench_keys <- c("1964", "1973", "1983", "1992", "2002", "2011", "2025")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+subregion_order <- c(
+  "zmb_lusaka",
+  "zmb_copperbelt",
+  "zmb_central",
+  "zmb_eastern",
+  "zmb_southern",
+  "zmb_northern",
+  "zmb_luapula",
+  "zmb_western",
+  "zmb_north_western",
+  "zmb_muchinga",
+  "zwe_harare",
+  "zwe_bulawayo",
+  "zwe_mashonaland_east",
+  "zwe_manicaland",
+  "zwe_mashonaland_west",
+  "zwe_midlands",
+  "zwe_masvingo",
+  "zwe_mashonaland_central",
+  "zwe_matabeleland_north",
+  "zwe_matabeleland_south",
+  "mwi_southern_region",
+  "mwi_central_region",
+  "mwi_northern_region",
+  "moz_nampula",
+  "moz_zambezia",
+  "moz_tete",
+  "moz_cabo_delgado",
+  "moz_sofala",
+  "moz_maputo",
+  "moz_niassa",
+  "moz_manica",
+  "moz_inhambane",
+  "moz_gaza"
+)
+
+clean_sub_name <- function (nm) {
+  trimws(sub("\\s*\\[.*\\]$", "", as.character(nm)))
+}
+
+country_ids <- list(
+  "Zambia (10 divisions)" = subregion_order[grepl("^zmb_", subregion_order)],
+  "Zimbabwe (10 divisions)" = subregion_order[grepl("^zwe_", subregion_order)],
+  "Malawi (3 divisions)" = subregion_order[grepl("^mwi_", subregion_order)],
+  "Mozambique (10 divisions)" = subregion_order[grepl("^moz_", subregion_order)]
+)
+
+country_sum_at <- function (ids, yr_str) {
+  sum(vapply(ids, function (id) as.numeric(sub_by_id[[id]]$population[[yr_str]]), numeric(1)))
+}
+
+country_area <- function (ids) {
+  sum(vapply(ids, function (id) as.numeric(sub_by_id[[id]]$area_km2), numeric(1)))
+}
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+Between 1964AD and 2025AD, the four neighbouring territories of Zambia, Zimbabwe, Malawi and Mozambique grew more than fivefold in aggregate population, climbing from `r viscount_fmt_pop(headline_vals[["1964"]])` inhabitants at the close of British rule in Northern Rhodesia and Nyasaland to `r viscount_fmt_pop(headline_vals[["2025"]])` across `r viscount_fmt_number(total_area_km2, 0L)` km². Mean regional density rose over the same six decades from `r viscount_fmt_number(headline_vals[["1964"]] / total_area_km2, 2L)` to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons per km², yet growth diverged sharply by ecological zone, mining cycle, war and public health. Zambia shifted from early Copperbelt industrialisation toward Lusaka administrative primacy after the 1975AD copper price collapse. Zimbabwe experienced rapid post-1980AD fertility decline followed by severe HIV mortality in the 1990s and economic emigration during the 2000s, slowing core city growth in Harare and Bulawayo while spilling population into peri-urban townships. Malawi retained the highest rural crowding in the region, exceeding 250 persons per km² across its Southern and Central regions while relocating its capital from Zomba to Lilongwe. Mozambique suffered prolonged wartime displacement between 1977AD and 1992AD before sustaining brisk coastal and northern expansion across Maputo-Matola, Beira, Nampula and Cabo Delgado. NICETHI reconciles `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations with provincial census benchmarks and mass-conserving spatial disaggregation across 33 first-level administrative divisions.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Thirty-three first-level administrative divisions across Zambia, Zimbabwe, Malawi and Mozambique with 838 individually assessed settlements between 1964AD and 2025AD.",
+    "fig:hero-postcolonial-sc"
+  )
+}
+```
+
+# Background
+
+## Post-Colonial Frontiers, Resource Corridors and Highland Cores
+
+South-Central Africa and Mozambique span `r viscount_fmt_number(total_area_km2, 0L)` km² from the upper Congo-Zambezi watershed and the Kafue copper belt to the Shire Highlands, Lake Malawi and the Indian Ocean littoral between Cabo Delgado and Ponta do Ouro [@Runfola2020GeoBoundaries]. At the start of 1964AD, political sovereignty remained fractured along colonial lines. Zambia and Malawi gained independence in 1964AD following the dissolution of the Central African Federation, whereas Southern Rhodesia resisted majority rule until 1980AD and Mozambique fought a decade-long liberation struggle before independence in June 1975 [@INEMozambique2019RGPH; @ZIMSTAT2023ZimbabweCensus; @NSOMalawi2019Census]. Those staggered transitions left sharply different infrastructural endowments, urban settlement patterns and administrative enumerations across the four states [@Bank2022ZambiaUrbanization; @Bank2021MozambiqueNorthern].
+
+Population distribution across this expanse has never reflected land area alone. Malawi occupies only 4,7% of the study area (`r viscount_fmt_number(country_area(country_ids[["Malawi (3 divisions)"]]), 0L)` km²), yet held `r viscount_fmt_number(100 * country_sum_at(country_ids[["Malawi (3 divisions)"]], "1964") / headline_vals[["1964"]], 1L)`% of regional inhabitants in 1964AD (`r viscount_fmt_pop(country_sum_at(country_ids[["Malawi (3 divisions)"]], "1964"))`) and maintained `r viscount_fmt_number(100 * country_sum_at(country_ids[["Malawi (3 divisions)"]], "2025") / headline_vals[["2025"]], 1L)`% (`r viscount_fmt_pop(country_sum_at(country_ids[["Malawi (3 divisions)"]], "2025"))`) by 2025AD [@NSOMalawi2019Census; @Maviko2025ImpactSustainable]. Its fertile Rift Valley alluvial plains and Shire Highlands contrast with Zambia's thinly settled Kalahari sandveld in Western and North-Western provinces, where large mining towns along the Copperbelt and the railway line from Livingstone to Lusaka created one of Sub-Saharan Africa's earliest urbanised corridors [@ZamStats2023ZambiaCensus; @Bank2022ZambiaUrbanization].
+
+In Zimbabwe, colonial land apportionment concentrated peasant agriculture on rocky communal reserves across Mashonaland, Manicaland and Masvingo while confining commercial estates and industrial towns to the central Highveld plateau linking Bulawayo, Gweru, Harare and Mutare [@ZIMSTAT2023ZimbabweCensus; @Muzondi2014UrbanizationAnd]. In Mozambique, Portuguese settlement and port railways oriented demographic gravity toward three east-west corridors: Maputo in the far south, Beira along the Pungwe-Zambezi outlet toward Zimbabwe and Malawi, and Nacala-Nampula across the populous northern plateau [@INEMozambique2019RGPH; @Shannon2018SustainableUrbanization; @Bank2021MozambiqueNorthern].
+
+## Census Historiography and Spatial Demographic Sources
+
+Modern national statistical offices in all four states established regular decennial or near-decennial censuses after independence, though political upheaval interrupted several counts. Zambia conducted national enumerations in 1969AD, 1980AD, 1990AD, 2000AD, 2010AD and 2022AD, charting both the rapid post-independence expansion of Copperbelt towns and the subsequent shift of growth toward Lusaka and rural agricultural frontiers [@ZamStats2023ZambiaCensus; @Wotela2025UsingCensus]. Malawi enumerated its population in 1966AD, 1977AD, 1987AD, 1998AD, 2008AD and 2018AD, supplemented by official intercensal projections to 2023AD [@NSOMalawi2019Census]. Zimbabwe's post-independence series runs through 1982AD, 1992AD, 2002AD, 2012AD and 2022AD, capturing an early fertility transition alongside later HIV mortality and hyperinflation-driven cross-border emigration [@ZIMSTAT2023ZimbabweCensus; @Wekwete2014TheAssociation].
+
+Mozambique's statistical trajectory was far more disrupted. Late colonial censuses in 1960AD and 1970AD were followed by an initial post-independence enumeration in 1980AD, after which civil war prevented a national count until 1997AD, with regular ten-year rounds resuming in 2007AD and 2017AD [@INEMozambique2019RGPH; @Hayford2011UncertainFuture]. Between census benchmarks, demographic and health surveys, community sampling frames built from open satellite imagery and longitudinal vital-registration studies have bridged gaps in maternal mortality, fertility timing and informal urban density across Maputo, Beira, rural Gaza, central Zambia and Malawi [@Wagenaar2018DevelopingRepresentative; @Li2026SimilarLong; @Singh2022ComparisonApproaches; @Chola2016ExaminingUnderlying]. Combining those national enumerations with historical monument and settlement registers provides a continuous post-colonial demographic record [@NMMZ2022ZimbabweSites; @Runfola2020GeoBoundaries].
+
+# Methodology
+
+## Administrative Partition and Territorial Accounting
+
+The chapter domain covers `r viscount_fmt_number(total_area_km2, 0L)` km² partitioned across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute raster cells into 33 first-level administrative divisions drawn from geoBoundaries: 10 provinces in Zambia, 10 provinces in Zimbabwe, 3 regions in Malawi and 10 provincial units in Mozambique, where Maputo City and Maputo Province are merged into a single provincial cell footprint (`r viscount_fmt_number(sub_by_id[["moz_maputo"]]$area_km2, 0L)` km²) to preserve spatial continuity at five-arcminute resolution [@Runfola2020GeoBoundaries]. Table \ref{tab:subregions} lists all 33 units with their surface areas, pixel counts, interior assessed settlements and shares of total territory.
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) clean_sub_name(sub_by_id[[id]]$name), character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  `Assessed Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Area Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Thirty-three first-level administrative divisions across Zambia, Zimbabwe, Malawi and Mozambique from 1964AD to 2025AD.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+Within NICETHI, the chapter spans 1964AD to 2026AD and reports 14 benchmark horizons: 1964AD, 1969AD, 1973AD, 1978AD, 1983AD, 1987AD, 1992AD, 1997AD, 2002AD, 2006AD, 2011AD, 2016AD, 2020AD and 2025AD. Sub-regional series track total resident population combining city-proper municipalities, expanding extra-municipal suburbs and dispersed agricultural villages [@INEMozambique2019RGPH; @ZamStats2023ZambiaCensus; @ZIMSTAT2023ZimbabweCensus; @NSOMalawi2019Census].
+
+## Settlement Screening and Metropolitan Reconciliation
+
+To anchor urban hierarchies across the four countries and their immediate borderlands, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate settlement entries were screened from national census gazetteers, colonial late-period enumerations and satellite-delineated urban agglomeration ledgers [@ZamStats2023ZambiaCensus; @ZIMSTAT2023ZimbabweCensus; @NSOMalawi2019Census; @INEMozambique2019RGPH; @Wagenaar2018DevelopingRepresentative]. Removal of `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records and overlapping district fragments left `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations (Figure \ref{fig:hero-postcolonial-sc}).
+
+Strict spatial-scope tagging distinguishes `r viscount_fmt_number(n_city_proper, 0L)` city-proper settlements from `r viscount_fmt_number(n_metro, 0L)` metropolitan agglomerations, namely Lubumbashi, Lusaka, Maputo, Harare, Lilongwe, Blantyre, Bulawayo, Francistown and the two remaining cross-border agglomerations, preventing municipal cores and suburban satellites from being double-counted during spatial gridding [@Mottelson2023UrbanDensity; @Jorge2014ProcessosDinamicas; @Muzondi2014UrbanizationAnd]. For example, Maputo city proper held 1,09M inhabitants in 2007AD and 1,08M in 2017AD inside fixed municipal limits, whereas adjacent Matola expanded from 424,7k in 1997AD to 1,03M in 2017AD, lifting the wider Maputo agglomeration to 2,98M by 2025AD [@INEMozambique2019RGPH; @Mottelson2023UrbanDensity; @Biza2025SanitaryCivility]. Likewise, Harare's municipal boundary held 1,49M in 2022AD while extra-municipal Chitungwiza (371,2k) and Epworth (206,4k) absorbed much of the capital's growth within the 2,92M Harare agglomeration [@ZIMSTAT2023ZimbabweCensus; @Muzondi2014UrbanizationAnd].
+
+## Matérn Residual Kriging and Pycnophylactic Disaggregation
+
+Because urban agglomerations and gazetted towns capture roughly half of regional inhabitants by 2025AD (Figure \ref{fig:trends}A), continuous rural population surfaces are reconstructed across all `r viscount_fmt_number(total_pixels, 0L)` cells via non-stationary Matérn residual kriging paired with mass-conserving pycnophylactic disaggregation across historical provincial and district census tables [@Runfola2020GeoBoundaries; @Wagenaar2018DevelopingRepresentative]. Historical administrative tables span colonial 1960AD-1969AD divisions (such as Zambia's pre-Muchinga provinces and Zimbabwe's 7 Rhodesian provinces including Victoria and Mashonaland North and South) alongside post-1997AD provincial and district boundaries across all four states [@ZamStats2023ZambiaCensus; @ZIMSTAT2023ZimbabweCensus; @NSOMalawi2019Census; @INEMozambique2019RGPH].
+
+Where census counts were disrupted by war or delayed enumeration, notably across rural Mozambique during the 1980s and early 1990s or in post-2017AD Cabo Delgado, sub-national survey denominators, refugee return records and satellite settlement frames guide spatial allocation without imposing uniform provincial growth multipliers [@Wagenaar2018DevelopingRepresentative; @Bank2021MozambiqueNorthern; @Hayford2011UncertainFuture; @Li2026SimilarLong]. Heritage and protected monument coordinates in Zimbabwe and neighbouring plateaus are incorporated into non-residential buffer masks so uninhabited parks and archaeological reserves are not assigned false urban spillover [@NMMZ2022ZimbabweSites].
+
+# Testing and Validation
+
+## Census Reconciliation and Administrative Lineage Coverage
+
+Cross-checking the settlement ledger against national and borderland jurisdictions demonstrates broad coverage across all four core states and six adjacent frontier buffers (Table \ref{tab:jurisdictions}). Mozambique accounts for 317 settlements and 1.065 observations (32,3% of ledger observations), Malawi contributes 184 settlements and 603 observations, Zambia 127 settlements and 616 observations, and Zimbabwe 86 settlements and 487 observations. Another 124 settlements (529 observations) sit along immediate border corridors in Tanzania, South Africa, the Democratic Republic of the Congo (anchored by Lubumbashi at 3,92M agglomeration population in 2025AD), Botswana, eSwatini and Namibia, eliminating edge cliffs during spatial interpolation [@Runfola2020GeoBoundaries; @Bank2022ZambiaUrbanization].
+
+```{r tab2-jurisdictions, results='asis'}
+jcov <- summary_cache$wave_saturation_stats$jurisdiction_coverage
+j_names <- names(jcov)
+j_counts <- vapply(j_names, function (nm) as.integer(jcov[[nm]]$settlements), integer(1))
+j_ord <- j_names[order(-j_counts, j_names)]
+j_rows <- lapply(j_ord, function (nm) {
+  rec <- jcov[[nm]]
+  disp_nm <- if (identical(nm, "United Republic of Tanzania")) "Tanzania" else nm
+  data.frame(
+    Jurisdiction = disp_nm,
+    Settlements = viscount_fmt_number(rec$settlements, 0L),
+    `City Proper` = viscount_fmt_number(rec$city_proper, 0L),
+    Metro = viscount_fmt_number(rec$metro, 0L),
+    Observations = viscount_fmt_number(rec$observations, 0L),
+    `Obs. Share (%)` = viscount_fmt_number(100 * as.numeric(rec$observations) / n_obs_total, 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_j <- data.frame(
+  Jurisdiction = "Total Ledger",
+  Settlements = viscount_fmt_number(n_total_sites, 0L),
+  `City Proper` = viscount_fmt_number(n_city_proper, 0L),
+  Metro = viscount_fmt_number(n_metro, 0L),
+  Observations = viscount_fmt_number(n_obs_total, 0L),
+  `Obs. Share (%)` = "100",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t2 <- rbind(do.call(rbind, j_rows), tot_j)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Settlement and chronological observation coverage by modern jurisdiction across the four core states and six border buffers.",
+  arg3_options = list(label = "tab:jurisdictions")
+)
+```
+
+Sub-administrative census totals reconcile closely across the 12 official benchmark snapshots stored in the regional archive: Mozambique grew from 6,60M across 9 provinces in 1960AD to 15,28M in 1997AD and 26,90M in 2017AD across 11 provincial units [@INEMozambique2019RGPH]; Malawi climbed from 4,04M in 1966AD to 9,93M in 1998AD and 19,81M in 2023AD [@NSOMalawi2019Census]; Zambia rose from 4,06M across 9 provinces in 1969AD to 9,89M in 2000AD and 19,69M in 2022AD across 10 provinces [@ZamStats2023ZambiaCensus]; and Zimbabwe expanded from 5,04M across 7 colonial provinces in 1969AD to 11,63M in 2002AD and 15,18M in 2022AD across 10 provinces [@ZIMSTAT2023ZimbabweCensus]. Maternal mortality and fertility cross-checks in Zambia and Mozambique confirm that census-derived denominators track survey series closely once wartime under-enumeration and rural recall lags are taken into account [@Banda2015RuralUrban; @Li2026SimilarLong; @Singh2022ComparisonApproaches].
+
+## Settlement Rank-Size Calibration and Urban Primacy
+
+Rank-size testing across the 838 assessed settlements shows close conformity to a balanced Zipf hierarchy rather than extreme single-city macrocephaly. Across the upper fitted sample (n=180), ordinary least-squares regression gives a slope of $q = 1,04$ ($R^2 = 0,98$), while full-sample regression across all 838 sites yields $q = 1,06$ ($R^2 = 0,97$). Figure \ref{fig:rank-size} plots the 766 spatially deduplicated urban peaks ($q = 0,98$, $R^2 = 0,99$) alongside the ten densest administrative divisions in 2025AD.
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Rank-size distribution across 766 spatially deduplicated settlements (q = 0,98, R² = 0,99) and top ten sub-regional densities in 2025AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Four metropolitan systems anchor the upper tier between 2,9M and 3,9M inhabitants: Lubumbashi on the Congolese border (3,92M), Lusaka (3,23M), Maputo (2,98M) and Harare (2,92M). Immediately below them sit Lilongwe (1,38M) and Blantyre (1,31M) agglomerations, followed by Nampula (1,04M), Kitwe (816,3k), Cidade da Beira (803,9k), Ndola (683,7k) and Bulawayo (666k city proper) [@Bank2022ZambiaUrbanization; @Bank2021MozambiqueNorthern; @ZIMSTAT2023ZimbabweCensus]. The steep drop beyond rank 600 in Figure \ref{fig:rank-size}A marks the 10k-inhabitant urban agglomeration threshold where small district centres transition into dispersed rural settlements [@Wagenaar2018DevelopingRepresentative]. In Figure \ref{fig:rank-size}B, metropolitan city-provinces Harare (2.010 persons per km²) and Bulawayo (909 persons per km²) stand above Malawi's rural-and-urban Southern (283 persons per km²) and Central (251 persons per km²) regions, Lusaka Province (143 persons per km²) and Maputo (113 persons per km²).
+
+# Results
+
+## Regional Trajectory and Country Shares (1964AD to 2025AD)
+
+Aggregate population across the 33 administrative divisions expanded fivefold from `r viscount_fmt_pop(headline_vals[["1964"]])` in 1964AD to `r viscount_fmt_pop(headline_vals[["1983"]])` in 1983AD, `r viscount_fmt_pop(headline_vals[["2002"]])` in 2002AD and `r viscount_fmt_pop(headline_vals[["2025"]])` in 2025AD (Table \ref{tab:country-trajectory} and Figure \ref{fig:trends}). Over the same span, active attested settlements in the regional gazetteer rose nearly tenfold from `r viscount_fmt_number(n_active[["1964"]], 0L)` in 1964AD to `r viscount_fmt_number(n_active[["1992"]], 0L)` in 1992AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` in 2025AD (Figure \ref{fig:trends}B), while attested urban inhabitants climbed above 45M as rural-to-urban migration accelerated after 1990AD (Figure \ref{fig:trends}A).
+
+```{r tab3-country-trajectory, results='asis'}
+c_rows <- lapply(names(country_ids), function (cname) {
+  ids <- country_ids[[cname]]
+  data.frame(
+    Country = cname,
+    `1964AD` = viscount_fmt_pop(country_sum_at(ids, "1964")),
+    `1973AD` = viscount_fmt_pop(country_sum_at(ids, "1973")),
+    `1983AD` = viscount_fmt_pop(country_sum_at(ids, "1983")),
+    `1992AD` = viscount_fmt_pop(country_sum_at(ids, "1992")),
+    `2002AD` = viscount_fmt_pop(country_sum_at(ids, "2002")),
+    `2011AD` = viscount_fmt_pop(country_sum_at(ids, "2011")),
+    `2025AD` = viscount_fmt_pop(country_sum_at(ids, "2025")),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_c <- data.frame(
+  Country = "Regional Total (33 divisions)",
+  `1964AD` = viscount_fmt_pop(headline_vals[["1964"]]),
+  `1973AD` = viscount_fmt_pop(headline_vals[["1973"]]),
+  `1983AD` = viscount_fmt_pop(headline_vals[["1983"]]),
+  `1992AD` = viscount_fmt_pop(headline_vals[["1992"]]),
+  `2002AD` = viscount_fmt_pop(headline_vals[["2002"]]),
+  `2011AD` = viscount_fmt_pop(headline_vals[["2011"]]),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(do.call(rbind, c_rows), tot_c)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Country-level and total regional population trajectories across seven benchmark years from 1964AD to 2025AD.",
+  arg3_options = list(label = "tab:country-trajectory")
+)
+```
+
+National trajectories diverged sharply after 1980AD. Zimbabwe rose fastest during the late colonial and early post-independence years, jumping from 3,37M in 1964AD to 7,60M in 1983AD and 11,65M in 2002AD before decelerating to 15,90M in 2025AD, shrinking its regional share from 23,7% in 2002AD to 17,5% in 2025AD [@ZIMSTAT2023ZimbabweCensus]. By contrast, Zambia grew nearly sevenfold from 3,26M in 1964AD to 21,73M in 2025AD, Malawi rose more than fivefold from 3,79M to 20,79M, and Mozambique recovered from slow wartime growth between 1973AD (9,44M) and 1992AD (13,16M) to reach 32,61M by 2025AD [@ZamStats2023ZambiaCensus; @NSOMalawi2019Census; @INEMozambique2019RGPH].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and urban population trajectories, active settlement counts and leading urban centres across South-Central Africa and Mozambique (1964AD to 2025AD).",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Zambia: Copperbelt Reversal and Lusaka Primacy
+
+Zambia's post-colonial demography turned on the rise, crisis and partial recovery of copper mining alongside sustained rural-urban fertility gradients [@Bank2022ZambiaUrbanization; @Wotela2025UsingCensus]. At independence in October 1964, Zambia's 3,26M inhabitants were concentrated along the Copperbelt (`r viscount_fmt_pop(sub_by_id[["zmb_copperbelt"]]$population[["1964"]])`), Eastern (`r viscount_fmt_pop(sub_by_id[["zmb_eastern"]]$population[["1964"]])`) and Southern (`r viscount_fmt_pop(sub_by_id[["zmb_southern"]]$population[["1964"]])`) provinces, while Lusaka held only 93,7k provincial residents (132k in the urban municipality). Rapid post-independence industrial investment and lifted colonial movement controls initially pulled migrants into Kitwe (107,8k in 1960AD to 266,3k in 1980AD), Ndola (88,2k to 281,3k), Chingola (50,2k to 130,9k), Mufulira (74,1k to 135,5k) and Luanshya (71,2k to 110,9k) [@ZamStats2023ZambiaCensus; @Bank2022ZambiaUrbanization].
+
+The 1975AD copper price crash reversed that trajectory across the older mining towns. Between 1980AD and 2000AD, Mufulira contracted from 135,5k to 122,3k, Chingola stalled from 130,9k to 147,4k and Luanshya hovered near 115,6k as mine layoffs triggered temporary counter-urbanisation toward Central, Eastern and Northern farming districts [@Bank2022ZambiaUrbanization]. Lusaka, by contrast, never stalled: anchored by government administration, wholesale trade and services, the capital expanded from 536k in 1980AD to 1,08M in 2000AD and 2,21M in the 2022AD ZamStats census (3,23M agglomeration by 2025AD), pushing Lusaka Province from 93,7k in 1964AD to 3,37M in 2025AD [@ZamStats2023ZambiaCensus; @Bank2022ZambiaUrbanization].
+
+Fertility and mortality data from successive censuses and the 2007AD ZDHS explain why overall Zambian growth remained brisk despite Copperbelt stagnation [@Wotela2025UsingCensus; @Chola2016ExaminingUnderlying]. While urban Lusaka and Copperbelt households initiated fertility decline in the 1980s through female schooling and delayed marriage, rural provinces such as Northern, Luapula, Eastern and Muchinga sustained total fertility above five to six births per woman well into the 2000s, even as maternal and pregnancy-related mortality remained markedly higher in rural districts than in towns [@Wotela2025UsingCensus; @Chola2016ExaminingUnderlying; @Banda2015RuralUrban]. After 2005AD, renewed copper investment in North-Western Province (Solwezi and Kansanshi) and the 2011AD creation of Muchinga Province reshaped northern growth, carrying Zambia to 21,73M inhabitants by 2025AD [@ZamStats2023ZambiaCensus].
+
+## Zimbabwe: Fertility Transition, HIV Mortality and Hyperinflation Emigration
+
+Zimbabwe's demographic curve between 1964AD and 2025AD comprises three distinct regimes: late-colonial and early-independence expansion, rapid fertility decline coupled with severe HIV mortality, and hyperinflation-era emigration after 2000AD [@ZIMSTAT2023ZimbabweCensus; @Wekwete2014TheAssociation]. From 3,37M in 1964AD, population climbed to 7,60M by 1983AD and 11,65M by 2002AD. Expanded primary healthcare, girls' education and family-planning access after 1980AD drove one of the earliest sustained fertility transitions in continental Sub-Saharan Africa, bringing total fertility down well ahead of Zambia or Malawi [@ZIMSTAT2023ZimbabweCensus; @Wekwete2014TheAssociation].
+
+That fertility drop collided in the 1990s with a severe HIV/AIDS epidemic and, after 2000AD, hyperinflation and economic contraction. National growth slowed sharply between 2002AD (11,65M) and 2011AD (12,93M) as elevated adult mortality and large-scale labour emigration toward South Africa, Botswana and the United Kingdom removed prime working-age cohorts [@ZIMSTAT2023ZimbabweCensus]. Urban trajectories reflect both demographic shock and boundary effects: Harare city proper grew from 226k in 1960AD to 1,19M in 1992AD and 1,44M in 2002AD, then virtually plateaued at 1,49M in both 2012AD and 2022AD [@ZIMSTAT2023ZimbabweCensus; @Muzondi2014UrbanizationAnd]. Bulawayo similarly peaked at 676,7k in 2002AD before dipping to 653,3k in 2012AD and recovering only to 666k in 2022AD, reflecting industrial decline in Matabeleland and out-migration across the Limpopo [@ZIMSTAT2023ZimbabweCensus].
+
+Population expansion around Harare did not cease; rather, it spilled beyond municipal borders into high-density dormitories where water and sanitation infrastructure lagged behind household formation [@Muzondi2014UrbanizationAnd]. Chitungwiza grew from 172,6k in 1982AD to 371,2k in 2022AD, while Epworth nearly doubled from 114,1k in 2002AD to 206,4k in 2022AD, lifting the functional Harare agglomeration to 2,92M by 2025AD [@ZIMSTAT2023ZimbabweCensus; @Muzondi2014UrbanizationAnd]. Provincial series in the 1992AD benchmark also register boundary re-allocations around Mashonaland East, Harare and Matabeleland North prior to full stabilisation under the 2002AD-2022AD provincial frame [@ZIMSTAT2023ZimbabweCensus; @Runfola2020GeoBoundaries].
+
+## Malawi: Shire Highlands Hyper-Density and the Lilongwe Shift
+
+Malawi stands apart from its three larger neighbours as an overwhelmingly rural, smallholder-dense society whose population multiplied 5,5-fold on a territory of just 95.200 km² [@NSOMalawi2019Census]. From 3,79M inhabitants in 1964AD (39,8 persons per km²), Malawi climbed to 6,90M in 1983AD, 11,07M in 2002AD and 20,79M in 2025AD, reaching 218,35 persons per km² nationally [@NSOMalawi2019Census]. Density remains concentrated in the Southern Region (1,93M in 1964AD to 9,18M in 2025AD, or 282,79 persons per km²) and Central Region (1,38M to 8,98M, or 250,72 persons per km²), where Shire Highlands and Lilongwe plain districts such as Dedza sustain intensive maize and legume cultivation on shrinking family plots [@NSOMalawi2019Census; @Maviko2025ImpactSustainable]. Northern Region remained less crowded (472,7k in 1964AD to 2,64M in 2025AD, 97,79 persons per km²), anchored by Mzuzu (10,7k in 1970AD to 221,3k in 2018AD and 307,1k by 2025AD).
+
+At the household level, Malawi's rapid expansion reflects persistently high rural fertility moderated only gradually by female schooling, contraceptive diffusion and digital communication networks, alongside kinship-based child fostering to cushion HIV mortality and agricultural income shocks [@Billari2020MobilePhones; @Bachan2014AnticipatoryChild; @Maviko2025ImpactSustainable]. Longitudinal evidence from the Malawi Longitudinal Study of Families and Health demonstrates that mobile-phone connectivity accelerated fertility reduction among educated women while leaving remote rural households with higher desired family sizes [@Billari2020MobilePhones]. Anticipatory fostering of orphans and nieces across extended kin networks similarly buffered rural-urban dependency ratios during the height of the 1990s-2000s AIDS crisis [@Bachan2014AnticipatoryChild].
+
+Urbanisation in Malawi remained comparatively low in share but underwent a decisive geographical pivot after 1975AD when Lilongwe replaced Zomba as the national capital [@NSOMalawi2019Census]. In 1977AD, commercial Blantyre (222,2k) more than doubled administrative Lilongwe (102,9k). Over the next four decades, state employment, agricultural trade and peri-urban settlements propelled Lilongwe past Blantyre: by the 2018AD census, Lilongwe city proper reached 989,3k against Blantyre's 800,3k (1,16M versus 871,8k in 2023AD official estimates), and by 2025AD the Lilongwe agglomeration stood at 1,38M ahead of Blantyre's 1,31M while former colonial capital Zomba sat at 116,8k city proper in 2023AD [@NSOMalawi2019Census].
+
+## Mozambique: Civil War Displacement, Coastal Corridors and Cabo Delgado
+
+Mozambique's demographic history from 1964AD to 2025AD falls into three contrasting phases: late-colonial decolonisation, the 1977AD-1992AD civil war and post-1992AD reconstruction alongside renewed northern insurgency [@INEMozambique2019RGPH; @Hayford2011UncertainFuture; @Bank2021MozambiqueNorthern]. Between 1964AD and 1973AD, total population rose from 7,38M to 9,44M under late Portuguese rule. The abrupt departure of Portuguese settlers around 1974AD-1975AD—captured in individual return-migration histories from Maputo—temporarily depressed southern urban counts, before sixteen years of civil war devastated rural Gaza, Inhambane, Manica, Sofala, Zambézia and Tete [@Cachado2012TransnacionalidadeHistoria; @Hayford2011UncertainFuture]. Across war-torn central and southern provinces, millions fled rural villages into fortified towns, Maputo's peri-urban periphery and refugee camps in Malawi, Zimbabwe and South Africa: Manica fell from 1,05M in 1969AD to 642,2k in 1983AD, and Maputo Province dropped from 758,1k to 549,7k before refugee concentration and post-war growth lifted it back to 704,9k in 1992AD and 2,60M by 2025AD [@INEMozambique2019RGPH; @Jorge2014ProcessosDinamicas; @Maida2025MigracaoDesenvolvimento].
+
+Following the 1992AD peace accord, Mozambican population growth accelerated sharply from 13,16M in 1992AD to 16,45M in 2002AD, 21,43M in 2011AD and 32,61M in 2025AD, sustained by high rural fertility—documented in Gaza surveys showing cautious, non-numeric reproductive spacing—and declining infant and maternal mortality despite measurement gaps between censuses and civil registration [@Hayford2011UncertainFuture; @Li2026SimilarLong; @Singh2022ComparisonApproaches]. Demographically, northern provinces carried the largest share of absolute expansion: Nampula climbed from 1,55M in 1964AD to 7,07M in 2025AD (89,90 persons per km²) and Zambézia from 1,51M to 6,17M (60,43 persons per km²), together accounting for 40,6% of Mozambique's 2025AD inhabitants [@INEMozambique2019RGPH].
+
+Urban growth followed coastal ports and transport hubs where informal densification outpaced municipal planning [@Mottelson2023UrbanDensity; @Biza2025SanitaryCivility; @Shannon2018SustainableUrbanization]. Greater Maputo grew to 2,98M in 2025AD as high-density informal neighbourhoods expanded across Matola (1,03M by 2017AD) and peri-urban corridors hosting both internal and foreign migrants [@Mottelson2023UrbanDensity; @Jorge2014ProcessosDinamicas; @Maida2025MigracaoDesenvolvimento; @Cachado2012TransnacionalidadeHistoria]. In the centre, Cidade da Beira reached 803,9k in 2025AD despite severe tidal flooding and resettlement disputes exacerbated by Cyclone Idai in March 2019 [@Shannon2018SustainableUrbanization; @Wagenaar2018DevelopingRepresentative], while Chimoio rose to 476,3k, Tete to 468,2k and Quelimane to 253,8k. In the north, Nampula crossed 1,04M in 2025AD, while post-2017AD armed conflict in Cabo Delgado displaced coastal communities into Pemba (200,5k in 2017AD to 321,6k in 2025AD) and inland Montepuez (96,9k in 2015AD to 171,8k in 2025AD) [@Bank2021MozambiqueNorthern; @INEMozambique2019RGPH].
+
+## Leading Urban Agglomerations and City-Proper Hierarchies
+
+Table \ref{tab:top-centres} lists the 15 largest settlement entries in the chapter ledger, retaining both metropolitan agglomerations and underlying city-proper municipalities so readers can track municipal boundary spillover directly. Lusaka, Maputo and Harare sit tightly clustered around 3M inhabitants as agglomerations, whereas Nampula, Kitwe, Beira, Ndola and Bulawayo form a strong second tier between 650k and 1,05M [@Bank2022ZambiaUrbanization; @Bank2021MozambiqueNorthern; @ZIMSTAT2023ZimbabweCensus].
+
+```{r tab4-top-centres, results='asis'}
+top_15 <- summary_cache$top_settlements[seq_len(min(15L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_15, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_15, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "Democratic Republic of the Congo")) "DR Congo" else c
+  }, character(1)),
+  Scope = vapply(top_15, function (s) {
+    if (identical(s$population_scope, "metro")) "Metro" else "City"
+  }, character(1)),
+  Span = vapply(top_15, function (s) {
+    paste0(s$min_year, "AD-", s$max_year, "AD")
+  }, character(1)),
+  `Peak Pop.` = vapply(top_15, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_15, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_15, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Fifteen largest individually assessed settlement entries in the South-Central Africa and Mozambique ledger (1964AD to 2025AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Three structural constraints affect post-colonial demographic reconstruction in this region. First, conflict and political transition disrupted civil registration and census continuity. Mozambique had no national enumeration between 1980AD and 1997AD, while post-2017AD insurgency displacement in Cabo Delgado and cyclone disruption around Beira created rapid short-term population shifts between official census rounds [@INEMozambique2019RGPH; @Bank2021MozambiqueNorthern; @Shannon2018SustainableUrbanization; @Wagenaar2018DevelopingRepresentative]. Incomplete vital registration across rural Zambia and Mozambique likewise leaves adult and maternal mortality trajectories reliant on retrospective census questions and sample surveys [@Banda2015RuralUrban; @Li2026SimilarLong; @Singh2022ComparisonApproaches].
+
+Second, administrative boundary reforms and fixed municipal limits complicate provincial and urban continuity. Zimbabwe's 1992AD provincial subdivisions around Harare, Bulawayo, Mashonaland East and Matabeleland North, as well as Zambia's 2011AD separation of Muchinga from Northern Province, introduce step shifts in historical Admin-1 baselines that must be harmonised against modern polygons [@ZamStats2023ZambiaCensus; @ZIMSTAT2023ZimbabweCensus; @Runfola2020GeoBoundaries]. Similarly, municipal freezing in Harare and Maputo masks rapid demographic expansion in extra-municipal satellites such as Chitungwiza, Epworth and Matola [@Muzondi2014UrbanizationAnd; @Jorge2014ProcessosDinamicas; @Mottelson2023UrbanDensity], while 128 of the 838 ledger entries hold single-date observations.
+
+Third, circular labour migration and economic flight across international borders remain imperfectly captured between decennial censuses. Unenumerated movements from Zimbabwe into South Africa and Botswana during the 2000s hyperinflation crisis, Mozambican refugee flows into Malawi and South Africa during the 1980s, and transnational return migration into Maputo appear in survey micro-studies rather than annual border registers [@Maida2025MigracaoDesenvolvimento; @Cachado2012TransnacionalidadeHistoria; @Wekwete2014TheAssociation; @Bachan2014AnticipatoryChild].
+
+# Conclusion
+
+Across six decades from 1964AD to 2025AD, Zambia, Zimbabwe, Malawi and Mozambique expanded from `r viscount_fmt_pop(headline_vals[["1964"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])` inhabitants, raising regional population density from `r viscount_fmt_number(headline_vals[["1964"]] / total_area_km2, 2L)` to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons per km². Rather than following a single post-colonial growth path, the four countries diverged sharply: Zambia shifted from early Copperbelt mining towns to Lusaka capital primacy after 1975AD; Zimbabwe combined early fertility transition with 1990s HIV mortality, 2000s economic emigration and stalled municipal cores; Malawi compounded extreme rural density across its Southern and Central highlands while pivoting urban administration from Blantyre to Lilongwe; and Mozambique recovered from sixteen years of devastating civil war to drive rapid urban growth along its southern, central and northern coastal corridors despite renewed conflict in Cabo Delgado. By harmonising `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements with official census series across 33 administrative divisions, NICETHI provides a continuous quantitative record of post-colonial demographic change across South-Central Africa and Mozambique.
+
+# Appendix
+
+## Sub-Regional Population, Density and Share Series
+
+Tables \ref{tab:subregion-trajectory}, \ref{tab:density-appendix} and \ref{tab:shares-appendix} report full benchmark trajectories, mean population densities in persons per km² and percentage shares of regional total across all 33 first-level administrative divisions from 1964AD to 2025AD.
+
+```{r tab5-subregion-trajectory, results='asis'}
+df_t5 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) clean_sub_name(sub_by_id[[id]]$name), character(1)),
+  `1964AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1964"]]), character(1)),
+  `1978AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1978"]]), character(1)),
+  `1992AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1992"]]), character(1)),
+  `2002AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["2002"]]), character(1)),
+  `2011AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["2011"]]), character(1)),
+  `2025AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["2025"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+app_yrs <- c("1964", "1978", "1992", "2002", "2011", "2025")
+app_tot <- vapply(app_yrs, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+names(app_tot) <- app_yrs
+tot_row_t5 <- data.frame(
+  Subregion = "Total Study Area",
+  `1964AD` = viscount_fmt_pop(app_tot[["1964"]]),
+  `1978AD` = viscount_fmt_pop(app_tot[["1978"]]),
+  `1992AD` = viscount_fmt_pop(app_tot[["1992"]]),
+  `2002AD` = viscount_fmt_pop(app_tot[["2002"]]),
+  `2011AD` = viscount_fmt_pop(app_tot[["2011"]]),
+  `2025AD` = viscount_fmt_pop(app_tot[["2025"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(df_t5, tot_row_t5)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Sub-regional and total population trajectories across all 33 administrative divisions from 1964AD to 2025AD.",
+  arg3_options = list(label = "tab:subregion-trajectory")
+)
+```
+
+```{r tab6-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = clean_sub_name(sr$name),
+    `1964AD` = viscount_fmt_number(as.numeric(ps[["1964"]]) / ar, 1L),
+    `1978AD` = viscount_fmt_number(as.numeric(ps[["1978"]]) / ar, 1L),
+    `1992AD` = viscount_fmt_number(as.numeric(ps[["1992"]]) / ar, 1L),
+    `2002AD` = viscount_fmt_number(as.numeric(ps[["2002"]]) / ar, 1L),
+    `2011AD` = viscount_fmt_number(as.numeric(ps[["2011"]]) / ar, 1L),
+    `2025AD` = viscount_fmt_number(as.numeric(ps[["2025"]]) / ar, 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1964AD` = viscount_fmt_number(app_tot[["1964"]] / total_area_km2, 1L),
+  `1978AD` = viscount_fmt_number(app_tot[["1978"]] / total_area_km2, 1L),
+  `1992AD` = viscount_fmt_number(app_tot[["1992"]] / total_area_km2, 1L),
+  `2002AD` = viscount_fmt_number(app_tot[["2002"]] / total_area_km2, 1L),
+  `2011AD` = viscount_fmt_number(app_tot[["2011"]] / total_area_km2, 1L),
+  `2025AD` = viscount_fmt_number(app_tot[["2025"]] / total_area_km2, 1L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t6 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Mean population density (persons per km²) across all 33 administrative divisions from 1964AD to 2025AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab7-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = clean_sub_name(sr$name),
+    `1964AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1964"]]) / app_tot[["1964"]], 1L),
+    `1978AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1978"]]) / app_tot[["1978"]], 1L),
+    `1992AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1992"]]) / app_tot[["1992"]], 1L),
+    `2002AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["2002"]]) / app_tot[["2002"]], 1L),
+    `2011AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["2011"]]) / app_tot[["2011"]], 1L),
+    `2025AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["2025"]]) / app_tot[["2025"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t7 <- do.call(rbind, share_rows)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Percentage share of regional population by administrative division across six benchmark years from 1964AD to 2025AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+## Official Census Admin-1 Benchmarks and Boundary Lineage
+
+Table \ref{tab:census-adm1} compiles the first-level administrative enumerations from the 12 national benchmark tables stored in the regional archive across Mozambique, Malawi, Zambia and Zimbabwe, documenting boundary continuity from late colonial censuses through contemporary post-2017AD counts [@INEMozambique2019RGPH; @NSOMalawi2019Census; @ZamStats2023ZambiaCensus; @ZIMSTAT2023ZimbabweCensus].
+
+```{r tab8-census-adm1, results='asis'}
+adm1_rows <- list()
+for (tbl in summary_cache$subadmin_benchmark_tables) {
+  adm1_units <- Filter(function (u) identical(u$admin_level, "ADM1"), tbl$units)
+  if (length(adm1_units) == 0L) next
+  adm1_sum <- sum(vapply(adm1_units, function (u) as.numeric(u$population), numeric(1)))
+  adm1_rows[[length(adm1_rows) + 1L]] <- data.frame(
+    Country = as.character(tbl$polity_code),
+    Census = paste0(tbl$year, "AD"),
+    `Admin-1 Units` = viscount_fmt_number(length(adm1_units), 0L),
+    `Enumerated Pop.` = viscount_fmt_pop(adm1_sum),
+    Source = as.character(tbl$primary_source),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}
+df_t8 <- do.call(rbind, adm1_rows)
+rownames(df_t8) <- NULL
+viscount_table(
+  df_t8,
+  "National first-level administrative census benchmark totals used for pycnophylactic disaggregation (1960AD to 2023AD).",
+  arg3_options = list(label = "tab:census-adm1")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Of the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements in the regional gazetteer, 762 fall strictly inside the 33 five-arcminute administrative sub-regions while 76 border-buffer entries sit along adjacent frontier zones in DR Congo, Tanzania, South Africa, Botswana, eSwatini and Namibia; all 838 entries are catalogued in the companion gazetteer. Maputo City and Maputo Province are combined into one spatial polygon at five-arcminute resolution in Table \ref{tab:subregions} while remaining distinct in Table \ref{tab:census-adm1} and the settlement gazetteer.

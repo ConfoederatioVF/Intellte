@@ -1,0 +1,341 @@
+---
+title: "Early Islamic Caliphate (AD 632-1000)"
+subtitle: "Settlement Gazetteer and Urban Hierarchy, 632AD to 1000AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: early_islamic_caliphate_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_early_islamic_caliphate_spatial.png"
+hero_caption: "Spatial distribution of 56.360 individually assessed settlements across ten regions of the Early Islamic Caliphate and neighbouring Byzantine Anatolia between 632AD and 1000AD."
+hero_label: "fig:hero-early-islamic-caliphate-settlements"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("early_islamic_caliphate_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("early_islamic_caliphate_settlements.json", simplifyVector = FALSE)
+all_entries <- unname(settlements_raw)
+
+fmt_eu_coord <- function (arg0_val) {
+  viscount_fmt_number(as.numeric(arg0_val), 2L)
+}
+
+fmt_eu_dec <- function (arg0_val, arg1_digits = 2L) {
+  viscount_fmt_number(arg0_val, arg1_digits)
+}
+
+fmt_eu_int <- function (arg0_val) {
+  formatC(as.integer(round(as.numeric(arg0_val))), format = "d", big.mark = ".")
+}
+
+get_pop_val <- function (arg0_entry, arg1_yr) {
+  pop_list <- arg0_entry$population
+  if (is.null(pop_list) || length(pop_list) == 0L) return(NA_real_)
+  yr_key <- as.character(arg1_yr)
+  if (!is.null(pop_list[[yr_key]]) && length(pop_list[[yr_key]]) > 0L) {
+    return(as.numeric(pop_list[[yr_key]]))
+  }
+  yrs <- as.numeric(names(pop_list))
+  vals <- as.numeric(unlist(pop_list, use.names = FALSE))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  yr_num <- as.numeric(arg1_yr)
+  if (length(yrs) >= 2L && yr_num >= yrs[1L] && yr_num <= yrs[length(yrs)]) {
+    return(as.numeric(stats::approx(x = yrs, y = vals, xout = yr_num)$y))
+  }
+  NA_real_
+}
+
+calc_gazetteer_stats <- function (arg0_entries, arg1_yr) {
+  vals <- vapply(arg0_entries, function (e) get_pop_val(e, arg1_yr), numeric(1))
+  active <- vals[!is.na(vals) & vals > 0]
+  list(
+    n_active = length(active),
+    total_pop = sum(active),
+    mean_pop = if (length(active) > 0L) mean(active) else 0
+  )
+}
+
+n_jurisdictions <- length(unique(vapply(all_entries, function (e) as.character(e$country), character(1))))
+n_candidates <- as.integer(summary_cache$ledger_included) + as.integer(summary_cache$ledger_excluded)
+gs_632 <- calc_gazetteer_stats(all_entries, "632")
+gs_750 <- calc_gazetteer_stats(all_entries, "750")
+gs_850 <- calc_gazetteer_stats(all_entries, "850")
+gs_1000 <- calc_gazetteer_stats(all_entries, "1000")
+
+fmt_cell_pop <- function (arg0_entry, arg1_yr) {
+  v <- get_pop_val(arg0_entry, arg1_yr)
+  if (is.na(v) || v <= 0) return("-")
+  viscount_fmt_pop(v)
+}
+
+get_span_label <- function (arg0_entry) {
+  yrs <- sort(as.integer(names(arg0_entry$population)))
+  if (length(yrs) == 0) return("-")
+  paste0(yrs[1], "-", yrs[length(yrs)], "AD")
+}
+
+classify_gazetteer_zone <- function (arg0_entry) {
+  cn <- as.character(arg0_entry$country)
+  if (cn == "Iraq") return(1L)
+  if (cn %in% c("Syria", "Israel", "Jordan", "Lebanon", "Cyprus", "Palestine")) return(2L)
+  if (cn == "Egypt") return(3L)
+  if (cn %in% c("Iran", "Afghanistan")) return(4L)
+  if (cn %in% c("Turkey", "Georgia", "Azerbaijan", "Armenia")) return(5L)
+  return(6L)
+}
+
+zone_ids <- vapply(all_entries, classify_gazetteer_zone, integer(1))
+zone_lists <- lapply(1:6, function (z) {
+  sub_e <- all_entries[zone_ids == z]
+  ord <- order(
+    -vapply(sub_e, function (e) max(unlist(e$population)), numeric(1)),
+    vapply(sub_e, function (e) as.character(e$name), character(1))
+  )
+  sub_e[ord]
+})
+
+build_zone_df <- function (arg0_list) {
+  df <- do.call(rbind, lapply(arg0_list, function (e) {
+    c_str <- paste0(
+      fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]),
+      " (", get_span_label(e), ")"
+    )
+    data.frame(
+      `Settlement` = as.character(e$name),
+      `Jurisdiction` = as.character(e$country),
+      `Coords & Span` = c_str,
+      `632AD` = fmt_cell_pop(e, "632"),
+      `850AD` = fmt_cell_pop(e, "850"),
+      `1000AD` = fmt_cell_pop(e, "1000"),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  }))
+  rownames(df) <- NULL
+  df
+}
+```
+
+# Abstract
+
+This gazetteer compiles individually assessed population series for `r fmt_eu_int(length(all_entries))` urban centres, garrison foundations (*amsar*), fortified towns (*kastra*) and caravan hubs across `r fmt_eu_int(n_jurisdictions)` modern national jurisdictions from 632AD to 1000AD. Vetted from `r fmt_eu_int(n_candidates)` evaluated candidates after excluding `r fmt_eu_int(summary_cache$ledger_excluded)` unquantified minor scatters, subordinate suburbs, duplicate aliases and architectural fragments, the dataset tracks `r fmt_eu_int(gs_632$n_active)` active centres housing `r viscount_fmt_pop(gs_632$total_pop)` inhabitants in 632AD, `r fmt_eu_int(gs_750$n_active)` active centres housing `r viscount_fmt_pop(gs_750$total_pop)` in 750AD, `r fmt_eu_int(gs_850$n_active)` active centres housing `r viscount_fmt_pop(gs_850$total_pop)` at the 850AD Abbasid zenith and `r fmt_eu_int(gs_1000$n_active)` centres housing `r viscount_fmt_pop(gs_1000$total_pop)` in 1000AD ($\alpha = `r fmt_eu_dec(summary_cache$zipf_alpha, 2)`$, $R^2 = `r fmt_eu_dec(summary_cache$zipf_r2, 2)`$). Grouped into six geographic divisions covering Iraq and al-Jazira, Bilad al-Sham and Cyprus, Egypt, Iran and Afghanistan, Byzantine Anatolia and Caucasia, and North Africa with the Arabian Peninsula, the tables show how Rashidun garrison foundations (Basra, Kufa, Fustat, Kairouan), Umayyad regional capitals (Shiraz, Wasit, Ramla) and Abbasid river metropolises (Baghdad, Samarra, Raqqa) reshaped older Late Antique urban networks without extinguishing classical Mediterranean or Iranian oasis cities [@Nol2023Arab; @Bessard2018Politics; @ALJabri2023Developmen; @Bosworth2007Historic].
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_early_islamic_caliphate_spatial.png",
+    "Spatial distribution of 56.360 individually assessed settlements across ten regions of the Early Islamic Caliphate and neighbouring Byzantine Anatolia between 632AD and 1000AD.",
+    "fig:hero-early-islamic-caliphate-settlements"
+  )
+}
+```
+
+# Background
+
+Urbanism across the Early Islamic Caliphate and its Byzantine and Caucasian frontiers was neither a sterile preservation of Hellenistic civic geometry nor an abrupt collapse into nomadic pasture. Between 632AD and 1000AD, old Roman, Byzantine and Sassanid cities coexisted with planned Muslim foundations whose street grids, congregational mosques, *suq* market halls and waterworks answered fiscal and military imperatives [@Allahham2025Untold; @Yassin2012Architectu; @Bessard2018Politics]. In Iraq and Egypt, the Rashidun conquests immediately generated purpose-built garrison camps (*amsar*) at Basra (638AD), Kufa (638AD) and Fustat (641AD), followed in Ifriqiya by Kairouan (670AD) [@Nol2023Arab; @ALJabri2023Developmen; @Bosworth2007Historic]. Positioned along navigable river margins or desert-steppe interfaces where tribal cavalry could assemble without billeting inside existing civic quarters, these camps quickly grew into permanent craft and trading cities sustained by *kharaj* grain and silver stipends [@Yuksel2024Mecca; @Isoldi2026Confluent].
+
+Under the Umayyad caliphs (661AD to 750AD), planned foundations multiplied across Syria, Palestine, Fars and lower Mesopotamia. Governors laid out Shiraz (693AD) and Wasit (702AD) as military-administrative capitals, while Sulayman ibn Abd al-Malik established al-Ramla (c. 715AD) as the provincial capital of Jund Filastin, displacing coastal Caesarea without erasing inland market towns such as Tiberias, Amman and Damascus [@Nol2021Defining; @Stern2025Mamluk; @Ali2026Dimensions]. The Abbasid transfer of the seat of power to Iraq in 750AD shifted metropolitan gravity east again. Al-Mansur's Round City of Baghdad (762AD) and al-Mu'tasim's palace-garrison belt at Samarra (836AD) towered over the Tigris corridor, supported by the dense canal networks of the Sawad [@ALJabri2023Developmen; @Wahhab2024Decorative]. Further east, Tahirid, Samanid and Buyid patronage turned Rayy, Nishapur, Isfahan, Shiraz, Balkh and Herat into high-density *qanat*-fed manufacturing metropolises on the Silk Roads [@Saatsaz2023Technology; @Lu2023Connected; @Michailidis2014Dynastic]. Meanwhile, in Byzantine Anatolia, seventh-century raids compressed open *poleis* into fortified hilltop *kastra* such as Amorium, Ancyra, Ephesus and Caesarea before ninth- and tenth-century frontier stability renewed provincial towns [@Coleman2021Poleis; @Bakirtzis2023Introducin; @Navruz2024Historical].
+
+# Methodology
+
+The `r fmt_eu_int(length(all_entries))` individually assessed settlement entries tabulated here represent the vetted urban core of `r fmt_eu_int(n_candidates)` candidate records evaluated for HANDBOOK between 632AD and 1000AD. Out of `r fmt_eu_int(n_candidates)` candidates, `r fmt_eu_int(summary_cache$ledger_excluded)` were excluded prior to tabulation to prevent spatial double counting and eliminate unquantified minor scatters, subordinate suburbs merged into metropolitan cores, duplicate aliases and non-settlement architectural fragments. Each retained settlement was assessed on a case-by-case basis by harmonising excavated walled and suburban footprints, period urban densities, *diwan* troop registers and early Islamic geographical treatises (al-Ya'qubi, al-Istakhri, Ibn Hawqal, al-Muqaddasi) with enriched historical and archaeological registers—including the Al-Thurayya Early Islamic Gazetteer, DARMC Mediaeval Major Towns, Euratlas, late-antique continuity anchors from the OXREP Roman Cities Database (Hanson 2016), the Egypt Exploration Society (EES) Delta Survey, the Near East Holocene Urban Settlement Database (Palmisano et al. 2021), From Villages to Empires (Titolo and Palmisano 2025), NERD and C-Turkey—alongside primary morphological and archaeological literature [@Nol2021Defining; @Mokranova2025Material; @Mitchell2021Church], with foundation chronologies and historical toponyms cross-checked against Bosworth's urban reference volume [@Bosworth2007Historic] strictly as a supplemental gazetteer.
+
+Settlement names preserve clean Latin transliteration, while modern national jurisdictions follow current boundaries across `r fmt_eu_int(n_jurisdictions)` states to allow direct comparison with modern geoBoundaries subadministrative units [@Runfola2020GeoBoundaries]. Coordinates are reported in decimal degrees (European comma notation) alongside each site's active chronological span inside the 632AD to 1000AD window. Benchmark population columns report 632AD (the Prophet's death), 850AD (the Abbasid zenith) and 1000AD (the turn of the millennium), linearly interpolating between a city's bracketing documented turning points where individual dated observations fall on intermediate years; periods before foundation are marked with a hyphen (-).
+
+# Testing and Validation
+
+Across the `r fmt_eu_int(length(all_entries))` individually assessed settlements, log-log rank-size regression yields a Zipf exponent $\alpha = `r fmt_eu_dec(summary_cache$zipf_alpha, 2)`$ ($R^2 = `r fmt_eu_dec(summary_cache$zipf_r2, 2)`$), displayed in Figure \ref{fig:settlements-gazetteer}. Mean settlement size shifts from `r fmt_eu_int(gs_632$mean_pop)` inhabitants across `r fmt_eu_int(gs_632$n_active)` active centres in 632AD to `r fmt_eu_int(gs_750$mean_pop)` across `r fmt_eu_int(gs_750$n_active)` centres in 750AD, `r fmt_eu_int(gs_850$mean_pop)` across `r fmt_eu_int(gs_850$n_active)` centres at the 850AD Abbasid zenith and `r fmt_eu_int(gs_1000$mean_pop)` across `r fmt_eu_int(gs_1000$n_active)` centres in 1000AD as lower Iraqi metropolises contracted while Iranian, Egyptian and Maghribi cities and regional itinerary towns expanded. At the top of the distribution sits Baghdad (peaking at 695k in 900AD after its 762AD foundation), followed by Rayy (194k), Samarra (178k in 860AD, founded 836AD), Fustat (174k), Basra (168k), Nishapur (156k), Al-Mada'in (145k), Alexandria (142k), Kufa (132k), Isfahan (132k), Damascus (126k) and Kairouan (124k), producing a strongly structured polycentric rank-size gradient free of artificial tier ceilings.
+
+```{r fig4-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_early_islamic_caliphate_settlements.png",
+  "Rank-size distribution across 56.360 individually assessed settlements and peak populations of the twelve highest-ranked urban centres.",
+  "fig:settlements-gazetteer"
+)
+```
+
+# Results
+
+## Al-Iraq and Al-Jazira
+
+Table \ref{tab:zone1-iraq} lists all `r length(zone_lists[[1]])` individually assessed settlements within modern Iraq, spanning the Rashidun *amsar* of Basra and Kufa, Umayyad Wasit, Abbasid Baghdad and Samarra, and surviving Late Antique and early Islamic Tigris-Euphrates centres including Al-Mada'in, Mosul, Tikrit, Al-Anbar and Nahrawan [@ALJabri2023Developmen; @Wahhab2024Decorative; @Yuksel2024Mecca].
+
+```{r table-zone1, results='asis'}
+df_z1 <- build_zone_df(zone_lists[[1]])
+viscount_table(
+  df_z1,
+  paste0("Individually assessed settlements in Al-Iraq and Al-Jazira (", length(zone_lists[[1]]), " centres) from 632AD to 1000AD."),
+  c("Settlement", "Jurisdiction", "Coords & Span", "632AD", "850AD", "1000AD"),
+  list(label = "tab:zone1-iraq")
+)
+```
+
+## Bilad al-Sham and Cyprus
+
+Table \ref{tab:zone2-sham} records `r length(zone_lists[[2]])` individually assessed settlements across Syria, Israel, Jordan, Lebanon, Cyprus and Palestine, including Umayyad Damascus, Raqqa, Aleppo (*Halab*), Ramla, Jerusalem, Tyre, Tripoli, Tiberias, Amman and Cypriot Nicosia and Constantia, reflecting dense urban-rural commercial continuity across the Levant [@Bessard2018Politics; @Nol2021Defining; @Mokranova2025Material; @Stern2025Mamluk].
+
+```{r table-zone2, results='asis'}
+df_z2 <- build_zone_df(zone_lists[[2]])
+viscount_table(
+  df_z2,
+  paste0("Individually assessed settlements in Bilad al-Sham and Cyprus (", length(zone_lists[[2]]), " centres across six modern jurisdictions) from 632AD to 1000AD."),
+  c("Settlement", "Jurisdiction", "Coords & Span", "632AD", "850AD", "1000AD"),
+  list(label = "tab:zone2-sham")
+)
+```
+
+## Misr (Early Islamic Egypt)
+
+Table \ref{tab:zone3-misr} compiles `r length(zone_lists[[3]])` individually assessed centres along the Nile Valley, the Fayyum depression and the Delta, led by Fustat, Alexandria (*al-Iskandariyya*), Fatimid Al-Qahira (founded 969AD) and Tinnis alongside Damietta, Asyut, Al-Faiyum, Aswan, Akhmim, Qus, Al-Ashmunayn and Al-Farama documented in Marwanid fiscal papyri and Delta surveys [@Maghraby2025Arab; @Isoldi2026Confluent; @Nol2023Arab].
+
+```{r table-zone3, results='asis'}
+df_z3 <- build_zone_df(zone_lists[[3]])
+viscount_table(
+  df_z3,
+  paste0("Individually assessed settlements in Misr (", length(zone_lists[[3]]), " centres across the Nile Valley, Fayyum and Delta) from 632AD to 1000AD."),
+  c("Settlement", "Jurisdiction", "Coords & Span", "632AD", "850AD", "1000AD"),
+  list(label = "tab:zone3-misr")
+)
+```
+
+## Iran, Khorasan and Afghanistan
+
+Table \ref{tab:zone4-iran} covers `r length(zone_lists[[4]])` individually assessed settlements across Iran and Afghanistan, including Rayy, Nishapur, Isfahan, Shiraz, Hamadan, Jurjan, Ahvaz, Ardabil, Siraf, Tus, Qom and Qazvin in Iran alongside Balkh, Herat, Zaranj, Ghazni, Bust and Kabul in Afghanistan, anchoring *qanat*-irrigated oasis agriculture and Silk Road craft manufacture [@Saatsaz2023Technology; @Lu2023Connected; @Michailidis2014Dynastic; @Spooner2019Epilogue].
+
+```{r table-zone4, results='asis'}
+df_z4 <- build_zone_df(zone_lists[[4]])
+viscount_table(
+  df_z4,
+  paste0("Individually assessed settlements across Iran, Khorasan and Afghanistan (", length(zone_lists[[4]]), " centres) from 632AD to 1000AD."),
+  c("Settlement", "Jurisdiction", "Coords & Span", "632AD", "850AD", "1000AD"),
+  list(label = "tab:zone4-iran")
+)
+```
+
+## Byzantine Anatolia and Caucasia
+
+Table \ref{tab:zone5-anatolia} enumerates `r length(zone_lists[[5]])` individually assessed centres across Turkey, Georgia, Azerbaijan and Armenia, spanning Byzantine provincial metropolises and *Thughur* border cities (Antioch, Tarsus, Amid, Trebizond, Nicaea, Harran, Mayyafariqin, Malatya, Amorium, Ephesus, Caesarea, Attaleia, Ancyra, Iconium) alongside Transcaucasian capitals and trade hubs (Barda, Ani, Dvin, Tbilisi, Ganja, Shamakhi, Kars and Kutaisi) [@Coleman2021Poleis; @Mitchell2021Church; @Bakirtzis2023Introducin; @Ozbal2026Diet].
+
+```{r table-zone5, results='asis'}
+df_z5 <- build_zone_df(zone_lists[[5]])
+viscount_table(
+  df_z5,
+  paste0("Individually assessed settlements across Byzantine Anatolia and Caucasia (", length(zone_lists[[5]]), " centres) from 632AD to 1000AD."),
+  c("Settlement", "Jurisdiction", "Coords & Span", "632AD", "850AD", "1000AD"),
+  list(label = "tab:zone5-anatolia")
+)
+```
+
+## North Africa and the Arabian Peninsula
+
+Table \ref{tab:zone6-maghrib-arabia} lists `r length(zone_lists[[6]])` individually assessed settlements across Tunisia, Libya, Algeria, Morocco, Saudi Arabia, Yemen, Oman and Bahrain, linking Kairouan, Fez, Tunis, Carthage, Al-Mahdiyya, Tahert, Tripoli, Sousse, Tlemcen and Sabta with Sohar, Medina, Sanaa, Mecca, Al-Hasa, Zabid, Aden and Omani *falaj* oasis centres [@Yuksel2024Mecca; @Biezeveld2025Quantifyin; @Bosworth2007Historic].
+
+```{r table-zone6, results='asis'}
+df_z6 <- build_zone_df(zone_lists[[6]])
+viscount_table(
+  df_z6,
+  paste0("Individually assessed settlements across North Africa and the Arabian Peninsula (", length(zone_lists[[6]]), " centres) from 632AD to 1000AD."),
+  c("Settlement", "Jurisdiction", "Coords & Span", "632AD", "850AD", "1000AD"),
+  list(label = "tab:zone6-maghrib-arabia")
+)
+```
+
+# Limitations
+
+Three constraints qualify individual settlement entries in this gazetteer. First, metropolitan population trajectories carry genuine archaeological uncertainty - particularly for sprawling multi-quarter capitals such as Abbasid Baghdad (peaking at 695k in 900AD across roughly 7.000 ha of discontinuous urban and garden districts), Samarra (178k in 860AD), Rayy (194k), Fustat (174k) and Nishapur (156k) - where residential housing densities varied widely between dense urban cores and outer *rabad* suburbs [@ALJabri2023Developmen; @Bosworth2007Historic]. Second, the vetted gazetteer restricts tabulation to `r fmt_eu_int(length(all_entries))` individually documented urban centres, regional capitals and itinerary towns supported by archaeological area measurements, itinerary registers or historical tax assessments (excluding `r fmt_eu_int(summary_cache$ledger_excluded)` unquantified minor scatters, merged suburbs, duplicate aliases and non-settlement architectural fragments), leaving smaller unquantified rural hamlets to the continuous Matérn kriging surface rather than discrete table rows. Third, where individual cities experienced dated foundation or crisis turning points between canonical regional benchmarks (such as Samarra's 836AD foundation and 860AD peak, Damascus's 745AD Umayyad peak or Amorium's 838AD sack), table columns at 750AD and 850AD linearly interpolate between bracketing documented observations.
+
+# Conclusion
+
+Taken together, the `r fmt_eu_int(length(all_entries))` individually assessed settlements demonstrate a strongly structured, polycentric urban hierarchy ($\alpha = `r fmt_eu_dec(summary_cache$zipf_alpha, 2)`$, $R^2 = `r fmt_eu_dec(summary_cache$zipf_r2, 2)`$) across the Early Islamic world and Byzantine Anatolia between 632AD and 1000AD. Active urban centres expanded from `r fmt_eu_int(gs_632$n_active)` cities housing `r viscount_fmt_pop(gs_632$total_pop)` inhabitants in 632AD to `r fmt_eu_int(gs_850$n_active)` centres housing `r viscount_fmt_pop(gs_850$total_pop)` at the 850AD Abbasid zenith and `r fmt_eu_int(gs_1000$n_active)` centres housing `r viscount_fmt_pop(gs_1000$total_pop)` by 1000AD, driven by the seventh-century *amsar* wave, Umayyad foundation towns, Abbasid metropolitan growth at Baghdad and Samarra and resilient oasis urbanisation across Iran, Khurasan, Egypt and the Maghrib.
+
+# Appendix
+
+Table \ref{tab:gazetteer-summary} aggregates site counts and combined urban populations across the six geographic divisions at 632AD, 750AD, 850AD and 1000AD.
+
+```{r table-appendix-summary, results='asis'}
+zone_names <- c(
+  "1. Al-Iraq and Al-Jazira",
+  "2. Bilad al-Sham and Cyprus",
+  "3. Misr (Egypt)",
+  "4. Iran, Khorasan and Afghanistan",
+  "5. Byzantine Anatolia and Caucasia",
+  "6. North Africa and Arabia"
+)
+
+sum_df <- do.call(rbind, lapply(seq_along(zone_names), function (idx) {
+  sub_e <- zone_lists[[idx]]
+  s_yr <- function (yr) {
+    vals <- vapply(sub_e, function (e) {
+      v <- get_pop_val(e, yr)
+      if (is.na(v)) 0 else v
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }
+  data.frame(
+    `Division` = zone_names[idx],
+    `Sites` = fmt_eu_int(length(sub_e)),
+    `632AD` = s_yr("632"),
+    `750AD` = s_yr("750"),
+    `850AD` = s_yr("850"),
+    `1000AD` = s_yr("1000"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+
+tot_yr <- function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    v <- get_pop_val(e, yr)
+    if (is.na(v)) 0 else v
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}
+
+tot_row <- data.frame(
+  `Division` = "Total Assessed Domain",
+  `Sites` = fmt_eu_int(length(all_entries)),
+  `632AD` = tot_yr("632"),
+  `750AD` = tot_yr("750"),
+  `850AD` = tot_yr("850"),
+  `1000AD` = tot_yr("1000"),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+sum_df <- rbind(sum_df, tot_row)
+rownames(sum_df) <- NULL
+viscount_table(
+  sum_df,
+  "Summary of individually assessed settlements and aggregate urban populations across six geographic divisions from 632AD to 1000AD.",
+  c("Division", "Sites", "632AD", "750AD", "850AD", "1000AD"),
+  list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

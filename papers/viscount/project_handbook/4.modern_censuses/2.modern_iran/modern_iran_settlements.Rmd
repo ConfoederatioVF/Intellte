@@ -1,0 +1,404 @@
+---
+title: "Iran after 1925"
+subtitle: "Settlement Gazetteer of 26.392 Iranian Cities and Villages, 1925AD to 2026AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: modern_iran_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_modern_iran_spatial.png"
+hero_caption: "Spatial distribution of 26.392 catalogued SCI Iranian cities and villages across 31 ostans from 1925AD to 2026AD, contrasting metropolitan corridors against plateau oases."
+hero_label: "fig:hero-modern-iran"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+iran_setts <- jsonlite::fromJSON("modern_iran_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("modern_iran_summary_cache.json", simplifyVector = FALSE)
+subreg_gj <- jsonlite::fromJSON("../../_shared/_gis_cache/chapter_subregions/modern_iran_subregions.geojson", simplifyVector = FALSE)
+
+point_in_ring <- function (lon, lat, ring) {
+  n <- length(ring)
+  if (n < 3L) return(FALSE)
+  inside <- FALSE
+  j <- n
+  for (i in seq_len(n)) {
+    xi <- as.numeric(ring[[i]][[1]])
+    yi <- as.numeric(ring[[i]][[2]])
+    xj <- as.numeric(ring[[j]][[1]])
+    yj <- as.numeric(ring[[j]][[2]])
+    if (((yi > lat) != (yj > lat)) && (lon < (xj - xi) * (lat - yi) / ((yj - yi) + 1e-15) + xi)) {
+      inside <- !inside
+    }
+    j <- i
+  }
+  inside
+}
+
+ostan_polys <- lapply(subreg_gj$features, function (feat) {
+  g <- feat$geometry
+  rings <- if (identical(g$type, "Polygon")) {
+    list(g$coordinates[[1]])
+  } else {
+    lapply(g$coordinates, function (poly) poly[[1]])
+  }
+  xs <- unlist(lapply(rings, function (rg) sapply(rg, function (pt) as.numeric(pt[[1]]))))
+  ys <- unlist(lapply(rings, function (rg) sapply(rg, function (pt) as.numeric(pt[[2]]))))
+  list(
+    name = as.character(feat$properties$name),
+    rings = rings,
+    cx = mean(xs),
+    cy = mean(ys)
+  )
+})
+
+assign_ostan <- function (lat, lon) {
+  for (op in ostan_polys) {
+    for (rg in op$rings) {
+      if (point_in_ring(lon, lat, rg)) return(op$name)
+    }
+  }
+  dists <- sapply(ostan_polys, function (op) (op$cy - lat)^2 + (op$cx - lon)^2)
+  ostan_polys[[which.min(dists)]]$name
+}
+
+belt_lookup <- list(
+  "Tehran" = "Tehran, Alborz and Central Core",
+  "Alborz" = "Tehran, Alborz and Central Core",
+  "Qom" = "Tehran, Alborz and Central Core",
+  "Qazvin" = "Tehran, Alborz and Central Core",
+  "Markazi" = "Tehran, Alborz and Central Core",
+  "Semnan" = "Tehran, Alborz and Central Core",
+  "Gilan" = "Caspian Littoral",
+  "Mazandaran" = "Caspian Littoral",
+  "Golestan" = "Caspian Littoral",
+  "East Azarbaijan" = "Northwestern Azarbaijan and Zagros",
+  "West Azarbaijan" = "Northwestern Azarbaijan and Zagros",
+  "Ardebil" = "Northwestern Azarbaijan and Zagros",
+  "Zanjan" = "Northwestern Azarbaijan and Zagros",
+  "Kordestan" = "Northwestern Azarbaijan and Zagros",
+  "Kermanshah" = "Northwestern Azarbaijan and Zagros",
+  "Hamadan" = "Northwestern Azarbaijan and Zagros",
+  "Lorestan" = "Northwestern Azarbaijan and Zagros",
+  "Ilam" = "Northwestern Azarbaijan and Zagros",
+  "Khuzestan" = "Khuzestan and Persian Gulf Littoral",
+  "Bushehr" = "Khuzestan and Persian Gulf Littoral",
+  "Hormozgan" = "Khuzestan and Persian Gulf Littoral",
+  "Esfahan" = "Central Plateau and Fars",
+  "Fars" = "Central Plateau and Fars",
+  "Yazd" = "Central Plateau and Fars",
+  "Kerman" = "Central Plateau and Fars",
+  "Chahar Mahall and Bakhtiari" = "Central Plateau and Fars",
+  "Kohgiluyeh and Buyer Ahmad" = "Central Plateau and Fars",
+  "Razavi Khorasan" = "Khorasan and Southeastern Frontier",
+  "North Khorasan" = "Khorasan and Southeastern Frontier",
+  "South Khorasan" = "Khorasan and Southeastern Frontier",
+  "Sistan and Baluchestan" = "Khorasan and Southeastern Frontier"
+)
+
+get_pop_num <- function (entry, yr_s) {
+  v <- entry$population[[yr_s]]
+  if (is.null(v)) return(NA_real_)
+  as.numeric(v)
+}
+
+fmt_pop_cell <- function (val) {
+  if (is.na(val) || val <= 0) return("-")
+  viscount_fmt_pop(val)
+}
+
+fmt_coords_cell <- function (coords) {
+  paste0(
+    viscount_fmt_number(as.numeric(coords[[1]]), 2L),
+    ", ",
+    viscount_fmt_number(as.numeric(coords[[2]]), 2L)
+  )
+}
+
+sett_records <- lapply(iran_setts, function (e) {
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  ost <- assign_ostan(lat, lon)
+  blt <- belt_lookup[[ost]]
+  if (is.null(blt)) blt <- "Central Plateau and Fars"
+  vals_num <- suppressWarnings(as.numeric(unlist(e$population)))
+  pk_val <- if (length(vals_num) > 0L) max(vals_num, na.rm = TRUE) else 0
+  list(
+    name = as.character(e$name),
+    ostan = ost,
+    belt = blt,
+    coords = e$coords,
+    p1925 = get_pop_num(e, "1925"),
+    p1996 = get_pop_num(e, "1996"),
+    p2016 = get_pop_num(e, "2016"),
+    p2025 = get_pop_num(e, "2025"),
+    peak = pk_val,
+    foundation_year = if (!is.null(e$foundation_year)) as.integer(e$foundation_year) else NA_integer_
+  )
+})
+
+belt_sum_field <- function (belt_name, field_name) {
+  sub <- Filter(function (r) identical(r$belt, belt_name), sett_records)
+  sum(vapply(sub, function (r) {
+    v <- r[[field_name]]
+    if (is.na(v)) 0 else v
+  }, numeric(1)))
+}
+
+all_sum_field <- function (field_name) {
+  sum(vapply(sett_records, function (r) {
+    v <- r[[field_name]]
+    if (is.na(v)) 0 else v
+  }, numeric(1)))
+}
+
+build_belt_table <- function (belt_name, max_rows = 30L) {
+  sub <- Filter(function (r) identical(r$belt, belt_name), sett_records)
+  ord <- order(-vapply(sub, function (r) r$peak, numeric(1)))
+  sub <- head(sub[ord], max_rows)
+  rows <- lapply(sub, function (r) {
+    data.frame(
+      settlement = r$name,
+      ostan = r$ostan,
+      coords = fmt_coords_cell(r$coords),
+      y1925 = fmt_pop_cell(r$p1925),
+      y1996 = fmt_pop_cell(r$p1996),
+      y2025 = fmt_pop_cell(r$p2025),
+      peak = fmt_pop_cell(r$peak),
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+```
+
+```{=latex}
+\emergencystretch=1.5em
+```
+
+# Abstract
+
+Between 1925AD and 2025AD, Iran shifted from an overwhelmingly rural society of scattered oasis towns into a densely urbanised nation whose leading cities absorb the majority of the national population. Across all 26.392 Statistical Centre of Iran (SCI) cities, towns and enumerated rural villages catalogued in this gazetteer, documented census populations extend from major provincial metropolises down to rural settlements of 264–500 inhabitants, totalling `r viscount_fmt_pop(all_sum_field("p1925"))` across 1925AD urban baselines, `r viscount_fmt_pop(all_sum_field("p1996"))` in 1996AD, `r viscount_fmt_pop(all_sum_field("p2016"))` at the 2016AD census and `r viscount_fmt_pop(all_sum_field("p2025"))` across projected 2025AD municipal series (with a combined peak sum of `r viscount_fmt_pop(all_sum_field("peak"))`). By 2025AD, nine cities exceeded 1M residents - Tehrān (9,86M), Mashhad (3,4M), Eṣfahān (2,22M), Karaj (1,81M), Shīrāz (1,78M), Tabrīz (1,77M), Qom (1,36M), Ahvāz (1,34M) and Kermānshāh (1,07M) - alongside 19 centres above 500k, conforming to a tight rank-size hierarchy ($\alpha = 1{,}369$, $R^2 = 0{,}994$). Organised across 31 ostans and six geographical macro-belts via polygon containment, this gazetteer records coordinates, provincial assignments and benchmark populations across Iran's plateau capitals, industrial ports, Tehran dormitory satellites and rural village lattice.
+
+# Background
+
+When the Pahlavi state consolidated authority in 1925AD, Iran's urban hierarchy still bore the imprint of Qajar caravan routes and regional agrarian basins. Only Tehrān (252k), Tabrīz (212k), Mashhad (105k), Eṣfahān (96k) and Shīrāz (75k) formed substantial regional hubs, while most provincial towns served as small administrative bazaars of ten to fifty thousand inhabitants. Over the following century, centralising railway construction, Khuzestan petroleum extraction, post-1956AD mortality decline, the 1963AD White Revolution land reform and post-1973AD oil spending unleashed sustained rural-to-urban migration [@Annamoradnejad2024Influentia; @Danaei2019Iran].
+
+Urban growth accelerated further during the 1980-1988 Iran-Iraq War, when displaced households from Khoramshahr, Ābādān and border counties fled eastward and Afghan refugees settled heavily in Mashhad, Zāhedān, Qom and Tehran [@Annamoradnejad2024Influentia; @Erfani2011Fertility]. Even after Iran's rapid post-1989AD fertility transition lowered national population growth [@Simbar2012Achievemen; @Bank2010Fertility], urban expansion continued through peri-urban land subdivision, suburban housing estates and environmental displacement from drought-stricken agricultural basins around Lake Urmia and Khuzestan [@Berlin2018Drivers; @Hosseini2018Drivers; @Talebi2025Water].
+
+```{r fig1-md-only, echo=FALSE, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_modern_iran_spatial.png",
+    "Spatial distribution of 26.392 catalogued SCI Iranian cities and villages across 31 ostans from 1925AD to 2026AD, contrasting metropolitan corridors against plateau oases.",
+    "fig:hero-modern-iran"
+  )
+}
+```
+
+# Methodology
+
+This gazetteer compiles all 26.392 included Iranian cities, towns and enumerated villages from Statistical Centre of Iran (SCI) municipal and rural census tables covering 1956AD to 2016AD, supplemented by interwar urban registries (1940AD urban counts and Bharier 1930AD benchmarks) anchored to 1925AD and vital-registration projections to 2025AD [@Annamoradnejad2024Influentia; @Bahramnezhad2016Review]. During source-ledger auditing across 45.281 official SCI rows processed in bounds, duplicate-alias and co-located suburban entries were excluded, leaving 26.392 continuously reconciled localities extending down to a census floor of 264–500 inhabitants. Every settlement retains BGN/PCGN scholarly romanisation with macrons and underdots (*Tehrān*, *Eṣfahān*, *Shīrāz*, *Tabrīz*, *Orūmīyeh*, *Bandar-e 'Abās*), omitting Perso-Arabic script from printed tables to prevent missing-glyph artefacts in XeLaTeX.
+
+To prevent anachronistic back-projection on twentieth-century industrial towns, metropolitan satellites and recently incorporated municipalities, settlements with documented modern foundations enforce explicit foundation-year bounds—including Khoramshahr (1812AD), Ābādān (1909AD), Karaj (1920AD), Bandar-e Emām Khomeynī (1929AD), Shīrvān (1938AD), Bandar-e Māhshahr (1945AD), Shahrīār (1953AD), Eslāmshahr (1975AD), Qods (1989AD) and Balavah (2013AD). Each locality is dynamically assigned at runtime to its encompassing ostan among the 31 provincial vector boundaries via ray-casting point-in-polygon matching, harmonised with the 379 geoBoundaries second-order (*shahrestan*) census polygons [@Runfola2020GeoBoundaries]. For regional presentation, the 31 ostans are grouped into six geographical macro-belts: Tehran, Alborz and Central Core, Caspian Littoral, Northwestern Azarbaijan and Zagros, Khuzestan and Persian Gulf Littoral, Central Plateau and Fars, and Khorasan and Southeastern Frontier.
+
+# Testing and Validation
+
+Figure \ref{fig:modern-iran-settlements} evaluates the structural consistency of the 26.392-locality gazetteer via a log-log rank-size plot and a ranking of Iran's twelve largest cities. Across all 26.392 settlements (well above the n >= 25 sample threshold), ordinary least-squares regression of log population against log rank returns a Zipf slope of $\alpha = 1{,}369$ and $R^2 = 0{,}994$. This near-perfect log-linear fit reflects Iran's balanced multi-tiered settlement distribution linking Tehran's metropolitan primacy (9,86M vs 3,4M in Mashhad) through regional provincial capitals down to thousands of enumerated plateau, Caspian and Zagros villages [@Mousavi2025Introducin].
+
+```{r fig4-settlements, echo=FALSE, results='asis'}
+viscount_figure(
+  "figures/fig4_modern_iran_settlements.png",
+  "Rank-size distribution across 26.392 catalogued Iranian cities and villages and peak populations of the twelve leading centres in 2025AD.",
+  "fig:modern_iran_settlements"
+)
+```
+
+Coverage rises smoothly over the century as rural-to-urban migration, village enumeration and new satellite incorporation bring larger shares of Iran's population inside the catalogued census layer (`r viscount_fmt_pop(all_sum_field("p1925"))` in 1925AD, `r viscount_fmt_pop(all_sum_field("p1996"))` in 1996AD, `r viscount_fmt_pop(all_sum_field("p2016"))` in 2016AD and `r viscount_fmt_pop(all_sum_field("p2025"))` across projected 2025AD municipal trajectories). Provincial-level cross-checks against national mortality and urban-sprawl studies confirm that the sharpest post-1976AD municipal jumps occur precisely in the Tehran-Karaj-Qods commuter arc, northern Khorasan and Gulf port corridors [@Khosravi2007Differenti; @Mehriar2019Urban; @PARSIPOUR2019Cities].
+
+# Results
+
+Table \ref{tab:macro-summary} aggregates all 26.392 catalogued SCI cities and villages across Iran's six geographical macro-belts at 1925AD, 1996AD, 2016AD and 2025AD. The Central Core around Tehran, Alborz, Qom, Qazvin, Markazi and Semnan holds by far the largest urban mass (`r viscount_fmt_pop(belt_sum_field("Tehran, Alborz and Central Core", "p2025"))`), followed by the Northwestern Azarbaijan and Zagros belt (`r viscount_fmt_pop(belt_sum_field("Northwestern Azarbaijan and Zagros", "p2025"))`) and the Central Plateau and Fars (`r viscount_fmt_pop(belt_sum_field("Central Plateau and Fars", "p2025"))`).
+
+```{r table-macro-summary, echo=FALSE, results='asis'}
+belt_order <- c(
+  "Tehran, Alborz and Central Core",
+  "Caspian Littoral",
+  "Northwestern Azarbaijan and Zagros",
+  "Khuzestan and Persian Gulf Littoral",
+  "Central Plateau and Fars",
+  "Khorasan and Southeastern Frontier"
+)
+
+sum_rows <- lapply(belt_order, function (b) {
+  sub <- Filter(function (r) identical(r$belt, b), sett_records)
+  s25 <- sum(vapply(sub, function (r) ifelse(is.na(r$p1925), 0, r$p1925), numeric(1)))
+  s96 <- sum(vapply(sub, function (r) ifelse(is.na(r$p1996), 0, r$p1996), numeric(1)))
+  s16 <- sum(vapply(sub, function (r) ifelse(is.na(r$p2016), 0, r$p2016), numeric(1)))
+  s2025 <- sum(vapply(sub, function (r) ifelse(is.na(r$p2025), 0, r$p2025), numeric(1)))
+  ost_cnt <- length(unique(vapply(sub, function (r) r$ostan, character(1))))
+  data.frame(
+    belt = b,
+    ostans = as.character(ost_cnt),
+    localities = formatC(length(sub), format = "d", big.mark = "."),
+    y1925 = viscount_fmt_pop(s25),
+    y1996 = viscount_fmt_pop(s96),
+    y2016 = viscount_fmt_pop(s16),
+    y2025 = viscount_fmt_pop(s2025),
+    stringsAsFactors = FALSE
+  )
+})
+df_macro <- do.call(rbind, sum_rows)
+rownames(df_macro) <- NULL
+
+viscount_table(
+  df_macro,
+  "Distribution of all 26.392 catalogued SCI cities and villages across six Iranian geographical macro-belts at 1925AD, 1996AD, 2016AD and 2025AD.",
+  arg2_col_names = c("Macro-Belt", "Ostans", "Localities", "1925AD", "1996AD", "2016AD", "2025AD"),
+  arg3_options = list(label = "tab:macro-summary")
+)
+```
+
+## Tehran, Alborz and the Central Piedmont
+
+Spanning Tehran, Alborz, Qom, Qazvin, Markazi and Semnan, the central piedmont corridor (`r viscount_fmt_pop(belt_sum_field("Tehran, Alborz and Central Core", "p2025"))` in 2025AD municipal trajectories; Table \ref{tab:belt-central}) is Iran's metropolitan core. Beyond Tehrān (9,86M, up from 252k in 1925AD) and Qom (1,36M, up from 36,5k), its defining feature is explosive satellite suburbanisation west and south of the capital: Karaj surged from 4,2k in 1925AD and 14,5k in 1956AD to 1,81M, while Eslāmshahr (508,3k), Shahrīār (351,2k), Qods (351,2k), Malārd (318,8k) and Pākdasht absorb commuter overflow along highway corridors [@Berlin2018Drivers; @Erfani2015Family]. Industrial centres at Arāk (590,9k) and Qazvīn (456,8k) anchor the western flank toward the Zagros passes.
+
+```{r table-belt-central, echo=FALSE, results='asis'}
+viscount_table(
+  build_belt_table("Tehran, Alborz and Central Core"),
+  "Leading thirty catalogued settlements in Tehran, Alborz, Qom, Qazvin, Markazi and Semnan ostans, 1925AD to 2025AD.",
+  arg2_col_names = c("Settlement", "Ostan", "Coords", "1925AD", "1996AD", "2025AD", "Peak"),
+  arg3_options = list(label = "tab:belt-central")
+)
+```
+
+## Caspian Littoral
+
+Along the humid southern Caspian shelf of Gilan, Mazandaran and Golestan, catalogued cities and villages grew from `r viscount_fmt_pop(belt_sum_field("Caspian Littoral", "p1925"))` in 1925AD urban baselines to `r viscount_fmt_pop(belt_sum_field("Caspian Littoral", "p2016"))` at the 2016AD census and `r viscount_fmt_pop(belt_sum_field("Caspian Littoral", "p2025"))` across projected 2025AD urban trajectories (Table \ref{tab:belt-caspian}). Rasht (771,3k), Gorgān (397,8k) and Sārī (351,4k) lead an unusually dense network of agricultural market towns, ports (Bandar-e Anzalī), foothills hubs (Āmol, Bābol, Qā'em Shahr, Gonbad-e Kāvūs) and hundreds of enumerated Caspian rice villages where rapid rural electrification and highway paving turned formerly isolated hamlets into continuous linear ribbons [@SalehiIsfahani2026Rural; @Annamoradnejad2024Influentia].
+
+```{r table-belt-caspian, echo=FALSE, results='asis'}
+viscount_table(
+  build_belt_table("Caspian Littoral"),
+  "Leading thirty catalogued settlements across Gilan, Mazandaran and Golestan ostans along the Caspian littoral, 1925AD to 2025AD.",
+  arg2_col_names = c("Settlement", "Ostan", "Coords", "1925AD", "1996AD", "2025AD", "Peak"),
+  arg3_options = list(label = "tab:belt-caspian")
+)
+```
+
+## Northwestern Azarbaijan and Zagros Highlands
+
+Across East Azarbaijan, West Azarbaijan, Ardebil, Zanjan, Kordestan, Kermanshah, Hamadan, Lorestan and Ilam, catalogued cities and villages rose from `r viscount_fmt_pop(belt_sum_field("Northwestern Azarbaijan and Zagros", "p1925"))` in 1925AD urban baselines to `r viscount_fmt_pop(belt_sum_field("Northwestern Azarbaijan and Zagros", "p2016"))` in 2016AD and `r viscount_fmt_pop(belt_sum_field("Northwestern Azarbaijan and Zagros", "p2025"))` in 2025AD municipal trajectories (Table \ref{tab:belt-nw-zagros}). Regional growth concentrated heavily in provincial capitals - Tabrīz (1,77M), Kermānshāh (1,07M), Orūmīyeh (835,1k), Hamadān (628,9k), Ardabīl (600,5k), Zanjān (488,7k), Sanandaj (468,2k) and Khoram Ābād (423,6k) - as upland farmers left rain-fed villages squeezed by land fragmentation and ecological stress around Lake Urmia [@Talebi2025Water; @Lutz2010Demography].
+
+```{r table-belt-nw-zagros, echo=FALSE, results='asis'}
+viscount_table(
+  build_belt_table("Northwestern Azarbaijan and Zagros"),
+  "Leading thirty catalogued settlements in northwestern Azarbaijan and the northern Zagros highlands, 1925AD to 2025AD.",
+  arg2_col_names = c("Settlement", "Ostan", "Coords", "1925AD", "1996AD", "2025AD", "Peak"),
+  arg3_options = list(label = "tab:belt-nw-zagros")
+)
+```
+
+## Khuzestan and the Persian Gulf Littoral
+
+Khuzestan, Bushehr and Hormozgan encompass catalogued cities and villages expanding from `r viscount_fmt_pop(belt_sum_field("Khuzestan and Persian Gulf Littoral", "p1925"))` in 1925AD baselines to `r viscount_fmt_pop(belt_sum_field("Khuzestan and Persian Gulf Littoral", "p2016"))` in 2016AD and `r viscount_fmt_pop(belt_sum_field("Khuzestan and Persian Gulf Littoral", "p2025"))` in 2025AD municipal series (Table \ref{tab:belt-gulf}). Oil refining, maritime trade and post-1988AD reconstruction elevated Ahvāz (1,34M) and Bandar-e 'Abās (597,4k) far above early-century port levels, while Dezfūl (300,3k), Ābādān, Bushehr, Bandar-e Māhshahr and Khoramshahr record the demographic shock of the 1980-1988 war and subsequent petrochemical recovery [@Danaei2019Iran; @Talebi2025Water].
+
+```{r table-belt-gulf, echo=FALSE, results='asis'}
+viscount_table(
+  build_belt_table("Khuzestan and Persian Gulf Littoral"),
+  "Leading thirty catalogued settlements in Khuzestan, Bushehr and Hormozgan ostans, 1925AD to 2025AD.",
+  arg2_col_names = c("Settlement", "Ostan", "Coords", "1925AD", "1996AD", "2025AD", "Peak"),
+  arg3_options = list(label = "tab:belt-gulf")
+)
+```
+
+## Central Plateau and Fars
+
+Across Esfahan, Fars, Yazd, Kerman, Chahar Mahall and Bakhtiari and Kohgiluyeh and Buyer Ahmad, catalogued cities and villages climbed from `r viscount_fmt_pop(belt_sum_field("Central Plateau and Fars", "p1925"))` in 1925AD baselines to `r viscount_fmt_pop(belt_sum_field("Central Plateau and Fars", "p2016"))` in 2016AD and `r viscount_fmt_pop(belt_sum_field("Central Plateau and Fars", "p2025"))` in 2025AD municipal series (Table \ref{tab:belt-plateau-fars}). Eṣfahān (2,22M) and Shīrāz (1,78M) anchor major industrial and university conurbations surrounded by fast-growing satellites (Khomeynī Shahr, Najafābād, Shāhīn Shahr, Marvdasht), while oasis capitals at Kermān (609,9k), Yazd (600,8k) and Kāshān (345,4k) dominate central desert trade and manufacturing corridors [@Hosseini2018Drivers; @Shabahang2022Comparativ].
+
+```{r table-belt-plateau-fars, echo=FALSE, results='asis'}
+viscount_table(
+  build_belt_table("Central Plateau and Fars"),
+  "Leading thirty catalogued settlements across Esfahan, Fars, Yazd, Kerman, Chahar Mahall and Bakhtiari and Kohgiluyeh and Buyer Ahmad, 1925AD to 2025AD.",
+  arg2_col_names = c("Settlement", "Ostan", "Coords", "1925AD", "1996AD", "2025AD", "Peak"),
+  arg3_options = list(label = "tab:belt-plateau-fars")
+)
+```
+
+## Khorasan and the Southeastern Frontier
+
+Razavi Khorasan, North Khorasan, South Khorasan and Sistan and Baluchestan encompass catalogued cities and villages growing from `r viscount_fmt_pop(belt_sum_field("Khorasan and Southeastern Frontier", "p1925"))` in 1925AD baselines to `r viscount_fmt_pop(belt_sum_field("Khorasan and Southeastern Frontier", "p2016"))` in 2016AD and `r viscount_fmt_pop(belt_sum_field("Khorasan and Southeastern Frontier", "p2025"))` in 2025AD municipal series (Table \ref{tab:belt-khorasan-se}). Mashhad (3,4M) holds more than half the entire macro-belt's urban population, bolstered by religious pilgrimage, domestic migration and Afghan refugee settlement, while Zāhedān (666,7k), Neyshābūr, Sabzevār, Bojnūrd, Bīrjand and Chābahār structure Iran's eastern transit frontier [@PARSIPOUR2019Cities; @Danaei2019Iran].
+
+```{r table-belt-khorasan-se, echo=FALSE, results='asis'}
+viscount_table(
+  build_belt_table("Khorasan and Southeastern Frontier"),
+  "Leading thirty catalogued settlements in Razavi Khorasan, North Khorasan, South Khorasan and Sistan and Baluchestan, 1925AD to 2025AD.",
+  arg2_col_names = c("Settlement", "Ostan", "Coords", "1925AD", "1996AD", "2025AD", "Peak"),
+  arg3_options = list(label = "tab:belt-khorasan-se")
+)
+```
+
+# Limitations
+
+Three constraints govern this settlement gazetteer. First, municipal annexations periodically absorbed neighbouring villages into expanding city boundaries - notably around Tehran, Mashhad, Isfahan and Bojnurd [@PARSIPOUR2019Cities; @Berlin2018Drivers] - creating stepped jumps in census series that reflect administrative reclassification alongside organic migration. Second, whereas Iran's core cities carry continuous multi-decade trajectories anchored from 1925AD or 1956AD through 2025AD, the expanded rural-village layer drawn from SCI 2006AD, 2011AD and 2016AD village censuses carries recent census snapshots rather than synthetic pre-2006AD back-projections. Third, because Iran postponed its 2021AD national census, 2025AD municipal values represent civil-registration and urban-growth projections pending the next door-to-door enumeration.
+
+# Conclusion
+
+Iran's 26.392 catalogued SCI cities and villages document an extraordinary century of urban multiplication and rural-to-urban restructuring across all 31 ostans. While Tehrān (9,86M) and its western commuter belt (Karaj, Eslāmshahr, Shahrīār, Qods) remain Iran's undisputed metropolitan anchor, high-order regional capitals in Mashhad (3,4M), Eṣfahān (2,22M), Shīrāz (1,78M), Tabrīz (1,77M), Qom (1,36M) and Ahvāz (1,34M) alongside thousands of enumerated villages sustain a cohesive rank-size hierarchy ($\alpha = 1{,}369$, $R^2 = 0{,}994$) across the plateau's disparate ecological belts.
+
+# Appendix
+
+Table \ref{tab:foundation-years} documents the catalogued Iranian settlements governed by explicit foundation-year truncation bounds so that pre-foundation periods never carry synthetic urban totals.
+
+```{r table-foundation-years, echo=FALSE, results='asis'}
+fnd_sub <- Filter(function (r) !is.na(r$foundation_year), sett_records)
+fnd_ord <- order(vapply(fnd_sub, function (r) r$foundation_year, integer(1)))
+fnd_sub <- fnd_sub[fnd_ord]
+fnd_rows <- lapply(fnd_sub, function (r) {
+  data.frame(
+    settlement = r$name,
+    ostan = r$ostan,
+    foundation = paste0(r$foundation_year, "AD"),
+    y1996 = fmt_pop_cell(r$p1996),
+    y2016 = fmt_pop_cell(r$p2016),
+    y2025 = fmt_pop_cell(r$p2025),
+    stringsAsFactors = FALSE
+  )
+})
+df_fnd <- do.call(rbind, fnd_rows)
+rownames(df_fnd) <- NULL
+
+viscount_table(
+  df_fnd,
+  paste0("Iranian settlements carrying explicit historical foundation-year bounds in the gazetteer (", nrow(df_fnd), " sites)."),
+  arg2_col_names = c("Settlement", "Ostan", "Foundation", "1996AD", "2016AD", "2025AD"),
+  arg3_options = list(label = "tab:foundation-years")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

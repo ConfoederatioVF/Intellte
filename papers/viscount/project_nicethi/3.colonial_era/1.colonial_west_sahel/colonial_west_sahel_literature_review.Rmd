@@ -1,0 +1,486 @@
+---
+title: "Colonial West Africa and the Sahel"
+subtitle: "British, French, German, Portuguese Territories and Liberia (1880s-1975)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_west_sahel_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Fourteen colonial territories and 738 individually assessed settlements across West Africa and the Sahel between 1880AD and 1975AD."
+hero_label: "fig:hero-colonial-west-sahel"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("colonial_west_sahel_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("colonial_west_sahel_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+n_city_proper <- as.integer(summary_cache$population_scope_counts$city_proper)
+n_metro <- as.integer(summary_cache$population_scope_counts$metro)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("1880", "1900", "1930", "1950", "1960", "1975")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+subregion_order <- c(
+  "aof_senegal_mauritania",
+  "aof_french_sudan",
+  "aof_upper_volta_niger",
+  "aof_french_guinea",
+  "aof_cote_divoire",
+  "aof_dahomey",
+  "british_northern_nigeria",
+  "british_southern_nigeria_lagos",
+  "british_gold_coast",
+  "british_sierra_leone",
+  "british_gambia",
+  "togoland_mandate",
+  "portuguese_guinea",
+  "republic_of_liberia"
+)
+
+sub_tbls <- summary_cache$subadmin_benchmark_tables
+find_sub_tbl <- function (pcode, yr) {
+  for (tb in sub_tbls) {
+    if (identical(tb$polity_code, pcode) && identical(as.integer(tb$year), as.integer(yr))) return(tb)
+  }
+  NULL
+}
+```
+
+# Abstract
+
+Between the Berlin partition of the 1880s and the mid-1970s, colonial rule, railway construction, export agriculture and post-1945 public health campaigns reshaped the demography of West Africa and the Sahel. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning 17 modern countries, NICETHI reconstructs an aggregate regional population that rose from `r viscount_fmt_pop(headline_vals[["1880"]])` inhabitants in 1880AD to `r viscount_fmt_pop(headline_vals[["1900"]])` in 1900AD, `r viscount_fmt_pop(headline_vals[["1930"]])` in 1930AD, `r viscount_fmt_pop(headline_vals[["1950"]])` in 1950AD and `r viscount_fmt_pop(headline_vals[["1960"]])` in 1960AD before reaching `r viscount_fmt_pop(headline_vals[["1975"]])` by 1975AD, yielding a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth diverged sharply between coastal export belts and the arid interior. In British West Africa, Southern Nigeria and Lagos rose more than fivefold to `r viscount_fmt_pop(sub_by_id[["british_southern_nigeria_lagos"]]$end_pop)` (`r viscount_fmt_number(sub_by_id[["british_southern_nigeria_lagos"]]$end_density_km2, 2L)` persons/km²) and the Gold Coast expanded eightfold to `r viscount_fmt_pop(sub_by_id[["british_gold_coast"]]$end_pop)`, while Northern Nigeria grew from `r viscount_fmt_pop(sub_by_id[["british_northern_nigeria"]]$start_pop)` to `r viscount_fmt_pop(sub_by_id[["british_northern_nigeria"]]$end_pop)` despite severe 1913-1914 and 1968-1974 Sahelian droughts and the 1918-1919 influenza pandemic. Across French West Africa, railway termini and deep-water ports such as Dakar, Abidjan, Conakry and Cotonou drew seasonal labour from French Sudan, Upper Volta and Niger, while German and Mandate Togo, Portuguese Guinea, Sierra Leone, The Gambia and Liberia underwent parallel post-war urban acceleration. These trajectories rest on `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations, combined with non-stationary Matérn spatial interpolation and mass-conserving pycnophylactic disaggregation across colonial territorial and post-independence census divisions.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Fourteen colonial territories and 738 individually assessed settlements across West Africa and the Sahel between 1880AD and 1975AD.",
+    "fig:hero-colonial-west-sahel"
+  )
+}
+```
+
+# Background
+
+## Colonial Partition, Railways and Export Ecologies
+
+On the eve of European partition in 1880AD, West Africa and the Sahel remained predominantly rural, with population concentrated in the Yoruba and Igbo forest belts, the Hausa-Fulani Emirates of Sokoto, the Mossi plateau, Futa Jallon and the Wolof groundnut coast [@Services2013WritingHistory; @FrankemaJerven2014AfricanPop]. Between 1884AD and 1903AD, rival French, British, German and Portuguese expeditions drew borders across older political frontiers, creating the federation of Afrique Occidentale Française (AOF) across eight territories, four British jurisdictions (Nigeria, the Gold Coast, Sierra Leone and The Gambia), German Togoland (split in 1919AD into British and French League of Nations mandates), Portuguese Guinea and the independent Republic of Liberia [@Ittmann2010DemographicsEmpire; @Kuczynski1948DemographicSurvey1; @AOFAnnuaire1936].
+
+Colonial fiscal policy tethered demographic mobility to transport corridors and export crops [@Manchuelle1997WillingMigrants; @Adjepong2013StrangersAnd]. Where earlier caravan trade ran north-south across the Sahara, colonial railways ran inland from deep-water Atlantic ports: Dakar to Saint-Louis and Koulikoro on the Niger, Conakry to Kankan, Abidjan northward into Côte d'Ivoire and Upper Volta, Lomé into Togoland, Sekondi and Accra to Kumasi, and Lagos and Port Harcourt northward to Ibadan, Enugu, Kaduna and Kano [@AOFAnnuaire1936; @Cardinall1932GoldCoast]. Groundnuts in Senegal and The Gambia, cocoa in the Gold Coast, southern Nigeria and Côte d'Ivoire, palm oil in Dahomey and eastern Nigeria, rubber in Liberia and tin and coal mining on the Jos Plateau and around Enugu drew hundreds of thousands of seasonal and permanent migrants from interior savannas toward coastal cities and forest farms [@Manchuelle1997WillingMigrants; @Keese2016WolofSenegal; @Afaha2013MigrationRemittance].
+
+## Censuses, Epidemics and the Post-1945 Mortality Transition
+
+Early colonial population figures were administrative guesses built from hut-tax lists, head-tax rolls and district officers' tour diaries [@Kuczynski1948DemographicSurvey1; @Akinyoade2017CensusTaking]. In British territories, regular decennial enumerations began on the coast - Freetown in 1881AD, Accra and Lagos in 1881AD-1891AD and Bathurst in 1881AD - before expanding cautiously into the interior protectorates in 1911AD, 1921AD and 1931AD [@Kuczynski1948DemographicSurvey1; @Cardinall1932GoldCoast; @Office1951AnnualReport]. Even then, tax avoidance and understaffing caused substantial undercounts outside municipal boundaries, prompting later historians to revise early twentieth-century baselines upward [@Services2013WritingHistory; @FrankemaJerven2014AfricanPop]. French officials in Dakar published parallel five-year administrative censuses in the *Annuaire Statistique de l'Afrique Occidentale Française* alongside detailed registers for Senegal's Four Communes of Saint-Louis, Dakar, Gorée and Rufisque [@AOFAnnuaire1936; @Keese2016WolofSenegal].
+
+Demographic growth stayed modest until the 1920s. Colonial pacification, forced porterage, the 1913-1914 Sahelian famine and especially the 1918-1919 influenza pandemic imposed heavy mortality across ports and railway towns alike [@Ittmann2010DemographicsEmpire; @Vrooman2025TheColonial]. Tropical medical campaigns began earlier in coastal enclaves - Ross's 1899AD malaria expedition to Freetown and sanitation drives in Dakar and Accra - yet rural health coverage remained thin until the late 1930s [@History1899ReportThe; @Vrooman2025TheColonial; @Faye2021WaterResources]. After 1945AD, antibiotics, malaria and yellow-fever control, smallpox vaccination and improved famine transport lowered infant and crude death rates sharply while birth rates stayed high, inaugurating sustained natural increase alongside explosive rural-to-urban migration through 1975AD [@Adedini2014NeighbourhoodCharacteristics; @Vrooman2025TheColonial; @Akanle2017RemittancesAnd].
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The study area spans `r viscount_fmt_number(total_area_km2, 0L)` km² (`r viscount_fmt_number(total_pixels, 0L)` five-arcminute pixels) across 17 contemporary states from Mauritania and Senegal east to Chad and south-east to Cameroon. Within NICETHI, Chapter 11 bridges early modern West Africa and the post-colonial national era across 14 colonial territorial sub-regions derived from colonial boundary maps, League of Nations mandate limits and historical administrative polygons (Table \ref{tab:subregions}). Six AOF sub-regions group the eight French territories: Senegal and Mauritania; French Sudan (Soudan Français); Upper Volta and Niger (including Haute-Volta during its 1932AD-1947AD partition); French Guinea; Côte d'Ivoire; and Dahomey [@AOFAnnuaire1936; @Runfola2020GeoBoundaries]. Four British sub-regions distinguish Northern Nigeria, Southern Nigeria and Lagos, the Gold Coast (with Ashanti and Northern Territories), Sierra Leone and The Gambia (five British jurisdictions counting Northern and Southern Nigeria separately), flanked by German and Mandate Togo, Portuguese Guinea and the Republic of Liberia [@Kuczynski1948DemographicSurvey1; @Cardinall1932GoldCoast].
+
+Population totals are evaluated at 14 benchmark years between 1880AD and 1975AD (1880, 1900, 1930, 1950, 1953, 1955, 1958, 1960, 1963, 1965, 1968, 1970, 1973 and 1975), with six primary checkpoints reported in compact tables: 1880AD, 1900AD, 1930AD, 1950AD, 1960AD and 1975AD. Sub-regional series represent full resident populations combining nucleated cities, mining camps, farming villages and nomadic Sahelian pastoralists [@Ittmann2010DemographicsEmpire; @Gamble1999NorthBankGambia].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  Era = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    paste0(pts[1], "AD-", pts[2], "AD")
+  }, character(1)),
+  `Assessed Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Fourteen colonial sub-regions of West Africa and the Sahel showing surface area, 5-arcminute pixels, administrative spans and interior assessed sites.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Screening and Urban Enumeration Sources
+
+To capture urban growth from early colonial ports to post-independence metropolises, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate towns, railway stations, district headquarters and metropolitan agglomerations between 1880AD and 1975AD were screened across four saturation waves. Wave 1 compiled 701 urban records from colonial blue books, AOF *Annuaires Statistiques*, national census volumes and international historical tables; subsequent deduplication removed `r viscount_fmt_number(n_excluded_sites, 0L)` alias duplicates and out-of-epoch fragments while Wave 4 gap-sweeps added six missing provincial towns (marginal gain 0,81%), leaving `r viscount_fmt_number(n_total_sites, 0L)` individually assessed entries across `r viscount_fmt_number(n_obs_total, 0L)` dated observations (`r viscount_fmt_number(n_city_proper, 0L)` city-proper series and `r viscount_fmt_number(n_metro, 0L)` post-1950 metropolitan agglomerations; Figure \ref{fig:hero-colonial-west-sahel}).
+
+Keeping city-proper counts distinct from metropolitan agglomerations prevents boundary inflation from masquerading as demographic acceleration [@Faye2021WaterResources; @Akinyoade2017CensusTaking]. For example, Lagos city-proper grew from 37.452 in 1881AD to 126.108 in 1931AD, 267.407 in 1952AD and 901k in 1970AD, whereas the wider Lagos metropolitan agglomeration reached 288,9k in 1950AD, 822,3k in 1960AD and 1,49M by 1970AD [@Akinyoade2017CensusTaking; @Afaha2013MigrationRemittance]. Similarly, Dakar city-proper expanded from 18.447 in 1904AD to 92.634 in 1936AD and 591k in 1970AD alongside an agglomeration of 557,3k [@AOFAnnuaire1936; @Faye2021WaterResources]. During bibliographic curation, automated keyword matching also flagged homonymous non-African studies on Queensland's Gold Coast [@Cunningham2020AustralianCultural], which were excluded from all demographic parameterisation.
+
+## Spatial Interpolation and Pycnophylactic Sub-Administrative Disaggregation
+
+Because urban registers capture only town-dwellers, NICETHI distributes rural populations across 5-arcminute grid cells by combining historical sub-administrative census aggregates with non-stationary Paciorek-Schervish Matérn ($\nu = 3/2$) spatial interpolation and mass-conserving pycnophylactic disaggregation [@Runfola2020GeoBoundaries; @Services2013WritingHistory]. Across the broader continental surface, residual kriging draws on 11.199 domestic archaeological and historical site records (6.970 unique-coordinate points) across 6.431 Voronoi catchments (median radius 31,72 km, 90th percentile 49,29 km), with West Africa contributing 2.591 records across 1.528 unique locations (75,69% from regional registers and monographs, zero crowd-sourced entries). In the nineteenth-century and early modern transition horizons feeding pre-census baselines, weighted least-squares variogram fits converge at dimensionless scales $\tau_1 = 1,35$ (raw 1,41) and $\tau_2 = 2,90$ with nugget-to-sill ratio 0,04 ($R^2 = 0,9992$), weighting fluvial proximity ($\beta_3 = 0,0342$ to $0,0595$) and coastal access ($\beta_4 = 0,0475$ to $0,0717$) under a two-pixel modern urban buffer.
+
+Where sub-administrative colonial or post-colonial enumerations exist, polygon totals from geoBoundaries and historical territorial archives are disaggregated downward across pixels via strictly mass-conserving pycnophylactic scaling [@Runfola2020GeoBoundaries; @AOFAnnuaire1936; @Cardinall1932GoldCoast]. Across 81 disaggregated benchmark years and 30.911 unit-year checks spanning 1900AD to 2020AD (including 1914 colonial provinces, 1925 League of Nations mandates, 1940 colonial boundaries and 119 to 325 post-1950 administrative divisions between 1950AD and 1970AD), 100% of administrative polygons satisfy mass conservation within 0,01%, with a worst unit relative error of $5,603 \times 10^{-8}$.
+
+# Testing and Validation
+
+## Colonial Sub-Administrative Census Cross-Checks
+
+To test territorial alignment against historical enumerations, Table \ref{tab:aof-censuses} and Table \ref{tab:british-censuses} compare the primary archival sub-administrative tables assembled in the chapter cache for French West Africa, Nigeria and the Gold Coast [@AOFAnnuaire1936; @Cardinall1932GoldCoast; @Akinyoade2017CensusTaking; @FrankemaJerven2014AfricanPop]. In AOF, enumerated territory totals grew from 15,05M in 1931AD to 17,36M in 1951AD (+15,3%), paced by rapid gains in Niger (+68,3% as southern Hausa-Zarma districts entered regular tax rolls), Mauritania (+89,8% from deeper nomadic registration) and Dahomey (+41,0%), while French Sudan (-3,7%) and Upper Volta (reconstituted in 1947AD at 3,12M after its 1932AD partition) registered substantial out-migration toward Senegal and Côte d'Ivoire [@AOFAnnuaire1936; @Manchuelle1997WillingMigrants; @Vrooman2025TheColonial].
+
+```{r tab2-aof-censuses, results='asis'}
+aof_31 <- find_sub_tbl("AOF", 1931)
+aof_51 <- find_sub_tbl("AOF", 1951)
+u31 <- setNames(vapply(aof_31$units, function (u) as.numeric(u$population), numeric(1)),
+                vapply(aof_31$units, function (u) u$unit_name, character(1)))
+u51 <- setNames(vapply(aof_51$units, function (u) as.numeric(u$population), numeric(1)),
+                vapply(aof_51$units, function (u) u$unit_name, character(1)))
+aof_pairs <- list(
+  c("Soudan Français (Mali)", "Soudan Français (Mali)", "Soudan Français (Mali)"),
+  c("Haute-Volta (Burkina Faso)", "Haute-Volta (Burkina Faso)", "Haute-Volta (reconstituted 1947)"),
+  c("Guinée Française", "Guinée Française", "Guinée Française"),
+  c("Côte d'Ivoire", "Côte d'Ivoire", "Côte d'Ivoire"),
+  c("Sénégal (incl. Dakar)", "Sénégal (incl. Dakar)", "Sénégal (incl. Dakar)"),
+  c("Niger", "Niger", "Niger"),
+  c("Dahomey (Bénin)", "Dahomey (Bénin)", "Dahomey (Bénin)"),
+  c("Mauritanie", "Mauritanie", "Mauritanie")
+)
+df_aof <- do.call(rbind, lapply(aof_pairs, function (p) {
+  v31 <- u31[[p[2]]]
+  v51 <- u51[[p[3]]]
+  pct <- 100 * (v51 - v31) / v31
+  data.frame(
+    Territory = p[1],
+    `1931 Census` = viscount_fmt_pop(v31),
+    `1951 Census` = viscount_fmt_pop(v51),
+    `Change (%)` = viscount_fmt_number(pct, 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+t31 <- as.numeric(aof_31$total_enumerated_pop)
+t51 <- as.numeric(aof_51$total_enumerated_pop)
+df_aof <- rbind(df_aof, data.frame(
+  Territory = "Total AOF Federation",
+  `1931 Census` = viscount_fmt_pop(t31),
+  `1951 Census` = viscount_fmt_pop(t51),
+  `Change (%)` = viscount_fmt_number(100 * (t51 - t31) / t31, 1L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+))
+rownames(df_aof) <- NULL
+viscount_table(
+  df_aof,
+  "French West Africa (AOF) territorial enumerations in 1931AD and 1951AD from official federal yearbooks.",
+  arg3_options = list(label = "tab:aof-censuses")
+)
+```
+
+In British West Africa, Nigeria's 1911AD administrative count returned 16,05M (8,12M Northern Protectorate, 7,93M Southern Colony and Protectorate), rising to 19,55M across Northern (11,43M), Eastern (4,32M) and Western (3,80M) provinces in 1931AD (20,06M including British Cameroons) before jumping to 30,42M in 1952-1953 and 55,64M across the disputed 1963AD federal count [@Kuczynski1948DemographicSurvey1; @Akinyoade2017CensusTaking; @FrankemaJerven2014AfricanPop]. In the Gold Coast, enumerations expanded from 764,2k in the 1891AD coastal Colony to 3,16M across all four divisions (Colony, Ashanti, Northern Territories and British Togoland) in 1931AD and 8,56M across nine regions in 1970AD [@Cardinall1932GoldCoast; @Adjepong2013StrangersAnd].
+
+```{r tab3-british-censuses, results='asis'}
+nga_11 <- find_sub_tbl("NGA", 1911)
+nga_31 <- find_sub_tbl("NGA", 1931)
+nga_63 <- find_sub_tbl("NGA", 1963)
+gha_31 <- find_sub_tbl("GHA", 1931)
+gha_70 <- find_sub_tbl("GHA", 1970)
+
+rows_brit <- list(
+  data.frame(Colony = "Nigeria (1911)", Division = "Northern Protectorate", Enumerated = viscount_fmt_pop(nga_11$units[[1]]$population), Share = "50,6%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1911)", Division = "Southern Colony and Protectorate", Enumerated = viscount_fmt_pop(nga_11$units[[2]]$population), Share = "49,4%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1931)", Division = "Northern Provinces", Enumerated = viscount_fmt_pop(nga_31$units[[1]]$population), Share = "58,5%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1931)", Division = "Eastern Provinces", Enumerated = viscount_fmt_pop(nga_31$units[[2]]$population), Share = "22,1%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1931)", Division = "Western Provinces", Enumerated = viscount_fmt_pop(nga_31$units[[3]]$population), Share = "19,4%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1963)", Division = "Northern Region", Enumerated = viscount_fmt_pop(nga_63$units[[1]]$population), Share = "53,5%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1963)", Division = "Eastern Region", Enumerated = viscount_fmt_pop(nga_63$units[[2]]$population), Share = "22,3%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1963)", Division = "Western and Mid-Western Regions", Enumerated = viscount_fmt_pop(as.numeric(nga_63$units[[3]]$population) + as.numeric(nga_63$units[[4]]$population)), Share = "23,0%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Nigeria (1963)", Division = "Federal Territory of Lagos", Enumerated = viscount_fmt_pop(nga_63$units[[5]]$population), Share = "1,2%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Gold Coast (1931)", Division = "Gold Coast Colony", Enumerated = viscount_fmt_pop(gha_31$units[[1]]$population), Share = "49,7%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Gold Coast (1931)", Division = "Northern Territories", Enumerated = viscount_fmt_pop(gha_31$units[[2]]$population), Share = "22,7%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Gold Coast (1931)", Division = "Ashanti", Enumerated = viscount_fmt_pop(gha_31$units[[3]]$population), Share = "18,3%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Gold Coast (1931)", Division = "British Togoland (Mandate)", Enumerated = viscount_fmt_pop(gha_31$units[[4]]$population), Share = "9,3%", stringsAsFactors = FALSE),
+  data.frame(Colony = "Ghana (1970)", Division = "All Nine Administrative Regions", Enumerated = viscount_fmt_pop(gha_70$total_enumerated_pop), Share = "100%", stringsAsFactors = FALSE)
+)
+df_brit <- do.call(rbind, rows_brit)
+names(df_brit) <- c("Census Year", "Administrative Division", "Enumerated Pop.", "Share (%)")
+rownames(df_brit) <- NULL
+viscount_table(
+  df_brit,
+  "Selected colonial and early post-colonial regional census benchmarks for Nigeria (1911-1963) and the Gold Coast/Ghana (1931-1970).",
+  arg3_options = list(label = "tab:british-censuses")
+)
+```
+
+## Urban Rank-Size Calibration and Ledger Saturation
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` settlements in the chapter ledger, ordinary least-squares rank-size regression on the upper tier ($n = 180$) yields a Zipf slope of $q = 0,93$ ($R^2 = 0,98$, intercept 6,52), while full-sample regression gives $q = 1,19$ ($R^2 = 0,86$). On the spatially deduplicated urban series plotted in Figure \ref{fig:rank-size} ($n = 679$), the log-log fit records $q = 0,88$ ($R^2 = 0,99$), confirming a balanced polycentric urban system without a single regional metropolis monopolising growth. Instead of one dominant primate city, colonial West Africa developed twin coastal commercial hubs in Nigeria (Lagos agglomeration 1,49M, Ibadan 768k, Onitsha 248k, Port Harcourt 237k) alongside major port capitals in Côte d'Ivoire (Abidjan 951,2k), Ghana (Accra 624,1k, Kumasi 346,3k), Senegal (Dakar 591k), Guinea (Conakry agglomeration 355,2k) and Sierra Leone (Freetown 276,2k), paired with historic Sahelian inland markets led by Kano (390k) [@Faye2021WaterResources; @Akinyoade2017CensusTaking].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 679 spatially deduplicated colonial towns (q = 0,88, R² = 0,99) and mean sub-regional densities in 1975AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Four-wave saturation checks confirm full territorial coverage across all 14 sub-regions (zero empty inhabited sub-regions), with a unique-peak ratio of 0,7818 and a log-interquartile range of 0,576. Jurisdictional counts track both demographic weight and census archive depth: Nigeria contributes 281 settlements (875 observations), Ghana 105 (288), Ivory Coast 64 (172), Mali 41 (175), Sierra Leone 31 (92), Senegal 29 (142), Niger 28 (86), Guinea 26 (100), Liberia 26 (53), Burkina Faso 20 (82), Mauritania 20 (76), Togo 20 (58), Benin 19 (77), Guinea-Bissau 9 (29), Cameroon 9 (34), Gambia 8 (30) and Chad 2 (8) [@Slrobbins1996GambianStudies; @Gamble1946GambianStudies; @Office1951AnnualReport].
+
+# Results
+
+## Early Colonial Consolidation and Railway Reorientation (1880AD to 1930AD)
+
+Between 1880AD and 1930AD, total population across the 14 sub-regions more than doubled from `r viscount_fmt_pop(headline_vals[["1880"]])` to `r viscount_fmt_pop(headline_vals[["1930"]])` (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). Much of the apparent jump between 1880AD and 1900AD (`r viscount_fmt_pop(headline_vals[["1900"]])`) reflects the transition from sparse precolonial traveller estimates to territorial protectorate accounting in Northern Nigeria, whose baseline rises from `r viscount_fmt_pop(sub_by_id[["british_northern_nigeria"]]$population[["1880"]])` in 1880AD to `r viscount_fmt_pop(sub_by_id[["british_northern_nigeria"]]$population[["1900"]])` in 1900AD and `r viscount_fmt_pop(sub_by_id[["british_northern_nigeria"]]$population[["1930"]])` by 1930AD [@Services2013WritingHistory; @FrankemaJerven2014AfricanPop]. Across Southern Nigeria and Lagos, palm-kernel and cocoa exports plus railway expansion lifted numbers from `r viscount_fmt_pop(sub_by_id[["british_southern_nigeria_lagos"]]$population[["1880"]])` in 1880AD to `r viscount_fmt_pop(sub_by_id[["british_southern_nigeria_lagos"]]$population[["1930"]])` in 1930AD, while the Gold Coast grew from `r viscount_fmt_pop(sub_by_id[["british_gold_coast"]]$population[["1880"]])` to `r viscount_fmt_pop(sub_by_id[["british_gold_coast"]]$population[["1930"]])` [@Cardinall1932GoldCoast; @Adjepong2013StrangersAnd].
+
+Urban trajectories during this first colonial half-century reveal sharp institutional contrasts. Dakar, founded in 1857AD and made federal capital of AOF in 1902AD, expanded from 1k in 1880AD to 18.447 in 1904AD and 53.982 in 1931AD, eclipsing the older river port of Saint-Louis (20.173 in 1891AD to 33.066 in 1936AD) [@AOFAnnuaire1936; @Faye2021WaterResources]. In Côte d'Ivoire, Abidjan grew from roughly 1k in 1910AD to 10k in 1930AD as the railway terminal displaced Grand-Bassam and Bingerville; in Nigeria, new colonial railway and mining towns appeared where none existed before 1910AD - Port Harcourt growing from 2.480 in 1915AD to 15.201 in 1931AD, Kaduna from 3.420 in 1917AD to 10.628 in 1931AD, and Enugu from 3.170 in 1917AD to 12.959 in 1931AD [@Akinyoade2017CensusTaking; @Afaha2013MigrationRemittance]. Older precolonial cities adapted unevenly: Ibadan climbed from 150k in 1890AD to 387.133 in 1931AD as the Yoruba cocoa hub, whereas Kano dipped to 20k in 1906AD during early conquest and restructuring before rebounding to 89.162 in 1931AD after the railway arrived in 1911AD [@Kuczynski1948DemographicSurvey1].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and growth of five leading colonial cities from 1880AD to 1975AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Cash-Crop Migration, Famines and Medical Campaigns (1914AD to 1950AD)
+
+Between 1914AD and 1950AD, regional population reached `r viscount_fmt_pop(headline_vals[["1950"]])` despite severe demographic shocks in the interwar decades (Table \ref{tab:trajectory}). In the Sahel, the 1913-1914 drought and requisitioning during the First World War depressed French Sudan (`r viscount_fmt_pop(sub_by_id[["aof_french_sudan"]]$population[["1930"]])` in 1930AD) and Upper Volta-Niger (`r viscount_fmt_pop(sub_by_id[["aof_upper_volta_niger"]]$population[["1930"]])`), before the 1918-1919 influenza pandemic swept inward from Freetown, Dakar and Lagos along rail and river routes [@Ittmann2010DemographicsEmpire; @Vrooman2025TheColonial]. In 1932AD, French authorities dissolved Upper Volta and divided its Mossi labour reserve among Côte d'Ivoire, French Sudan and Niger to supply cocoa plantations and the Abidjan-Niger railway, restoring the colony only in 1947AD [@AOFAnnuaire1936; @Vrooman2025TheColonial].
+
+Cash-crop labour diasporas tied savanna and forest regions together throughout this period. In Senegambia, Soninke *laptots* and seasonal *navétanes* from French Sudan, Futa Jallon and upper Senegal cultivated groundnuts across the Sine-Saloum, Kaolack and Gambia basins, feeding rapid growth in Senegal-Mauritania from `r viscount_fmt_pop(sub_by_id[["aof_senegal_mauritania"]]$population[["1930"]])` in 1930AD to `r viscount_fmt_pop(sub_by_id[["aof_senegal_mauritania"]]$population[["1950"]])` in 1950AD [@Manchuelle1997WillingMigrants; @Keese2016WolofSenegal; @Gamble1996GambianStudies]. Across the Gambia valley, colonial protectorate surveys documented dense riverside farming districts across Kantora, Fuladuu, Nyaamina, Jaara, Kiyang, Fonyi and the North Bank, lifting Gambia from `r viscount_fmt_pop(sub_by_id[["british_gambia"]]$population[["1900"]])` in 1900AD to `r viscount_fmt_pop(sub_by_id[["british_gambia"]]$population[["1950"]])` in 1950AD while Bathurst (modern Banjul) rose from 6.138 in 1881AD to 19.602 in 1951AD [@Slrobbins1996GambianStudies; @Gamble1946GambianStudies; @Gamble1999NorthBankGambia]. Farther east, Voltaic, Togolese and Nigerian migrants poured into Gold Coast cocoa farms and Ashanti mines, pushing Accra from 16.267 in 1891AD to 135.926 in 1948AD and Kumasi from 6.280 in 1901AD to 78.483 in 1948AD [@Cardinall1932GoldCoast; @Adjepong2013StrangersAnd].
+
+Colonial medical services also left uneven urban and rural imprints. Following Ronald Ross's 1899AD malaria mission to Freetown, British administrations concentrated drainage and segregation works in port capitals such as Freetown (30.033 in 1891AD to 64.576 in 1948AD), Lagos and Accra [@History1899ReportThe; @Northcote1970AnthropologicalReport; @Office1951AnnualReport]. By contrast, comparative health histories of the Gold Coast and Côte d'Ivoire show that French mobile sleeping-sickness teams (*Service Général Autonome de la Maladie du Sommeil*) reached rural populations earlier in the 1930s, whereas British spending favoured stationary urban hospitals until post-1945 antibiotics and DDT campaigns generalised mortality decline across both empires [@Vrooman2025TheColonial; @Adedini2014NeighbourhoodCharacteristics].
+
+```{r tab4-trajectory, results='asis'}
+traj_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD` = viscount_fmt_pop(ps[["1880"]]),
+    `1900AD` = viscount_fmt_pop(ps[["1900"]]),
+    `1930AD` = viscount_fmt_pop(ps[["1930"]]),
+    `1950AD` = viscount_fmt_pop(ps[["1950"]]),
+    `1960AD` = viscount_fmt_pop(ps[["1960"]]),
+    `1975AD` = viscount_fmt_pop(ps[["1975"]]),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_t4 <- data.frame(
+  Subregion = "Total Study Area",
+  `1880AD` = viscount_fmt_pop(headline_vals[["1880"]]),
+  `1900AD` = viscount_fmt_pop(headline_vals[["1900"]]),
+  `1930AD` = viscount_fmt_pop(headline_vals[["1930"]]),
+  `1950AD` = viscount_fmt_pop(headline_vals[["1950"]]),
+  `1960AD` = viscount_fmt_pop(headline_vals[["1960"]]),
+  `1975AD` = viscount_fmt_pop(headline_vals[["1975"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t4 <- rbind(do.call(rbind, traj_rows), tot_t4)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Sub-regional and aggregate population trajectories across fourteen colonial jurisdictions at six benchmarks from 1880AD to 1975AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Post-War Urban Surge, Independence Transitions and Regional Contrasts (1950AD to 1975AD)
+
+Between 1950AD and 1975AD, regional population expanded by 71,6% from `r viscount_fmt_pop(headline_vals[["1950"]])` to `r viscount_fmt_pop(headline_vals[["1975"]])`, while attested active settlements in Figure \ref{fig:trends} climbed from 406 in 1950AD to 476 by 1970AD (Table \ref{tab:top-centres}). Two structural discontinuities visible in Table \ref{tab:trajectory} and Figure \ref{fig:trends} stem from enumeration coverage shifts rather than sudden biological mortality swings. First, the leap from `r viscount_fmt_pop(headline_vals[["1950"]])` in 1950AD to 78,45M in 1953AD reflects Nigeria's first complete territorial census of 1952-1953 (30,42M enumerated; 31,01M northern and 21,37M southern raster allocations in the regional mask), replacing earlier under-counted 1950AD baselines [@Akinyoade2017CensusTaking; @FrankemaJerven2014AfricanPop]. Second, the sharp dip between 1965AD (92,98M) and 1968AD (69,13M) reflects Nigerian Civil War displacement and the suspension of reliable federal reporting in Eastern and Northern Nigeria before recovery to 91,17M by 1975AD, alongside 1957AD-1960AD decolonisation boundary splices in Ghana, Guinea, Senegal and Mali [@Akinyoade2017CensusTaking; @Services2013WritingHistory].
+
+Coastal capitals grew fastest after 1950AD. Opening the Vridi Canal in 1950AD turned Abidjan into a deep-water port whose city-proper population multiplied seventeen-fold from 56k in 1950AD to 282k in 1960AD and 951.216 in 1975AD [@Vrooman2025TheColonial]. Dakar reached 591k in 1970AD, stretching Cap-Vert's municipal water systems as rural migrants arrived from the groundnut basin and Casamance [@Faye2021WaterResources; @Keese2016WolofSenegal]. Lagos's metropolitan agglomeration surged from 288.895 in 1950AD to 1,49M in 1970AD, while Accra hit 624.091, Conakry 355.217, Freetown 276.247 (1974AD), Bamako 202.016, Monrovia 204.210 (1974AD), Lomé 188.876, Cotonou 162.166, Ouagadougou 146.367, Bissau 118.572 and Niamey 100.820 [@Office1951AnnualReport; @Afaha2013MigrationRemittance]. Meanwhile, inland territories such as French Sudan (`r viscount_fmt_pop(sub_by_id[["aof_french_sudan"]]$end_pop)` in 1975AD, 4,56 persons/km²), Senegal-Mauritania (2,98 persons/km²) and Upper Volta-Niger (`r viscount_fmt_pop(sub_by_id[["aof_upper_volta_niger"]]$end_pop)`, 7,36 persons/km²) remained far sparser than Southern Nigeria (`r viscount_fmt_number(sub_by_id[["british_southern_nigeria_lagos"]]$end_density_km2, 2L)` persons/km²) or the Gold Coast (`r viscount_fmt_number(sub_by_id[["british_gold_coast"]]$end_density_km2, 2L)` persons/km²), a gradient compounded by the 1968-1974 Sahelian drought [@FrankemaJerven2014AfricanPop; @Manchuelle1997WillingMigrants].
+
+```{r tab5-top-centres, results='asis'}
+seen_nms <- character(0)
+dedup_top <- list()
+for (s in summary_cache$top_settlements) {
+  base_nm <- sub(" \\(Agglomeration\\)$", "", as.character(s$name))
+  tag <- paste0(base_nm, "|", s$country, "|", s$population_scope)
+  if (!(tag %in% seen_nms) && !identical(s$key, "Lagos (2)-Nigeria")) {
+    seen_nms <- c(seen_nms, tag)
+    dedup_top[[length(dedup_top) + 1L]] <- s
+  }
+  if (length(dedup_top) >= 15L) break
+}
+df_t5 <- data.frame(
+  Settlement = vapply(dedup_top, function (s) as.character(s$name), character(1)),
+  Country = vapply(dedup_top, function (s) as.character(s$country), character(1)),
+  Scope = vapply(dedup_top, function (s) if (identical(s$population_scope, "metro")) "Metro" else "City", character(1)),
+  Span = vapply(dedup_top, function (s) paste0(s$min_year, "AD-", s$max_year, "AD"), character(1)),
+  `Peak Pop.` = vapply(dedup_top, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Year` = vapply(dedup_top, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(dedup_top, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Fifteen largest individually assessed urban centres and metropolitan agglomerations in Colonial West Africa and the Sahel (1880AD to 1975AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Four structural constraints qualify these colonial reconstructions. First, administrative headcounts before 1945AD suffered systematic under-enumeration wherever census-taking doubled as tax assessment or labour recruitment [@Kuczynski1948DemographicSurvey1; @Ittmann2010DemographicsEmpire; @Services2013WritingHistory]. Rural populations in Northern Nigeria, interior Sierra Leone, Liberia, Portuguese Guinea and Sahelian AOF cercles were frequently estimated by applying assumed household multipliers to tax rolls, leaving pre-1930AD provincial totals with wider margins than post-war sample surveys [@Northcote1970AnthropologicalReport; @FrankemaJerven2014AfricanPop]. Second, post-war Nigerian censuses became politically contested after 1953AD, with the 1963AD figure of 55,64M widely judged by demographers to reflect regional over-reporting ahead of federal seat allocations, whereas the 1968AD-1970AD Civil War years produced severe under-coverage in eastern provinces [@Akinyoade2017CensusTaking; @FrankemaJerven2014AfricanPop].
+
+Third, colonial border partitions and post-1950AD territorial splits introduce step-changes across specific years in the underlying sub-administrative mask, notably Haute-Volta's 1932AD-1947AD dismemberment, British and French Togoland's partition and 1957AD Gold Coast integration, Guinea's 1958AD break from French community statistics and AOF's 1960AD dissolution [@AOFAnnuaire1936; @Cardinall1932GoldCoast]. Fourth, 207 of the 738 settlement entries carry single-date observations, and 55 post-1950 metropolitan agglomerations coexist alongside city-proper records for leading capitals; while both scopes are explicitly labelled in the companion gazetteer, readers comparing urban growth across 1950AD must keep city-proper and agglomeration boundaries distinct [@Faye2021WaterResources].
+
+# Conclusion
+
+Between the 1880s and 1975AD, West Africa and the Sahel grew more than fourfold from `r viscount_fmt_pop(headline_vals[["1880"]])` to `r viscount_fmt_pop(headline_vals[["1975"]])` inhabitants, shifting decisively toward coastal port corridors and export-crop zones. Colonial railways, cocoa and groundnut frontiers, port investments and post-1945 public health campaigns produced a thirty-five-fold density gradient by 1975AD between Southern Nigeria (`r viscount_fmt_number(sub_by_id[["british_southern_nigeria_lagos"]]$end_density_km2, 2L)` persons/km²) and Senegal-Mauritania (`r viscount_fmt_number(sub_by_id[["aof_senegal_mauritania"]]$end_density_km2, 2L)` persons/km²), while metropolitan corridors led by Lagos, Abidjan, Ibadan, Accra and Dakar launched West Africa's modern urban transition. By pairing `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements with archival territorial enumerations and mass-conserving spatial scaling, NICETHI connects colonial demographic history directly to post-independence national censuses.
+
+# Appendix
+
+## Sub-Regional Density, Territorial Shares and Consensus Benchmarks
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all 14 colonial sub-regions from 1880AD to 1975AD, while Table \ref{tab:shares-appendix} traces each territory's percentage share of the regional total. Table \ref{tab:fj-comparison} reproduces the Frankema and Jerven (2014) consensus benchmark comparison against official colonial and post-colonial census totals for Nigeria (1911AD-1963AD) and the Gold Coast/Ghana (1891AD-1960AD) [@Services2013WritingHistory; @FrankemaJerven2014AfricanPop].
+
+```{r tab6-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD` = viscount_fmt_number(as.numeric(ps[["1880"]]) / ar, 2L),
+    `1900AD` = viscount_fmt_number(as.numeric(ps[["1900"]]) / ar, 2L),
+    `1930AD` = viscount_fmt_number(as.numeric(ps[["1930"]]) / ar, 2L),
+    `1950AD` = viscount_fmt_number(as.numeric(ps[["1950"]]) / ar, 2L),
+    `1960AD` = viscount_fmt_number(as.numeric(ps[["1960"]]) / ar, 2L),
+    `1975AD` = viscount_fmt_number(as.numeric(ps[["1975"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens <- data.frame(
+  Subregion = "Mean Study Area",
+  `1880AD` = viscount_fmt_number(headline_vals[["1880"]] / total_area_km2, 2L),
+  `1900AD` = viscount_fmt_number(headline_vals[["1900"]] / total_area_km2, 2L),
+  `1930AD` = viscount_fmt_number(headline_vals[["1930"]] / total_area_km2, 2L),
+  `1950AD` = viscount_fmt_number(headline_vals[["1950"]] / total_area_km2, 2L),
+  `1960AD` = viscount_fmt_number(headline_vals[["1960"]] / total_area_km2, 2L),
+  `1975AD` = viscount_fmt_number(headline_vals[["1975"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t6 <- rbind(do.call(rbind, dens_rows), tot_dens)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Mean population density (persons per km²) across the fourteen colonial sub-regions from 1880AD to 1975AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab7-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1880AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1880"]]) / headline_vals[["1880"]], 1L),
+    `1900AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1900"]]) / headline_vals[["1900"]], 1L),
+    `1930AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1930"]]) / headline_vals[["1930"]], 1L),
+    `1950AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1950"]]) / headline_vals[["1950"]], 1L),
+    `1960AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1960"]]) / headline_vals[["1960"]], 1L),
+    `1975AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1975"]]) / headline_vals[["1975"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t7 <- do.call(rbind, share_rows)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Percentage share of total regional population across fourteen colonial sub-regions from 1880AD to 1975AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+```{r tab8-fj-comparison, results='asis'}
+arf_tbls <- summary_cache$arf_regional_tables
+find_arf <- function (tid) {
+  for (tb in arf_tbls) if (identical(tb$table_id, tid)) return(tb)
+  NULL
+}
+nga_fj <- find_arf("Frankema_Jerven_2014_Table_7_Nigeria_1911_2006")
+gha_fj <- find_arf("Frankema_Jerven_2014_Table_8_Ghana_1871_2010")
+
+nga_rows <- lapply(nga_fj$rows[1:5], function (r) {
+  data.frame(
+    Jurisdiction = "Nigeria",
+    Year = paste0(r$year, "AD"),
+    `Official Census` = paste0(viscount_fmt_number(r$census_m, 2L), "M"),
+    `Revised Estimate` = paste0(viscount_fmt_number(r$fj_projected_m, 2L), "M"),
+    Ratio = viscount_fmt_number(r$ratio, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+gha_rows <- lapply(gha_fj$rows[2:8], function (r) {
+  cens <- as.numeric(r$census_k) * 1000
+  rev <- as.numeric(r$revised_k) * 1000
+  data.frame(
+    Jurisdiction = "Gold Coast / Ghana",
+    Year = paste0(r$year, "AD"),
+    `Official Census` = viscount_fmt_pop(cens),
+    `Revised Estimate` = viscount_fmt_pop(rev),
+    Ratio = viscount_fmt_number(rev / cens, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t8 <- rbind(do.call(rbind, nga_rows), do.call(rbind, gha_rows))
+rownames(df_t8) <- NULL
+viscount_table(
+  df_t8,
+  "Comparison of official colonial and post-colonial census totals against Frankema and Jerven (2014) backward projections for Nigeria and Ghana.",
+  arg3_options = list(label = "tab:fj-comparison")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Note 1: Modern calendar month-year dates omit AD, whereas benchmark years in prose and compact tables carry attached AD suffixes (1880AD to 1975AD) to maintain uniformity across NICETHI chapters.
+
+Note 2: In Table \ref{tab:subregions}, 729 settlements fall within the 5-arcminute continental territorial mask; nine border-margin towns in Cameroon and Chad (Garoua, Goulfeil, Kousséri, Makari, Mamfé, Mora, Wum, Ndjamena and Ndjamena agglomeration) lie marginally outside the mask perimeter and are reconciled in the companion settlement gazetteer so all 738 entries appear in full.

@@ -1,4 +1,5 @@
 let child_process = require("child_process");
+let crypto = require("crypto");
 let fs = require("fs");
 let path = require("path");
 let { IntellteDiscovery } = require("./A_discover_records.js");
@@ -38,7 +39,7 @@ let sync_viscount_region = {
 
 
   /**
-   * Copies `arg0_src` to `arg1_dst` only when missing or modified (comparing size and mtimeMs).
+   * Copies `arg0_src` to `arg1_dst` only when missing or content-modified (comparing size and SHA-256 hash).
    *
    * @param {string} arg0_src
    * @param {string} arg1_dst
@@ -59,8 +60,14 @@ let sync_viscount_region = {
     //Function body
     if (fs.existsSync(dst_path)) {
       let dst_stat = fs.statSync(dst_path);
-      if (dst_stat.size === src_stat.size && Math.abs(dst_stat.mtimeMs - src_stat.mtimeMs) <= 1000)
-        return false;
+      if (dst_stat.size === src_stat.size) {
+        if (Math.abs(dst_stat.mtimeMs - src_stat.mtimeMs) <= 1000)
+          return false;
+        let src_sha = crypto.createHash("sha256").update(fs.readFileSync(src_path)).digest("hex");
+        let dst_sha = crypto.createHash("sha256").update(fs.readFileSync(dst_path)).digest("hex");
+        if (src_sha === dst_sha)
+          return false;
+      }
     }
 
     fs.mkdirSync(path.dirname(dst_path), { recursive: true });
@@ -134,13 +141,20 @@ let sync_viscount_region = {
       let rel_path = rel_prefix ? `${rel_prefix}/${entry.name}` : entry.name;
 
       if (entry.isDirectory()) {
-        if (entry.name === "1.kriged_rasters" || entry.name === "2.population_rasters" || entry.name === "_gis_cache" || entry.name === "diagnostics_visual" || entry.name === "geojson" || entry.name === "images" || entry.name.endsWith("_files"))
+        if (entry.name === "1.kriged_rasters" || entry.name === "2.population_rasters" || entry.name === "diagnostics_visual" || entry.name === "geojson" || entry.name === "images" || entry.name.endsWith("_files"))
           continue;
+        if (entry.name === "_gis_cache") {
+          let subreg_abs = path.join(abs_path, "chapter_subregions");
+          if (fs.existsSync(subreg_abs))
+            sync_viscount_region.collectSyncableFiles(subreg_abs, `${rel_path}/chapter_subregions`, out);
+          continue;
+        }
         sync_viscount_region.collectSyncableFiles(abs_path, rel_path, out);
       } else if (entry.isFile()) {
         if (
           /\.(Rmd|pdf|bib|json5|R|py|cls|csl|md)$/i.test(entry.name) ||
-          /_(?:settlements|metadata|diagnostics|manifest)\.json$/i.test(entry.name) ||
+          /_(?:settlements|summary|summary_cache|metadata|diagnostics|manifest|audit)\.json$/i.test(entry.name) ||
+          (rel_path.includes("/chapter_subregions/") && /\.geojson$/i.test(entry.name)) ||
           (/\.(png)$/i.test(entry.name) && (rel_path.includes("/figures/") || rel_path.startsWith("figures/") || entry.name.endsWith("_areal_mask.png")))
         ) {
           if (entry.name === "template.tex") continue;
@@ -221,6 +235,19 @@ let sync_viscount_region = {
     }
 
     let files_to_sync = sync_viscount_region.collectSyncableFiles(src_paper_dir, "", []);
+    let path_violations = [];
+    for (let i = 0; i < files_to_sync.length; i++) {
+      let f = files_to_sync[i];
+      let dst_abs = path.join(dst_paper_dir, f.rel);
+      let repo_rel = path.relative(intellte_root, dst_abs).replace(/\\/g, "/");
+      if (repo_rel.length > 180)
+        path_violations.push(`${repo_rel} (${repo_rel.length} chars > 180)`);
+    }
+    if (path_violations.length > 0 && !options.allow_long_paths) {
+      console.error(`[sync_viscount_region] [PATH_LIMIT] Refusing to sync ${path_violations.length} file(s) exceeding 180-char GitHub repo path limit:\n  - ${path_violations.slice(0, 10).join("\n  - ")}`);
+      return { copied_count: 0, path_violations: path_violations, success: false };
+    }
+
     for (let i = 0; i < files_to_sync.length; i++) {
       let f = files_to_sync[i];
       let dst_abs = path.join(dst_paper_dir, f.rel);
@@ -336,20 +363,24 @@ let sync_viscount_region = {
     console.log(`[sync_viscount_region] ${matched_proj.key} -> ${concept_id}: copied ${copied_count} changed file(s), ${added_versions} new version(s) registered.`);
 
     if (build_after) {
-      let pipeline_js = path.join(intellte_root, "core/framework/node/run_pipeline.js");
-      let build_res = child_process.spawnSync(process.execPath, [pipeline_js, `--only=${concept_id}`], {
-        cwd: intellte_root,
-        stdio: "inherit"
-      });
-      if (build_res.status !== 0) {
-        console.error(`[sync_viscount_region] Pipeline compilation failed for ${concept_id} (exit=${build_res.status}).`);
-        return {
-          added_versions: added_versions,
-          concept_id: concept_id,
-          copied_count: copied_count,
-          meta_path: meta_path,
-          success: false
-        };
+      if (copied_count === 0 && added_versions === 0 && !options.force) {
+        console.log(`[sync_viscount_region] 0 changed files for ${concept_id}; skipping redundant incremental rebuild (pass --force to override).`);
+      } else {
+        let pipeline_js = path.join(intellte_root, "core/framework/node/run_pipeline.js");
+        let build_res = child_process.spawnSync(process.execPath, [pipeline_js, `--only=${concept_id}`], {
+          cwd: intellte_root,
+          stdio: "inherit"
+        });
+        if (build_res.status !== 0) {
+          console.error(`[sync_viscount_region] Pipeline compilation failed for ${concept_id} (exit=${build_res.status}).`);
+          return {
+            added_versions: added_versions,
+            concept_id: concept_id,
+            copied_count: copied_count,
+            meta_path: meta_path,
+            success: false
+          };
+        }
       }
     }
 
@@ -367,7 +398,9 @@ let sync_viscount_region = {
 if (require.main === module) {
   let cli_args = sync_viscount_region.parseArgs(process.argv.slice(2));
   let res = sync_viscount_region.syncProject({
+    allow_long_paths: Boolean(cli_args["allow-long-paths"]),
     build: Boolean(cli_args.build),
+    force: Boolean(cli_args.force),
     project: cli_args.project,
     svea_root: cli_args["svea-root"] || cli_args.svea_root
   });

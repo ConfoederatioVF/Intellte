@@ -1,0 +1,479 @@
+---
+title: "Early Modern East Africa and Mozambique"
+subtitle: "Settlement Gazetteer: 97 Individually Assessed Sites (1500AD-1885AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: early_modern_east_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 97 individually assessed settlements across 13 countries spanning nine historical sub-regions from 1500AD to 1885AD."
+hero_label: "fig:hero-settlements-east-africa"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("early_modern_east_africa_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("early_modern_east_africa_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+subregion_lookup <- c(
+  "Bagamoyo-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Chake Chake-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Dar es Salaam-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Faza-Kenya" = "zanzibar_swahili_omani_coast",
+  "Gedi-Kenya" = "zanzibar_swahili_omani_coast",
+  "Kaole-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Kisimani Mafia-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Lamu-Kenya" = "zanzibar_swahili_omani_coast",
+  "Malindi-Kenya" = "zanzibar_swahili_omani_coast",
+  "Manda-Kenya" = "zanzibar_swahili_omani_coast",
+  "Mombasa-Kenya" = "zanzibar_swahili_omani_coast",
+  "Moshi-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Mtwapa-Kenya" = "zanzibar_swahili_omani_coast",
+  "Pangani Magharibi-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Pate-Kenya" = "zanzibar_swahili_omani_coast",
+  "Pemba-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Rabai-Kenya" = "zanzibar_swahili_omani_coast",
+  "Saadani-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Siyu-Kenya" = "zanzibar_swahili_omani_coast",
+  "Takaungu-Kenya" = "zanzibar_swahili_omani_coast",
+  "Tanga-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Taveta-Kenya" = "zanzibar_swahili_omani_coast",
+  "Tumbe-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Ungwana-Kenya" = "zanzibar_swahili_omani_coast",
+  "Vanga-Kenya" = "zanzibar_swahili_omani_coast",
+  "Vuga-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Wete-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Zanzibar-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Kilwa Kivinje-United Republic of Tanzania" = "zanzibar_swahili_omani_coast",
+  "Afgoye-Somalia" = "kenya_highlands_maasai_rift",
+  "Baar Dheere-Somalia" = "kenya_highlands_maasai_rift",
+  "Barawa E Al Bambar-Somalia" = "kenya_highlands_maasai_rift",
+  "Chencha-Ethiopia" = "kenya_highlands_maasai_rift",
+  "Gondershe-Somalia" = "kenya_highlands_maasai_rift",
+  "Kismaayo-Somalia" = "kenya_highlands_maasai_rift",
+  "Marka-Somalia" = "kenya_highlands_maasai_rift",
+  "Mega-Ethiopia" = "kenya_highlands_maasai_rift",
+  "Mumias-Kenya" = "kenya_highlands_maasai_rift",
+  "Muqdisho-Somalia" = "kenya_highlands_maasai_rift",
+  "Qoryoley-Somalia" = "kenya_highlands_maasai_rift",
+  "Yabelo-Ethiopia" = "kenya_highlands_maasai_rift",
+  "Bigo bya Mugenyi-Uganda" = "buganda_bunyoro_ankole",
+  "Hoima-Uganda" = "buganda_bunyoro_ankole",
+  "Kibiro-Uganda" = "buganda_bunyoro_ankole",
+  "Kibuga-Uganda" = "buganda_bunyoro_ankole",
+  "Masindi-Uganda" = "buganda_bunyoro_ankole",
+  "Mbarara-Uganda" = "buganda_bunyoro_ankole",
+  "Munsa-Uganda" = "buganda_bunyoro_ankole",
+  "Busasama-Rwanda" = "rwanda_burundi_kivu",
+  "Bweranyange-United Republic of Tanzania" = "rwanda_burundi_kivu",
+  "Gitega-Burundi" = "rwanda_burundi_kivu",
+  "Muramvya-Burundi" = "rwanda_burundi_kivu",
+  "Rumonge-Burundi" = "rwanda_burundi_kivu",
+  "Ujiji-United Republic of Tanzania" = "rwanda_burundi_kivu",
+  "Engaruka-United Republic of Tanzania" = "nyamwezi_unyamwezi_tabora",
+  "Karema-United Republic of Tanzania" = "nyamwezi_unyamwezi_tabora",
+  "Tabora-United Republic of Tanzania" = "nyamwezi_unyamwezi_tabora",
+  "Urambo-United Republic of Tanzania" = "nyamwezi_unyamwezi_tabora",
+  "Kalenga-United Republic of Tanzania" = "hehe_southern_tanganyika",
+  "Karonga-Malawi" = "hehe_southern_tanganyika",
+  "Kilwa Kisiwani-United Republic of Tanzania" = "hehe_southern_tanganyika",
+  "Lindi-United Republic of Tanzania" = "hehe_southern_tanganyika",
+  "Mikindani-United Republic of Tanzania" = "hehe_southern_tanganyika",
+  "Mpwapwa-United Republic of Tanzania" = "hehe_southern_tanganyika",
+  "Songea-United Republic of Tanzania" = "hehe_southern_tanganyika",
+  "Songo Mnara-United Republic of Tanzania" = "hehe_southern_tanganyika",
+  "Angoche-Mozambique" = "maravi_yao_lake_malawi",
+  "Blantyre-Malawi" = "maravi_yao_lake_malawi",
+  "Ibo-Mozambique" = "maravi_yao_lake_malawi",
+  "Mankhamba-Malawi" = "maravi_yao_lake_malawi",
+  "Masasi-United Republic of Tanzania" = "maravi_yao_lake_malawi",
+  "Moçambique-Mozambique" = "maravi_yao_lake_malawi",
+  "Nkhotakota-Malawi" = "maravi_yao_lake_malawi",
+  "Pemba-Mozambique" = "maravi_yao_lake_malawi",
+  "Tete-Mozambique" = "maravi_yao_lake_malawi",
+  "Zomba-Malawi" = "maravi_yao_lake_malawi",
+  "Chipata-Zambia" = "bemba_lozi_zambezi_plateau",
+  "Ingombe Ilede-Zambia" = "bemba_lozi_zambezi_plateau",
+  "Kasama-Zambia" = "bemba_lozi_zambezi_plateau",
+  "Mwansabombwe-Zambia" = "bemba_lozi_zambezi_plateau",
+  "Zumbo-Mozambique" = "bemba_lozi_zambezi_plateau",
+  "Cidade de Manica-Mozambique" = "portuguese_mozambique_gaza",
+  "Dambarare-Zimbabwe" = "portuguese_mozambique_gaza",
+  "Great Zimbabwe-Zimbabwe" = "portuguese_mozambique_gaza",
+  "Inhambane-Mozambique" = "portuguese_mozambique_gaza",
+  "Lobamba-eSwatini" = "portuguese_mozambique_gaza",
+  "Manyikeni-Mozambique" = "portuguese_mozambique_gaza",
+  "Maputo-Mozambique" = "portuguese_mozambique_gaza",
+  "Masapa-Zimbabwe" = "portuguese_mozambique_gaza",
+  "Massangano-Zambezi-Mozambique" = "portuguese_mozambique_gaza",
+  "Quelimane-Mozambique" = "portuguese_mozambique_gaza",
+  "Sena-Mozambique" = "portuguese_mozambique_gaza",
+  "Sofala-Mozambique" = "portuguese_mozambique_gaza",
+  "Thulamela-South Africa" = "portuguese_mozambique_gaza",
+  "Tsindi-Zimbabwe" = "portuguese_mozambique_gaza",
+  "Vila de Mandlakazi-Mozambique" = "portuguese_mozambique_gaza",
+  "Ziwa-Zimbabwe" = "portuguese_mozambique_gaza"
+)
+
+iso3_map <- c(
+  "Burundi" = "BDI",
+  "Ethiopia" = "ETH",
+  "Kenya" = "KEN",
+  "Malawi" = "MWI",
+  "Mozambique" = "MOZ",
+  "Rwanda" = "RWA",
+  "Somalia" = "SOM",
+  "South Africa" = "ZAF",
+  "Uganda" = "UGA",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB",
+  "Zimbabwe" = "ZWE",
+  "eSwatini" = "SWZ"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+fmt_era_yr <- function (y) {
+  paste0(as.integer(y), "AD")
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", fmt_era_yr(yrs[i_pk]), ")")
+}
+
+subregion_order <- c(
+  "zanzibar_swahili_omani_coast",
+  "kenya_highlands_maasai_rift",
+  "buganda_bunyoro_ankole",
+  "rwanda_burundi_kivu",
+  "nyamwezi_unyamwezi_tabora",
+  "hehe_southern_tanganyika",
+  "maravi_yao_lake_malawi",
+  "bemba_lozi_zambezi_plateau",
+  "portuguese_mozambique_gaza"
+)
+
+sub_by_id <- setNames(summary_cache$subregions, vapply(summary_cache$subregions, function (x) x$id, character(1)))
+
+entry_sub_ids <- vapply(all_entries, function (e) {
+  s <- subregion_lookup[[e$key]]
+  if (is.null(s)) "zanzibar_swahili_omani_coast" else s
+}, character(1))
+
+zone_entries <- setNames(lapply(subregion_order, function (sid) {
+  sub <- all_entries[entry_sub_ids == sid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), subregion_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      `1500AD` = fmt_site_pop(e, 1500),
+      `1700AD` = fmt_site_pop(e, 1700),
+      `1800AD` = fmt_site_pop(e, 1800),
+      `1850AD` = fmt_site_pop(e, 1850),
+      `1880AD` = fmt_site_pop(e, 1880),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1500, 1700, 1770, 1800, 1850, 1880)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates and multi-period population series for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across 13 countries in East Africa and Mozambique between 1500AD and 1885AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate ports, royal capitals, *prazo* strongholds and caravan entrepôts (`r viscount_fmt_number(n_excluded, 0L)` excluded as duplicate aliases), the retained ledger spans nine historical sub-regions from the Banadir and Swahili coasts through the Great Lakes and Unyamwezi to the Zambezi basin and Gaza. Active interpolated sites rise from `r viscount_fmt_number(n_active[["1500"]], 0L)` around 1500AD to `r viscount_fmt_number(n_active[["1700"]], 0L)` at 1700AD, `r viscount_fmt_number(n_active[["1800"]], 0L)` at 1800AD, `r viscount_fmt_number(n_active[["1850"]], 0L)` at 1850AD and `r viscount_fmt_number(n_active[["1880"]], 0L)` at 1880AD, documenting urban trajectories from Bigo bya Mugenyi (100k) and Muqdisho (21,2k) to Zanzibar (65k), Kibuga (38,5k), Mombasa (30k) and Tabora (20k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 97 individually assessed settlements across 13 countries spanning nine historical sub-regions from 1500AD to 1885AD.",
+    "fig:hero-settlements-east-africa"
+  )
+}
+```
+
+# Background
+
+Compiling an early modern settlement ledger across East Africa and Mozambique requires integrating coastal European, Arabic and Swahili sources with inland archaeological surveys and nineteenth-century travel journals [@HortonMiddleton2000Swahili; @Newitt1995Mozambique; @Burton1904FirstFootsteps]. While stone-built coral ports from Somalia to Mozambique Island and Portuguese fortresses at Sofala, Sena and Tete generated dated garrison and customs counts from the sixteenth century onward [@Pradines2016PortugueseFortresses; @Berg1900TheSwahili], earthen capitals across Buganda, Rwanda, Burundi, Unyamwezi and the Zambezi plateau relied on mapped enclosure areas and traveller headcounts recorded predominantly between 1798AD and 1885AD [@Kafuuma2019HeritageSignificance; @Bryndina2023TheMost].
+
+# Methodology
+
+## Candidate Screening and Sub-Regional Partition
+
+Candidate sites were screened across four waves from archival censuses, archaeological site inventories and historical monographs [@NMK2021KenyaSites; @Alders2023OpenAccess; @WynneJones2018SwahiliWorld]. From `r viscount_fmt_number(n_candidates, 0L)` initial entries inside the `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² regional boundary clipped to geoBoundaries outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate orthographies and merged aliases were excluded, leaving `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across `r viscount_fmt_number(summary_cache$observation_count, 0L)` observations. Ninety-one entries fall strictly inside the 5-arcminute regional mask pixels and 6 border-margin sites (Muqdisho, Afgoye, Baar Dheere, Chencha, Great Zimbabwe and Thulamela) are assigned to their adjoining cultural sub-regions so every entry is catalogued.
+
+## Site-Specific Population Estimation
+
+Every entry records city-proper populations (97 city-proper, 0 metropolitan agglomerations) anchored to stone-core hectares, earthwork perimeters, compound counts or contemporary enumerations [@WynneJones2018TheMultiple; @Lyne1905ZanzibarContemporary]. Tables 1 to 9 report linearly interpolated headcounts at five benchmarks (1500AD, 1700AD, 1800AD, 1850AD, 1880AD) alongside each settlement's peak population and date, marking spans outside observed occupation with a hyphen (-).
+
+# Testing and Validation
+
+Across all `r viscount_fmt_number(length(all_entries), 0L)` settlements, ordinary least-squares rank-size regression yields $q = 0,73$ ($R^2 = 0,99$) across the upper 48 sites and $q = 0,98$ ($R^2 = 0,88$) across the full sample (Figure \ref{fig:settlements-rank}). Chronological checks confirm clean continuity across Portuguese, Omani-Zanzibari and early colonial records without duplicate place-name aliases [@Baumanova2022WhatsName; @Parliament1898CorrespondenceRespecting].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size curve across 97 individually assessed settlements (top-48 OLS q = 0,73, R² = 0,99) and sub-regional densities in 1880AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Omani-Zanzibar Sultanate and Swahili Coast
+
+Table \ref{tab:sub-swahili} documents `r viscount_fmt_number(length(zone_entries[["zanzibar_swahili_omani_coast"]]), 0L)` settlements along the Swahili littoral and Usambara-Kilimanjaro hinterland, led by Zanzibar (65k), Mombasa (30k), Bagamoyo (18,5k), Pate (16,8k), Lamu (15,2k), Kilwa Kivinje (15k) and Siyu (11,2k) [@Allen1981SwahiliCulture; @Kusimba1999SwahiliStates].
+
+```{r tab-swahili, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["zanzibar_swahili_omani_coast"]]),
+  "Individually assessed settlements in the Omani-Zanzibar Sultanate and Swahili Coast sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-swahili")
+)
+```
+
+## Maasai Steppe, Kenya Highlands and Banadir Fringe
+
+Table \ref{tab:sub-kenya-banadir} lists `r viscount_fmt_number(length(zone_entries[["kenya_highlands_maasai_rift"]]), 0L)` settlements across the Banadir coast, southern Ethiopian highlands and western Kenya, led by Muqdisho (21,2k), Afgoye (7,42k), Barawa E Al Bambar (6,42k), Mumias (5,4k) and Marka (5,12k) [@Kassim1995IslamAnd_2; @NMK2021KenyaSites].
+
+```{r tab-kenya-banadir, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["kenya_highlands_maasai_rift"]]),
+  "Individually assessed settlements in the Maasai Steppe, Kenya Highlands and Banadir sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-kenya-banadir")
+)
+```
+
+## Buganda, Bunyoro-Kitara and Ankole
+
+Table \ref{tab:sub-buganda} compiles `r viscount_fmt_number(length(zone_entries[["buganda_bunyoro_ankole"]]), 0L)` interlacustrine sites across Uganda, from Bigo bya Mugenyi (100k), Kibuga (38,5k), Hoima (9,6k) and Masindi (6,8k) to Mbarara (5,1k), Munsa (2,15k) and Kibiro (1,75k) [@Kafuuma2019HeritageSignificance; @Lira2024Plot24Urban].
+
+```{r tab-buganda, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["buganda_bunyoro_ankole"]]),
+  "Individually assessed settlements in the Buganda, Bunyoro-Kitara and Ankole sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-buganda")
+)
+```
+
+## Kingdoms of Rwanda and Burundi
+
+Table \ref{tab:sub-rwanda} presents `r viscount_fmt_number(length(zone_entries[["rwanda_burundi_kivu"]]), 0L)` sites across Rwanda, Burundi, Karagwe and eastern Lake Tanganyika, anchored by Ujiji (14k), Busasama (8,4k), Bweranyange (6,5k), Muramvya (6,2k), Gitega (4,2k) and Rumonge (2,95k) [@Brandl1975EarlyChristianity; @Bourguignat1879DescriptionDiverses].
+
+```{r tab-rwanda, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["rwanda_burundi_kivu"]]),
+  "Individually assessed settlements in the Kingdoms of Rwanda and Burundi sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-rwanda")
+)
+```
+
+## Nyamwezi, Mirambo and Caravan Corridor
+
+Table \ref{tab:sub-nyamwezi} records `r viscount_fmt_number(length(zone_entries[["nyamwezi_unyamwezi_tabora"]]), 0L)` central and northern Tanzanian settlements: Tabora (20k), Urambo (16,2k), Engaruka (7,8k) and Karema (950) [@Bryndina2023TheMost; @Burton1904FirstFootsteps].
+
+```{r tab-nyamwezi, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["nyamwezi_unyamwezi_tabora"]]),
+  "Individually assessed settlements in the Nyamwezi, Mirambo and Caravan Corridor sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-nyamwezi")
+)
+```
+
+## Hehe, Rufiji and Southern Tanganyika
+
+Table \ref{tab:sub-hehe} covers `r viscount_fmt_number(length(zone_entries[["hehe_southern_tanganyika"]]), 0L)` southern Tanzanian and northern Malawi-shore sites led by Kilwa Kisiwani (12k), Kalenga (7,5k), Lindi (5,6k), Songea (5,2k), Mikindani (4,6k) and Mpwapwa (4,2k) [@WynneJones2018TheMultiple; @Pradines2016PortugueseFortresses].
+
+```{r tab-hehe, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["hehe_southern_tanganyika"]]),
+  "Individually assessed settlements in the Hehe, Rufiji and Southern Tanganyika sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-hehe")
+)
+```
+
+## Maravi Confederacy, Yao and Northern Mozambique
+
+Table \ref{tab:sub-maravi} lists `r viscount_fmt_number(length(zone_entries[["maravi_yao_lake_malawi"]]), 0L)` settlements across Malawi, northern Mozambique and Ruvuma, headed by Nkhotakota (11,2k), Ilha de Moçambique (11,2k), Angoche (9,8k), Tete (7,4k), Mankhamba (7,2k) and Ibo (6,2k) [@Newitt1995Mozambique].
+
+```{r tab-maravi, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["maravi_yao_lake_malawi"]]),
+  "Individually assessed settlements in the Maravi Confederacy, Yao and Northern Mozambique sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-maravi")
+)
+```
+
+## Bemba, Lozi-Barotseland and Kazembe
+
+Table \ref{tab:sub-bemba} details `r viscount_fmt_number(length(zone_entries[["bemba_lozi_zambezi_plateau"]]), 0L)` Zambian and upper Zambezi settlements: Mwansabombwe (7,8k), Kasama (7,4k), Chipata (6,8k), Zumbo (3,1k) and Ingombe Ilede (1,24k) [@Newitt1995Mozambique].
+
+```{r tab-bemba, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["bemba_lozi_zambezi_plateau"]]),
+  "Individually assessed settlements in the Bemba, Lozi-Barotseland and Kazembe sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-bemba")
+)
+```
+
+## Portuguese Zambezi Prazos, Sofala and Gaza
+
+Table \ref{tab:sub-mozambique} compiles `r viscount_fmt_number(length(zone_entries[["portuguese_mozambique_gaza"]]), 0L)` lower Zambezi, Sofala, Zimbabwe plateau and Gaza sites led by Vila de Mandlakazi (14,5k), Massangano-Zambezi (11,24k), Sofala (10k), Quelimane (9,2k) and Inhambane (7,5k) [@Pugliesi1977ResenhaLivro; @Newitt1995Mozambique].
+
+```{r tab-mozambique, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["portuguese_mozambique_gaza"]]),
+  "Individually assessed settlements in the Portuguese Zambezi Prazos, Sofala and Gaza sub-region (1500AD to 1885AD).",
+  arg3_options = list(label = "tab:sub-mozambique")
+)
+```
+
+# Limitations
+
+Three constraints govern this gazetteer. First, 13 of the 97 entries carry single-date observations, so interpolated benchmark columns outside their observed year show a hyphen. Second, recovery favours coastal stone towns, Portuguese *feiras* and nineteenth-century caravan depots over dispersed rural villages [@HortonMiddleton2000Swahili; @Alders2023OpenAccess]. Third, summed gazetteer figures track nucleated settlements rather than full regional populations presented in the companion literature review.
+
+# Conclusion
+
+Together, the `r viscount_fmt_number(length(all_entries), 0L)` settlements trace the shift from sixteenth-century Swahili ports and Great Lakes earthwork complexes to nineteenth-century Omani plantation towns, caravan entrepôts and Zambezi *prazo* strongholds across 13 countries between 1500AD and 1885AD.
+
+# Appendix
+
+## Sub-Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums site counts and combined interpolated settlement populations across all nine sub-regions from 1500AD to 1880AD.
+
+```{r tab-appendix-summary, results='asis'}
+sum_rows <- lapply(subregion_order, function (sid) {
+  sub <- zone_entries[[sid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Subregion (Sites)` = paste0(sub_by_id[[sid]]$name, " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1500AD` = sums[["1500"]],
+    `1700AD` = sums[["1700"]],
+    `1770AD` = sums[["1770"]],
+    `1800AD` = sums[["1800"]],
+    `1850AD` = sums[["1850"]],
+    `1880AD` = sums[["1880"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_sums <- setNames(vapply(bench_nums, function (yr) {
+  vals <- vapply(all_entries, function (e) {
+    p <- interp_site_pop(e, yr)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}, character(1)), bench_keys)
+tot_row <- data.frame(
+  `Subregion (Sites)` = paste0("All Subregions (", viscount_fmt_number(length(all_entries), 0L), ")"),
+  `1500AD` = tot_sums[["1500"]],
+  `1700AD` = tot_sums[["1700"]],
+  `1770AD` = tot_sums[["1770"]],
+  `1800AD` = tot_sums[["1800"]],
+  `1850AD` = tot_sums[["1850"]],
+  `1880AD` = tot_sums[["1880"]],
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(df_sum) <- NULL
+viscount_table(
+  df_sum,
+  "Individually assessed site counts and combined interpolated populations across nine sub-regions from 1500AD to 1880AD.",
+  arg3_options = list(label = "tab:gazetteer-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each settlement's earliest and latest observed dates; pre-foundation and post-abandonment benchmarks are marked with a hyphen (-).

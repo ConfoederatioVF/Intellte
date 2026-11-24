@@ -1,0 +1,410 @@
+---
+title: "Post-Colonial Equatoria, DR Congo and Angola"
+subtitle: "Central Africa, Democratic Republic of the Congo and Angola Since 1960"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_congo_angola_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Ninety-five first-level administrative divisions across seven Central African republics and 1.592 individually assessed settlements between 1960AD and 2025AD."
+hero_label: "fig:hero-postcolonial-congo-angola"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("postcolonial_congo_angola_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("postcolonial_congo_angola_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+clean_sr_name <- function (nm) {
+  s <- gsub("\u2014|\u2013", "-", as.character(nm))
+  s <- gsub("\\s*\\[[^\\]]+\\]", "", s)
+  trimws(s)
+}
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+n_countries <- length(summary_cache$countries)
+
+bench_keys <- c("1960", "1970", "1980", "1990", "2000", "2010", "2015", "2020", "2025")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+core_iso_order <- c("COD", "AGO", "CMR", "CAF", "COG", "GAB", "GNQ")
+core_country_names <- c(
+  COD = "DR Congo",
+  AGO = "Angola",
+  CMR = "Cameroon",
+  CAF = "Central African Rep.",
+  COG = "Rep. of the Congo",
+  GAB = "Gabon",
+  GNQ = "Equatorial Guinea"
+)
+core_full_names <- c(
+  COD = "Democratic Republic of the Congo",
+  AGO = "Angola",
+  CMR = "Cameroon",
+  CAF = "Central African Republic",
+  COG = "Republic of the Congo",
+  GAB = "Gabon",
+  GNQ = "Equatorial Guinea"
+)
+
+country_agg <- setNames(lapply(core_iso_order, function (iso) {
+  matching <- Filter(function (sr) toupper(strsplit(sr$id, "_")[[1]][1]) == iso, subregs)
+  area_sum <- sum(vapply(matching, function (sr) as.numeric(sr$area_km2), numeric(1)))
+  pix_sum <- sum(vapply(matching, function (sr) as.integer(sr$pixel_count), integer(1)))
+  pop_series <- setNames(vapply(bench_keys, function (yr) {
+    sum(vapply(matching, function (sr) as.numeric(sr$population[[yr]]), numeric(1)))
+  }, numeric(1)), bench_keys)
+  n_sites <- as.integer(summary_cache$settlements_by_country[[core_full_names[[iso]]]])
+  list(
+    iso = iso,
+    label = core_country_names[[iso]],
+    full_name = core_full_names[[iso]],
+    n_admin1 = length(matching),
+    area_km2 = area_sum,
+    pixels = pix_sum,
+    pop = pop_series,
+    n_sites = n_sites
+  )
+}), core_iso_order)
+
+all_entries <- unname(settlements_raw)
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(all_entries, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+n_interior_sites <- sum(vapply(summary_cache$subregion_settlement_distribution, function (x) as.integer(x$settlement_count), integer(1)))
+n_buffer_sites <- n_total_sites - n_interior_sites
+n_core7_sites <- sum(vapply(core_iso_order, function (iso) country_agg[[iso]]$n_sites, integer(1)))
+n_perim_sites <- n_total_sites - n_core7_sites
+```
+
+# Abstract
+
+Between 1960AD and 2025AD, Central Africa, the Democratic Republic of the Congo and Angola underwent one of the fastest demographic and urban transformations in modern world history. Across a continuous territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² partitioned into 95 first-level administrative divisions across seven sovereign republics, NICETHI reconstructs an aggregate regional population that expanded more than eightfold from `r viscount_fmt_pop(headline_vals[["1960"]])` inhabitants at independence in 1960AD to `r viscount_fmt_pop(headline_vals[["1980"]])` in 1980AD, `r viscount_fmt_pop(headline_vals[["2000"]])` in 2000AD, `r viscount_fmt_pop(headline_vals[["2015"]])` in 2015AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD, lifting mean regional density to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth paired sustained high fertility across the Congo Basin and Angolan plateau with explosive rural-to-urban concentration driven by civil conflicts, post-colonial state expansion, mineral extraction and hydrocarbon booms. Kinshasa grew from a late-colonial river port of 451,1k inhabitants in 1960AD into a megacity agglomeration exceeding 11,94M residents in the urban footprint and 18,81M across its provincial boundary, while wartime flight and post-war petroleum revenues pushed Luanda from 224,6k to over 10,2M by 2024AD. Secondary corridors anchored by Yaoundé, Douala, Lubumbashi, Brazzaville, Pointe-Noire, Goma, Mbuji-Mayi, Libreville, Bangui and Malabo similarly multiplied, concentrating urban primacy even as vast rainforest basins in Gabon, northern Congo and eastern Central African Republic remained sparsely inhabited. These trajectories combine `r viscount_fmt_number(n_total_sites, 0L)` individually assessed urban and agglomeration series across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations with national census enumerations, Africapolis urban footprints and geoBoundaries administrative polygons.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Ninety-five first-level administrative divisions across seven Central African republics and 1.592 individually assessed settlements between 1960AD and 2025AD.",
+    "fig:hero-postcolonial-congo-angola"
+  )
+}
+```
+
+# Background
+
+## Decolonisation, Civil Conflict and Territorial Realignment
+
+In 1960AD, political independence reshaped the administrative map of Equatorial and West-Central Africa within a single calendar year. French Equatorial Africa dissolved into four sovereign states, namely Gabon, the Republic of the Congo, the Central African Republic and Chad, while French Cameroun achieved independence in January 1960 before uniting with the southern British trust territory in 1961AD [@BUCREP2010CameroonRGPH; @Bank2016CameroonPriorities]. The Belgian Congo became an independent republic in June 1960 amid immediate provincial secessions in Katanga and South Kasai, whereas Spain retained Fernando Po and Río Muni until Equatorial Guinea gained independence in 1968AD and Portugal resisted decolonisation across Angola until November 1975 [@Marzano2023DiarioLuanda; @INE2016AngolaRGPH; @AvelinoChico2025AngolaThe].
+
+Post-colonial settlement patterns were never governed by natural increase alone. In the Democratic Republic of the Congo, prolonged political turmoil in the 1960s, the Mobutu regime's centralisation of Zaire and the First and Second Congo Wars between 1996AD and 2003AD disrupted transport arteries, eroded rural health infrastructure and displaced millions from Kivu, Ituri, Tanganyika and northern Katanga into regional towns and cross-border camps [@Shapiro2017FertilityEthnicity; @Martin2014MortalityRates; @Dimbuene2023HighRisk]. After decades of administrative inertia following the 1984AD national census, the 2006AD constitution mandated a territorial *découpage* enacted in 2015AD that subdivided the eleven inherited provinces into 26 smaller provinces, elevating secondary provincial capitals across Kasai, Bandundu, Équateur and Orientale [@Runfola2020GeoBoundaries; @Lawunda2023PrivatisationLeau].
+
+Angola followed an equally turbulent trajectory. The departure of roughly 300k Portuguese settlers at independence in 1975AD coincided with the outbreak of a 27-year civil war between the MPLA government and UNITA that persisted until 2002AD [@INE2016AngolaRGPH; @AvelinoChico2025AngolaThe]. Insecurity across Huambo, Bié, Malanje, Moxico and Cuando Cubango emptied central highland villages toward fortified coastal cities, especially Luanda and the Benguela-Lobito conurbation, before post-2002AD reconstruction, road rehabilitation and diamond and oil revenues enabled partial interior recovery [@Bank2022AngolaThird; @Shibre2020SocialInequality]. Across Cameroon, Gabon, the Republic of the Congo and Equatorial Guinea, relative macro-political continuity masked sharp economic swings between agricultural export cycles, timber and manganese concessions and offshore petroleum booms that drew rural youth toward coastal ports and national capitals [@Bank2022CameroonSystematic; @Monono2023TheChallenges; @OECD2024Africapolis].
+
+## Demographic Censuses, Fertility Regimes and Urban Historiography
+
+Statistical documentation across these seven republics exhibits extreme variation in census frequency and spatial precision. Cameroon conducted regular general population and housing censuses under BUCREP in 1976AD, 1987AD and 2005AD, supplying robust baselines for adult mortality, female labour participation and urban growth around Yaoundé, Douala, Bafoussam and Bamenda [@BUCREP2010CameroonRGPH; @Bangha2013EstimatingAdult; @Nanfosso2010FertilityHealth; @Yeyouomo2016TheEffects]. The Republic of the Congo enumerated its population in 1974AD, 1984AD, 2007AD and 2023AD, Gabon completed censuses in 1993AD and 2013AD, and the Central African Republic conducted counts in 1975AD, 1988AD and 2003AD alongside a 2021AD national household survey baseline [@OECD2024Africapolis; @Bank2021CentralAfrican].
+
+By contrast, Angola and the Democratic Republic of the Congo experienced multi-decade enumerative hiatuses. After late-colonial Portuguese counts in 1960AD and 1970AD, Angola could not complete a nationwide census until the May 2014 *Recenseamento Geral da População e Habitação* (RGPH), which recorded 25,79M inhabitants and revealed a much higher Luanda concentration than earlier UN extrapolations assumed, followed by a second post-war census in 2024AD [@INE2016AngolaRGPH; @Bank2022AngolaThird; @AvelinoChico2025AngolaThe]. In the Democratic Republic of the Congo, the July 1984 scientific census remains the sole completed post-independence national enumeration; demographic reconstruction since 1984AD therefore rests upon electoral voter rolls, Demographic and Health Surveys (DHS), provincial administrative projections and satellite-delineated built-up footprints [@Shapiro2017FertilityEthnicity; @Dimbuene2023HighRisk; @Lawunda2023PrivatisationLeau; @OECD2024Africapolis].
+
+Scholars of Central African demography emphasise two structural drivers behind the region's sustained expansion since 1960AD. First, fertility transitions stalled or remained unusually gradual outside major coastal cities: total fertility rates stayed near six to seven children per woman across rural DRC, northern Cameroon and inland Angola, supported by early marriage, low contraceptive prevalence and high-risk reproductive intervals [@Shapiro2017FertilityEthnicity; @Dimbuene2023HighRisk; @Yeyouomo2016TheEffects]. Second, peri-urban expansion routinely outpaced formal municipal planning, producing vast unserviced neighbourhoods around Kinshasa, Luanda, Douala, Bafoussam and Bamenda where informal water markets, flood exposure and high infant mortality persisted despite rising urban shares [@Lawunda2023PrivatisationLeau; @Flore2020UrbanizationAnd; @Tichafogwe2025PeriUrbanization; @Tata2024UrbanGovernance; @Shibre2020SocialInequality]. NICETHI synthesises these census records, demographic surveys and spatial urban datasets into a single continuous regional account from 1960AD to 2025AD.
+
+# Methodology
+
+## Sub-Regional Partition and Harmonised Administrative Accounting
+
+The territorial domain covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells spanning seven Central African republics (Table \ref{tab:countries}). Within NICETHI, the chapter represents Regime 3 (`r summary_cache$domain[1]`AD to `r summary_cache$domain[2]`AD), extending the colonial-era accounts of French Equatorial Africa, Cameroon, Spanish Guinea, Belgian Congo and Portuguese Angola directly to the contemporary period. Unlike earlier prehistoric and mediaeval chapters partitioned by ecological basins, post-colonial spatial accounting uses 95 harmonised first-level administrative divisions derived from geoBoundaries polygons [@Runfola2020GeoBoundaries]: 26 post-2015AD provinces in DR Congo, 18 provinces in Angola, 17 prefectures in the Central African Republic, 12 departments in the Republic of the Congo, 10 regions in Cameroon, 9 provinces in Gabon and 3 insular and mainland divisions in Equatorial Guinea.
+
+```{r tab1-countries, results='asis'}
+df_t1 <- do.call(rbind, lapply(core_iso_order, function (iso) {
+  ca <- country_agg[[iso]]
+  data.frame(
+    Republic = ca$label,
+    `Admin-1` = viscount_fmt_number(ca$n_admin1, 0L),
+    `Area (km²)` = viscount_fmt_number(ca$area_km2, 0L),
+    `1960AD` = viscount_fmt_pop(ca$pop[["1960"]]),
+    `1980AD` = viscount_fmt_pop(ca$pop[["1980"]]),
+    `2000AD` = viscount_fmt_pop(ca$pop[["2000"]]),
+    `2015AD` = viscount_fmt_pop(ca$pop[["2015"]]),
+    `2025AD` = viscount_fmt_pop(ca$pop[["2025"]]),
+    `2025 Dens.` = viscount_fmt_number(ca$pop[["2025"]] / ca$area_km2, 1L),
+    Sites = viscount_fmt_number(ca$n_sites, 0L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_row_t1 <- data.frame(
+  Republic = "Total Study Area",
+  `Admin-1` = "95",
+  `Area (km²)` = viscount_fmt_number(total_area_km2, 0L),
+  `1960AD` = viscount_fmt_pop(headline_vals[["1960"]]),
+  `1980AD` = viscount_fmt_pop(headline_vals[["1980"]]),
+  `2000AD` = viscount_fmt_pop(headline_vals[["2000"]]),
+  `2015AD` = viscount_fmt_pop(headline_vals[["2015"]]),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  `2025 Dens.` = viscount_fmt_number(summary_cache$end_epoch_density_km2, 1L),
+  Sites = viscount_fmt_number(n_core7_sites, 0L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t1 <- rbind(df_t1, tot_row_t1)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Seven-country territorial summary across 95 first-level administrative divisions from 1960AD to 2025AD, showing interior assessed sites.",
+  arg3_options = list(label = "tab:countries")
+)
+```
+
+To bridge colonial boundary regimes across independence transitions, NICETHI links post-colonial Admin-1 grids downward from historical 1950AD to 1965AD provincial tables: the six Belgian Congo provinces of Léopoldville, Équateur, Orientale, Kivu, Kasaï and Katanga, the fifteen colonial Angolan districts, the fourteen French Cameroun regions and the ten Middle Congo districts [@INE2016AngolaRGPH; @BUCREP2010CameroonRGPH; @Runfola2020GeoBoundaries]. Population trajectories are evaluated across 14 five-year checkpoints from 1960AD to 2025AD, allowing direct alignment with decennial census rounds, refugee displacement waves and post-2000AD urban growth.
+
+## Settlement Ledger Screening and Scope Reconciliation
+
+Urban populations are reconstructed from `r viscount_fmt_number(n_candidate_sites, 0L)` candidate towns, mining centres, river ports and suburban communes screened across national statistical abstracts, UN demographic yearbooks and the 2024AD Africapolis urban agglomeration inventory [@OECD2024Africapolis; @INE2016AngolaRGPH; @BUCREP2010CameroonRGPH]. After removing `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records and sub-threshold hamlets, `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements remain across `r viscount_fmt_number(n_obs_total, 0L)` dated observations.
+
+Of those `r viscount_fmt_number(n_total_sites, 0L)` settlements, `r viscount_fmt_number(n_core7_sites, 0L)` lie inside the seven core republics (`r viscount_fmt_number(country_agg[["COD"]]$n_sites, 0L)` in DR Congo, `r viscount_fmt_number(country_agg[["AGO"]]$n_sites, 0L)` in Angola, `r viscount_fmt_number(country_agg[["CMR"]]$n_sites, 0L)` in Cameroon, `r viscount_fmt_number(country_agg[["CAF"]]$n_sites, 0L)` in Central African Republic, `r viscount_fmt_number(country_agg[["COG"]]$n_sites, 0L)` in Republic of the Congo, `r viscount_fmt_number(country_agg[["GAB"]]$n_sites, 0L)` in Gabon and `r viscount_fmt_number(country_agg[["GNQ"]]$n_sites, 0L)` in Equatorial Guinea), while `r viscount_fmt_number(n_perim_sites, 0L)` form a cross-frontier spatial buffer along neighbouring borders in Nigeria (98), Uganda (85), Burundi (51), Chad (42), Zambia (42), Rwanda (23), Namibia (20), South Sudan (10), Tanzania (10), Sudan (2) and Botswana (1). Within the ledger, `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` series record strictly municipal city-proper populations and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` record built-up metropolitan agglomerations [@OECD2024Africapolis]. Keeping both scopes explicitly tagged prevents conflating legal city limits with continuous conurbations when calibrating urban shares at Kinshasa, Luanda, Yaoundé, Douala, Brazzaville and Bangui [@Lawunda2023PrivatisationLeau; @Monono2023TheChallenges].
+
+## Spatial Disaggregation and Census Interpolation
+
+Rural and peri-urban populations outside enumerated town footprints are allocated across the `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells through mass-conserving pycnophylactic disaggregation constrained by geoBoundaries Admin-1 polygons and historical sub-administrative benchmark tables [@Runfola2020GeoBoundaries; @BUCREP2010CameroonRGPH; @INE2016AngolaRGPH]. Rather than smoothing away administrative boundaries, pycnophylactic weighting preserves exact enumerated or interpolated provincial totals while distributing residents according to transport corridors, river axes, highland agricultural suitability and modern urban footprints [@OECD2024Africapolis; @Cornelissen2016RMCA]. Where multi-decade census gaps exist, as in post-1984AD DR Congo or wartime Angola between 1975AD and 2002AD, national and provincial growth curves integrate DHS fertility differentials, conflict mortality studies and sub-national voter or vaccination registers [@Shapiro2017FertilityEthnicity; @Martin2014MortalityRates; @Dimbuene2023HighRisk; @Shibre2020SocialInequality].
+
+# Testing and Validation
+
+## Rank-Size Geometry and Urban Hierarchy Diagnostics
+
+Across the `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements, upper-tier rank-size regression (n=180 leading centres) yields a Zipf exponent of $q = 1,08$ ($R^2 = 0,98$), while full-sample regression across all 1.592 settlements gives $q = 1,2$ ($R^2 = 0,93$). When adjacent municipal-agglomeration duplicates are spatially deduplicated to 1.529 distinct urban peaks in Figure \ref{fig:rank-size}, ordinary least-squares fitting closely tracks the ideal Zipf slope ($q = 1,02$, $R^2 = 0,99$). Unlike pre-colonial agrarian networks where flat exponents ($q < 0,85$) reflected dispersed chiefdom capitals, post-colonial Central Africa exhibits near-unitary rank-size scaling driven by primate national capitals paired with steep demographic drop-offs below the top twenty provincial cities [@OECD2024Africapolis; @Monono2023TheChallenges].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size curve across 1.529 spatially deduplicated peaks (q = 1,02, R² = 0,99) and leading sub-regional densities in 2025AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Panel B of Figure \ref{fig:rank-size} confirms the spatial concentration of extreme population density inside compact urban enclaves and coastal city-provinces by 2025AD: Pointe-Noire department reaches `r viscount_fmt_number(11590.3, 1L)` persons/km², Bangui prefecture `r viscount_fmt_number(3658.6, 1L)` persons/km², Kinshasa `r viscount_fmt_number(1772.5, 1L)` persons/km², Kasai-Oriental `r viscount_fmt_number(452.4, 1L)` persons/km² and Luanda province `r viscount_fmt_number(430.9, 1L)` persons/km², ahead of Bioko-Annobón (`r viscount_fmt_number(218.4, 1L)`), Kongo-Central (`r viscount_fmt_number(159.8, 1L)`), Brazzaville (`r viscount_fmt_number(159.6, 1L)`), Cameroon's Far North (`r viscount_fmt_number(122.3, 1L)`) and Cameroon's West region (`r viscount_fmt_number(117.8, 1L)`).
+
+## Cross-Checking Sub-Administrative Benchmarks and Active Site Coverage
+
+Sub-administrative benchmark tables provide twelve independent internal cross-checks spanning colonial and post-colonial enumerations: Belgian Congo 1958AD (6 provinces, 13,54M), DR Congo 2005AD and 2020AD (26 provinces, 74,81M and 105,59M), Angola 1950AD, 1995AD and 2024AD (15, 18 and 343 units), Cameroon 1951AD and 2005AD (14 and 429 units), Central African Republic 1960AD, 1988AD and 2021AD (14, 17 and 97 units), and Republic of the Congo 1960AD (10 units) [@INE2016AngolaRGPH; @BUCREP2010CameroonRGPH; @Bank2022CameroonSystematic; @Bank2021CentralAfrican]. Active settlement series in the gazetteer expand from `r viscount_fmt_number(n_active[["1960"]], 0L)` centres in 1960AD to `r viscount_fmt_number(n_active[["1980"]], 0L)` in 1980AD, `r viscount_fmt_number(n_active[["2000"]], 0L)` in 2000AD, `r viscount_fmt_number(n_active[["2020"]], 0L)` in 2020AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` in 2025AD, capturing rapid post-2000AD peri-urban town emergence across Africapolis satellite extents (Figure \ref{fig:trends}) [@OECD2024Africapolis].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading city populations across Central Africa from 1960AD to 2025AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+At the same time, benchmark comparisons reveal two abrupt national jumps in the underlying regional totals that stem from administrative and enumerative transitions rather than instantaneous biological growth. In Cameroon, territorial integration of Southern Cameroons in 1961AD raised the series from 1,76M in 1960AD to 8,31M in 1965AD, while an unresolved post-2015AD spatial re-alignment in the provincial series lowers Cameroon's gridded Admin-1 sum from 23,45M in 2015AD to 12,39M in 2020AD and 14,35M in 2025AD even though BUCREP projections and Douala-Yaoundé urban series continue growing smoothly [@BUCREP2010CameroonRGPH; @Bank2022CameroonSystematic]. Similarly, DR Congo's series jumps from 20,74M in 1985AD to 34,13M in 1990AD and from 50,96M in 2010AD to 80,68M in 2015AD where post-1984AD provincial adjustments and the 2015AD 26-province *découpage* take effect [@Shapiro2017FertilityEthnicity; @Dimbuene2023HighRisk]. Recording these step artefacts explicitly prevents mistaking statistical boundary splices for sudden demographic booms.
+
+# Results
+
+## Regional Demographic Expansion (1960AD to 2025AD)
+
+Aggregate population across the seven Central African republics rose steadily across every five-year interval from `r viscount_fmt_pop(headline_vals[["1960"]])` in 1960AD to `r viscount_fmt_pop(headline_vals[["1970"]])` in 1970AD, `r viscount_fmt_pop(headline_vals[["1980"]])` in 1980AD, `r viscount_fmt_pop(headline_vals[["1990"]])` in 1990AD, `r viscount_fmt_pop(headline_vals[["2000"]])` in 2000AD, `r viscount_fmt_pop(headline_vals[["2010"]])` in 2010AD and `r viscount_fmt_pop(headline_vals[["2025"]])` in 2025AD (Table \ref{tab:countries} and Figure \ref{fig:trends}). Attested urban settlements absorbed an ever-growing share of that expansion, climbing from fewer than 4M residents in 1960AD to roughly 16M in 1980AD, 35M in 2000AD and over 135M across city-proper and metropolitan footprints by 2025AD [@OECD2024Africapolis]. Across the 95 sub-regions, demographic weight tilted heavily toward the Democratic Republic of the Congo (`r viscount_fmt_number(100 * country_agg[["COD"]]$pop[["2025"]] / headline_vals[["2025"]], 1L)`% of regional population in 2025AD) and Angola (`r viscount_fmt_number(100 * country_agg[["AGO"]]$pop[["2025"]] / headline_vals[["2025"]], 1L)`%).
+
+## Democratic Republic of the Congo: Megacity Kinshasa, Copperbelt and Eastern Displacement
+
+Containing 43,8% of the regional land area and nearly two-thirds of its 2025AD population (`r viscount_fmt_pop(country_agg[["COD"]]$pop[["2025"]])`), the Democratic Republic of the Congo anchors Central African demography. Following the 1984AD census, the country conducted no national enumeration for four decades, leaving provincial tracking dependent on demographic surveys and urban satellite mapping [@Shapiro2017FertilityEthnicity; @Dimbuene2023HighRisk]. Kinshasa expanded at one of the highest sustained rates of any African capital: its built-up urban agglomeration multiplied from 451,1k in 1960AD to 2,1M in 1980AD, 4,43M in 2000AD, 9,85M in 2020AD and 11,94M in 2025AD (Table \ref{tab:top-centres}), while the wider Kinshasa city-province reached `r viscount_fmt_pop(18814398)` inhabitants across `r viscount_fmt_number(10614.9, 0L)` km² (`r viscount_fmt_number(1772.5, 1L)` persons/km²) [@Lawunda2023PrivatisationLeau; @OECD2024Africapolis]. Adjacent Kongo-Central (`r viscount_fmt_pop(8500602)`) and Kwilu (`r viscount_fmt_pop(8080568.5)`) supplied migrant labour and food corridors linking Matadi, Kikwit and Bandundu to the capital (Table \ref{tab:leading-provinces}).
+
+In the south-east, Katanga's copper and cobalt belt rebounded after post-1990s parastatal decline, lifting Lubumbashi's agglomeration from 182,3k in 1960AD to 945,5k in 2000AD and 3,92M in 2025AD, supported by Kolwezi (901,3k), Likasi and provincial totals of 6,93M in Haut-Katanga and 3,85M in Lualaba [@OECD2024Africapolis]. Across central Kasai, diamond-mining urbanism propelled Mbuji-Mayi from 54,4k in 1960AD to 1,73M by 2025AD, making tiny Kasai-Oriental (`r viscount_fmt_number(10330, 0L)` km²) the second-densest Congolese province at 452,4 persons/km². In the east, however, the First and Second Congo Wars (1996AD to 2003AD) and persistent armed insurgency in North Kivu, South Kivu and Ituri triggered massive rural flight into lakeside and highland cities [@Martin2014MortalityRates]. Goma surged from 12k in 1960AD and 77,9k at the 1984AD census to 195k in 2000AD, 1,17M in 2020AD and 1,77M in 2025AD; Bukavu grew from 57,3k to 1,48M, Butembo reached 975,1k, and riverine Kisangani crossed 1,07M [@Martin2014MortalityRates; @OECD2024Africapolis]. Meanwhile, the 2015AD creation of 26 provinces decentralised administrative hubs into Tshopo (3,4M), Maniema (3,45M), Sankuru (3,14M) and Mai-Ndombe (2,73M), although vast inner-basin provinces such as Lower Uele (11,1 persons/km²) and Tshuapa (17 persons/km²) remained predominantly rural [@Shapiro2017FertilityEthnicity].
+
+```{r tab2-top-centres, results='asis'}
+top_16 <- summary_cache$top_settlements[seq_len(min(16L, length(summary_cache$top_settlements)))]
+df_t2 <- data.frame(
+  Settlement = vapply(top_16, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_16, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "Democratic Republic of the Congo")) "DR Congo"
+    else if (identical(c, "Republic of the Congo")) "Rep. of Congo"
+    else if (identical(c, "Central African Republic")) "CAR"
+    else c
+  }, character(1)),
+  Scope = vapply(top_16, function (s) {
+    if (identical(as.character(s$population_scope), "metro")) "Metro" else "City proper"
+  }, character(1)),
+  Span = vapply(top_16, function (s) paste0(s$min_year, "AD-", s$max_year, "AD"), character(1)),
+  `Peak Pop.` = vapply(top_16, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Year` = vapply(top_16, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_16, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Sixteen largest individually assessed urban centres and metropolitan agglomerations in the chapter ledger (1960AD to 2025AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+## Angola: Wartime Flight, Luanda Primacy and Post-2002AD Reconstruction
+
+Angola expanded sevenfold from `r viscount_fmt_pop(country_agg[["AGO"]]$pop[["1960"]])` in 1960AD to `r viscount_fmt_pop(country_agg[["AGO"]]$pop[["2025"]])` in 2025AD, yet its spatial distribution was radically reordered by the 1975AD to 2002AD civil war [@INE2016AngolaRGPH; @AvelinoChico2025AngolaThe]. Rural combat, landmines and transport collapse uprooted millions of Ovimbundu and northern farming households, propelling Luanda from 224,6k inhabitants in 1960AD to 770,6k in 1980AD, 1,92M in 2000AD and 10,2M at its 2024AD agglomeration peak (8,64M municipal city proper in 2024AD) [@INE2016AngolaRGPH; @Bank2022AngolaThird]. Rapid growth in peri-urban *musseques* and post-war state housing satellites across Cacuaco, Viana and Kilamba Kiaxi strained water and sanitation services, sustaining sharp socio-economic gradients in infant mortality [@Shibre2020SocialInequality; @AvelinoChico2025AngolaThe].
+
+The landmark May 2014 INE census and subsequent 2024AD census cycle confirmed both Luanda's demographic dominance (`r viscount_fmt_pop(8535032)` in Luanda province by 2025AD, 430,9 persons/km²) and the resurgence of secondary regional poles [@INE2016AngolaRGPH; @Bank2022AngolaThird]. On the central plateau and southern highlands, Huambo recovered from wartime siege to reach 851,4k city-proper residents (911,6k agglomeration in 2024AD) and Lubango climbed to 857,4k in Huíla province (3,4M provincial residents), while the Atlantic twin-port corridor of Benguela (775,2k city proper, 1,14M agglomeration) and Lobito linked reconstructed Benguela railway commerce to Bié and Moxico. North of the Congo estuary, oil-producing Cabinda grew to 780,1k by 2025AD, whereas south-eastern Moxico (2,9 persons/km²) and Cuando Cubango (4,3 persons/km²) remained among the least densely settled territories in Southern-Central Africa [@INE2016AngolaRGPH].
+
+## Cameroon: Dual Metropolises and Highland Agrarian Density
+
+Cameroon presents a bipolar urban structure balanced between the coastal industrial port of Douala and the inland administrative capital of Yaoundé, framed by high rural densities across the Western Grassfields and Far North [@BUCREP2010CameroonRGPH; @Bank2022CameroonSystematic]. Enumerated across three BUCREP censuses (1976AD, 1987AD and 2005AD), Yaoundé expanded from 69,8k in 1960AD to 401,2k in 1980AD, 1,39M in 2000AD and 5,46M in its 2025AD agglomeration (3,76M city proper), while Douala grew from 127,1k to 4,11M in its metropolitan footprint (3,82M city proper) [@BUCREP2010CameroonRGPH; @Bangha2013EstimatingAdult; @Monono2023TheChallenges]. Urban growth in both cities drew strongly on rural-urban migration from the Bamileke highlands and southern forest zones, altering female labour-market participation and depressing urban fertility relative to rural provinces [@Nanfosso2010FertilityHealth; @Yeyouomo2016TheEffects].
+
+Beyond the dual capitals, secondary regional centres proliferated along highland market and transport corridors. Bafoussam in the West region expanded from 18,2k in 1960AD to 193,2k in 2000AD and 1,34M by 2025AD through market-space consolidation and peri-urban spillover [@Flore2020UrbanizationAnd], while Bamenda in the North-West grew from 12,1k to 413,5k amid steep peri-urban land pressure and housing informality [@Tichafogwe2025PeriUrbanization]. In the northern savannas, Garoua (561,5k), Ngaoundéré (398,2k) and Maroua (382k) anchored the Far North (4,16M, 122,3 persons/km²) and Adamawa plateaus, whereas coastal governance challenges around Ndian and flood-prone districts highlighted mounting climate-resilience pressures in secondary Cameroonian towns [@Mesembe2026UrbanizationAnd; @Tata2024UrbanGovernance; @Bank2016CameroonPriorities].
+
+## Republic of the Congo, Gabon, Equatorial Guinea and Central African Republic
+
+The four smaller Equatoria republics illustrate contrasting post-colonial trajectories between hyper-urbanised oil exporters and conflict-affected interior savannas. In the Republic of the Congo, population rose nearly sevenfold from `r viscount_fmt_pop(country_agg[["COG"]]$pop[["1960"]])` in 1960AD to `r viscount_fmt_pop(country_agg[["COG"]]$pop[["2025"]])` in 2025AD, making it one of Sub-Saharan Africa's most urbanised nations [@OECD2024Africapolis]. Over three-quarters of Congolese residents cluster along the southern Brazzaville-Pointe-Noire axis: Brazzaville reached 2,14M city-proper inhabitants at the 2023AD census (2,34M agglomeration in 2025AD), while the oil port of Pointe-Noire reached 1,4M city-proper residents in 2023AD (`r viscount_fmt_number(11590.3, 1L)` persons/km² across its compact department), leaving Dolisie (178,2k) and Nkayi (121,9k) as modest intermediate hubs and northern Likouala and Sangha forested lowlands sparsely populated [@OECD2024Africapolis].
+
+Gabon followed a similar coastal concentration, expanding from `r viscount_fmt_pop(country_agg[["GAB"]]$pop[["1960"]])` in 1960AD to `r viscount_fmt_pop(country_agg[["GAB"]]$pop[["2025"]])` in 2025AD while rural interior provinces stagnated or lost population. Estuaire province rose from 139,6k to 1,28M by 2025AD as Libreville swelled from 27,4k in 1960AD to 1,11M in its metropolitan zone, flanked by the petroleum port of Port-Gentil (185,5k) and mining-rail hub Franceville (151k). Conversely, interior forest provinces such as Ogooué-Ivindo (62,3k in 2025AD versus 64,8k in 1960AD), Ngounié (100,2k versus 157,6k) and Nyanga (56,1k versus 81,7k) experienced sustained rural out-migration.
+
+Equatorial Guinea recorded the steepest relative demographic surge in the region following offshore hydrocarbon discoveries in the mid-1990s, climbing from `r viscount_fmt_pop(country_agg[["GNQ"]]$pop[["1960"]])` in 1960AD and 239k in 1980AD to `r viscount_fmt_pop(country_agg[["GNQ"]]$pop[["2000"]])` in 2000AD and `r viscount_fmt_pop(country_agg[["GNQ"]]$pop[["2025"]])` in 2025AD. Growth centred on the insular capital of Malabo (451,8k agglomeration in 2025AD, lifting Bioko-Annobón to 218,4 persons/km²) and the mainland port of Bata (375,1k agglomeration), complemented after 2011AD by state-led construction of the planned administrative capital Ciudad de la Paz (Oyala) in interior Wele-Nzas [@Runfola2020GeoBoundaries].
+
+Finally, the Central African Republic grew from `r viscount_fmt_pop(country_agg[["CAF"]]$pop[["1960"]])` in 1960AD to `r viscount_fmt_pop(country_agg[["CAF"]]$pop[["2000"]])` in 2000AD and `r viscount_fmt_pop(country_agg[["CAF"]]$pop[["2025"]])` in 2025AD, marked by acute urban primacy along the Ubangi river bend [@Bank2021CentralAfrican]. Bangui's agglomeration grew from 84k in 1960AD to 625,1k in 2000AD and 1,61M by 2025AD (812,4k city proper in 2021AD, plus peri-urban Bimbo at 348,8k and Bégoua at 264,1k), lifting Bangui prefecture to `r viscount_fmt_number(3658.6, 1L)` persons/km². Recurring post-2012AD armed conflict disrupted rural livelihoods across Ouham, Ouaka and Haute-Kotto (1,6 persons/km²), concentrating displaced populations in Bangui and western or southern provincial towns such as Carnot (129k), Berbérati (104,5k), Bambari (96,1k) and Bouar (81,7k) [@Bank2021CentralAfrican].
+
+```{r tab3-leading-provinces, results='asis'}
+sr_sorted <- subregs[order(-vapply(subregs, function (x) as.numeric(x$end_pop), numeric(1)))]
+top_20_sr <- sr_sorted[seq_len(min(20L, length(sr_sorted)))]
+df_t3 <- data.frame(
+  Division = vapply(top_20_sr, function (sr) clean_sr_name(sr$name), character(1)),
+  `Area (km²)` = vapply(top_20_sr, function (sr) viscount_fmt_number(sr$area_km2, 0L), character(1)),
+  `1960AD` = vapply(top_20_sr, function (sr) viscount_fmt_pop(sr$population[["1960"]]), character(1)),
+  `1980AD` = vapply(top_20_sr, function (sr) viscount_fmt_pop(sr$population[["1980"]]), character(1)),
+  `2000AD` = vapply(top_20_sr, function (sr) viscount_fmt_pop(sr$population[["2000"]]), character(1)),
+  `2025AD` = vapply(top_20_sr, function (sr) viscount_fmt_pop(sr$population[["2025"]]), character(1)),
+  `2025 Dens.` = vapply(top_20_sr, function (sr) viscount_fmt_number(sr$end_density_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Twenty most populous first-level administrative divisions in Central Africa in 2025AD with historical trajectory from 1960AD.",
+  arg3_options = list(label = "tab:leading-provinces")
+)
+```
+
+# Limitations
+
+Four structural constraints qualify these reconstructions. First, census scarcity in the Democratic Republic of the Congo (no completed national count since July 1984) and wartime Angola (no census between 1970AD and May 2014) forces heavy reliance on demographic surveys, voter rolls and satellite-derived settlement extents during intervening decades [@Shapiro2017FertilityEthnicity; @INE2016AngolaRGPH; @Dimbuene2023HighRisk]. Second, administrative boundary reforms and statistical splices introduce visible discontinuities in gridded provincial sums: Cameroon's 1961AD reunification and post-2015AD spatial re-alignment, together with the 2015AD 26-province Congolese *découpage*, alter sub-national allocations without reflecting instantaneous demographic shifts [@BUCREP2010CameroonRGPH; @Runfola2020GeoBoundaries].
+
+Third, urban boundary definitions vary markedly between countries. Legal municipal limits at Kinshasa, Luanda, Brazzaville, Yaoundé and Bangui exclude large contiguous suburbs such as Bimbo, Bégoua, Viana or Owendo, whereas Africapolis agglomerations merge adjoining peri-urban communes into single built-up polygons [@OECD2024Africapolis; @Lawunda2023PrivatisationLeau; @Tichafogwe2025PeriUrbanization]. Retaining separate municipal (`r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)`) and metropolitan (`r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)`) entries preserves provenance but requires explicit deduplication in rank-size tests. Fourth, conflict-driven displacement in eastern DR Congo, northern and eastern Central African Republic and Anglophone Cameroon produces rapid short-term population swings between towns and rural camps that five-year benchmarks can only smooth [@Martin2014MortalityRates; @Bank2021CentralAfrican; @Mesembe2026UrbanizationAnd].
+
+# Conclusion
+
+Between 1960AD and 2025AD, Central Africa, the Democratic Republic of the Congo and Angola expanded more than eightfold from `r viscount_fmt_pop(headline_vals[["1960"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])` inhabitants, raising regional population density from 4,09 to `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth combined persistently high rural fertility with intense urban concentration triggered by post-colonial state formation, protracted civil conflicts in Angola, DR Congo and the Central African Republic, mining corridors in Katanga and Kasai, and offshore oil wealth along the Gulf of Guinea. By integrating `r viscount_fmt_number(n_total_sites, 0L)` city-proper and metropolitan settlement series across `r viscount_fmt_number(n_obs_total, 0L)` observations with 95 harmonised Admin-1 divisions, NICETHI closes the post-1960AD Central African sequence through 2025AD.
+
+# Appendix
+
+## National Density and Share Trajectories
+
+Table \ref{tab:density-shares} reports mean national population density (persons per km²) and each republic's percentage share of the seven-country regional total across five benchmark years from 1960AD to 2025AD, highlighting DR Congo's rise from 55,4% to 64,7% and Angola's shift from 22,8% (1960AD) down to 16,4% (2000AD) before recovering to 19,3% by 2025AD.
+
+```{r tab4-density-shares, results='asis'}
+df_t4 <- do.call(rbind, lapply(core_iso_order, function (iso) {
+  ca <- country_agg[[iso]]
+  ar <- ca$area_km2
+  data.frame(
+    Republic = ca$label,
+    `1960 Dens.` = viscount_fmt_number(ca$pop[["1960"]] / ar, 1L),
+    `1980 Dens.` = viscount_fmt_number(ca$pop[["1980"]] / ar, 1L),
+    `2000 Dens.` = viscount_fmt_number(ca$pop[["2000"]] / ar, 1L),
+    `2025 Dens.` = viscount_fmt_number(ca$pop[["2025"]] / ar, 1L),
+    `1960 (%)` = viscount_fmt_number(100 * ca$pop[["1960"]] / headline_vals[["1960"]], 1L),
+    `2000 (%)` = viscount_fmt_number(100 * ca$pop[["2000"]] / headline_vals[["2000"]], 1L),
+    `2025 (%)` = viscount_fmt_number(100 * ca$pop[["2025"]] / headline_vals[["2025"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+mean_row_t4 <- data.frame(
+  Republic = "Mean Study Area",
+  `1960 Dens.` = viscount_fmt_number(headline_vals[["1960"]] / total_area_km2, 1L),
+  `1980 Dens.` = viscount_fmt_number(headline_vals[["1980"]] / total_area_km2, 1L),
+  `2000 Dens.` = viscount_fmt_number(headline_vals[["2000"]] / total_area_km2, 1L),
+  `2025 Dens.` = viscount_fmt_number(headline_vals[["2025"]] / total_area_km2, 1L),
+  `1960 (%)` = "100",
+  `2000 (%)` = "100",
+  `2025 (%)` = "100",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t4 <- rbind(df_t4, mean_row_t4)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Mean population density (persons per km²) and regional percentage share by republic from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:density-shares")
+)
+```
+
+## Independence-Era Administrative Units (1960AD Baseline)
+
+Table \ref{tab:hgis-units} documents the twenty-four 1960AD baseline provincial polygons recorded in the historical administrative lineage inventory across DR Congo, Angola, Cameroon, Central African Republic and Republic of the Congo, linking independence-era jurisdictions directly to the 95 modern geoBoundaries Admin-1 polygons.
+
+```{r tab5-hgis-units, results='asis'}
+hgis_list <- summary_cache$hgis_regime_units
+df_t5 <- data.frame(
+  Country = vapply(hgis_list, function (x) as.character(x$country), character(1)),
+  `Unit Code` = vapply(hgis_list, function (x) as.character(x$unit_code), character(1)),
+  `Provincial Unit (1960AD)` = vapply(hgis_list, function (x) as.character(x$unit_name), character(1)),
+  `Area (km²)` = vapply(hgis_list, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  `Lineage` = vapply(hgis_list, function (x) {
+    s <- as.character(x$source)
+    gsub("_", " ", s)
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Twenty-four 1960AD independence-era provincial lineage units anchored to the post-colonial regional grid.",
+  arg3_options = list(label = "tab:hgis-units")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Population totals for the 95 first-level divisions represent full resident populations combining urban municipalities and rural hinterlands, whereas individually assessed settlement totals reflect municipal or metropolitan footprints as explicitly tagged in the companion gazetteer. Of the 1.592 settlements in the ledger, 1.208 lie inside the seven core republics (`r viscount_fmt_number(n_interior_sites, 0L)` interior to the 5-arcminute provincial mask) and 384 occupy adjacent cross-border buffer zones across neighbouring African states; all 1.592 entries are catalogued in the companion gazetteer.

@@ -1,0 +1,483 @@
+---
+title: "Colonial Rule in North Africa (1830-1975)"
+subtitle: "French, Spanish and Italian Administrations across the Maghreb and Libya"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: colonial_north_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_colonial_north_africa_spatial.png"
+hero_caption: "Six colonial territorial divisions and 11.592 individually assessed urban and rural settlements across Morocco, Algeria, Tunisia, Libya and Western Sahara between 1830AD and 1975AD."
+hero_label: "fig:hero-colonial-north-africa"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  lines <- gsub("//.*$", "", lines)
+  clean_str <- paste(lines, collapse = "\n")
+  clean_str <- gsub("/\\*.*?\\*/", "", clean_str)
+  clean_str <- gsub(",(\\s*[\\]\\}])", "\\1", clean_str)
+  fromJSON(clean_str, simplifyVector = FALSE)
+}
+
+mod_data <- read_json5_clean("colonial_north_africa.json5")
+cache_data <- fromJSON("colonial_north_africa_summary_cache.json", simplifyVector = FALSE)
+sett_data <- fromJSON("colonial_north_africa_settlements.json", simplifyVector = FALSE)
+diag_data <- fromJSON("../../_shared/sites_handbook_mena/config/kriging_diagnostics.json", simplifyVector = FALSE)
+geo_data <- fromJSON("../../_shared/sites_handbook_mena/config/sites_handbook_mena_geojson_metadata.json", simplifyVector = FALSE)
+audit_data <- fromJSON("../../_shared/sites_handbook_mena/config/subadmin_mass_conservation_audit.json", simplifyVector = FALSE)
+
+subreg_areas <- c(
+  french_algeria_tell = 107529,
+  french_algeria_plateaux_sahara = 2205578,
+  french_tunisia = 156828,
+  french_spanish_morocco = 592410,
+  italian_libya = 1627263,
+  spanish_sahara = 90626
+)
+
+strip_arabic_script <- function(x) {
+  out <- gsub("[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]+", "", as.character(x), perl = TRUE)
+  out <- gsub("\\s{2,}", " ", out, perl = TRUE)
+  trimws(out)
+}
+
+all_cna_entries <- unname(sett_data)
+n_obs_cna <- sum(vapply(all_cna_entries, function(e) length(e[["population"]]), integer(1)))
+n_1830_cna <- sum(vapply(all_cna_entries, function(e) !is.null(e[["population"]][["1830"]]), logical(1)))
+sum_cna_yrs <- function(yrs) {
+  vals <- vapply(all_cna_entries, function(e) {
+    pm <- e[["population"]]
+    for (y in yrs) {
+      v <- pm[[y]]
+      if (!is.null(v)) return(as.numeric(v))
+    }
+    0
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}
+sum_1830_cna <- sum_cna_yrs(c("1830"))
+sum_term_cna <- sum_cna_yrs(c("1975", "1974", "1973", "1971"))
+```
+
+# Abstract
+
+Between the French landing at Sidi Ferruch in June 1830 and the Spanish withdrawal from Western Sahara in late 1975, the five territories of North Africa west of Egypt underwent a demographic transformation unmatched in their earlier recorded history. Across 4.780.234 km² partitioned into six colonial areal divisions and 63.278 five-arcminute cells, total population rose from 8,09M in 1830AD to 9,58M in 1881AD and 17,76M by the pan-regional colonial census horizon of 1936AD, before climbing past 24,8M at the mid-century independence wave across Libya (1951AD), Tunisia and Morocco (1956AD) and reaching roughly 26,3M across each territory's terminal colonial benchmark through Algeria's independence in 1962AD and Western Sahara's partition in 1975AD. That threefold expansion was neither smooth nor uniform. French conquest and the famine of 1866AD-1868AD drove Algeria's population down from 3M in 1830AD to 2,5M in 1856AD before recovery lifted it to 9,53M in 1954AD and 10,9M in 1962AD, even as the 1954AD-1962AD war inflicted massive rural mortality and triggered the exodus of nearly one million European settlers. In Cyrenaica, Italian military pacification and forced internment camps cut Libyan numbers from 860k in 1911AD to 704,1k in 1931AD prior to recovery to 1,07M by 1951AD. Tunisia expanded from 1,15M in 1830AD to 3,78M in 1956AD, Morocco from 3,25M to 10,45M between 1830AD and 1956AD, and Spanish Sahara from 14k to 76k by 1975AD. Disaggregating colonial provincial enumerations and 149 modern subadministrative districts from geoBoundaries through mass-conserving pycnophylactic scaling (65.864 unit-year checks, maximum relative error 5,85e-08) over metric-isotropic radial distance fields and non-stationary Matérn ($\nu = 3/2$) kriging alongside 11.592 individually assessed colonial settlements captures the decisive shift from interior caravan capitals toward Atlantic and Mediterranean port metropolises led by Casablanca (1,51M), Algiers (1,35M), Tripoli (551,5k) and Tunis (550,4k) [@Runfola2020GeoBoundaries; @Harras2024State; @Liauzu1986Soci; @Bosworth2007Historic].
+
+# Background
+
+## French Algeria: Conquest Shock, Tell Colonisation and Quinquennial Censuses
+
+When French troops landed west of Algiers in June 1830, the Ottoman Regency of Algiers held roughly 3M inhabitants: 1,95M in the fertile Tell littoral and Atlas foothills (107.529 km²) and 1,05M across the semi-arid High Plateaux and Saharan oases (2.205.578 km²) [@Liauzu1986Soci; @Palard2020Religieuse]. Over the next four decades, colonial warfare, land confiscation and epidemic crises produced the sharpest demographic contraction in modern Maghrebi history. Campaigning against Emir Abd el-Kader until 1847AD and subsequently in Kabylia (1857AD) relied on scorched-earth *razzias*, livestock seizure and village destruction that hollowed out rural grain reserves across Oran, Alger and Constantine [@Palard2020Religieuse; @Buelli2025World]. By the first systematic enumeration of 1856AD, total Algerian numbers had fallen by one-sixth to 2,5M, split between 1,65M in the Tell and 850k across the interior plateaux and Sahara.
+
+Recovery remained fragile through the 1860s. Between 1866AD and 1868AD, successive droughts, locust swarms, cholera and epidemic typhus struck a rural peasantry already weakened by tribal cantonment and communal land breakup under the *Senatus-Consulte* of 1863AD, carrying off several hundred thousand Muslim cultivators and pastoralists [@Liauzu1986Soci; @Templeton1997Population]. Yet from the 1870s onward, demographic momentum reversed decisively. Once military conquest ended after the Mokrani insurrection of 1871AD, endemic plague receded, vaccination campaigns reached coastal towns, railway lines linked Algiers, Oran, Constantine and Philippeville (Skikda), and Muslim fertility remained high around six to seven births per woman [@Harras2024State; @Palard2020Religieuse].
+
+From 1848AD, France annexed the northern Tell outright as three metropolitan départements—Alger, Oran and Constantine—while grouping the vast desert interior under military administration, formalised in 1902AD as the Territoires du Sud [@Liauzu1986Soci; @Palard2020Religieuse]. The *Recensement Général de l'Algérie* (1856AD-1954AD) remains the longest continuous colonial statistical series in Africa. Between 1886AD and 1954AD, the four colonial divisions recorded uninterrupted growth: Alger climbed from 1,38M to 3,09M, Constantine from 1,57M to 3,44M, Oran from 870,5k to 2,15M, and the Territoires du Sud from 280k to 850k, lifting Algeria from 4,1M in 1886AD to 5,56M in 1911AD, 7,23M in 1936AD and 9,53M on the eve of the War of Independence in 1954AD [@Harras2024State; @Haas2025Intra].
+
+European settler (*pied-noir*) immigration shaped urban and littoral demography out of all proportion to its total share. Encouraged by expropriated *habous* and tribal estates, metropolitan French migrants settled alongside Spaniards in Oranie, Italians and Maltese in Constantinois and Alsatians displaced after 1871AD [@Palard2020Religieuse; @Sayahi2011Spanish]. By 1954AD, the European and naturalised Jewish minority approached 984k—just over 10% of Algeria's population—heavily concentrated in Algiers, Oran, Annaba (Bône), Sidi Bel Abbès and Blida [@Palard2020Religieuse; @Bosworth2007Historic]. That colonial equilibrium collapsed during the 1954AD-1962AD Algerian War of Independence. Counter-insurgency warfare, aerial bombardment of Aurès and Kabyle villages and the forced relocation of over two million rural residents into guarded *regroupement* camps inflicted heavy excess mortality, estimated in modern demographic historiography at 250k to 400k Algerian deaths alongside substantial internal displacement [@Telepneva2022Cold; @Buelli2025World]. Between May and September 1962, following the Évian Accords, roughly 900k *pieds-noirs* and tens of thousands of *harki* auxiliaries departed for France in a single summer, reshaping the urban occupancy of Algiers and Oran overnight while Algeria's total stood at 10,9M [@Palard2020Religieuse; @Haas2025Intra].
+
+## Tunisia and Morocco under the Protectorates (1881AD to 1956AD)
+
+Tunisia and Morocco entered European rule later and under protectorate treaties rather than direct departmental annexation, sparing their indigenous polities the mid-nineteenth-century Algerian demographic trough. In Tunisia (156.828 km²), pre-colonial Husaynid tax registers and urban guild estimates indicate roughly 1,15M inhabitants in 1830AD, rising to 1,52M when French forces occupied the Beylik under the Treaty of Bardo in 1881AD [@Harras2024State; @Varley2019Defending]. Administered through thirteen *Contrôles Civils* in the north and centre alongside military territories in the southern Sahara, Tunisia escaped prolonged guerrilla warfare. Between 1881AD and 1956AD, population more than doubled, reaching 1,94M in 1911AD, 2,09M at the 1921AD *Dénombrement*, 2,61M in 1936AD, 3,23M in 1946AD and 3,78M at independence in 1956AD [@Harras2024State; @Varley2019Defending]. Unlike Algeria, Tunisia hosted an Italian settler community in Tunis, Bizerte and Cap Bon that rivalled or outnumbered French *colons* until the 1930s, creating acute diplomatic friction with Fascist Rome during the Second World War [@Varley2019Defending; @Bussotti2016History].
+
+Morocco (592.410 km²) remained the demographic giant of the Maghreb throughout the pre-colonial and colonial eras. Stretching from the Rif and Mediterranean coast across the Gharb, Chaouia and Haouz plains to the High Atlas and Draa valleys, Morocco held roughly 3,25M inhabitants in 1830AD, 3,95M in 1881AD and 5,15M by the signing of the Treaty of Fez in 1912AD [@Aidi2023Moulay; @Clark2024Rural]. The 1912AD settlement partitioned the Sharifian Empire into a vast French Protectorate covering central and southern Morocco, a smaller Spanish Northern Protectorate across the Rif and Jebala centred on Tétouan (plus the southern Tarfaya strip), and the Tangier International Zone [@Sayahi2011Spanish; @Martin2018Western]. Colonial pacification proved bloodier in the Rif and Atlas than in Tunisia: the Rif War of 1921AD-1926AD against Abd el-Krim's republic saw Spanish and French forces deploy aerial bombardment and chemical munitions, inflicting heavy civilian and combatant losses across northern valleys before full Atlas submission in 1934AD [@Sayahi2011Spanish; @Pabst2012Western].
+
+Once pacified, Morocco's mortality fell rapidly as road, rail and port infrastructure integrated interior agricultural basins with Atlantic trade [@Clark2024Rural; @Templeton1997Population]. General Resident Hubert Lyautey deliberately built modern *villes nouvelles* adjacent to historic *medinas* at Rabat, Casablanca, Fès and Marrakech, preserving older quarters while directing industrial capital toward the Atlantic coast [@Liauzu1986Soci; @Bosworth2007Historic]. Under the *Recensement Général du Maroc*, population advanced from 5,4M in 1921AD to 7,04M in 1936AD, 9,28M in 1952AD and 10,45M at independence in 1956AD, reaching 11,63M in the inaugural national census of 1960AD [@Clark2024Rural; @Harras2024State].
+
+## Italian Libya and the Cyrenaican Internment Shock (1911AD to 1951AD)
+
+East of Tunisia, Ottoman Tripolitania, Cyrenaica and Fezzan (1.627.263 km²) supported a far sparser population anchored along the Jifara coastal plain, the Jebel Akhdar plateau and scattered Saharan oasis chains [@Jarad2022Role; @Lizak2019Libya]. Estimates place Libya at 680k in 1830AD, 780k in 1881AD and 860k in 1911AD, when Italy launched its invasion during the Italo-Turkish War [@Antonelli2024Accounting; @Tarchi2023Building]. While Ottoman regular forces withdrew in 1912AD, Sanusi religious-tribal resistance confined Italian authority to coastal enclaves through the First World War [@Lizak2019Libya; @Tarchi2023Building].
+
+The Fascist *riconquista* under Pietro Badoglio and Rodolfo Graziani between 1923AD and 1932AD produced an acute demographic catastrophe in Cyrenaica [@Tarchi2023Building; @Antonelli2024Accounting]. To sever Omar al-Mukhtar's guerrilla network from pastoral support, Italian forces erected a 270 km barbed-wire barrier along the Egyptian frontier and deported approximately 100k semi-nomadic Cyrenaicans—nearly the entire rural Bedouin population of the plateau—along with their herds into coastal concentration camps at El Agheila, Soluch, Sidi Ahmed el-Magrun and Marsa el-Brega between 1930AD and 1933AD [@Tarchi2023Building; @Ballinger2020World]. Starvation, exposure, dysentery and livestock collapse killed an estimated 40k to 60k internees. The 1931AD ISTAT census recorded a shrunken Libyan population of just 704.123 inhabitants, representing a steep contraction from pre-1911AD levels [@Antonelli2024Accounting; @Tarchi2023Building].
+
+Following the suppression of resistance, Governor Italo Balbo merged Tripolitania and Cyrenaica into unified Libya in 1934AD and promoted state-subsidised demographic colonisation, notably the 1938AD-1939AD *Ventimila* convoy that settled 20k Italian peasant families on expropriated coastal farms alongside new port and tourist infrastructure [@Strangio2020Tourism; @Bussotti2016History; @Tarchi2023Building]. By the 1936AD ISTAT census, population rebounded to 848,6k (including roughly 66k Italian settlers, rising above 110k by 1940AD) [@Antonelli2024Accounting; @Ballinger2020World]. Second World War armoured campaigns across Tobruk, Benghazi and Tripoli (1940AD-1943AD) triggered Allied British and French military occupation and the repatriation of tens of thousands of Italian colonists to postwar Italy [@Ballinger2020World; @Varley2019Defending]. When the United Kingdom of Libya achieved independence in December 1951, population stood at 1,07M, confirmed at 1.088.873 in the 1954AD UN-assisted census [@Lizak2019Libya; @Jarad2022Role].
+
+## Spanish Sahara (1884AD to 1975AD)
+
+Along the Atlantic desert fringe south of Morocco, Spanish Sahara—comprising Río de Oro and Saguia el-Hamra (90.626 km² within the regional mask)—remained one of the least densely populated colonial territories on earth [@Martin2018Western; @Priaoprasit2026Case]. Spanish presence began with coastal fishing factories at Villa Cisneros (Dakhla) in 1884AD, yet interior administration barely existed until the 1930s as Hassaniya-speaking Sahrawi pastoralists moved freely across seasonal desert pastures [@Besenyo2014Western; @Pabst2012Western]. Population crept from 14k in 1830AD to 16k in 1881AD, 18k in 1912AD and 24k in 1936AD. Only after mid-century, with the expansion of El Aaiún as an administrative capital and the opening of the Bu Craa phosphate deposits in the late 1960s, did sedentarisation and Spanish garrisoning accelerate growth to 36k in 1960AD and 76k at the Madrid Accords and Spanish withdrawal in 1975AD [@Allan2016Natural; @Trinh2024Morocco; @Besenyo2014Western].
+
+## Coastal Urbanisation and the Colonial Settlement Shift
+
+Across all five territories, colonial rule inverted the historic spatial hierarchy of the Maghreb [@Liauzu1986Soci; @Bosworth2007Historic]. For centuries, inland capitals such as Fès, Marrakech, Constantine, Tlemcen and Qayrawan had anchored agrarian taxation, craft guilds and trans-Saharan caravan trade [@Bosworth2007Historic; @Aidi2023Moulay]. European maritime capitalism, port construction, railway termini and export agriculture shifted demographic gravity overwhelmingly toward the coast [@Liauzu1986Soci; @Haas2025Intra].
+
+Casablanca illustrates this reorientation most vividly. A minor Atlantic anchorage of roughly 1,5k residents in 1830AD and 25,2k at the 1907AD French landing, Casablanca became the chief French industrial and shipping hub after 1912AD, outstripping both Fès and Marrakech to reach 682,4k in 1952AD, 965,3k in 1960AD and 1,51M in 1971AD [@Clark2024Rural; @Bosworth2007Historic]. Algiers expanded from 30,2k in 1830AD to 1,35M in 1975AD, while Tripoli rose from 25,2k to 551,5k by 1973AD and Tunis from 98,5k to 550,4k by 1975AD [@Liauzu1986Soci; @Bosworth2007Historic]. French and Spanish administrations also founded entirely new port, garrison and extractive settlements that entered the regional urban core mid-stream: Skikda (Philippeville) in 1838AD, Sidi Bel Abbès and Chlef (Orléansville) in 1843AD, Batna in 1844AD, Arzew in 1845AD, Kénitra (Port-Lyautey) in 1912AD, Mohammédia (Fédala) in 1913AD, the phosphate mining town of Khouribga in 1923AD, El Aaiun in 1938AD and the Saharan oil settlement of Hassi Messaoud in 1956AD [@Allan2016Natural; @Bosworth2007Historic].
+
+# Methodology
+
+## Six-Region Territorial Partition and Longitudinal Harmonisation
+
+To preserve sub-regional ecological and administrative contrasts across the 1830AD-1975AD domain, the regional mask partitions 4.780.234 km² (63.278 five-arcminute cells) into six units: French Algeria's Tell Départements (107.529 km², 1.549 cells), French Algeria's High Plateaux and Territoires du Sud (2.205.578 km², 29.072 cells), the French Protectorate of Tunisia (156.828 km², 2.205 cells), the French and Spanish Protectorates of Morocco (592.410 km², 7.967 cells), Italian Libya (1.627.263 km², 21.320 cells) and Spanish Sahara (90.626 km², 1.165 cells). Dividing Algeria between the Mediterranean Tell and the semi-arid Plateaux and Sahara prevents coastal settler and port densities from masking the vast sparsely inhabited desert south.
+
+Benchmark series for each division are anchored to primary colonial census returns rather than smooth back-projections: the *Recensement Général de l'Algérie* (1856AD-1954AD) and 1962AD independence estimate, the Tunisian *Dénombrement* (1881AD-1956AD), the *Recensement Général du Maroc* (1921AD-1960AD), the Italian ISTAT censuses of Libya (1931AD and 1936AD) plus the 1954AD UN-Libyan census, and Spanish Saharan administrative enumerations (1936AD-1975AD) [@Harras2024State; @Antonelli2024Accounting; @Martin2018Western]. Pre-census anchors at 1830AD and 1881AD reconcile Ottoman provincial tallies, Moroccan makhzen tax capacities and early military reconnaissances against backward vital-rate bounds [@Liauzu1986Soci; @Aidi2023Moulay]. Because constituent territories achieved independence in staggered years—Libya in 1951AD, Morocco and Tunisia in 1956AD, Algeria in 1962AD and Western Sahara in 1975AD—aggregate comparisons report both synchronised pan-regional benchmarks (1830AD, 1881AD and 1936AD) and territory-specific colonial termination totals.
+
+## Colonial and Modern Subadministrative Disaggregation
+
+Provincial and district population surfaces across HANDBOOK are constructed from polygon boundaries in geoBoundaries [@Runfola2020GeoBoundaries], combined with historical colonial division polygons covering 29 historical units across the wider Near East and North Africa and 2.629 modern administrative units. Within the colonial North African domain, seven major historical administrative aggregates govern the 1880AD-1960AD disaggregation: the four divisions of Algeria (Département d'Alger, Département de Constantine, Département d'Oran and Territoires du Sud, 1886AD-1954AD), Morocco's French and Spanish Protectorate Régions (1880AD-1960AD), Tunisia's *Contrôles Civils* (1881AD-1956AD) and Italian Libya's three historical provinces of Tripolitania, Cyrenaica and Fezzan (1880AD-1954AD). Post-colonial continuity and urban-rural gradients are further constrained by 149 modern subadministrative polygons across the five successor states: 63 ADM2 provinces and prefectures in Morocco (1994AD-2024AD), 44 ADM2 wilayas in Algeria (1977AD-2008AD), 24 ADM1 governorates in Tunisia (1984AD-2024AD), 17 ADM1 districts in Libya (2006AD-2020AD) and one ADM1 unit in Western Sahara (1994AD-2024AD) [@Runfola2020GeoBoundaries].
+
+Each raster cell inside an administrative polygon is scaled via strictly mass-conserving pycnophylactic adjustment so that summed cell populations inside every historical and modern unit match reported census totals without spillover across boundaries. Across the entire HANDBOOK multi-year archive (83 disaggregated years, 65.864 unit-year checks), 100% of administrative units satisfy mass conservation within 0,01%, with a global maximum relative error of 5,85e-08.
+
+## Radial Distance Fields and Non-Stationary Matérn Kriging
+
+Rural background suitability beneath colonial towns and subadministrative polygons is inherited from HANDBOOK's metric-isotropic radial distance fields and non-stationary Paciorek-Schervish Matérn ($\nu = 3/2$) residual kriging surface. Rather than relying on planar latitude-longitude coordinates—which distort east-west distances across the Mediterranean-Saharan breadth—spatial covariance is evaluated along geodesic Voronoi catchment distances across 3.416 domestic catchments (1.942 active, median catchment radius 32,51 km, 90th percentile 40,25 km) plus 834 cross-frontier buffer catchments. Conditioning draws upon 39.196 domestic archaeological and historical records across HANDBOOK, including 5.462 Maghrebi entries (1.870 in Tunisia, 1.745 in Algeria, 1.464 in Libya, 380 in Morocco and 3 in Western Sahara) sourced from regional registers and monograph catalogues with zero crowd-sourced entries.
+
+After fitting a weighted least-squares (WLS) biophysical trend over five covariates—habitable land fraction ($\beta_0$), natural vegetative productivity ($\beta_1$), ecozone terrain suitability ($\beta_2$), fluvial proximity ($\beta_3$) and coastal accessibility ($\beta_4$)—the two-component Matérn ($\nu = 3/2$) variogram yields a regularised dimensionless short-range parameter $\tau_1 = 1,35$ (raw empirical $\tau_1 = 1,518$), long-range parameter $\tau_2 = 2,9025$, nugget-to-sill ratio 0,04 and residual $R^2$ exceeding 0,999 across historical horizons. Urban populations from 11.592 individually assessed colonial and indigenous settlements (comprising `r viscount_fmt_number(n_obs_cna, 0L)` settlement-year observations, averaging `r viscount_fmt_number(n_obs_cna / length(all_cna_entries), 1L)` observations per settlement) are explicitly subtracted from subadministrative targets via urban masks before scaling the remaining rural population over the conditioned habitability surface, ensuring that coastal metropolises do not smear artificial rural halos into adjacent steppe or desert cells.
+
+# Testing and Validation
+
+Arithmetic reconciliation across all six sub-regional masks and colonial census tables demonstrates internal consistency from 1830AD to 1975AD. Table \ref{tab:subreg-traj} summarises the sub-regional areal footprint, cell counts and benchmark population trajectories extracted directly from the chapter register.
+
+```{r tab-subreg-traj, results='asis'}
+reg_order <- c(
+  "french_algeria_tell",
+  "french_algeria_plateaux_sahara",
+  "french_tunisia",
+  "french_spanish_morocco",
+  "italian_libya",
+  "spanish_sahara"
+)
+reg_short <- c(
+  french_algeria_tell = "Algeria: Tell Départements",
+  french_algeria_plateaux_sahara = "Algeria: Plateaux & Sahara",
+  french_tunisia = "Tunisia (Protectorate)",
+  french_spanish_morocco = "Morocco (Fr. & Sp.)",
+  italian_libya = "Italian Libya",
+  spanish_sahara = "Spanish Sahara"
+)
+get_pop_col <- function(rv, yrs) {
+  for (y in yrs) {
+    v <- rv$population[[y]]
+    if (!is.null(v)) return(viscount_fmt_pop(v))
+  }
+  "-"
+}
+term_yr_label <- c(
+  french_algeria_tell = "7,25M (1962)",
+  french_algeria_plateaux_sahara = "3,65M (1962)",
+  french_tunisia = "3,78M (1956)",
+  french_spanish_morocco = "10,45M (1956)",
+  italian_libya = "1,07M (1951)",
+  spanish_sahara = "76k (1975)"
+)
+
+sub_rows <- lapply(reg_order, function(rk) {
+  rv <- mod_data$regions[[rk]]
+  data.frame(
+    Subregion = unname(reg_short[[rk]]),
+    Area = viscount_fmt_number(subreg_areas[[rk]], 0L),
+    P1830 = get_pop_col(rv, c("1830")),
+    P1881 = get_pop_col(rv, c("1881")),
+    P1936 = get_pop_col(rv, c("1936")),
+    Terminal = unname(term_yr_label[[rk]]),
+    stringsAsFactors = FALSE
+  )
+})
+sub_df <- do.call(rbind, sub_rows)
+tot_row <- data.frame(
+  Subregion = "Regional Total (6 Divisions)",
+  Area = viscount_fmt_number(sum(subreg_areas), 0L),
+  P1830 = viscount_fmt_pop(8094000),
+  P1881 = viscount_fmt_pop(9576000),
+  P1936 = viscount_fmt_pop(17755000),
+  Terminal = "26,27M (1951-75)",
+  stringsAsFactors = FALSE
+)
+sub_df <- rbind(sub_df, tot_row)
+rownames(sub_df) <- NULL
+
+viscount_table(
+  sub_df,
+  "Sub-regional area and demographic benchmarks across Colonial North Africa, 1830AD to 1975AD.",
+  c("Sub-Region", "Area (km²)", "1830AD", "1881AD", "1936AD", "End of Rule"),
+  list(label = "tab:subreg-traj", font_size = "footnotesize")
+)
+```
+
+To verify subadministrative provenance prior to spatial disaggregation, Table \ref{tab:hist-subadmin} compiles the seven historical colonial enumeration series cached for North Africa from the *Recensement Général de l'Algérie*, *Dénombrement de la Tunisie*, *Recensement Général du Maroc* and Italian ISTAT Libya censuses.
+
+```{r tab-hist-subadmin, results='asis'}
+hist_list <- cache_data$chapter_historical_subadmin
+hist_rows <- lapply(hist_list, function(h) {
+  pm <- h$pops
+  yrs <- sort(as.integer(names(pm)))
+  y0 <- as.character(yrs[1])
+  y1 <- as.character(yrs[length(yrs)])
+  ymid <- if ("1936" %in% names(pm)) "1936" else as.character(yrs[ceiling(length(yrs) / 2)])
+  nm_clean <- gsub("&", "and", as.character(h$name), fixed = TRUE)
+  src_clean <- gsub("&", "and", as.character(h$source), fixed = TRUE)
+  data.frame(
+    Division = nm_clean,
+    Code = as.character(h$iso3),
+    Earliest = paste0(viscount_fmt_pop(pm[[y0]]), " (", y0, ")"),
+    Mid = paste0(viscount_fmt_pop(pm[[ymid]]), " (", ymid, ")"),
+    Latest = paste0(viscount_fmt_pop(pm[[y1]]), " (", y1, ")"),
+    Source = src_clean,
+    stringsAsFactors = FALSE
+  )
+})
+hist_df <- do.call(rbind, hist_rows)
+rownames(hist_df) <- NULL
+
+viscount_table(
+  hist_df,
+  "Colonial subadministrative census series harmonised for North African disaggregation (1880AD to 1960AD).",
+  c("Historical Unit", "ISO3", "Earliest", "Mid-Series", "Latest", "Primary Census Source"),
+  list(label = "tab:hist-subadmin", font_size = "scriptsize")
+)
+```
+
+The underlying biophysical suitability and Matérn kriging model is checked across all ten archaeological and historical horizons in HANDBOOK, culminating in the early modern Ottoman benchmark horizon immediately preceding the colonial era. Table \ref{tab:kriging-params} reports the fitted variogram bandwidths, WLS fluvial and coastal covariates and residual fit across the five classical to early modern horizons, while Figure \ref{fig:density-cna} displays the resulting 1900AD continuous population surface alongside sub-regional population densities.
+
+```{r tab-kriging-params, results='asis'}
+sel_horizons <- c(
+  "06_roman_parthian_kushan",
+  "07_late_antiquity_sassanid_byzantine",
+  "08_early_islamic_caliphate",
+  "09_mediaeval_seljuk_mamluk_timurid",
+  "10_early_modern_ottoman_safavid_qajar"
+)
+h_names <- c(
+  "06_roman_parthian_kushan" = "Roman and Parthian",
+  "07_late_antiquity_sassanid_byzantine" = "Late Antiquity",
+  "08_early_islamic_caliphate" = "Early Islamic",
+  "09_mediaeval_seljuk_mamluk_timurid" = "Mediaeval Maghreb",
+  "10_early_modern_ottoman_safavid_qajar" = "Early Modern Ottoman"
+)
+krig_rows <- lapply(sel_horizons, function(hk) {
+  vm <- diag_data$variogram_models[[hk]]
+  ks <- diag_data$kriged_raster_stats[[hk]]
+  b <- vm$residual_kriging_wls_betas
+  data.frame(
+    Horizon = unname(h_names[[hk]]),
+    RawTau1 = viscount_fmt_number(vm$raw_tau1_dimensionless, 3L),
+    RangeKm = viscount_fmt_number(vm$effective_short_range_km, 2L),
+    BetaFluv = viscount_fmt_number(b$beta_3_fluvial, 4L),
+    BetaCoast = viscount_fmt_number(b$beta_4_coastal, 4L),
+    ResR2 = viscount_fmt_number(vm$residual_r2, 4L),
+    stringsAsFactors = FALSE
+  )
+})
+krig_df <- do.call(rbind, krig_rows)
+rownames(krig_df) <- NULL
+
+viscount_table(
+  krig_df,
+  "Matérn (nu = 3/2) variogram parameters and WLS fluvial-coastal coefficients across late classical to early modern HANDBOOK horizons.",
+  c("Kriging Horizon", "Raw Tau1", "Range (km)", "Fluvial Beta3", "Coastal Beta4", "Residual R²"),
+  list(label = "tab:kriging-params", font_size = "scriptsize")
+)
+```
+
+Table \ref{tab:mass-audit} documents pycnophylactic mass conservation across eight representative decennial years spanning 1880AD through 1970AD, showing exact equality between target subadministrative totals and disaggregated raster cell sums.
+
+```{r tab-mass-audit, results='asis'}
+rep_yrs <- c("1880", "1890", "1900", "1910", "1930", "1950", "1960", "1970")
+aud_rows <- lapply(rep_yrs, function(y) {
+  ry <- audit_data$representative_years[[y]]
+  n_units <- as.integer(ry$historical_units) + as.integer(ry$modern_adm2_adm1_units)
+  data.frame(
+    Year = paste0(y, "AD"),
+    Units = viscount_fmt_number(n_units, 0L),
+    Target = viscount_fmt_pop(ry$target_mass),
+    Disagg = viscount_fmt_pop(ry$disaggregated_mass),
+    MaxRelErr = formatC(as.numeric(ry$max_unit_rel_err), format = "e", digits = 2),
+    MeanRelErr = formatC(as.numeric(ry$mean_unit_rel_err), format = "e", digits = 2),
+    stringsAsFactors = FALSE
+  )
+})
+aud_df <- do.call(rbind, aud_rows)
+aud_df$MaxRelErr <- gsub("\\.", ",", aud_df$MaxRelErr)
+aud_df$MeanRelErr <- gsub("\\.", ",", aud_df$MeanRelErr)
+rownames(aud_df) <- NULL
+
+viscount_table(
+  aud_df,
+  "Pycnophylactic mass-conservation audit across representative disaggregation years (100% pass rate within 0,01% across 65.864 checks).",
+  c("Year", "Active Units", "Target Mass", "Disaggregated Mass", "Max Rel. Error", "Mean Rel. Error"),
+  list(label = "tab:mass-audit", font_size = "footnotesize")
+)
+```
+
+# Results
+
+```{r fig-density, results='asis'}
+viscount_figure(
+  "figures/fig3_colonial_north_africa_density.png",
+  "Continuous colonial benchmark population surface (1900AD) and mean sub-regional density in inhabitants per km².",
+  "fig:density-cna",
+  list(max_height = "0.36\\textheight")
+)
+```
+
+## Long-Run Regional Trajectory (1830AD to 1975AD)
+
+Figure \ref{fig:traj-cna} charts the aggregate North African trajectory alongside its leading sub-regional divisions across the colonial century and a half. In 1830AD, Morocco (3,25M) and Algeria (3M combined) accounted for nearly four-fifths of the 8,09M regional total, with Tunisia (1,15M), Libya (680k) and Spanish Sahara (14k) comprising the remainder. Over the ensuing half-century to 1881AD, aggregate numbers grew modestly by 18,3% to 9,58M, held back by Algeria's steep mid-century decline to 2,5M in 1856AD and its slow recovery after the 1866AD-1868AD famine [@Liauzu1986Soci; @Palard2020Religieuse].
+
+```{r fig-traj, results='asis'}
+viscount_figure(
+  "figures/fig2_colonial_north_africa_trajectory.png",
+  "Aggregate demographic trajectory and sub-regional composition across Colonial North Africa from 1830AD to 1975AD.",
+  "fig:traj-cna",
+  list(max_height = "0.36\\textheight")
+)
+```
+
+The period between 1881AD and 1936AD marked the zenith of colonial territorial integration and accelerating natural increase. Total regional population jumped by 85,4% in fifty-five years, from 9,58M in 1881AD to 17,76M in 1936AD. All four Maghrebi divisions expanded briskly: Algeria's Tell départements more than doubled from 2,25M to 4,95M while the High Plateaux and Territoires du Sud rose from 1,06M to 2,29M; Morocco climbed from 3,95M in 1881AD to 5,15M in 1912AD and 7,04M in 1936AD; and Tunisia advanced from 1,52M to 2,61M [@Harras2024State; @Clark2024Rural]. Only Italian Libya broke this pattern, contracting from 860k in 1911AD to 704,1k in 1931AD under Cyrenaican war and internment before recovering to 848,6k by 1936AD [@Antonelli2024Accounting; @Tarchi2023Building].
+
+## Decolonisation, War Mortality and Post-War Acceleration (1936AD to 1975AD)
+
+From the late 1930s through the mid-1970s, declining infant mortality and persistently high birth rates pushed annual natural growth rates past 2,5% to 3% across the Maghreb, outpacing wartime disruptions [@Harras2024State; @Haas2025Intra]. Morocco added more than 3,4M inhabitants in two decades, leaping from 7,04M in 1936AD to 10,45M at independence in 1956AD and 11,63M by 1960AD. Tunisia grew by 45,1% between 1936AD and 1956AD, rising from 2,61M to 3,78M, while post-war Libya recovered from 848,6k in 1936AD to 1,07M at independence in 1951AD and 1,09M in 1954AD [@Lizak2019Libya; @Harras2024State].
+
+In Algeria, rapid natural increase collided with the eight-year War of Independence (1954AD-1962AD). Despite heavy military and civilian mortality and the uprooting of rural families into *regroupement* centres, high baseline fertility lifted Algeria's Tell départements from 4,95M in 1936AD to 6,45M in 1954AD and 7,25M in 1962AD, and the Plateaux and Sahara from 2,29M to 3,08M and 3,65M [@Telepneva2022Cold; @Liauzu1986Soci]. Yet the composition of Algeria's cities changed abruptly in 1962AD when nearly 900k *pieds-noirs* departed for metropolitan France, leaving vacant European quarters in Algiers, Oran, Annaba and Sidi bel Abbès that were swiftly repopulated by rural Algerian migrants [@Palard2020Religieuse; @Haas2025Intra]. In Spanish Sahara, phosphate exploitation and sedentarisation tripled numbers from 24k in 1936AD to 76k by 1975AD [@Allan2016Natural; @Martin2018Western].
+
+## Coastal Metropolises and Post-Colonial Provincial Legacies
+
+Figure \ref{fig:sett-cna} summarises the rank-size distribution across all 11.592 individually assessed colonial settlements (Zipf exponent $\alpha = 1,21$, $R^2 = 0,86$; exact $\alpha = 1,208$, $R^2 = 0,863$) alongside the twelve largest colonial and early post-colonial cities. Combined population across catalogued settlements expanded more than fifteenfold over the study span, rising from `r sum_1830_cna` across `r n_1830_cna` active points in 1830AD to `r sum_term_cna` across all 11.592 catalogued entries at the terminal 1971AD-1975AD national census horizon [@Bosworth2007Historic; @Liauzu1986Soci].
+
+Atlantic and Mediterranean ports dominated the upper tier. Casablanca reached 1,51M in 1971AD, followed by Algiers (1,35M in 1975AD), Tripoli (551,5k in 1973AD), Tunis (550,4k in 1975AD), Oran (465,4k in 1975AD) and Rabat (367,6k in 1971AD), ahead of historic interior capitals Constantine (334,2k), Marrakech (332,7k), Fez (325,3k), Benghazi (266,2k) and Meknes (248,4k). Table \ref{tab:modern-top-units} lists the leading modern subadministrative units used as post-colonial spatial anchors, illustrating how the urban-industrial corridors forged under colonial rule—Casablanca, Rabat-Salé-Kénitra, Tangier, Tunis-Ben Arous, Sfax and coastal-tell Algeria—persisted as the densest demographic concentrations of the late twentieth and early twenty-first centuries [@Runfola2020GeoBoundaries; @Harras2024State].
+
+```{r tab-modern-top-units, results='asis'}
+top_u <- cache_data$chapter_modern_top_units
+u_rows <- lapply(top_u[seq_len(min(15L, length(top_u)))], function(u) {
+  pm <- u$pops
+  yrs <- sort(as.integer(names(pm)))
+  y0 <- as.character(yrs[1])
+  y1 <- as.character(yrs[length(yrs)])
+  nm_c <- strip_arabic_script(u$name)
+  data.frame(
+    Unit = nm_c,
+    ISO3 = as.character(u$iso3),
+    Level = as.character(u$level),
+    Area = viscount_fmt_number(u$area_km2, 0L),
+    Earliest = paste0(viscount_fmt_pop(pm[[y0]]), " (", y0, ")"),
+    Latest = paste0(viscount_fmt_pop(pm[[y1]]), " (", y1, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+u_df <- do.call(rbind, u_rows)
+rownames(u_df) <- NULL
+
+viscount_table(
+  u_df,
+  "Leading modern subadministrative units anchored in geoBoundaries across North Africa used for post-colonial disaggregation.",
+  c("Province or Prefecture", "ISO3", "Level", "Area (km²)", "Earliest", "Latest"),
+  list(label = "tab:modern-top-units", font_size = "scriptsize")
+)
+```
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_colonial_north_africa_settlements.png",
+  "Rank-size curve across 11.592 individually assessed North African settlements (Zipf alpha = 1,21, R² = 0,86) and leading urban centres at terminal colonial peak.",
+  "fig:sett-cna",
+  list(max_height = "0.36\\textheight")
+)
+```
+
+# Limitations
+
+Five evidentiary and structural constraints qualify these reconstructions. First, pre-colonial benchmarks for 1830AD and early protectorate estimates for Morocco (1881AD and 1912AD) and Libya (1830AD to 1911AD) predate comprehensive household censuses and carry uncertainty margins of roughly 10% to 15%, particularly in the Moroccan *bled es-siba* highlands and southern desert margins [@Aidi2023Moulay; @Jarad2022Role]. Second, colonial enumerations systematically undercounted nomadic and transhumant pastoralists in the Algerian Territoires du Sud, southern Tunisia, Fezzan and Spanish Sahara, where mobile tribal fractions evaded tax rolls and garrison counts [@Besenyo2014Western; @Jarad2022Role].
+
+Third, colonial vital registration operated asymmetrically: European settler births and deaths in Algeria, Tunisia and Libya were recorded with metropolitan precision, whereas indigenous Muslim rural vital events remained severely under-registered into the interwar decades [@Harras2024State; @Antonelli2024Accounting]. Fourth, mortality estimates for the Algerian War of Independence (1954AD-1962AD) and the Cyrenaican internment camps (1930AD-1933AD) remain debated across archival traditions, affecting short-term intercensal interpolation rather than the 1931AD, 1954AD and post-independence census anchors [@Tarchi2023Building; @Telepneva2022Cold]. Finally, although Spanish Sahara is now represented by 41 individually assessed settlements—led by El Aaiun (28k in 1974AD), Smara (7,3k), Dakhla (5,6k in 1970AD) and the phosphate town of Bou Craa (2,5k)—alongside just three archaeological records in the regional conditioning register, its vast desert interior still relies more heavily on coastal covariates and Saharan frontier buffers than densely surveyed Tunisia or Algeria [@Allan2016Natural; @Martin2018Western].
+
+# Conclusion
+
+Colonial rule across North Africa between 1830AD and 1975AD reshaped both the scale and the geography of Maghrebi and Libyan settlement. Aggregate population expanded more than threefold from 8,09M in 1830AD to 17,76M in 1936AD and roughly 26,3M across each territory's terminal colonial benchmark, overcoming nineteenth-century conquest and famine shocks in Algeria as well as early twentieth-century pacification and internment mortality in Cyrenaica and the Rif. Simultaneously, colonial port engineering, railway construction and export agriculture redirected demographic growth from interior caravan capitals toward an Atlantic and Mediterranean urban corridor anchored by Casablanca, Algiers, Tripoli, Tunis, Oran and Rabat. By combining colonial département, contrôle civil, protectorate and ISTAT enumerations with mass-conserving pycnophylactic scaling across geoBoundaries polygons and non-stationary Matérn ($\nu = 3/2$) kriging, this synthesis captures both the violent demographic ruptures and the enduring coastal spatial hierarchy bequeathed to the independent Maghreb.
+
+# Appendix
+
+Table \ref{tab:sett-top20} lists the twenty leading settlements across the five colonial territories ordered by peak documented population within the 1830AD-1975AD window, while Table \ref{tab:arch-maghreb} documents the 5.462 Maghrebi archaeological and historical site records conditioning the regional kriging habitability surface.
+
+```{r tab-sett-top20, results='asis'}
+top20 <- cache_data$top_settlements[seq_len(min(20L, length(cache_data$top_settlements)))]
+pick_pop <- function(pm, yrs) {
+  for (y in yrs) {
+    if (!is.null(pm[[y]])) return(viscount_fmt_pop(pm[[y]]))
+  }
+  "-"
+}
+s20_rows <- lapply(top20, function(st) {
+  k <- st$key
+  full_e <- sett_data[[k]]
+  p1830 <- pick_pop(full_e$population, c("1830"))
+  p1936 <- pick_pop(full_e$population, c("1936", "1934", "1938"))
+  p1950s <- pick_pop(full_e$population, c("1954", "1952", "1956", "1950"))
+  data.frame(
+    Settlement = as.character(st$name),
+    Country = as.character(st$country),
+    P1830 = p1830,
+    P1936 = p1936,
+    P1950s = p1950s,
+    Peak = paste0(viscount_fmt_pop(st$peak_pop), " (", st$peak_year, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+s20_df <- do.call(rbind, s20_rows)
+rownames(s20_df) <- NULL
+
+viscount_table(
+  s20_df,
+  "Top 20 individually assessed settlements across Colonial North Africa from 1830AD to 1975AD (11.592 total catalogued entries).",
+  c("Settlement", "Territory", "1830AD", "1936AD", "1950-56AD", "Peak (Year)"),
+  list(label = "tab:sett-top20", font_size = "scriptsize")
+)
+```
+
+```{r tab-arch-maghreb, results='asis'}
+cb <- geo_data$country_breakdown
+mag_countries <- c("Tunisia", "Algeria", "Libya", "Morocco", "Western Sahara")
+tot_mag <- sum(vapply(mag_countries, function(c) as.numeric(cb[[c]]), numeric(1)))
+arch_rows <- lapply(mag_countries, function(c) {
+  cnt <- as.numeric(cb[[c]])
+  data.frame(
+    Territory = c,
+    Sites = viscount_fmt_number(cnt, 0L),
+    Share = paste0(viscount_fmt_number(100 * cnt / tot_mag, 1L), "%"),
+    Crowd = "0",
+    Role = if (c == "Western Sahara") "Desert buffer and oasis conditioning" else "Domestic register and monograph conditioning",
+    stringsAsFactors = FALSE
+  )
+})
+arch_tot <- data.frame(
+  Territory = "Maghreb and Libya Total",
+  Sites = viscount_fmt_number(tot_mag, 0L),
+  Share = "100%",
+  Crowd = "0",
+  Role = "Five regional registers (0% crowd-sourced)",
+  stringsAsFactors = FALSE
+)
+arch_df <- rbind(do.call(rbind, arch_rows), arch_tot)
+rownames(arch_df) <- NULL
+
+viscount_table(
+  arch_df,
+  "Conditioning archaeological and historical site counts across North African jurisdictions (0 crowd-sourced records).",
+  c("Territory", "Conditioning Sites", "Share", "Crowd Sites", "Provenance Tier"),
+  list(label = "tab:arch-maghreb", font_size = "footnotesize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

@@ -1,0 +1,480 @@
+---
+title: "Post-Colonial Equatoria, DR Congo and Angola"
+subtitle: "Settlement Gazetteer: 1.592 Assessed Sites (1960AD-2025AD)"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_congo_angola_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Spatial distribution of 1.592 individually assessed settlements across seven Central African republics and cross-border buffer zones from 1960AD to 2025AD."
+hero_label: "fig:hero-settlements-congo-angola"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+sett_raw <- jsonlite::fromJSON("postcolonial_congo_angola_settlements.json", simplifyVector = FALSE)
+summary_cache <- jsonlite::fromJSON("postcolonial_congo_angola_summary_cache.json", simplifyVector = FALSE)
+
+all_keys <- names(sett_raw)
+all_entries <- lapply(all_keys, function (k) {
+  e <- sett_raw[[k]]
+  e$key <- k
+  e
+})
+
+iso3_map <- c(
+  "Angola" = "AGO",
+  "Botswana" = "BWA",
+  "Burundi" = "BDI",
+  "Cameroon" = "CMR",
+  "Central African Republic" = "CAF",
+  "Chad" = "TCD",
+  "Democratic Republic of the Congo" = "COD",
+  "Equatorial Guinea" = "GNQ",
+  "Gabon" = "GAB",
+  "Namibia" = "NAM",
+  "Nigeria" = "NGA",
+  "Republic of the Congo" = "COG",
+  "Rwanda" = "RWA",
+  "South Sudan" = "SSD",
+  "Sudan" = "SDN",
+  "Uganda" = "UGA",
+  "United Republic of Tanzania" = "TZA",
+  "Zambia" = "ZMB"
+)
+
+fmt_eu_coord <- function (x) {
+  s <- format(round(as.numeric(x), 2L), nsmall = 2L, trim = TRUE)
+  gsub("\\.", ",", s)
+}
+
+interp_site_pop <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(NA_real_)
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  ord <- order(yrs)
+  yrs <- yrs[ord]
+  vals <- vals[ord]
+  if (yr_num < yrs[1] || yr_num > yrs[length(yrs)]) return(NA_real_)
+  idx <- which(yrs == yr_num)
+  if (length(idx) > 0L) return(vals[idx[1]])
+  stats::approx(x = yrs, y = vals, xout = yr_num, method = "linear")$y
+}
+
+fmt_site_pop <- function (e, yr_num) {
+  p <- interp_site_pop(e, yr_num)
+  if (is.na(p) || p <= 0) return("-")
+  viscount_fmt_pop(p)
+}
+
+fmt_site_peak <- function (e) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return("-")
+  yrs <- as.numeric(names(ps))
+  vals <- as.numeric(unlist(ps))
+  i_pk <- which.max(vals)
+  paste0(viscount_fmt_pop(vals[i_pk]), " (", yrs[i_pk], "AD)")
+}
+
+assign_gazetteer_zone <- function (e) {
+  c <- as.character(e$country)
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  if (identical(c, "Democratic Republic of the Congo")) {
+    if (lon < 21.5 && lat > -8.5) return("cod_west")
+    if (lat < -3.8) return("cod_south")
+    return("cod_east_north")
+  }
+  if (identical(c, "Angola")) return("ago_all")
+  if (identical(c, "Cameroon")) return("cmr_all")
+  if (identical(c, "Central African Republic")) return("caf_all")
+  if (identical(c, "Republic of the Congo")) return("cog_all")
+  if (identical(c, "Gabon")) return("gab_all")
+  if (identical(c, "Equatorial Guinea")) return("gnq_all")
+  if (c %in% c("Nigeria", "Chad", "Sudan", "South Sudan", "Uganda", "Rwanda", "Burundi")) return("buf_north_east")
+  "buf_south"
+}
+
+zone_order <- c(
+  "cod_west",
+  "cod_south",
+  "cod_east_north",
+  "ago_all",
+  "cmr_all",
+  "caf_all",
+  "cog_all",
+  "gab_all",
+  "gnq_all",
+  "buf_north_east",
+  "buf_south"
+)
+
+zone_labels <- c(
+  cod_west = "Western DR Congo (Kinshasa, Kongo-Central, Bandundu and Équateur)",
+  cod_south = "South-Central DR Congo (Kasai and Katanga)",
+  cod_east_north = "Eastern and Northern DR Congo (Kivus, Maniema, Orientale and Ubangi)",
+  ago_all = "Angola",
+  cmr_all = "Cameroon",
+  caf_all = "Central African Republic",
+  cog_all = "Republic of the Congo",
+  gab_all = "Gabon",
+  gnq_all = "Equatorial Guinea",
+  buf_north_east = "Northern and Eastern Cross-Border Buffer (NGA, TCD, SDN, SSD, UGA, RWA, BDI)",
+  buf_south = "Southern Cross-Border Buffer (ZMB, NAM, TZA, BWA)"
+)
+
+entry_zones <- vapply(all_entries, assign_gazetteer_zone, character(1))
+
+zone_entries <- setNames(lapply(zone_order, function (zid) {
+  sub <- all_entries[entry_zones == zid]
+  pks <- vapply(sub, function (e) max(as.numeric(unlist(e$population))), numeric(1))
+  sub[order(-pks, vapply(sub, function (e) e$name, character(1)))]
+}), zone_order)
+
+build_gazetteer_df <- function (sub_list) {
+  rows <- lapply(sub_list, function (e) {
+    iso_code <- iso3_map[[as.character(e$country)]]
+    if (is.null(iso_code)) iso_code <- toupper(substr(as.character(e$country), 1L, 3L))
+    loc_str <- paste0(iso_code, ": ", fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    sc <- if (identical(as.character(e$population_scope), "metro")) "Metro" else "City"
+    data.frame(
+      Settlement = as.character(e$name),
+      Location = loc_str,
+      Scope = sc,
+      `1960AD` = fmt_site_pop(e, 1960),
+      `1980AD` = fmt_site_pop(e, 1980),
+      `2000AD` = fmt_site_pop(e, 2000),
+      `2020AD` = fmt_site_pop(e, 2020),
+      `2025AD` = fmt_site_pop(e, 2025),
+      Peak = fmt_site_peak(e),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+n_excluded <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidates <- length(all_entries) + n_excluded
+bench_nums <- c(1960, 1980, 2000, 2020, 2025)
+bench_keys <- as.character(bench_nums)
+n_active <- setNames(
+  vapply(bench_nums, function (yr) sum(vapply(all_entries, function (e) !is.na(interp_site_pop(e, yr)), logical(1))), integer(1)),
+  bench_keys
+)
+
+core_countries <- c(
+  "Democratic Republic of the Congo",
+  "Angola",
+  "Cameroon",
+  "Central African Republic",
+  "Republic of the Congo",
+  "Gabon",
+  "Equatorial Guinea"
+)
+```
+
+# Abstract
+
+This gazetteer compiles coordinates, spatial scopes and post-colonial population trajectories for `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements across `r viscount_fmt_number(length(summary_cache$countries), 0L)` countries between 1960AD and 2025AD. Screened from `r viscount_fmt_number(n_candidates, 0L)` candidate municipal towns, mining centres, river ports and suburban agglomerations (`r viscount_fmt_number(n_excluded, 0L)` excluded), the retained entries cover 1.208 cities across the seven core Central African republics alongside 384 settlements in adjacent cross-border buffer zones. Active interpolated series expand from `r viscount_fmt_number(n_active[["1960"]], 0L)` settlements at 1960AD to `r viscount_fmt_number(n_active[["1980"]], 0L)` at 1980AD, `r viscount_fmt_number(n_active[["2000"]], 0L)` at 2000AD, `r viscount_fmt_number(n_active[["2020"]], 0L)` at 2020AD and `r viscount_fmt_number(n_active[["2025"]], 0L)` at 2025AD, documenting urban growth from Kinshasa (11,94M agglomeration), Luanda (10,2M agglomeration), Yaoundé (5,46M agglomeration), Douala (4,11M agglomeration) and Lubumbashi (3,92M agglomeration) down to secondary interior market towns.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Spatial distribution of 1.592 individually assessed settlements across seven Central African republics and cross-border buffer zones from 1960AD to 2025AD.",
+    "fig:hero-settlements-congo-angola"
+  )
+}
+```
+
+# Background
+
+Tracking post-colonial urbanisation across Central Africa, the Democratic Republic of the Congo and Angola requires reconciling official national census towns with contiguous built-up satellite footprints [@INE2016AngolaRGPH; @BUCREP2010CameroonRGPH; @OECD2024Africapolis]. Whereas Cameroon, the Republic of the Congo, Gabon and Angola (since 2014AD) conducted multi-round population censuses, the Democratic Republic of the Congo has held no completed national enumeration since July 1984 [@Shapiro2017FertilityEthnicity; @Dimbuene2023HighRisk]. Combining municipal census records with built-up agglomeration series resolves administrative under-bounding at rapidly expanding capitals while preserving city-proper series for historical comparison [@Lawunda2023PrivatisationLeau; @Monono2023TheChallenges].
+
+# Methodology
+
+## Candidate Screening and Scope Classification
+
+Entries were screened across national statistical directories, UN demographic abstracts and Africapolis 2024AD urban polygons [@OECD2024Africapolis; @INE2016AngolaRGPH; @BUCREP2010CameroonRGPH]. From `r viscount_fmt_number(n_candidates, 0L)` initial candidates bounded across `r viscount_fmt_number(summary_cache$total_area_km2, 0L)` km² and geoBoundaries national outlines [@Runfola2020GeoBoundaries], `r viscount_fmt_number(n_excluded, 0L)` duplicate alias records were removed, leaving `r viscount_fmt_number(length(all_entries), 0L)` entries across `r viscount_fmt_number(summary_cache$observation_count, 0L)` dated observations. Each row explicitly distinguishes municipal city-proper records (`r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` entries) from metropolitan agglomerations (`r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` entries).
+
+## Country-Level Summary and Tabular Conventions
+
+Table \ref{tab:country-gazetteer-summary} summarises site counts, municipal versus metropolitan scopes, total observations and active urban counts across each of the seven core republics and the external border buffer. Subsequent tables present linearly interpolated populations at five benchmark dates (1960AD, 1980AD, 2000AD, 2020AD and 2025AD) alongside each entry's peak value and year, marking dates outside observed spans with a hyphen (-).
+
+```{r tab-country-summary, results='asis'}
+sum_groups <- c(core_countries, "Cross-Border Buffer")
+cov_map <- summary_cache$wave_saturation_stats$jurisdiction_coverage
+
+c_rows <- lapply(sum_groups, function (grp) {
+  if (!identical(grp, "Cross-Border Buffer")) {
+    sub <- Filter(function (e) identical(as.character(e$country), grp), all_entries)
+    cv <- cov_map[[grp]]
+    disp_name <- if (identical(grp, "Democratic Republic of the Congo")) "DR Congo"
+      else if (identical(grp, "Republic of the Congo")) "Rep. of the Congo"
+      else if (identical(grp, "Central African Republic")) "Central African Rep."
+      else grp
+    n_cp <- as.integer(cv$city_proper)
+    n_mt <- as.integer(cv$metro)
+    n_obs <- as.integer(cv$observations)
+  } else {
+    sub <- Filter(function (e) !(as.character(e$country) %in% core_countries), all_entries)
+    disp_name <- grp
+    n_cp <- sum(vapply(sub, function (e) !identical(as.character(e$population_scope), "metro"), logical(1)))
+    n_mt <- length(sub) - n_cp
+    n_obs <- sum(vapply(sub, function (e) length(e$population), integer(1)))
+  }
+  act_1960 <- sum(vapply(sub, function (e) !is.na(interp_site_pop(e, 1960)), logical(1)))
+  act_2000 <- sum(vapply(sub, function (e) !is.na(interp_site_pop(e, 2000)), logical(1)))
+  act_2025 <- sum(vapply(sub, function (e) !is.na(interp_site_pop(e, 2025)), logical(1)))
+  sum_2025 <- sum(vapply(sub, function (e) {
+    p <- interp_site_pop(e, 2025)
+    if (is.na(p) || p <= 0) 0 else p
+  }, numeric(1)))
+  data.frame(
+    Jurisdiction = disp_name,
+    Sites = viscount_fmt_number(length(sub), 0L),
+    `City` = viscount_fmt_number(n_cp, 0L),
+    Metro = viscount_fmt_number(n_mt, 0L),
+    Obs = viscount_fmt_number(n_obs, 0L),
+    `1960 Act.` = viscount_fmt_number(act_1960, 0L),
+    `2000 Act.` = viscount_fmt_number(act_2000, 0L),
+    `2025 Act.` = viscount_fmt_number(act_2025, 0L),
+    `2025 Sum` = viscount_fmt_pop(sum_2025),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_2025_all <- sum(vapply(all_entries, function (e) {
+  p <- interp_site_pop(e, 2025)
+  if (is.na(p) || p <= 0) 0 else p
+}, numeric(1)))
+tot_row <- data.frame(
+  Jurisdiction = "All Jurisdictions (18)",
+  Sites = viscount_fmt_number(length(all_entries), 0L),
+  `City` = viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L),
+  Metro = viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L),
+  Obs = viscount_fmt_number(summary_cache$observation_count, 0L),
+  `1960 Act.` = viscount_fmt_number(n_active[["1960"]], 0L),
+  `2000 Act.` = viscount_fmt_number(n_active[["2000"]], 0L),
+  `2025 Act.` = viscount_fmt_number(n_active[["2025"]], 0L),
+  `2025 Sum` = viscount_fmt_pop(tot_2025_all),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_csum <- rbind(do.call(rbind, c_rows), tot_row)
+rownames(df_csum) <- NULL
+viscount_table(
+  df_csum,
+  "Country-level summary of assessed settlements, spatial scopes, chronological observations and active 2025AD urban totals.",
+  arg3_options = list(label = "tab:country-gazetteer-summary")
+)
+```
+
+# Testing and Validation
+
+Rank-size regression across the upper 180 urban centres yields $q = 1,08$ ($R^2 = 0,98$), and full-sample fitting across all 1.592 entries yields $q = 1,2$ ($R^2 = 0,93$). Spatially deduplicating municipal and metropolitan duplicates leaves 1.529 distinct urban peaks in Figure \ref{fig:settlements-rank}, following a near-Zipf distribution ($q = 1,02$, $R^2 = 0,99$) [@OECD2024Africapolis].
+
+```{r fig3-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Zipf rank-size distribution across 1.529 spatially deduplicated peaks (q = 1,02, R² = 0,99) and leading sub-regional densities in 2025AD.",
+  "fig:settlements-rank",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+# Results
+
+## Democratic Republic of the Congo
+
+Because the Congolese ledger contains `r viscount_fmt_number(country_agg_n <- sum(vapply(c("cod_west", "cod_south", "cod_east_north"), function (z) length(zone_entries[[z]]), integer(1))), 0L)` assessed settlements, Tables \ref{tab:cod-west}, \ref{tab:cod-south} and \ref{tab:cod-east-north} partition the national hierarchy into Western DR Congo (`r viscount_fmt_number(length(zone_entries[["cod_west"]]), 0L)` entries led by Kinshasa, Matadi, Kikwit and Mbandaka), South-Central DR Congo (`r viscount_fmt_number(length(zone_entries[["cod_south"]]), 0L)` entries led by Lubumbashi, Mbuji-Mayi, Kolwezi and Kananga) and Eastern and Northern DR Congo (`r viscount_fmt_number(length(zone_entries[["cod_east_north"]]), 0L)` entries led by Goma, Bukavu, Kisangani and Butembo) [@Shapiro2017FertilityEthnicity; @Martin2014MortalityRates; @Lawunda2023PrivatisationLeau].
+
+```{r tab-cod-west, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["cod_west"]]),
+  "Assessed settlements in Western DR Congo (Kinshasa, Kongo-Central, Bandundu and Équateur) from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:cod-west")
+)
+```
+
+```{r tab-cod-south, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["cod_south"]]),
+  "Assessed settlements in South-Central DR Congo (Kasai and Katanga) from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:cod-south")
+)
+```
+
+```{r tab-cod-east-north, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["cod_east_north"]]),
+  "Assessed settlements in Eastern and Northern DR Congo (Kivus, Maniema, Orientale and Ubangi) from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:cod-east-north")
+)
+```
+
+## Angola
+
+Table \ref{tab:ago-all} documents `r viscount_fmt_number(length(zone_entries[["ago_all"]]), 0L)` Angolan settlements anchored by Luanda (10,2M agglomeration in 2024AD), Benguela-Lobito, Huambo, Lubango and Cabinda [@INE2016AngolaRGPH; @AvelinoChico2025AngolaThe].
+
+```{r tab-ago-all, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["ago_all"]]),
+  "Assessed settlements in Angola from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:ago-all")
+)
+```
+
+## Cameroon
+
+Table \ref{tab:cmr-all} lists `r viscount_fmt_number(length(zone_entries[["cmr_all"]]), 0L)` Cameroonian towns headed by Yaoundé (5,46M agglomeration), Douala (4,11M agglomeration), Bafoussam, Garoua, Bamenda, Ngaoundéré and Maroua [@BUCREP2010CameroonRGPH; @Flore2020UrbanizationAnd; @Tichafogwe2025PeriUrbanization].
+
+```{r tab-cmr-all, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["cmr_all"]]),
+  "Assessed settlements in Cameroon from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:cmr-all")
+)
+```
+
+## Central African Republic
+
+Table \ref{tab:caf-all} records `r viscount_fmt_number(length(zone_entries[["caf_all"]]), 0L)` settlements across the Central African Republic, led by Bangui (1,61M agglomeration), Bimbo, Bégoua, Carnot, Berbérati, Bambari and Bouar [@Bank2021CentralAfrican].
+
+```{r tab-caf-all, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["caf_all"]]),
+  "Assessed settlements in the Central African Republic from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:caf-all")
+)
+```
+
+## Republic of the Congo
+
+Table \ref{tab:cog-all} compiles `r viscount_fmt_number(length(zone_entries[["cog_all"]]), 0L)` urban centres in the Republic of the Congo, dominated by Brazzaville (2,34M agglomeration) and Pointe-Noire (1,4M city proper in 2023AD) alongside Dolisie and Nkayi [@OECD2024Africapolis].
+
+```{r tab-cog-all, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["cog_all"]]),
+  "Assessed settlements in the Republic of the Congo from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:cog-all")
+)
+```
+
+## Gabon and Equatorial Guinea
+
+Tables \ref{tab:gab-all} and \ref{tab:gnq-all} record `r viscount_fmt_number(length(zone_entries[["gab_all"]]), 0L)` settlements in Gabon (Libreville, Port-Gentil, Franceville and Oyem) and `r viscount_fmt_number(length(zone_entries[["gnq_all"]]), 0L)` in Equatorial Guinea (Malabo, Bata, Ebebiyín and Mongomo).
+
+```{r tab-gab-all, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["gab_all"]]),
+  "Assessed settlements in Gabon from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:gab-all")
+)
+```
+
+```{r tab-gnq-all, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["gnq_all"]]),
+  "Assessed settlements in Equatorial Guinea from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:gnq-all")
+)
+```
+
+## Cross-Border Buffer Settlements
+
+Tables \ref{tab:buf-north-east} and \ref{tab:buf-south} catalogue the `r viscount_fmt_number(length(zone_entries[["buf_north_east"]]) + length(zone_entries[["buf_south"]]), 0L)` perimeter entries situated along neighbouring frontiers in Nigeria, Chad, Sudan, South Sudan, Uganda, Rwanda, Burundi, Zambia, Namibia, Tanzania and Botswana, ensuring continuity across regional boundaries [@Runfola2020GeoBoundaries; @OECD2024Africapolis].
+
+```{r tab-buf-north-east, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["buf_north_east"]]),
+  "Northern and eastern cross-border buffer settlements from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:buf-north-east")
+)
+```
+
+```{r tab-buf-south, results='asis'}
+viscount_table(
+  build_gazetteer_df(zone_entries[["buf_south"]]),
+  "Southern cross-border buffer settlements from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:buf-south")
+)
+```
+
+# Limitations
+
+Three caveats govern these tables. First, municipal (*City*) and built-up (*Metro*) entries coexist for major capitals such as Kinshasa, Luanda, Yaoundé, Douala, Brazzaville and Bangui and must not be summed together without scope filtering [@OECD2024Africapolis]. Second, post-2000AD Africapolis detections add many rapidly growing towns whose earlier colonial-era populations were unrecorded, producing hyphenated pre-2000AD cells. Third, combined settlement sums reflect urban footprints rather than full provincial populations, which are reported in the companion review.
+
+# Conclusion
+
+Taken together, these `r viscount_fmt_number(length(all_entries), 0L)` individually assessed settlements trace the transformation of post-colonial Central Africa from scattered mid-century administrative stations to multi-million coastal and riverine metropolises between 1960AD and 2025AD.
+
+# Appendix
+
+## Summary of Partitioned Gazetteer Zones
+
+Table \ref{tab:appendix-zones} aggregates site counts, active settlement counts and combined urban sums across all eleven gazetteer tables from 1960AD to 2025AD.
+
+```{r tab-appendix-zones, results='asis'}
+z_rows <- lapply(zone_order, function (zid) {
+  sub <- zone_entries[[zid]]
+  sums <- setNames(vapply(bench_nums, function (yr) {
+    vals <- vapply(sub, function (e) {
+      p <- interp_site_pop(e, yr)
+      if (is.na(p) || p <= 0) 0 else p
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }, character(1)), bench_keys)
+  data.frame(
+    `Gazetteer Zone (Sites)` = paste0(zone_labels[[zid]], " (", viscount_fmt_number(length(sub), 0L), ")"),
+    `1960AD` = sums[["1960"]],
+    `1980AD` = sums[["1980"]],
+    `2000AD` = sums[["2000"]],
+    `2020AD` = sums[["2020"]],
+    `2025AD` = sums[["2025"]],
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_zsum <- do.call(rbind, z_rows)
+rownames(df_zsum) <- NULL
+viscount_table(
+  df_zsum,
+  "Site counts and combined interpolated urban series across eleven gazetteer partitions from 1960AD to 2025AD.",
+  arg3_options = list(label = "tab:appendix-zones")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+Linear interpolation is bounded strictly between each entry's earliest and latest dated observation; benchmarks outside that span are denoted by a hyphen (-).

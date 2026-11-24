@@ -1,0 +1,235 @@
+---
+title: "Pharaonic Egypt to the Persian Conquest"
+subtitle: "Settlement Gazetteer: Capitals, Nome Centres, Oases and Desert Harbours, 3200BC to 525BC"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: pharaonic_egypt_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_pharaonic_egypt_spatial.png"
+hero_caption: "Spatial distribution of 1.435 individually assessed settlements across Upper and Lower Egypt, the Fayum depression and the desert oases through 525BC."
+hero_label: "fig:hero-pharaonic-egypt-settlements"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json5_clean <- function (arg0_path) {
+  txt <- readLines(arg0_path, warn = FALSE, encoding = "UTF-8")
+  clean_txt <- gsub("//.*$", "", txt, perl = TRUE)
+  fromJSON(paste(clean_txt, collapse = "\n"), simplifyVector = FALSE)
+}
+
+mod_data <- read_json5_clean("pharaonic_egypt.json5")
+sett_data <- read_json5_clean("pharaonic_egypt_settlements.json")
+ledger_data <- read_json5_clean("pharaonic_egypt_source_ledger.json5")
+cache_data <- fromJSON("pharaonic_egypt_summary_cache.json", simplifyVector = FALSE)
+
+classify_egypt_region <- function (arg0_lat, arg1_lon) {
+  lat <- as.numeric(arg0_lat)
+  lon <- as.numeric(arg1_lon)
+  if (lon < 30.1) return("Western Desert Oases")
+  if (lat >= 24.0 && lat <= 26.2 && lon <= 31.35) return("Western Desert Oases")
+  if ((lon > 32.30 && lat >= 28.0 && lat <= 31.5) || lon > 33.10) return("Sinai and Eastern Desert")
+  if (lat >= 30.15) return("Lower Egypt (Nile Delta)")
+  if (lat >= 29.05) return("Memphis and Fayum Core")
+  if (lat >= 26.60) return("Middle Egypt")
+  "Upper Egypt (Thebaid)"
+}
+```
+
+# Abstract
+
+This gazetteer documents 1.435 individually assessed nucleated settlements, royal capitals, provincial nome centres, desert oasis towns and Red Sea mining ports active across Pharaonic Egypt between 3200BC and 525BC, spanning six analytical territories covering 999.989 km² (11.050 five-arcminute cells). Synthesising primary excavation monographs, measured-area archaeological corpora (Palmisano et al. 2021; Titolo and Palmisano 2025), the Published Excavations Atlas, the Egypt Exploration Society (EES) Delta Survey, the Pleiades Ancient World Gazetteer and historical registers, the catalogue captures `r viscount_fmt_number(sum(vapply(sett_data, function (e) length(e[["population"]]), integer(1))), 0L)` settlement-year population observations averaging `r viscount_fmt_number(sum(vapply(sett_data, function (e) length(e[["population"]]), integer(1))) / length(sett_data), 1L)` temporal checkpoints per site [@Kohler2017Developmen; @Moeller2015Archaeolog; @Elfadaly2019Discoverin]. At the apex stand Memphis (88,5k), Pi-Ramesses (79k) and Thebes (77,5k), followed by major dynastic seats at Sais (48,5k), Avaris (42,5k), Tanis (39,8k), Itjtawy (34,8k), Bubastis (34,6k) and Akhetaten/Amarna (34,2k), provincial nome capitals including Heliopolis (28,6k), Herakleopolis Magna (27,6k), Hermopolis Magna (26,9k), Mendes (24,2k), Asyut (23,6k), Akhmim (19,6k), Giza (18,8k), Crocodilopolis (18,6k), Athribis (18,4k), Coptos (17,4k), Sebennytos (16,8k), Dendera (15,9k), Buto (15,2k) and Abydos (14,6k), alongside Western Desert oasis nodes at Balat (4,5k), Hibis (4,2k), Umm Mawagir (3,9k), Mut el-Kharab (3,8k), El-Bawiti (3,7k) and Aghurmi (Siwa, 2,4k) [@Love2003Questionin; @Hubschmann2010Inhabited; @Dabbs2025Mortality]. Alongside the 1.435 included settlements, the regional source ledger records 250 excluded candidates—`r viscount_fmt_number(sum(vapply(ledger_data[["candidates"]], function (c) identical(c[["status"]], "excluded") && identical(c[["reason"]], "subordinate_suburb_merged"), logical(1))), 0L)` subordinate suburbs and satellite mounds merged within 3,2 km and `r viscount_fmt_number(sum(vapply(ledger_data[["candidates"]], function (c) identical(c[["status"]], "excluded") && identical(c[["reason"]], "duplicate_alias"), logical(1))), 0L)` variant-spelling duplicates consolidated within 25 km—out of 1.685 evaluated entities, anchored to geoBoundaries subadministrative GIS geometry [@Runfola2020GeoBoundaries].
+
+# Background
+
+Urbanism in Pharaonic Egypt evolved in tight step with Nile inundation management, state labour mobilisation and overland mineral logistics [@Kohler2017Developmen; @Moeller2015Archaeolog]. During the Predynastic and Early Dynastic transition (3200BC to 2686BC), walled provincial nuclei emerged along elevated river levees in Upper Egypt—notably Hierakonpolis (Nekhen), Naqada (Nubt), Abydos (Ebot) and El Kab—while commercial tell settlements at Bouto, Tell el-Farkha, Tell el-Iswid and Maadi linked the Delta to Levantine caravan routes [@Agnieszka2016Nile; @Kohler2017Developmen]. The foundation of Memphis at the Delta apex established a durable administrative pivot commanding both river navigation and the nearby Ahramat channel along which Old Kingdom pyramid crews moved limestone and timber [@Love2003Questionin; @Ghoneim2024Egyptian; @Younes2023Pyramid].
+
+During the Old and Middle Kingdoms (2686BC to 1650BC), Egyptian settlement morphology diversified beyond natural levee tells. Royal mortuary institutions built orthogonal worker and priestly towns such as Heit el-Ghurab at Giza, Kahun (el-Lahun) at the Fayum mouth and planned fortress garrisons in Lower Nubia [@Moeller2015Archaeolog; @Romer2017Nile; @Ferreira2019Lower]. Concurrently, state mining and maritime expeditions established seasonal or fortified bases at Wadi al-Jarf and Ayn Soukhna on the Gulf of Suez, Saww (Mersa Gawasis) on the Red Sea coast, Bir Nasib in Sinai, and Balat (Ayn el-Gazareen) in Dakhla Oasis [@Rademakers2018Copper; @Hubschmann2010Inhabited].
+
+In the Second Intermediate Period and New Kingdom (1650BC to 1069BC), eastern Delta ports such as Tell el-Dab'a (Avaris) and later Pi-Ramesses absorbed dense Levantine and Mediterranean migration [@Stantis2021Multi]. Meanwhile, Thebes (Diospolis Magna) expanded around the Karnak and Luxor temple complexes, Memphis retained its industrial and necropolis hinterland across Saqqara [@Staring2023Saqqara], and Akhenaten's brief Amarna capital created an instant desert metropolis in Middle Egypt [@Kulmar2018Possible; @Dabbs2025Mortality]. During the Third Intermediate Period and Saite Dynasty to 525BC, Delta temple cities—Tanis, Bubastis, Mendes, Sais and the Sinai border bastion of Pelusium—anchored northern Egypt's commercial revival [@Bennett2019Archaeolog; @Siegel2025Appraisal].
+
+# Methodology
+
+Settlement entries in this gazetteer were assembled through three-wave saturation auditing across curated archaeological registers, measured-area urban corpora (Palmisano et al. 2021; Titolo and Palmisano 2025) and primary excavation monographs, exhausting 1.685 in-bounds candidate records drawn from the EES Delta Survey Gazetteer, Published Excavations Atlas, Pleiades Ancient World Gazetteer, Al-Thurayya, NERD and EAMENA (yielding 1.435 individually assessed settlements across multi-wave regional and monograph ingestion, with zero uncaptured sites remaining in the asymptotic sweep). Every included site carries verified decimal-degree WGS84 coordinates, an explicit foundation year, a site-specific archaeological evidence basis and longitudinal population estimates sampled at historically tailored chronological checkpoints spanning each site's documented occupation between 3200BC and 525BC.
+
+To prevent double-counting contiguous urban wards, satellite necropolis mounds and modern Arabic versus classical Greek or Egyptian toponym doublets, HANDBOOK applies strict spatial consolidation rules recorded in the chapter source ledger. Across 1.685 evaluated candidate entities, `r viscount_fmt_number(sum(vapply(ledger_data[["candidates"]], function (c) identical(c[["status"]], "excluded") && identical(c[["reason"]], "subordinate_suburb_merged"), logical(1))), 0L)` co-located subordinate wards and satellite tells situated within 3,2 km of a primary urban core were merged into their parent metropolis—such as Deir el-Medina, Heroonpolis and Terenuthis—while `r viscount_fmt_number(sum(vapply(ledger_data[["candidates"]], function (c) identical(c[["status"]], "excluded") && identical(c[["reason"]], "duplicate_alias"), logical(1))), 0L)` multi-source variant-spelling duplicates within 25 km (including duplicate register entries for Bubastis, Buto, Mendes and Kom Firin) were consolidated. For regional breakdown, each of the 1.435 individually assessed settlements is mapped to Egypt's six ecological divisions and reconciled with subadministrative census boundaries from geoBoundaries [@Runfola2020GeoBoundaries].
+
+# Testing and Validation
+
+Ledger reconciliation confirms exact accounting across all 1.685 candidate features (1.435 included plus 250 excluded, zero unaccounted records). All 1.435 individually assessed settlements hold valid geographic coordinates spanning `r viscount_fmt_number(min(vapply(sett_data, function (e) as.numeric(e[["coords"]][[1]]), numeric(1))), 2L)`°N to `r viscount_fmt_number(max(vapply(sett_data, function (e) as.numeric(e[["coords"]][[1]]), numeric(1))), 2L)`°N latitude and `r viscount_fmt_number(min(vapply(sett_data, function (e) as.numeric(e[["coords"]][[2]]), numeric(1))), 2L)`°E to `r viscount_fmt_number(max(vapply(sett_data, function (e) as.numeric(e[["coords"]][[2]]), numeric(1))), 2L)`°E longitude, with `r viscount_fmt_number(sum(vapply(sett_data, function (e) length(e[["population"]]), integer(1))), 0L)` positive settlement-year entries averaging `r viscount_fmt_number(sum(vapply(sett_data, function (e) length(e[["population"]]), integer(1))) / length(sett_data), 1L)` temporal checkpoints per site across the Pharaonic span (3200BC to 525BC). Rank-size evaluation yields a tightly fitted Zipf slope of $\alpha = 0,87$ ($R^2 = 0,97$, unrounded $\alpha = 0,871$), reflecting a strongly graded hierarchy beneath Memphis (88,5k), Pi-Ramesses (79k) and Thebes (77,5k) through dynastic seats, provincial nome capitals and desert outposts (Figure \ref{fig:sett-gazetteer}).
+
+```{r fig-sett, results='asis'}
+viscount_figure(
+  "figures/fig4_pharaonic_egypt_settlements.png",
+  "Rank-size distribution across 1.435 individually assessed settlements (Zipf slope 0,87, R² = 0,97) and leading twelve Pharaonic capitals, nome centres and ports across Egypt through 525BC.",
+  "fig:sett-gazetteer"
+)
+```
+
+# Results
+
+## Top 45 Settlements by Peak Population
+
+Table \ref{tab:top45-egypt} lists the leading 45 settlements ordered by peak documented population, highlighting the tripartite imperial primacy of Memphis (88,5k), Pi-Ramesses (79k) and Thebes (77,5k), followed by dynastic capitals at Sais (48,5k), Avaris (42,5k), Tanis (39,8k), Itjtawy (34,8k), Bubastis (34,6k) and Amarna (34,2k) above Egypt's provincial nome capitals, Fayum hydraulic towns and Sinai-Red Sea frontier ports.
+
+```{r tab-top45, results='asis'}
+fmt_coord <- function (x) gsub("[.]", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+
+get_pop_str <- function (e, target_y) {
+  yrs <- as.numeric(names(e[["population"]]))
+  vals <- as.numeric(unlist(e[["population"]]))
+  ord_y <- order(yrs)
+  yrs <- yrs[ord_y]
+  vals <- vals[ord_y]
+  if (length(yrs) == 0L || target_y < min(yrs) || target_y > max(yrs)) return("-")
+  exact_idx <- which(yrs == target_y)
+  if (length(exact_idx) > 0L) return(viscount_fmt_pop(vals[exact_idx[1L]]))
+  if (length(yrs) < 2L) return("-")
+  viscount_fmt_pop(stats::approx(x = yrs, y = vals, xout = target_y)$y)
+}
+
+peaks <- vapply(sett_data, function (e) max(as.numeric(unlist(e[["population"]]))), numeric(1))
+ord <- order(peaks, decreasing = TRUE)
+top_n <- min(45L, length(ord))
+
+rows <- lapply(sett_data[ord[seq_len(top_n)]], function (e) {
+  yrs <- as.integer(names(e[["population"]]))
+  pks <- as.numeric(unlist(e[["population"]]))
+  pk_y <- names(e[["population"]])[which.max(pks)]
+  pk_v <- max(pks)
+  pk_lbl <- ifelse(as.numeric(pk_y) < 0, paste0(abs(as.numeric(pk_y)), "BC"), paste0(pk_y, "AD"))
+  min_lbl <- ifelse(min(yrs) < 0, paste0(abs(min(yrs)), "BC"), paste0(min(yrs), "AD"))
+  max_lbl <- ifelse(max(yrs) < 0, paste0(abs(max(yrs)), "BC"), paste0(max(yrs), "AD"))
+  clean_nm <- gsub("^\\*", "", e[["name"]])
+  data.frame(
+    Settlement = clean_nm,
+    Coords = paste0(fmt_coord(e[["coords"]][[1]]), ", ", fmt_coord(e[["coords"]][[2]])),
+    Span = paste0(min_lbl, "-", max_lbl),
+    P2500BC = get_pop_str(e, -2500),
+    P1300BC = get_pop_str(e, -1300),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_lbl, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+top_df <- do.call(rbind, rows)
+rownames(top_df) <- NULL
+
+viscount_table(
+  top_df,
+  "Top 45 settlements in Pharaonic Egypt ordered by peak population (1.435 individually assessed settlements).",
+  c("Settlement", "Lat, Lon", "Span", "2500BC", "1300BC", "Peak (Year)"),
+  list(label = "tab:top45-egypt", font_size = "scriptsize", max_rows_per_page = 26L)
+)
+```
+
+## Sub-Regional Settlement Distribution
+
+Table \ref{tab:regsum-egypt} groups all 1.435 individually assessed settlements across Egypt's six ecological sub-regions. Lower Egypt (Nile Delta) accounts for the largest share of sites (`r sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Lower Egypt (Nile Delta)"), logical(1)))` centres, `r viscount_fmt_number(100 * sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Lower Egypt (Nile Delta)"), logical(1))) / length(sett_data), 1L)`%), led by Pi-Ramesses (79k), Sais (48,5k), Avaris (42,5k), Tanis (39,8k) and Bubastis (34,6k) alongside buried Delta nome tells documented by the EES Delta Survey [@Elfadaly2019Discoverin]. Upper Egypt (the Thebaid) accounts for `r sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Upper Egypt (Thebaid)"), logical(1)))` sites (`r viscount_fmt_number(100 * sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Upper Egypt (Thebaid)"), logical(1))) / length(sett_data), 1L)`%), led by Thebes (77,5k), Akhmim (19,6k), Coptos (17,4k) and Dendera (15,9k). The Memphis and Fayum core contributes `r sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Memphis and Fayum Core"), logical(1)))` sites (`r viscount_fmt_number(100 * sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Memphis and Fayum Core"), logical(1))) / length(sett_data), 1L)`%), headed by Memphis (88,5k), Itjtawy (34,8k), Heliopolis (28,6k) and Herakleopolis Magna (27,6k), while Middle Egypt contributes `r sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Middle Egypt"), logical(1)))` sites (`r viscount_fmt_number(100 * sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Middle Egypt"), logical(1))) / length(sett_data), 1L)`%), led by Amarna (34,2k), Hermopolis Magna (26,9k) and Asyut (23,6k). Sinai and the Eastern Desert comprise `r sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Sinai and Eastern Desert"), logical(1)))` sites (`r viscount_fmt_number(100 * sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Sinai and Eastern Desert"), logical(1))) / length(sett_data), 1L)`%), led by Pelusium (6,2k), Tell Hebua (5,4k) and Red Sea expedition harbours at Wadi al-Jarf (2,4k) and Mersa Gawasis (2,3k) [@Rademakers2018Copper; @Siegel2025Appraisal], while the Western Desert Oases encompass `r sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Western Desert Oases"), logical(1)))` centres (`r viscount_fmt_number(100 * sum(vapply(sett_data, function (e) identical(classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), "Western Desert Oases"), logical(1))) / length(sett_data), 1L)`%) led by Balat (4,5k) and Hibis (4,2k).
+
+```{r tab-regsum, results='asis'}
+reg_order <- c(
+  "Lower Egypt (Nile Delta)",
+  "Memphis and Fayum Core",
+  "Middle Egypt",
+  "Upper Egypt (Thebaid)",
+  "Western Desert Oases",
+  "Sinai and Eastern Desert"
+)
+
+assigned <- vapply(sett_data, function (e) classify_egypt_region(e[["coords"]][[1]], e[["coords"]][[2]]), character(1))
+
+sum_rows <- lapply(reg_order, function (rn) {
+  idx <- which(assigned == rn)
+  sub_e <- sett_data[idx]
+  max_nm <- "-"
+  if (length(sub_e) > 0) {
+    pks <- vapply(sub_e, function (e) max(as.numeric(unlist(e[["population"]]))), numeric(1))
+    idx_m <- which.max(pks)
+    lead_clean <- gsub("^\\*", "", sub_e[[idx_m]][["name"]])
+    max_nm <- paste0(lead_clean, " (", viscount_fmt_pop(pks[idx_m]), ")")
+  }
+  data.frame(
+    Subregion = rn,
+    Sites = viscount_fmt_number(length(sub_e), 0L),
+    Share = paste0(viscount_fmt_number(100 * length(sub_e) / length(sett_data), 1L), "%"),
+    Lead = max_nm,
+    stringsAsFactors = FALSE
+  )
+})
+sum_df <- do.call(rbind, sum_rows)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Sub-regional distribution and leading centres across the 1.435 individually assessed Pharaonic Egyptian settlements.",
+  c("Sub-Region", "Catalogued Sites", "Share", "Leading Centre (Peak)"),
+  list(label = "tab:regsum-egypt", font_size = "footnotesize")
+)
+```
+
+## Source Ledger Exclusions
+
+Table \ref{tab:excluded-egypt} lists the first 30 of 250 excluded candidate entries documented in the chapter source ledger, illustrating how subordinate urban wards and variant aliases were consolidated into canonical metropolitan nuclei.
+
+```{r tab-excluded, results='asis'}
+exc_list <- Filter(function (c) identical(c[["status"]], "excluded"), ledger_data[["candidates"]])
+exc_n <- min(30L, length(exc_list))
+
+exc_rows <- lapply(exc_list[seq_len(exc_n)], function (c) {
+  just <- as.character(c[["justification"]])
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", just, perl = TRUE)
+  cat_lbl <- if (identical(c[["reason"]], "duplicate_alias")) "Duplicate alias" else "Subordinate suburb"
+  data.frame(
+    Candidate = c[["name"]],
+    Country = c[["country"]],
+    Category = cat_lbl,
+    Justification = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+
+viscount_table(
+  exc_df,
+  "Leading 30 of 250 excluded candidate entries in the Pharaonic Egypt source ledger.",
+  c("Candidate", "Country", "Classification", "Consolidation Justification"),
+  list(label = "tab:excluded-egypt", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three structural biases shape the settlement gazetteer. First, spatial merging within a 3,2 km urban radius consolidates contiguous satellite tells and toponym doublets into single metropolitan polygons—such as folding adjacent mounds into Thebes, Mendes, Sais and Athribis—which improves regional density accuracy while masking fine-grained intra-urban ward boundaries [@Moeller2015Archaeolog; @Dabbs2025Mortality]. Second, Delta alluviation and modern town expansion bury early Pharaonic occupation layers beneath deep silt, making Lower Egyptian site recovery reliant on systematic EES Delta Survey coring and remote sensing rather than uniform surface walkovers [@Elfadaly2019Discoverin]. Third, hyper-arid preservation in Sinai and the Eastern Desert exaggerates the archaeological visibility of seasonal mining camps and waystations relative to ephemeral Nile levee hamlets destroyed by river migration [@Toonen2021Hydro; @Siegel2025Appraisal].
+
+# Conclusion
+
+Cataloguing 1.435 individually assessed settlements across `r viscount_fmt_number(sum(vapply(sett_data, function (e) length(e[["population"]]), integer(1))), 0L)` temporal observations, this gazetteer traces the urban anatomy of Pharaonic Egypt from Early Dynastic walled estates to the dense Delta and Valley network conquered by Cambyses II in 525BC. Combining primary excavation monographs, ArchAtlas, the EES Delta Survey, Pleiades and radiocarbon chronologies with strict spatial deduplication prevents suburban double-counting while capturing the authentic hierarchy separating Egypt's imperial and dynastic capitals (Memphis, Pi-Ramesses, Thebes, Sais, Avaris, Tanis, Itjtawy, Bubastis and Amarna) from its differentiated provincial nome centres, reclaimed Fayum towns and desert oasis and Red Sea outposts.
+
+# Appendix
+
+All 1.435 included settlement records and 250 ledger exclusions are stored in machine-readable chapter archives linked to Egypt's 296 modern ADM2 polygons from geoBoundaries [@Runfola2020GeoBoundaries] and CAPMAS historical provincial series. Coordinate precision is maintained to at least two decimal places for regional cartographic projection and five-arcminute spatial aggregation.
+
+# Sources
+
+<div id="refs"></div>

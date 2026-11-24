@@ -1,0 +1,315 @@
+---
+title: "Republic of Turkey after 1923"
+subtitle: "Settlement Gazetteer, Urban Hierarchy and District Structure, 1923AD to 2026AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: republic_of_turkey_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_republic_of_turkey_spatial.png"
+hero_caption: "Spatial distribution of 22.177 catalogued TurkStat census localities across the 81 Turkish provinces from 1923AD to 2026AD, highlighting the metropolitan nodes of Istanbul, Ankara, Izmir, Bursa, Antalya, Konya and Adana."
+hero_label: "fig:hero-settlements"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  out.width = "100%"
+)
+source("../../_shared/template/viscount_rmd_helpers.R")
+library(jsonlite)
+
+sett_json <- fromJSON("republic_of_turkey_settlements.json", simplifyVector = FALSE)
+gj <- fromJSON("../../_shared/_gis_cache/chapter_subregions/republic_of_turkey_subregions.geojson", simplifyVector = FALSE)
+
+fmt_eu_coord <- function (val) {
+  viscount_fmt_number(val, 2L)
+}
+
+fmt_sett_pop <- function (pm, yr_str) {
+  val <- pm[[yr_str]]
+  if (is.null(val)) return("-")
+  viscount_fmt_pop(val)
+}
+
+# Point-in-ring ray casting for GeoJSON polygons
+pip_ring <- function (px, py, ring_mat) {
+  n <- nrow(ring_mat)
+  if (n < 3L) return(FALSE)
+  inside <- FALSE
+  j <- n
+  for (i in seq_len(n)) {
+    xi <- ring_mat[i, 1L]; yi <- ring_mat[i, 2L]
+    xj <- ring_mat[j, 1L]; yj <- ring_mat[j, 2L]
+    cond <- ((yi > py) != (yj > py)) && (px < (xj - xi) * (py - yi) / ((yj - yi) + 1e-15) + xi)
+    if (cond) inside <- !inside
+    j <- i
+  }
+  inside
+}
+
+pip_geom <- function (px, py, geom) {
+  if (identical(geom$type, "Polygon")) {
+    ext <- do.call(rbind, lapply(geom$coordinates[[1L]], function (pt) c(pt[[1L]], pt[[2L]])))
+    return(pip_ring(px, py, ext))
+  } else if (identical(geom$type, "MultiPolygon")) {
+    for (poly in geom$coordinates) {
+      ext <- do.call(rbind, lapply(poly[[1L]], function (pt) c(pt[[1L]], pt[[2L]])))
+      if (pip_ring(px, py, ext)) return(TRUE)
+    }
+  }
+  FALSE
+}
+
+prov_feats <- lapply(gj$features, function (f) {
+  cxs <- unlist(lapply(f$geometry$coordinates, function (p) {
+    if (identical(f$geometry$type, "Polygon")) vapply(p, function (pt) pt[[1L]], numeric(1))
+    else vapply(p[[1L]], function (pt) pt[[1L]], numeric(1))
+  }))
+  cys <- unlist(lapply(f$geometry$coordinates, function (p) {
+    if (identical(f$geometry$type, "Polygon")) vapply(p, function (pt) pt[[2L]], numeric(1))
+    else vapply(p[[1L]], function (pt) pt[[2L]], numeric(1))
+  }))
+  list(
+    id = f$properties$id,
+    name = f$properties$name,
+    geom = f$geometry,
+    cx = mean(cxs),
+    cy = mean(cys)
+  )
+})
+
+region_lookup <- list(
+  Marmara = c("turkey_07_kirklareli", "turkey_08_edirne", "turkey_15_istanbul", "turkey_16_tekirdag", "turkey_17_çanakkale", "turkey_28_sakarya", "turkey_29_kocaeli", "turkey_30_yalova", "turkey_31_bursa", "turkey_32_balikesir", "turkey_41_bilecik"),
+  Aegean = c("turkey_33_izmir", "turkey_34_aydin", "turkey_35_mugla", "turkey_49_kütahya", "turkey_55_manisa", "turkey_56_denizli", "turkey_62_usak", "turkey_65_afyonkarahisar"),
+  Mediterranean = c("turkey_14_hatay", "turkey_36_antalya", "turkey_37_mersin", "turkey_38_adana", "turkey_54_isparta", "turkey_57_burdur", "turkey_67_k__maras", "turkey_74_osmaniye"),
+  `Central Anatolia` = c("turkey_40_ankara", "turkey_42_eskisehir", "turkey_43_çankiri", "turkey_46_sivas", "turkey_50_konya", "turkey_51_karaman", "turkey_52_nigde", "turkey_53_kayseri", "turkey_58_aksaray", "turkey_59_nevsehir", "turkey_60_yozgat", "turkey_61_kirsehir", "turkey_66_kinkkale"),
+  `Black Sea` = c("turkey_01_artvin", "turkey_18_rize", "turkey_19_trabzon", "turkey_20_giresun", "turkey_21_ordu", "turkey_22_samsun", "turkey_23_sinop", "turkey_24_kastamonu", "turkey_25_bartın", "turkey_26_zinguldak", "turkey_27_düzce", "turkey_39_bolu", "turkey_44_karabük", "turkey_45_tokat", "turkey_47_çorum", "turkey_48_amasya", "turkey_79_bayburt", "turkey_80_gümüshane"),
+  `Eastern Anatolia` = c("turkey_00_ardahan", "turkey_03_hakkari", "turkey_04_iğdir", "turkey_05_agri", "turkey_06_van", "turkey_09_kars", "turkey_63_erzincan", "turkey_64_tunceli", "turkey_68_mus", "turkey_69_erzurum", "turkey_70_malatya", "turkey_71_elazig", "turkey_72_bitlis", "turkey_73_bingöl"),
+  `Southeastern Anatolia` = c("turkey_02_sirnak", "turkey_10_mardin", "turkey_11_sanliurfa", "turkey_12_kilis", "turkey_13_gaziantep", "turkey_75_adiyaman", "turkey_76_diyarbakir", "turkey_77_batman", "turkey_78_siirt")
+)
+
+pid_to_reg <- list()
+for (rn in names(region_lookup)) {
+  for (pid in region_lookup[[rn]]) pid_to_reg[[pid]] <- rn
+}
+
+display_prov <- function (nm) {
+  if (identical(nm, "Zinguldak")) return("Zonguldak")
+  if (identical(nm, "Kinkkale")) return("Kirikkale")
+  if (identical(nm, "K. Maras")) return("Kahramanmaras")
+  nm
+}
+
+sett_enriched <- lapply(names(sett_json), function (sk) {
+  s <- sett_json[[sk]]
+  la <- as.numeric(s$coords[[1L]])
+  lo <- as.numeric(s$coords[[2L]])
+  matched_p <- NULL
+  for (pf in prov_feats) {
+    if (pip_geom(lo, la, pf$geom)) {
+      matched_p <- pf
+      break
+    }
+  }
+  if (is.null(matched_p)) {
+    dists <- vapply(prov_feats, function (pf) (pf$cx - lo)^2 + (pf$cy - la)^2, numeric(1))
+    matched_p <- prov_feats[[which.min(dists)]]
+  }
+  reg_nm <- pid_to_reg[[matched_p$id]]
+  vals_num <- suppressWarnings(as.numeric(unlist(s$population)))
+  pk_val <- if (length(vals_num) > 0L) max(vals_num, na.rm = TRUE) else 0
+  list(
+    key = sk,
+    name = s$name,
+    province = display_prov(matched_p$name),
+    region = reg_nm,
+    lat = la,
+    lon = lo,
+    peak = pk_val,
+    pop = s$population
+  )
+})
+
+sett_sum_at <- function (yr_str) {
+  sum(vapply(sett_json, function (s) {
+    val <- s$population[[yr_str]]
+    if (is.null(val)) 0 else as.numeric(val)
+  }, numeric(1)))
+}
+
+build_region_table <- function (reg_name, cap_str, lbl_str, max_rows = 30L) {
+  sub_s <- Filter(function (x) identical(x$region, reg_name), sett_enriched)
+  ord <- order(vapply(sub_s, function (x) -x$peak, numeric(1)))
+  sub_s <- head(sub_s[ord], max_rows)
+  rows <- lapply(sub_s, function (x) {
+    data.frame(
+      Settlement = x$name,
+      Province = x$province,
+      Coords = paste0(fmt_eu_coord(x$lat), ", ", fmt_eu_coord(x$lon)),
+      `1927AD` = fmt_sett_pop(x$pop, "1927"),
+      `1970AD` = fmt_sett_pop(x$pop, "1970"),
+      `Peak` = viscount_fmt_pop(x$peak),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  viscount_table(
+    df,
+    cap_str,
+    arg2_col_names = colnames(df),
+    arg3_options = list(label = lbl_str)
+  )
+}
+```
+
+# Abstract
+
+This gazetteer documents the demographic trajectories of 22.177 TurkStat census localities across the Republic of Turkey from 1923AD to 2026AD, anchored to WGS84 coordinates and assigned to all 81 modern provinces across Turkey's seven geographical regions. Compiled from Turkish Statistical Institute (TUIK) general population censuses (1927-2000AD), the Address-Based Population Registration System (ADNKS, 2007-2024AD) and Republican municipal continuity records, the catalogued corpus spans provincial metropolises, district capitals and enumerated rural villages down to 500 inhabitants, recording `r viscount_fmt_pop(sett_sum_at("1927"))` enumerated residents in 1927AD, `r viscount_fmt_pop(sett_sum_at("1970"))` in 1970AD, `r viscount_fmt_pop(sett_sum_at("2000"))` in 2000AD and `r viscount_fmt_pop(sett_sum_at("2025"))` across contemporary 2025AD urban trajectories. Across all 22.177 localities at peak population, rank-size scaling exhibits a Zipf exponent of $\alpha = 1{,}208$ ($R^2 = 0{,}979$), reflecting both Istanbul's ascent from 690,9k in 1927AD to 15,9M in 2025AD and the emergence of sixteen million-plus metropolitan hubs led by Ankara (5,8M peak; 5,41M in 2025AD), Izmir (4,49M peak; 3,07M in 2025AD), Bursa (2,99M peak; 2,14M in 2025AD), Antalya (2,43M peak; 1,38M in 2025AD), Konya (2,23M peak; 1,42M in 2025AD), Adana (1,86M), Mersin (1,81M peak; 1,09M in 2025AD), Gaziantep (1,8M peak; 1,75M in 2025AD), Diyarbakir (1,73M peak; 1,13M in 2025AD) and Kayseri (1,39M peak; 1,03M in 2025AD). Paired with the 968-district ADM2 subadministrative census layer, the gazetteer anchors Turkey's full urban-rural hierarchy across the Republican century.
+
+# Background
+
+At the proclamation of the Republic in October 1923, Turkey possessed a sparse urban network scarred by a decade of warfare and the compulsory Greek-Turkish population exchange [@Bakar2017Turkey; @Ustaoglu2021Reconstruc]. Outside Istanbul (690,9k at the 1927AD census), Izmir (153,9k) and Adana (72,6k), most provincial capitals functioned as modest market and garrison towns of 15k to 75k residents serving predominantly agrarian hinterlands [@Hofmeester2020Shifting; @Hartmann2022Meeting]. Even Ankara, designated the new Republican capital in 1923AD, recorded just 74,6k municipal residents at the 1927AD general census before state ministries, railways and defence factories spurred sustained central Anatolian urbanisation.
+
+After 1950AD, Marshall Plan tractorisation, highway construction and declining rural mortality detached millions of smallholders from Anatolia's villages and launched a multi-decade urban migration wave [@Karakoc2026Concentrat; @Balc2022Istanbul]. Industrial corridors formed along the Sea of Marmara from Tekirdag and Istanbul through Gebze, Izmit and Bursa, while Aegean, Mediterranean and southeastern centres expanded on irrigated cash crops, textiles, construction and tourism [@Baysal2022Urbanizati; @Bostan2025Rkiye; @Oguz2021Resilient]. From the 1980s onward, internal Kurdish migration and after 2011AD Syrian refugee inflows added hundreds of thousands of residents to Gaziantep, Sanliurfa, Kilis, Adana, Mersin, Antalya and Istanbul [@Alptekin2024Three; @INCILI2020Kilis; @DEMIR2022Antalya].
+
+# Methodology
+
+Every settlement trajectory in this gazetteer harmonises official TUIK general population censuses (fourteen de facto counts from 1927AD to 2000AD) with the de jure ADNKS population register (2007-2024AD) [@Bostan2023Comparativ]. Across 46.713 official TurkStat rows processed within chapter bounds, duplicate-alias and co-located suburban candidates were excluded during source-ledger deduplication, leaving 22.177 retained cities, towns and rural villages extending down to 432–500 inhabitants. Retaining continuous pre-2012AD locality records alongside post-2012AD metropolitan counts distinguishes organic physical growth from the statutory boundary expansions introduced by Law No. 6360 [@Canpolat2018Terms; @Bostan2025Rkiye].
+
+Each settlement coordinate pair is mapped via polygon containment onto the 81-province geoBoundaries administrative geometry [@Runfola2020GeoBoundaries] and grouped into Turkey's seven standard geographical regions: Marmara, Aegean, Mediterranean, Central Anatolia, Black Sea, Eastern Anatolia and Southeastern Anatolia. Key resource, state-industry and metropolitan district foundations carry explicit historical foundation thresholds—including Zonguldak (1849AD), Kirikkale (1925AD), Karabuk (1937AD), Batman (1940AD), Kecioren (1983AD), Mamak (1983AD), Sehitkamil (1987AD), Yildirim (1987AD) and Etimesgut (1990AD)—preventing pre-foundation back-projection prior to establishment.
+
+# Testing and Validation
+
+Figure \ref{fig:settlements-hierarchy} confirms that all 22.177 catalogued Turkish localities follow a tight log-linear Zipf rank-size relation ($\alpha = 1{,}208$, $R^2 = 0{,}979$) spanning from Istanbul (15,9M in 2025AD) down to enumerated rural villages near 500 inhabitants. Comparing catalogued census totals against the national envelope confirms smooth coverage across the Republican censuses (`r viscount_fmt_pop(sett_sum_at("1927"))` in 1927AD, `r viscount_fmt_pop(sett_sum_at("1970"))` in 1970AD, `r viscount_fmt_pop(sett_sum_at("2000"))` in 2000AD and `r viscount_fmt_pop(sett_sum_at("2025"))` across contemporary 2025AD urban trajectories) without synthetic pre-1927AD extrapolation [@Canpolat2018Terms]. Cross-checking regional sums against the 968 matched geoBoundaries ADM2 districts further confirms spatial alignment across metropolitan cores such as Esenyurt (978k in 2023AD), Sahinbey (939,5k) and Cankaya (937,5k) [@Runfola2020GeoBoundaries].
+
+```{r fig4-hierarchy, results='asis'}
+viscount_figure(
+  "figures/fig4_republic_of_turkey_settlements.png",
+  "Zipf rank-size curve for all 22.177 catalogued Turkish census localities (left) and the twelve largest metropolitan centres at their documented peak (right).",
+  "fig:settlements-hierarchy"
+)
+```
+
+# Results
+
+## Marmara Region
+
+Anchoring Turkey's northwestern industrial crescent, Marmara is led by Istanbul (15,9M peak in 2025AD), Bursa (2,99M peak; 2,14M in 2025AD), Balikesir (1,25M peak), Izmit (1,13M peak), Osmangazi (862,5k), Gebze (801,4k), Yildirim (653k) and Adapazari (585,8k peak) (Table \ref{tab:reg-marmara}). Rapid manufacturing expansion turned former Thracian and Bithynian market towns along the Kocaeli and Tekirdag corridors into dense industrial satellites [@Bostan2025Rkiye; @UNAL2025Interactio; @KOSE2022Impact].
+
+```{r tab-marmara, results='asis'}
+build_region_table(
+  "Marmara",
+  "Leading thirty catalogued settlements of the Marmara Region ordered by peak population, with coordinates and 1927AD, 1970AD and peak benchmarks.",
+  "tab:reg-marmara"
+)
+```
+
+## Aegean Region
+
+Across western Anatolia, catalogued localities follow Izmir (4,49M peak in 2024AD; 3,07M in 2025AD), Denizli (1,03M peak), Manisa, Usak and Aydin, pairing port commerce with export agriculture and textile towns (Table \ref{tab:reg-aegean}) [@Oguz2021Resilient].
+
+```{r tab-aegean, results='asis'}
+build_region_table(
+  "Aegean",
+  "Leading thirty catalogued settlements of the Aegean Region ordered by peak population, with coordinates and 1927AD, 1970AD and peak benchmarks.",
+  "tab:reg-aegean"
+)
+```
+
+## Mediterranean Region
+
+The catalogued localities of the Mediterranean littoral span the Cukurova plain and the Gulf of Antalya, led by Antalya (2,43M peak; 1,38M in 2025AD), Adana (1,86M), Mersin (1,81M peak; 1,09M in 2025AD), Kahramanmaras (680,1k peak), Antakya and Tarsus (Table \ref{tab:reg-mediterranean}). Tourism, greenhouse horticulture and southeastern migration propelled Antalya and Alanya into Turkey's fastest-expanding southern hubs [@DEMIR2022Antalya; @Alptekin2024Three].
+
+```{r tab-mediterranean, results='asis'}
+build_region_table(
+  "Mediterranean",
+  "Leading thirty catalogued settlements of the Mediterranean Region ordered by peak population, with coordinates and 1927AD, 1970AD and peak benchmarks.",
+  "tab:reg-mediterranean"
+)
+```
+
+## Central Anatolia Region
+
+On the central Anatolian plateau, catalogued localities centre on Ankara (5,8M peak in 2023AD; 5,41M in 2025AD), Konya (2,23M peak; 1,42M in 2025AD), Kayseri (1,39M peak; 1,03M in 2025AD), Kecioren (909,8k), Eskisehir (871,2k peak; 822,9k in 2025AD), Mamak (647,3k), Etimesgut (606,5k) and Sivas, alongside Republican industrial creation Kirikkale (1925AD foundation) (Table \ref{tab:reg-central}). Metropolitan expansion transformed steppe wetlands around Ankara while smaller plateau market towns and villages grew slowly [@Dolcerocca2024Restoratio; @Karakoc2026Concentrat].
+
+```{r tab-central, results='asis'}
+build_region_table(
+  "Central Anatolia",
+  "Leading thirty catalogued settlements of the Central Anatolia Region ordered by peak population, with coordinates and 1927AD, 1970AD and peak benchmarks.",
+  "tab:reg-central"
+)
+```
+
+## Black Sea Region
+
+Along the Pontic littoral and northern valleys, catalogued localities are headed by Trabzon (824,4k peak), Samsun (676,3k peak), Corum, Ordu and state-industrial Karabuk (1937AD foundation) (Table \ref{tab:reg-blacksea}). Steep coastal topography constrained broad metropolitan sprawl while coal-port Zonguldak experienced slow late-century brownfield transition [@Ergen2013Methodolog].
+
+```{r tab-blacksea, results='asis'}
+build_region_table(
+  "Black Sea",
+  "Leading thirty catalogued settlements of the Black Sea Region ordered by peak population, with coordinates and 1927AD, 1970AD and peak benchmarks.",
+  "tab:reg-blacksea"
+)
+```
+
+## Eastern Anatolia Region
+
+Across the rugged eastern highlands, catalogued localities cluster in intermontane basins led by Van (1,13M peak in 2023AD), Erzurum (767,8k peak), Malatya (649,1k peak) and Elazig (Table \ref{tab:reg-eastern}). Persistent out-migration toward Marmara and the Mediterranean held down smaller basin towns and mountain villages even as regional capitals absorbed rural highland populations [@Alptekin2024Three; @Deniz2020Assessing].
+
+```{r tab-eastern, results='asis'}
+build_region_table(
+  "Eastern Anatolia",
+  "Leading thirty catalogued settlements of the Eastern Anatolia Region ordered by peak population, with coordinates and 1927AD, 1970AD and peak benchmarks.",
+  "tab:reg-eastern"
+)
+```
+
+## Southeastern Anatolia Region
+
+Upper Mesopotamia hosts catalogued localities anchored by Gaziantep (1,8M peak in 2023AD; 1,75M in 2025AD), Diyarbakir (1,73M peak; 1,13M in 2025AD), Sanliurfa (1,05M peak), Sehitkamil (774,2k), Batman (1940AD oil-boom foundation) and border Kilis (Table \ref{tab:reg-southeastern}). High baseline fertility, irrigation development and post-2011AD Syrian refugee inflows generated rapid late-century urban growth across the southern frontier [@INCILI2020Kilis; @Oguz2021Resilient].
+
+```{r tab-southeastern, results='asis'}
+build_region_table(
+  "Southeastern Anatolia",
+  "Leading thirty catalogued settlements of the Southeastern Anatolia Region ordered by peak population, with coordinates and 1927AD, 1970AD and peak benchmarks.",
+  "tab:reg-southeastern"
+)
+```
+
+# Limitations
+
+Three caveats govern the settlement series. First, integrating 1927-2000AD general censuses with post-2007AD ADNKS releases spans Turkey's 2012-2014AD metropolitan boundary expansion (Law No. 6360), so peak figures in metropolitan provinces reflect statutory *büyükşehir* definitions in 2014-2024AD alongside continuous city-proper trajectories [@Canpolat2018Terms]. Second, non-citizen Syrian residents under temporary protection—numbering over 3,1M nationwide after 2011AD—appear only partially in standard municipal address series across border cities such as Kilis, Gaziantep and Antakya [@INCILI2020Kilis; @Klc2021Turkish]. Third, the February 2023 Kahramanmaras earthquakes caused temporary out-migration across Antakya, Kahramanmaras, Adiyaman and Malatya whose long-term recovery remains ongoing.
+
+# Conclusion
+
+Across 22.177 catalogued TurkStat and ADNKS localities spanning all 81 provinces from 1927AD to 2025AD, Turkey's settlement system shifted from an overwhelmingly rural lattice of Anatolian villages into an integrated, multi-polar urban hierarchy. Anchored by Istanbul's metropolitan expansion (15,9M) and sustained by rapid industrial and regional growth in Ankara, Izmir, Bursa, Antalya, Konya, Adana, Mersin, Gaziantep and Diyarbakir, the full 22.177-locality corpus confirms a tight Zipf rank-size slope of $\alpha = 1{,}208$ ($R^2 = 0{,}979$) consistent with modern censuses and district-level ADM2 enumerations.
+
+# Appendix
+
+Across 46.713 official TurkStat census rows processed within chapter bounds, duplicate-alias and co-located suburban candidates were excluded during source-ledger deduplication to yield 22.177 unique localities. Key Republican industrial and metropolitan foundations carry explicit historical foundation dates—including Zonguldak (1849AD), Kirikkale (1925AD), Karabuk (1937AD), Batman (1940AD), Kecioren (1983AD), Mamak (1983AD), Sehitkamil (1987AD), Yildirim (1987AD) and Etimesgut (1990AD).
+
+# Sources
+
+::: {#refs}
+:::

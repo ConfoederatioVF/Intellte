@@ -1,0 +1,330 @@
+---
+title: "Colonial Rule in North Africa (1830-1975)"
+subtitle: "Settlement Gazetteer: Urban Centres, Colonial Ports and Saharan Oases"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+bibliography: colonial_north_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+hero_figure: "figures/fig1_colonial_north_africa_spatial.png"
+hero_caption: "Spatial distribution of 11.592 individually assessed urban centres and oasis towns across Colonial North Africa from 1830AD to 1975AD."
+hero_label: "fig:hero-colonial-north-africa-settlements"
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.pos = "htbp")
+template_dir <- "../../_shared/template"
+source(file.path(template_dir, "viscount_rmd_helpers.R"))
+library(jsonlite)
+
+read_json5_clean <- function(path) {
+  lines <- readLines(path, warn = FALSE, encoding = "UTF-8")
+  lines <- gsub("//.*$", "", lines)
+  clean_str <- paste(lines, collapse = "\n")
+  clean_str <- gsub("/\\*.*?\\*/", "", clean_str)
+  clean_str <- gsub(",(\\s*[\\]\\}])", "\\1", clean_str)
+  fromJSON(clean_str, simplifyVector = FALSE)
+}
+
+sett_data <- fromJSON("colonial_north_africa_settlements.json", simplifyVector = FALSE)
+ledger_data <- read_json5_clean("colonial_north_africa_source_ledger.json5")
+cache_data <- fromJSON("colonial_north_africa_summary_cache.json", simplifyVector = FALSE)
+
+fmt_coord <- function(x) {
+  gsub("[.]", ",", format(round(as.numeric(x), 2), nsmall = 2, trim = TRUE))
+}
+
+get_pop_cell <- function(e, y) {
+  v <- e[["population"]][[y]]
+  if (is.null(v)) return("-")
+  viscount_fmt_pop(v)
+}
+
+get_pop_any <- function(e, yrs) {
+  pm <- e[["population"]]
+  for (y in yrs) {
+    v <- pm[[y]]
+    if (!is.null(v)) return(viscount_fmt_pop(v))
+  }
+  "-"
+}
+
+get_span_cell <- function(e) {
+  yrs <- as.integer(names(e[["population"]]))
+  if (length(yrs) == 0) return("-")
+  paste0(min(yrs), "-", max(yrs), "AD")
+}
+
+all_entries <- unname(sett_data)
+peaks_all <- vapply(all_entries, function(e) max(as.numeric(unlist(e[["population"]]))), numeric(1))
+ord_all <- order(peaks_all, decreasing = TRUE)
+all_entries <- all_entries[ord_all]
+
+n_obs_cna <- sum(vapply(all_entries, function(e) length(e[["population"]]), integer(1)))
+n_1830_cna <- sum(vapply(all_entries, function(e) !is.null(e[["population"]][["1830"]]), logical(1)))
+sum_entries_yrs_setup <- function(entries, yrs) {
+  vals <- vapply(entries, function(e) {
+    pm <- e[["population"]]
+    for (y in yrs) {
+      v <- pm[[y]]
+      if (!is.null(v)) return(as.numeric(v))
+    }
+    0
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}
+sum_1830_cna <- sum_entries_yrs_setup(all_entries, c("1830"))
+sum_term_cna <- sum_entries_yrs_setup(all_entries, c("1975", "1974", "1973", "1971"))
+```
+
+# Abstract
+
+This gazetteer compiles longitudinal population series for 11.592 individually assessed urban centres, coastal ports, colonial military foundations, mining towns, rural villages and Saharan oases across Algeria, Morocco, Tunisia, Libya and Western Sahara between 1830AD and 1975AD. Covering 4.780.234 km² across six colonial territorial divisions, the register integrates French Algerian quinquennial census returns (1856AD-1954AD), Tunisian *Contrôles Civils* enumerations (1881AD-1956AD), Moroccan protectorate and 1960AD-1971AD national censuses, Italian ISTAT Libyan surveys (1931AD-1936AD) and Spanish Saharan INE administrative counts [@Harras2024State; @Antonelli2024Accounting; @Martin2018Western; @Bosworth2007Historic]. Across the 11.592 catalogued entries—5.920 in Morocco, 4.041 in Algeria, 1.175 in Tunisia, 415 in Libya and 41 in Western Sahara—the dataset contains `r viscount_fmt_number(n_obs_cna, 0L)` settlement-year observations (averaging `r viscount_fmt_number(n_obs_cna / length(all_entries), 1L)` observations per town), drawn from 11.842 evaluated source-ledger candidates after excluding 250 co-located localities, multi-source census and variant-spelling duplicates within 25 km. Aggregate catalogued urban population expanded more than fifteenfold from `r sum_1830_cna` across `r n_1830_cna` active settlements in 1830AD to `r sum_term_cna` across all 11.592 catalogued settlements at the terminal 1971AD-1975AD census horizon, led by Casablanca (1,51M), Algiers (1,35M), Tripoli (551,5k), Tunis (550,4k), Oran (465,4k), Rabat (367,6k), Constantine (334,2k), Marrakech (332,7k) and Fez (325,3k).
+
+# Background
+
+Before European colonial occupation, urban life across North Africa centred on a dual network of interior political-religious capitals and modest Mediterranean or Atlantic trading ports [@Bosworth2007Historic; @Liauzu1986Soci]. Historic cities such as Fès, Marrakech, Meknès, Tlemcen, Constantine and Qayrawan anchored artisanal guilds, Islamic scholarship and caravan trade linking the Tell and Moroccan plains to the Saharan oases of Touggourt, Ghardaïa, Murzuq and Tafilalt [@Bosworth2007Historic; @Aidi2023Moulay; @Jarad2022Role]. Coastal towns—Algiers, Tunis, Tripoli, Tangier, Salé and Annaba—sustained maritime commerce and corsair admiralties, yet remained smaller in aggregate share than the densely peopled rural hinterlands [@Liauzu1986Soci; @Bosworth2007Historic].
+
+Colonial administration reversed that spatial equilibrium between 1830AD and 1975AD [@Haas2025Intra; @Liauzu1986Soci]. In French Algeria, military engineers built fortified coastal ports at Philippeville (Skikda, 1838AD) and Arzew (1845AD) alongside interior garrison and *colon* centres at Sidi Bel Abbès (1843AD), Orléansville (Chlef, 1843AD) and Batna (1844AD) to anchor settler agriculture across the Mitidja, Chelif and Sersou plains [@Palard2020Religieuse; @Bosworth2007Historic]. Simultaneously, *pied-noir* immigration transformed Algiers and Oran into European-majority port cities until the mass departure of roughly 900k settlers in the summer of 1962 [@Palard2020Religieuse; @Haas2025Intra].
+
+In Morocco after the Treaty of Fez (1912AD), Resident-General Hubert Lyautey bypassed the historic *medinas* of Fès and Marrakech to channel port investment into Casablanca and the newly established Atlantic port of Kénitra (Port-Lyautey, 1912AD), alongside Fédala (Mohammédia, 1913AD) and the phosphate mining centre of Khouribga (1923AD) [@Clark2024Rural; @Bosworth2007Historic]. Across Tunisia and Libya, harbour dredging, railway construction and Italian Fascist settler schemes under Balbo concentrated commercial growth in Tunis, Sfax, Bizerte, Tripoli and Benghazi, even as Cyrenaican pacification and internment devastated nomadic camps in the early 1930s [@Tarchi2023Building; @Strangio2020Tourism; @Ballinger2020World]. Late-colonial resource extraction further generated desert industrial outposts such as Hassi Messaoud (1956AD) in the Algerian Sahara and phosphate-era urban growth across Spanish Sahara at El Aaiun (founded 1938AD), Dakhla (1884AD), Smara (1898AD) and Bou Craa (1963AD) [@Allan2016Natural; @Besenyo2014Western].
+
+# Methodology
+
+Settlement entries in this gazetteer were assembled by linking historical colonial municipal enumerations directly to post-independence national census series from the Haut-Commissariat au Plan (HCP Morocco), Office National des Statistiques (ONS Algeria), Institut National de la Statistique (INS Tunisia), Bureau of Statistics and Census (BSC Libya) and Spanish INE colonial censuses for Western Sahara, supplemented by scholarly historical urban compendia [@Harras2024State; @Bosworth2007Historic; @Liauzu1986Soci]. Every included settlement carries verified WGS84 coordinates and an unambiguous country assignment across the five colonial jurisdictions, while preserving clean Latin-script canonical toponymy (such as Algiers, Tripoli, Tunis, Sfax, Benghazi and El Aaiun) alongside historical colonial aliases in metadata without non-Latin script leakage in printed tables.
+
+To prevent artificial double-counting of contiguous metropolitan footprints, the regional source ledger enforces strict spatial and temporal deduplication [@Runfola2020GeoBoundaries]. Out of 11.842 evaluated candidate settlements in the source ledger, 250 co-located localities and multi-source census or variant-spelling duplicates within 25 km of canonical urban cores (including Casablanca, Algiers, Tripoli, Rabat, Oran, Fez, Constantine, Blida, Sétif, Tlemcen and Bizerte) were collapsed into their parent municipal series, while contiguous suburban communes and post-1975AD foundations remain outside the colonial ledger. Settlements founded mid-period—such as Skikda (1838AD), Sidi Bel Abbès (1843AD), Batna (1844AD), Kénitra (1912AD), Sidi Bennour (1922AD), Khouribga (1923AD), El Aaiun (1938AD) and Hassi Messaoud (1956AD)—are strictly truncated prior to their documented foundation dates so no anachronistic populations are projected backward.
+
+# Testing and Validation
+
+Source-ledger accounting verifies exact reconciliation across all 11.842 evaluated ledger candidates: 11.592 included entries plus 250 excluded entries leave zero unaccounted records. Figure \ref{fig:sett-gazetteer-dist} displays the rank-size power-law distribution across all 11.592 individually assessed settlements (Zipf slope $\alpha = 1,21$, $R^2 = 0,86$; exact $\alpha = 1,208$, $R^2 = 0,863$) paired with the twelve largest North African cities at their terminal 1971AD-1975AD peak.
+
+```{r fig-sett-gazetteer, results='asis'}
+viscount_figure(
+  "figures/fig4_colonial_north_africa_settlements.png",
+  "Rank-size distribution across 11.592 individually assessed North African settlements (Zipf alpha = 1,21, R² = 0,86) and leading urban centres at terminal colonial peak.",
+  "fig:sett-gazetteer-dist"
+)
+```
+
+# Results
+
+## Top 45 Settlements across Colonial North Africa
+
+Table \ref{tab:top45-cna} presents the 45 largest catalogued settlements ordered by peak population within the colonial window, highlighting the rapid ascent of Casablanca (from 1,5k in 1830AD to 965,3k in 1960AD and 1,51M in 1971AD), Algiers (30,2k to 1,35M in 1975AD), Tripoli (25,2k to 551,5k in 1973AD) and Tunis (98,5k to 550,4k in 1975AD) relative to older inland cities [@Bosworth2007Historic; @Liauzu1986Soci].
+
+```{r tab-top45-cna, results='asis'}
+top45 <- all_entries[seq_len(min(45L, length(all_entries)))]
+rows45 <- lapply(top45, function(e) {
+  pks <- as.numeric(unlist(e[["population"]]))
+  pk_y <- names(e[["population"]])[which.max(pks)]
+  pk_v <- max(pks)
+  data.frame(
+    Settlement = as.character(e[["name"]]),
+    Territory = as.character(e[["country"]]),
+    Coords = paste0(fmt_coord(e[["coords"]][[1]]), ", ", fmt_coord(e[["coords"]][[2]])),
+    P1830 = get_pop_cell(e, "1830"),
+    P1936 = get_pop_any(e, c("1936", "1934", "1938")),
+    Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_y, ")"),
+    stringsAsFactors = FALSE
+  )
+})
+df45 <- do.call(rbind, rows45)
+rownames(df45) <- NULL
+
+viscount_table(
+  df45,
+  "Top 45 individually assessed settlements across Colonial North Africa ordered by peak population (n=11.592 total sites).",
+  c("Settlement", "Territory", "Lat, Lon", "1830AD", "1936AD", "Peak (Year)"),
+  list(label = "tab:top45-cna", font_size = "scriptsize", max_rows_per_page = 32L)
+)
+```
+
+## Sub-Regional Urban Profiles: Morocco, Algeria, Tunisia, Libya and Western Sahara
+
+Tables \ref{tab:morocco-top25} through \ref{tab:libya-esh-top25} detail the leading urban centres within each constituent colonial territory. In Morocco (5.920 catalogued entries), Atlantic industrial and port towns—Casablanca, Rabat, Salé, Kénitra, Safi, Agadir and Mohammédia—alongside mining hub Khouribga grew far faster than historic interior and northern centres Fez, Marrakech, Meknes, Tangier, Oujda and Tetouan [@Clark2024Rural; @Sayahi2011Spanish]. In Algeria (4.041 entries), coastal ports Algiers, Oran, Annaba and Skikda paired with colonial agricultural centres Sidi Bel Abbès, Sétif, Batna, Blida and Chlef [@Palard2020Religieuse; @Bosworth2007Historic].
+
+```{r tab-morocco-top25, results='asis'}
+build_country_df <- function(ctry, max_n = 25L) {
+  sub_e <- Filter(function(e) identical(e[["country"]], ctry), all_entries)
+  take_n <- min(max_n, length(sub_e))
+  rows <- lapply(sub_e[seq_len(take_n)], function(e) {
+    pks <- as.numeric(unlist(e[["population"]]))
+    pk_y <- names(e[["population"]])[which.max(pks)]
+    pk_v <- max(pks)
+    data.frame(
+      Settlement = as.character(e[["name"]]),
+      Coords = paste0(fmt_coord(e[["coords"]][[1]]), ", ", fmt_coord(e[["coords"]][[2]])),
+      Span = get_span_cell(e),
+      P1830 = get_pop_cell(e, "1830"),
+      P1950s = get_pop_any(e, c("1954", "1952", "1956", "1950")),
+      Peak = paste0(viscount_fmt_pop(pk_v), " (", pk_y, ")"),
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+df_mar <- build_country_df("Morocco", 25L)
+viscount_table(
+  df_mar,
+  "Leading 25 urban centres in French and Spanish Morocco (5.920 total catalogued Moroccan settlements).",
+  c("Settlement", "Lat, Lon", "Span", "1830AD", "1950-56AD", "Peak (Year)"),
+  list(label = "tab:morocco-top25", font_size = "scriptsize")
+)
+```
+
+```{r tab-algeria-top25, results='asis'}
+df_dza <- build_country_df("Algeria", 25L)
+viscount_table(
+  df_dza,
+  "Leading 25 urban centres in French Algeria across Tell Départements and Territoires du Sud (4.041 total settlements).",
+  c("Settlement", "Lat, Lon", "Span", "1830AD", "1950-56AD", "Peak (Year)"),
+  list(label = "tab:algeria-top25", font_size = "scriptsize")
+)
+```
+
+In Tunisia (1.175 catalogued entries), metropolitan primacy centred on Tunis (550,4k in 1975AD), backed by the olive-oil and phosphate port of Sfax (171,3k), the Sahel port of Sousse (69,5k), the naval base of Bizerte (62,9k), the inland religious capital of Kairouan (54,5k) and the phosphate hub of Gafsa (42,2k) [@Harras2024State; @Varley2019Defending]. In Libya (415 entries), coastal Tripolitanian and Cyrenaican ports—Tripoli (551,5k in 1973AD), Benghazi (266,2k), Misrata (68,4k) and Zawiya (48,6k)—dwarfed interior Saharan oases such as Sabha (35,9k), Murzuq (7,8k) and Ghadames (6,2k), while Spanish Sahara's 41 individually assessed settlements were led by El Aaiun (28k in 1974AD), Smara (7,3k), Dakhla (5,6k in 1970AD) and the phosphate mining town of Bou Craa (2,5k) [@Jarad2022Role; @Lizak2019Libya; @Martin2018Western].
+
+```{r tab-tunisia-top20, results='asis'}
+df_tun <- build_country_df("Tunisia", 20L)
+viscount_table(
+  df_tun,
+  "Leading 20 urban centres in the French Protectorate of Tunisia (1.175 total catalogued Tunisian settlements).",
+  c("Settlement", "Lat, Lon", "Span", "1830AD", "1950-56AD", "Peak (Year)"),
+  list(label = "tab:tunisia-top20", font_size = "scriptsize")
+)
+```
+
+```{r tab-libya-esh-top25, results='asis'}
+df_lby <- build_country_df("Libya", 20L)
+df_esh <- build_country_df("Western Sahara", 7L)
+df_lby$Settlement <- paste0(df_lby$Settlement, " (LBY)")
+df_esh$Settlement <- paste0(df_esh$Settlement, " (ESH)")
+df_le <- rbind(df_lby, df_esh)
+rownames(df_le) <- NULL
+
+viscount_table(
+  df_le,
+  "Leading 20 urban centres in Italian Libya (415 total) and leading seven catalogued settlements in Spanish Sahara (41 total).",
+  c("Settlement (ISO3)", "Lat, Lon", "Span", "1830AD", "1950-56AD", "Peak (Year)"),
+  list(label = "tab:libya-esh-top25", font_size = "scriptsize")
+)
+```
+
+## Ledger Exclusions and Deduplication Audit
+
+Table \ref{tab:excluded-sample-cna} reports representative excluded duplicate-alias and suburban-merge entries documented among the 250 audited exclusions in the source ledger, illustrating how multi-source colonial census spellings were consolidated into canonical municipal tracks [@Runfola2020GeoBoundaries].
+
+```{r tab-excluded-cna, results='asis'}
+exc_list <- Filter(function(c) !identical(c[["status"]], "included"), ledger_data[["candidates"]])
+non_sub <- Filter(function(c) !identical(c[["reason"]], "subordinate_suburb_merged"), exc_list)
+sub_only <- Filter(function(c) identical(c[["reason"]], "subordinate_suburb_merged"), exc_list)
+show_exc <- c(non_sub, sub_only[seq_len(min(12L, length(sub_only)))])
+
+exc_rows <- lapply(show_exc, function(c) {
+  cls <- if (identical(c[["reason"]], "subordinate_suburb_merged")) {
+    "Subordinate suburb merged"
+  } else if (identical(c[["reason"]], "duplicate_alias")) {
+    "Duplicate spelling alias"
+  } else {
+    "Outside temporal domain"
+  }
+  just <- gsub("([0-9]+)\\.([0-9]+)\\s*km", "\\1,\\2 km", as.character(c[["justification"]]), perl = TRUE)
+  data.frame(
+    Candidate = as.character(c[["name"]]),
+    Territory = as.character(c[["country"]]),
+    Reason = cls,
+    Note = just,
+    stringsAsFactors = FALSE
+  )
+})
+exc_df <- do.call(rbind, exc_rows)
+rownames(exc_df) <- NULL
+
+viscount_table(
+  exc_df,
+  "Representative excluded candidate entries documented in the colonial North African source ledger (250 total audited exclusions).",
+  c("Candidate", "Territory", "Classification", "Consolidation Note"),
+  list(label = "tab:excluded-sample-cna", font_size = "scriptsize")
+)
+```
+
+# Limitations
+
+Three constraints govern the settlement figures presented here. First, pre-protectorate 1830AD estimates for Moroccan and Libyan inland towns carry broader uncertainty bounds than post-1886AD French Algerian or post-1921AD Tunisian and Moroccan census enumerations [@Aidi2023Moulay; @Harras2024State]. Second, decennial municipal boundaries expanded periodically around Algiers, Casablanca, Tunis and Tripoli as formerly distinct villages were annexed into metropolitan communes; where suburban satellites lay within 2 km of the core, the ledger merges them consistently across time to preserve metropolitan continuity [@Liauzu1986Soci; @Bosworth2007Historic]. Third, colonial Saharan garrisons and nomadic camps in Spanish Sahara and Fezzan exhibited high seasonal mobility prior to 1960AD; even with 41 individually assessed Spanish Saharan settlements led by El Aaiun (founded 1938AD), Dakhla (1884AD) and Smara (1898AD), pre-1967AD municipal counts exclude mobile pastoral fractions enumerated only sporadically outside administrative posts [@Besenyo2014Western; @Jarad2022Role].
+
+# Conclusion
+
+Across 11.592 individually assessed settlements spanning 1830AD to 1975AD, the urban network of Colonial North Africa shifted decisively from interior caravan capitals toward Atlantic and Mediterranean port metropolises. Total catalogued urban population multiplied more than fifteenfold from `r sum_1830_cna` in 1830AD to `r sum_term_cna` at the terminal 1971AD-1975AD census horizon, paced by Casablanca, Algiers, Tripoli, Tunis, Oran and Rabat alongside colonial port, garrison and mining foundations such as Skikda, Sidi Bel Abbès, Batna, Kénitra, Khouribga and El Aaiun [@Bosworth2007Historic; @Clark2024Rural; @Palard2020Religieuse]. Disaggregating municipal totals cleanly from rural subadministrative polygons preserves both the sharp coastal urban hierarchy and the sparsely settled desert interior across all five territories.
+
+# Appendix
+
+Table \ref{tab:country-summary-cna} sums catalogued settlement counts and aggregate urban populations across the five North African jurisdictions at four benchmark horizons from 1830AD to the 1971AD-1975AD terminal census wave.
+
+```{r tab-country-summary-cna, results='asis'}
+ctry_order <- c("Algeria", "Morocco", "Tunisia", "Libya", "Western Sahara")
+sum_entries_yrs <- function(entries, yrs) {
+  vals <- vapply(entries, function(e) {
+    pm <- e[["population"]]
+    for (y in yrs) {
+      v <- pm[[y]]
+      if (!is.null(v)) return(as.numeric(v))
+    }
+    0
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}
+sum_rows <- lapply(ctry_order, function(ct) {
+  sub_e <- Filter(function(e) identical(e[["country"]], ct), all_entries)
+  data.frame(
+    Territory = ct,
+    Sites = viscount_fmt_number(length(sub_e), 0L),
+    P1830 = sum_entries_yrs(sub_e, c("1830")),
+    P1881 = sum_entries_yrs(sub_e, c("1881", "1880", "1884", "1885")),
+    P1936 = sum_entries_yrs(sub_e, c("1936", "1934", "1938")),
+    P1975 = sum_entries_yrs(sub_e, c("1975", "1974", "1973", "1971")),
+    stringsAsFactors = FALSE
+  )
+})
+tot_row <- data.frame(
+  Territory = "Regional Total",
+  Sites = viscount_fmt_number(length(all_entries), 0L),
+  P1830 = sum_entries_yrs(all_entries, c("1830")),
+  P1881 = sum_entries_yrs(all_entries, c("1881", "1880", "1884", "1885")),
+  P1936 = sum_entries_yrs(all_entries, c("1936", "1934", "1938")),
+  P1975 = sum_entries_yrs(all_entries, c("1975", "1974", "1973", "1971")),
+  stringsAsFactors = FALSE
+)
+sum_df <- rbind(do.call(rbind, sum_rows), tot_row)
+rownames(sum_df) <- NULL
+
+viscount_table(
+  sum_df,
+  "Individually assessed settlement counts and summed urban populations by territory across Colonial North Africa, 1830AD to 1971-75AD.",
+  c("Territory", "Sites", "1830AD", "1880-85AD", "1936AD", "1971-75AD"),
+  list(label = "tab:country-summary-cna", font_size = "footnotesize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

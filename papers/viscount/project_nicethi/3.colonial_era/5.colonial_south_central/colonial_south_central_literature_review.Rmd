@@ -1,0 +1,515 @@
+---
+title: "Colonial South-Central Africa and Mozambique"
+subtitle: "Northern and Southern Rhodesia, Nyasaland and Portuguese Mozambique"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: colonial_south_central_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Eight colonial sub-regions and 122 individually assessed settlements across South-Central Africa and Mozambique between 1890AD and 1980AD."
+hero_label: "fig:hero-colonial-south-central"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("colonial_south_central_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("colonial_south_central_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+n_countries <- length(summary_cache$countries)
+n_city_proper <- as.integer(summary_cache$population_scope_counts$city_proper)
+n_metro <- as.integer(summary_cache$population_scope_counts$metro)
+
+bench_keys <- c("1890", "1920", "1950", "1963", "1969", "1980")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+subregion_order <- c(
+  "northern_rhodesia_copperbelt",
+  "northern_rhodesia_barotseland",
+  "northern_rhodesia_north_east",
+  "southern_rhodesia_mashonaland",
+  "southern_rhodesia_matabeleland",
+  "nyasaland_protectorate",
+  "portuguese_mozambique_north",
+  "portuguese_mozambique_south"
+)
+
+full_site_counts <- c(
+  northern_rhodesia_copperbelt = 14L,
+  northern_rhodesia_barotseland = 14L,
+  northern_rhodesia_north_east = 10L,
+  southern_rhodesia_mashonaland = 8L,
+  southern_rhodesia_matabeleland = 17L,
+  nyasaland_protectorate = 23L,
+  portuguese_mozambique_north = 15L,
+  portuguese_mozambique_south = 21L
+)
+
+subadmin_list <- summary_cache$subadmin_benchmark_tables
+find_subadmin <- function (code, yr) {
+  for (tb in subadmin_list) {
+    if (identical(tb$polity_code, code) && as.integer(tb$year) == as.integer(yr)) return(tb)
+  }
+  NULL
+}
+```
+
+# Abstract
+
+Between the chartered-company partitions of 1890AD and Zimbabwean independence in 1980AD, South-Central Africa and Mozambique underwent one of the sharpest demographic and urban transformations on the African continent. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning `r n_countries` modern jurisdictions from Katanga and the Zambezi headwaters to Delagoa Bay and the Limpopo, NICETHI reconstructs an aggregate regional population that moved from `r viscount_fmt_pop(headline_vals[["1890"]])` inhabitants in 1890AD and `r viscount_fmt_pop(headline_vals[["1920"]])` in 1920AD to `r viscount_fmt_pop(headline_vals[["1950"]])` in 1950AD, `r viscount_fmt_pop(headline_vals[["1963"]])` at the dissolution of the Federation of Rhodesia and Nyasaland in 1963AD, `r viscount_fmt_pop(headline_vals[["1969"]])` in 1969AD and `r viscount_fmt_pop(headline_vals[["1980"]])` by 1980AD, reaching a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Growth was tightly bound to imperial infrastructure and labour migration: Copperbelt shaft-sinking turned Northern Rhodesia into Sub-Saharan Africa's most urbanised colonial territory outside South Africa, settler farming and Land Apportionment concentrated Mashonaland and Matabeleland around Salisbury and Bulawayo, dense Shire Highlands agrarian pressure propelled Malawian workers across regional borders and Portuguese Mozambique paired chartered-company forced labour in the north and centre with regulated mine-labour exports from the south to the Witwatersrand before protracted liberation wars reshaped rural settlement after 1964AD. These trajectories rest on `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations, reconciled with colonial territorial and provincial censuses through non-stationary Matérn residual kriging and mass-conserving pycnophylactic disaggregation.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Eight colonial sub-regions and 122 individually assessed settlements across South-Central Africa and Mozambique between 1890AD and 1980AD.",
+    "fig:hero-colonial-south-central"
+  )
+}
+```
+
+# Background
+
+## Copper Belts, Settler Highveld and Indian Ocean Ports
+
+South-Central Africa and Mozambique straddle the high interior plateau between the Congo-Zambezi watershed and the Indian Ocean littoral. On the western and northern upland plateaus of Northern Rhodesia (Zambia) and southern Katanga, weathered Katangan metasediments hold the world's richest stratiform copper-cobalt deposits, flanked to the west by the seasonal Kalahari sand floodplains of Barotseland and to the north-east by miombo woodland plateaus bordering Lakes Tanganyika and Mweru [@Frederiksen2013SeeingThe; @Hellen1962SomeAspects]. South of the Zambezi gorge, the Southern Rhodesian (Zimbabwean) central watershed rises above 1.200 metres in a fertile, tsetse-free granite highveld stretching from Bulawayo through Gwelo to Salisbury and Umtali, bordered by hotter, drier lowveld troughs toward the Limpopo and Zambezi valleys [@Chingozha2019TheComplementarity; @ThomasJBryan2026BritishSouthern].
+
+Eastward along the Lake Malawi rift and Shire valley, Nyasaland (Malawi) packs volcanic lakeshore plains and humid Shire Highlands tea hills into barely 100.397 km², making it far smaller yet more densely populated than either Rhodesia [@Phiri1988PreColonial; @Sawasawa2014LabourExploitation]. Beyond Nyasaland, Portuguese Mozambique extends over 2.400 kilometres of Indian Ocean coastline from Cape Delgado to Ponta do Ouro, divided by the lower Zambezi delta into heavily populated northern Makua-Lomwe and Zambezian riverine districts, central Manica-Sofala corridors linking the port of Beira to Rhodesian railheads, and southern Save-Limpopo lowlands oriented economically toward Lourenço Marques and the Transvaal goldfields [@Pereira2016CuttingBack; @Weeks2013EricAllina; @Domingos2013DosSuburbios].
+
+Demographic redistribution across these four colonial spheres followed rail lines and labour corridors established between 1890AD and 1930AD. The Cape-to-Katanga railway crossed the Zambezi at Victoria Falls in 1904AD, reached Broken Hill (Kabwe) in 1906AD and entered Élisabethville (Lubumbashi) in 1910AD, while the Beira-Salisbury and Lourenço Marques-Transvaal lines tied interior mines and plantations to Indian Ocean ports [@Frederiksen2013SeeingThe; @Nativel2016LoisirsProductions; @Hassane2026InstrumentosLegais]. Hut taxation, alienated settler land and forced-labour decrees then turned rural reserves in Nyasaland, eastern Northern Rhodesia and central Mozambique into labour reservoirs feeding Salisbury, Bulawayo, the Copperbelt and the Witwatersrand [@CordellGregory1987AfricanPop; @Sawasawa2014LabourExploitation; @Mudeka2016GenderedExclusion].
+
+## Historiography of Colonial Censuses and Migration Systems
+
+Colonial demographic records across British Central Africa and Portuguese Mozambique emerged unevenly and served distinct fiscal ends. In Southern Rhodesia, the British South Africa Company and later settler governments conducted regular European and urban censuses from 1901AD onward (1901AD, 1904AD, 1911AD, 1921AD, 1931AD, 1936AD, 1941AD, 1946AD and 1951AD), yet early African rural totals relied on native-commissioner tax multipliers until sample demographic surveys began in 1948AD and full national African enumerations occurred in 1962AD and 1969AD [@CASO1960FederationCensus; @ThomasJBryan2026BritishSouthern; @Mitchell2007IHS]. Northern Rhodesia followed a parallel path: missionary conference reports and district agricultural surveys tracked village populations and famine years between the world wars, while systematic urban censuses from 1911AD through 1951AD primarily enumerated Europeans and employed African mineworkers until the 1963AD and 1969AD African censuses [@GeneralMissio1931EvangelisationBeing; @NorthernRhodesia1938Report; @Office1949AnnualReport].
+
+Nyasaland carried out protectorate censuses in 1911AD, 1921AD, 1926AD, 1931AD and 1945AD before entering the Central African Statistical Office umbrella during the Federation of Rhodesia and Nyasaland (1953AD to 1963AD) and holding its first post-independence national census in 1966AD and second in 1977AD [@Nyasaland1943AgricultureReport; @CASO1960FederationCensus; @Moyo2012NamingPractices]. In Portuguese Mozambique, early counts were fragmented between state-administered districts in the south and chartered concessions (the Companhia de Moçambique in Manica and Sofala until 1942AD and the Companhia do Niassa in the north until 1929AD) before the Estado Novo instituted decennial general censuses across the entire colony in 1940AD, 1950AD, 1960AD and 1970AD, followed by the 1980AD post-independence census [@Mozambique1940Censo; @Weeks2013EricAllina; @Pereira2016CuttingBack].
+
+Historical scholarship over the past four decades has dismantled earlier colonial assumptions that treated African urbanisation as a temporary male sojourn and rural reserves as static traditional baselines. Studies of Copperbelt mining towns, Southern Rhodesian land alienation and Nyasaland *thangata* labour tenancy show how colonial science, mining capital and tax regimes reshaped gender ratios, settlement permanence and crop cultivation [@Frederiksen2013SeeingThe; @Mudeka2016GenderedExclusion; @Chingozha2019TheComplementarity; @Sawasawa2014LabourExploitation]. Similarly, research on Mozambican *chibalo* forced labour, Islamic coastal policy, Lourenço Marques *caniço* suburbs and the post-1964AD liberation war demonstrates how coercion and wartime *aldeamentos* (strategic hamlets) transformed coastal and northern settlement geography [@Weeks2013EricAllina; @Machaqueiro2013EnsinoPolitica; @Domingos2013DosSuburbios; @Sempijja2025ColonialAnd]. NICETHI harmonises these documentary censuses and urban histories into a single spatial ledger from 1890AD to 1980AD.
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The study area covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells spanning `r n_countries` modern states: Zambia, Zimbabwe, Malawi and Mozambique at the core, together with adjacent frontier sectors of the Democratic Republic of the Congo (Katanga), Tanzania, Botswana, South Africa, Namibia and eSwatini. Within NICETHI, the chapter occupies Regime 2 (1890AD to 1980AD), bridging the pre-colonial nineteenth-century polities of East and Southern Africa with the post-1980AD national census era. Eight colonial sub-regions partition the domain along British protectorate, Southern Rhodesian provincial and Portuguese district lines clipped to CShapes 2.0 and geoBoundaries coastlines [@Runfola2020GeoBoundaries] (Table \ref{tab:subregions}).
+
+Population trajectories are evaluated across 14 benchmark years tracked in the regional cache (1890AD, 1920AD, 1950AD, 1952AD, 1955AD, 1958AD, 1961AD, 1963AD, 1966AD, 1969AD, 1972AD, 1974AD, 1977AD and 1980AD) and reported in compact tables at six historical checkpoints: 1890AD (British South Africa Company entry and Anglo-Portuguese border treaties), 1920AD (post-war railway consolidation and early mine towns), 1950AD (post-1945 copper and settler immigration boom), 1963AD (dissolution of the Federation of Rhodesia and Nyasaland), 1969AD (Rhodesian Unilateral Declaration of Independence era and Zambian Copperbelt peak) and 1980AD (Zimbabwean independence and post-colonial Mozambican census). Sub-regional figures represent full resident populations across towns, mining compounds, commercial estates, African reserves and peasant villages [@CASO1960FederationCensus; @Mozambique1940Censo; @Mitchell2007IHS].
+
+```{r tab1-subregions, results='asis'}
+df_t1 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `Area (km²)` = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$area_km2, 0L), character(1)),
+  Pixels = vapply(subregion_order, function (id) viscount_fmt_number(sub_by_id[[id]]$pixel_count, 0L), character(1)),
+  Era = vapply(subregion_order, function (id) {
+    er <- as.character(sub_by_id[[id]]$era)
+    pts <- strsplit(er, "\\.\\.")[[1]]
+    paste0(pts[1], "AD-", pts[2], "AD")
+  }, character(1)),
+  `Interior Sites` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `All Sites` = vapply(subregion_order, function (id) viscount_fmt_number(full_site_counts[[id]], 0L), character(1)),
+  `Share (%)` = vapply(subregion_order, function (id) viscount_fmt_number(100 * sub_by_id[[id]]$area_km2 / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Eight colonial sub-regions of South-Central Africa and Mozambique showing surface area, 5-arcminute pixels, era span, interior mask matches (113) and full gazetteer site counts (122).",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+## Settlement Screening and Urban Enumeration Scope
+
+Urban trajectories were assembled across four screening waves from `r viscount_fmt_number(n_candidate_sites, 0L)` candidate colonial towns, mining camps, port cities, mission stations and border centres [@CASO1960FederationCensus; @Mozambique1940Censo; @Mitchell2007IHS]. Deduplication removed `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records, including colonial-to-postcolonial name pairs such as Salisbury and Harare, Lourenço Marques and Maputo, Fort Jameson and Chipata, Broken Hill and Kabwe, Umtali and Mutare, Gwelo and Gweru, Fort Johnston and Mangochi, and Ilha de Moçambique aliases, leaving `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` dated observations (Figure \ref{fig:hero-colonial-south-central}) [@Moyo2012NamingPractices]. A final gap sweep added 2 frontier entries (`r viscount_fmt_number(summary_cache$wave_saturation_stats$marginal_gain_pct, 2L)`% marginal gain), leaving zero empty inhabited sub-regions.
+
+Jurisdictionally, Zambia leads the ledger with 29 settlements (145 observations), followed by Mozambique with 28 settlements (105 observations), Zimbabwe with 22 settlements (138 observations) and Malawi with 19 settlements (78 observations). Border-corridor towns adjacent to the colonial frontier add 7 settlements each in Katanga (Democratic Republic of the Congo, 31 observations) and southern Tanzania (19 observations), 4 in eSwatini (8 observations), 3 in Botswana (10 observations), 2 in northern South Africa (4 observations) and 1 in the Caprivi Strip of Namibia (3 observations). Unlike pre-colonial chapters, the late colonial urban ledger distinguishes `r n_city_proper` city-proper series from `r n_metro` metropolitan agglomerations (Maputo, Harare, Lubumbashi, Lusaka, Bulawayo, Blantyre and Lilongwe) derived from OECD/SWAC Africapolis post-1950AD footprints alongside national census city limits so municipal and suburban counts can be compared explicitly without conflating administrative definitions [@Domingos2013DosSuburbios; @Hassane2026InstrumentosLegais].
+
+## Spatial Interpolation and Sub-Administrative Disaggregation
+
+Because early colonial censuses rarely enumerated every rural ward in the same year, NICETHI couples sub-regional territorial totals with continuous five-arcminute spatial allocation calibrated against colonial provincial enumerations, ecological habitability, railway corridors and river valleys [@Frederiksen2013SeeingThe; @Chingozha2019TheComplementarity]. Non-stationary Matérn ($\nu = 3/2$) residual kriging smooths inter-census rural densities across Voronoi catchments bounded below 25.000 km², shielded from post-1980AD metropolitan distortion around Harare, Maputo and Lusaka while preserving coastal and fluvial attraction along the Zambezi, Shire and Indian Ocean ports [@Runfola2020GeoBoundaries].
+
+Downward allocation onto colonial and post-colonial administrative units uses mass-conserving pycnophylactic scaling across `r length(subadmin_list)` territorial and provincial census tables archived in the chapter summary (Federation of Rhodesia and Nyasaland 1956AD, Northern Rhodesia 1950AD and Zambia 1980AD, Nyasaland 1945AD and Malawi 1977AD, Southern Rhodesia 1941AD and Zimbabwe 1982AD, Mozambique 1940AD, 1960AD and 1980AD, and neighbouring Katanga in 1938AD and 1984AD) [@CASO1960FederationCensus; @Mozambique1940Censo; @Mitchell2007IHS]. In 1950AD and 1952AD, pre-Federation colonial district estimates govern the spatial shares; between 1955AD and 1963AD, Federation of Rhodesia and Nyasaland provincial totals and Mozambique's 1955AD overseas-province district harmonisation govern sub-regional weights; and from 1966AD through 1980AD, post-independence national censuses in Zambia, Malawi, Mozambique and Zimbabwe anchor sub-regional disaggregation.
+
+# Testing and Validation
+
+## Colonial and Post-Colonial Census Reconciliation
+
+Table \ref{tab:validation-censuses} checks the chapter's demographic totals against official territorial and provincial census benchmarks compiled from the Central African Statistical Office, colonial statistical yearbooks and post-independence national statistical offices [@CASO1960FederationCensus; @Mozambique1940Censo; @Mitchell2007IHS]. Across the Federation of Rhodesia and Nyasaland in 1956AD, official enumerations record 7.264.960 residents across Nyasaland (2.595.200), Southern Rhodesia (2.468.000) and Northern Rhodesia (2.201.760). Adding Mozambique's 1960AD provincial sum (6.604.000) yields roughly 13,87M inhabitants across the four core territories in the late 1950s, closely flanking NICETHI's 1958AD (`r viscount_fmt_pop(summary_cache$headline_series[["1958"]])`), 1961AD (`r viscount_fmt_pop(summary_cache$headline_series[["1961"]])`) and 1963AD (`r viscount_fmt_pop(headline_vals[["1963"]])`) regional totals once census under-enumeration of rural Africans in pre-1962AD Southern Rhodesia and Northern Rhodesia is considered [@CASO1960FederationCensus; @Office1949AnnualReport].
+
+```{r tab2-validation-censuses, results='asis'}
+val_specs <- list(
+  list(code = "FRN", yr = 1956L, label = "Federation of Rhodesia and Nyasaland", note = "CASO 1956 census (3 territories)"),
+  list(code = "ZMB", yr = 1950L, label = "Northern Rhodesia (6 provinces)", note = "Colonial provincial tax & census roll"),
+  list(code = "ZMB", yr = 1980L, label = "Zambia (9 provinces)", note = "1980AD national census"),
+  list(code = "ZWE", yr = 1941L, label = "Southern Rhodesia (2 regions)", note = "Mashonaland & Matabeleland"),
+  list(code = "ZWE", yr = 1982L, label = "Zimbabwe (8 provinces)", note = "1982AD first post-independence census"),
+  list(code = "MWI", yr = 1945L, label = "Nyasaland (3 provinces)", note = "1945AD protectorate census"),
+  list(code = "MWI", yr = 1977L, label = "Malawi (3 provinces, ADM1)", note = "1977AD census ADM1 provincial sum"),
+  list(code = "MOZ", yr = 1940L, label = "Portuguese Mozambique (Colony)", note = "1940AD general population census"),
+  list(code = "MOZ", yr = 1960L, label = "Portuguese Mozambique (9 districts)", note = "1960AD provincial census"),
+  list(code = "MOZ", yr = 1980L, label = "Mozambique (10 provinces)", note = "1980AD post-independence census")
+)
+
+val_rows <- lapply(val_specs, function (sp) {
+  tb <- find_subadmin(sp$code, sp$yr)
+  if (identical(sp$code, "MWI") && sp$yr == 1977L) {
+    adm1 <- Filter(function (u) identical(u$admin_level, "ADM1"), tb$units)
+    tot_p <- sum(vapply(adm1, function (u) as.numeric(u$population), numeric(1)))
+    u_cnt <- length(adm1)
+  } else {
+    tot_p <- as.numeric(tb$total_enumerated_pop)
+    u_cnt <- as.integer(tb$unit_count)
+  }
+  data.frame(
+    Polity = sp$label,
+    Year = paste0(sp$yr, "AD"),
+    Units = viscount_fmt_number(u_cnt, 0L),
+    `Enumerated Pop.` = viscount_fmt_pop(tot_p),
+    `Exact Total` = viscount_fmt_number(tot_p, 0L),
+    Basis = sp$note,
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t2 <- do.call(rbind, val_rows)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Official territorial and provincial census benchmarks used to anchor South-Central African and Mozambican population reconstructions.",
+  arg3_options = list(label = "tab:validation-censuses")
+)
+```
+
+At the end of the study window, the four national censuses of Malawi 1977AD (5.547.460), Zambia 1980AD (5.661.801), Mozambique 1980AD (10.934.648) and Zimbabwe 1982AD (7.546.041) sum to 29,69M inhabitants, excluding neighbouring Katanga (Haut-Katanga, Lualaba and Tanganyika held 3.088.333 in 1984AD). That national aggregate aligns directly with NICETHI's 1980AD regional total of `r viscount_fmt_pop(headline_vals[["1980"]])` across the eight sub-regions, confirming that sub-regional interpolation introduces no systematic drift across the colonial-to-postcolonial transition [@Mitchell2007IHS; @Pereira2016CuttingBack].
+
+## Settlement Rank-Size Calibration and Urban Hierarchy Diagnostics
+
+Rank-size diagnostics across the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements test whether colonial capitals, mining towns and secondary administrative centres form a coherent urban hierarchy (Figure \ref{fig:rank-size}). Across the full 122-entry ledger, ordinary least-squares regression on the upper half ($n = 61$) yields a Zipf exponent of $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 2L)`$), while full-sample regression across all 122 entries yields $q = `r viscount_fmt_number(summary_cache$rank_size$full_zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$full_r2, 2L)`$). When city-proper and metropolitan duplicates at identical coordinates are deduplicated into the 111 distinct urban peaks plotted in Figure \ref{fig:rank-size}, the upper-tier fit tightens to $q = 1,12$ ($R^2 = 0,97$).
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 111 spatially deduplicated sites (q = 1,12, R² = 0,97) and mean sub-regional population densities in 1980AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Unlike the polycentric pre-colonial hierarchy ($q < 1$), a colonial exponent slightly above unity ($q = 1,12$) captures multi-polar colonial primacy: five major cities, namely Maputo agglomeration (718,4k), Harare city-proper (656k), Lubumbashi (604k), Lusaka (536k) and Bulawayo agglomeration (378k), towered over colonial capitals and rail hubs, yet no single metropolis monopolised the whole macro-region because four separate colonial capitals and two mining hubs divided urban growth [@Domingos2013DosSuburbios; @Frederiksen2013SeeingThe; @ThomasJBryan2026BritishSouthern]. Beneath that top quintet, a dense Copperbelt and secondary-port tier between 100k and 285k encompasses Ndola (281,3k), Kitwe (266,3k), Blantyre (248k agglomeration; 222,2k city-proper), Beira (213,4k), Nampula (145,6k), Kabwe (136k), Mufulira (135,5k), Chingola (130,9k), Lilongwe (127,9k agglomeration; 102,9k city-proper) and Luanshya (110,9k), before smaller district *bomas*, gold towns and rail sidings taper downward toward 1k in Figure \ref{fig:rank-size} (interquartile range $\log_{10} = `r viscount_fmt_number(summary_cache$wave_saturation_stats$iqr_log10, 2L)`$).
+
+# Results
+
+## Chartered Partition, Hut Taxes and Early Urban Nodes (1890AD to 1920AD)
+
+At 1890AD, the combined population of the eight sub-regions stood at `r viscount_fmt_pop(headline_vals[["1890"]])`, dipping slightly to `r viscount_fmt_pop(headline_vals[["1920"]])` in 1920AD under the combined shock of colonial conquest wars, the 1890s rinderpest panzootic, sleeping sickness outbreaks, forced porterage during the 1914AD to 1918AD East African campaign and the 1918AD influenza pandemic (Table \ref{tab:trajectory} and Figure \ref{fig:trends}) [@CordellGregory1987AfricanPop; @Weeks2013EricAllina; @Phiri1988PreColonial]. In 1890AD, population was still overwhelmingly rural and concentrated along coastal Mozambique and the Shire-Lake Malawi corridor: Northern Mozambique and Zambezia held `r viscount_fmt_pop(sub_by_id[["portuguese_mozambique_north"]]$population[["1890"]])`, Central and Southern Mozambique held `r viscount_fmt_pop(sub_by_id[["portuguese_mozambique_south"]]$population[["1890"]])` and Nyasaland held `r viscount_fmt_pop(sub_by_id[["nyasaland_protectorate"]]$population[["1890"]])` (`r viscount_fmt_number(sub_by_id[["nyasaland_protectorate"]]$population[["1890"]] / sub_by_id[["nyasaland_protectorate"]]$area_km2, 2L)` persons/km², already the highest density in the region).
+
+By 1920AD, early railway towns and settler farms had begun to re-order urban geography, lifting active documented settlements in the gazetteer from 1 in 1890AD (Nkhotakota, 6,4k) to `r viscount_fmt_number(n_active[["1920"]], 0L)` by 1920AD (Figure \ref{fig:trends}). In Southern Rhodesia, Mashonaland expanded from `r viscount_fmt_pop(sub_by_id[["southern_rhodesia_mashonaland"]]$population[["1890"]])` in 1890AD to `r viscount_fmt_pop(sub_by_id[["southern_rhodesia_mashonaland"]]$population[["1920"]])` in 1920AD and Matabeleland rose from `r viscount_fmt_pop(sub_by_id[["southern_rhodesia_matabeleland"]]$population[["1890"]])` to `r viscount_fmt_pop(sub_by_id[["southern_rhodesia_matabeleland"]]$population[["1920"]])`, anchored by Bulawayo (18,5k in 1921AD), Salisbury (16,4k), Umtali (4,1k) and Gwelo (3,6k) [@ThomasJBryan2026BritishSouthern; @NMMZ2022ZimbabweSites]. Across the border in Mozambique, Lourenço Marques surged from 4,9k in 1894AD to 26,1k in 1912AD after becoming the colony's capital and Transvaal railway port, while Beira grew from 1,45k in 1891AD to 7,8k in 1912AD and Élisabethville (Lubumbashi) jumped from 4,1k at its 1911AD foundation to 16,1k by 1920AD [@Domingos2013DosSuburbios; @Hassane2026InstrumentosLegais].
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and leading urban centres across South-Central Africa and Mozambique from 1890AD to 1980AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+## Copperbelt Industrialisation, Land Apportionment and Federation (1920AD to 1963AD)
+
+Between 1920AD and 1950AD, regional population more than doubled from `r viscount_fmt_pop(headline_vals[["1920"]])` to `r viscount_fmt_pop(headline_vals[["1950"]])`, and active urban sites reached `r viscount_fmt_number(n_active[["1950"]], 0L)` before rising to `r viscount_fmt_pop(headline_vals[["1963"]])` at the close of the Federation of Rhodesia and Nyasaland in 1963AD (Table \ref{tab:trajectory}). Three distinct economic motors drove this mid-century surge. First, deep-shaft sulphide copper extraction transformed Northern Rhodesia's Copperbelt after 1928AD [@Frederiksen2013SeeingThe; @Office1949AnnualReport]. Between 1931AD and 1960AD, Kitwe grew from 11,6k to 107,8k, Ndola from 10,9k to 88,2k, Mufulira from 7,4k to 74,1k, Luanshya from 14,2k to 71,2k and Chingola from 5,8k to 50,2k, while the new territorial capital at Lusaka (designated in 1931AD to replace Livingstone) expanded from 4,3k in 1931AD to 132k by 1960AD [@Macola2008OneZambia; @CASO1960FederationCensus]. Meanwhile, rural eastern reserves such as the Ngoni districts around Fort Jameson experienced mounting soil erosion and labour out-migration as young men left for Copperbelt shafts and Southern Rhodesian farms [@Hellen1962SomeAspects; @NorthernRhodesia1938Report; @GeneralMissio1931EvangelisationBeing].
+
+Second, in Southern Rhodesia, the Land Apportionment Act of 1930AD and the Native Land Husbandry Act of 1951AD partitioned rural land between European commercial estates along the rail line and crowded African reserves, while post-war industrial investment drew tens of thousands of European immigrants and Malawian or Mozambican workers to Salisbury and Bulawayo [@Chingozha2019TheComplementarity; @Mudeka2016GenderedExclusion; @ThomasJBryan2026BritishSouthern]. Salisbury climbed from 28,8k in 1931AD to 118,8k in 1951AD and 226k in 1960AD (375,6k in its wider agglomeration), while Bulawayo expanded from 31,1k in 1931AD to 92,2k in 1951AD and 279,1k in the 1960AD agglomeration, joined by industrial secondary towns at Gwelo, Umtali, Que Que (Kwekwe), Gatooma (Kadoma) and the Wankie (Hwange) coalfield [@CASO1960FederationCensus; @Mudeka2016GenderedExclusion].
+
+Third, Nyasaland and Mozambique supplied much of the regional wage-labour force. In Nyasaland, dense peasant settlement in the Shire Highlands (`r viscount_fmt_pop(sub_by_id[["nyasaland_protectorate"]]$population[["1950"]])` total territorial population in 1950AD) coexisted with tea and tobacco estates under *thangata* labour tenancy, pushing tens of thousands of migrants southward while Blantyre-Limbe consolidated from separate twin townships (18,4k and 15,2k in 1951AD) into a 76,3k urban agglomeration by 1960AD [@Sawasawa2014LabourExploitation; @Nyasaland1943AgricultureReport; @CASO1960FederationCensus]. In Mozambique, the Estado Novo abolished chartered company administration in Niassa (1929AD) and Manica-Sofala (1942AD), institutionalised *chibalo* forced cotton and rice cultivation in the north and centre, and formalised regulated Witwatersrand mine recruitment in Gaza and Inhambane while Lourenço Marques reached 93,3k in 1950AD and 183,8k in 1960AD and Beira grew to 58,2k [@Mozambique1940Censo; @Weeks2013EricAllina; @CordellGregory1987AfricanPop; @Nativel2016LoisirsProductions].
+
+```{r tab3-trajectory, results='asis'}
+df_t3 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  `1890AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1890"]]), character(1)),
+  `1920AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1920"]]), character(1)),
+  `1950AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1950"]]), character(1)),
+  `1963AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1963"]]), character(1)),
+  `1969AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1969"]]), character(1)),
+  `1980AD` = vapply(subregion_order, function (id) viscount_fmt_pop(sub_by_id[[id]]$population[["1980"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t3 <- data.frame(
+  Subregion = "Total Study Area",
+  `1890AD` = viscount_fmt_pop(headline_vals[["1890"]]),
+  `1920AD` = viscount_fmt_pop(headline_vals[["1920"]]),
+  `1950AD` = viscount_fmt_pop(headline_vals[["1950"]]),
+  `1963AD` = viscount_fmt_pop(headline_vals[["1963"]]),
+  `1969AD` = viscount_fmt_pop(headline_vals[["1969"]]),
+  `1980AD` = viscount_fmt_pop(headline_vals[["1980"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_row_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Sub-regional and total population trajectories across six benchmark years from 1890AD to 1980AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Decolonisation, Liberation Wars and Post-1964AD Urban Surge (1963AD to 1980AD)
+
+Following the break-up of the Federation in December 1963, independence in Malawi and Zambia in 1964AD contrasted sharply with settler rule in Rhodesia after its November 1965 Unilateral Declaration of Independence and Portugal's retention of Mozambique until June 1975 [@Macola2008OneZambia; @Sempijja2025ColonialAnd; @Pereira2016CuttingBack]. Aggregate regional population more than doubled again from `r viscount_fmt_pop(headline_vals[["1963"]])` in 1963AD to `r viscount_fmt_pop(headline_vals[["1969"]])` in 1969AD and `r viscount_fmt_pop(headline_vals[["1980"]])` in 1980AD, while documented active settlements climbed toward 72 in 1977AD and 71 in 1980AD (Table \ref{tab:trajectory} and Figure \ref{fig:trends}).
+
+In independent Zambia, lifted colonial pass controls triggered explosive migration to Lusaka (jumping from 132k in 1960AD to 262k in 1970AD and 536k in 1980AD) and across the Copperbelt (Ndola 281,3k, Kitwe 266,3k, Mufulira 135,5k, Chingola 130,9k and Luanshya 110,9k in 1980AD), raising the Copperbelt and Central sub-region to `r viscount_fmt_pop(sub_by_id[["northern_rhodesia_copperbelt"]]$population[["1980"]])` by 1980AD [@Macola2008OneZambia; @Mitchell2007IHS]. In Malawi, transfer of the administrative capital from Zomba (28,8k in 1980AD) to Lilongwe in 1975AD accelerated central plateau urbanisation, lifting Lilongwe from 8,5k in 1951AD to 102,9k in 1977AD (127,9k agglomeration by 1980AD) while Blantyre reached 222,2k (248k agglomeration) and national population reached `r viscount_fmt_pop(sub_by_id[["nyasaland_protectorate"]]$population[["1980"]])` (`r viscount_fmt_number(sub_by_id[["nyasaland_protectorate"]]$end_density_km2, 2L)` persons/km²) [@Moyo2012NamingPractices].
+
+South of the Zambezi and in Mozambique, guerrilla warfare and late-colonial counter-insurgency reshaped settlement patterns before independence. In Mozambique, FRELIMO's war in Cabo Delgado, Niassa and Tete prompted Portuguese forces to concentrate rural populations into fortified *aldeamentos* and expand garrison towns such as Nampula (growing from 23,1k in 1970AD to 145,6k in 1980AD) and Nacala Porto (74,9k), while Lourenço Marques (Maputo) surged from 444,5k in 1970AD to 718,4k in 1980AD and Beira expanded to 213,4k despite the post-1975AD departure of Portuguese settlers [@Sempijja2025ColonialAnd; @Domingos2013DosSuburbios; @Hassane2026InstrumentosLegais; @Machaqueiro2013EnsinoPolitica]. In Rhodesia, intensification of the liberation war after 1972AD pushed rural refugees into Salisbury (climbing from 386k in 1970AD to 656k at independence in 1980AD) and Bulawayo (378k agglomeration), lifting Mashonaland to `r viscount_fmt_pop(sub_by_id[["southern_rhodesia_mashonaland"]]$population[["1980"]])` and Matabeleland-Midlands to `r viscount_fmt_pop(sub_by_id[["southern_rhodesia_matabeleland"]]$population[["1980"]])` [@ThomasJBryan2026BritishSouthern; @Chingozha2019TheComplementarity].
+
+## Urban Centres and Sub-Regional Density Contrasts
+
+Table \ref{tab:top-centres} summarises the twelve largest individually assessed entries in the chapter ledger alongside their spatial scopes, chronological spans and peak populations. Every entry among the top twelve peaked in 1980AD (or 1977AD for Blantyre city-proper, outside the table at rank 14), reflecting continuous late-colonial and early post-independence urban acceleration across all four core states [@Mitchell2007IHS; @Domingos2013DosSuburbios].
+
+```{r tab4-top-centres, results='asis'}
+top_12 <- summary_cache$top_settlements[seq_len(min(12L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_12, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_12, function (s) {
+    c <- as.character(s$country)
+    if (identical(c, "Democratic Republic of the Congo")) "DR Congo" else c
+  }, character(1)),
+  Scope = vapply(top_12, function (s) {
+    if (identical(s$population_scope, "metro")) "Metro" else "City"
+  }, character(1)),
+  Span = vapply(top_12, function (s) {
+    if (s$min_year == s$max_year) paste0(s$min_year, "AD") else paste0(s$min_year, "AD-", s$max_year, "AD")
+  }, character(1)),
+  `Peak Pop.` = vapply(top_12, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  Obs = vapply(top_12, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Twelve largest individually assessed settlement records in South-Central Africa and Mozambique (all peaking in 1980AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+End-epoch population density in 1980AD spans a fourteenfold ecological gradient across the eight sub-regions (Figure \ref{fig:rank-size}). Nyasaland reached `r viscount_fmt_number(sub_by_id[["nyasaland_protectorate"]]$end_density_km2, 2L)` persons/km², more than double the next-densest zone, Southern Rhodesia Mashonaland-Manicaland (`r viscount_fmt_number(sub_by_id[["southern_rhodesia_mashonaland"]]$end_density_km2, 2L)` persons/km²). Four intermediate sub-regions clustered narrowly between 13,7 and 14,7 persons/km²: Northern Rhodesia Copperbelt-Central (`r viscount_fmt_number(sub_by_id[["northern_rhodesia_copperbelt"]]$end_density_km2, 2L)`), Southern Rhodesia Matabeleland-Midlands (`r viscount_fmt_number(sub_by_id[["southern_rhodesia_matabeleland"]]$end_density_km2, 2L)`), Northern Mozambique and Zambezia (`r viscount_fmt_number(sub_by_id[["portuguese_mozambique_north"]]$end_density_km2, 2L)`) and Central-Southern Mozambique (`r viscount_fmt_number(sub_by_id[["portuguese_mozambique_south"]]$end_density_km2, 2L)`), while Northern and Eastern Zambia (`r viscount_fmt_number(sub_by_id[["northern_rhodesia_north_east"]]$end_density_km2, 2L)` persons/km²) and the Kalahari-sand plains of Barotseland and North-Western Zambia (`r viscount_fmt_number(sub_by_id[["northern_rhodesia_barotseland"]]$end_density_km2, 2L)` persons/km²) remained sparsely inhabited [@Hellen1962SomeAspects; @Frederiksen2013SeeingThe].
+
+# Limitations
+
+Three structural constraints govern these colonial demographic series. First, pre-1960AD rural African totals in both Rhodesias and chartered Mozambique carry uneven enumeration coverage. Early Southern Rhodesian tax registers multiplied adult male taxpayers by fixed household factors until the 1962AD census revealed a larger rural population than previously projected, while Northern Rhodesia's first territorial African census did not occur until 1963AD and Mozambique's 1940AD and 1950AD censuses faced tax-evasion undercounting in remote Niassa, Tete and Zambezia [@CASO1960FederationCensus; @Mozambique1940Censo; @Pereira2016CuttingBack].
+
+Second, regime transitions between pre-1953AD colonial district baselines, the 1953AD to 1963AD Federation provincial structure, Mozambique's 1955AD district harmonisation and post-1964AD national censuses introduce visible step-changes in sub-regional shares between 1952AD and 1955AD and again between 1963AD, 1966AD and 1972AD (for instance across Barotseland, Mashonaland, Nyasaland and Northern Mozambique in the full 14-benchmark series). Because sub-regional polygons changed administrative attribution across Federation and independence realignments, single sub-regional series should be read alongside the smooth macro-regional aggregate and the Appendix census tables [@CASO1960FederationCensus; @Mitchell2007IHS].
+
+Third, municipal boundary definitions shift sharply between colonial European-only or core town limits and post-independence or Africapolis agglomerations. Harare, Bulawayo, Maputo, Lusaka, Lubumbashi, Blantyre and Lilongwe therefore appear in the ledger as paired city-proper and metropolitan entries, while Beira shifts from the colonial city-proper series (ending 1950AD at 42,5k) to the post-1950AD *Cidade da Beira* series reaching 213,4k in 1980AD [@Domingos2013DosSuburbios; @Hassane2026InstrumentosLegais]. Care is required not to sum paired city-proper and agglomeration rows when computing regional urban totals.
+
+# Conclusion
+
+Between 1890AD and 1980AD, South-Central Africa and Mozambique quintupled in population from `r viscount_fmt_pop(headline_vals[["1890"]])` to `r viscount_fmt_pop(headline_vals[["1980"]])` inhabitants while building an urban network anchored by Maputo, Harare, Lubumbashi, Lusaka, Bulawayo, the Copperbelt mining towns, Blantyre, Beira and Nampula. Early demographic stagnation under conquest, rinderpest and First World War porterage gave way after 1920AD to rapid mine-led urbanisation on the Copperbelt, settler-industrial concentration along the Rhodesian highveld, intense agrarian pressure in the Shire Highlands of Nyasaland and coerced labour migration circuits across Mozambique. After 1963AD, decolonisation in Zambia and Malawi removed colonial pass restrictions while liberation wars in Mozambique and Zimbabwe displaced rural households toward towns and fortified settlements. Reconciling `r viscount_fmt_number(n_total_sites, 0L)` settlement series with `r length(subadmin_list)` colonial and early post-colonial census tables, NICETHI supplies a continuous spatial baseline leading directly into the post-1980AD era.
+
+# Appendix
+
+## Sub-Regional Density and Share Series
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all eight colonial sub-regions from 1890AD to 1980AD, and Table \ref{tab:shares-appendix} tracks each sub-region's percentage share of the study-area total across the same six benchmarks. Note how Nyasaland's share rose from 19,8% in 1890AD to 21,1% in 1980AD despite occupying only 5,0% of regional land area, while Northern Mozambique recovered from post-1920AD undercounts to hold 22,6% of total population in 1980AD [@Nyasaland1943AgricultureReport; @Mozambique1940Censo].
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ar <- as.numeric(sr$area_km2)
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1890AD` = viscount_fmt_number(as.numeric(ps[["1890"]]) / ar, 2L),
+    `1920AD` = viscount_fmt_number(as.numeric(ps[["1920"]]) / ar, 2L),
+    `1950AD` = viscount_fmt_number(as.numeric(ps[["1950"]]) / ar, 2L),
+    `1963AD` = viscount_fmt_number(as.numeric(ps[["1963"]]) / ar, 2L),
+    `1969AD` = viscount_fmt_number(as.numeric(ps[["1969"]]) / ar, 2L),
+    `1980AD` = viscount_fmt_number(as.numeric(ps[["1980"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Study Area",
+  `1890AD` = viscount_fmt_number(headline_vals[["1890"]] / total_area_km2, 2L),
+  `1920AD` = viscount_fmt_number(headline_vals[["1920"]] / total_area_km2, 2L),
+  `1950AD` = viscount_fmt_number(headline_vals[["1950"]] / total_area_km2, 2L),
+  `1963AD` = viscount_fmt_number(headline_vals[["1963"]] / total_area_km2, 2L),
+  `1969AD` = viscount_fmt_number(headline_vals[["1969"]] / total_area_km2, 2L),
+  `1980AD` = viscount_fmt_number(headline_vals[["1980"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across eight colonial sub-regions from 1890AD to 1980AD.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(subregion_order, function (id) {
+  sr <- sub_by_id[[id]]
+  ps <- sr$population
+  data.frame(
+    Subregion = sr$name,
+    `1890AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1890"]]) / headline_vals[["1890"]], 1L),
+    `1920AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1920"]]) / headline_vals[["1920"]], 1L),
+    `1950AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1950"]]) / headline_vals[["1950"]], 1L),
+    `1963AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1963"]]) / headline_vals[["1963"]], 1L),
+    `1969AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1969"]]) / headline_vals[["1969"]], 1L),
+    `1980AD (%)` = viscount_fmt_number(100 * as.numeric(ps[["1980"]]) / headline_vals[["1980"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total regional population by colonial sub-region across six benchmark years from 1890AD to 1980AD.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+## Provincial Census Enumerations and Gazetteer Coverage
+
+Tables \ref{tab:subadmin-bca} and \ref{tab:subadmin-moz-kat} present the provincial-level colonial and early post-colonial census distributions compiled in the regional archive for British Central Africa (Northern Rhodesia, Southern Rhodesia and Nyasaland) and for Portuguese Mozambique alongside neighbouring Katanga [@CASO1960FederationCensus; @Mozambique1940Censo; @Mitchell2007IHS]. Table \ref{tab:subregion-sites-appendix} links those sub-regions to the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed sites in the companion gazetteer.
+
+```{r tab7-subadmin-bca, results='asis'}
+build_subadmin_df <- function (specs) {
+  rows <- list()
+  for (sp in specs) {
+    tb <- find_subadmin(sp$code, sp$yr)
+    units <- tb$units
+    if (!is.null(sp$level)) {
+      units <- Filter(function (u) identical(u$admin_level, sp$level), units)
+    }
+    if (!is.null(sp$filter_names)) {
+      units <- Filter(function (u) u$unit_name %in% sp$filter_names, units)
+    }
+    for (u in units) {
+      rows[[length(rows) + 1L]] <- data.frame(
+        `Census Territory` = paste0(sp$label, " (", sp$yr, "AD)"),
+        Province = as.character(u$unit_name),
+        Population = viscount_fmt_number(u$population, 0L),
+        `Pop. (Short)` = viscount_fmt_pop(u$population),
+        check.names = FALSE,
+        stringsAsFactors = FALSE
+      )
+    }
+  }
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+bca_specs <- list(
+  list(code = "FRN", yr = 1956L, label = "Federation"),
+  list(code = "ZMB", yr = 1950L, label = "N. Rhodesia"),
+  list(code = "ZMB", yr = 1980L, label = "Zambia"),
+  list(code = "ZWE", yr = 1941L, label = "S. Rhodesia"),
+  list(code = "ZWE", yr = 1982L, label = "Zimbabwe"),
+  list(code = "MWI", yr = 1945L, label = "Nyasaland"),
+  list(code = "MWI", yr = 1977L, label = "Malawi", level = "ADM1")
+)
+
+viscount_table(
+  build_subadmin_df(bca_specs),
+  "Colonial and early post-colonial provincial census counts in Northern Rhodesia (Zambia), Southern Rhodesia (Zimbabwe) and Nyasaland (Malawi).",
+  arg3_options = list(label = "tab:subadmin-bca")
+)
+```
+
+```{r tab8-subadmin-moz-kat, results='asis'}
+moz_specs <- list(
+  list(code = "MOZ", yr = 1960L, label = "Mozambique"),
+  list(code = "MOZ", yr = 1980L, label = "Mozambique"),
+  list(code = "COD", yr = 1938L, label = "Belgian Congo", filter_names = c("Élisabethville")),
+  list(code = "COD", yr = 1984L, label = "DR Congo", filter_names = c("Haut-Katanga", "Lualaba", "Tanganyika"))
+)
+
+viscount_table(
+  build_subadmin_df(moz_specs),
+  "Colonial district and early post-colonial provincial census counts in Mozambique (1960AD and 1980AD) and southern Katanga (1938AD and 1984AD).",
+  arg3_options = list(label = "tab:subadmin-moz-kat")
+)
+```
+
+```{r tab9-subregion-sites, results='asis'}
+df_t9 <- data.frame(
+  Subregion = vapply(subregion_order, function (id) sub_by_id[[id]]$name, character(1)),
+  Interior = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$settlement_count, 0L), character(1)),
+  `Full Ledger` = vapply(subregion_order, function (id) viscount_fmt_number(full_site_counts[[id]], 0L), character(1)),
+  `Obs.` = vapply(subregion_order, function (id) viscount_fmt_number(dist_by_id[[id]]$observation_count, 0L), character(1)),
+  `Peak Sum` = vapply(subregion_order, function (id) viscount_fmt_pop(dist_by_id[[id]]$peak_pop_sum), character(1)),
+  `Leading Centres` = vapply(subregion_order, function (id) {
+    paste(unlist(dist_by_id[[id]]$top_settlements)[seq_len(min(3L, length(dist_by_id[[id]]$top_settlements)))], collapse = ", ")
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t9) <- NULL
+viscount_table(
+  df_t9,
+  "Sub-regional settlement match counts, observation totals, interior peak sums and leading urban centres.",
+  arg3_options = list(label = "tab:subregion-sites-appendix")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+In Table \ref{tab:subregions}, 113 of the 122 individually assessed settlements fall inside the core 5-arcminute regional mask footprint, whereas 9 border-margin towns (Lubumbashi and Lubumbashi agglomeration in Katanga; Mbinga, Tukuyu and Vwawa in southern Tanzania; Mtwara and Mikindani north of the Ruvuma; Selebi-Phikwe in eastern Botswana; and Tjaneni in north-eastern eSwatini) lie slightly outside the colonial perimeter and are assigned to their adjacent sub-regions in the companion settlement gazetteer so all 122 ledger entries are tabulated.

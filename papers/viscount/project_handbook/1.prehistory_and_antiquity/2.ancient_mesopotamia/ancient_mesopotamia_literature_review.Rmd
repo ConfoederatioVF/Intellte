@@ -1,0 +1,423 @@
+---
+title: "Ancient Mesopotamia to 539 BC"
+subtitle: "Sumer, Akkad, Babylonia and Assyria Across Alluvial and Rain-Fed Basins"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: ancient_mesopotamia_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_ancient_mesopotamia_spatial.png"
+hero_caption: "Five Mesopotamian ecological zones and 2.923 individually assessed settlements spanning the Khabur Jezirah and Upper Tigris piedmont to the Lower Euphrates-Tigris delta between 3500BC and 539BC."
+hero_label: "fig:hero-ancient-mesopotamia"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("ancient_mesopotamia_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("ancient_mesopotamia_settlements.json", simplifyVector = FALSE)
+
+classify_mesopotamia_zone <- function (e) {
+  lat <- as.numeric(e$coords[[1]])
+  lon <- as.numeric(e$coords[[2]])
+  ctry <- as.character(e$country)
+  if (identical(ctry, "Syria") || identical(ctry, "Turkey") || lon < 42.2) return(4L)
+  if ((lat >= 33.1 && lat < 35.0 && lon >= 44.45) || (lat >= 35.0 && lat < 35.7 && lon >= 44.2)) return(5L)
+  if (lat >= 34.55) return(3L)
+  if (lat < 32.05 || (lat < 32.45 && lon >= 45.0)) return(1L)
+  return(2L)
+}
+
+site_active_at <- function (e, yr_num) {
+  ps <- e$population
+  if (is.null(ps) || length(ps) == 0L) return(FALSE)
+  yrs <- as.numeric(names(ps))
+  yr_num >= min(yrs) && yr_num <= max(yrs)
+}
+
+zone_ids <- vapply(settlements_raw, classify_mesopotamia_zone, integer(1))
+zone_counts <- as.integer(tabulate(zone_ids, nbins = 5L))
+
+n_total_sites <- length(settlements_raw)
+n_excluded_sites <- as.integer(summary_cache$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_iraq <- sum(vapply(settlements_raw, function (e) identical(e$country, "Iraq"), logical(1)))
+n_syria <- sum(vapply(settlements_raw, function (e) identical(e$country, "Syria"), logical(1)))
+n_turkey <- sum(vapply(settlements_raw, function (e) identical(e$country, "Turkey"), logical(1)))
+
+bench_keys <- c("-3500", "-2500", "-1800", "-1000", "-539")
+n_active <- setNames(
+  vapply(as.numeric(bench_keys), function (yr) sum(vapply(settlements_raw, site_active_at, logical(1), yr_num = yr)), integer(1)),
+  bench_keys
+)
+
+subregion_meta <- data.frame(
+  id = c(
+    "sumer_babylonia_south",
+    "akkad_central_babylonia",
+    "assyria_upper_tigris",
+    "middle_euphrates_khabur",
+    "diyala_east_tigris"
+  ),
+  name = c(
+    "Lower Mesopotamia (Sumer and Southern Babylonia)",
+    "Akkad and Central Babylonia",
+    "Assyria and Upper Tigris",
+    "Middle Euphrates and Khabur Jezirah",
+    "Diyala and East Tigris Piedmont"
+  ),
+  area_km2 = c(112627.7, 80273.7, 86647.5, 205928.2, 19797.5),
+  pixel_count = c(1524L, 1099L, 1249L, 2875L, 275L),
+  site_count = zone_counts,
+  stringsAsFactors = FALSE
+)
+total_area_km2 <- sum(subregion_meta$area_km2)
+
+sub_by_id <- setNames(summary_cache$top_subregions, vapply(summary_cache$top_subregions, function (x) x$id, character(1)))
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+```
+
+# Abstract
+
+Between the rise of the first walled cities in Sumer around 3500BC and the entry of Cyrus the Great into Babylon in 539BC, the Euphrates and Tigris basins sustained one of the densest and most durable agrarian civilisations of antiquity. Across a study area of 505.275 km² spanning modern Iraq, eastern Syria and borderland districts of south-eastern Turkey, HANDBOOK reconstructs a regional population that grew from 955k inhabitants in 3500BC to 1,91M in 2500BC and 2,62M at the Old Babylonian height around 1800BC, dipped slightly to 2,53M during the Late Bronze transition around 1000BC and surged to 3,62M under the Neo-Babylonian Empire in 539BC. Growth never followed a single monotonic curve across the basin. In the southern alluvium of Sumer and Akkad, gravity-fed canal irrigation supported massive urban concentrations at Uruk, Ur, Lagash, Nippur and Babylon, yet progressive soil salinisation and river avulsions repeatedly pushed settlement northward from Lower Mesopotamia into Central Babylonia, the Diyala valley and Assyria. Meanwhile, the rain-fed northern plains of the Khabur Jezirah and Upper Tigris followed an alternating rhythm of third-millennium tell urbanisation, post-Akkadian pastoral dispersal and Neo-Assyrian imperial reconstruction around Ashur, Kalhu and Nineveh. These trajectories are anchored to `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements reconstructed from excavated urban footprints and period-specific density coefficients, cross-referenced against non-stationary Matérn kriging over metric-isotropic Voronoi catchments across Bronze and Iron Age site horizons, and linked downward to Ottoman vilayet records and modern subadministrative census polygons via strictly mass-conserving pycnophylactic disaggregation.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_ancient_mesopotamia_spatial.png",
+    "Five Mesopotamian ecological zones and 2.923 individually assessed settlements spanning the Khabur Jezirah and Upper Tigris piedmont to the Lower Euphrates-Tigris delta between 3500BC and 539BC.",
+    "fig:hero-ancient-mesopotamia"
+  )
+}
+```
+
+# Background
+
+## Morphodynamics of the Alluvial Plain and the Northern Rain-Fed Belt
+
+Ancient Mesopotamia was never a uniform ecological theatre. It was divided by climate, gradient and hydrology into two sharply contrasting agricultural worlds separated roughly along the line of the modern Jebel Hamrin and the 200 to 300 mm annual rainfall isohyet [@Ur2010Cycles; @McMahon2019Early; @Lawrence2021Climate]. South of Hit on the Euphrates and Samarra on the Tigris lay the flat Holocene alluvial plain of Akkad and Sumer, where annual precipitation rarely exceeds 100 to 150 mm and winter grain crops depend entirely on controlled river water. North and north-west of that threshold stretched the rolling limestone and basalt steppe of the Jazira, the Khabur and Balikh triangles, and the Assyrian piedmont below the Zagros and Taurus foothills, where rain-fed barley and emmer wheat could normally be harvested without artificial canals whenever rainfall held steady [@Ur2010Cycles; @Laugier2022Phytolith].
+
+Recent geoarchaeological coring and satellite morphodynamic mapping have transformed how we read the southern floodplain [@Giosan2025Morphodyna; @Goodman2024Flooding; @Mantellini2024Developmen]. During the mid-Holocene marine highstand between 5000BC and 3500BC, the head of the Persian Gulf reached deep inland past Ur and Eridu, creating an expansive tidal marshland where daily estuarine tides pushed fresh river water back across deltaic levees [@Giosan2025Morphodyna]. As sea level stabilised and river sediment built the delta outward after 3500BC, tidal-assisted agriculture gave way to engineered gravity-flow irrigation. Farmers tapped raised alluvial levees, cutting feeder channels down gentle back-slopes into low-lying basins and marsh fringes [@Mantellini2024Developmen; @Marchetti2024Long].
+
+That hydraulic bounty carried an enduring biological penalty. Because the Euphrates and Tigris carry dissolved mineral salts across a plain with a gradient below ten centimetres per kilometre, perennial basin flooding without deep subsurface drainage gradually raised saline water tables into the root zone [@Mantellini2024Developmen; @Giosan2025Morphodyna]. Over centuries of intensive cultivation, salt-sensitive bread wheat gave way to salt-tolerant six-row barley, fallow intervals lengthened or broke down under tribute pressure and entire southern districts lost carrying capacity whenever a main river branch avulsed eastward or westward [@Goodman2024Flooding; @Marchetti2024Long]. Northern dry farming escaped acute salinisation, yet remained acutely exposed to multi-year droughts and climatic oscillations such as the abrupt arid event around 2200BC [@Ur2010Cycles; @Lawrence2021Climate].
+
+## Historiography of Mesopotamian Historical Demography
+
+Early estimates of Mesopotamian population relied heavily on textual extrapolation from classical authors, Old Testament totals or stray cuneiform ration lists. Systematic demographic reconstruction began only when surface-survey archaeology mapped ceramic scatters, ancient canal traces and tell contours across thousands of square kilometres of southern Iraq and the Syrian Jazira [@Marchetti2019Rise; @Marchetti2024Long; @Ur2013Ancient]. By measuring occupied mounded hectares per ceramic phase and multiplying by ethnographically grounded urban density coefficients, survey pioneers established orders of magnitude for Sumerian and Babylonian city-states, even as debates raged over whether dense urbanism implied 100, 150 or 250 inhabitants per built-up hectare [@Ur2014Households; @Chelazzi2026Emergence].
+
+Over the past two decades, three advances have reshaped these reconstructions. First, multi-spectral declassified Corona imagery, high-resolution LiDAR and radial hollow-way mapping in northern Mesopotamia demonstrated that Early Bronze Age cities such as Tell Brak, Tell Leilan and Tell Chuera were surrounded by intensively manured agricultural halos of 4 to 6 km radius and supported lower-density outer towns that earlier mound-only counts missed [@Ur2010Cycles; @McMahon2019Early]. Second, integrated survey-and-coring projects such as QADIS in the Qadisiyah plain and the Erbil Plain Archaeological Survey recovered buried rural hamlets beneath alluvial silt and quantified how settlement hierarchies consolidated or fragmented across successive empires [@Marchetti2019Rise; @Ur2013Ancient; @Eleonora2026Defining]. Third, phytolith, osteoarchaeological and linked cuneiform gazetteer studies illuminated household multi-cropping, interpersonal violence during state collapse and the spatial network of thousands of named Babylonian canals and villages [@Laugier2022Phytolith; @Sotysiak2015Antemortem; @Gordin2022Mapa; @Maiocchi2019Writing].
+
+Despite these gains, existing regional syntheses often treat southern Sumer and northern Assyria in isolation, or publish uncalibrated site counts that conflate mounded urban cores with ephemeral sherd scatters [@Deadman2026Comparativ]. HANDBOOK bridges those two traditions by harmonising sub-regional population series across all five ecological zones of Mesopotamia from 3500BC to 539BC, linking excavated urban hubs to continuous kriged archaeological site intensity surfaces and downward-consistent subadministrative census polygons.
+
+# Methodology
+
+## Sub-Regional Territorial Partition and Accounting Domain
+
+The Mesopotamian study domain covers 505.275 km² across 7.022 five-arcminute raster pixels, encompassing the Iraqi alluvial plain, the Tigris and Diyala piedmonts and the Syrian Euphrates-Khabur steppe. Within HANDBOOK, the chapter sits in Regime 2 (dynastic and imperial antiquity, 3500BC to 539BC), bridging prehistoric Neolithic and Chalcolithic baselines with the subsequent Hellenistic, Roman and Parthian-Sassanid synthesis. Following natural hydrological divides and ancient political geography, the domain is partitioned into five contiguous sub-regions whose exact vector geometries were projected onto equal-area polygons: Lower Mesopotamia (Sumer and Southern Babylonia, 112.628 km², 1.524 pixels), Akkad and Central Babylonia (80.274 km², 1.099 pixels), Assyria and the Upper Tigris (86.648 km², 1.249 pixels), the Middle Euphrates and Khabur Jezirah (205.928 km², 2.875 pixels) and the Diyala and East Tigris Piedmont (19.798 km², 275 pixels).
+
+Population trajectories are evaluated at five benchmark dates spanning the core political and ecological turning points of Mesopotamian antiquity: 3500BC (Uruk urban take-off), 2500BC (Early Dynastic city-state peak), 1800BC (Old Babylonian synthesis), 1000BC (post-Bronze Age Iron Age trough) and 539BC (late Neo-Babylonian peak at the Persian conquest). Sub-regional totals represent full resident populations, combining walled urban centres, unfortified riverine villages, irrigated rural estates and semi-sedentary pastoral households anchored to valley pastures [@Ur2014Households; @Laugier2022Phytolith].
+
+## Gazetteer Compilation and Site Screening
+
+To anchor the spatial distribution of settlement, `r viscount_fmt_number(n_candidate_sites, 0L)` candidate tells, historic capitals and surveyed archaeological loci across the Mesopotamian basin between 3500BC and 539BC were screened from published excavation monographs, regional surface surveys, measured-area urban corpora (Palmisano et al. 2021; Titolo and Palmisano 2025), linked Babylonian gazetteers and chronometric registers including NERD [@Gordin2022Mapa; @Deadman2026Comparativ]. After purging non-settlement fragments (monumental city gates, palaces, temples, shrines and unquantified sherd scatters), deduplicating overlapping tell synonyms and excluding `r viscount_fmt_number(n_excluded_sites, 0L)` subordinate or duplicate candidates, `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements were retained in the chapter ledger (`r viscount_fmt_number(n_iraq, 0L)` in modern Iraq, `r viscount_fmt_number(n_syria, 0L)` in eastern Syria and `r viscount_fmt_number(n_turkey, 0L)` along the Upper Euphrates and Tur Abdin piedmont of south-eastern Turkey) and mapped across Figures \ref{fig:hero-ancient-mesopotamia} and \ref{fig:settlements}.
+
+Across the five ecological zones, `r viscount_fmt_number(zone_counts[4], 0L)` individually assessed settlements sit in the Middle Euphrates and Khabur Jezirah, `r viscount_fmt_number(zone_counts[1], 0L)` in Lower Mesopotamia (Sumer and Southern Babylonia), `r viscount_fmt_number(zone_counts[3], 0L)` in Assyria and the Upper Tigris, `r viscount_fmt_number(zone_counts[5], 0L)` in the Diyala and East Tigris Piedmont and `r viscount_fmt_number(zone_counts[2], 0L)` in Akkad and Central Babylonia. Active assessed centres rise from `r viscount_fmt_number(n_active[["-3500"]], 0L)` early urban hubs at 3500BC to `r viscount_fmt_number(n_active[["-2500"]], 0L)` during the Early Dynastic and Early Bronze tell zenith at 2500BC and `r viscount_fmt_number(n_active[["-1800"]], 0L)` at the Old Babylonian benchmark in 1800BC, before consolidating to `r viscount_fmt_number(n_active[["-1000"]], 0L)` in 1000BC and `r viscount_fmt_number(n_active[["-539"]], 0L)` major imperial and provincial centres by 539BC.
+
+## Metric-Isotropic Radial Kriging Over Archaeological Substrata
+
+Point settlement ledgers alone cannot measure continuous rural population density, because archaeological excavation disproportionately favours monumental tells over small canal-bank hamlets and alluvial silts bury low-lying Sumerian villages [@Marchetti2024Long; @Deadman2026Comparativ]. HANDBOOK therefore pairs sub-regional demographic totals with continuous spatial probability surfaces generated by non-stationary Paciorek-Schervish Matérn ($\nu = 3/2$) residual kriging across the broader MENA-Iran-Caucasia mosaic (`r viscount_fmt_number(83857, 0)` weighted domestic sites across `r viscount_fmt_number(3416, 0)` Voronoi catchments).
+
+Rather than imposing arbitrary Euclidean grid kernels across deserts and river valleys of vastly different survey density, spatial correlation is measured along metric-isotropic radial distance fields scaled by local Voronoi catchment radii. Across the wider domain, median Voronoi catchment radius stands at 32,51 km (90th percentile 40,25 km). Two archaeological horizons govern the Mesopotamian period: the Early and Middle Bronze Age horizon (7.191 active domain sites across 1.176 catchments) and the Late Bronze and Iron Age horizon (9.422 active domain sites across 1.289 catchments). Under weighted least-squares variogram calibration, dimensionless correlation range $\tau_1$ converges at 1,35 (raw $\tau_1 = 1,51$ in Early-Middle Bronze Age and $1,56$ in Late Bronze-Iron Age), with secondary long-range scale $\tau_2 = 2,90$, nugget-to-sill ratio $0,04$ and effective short-range spatial correlation of 48,98 km and 50,66 km respectively ($R^2 = 0,9993$ and $0,9992$).
+
+Before kriging residuals, the deterministic trend surface conditions site intensity on five physical and urban covariates: baseline habitable mask ($\beta_0 = 0,015$ in Early-Middle Bronze Age and $0,01$ in Late Bronze-Iron Age), natural biome productivity ($\beta_1 = 0,01$), local ecological suitability ($\beta_2 = 0,01$), fluvial proximity ($\beta_3 = 0,0873$ and $0,0834$) and coastal access ($\beta_4 = 0,0827$ and $0,0796$). An explicit urban-core buffer mask (radius 2 pixels) prevents modern metropolitan sprawl around Baghdad, Mosul or Damascus from bleeding backward into Bronze Age agricultural intensity.
+
+## Subadministrative GIS Framework and Pycnophylactic Scaling
+
+Long-run historical demography must reconcile deep antiquity with modern census geography without introducing artificial border cliffs between eras. HANDBOOK anchors its spatial disaggregation to verified geoBoundaries polygons for contemporary administrative divisions [@Runfola2020GeoBoundaries], specifically 88 Iraqi second-level districts (ADM2) across the 1977, 1987, 1997, 2009 and 2024 enumerations and 13 Syrian first-level governorates (ADM1) across 1981, 2004, 2011 and 2021. These modern divisions are bridged backward to late nineteenth- and early twentieth-century Ottoman and Mandate administrative geography - the Baghdad, Basra and Mosul vilayets in Iraq (1881 to 1947) and the Aleppo and Damascus vilayets in Syria (1881 to 1947) - using strictly mass-conserving pycnophylactic areal scaling. Across the entire MENA domain (29 historical subadministrative units, 2.629 modern units and 65.864 unit-year checks), 100% of disaggregated cells satisfy mass conservation within 0,01%, with a global maximum unit relative error of 5,85e-08.
+
+```{r tab1-methodology-zones, results='asis'}
+df_t1 <- data.frame(
+  Subregion = subregion_meta$name,
+  `Area (km²)` = vapply(subregion_meta$area_km2, function (x) viscount_fmt_number(x, 0L), character(1)),
+  Pixels = vapply(subregion_meta$pixel_count, function (x) viscount_fmt_number(x, 0L), character(1)),
+  `Assessed Sites` = vapply(subregion_meta$site_count, function (x) viscount_fmt_number(x, 0L), character(1)),
+  `Share of Area (%)` = vapply(100 * subregion_meta$area_km2 / total_area_km2, function (x) viscount_fmt_number(x, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Mesopotamian ecological zones showing equal-area polygon surface, 5-arcminute pixel count, individually assessed settlement count (2.923 sites in total) and territorial share.",
+  arg3_options = list(label = "tab:subregions")
+)
+```
+
+# Testing and Validation
+
+## Variogram Diagnostics, Frontier Conditioning and Urban Rank-Size Calibration
+
+Model stability in ancient Mesopotamia depends on testing whether kriging predictions capture genuine riverine settlement belts rather than modern survey corridors. Across the broader MENA mosaic, 18.006 frontier-buffer site records across 834 cross-border catchments link the Mesopotamian plain smoothly to Anatolia, western Iran and the Levant, ensuring that upper Tigris and Euphrates densities show zero artificial boundary cliffs along modern national borders. Within the Early-Middle Bronze Age and Late Bronze-Iron Age horizons, fluvial proximity ($\beta_3 > 0,083$) dominates the deterministic trend, outranking baseline background habitability by more than fivefold and accurately isolating the narrow irrigated ribbons along the Euphrates, Tigris, Diyala and Khabur channels from the intervening arid steppe.
+
+At the settlement scale, rank-size regression on peak populations across all `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements yields a steep primate Zipf exponent of $\alpha = 1,27$ ($R^2 = 0,83$, unrounded $\alpha = 1,265$; Figure \ref{fig:settlements}). That close adherence to Zipf's law reflects genuine urban scaling across three millennia of Mesopotamian state formation [@Marchetti2024Long; @Chelazzi2026Emergence]. At the apex stand the first-millennium imperial metropolises of Neo-Babylonian Babylon (172k at 565BC across roughly 900 ha within its outer walls), Neo-Assyrian Nineveh (114k at 680BC across 750 ha) and Nimrud or Kalhu (63,8k at 750BC across 360 ha), followed by the great Sumerian and Babylonian hubs of Early Dynastic Uruk (51,2k at 2500BC), Lagash (44,6k at 2500BC), Ur III Ur (43,8k at 2050BC), Sargon II's Dur-Sharrukin (36,4k at 705BC), Umma (35,2k at 2450BC), Old Babylonian Larsa (34,8k at 1780BC), Kish (33,4k at 2500BC), Girsu (31,4k at 2120BC) and Nippur (29,8k at 2050BC). Below this primate tier lies a dense middle rank of 15k to 29k provincial capitals — including Dur-Kurigalzu (28,6k), Adab (27,8k), Arbela (26,4k), Borsippa (25,6k), Isin (24,6k), Mari (23,8k), Sippar (22,4k), Tell Farfara (20,4k), Shuruppak (19,2k), Tell Taya (18,9k), Bad-tibira (17,6k), Cutha (17,6k), Tell Mozan (17,6k), Dur-Katlimmu (16,8k), Mashkan-Shapir (16,6k), Kar-Tukulti-Ninurta (15,6k), Tell Brak (15,4k) and Assur (15,2k) — tapering down to excavated 4 to 15 ha secondary towns and administrative outposts [@Marchetti2024Long; @Ur2013Ancient].
+
+## Reconciling Historical Vilayet Counts and Modern Subadministrative Baselines
+
+To verify that ecological carrying capacity and modern administrative geometry remain consistent across time, Table \ref{tab:historical-subadmin} and Table \ref{tab:modern-subadmin} summarise the Ottoman-Mandate vilayet benchmarks and leading modern geoBoundaries districts [@Runfola2020GeoBoundaries] against which the pycnophylactic spatial mask is calibrated. Even in 1881 and 1914, before modern mechanised pumping and river dams, the Baghdad vilayet (1,18M in 1914) and Mosul vilayet (685k in 1914) held roughly balanced shares relative to the Basra vilayet (650k in 1914), mirroring the long-run shift of demographic weight from the salinised extreme south toward central Babylonia and the northern Tigris piedmont. Modern enumerations confirm that Baghdad (Al-Karkh alone reaching 2,08M in 2024), Basra (3,66M in 2024), Mosul (2,35M in 2024) and Aleppo (4,12M in 2021) remain anchored to the same riverine and piedmont nodes first urbanised during the Bronze Age.
+
+```{r tab2-historical-subadmin, results='asis'}
+hist_rows <- lapply(summary_cache$chapter_historical_subadmin, function (u) {
+  ps <- u$pops
+  data.frame(
+    `Historical Unit` = sub(" \\(.*", "", u$name),
+    Country = ifelse(u$iso3 == "IRQ", "Iraq", "Syria"),
+    `1881` = if (!is.null(ps[["1881"]])) viscount_fmt_pop(ps[["1881"]]) else "-",
+    `1914` = if (!is.null(ps[["1914"]])) viscount_fmt_pop(ps[["1914"]]) else "-",
+    `1920/1922` = if (!is.null(ps[["1920"]])) viscount_fmt_pop(ps[["1920"]]) else if (!is.null(ps[["1922"]])) viscount_fmt_pop(ps[["1922"]]) else "-",
+    `1947` = if (!is.null(ps[["1947"]])) viscount_fmt_pop(ps[["1947"]]) else "-",
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t2 <- do.call(rbind, hist_rows)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Ottoman vilayet and Mandate subadministrative population benchmarks (1881 to 1947) used for pycnophylactic mask calibration across Iraq and Syria.",
+  arg3_options = list(label = "tab:historical-subadmin")
+)
+```
+
+```{r tab3-modern-subadmin, results='asis'}
+mod_units <- summary_cache$chapter_modern_top_units[seq_len(min(10L, length(summary_cache$chapter_modern_top_units)))]
+mod_rows <- lapply(mod_units, function (u) {
+  ps <- u$pops
+  yrs <- sort(as.integer(names(ps)))
+  y_first <- as.character(yrs[1])
+  y_last <- as.character(yrs[length(yrs)])
+  last_val <- as.numeric(ps[[y_last]])
+  dens <- last_val / max(1, as.numeric(u$area_km2))
+  data.frame(
+    `Admin Unit` = paste0(u$name, " (", u$level, ")"),
+    Country = ifelse(u$iso3 == "IRQ", "Iraq", "Syria"),
+    `Area (km²)` = viscount_fmt_number(u$area_km2, 0L),
+    `Base Pop.` = paste0(viscount_fmt_pop(ps[[y_first]]), " (", y_first, ")"),
+    `Latest Pop.` = paste0(viscount_fmt_pop(last_val), " (", y_last, ")"),
+    `Density (/km²)` = viscount_fmt_number(dens, 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t3 <- do.call(rbind, mod_rows)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Leading modern subadministrative districts in Iraq (88 ADM2 units) and Syria (13 ADM1 governorates) from geoBoundaries polygons used in pycnophylactic verification.",
+  arg3_options = list(label = "tab:modern-subadmin")
+)
+```
+
+# Results
+
+## Uruk Expansion and Early Dynastic Sumer (3500BC to 2350BC)
+
+At 3500BC, Mesopotamia held approximately 955k people (Table \ref{tab:trajectory} and Figure \ref{fig:trajectory}). Nearly two-thirds lived in the southern alluvial plains: 420k in Lower Mesopotamia (Sumer and Southern Babylonia, 3,7 persons/km²) and 210k in Akkad and Central Babylonia (2,6 persons/km²). Assyria and the Upper Tigris held 140k, the wide Middle Euphrates and Khabur Jezirah held 110k and the compact Diyala and East Tigris piedmont held 75k.
+
+That spatial imbalance reflects the Uruk takeoff [@Algaze2005Sumerian; @Pollock2013Circulatio; @Butterlin2010Uruk]. Around the retreating head of the Persian Gulf, estuarine marshes, date-palm groves and newly dug levee canals combined high caloric surpluses per hectare with low river-transport costs [@Giosan2025Morphodyna; @Mantellini2024Developmen]. Uruk itself swelled to roughly 250 ha by 3100BC and over 400 ha in the Early Dynastic I period, anchoring a dense southern urban constellation alongside Ur, Eridu, Lagash, Umma, Shuruppak, Zabala, Adab and Nippur [@Schneider2022Nippur; @Marchetti2024Long]. At the same time, southern colonists established walled river enclaves such as Habuba Kabira on the Syrian Euphrates and inserted Uruk-style administrative quarters into northern towns like Tell Brak in the Khabur basin to secure timber, copper and obsidian [@Butterlin2010Uruk; @McMahon2019Early].
+
+Over the Early Dynastic centuries (2900BC to 2350BC), rural villages consolidated behind city walls, raising total Mesopotamian population twofold to 1,91M by 2500BC. Sumer reached 780k and Akkad 460k, while Assyria doubled to 280k and the Middle Euphrates-Khabur rose to 240k as tell-centred dry-farming kingdoms emerged at Mari, Tell Chuera, Tell Beydar and Tell Leilan [@Ur2010Cycles; @McMahon2019Early]. Competition for scarce canal headwaters turned bitter. Geoarchaeological flood deposits at Tell al-Hiba (Lagash) confirm that rival city-states deliberately breached upstream embankments and diverted canals to flood neighbour territories during the Umma-Lagash wars culminating under Lugalzagesi of Uruk [@Goodman2024Flooding; @Osterman2022Umerum].
+
+```{r fig2-trajectory, results='asis'}
+viscount_figure(
+  "figures/fig2_ancient_mesopotamia_trajectory.png",
+  "Aggregate Mesopotamian population trajectory from 3500BC to 539BC (955k to 3,62M) and sub-regional population shares at the 539BC benchmark.",
+  "fig:trajectory"
+)
+```
+
+## Akkadian Imperial Consolidation and the Ur III State (2350BC to 2000BC)
+
+Sargon of Akkad's unification of Sumer and Akkad around 2334BC shifted political gravity upstream toward the narrow neck where the Euphrates and Tigris draw within 35 km of each other [@Eleonora2026Defining; @Osterman2022Umerum]. While the exact site of Agade remains unlocated, QADIS survey assemblages show Akkadian rural expansion restructuring canal networks between Nippur and Adab [@Marchetti2019Rise; @Eleonora2026Defining]. In the north, Akkadian garrisons and administrative complexes were planted at Tell Brak (Nagar) and Tell Leilan (Shekhna) to extract Khabur grain surpluses [@Ur2010Cycles].
+
+Around 2200BC, a sharp centuries-long dry spell coincided with political fragmentation and Gutian incursions. Northern dry-farming tells suffered severe contraction: Tell Leilan and Tell Chuera shrank or were temporarily abandoned as rain-fed barley yields faltered, pushing rural populations toward mobile pastoralism along the Euphrates and Khabur margins [@Ur2010Cycles; @Lawrence2021Climate]. Southern irrigation, buffered by snowmelt in the Anatolian headwaters, weathered the drought better once the Third Dynasty of Ur (2112BC to 2004BC) centralised canal maintenance, state granaries and corvée labour across Sumer and Akkad [@Allen2023Economic; @Maiocchi2019Writing]. Tens of thousands of Ur III cuneiform tablets from Umma, Girsu, Drehem and Nippur record rationed barley, wool and reed harvests at an administrative intensity rarely matched before classical antiquity [@Anonymous2023Historical; @Schneider2022Nippur].
+
+## Old Babylonian Zenith, Salinisation and the Kassite-Mitanni Transition (2000BC to 1200BC)
+
+After Ur fell to Elamite and Amorite pressure in 2004BC, political power fragmented among Isin, Larsa, Eshnunna, Mari and eventually Hammurabi's Babylon (1792BC to 1750BC). By 1800BC, aggregate Mesopotamian population reached an early imperial plateau of 2,62M (Table \ref{tab:trajectory}). Yet the internal balance had shifted decisively northward. While Lower Mesopotamia grew modestly from 780k in 2500BC to 950k in 1800BC (+21,8%), Akkad and Central Babylonia jumped by 47,8% (from 460k to 680k), Assyria rose by 50% (from 280k to 420k) and the Middle Euphrates and Khabur Jezirah expanded by 50% (from 240k to 360k).
+
+Two ecological and economic forces drove that northward drift. First, centuries of intensive Ur III and Isin-Larsa irrigation without drainage had salinised wide tracts of southernmost Sumer around Ur, Eridu and Lagash, slashing barley yields per hectare and forcing canals to be abandoned when river branches shifted westward [@Mantellini2024Developmen; @Giosan2025Morphodyna; @Marchetti2024Long]. By 1720BC, major southern cities including Ur, Uruk and Nippur experienced sharp contraction and temporary clerical migration northward to Kish and Sippar [@Schneider2022Nippur; @Yoffee2019Chapter]. Second, northern caravan and river commerce flourished: Old Assyrian merchant houses from Ashur ran regular donkey caravans carrying tin and Babylonian textiles across the Jazira to Kanesh in Anatolia between 2000BC and 1700BC [@Dercksen2022Golden], while Mari controlled middle Euphrates tolls and irrigation until Hammurabi sacked its palace around 1760BC.
+
+Under the Kassite dynasty in Babylonia (c. 1595BC to 1155BC) and the Hurrian kingdom of Mitanni in northern Syria and Assyria, settlement became markedly more rural. Large southern mounds shrank while small villages and fortified manor estates (*dimtu*) spread thinly across central Babylonia, the Diyala and the Khabur plains [@Marchetti2024Long; @Ur2010Cycles].
+
+Nippur, standing astride the central Euphrates boundary between Sumer and Akkad, preserved an unusual demographic continuity as Babylonia's religious capital even as political hegemony shifted northward [@Schneider2022Nippur]. Excavated stratigraphic sequences and temple archive lists show how Nippur's resident priesthood, scribal quarters and canal-maintenance guilds buffered the city through the Kassite restoration, whereas older deltaic ports such as Eridu and Lagash dwindled to minor temple shrines once gulfward siltation and channel shifts cut them off from navigable shipping [@Giosan2025Morphodyna; @Schneider2022Nippur].
+
+```{r fig3-density, results='asis'}
+viscount_figure(
+  "figures/fig3_ancient_mesopotamia_density.png",
+  "Kriged Early-Middle Bronze Age archaeological intensity surface across the Mesopotamian basin and sub-regional mean population densities in 539BC.",
+  "fig:density"
+)
+```
+
+## Late Bronze Collapse, Aramean Settlement and the Neo-Assyrian Ascendancy (1200BC to 612BC)
+
+Between 1200BC and 1000BC, aridification, Elamite and Aramean raids and the collapse of the Late Bronze Age palatial trade network depressed urban life across the southern floodplains [@Lawrence2021Climate; @Yoffee2019Chapter]. Total Mesopotamian population edged downward from 2,62M in 1800BC to 2,53M in 1000BC, with Lower Mesopotamia dropping to 820k and Akkad and Central Babylonia falling to 560k. On the Middle Euphrates and Khabur, pastoral Aramean tribes settled river margins and founded small principalities such as Bit-Adini and Guzana (Tell Halaf), lowering regional numbers from 360k to 310k [@McMahon2019Early; @Laugier2022Phytolith].
+
+Assyria and the Upper Tigris bucked that downturn completely. Rising from 420k in 1800BC to 650k in 1000BC (+54,8%), the Assyrian heartland between Ashur, Nineveh and Arbela became the demographic and military engine of the Iron Age Near East [@Ur2013Ancient; @Sotysiak2015Antemortem]. Beginning in the ninth century BC, Neo-Assyrian kings systematically engineered their dry-farming hinterland into an imperial breadbasket. Ashurnasirpal II rebuilt Kalhu (Nimrud), Sargon II founded Dur-Sharrukin (Khorsabad) and Sennacherib transformed Nineveh into a 750-hectare metropolis fed by rock-cut canals, stone aqueducts at Jerwan and dams across the Khosr and Gomel rivers [@Ur2013Ancient].
+
+Recent Erbil Plain and Upper Tigris surveys demonstrate that this imperial build-up did not rely solely on natural growth; mass deportations from conquered Levant, Anatolian and Babylonian provinces repopulated thousands of newly founded unfortified Assyrian villages spaced every two to three kilometres across previously marginal steppe [@Ur2013Ancient; @Altaweel2015Evaluating]. Osteoarchaeological trauma studies across northern Mesopotamia confirm elevated rates of violent cranial injury during imperial expansion and the final Medo-Babylonian conquest of 614BC to 612BC, when Ashur, Kalhu and Nineveh were stormed and burned [@Sotysiak2015Antemortem].
+
+```{r fig4-settlements, results='asis'}
+viscount_figure(
+  "figures/fig4_ancient_mesopotamia_settlements.png",
+  "Zipf rank-size distribution across 2.923 individually assessed Mesopotamian settlements (Zipf slope 1,27, R² = 0,83) and the twelve largest individually assessed Mesopotamian cities between 3500BC and 539BC.",
+  "fig:settlements"
+)
+```
+
+## Neo-Babylonian Apogee to the Persian Conquest (612BC to 539BC)
+
+The destruction of the Neo-Assyrian capitals in 612BC briefly depressed population in the Upper Tigris, which eased from 650k in 1000BC to 580k by 539BC. Simultaneously, the Neo-Babylonian dynasty (626BC to 539BC) unleashed the greatest expansion in southern Mesopotamian antiquity. Under Nabopolassar and Nebuchadnezzar II, imperial tribute financed massive dredging of the Euphrates branches, reclamation of waterlogged marshes and brick-walled reconstruction at Babylon, Borsippa, Sippar, Nippur, Uruk and Ur [@Marchetti2024Long; @Schneider2022Nippur; @Gordin2022Mapa].
+
+Babylon itself expanded across nearly 900 ha inside its outer ramparts, straddling the Euphrates with monumental processional ways, temple complexes and packed residential quarters. By 539BC, total Mesopotamian population reached 3,62M, yielding a mean density of 7,16 persons/km² (Table \ref{tab:trajectory}). Akkad and Central Babylonia surged to 980k (12,21 persons/km²), Lower Mesopotamia rebounded to 1,35M (11,99 persons/km²) and the Diyala and East Tigris piedmont reached 290k (14,65 persons/km², the basin's highest density). The Middle Euphrates and Khabur Jezirah recovered to 420k ahead of Cyrus the Great's entry into Babylon in 539BC [@Marchetti2024Long; @Gordin2022Mapa].
+
+## Urban Hierarchies from Uruk and Ur to Nineveh and Babylon
+
+Comparing the great centres of Mesopotamia across three millennia reveals a clear shift from polycentric Sumerian city-states to imperial mega-capitals [@Chelazzi2026Emergence; @Marchetti2024Long]. During the fourth and third millennia BC, southern cities such as Uruk, Ur, Lagash, Umma and Nippur competed as roughly peer-sized urban hubs spaced 20 to 40 km apart along bifurcating Euphrates channels, each drawing grain and reed taxes from an irrigated radius of 10 to 15 km [@Marchetti2019Rise; @Schneider2022Nippur]. Household archaeology indicates that extended courtyard residences inside these walled quarters accommodated both nuclear families and dependent craft labourers [@Ur2014Households; @Thomas2012Urbanizati].
+
+In the north, Middle Bronze and Early Bronze cities followed a different spatial grammar. At Ashur on its sandstone bluff above the Tigris, merchant lineages built an export economy anchored to Anatolian silver and tin caravans rather than vast irrigated estates [@Dercksen2022Golden], while Khabur towns such as Tell Brak and Tell Leilan functioned as rain-fed agro-administrative nodes ringed by radial trackways [@McMahon2019Early; @Ur2010Cycles].
+
+By the first millennium BC, imperial tribute broke those local ecological ceilings. Neo-Assyrian Nineveh and Neo-Babylonian Babylon attained built-up footprints twice to three times larger than any Early Dynastic city, sustained by long-distance canal engineering, riverine bulk grain transport and state-directed population transfers [@Ur2013Ancient; @Marchetti2024Long; @Chelazzi2026Emergence]. That structural leap explains why total population in 539BC (3,62M) stood nearly double the Early Dynastic peak of 2500BC (1,91M) despite the long-term salinisation of southern Sumerian soils.
+
+```{r tab4-trajectory, results='asis'}
+df_t4 <- data.frame(
+  Subregion = subregion_meta$name,
+  `3500BC` = vapply(subregion_meta$id, function (rid) viscount_fmt_pop(sub_by_id[[rid]]$population[["-3500"]]), character(1)),
+  `2500BC` = vapply(subregion_meta$id, function (rid) viscount_fmt_pop(sub_by_id[[rid]]$population[["-2500"]]), character(1)),
+  `1800BC` = vapply(subregion_meta$id, function (rid) viscount_fmt_pop(sub_by_id[[rid]]$population[["-1800"]]), character(1)),
+  `1000BC` = vapply(subregion_meta$id, function (rid) viscount_fmt_pop(sub_by_id[[rid]]$population[["-1000"]]), character(1)),
+  `539BC` = vapply(subregion_meta$id, function (rid) viscount_fmt_pop(sub_by_id[[rid]]$population[["-539"]]), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_row_t4 <- data.frame(
+  Subregion = "Total Ancient Mesopotamia",
+  `3500BC` = viscount_fmt_pop(headline_vals[["-3500"]]),
+  `2500BC` = viscount_fmt_pop(headline_vals[["-2500"]]),
+  `1800BC` = viscount_fmt_pop(headline_vals[["-1800"]]),
+  `1000BC` = viscount_fmt_pop(headline_vals[["-1000"]]),
+  `539BC` = viscount_fmt_pop(headline_vals[["-539"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t4 <- rbind(df_t4, tot_row_t4)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Sub-regional and aggregate population trajectory of Ancient Mesopotamia across five benchmark years from 3500BC to 539BC.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+# Limitations
+
+Three structural uncertainties bound every demographic estimate for ancient Mesopotamia. First, alluvial burial and survey truncation distort site recovery rates across ecological zones. While northern Jazira tells stand prominently above ploughed limestone plains and retain crisp Corona soil-marks [@Ur2010Cycles; @Ur2013Ancient], two to four metres of Holocene Euphrates and Tigris overbank silt in Lower Mesopotamia obscure small unmounded Uruk and Early Dynastic hamlets unless revealed by modern canal cuts or systematic auger coring [@Marchetti2019Rise; @Giosan2025Morphodyna; @Deadman2026Comparativ]. Consequently, raw site counts in Sumer (`r viscount_fmt_number(zone_counts[1], 0L)` individually assessed urban hubs) under-represent small rural villages relative to the Middle Euphrates and Khabur Jezirah (`r viscount_fmt_number(zone_counts[4], 0L)` assessed tells), a bias that HANDBOOK's kriging model mitigates through fluvial covariates rather than unadjusted site sums.
+
+Second, site-level population reconstructions derived from mounded area and surface-survey extents inevitably privilege major walled cities and excavated tells over dispersed hamlets and unexcavated agricultural villages. Although purging non-settlement fragments and replacing legacy nominal caps with site-specific area-density assessments recovers realistic urban peaks at Babylon (172k), Nineveh (114k), Nimrud (63,8k), Uruk (51,2k), Lagash (44,6k) and Ur (43,8k), the `r viscount_fmt_number(n_total_sites, 0L)` individually assessed settlements still represent only the urban and major-town upper tail of the settlement hierarchy [@Marchetti2024Long; @Chelazzi2026Emergence]. Sub-regional totals therefore combine those assessed urban centres with aggregated regional survey hectares and agrarian carrying capacities rather than naive summation of point gazetteer entries.
+
+Third, converting built-up hectares into inhabitants remains sensitive to household structure, intra-urban garden space and semi-nomadic invisibility. Estimates range from 100 to 200 persons per hectare depending on whether outer lower towns held dense courtyard housing or irrigated orchards [@Ur2014Households; @Chelazzi2026Emergence], while mobile pastoralists moving seasonally between the Zagros foothills, the Euphrates steppe and alluvial stubble fields leave minimal ceramic footprints despite contributing substantially to regional meat, wool and transport labour [@Laugier2022Phytolith].
+
+# Conclusion
+
+Over three millennia from 3500BC to 539BC, Mesopotamia's population nearly quadrupled from 955k to 3,62M, advancing from early deltaic city-states along the receding Persian Gulf to an integrated imperial landscape of walled metropolises, engineered aqueducts and radial agricultural hinterlands. That trajectory was governed by a persistent hydraulic dialectic: the southern alluvium consistently generated the highest population densities per square kilometre (rising from 3,7 to 12 persons/km² in Sumer and 2,6 to 12,2 persons/km² in Akkad), yet salinisation and river shifts periodically checked southern growth and propelled political and demographic expansion northward into Assyria and the Khabur Jezirah. By uniting `r viscount_fmt_number(n_total_sites, 0L)` individually assessed ancient cities and towns, non-stationary Matérn kriging over metric-isotropic Voronoi catchments and strictly mass-conserving pycnophylactic scaling across geoBoundaries administrative polygons [@Runfola2020GeoBoundaries], HANDBOOK delivers a continuous, spatially grounded demographic baseline that carries forward cleanly into the Achaemenid, Hellenistic and Parthian-Sassanid eras after 539BC.
+
+# Appendix
+
+## Sub-Regional Population Density and Territorial Shares
+
+Table \ref{tab:density-appendix} reports mean population density in persons per km² across all five Mesopotamian ecological zones from 3500BC to 539BC, illustrating the persistent three- to five-fold density premium of the irrigated southern alluvium and Diyala piedmont over the expansive Middle Euphrates and Khabur steppe.
+
+```{r tab5-density-appendix, results='asis'}
+dens_rows <- lapply(seq_len(nrow(subregion_meta)), function (i) {
+  rid <- subregion_meta$id[i]
+  ar <- subregion_meta$area_km2[i]
+  ps <- sub_by_id[[rid]]$population
+  data.frame(
+    Subregion = subregion_meta$name[i],
+    `3500BC` = viscount_fmt_number(as.numeric(ps[["-3500"]]) / ar, 2L),
+    `2500BC` = viscount_fmt_number(as.numeric(ps[["-2500"]]) / ar, 2L),
+    `1800BC` = viscount_fmt_number(as.numeric(ps[["-1800"]]) / ar, 2L),
+    `1000BC` = viscount_fmt_number(as.numeric(ps[["-1000"]]) / ar, 2L),
+    `539BC` = viscount_fmt_number(as.numeric(ps[["-539"]]) / ar, 2L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_dens_row <- data.frame(
+  Subregion = "Mean Ancient Mesopotamia",
+  `3500BC` = viscount_fmt_number(headline_vals[["-3500"]] / total_area_km2, 2L),
+  `2500BC` = viscount_fmt_number(headline_vals[["-2500"]] / total_area_km2, 2L),
+  `1800BC` = viscount_fmt_number(headline_vals[["-1800"]] / total_area_km2, 2L),
+  `1000BC` = viscount_fmt_number(headline_vals[["-1000"]] / total_area_km2, 2L),
+  `539BC` = viscount_fmt_number(headline_vals[["-539"]] / total_area_km2, 2L),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t5 <- rbind(do.call(rbind, dens_rows), tot_dens_row)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Mean population density (persons per km²) across the five Mesopotamian ecological zones from 3500BC to 539BC.",
+  arg3_options = list(label = "tab:density-appendix")
+)
+```
+
+Table \ref{tab:shares-appendix} complements the density series by tracking each ecological zone's percentage share of the regional total, highlighting Lower Mesopotamia's steady relative shift from 44% in 3500BC to 32,4% in 1000BC and 37,3% in 539BC alongside Assyria's Iron Age surge to 25,7%.
+
+```{r tab6-shares-appendix, results='asis'}
+share_rows <- lapply(seq_len(nrow(subregion_meta)), function (i) {
+  rid <- subregion_meta$id[i]
+  ps <- sub_by_id[[rid]]$population
+  data.frame(
+    Subregion = subregion_meta$name[i],
+    `3500BC (%)` = viscount_fmt_number(100 * as.numeric(ps[["-3500"]]) / headline_vals[["-3500"]], 1L),
+    `2500BC (%)` = viscount_fmt_number(100 * as.numeric(ps[["-2500"]]) / headline_vals[["-2500"]], 1L),
+    `1800BC (%)` = viscount_fmt_number(100 * as.numeric(ps[["-1800"]]) / headline_vals[["-1800"]], 1L),
+    `1000BC (%)` = viscount_fmt_number(100 * as.numeric(ps[["-1000"]]) / headline_vals[["-1000"]], 1L),
+    `539BC (%)` = viscount_fmt_number(100 * as.numeric(ps[["-539"]]) / headline_vals[["-539"]], 1L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, share_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Percentage share of total Mesopotamian population by ecological zone across five benchmark years from 3500BC to 539BC.",
+  arg3_options = list(label = "tab:shares-appendix")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::

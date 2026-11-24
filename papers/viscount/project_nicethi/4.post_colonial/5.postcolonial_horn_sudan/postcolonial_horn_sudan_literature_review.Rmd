@@ -1,0 +1,430 @@
+---
+title: "Post-Colonial Sudan, Ethiopia and the Horn"
+subtitle: "Sudan, South Sudan, Ethiopia, Eritrea, Somalia and Djibouti Since 1956"
+date: "23 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: postcolonial_horn_sudan_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig_01_map.png"
+hero_caption: "Seven jurisdictions, 71 first-level administrative divisions and 1.221 assessed settlements across Sudan, Ethiopia and the Horn between 1956AD and 2025AD."
+hero_label: "fig:hero-horn-sudan"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("postcolonial_horn_sudan_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("postcolonial_horn_sudan_settlements.json", simplifyVector = FALSE)
+
+subregs <- summary_cache$subregions
+sub_by_id <- setNames(subregs, vapply(subregs, function (x) x$id, character(1)))
+dist_by_id <- setNames(
+  summary_cache$subregion_settlement_distribution,
+  vapply(summary_cache$subregion_settlement_distribution, function (x) x$id, character(1))
+)
+
+n_total_sites <- as.integer(summary_cache$settlement_count)
+n_excluded_sites <- as.integer(summary_cache$wave_saturation_stats$ledger_excluded)
+n_candidate_sites <- n_total_sites + n_excluded_sites
+n_obs_total <- as.integer(summary_cache$observation_count)
+total_area_km2 <- as.numeric(summary_cache$total_area_km2)
+total_pixels <- as.integer(summary_cache$total_pixels)
+
+bench_keys <- c("1956", "1972", "1983", "1993", "2009", "2025")
+headline_vals <- vapply(bench_keys, function (k) as.numeric(summary_cache$headline_series[[k]]), numeric(1))
+
+clean_sub_name <- function (nm) {
+  nm <- gsub("\\s*\\[Regime III [^\\]]+\\]", "", as.character(nm))
+  nm <- gsub("\\s*\\(Somaliland de facto / SOL\\)", " (SOL)", nm)
+  trimws(nm)
+}
+
+country_order <- c("ETH", "SDN", "SSD", "SOM", "SOL", "ERI", "DJI")
+country_labels <- c(
+  ETH = "Ethiopia",
+  SDN = "Sudan",
+  SSD = "South Sudan",
+  SOM = "Somalia",
+  SOL = "Somaliland",
+  ERI = "Eritrea",
+  DJI = "Djibouti"
+)
+
+sub_prefixes <- vapply(subregs, function (x) strsplit(x$id, "_")[[1]][1], character(1))
+
+country_stat <- function (pfx, yr_key = NULL) {
+  sel <- subregs[toupper(sub_prefixes) == pfx]
+  if (is.null(yr_key)) {
+    return(sum(vapply(sel, function (x) as.numeric(x$area_km2), numeric(1))))
+  }
+  sum(vapply(sel, function (x) as.numeric(x$population[[yr_key]]), numeric(1)))
+}
+
+country_pixels <- function (pfx) {
+  sel <- subregs[toupper(sub_prefixes) == pfx]
+  sum(vapply(sel, function (x) as.integer(x$pixel_count), integer(1)))
+}
+
+country_admin_count <- function (pfx) {
+  sum(toupper(sub_prefixes) == pfx)
+}
+
+country_interior_sites <- function (pfx) {
+  sel <- subregs[toupper(sub_prefixes) == pfx]
+  sum(vapply(sel, function (x) {
+    d <- dist_by_id[[x$id]]
+    if (is.null(d)) 0L else as.integer(d$settlement_count)
+  }, integer(1)))
+}
+
+country_ledger_sites <- function (cname) {
+  cnt <- summary_cache$settlements_by_country[[cname]]
+  if (is.null(cnt)) 0L else as.integer(cnt)
+}
+```
+
+# Abstract
+
+Between Sudanese independence in 1956AD and 2025AD, the nations of the Horn of Africa and the Nile valley experienced one of the sharpest demographic expansions of the modern world despite repeated famine, secession and civil war. Across a territorial domain of `r viscount_fmt_number(total_area_km2, 0L)` km² spanning Ethiopia, Sudan, South Sudan, Somalia, Somaliland, Eritrea and Djibouti, NICETHI reconstructs an aggregate regional population that climbed from `r viscount_fmt_pop(headline_vals[["1956"]])` inhabitants in 1956AD to `r viscount_fmt_pop(headline_vals[["1972"]])` in 1972AD, `r viscount_fmt_pop(headline_vals[["1983"]])` in 1983AD, `r viscount_fmt_pop(headline_vals[["1993"]])` in 1993AD, `r viscount_fmt_pop(headline_vals[["2009"]])` in 2009AD and `r viscount_fmt_pop(headline_vals[["2025"]])` by 2025AD, reaching a mean end-epoch density of `r viscount_fmt_number(summary_cache$end_epoch_density_km2, 2L)` persons/km². Expansion proceeded unevenly across highland rain-fed farming basins, irrigated Nile corridors and arid Somali pastoral steppes. Ethiopia absorbed the majority of absolute growth, rising nearly tenfold from `r viscount_fmt_pop(country_stat("ETH", "1956"))` to `r viscount_fmt_pop(country_stat("ETH", "2025"))` despite the 1972-1974 and 1983-1985 famines, Derg resettlement and the 2020-2022 Tigray war, while post-1993 Eritrea slowed and contracted after 2014AD under prolonged conscription and youth emigration. In Sudan and South Sudan, rapid metropolitan concentration in the Khartoum tri-city (`r viscount_fmt_pop(9621739)` agglomeration residents by 2025AD) and post-independence Juba (`r viscount_fmt_pop(1220440)`) collided with large-scale conflict displacement in Darfur, Kordofan, Bentiu and Khartoum itself after April 2023. In Somalia and Somaliland, state collapse after 1991AD and recurrent drought redirected pastoral households into Mogadishu, Hargeisa, Bosaso, Kismayo and Baidoa, while Djibouti concentrated most of its citizens inside a single Red Sea port. These regional series integrate `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations, 12 sub-administrative census benchmark tables and mass-conserving disaggregation over 71 first-level administrative divisions.
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig_01_map.png",
+    "Seven jurisdictions, 71 first-level administrative divisions and 1.221 assessed settlements across Sudan, Ethiopia and the Horn between 1956AD and 2025AD.",
+    "fig:hero-horn-sudan"
+  )
+}
+```
+
+# Background
+
+## Post-Colonial State Formation, Famines and Highland-Lowland Contrasts
+
+The demographic geography of north-eastern Africa since 1956AD divides sharply along elevation, rainfall and political borders. At the centre stands the Ethiopian massif, whose fertile volcanic plateaus above 1.500 m support dense plough cultivation of teff, barley and wheat in the north alongside intensive enset horticulture across Sidama, Wolayta and Gurage in the south [@CSA2010EthiopiaCensus; @Desta2019RuralUrban]. Encircling those uplands are the semi-arid Somali, Afar and Borana lowlands, the Nile clay plains of central Sudan, the Sudd floodplains of South Sudan and the Red Sea littoral of Eritrea and Djibouti [@ARCCH2020EthiopiaInventory; @SuarezTrujill2023HlaAlleles]. In 1956AD, when Sudan gained independence as the first sovereign post-colonial state in the study zone, rural livelihoods still predominated everywhere: fewer than one in ten residents across the seven territories lived in towns of 10k or more [@CBS2009SudanCensus; @OECD2024Africapolis].
+
+Seven decades of political upheaval repeatedly reshuffled those rural and urban distributions. In Ethiopia, the 1972-1974 Wollo famine exposed the fragility of imperial land tenure, precipitating the 1974 revolution and the Derg military regime. A decade later, the 1983-1985 famine across Tigray, Wollo and northern Shewa killed hundreds of thousands and drove forced state resettlement of highland peasants into lowland Gambela, Benishangul-Gumuz and western Oromia [@Mberu2006InternalMigration; @Tegegne2016DeterminantsRural]. Following the overthrow of the Derg in May 1991, Ethiopia instituted ethnic federalism under the 1995 constitution, replacing imperial provinces with ethnically demarcated regional states whose urban capitals (Bahir Dar, Mekelle, Hawassa, Adama, Jijiga and Dire Dawa) drew rural migrants and public investment [@Mehari2017ChallengesAnd; @Abay2020CanUrbanization]. Between 2020AD and 2023AD, further constitutional splits carved Sidama (2020AD), South West Ethiopia Peoples' (2021AD), South Ethiopia (2023AD) and Central Ethiopia (2023AD) out of the former Southern Nations, Nationalities and Peoples' Region, even as the 2020-2022 war in Tigray and Amhara disrupted urban food supplies and displaced millions [@Abadi2018TheImpact; @Alemu2026SpatialDistribution].
+
+Northern neighbour Eritrea followed a distinct trajectory. Federated with Ethiopia in 1952AD and annexed in 1962AD, Eritrea fought a 30-year independence war until 1991AD and formalised statehood in May 1993 [@Woldemicael2008RecentFertility]. Although early post-independence reconstruction stimulated return migration and fertility decline in Asmara, Massawa and Keren, the 1998-2000 Eritrean-Ethiopian border war and indefinite national military service triggered sustained out-migration of young adults toward Sudan, Ethiopia, Europe and the Gulf [@Woldemicael2008RecentFertility; @Bank2015EasternAfrica].
+
+In Sudan, post-colonial population redistribution hinged on two forces: expansion of mechanised rain-fed and irrigated agriculture across Gezira, Sennar and Gedaref, and successive armed conflicts across the peripheries [@CBS2009SudanCensus; @Omer2014TheEffects]. The First Sudanese Civil War (1955-1972AD) and Second Sudanese Civil War (1983-2005AD) depopulated large stretches of Upper Nile, Bahr el Ghazal and Equatoria, driving southern refugees into Greater Khartoum's peri-urban belt alongside drought migrants from Kordofan and Darfur [@Omer2014TheEffects; @Bank2015EasternAfrica]. After 2003AD, rebellion and counter-insurgency in Darfur displaced over 2M residents into sprawling camps around Nyala, El Fasher and Geneina and across the border into eastern Chad [@Bank2015EasternAfrica]. Following South Sudan's secession in July 2011, renewed civil war in December 2013 forced hundreds of thousands into United Nations Protection of Civilians sites such as Bentiu and Malakal and into Uganda, Kenya and Ethiopia [@Tesfay2024LotQuality; @Bank2015EasternAfrica]. Most recently, the war that erupted in Khartoum in April 2023 shattered the tri-city metropolis, driving millions toward Gezira, River Nile, Red Sea (Port Sudan), Gedaref and neighbouring states.
+
+Across the eastern Horn, Somalia united former Italian and British Somaliland in 1960AD, weathered the 1974-1975 Dabadheer drought and the 1977-1978 Ogaden war, and fractured after the collapse of Siad Barre's government in January 1991 [@Bank2022SomaliaUrban; @Hussein2024TheImpact]. While northern Somaliland established de facto autonomous institutions centred on Hargeisa, Berbera and Burao, southern and central Somalia experienced three decades of civil conflict, the 2011 famine and recurrent drought, converting Mogadishu, Baidoa, Kismayo and Bosaso into magnets for internally displaced pastoralists [@Bank2022SomaliaUrban; @Hussein2024TheImpact]. Tiny Djibouti, independent since June 1977, evolved simultaneously into a city-state port serving landlocked Ethiopian transit trade and foreign naval bases [@OECD2024Africapolis].
+
+## Demographic Historiography, Censuses and Urban Surveys
+
+Quantitative demography across the Horn relies on uneven national census coverage supplemented by demographic health surveys and remote-sensing urban registers. Sudan possesses the longest continuous post-colonial enumeration record, conducting national censuses in 1955-1956, 1973AD, 1983AD, 1993AD and April 2008 [@CBS2009SudanCensus]. However, the 1983AD and 1993AD counts omitted or estimated conflict zones in the south, and the 2008AD enumeration sparked political disputes in Darfur, South Kordofan and Southern Sudan ahead of the 2011 referendum [@CBS2009SudanCensus; @Omer2014TheEffects]. No national census has taken place in either Sudan or South Sudan since 2008AD, forcing post-2008 trajectories to rely on sub-national projections, humanitarian camp surveys [@Tesfay2024LotQuality] and satellite built-up mappings [@OECD2024Africapolis].
+
+Ethiopia executed its first national census only in 1984AD under the Derg, repeating nationwide counts in 1994AD and 2007AD [@CSA2010EthiopiaCensus]. Both the 1984AD and 1994AD censuses required delayed enumeration or adjustments in nomadic Somali and Afar lowlands, while the planned 2017AD fourth census was repeatedly postponed owing to regional boundary disputes, pandemic disruption and the 2020-2022 northern conflict [@CSA2010EthiopiaCensus; @Alemu2026SpatialDistribution]. Consequently, recent Ethiopian urban demography draws on Central Statistical Agency intercensal municipal projections (such as the 2022AD series), Ethiopian Demographic and Health Surveys [@Yadeta2020SpatialPattern; @Asresie2022AssociationMaternal], micro-level fertility and migration studies [@Gurmu2014AgeFirst; @Desta2013FertilityAnd] and morphological agglomerations compiled by Africapolis [@OECD2024Africapolis; @Ayenachew2024NavigatingUrbanization].
+
+Elsewhere in the region, Eritrea conducted no post-independence national census after its 1984AD enumeration as an Ethiopian province, relying instead on the 1995AD and 2002AD Demographic and Health Surveys and 2010AD population-health surveys [@Woldemicael2008RecentFertility]. Somalia conducted censuses in 1975AD and 1986-1987, neither fully published at fine spatial granularity, before the 2014AD Population Estimation Survey (PESS) by UNFPA provided a baseline across all 18 pre-war regions [@Bank2022SomaliaUrban; @Hussein2024TheImpact]. Djibouti completed national enumerations in 1983AD, 2009AD and 2024AD through INSTAD [@OECD2024Africapolis]. NICETHI harmonises these disparate national counts, historical gazetteers and urban agglomeration series into one continuous spatial accounting frame from 1956AD to 2025AD.
+
+# Methodology
+
+## Territorial Partition and Jurisdictional Accounting Domain
+
+The study area covers `r viscount_fmt_number(total_area_km2, 0L)` km² across `r viscount_fmt_number(total_pixels, 0L)` five-arcminute cells partitioned into `r viscount_fmt_number(summary_cache$subregion_count, 0L)` first-level administrative divisions across seven jurisdictions (Table \ref{tab:jurisdictions}). Within NICETHI, this chapter represents Regime 3 (1956AD to 2026AD), continuing directly from the colonial-era East African and Nile series. Boundaries derive from HDX COD-AB first-level administrative polygons for Ethiopia (incorporating the post-2020 Sidama, South West Ethiopia Peoples', South Ethiopia and Central Ethiopia regional divisions alongside the contested Tigray-Amhara boundary zone) and from geoBoundaries Admin-1 polygons for Sudan (19 units including Abyei PCA), South Sudan (10 states), Eritrea (6 zobas), Djibouti (3 grouped districts) and the 18 pre-war regions of Somalia partitioned between the Federal Republic of Somalia (13 units) and de facto Somaliland (5 units: Awdal, Woqooyi Galbeed, Togdheer, Sool and Sanaag) [@Runfola2020GeoBoundaries].
+
+```{r tab1-jurisdictions, results='asis'}
+df_t1 <- data.frame(
+  Jurisdiction = unname(country_labels[country_order]),
+  `Admin-1 Units` = vapply(country_order, function (p) viscount_fmt_number(country_admin_count(p), 0L), character(1)),
+  `Area (km²)` = vapply(country_order, function (p) viscount_fmt_number(country_stat(p), 0L), character(1)),
+  Pixels = vapply(country_order, function (p) viscount_fmt_number(country_pixels(p), 0L), character(1)),
+  `Ledger Sites` = vapply(country_order, function (p) viscount_fmt_number(country_ledger_sites(country_labels[[p]]), 0L), character(1)),
+  `Interior Sites` = vapply(country_order, function (p) viscount_fmt_number(country_interior_sites(p), 0L), character(1)),
+  `Share (%)` = vapply(country_order, function (p) viscount_fmt_number(100 * country_stat(p) / total_area_km2, 1L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_t1 <- data.frame(
+  Jurisdiction = "Total Study Domain",
+  `Admin-1 Units` = viscount_fmt_number(summary_cache$subregion_count, 0L),
+  `Area (km²)` = viscount_fmt_number(total_area_km2, 0L),
+  Pixels = viscount_fmt_number(total_pixels, 0L),
+  `Ledger Sites` = viscount_fmt_number(n_total_sites - 60L, 0L),
+  `Interior Sites` = viscount_fmt_number(sum(vapply(country_order, country_interior_sites, integer(1))), 0L),
+  `Share (%)` = "100",
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t1 <- rbind(df_t1, tot_t1)
+rownames(df_t1) <- NULL
+viscount_table(
+  df_t1,
+  "Territorial partition of the Horn and Sudan study area across seven jurisdictions, showing Admin-1 counts, surface area, pixels and assessed settlements.",
+  arg3_options = list(label = "tab:jurisdictions")
+)
+```
+
+Population totals are evaluated across 14 benchmark years from 1956AD to 2025AD, with six checkpoints tabulated in the main text: 1956AD (Sudanese independence), 1972AD (Addis Ababa Agreement and eve of the Wollo famine), 1983AD (eve of the 1983-1985 Ethiopian famine and Second Sudanese Civil War), 1993AD (Eritrean independence and post-Derg transition), 2009AD (post-2007 Ethiopian and 2008 Sudanese census synthesis) and 2025AD (end-epoch reconstruction incorporating 2020-2025 conflict displacement). Note that while 1.161 ledger settlements fall within the seven core jurisdictions, 60 additional cross-border settlements in Uganda (24), Chad (14), Kenya (11), Democratic Republic of the Congo (9) and Central African Republic (2) fall inside the perimeter buffer and refugee camp zones, yielding `r viscount_fmt_number(n_total_sites, 0L)` total assessed settlements.
+
+## Settlement Screening, Census Benchmarks and Spatial Disaggregation
+
+Candidate urban and camp localities were compiled across four screening waves from CSA Ethiopia reports (1984-2022) [@CSA2010EthiopiaCensus], CBS Sudan censuses (1955-2008) [@CBS2009SudanCensus], INSTAD Djibouti enumerations (2009-2024), Eritrean NSO/UNSD tables [@Woldemicael2008RecentFertility], Somali UNFPA/municipal records [@Bank2022SomaliaUrban], OECD/SWAC Africapolis morphological series [@OECD2024Africapolis] and historical Ethiopian and Sudanese town chronicles [@ARCCH2020EthiopiaInventory; @Bank2015EasternAfrica]. From `r viscount_fmt_number(n_candidate_sites, 0L)` candidate records, `r viscount_fmt_number(n_excluded_sites, 0L)` duplicate alias records or out-of-epoch entries were excluded, retaining `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements across `r viscount_fmt_number(n_obs_total, 0L)` chronological observations (Figure \ref{fig:hero-horn-sudan}).
+
+To prevent double counting between municipal city-proper records and satellite-delineated urban corridors, each entry carries an explicit spatial scope: `r viscount_fmt_number(summary_cache$population_scope_counts$city_proper, 0L)` city-proper settlements and `r viscount_fmt_number(summary_cache$population_scope_counts$metro, 0L)` metropolitan agglomerations (Khartoum 2025 and 2008, Addis Ababa, Mogadishu, Hargeisa, Juba, Asmara, Djibouti, Mandera and Qarya 2). All 71 Admin-1 sub-regions contain interior assessed settlements (zero empty polygons), with a unique-peak ratio of 96,81% across the ledger.
+
+Regional rural and urban totals are constrained downward by 12 sub-administrative census benchmark tables spanning Ethiopia (1982, 1993 and 2022), Sudan (1956, 1993 and 2018), South Sudan (2008 and 2017), Somalia (1961, 2005 and 2019) and Somaliland (2005), reconciled against 24 historical 1960 lineage units and contemporary geoBoundaries and HDX Admin-1 geometries [@Runfola2020GeoBoundaries]. Mass-conserving pycnophylactic redistribution allocates Admin-1 population totals across 5-arcminute grid cells weighted by HYDE and KK10 agricultural-pastoral suitability priors, fluvial Nile-Shebelle-Juba attraction, highland elevation gradients and assessed urban point footprints, avoiding arbitrary constant growth multipliers [@Yadeta2020SpatialPattern; @Asresie2022AssociationMaternal].
+
+# Testing and Validation
+
+## Sub-Administrative Census Benchmark Alignment
+
+Cross-checking reconstructed regional totals against historical sub-administrative census tables tests whether mass-conserving disaggregation honours primary enumerations across changing provincial boundaries (Table \ref{tab:benchmarks}). In Sudan, the 1956AD national count across nine historical provinces (`r viscount_fmt_pop(10262536)` including southern provinces) aligns with the summed northern Sudan (`r viscount_fmt_pop(country_stat("SDN", "1956"))`) and South Sudan (`r viscount_fmt_pop(country_stat("SSD", "1956"))`) Admin-1 totals (`r viscount_fmt_pop(country_stat("SDN", "1956") + country_stat("SSD", "1956"))` combined), confirming partition consistency between Khartoum and Juba prior to secession [@CBS2009SudanCensus]. By 1993AD, raw unadjusted provincial tabulations across 24 northern and nominal southern units summed to 43,79M because war-zone estimates overlapped with displaced southern cohorts counted in northern cities, whereas the reconciled NICETHI regional sum separates `r viscount_fmt_pop(country_stat("SDN", "1993"))` in Sudan from `r viscount_fmt_pop(country_stat("SSD", "1993"))` in South Sudan (`r viscount_fmt_pop(country_stat("SDN", "1993") + country_stat("SSD", "1993"))` combined).
+
+```{r tab2-benchmarks, results='asis'}
+bm_list <- summary_cache$subadmin_benchmark_tables
+df_t2 <- data.frame(
+  Polity = vapply(bm_list, function (x) as.character(country_labels[[x$polity_code]]), character(1)),
+  Year = vapply(bm_list, function (x) paste0(x$year, "AD"), character(1)),
+  `Sub-Units` = vapply(bm_list, function (x) viscount_fmt_number(x$unit_count, 0L), character(1)),
+  `Enumerated Total` = vapply(bm_list, function (x) viscount_fmt_pop(x$total_enumerated_pop), character(1)),
+  `Primary Archive` = vapply(bm_list, function (x) {
+    s <- as.character(x$primary_source)
+    s <- gsub("\\s*\\([A-Z]{3}\\)$", "", s)
+    s
+  }, character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t2) <- NULL
+viscount_table(
+  df_t2,
+  "Twelve sub-administrative census and projection benchmark tables used to constrain post-colonial Admin-1 disaggregation.",
+  arg3_options = list(label = "tab:benchmarks")
+)
+```
+
+For Ethiopia, the 1982AD (30 provinces, 50,97M including Eritrea) and 1993AD (29 units, 51,83M excluding Eritrea) provincial tables reflect pre-1994 administrative projections before the 1994AD and 2007AD CSA censuses [@CSA2010EthiopiaCensus]. By contrast, the 2022AD woreda-level projection register (723 units, raw aggregate 311,10M) contains overlapping zonal, urban-district and special-woreda sub-totals in raw tabular scraping; pycnophylactic screening isolates non-overlapping Admin-1 mass to hold Ethiopia's 2020AD-2025AD trajectory strictly between `r viscount_fmt_pop(country_stat("ETH", "2020"))` and `r viscount_fmt_pop(country_stat("ETH", "2025"))`. Similarly, Somalia's 1961AD 8-province baseline (1,86M) and 2005AD/2019AD district mirrors anchor regional proportionality across Banadir, Lower Shebelle, Bay and Bari while preventing inflated urban-district overlaps [@Bank2022SomaliaUrban; @Hussein2024TheImpact].
+
+## Rank-Size Calibration and Urban Concentration
+
+Across all `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements, ordinary least-squares rank-size regression on the upper 180 urban peaks yields a Zipf exponent of $q = `r viscount_fmt_number(summary_cache$rank_size$zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$r2, 3L)`$), while full-sample regression across all 1.221 sites yields $q = `r viscount_fmt_number(summary_cache$rank_size$full_zipf_q, 2L)`$ ($R^2 = `r viscount_fmt_number(summary_cache$rank_size$full_r2, 2L)`$). When city-proper and overlapping agglomeration points are spatially deduplicated to 1.199 distinct peaks in Figure \ref{fig:rank-size}, the upper-tier slope sits at $q = 0,95$ ($R^2 = 1$). Unlike heavily polycentric pre-industrial landscapes, a post-colonial Zipf exponent near unity ($q \approx 1$) reflects strong national capital primacy paired with an extensive secondary tier of regional state capitals, Red Sea ports and agrarian market towns [@OECD2024Africapolis; @Abay2020CanUrbanization].
+
+```{r fig3-rank-size, results='asis'}
+viscount_figure(
+  "figures/fig_03_rank_size.png",
+  "Settlement rank-size distribution across 1.199 spatially deduplicated peaks (q = 0,95, R² = 1) and the ten densest Admin-1 divisions in 2025AD.",
+  "fig:rank-size",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+Panel B of Figure \ref{fig:rank-size} contrasts the ten densest Admin-1 divisions in 2025AD. Compact metropolitan and city-region territories sit at the top: Banadir in Somalia (`r viscount_fmt_number(sub_by_id[["som_banadir"]]$end_density_km2, 0L)` persons/km²) and Addis Ababa (`r viscount_fmt_number(sub_by_id[["eth_addis_ababa"]]$end_density_km2, 0L)` persons/km²), followed by an order-of-magnitude step down to densely farmed southern Ethiopian highlands and capital zones: Sidama (`r viscount_fmt_number(sub_by_id[["eth_sidama"]]$end_density_km2, 0L)` persons/km²), Harari (`r viscount_fmt_number(sub_by_id[["eth_harari"]]$end_density_km2, 0L)` persons/km²), Khartoum State (`r viscount_fmt_number(sub_by_id[["sdn_khartoum"]]$end_density_km2, 0L)` persons/km²), Djibouti City and Arta (`r viscount_fmt_number(sub_by_id[["dji_djibouti_arta"]]$end_density_km2, 0L)` persons/km²), Central Ethiopia (`r viscount_fmt_number(sub_by_id[["eth_central_ethiopia"]]$end_density_km2, 0L)` persons/km²), Dire Dawa (`r viscount_fmt_number(sub_by_id[["eth_dire_dawa"]]$end_density_km2, 0L)` persons/km²), Gezira (`r viscount_fmt_number(sub_by_id[["sdn_gezira"]]$end_density_km2, 0L)` persons/km²) and Tigray (`r viscount_fmt_number(sub_by_id[["eth_tigray"]]$end_density_km2, 0L)` persons/km²) [@Asresie2022AssociationMaternal; @Yadeta2020SpatialPattern].
+
+# Results
+
+## Regional Trajectory Across Seven Decades (1956AD to 2025AD)
+
+Between 1956AD and 2025AD, total population across the seven Horn and Sudan jurisdictions expanded nearly ninefold from `r viscount_fmt_pop(headline_vals[["1956"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])` (Table \ref{tab:trajectory} and Figure \ref{fig:trends}). Growth accelerated sharply after 1972AD as mortality declined ahead of sustained fertility decline [@Gurmu2014AgeFirst; @Alemu2026SpatialDistribution]. Aggregate regional totals crossed 50M around 1983AD (`r viscount_fmt_pop(headline_vals[["1983"]])`), surpassed 100M in the late 1990s (`r viscount_fmt_pop(summary_cache$headline_series[["1998"]])` at 1998AD), reached `r viscount_fmt_pop(headline_vals[["2009"]])` by 2009AD and passed `r viscount_fmt_pop(headline_vals[["2025"]])` in 2025AD. Across the same 69-year span, attested active urban settlements in the gazetteer rose from 54 in 1956AD to 154 in 1977AD, 456 in 1998AD and a peak of 1.180 in 2020AD before easing slightly to 1.095 in 2025AD as civil wars interrupted recent enumerations in Tigray and Khartoum (Figure \ref{fig:trends}, Panel B).
+
+```{r fig2-trends, results='asis'}
+viscount_figure(
+  "figures/fig_02_trends.png",
+  "Regional and attested urban population trajectories, active settlement counts and five leading urban agglomerations from 1956AD to 2025AD.",
+  "fig:trends",
+  arg3_options = list(max_height = "0.38\\textheight")
+)
+```
+
+```{r tab3-trajectory, results='asis'}
+df_t3 <- data.frame(
+  Jurisdiction = unname(country_labels[country_order]),
+  `1956AD` = vapply(country_order, function (p) viscount_fmt_pop(country_stat(p, "1956")), character(1)),
+  `1972AD` = vapply(country_order, function (p) viscount_fmt_pop(country_stat(p, "1972")), character(1)),
+  `1983AD` = vapply(country_order, function (p) viscount_fmt_pop(country_stat(p, "1983")), character(1)),
+  `1993AD` = vapply(country_order, function (p) viscount_fmt_pop(country_stat(p, "1993")), character(1)),
+  `2009AD` = vapply(country_order, function (p) viscount_fmt_pop(country_stat(p, "2009")), character(1)),
+  `2025AD` = vapply(country_order, function (p) viscount_fmt_pop(country_stat(p, "2025")), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+tot_t3 <- data.frame(
+  Jurisdiction = "Total Study Domain",
+  `1956AD` = viscount_fmt_pop(headline_vals[["1956"]]),
+  `1972AD` = viscount_fmt_pop(headline_vals[["1972"]]),
+  `1983AD` = viscount_fmt_pop(headline_vals[["1983"]]),
+  `1993AD` = viscount_fmt_pop(headline_vals[["1993"]]),
+  `2009AD` = viscount_fmt_pop(headline_vals[["2009"]]),
+  `2025AD` = viscount_fmt_pop(headline_vals[["2025"]]),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_t3 <- rbind(df_t3, tot_t3)
+rownames(df_t3) <- NULL
+viscount_table(
+  df_t3,
+  "Jurisdictional and total regional population across six benchmark years from 1956AD to 2025AD.",
+  arg3_options = list(label = "tab:trajectory")
+)
+```
+
+## Ethiopia and Eritrea: Highland Growth, Famine and Federal Fragmentation
+
+Ethiopia accounts for more than half of the region's total population throughout the post-colonial period, rising from `r viscount_fmt_pop(country_stat("ETH", "1956"))` in 1956AD (50,7% of the study area) to `r viscount_fmt_pop(country_stat("ETH", "1983"))` on the eve of the 1983-1985 famine, `r viscount_fmt_pop(country_stat("ETH", "1993"))` in 1993AD, `r viscount_fmt_pop(country_stat("ETH", "2009"))` in 2009AD and `r viscount_fmt_pop(country_stat("ETH", "2025"))` (`r viscount_fmt_number(country_stat("ETH", "2025") / country_stat("ETH"), 2L)` persons/km²) in 2025AD. Despite severe localised mortality during the 1972-1974 and 1983-1985 famines, high rural fertility in Oromia, Amhara and the southern highlands sustained rapid natural increase [@Desta2013FertilityAnd; @Desta2019RuralUrban; @Gurmu2014AgeFirst]. State-directed resettlement under the Derg shifted hundreds of thousands of farmers from Tigray and Amhara into western lowlands, lifting Benishangul-Gumuz from `r viscount_fmt_pop(sub_by_id[["eth_benishangul_gumuz"]]$population[["1972"]])` in 1972AD to `r viscount_fmt_pop(sub_by_id[["eth_benishangul_gumuz"]]$population[["1993"]])` by 1993AD and `r viscount_fmt_pop(sub_by_id[["eth_benishangul_gumuz"]]$population[["2025"]])` in 2025AD, while Gambela grew from `r viscount_fmt_pop(sub_by_id[["eth_gambela"]]$population[["1972"]])` to `r viscount_fmt_pop(sub_by_id[["eth_gambela"]]$population[["2025"]])` [@Mberu2006InternalMigration; @Tegegne2016DeterminantsRural].
+
+Under post-1991 ethnic federalism, urban growth radiated outward from Addis Ababa to regional capitals and transport corridors [@Abay2020CanUrbanization; @Mehari2017ChallengesAnd]. The Addis Ababa metropolitan agglomeration climbed from 541,7k in 1960AD to 1,80M in 1990AD, 2,99M in 2010AD and `r viscount_fmt_pop(4889613)` by 2025AD (city proper reaching 3,86M in 2022AD), encroaching steadily into surrounding Oromia farming municipalities such as Burayu and Sebeta [@Ayenachew2024NavigatingUrbanization; @Shahir2026ElectricityTariff]. Across Oromia (`r viscount_fmt_pop(sub_by_id[["eth_oromia"]]$population[["2025"]])` in 2025AD) and Amhara (`r viscount_fmt_pop(sub_by_id[["eth_amhara"]]$population[["2025"]])`), industrialising centres led by Adama (609,4k), Bahir Dar (564,5k), Gondar, Dessie, Jimma and Shashemene expanded rapidly alongside the autonomous eastern rail hub of Dire Dawa [@Mehari2017ChallengesAnd; @CSA2010EthiopiaCensus]. In the southern highlands, high rural densities triggered administrative fragmentation into Sidama (`r viscount_fmt_pop(sub_by_id[["eth_sidama"]]$population[["2025"]])` at `r viscount_fmt_number(sub_by_id[["eth_sidama"]]$end_density_km2, 0L)` persons/km²), South Ethiopia (`r viscount_fmt_pop(sub_by_id[["eth_south_ethiopia"]]$population[["2025"]])`), Central Ethiopia (`r viscount_fmt_pop(sub_by_id[["eth_central_ethiopia"]]$population[["2025"]])`) and South West Ethiopia (`r viscount_fmt_pop(sub_by_id[["eth_south_west_ethiopia"]]$population[["2025"]])`), where contiguous enset-belt urbanisation around Wolayta Sodo and Hawassa registers multi-million morphological corridors in Africapolis alongside municipal cores of 204,1k and 422,2k in 2022AD [@OECD2024Africapolis]. Farther north, Tigray reached `r viscount_fmt_pop(sub_by_id[["eth_tigray"]]$population[["2025"]])` in 2025AD despite severe wartime displacement, disrupted remittances and food insecurity between 2020AD and 2022AD [@Abadi2018TheImpact; @Alemu2026SpatialDistribution].
+
+Eritrea followed an opposite post-1993 curve. Rising from `r viscount_fmt_pop(country_stat("ERI", "1956"))` in 1956AD to `r viscount_fmt_pop(country_stat("ERI", "1993"))` at independence in 1993AD and peaking around `r viscount_fmt_pop(country_stat("ERI", "2014"))` in 2014AD, Eritrea's resident population subsequently contracted to `r viscount_fmt_pop(country_stat("ERI", "2025"))` (`r viscount_fmt_number(country_stat("ERI", "2025") / country_stat("ERI"), 2L)` persons/km²) in 2025AD as sustained youth emigration and falling fertility hollowed out cohorts in Maekel (Asmara, 896k city estimate in 2018AD and 542,7k agglomeration in 2025AD), Debub, Anseba (Keren, 88,5k) and Northern Red Sea (Massawa) [@Woldemicael2008RecentFertility; @Bank2015EasternAfrica].
+
+## Sudan and South Sudan: Tri-City Primacy, Secession and Conflict Displacement
+
+Sudan expanded almost sevenfold from `r viscount_fmt_pop(country_stat("SDN", "1956"))` in 1956AD to `r viscount_fmt_pop(country_stat("SDN", "1983"))` in 1983AD, `r viscount_fmt_pop(country_stat("SDN", "1993"))` in 1993AD, `r viscount_fmt_pop(country_stat("SDN", "2009"))` following the 2008AD fifth census and `r viscount_fmt_pop(country_stat("SDN", "2025"))` (`r viscount_fmt_number(country_stat("SDN", "2025") / country_stat("SDN"), 2L)` persons/km²) by 2025AD [@CBS2009SudanCensus]. Growth concentrated heavily along the Nile confluence and the central agricultural belt. The Khartoum-Omdurman-Khartoum Bahri tri-city grew from 342,7k in 1960AD to 2,17M in 1990AD, 4,27M in the 2008AD census (comprising 1,85M in Omdurman, 1,41M in Khartoum and 1,01M in Khartoum Bahri) and `r viscount_fmt_pop(9621739)` across the Greater Khartoum agglomeration by 2025AD, making Khartoum State (`r viscount_fmt_pop(sub_by_id[["sdn_khartoum"]]$population[["2025"]])`) the densest unit in Sudan [@CBS2009SudanCensus; @OECD2024Africapolis]. Adjacent irrigated Gezira reached `r viscount_fmt_pop(sub_by_id[["sdn_gezira"]]$population[["2025"]])` (`r viscount_fmt_number(sub_by_id[["sdn_gezira"]]$end_density_km2, 0L)` persons/km²), anchored by Wad Madani.
+
+Elsewhere in Sudan, conflict repeatedly reshaped provincial demography [@Omer2014TheEffects; @SuarezTrujill2023HlaAlleles]. In Darfur, armed conflict after 2003AD uprooted rural farming communities into peri-urban camp complexes across South Darfur (`r viscount_fmt_pop(sub_by_id[["sdn_south_darfur"]]$population[["2025"]])`, led by Nyala at 685,3k), North Darfur (`r viscount_fmt_pop(sub_by_id[["sdn_north_darfur"]]$population[["2025"]])`, El Fasher) and East, West and Central Darfur, while pushing refugees into eastern Chad camps such as Bredjing (56,7k) and Farchana (52,7k) [@Bank2015EasternAfrica]. After fighting broke out between the Sudanese Armed Forces and the Rapid Support Forces in April 2023, massive internal displacement surged northeastward out of Khartoum into Gedaref (`r viscount_fmt_pop(sub_by_id[["sdn_gedaref"]]$population[["2025"]])`, Al-Qadarif 582,3k), Kassala (`r viscount_fmt_pop(sub_by_id[["sdn_kassala"]]$population[["2025"]])`, 574,2k), River Nile (`r viscount_fmt_pop(sub_by_id[["sdn_river_nile"]]$population[["2025"]])`) and Port Sudan on the Red Sea coast.
+
+South Sudan experienced prolonged demographic depression during the First Civil War (1955-1972AD), remaining nearly flat between `r viscount_fmt_pop(country_stat("SSD", "1956"))` in 1956AD and `r viscount_fmt_pop(country_stat("SSD", "1972"))` in 1972AD before recovering to `r viscount_fmt_pop(country_stat("SSD", "1993"))` in 1993AD, `r viscount_fmt_pop(country_stat("SSD", "2009"))` following the 2008AD census and `r viscount_fmt_pop(country_stat("SSD", "2025"))` (`r viscount_fmt_number(country_stat("SSD", "2025") / country_stat("SSD"), 2L)` persons/km²) in 2025AD [@CBS2009SudanCensus]. Independence in July 2011 sparked rapid capital concentration in Juba (`r viscount_fmt_pop(1220440)` agglomeration in 2025AD, up from 43k in 1970AD and 230,2k city proper in 2008AD), alongside regional towns at Rumbek (644,2k), Yambio (364,3k), Wau (213,6k) and Aweil (172,9k). Yet the December 2013 civil war devastated Upper Nile (`r viscount_fmt_pop(sub_by_id[["ssd_upper_nile"]]$population[["2025"]])`), Jonglei (`r viscount_fmt_pop(sub_by_id[["ssd_jonglei"]]$population[["2025"]])`) and Unity, crowding displaced households into Bentiu IDP camp [@Tesfay2024LotQuality] and cross-border Ugandan settlements such as Yumbe (333,3k) and Koboko (118,9k) [@Bank2015EasternAfrica].
+
+## Somalia, Somaliland and Djibouti: Pastoral Mobility, IDP Urbanisation and Port Primacy
+
+Across Somalia and Somaliland, semi-arid pastoral lowlands underwent an unprecedented urban shift after 1972AD [@Bank2022SomaliaUrban; @Hussein2024TheImpact]. In the 13 regions of the Federal Republic of Somalia, population rose from `r viscount_fmt_pop(country_stat("SOM", "1956"))` in 1956AD to `r viscount_fmt_pop(country_stat("SOM", "1972"))` in 1972AD, `r viscount_fmt_pop(country_stat("SOM", "1993"))` following the 1991 state collapse, `r viscount_fmt_pop(country_stat("SOM", "2009"))` in 2009AD and `r viscount_fmt_pop(country_stat("SOM", "2025"))` (`r viscount_fmt_number(country_stat("SOM", "2025") / country_stat("SOM"), 2L)` persons/km²) in 2025AD, calibrated against the 1975AD and 1986AD censuses and the 2014AD UNFPA PESS. Prolonged conflict and recurrent droughts (2011AD, 2017AD and 2022AD) uprooted pastoral and riverine agro-pastoral households into urban IDP settlements: Mogadishu's agglomeration grew from 111,8k in 1960AD to 1,65M city proper in 2014AD and `r viscount_fmt_pop(2054983)` by 2025AD, packing Banadir to `r viscount_fmt_number(sub_by_id[["som_banadir"]]$end_density_km2, 0L)` persons/km², while Marka (499k), Kismayo (358k), Baidoa (347,4k), Gaalkacyo (183,3k), Beledweyne (176,8k), Garoowe (138k) and Bosaso absorbed hundreds of thousands of displaced residents [@Bank2022SomaliaUrban; @Hussein2024TheImpact].
+
+In the five northern regions of de facto Somaliland, relative civic stability after 1991AD fostered steady commercial urbanisation centred on the Hargeisa-Berbera trade corridor [@Bank2022SomaliaUrban]. Population recovered from a war-depressed `r viscount_fmt_pop(country_stat("SOL", "1993"))` in 1993AD (after the 1988AD bombing of Hargeisa) to `r viscount_fmt_pop(country_stat("SOL", "2009"))` in 2009AD and `r viscount_fmt_pop(country_stat("SOL", "2025"))` (`r viscount_fmt_number(country_stat("SOL", "2025") / country_stat("SOL"), 2L)` persons/km²) in 2025AD, led by Hargeisa (`r viscount_fmt_pop(1360983)` agglomeration; 741k city proper in 2014AD), Berbera (374k), Burao (235k) and Borama (163,6k). Finally, Djibouti grew almost fiftyfold from `r viscount_fmt_pop(country_stat("DJI", "1956"))` in 1956AD to `r viscount_fmt_pop(country_stat("DJI", "1993"))` in 1993AD and `r viscount_fmt_pop(country_stat("DJI", "2025"))` (`r viscount_fmt_number(country_stat("DJI", "2025") / country_stat("DJI"), 2L)` persons/km²) in 2025AD, exhibiting extreme port-state primacy as Djibouti City reached 767,3k in the 2024AD INSTAD census (614,8k continuous agglomeration) while Ali-Sabieh (55,5k), Dikhil (40,3k), Obock (30k) and Tadjourah (26,6k) remained modest regional outposts [@OECD2024Africapolis].
+
+```{r tab4-top-centres, results='asis'}
+top_15 <- summary_cache$top_settlements[seq_len(min(15L, length(summary_cache$top_settlements)))]
+df_t4 <- data.frame(
+  Settlement = vapply(top_15, function (s) as.character(s$name), character(1)),
+  Country = vapply(top_15, function (s) as.character(s$country), character(1)),
+  Scope = vapply(top_15, function (s) {
+    if (identical(s$population_scope, "metro")) "Metro" else "City-Proper"
+  }, character(1)),
+  Span = vapply(top_15, function (s) {
+    if (s$min_year == s$max_year) paste0(s$min_year, "AD") else paste0(s$min_year, "-", s$max_year, "AD")
+  }, character(1)),
+  `Peak Pop.` = vapply(top_15, function (s) viscount_fmt_pop(s$peak_pop), character(1)),
+  `Peak Date` = vapply(top_15, function (s) paste0(s$peak_year, "AD"), character(1)),
+  Obs = vapply(top_15, function (s) viscount_fmt_number(s$observation_count, 0L), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t4) <- NULL
+viscount_table(
+  df_t4,
+  "Fifteen largest individually assessed urban centres and metropolitan agglomerations in Sudan, Ethiopia and the Horn (1950AD to 2025AD).",
+  arg3_options = list(label = "tab:top-centres")
+)
+```
+
+# Limitations
+
+Four structural constraints bound these demographic series. First, official census coverage across the Horn suffers from multi-decade hiatuses: Eritrea has conducted no national census since 1984AD, Somalia none since 1986AD (relying on the 2014AD UNFPA PESS), Ethiopia none since 2007AD and Sudan and South Sudan none since 2008AD [@CSA2010EthiopiaCensus; @CBS2009SudanCensus; @Woldemicael2008RecentFertility]. Intercensal and post-2008 figures therefore carry higher uncertainty (roughly 10% to 25% at the Admin-1 scale, and wider in pastoral lowlands of Somali Region, Afar, Jonglei and Somalia) than mid-twentieth-century census years [@Bank2022SomaliaUrban; @Alemu2026SpatialDistribution].
+
+Second, morphological urban footprints from Africapolis diverge sharply from municipal city-proper boundaries in dense rural-urban agricultural corridors [@OECD2024Africapolis; @Ayenachew2024NavigatingUrbanization]. In southern Ethiopia's enset belt, contiguous built-up homestead polygons merge towns and dense peri-urban farms around Wolayta Sodo (204,1k municipal estimate in 2022AD vs 3,70M morphological corridor in 2025AD) and Hawassa (422,2k municipal vs 3,18M corridor), as well as around Harar (*Harare*, 1,01M), creating step transitions between municipal census years and satellite agglomeration years visible in Figure \ref{fig:trends} (Panel C).
+
+Third, rapid wartime displacement after November 2020 in northern Ethiopia and April 2023 in Sudan outpaces five-year benchmark intervals [@Abadi2018TheImpact; @Tesfay2024LotQuality]. While the 2025AD series incorporates documented movements out of Khartoum into Gezira, Gedaref, River Nile and Red Sea alongside Tigray and Bentiu disruptions, active conflict renders contemporary sub-national totals provisional until new enumerations occur.
+
+Fourth, 60 of the 1.221 ledger settlements lie in peripheral cross-border zones of Uganda (24), Chad (14), Kenya (11), Democratic Republic of the Congo (9) and Central African Republic (2), reflecting refugee camp clusters (such as Bredjing, Farchana and Yumbe) and shared Somali-Oromo-Nilotic border towns (such as Mandera and Moyale) [@Bank2015EasternAfrica]. These frontier settlements anchor boundary continuity without inflating the seven core national Admin-1 totals.
+
+# Conclusion
+
+Between 1956AD and 2025AD, post-colonial Sudan, Ethiopia and the Horn expanded nearly ninefold from `r viscount_fmt_pop(headline_vals[["1956"]])` to `r viscount_fmt_pop(headline_vals[["2025"]])` inhabitants across `r viscount_fmt_number(total_area_km2, 0L)` km². Rather than a smooth national transition, demographic growth unfolded through stark sub-regional contrasts: sustained highland peasant multiplication and regional-capital growth in Ethiopia despite devastating famines and recent civil war; post-2014 contraction in Eritrea under military conscription and emigration; tri-city metropolitan primacy in Khartoum colliding with Darfur and 2023AD civil war displacement; delayed post-war recovery and post-2011 urbanisation in South Sudan; drought-and-conflict IDP concentration across Somali cities; and near-total city-state primacy in Djibouti. Integrating `r viscount_fmt_number(n_total_sites, 0L)` assessed settlements, 12 sub-administrative benchmark tables and 71 first-level administrative divisions, NICETHI provides a continuous quantitative synthesis of modern Horn and Nile population geography.
+
+# Appendix
+
+## Sub-Regional Population Series Across 71 First-Level Divisions
+
+Table \ref{tab:appendix-pop} reports the full population series across all 71 Admin-1 divisions in Sudan, Ethiopia, South Sudan, Somalia, Somaliland, Eritrea and Djibouti at six post-colonial benchmarks from 1956AD to 2025AD. Table \ref{tab:appendix-density} documents surface area, 2025AD population density (persons per km²) and interior assessed settlement counts per division.
+
+```{r tab5-appendix-pop, results='asis'}
+pop_rows <- lapply(subregs, function (sr) {
+  ps <- sr$population
+  data.frame(
+    `Admin-1 Division` = clean_sub_name(sr$name),
+    `1956AD` = viscount_fmt_pop(ps[["1956"]]),
+    `1972AD` = viscount_fmt_pop(ps[["1972"]]),
+    `1983AD` = viscount_fmt_pop(ps[["1983"]]),
+    `1993AD` = viscount_fmt_pop(ps[["1993"]]),
+    `2009AD` = viscount_fmt_pop(ps[["2009"]]),
+    `2025AD` = viscount_fmt_pop(ps[["2025"]]),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t5 <- do.call(rbind, pop_rows)
+rownames(df_t5) <- NULL
+viscount_table(
+  df_t5,
+  "Population trajectories across all 71 Admin-1 divisions in Sudan, Ethiopia and the Horn from 1956AD to 2025AD.",
+  arg3_options = list(label = "tab:appendix-pop")
+)
+```
+
+```{r tab6-appendix-density, results='asis'}
+dens_rows <- lapply(subregs, function (sr) {
+  d_info <- dist_by_id[[sr$id]]
+  s_cnt <- if (is.null(d_info)) 0L else as.integer(d_info$settlement_count)
+  o_cnt <- if (is.null(d_info)) 0L else as.integer(d_info$observation_count)
+  data.frame(
+    `Admin-1 Division` = clean_sub_name(sr$name),
+    `Area (km²)` = viscount_fmt_number(sr$area_km2, 0L),
+    Pixels = viscount_fmt_number(sr$pixel_count, 0L),
+    `1956AD Dens.` = viscount_fmt_number(as.numeric(sr$start_pop) / as.numeric(sr$area_km2), 2L),
+    `2025AD Dens.` = viscount_fmt_number(sr$end_density_km2, 2L),
+    Sites = viscount_fmt_number(s_cnt, 0L),
+    Obs = viscount_fmt_number(o_cnt, 0L),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+df_t6 <- do.call(rbind, dens_rows)
+rownames(df_t6) <- NULL
+viscount_table(
+  df_t6,
+  "Surface area, pixel count, start- and end-epoch density (persons per km²) and interior assessed settlements across all 71 Admin-1 divisions.",
+  arg3_options = list(label = "tab:appendix-density")
+)
+```
+
+## Historical 1960 Lineage Units
+
+Table \ref{tab:hgis-units} lists the 24 historical 1960 provincial lineage units across Sudan, Ethiopia and Somalia used to bridge colonial-era territorial masks into contemporary Admin-1 boundaries [@Runfola2020GeoBoundaries].
+
+```{r tab7-hgis-units, results='asis'}
+hgis_list <- summary_cache$hgis_regime_units
+df_t7 <- data.frame(
+  `Unit Code` = vapply(hgis_list, function (x) as.character(x$unit_code), character(1)),
+  Country = vapply(hgis_list, function (x) as.character(country_labels[[x$country]]), character(1)),
+  `Historical Lineage Unit` = vapply(hgis_list, function (x) as.character(x$unit_name), character(1)),
+  `Area (km²)` = vapply(hgis_list, function (x) viscount_fmt_number(x$area_km2, 0L), character(1)),
+  Source = vapply(hgis_list, function (x) as.character(x$source), character(1)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+rownames(df_t7) <- NULL
+viscount_table(
+  df_t7,
+  "Historical 1960 administrative lineage units used for cross-epoch boundary reconciliation in Sudan, Ethiopia and Somalia.",
+  arg3_options = list(label = "tab:hgis-units")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+# Footnotes
+
+All regional totals in Tables \ref{tab:trajectory} and \ref{tab:appendix-pop} represent full resident populations (urban plus rural) aggregated from 5-arcminute disaggregation surfaces constrained by Admin-1 and sub-administrative census tables. Where municipal city-proper records and OECD/SWAC Africapolis metropolitan agglomerations share coordinates (for example Addis Ababa, Khartoum, Mogadishu, Hargeisa, Juba, Asmara and Djibouti), Table \ref{tab:top-centres} labels their spatial scopes separately while Figure \ref{fig:rank-size} deduplicates overlapping peaks to 1.199 unique points. Of the 1.221 total settlements in the chapter ledger, 1.161 belong to the seven core study jurisdictions and 60 sit across immediate border refugee and frontier corridors in Uganda, Chad, Kenya, Democratic Republic of the Congo and Central African Republic.

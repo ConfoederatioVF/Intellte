@@ -1,0 +1,348 @@
+---
+title: "British and French Mandates in the Levant, Iraq and Cyprus"
+subtitle: "Settlement Gazetteer across the Levant, Iraq and Cyprus, 1918AD to 1960AD"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: mandates_levant_iraq_cyprus_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_mandates_levant_iraq_cyprus_spatial.png"
+hero_caption: "Six British and French Mandate and colonial jurisdictions across Iraq, Syria, Greater Lebanon, Transjordan, Palestine and Cyprus between 1918AD and 1960AD, showing 10.343 individually assessed Mandate-era towns, administrative centres and villages."
+hero_label: "fig:hero-mandates-levant-iraq-cyprus"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("mandates_levant_iraq_cyprus_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("mandates_levant_iraq_cyprus_settlements.json", simplifyVector = FALSE)
+sett_list <- unname(settlements_raw)
+
+fmt_pop_dash <- function (val) {
+  if (is.null(val) || length(val) == 0 || is.na(val)) return("-")
+  v <- suppressWarnings(as.numeric(val))
+  if (is.na(v) || v <= 0) return("-")
+  viscount_fmt_pop(v)
+}
+
+get_sett_window_pop <- function (entry, yr_min, yr_max, target_yr) {
+  p <- entry$population
+  if (is.null(p) || length(p) == 0) return(NA_real_)
+  yrs <- suppressWarnings(as.integer(names(p)))
+  keep <- which(!is.na(yrs) & yrs >= yr_min & yrs <= yr_max)
+  if (length(keep) == 0) return(NA_real_)
+  yrs_k <- yrs[keep]
+  best <- keep[order(abs(yrs_k - target_yr), yrs_k)[1L]]
+  v <- suppressWarnings(as.numeric(p[[best]]))
+  if (is.na(v) || v <= 0) NA_real_ else v
+}
+
+sum_window_pop <- function (entries, yr_min, yr_max, target_yr) {
+  vals <- vapply(entries, function (e) {
+    v <- get_sett_window_pop(e, yr_min, yr_max, target_yr)
+    if (is.na(v)) 0 else v
+  }, numeric(1))
+  sum(vals)
+}
+
+sum_peak_pop <- function (entries) {
+  vals <- vapply(entries, function (e) {
+    v <- unlist(e$population)
+    if (length(v) == 0) return(0)
+    max(as.numeric(v))
+  }, numeric(1))
+  sum(vals)
+}
+
+fmt_eu_coord <- function (val) {
+  v <- suppressWarnings(as.numeric(val))
+  if (is.na(v)) return("-")
+  viscount_fmt_number(v, 2L)
+}
+
+filter_country <- function (entries, ct) {
+  Filter(function (e) {
+    if (identical(ct, "Cyprus")) e$country %in% c("Cyprus", "Northern Cyprus")
+    else identical(e$country, ct)
+  }, entries)
+}
+
+n_ctry <- function (ct) length(filter_country(sett_list, ct))
+
+build_country_df <- function (country_name, col_specs) {
+  sub <- filter_country(sett_list, country_name)
+  peaks <- vapply(sub, function (e) {
+    vals <- unlist(e$population)
+    if (length(vals) == 0) return(0)
+    max(as.numeric(vals))
+  }, numeric(1))
+  sub <- sub[order(-peaks)]
+  df <- do.call(rbind, lapply(sub, function (e) {
+    coords_str <- paste0(fmt_eu_coord(e$coords[[1]]), ", ", fmt_eu_coord(e$coords[[2]]))
+    row_list <- list(
+      Settlement = e$name,
+      Coordinates = coords_str
+    )
+    for (nm in names(col_specs)) {
+      sp <- col_specs[[nm]]
+      val <- get_sett_window_pop(e, sp[1L], sp[2L], sp[3L])
+      row_list[[nm]] <- fmt_pop_dash(val)
+    }
+    as.data.frame(row_list, check.names = FALSE, stringsAsFactors = FALSE)
+  }))
+  rownames(df) <- NULL
+  df
+}
+```
+
+# Abstract
+
+This gazetteer compiles longitudinal population series for 10.343 individually assessed Mandate-era towns, administrative centres, planned settlements and villages across the British and French Mandates of Mesopotamia, Syria, Greater Lebanon, Transjordan and Palestine together with British Cyprus from 1918AD to 1960AD. Drawing directly on official Mandate and successor-state enumerations — Palestine's 1922AD and 1931AD censuses and 1945AD Village Statistics (supplemented by CBS Israel 1948–1960AD locality returns), Lebanon's 1932AD census and caza registries, Syria's French Mandate counts and 1960AD census, Iraq's 1920AD administrative estimate and 1947AD and 1957AD censuses, Transjordan's colonial reports and Jordan's 1952AD and 1961AD censuses, and British Cyprus's 1881–1931AD, 1946AD and 1960AD colonial censuses — the ledger traces aggregate catalogued population from `r fmt_pop_dash(sum_window_pop(sett_list, 1918L, 1922L, 1921L))` inhabitants across 1918–1922AD to `r fmt_pop_dash(sum_window_pop(sett_list, 1930L, 1936L, 1932L))` at mid-Mandate (1930–1936AD) and `r fmt_pop_dash(sum_window_pop(sett_list, 1945L, 1947L, 1946L))` across 1945–1947AD, with documented 1957–1960AD enumerations reaching `r fmt_pop_dash(sum_window_pop(sett_list, 1957L, 1960L, 1960L))` and the full 10.343-site gazetteer totalling `r fmt_pop_dash(sum_peak_pop(sett_list))` in combined peak population. A further 250 redundant, suburban or co-located variant candidates out of 10.593 evaluated ledger entries are excluded from the ledger, newly established twentieth-century settlements are truncated at their documented foundation dates and all entries conform to a steep rank-size hierarchy ($\alpha = 1{,}747$, $R^2 = 0{,}945$) led by Baghdad, Damascus, Beirut, Aleppo and Amman.
+
+# Background
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_mandates_levant_iraq_cyprus_spatial.png",
+    "Six British and French Mandate and colonial jurisdictions across Iraq, Syria, Greater Lebanon, Transjordan, Palestine and Cyprus between 1918AD and 1960AD, showing 10.343 individually assessed Mandate-era towns, administrative centres and villages.",
+    "fig:hero-mandates-levant-iraq-cyprus",
+    list(max_height = "0.42\\textheight")
+  )
+}
+```
+
+Urban life across the eastern Mediterranean and Mesopotamia entered the Mandate era deeply scarred by First World War requisitioning, blockade famine and epidemic disease [@Saber2023French; @Greenshields2025Settlment]. Between 1918AD and 1960AD, however, imperial rail and motor-road construction, deep-water port works at Beirut, Haifa, Basra and Limassol, oil pipelines from Kirkuk to the Mediterranean and growing bureaucratic apparatuses turned provincial administrative seats into rapidly expanding cities [@Bosworth2007Historic; @Kastrissianakis2016Exploring]. Coastal plain centres in Mandate Palestine and Greater Lebanon absorbed maritime trade, Zionist immigration and Cilician Armenian refugees, while inland railheads such as Amman, Zarqa, Qamishli and Kirkuk grew from modest garrison stops or oil camps into major provincial hubs [@Beenstock2025Origins; @Chukov2022Kurdish; @Galletti2007Some]. After 1948AD, the partition of Palestine and the Nakba refugee exodus further reshaped urban scales across Gaza, the West Bank, Jordan and Lebanon [@Koylu2025Israel; @Muhsen2017Urban; @Dionigi2017Statehood].
+
+# Methodology
+
+The 10.343 individually assessed Mandate-era entries were compiled directly from official Mandate and successor-state censuses — Iraq's 1920AD Civil Administration estimates and 1947AD and 1957AD censuses, Syria's French Mandate civil registries and 1960AD census, Lebanon's 1932AD census and caza registries, British Mandate Palestine's 1922AD and 1931AD censuses and 1945AD Village Statistics (supplemented by CBS Israel 1948–1960AD locality returns), Transjordan's colonial reports and Jordan's 1952AD and 1961AD censuses, and British Cyprus's 1881–1931AD, 1946AD and 1960AD colonial censuses — supplemented by historical settlement monographs [@Marom2021Jind; @Marom2024Lajjun; @Scott2001Mortality]. Out of 10.593 evaluated ledger entries, 250 redundant, suburban or co-located variant candidates were excluded from the regional ledger to avoid spatial double-counting on the urban mask, and zero entries derive from mechanical back-projections or crowd-sourced fallbacks.
+
+Each jurisdiction's entries preserve their authentic documented census spans: 1920–1957AD in Iraq, 1922–1960AD in Syria, 1920–1960AD in Lebanon, 1918–1960AD in Transjordan and Jordan, 1921–1960AD in British Cyprus, 1922–1945AD (through 1948AD for Jerusalem and selected Mandate centres) across Mandatory Palestine Village Statistics and 1948–1960AD in CBS Israel locality returns. Settlements founded in the twentieth century carry explicit foundation-year bounds—including Zarqa (1902AD) in Transjordan, Tel Aviv (1909AD), Ramat Gan (1921AD), Bnei Brak (1924AD), Herzliya (1924AD), Afula (1925AD), Bat Yam (1926AD), Netanya (1929AD), Holon (1935AD), Yehud (1948AD), Yavne (1949AD) and Beit Shemesh (1950AD) in the Palestine-Israel frame, and Qamishli (1926AD) in the Syrian Jazira [@Beenstock2025Origins; @Remer2025Degania]. Prior to those dates, tables display a hyphen (-) rather than synthetic back-projections. Toponyms follow scholarly Latin romanisation (ALA-LC and BGN/PCGN) across Arabic, Hebrew, Kurdish, Armenian, Turkish and Greek place-names.
+
+# Testing and Validation
+
+Each country's individually assessed settlement sum was reconciled against historical subadministrative census totals from 1918–1960AD and linked into the 169 geoBoundaries modern polygons [@Runfola2020GeoBoundaries] used for pycnophylactic mass-conserving disaggregation across the five-arcminute regional grid. Across the full sample of $n = 10.343$ settlements at peak population, log-log rank-size regression produces a Zipf exponent $\alpha = 1{,}747$ with $R^2 = 0{,}945$ (Figure \ref{fig:settlements-ranksize}), reflecting pronounced primate dominance by Baghdad (793,2k in 1957AD), Damascus (530k in 1960AD), Beirut (450k in 1960AD), Aleppo (425,5k in 1960AD) and Amman (218k in 1960AD) alongside a dense lower tail of Palestinian and Cypriot villages.
+
+```{r fig4-ranksize, results='asis'}
+viscount_figure(
+  "figures/fig4_mandates_levant_iraq_cyprus_settlements.png",
+  "Rank-size distribution across 10.343 individually assessed Mandate-era settlements and peak populations of the twelve largest urban centres from 1918AD to 1960AD.",
+  "fig:settlements-ranksize",
+  list(max_height = "0.42\\textheight")
+)
+```
+
+# Results
+
+## Mesopotamia and Iraq
+
+Iraq accounts for `r n_ctry("Iraq")` individually assessed towns whose combined population rose from `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Iraq"), 1918L, 1922L, 1920L))` in 1920AD to `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Iraq"), 1930L, 1936L, 1935L))` in 1935AD, `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Iraq"), 1945L, 1947L, 1947L))` at the 1947AD census and `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Iraq"), 1957L, 1960L, 1957L))` at the 1957AD census (Table \ref{tab:sett-iraq}). Baghdad nearly quadrupled from 202k in 1920AD to 340k in 1935AD, 515,5k in 1947AD and 793,2k in 1957AD as central ministries, railway workshops and rural migrants from the southern marshes converged on the Tigris bend [@Bosworth2007Historic]. Northern provincial seats Mosul (72k to 178,2k), Kirkuk (28k to 120,4k following the 1927AD Baba Gurgur oil discovery), Sulaymaniyah (18,5k to 48,8k) and Erbil (15,5k to 39,9k) expanded alongside oil-field and rail infrastructure, while Basra (54k to 164,9k) and the Euphrates and Tigris shrine and market centres Najaf (36k to 88,8k), Karbala (31k to 60,8k), Hillah (21,5k to 54k), Amara (22k to 53,3k) and Nasiriyah (13,5k to 39,1k) anchored southern riverine settlement.
+
+```{r tab-sett-iraq, results='asis'}
+df_irq <- build_country_df("Iraq", list(
+  `1920AD` = c(1920L, 1920L, 1920L),
+  `1935AD` = c(1935L, 1935L, 1935L),
+  `1947AD` = c(1947L, 1947L, 1947L),
+  `1957AD` = c(1957L, 1957L, 1957L)
+))
+viscount_table(
+  df_irq,
+  paste0("Individually assessed settlements in Iraq (", nrow(df_irq), " sites) across Mandate and Kingdom of Iraq census benchmarks, 1920AD to 1957AD."),
+  arg3_options = list(label = "tab:sett-iraq", font_size = "scriptsize")
+)
+```
+
+## Syria and the Euphrates-Jazira Corridor
+
+Syria contributes 3.126 individually assessed towns and villages—anchored by 23 core urban municipalities that grew from 542,4k in 1922AD (22 pre-1926AD settlements) to 815,6k at mid-Mandate (1931–1936AD), 1,07M in 1946AD and 1,61M at the 1960AD Syrian census (Table \ref{tab:sett-syria}). Damascus (170k in 1922AD to 291,2k in 1946AD and 530k in 1960AD) and Aleppo (156,7k to 324,9k and 425,5k) retained commanding bi-polar primacy even after the 1939AD transfer of the Sanjak of Alexandretta to Turkey displaced Armenian and Arab townspeople into Aleppo and the coast [@USTUN2016Example; @Hovhannisyan2025Catholicos; @Abdulla2022]. Central, coastal and Euphrates nodes Homs (52k to 137,2k), Hama (36k to 97,4k), Latakia (21k to 67,6k) and Deir ez-Zor (18k to 59,5k) expanded steadily [@Goldsmith2012Politics], while newly founded Qamishli (1926AD; 3,5k in 1928AD to 14,5k in 1938AD, 23k in 1946AD and 34,4k in 1960AD) and Al-Hasakah (2,4k to 18,9k) anchored rapid agricultural settlement across the Jazira [@Chukov2022Kurdish; @Tillo2022Lights; @Galletti2007Some; @Pashayan2026Minority].
+
+```{r tab-sett-syria, results='asis'}
+df_syr <- build_country_df("Syria", list(
+  `1922AD` = c(1922L, 1922L, 1922L),
+  `1936-1938AD` = c(1936L, 1938L, 1936L),
+  `1946AD` = c(1946L, 1946L, 1946L),
+  `1960AD` = c(1960L, 1960L, 1960L)
+))
+viscount_table(
+  df_syr,
+  "Individually assessed settlements in Syria (3.126 sites) across Mandate and Syrian census benchmarks, 1922AD to 1960AD.",
+  arg3_options = list(label = "tab:sett-syria", font_size = "scriptsize")
+)
+```
+
+## Greater Lebanon
+
+Lebanon comprises 475 individually assessed coastal ports, highland resorts, caza seats and villages—anchored by 15 core urban centres whose combined total increased from 228,8k in 1920AD to 310,8k at the 1932AD census, 464,4k in 1946AD and 769k in 1960AD (Table \ref{tab:sett-lebanon}). Beirut nearly quadrupled from 115k in 1920AD to 161k in 1932AD, 240k in 1946AD and 450k in 1960AD, absorbing maritime transit from Syria, Armenian refugees from Anatolia and Palestinian refugees after 1948AD, flanked by Tripoli (38k to 115k), Sidon (14k to 42k), Zahle (16k to 38k), Jounieh (4,8k to 18,4k), Tyre (6,2k to 16,5k) and Baalbek (5,4k to 15,2k) [@Kastrissianakis2016Exploring; @Greenshields2025Settlment; @Dionigi2017Statehood; @Orall2023Lebanese].
+
+```{r tab-sett-lebanon, results='asis'}
+df_lbn <- build_country_df("Lebanon", list(
+  `1920AD` = c(1920L, 1920L, 1920L),
+  `1932AD` = c(1932L, 1932L, 1932L),
+  `1946AD` = c(1946L, 1946L, 1946L),
+  `1960AD` = c(1960L, 1960L, 1960L)
+))
+viscount_table(
+  df_lbn,
+  "Individually assessed towns, caza seats and villages in Greater Lebanon (475 sites), 1920AD to 1960AD.",
+  arg3_options = list(label = "tab:sett-lebanon", font_size = "scriptsize")
+)
+```
+
+## Transjordan
+
+Transjordan comprises 607 individually assessed towns and villages—anchored by 14 core urban centres expanding nearly nine-fold from 50,1k across 1918–1922AD to 69,9k in 1930–1935AD, 107,8k in 1945AD, 231,2k at the 1952AD housing census and 438,6k in 1960AD (Table \ref{tab:sett-jordan}). Amman jumped from a Circassian Hejaz Railway village of 3,5k in 1918AD to 10,5k in 1930AD and 30k in 1945AD before post-1948AD Palestinian refugee inflows lifted it to 108,3k in 1952AD and 218k in 1960AD, alongside Zarqa (1,8k in 1918AD to 28,5k in 1952AD and 82k in 1960AD), Irbid (4k in 1922AD to 42k in 1960AD) and Russeifa (650 to 14,2k); by contrast, Salt — the largest early-Transjordan town at 18k in 1922AD — stagnated to 15,5k in 1952AD and 16,1k in 1960AD after Amman became Emirate capital in 1921AD [@Frantzman2011Bedouin].
+
+```{r tab-sett-jordan, results='asis'}
+df_jor <- build_country_df("Jordan", list(
+  `1918-1922AD` = c(1918L, 1922L, 1922L),
+  `1930-1935AD` = c(1930L, 1935L, 1935L),
+  `1945AD` = c(1945L, 1945L, 1945L),
+  `1952AD` = c(1952L, 1952L, 1952L),
+  `1960AD` = c(1960L, 1960L, 1960L)
+))
+viscount_table(
+  df_jor,
+  "Individually assessed settlements in Transjordan and Jordan (607 sites), 1918AD to 1960AD.",
+  arg3_options = list(label = "tab:sett-jordan", font_size = "scriptsize")
+)
+```
+
+## Israel and Northern-Coastal Mandatory Palestine
+
+Within the northern, coastal, Jerusalem and Negev Mandate Palestine and post-1948AD Israeli frame, `r n_ctry("Israel")` individually assessed cities, planned colonies and enumerated rural villages grew from `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Israel"), 1918L, 1922L, 1922L))` at the 1922AD census to `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Israel"), 1930L, 1936L, 1931L))` in 1931AD, `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Israel"), 1945L, 1947L, 1945L))` in the April 1945 Village Statistics and `r fmt_pop_dash(sum_peak_pop(filter_country(sett_list, "Israel")))` in combined peak population (Table \ref{tab:sett-israel}). Jerusalem (62,6k in 1922AD to 90,5k in 1931AD, 157,1k in 1945AD and 205,1k in 1946AD), Haifa (24,6k to 50,4k, 128,8k in 1945AD and 180,4k in 1960AD) and Tel Aviv (consolidating adjacent Jaffa in the canonical ledger; 15,2k in 1922AD to 46,1k in 1931AD, 120k in 1936AD and 166,7k in 1945AD) formed the metropolitan core, flanked by Ramat Gan (1921AD; 450 to 10,2k in 1945AD and 88,4k in 1960AD), Petah Tikva (3k to 17,3k and 52,9k), Holon (1935AD; 950 in 1936AD to 3,3k in 1945AD and 47,4k in 1960AD), Bnei Brak (1924AD; 956 to 5,8k and 45,2k), Beersheba (42,1k in 1960AD), Lod, Ramla, Nazareth and over a hundred Galilee, coastal and Sharon villages documented in the 1922–1945AD Mandate returns [@Beenstock2025Origins; @VRIES1997Productive; @Remer2025Degania; @Daam2022Chapter; @Rioli2020Breach].
+
+```{r tab-sett-israel, results='asis'}
+df_isr <- build_country_df("Israel", list(
+  `1922AD` = c(1922L, 1922L, 1922L),
+  `1931AD` = c(1931L, 1931L, 1931L),
+  `1945-1946AD` = c(1945L, 1946L, 1945L),
+  `1957-1960AD` = c(1957L, 1960L, 1960L)
+))
+viscount_table(
+  df_isr,
+  paste0("Individually assessed cities, founded colonies and enumerated villages in coastal, northern, Jerusalem and Negev Mandate Palestine and Israel (", nrow(df_isr), " sites), 1922AD to 1960AD."),
+  arg3_options = list(label = "tab:sett-israel", font_size = "scriptsize", max_rows_per_page = 35L)
+)
+```
+
+## West Bank and Gaza Strip
+
+Across the West Bank, Gaza Strip and Mandatory Palestine village rolls, `r n_ctry("Palestine")` individually assessed towns and villages expanded from `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Palestine"), 1918L, 1922L, 1922L))` at the 1922AD census to `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Palestine"), 1930L, 1936L, 1931L))` in 1931AD and `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Palestine"), 1945L, 1947L, 1945L))` in the 1945AD Village Statistics prior to the 1948AD refugee influx (Table \ref{tab:sett-palestine}). Gaza expanded from 17,5k in 1922AD to 17k in 1931AD and 34,2k in 1945AD, Hebron from 16,6k to 24,6k, Nablus from 15,9k to 23,3k, Khan Yunis from 3,9k to 11,2k, Bethlehem from 6,7k to 8,8k, Tulkarm from 3,4k to 8,1k, Qalqilya from 2,8k to 5,9k and Ramallah from 3,1k to 5,1k, complemented by dozens of rural highland and coastal plain villages down to 200 inhabitants [@Scott2001Mortality; @Muhsen2017Urban; @Anderson2017British; @Koylu2025Israel].
+
+```{r tab-sett-palestine, results='asis'}
+df_pse <- build_country_df("Palestine", list(
+  `1922AD` = c(1922L, 1922L, 1922L),
+  `1931AD` = c(1931L, 1931L, 1931L),
+  `1945AD` = c(1945L, 1945L, 1945L)
+))
+viscount_table(
+  df_pse,
+  paste0("Individually assessed towns and villages in the West Bank, Gaza Strip and Mandatory Palestine Village Statistics (", nrow(df_pse), " sites), 1922AD to 1945AD."),
+  arg3_options = list(label = "tab:sett-palestine", font_size = "scriptsize", max_rows_per_page = 35L)
+)
+```
+
+## British Crown Colony of Cyprus
+
+Cyprus contributes `r n_ctry("Cyprus")` municipalities, agrarian towns and rural villages drawn from the official 1881–1960AD British colonial censuses, rising from `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Cyprus"), 1918L, 1922L, 1921L))` at the 1921AD colonial census to `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Cyprus"), 1930L, 1936L, 1931L))` in 1931AD, `r fmt_pop_dash(sum_window_pop(filter_country(sett_list, "Cyprus"), 1945L, 1947L, 1946L))` in 1946AD and `r fmt_pop_dash(sum_peak_pop(filter_country(sett_list, "Cyprus")))` in combined peak population across all six colonial districts (Table \ref{tab:sett-cyprus}). Nicosia municipal limits (18,6k to 45,6k in 1960AD), Limassol (13,3k to 43,6k), Famagusta (7k to 34,8k), Larnaca (9,8k to 19,8k), Paphos (4,1k to 9,1k) and Morphou (3,1k to 6,6k) trace balanced port, mining and administrative growth alongside more than a hundred enumerated Mesaoria, Karpas, Troodos and Kyrenia villages.
+
+```{r tab-sett-cyprus, results='asis'}
+df_cyp <- build_country_df("Cyprus", list(
+  `1921AD` = c(1921L, 1921L, 1921L),
+  `1931AD` = c(1931L, 1931L, 1931L),
+  `1946AD` = c(1946L, 1946L, 1946L),
+  `1960AD` = c(1960L, 1960L, 1960L)
+))
+viscount_table(
+  df_cyp,
+  paste0("Individually assessed towns, municipalities and enumerated villages in British Cyprus (", nrow(df_cyp), " sites) across colonial censuses, 1921AD to 1960AD."),
+  arg3_options = list(label = "tab:sett-cyprus", font_size = "scriptsize", max_rows_per_page = 35L)
+)
+```
+
+# Limitations
+
+Three reporting asymmetries affect the settlement gazetteer. First, Lebanon's lack of post-1932AD national censuses means its core individually assessed towns rely on the 1932AD official enumeration paired with Mandate civil registries, 1943AD Admiralty handbooks and 1946–1960AD municipal projections rather than decennial post-war censuses [@Saber2023French; @Dionigi2017Statehood]. Second, staggered Mandate termination and national census schedules prevent uniform synchronous cross-sections: Mandatory Palestine village entries from the 1922–1945AD Village Statistics close at 1945AD (1948AD for Jerusalem and selected localities) prior to partition and the 1948AD Nakba [@Marom2021Jind; @Marom2024Lajjun; @Oron2021Century], Iraq's entries close at the 1957AD Kingdom census, whereas Syria, Lebanon, Jordan, Cyprus and CBS Israel municipalities continue to 1960AD. Third, municipal boundary definitions differ across statistical traditions — Nicosia's 45,6k figure in 1960AD reflects municipal limits excluding roughly 50k suburban residents, whereas Baghdad's 793,2k in 1957AD encompasses Greater Baghdad — while 250 subordinate suburbs or co-located variant candidates out of 10.593 evaluated ledger entries were excluded from the ledger to prevent spatial double-counting.
+
+# Conclusion
+
+Across 10.343 individually assessed Mandate-era settlements, documented town and village populations across the Levant, Iraq and Cyprus expanded from `r fmt_pop_dash(sum_window_pop(sett_list, 1918L, 1922L, 1921L))` across 1918–1922AD to `r fmt_pop_dash(sum_window_pop(sett_list, 1945L, 1947L, 1946L))` across 1945–1947AD, with documented 1957–1960AD enumerations reaching `r fmt_pop_dash(sum_window_pop(sett_list, 1957L, 1960L, 1960L))` and the full 10.343-site gazetteer totalling `r fmt_pop_dash(sum_peak_pop(sett_list))` in combined peak population. Administrative centralisation, oil extraction, port expansion and refugee displacements concentrated growth inside a steep primate hierarchy ($\alpha = 1{,}747$, $R^2 = 0{,}945$) led by Baghdad, Damascus, Beirut, Aleppo and Amman alongside Jerusalem, Haifa, Mosul, Tel Aviv, Basra, Nicosia and Limassol. Paired with subadministrative rural disaggregation, these urban and village series anchor the spatial population reconstruction of the post-Ottoman Near East.
+
+# Appendix
+
+## Regional Gazetteer Summary
+
+Table \ref{tab:gazetteer-summary} sums individually assessed settlements and combined catalogued populations across all seven successor jurisdictions over four documented census windows from 1918AD to 1960AD alongside combined peak totals.
+
+```{r tab-gazetteer-summary, results='asis'}
+countries_ord <- c("Iraq", "Syria", "Israel", "Lebanon", "Jordan", "Cyprus", "Palestine")
+df_sum <- do.call(rbind, lapply(countries_ord, function (ct) {
+  sub <- filter_country(sett_list, ct)
+  s_early <- sum_window_pop(sub, 1918L, 1922L, 1921L)
+  s_mid <- sum_window_pop(sub, 1930L, 1936L, 1932L)
+  s_late <- sum_window_pop(sub, 1945L, 1947L, 1946L)
+  s_term <- sum_window_pop(sub, 1957L, 1960L, 1960L)
+  s_peak <- sum_peak_pop(sub)
+  data.frame(
+    Jurisdiction = ct,
+    Sites = length(sub),
+    `1918-1922AD` = fmt_pop_dash(s_early),
+    `1930-1936AD` = fmt_pop_dash(s_mid),
+    `1945-1947AD` = fmt_pop_dash(s_late),
+    `1957-1960AD` = fmt_pop_dash(s_term),
+    `Peak Sum` = fmt_pop_dash(s_peak),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+}))
+tot_row <- data.frame(
+  Jurisdiction = "All Jurisdictions",
+  Sites = length(sett_list),
+  `1918-1922AD` = fmt_pop_dash(sum_window_pop(sett_list, 1918L, 1922L, 1921L)),
+  `1930-1936AD` = fmt_pop_dash(sum_window_pop(sett_list, 1930L, 1936L, 1932L)),
+  `1945-1947AD` = fmt_pop_dash(sum_window_pop(sett_list, 1945L, 1947L, 1946L)),
+  `1957-1960AD` = fmt_pop_dash(sum_window_pop(sett_list, 1957L, 1960L, 1960L)),
+  `Peak Sum` = fmt_pop_dash(sum_peak_pop(sett_list)),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_sum <- rbind(df_sum, tot_row)
+rownames(df_sum) <- NULL
+
+viscount_table(
+  df_sum,
+  "Combined catalogued population across all 10.343 individually assessed Mandate-era settlements by jurisdiction across census windows, 1918AD to 1960AD.",
+  col_names = c("Jurisdiction", "Sites", "1918-1922AD", "1930-1936AD", "1945-1947AD", "1957-1960AD", "Peak Sum"),
+  arg3_options = list(label = "tab:gazetteer-summary", font_size = "footnotesize")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
+
+```{r crd_footnotes, echo=FALSE, results='asis'}
+if (exists("emit_crd_footnotes", mode = "function")) emit_crd_footnotes()
+```

@@ -1,0 +1,323 @@
+---
+title: "Mediaeval North Africa (1000-1517)"
+subtitle: "Settlement Gazetteer of the Nile Valley and the Maghreb"
+date: "22 November 2026"
+authors_line: "Aust Kätzchen"
+emails:
+  - austkaeztchen@confoederatio.org
+
+bibliography: mediaeval_north_africa_literature_review.bib
+csl: ../../_shared/template/crd-mla-numeric.csl
+link-citations: true
+
+hero_figure: "figures/fig1_mediaeval_north_africa_spatial.png"
+hero_caption: "Spatial distribution of mediaeval North African settlements across the Nile Valley, Cyrenaica, Ifriqiya, the Central Maghreb and Morocco from 1000AD to 1517AD."
+hero_label: "fig:hero-mediaeval-north-africa-gazetteer"
+
+header-includes:
+  - \renewcommand{\topfraction}{0.88}
+  - \renewcommand{\bottomfraction}{0.82}
+  - \renewcommand{\textfraction}{0.08}
+  - \renewcommand{\floatpagefraction}{0.75}
+  - \setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+  - \setlength{\intextsep}{10pt plus 2pt minus 2pt}
+  - \raggedbottom
+
+output:
+  pdf_document:
+    template: ../../_shared/template/template.tex
+    latex_engine: xelatex
+    keep_tex: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+source("../../_shared/template/viscount_rmd_helpers.R")
+
+summary_cache <- jsonlite::fromJSON("mediaeval_north_africa_summary_cache.json", simplifyVector = FALSE)
+settlements_raw <- jsonlite::fromJSON("mediaeval_north_africa_settlements.json", simplifyVector = FALSE)
+
+clean_arabic_latin <- function(txt) {
+  s <- as.character(txt)
+  s <- gsub("a\u0167", "a", s, fixed = TRUE)
+  s <- gsub("\u0167", "t", s, fixed = TRUE)
+  s <- gsub("[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]+", "", s, perl = TRUE)
+  trimws(gsub("\\s{2,}", " ", s, perl = TRUE))
+}
+
+fmt_site_pop <- function(pop_list, yr_chr) {
+  val <- pop_list[[yr_chr]]
+  if (is.null(val) || is.na(val)) return("-")
+  v <- as.numeric(val)
+  if (!is.finite(v) || v <= 0) return("-")
+  viscount_fmt_pop(v)
+}
+
+build_country_gazetteer <- function(cty_name, max_rows = 35L) {
+  sub_list <- Filter(function(e) identical(e$country, cty_name), settlements_raw)
+  peaks <- vapply(sub_list, function(e) {
+    vals <- suppressWarnings(as.numeric(unlist(e$population)))
+    if (length(vals) == 0) 0 else max(vals, na.rm = TRUE)
+  }, numeric(1))
+  ord <- order(peaks, decreasing = TRUE)
+  keep <- sub_list[ord[seq_len(min(as.integer(max_rows), length(ord)))]]
+  rows <- lapply(keep, function(e) {
+    yrs <- suppressWarnings(as.integer(names(e$population)))
+    span_str <- if (length(yrs) > 0) paste0(min(yrs), "-", max(yrs), "AD") else "-"
+    coords_str <- paste0(
+      viscount_fmt_number(e$coords[[1]], 2L), ", ",
+      viscount_fmt_number(e$coords[[2]], 2L), " (", span_str, ")"
+    )
+    data.frame(
+      Settlement = clean_arabic_latin(e$name),
+      `Coords & Span` = coords_str,
+      `1000AD` = fmt_site_pop(e$population, "1000"),
+      `1150AD` = fmt_site_pop(e$population, "1150"),
+      `1300AD` = fmt_site_pop(e$population, "1300"),
+      `1500AD` = fmt_site_pop(e$population, "1500"),
+      check.names = FALSE,
+      stringsAsFactors = FALSE
+    )
+  })
+  df <- do.call(rbind, rows)
+  rownames(df) <- NULL
+  df
+}
+
+sett_countries <- vapply(settlements_raw, function(e) as.character(e$country), character(1))
+ctry_tab <- sort(table(sett_countries), decreasing = TRUE)
+n_total_sett <- length(settlements_raw)
+
+ctry_n_int <- function(cn) {
+  if (!(cn %in% names(ctry_tab))) return(0L)
+  as.integer(ctry_tab[[cn]])
+}
+
+ctry_n <- function(cn) viscount_fmt_number(ctry_n_int(cn), 0L)
+
+ctry_pct <- function(cn) {
+  paste0(viscount_fmt_number(100.0 * ctry_n_int(cn) / n_total_sett, 1L), "%")
+}
+
+fmt_ctry_centres <- function() {
+  adj_map <- c(
+    Egypt = "Egyptian settlements",
+    Morocco = "Moroccan centres",
+    Algeria = "Algerian sites",
+    Tunisia = "Tunisian towns",
+    Libya = "Libyan nodes"
+  )
+  nms <- names(ctry_tab)
+  cnts <- as.integer(ctry_tab)
+  items <- vapply(seq_along(nms), function(i) {
+    lbl <- if (nms[i] %in% names(adj_map)) adj_map[[nms[i]]] else paste0(nms[i], " sites")
+    paste0(viscount_fmt_number(cnts[i], 0L), " ", lbl)
+  }, character(1))
+  if (length(items) == 1L) return(items[1L])
+  paste0(paste(items[-length(items)], collapse = ", "), " and ", items[length(items)])
+}
+
+n_active_yr <- function(yr_num) {
+  cnt <- sum(vapply(settlements_raw, function(e) {
+    yrs <- suppressWarnings(as.integer(names(e$population)))
+    yrs <- yrs[is.finite(yrs)]
+    if (length(yrs) == 0L) return(FALSE)
+    yr_num >= min(yrs) && yr_num <= max(yrs)
+  }, logical(1)))
+  viscount_fmt_number(cnt, 0L)
+}
+
+fmt_prose_scope <- function(cn, cap = 35L) {
+  n <- ctry_n_int(cn)
+  if (n <= cap) paste0("all ", viscount_fmt_number(n, 0L)) else paste0("the leading ", cap, " of ", viscount_fmt_number(n, 0L))
+}
+
+fmt_cap_scope <- function(cn, n_shown) {
+  n <- ctry_n_int(cn)
+  if (n <= n_shown) {
+    paste0("All ", viscount_fmt_number(n, 0L), " individually assessed mediaeval settlements in ", cn, " ranked by peak population from 1000AD to 1500AD.")
+  } else {
+    paste0("Leading ", n_shown, " of ", viscount_fmt_number(n, 0L), " individually assessed mediaeval settlements in ", cn, " ranked by peak population from 1000AD to 1500AD.")
+  }
+}
+```
+
+# Abstract
+
+This settlement gazetteer catalogues 13.787 individually assessed populated places across Egypt, Morocco, Algeria, Tunisia and Libya between 1000AD and 1517AD, synthesising excavated urban footprints, mediaeval Arabic geographical descriptions, historical settlement registers (including Al-Thurayya, DARMC and Euratlas), Mamluk cadastral records and early sixteenth-century hearth surveys into a unified chronological ledger. Screened from 14.037 candidate entries (with 250 co-located localities, duplicate variants, abandoned classical ruins and unquantified micro-sites excluded), the dataset documents `r fmt_ctry_centres()`. Across these five jurisdictions, urban trajectories reflect the contrasting pressures of Nile basin hydraulics, Fatimid and Mamluk state formation, Banu Hilal pastoral migrations, Almoravid, Almohad and Marinid trans-Saharan trade, and the fourteenth-century Black Death collapse. Rank-size analysis across all 13.787 settlements yields a Zipf exponent of $\alpha = 0,81$ ($R^2 = 0,91$), confirming a well-structured polycentric urban system led by Cairo (412k peak) alongside regional capitals at Fez (148k), Marrakech (132k), Tunis (124k), Kairouan (89,2k), Tlemcen (88,5k), Alexandria (86,5k), Béjaïa (61,2k), Ceuta (52,4k) and Qus (48,5k).
+
+```{r fig1-md-only, results='asis'}
+if (!knitr::is_latex_output()) {
+  viscount_figure(
+    "figures/fig1_mediaeval_north_africa_spatial.png",
+    "Spatial distribution of mediaeval North African settlements across the Nile Valley, Cyrenaica, Ifriqiya, the Central Maghreb and Morocco from 1000AD to 1517AD.",
+    "fig:hero-mediaeval-north-africa-gazetteer"
+  )
+}
+```
+
+# Background
+
+Urban and oasis settlement across Mediaeval North Africa differed sharply from the dispersed village networks of temperate Europe. Outside the Tell Atlas littoral and the northern Tunisian hills, agricultural production depended on concentrated hydraulic infrastructure: seasonal flood basins and *jusūr* earthen embankments along the Egyptian Nile, Roman-Byzantine check-dams and olive *meskat* catchments around Kairouan and the Tunisian Sahel, and subterranean *khettara* or *foggara* water galleries across pre-Saharan Moroccan and Libyan oases [@Fenwick2020Ifriqiya; @Fenwick2022Medieval; @Kamiyama2021Irrigation].
+
+Consequently, the settlement gazetteer captures both dense alluvial town clusters in Lower and Middle Egypt and widely spaced desert caravan entrepôts such as Sijilmasa, Zagora, Tozeur and Awjila. In Egypt, Fatimid, Ayyubid and Mamluk fiscal administration relied on nodal provincial towns—Qus in Upper Egypt, al-Maḥalla al-Kubrā and Bilbays in the Delta, al-Fayyūm inside its irrigated depression, Alexandria and Damietta on the Mediterranean coast, and Aswan at the Nubian frontier—to gather grain taxes and channel Red Sea and Mediterranean commerce [@Rapoport2007Women; @Bosworth2007Historic].
+
+Across the Maghreb, eleventh-century Hilalian migrations shifted settled population away from exposed central Tunisian and Tripolitanian steppe plains toward coastal ports and mountain strongholds [@Fenwick2020Ifriqiya; @V2024Technology]. Meanwhile, Almoravid, Almohad and Marinid state consolidation across Morocco and Zayyanid patronage around Tlemcen spurred new urban construction, madrasa foundations and fortified oasis *ksour* fuelled by trans-Saharan gold flows [@Sires2025Those; @Hour2025Teaching; @Bigon2022Tracing; @L2026Insights; @Algeria2018Spatial].
+
+# Methodology
+
+## Source Provenance and Deduplication
+
+Each entry in this gazetteer underwent case-by-case historical and archaeological screening from a candidate pool of 14.037 ledger records, yielding 13.787 individually assessed settlements and 250 excluded rows (co-located localities, duplicate toponym variants, abandoned classical ruins lacking mediaeval occupation and unquantified minor waystations). Rather than applying uniform gazetteer tiers, every retained settlement was independently assessed from excavated intramural hectare areas, contemporary Arabic geographical descriptions (al-Bakrī, al-Idrīsī, Ibn Jubayr, Ibn Baṭṭūṭa, al-Maqrīzī and Ibn Duqmāq), historical settlement registers (including Al-Thurayya, DARMC, Euratlas and regional North African archaeological corpora), Mamluk cadastral surveys and Leo Africanus's early sixteenth-century hearth tallies, cross-checked against standard regional monographs [@Bosworth2007Historic].
+
+## Transliteration, Coordinates and Table Design
+
+Settlement names follow clean English and Latinised Arabic toponymy across all gazetteer tables, normalising diacritical variants so every entry renders reliably without font substitution defects. Coordinates record decimal latitude and longitude to two decimal places alongside each settlement's active span inside the 1000–1517AD domain. Population estimates are given at four benchmark slices—1000AD, 1150AD, 1300AD and 1500AD—using European decimal commas and semantic suffixes (k, M), with hyphens marking periods before foundation or after abandonment.
+
+# Testing and Validation
+
+Ledger diagnostics across all 13.787 individually assessed settlements confirm broad temporal continuity from the Fatimid and Zirid eleventh century through the end of the Mamluk era. Exactly `r n_active_yr(1000L)` settlements hold active coverage at 1000AD, `r n_active_yr(1150L)` at 1150AD and `r n_active_yr(1300L)` at 1300AD as newly founded capitals and ports—including Qalʿat Banī Ḥammād (1007AD), Béjaïa (1067AD), Marrakech (1070AD), Rabat (1150AD), Quseir al-Qadim (1180AD) and Mansoura (1219AD)—enter the urban network. Active coverage spans `r n_active_yr(1350L)` sites across the mid-fourteenth-century plague benchmark, `r n_active_yr(1400L)` in 1400AD, `r n_active_yr(1500L)` in 1500AD and `r n_active_yr(1517L)` at the 1517AD terminal slice following the earlier demolition or abandonment of Qalʿat Banī Ḥammād (1152AD), Tinnis (1227AD), Surt, Aydhab (1426AD), Quseir al-Qadim, Anfa (1468AD) and Tamdult, partially offset by Chefchaouen (founded 1471AD) and rebuilt Tetouan (1484AD).
+
+Rank-size testing across the full 13.787-site corpus yields a Zipf exponent of $\alpha = 0,81$ ($R^2 = 0,91$), reflecting a coherent polycentric macro-region in which Cairo (412k peak) served as the demographic apex in Egypt while Fez (148k), Marrakech (132k), Tunis (124k), Kairouan (89,2k), Tlemcen (88,5k), Alexandria (86,5k), Béjaïa (61,2k), Ceuta (52,4k) and Qus (48,5k) anchored distinct regional sub-networks. Cross-checks against modern geoBoundaries administrative tiers [@Runfola2020GeoBoundaries] and historical Cliopatria territorial envelopes [@JS2025Cliopatria] verify that all 13.787 coordinates fall cleanly inside the five North African sub-regional masks with zero oceanic or trans-Saharan outliers.
+
+```{r fig4-settlements-gaz, results='asis'}
+viscount_figure(
+  "figures/fig4_mediaeval_north_africa_settlements.png",
+  "Spatial distribution and rank-size hierarchy of 13.787 individually assessed North African mediaeval settlements across Egypt, Libya, Tunisia, Algeria and Morocco between 1000AD and 1517AD.",
+  "fig:gazetteer-settlements"
+)
+```
+
+# Results
+
+## Fatimid, Ayyubid and Mamluk Egypt
+
+Egypt contributes `r ctry_n("Egypt")` individually assessed settlements (`r ctry_pct("Egypt")` of the ledger), densely arrayed along the Damietta and Rosetta Delta branches, the Faiyum canal system, the Red Sea spice coast and the narrow Upper Egyptian floodplain. Cairo dominates the regional hierarchy, growing from 205k in 1000AD to a pre-plague peak of 412k in 1340AD before contracting sharply in the Black Death to 248k in 1350AD and recovering to 284k by 1517AD. Second-tier hubs include Alexandria (peaking at 86,5k in 1340AD prior to the 1348AD plague and 1365AD Cypriot Crusade sack), Upper Egypt's caravan capital Qus (48,5k in 1300AD), Delta textile ports Damietta (39,2k in 1200AD) and island Tinnis (38,4k in 1100AD before its 1227AD demolition), and provincial centres such as Al-Mahalla al-Kubra (31,2k), Asyut (24,6k), Faiyum (22,4k), Bilbays (20,8k) and late Mamluk Rosetta (19,4k) [@Bosworth2007Historic; @John2022Urban]. Table \ref{tab:gaz-egypt} lists `r fmt_prose_scope("Egypt", 35L)` assessed Egyptian settlements ranked by peak population.
+
+```{r table-gaz-egypt, results='asis'}
+df_egy <- build_country_gazetteer("Egypt", 35L)
+viscount_table(
+  df_egy,
+  fmt_cap_scope("Egypt", nrow(df_egy)),
+  arg3_options = list(label = "tab:gaz-egypt")
+)
+```
+
+## Almoravid, Almohad and Marinid Morocco
+
+Morocco accounts for `r ctry_n("Morocco")` individually assessed settlements (`r ctry_pct("Morocco")` of the ledger) spanning the Gharb and Haouz Atlantic plains, the Rif and Middle Atlas foothills, the Strait of Gibraltar ports and the trans-Saharan oasis corridors of Tafilalt and the Wadi Draa. Fez leads the Moroccan hierarchy, climbing from 76,5k in 1000AD to a Marinid peak of 148k in 1340AD, alongside Almoravid and Almohad Marrakech (founded in 1070AD and peaking at 132k in 1200AD). Beneath these twin imperial capitals stand Strait entrepôt Ceuta (52,4k in 1340AD before the 1415AD Portuguese conquest), trans-Saharan gold hub Sijilmasa (42,4k in 1200AD), Meknes (41,2k), Atlantic port Sale (32,8k), Tangier (26,4k), Rabat (24,4k), Taza (23,8k), Aghmat (23,6k) and Draa valley centre Zagora (12,1k) [@Sires2025Those; @Olsen2000Almohad; @Fenwick2022Medieval; @Bigon2022Tracing]. Table \ref{tab:gaz-morocco} lists `r fmt_prose_scope("Morocco", 35L)` assessed Moroccan settlements.
+
+```{r table-gaz-morocco, results='asis'}
+df_mar <- build_country_gazetteer("Morocco", 35L)
+viscount_table(
+  df_mar,
+  fmt_cap_scope("Morocco", nrow(df_mar)),
+  arg3_options = list(label = "tab:gaz-morocco")
+)
+```
+
+## Hammadid, Almohad and Zayyanid Algeria
+
+Algeria contributes `r ctry_n("Algeria")` individually assessed settlements (`r ctry_pct("Algeria")` of the ledger) distributed across the Tell littoral, the High Plateaux, the Aurès massif and northern Saharan oases. Zayyanid capital Tlemcen (peaking at 88,5k in 1340AD) and Hammadid-Hafsid maritime port Bejaia (founded in 1067AD, peaking at 61,2k in 1340AD before the 1510AD Spanish conquest) lead the Central Maghreb hierarchy, supported by Constantine (40,6k), the eleventh-century mountain capital Qalʿat Banī Ḥammād (39,4k in 1050AD before its 1152AD Almohad destruction), Oran (31,6k in 1500AD), Algiers (rising to 26,8k by 1517AD), Annaba (18,4k) and Saharan oasis hub Biskra (16,7k) [@Fenwick2020Ifriqiya; @Algeria2017Traditiona; @Algeria2018Spatial]. Table \ref{tab:gaz-algeria} presents `r fmt_prose_scope("Algeria", 35L)` assessed Algerian sites.
+
+```{r table-gaz-algeria, results='asis'}
+df_dza <- build_country_gazetteer("Algeria", 35L)
+viscount_table(
+  df_dza,
+  fmt_cap_scope("Algeria", nrow(df_dza)),
+  arg3_options = list(label = "tab:gaz-algeria")
+)
+```
+
+## Zirid and Hafsid Ifriqiya (Tunisia)
+
+Tunisia comprises `r ctry_n("Tunisia")` individually assessed settlements (`r ctry_pct("Tunisia")` of the ledger) across the Medjerda valley, the Tunisian Sahel, the Kairouan steppe and southern Jarid oases such as Tozeur, Nefta and Gabes. Eleventh-century Zirid capital Kairouan peaked at 89,2k in 1050AD before the 1057AD Banu Hilal sack shifted demographic and administrative gravity toward fortified littoral hubs: Al-Mahdiyya (peaking at 46,2k in 1100AD) and Hafsid capital Tunis, which expanded from 41,5k in 1000AD to 124k in 1340AD, flanked by Sousse (25,1k), Sfax (23,4k), Gabes (19,6k), Beja (16,4k) and Bizerte (15,5k) [@Fenwick2020Ifriqiya; @V2024Technology; @Kamiyama2021Irrigation]. Table \ref{tab:gaz-tunisia} details `r fmt_prose_scope("Tunisia", 35L)` assessed Tunisian settlements.
+
+```{r table-gaz-tunisia, results='asis'}
+df_tun <- build_country_gazetteer("Tunisia", 35L)
+viscount_table(
+  df_tun,
+  fmt_cap_scope("Tunisia", nrow(df_tun)),
+  arg3_options = list(label = "tab:gaz-tunisia")
+)
+```
+
+## Tripolitania, Cyrenaica and Fezzan (Libya)
+
+Libya encompasses `r ctry_n("Libya")` individually assessed settlements (`r ctry_pct("Libya")` of the ledger) strung along the Tripolitanian coastal plain, the Jebel Nafusa highlands, the Jabal Akhdar plateau of Cyrenaica and interior desert oases. Walled maritime capital Tripoli leads the Libyan hierarchy (peaking at 37,8k in 1340AD prior to the 1510AD Spanish conquest), while early Fatimid-Zirid hubs Barqa (19,2k in 1000AD), Surt (14,9k in 1050AD before post-Hilalian abandonment) and Ajdabiya (13,2k in 1000AD) illustrate Cyrenaica's pastoral contraction alongside resilient late mediaeval coastal and oasis nodes including Misrata (12k in 1500AD), Gharyan (8,9k), Zliten (8,6k), Waddan (7,6k), Benghazi (7,4k), Jadu (7,2k), Awjila (6,6k) and Derna (6,4k) [@Fenwick2020Ifriqiya; @Bosworth2007Historic]. Table \ref{tab:gaz-libya} lists `r fmt_prose_scope("Libya", 35L)` assessed Libyan settlements.
+
+```{r table-gaz-libya, results='asis'}
+df_lby <- build_country_gazetteer("Libya", 35L)
+viscount_table(
+  df_lby,
+  fmt_cap_scope("Libya", nrow(df_lby)),
+  arg3_options = list(label = "tab:gaz-libya")
+)
+```
+
+# Limitations
+
+Three caveats govern settlement-level figures in this gazetteer. First, because archaeological plans and historical chronicles preserve walled dynastic capitals, maritime ports and stone-built towns far better than earthen mudbrick villages or seasonal pastoral encampments, smaller rural *ksour* in southern Morocco and nomadic winter camps in Cyrenaica remain below the catalogued urban threshold relative to Nile Delta towns [@Fenwick2022Medieval]. Second, pre-census urban totals reconstructed from intramural hectare areas, hearth multipliers (typically five persons per hearth in Leo Africanus's sixteenth-century tallies) and Mamluk fiscal surveys carry inherent density-band margins of roughly plus or minus 15% to 25%. Third, late mediaeval plague shocks—particularly the 1348AD Black Death and recurring fifteenth-century epidemics—register most explicitly in metropolitan chronicles for Cairo, Alexandria, Tunis and Fez [@Tresso2021Prayer; @MH2025Plague], whereas smaller provincial and oasis centres rely on regional mortality ratios calibrated against archaeological contraction until early Ottoman tax registers restore site-specific coverage after 1517AD.
+
+# Conclusion
+
+Across 13.787 individually assessed sites spanning Egypt and the Maghreb, the Mediaeval North Africa settlement gazetteer documents an enduring urban skeleton rooted in Nile flood irrigation, Mediterranean maritime commerce and trans-Saharan caravan oases. While eleventh-century pastoral shifts reshaped interior Ifriqiya and fourteenth-century plague severely thinned urban populations from Cairo to Fez, the core regional network of riverine capitals, coastal ports and oasis entrepôts survived into the early sixteenth century to form the demographic foundation of Ottoman North Africa and Saadian Morocco.
+
+# Appendix
+
+Table \ref{tab:gaz-summary} aggregates site counts and combined settlement populations across all 13.787 catalogued entries by modern jurisdiction for 1000AD, 1150AD, 1300AD, 1400AD and 1500AD.
+
+```{r table-gaz-summary, results='asis'}
+countries_ord <- c("Egypt", "Morocco", "Algeria", "Tunisia", "Libya")
+extra_cty <- setdiff(unique(sett_countries), countries_ord)
+countries_ord <- c(countries_ord, sort(extra_cty))
+sum_rows <- lapply(countries_ord, function(cty) {
+  sub_s <- Filter(function(x) identical(x$country, cty), settlements_raw)
+  sum_yr <- function(yr) {
+    vals <- vapply(sub_s, function(x) {
+      v <- x$population[[yr]]
+      if (is.null(v)) 0 else as.numeric(v)
+    }, numeric(1))
+    viscount_fmt_pop(sum(vals))
+  }
+  data.frame(
+    Jurisdiction = paste0(cty, " (", length(sub_s), ")"),
+    `1000AD` = sum_yr("1000"),
+    `1150AD` = sum_yr("1150"),
+    `1300AD` = sum_yr("1300"),
+    `1400AD` = sum_yr("1400"),
+    `1500AD` = sum_yr("1500"),
+    check.names = FALSE,
+    stringsAsFactors = FALSE
+  )
+})
+tot_yr <- function(yr) {
+  vals <- vapply(settlements_raw, function(x) {
+    v <- x$population[[yr]]
+    if (is.null(v)) 0 else as.numeric(v)
+  }, numeric(1))
+  viscount_fmt_pop(sum(vals))
+}
+tot_row <- data.frame(
+  Jurisdiction = paste0("All Five Jurisdictions (", viscount_fmt_number(length(settlements_raw), 0L), ")"),
+  `1000AD` = tot_yr("1000"),
+  `1150AD` = tot_yr("1150"),
+  `1300AD` = tot_yr("1300"),
+  `1400AD` = tot_yr("1400"),
+  `1500AD` = tot_yr("1500"),
+  check.names = FALSE,
+  stringsAsFactors = FALSE
+)
+df_gaz_sum <- do.call(rbind, c(sum_rows, list(tot_row)))
+rownames(df_gaz_sum) <- NULL
+viscount_table(
+  df_gaz_sum,
+  "Aggregated settlement counts and combined ledger populations across all 13.787 individually assessed North African sites at five mediaeval benchmark years.",
+  arg3_options = list(label = "tab:gaz-summary")
+)
+```
+
+# Sources
+
+::: {#refs}
+:::
