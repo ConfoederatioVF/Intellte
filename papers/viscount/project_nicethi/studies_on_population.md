@@ -1,7 +1,7 @@
 Studies on Population
 ================
 Aust Kätzchen
-23 November 2026
+24 November 2026
 
 
 
@@ -95,11 +95,11 @@ across 30.911 unit-year checks covering up to 607 contemporary
 administrative polygons per benchmark year (704 polygons in 2025AD),
 with a worst-case relative error of 5,60e-08
 [\[7\]](#ref-Runfola2020GeoBoundaries). Urban dynamics are anchored by
-13.132 canonical settlements (13.131 populated pan-domain trajectories
-encompassing 12.905 city-proper localities and 226 deduplicated
-agglomerations, drawn from 18.145 chapter-settlement trajectories,
-66.190 observations and 263 metropolitan series reconciled across a
-three-phase hierarchy) [\[8\]](#ref-OECD2024Africapolis).
+20.959 canonical settlements (20.733 city-proper localities and 226
+deduplicated agglomerations, including 15.902 pre-1950 settlements drawn
+from 47.414 chapter-settlement trajectories and 192.623 dated
+observations reconciled across a three-phase hierarchy)
+[\[8\]](#ref-OECD2024Africapolis).
 
 Over the Holocene, aggregate population across NICETHI rose from 108k in
 10000BC to 2,4M by 1000BC as Sahelian cereal agriculture, Ethiopian
@@ -354,25 +354,25 @@ Sudan, East Africa, and South-Central Africa and Mozambique.
 
 | Ch. | Chapter Title | Domain | Regions | Cities | Terminal Pop. |
 |:---|:---|:---|:---|:---|:---|
-| **1** | Prehistoric Sub-Saharan Africa | 10000BC to 1000BC | 16 | 199 | 2,4M |
-| **2** | Ancient and Mediaeval Sudan and Nubia | 2500BC to 1821AD | 8 | 132 | 3,83M |
-| **3** | Ancient and Mediaeval Ethiopia and the Horn | 1000BC to 1885AD | 9 | 164 | 10,15M |
-| **4** | Early West Africa and the Sahel States | 1000BC to 1500AD | 11 | 228 | 17,42M |
-| **5** | The Bantu Expansion Across Sub-Saharan Africa | 1000BC to 1500AD | 12 | 142 | 16,66M |
-| **6** | Early Modern West Africa, Equatoria and Angola | 1500AD to 1885AD | 12 | 301 | 21,6M |
-| **7** | Early Modern Sahel and Sudan | 1500AD to 1898AD | 10 | 398 | 19,69M |
-| **8** | Early Modern East Africa and Mozambique | 1500AD to 1885AD | 9 | 97 | 15,5M |
-| **9** | Pre-Colonial Southern Africa and the Cape Frontier | 1500AD to 1902AD | 10 | 163 | 5,69M |
-| **10** | Western Indian Ocean and Cape Verde Islands | 500BC to 1895AD | 10 | 96 | 2,23M |
-| **11** | Colonial West Africa and the Sahel | 1880AD to 1975AD | 14 | 738 | 91,17M |
-| **12** | Colonial Equatoria, Belgian Congo and Angola | 1880AD to 1975AD | 12 | 361 | 40,8M |
-| **13** | Colonial Horn of Africa and Anglo-Egyptian Sudan | 1880AD to 1960AD | 9 | 239 | 24,13M |
-| **14** | Colonial East Africa | 1880AD to 1963AD | 8 | 181 | 25,63M |
-| **15** | Colonial South-Central Africa and Mozambique | 1890AD to 1980AD | 8 | 122 | 30,21M |
-| **16** | Modern Southern Africa | 1902AD to 2026AD | 46 | 1499 | 74,33M |
-| **17** | Modern African Ocean Islands | 1890AD to 2026AD | 35 | 339 | 33,36M |
-| **18** | Post-Colonial Sahel States | 1960AD to 2026AD | 84 | 3089 | 107,27M |
-| **19** | Post-Colonial West Africa | 1957AD to 2026AD | 120 | 4126 | 345,18M |
+| **1** | Prehistoric Sub-Saharan Africa | 10000BC to 1000BC | 16 | 1446 | 2,4M |
+| **2** | Ancient and Mediaeval Sudan and Nubia | 2500BC to 1821AD | 8 | 1169 | 3,83M |
+| **3** | Ancient and Mediaeval Ethiopia and the Horn | 1000BC to 1885AD | 9 | 1320 | 10,15M |
+| **4** | Early West Africa and the Sahel States | 1000BC to 1500AD | 11 | 3261 | 17,42M |
+| **5** | The Bantu Expansion Across Sub-Saharan Africa | 1000BC to 1500AD | 12 | 3185 | 16,66M |
+| **6** | Early Modern West Africa, Equatoria and Angola | 1500AD to 1885AD | 12 | 3424 | 21,6M |
+| **7** | Early Modern Sahel and Sudan | 1500AD to 1898AD | 10 | 4038 | 19,69M |
+| **8** | Early Modern East Africa and Mozambique | 1500AD to 1885AD | 9 | 1783 | 15,5M |
+| **9** | Pre-Colonial Southern Africa and the Cape Frontier | 1500AD to 1902AD | 10 | 1567 | 5,69M |
+| **10** | Western Indian Ocean and Cape Verde Islands | 500BC to 1895AD | 10 | 492 | 2,23M |
+| **11** | Colonial West Africa and the Sahel | 1880AD to 1975AD | 14 | 4123 | 91,17M |
+| **12** | Colonial Equatoria, Belgian Congo and Angola | 1880AD to 1975AD | 12 | 2178 | 40,8M |
+| **13** | Colonial Horn of Africa and Anglo-Egyptian Sudan | 1880AD to 1960AD | 9 | 1452 | 24,13M |
+| **14** | Colonial East Africa | 1880AD to 1963AD | 8 | 1869 | 25,63M |
+| **15** | Colonial South-Central Africa and Mozambique | 1890AD to 1980AD | 8 | 922 | 30,21M |
+| **16** | Modern Southern Africa | 1902AD to 2026AD | 46 | 1763 | 74,33M |
+| **17** | Modern African Ocean Islands | 1890AD to 2026AD | 35 | 556 | 33,36M |
+| **18** | Post-Colonial Sahel States | 1960AD to 2026AD | 84 | 3114 | 107,27M |
+| **19** | Post-Colonial West Africa | 1957AD to 2026AD | 120 | 4221 | 345,18M |
 | **20** | Post-Colonial Equatoria, DR Congo and Angola | 1960AD to 2026AD | 95 | 1592 | 181,54M |
 | **21** | Post-Colonial Sudan, Ethiopia and the Horn | 1956AD to 2026AD | 71 | 1221 | 201,84M |
 | **22** | Post-Colonial East Africa | 1961AD to 2026AD | 100 | 1880 | 182,78M |
@@ -613,7 +613,7 @@ disaggregated years.
 | **Sub-Admin Unit-Year Mass Checks** | 30.911 of 30.911 passed (81 years) | 100% pycnophylactic conservation |
 | **Worst-Case Unit Relative Error** | 5,6e-08 (float32 rounding precision) | Threshold below 1e-04 |
 | **HANDBOOK Frontier Seam Harmonisation** | 77 rasters; 0 dex across 39 seam pairs | Reduced from 0,39-0,64 dex pre-blend |
-| **Canonical Urban Hierarchy Corpus** | 13.132 canonical (18.145 chap. series; 263 metros) | 23 of 23 chapters 100% covered |
+| **Canonical Urban Hierarchy Corpus** | 20.959 canonical (47.414 chap. series; 15.902 pre-1950) | 23 of 23 chapters 100% covered |
 
 Quantitative quality audit of NICETHI spatial masks, archaeological
 kriging sharpness, pycnophylactic sub-administrative conservation and
@@ -857,25 +857,23 @@ growth in Madagascar and Comoros, lifting insular totals ninefold from
 
 ## Pan-African Urban Hierarchy and Metropolitan Concentration
 
-Tracking 13.132 canonical settlements across ten centuries exposes a
+Tracking 20.959 canonical settlements across ten centuries exposes a
 structural transformation in African urban rank-size geometry (Figure
 and Table ). Pre-industrial urban networks across Sub-Saharan Africa
 were markedly polycentric rather than primate: Zipf rank-size slopes
-measured across the upper urban tail shifted from $q = 0,88$ in 1000AD
-(when Meroitic-Nubian, Aksumite, Sahelian and Swahili towns formed
-dispersed regional nodes) to flatter pre-colonial gradients of
-$q = 0,71$ in 1500AD and $q = 0,66$ in 1850AD as dozens of Yoruba,
-Hausa, Akan, Sahelian and Ethiopian capitals shared demographic weight
-in the 15k to 100k range
+measured across the upper urban tail rose steadily from $q = 0,44$ in
+1000AD (when Nubian, Aksumite, Sahelian, forest-belt and Swahili towns
+formed dispersed regional nodes) to $q = 0,52$ in 1500AD and $q = 0,62$
+in 1850AD as hundreds of Yoruba, Hausa, Akan, Sahelian, Kongo,
+Ethiopian, Great Lakes, Tswana and Merina centres shared demographic
+weight
 [\[11\]](#ref-Connah2001AfricanCivilizations)[\[12\]](#ref-McIntosh1995JenneJeno)[\[52\]](#ref-CoqueryVidrovitch2005BantuCities).
 Colonial railway and port concentration steepened the hierarchy to
-$q = 0,79$ by 1950AD, and post-independence metropolitan primacy pushed
-the rank-size exponent to $q = 0,92$ by 2020AD (pan-domain upper-tail
-fit across top 180 unique settlements: $q = 0,79$, $R^2 = 0,9525$;
-full-distribution slope $q = 1,41$). Within individual post-colonial
-regional chapters, Zipf fits tighten sharply ($R^2 = 0,975$ to $0,996$,
-slopes $q = 0,98$ to $1,08$), reflecting mature national urban
-hierarchies anchored by dominant commercial capitals.
+$q = 0,75$ by 1950AD, and post-independence metropolitan primacy pushed
+the rank-size exponent to $q = 0,92$ by 2020AD. Within individual
+post-colonial regional chapters, Zipf fits tighten sharply
+($R^2 = 0,975$ to $0,996$), reflecting mature national urban hierarchies
+anchored by dominant commercial capitals.
 
 <img src="figures/fig_04_nicethi_urban_hierarchy.png" width="100%" style="display: block; margin: auto;" />
 
@@ -926,7 +924,7 @@ municipalities such as Dar es Salaam proper (5,38M), Nairobi proper
 
 Leading twenty distinct Sub-Saharan African urban agglomerations and
 morphological corridors in NICETHI’s reconciled pan-domain hierarchy
-(13.132 canonical settlements; 226 deduplicated agglomerations).
+(20.959 canonical settlements; 226 deduplicated agglomerations).
 
 # Limitations
 
